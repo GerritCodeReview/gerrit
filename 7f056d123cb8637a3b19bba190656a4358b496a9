@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d3082cc_47de8e00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-30T11:59:56Z",
+      "side": 1,
+      "message": "\"master\"?",
+      "range": {
+        "startLine": 170,
+        "startChar": 21,
+        "endLine": 170,
+        "endChar": 27
+      },
+      "revId": "7f056d123cb8637a3b19bba190656a4358b496a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_27e19ab9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-30T11:59:56Z",
+      "side": 1,
+      "message": "Is it necessary to report exactly how many were found in the exception message?\n\n`int numMaster` could be replaced with a boolean which is set the first time `key.isMasterKey()` returns true, and then the exception raised when it returns true again and the flag is already set.  Then it wouldn\u0027t be necessary to iterate over any remaining keys.",
+      "range": {
+        "startLine": 170,
+        "startChar": 45,
+        "endLine": 170,
+        "endChar": 64
+      },
+      "revId": "7f056d123cb8637a3b19bba190656a4358b496a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_67db920f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-30T11:59:56Z",
+      "side": 1,
+      "message": "\"and only if\"",
+      "range": {
+        "startLine": 179,
+        "startChar": 5,
+        "endLine": 179,
+        "endChar": 13
+      },
+      "revId": "7f056d123cb8637a3b19bba190656a4358b496a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_879ec643",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-30T11:59:56Z",
+      "side": 1,
+      "message": "Start a new sentence with \"At\"?  Or add \"with\" before \"at\"?",
+      "range": {
+        "startLine": 182,
+        "startChar": 29,
+        "endLine": 182,
+        "endChar": 33
+      },
+      "revId": "7f056d123cb8637a3b19bba190656a4358b496a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

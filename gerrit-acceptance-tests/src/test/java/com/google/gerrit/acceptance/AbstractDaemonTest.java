@@ -29,6 +29,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -305,6 +306,15 @@ public abstract class AbstractDaemonTest {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     Util.allow(cfg, capabilityName, id);
     saveProjectConfig(allProjects, cfg);
+  }
+
+  protected void setUserContributorAgreement(InheritableBoolean value)
+      throws Exception {
+    MetaDataUpdate md = metaDataUpdateFactory.create(project);
+    ProjectConfig config = ProjectConfig.read(md);
+    config.getProject().setUseContributorAgreements(value);
+    config.commit(md);
+    projectCache.evict(config.getProject());
   }
 
   protected void deny(String permission, AccountGroup.UUID id, String ref)

@@ -45,13 +45,16 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
+  private final PublicKeyChecker keyChecker;
 
   @Inject
   public SignedPushPreReceiveHook(
       GitRepositoryManager repoManager,
-      AllUsersName allUsers) {
+      AllUsersName allUsers,
+      PublicKeyChecker keyChecker) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
+    this.keyChecker = keyChecker;
   }
 
   @Override
@@ -62,18 +65,17 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
       if (cert == null) {
         return;
       }
-      PushCertificateChecker checker = new PushCertificateChecker(
-          new PublicKeyChecker()) {
-            @Override
-            protected Repository getRepository() throws IOException {
-              return repoManager.openRepository(allUsers);
-            }
+      PushCertificateChecker checker = new PushCertificateChecker(keyChecker) {
+        @Override
+        protected Repository getRepository() throws IOException {
+          return repoManager.openRepository(allUsers);
+        }
 
-            @Override
-            protected boolean shouldClose(Repository repo) {
-              return true;
-            }
-          };
+        @Override
+        protected boolean shouldClose(Repository repo) {
+          return true;
+        }
+      };
       CheckResult result = checker.check(cert);
       if (!result.isOk()) {
         for (String problem : result.getProblems()) {

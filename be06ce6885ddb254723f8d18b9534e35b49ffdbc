@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "aa059cff_9c7005cf",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-30T07:31:09Z",
+      "side": 1,
+      "message": "I tend to agree. And to follow YAGNI is always good thing to do. So may be we should add some guidance for plugin developers about naming of multi-target plugins rules, that \"-\" sign is automagically discovered to detect the real directory to induce git version.",
+      "parentUuid": "0af5c83c_df19dbaf",
+      "range": {
+        "startLine": 27,
+        "startChar": 38,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_c7aefe9c",
         "filename": "tools/git.defs",
         "patchSetId": 1
@@ -89,6 +113,29 @@
         "startChar": 14,
         "endLine": 33,
         "endChar": 26
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa059cff_7c3f79e5",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-30T07:31:09Z",
+      "side": 1,
+      "message": "I already said it in my comment on Sven change, and I repeat it here: I don\u0027t think that breaking the build is appropriate thing to do in this particular case. Also note that gerrit_plugin.bucklet has different logic, by using VERSION file in plugin tree. So yes, in tree mode we failed to detect the directory here and we cannot report plugin version, but should the build break in this case? We can still recover, by issuing warning on stderr and render \"N/A\" as version name plugin\u0027s MANIFEST.\n\nWriting and building gerrit plugins is already hard enough, especially for new contributors, so let\u0027s try to avoid making this task even harder than it must be.",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 13
       },
       "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

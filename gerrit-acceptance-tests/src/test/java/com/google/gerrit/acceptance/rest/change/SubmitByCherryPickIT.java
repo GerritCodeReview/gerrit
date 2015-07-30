@@ -105,7 +105,12 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "other content");
-    submitWithConflict(change2.getChangeId());
+    submitWithConflict(change2.getChangeId(),
+        "Cannot merge " + change2.getCommitId().name() + "\n" +
+        "Change could not be merged due to a path conflict.\n\n" +
+        "Please rebase the change locally and " +
+        "upload the rebased commit for review.");
+
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
     assertNoSubmitter(change2.getChangeId(), 1);
@@ -145,7 +150,12 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     createChange("Change 2", "b.txt", "other content");
     PushOneCommit.Result change3 =
         createChange("Change 3", "b.txt", "different content");
-    submitWithConflict(change3.getChangeId());
+    submitWithConflict(change3.getChangeId(),
+        "Cannot merge " + change3.getCommitId().name() + "\n" +
+        "Change could not be merged due to a path conflict.\n\n" +
+        "Please rebase the change locally and " +
+        "upload the rebased commit for review.");
+
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertCurrentRevision(change3.getChangeId(), 1, change3.getCommitId());
     assertNoSubmitter(change3.getChangeId(), 1);
@@ -216,7 +226,11 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     // Submit fails; change3 contains the delta "b1" -> "b2", which cannot be
     // applied against tip.
-    submitWithConflict(change3.getChangeId());
+    submitWithConflict(change3.getChangeId(),
+        "Cannot merge " + change3.getCommitId().name() + "\n" +
+        "Change could not be merged due to a path conflict.\n\n" +
+        "Please rebase the change locally and " +
+        "upload the rebased commit for review.");
 
     ChangeInfo info3 = get(change3.getChangeId(), ListChangesOption.MESSAGES);
     assertThat(info3.status).isEqualTo(ChangeStatus.NEW);

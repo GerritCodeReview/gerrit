@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.reviewdb.client.Change;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -63,10 +64,14 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   @Test
   public void submitTwoChangesWithFastForward_missingDependency() throws Exception {
     RevCommit oldHead = getRemoteHead();
-    createChange();
+    PushOneCommit.Result change1 = createChange();
     PushOneCommit.Result change2 = createChange();
 
-    submitWithConflict(change2.getChangeId());
+    Change.Id id1 = change1.getPatchSetId().getParentKey();
+    submitWithConflict(change2.getChangeId(),
+        "The change could not be submitted because it depends on change(s) [" +
+        id1 + "], which could not be submitted because:\n" +
+        id1 + ": needs Code-Review;");
 
     RevCommit head = getRemoteHead();
     assertThat(head.getId()).isEqualTo(oldHead.getId());
@@ -91,7 +96,10 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     ActionInfo info = actions.get("submit");
     assertThat(info.enabled).isNull();
 
-    submitWithConflict(change2.getChangeId());
+    submitWithConflict(change2.getChangeId(),
+        "Cannot merge " + change2.getCommitId().name() + "\n" +
+        "Project policy requires all submissions to be a fast-forward.\n\n" +
+        "Please rebase the change locally and upload again for review.");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);
   }

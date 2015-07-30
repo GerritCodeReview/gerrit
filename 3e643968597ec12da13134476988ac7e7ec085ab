@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0af5c83c_bf3057ef",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-30T17:50:37Z",
+      "side": 1,
+      "message": "depends on an outdated revision",
+      "range": {
+        "startLine": 101,
+        "startChar": 16,
+        "endLine": 101,
+        "endChar": 50
+      },
+      "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa059cff_1c22b5a8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-30T17:50:37Z",
+      "side": 1,
+      "message": "outdated",
+      "range": {
+        "startLine": 103,
+        "startChar": 51,
+        "endLine": 103,
+        "endChar": 60
+      },
+      "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af5c83c_9f2d9395",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-30T17:50:37Z",
+      "side": 1,
+      "message": "Yeah...this could really be better :)\n\nAlthough in this change it looks like you wrote a better message. Why is that not showing up here?",
+      "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af5c83c_7fc88f4d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-30T17:50:37Z",
+      "side": 1,
+      "message": "Shorter: cd.getId()",
+      "range": {
+        "startLine": 314,
+        "startChar": 58,
+        "endLine": 314,
+        "endChar": 83
+      },
+      "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af5c83c_5fcdcb5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-30T17:50:37Z",
+      "side": 1,
+      "message": "How about something more specific and closer to the old thing that got added as a ChangeMessage:\n\n\"Change X depends on patch set A of change Y, but the latest patch set is B\"",
+      "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

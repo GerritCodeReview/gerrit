@@ -212,13 +212,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private String problemsForSubmittingChangeset(
       ChangeSet cs, IdentifiedUser identifiedUser) {
     try {
+      ReviewDb db = dbProvider.get();
       for (PatchSet.Id psId : cs.patchIds()) {
-        ReviewDb db = dbProvider.get();
         ChangeControl changeControl = changeControlFactory
             .controlFor(psId.getParentKey(), identifiedUser);
         ChangeData c = changeDataFactory.create(db, changeControl);
 
-        if (!changeControl.isVisible(dbProvider.get())) {
+        if (!changeControl.isVisible(db)) {
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
         }
         if (!changeControl.canSubmit()) {

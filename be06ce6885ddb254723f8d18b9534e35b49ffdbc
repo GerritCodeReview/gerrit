@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "aa059cff_fc0dc942",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-30T14:21:33Z",
+      "side": 1,
+      "message": "| Buck is failing if no good repository description can be found\n\nI see it differently. This change tries hard to recover from this failure, by making some assumptions that may or may not hold. As the outcome it would still fail with better message when assumption not hold, or with obscure message, when git describe fails, because may be the plugin wasn\u0027t added to Git at all. Instead you could just probe for the file that is going to be passed to `git describe` and see if this file exists, if not, stop here and report \"N/A\" and move forward with the life.\n\nIn follow-up change you may start guessing. But if you fail to guess, there should be still no failure.",
+      "parentUuid": "0af5c83c_7ffacf85",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa059cff_1c2875b5",
         "filename": "tools/git.defs",
         "patchSetId": 1

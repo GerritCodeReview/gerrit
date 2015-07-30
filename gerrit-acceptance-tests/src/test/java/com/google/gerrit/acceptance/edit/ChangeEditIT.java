@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 import static org.apache.http.HttpStatus.SC_CONFLICT;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_NO_CONTENT;
@@ -35,6 +36,7 @@ import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -207,6 +209,22 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
     edit = editUtil.byChange(change);
     assertThat(edit.isPresent()).isFalse();
+  }
+
+  @Test
+  public void publishEditRestWithoutCLA() throws Exception {
+    setUserContributorAgreement(InheritableBoolean.TRUE);
+    PatchSet oldCurrentPatchSet = getCurrentPatchSet(changeId);
+    assertThat(modifier.createEdit(change, oldCurrentPatchSet)).isEqualTo(
+        RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            RestSession.newRawInput(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+    RestResponse r = adminSession.post(urlPublish());
+    assertThat(r.getStatusCode()).isEqualTo(SC_FORBIDDEN);
+    setUserContributorAgreement(InheritableBoolean.FALSE);
+    r = adminSession.post(urlPublish());
+    assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
   }
 
   @Test

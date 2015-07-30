@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0af5c83c_7fa40fbf",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-07-30T12:27:05Z",
+      "side": 0,
+      "message": "gerrit-plugin-api/BUCK\n\nstill has \u0027//lib/commons:io\u0027 in exported_deps.\nThat should be removed too.",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 76,
+        "endChar": 14
+      },
+      "revId": "0c7b2c0f251f1645ffc8542193b27e8fe364bed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "aa059cff_7c23f9af",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-30T16:59:43Z",
+      "side": 1,
+      "message": "| As said above, that\u0027d be an unrelated switch in Buck\u0027s\nbehaviour.\n\nYou\u0027ve convinced me. There is still place for improvement, but this change fixes javamelody build breakage and improves the error handling.",
+      "parentUuid": "aa059cff_dc0a0d29",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa059cff_1c2875b5",
         "filename": "tools/git.defs",
         "patchSetId": 1

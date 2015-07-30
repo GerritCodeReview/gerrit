@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "aa4cbc8b_04c15677",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-30T21:36:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d3082cc_47de8e00",
+      "range": {
+        "startLine": 170,
+        "startChar": 21,
+        "endLine": 170,
+        "endChar": 27
+      },
+      "revId": "7f056d123cb8637a3b19bba190656a4358b496a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_67db920f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
         "patchSetId": 1
@@ -95,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "aa4cbc8b_e4c51a84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-30T21:36:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d3082cc_67db920f",
+      "range": {
+        "startLine": 179,
+        "startChar": 5,
+        "endLine": 179,
+        "endChar": 13
+      },
+      "revId": "7f056d123cb8637a3b19bba190656a4358b496a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_879ec643",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
         "patchSetId": 1
@@ -106,6 +154,30 @@
       "writtenOn": "2015-07-30T11:59:56Z",
       "side": 1,
       "message": "Start a new sentence with \"At\"?  Or add \"with\" before \"at\"?",
+      "range": {
+        "startLine": 182,
+        "startChar": 29,
+        "endLine": 182,
+        "endChar": 33
+      },
+      "revId": "7f056d123cb8637a3b19bba190656a4358b496a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa4cbc8b_c4c21e7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-30T21:36:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d3082cc_879ec643",
       "range": {
         "startLine": 182,
         "startChar": 29,

@@ -35,6 +35,7 @@ public class ChangeInfo {
   public Boolean starred;
   public Boolean reviewed;
   public Boolean mergeable;
+  public Boolean submittable;
   public Integer insertions;
   public Integer deletions;
 

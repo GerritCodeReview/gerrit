@@ -244,6 +244,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(info.project).isEqualTo(in.project);
     assertThat(info.branch).isEqualTo(in.branch);
     assertThat(info.subject).isEqualTo(in.subject);
+    assertThat(Iterables.getOnlyElement(info.messages).message)
+        .isEqualTo("Uploaded patch set 1");
   }
 
   @Test

@@ -18,12 +18,12 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.BouncyCastleUtil;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -38,7 +38,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public class SignedPushModule extends AbstractModule {
+public class SignedPushModule extends FactoryModule {
   private static final Logger log =
       LoggerFactory.getLogger(SignedPushModule.class);
 
@@ -48,13 +48,14 @@ public class SignedPushModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    if (BouncyCastleUtil.havePGP()) {
-      DynamicSet.bind(binder(), ReceivePackInitializer.class)
-          .to(Initializer.class);
-    } else {
+    if (!BouncyCastleUtil.havePGP()) {
       log.info("BouncyCastle PGP not installed; signed push verification is"
           + " disabled");
+      return;
     }
+    DynamicSet.bind(binder(), ReceivePackInitializer.class)
+        .to(Initializer.class);
+    factory(GerritPublicKeyChecker.Factory.class);
   }
 
   @Singleton

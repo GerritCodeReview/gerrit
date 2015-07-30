@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aa059cff_9c2da595",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-30T19:16:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d3082cc_87108611",
+      "range": {
+        "startLine": 212,
+        "startChar": 23,
+        "endLine": 212,
+        "endChar": 36
+      },
+      "revId": "9dd194021e702da2acf592fbf513857b47e9415d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_a7158a00",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 6
@@ -36,6 +60,24 @@
       "writtenOn": "2015-07-30T17:26:38Z",
       "side": 1,
       "message": "Simpler:\n\n sortFieldName(LegacyChangeIdPredicate.idField(schema))",
+      "revId": "9dd194021e702da2acf592fbf513857b47e9415d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af5c83c_ffbb7fba",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-30T19:16:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d3082cc_a7158a00",
       "revId": "9dd194021e702da2acf592fbf513857b47e9415d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

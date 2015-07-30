@@ -27,6 +27,15 @@ public class PublicKeyChecker {
    * Check a public key.
    *
    * @param key the public key.
+   */
+  public final CheckResult check(PGPPublicKey key) {
+    return check(key, key.getKeyID());
+  }
+
+  /**
+   * Check a public key.
+   *
+   * @param key the public key.
    * @param expectedKeyId the key ID that the caller expects.
    */
   public final CheckResult check(PGPPublicKey key, long expectedKeyId) {

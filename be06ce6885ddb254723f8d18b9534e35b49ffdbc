@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "aa059cff_dc0a0d29",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-07-30T15:01:20Z",
+      "side": 1,
+      "message": "\u003e Instead you could just probe for the file that is going to\n\u003e be passed to `git describe` and see if this file exists,\n\nThat\u0027s exactly what line 29 is doing by checking \u0027isdir()\u0027 :-)\n\n\u003e if not, stop here and report \"N/A\"\n\nAs said above, that\u0027d be an unrelated switch in Buck\u0027s\nbehaviour.\n\nIf you think that \u0027N/A\u0027 is better than what Buck is currently\ndoing (both with and without this change), please upload it as\na separate change.",
+      "parentUuid": "aa059cff_fc0dc942",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa059cff_1c2875b5",
         "filename": "tools/git.defs",
         "patchSetId": 1

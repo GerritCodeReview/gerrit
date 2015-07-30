@@ -18,6 +18,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.bouncycastle.openpgp.PGPException;
@@ -45,13 +46,16 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
+  private final Provider<PublicKeyChecker> checkerProvider;
 
   @Inject
   public SignedPushPreReceiveHook(
       GitRepositoryManager repoManager,
-      AllUsersName allUsers) {
+      AllUsersName allUsers,
+      Provider<PublicKeyChecker> checkerProvider) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
+    this.checkerProvider = checkerProvider;
   }
 
   @Override
@@ -63,7 +67,7 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
         return;
       }
       PushCertificateChecker checker = new PushCertificateChecker(
-          new PublicKeyChecker()) {
+          checkerProvider.get()) {
             @Override
             protected Repository getRepository() throws IOException {
               return repoManager.openRepository(allUsers);

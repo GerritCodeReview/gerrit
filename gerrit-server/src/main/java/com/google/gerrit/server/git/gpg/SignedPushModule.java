@@ -48,13 +48,13 @@ public class SignedPushModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    if (BouncyCastleUtil.havePGP()) {
-      DynamicSet.bind(binder(), ReceivePackInitializer.class)
-          .to(Initializer.class);
-    } else {
+    if (!BouncyCastleUtil.havePGP()) {
       log.info("BouncyCastle PGP not installed; signed push verification is"
           + " disabled");
     }
+    bind(PublicKeyChecker.class).to(GerritPublicKeyChecker.class);
+    DynamicSet.bind(binder(), ReceivePackInitializer.class)
+        .to(Initializer.class);
   }
 
   @Singleton

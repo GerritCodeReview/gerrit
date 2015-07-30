@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0af5c83c_1fb3c307",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-30T12:49:31Z",
+      "side": 1,
+      "message": "[Optional] Provide here the context, why commons-io was part of Gerrit at all, by referencing the removing solr change, that removed solr itself, but left its transitive dependency on commons-io unreferenced and unused.",
+      "revId": "af44e2ccfa15cb1fb36801fbd666c376e9188882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

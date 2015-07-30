@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa059cff_bc4ce194",
+        "filename": "lib/solr/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-30T10:08:50Z",
+      "side": 0,
+      "message": "It was pointed out by Christian: [1] that after removing this dependency commons:io is not provided any more in gerrit (as solr was the only one who used this dep as its transitive dependency), but still provided in plugin-api. That\u0027s obviously wrong. This not only broke quite some plugins, most notably rabbitmq and replication, but also broke the plugins in obscure way: they compile (plugin-api and gerrit-core still include this dependency), but they cannot be loaded as this dependency is missing in final gerrit artifact.\n\nThe proper solution would be: to drop commons:io from gerrit core, and add the proper dependency to plugins and provide this library in their shaded jar.\n\n* [1] https://gerrit-review.googlesource.com/69916",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "b50a7edd468d49158b1e73848e6af09f4ef3b86a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

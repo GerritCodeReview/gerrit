@@ -22,6 +22,30 @@
       "revId": "e08ad21036d440d5b87faef233add0bddaff0c62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa059cff_7cfad985",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-30T13:23:08Z",
+      "side": 1,
+      "message": "If CLA is required, it should only be possible to make any contribution after signing the CLA.\n\nI.e. without CLA one cannot:\n\n- push a new change from the command line\n- push a new patch set to an existing change from the command line\n- create a new change from the UI\n- create a follow-up change from the UI\n- cherry-pick a change from the UI\n- rebase a change from the UI\n- revert a change from the UI\n\nI don\u0027t see any reason why this rule should not be enforced for new patch sets created via the inline editor.",
+      "parentUuid": "aa059cff_bc7aa194",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "e08ad21036d440d5b87faef233add0bddaff0c62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

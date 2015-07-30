@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "0d3082cc_e7e86272",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-07-30T16:52:16Z",
+      "side": 1,
+      "message": "Both 0 and \u003e2 are illegal. If we use your suggestion then there have to be two separate throw statements for those cases.",
+      "parentUuid": "0d3082cc_27e19ab9",
+      "range": {
+        "startLine": 170,
+        "startChar": 45,
+        "endLine": 170,
+        "endChar": 64
+      },
+      "revId": "7f056d123cb8637a3b19bba190656a4358b496a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_67db920f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
         "patchSetId": 1

@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "0af5c83c_7ffacf85",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-07-30T14:06:27Z",
+      "side": 1,
+      "message": "I think whether or not to fail is a discussion that\u0027s worth having.\nBut it is somewhat a separate issue though, because currently, Buck is\nfailing if no good repository description can be found.\nThis change does not mess with that, neither does it make writing\nplugins harder. On the contrary, it only helps Buck to find a good\ndescription more often.",
+      "parentUuid": "aa059cff_7c3f79e5",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa059cff_1c2875b5",
         "filename": "tools/git.defs",
         "patchSetId": 1

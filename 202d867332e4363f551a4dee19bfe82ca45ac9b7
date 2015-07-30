@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "0d3082cc_67de32d8",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-30T15:34:36Z",
+      "side": 1,
+      "message": "LuceneChangeIndex uses getOnlyElement for the legacy id and updated fields. It doesn\u0027t check that fields are repeatable before adding their values for any of the other ones.\nSo, would it be better to leave it as is or change it for both?",
+      "parentUuid": "8df712e1_23e84aec",
+      "revId": "202d867332e4363f551a4dee19bfe82ca45ac9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8df712e1_03e54e12",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 43

@@ -55,6 +55,47 @@
     },
     {
       "key": {
+        "uuid": "0d3082cc_87c246fd",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-30T15:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d3082cc_67c47233",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_c7cc3e33",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-30T15:11:37Z",
+      "side": 1,
+      "message": "this should remain LEGACY_ID, since this is \u003cv14\nDone.",
+      "range": {
+        "startLine": 385,
+        "startChar": 12,
+        "endLine": 385,
+        "endChar": 44
+      },
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_a7b74a22",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 3
@@ -102,6 +143,24 @@
       "side": 1,
       "message": "In the 15-22 case, this adds a field to the document named _id_SORT. But up on l. 397 above, you set the sort field for all versions (15-23) to legacy_id_SORT (aka ID_SORT_FIELD). For 15-22, no documents have legacy_id_SORT, they only have _id_SORT, sorting on that field will have no effect.",
       "parentUuid": "0d3082cc_677712ae",
+      "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_673f128f",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1018662
+      },
+      "writtenOn": "2015-07-30T15:11:37Z",
+      "side": 1,
+      "message": "So,\nv15-22 should use _id_SORT\nv23+ should use _legacy_id_SORT",
+      "parentUuid": "cd382ab3_6ddb750f",
       "revId": "b380a2f3bb24567e3400b58dc3ede92a7ff20ffe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

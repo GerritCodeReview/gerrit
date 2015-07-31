@@ -46,6 +46,30 @@
       "revId": "0cf993d18b25522489addbce8ffa1cd853d3923e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4abee091_49dbc164",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-31T13:23:14Z",
+      "side": 1,
+      "message": "I think it\u0027s OK with this message.  If we want to make it more specific, that can be done on master.\n\nnit: the message is missing the trailing period compared to the message when uploading from the command line.",
+      "parentUuid": "4ad500ce_91cf9ca0",
+      "range": {
+        "startLine": 216,
+        "startChar": 22,
+        "endLine": 216,
+        "endChar": 29
+      },
+      "revId": "0cf993d18b25522489addbce8ffa1cd853d3923e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

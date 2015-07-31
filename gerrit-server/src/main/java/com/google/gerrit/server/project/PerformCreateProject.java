@@ -114,6 +114,17 @@ public class PerformCreateProject {
               : createProjectArgs.branch.get(0);
       final Repository repo = repoManager.createRepository(nameKey);
       try {
+        final RefUpdate u = repo.updateRef(Constants.HEAD);
+        u.disableRefLog();
+        u.link(head);
+
+        createProjectConfig();
+
+        if (!createProjectArgs.permissionsOnly
+            && createProjectArgs.createEmptyCommit) {
+          createEmptyCommits(repo, nameKey, createProjectArgs.branch);
+        }
+
         NewProjectCreatedListener.Event event = new NewProjectCreatedListener.Event() {
           @Override
           public String getProjectName() {
@@ -131,17 +142,6 @@ public class PerformCreateProject {
           } catch (RuntimeException e) {
             log.warn("Failure in NewProjectCreatedListener", e);
           }
-        }
-
-        final RefUpdate u = repo.updateRef(Constants.HEAD);
-        u.disableRefLog();
-        u.link(head);
-
-        createProjectConfig();
-
-        if (!createProjectArgs.permissionsOnly
-            && createProjectArgs.createEmptyCommit) {
-          createEmptyCommits(repo, nameKey, createProjectArgs.branch);
         }
 
         return projectCache.get(nameKey).getProject();

@@ -43,8 +43,8 @@ java_library(
 
 maven_jar(
   name = 'asciidoctor',
-  id = 'org.asciidoctor:asciidoctorj:1.5.0',
-  sha1 = '192df5660f72a0fb76966dcc64193b94fba65f99',
+  id = 'org.asciidoctor:asciidoctorj:1.5.2',
+  sha1 = '39d33f739ec1c46f6e908a725264eb74b23c9f99',
   license = 'Apache2.0',
   visibility = [],
   attach_source = False,
@@ -52,8 +52,8 @@ maven_jar(
 
 maven_jar(
   name = 'jruby',
-  id = 'org.jruby:jruby-complete:1.7.4',
-  sha1 = '74984d84846523bd7da49064679ed1ccf199e1db',
+  id = 'org.jruby:jruby-complete:1.7.18',
+  sha1 = 'a1be3e1790aace5c99614a87785454d875eb21c2',
   license = 'DO_NOT_DISTRIBUTE',
   visibility = [],
   attach_source = False,

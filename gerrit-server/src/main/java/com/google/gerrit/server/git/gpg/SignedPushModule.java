@@ -18,22 +18,28 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.SignedPushConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
@@ -54,6 +60,7 @@ public class SignedPushModule extends AbstractModule {
       return;
     }
     bind(PublicKeyChecker.class).to(GerritPublicKeyChecker.class);
+    bind(PublicKeyStore.class).toProvider(StoreProvider.class);
     DynamicSet.bind(binder(), ReceivePackInitializer.class)
         .to(Initializer.class);
   }
@@ -100,6 +107,39 @@ public class SignedPushModule extends AbstractModule {
       rp.setSignedPushConfig(signedPushConfig);
       rp.setPreReceiveHook(PreReceiveHookChain.newChain(Lists.newArrayList(
           hook, rp.getPreReceiveHook())));
+    }
+  }
+
+  @Singleton
+  private static class StoreProvider implements Provider<PublicKeyStore> {
+    private final GitRepositoryManager repoManager;
+    private final AllUsersName allUsers;
+
+    @Inject
+    StoreProvider(GitRepositoryManager repoManager,
+        AllUsersName allUsers) {
+      this.repoManager = repoManager;
+      this.allUsers = allUsers;
+    }
+
+    @Override
+    public PublicKeyStore get() {
+      final Repository repo;
+      try {
+        repo = repoManager.openRepository(allUsers);
+      } catch (IOException e) {
+        throw new ProvisionException("Cannot open " + allUsers, e);
+      }
+      return new PublicKeyStore(repo) {
+        @Override
+        public void close() {
+          try {
+            super.close();
+          } finally {
+            repo.close();
+          }
+        }
+      };
     }
   }
 

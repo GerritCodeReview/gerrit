@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4abee091_a9e59d15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-31T13:41:34Z",
+      "side": 1,
+      "message": "\"check for submittability\"",
+      "range": {
+        "startLine": 252,
+        "startChar": 29,
+        "endLine": 252,
+        "endChar": 41
+      },
+      "revId": "59c1d7fbd446e4da468041eeacfad8433f99cf0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a59e472_3adb0166",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-31T13:41:34Z",
+      "side": 1,
+      "message": "Remove this bit?",
+      "range": {
+        "startLine": 253,
+        "startChar": 27,
+        "endLine": 253,
+        "endChar": 37
+      },
+      "revId": "59c1d7fbd446e4da468041eeacfad8433f99cf0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a59e472_1ae0bd08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-31T13:41:34Z",
+      "side": 1,
+      "message": "It would be better to put this in the summary paragraph rather than here in @returns",
+      "range": {
+        "startLine": 253,
+        "startChar": 69,
+        "endLine": 254,
+        "endChar": 71
+      },
+      "revId": "59c1d7fbd446e4da468041eeacfad8433f99cf0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

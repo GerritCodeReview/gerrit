@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4abee091_09d5c92e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-31T13:25:47Z",
+      "side": 1,
+      "message": "nit: `setUseContributorAgreements` for consistency with the project config method used below.",
+      "range": {
+        "startLine": 311,
+        "startChar": 17,
+        "endLine": 311,
+        "endChar": 44
+      },
+      "revId": "ac51915cf9ea2fd589fee51419cabd2d92c8baf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

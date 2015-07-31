@@ -16,6 +16,24 @@
       "revId": "4e456030730e726bfad286def4ae595a15743427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad500ce_5100543e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-31T14:10:23Z",
+      "side": 1,
+      "message": "Have you compiler or what? ;-)\n\nDone.",
+      "parentUuid": "4abee091_4900a13e",
+      "revId": "4e456030730e726bfad286def4ae595a15743427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

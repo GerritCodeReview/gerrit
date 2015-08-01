@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aafbdc84_6cbcbb06",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-01T13:27:32Z",
+      "side": 1,
+      "message": "nit: we usually put the @Inject on a separate line",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "7a5fee607745dde1993fd0ae85f1f1c0a90b8338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

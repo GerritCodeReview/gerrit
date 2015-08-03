@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aafbdc84_2cdbd365",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-03T08:20:47Z",
+      "side": 1,
+      "message": "2015",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9479f9054c573fc40a6a7a46fcd107eb1494eb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aafbdc84_0ce09708",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-03T08:20:47Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to get called.  Are these Predicate classes still needed?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "9479f9054c573fc40a6a7a46fcd107eb1494eb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyObjectId;
 import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyToString;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -38,6 +39,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -115,11 +120,7 @@ public class PublicKeyStoreTest {
     store.add(key1.getPublicKeyRing());
     store.add(key2.getPublicKeyRing());
 
-    CommitBuilder cb = new CommitBuilder();
-    PersonIdent ident = new PersonIdent("A U Thor", "author@example.com");
-    cb.setAuthor(ident);
-    cb.setCommitter(ident);
-    assertEquals(RefUpdate.Result.NEW, store.save(cb));
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
 
     assertKeys(key1.getKeyId(), key1);
     assertKeys(key2.getKeyId(), key2);
@@ -136,12 +137,7 @@ public class PublicKeyStoreTest {
         .create();
 
     store.add(key1.getPublicKeyRing());
-
-    CommitBuilder cb = new CommitBuilder();
-    PersonIdent ident = new PersonIdent("A U Thor", "author@example.com");
-    cb.setAuthor(ident);
-    cb.setCommitter(ident);
-    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(cb));
+    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
 
     assertKeys(key1.getKeyId(), key1, key2);
 
@@ -161,6 +157,63 @@ public class PublicKeyStoreTest {
     }
   }
 
+  @Test
+  public void updateExisting() throws Exception {
+    TestKey key5 = TestKey.key5();
+    PGPPublicKeyRing keyRing = key5.getPublicKeyRing();
+    PGPPublicKey key = keyRing.getPublicKey();
+    store.add(keyRing);
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+
+    assertUserIds(store.get(key5.getKeyId()).iterator().next(),
+        "Testuser Five <test5@example.com>",
+        "foo:myId");
+
+    keyRing = PGPPublicKeyRing.removePublicKey(keyRing, key);
+    key = PGPPublicKey.removeCertification(key, "foo:myId");
+    keyRing = PGPPublicKeyRing.insertPublicKey(keyRing, key);
+    store.add(keyRing);
+    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
+
+    Iterator<PGPPublicKeyRing> keyRings = store.get(key.getKeyID()).iterator();
+    keyRing = keyRings.next();
+    assertFalse(keyRings.hasNext());
+    assertUserIds(keyRing, "Testuser Five <test5@example.com>");
+  }
+
+  @Test
+  public void remove() throws Exception {
+    TestKey key1 = TestKey.key1();
+    store.add(key1.getPublicKeyRing());
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId(), key1);
+
+    store.remove(key1.getPublicKey().getFingerprint());
+    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId());
+  }
+
+  @Test
+  public void removeNonexisting() throws Exception {
+    TestKey key1 = TestKey.key1();
+    store.add(key1.getPublicKeyRing());
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+
+    TestKey key2 = TestKey.key2();
+    store.remove(key2.getPublicKey().getFingerprint());
+    assertEquals(RefUpdate.Result.NO_CHANGE, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId(), key1);
+  }
+
+  @Test
+  public void addThenRemove() throws Exception {
+    TestKey key1 = TestKey.key1();
+    store.add(key1.getPublicKeyRing());
+    store.remove(key1.getPublicKey().getFingerprint());
+    assertEquals(RefUpdate.Result.NO_CHANGE, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId());
+  }
+
   private void assertKeys(long keyId, TestKey... expected)
       throws Exception {
     Set<String> expectedStrings = new TreeSet<>();
@@ -173,5 +226,26 @@ public class PublicKeyStoreTest {
       actualStrings.add(keyToString(k.getPublicKey()));
     }
     assertEquals(expectedStrings, actualStrings);
+  }
+
+  private void assertUserIds(PGPPublicKeyRing keyRing, String... expected)
+      throws Exception {
+    List<String> actual = new ArrayList<>();
+    @SuppressWarnings("unchecked")
+    Iterator<String> userIds = store.get(keyRing.getPublicKey().getKeyID())
+        .iterator().next().getPublicKey().getUserIDs();
+    while (userIds.hasNext()) {
+      actual.add(userIds.next());
+    }
+
+    assertEquals(actual, Arrays.asList(expected));
+  }
+
+  private CommitBuilder newCommitBuilder() {
+    CommitBuilder cb = new CommitBuilder();
+    PersonIdent ident = new PersonIdent("A U Thor", "author@example.com");
+    cb.setAuthor(ident);
+    cb.setCommitter(ident);
+    return cb;
   }
 }

@@ -31,6 +31,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.gpg.PublicKeyStore;
 import com.google.gerrit.server.git.gpg.TestKey;
 import com.google.inject.Inject;
@@ -39,6 +41,9 @@ import com.google.inject.Provider;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.junit.After;
 import org.junit.Before;
@@ -55,6 +60,9 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject
   private Provider<PublicKeyStore> publicKeyStoreProvider;
 
+  @Inject
+  private AllUsersName allUsers;
+
   private List<AccountExternalId> savedExternalIds;
 
   @Before
@@ -69,6 +77,18 @@ public class AccountIT extends AbstractDaemonTest {
     db.accountExternalIds().delete(getExternalIds(admin));
     db.accountExternalIds().delete(getExternalIds(user));
     db.accountExternalIds().insert(savedExternalIds);
+  }
+
+  @After
+  public void clearPublicKeyStore() throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      Ref ref = repo.getRef(RefNames.REFS_GPG_KEYS);
+      if (ref != null) {
+        RefUpdate ru = repo.updateRef(RefNames.REFS_GPG_KEYS);
+        ru.setForceUpdate(true);
+        assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+      }
+    }
   }
 
   private List<AccountExternalId> getExternalIds(TestAccount account)

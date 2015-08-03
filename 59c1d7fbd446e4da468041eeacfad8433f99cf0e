@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6ab564d9_1ab29d35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-03T22:20:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4abee091_a9e59d15",
+      "range": {
+        "startLine": 252,
+        "startChar": 29,
+        "endLine": 252,
+        "endChar": 41
+      },
+      "revId": "59c1d7fbd446e4da468041eeacfad8433f99cf0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a59e472_3adb0166",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8ae458f8_9bc5cb85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-03T22:20:34Z",
+      "side": 1,
+      "message": "a change may not be submittable, because other changes (in the same topic, ancestors) are not submittable. These reasons are explicitly are excluded. We check only the change itself in this method. (\"Assuming all ancestors were merged and it had no topic set, could you submit it now?\")",
+      "parentUuid": "6a59e472_3adb0166",
+      "range": {
+        "startLine": 253,
+        "startChar": 27,
+        "endLine": 253,
+        "endChar": 37
+      },
+      "revId": "59c1d7fbd446e4da468041eeacfad8433f99cf0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a59e472_1ae0bd08",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 7
@@ -59,6 +107,30 @@
       "writtenOn": "2015-07-31T13:41:34Z",
       "side": 1,
       "message": "It would be better to put this in the summary paragraph rather than here in @returns",
+      "range": {
+        "startLine": 253,
+        "startChar": 69,
+        "endLine": 254,
+        "endChar": 71
+      },
+      "revId": "59c1d7fbd446e4da468041eeacfad8433f99cf0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae458f8_bbc28778",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-03T22:20:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a59e472_1ae0bd08",
       "range": {
         "startLine": 253,
         "startChar": 69,

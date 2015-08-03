@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8af6189c_cbccb5ad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-03T10:57:55Z",
+      "side": 1,
+      "message": "This must be \u0027dd\u0027. When I execute the test today it fails with:\n\n\"expected:\u003c...ple.com\u003e\nDate: Mon, []3 Aug 2015 12:51:54 ...\u003e but was:\u003c...ple.com\u003e\nDate: Mon, [0]3 Aug 2015 12:51:54 ...\u003e\"",
+      "range": {
+        "startLine": 558,
+        "startChar": 55,
+        "endLine": 558,
+        "endChar": 56
+      },
+      "revId": "da8ca51609e79d557b68858adea521569caeb2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

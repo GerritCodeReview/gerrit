@@ -743,6 +743,24 @@ link:#gpg-key-info[GpgKeyInfo] entities, keyed by ID.
   }
 ----
 
+[[delete-gpg-key]]
+=== Delete GPG Key
+--
+'DELETE /accounts/link:#account-id[\{account-id\}]/gpgkeys/link:#gpg-key-id[\{gpg-key-id\}]'
+--
+
+Deletes a GPG key of a user.
+
+.Request
+----
+  DELETE /accounts/self/gpgkeys/AFC8A49B HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[list-account-capabilities]]
 === List Account Capabilities
 --

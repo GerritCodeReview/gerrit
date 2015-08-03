@@ -17,10 +17,13 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
+import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.Set;
@@ -126,6 +129,44 @@ public class AccountApi {
     }
 
     protected HttpPasswordInput() {
+    }
+  }
+
+  public static void addGpgKey(String account, String armored,
+      AsyncCallback<NativeMap<GpgKeyInfo>> cb) {
+    new RestApi("/accounts/")
+      .id(account)
+      .view("gpgkeys")
+      .post(GpgKeysInput.add(armored), cb);
+  }
+
+  public static void removeGpgKeys(String account,
+      Iterable<String> fingerprints, AsyncCallback<NativeMap<GpgKeyInfo>> cb) {
+    new RestApi("/accounts/")
+      .id(account)
+      .view("gpgkeys")
+      .post(GpgKeysInput.remove(fingerprints), cb);
+  }
+
+  private static class GpgKeysInput extends JavaScriptObject {
+    static GpgKeysInput add(String key) {
+      return createAdd(Natives.arrayOf(key));
+    }
+
+    static GpgKeysInput remove(Iterable<String> fingerprints) {
+      return createRemove(Natives.arrayOf(fingerprints));
+    }
+
+    private static native GpgKeysInput createAdd(JsArrayString keys) /*-{
+      return {'add': keys};
+    }-*/;
+
+    private static native GpgKeysInput createRemove(
+        JsArrayString fingerprints) /*-{
+      return {'remove': fingerprints};
+    }-*/;
+
+    protected GpgKeysInput() {
     }
   }
 }

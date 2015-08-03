@@ -132,7 +132,8 @@ def gerrit_plugin(
     manifest_file = None,
     manifest_entries = [],
     type = 'plugin',
-    visibility = ['PUBLIC']):
+    visibility = ['PUBLIC'],
+    target_suffix = ''):
   tb = traceback.extract_stack()
   calling_BUCK_file = tb[-2][0]
   calling_BUCK_dir = os.path.abspath(os.path.dirname(calling_BUCK_file))
@@ -202,7 +203,7 @@ def gerrit_plugin(
     )
 
   java_binary(
-    name = name,
+    name = name + target_suffix,
     manifest_file = ':%s__manifest' % name,
     merge_manifests = False,
     deps = [

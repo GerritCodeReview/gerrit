@@ -18,9 +18,13 @@ import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.DeleteGpgKey;
 import com.google.gerrit.server.account.GpgKeys;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+
+import org.bouncycastle.openpgp.PGPException;
 
 import java.io.IOException;
 
@@ -30,13 +34,16 @@ class GpgKeyApiImpl implements GpgKeyApi {
   }
 
   private final GpgKeys.Get get;
+  private final DeleteGpgKey delete;
   private final AccountResource.GpgKey rsrc;
 
   @AssistedInject
   GpgKeyApiImpl(
       GpgKeys.Get get,
+      DeleteGpgKey delete,
       @Assisted AccountResource.GpgKey rsrc) {
     this.get = get;
+    this.delete = delete;
     this.rsrc = rsrc;
   }
 
@@ -45,6 +52,15 @@ class GpgKeyApiImpl implements GpgKeyApi {
     try {
       return get.apply(rsrc);
     } catch (IOException e) {
+      throw new RestApiException("Cannot get GPG key", e);
+    }
+  }
+
+  @Override
+  public void delete() throws RestApiException {
+    try {
+      delete.apply(rsrc, new DeleteGpgKey.Input());
+    } catch (PGPException | OrmException | IOException e) {
       throw new RestApiException("Cannot get GPG key", e);
     }
   }

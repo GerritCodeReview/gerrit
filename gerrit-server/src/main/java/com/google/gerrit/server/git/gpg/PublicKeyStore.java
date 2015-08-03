@@ -46,8 +46,12 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Store of GPG public keys in git notes.
@@ -66,16 +70,21 @@ import java.util.List;
  * only trust keys after checking with a {@link PublicKeyChecker}.
  */
 public class PublicKeyStore implements AutoCloseable {
+  private static final ObjectId EMPTY_TREE =
+      ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904");
+
   private final Repository repo;
   private ObjectReader reader;
   private RevCommit tip;
   private NoteMap notes;
-  private List<PGPPublicKeyRing> pending;
+  private Map<Fingerprint, PGPPublicKeyRing> toAdd;
+  private Set<Fingerprint> toRemove;
 
   /** @param repo repository to read keys from. */
   public PublicKeyStore(Repository repo) {
     this.repo = repo;
-    pending = new ArrayList<>();
+    toAdd = new HashMap<>();
+    toRemove = new HashSet<>();
   }
 
   @Override
@@ -169,7 +178,23 @@ public class PublicKeyStore implements AutoCloseable {
       throw new IllegalArgumentException(
           "Exactly 1 master key is required, found " + numMaster);
     }
-    pending.add(keyRing);
+    Fingerprint fp = new Fingerprint(keyRing.getPublicKey().getFingerprint());
+    toAdd.put(fp, keyRing);
+    toRemove.remove(fp);
+  }
+
+  /**
+   * Remove a public key from the store.
+   * <p>
+   * Multiple calls may be made to buffer deletes in memory, and they are not
+   * saved until {@link #save(CommitBuilder)} is called.
+   *
+   * @param fingerprint the fingerprint of the key to remove.
+   */
+  public void remove(byte[] fingerprint) {
+    Fingerprint fp = new Fingerprint(fingerprint);
+    toAdd.remove(fp);
+    toRemove.add(fp);
   }
 
   /**
@@ -185,7 +210,7 @@ public class PublicKeyStore implements AutoCloseable {
    */
   public RefUpdate.Result save(CommitBuilder cb)
       throws PGPException, IOException {
-    if (pending.isEmpty()) {
+    if (toAdd.isEmpty() && toRemove.isEmpty()) {
       return RefUpdate.Result.NO_CHANGE;
     }
     if (reader == null) {
@@ -197,16 +222,25 @@ public class PublicKeyStore implements AutoCloseable {
     ObjectId newTip;
     try (ObjectReader reader = repo.newObjectReader();
         ObjectInserter ins = repo.newObjectInserter()) {
-      for (PGPPublicKeyRing keyRing : pending) {
+      for (PGPPublicKeyRing keyRing : toAdd.values()) {
         saveToNotes(ins, keyRing);
       }
+      for (Fingerprint fp : toRemove) {
+        deleteFromNotes(ins, fp);
+      }
+      cb.setTreeId(notes.writeTree(ins));
+      if (cb.getTreeId().equals(
+          tip != null ? tip.getTree() : EMPTY_TREE)) {
+        return RefUpdate.Result.NO_CHANGE;
+      }
+
       if (tip != null) {
         cb.setParentId(tip);
       }
-      cb.setTreeId(notes.writeTree(ins));
       if (cb.getMessage() == null) {
-        cb.setMessage(String.format("Update %d public key%s",
-            pending.size(), pending.size() != 1 ? "s" : ""));
+        int n = toAdd.size() + toRemove.size();
+        cb.setMessage(
+            String.format("Update %d public key%s", n, n != 1 ? "s" : ""));
       }
       newTip = ins.insert(cb);
       ins.flush();
@@ -223,7 +257,8 @@ public class PublicKeyStore implements AutoCloseable {
       case FAST_FORWARD:
       case NEW:
       case NO_CHANGE:
-        pending.clear();
+        toAdd.clear();
+        toRemove.clear();
         break;
       default:
         break;
@@ -250,6 +285,26 @@ public class PublicKeyStore implements AutoCloseable {
     }
     notes.set(keyObjectId(keyId),
         ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
+  }
+
+  private void deleteFromNotes(ObjectInserter ins, Fingerprint fp)
+      throws PGPException, IOException {
+    long keyId = fp.getId();
+    PGPPublicKeyRingCollection existing = get(keyId);
+    List<PGPPublicKeyRing> toWrite = new ArrayList<>(existing.size());
+    for (PGPPublicKeyRing kr : existing) {
+      if (!fp.equalsBytes(kr.getPublicKey().getFingerprint())) {
+        toWrite.add(kr);
+      }
+    }
+    if (toWrite.size() == existing.size()) {
+      return;
+    } else if (toWrite.size() > 0) {
+      notes.set(keyObjectId(keyId),
+          ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
+    } else {
+      notes.remove(keyObjectId(keyId));
+    }
   }
 
   private static boolean sameKey(PGPPublicKeyRing kr1, PGPPublicKeyRing kr2) {

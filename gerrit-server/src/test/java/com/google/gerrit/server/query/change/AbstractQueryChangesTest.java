@@ -380,6 +380,52 @@ public abstract class AbstractQueryChangesTest {
   }
 
   @Test
+  public void byAuthor() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, userId.get(), null).insert();
+
+    // By exact email address
+    assertQuery("author:jauthor@example.com", change1);
+
+    // By email address part
+    assertQuery("author:jauthor", change1);
+    assertQuery("author:example", change1);
+    assertQuery("author:example.com", change1);
+
+    // By name part
+    assertQuery("author:Author", change1);
+
+    // By non-existing email address / name / part
+    assertQuery("author:jcommitter@example.com");
+    assertQuery("author:somewhere.com");
+    assertQuery("author:jcommitter");
+    assertQuery("author:Committer");
+  }
+
+  @Test
+  public void byCommitter() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, userId.get(), null).insert();
+
+    // By exact email address
+    assertQuery("committer:jcommitter@example.com", change1);
+
+    // By email address part
+    assertQuery("committer:jcommitter", change1);
+    assertQuery("committer:example", change1);
+    assertQuery("committer:example.com", change1);
+
+    // By name part
+    assertQuery("committer:Committer", change1);
+
+    // By non-existing email address / name / part
+    assertQuery("committer:jauthor@example.com");
+    assertQuery("committer:somewhere.com");
+    assertQuery("committer:jauthor");
+    assertQuery("committer:Author");
+  }
+
+  @Test
   public void byOwnerIn() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, userId.get(), null).insert();

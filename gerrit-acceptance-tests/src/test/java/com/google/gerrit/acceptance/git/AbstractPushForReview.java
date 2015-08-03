@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -342,5 +343,30 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(c1.branch).isNotEqualTo(c2.branch);
     assertThat(c1.changeId).isEqualTo(c2.changeId);
     assertThat(c1.currentRevision).isEqualTo(c2.currentRevision);
+  }
+
+  @Test
+  public void testPushCommitUsingSignedOffBy() throws Exception {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent");
+    PushOneCommit.Result r = push.to(git, "refs/for/master");
+    r.assertOkStatus();
+
+    setUseSignedOffBy(InheritableBoolean.TRUE);
+    blockForgeCommit(project, "refs/heads/master");
+
+    push = pushFactory.create(db, admin.getIdent(),
+        PushOneCommit.SUBJECT + String.format(
+            "\n\nSigned-off-by: %s <%s>", admin.fullName, admin.email),
+        "b.txt", "anotherContent");
+    r = push.to(git, "refs/for/master");
+    r.assertOkStatus();
+
+    push = pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+        "b.txt", "anotherContent");
+    r = push.to(git, "refs/for/master");
+    r.assertErrorStatus(
+        "not Signed-off-by author/committer/uploader in commit message footer");
   }
 }

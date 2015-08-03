@@ -1074,6 +1074,10 @@ a:hover.downloadLink {
   width: 100%;
 }
 
+.sshKeyTable td.dataCell, .sshKeyTable td.iconCell {
+  vertical-align: top;
+}
+
 .createProjectPanel {
   margin-bottom: 10px;
   background-color: trimColor;

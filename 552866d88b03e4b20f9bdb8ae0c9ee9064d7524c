@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6afe4471_f2fd28a7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-03T10:07:15Z",
+      "side": 1,
+      "message": "This causes a client error:\n\n Cannot read property \u0027_number\u0027 of undefined\n\nwhen the current patch set of a change is a draft that is not visible to the logged in user.\n\nSee issue 3477.",
+      "range": {
+        "startLine": 221,
+        "startChar": 44,
+        "endLine": 221,
+        "endChar": 67
+      },
+      "revId": "552866d88b03e4b20f9bdb8ae0c9ee9064d7524c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

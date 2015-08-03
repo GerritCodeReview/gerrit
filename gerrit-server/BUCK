@@ -211,6 +211,7 @@ java_test(
     '//gerrit-server/src/main/prolog:common',
     '//lib:args4j',
     '//lib:grappa',
+    '//lib:guava',
     '//lib:gwtorm',
     '//lib:truth',
     '//lib/bouncycastle:bcprov',

@@ -64,6 +64,7 @@ public class Module extends RestApiModule {
     child(ACCOUNT_KIND, "gpgkeys").to(GpgKeys.class);
     post(ACCOUNT_KIND, "gpgkeys").to(AddGpgKey.class);
     get(GPG_KEY_KIND).to(GpgKeys.Get.class);
+    delete(GPG_KEY_KIND).to(DeleteGpgKey.class);
 
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);

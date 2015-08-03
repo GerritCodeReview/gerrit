@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8af6189c_0be07d08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-03T13:14:01Z",
+      "side": 1,
+      "message": "I don\u0027t want to overload the cookbook plugin with too much stuff. I think it\u0027s enough to have one example for each category. How to consume a JavaScript object in a plugin is already shown by [1]. Technically it is the same whether it is ChangeInfo, AccountPreferencesInfo, ProjectInfo, ... I think adding an example for each *Info class would do more damage to the cookbook plugin than it would be useful.\n\n[1] https://gerrit-review.googlesource.com/69511",
+      "parentUuid": "0af5c83c_ffc5bf83",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "f07f85f71bba5471ef6b944111e91a506e4ebf9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d7c9e57_627536bd",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 5

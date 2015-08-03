@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface GpgKeyApi {
   GpgKeyInfo get() throws RestApiException;
+  void delete() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -28,6 +29,11 @@ public interface GpgKeyApi {
   public class NotImplemented implements GpgKeyApi {
     @Override
     public GpgKeyInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
   }

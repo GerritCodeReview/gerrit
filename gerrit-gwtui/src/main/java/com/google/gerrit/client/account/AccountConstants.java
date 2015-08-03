@@ -50,14 +50,15 @@ public interface AccountConstants extends Constants {
   String myMenuReset();
 
   String tabAccountSummary();
-  String tabPreferences();
-  String tabWatchedProjects();
-  String tabContactInformation();
-  String tabSshKeys();
-  String tabHttpAccess();
-  String tabWebIdentities();
-  String tabMyGroups();
   String tabAgreements();
+  String tabContactInformation();
+  String tabGpgKeys();
+  String tabHttpAccess();
+  String tabMyGroups();
+  String tabPreferences();
+  String tabSshKeys();
+  String tabWatchedProjects();
+  String tabWebIdentities();
 
   String buttonShowAddSshKey();
   String buttonCloseAddSshKey();
@@ -93,6 +94,10 @@ public interface AccountConstants extends Constants {
   String sshHostKeyTitle();
   String sshHostKeyFingerprint();
   String sshHostKeyKnownHostEntry();
+
+  String gpgKeyId();
+  String gpgKeyFingerprint();
+  String gpgKeyUserIds();
 
   String webIdStatus();
   String webIdEmail();

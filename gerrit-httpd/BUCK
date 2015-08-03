@@ -64,6 +64,7 @@ java_test(
     '//lib:truth',
     '//lib/easymock:easymock',
     '//lib/guice:guice',
+    '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
   ],

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.git.gpg.PublicKeyStore.fingerprintToString;
 import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyIdToString;
@@ -31,7 +32,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.server.account.GpgKeys;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.gpg.PublicKeyStore;
 import com.google.gerrit.server.git.gpg.TestKey;
 import com.google.inject.Inject;
@@ -40,11 +42,14 @@ import com.google.inject.Provider;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.junit.After;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -54,10 +59,28 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject
   private Provider<PublicKeyStore> publicKeyStoreProvider;
 
+  @Inject
+  private AllUsersName allUsers;
+
   @After
   public void tearDown() throws Exception {
-    db.accountExternalIds().delete(GpgKeys.getGpgExtIds(db, admin.getId()));
-    db.accountExternalIds().delete(GpgKeys.getGpgExtIds(db, user.getId()));
+    List<AccountExternalId> toDelete = new ArrayList<>();
+    for (AccountExternalId id : db.accountExternalIds().iterateAllEntities()) {
+      if (id.isScheme(AccountExternalId.SCHEME_GPGKEY)) {
+        toDelete.add(id);
+      }
+    }
+    db.accountExternalIds().delete(toDelete);
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      String ref = RefNames.REFS_GPG_KEYS;
+      if (repo.getRefDatabase().exactRef(ref) != null) {
+        RefUpdate ru = repo.updateRef(ref);
+        ru.setForceUpdate(true);
+        assert_().withFailureMessage("Failed to delete " + ref)
+            .that(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
+      }
+    }
   }
 
   @Test
@@ -208,6 +231,22 @@ public class AccountIT extends AbstractDaemonTest {
       info.id = id;
       assertKeyEquals(k, info);
     }
+  }
+
+  @Test
+  public void deleteGpgKey() throws Exception {
+    TestKey key = TestKey.key1();
+    String id = keyIdToString(key.getKeyId());
+    addExternalIdEmail(admin, "test1@example.com");
+    gApi.accounts().self().addGpgKey(key.getPublicKeyArmored()).get();
+    assertKeyEquals(key, gApi.accounts().self().gpgKey(id).get());
+
+    gApi.accounts().self().gpgKey(id).delete();
+    assertThat(gApi.accounts().self().listGpgKeys()).isEmpty();
+
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage(id);
+    gApi.accounts().self().gpgKey(id).get();
   }
 
   private PGPPublicKey getOnlyKeyFromStore(TestKey key) throws Exception {

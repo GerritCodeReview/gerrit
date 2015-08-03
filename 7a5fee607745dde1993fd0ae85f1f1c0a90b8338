@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8ae458f8_1bb29b35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-03T21:05:31Z",
+      "side": 1,
+      "message": "Yes, in particular, this should use user.state().getExternalIds() plus user.getEmailAddresses()",
+      "revId": "7a5fee607745dde1993fd0ae85f1f1c0a90b8338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aafbdc84_6cbcbb06",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/gpg/GerritPublicKeyCheckerTest.java",
         "patchSetId": 3

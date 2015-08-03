@@ -393,6 +393,20 @@ public class ChangeField {
         }
       };
 
+  /* The email address of the change author. */
+  public static final FieldDef<ChangeData, String> AUTHOR =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_AUTHOR, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args) throws OrmException {
+          try {
+            return input.getAuthor().getEmailAddress();
+          } catch (IOException e) {
+            throw new OrmException(e);
+          }
+        }
+      };
+
   public static class ChangeProtoField extends FieldDef.Single<ChangeData, byte[]> {
     public static final ProtobufCodec<Change> CODEC =
         CodecFactory.encoder(Change.class);

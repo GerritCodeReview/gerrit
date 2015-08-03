@@ -1016,7 +1016,10 @@ public class ChangeScreen extends Screen {
   }
 
   private boolean isSubmittable(ChangeInfo info) {
-    boolean canSubmit = info.status().isOpen();
+    boolean canSubmit =
+        info.status().isOpen() &&
+        revision == info.current_revision() &&
+        !info.revision(revision).draft();
     if (canSubmit && info.status() == Change.Status.NEW) {
       for (String name : info.labels()) {
         LabelInfo label = info.label(name);
@@ -1053,7 +1056,8 @@ public class ChangeScreen extends Screen {
       statusText.setInnerText(Util.C.notCurrent());
       labels.setVisible(false);
     } else {
-      statusText.setInnerText(Util.toLongString(info.status()));
+      Status s = info.revision(revision).draft() ? Status.DRAFT : info.status();
+      statusText.setInnerText(Util.toLongString(s));
     }
     labels.set(info);
 

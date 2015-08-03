@@ -129,7 +129,8 @@ def gerrit_plugin(
     manifest_file = None,
     manifest_entries = [],
     type = 'plugin',
-    visibility = ['PUBLIC']):
+    visibility = ['PUBLIC'],
+    target_suffix = ''):
   from multiprocessing import cpu_count
   mf_cmd = 'v=%s;' % git_describe(name)
   if manifest_file:
@@ -197,7 +198,7 @@ def gerrit_plugin(
     )
 
   java_binary(
-    name = name,
+    name = name + target_suffix,
     manifest_file = ':%s__manifest' % name,
     merge_manifests = False,
     deps = [

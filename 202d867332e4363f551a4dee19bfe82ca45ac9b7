@@ -348,6 +348,30 @@
     },
     {
       "key": {
+        "uuid": "4ad500ce_512934bc",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticsearchQueryChangesTest.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2015-08-03T07:11:43Z",
+      "side": 1,
+      "message": "ES is capable of picking an unused port in a range (by default [9200, 9299]) and I\u0027d assume that the Java API allows us to query for the port we actually got. If not we can make sure to pick a unique cluster name and we can scan the port range until we find our newly created cluster.",
+      "parentUuid": "6d349e66_02df4a51",
+      "range": {
+        "startLine": 142,
+        "startChar": 74,
+        "endLine": 142,
+        "endChar": 78
+      },
+      "revId": "202d867332e4363f551a4dee19bfe82ca45ac9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d349e66_a2d3fe49",
         "filename": "lib/commons/BUCK",
         "patchSetId": 43

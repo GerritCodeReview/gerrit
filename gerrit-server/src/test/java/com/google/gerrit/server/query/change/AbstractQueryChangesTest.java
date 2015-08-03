@@ -375,6 +375,14 @@ public abstract class AbstractQueryChangesTest {
   }
 
   @Test
+  public void byAuthor() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, userId.get(), null).insert();
+    assertQuery("author:jauthor@example.com", change1);
+    assertQuery("author:user@example.com");
+  }
+
+  @Test
   public void byOwnerIn() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, userId.get(), null).insert();

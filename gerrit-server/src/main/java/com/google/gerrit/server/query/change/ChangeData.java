@@ -62,6 +62,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -317,6 +318,7 @@ public class ChangeData {
   private Boolean mergeable;
   private Set<Account.Id> editsByUser;
   private Set<Account.Id> reviewedBy;
+  private PersonIdent author;
 
   @AssistedInject
   private ChangeData(
@@ -620,6 +622,15 @@ public class ChangeData {
     return commitFooters;
   }
 
+  public PersonIdent getAuthor() throws IOException, OrmException {
+    if (author == null) {
+      if (!loadCommitData()) {
+        return null;
+      }
+    }
+    return author;
+  }
+
   private boolean loadCommitData() throws OrmException,
       RepositoryNotFoundException, IOException, MissingObjectException,
       IncorrectObjectTypeException {
@@ -633,6 +644,7 @@ public class ChangeData {
       RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
       commitMessage = c.getFullMessage();
       commitFooters = c.getFooterLines();
+      author = c.getAuthorIdent();
     }
     return true;
   }

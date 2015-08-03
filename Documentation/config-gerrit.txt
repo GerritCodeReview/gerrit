@@ -3289,6 +3289,23 @@ namespace. To alias `replication start` to `gerrit replicate`:
 [[sshd]]
 === Section sshd
 
+[[sshd.enableCompression]]sshd.enableCompression::
++
+In the general case, we want to disable transparent compression, since
+the majority of our data transfer is highly compressed Git pack files
+and we cannot make them any smaller than they already are.
++
+However, if there are CPU in abundance and the server is reachable
+through slow networks, gits with huge amount of refs can benefit from
+SSH-compression since git does not compress the ref announcement during
+handshake.
++
+Compression can be especially useful when Gerrit slaves are being used
+for the larger clones and fetches and the master server mostly takes
+small receive-packs.
++
+By default, `false`.
+
 [[sshd.backend]]sshd.backend::
 +
 Starting from version 0.9.0 Apache SSHD project added support for NIO2

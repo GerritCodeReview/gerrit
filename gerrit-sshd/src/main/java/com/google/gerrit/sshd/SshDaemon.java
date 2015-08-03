@@ -61,6 +61,7 @@ import org.apache.sshd.common.cipher.BlowfishCBC;
 import org.apache.sshd.common.cipher.CipherNone;
 import org.apache.sshd.common.cipher.TripleDESCBC;
 import org.apache.sshd.common.compression.CompressionNone;
+import org.apache.sshd.common.compression.CompressionZlib;
 import org.apache.sshd.common.file.FileSystemFactory;
 import org.apache.sshd.common.file.FileSystemView;
 import org.apache.sshd.common.file.SshFile;
@@ -216,6 +217,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final String kerberosPrincipal = cfg.getString(
         "sshd", null, "kerberosPrincipal");
 
+    final boolean enableCompression = cfg.getBoolean(
+        "sshd", "enableCompression", false);
+
     SshSessionBackend backend = cfg.getEnum(
         "sshd", null, "backend", SshSessionBackend.MINA);
 
@@ -236,7 +240,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initForwarding();
     initFileSystemFactory();
     initSubsystems();
-    initCompression();
+    initCompression(enableCompression);
     initUserAuth(userAuth, kerberosAuth, kerberosKeytab, kerberosPrincipal);
     setKeyPairProvider(hostKeyProvider);
     setCommandFactory(commandFactory);
@@ -594,13 +598,30 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         new SignatureECDSA.NISTP521Factory()));
   }
 
-  private void initCompression() {
-    // Always disable transparent compression. The majority of our data
-    // transfer is highly compressed Git pack files. We cannot make them
-    // any smaller than they already are.
+  private void initCompression(boolean enableCompression) {
+    List<NamedFactory<Compression>> compressionFactories =
+        Lists.newArrayList();
+
+    // Always support no compression over SSHD.
+    compressionFactories.add(new CompressionNone.Factory());
+
+    // In the general case, we want to disable transparent compression, since
+    // the majority of our data transfer is highly compressed Git pack files
+    // and we cannot make them any smaller than they already are.
     //
-    setCompressionFactories(Arrays
-        .<NamedFactory<Compression>> asList(new CompressionNone.Factory()));
+    // However, if there are CPU in abundance and the server is reachable through
+    // slow networks, gits with huge amount of refs can benefit from SSH-compression
+    // since git does not compress the ref announcement during the handshake.
+    //
+    // Compression can be especially useful when Gerrit slaves are being used
+    // for the larger clones and fetches and the master server mostly takes small
+    // receive-packs.
+
+    if (enableCompression) {
+      compressionFactories.add(new CompressionZlib.Factory());
+    }
+
+    setCompressionFactories(compressionFactories);
   }
 
   private void initChannels() {

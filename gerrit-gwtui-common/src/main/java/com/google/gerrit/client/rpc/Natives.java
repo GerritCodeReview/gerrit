@@ -91,6 +91,20 @@ public class Natives {
     return arr;
   }
 
+  public static JsArrayString arrayOf(Iterable<String> elements) {
+    JsArrayString arr = JavaScriptObject.createArray().cast();
+    for (String elem : elements) {
+      arr.push(elem);
+    }
+    return arr;
+  }
+
+  public static JsArrayString arrayOf(String element) {
+    JsArrayString arr = JavaScriptObject.createArray().cast();
+    arr.push(element);
+    return arr;
+  }
+
   private Natives() {
   }
 }

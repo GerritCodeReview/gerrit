@@ -38,6 +38,7 @@ import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.CodedOutputStream;
 
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterLine;
 
 import java.io.ByteArrayOutputStream;
@@ -401,6 +402,23 @@ public class ChangeField {
             }
           }
           return null;
+        }
+      };
+
+  /* The email address of the change author. */
+  public static final FieldDef<ChangeData, String> AUTHOR =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_AUTHOR, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args) throws OrmException {
+          try {
+            PersonIdent author = input.getAuthor();
+            return author != null
+                ? author.getEmailAddress()
+                : null;
+          } catch (IOException e) {
+            throw new OrmException(e);
+          }
         }
       };
 

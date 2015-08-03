@@ -190,6 +190,28 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         expectedSubscriptions);
   }
 
+  @Test
+  public void testSubmodulesParseWithSubProjectFound() throws Exception {
+    Map<String, SubmoduleSection> sectionsToReturn = new TreeMap<>();
+    sectionsToReturn.put("a/b", new SubmoduleSection(
+        "ssh://localhost/a/b", "a/b", "."));
+
+    Map<String, String> reposToBeFound = new HashMap<>();
+    reposToBeFound.put("a/b", "a/b");
+    reposToBeFound.put("b", "b");
+
+    Branch.NameKey superBranchNameKey =
+        new Branch.NameKey(new Project.NameKey("super-project"),
+            "refs/heads/master");
+
+    Set<SubmoduleSubscription> expectedSubscriptions = Sets.newHashSet();
+    expectedSubscriptions
+        .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
+            new Project.NameKey("a/b"), "refs/heads/master"), "a/b"));
+    execute(superBranchNameKey, sectionsToReturn, reposToBeFound,
+        expectedSubscriptions);
+  }
+
   private void execute(final Branch.NameKey superProjectBranch,
       final Map<String, SubmoduleSection> sectionsToReturn,
       final Map<String, String> reposToBeFound,
@@ -217,10 +239,9 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
             projectNameCandidate = projectNameCandidate.substring(0, //
                 projectNameCandidate.length() - Constants.DOT_GIT_EXT.length());
           }
-          if (projectNameCandidate.equals(reposToBeFound.get(id))) {
+          if (reposToBeFound.containsValue(projectNameCandidate)) {
             expect(projectCache.get(new Project.NameKey(projectNameCandidate)))
                 .andReturn(createNiceMock(ProjectState.class));
-            break;
           } else {
             expect(projectCache.get(new Project.NameKey(projectNameCandidate)))
                 .andReturn(null);

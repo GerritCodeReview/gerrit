@@ -84,6 +84,7 @@ public class SubmoduleSectionParser {
     final String url = bbc.getString("submodule", id, "url");
     final String path = bbc.getString("submodule", id, "path");
     String branch = bbc.getString("submodule", id, "branch");
+    SubmoduleSubscription ss = null;
 
     try {
       if (url != null && url.length() > 0 && path != null && path.length() > 0
@@ -116,8 +117,10 @@ public class SubmoduleSectionParser {
             }
             Project.NameKey projectKey = new Project.NameKey(projectName);
             if (projectCache.get(projectKey) != null) {
-              return new SubmoduleSubscription(superProjectBranch,
-                  new Branch.NameKey(projectKey, branch), path);
+              ss = new SubmoduleSubscription(
+                  superProjectBranch,
+                  new Branch.NameKey(new Project.NameKey(projectName), branch),
+                  path);
             }
           }
         }
@@ -126,6 +129,6 @@ public class SubmoduleSectionParser {
       // Error in url syntax (in fact it is uri syntax)
     }
 
-    return null;
+    return ss;
   }
 }

@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -207,6 +208,15 @@ public class CreateChange implements
           changeInserterFactory.create(refControl.getProjectControl(),
               change, c);
 
+      ChangeMessage msg = new ChangeMessage(new ChangeMessage.Key(change.getId(),
+          ChangeUtil.messageUUID(db.get())),
+          me.getAccountId(),
+          ins.getPatchSet().getCreatedOn(),
+          ins.getPatchSet().getId());
+      msg.setMessage(String.format("Uploaded patch set %s.",
+          ins.getPatchSet().getPatchSetId()));
+
+      ins.setMessage(msg);
       validateCommit(git, refControl, c, me, ins);
       updateRef(git, rw, c, change, ins.getPatchSet());
 

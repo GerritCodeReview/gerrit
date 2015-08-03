@@ -129,6 +129,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("deleted:");
     suggestions.add("delta:");
     suggestions.add("size:");
+    suggestions.add("author:");
 
     if (Gerrit.isNoteDbEnabled()) {
       suggestions.add("hashtag:");

@@ -89,6 +89,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_ADDED = "added";
   public static final String FIELD_AFTER = "after";
   public static final String FIELD_AGE = "age";
+  public static final String FIELD_AUTHOR = "author";
   public static final String FIELD_BEFORE = "before";
   public static final String FIELD_BRANCH = "branch";
   public static final String FIELD_CHANGE = "change";
@@ -816,6 +817,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> reviewedby(String who)
       throws QueryParseException, OrmException {
     return IsReviewedPredicate.create(args.getSchema(), parseAccount(who));
+  }
+
+  @Operator
+  public Predicate<ChangeData> author(String who) {
+    return new AuthorPredicate(who);
   }
 
   @Override

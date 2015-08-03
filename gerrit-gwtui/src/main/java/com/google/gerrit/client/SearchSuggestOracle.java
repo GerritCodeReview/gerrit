@@ -72,6 +72,8 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("owner:");
     suggestions.add("owner:self");
     suggestions.add("ownerin:");
+    suggestions.add("author:");
+    suggestions.add("committer:");
 
     suggestions.add("reviewer:");
     suggestions.add("reviewer:self");

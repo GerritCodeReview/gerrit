@@ -19,10 +19,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-class Fingerprint {
+public class Fingerprint {
   private final byte[] fp;
 
-  Fingerprint(byte[] fp) {
+  public Fingerprint(byte[] fp) {
     // Don't bother with defensive copies; PGPPublicKey#getFingerprint() already
     // does so.
     checkArgument(fp.length == 20,
@@ -30,11 +30,11 @@ class Fingerprint {
     this.fp = fp;
   }
 
-  byte[] get() {
+  public byte[] get() {
     return fp;
   }
 
-  boolean equalsBytes(byte[] bytes) {
+  public boolean equalsBytes(byte[] bytes) {
     return Arrays.equals(fp, bytes);
   }
 
@@ -62,7 +62,7 @@ class Fingerprint {
         buf.getShort(), buf.getShort());
   }
 
-  long getId() {
+  public long getId() {
     return ByteBuffer.wrap(fp).getLong(12);
   }
 }

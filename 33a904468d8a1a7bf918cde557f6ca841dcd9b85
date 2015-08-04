@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ab8a0d4_193f0be6",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-08-04T13:14:13Z",
+      "side": 0,
+      "message": "Update to latest ps.",
+      "revId": "33a904468d8a1a7bf918cde557f6ca841dcd9b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

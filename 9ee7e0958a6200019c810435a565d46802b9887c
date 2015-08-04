@@ -163,6 +163,30 @@
       "revId": "9ee7e0958a6200019c810435a565d46802b9887c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab8a0d4_39a92f95",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-08-04T13:38:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ae458f8_3b2e77c6",
+      "range": {
+        "startLine": 613,
+        "startChar": 20,
+        "endLine": 613,
+        "endChar": 21
+      },
+      "revId": "9ee7e0958a6200019c810435a565d46802b9887c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

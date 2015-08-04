@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ab564d9_fae5e914",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/gpg/PublicKeyStoreTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-04T05:41:55Z",
+      "side": 1,
+      "message": "Why not use the truth methods?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 42
+      },
+      "revId": "96e397fa14271d976e1a5045995f7db063a60ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

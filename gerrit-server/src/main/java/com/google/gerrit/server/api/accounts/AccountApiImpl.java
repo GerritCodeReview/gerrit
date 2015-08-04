@@ -138,10 +138,11 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public Map<String, GpgKeyInfo> putGpgKeys(List<String> add)
-      throws RestApiException {
+  public Map<String, GpgKeyInfo> putGpgKeys(List<String> add,
+      List<String> remove) throws RestApiException {
     PostGpgKeys.Input in = new PostGpgKeys.Input();
     in.add = add;
+    in.delete = remove;
     try {
       return postGpgKeys.apply(account, in);
     } catch (PGPException | OrmException | IOException e) {

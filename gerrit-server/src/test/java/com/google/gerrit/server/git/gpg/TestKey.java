@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git.gpg;
 
+import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyIdToString;
+
 import com.google.common.collect.ImmutableList;
 
 import org.bouncycastle.bcpg.ArmoredInputStream;
@@ -595,6 +597,10 @@ public class TestKey {
 
   public long getKeyId() {
     return getPublicKey().getKeyID();
+  }
+
+  public String getKeyIdString() {
+    return keyIdToString(getPublicKey().getKeyID());
   }
 
   public String getFirstUserId() {

@@ -30,7 +30,8 @@ public interface AccountApi {
   void addEmail(EmailInput input) throws RestApiException;
 
   Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException;
-  Map<String, GpgKeyInfo> putGpgKeys(List<String> add) throws RestApiException;
+  Map<String, GpgKeyInfo> putGpgKeys(List<String> add, List<String> remove)
+      throws RestApiException;
   GpgKeyApi gpgKey(String id) throws RestApiException;
 
   /**
@@ -59,8 +60,8 @@ public interface AccountApi {
     }
 
     @Override
-    public Map<String, GpgKeyInfo> putGpgKeys(List<String> add)
-        throws RestApiException {
+    public Map<String, GpgKeyInfo> putGpgKeys(List<String> add,
+        List<String> remove) throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ab564d9_5a0a555d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-04T07:18:21Z",
+      "side": 1,
+      "message": "Should add another push that adds the signed-off-by line, and assert that the result is OK.",
+      "revId": "6aa08c22d9859141499dcd2c7251b2efdfcaa4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

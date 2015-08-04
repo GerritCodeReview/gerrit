@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ab564d9_ba661119",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-04T13:48:02Z",
+      "side": 1,
+      "message": "Make this a bit clearer that it\u0027s validation that the user owns the email address? At first I thought it was going to validate that an email address is correctly formed.\n\nMaybe call it something like \"Confirm email address\"?",
+      "revId": "3ec68898467fc61fb84dd8d601547d131f5a519b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

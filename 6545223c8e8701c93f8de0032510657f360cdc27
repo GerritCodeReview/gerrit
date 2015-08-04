@@ -22,6 +22,30 @@
       "revId": "6545223c8e8701c93f8de0032510657f360cdc27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ab564d9_baeb71e8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-04T05:37:48Z",
+      "side": 1,
+      "message": "Done by Dave in next PS.",
+      "parentUuid": "6afe4471_12e0ac08",
+      "range": {
+        "startLine": 180,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 5
+      },
+      "revId": "6545223c8e8701c93f8de0032510657f360cdc27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

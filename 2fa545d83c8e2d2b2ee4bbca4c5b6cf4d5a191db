@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ab8a0d4_592343dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/SignedPushModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T11:12:49Z",
+      "side": 1,
+      "message": "Can \u0027super.close()\u0027 fail?\n\nMaybe write it as:\n\n  try {\n    super.close();\n  } finally {\n    repo.close();\n  }",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 137,
+        "endChar": 23
+      },
+      "revId": "2fa545d83c8e2d2b2ee4bbca4c5b6cf4d5a191db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

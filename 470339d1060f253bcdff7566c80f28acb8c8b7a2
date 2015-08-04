@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8af6189c_2b29f9bd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T09:48:09Z",
+      "side": 1,
+      "message": "blockForgeComitter?",
+      "range": {
+        "startLine": 374,
+        "startChar": 17,
+        "endLine": 374,
+        "endChar": 33
+      },
+      "revId": "470339d1060f253bcdff7566c80f28acb8c8b7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

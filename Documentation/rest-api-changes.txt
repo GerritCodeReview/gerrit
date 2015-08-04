@@ -2239,6 +2239,7 @@ describes the revision.
 
   )]}'
   {
+    "commit": "674ac754f91e64a0efb8087e59a176484bd534d1",
     "parents": [
       {
         "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
@@ -3951,7 +3952,10 @@ The `CommitInfo` entity contains information about a commit.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
-|`commit`      ||The commit ID.
+|`commit`      |Optional|
+The commit ID. Not set if included in a link:#revision-info[
+RevisionInfo] entity that is contained in a map which has the commit ID
+as key.
 |`parents`     ||
 The parent commits of this commit as a list of
 link:#commit-info[CommitInfo] entities. In each parent

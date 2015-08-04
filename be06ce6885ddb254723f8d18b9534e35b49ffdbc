@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4ab8a0d4_39e04f09",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-08-04T09:04:28Z",
+      "side": 1,
+      "message": "Both my solution and this one depends on best guesses and assumptions.\nI am convinced that the right way to move forward with this issue is to enforce a naming convention for plugins (\u003cplugin-dir\u003e-\u003cplugin-specifier\u003e seems a good choice to me right now).\n\nAnother way would be if one could magically save the argument from the $ buck build command.\n\nbuck build plugins/\u003cpath-to-plugin.git-from-plugin-dir\u003e:one-of-my-plugins\n\nThe \u0027plugins/\u003cpath-to-plugin-from-plugin-dir\u003e\u0027 part would be so sweet... (assuming the BUCK file resides in the root of the plugin git) The location of the BUCK file that contains the build-def would be the next best thing, as it would most probably reside in the root of the plugin git (assumption again).\n\nHowever I\u0027m not man enough to figure out how one could get a hold of those at the moment...",
+      "parentUuid": "aa059cff_9c7005cf",
+      "range": {
+        "startLine": 27,
+        "startChar": 38,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_c7aefe9c",
         "filename": "tools/git.defs",
         "patchSetId": 1

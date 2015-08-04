@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ae458f8_9b694bec",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-04T13:50:38Z",
+      "side": 1,
+      "message": "The precedent was already set in the existing code, but can we not do imports in the middle of the file like this?  Better to put them all at the top.",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 39
+      },
+      "revId": "a49220dc04a7ef7aa15432dd6483f378e0807fbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

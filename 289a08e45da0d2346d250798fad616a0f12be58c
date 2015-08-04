@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ab8a0d4_99979b55",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T14:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ae458f8_1b561b36",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 2
+      },
+      "revId": "289a08e45da0d2346d250798fad616a0f12be58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ab564d9_5a609500",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-08-04T13:44:46Z",
       "side": 1,
       "message": "add a comma after",
+      "range": {
+        "startLine": 265,
+        "startChar": 5,
+        "endLine": 265,
+        "endChar": 8
+      },
+      "revId": "289a08e45da0d2346d250798fad616a0f12be58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab8a0d4_b9945f51",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T14:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ab564d9_5a609500",
       "range": {
         "startLine": 265,
         "startChar": 5,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8af6189c_8b7d8d91",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1725,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T14:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ab564d9_7a65590f",
+      "range": {
+        "startLine": 1725,
+        "startChar": 60,
+        "endLine": 1725,
+        "endChar": 61
+      },
+      "revId": "289a08e45da0d2346d250798fad616a0f12be58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ae458f8_3b5bd75c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ChangeUserName.java",
         "patchSetId": 2
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "4ab8a0d4_d9a113aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ChangeUserName.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T14:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ae458f8_3b5bd75c",
+      "revId": "289a08e45da0d2346d250798fad616a0f12be58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ae458f8_5b60a300",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutUsername.java",
         "patchSetId": 2
@@ -99,6 +189,30 @@
       "writtenOn": "2015-08-04T13:44:46Z",
       "side": 1,
       "message": "Change this to something like \"username already used\"?",
+      "range": {
+        "startLine": 85,
+        "startChar": 43,
+        "endLine": 85,
+        "endChar": 58
+      },
+      "revId": "289a08e45da0d2346d250798fad616a0f12be58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab8a0d4_f99ed76c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutUsername.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T14:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ae458f8_5b60a300",
       "range": {
         "startLine": 85,
         "startChar": 43,

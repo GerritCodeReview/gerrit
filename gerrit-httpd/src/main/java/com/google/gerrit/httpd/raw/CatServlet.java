@@ -15,9 +15,13 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.base.Optional;
+import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -81,6 +85,54 @@ public class CatServlet extends HttpServlet {
   private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControl;
   private final ChangeEditUtil changeEditUtil;
+  private final DynamicItem<WebSession> webSession;
+  private final AuditService auditService;
+
+  /**
+   * Describes the result of a CatServlet invocation and
+   * identifies the resources that were accessed.
+   */
+  public static class CatResult {
+    /** the requested resource specification */
+    public final String specification;
+    /** the project, which matches the repo name */
+    public final String project;
+    /** the Gerrit change number */
+    public final Integer changeNumber;
+    /** the commit id */
+    public final ObjectId commitId;
+    /** the path to the resource within the commit tree */
+    public final String path;
+    /** the blob id for the resource */
+    public final ObjectId blobId;
+    /** the HTTP response code */
+    public final Integer httpResponse;
+
+    private CatResult(String specification, String project, Integer changeNumber, ObjectId commitId,
+        String path, ObjectId blobId, Integer httpResponse) {
+      this.specification = specification;
+      this.project = project;
+      this.changeNumber = changeNumber;
+      this.commitId = commitId;
+      this.path = path;
+      this.blobId = blobId;
+      this.httpResponse = httpResponse;
+    }
+
+    private static class MutableCatResult {
+      private String specification;
+      private String project;
+      private Integer changeNumber;
+      private ObjectId commitId;
+      private String path;
+      private ObjectId blobId;
+      private Integer httpResponse;
+      private CatResult build() {
+        return new CatResult(
+            specification, project, changeNumber, commitId, path, blobId, httpResponse);
+      }
+    }
+  }
 
   @Inject
   CatServlet(GitRepositoryManager grm,
@@ -88,7 +140,9 @@ public class CatServlet extends HttpServlet {
       FileTypeRegistry ftr,
       ChangeControl.GenericFactory ccf,
       Provider<CurrentUser> usrprv,
-      ChangeEditUtil ceu) {
+      ChangeEditUtil ceu,
+      DynamicItem<WebSession> ws,
+      AuditService a) {
     requestDb = sf;
     repoManager = grm;
     rng = new SecureRandom();
@@ -96,12 +150,32 @@ public class CatServlet extends HttpServlet {
     changeControl = ccf;
     userProvider = usrprv;
     changeEditUtil = ceu;
+    auditService = a;
+    webSession = ws;
   }
 
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
+    final String sid = webSession.get().getSessionId();
+    final CurrentUser currentUser = webSession.get().getCurrentUser();
+    final long when = TimeUtil.nowMs();
+    CatResult.MutableCatResult result = new CatResult.MutableCatResult();
+    try {
+      cat(req, rsp, result);
+    } finally {
+      auditService.dispatch(
+          // Gently abusing the "input" field to indicate the originating servlet
+          new ExtendedHttpAuditEvent(sid, currentUser, req, when, null, getClass(),
+              result.httpResponse, result.build(), null, null));
+    }
+  }
+
+  private void cat(final HttpServletRequest req,
+      final HttpServletResponse rsp,
+      CatResult.MutableCatResult result) throws IOException {
     String keyStr = req.getPathInfo();
+    result.specification = keyStr;
 
     // We shouldn't have to do this extra decode pass, but somehow we
     // are now receiving our "^1" suffix as "%5E1", which confuses us
@@ -113,7 +187,7 @@ public class CatServlet extends HttpServlet {
     keyStr = Url.decode(keyStr);
 
     if (!keyStr.startsWith("/")) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      sendError(rsp, result, HttpServletResponse.SC_NOT_FOUND);
       return;
     }
     keyStr = keyStr.substring(1);
@@ -123,7 +197,7 @@ public class CatServlet extends HttpServlet {
     {
       final int c = keyStr.lastIndexOf('^');
       if (c == 0) {
-        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        sendError(rsp, result, HttpServletResponse.SC_NOT_FOUND);
         return;
       }
 
@@ -135,7 +209,7 @@ public class CatServlet extends HttpServlet {
           side = Integer.parseInt(keyStr.substring(c + 1));
           keyStr = keyStr.substring(0, c);
         } catch (NumberFormatException e) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          sendError(rsp, result, HttpServletResponse.SC_NOT_FOUND);
           return;
         }
       }
@@ -143,12 +217,13 @@ public class CatServlet extends HttpServlet {
       try {
         patchKey = Patch.Key.parse(keyStr);
       } catch (NumberFormatException e) {
-        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        sendError(rsp, result, HttpServletResponse.SC_NOT_FOUND);
         return;
       }
     }
 
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
+    result.changeNumber = changeId.get();
     final Project project;
     final String revision;
     try {
@@ -157,6 +232,7 @@ public class CatServlet extends HttpServlet {
           userProvider.get());
 
       project = control.getProject();
+      result.project = project.getName();
 
       if (patchKey.getParentKey().get() == 0) {
         // change edit
@@ -165,27 +241,27 @@ public class CatServlet extends HttpServlet {
           if (edit.isPresent()) {
             revision = edit.get().getRevision().get();
           } else {
-            rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            sendError(rsp, result, HttpServletResponse.SC_NOT_FOUND);
             return;
           }
         } catch (AuthException e) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          sendError(rsp, result, HttpServletResponse.SC_NOT_FOUND);
           return;
         }
       } else {
         PatchSet patchSet = db.patchSets().get(patchKey.getParentKey());
         if (patchSet == null) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          sendError(rsp, result, HttpServletResponse.SC_NOT_FOUND);
           return;
         }
         revision = patchSet.getRevision().get();
       }
     } catch (NoSuchChangeException e) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      sendError(rsp, result, HttpServletResponse.SC_NOT_FOUND);
       return;
     } catch (OrmException e) {
       getServletContext().log("Cannot query database", e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      sendError(rsp, result, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
     }
 
@@ -193,6 +269,7 @@ public class CatServlet extends HttpServlet {
     RevCommit fromCommit;
     String suffix;
     String path = patchKey.getFileName();
+    result.path = path;
     try (Repository repo = repoManager.openRepository(project.getNameKey())) {
       try (ObjectReader reader = repo.newObjectReader();
           RevWalk rw = new RevWalk(reader)) {
@@ -201,10 +278,12 @@ public class CatServlet extends HttpServlet {
         c = rw.parseCommit(ObjectId.fromString(revision));
         if (side == 0) {
           fromCommit = c;
+          result.commitId = fromCommit.copy();
           suffix = "new";
 
         } else if (1 <= side && side - 1 < c.getParentCount()) {
           fromCommit = rw.parseCommit(c.getParent(side - 1));
+          result.commitId = fromCommit.copy();
           if (c.getParentCount() == 1) {
             suffix = "old";
           } else {
@@ -212,32 +291,33 @@ public class CatServlet extends HttpServlet {
           }
 
         } else {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          sendError(rsp, result, HttpServletResponse.SC_NOT_FOUND);
           return;
         }
 
         try (TreeWalk tw = TreeWalk.forPath(reader, path, fromCommit.getTree())) {
           if (tw == null) {
-            rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            sendError(rsp, result, HttpServletResponse.SC_NOT_FOUND);
             return;
           }
 
           if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
-            blobLoader = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
-
+            ObjectId blobId = tw.getObjectId(0);
+            result.blobId = blobId.copy();
+            blobLoader = reader.open(blobId, Constants.OBJ_BLOB);
           } else {
-            rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            sendError(rsp, result, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
           }
         }
       }
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      sendError(rsp, result, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
     } catch (IOException | RuntimeException e) {
       getServletContext().log("Cannot read repository", e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      sendError(rsp, result, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
     }
 
@@ -293,6 +373,13 @@ public class CatServlet extends HttpServlet {
       zo.closeEntry();
     }
     out.close();
+    result.httpResponse = HttpServletResponse.SC_OK;
+  }
+
+  private void sendError(final HttpServletResponse rsp, CatResult.MutableCatResult result,
+      int error) throws IOException {
+    result.httpResponse = error;
+    rsp.sendError(error);
   }
 
   private static String safeFileName(String fileName, final String suffix) {

@@ -25,9 +25,9 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.PostGpgKeys;
 import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.GpgKeys;
+import com.google.gerrit.server.account.PostGpgKeys;
 import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -138,10 +138,11 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public Map<String, GpgKeyInfo> putGpgKeys(List<String> add)
-      throws RestApiException {
+  public Map<String, GpgKeyInfo> putGpgKeys(List<String> add,
+      List<String> remove) throws RestApiException {
     PostGpgKeys.Input in = new PostGpgKeys.Input();
     in.add = add;
+    in.remove = remove;
     try {
       return postGpgKeys.apply(account, in);
     } catch (PGPException | OrmException | IOException e) {

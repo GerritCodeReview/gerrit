@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8af6189c_4bda855e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3777,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T08:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0af5c83c_3fd5672f",
+      "range": {
+        "startLine": 3777,
+        "startChar": 19,
+        "endLine": 3777,
+        "endChar": 20
+      },
+      "revId": "86b04a499b5c502c039765e998a5c64eb43a7e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa059cff_1cdab55d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-29T06:20:22Z",
       "side": 1,
       "message": "This is a contradiction to me: We should I try hard to find descriptive names, when they a re discarded anyway?",
+      "range": {
+        "startLine": 3780,
+        "startChar": 55,
+        "endLine": 3782,
+        "endChar": 23
+      },
+      "revId": "86b04a499b5c502c039765e998a5c64eb43a7e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8af6189c_abee89f8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3782,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T08:39:10Z",
+      "side": 1,
+      "message": "Because it helps you as an administrator to remember for what this URL alias is good for. If you find it\u0027s not worth the effort to choose a good name, just use any string. It\u0027s the same with the tracking ID subsection names.",
+      "parentUuid": "aa059cff_1cdab55d",
       "range": {
         "startLine": 3780,
         "startChar": 55,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4ad500ce_715b185c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T08:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0af5c83c_5fe02b09",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 5
+      },
+      "revId": "86b04a499b5c502c039765e998a5c64eb43a7e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0af5c83c_1fdaa35d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 14
@@ -82,6 +154,30 @@
       "writtenOn": "2015-07-29T06:20:22Z",
       "side": 1,
       "message": "It considered as a bad practice to mess around with null valies when a collection is concerned. So may be return here always the map and reset it to null in endpoint?",
+      "range": {
+        "startLine": 281,
+        "startChar": 48,
+        "endLine": 281,
+        "endChar": 52
+      },
+      "revId": "86b04a499b5c502c039765e998a5c64eb43a7e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad500ce_11608cff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T08:39:10Z",
+      "side": 1,
+      "message": "But this is the endpoint, isn\u0027t it?\n\nBut I can move this code, no problem.\n\nDone.",
+      "parentUuid": "0af5c83c_1fdaa35d",
       "range": {
         "startLine": 281,
         "startChar": 48,

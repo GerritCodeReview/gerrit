@@ -14,13 +14,18 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyToString;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -32,6 +37,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.PostGpgKeys.Input;
 import com.google.gerrit.server.git.gpg.CheckResult;
+import com.google.gerrit.server.git.gpg.Fingerprint;
 import com.google.gerrit.server.git.gpg.PublicKeyChecker;
 import com.google.gerrit.server.git.gpg.PublicKeyStore;
 import com.google.gwtorm.server.OrmException;
@@ -55,11 +61,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   public static class Input {
     public List<String> add;
+    public List<String> remove;
   }
 
   private final Provider<PersonIdent> serverIdent;
@@ -84,34 +92,64 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       ResourceConflictException, PGPException, OrmException, IOException {
     GpgKeys.checkEnabled();
 
-    List<PGPPublicKeyRing> newKeys = readKeys(input);
-    List<AccountExternalId> newExtIds = new ArrayList<>(newKeys.size());
+    List<AccountExternalId> existingExtIds =
+        GpgKeys.getGpgExtIds(db.get(), rsrc.getUser().getAccountId()).toList();
 
-    for (PGPPublicKeyRing keyRing : newKeys) {
-      PGPPublicKey key = keyRing.getPublicKey();
-      AccountExternalId.Key extIdKey = new AccountExternalId.Key(
-          AccountExternalId.SCHEME_GPGKEY,
-          BaseEncoding.base16().encode(key.getFingerprint()));
-      AccountExternalId existing = db.get().accountExternalIds().get(extIdKey);
-      if (existing != null) {
-        if (!existing.getAccountId().equals(rsrc.getUser().getAccountId())) {
-          throw new ResourceConflictException(
-              "GPG key already associated with another account");
+    try (PublicKeyStore store = storeProvider.get()) {
+      Set<Fingerprint> toRemove = readKeysToRemove(input, existingExtIds);
+      List<PGPPublicKeyRing> newKeys = readKeysToAdd(input, toRemove);
+      List<AccountExternalId> newExtIds = new ArrayList<>(existingExtIds.size());
+
+      for (PGPPublicKeyRing keyRing : newKeys) {
+        PGPPublicKey key = keyRing.getPublicKey();
+        AccountExternalId.Key extIdKey = toExtIdKey(key.getFingerprint());
+        AccountExternalId existing = db.get().accountExternalIds().get(extIdKey);
+        if (existing != null) {
+          if (!existing.getAccountId().equals(rsrc.getUser().getAccountId())) {
+            throw new ResourceConflictException(
+                "GPG key already associated with another account");
+          }
+        } else {
+          newExtIds.add(
+              new AccountExternalId(rsrc.getUser().getAccountId(), extIdKey));
         }
-      } else {
-        newExtIds.add(
-            new AccountExternalId(rsrc.getUser().getAccountId(), extIdKey));
       }
-    }
 
-    storeKeys(rsrc, newKeys);
-    if (!newExtIds.isEmpty()) {
-      db.get().accountExternalIds().insert(newExtIds);
+      storeKeys(rsrc, newKeys, toRemove);
+      if (!newExtIds.isEmpty()) {
+        db.get().accountExternalIds().insert(newExtIds);
+      }
+      db.get().accountExternalIds().deleteKeys(Iterables.transform(toRemove,
+          new Function<Fingerprint, AccountExternalId.Key>() {
+            @Override
+            public AccountExternalId.Key apply(Fingerprint fp) {
+              return toExtIdKey(fp.get());
+            }
+          }));
+      return toJson(newKeys, toRemove);
     }
-    return toJson(newKeys);
   }
 
-  private List<PGPPublicKeyRing> readKeys(Input input)
+  private Set<Fingerprint> readKeysToRemove(Input input,
+      List<AccountExternalId> existingExtIds) {
+    if (input.remove == null || input.remove.isEmpty()) {
+      return ImmutableSet.of();
+    }
+    Set<Fingerprint> fingerprints =
+        Sets.newHashSetWithExpectedSize(input.remove.size());
+    for (String id : input.remove) {
+      try {
+        fingerprints.add(new Fingerprint(
+            GpgKeys.parseFingerprint(id, existingExtIds)));
+      } catch (ResourceNotFoundException e) {
+        // Skip removal.
+      }
+    }
+    return fingerprints;
+  }
+
+  private List<PGPPublicKeyRing> readKeysToAdd(Input input,
+      Set<Fingerprint> toRemove)
       throws BadRequestException, IOException {
     if (input.add == null || input.add.isEmpty()) {
       return ImmutableList.of();
@@ -125,15 +163,21 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
         if (objs.size() != 1 || !(objs.get(0) instanceof PGPPublicKeyRing)) {
           throw new BadRequestException("Expected exactly one PUBLIC KEY BLOCK");
         }
-        keyRings.add((PGPPublicKeyRing) objs.get(0));
+        PGPPublicKeyRing keyRing = (PGPPublicKeyRing) objs.get(0);
+        if (toRemove.contains(
+            new Fingerprint(keyRing.getPublicKey().getFingerprint()))) {
+          throw new BadRequestException("Cannot both add and remove key: "
+              + keyToString(keyRing.getPublicKey()));
+        }
+        keyRings.add(keyRing);
       }
     }
     return keyRings;
   }
 
-  private void storeKeys(AccountResource rsrc, List<PGPPublicKeyRing> keyRings)
-      throws BadRequestException, ResourceConflictException, PGPException,
-      IOException {
+  private void storeKeys(AccountResource rsrc, List<PGPPublicKeyRing> keyRings,
+      Set<Fingerprint> toRemove) throws BadRequestException,
+      ResourceConflictException, PGPException, IOException {
     try (PublicKeyStore store = storeProvider.get()) {
       for (PGPPublicKeyRing keyRing : keyRings) {
         PGPPublicKey key = keyRing.getPublicKey();
@@ -144,6 +188,9 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
               keyToString(key), Joiner.on('\n').join(result.getProblems())));
         }
         store.add(keyRing);
+      }
+      for (Fingerprint fp : toRemove) {
+        store.remove(fp.get());
       }
       CommitBuilder cb = new CommitBuilder();
       PersonIdent committer = serverIdent.get();
@@ -156,23 +203,34 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
         case NEW:
         case FAST_FORWARD:
         case FORCED:
+        case NO_CHANGE:
           break;
         default:
           // TODO(dborowitz): Backoff and retry on LOCK_FAILURE.
           throw new ResourceConflictException(
-              "Failed to save public key: " + saveResult);
+              "Failed to save public keys: " + saveResult);
       }
     }
   }
 
+  private final AccountExternalId.Key toExtIdKey(byte[] fp) {
+    return new AccountExternalId.Key(
+        AccountExternalId.SCHEME_GPGKEY,
+        BaseEncoding.base16().encode(fp));
+  }
+
   private static Map<String, GpgKeyInfo> toJson(
-      Collection<PGPPublicKeyRing> keyRings) throws IOException {
+      Collection<PGPPublicKeyRing> keys,
+      Set<Fingerprint> deleted) throws IOException {
     Map<String, GpgKeyInfo> infos =
-        Maps.newHashMapWithExpectedSize(keyRings.size());
-    for (PGPPublicKeyRing keyRing : keyRings) {
+        Maps.newHashMapWithExpectedSize(keys.size() + deleted.size());
+    for (PGPPublicKeyRing keyRing : keys) {
       GpgKeyInfo info = GpgKeys.toJson(keyRing);
       infos.put(info.id, info);
       info.id = null;
+    }
+    for (Fingerprint fp : deleted) {
+      infos.put(keyIdToString(fp.getId()), new GpgKeyInfo());
     }
     return infos;
   }

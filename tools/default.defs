@@ -22,6 +22,7 @@ include_defs('//tools/git.defs')
 import copy
 import traceback
 import os
+from multiprocessing import cpu_count
 
 # Set defaults on java rules:
 #  - Add AutoValue annotation processing support.
@@ -132,7 +133,6 @@ def gerrit_plugin(
     manifest_entries = [],
     type = 'plugin',
     visibility = ['PUBLIC']):
-  from multiprocessing import cpu_count
   tb = traceback.extract_stack()
   calling_BUCK_file = tb[-2][0]
   calling_BUCK_dir = os.path.abspath(os.path.dirname(calling_BUCK_file))

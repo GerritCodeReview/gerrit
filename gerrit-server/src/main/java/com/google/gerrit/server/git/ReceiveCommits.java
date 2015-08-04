@@ -1451,7 +1451,7 @@ public class ReceiveCommits {
       final boolean checkMergedInto, final Change change,
       final RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
-      reject(cmd, "change " + change.getId() + " closed");
+      reject(cmd, "change " + canonicalWebUrl + change.getId() + " closed");
       return false;
     }
 

@@ -22,6 +22,29 @@
       "revId": "96e397fa14271d976e1a5045995f7db063a60ac1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ab564d9_7ab39906",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/gpg/PublicKeyStoreTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-04T17:49:30Z",
+      "side": 1,
+      "message": "Most of the classes in this package I intend to upstream into JGit once we\u0027ve settled on the behavior and they\u0027ve imported Bouncy Castle. But they don\u0027t have Truth, so using that here would just be making more work for myself later.",
+      "range": {
+        "startLine": 22,
+        "startChar": 42,
+        "endLine": 22,
+        "endChar": 42
+      },
+      "revId": "96e397fa14271d976e1a5045995f7db063a60ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

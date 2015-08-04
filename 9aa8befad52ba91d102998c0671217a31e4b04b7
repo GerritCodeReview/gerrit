@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ab8a0d4_59bc2306",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T08:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa059cff_dceb2de8",
+      "range": {
+        "startLine": 290,
+        "startChar": 8,
+        "endLine": 290,
+        "endChar": 51
+      },
+      "revId": "9aa8befad52ba91d102998c0671217a31e4b04b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0af5c83c_ffeedff9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 16
@@ -36,6 +60,24 @@
       "writtenOn": "2015-07-29T06:26:12Z",
       "side": 1,
       "message": "Don\u0027t we have unit test for it? May be extend it to test this change somehow?",
+      "revId": "9aa8befad52ba91d102998c0671217a31e4b04b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8af6189c_ebe891ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T08:39:53Z",
+      "side": 1,
+      "message": "No, I think there is no test for SetPreferences yet. Can you point me to it?\n\nIf this test is missing I would prefer if it is added in an own change.",
+      "parentUuid": "0af5c83c_ffeedff9",
       "revId": "9aa8befad52ba91d102998c0671217a31e4b04b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

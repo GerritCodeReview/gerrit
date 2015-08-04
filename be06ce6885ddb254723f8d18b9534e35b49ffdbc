@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "8af6189c_ab804903",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-08-04T13:42:49Z",
+      "side": 1,
+      "message": "I really like that approach.",
+      "parentUuid": "4ab8a0d4_b9661f19",
+      "range": {
+        "startLine": 27,
+        "startChar": 38,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_c7aefe9c",
         "filename": "tools/git.defs",
         "patchSetId": 1

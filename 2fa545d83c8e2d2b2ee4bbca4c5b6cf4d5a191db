@@ -22,6 +22,30 @@
       "revId": "2fa545d83c8e2d2b2ee4bbca4c5b6cf4d5a191db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ab564d9_ba945151",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/SignedPushModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-04T17:53:56Z",
+      "side": 1,
+      "message": "It just does a reader.close(), so not likely, but point taken. Done.",
+      "parentUuid": "4ab8a0d4_592343dd",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 137,
+        "endChar": 23
+      },
+      "revId": "2fa545d83c8e2d2b2ee4bbca4c5b6cf4d5a191db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

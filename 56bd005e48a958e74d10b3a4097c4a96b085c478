@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6afe4471_5265140f",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-08-04T19:41:17Z",
+      "side": 1,
+      "message": "Still under the impression that the orange used for circles in this image is not the same red-like color as the circles found elsewhere in that doc page. (Wondering if my color perception is somewhat biased or something; could be.)",
+      "revId": "56bd005e48a958e74d10b3a4097c4a96b085c478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aafbdc84_0c5b775c",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-08-04T19:41:17Z",
+      "side": 1,
+      "message": "Would add a few words about adding this doc section to the commit message.",
+      "revId": "56bd005e48a958e74d10b3a4097c4a96b085c478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aafbdc84_cc132f8d",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-08-04T19:41:17Z",
+      "side": 1,
+      "message": "their?",
+      "range": {
+        "startLine": 584,
+        "startChar": 29,
+        "endLine": 584,
+        "endChar": 32
+      },
+      "revId": "56bd005e48a958e74d10b3a4097c4a96b085c478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aafbdc84_2c563336",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-08-04T19:41:17Z",
+      "side": 1,
+      "message": "No image to show that tab like for the others(?)",
+      "revId": "56bd005e48a958e74d10b3a4097c4a96b085c478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

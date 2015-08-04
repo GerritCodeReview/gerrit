@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "4ab8a0d4_b9661f19",
+        "filename": "tools/git.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-04T12:50:33Z",
+      "side": 1,
+      "message": "\u003e if one could magically save the argument from the\n\u003e $ buck build command.\n\nThat might not give the expected result, as one might have\naliases is place. Then for\n\n  buck build some-alias\n\none would be stuck with the alias and no easy way to drill\ndown to the rule.\n\n\u003e The location of the BUCK file [...] would be the next best\n\u003e thing\n\nI thought about that at first too.\nBut decided it would be too fragile/too much pain.\nHence, I uploaded only the current change.\n\nOne could get the BUCK file name by making the directory for\n`git describe` a parameter to gerrit_plugin.\nBut that would need modifications to all plugins, as\nthere is no good default for that parameter :-(\n\nThe alternative would be walking the traceback. That\u0027s not\ndouble-extra-super-solid, but it produces the correct\ndirectory, and it also allows you to clone the same plugin\ntwice under different names [1] and get the correct\n`git describe` output for each of the clones.\n\nMeh. Maybe the traceback solution is not that bad after\nall, as it comes with least assumptions on the plugin?\nAnyways, I uploaded the traceback variant to\n\n  https://gerrit-review.googlesource.com/#/c/70074/\n\n\n\n[1] That\u0027s used at WMF, as we\u0027re running two different\nits-phabricator plugins in parallel. One for phabricator,\nand one to fake legacy-bugzilla tickets onto their\nphabricator counterpart.",
+      "parentUuid": "4ab8a0d4_39e04f09",
+      "range": {
+        "startLine": 27,
+        "startChar": 38,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "be06ce6885ddb254723f8d18b9534e35b49ffdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_c7aefe9c",
         "filename": "tools/git.defs",
         "patchSetId": 1

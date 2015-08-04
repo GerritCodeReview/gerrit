@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "aafbdc84_6c603b01",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-08-04T19:41:17Z",
+      "side": 1,
+      "message": "I think it is, for code readability and maintainability purposes; thx.",
+      "parentUuid": "8af6189c_4bc1e576",
+      "revId": "5de70292ba27f6264944dc493335812c238acb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7353a1ca_83103e89",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
         "patchSetId": 7
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "7353a1ca_83103e89",
+      "revId": "5de70292ba27f6264944dc493335812c238acb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aafbdc84_4c657f0f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-08-04T19:41:17Z",
+      "side": 1,
+      "message": "Not sure if my comment was clear, as you changed the color above; sorry if unclear. The new color looks good to me though, albeit a bit darker now then the (orange) dot\u0027s color. (I did like the original #FFA62F.) -Now, regarding the circles and text, I just wrote another review comment elsewhere in this batch, hoping to clarify.",
+      "parentUuid": "8af6189c_6bbca106",
       "revId": "5de70292ba27f6264944dc493335812c238acb3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

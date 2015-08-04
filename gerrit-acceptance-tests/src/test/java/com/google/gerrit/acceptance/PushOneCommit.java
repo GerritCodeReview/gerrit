@@ -282,10 +282,10 @@ public class PushOneCommit {
 
     private void assertStatus(Status expectedStatus, String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
-      assertThat(expectedStatus)
+      assertThat(refUpdate.getStatus())
         .named(message(refUpdate))
-        .isEqualTo(refUpdate.getStatus());
-      assertThat(expectedMessage).isEqualTo(refUpdate.getMessage());
+        .isEqualTo(expectedStatus);
+      assertThat(refUpdate.getMessage()).isEqualTo(expectedMessage);
     }
 
     public void assertMessage(String expectedMessage) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ab8a0d4_f97097cf",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-08-04T13:04:55Z",
+      "side": 1,
+      "message": "On OS X Yosemite it looks great, but it doesn\u0027t look extremely sexy on ubuntu/chrome.\n\nhttp://i.imgur.com/s2UMZGq.png\n\nThe same apparently goes for some android versions.\n\nOn windows it doesn\u0027t look to hot either, but at least it\u0027s a clipboard.\n\nhttp://i.imgur.com/CkON6eo.png",
+      "range": {
+        "startLine": 122,
+        "startChar": 30,
+        "endLine": 122,
+        "endChar": 36
+      },
+      "revId": "c4266366ab5b6b1c858e44434f32a43ecf3fcc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

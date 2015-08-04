@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8af6189c_8b946d51",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3299,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-08-04T13:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ab564d9_fa13298c",
+      "range": {
+        "startLine": 3299,
+        "startChar": 21,
+        "endLine": 3299,
+        "endChar": 22
+      },
+      "revId": "9ee7e0958a6200019c810435a565d46802b9887c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ae458f8_1b29bbbd",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8af6189c_eba1b1a9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3304,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-08-04T13:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ae458f8_1b29bbbd",
+      "range": {
+        "startLine": 3304,
+        "startChar": 42,
+        "endLine": 3304,
+        "endChar": 48
+      },
+      "revId": "9ee7e0958a6200019c810435a565d46802b9887c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ab564d9_1a561d36",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-08-04T13:14:02Z",
       "side": 1,
       "message": "call this \"enableCompression\"?",
+      "range": {
+        "startLine": 221,
+        "startChar": 17,
+        "endLine": 221,
+        "endChar": 33
+      },
+      "revId": "9ee7e0958a6200019c810435a565d46802b9887c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab8a0d4_19a46bbe",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2015-08-04T13:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ab564d9_1a561d36",
       "range": {
         "startLine": 221,
         "startChar": 17,

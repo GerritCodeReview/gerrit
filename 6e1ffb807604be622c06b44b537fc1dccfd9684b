@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8af6189c_ab520933",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T12:37:03Z",
+      "side": 1,
+      "message": "nit: indent this further to keep column seperators aligned with the previous lines",
+      "range": {
+        "startLine": 1567,
+        "startChar": 27,
+        "endLine": 1567,
+        "endChar": 29
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab8a0d4_f913378c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T12:37:03Z",
+      "side": 1,
+      "message": "nit: move this down to the other new fields",
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab8a0d4_5960a300",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T12:37:03Z",
+      "side": 1,
+      "message": "This must be increased to 11.",
+      "range": {
+        "startLine": 157,
+        "startChar": 35,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab8a0d4_19562b36",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T12:37:03Z",
+      "side": 1,
+      "message": "Please find a simpler name. Maybe just \u0027EmailStrategy\u0027?",
+      "range": {
+        "startLine": 84,
+        "startChar": 21,
+        "endLine": 84,
+        "endChar": 44
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab8a0d4_395bef5c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T12:37:03Z",
+      "side": 1,
+      "message": "same here, and in all other places",
+      "range": {
+        "startLine": 168,
+        "startChar": 19,
+        "endLine": 168,
+        "endChar": 42
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8af6189c_eb4c1196",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T12:37:03Z",
+      "side": 1,
+      "message": "Remove this here? This is already handled by the block in line 116 - 121, isn\u0027t it?",
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8af6189c_8b4f4d89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T12:37:03Z",
+      "side": 1,
+      "message": "Remove this comment, it doesn\u0027t apply to this method.",
+      "range": {
+        "startLine": 147,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 40
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8af6189c_cb495584",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_111.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T12:37:03Z",
+      "side": 1,
+      "message": "This should match the field name in AccountGeneralPreferences.\n\nThe EMAIL_NOTIFICATIONS is not found during the schema upgrade:\n\nMigrating data to schema 111 ...\nMigrate user preference copySelfOnEmail to emailingOptionsStrategy\nException in thread \"main\" com.google.gwtorm.server.OrmException: Cannot upgrade schema\n\tat com.google.gerrit.server.schema.SchemaUpdater.update(SchemaUpdater.java:107)\n\tat com.google.gerrit.pgm.init.BaseInit$SiteRun.upgradeSchema(BaseInit.java:339)\n\tat com.google.gerrit.pgm.init.BaseInit.run(BaseInit.java:125)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:64)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:152)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:93)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:50)\n\tat Main.main(Main.java:25)\nCaused by: org.h2.jdbc.JdbcSQLException: Column \"EMAIL_NOTIFICATIONS\" not found; SQL statement:\nUPDATE accounts SET EMAIL_NOTIFICATIONS\u003d\u0027ENABLED\u0027 WHERE (COPY_SELF_ON_EMAIL\u003d\u0027N\u0027) [42122-174]\n\tat org.h2.message.DbException.getJdbcSQLException(DbException.java:332)\n        ...",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 32
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

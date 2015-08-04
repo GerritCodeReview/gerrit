@@ -162,6 +162,10 @@ public class AcceptanceTestRequestScope {
     return old;
   }
 
+  public Context get() {
+    return current.get();
+  }
+
   public Context disableDb() {
     Context old = current.get();
     SchemaFactory<ReviewDb> sf = new SchemaFactory<ReviewDb>() {

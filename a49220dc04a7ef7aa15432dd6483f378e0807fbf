@@ -22,6 +22,30 @@
       "revId": "a49220dc04a7ef7aa15432dd6483f378e0807fbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8af6189c_cb7795ad",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-04T16:16:27Z",
+      "side": 1,
+      "message": "Done in PS2.\n\nMove of the multiprocessing import is unrelated, hence\nputting it into separate change at:\n\n  https://gerrit-review.googlesource.com/#/c/70075",
+      "parentUuid": "8ae458f8_9b694bec",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 39
+      },
+      "revId": "a49220dc04a7ef7aa15432dd6483f378e0807fbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

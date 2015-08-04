@@ -20,6 +20,8 @@ import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.servlet.Filter;
@@ -45,9 +47,21 @@ public abstract class AllRequestFilter implements Filter {
   static class FilterProxy implements Filter {
     private final DynamicSet<AllRequestFilter> filters;
 
+    private final Collection<AllRequestFilter> initializedFilters;
+    private FilterConfig filterConfig;
+
     @Inject
     FilterProxy(DynamicSet<AllRequestFilter> filters) {
       this.filters = filters;
+      this.initializedFilters = new HashSet<>();
+      this.filterConfig = null;
+    }
+
+    private void initFilter(AllRequestFilter filter) throws ServletException {
+      filter.init(filterConfig);
+      if (!initializedFilters.add(filter)) {
+        throw new ServletException("Could not tag filter initialized");
+      }
     }
 
     @Override
@@ -59,7 +73,11 @@ public abstract class AllRequestFilter implements Filter {
         public void doFilter(ServletRequest req, ServletResponse res)
             throws IOException, ServletException {
           if (itr.hasNext()) {
-            itr.next().doFilter(req, res, this);
+            AllRequestFilter filter = itr.next();
+            if (!initializedFilters.contains(filter)) {
+              initFilter(filter);
+            }
+            filter.doFilter(req, res, this);
           } else {
             last.doFilter(req, res);
           }
@@ -69,8 +87,14 @@ public abstract class AllRequestFilter implements Filter {
 
     @Override
     public void init(FilterConfig config) throws ServletException {
+      // Plugins that provide AllRequestFilters might get loaded later at
+      // runtime, long after this init method had been called. To allow to
+      // correctly init such plugins' AllRequestFilters, we keep the
+      // FilterConfig around, and reuse it to lazy init the AllRequestFilters.
+      filterConfig = config;
+
       for (AllRequestFilter f: filters) {
-        f.init(config);
+        initFilter(f);
       }
     }
 

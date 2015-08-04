@@ -230,4 +230,56 @@ public class AllRequestFilterFilterProxyTest {
 
     ems.verifyAll();
   }
+
+  @Test
+  public void testPostponedLoading() throws Exception {
+    EasyMockSupport ems = new EasyMockSupport();
+
+    FilterConfig config = ems.createMock(FilterConfig.class);
+    HttpServletRequest req1 = ems.createMock("req1", HttpServletRequest.class);
+    HttpServletRequest req2 = ems.createMock("req2", HttpServletRequest.class);
+    HttpServletResponse res1 = ems.createMock("res1", HttpServletResponse.class);
+    HttpServletResponse res2 = ems.createMock("res2", HttpServletResponse.class);
+
+    IMocksControl mockControl = ems.createStrictControl();
+    FilterChain chain = mockControl.createMock("chain", FilterChain.class);
+
+    Capture<FilterChain> capturedChainA1 = newCapture();
+    Capture<FilterChain> capturedChainA2 = newCapture();
+    Capture<FilterChain> capturedChainB = newCapture();
+
+    AllRequestFilter filterA = mockControl.createMock("filterA", AllRequestFilter.class);
+    AllRequestFilter filterB = mockControl.createMock("filterB", AllRequestFilter.class);
+
+    filterA.init(config);
+    filterA.doFilter(eq(req1), eq(res1), capture(capturedChainA1));
+    chain.doFilter(req1, res1);
+
+    filterA.doFilter(eq(req2), eq(res2), capture(capturedChainA2));
+    filterB.init(config); // <-- This is crucial part. filterB got loaded
+    // after filterProxy's init finished. Nonetheless filterB gets initialized.
+    filterB.doFilter(eq(req2), eq(res2), capture(capturedChainB));
+    chain.doFilter(req2, res2);
+
+    filterA.destroy();
+    filterB.destroy();
+
+    ems.replayAll();
+
+    AllRequestFilter.FilterProxy filterProxy = getFilterProxy();
+    addFilter(filterA);
+
+    filterProxy.init(config);
+    filterProxy.doFilter(req1, res1, chain);
+    capturedChainA1.getValue().doFilter(req1, res1);
+
+    addFilter(filterB); // <-- Adds filter after filterProxy's init got called.
+    filterProxy.doFilter(req2, res2, chain);
+    capturedChainA2.getValue().doFilter(req2, res2);
+    capturedChainB.getValue().doFilter(req2, res2);
+
+    filterProxy.destroy();
+
+    ems.verifyAll();
+  }
 }

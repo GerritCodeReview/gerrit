@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8af6189c_6b3941fd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-04T12:20:44Z",
+      "side": 1,
+      "message": "All the new tests fail for me:\n\nFAIL     60.3s  6 Passed   0 Skipped   4 Failed   com.google.gerrit.acceptance.api.accounts.AccountIT\nFAILURE addGpgKey: Problems with public key 46328A8C Testuser One \u003ctest1@example.com\u003e (04AE A7ED 2F82 1133 E5B1  28D1 ED06 25DC 4632 8A8C):\nKey must contain a valid certification for one of the following identities:\n  admin@example.com\n  mailto:admin@example.com\n  mailto:new.email@example.com\n  mailto:new.email@example.systems\n  new.email@example.com\n  new.email@example.systems\n  username:admin\ncom.google.gerrit.extensions.restapi.BadRequestException: Problems with public key 46328A8C Testuser One \u003ctest1@example.com\u003e (04AE A7ED 2F82 1133 E5B1  28D1 ED06 25DC 4632 8A8C):\nKey must contain a valid certification for one of the following identities:\n  admin@example.com\n  mailto:admin@example.com\n  mailto:new.email@example.com\n  mailto:new.email@example.systems\n  new.email@example.com\n  new.email@example.systems\n  username:admin\n\tat com.google.gerrit.server.account.AddGpgKey.storeKey(AddGpgKey.java:122)\n\tat com.google.gerrit.server.account.AddGpgKey.apply(AddGpgKey.java:95)\n\tat com.google.gerrit.server.api.accounts.AccountApiImpl.addGpgKey(AccountApiImpl.java:145)\n\tat com.google.gerrit.acceptance.api.accounts.AccountIT.addGpgKey(AccountIT.java:144)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n        ...",
+      "revId": "2849e9919b8301a9c2da476ed2533f21923d476e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

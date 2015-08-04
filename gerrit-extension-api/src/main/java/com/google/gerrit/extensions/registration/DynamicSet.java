@@ -182,6 +182,23 @@ public class DynamicSet<T> implements Iterable<T> {
   }
 
   /**
+   * Returns {@code true} iff this set contains the given item.
+   *
+   * @param item item to check whether or not it is contained
+   * @return {@code true} iff this set contains the given item
+   */
+  public boolean contains(final T item) {
+    Iterator<T> iterator = iterator();
+    while (iterator.hasNext()) {
+      T candidate = iterator.next();
+      if (candidate == item) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * Add one new element to the set.
    *
    * @param item the item to add to the collection. Must not be null.

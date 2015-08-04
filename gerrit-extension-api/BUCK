@@ -47,6 +47,17 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
+java_test(
+  name = 'api_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [
+    ':api',
+    '//lib:truth',
+    '//lib/guice:guice',
+  ],
+  source_under_test = [':api'],
+)
+
 java_doc(
   name = 'extension-api-javadoc',
   title = 'Gerrit Review Extension API Documentation',

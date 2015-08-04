@@ -107,7 +107,6 @@ public class ChangeInfo extends JavaScriptObject {
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
   public final native String currentRevision() /*-{ return this.current_revision; }-*/;
   public final native void setCurrentRevision(String r) /*-{ this.current_revision = r; }-*/;
-  private final native void setSubmittable(boolean x) /*-{ this.submittable = x; }-*/;
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
@@ -135,7 +134,6 @@ public class ChangeInfo extends JavaScriptObject {
 
   public final boolean submittable() {
     init();
-    getMissingLabelIndex();
     return _submittable();
   }
 
@@ -143,8 +141,6 @@ public class ChangeInfo extends JavaScriptObject {
   /*-{ return this.submittable ? true : false; }-*/;
 
   /**
-   * As a side effect this.submittable is evaluated and set accordingly.
-   *
    * @return the index of the missing label or -1
    *         if no label is missing, or if more than one label is missing.
    */
@@ -168,7 +164,6 @@ public class ChangeInfo extends JavaScriptObject {
           if (ret != -1) {
             // more than one label is missing, so it's unclear which to quick
             // approve, return -1
-            setSubmittable(false);
             return -1;
           } else {
             ret = i;
@@ -181,11 +176,9 @@ public class ChangeInfo extends JavaScriptObject {
 
         case REJECT: // Submit cannot happen, do not quick approve.
         case IMPOSSIBLE:
-          setSubmittable(false);
           return -1;
       }
     }
-    setSubmittable(ret == -1);
     return ret;
   }
 

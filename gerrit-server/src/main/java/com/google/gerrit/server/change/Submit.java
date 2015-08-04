@@ -248,6 +248,22 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return null;
   }
 
+  /**
+   * Check if there are any problems with the given change. It doesn't take
+   * any problems of related changes into account.
+   * <p>
+   * @param cd the change to check for submittability
+   * @return if the change has any problems for submission
+   */
+  public boolean submittable(ChangeData cd) {
+    try {
+      MergeOp.checkSubmitRule(cd);
+      return true;
+    } catch (ResourceConflictException | OrmException e) {
+      return false;
+    }
+  }
+
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     PatchSet.Id current = resource.getChange().currentPatchSetId();

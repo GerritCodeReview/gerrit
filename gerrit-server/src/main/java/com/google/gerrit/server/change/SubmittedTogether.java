@@ -64,9 +64,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       if (cs.ids().size() > 1) {
         return json.create(EnumSet.of(
             ListChangesOption.CURRENT_REVISION,
-            ListChangesOption.CURRENT_COMMIT,
-            ListChangesOption.DETAILED_LABELS,
-            ListChangesOption.LABELS))
+            ListChangesOption.CURRENT_COMMIT))
           .format(cs.ids());
       } else {
         return Collections.emptyList();

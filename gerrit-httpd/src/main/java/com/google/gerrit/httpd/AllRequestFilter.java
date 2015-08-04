@@ -15,8 +15,11 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.server.plugins.StopPluginListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 
 import java.io.IOException;
@@ -37,17 +40,54 @@ public abstract class AllRequestFilter implements Filter {
       protected void configureServlets() {
         DynamicSet.setOf(binder(), AllRequestFilter.class);
         filter("/*").through(FilterProxy.class);
+
+        bind(StopPluginListener.class)
+          .annotatedWith(UniqueAnnotations.create())
+          .to(FilterProxy.class);
       }
     };
   }
 
   @Singleton
-  static class FilterProxy implements Filter {
+  static class FilterProxy implements Filter, StopPluginListener {
     private final DynamicSet<AllRequestFilter> filters;
+
+    private DynamicSet<AllRequestFilter> initializedFilters;
+    private FilterConfig filterConfig;
 
     @Inject
     FilterProxy(DynamicSet<AllRequestFilter> filters) {
       this.filters = filters;
+      this.initializedFilters = new DynamicSet<>();
+      this.filterConfig = null;
+    }
+
+    private void initFilter(AllRequestFilter filter) throws ServletException {
+      synchronized (initializedFilters) {
+        // Since we're synchronized only now, we need to re-check if some
+        // other thread already initialized the filter in the meantime.
+        if (!initializedFilters.contains(filter)) {
+          filter.init(filterConfig);
+          initializedFilters.add(filter);
+        }
+      }
+    }
+
+    private void cleanUpInitializedFilters() {
+      synchronized (initializedFilters) {
+        DynamicSet<AllRequestFilter> cleaned = new DynamicSet<>();
+
+        Iterator<AllRequestFilter> iterator = initializedFilters.iterator();
+        while (iterator.hasNext()) {
+          AllRequestFilter initializedFilter = iterator.next();
+          if (filters.contains(initializedFilter)) {
+            cleaned.add(initializedFilter);
+          } else {
+            initializedFilter.destroy();
+          }
+        }
+        initializedFilters = cleaned;
+      }
     }
 
     @Override
@@ -59,7 +99,11 @@ public abstract class AllRequestFilter implements Filter {
         public void doFilter(ServletRequest req, ServletResponse res)
             throws IOException, ServletException {
           if (itr.hasNext()) {
-            itr.next().doFilter(req, res, this);
+            AllRequestFilter filter = itr.next();
+            if (!initializedFilters.contains(filter)) {
+              initFilter(filter);
+            }
+            filter.doFilter(req, res, this);
           } else {
             last.doFilter(req, res);
           }
@@ -69,16 +113,30 @@ public abstract class AllRequestFilter implements Filter {
 
     @Override
     public void init(FilterConfig config) throws ServletException {
+      // Plugins that provide AllRequestFilters might get loaded later at
+      // runtime, long after this init method had been called. To allow to
+      // correctly init such plugins' AllRequestFilters, we keep the
+      // FilterConfig around, and reuse it to lazy init the AllRequestFilters.
+      filterConfig = config;
+
       for (AllRequestFilter f: filters) {
-        f.init(config);
+        initFilter(f);
       }
     }
 
     @Override
     public void destroy() {
-      for (AllRequestFilter f: filters) {
+      for (AllRequestFilter f: initializedFilters) {
         f.destroy();
       }
+    }
+
+    @Override
+    public void onStopPlugin(Plugin plugin) {
+      // In order to allow properly garbage collection, we need to scrub
+      // initializedFilters clean of filters stemming from plugins as they
+      // get unloaded.
+      cleanUpInitializedFilters();
     }
   }
 

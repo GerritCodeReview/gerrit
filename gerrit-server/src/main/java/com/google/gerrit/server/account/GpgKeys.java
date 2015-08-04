@@ -97,20 +97,7 @@ public class GpgKeys implements
       throw new ResourceNotFoundException(id);
     }
 
-    byte[] fp = null;
-    for (AccountExternalId extId : getGpgExtIds(parent)) {
-      String fpStr = extId.getSchemeRest();
-      if (!fpStr.endsWith(str)) {
-        continue;
-      } else if (fp != null) {
-        throw new ResourceNotFoundException("Multiple keys found for " + id);
-      }
-      fp = BaseEncoding.base16().decode(fpStr);
-    }
-    if (fp == null) {
-      throw new ResourceNotFoundException(id);
-    }
-
+    byte[] fp = parseFingerprint(id.get(), getGpgExtIds(parent));
     try (PublicKeyStore store = storeProvider.get()) {
       long keyId = ByteBuffer.wrap(fp).getLong(fp.length - 8);
       for (PGPPublicKeyRing keyRing : store.get(keyId)) {
@@ -122,6 +109,30 @@ public class GpgKeys implements
     }
 
     throw new ResourceNotFoundException(id);
+  }
+
+  static byte[] parseFingerprint(String str,
+      Iterable<AccountExternalId> existingExtIds)
+      throws ResourceNotFoundException {
+    str = CharMatcher.WHITESPACE.removeFrom(str).toUpperCase();
+    if ((str.length() != 8 && str.length() != 40)
+        || !CharMatcher.anyOf("0123456789ABCDEF").matchesAllOf(str)) {
+      throw new ResourceNotFoundException(str);
+    }
+    byte[] fp = null;
+    for (AccountExternalId extId : existingExtIds) {
+      String fpStr = extId.getSchemeRest();
+      if (!fpStr.endsWith(str)) {
+        continue;
+      } else if (fp != null) {
+        throw new ResourceNotFoundException("Multiple keys found for " + str);
+      }
+      fp = BaseEncoding.base16().decode(fpStr);
+    }
+    if (fp == null) {
+      throw new ResourceNotFoundException(str);
+    }
+    return fp;
   }
 
   @Override
@@ -166,7 +177,7 @@ public class GpgKeys implements
   }
 
   @VisibleForTesting
-  public static Iterable<AccountExternalId> getGpgExtIds(ReviewDb db,
+  public static FluentIterable<AccountExternalId> getGpgExtIds(ReviewDb db,
       Account.Id accountId) throws OrmException {
     return FluentIterable
         .from(db.accountExternalIds().byAccount(accountId))

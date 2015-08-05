@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.account;
+package com.google.gerrit.client.info;
 
-import com.google.gerrit.client.extensions.TopMenuItem;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
@@ -27,9 +26,10 @@ import com.google.gwt.core.client.JsArray;
 
 import java.util.List;
 
-public class Preferences extends JavaScriptObject {
-  public static Preferences create(AccountGeneralPreferences in, List<TopMenuItem> myMenus) {
-    Preferences p = createObject().cast();
+public class AccountPreferencesInfo extends JavaScriptObject {
+  public static AccountPreferencesInfo create(AccountGeneralPreferences in,
+      List<TopMenuItem> myMenus) {
+    AccountPreferencesInfo p = createObject().cast();
     if (in == null) {
       in = AccountGeneralPreferences.createDefault();
     }
@@ -192,6 +192,6 @@ public class Preferences extends JavaScriptObject {
   final native void initMy() /*-{ this.my = []; }-*/;
   final native void addMy(TopMenuItem m) /*-{ this.my.push(m); }-*/;
 
-  protected Preferences() {
+  protected AccountPreferencesInfo() {
   }
 }

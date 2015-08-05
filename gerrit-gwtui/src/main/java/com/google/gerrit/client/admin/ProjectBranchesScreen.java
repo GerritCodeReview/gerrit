@@ -38,7 +38,6 @@ import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -92,18 +91,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
   public ProjectBranchesScreen(final Project.NameKey toShow) {
     super(toShow);
-    configurePageSize();
-  }
-
-  private void configurePageSize() {
-    if (Gerrit.isSignedIn()) {
-      AccountGeneralPreferences p =
-          Gerrit.getUserAccount().getGeneralPreferences();
-      short m = p.getMaximumPageSize();
-      pageSize = 0 < m ? m : AccountGeneralPreferences.DEFAULT_PAGESIZE;
-    } else {
-      pageSize = AccountGeneralPreferences.DEFAULT_PAGESIZE;
-    }
+    pageSize = Gerrit.getUserPreferences().changesPerPage();
   }
 
   private void parseToken() {

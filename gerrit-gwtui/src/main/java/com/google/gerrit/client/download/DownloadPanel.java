@@ -17,7 +17,6 @@ package com.google.gerrit.client.download;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.config.DownloadInfo.DownloadCommandInfo;
 import com.google.gerrit.client.config.DownloadInfo.DownloadSchemeInfo;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
@@ -41,14 +40,7 @@ public abstract class DownloadPanel extends FlowPanel {
 
   private void setupWidgets() {
     if (!urls.isEmpty()) {
-      final AccountGeneralPreferences pref;
-      if (Gerrit.isSignedIn()) {
-        pref = Gerrit.getUserAccount().getGeneralPreferences();
-      } else {
-        pref = new AccountGeneralPreferences();
-        pref.resetToDefaults();
-      }
-      urls.select(pref.getDownloadUrl());
+      urls.select(Gerrit.getUserPreferences().downloadScheme());
 
       FlowPanel p = new FlowPanel();
       p.setStyleName(Gerrit.RESOURCES.css().downloadLinkHeader());

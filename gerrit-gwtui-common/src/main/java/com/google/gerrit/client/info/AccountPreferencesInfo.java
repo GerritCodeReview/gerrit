@@ -59,7 +59,11 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   }
 
   public final short changesPerPage() {
-    return get("changes_per_page", AccountGeneralPreferences.DEFAULT_PAGESIZE);
+    short changesPerPage =
+        get("changes_per_page", AccountGeneralPreferences.DEFAULT_PAGESIZE);
+    return 0 < changesPerPage
+        ? changesPerPage
+        : AccountGeneralPreferences.DEFAULT_PAGESIZE;
   }
   private final native short get(String n, int d)
   /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;

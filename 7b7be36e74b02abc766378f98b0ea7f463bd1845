@@ -70,6 +70,30 @@
       "revId": "7b7be36e74b02abc766378f98b0ea7f463bd1845",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8af6189c_abbb29bb",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.3.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-05T09:20:18Z",
+      "side": 1,
+      "message": "The bug was that the status line would show for example \"Ready to submit\" when the latest PS is a draft.  There was no way to know that the latest PS is a draft except by opening the patch sets dropdown.\n\nWith the fix, the status line now says \"Draft\" in this case.",
+      "parentUuid": "4ab8a0d4_99bb1bbc",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "7b7be36e74b02abc766378f98b0ea7f463bd1845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

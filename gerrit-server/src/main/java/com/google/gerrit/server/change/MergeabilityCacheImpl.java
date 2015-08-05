@@ -220,10 +220,10 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     public Boolean load(EntryKey key)
         throws NoSuchProjectException, MergeException, IOException {
       checkArgument(key.load != null, "Key cannot be loaded: %s", key);
-      if (key.into.equals(ObjectId.zeroId())) {
-        return true; // Assume yes on new branch.
-      }
       try {
+        if (key.into.equals(ObjectId.zeroId())) {
+          return true; // Assume yes on new branch.
+        }
         RefDatabase refDatabase = key.load.repo.getRefDatabase();
         Iterable<Ref> refs = Iterables.concat(
             refDatabase.getRefs(Constants.R_HEADS).values(),

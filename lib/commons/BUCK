@@ -73,13 +73,6 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'io',
-  id = 'commons-io:commons-io:1.4',
-  sha1 = 'a8762d07e76cfde2395257a5da47ba7c1dbd3dce',
-  license = 'Apache2.0',
-)
-
-maven_jar(
   name = 'validator',
   id = 'commons-validator:commons-validator:1.4.1',
   sha1 = '2231238e391057a53f92bde5bbc588622c1956c3',

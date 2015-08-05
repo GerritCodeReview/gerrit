@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a0f24b2_8ac02b75",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-05T22:48:31Z",
+      "side": 1,
+      "message": "path or uri might make more sense to a reader.\n\nits also maybe unnecessary. its basically part of the uri which is available from the audit event.",
+      "revId": "f1e057b83268e0f4096576ae27664db5a30c87b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8c4c86_f0b6a027",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-05T22:48:31Z",
+      "side": 1,
+      "message": "nit: order the field assignments in same order as constructor",
+      "revId": "f1e057b83268e0f4096576ae27664db5a30c87b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a0f24b2_6ac61791",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-05T22:48:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure this makes any sense.\n\nMaybe we should recast the implementation of CatServlet as a new RevisionResource REST API view so you can use those fields of the ExtendedHttpAuditEvent and then CatServlet just becomes a wrapper to parse its legacy API into the FileResource and invokes the view.\n\nThe view doesn\u0027t have to be published in the REST API. It could just use the same machinery.",
+      "revId": "f1e057b83268e0f4096576ae27664db5a30c87b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

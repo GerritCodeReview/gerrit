@@ -21,7 +21,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class ServerInfo extends JavaScriptObject {
   public final native AuthInfo auth() /*-{ return this.auth; }-*/;

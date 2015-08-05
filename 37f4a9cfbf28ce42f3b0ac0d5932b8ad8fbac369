@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8af6189c_ebbb71a8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-05T15:34:45Z",
+      "side": 1,
+      "message": "Oh, okay, then the name is good :-)",
+      "parentUuid": "8ae458f8_3b283788",
+      "range": {
+        "startLine": 62,
+        "startChar": 35,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "37f4a9cfbf28ce42f3b0ac0d5932b8ad8fbac369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ab8a0d4_39a3ef87",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
         "patchSetId": 5

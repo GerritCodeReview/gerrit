@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8af6189c_2b9e1945",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-05T11:43:17Z",
+      "side": 1,
+      "message": "[optional] name this \u0027addOtherUsersGpgKey_Conflict\u0027 to make it clear that an error case is tested, at least we followed this convention in other tests (e.g. see CreateBranchIT)",
+      "range": {
+        "startLine": 200,
+        "startChar": 14,
+        "endLine": 200,
+        "endChar": 33
+      },
+      "revId": "37f4a9cfbf28ce42f3b0ac0d5932b8ad8fbac369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8af6189c_6ba82160",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-05T11:43:17Z",
+      "side": 1,
+      "message": "[optional] better \u0027add\u0027? \u0027put\u0027 sounds like it overwrites the existing keys.",
+      "range": {
+        "startLine": 62,
+        "startChar": 35,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "37f4a9cfbf28ce42f3b0ac0d5932b8ad8fbac369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab8a0d4_39a3ef87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-05T11:43:17Z",
+      "side": 1,
+      "message": "Documentation for these new REST endpoints is missing.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 44
+      },
+      "revId": "37f4a9cfbf28ce42f3b0ac0d5932b8ad8fbac369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

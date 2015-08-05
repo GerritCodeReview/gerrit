@@ -47,9 +47,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 class InMemoryTestingDatabaseModule extends LifecycleModule {
-
-  static final String UNIT_TEST_GERRIT_SITE = "UNIT_TEST_GERRIT_SITE";
-
   private final Config cfg;
 
   InMemoryTestingDatabaseModule(Config cfg) {
@@ -65,7 +62,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     // TODO(dborowitz): Use jimfs.
     bind(Path.class)
       .annotatedWith(SitePath.class)
-      .toInstance(Paths.get(UNIT_TEST_GERRIT_SITE));
+      .toInstance(Paths.get(cfg.getString("gerrit", null, "tempSiteDir")));
 
     bind(GitRepositoryManager.class)
       .toInstance(new InMemoryRepositoryManager());

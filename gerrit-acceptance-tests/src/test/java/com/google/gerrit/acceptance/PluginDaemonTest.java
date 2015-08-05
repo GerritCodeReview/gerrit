@@ -21,20 +21,16 @@ import com.google.gerrit.server.config.SitePaths;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-import org.junit.AfterClass;
 import org.junit.runner.Description;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,10 +41,9 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
   private static final String BUCKOUT = "buck-out";
   private static final String BUILD = "build";
   private static final String EMPTY = "src/main/java/ForceJarIfMissing.java";
-  private static final Path testSite =
-      Paths.get(InMemoryTestingDatabaseModule.UNIT_TEST_GERRIT_SITE);
 
   private Path gen;
+  private Path testSite;
   private Path pluginRoot;
   private Path pluginsSitePath;
   private Path pluginSubPath;
@@ -61,11 +56,6 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
   protected void beforeTest(Description description) throws Exception {
     deployPlugin();
     super.beforeTest(description);
-  }
-
-  @AfterClass
-  public static void cleanUp() throws IOException {
-    removeTestSite();
   }
 
   protected void setPluginConfigString(String name, String value)
@@ -88,32 +78,11 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     return cfg;
   }
 
-  private static void removeTestSite() throws IOException {
-    if (!Files.exists(testSite)) {
-      return;
-    }
-    Files.walkFileTree(testSite, new SimpleFileVisitor<Path>() {
-      @Override
-      public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-          throws IOException {
-        Files.deleteIfExists(file);
-        return FileVisitResult.CONTINUE;
-      }
-
-      @Override
-      public FileVisitResult postVisitDirectory(Path dir, IOException exc)
-          throws IOException {
-        Files.deleteIfExists(dir);
-        return FileVisitResult.CONTINUE;
-      }
-    });
-  }
-
   private void deployPlugin() throws IOException, InterruptedException {
     locatePaths();
     retrievePluginName();
     buildPluginJar();
-    createTestSite();
+    createTestSiteDirs();
     copyJarToTestSite();
   }
 
@@ -228,7 +197,8 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     return properties;
   }
 
-  private void createTestSite() throws IOException {
+  private void createTestSiteDirs() throws IOException {
+    testSite = tempSiteDir.getRoot().toPath();
     SitePaths sitePath = new SitePaths(testSite);
     pluginsSitePath = Files.createDirectories(sitePath.plugins_dir);
     Files.createDirectories(sitePath.tmp_dir);

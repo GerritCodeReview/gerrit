@@ -500,6 +500,15 @@ public abstract class AbstractDaemonTest {
     projectCache.evict(config.getProject());
   }
 
+  protected void setUseSignedOffBy(InheritableBoolean value)
+      throws Exception {
+    MetaDataUpdate md = metaDataUpdateFactory.create(project);
+    ProjectConfig config = ProjectConfig.read(md);
+    config.getProject().setUseSignedOffBy(value);
+    config.commit(md);
+    projectCache.evict(config.getProject());
+  }
+
   protected void deny(String permission, AccountGroup.UUID id, String ref)
       throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
@@ -542,6 +551,13 @@ public abstract class AbstractDaemonTest {
   protected void blockRead(Project.NameKey project, String ref) throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     block(cfg, Permission.READ, REGISTERED_USERS, ref);
+    saveProjectConfig(project, cfg);
+  }
+
+  protected void blockForgeCommitter(Project.NameKey project, String ref)
+      throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    block(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, ref);
     saveProjectConfig(project, cfg);
   }
 

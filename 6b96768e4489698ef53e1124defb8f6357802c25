@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ab564d9_9a0dcd44",
+        "filename": "tools/default.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-05T01:53:08Z",
+      "side": 1,
+      "message": "style nit: add spaces around the `\u003d`",
+      "range": {
+        "startLine": 137,
+        "startChar": 19,
+        "endLine": 137,
+        "endChar": 20
+      },
+      "revId": "6b96768e4489698ef53e1124defb8f6357802c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae458f8_3b92f760",
+        "filename": "tools/git.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-05T01:53:08Z",
+      "side": 1,
+      "message": "The name `dir` hides the python built-in function with the same name.",
+      "range": {
+        "startLine": 15,
+        "startChar": 17,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "6b96768e4489698ef53e1124defb8f6357802c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

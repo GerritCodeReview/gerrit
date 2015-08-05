@@ -40,7 +40,7 @@ import java.io.IOException;
 import java.util.List;
 
 class ListDashboards implements RestReadView<ProjectResource> {
-  private static final Logger log = LoggerFactory.getLogger(DashboardsCollection.class);
+  private static final Logger log = LoggerFactory.getLogger(ListDashboards.class);
 
   private final GitRepositoryManager gitManager;
 

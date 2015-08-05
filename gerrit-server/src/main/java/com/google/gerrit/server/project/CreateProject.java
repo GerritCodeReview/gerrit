@@ -237,6 +237,17 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
         // It does not exist, safe to ignore.
       }
       try (Repository repo = repoManager.createRepository(nameKey)) {
+        RefUpdate u = repo.updateRef(Constants.HEAD);
+        u.disableRefLog();
+        u.link(head);
+
+        createProjectConfig(args);
+
+        if (!args.permissionsOnly
+            && args.createEmptyCommit) {
+          createEmptyCommits(repo, nameKey, args.branch);
+        }
+
         NewProjectCreatedListener.Event event = new NewProjectCreatedListener.Event() {
           @Override
           public String getProjectName() {
@@ -254,17 +265,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
           } catch (RuntimeException e) {
             log.warn("Failure in NewProjectCreatedListener", e);
           }
-        }
-
-        RefUpdate u = repo.updateRef(Constants.HEAD);
-        u.disableRefLog();
-        u.link(head);
-
-        createProjectConfig(args);
-
-        if (!args.permissionsOnly
-            && args.createEmptyCommit) {
-          createEmptyCommits(repo, nameKey, args.branch);
         }
 
         return projectCache.get(nameKey).getProject();

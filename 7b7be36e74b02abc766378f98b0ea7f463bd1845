@@ -46,6 +46,30 @@
       "revId": "7b7be36e74b02abc766378f98b0ea7f463bd1845",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab8a0d4_99bb1bbc",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.3.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-05T09:15:44Z",
+      "side": 1,
+      "message": "If this is the change status, then the fix was wrong. As you say above it\u0027s a published change with a draft patch set and not a draft change. A draft change can be deleted, a published change with a draft patch set cannot be deleted. So there is a difference between both.",
+      "parentUuid": "4ab8a0d4_59d26300",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "7b7be36e74b02abc766378f98b0ea7f463bd1845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

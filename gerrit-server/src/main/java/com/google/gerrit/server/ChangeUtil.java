@@ -370,11 +370,22 @@ public class ChangeUtil {
     db.changes().beginTransaction(change.getId());
     try {
       Map<RevId, String> refsToDelete = new HashMap<>();
-      for (PatchSet ps : db.patchSets().byChange(changeId)) {
-        // These should all be draft patch sets.
-        deleteOnlyDraftPatchSetPreserveRef(db, ps);
+      List<PatchSet> patchSets = db.patchSets().byChange(changeId).toList();
+      for (PatchSet ps : patchSets) {
+        if (!ps.isDraft()) {
+          throw new NoSuchChangeException(changeId);
+        }
         refsToDelete.put(ps.getRevision(), ps.getRefName());
+        db.accountPatchReviews().delete(
+            db.accountPatchReviews().byPatchSet(ps.getId()));
       }
+
+      // No need to delete from notedb; draft patch sets will be filtered out.
+      db.patchComments().delete(db.patchComments().byChange(changeId));
+
+      db.patchSetApprovals().delete(db.patchSetApprovals().byChange(changeId));
+      db.patchSetAncestors().delete(db.patchSetAncestors().byChange(changeId));
+      db.patchSets().delete(patchSets);
       db.changeMessages().delete(db.changeMessages().byChange(changeId));
       db.starredChanges().delete(db.starredChanges().byChange(changeId));
       db.changes().delete(Collections.singleton(change));
@@ -384,7 +395,8 @@ public class ChangeUtil {
           RevWalk rw = new RevWalk(repo)) {
         BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
         for (Map.Entry<RevId, String> e : refsToDelete.entrySet()) {
-          ru.addCommand(new ReceiveCommand(ObjectId.fromString(e.getKey().get()),
+          ru.addCommand(
+              new ReceiveCommand(ObjectId.fromString(e.getKey().get()),
               ObjectId.zeroId(), e.getValue()));
         }
         ru.execute(rw, NullProgressMonitor.INSTANCE);

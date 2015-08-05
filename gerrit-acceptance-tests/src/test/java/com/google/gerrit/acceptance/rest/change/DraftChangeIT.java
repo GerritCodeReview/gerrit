@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtorm.server.OrmException;
@@ -66,6 +67,9 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
     RestResponse response = deleteChange(changeId, adminSession);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+
+    exception.expect(ResourceNotFoundException.class);
+    get(triplet);
   }
 
   @Test

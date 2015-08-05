@@ -111,7 +111,8 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     private SubmitType submitType;
     private String mergeStrategy;
 
-    // Only used for loading, not stored.
+    // Only used for loading, not stored. Callers MUST clear this field after
+    // loading to avoid leaking resources.
     private transient LoadHelper load;
 
     public EntryKey(ObjectId commit, ObjectId into, SubmitType submitType,
@@ -219,36 +220,34 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     @Override
     public Boolean load(EntryKey key)
         throws NoSuchProjectException, MergeException, IOException {
-      checkArgument(key.load != null, "Key cannot be loaded: %s", key);
-      try {
-        if (key.into.equals(ObjectId.zeroId())) {
-          return true; // Assume yes on new branch.
-        }
-        RefDatabase refDatabase = key.load.repo.getRefDatabase();
-        Iterable<Ref> refs = Iterables.concat(
-            refDatabase.getRefs(Constants.R_HEADS).values(),
-            refDatabase.getRefs(Constants.R_TAGS).values());
-        try (RevWalk rw = CodeReviewCommit.newRevWalk(key.load.repo)) {
-          RevFlag canMerge = rw.newFlag("CAN_MERGE");
-          CodeReviewCommit rev = parse(rw, key.commit);
-          rev.add(canMerge);
-          CodeReviewCommit tip = parse(rw, key.into);
-          Set<RevCommit> accepted = alreadyAccepted(rw, refs);
-          accepted.add(tip);
-          accepted.addAll(Arrays.asList(rev.getParents()));
-          return submitStrategyFactory.create(
-              key.submitType,
-              key.load.db,
-              key.load.repo,
-              rw,
-              null /*inserter*/,
-              canMerge,
-              accepted,
-              key.load.dest,
-              null).dryRun(tip, rev);
-        }
-      } finally {
-        key.load = null;
+      LoadHelper load = key.load;
+      key.load = null;
+      checkArgument(load != null, "Key cannot be loaded: %s", key);
+      if (key.into.equals(ObjectId.zeroId())) {
+        return true; // Assume yes on new branch.
+      }
+      RefDatabase refDatabase = load.repo.getRefDatabase();
+      Iterable<Ref> refs = Iterables.concat(
+          refDatabase.getRefs(Constants.R_HEADS).values(),
+          refDatabase.getRefs(Constants.R_TAGS).values());
+      try (RevWalk rw = CodeReviewCommit.newRevWalk(load.repo)) {
+        RevFlag canMerge = rw.newFlag("CAN_MERGE");
+        CodeReviewCommit rev = parse(rw, key.commit);
+        rev.add(canMerge);
+        CodeReviewCommit tip = parse(rw, key.into);
+        Set<RevCommit> accepted = alreadyAccepted(rw, refs);
+        accepted.add(tip);
+        accepted.addAll(Arrays.asList(rev.getParents()));
+        return submitStrategyFactory.create(
+            key.submitType,
+            load.db,
+            load.repo,
+            rw,
+            null /*inserter*/,
+            canMerge,
+            accepted,
+            load.dest,
+            null).dryRun(tip, rev);
       }
     }
 
@@ -301,6 +300,8 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
             key.commit.name(), key.into.name(), key.submitType.name()),
           e.getCause());
       return false;
+    } finally {
+      key.load = null;
     }
   }
 

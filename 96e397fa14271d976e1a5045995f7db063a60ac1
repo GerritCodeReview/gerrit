@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "8af6189c_ebded1fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-05T11:15:31Z",
+      "side": 1,
+      "message": "It\u0027s also cleared when the update was successful, isn\u0027t it?",
+      "range": {
+        "startLine": 178,
+        "startChar": 48,
+        "endLine": 179,
+        "endChar": 37
+      },
+      "revId": "96e397fa14271d976e1a5045995f7db063a60ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8af6189c_8be10dbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/PublicKeyStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-05T11:15:31Z",
+      "side": 1,
+      "message": "[optional] This maybe removed. \u0027notes\u0027 can only be null when \u0027reader\u0027 is null, but in this case we call \u0027load()\u0027 which also sets \u0027notes\u0027.",
+      "range": {
+        "startLine": 194,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 5
+      },
+      "revId": "96e397fa14271d976e1a5045995f7db063a60ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ab564d9_fae5e914",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/gpg/PublicKeyStoreTest.java",
         "patchSetId": 2

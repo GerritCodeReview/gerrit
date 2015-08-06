@@ -19,8 +19,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -35,7 +34,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -54,6 +52,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 public class ChangeKindCacheImpl implements ChangeKindCache {
@@ -69,8 +68,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.class);
         persist(ID_CACHE, Key.class, ChangeKind.class)
             .maximumWeight(2 << 20)
-            .weigher(ChangeKindWeigher.class)
-            .loader(Loader.class);
+            .weigher(ChangeKindWeigher.class);
       }
     };
   }
@@ -99,8 +97,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     public ChangeKind getChangeKind(ProjectState project, Repository repo,
         ObjectId prior, ObjectId next) {
       try {
-        return new Loader().load(
-            new Key(repo, prior, next, useRecursiveMerge));
+        Key key = new Key(prior, next, useRecursiveMerge);
+        return new Loader(key, repo).call();
       } catch (IOException e) {
         log.warn("Cannot check trivial rebase of new patch set " + next.name()
             + " in " + project.getProject().getName(), e);
@@ -122,17 +120,13 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     private transient ObjectId next;
     private transient String strategyName;
 
-    private transient Repository repo; // Passed through to loader on miss.
-
-    private Key(Repository repo, ObjectId prior,
-        ObjectId next, boolean useRecursiveMerge) {
+    private Key(ObjectId prior, ObjectId next, boolean useRecursiveMerge) {
       checkNotNull(next, "next");
       String strategyName = MergeUtil.mergeStrategyName(
           true, useRecursiveMerge);
       this.prior = prior.copy();
       this.next = next.copy();
       this.strategyName = strategyName;
-      this.repo = repo;
     }
 
     public Key(ObjectId prior, ObjectId next, String strategyName) {
@@ -182,15 +176,22 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
   }
 
-  @Singleton
-  private static class Loader extends CacheLoader<Key, ChangeKind> {
+  private static class Loader implements Callable<ChangeKind> {
+    private final Key key;
+    private final Repository repo;
+
+    private Loader(Key key, Repository repo) {
+      this.key = key;
+      this.repo = repo;
+    }
+
     @Override
-    public ChangeKind load(Key key) throws IOException {
+    public ChangeKind call() throws IOException {
       if (Objects.equals(key.prior, key.next)) {
         return ChangeKind.NO_CODE_CHANGE;
       }
 
-      try (RevWalk walk = new RevWalk(key.repo)) {
+      try (RevWalk walk = new RevWalk(repo)) {
         RevCommit prior = walk.parseCommit(key.prior);
         walk.parseBody(prior);
         RevCommit next = walk.parseCommit(key.next);
@@ -217,7 +218,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         // having the same tree as would exist when the prior commit is
         // cherry-picked onto the next commit's new first parent.
         ThreeWayMerger merger = MergeUtil.newThreeWayMerger(
-            key.repo, MergeUtil.createDryRunInserter(key.repo), key.strategyName);
+            repo, MergeUtil.createDryRunInserter(repo), key.strategyName);
         merger.setBase(prior.getParent(0));
         try {
           if (merger.merge(next.getParent(0), prior)
@@ -229,8 +230,6 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
           // it was a rework.
         }
         return ChangeKind.REWORK;
-      } finally {
-        key.repo = null;
       }
     }
 
@@ -264,7 +263,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
   }
 
-  private final LoadingCache<Key, ChangeKind> cache;
+  private final Cache<Key, ChangeKind> cache;
   private final boolean useRecursiveMerge;
   private final ChangeData.Factory changeDataFactory;
   private final ProjectCache projectCache;
@@ -273,7 +272,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   @Inject
   ChangeKindCacheImpl(
       @GerritServerConfig Config serverConfig,
-      @Named(ID_CACHE) LoadingCache<Key, ChangeKind> cache,
+      @Named(ID_CACHE) Cache<Key, ChangeKind> cache,
       ChangeData.Factory changeDataFactory,
       ProjectCache projectCache,
       GitRepositoryManager repoManager) {
@@ -288,7 +287,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   public ChangeKind getChangeKind(ProjectState project, Repository repo,
       ObjectId prior, ObjectId next) {
     try {
-      return cache.get(new Key(repo, prior, next, useRecursiveMerge));
+      Key key = new Key(prior, next, useRecursiveMerge);
+      return cache.get(key, new Loader(key, repo));
     } catch (ExecutionException e) {
       log.warn("Cannot check trivial rebase of new patch set " + next.name()
           + " in " + project.getProject().getName(), e);

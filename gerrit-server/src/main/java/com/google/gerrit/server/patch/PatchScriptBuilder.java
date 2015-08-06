@@ -142,9 +142,12 @@ class PatchScriptBuilder {
       intralineDifferenceIsPossible = false;
     } else if (diffPrefs.isIntralineDifference()) {
       IntraLineDiff d =
-          patchListCache.getIntraLineDiff(new IntraLineDiffKey(a.id, a.src,
-              b.id, b.src, edits, projectKey, bId, b.path,
-              diffPrefs.getIgnoreWhitespace() != Whitespace.IGNORE_NONE));
+          patchListCache.getIntraLineDiff(
+              new IntraLineDiffKey(
+                a.id, b.id,
+                diffPrefs.getIgnoreWhitespace() != Whitespace.IGNORE_NONE),
+              IntraLineDiffArgs.create(
+                a.src, b.src, edits, projectKey, bId, b.path));
       if (d != null) {
         switch (d.getStatus()) {
           case EDIT_LIST:

@@ -99,14 +99,14 @@ public final class StoredValues {
       PatchSet ps = getPatchSet(engine);
       PatchListCache plCache = env.getArgs().getPatchListCache();
       Change change = getChange(engine);
-      Project.NameKey projectKey = change.getProject();
+      Project.NameKey project = change.getProject();
       ObjectId a = null;
       ObjectId b = ObjectId.fromString(ps.getRevision().get());
       Whitespace ws = Whitespace.IGNORE_NONE;
-      PatchListKey plKey = new PatchListKey(projectKey, a, b, ws);
+      PatchListKey plKey = new PatchListKey(a, b, ws);
       PatchList patchList;
       try {
-        patchList = plCache.get(plKey);
+        patchList = plCache.get(plKey, project);
       } catch (PatchListNotAvailableException e) {
         throw new SystemException("Cannot create " + plKey);
       }

@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,18 +14,26 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.reviewdb.client.Project;
 
-/** Provides a cached list of {@link PatchListEntry}. */
-public interface PatchListCache {
-  public PatchList get(PatchListKey key, Project.NameKey project)
-      throws PatchListNotAvailableException;
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.lib.ObjectId;
 
-  public PatchList get(Change change, PatchSet patchSet)
-      throws PatchListNotAvailableException;
+import java.util.List;
 
-  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,
-      IntraLineDiffArgs args);
+@AutoValue
+abstract class IntraLineDiffArgs {
+  static IntraLineDiffArgs create(Text aText, Text bText, List<Edit> edits,
+      Project.NameKey project, ObjectId commit, String path) {
+    return new AutoValue_IntraLineDiffArgs(aText, bText, edits,
+        project, commit, path);
+  }
+
+  abstract Text aText();
+  abstract Text bText();
+  abstract List<Edit> edits();
+  abstract Project.NameKey project();
+  abstract ObjectId commit();
+  abstract String path();
 }

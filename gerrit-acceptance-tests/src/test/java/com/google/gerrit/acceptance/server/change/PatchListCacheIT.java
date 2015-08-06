@@ -236,16 +236,19 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   private List<PatchListEntry> getCurrentPatches(String changeId)
       throws PatchListNotAvailableException, RestApiException {
-    return patchListCache.get(getKey(null, getCurrentRevisionId(changeId))).getPatches();
+    return patchListCache
+        .get(getKey(null, getCurrentRevisionId(changeId)), project)
+        .getPatches();
   }
 
   private List<PatchListEntry> getPatches(ObjectId revisionIdA, ObjectId revisionIdB)
       throws PatchListNotAvailableException {
-    return patchListCache.get(getKey(revisionIdA, revisionIdB)).getPatches();
+    return patchListCache.get(getKey(revisionIdA, revisionIdB), project)
+        .getPatches();
   }
 
   private PatchListKey getKey(ObjectId revisionIdA, ObjectId revisionIdB) {
-    return new PatchListKey(project, revisionIdA, revisionIdB, Whitespace.IGNORE_NONE);
+    return new PatchListKey(revisionIdA, revisionIdB, Whitespace.IGNORE_NONE);
   }
 
   private ObjectId getCurrentRevisionId(String changeId) throws RestApiException {

@@ -15,7 +15,7 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Cache;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -43,14 +43,14 @@ public class PatchListCacheImpl implements PatchListCache {
     return new CacheModule() {
       @Override
       protected void configure() {
+        factory(PatchListLoader.Factory.class);
         persist(FILE_NAME, PatchListKey.class, PatchList.class)
             .maximumWeight(10 << 20)
-            .loader(PatchListLoader.class)
             .weigher(PatchListWeigher.class);
 
+        factory(IntraLineLoader.Factory.class);
         persist(INTRA_NAME, IntraLineDiffKey.class, IntraLineDiff.class)
             .maximumWeight(10 << 20)
-            .loader(IntraLineLoader.class)
             .weigher(IntraLineWeigher.class);
 
         bind(PatchListCacheImpl.class);
@@ -59,17 +59,23 @@ public class PatchListCacheImpl implements PatchListCache {
     };
   }
 
-  private final LoadingCache<PatchListKey, PatchList> fileCache;
-  private final LoadingCache<IntraLineDiffKey, IntraLineDiff> intraCache;
+  private final Cache<PatchListKey, PatchList> fileCache;
+  private final Cache<IntraLineDiffKey, IntraLineDiff> intraCache;
+  private final PatchListLoader.Factory fileLoaderFactory;
+  private final IntraLineLoader.Factory intraLoaderFactory;
   private final boolean computeIntraline;
 
   @Inject
   PatchListCacheImpl(
-      @Named(FILE_NAME) LoadingCache<PatchListKey, PatchList> fileCache,
-      @Named(INTRA_NAME) LoadingCache<IntraLineDiffKey, IntraLineDiff> intraCache,
+      @Named(FILE_NAME) Cache<PatchListKey, PatchList> fileCache,
+      @Named(INTRA_NAME) Cache<IntraLineDiffKey, IntraLineDiff> intraCache,
+      PatchListLoader.Factory fileLoaderFactory,
+      IntraLineLoader.Factory intraLoaderFactory,
       @GerritServerConfig Config cfg) {
     this.fileCache = fileCache;
     this.intraCache = intraCache;
+    this.fileLoaderFactory = fileLoaderFactory;
+    this.intraLoaderFactory = intraLoaderFactory;
 
     this.computeIntraline =
         cfg.getBoolean("cache", INTRA_NAME, "enabled",
@@ -77,9 +83,10 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   @Override
-  public PatchList get(PatchListKey key) throws PatchListNotAvailableException {
+  public PatchList get(PatchListKey key, Project.NameKey project)
+      throws PatchListNotAvailableException {
     try {
-      return fileCache.get(key);
+      return fileCache.get(key, fileLoaderFactory.create(key, project));
     } catch (ExecutionException | LargeObjectException e) {
       PatchListLoader.log.warn("Error computing " + key, e);
       throw new PatchListNotAvailableException(e.getCause());
@@ -87,24 +94,25 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   @Override
-  public PatchList get(final Change change, final PatchSet patchSet)
+  public PatchList get(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException {
-    final Project.NameKey projectKey = change.getProject();
-    final ObjectId a = null;
+    Project.NameKey project = change.getProject();
+    ObjectId a = null;
     if (patchSet.getRevision() == null) {
       throw new PatchListNotAvailableException(
           "revision is null for " + patchSet.getId());
     }
-    final ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
-    final Whitespace ws = Whitespace.IGNORE_NONE;
-    return get(new PatchListKey(projectKey, a, b, ws));
+    ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
+    Whitespace ws = Whitespace.IGNORE_NONE;
+    return get(new PatchListKey(a, b, ws), project);
   }
 
   @Override
-  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key) {
+  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,
+      IntraLineDiffArgs args) {
     if (computeIntraline) {
       try {
-        return intraCache.get(key);
+        return intraCache.get(key, intraLoaderFactory.create(key, args));
       } catch (ExecutionException | LargeObjectException e) {
         IntraLineLoader.log.warn("Error computing " + key, e);
         return new IntraLineDiff(IntraLineDiff.Status.ERROR);

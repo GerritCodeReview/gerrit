@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
@@ -23,8 +22,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -63,6 +61,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 @Singleton
@@ -90,8 +89,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
       protected void configure() {
         persist(CACHE_NAME, EntryKey.class, Boolean.class)
             .maximumWeight(1 << 20)
-            .weigher(MergeabilityWeigher.class)
-            .loader(Loader.class);
+            .weigher(MergeabilityWeigher.class);
         bind(MergeabilityCache.class).to(MergeabilityCacheImpl.class);
       }
     };
@@ -111,23 +109,12 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     private SubmitType submitType;
     private String mergeStrategy;
 
-    // Only used for loading, not stored. Callers MUST clear this field after
-    // loading to avoid leaking resources.
-    private transient LoadHelper load;
-
     public EntryKey(ObjectId commit, ObjectId into, SubmitType submitType,
         String mergeStrategy) {
       this.commit = checkNotNull(commit, "commit");
       this.into = checkNotNull(into, "into");
       this.submitType = checkNotNull(submitType, "submitType");
       this.mergeStrategy = checkNotNull(mergeStrategy, "mergeStrategy");
-    }
-
-    private EntryKey(ObjectId commit, ObjectId into, SubmitType submitType,
-        String mergeStrategy, Branch.NameKey dest, Repository repo,
-        ReviewDb db) {
-      this(commit, into, submitType, mergeStrategy);
-      load = new LoadHelper(dest, repo, db);
     }
 
     public ObjectId getCommit() {
@@ -196,41 +183,30 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     }
   }
 
-  private static class LoadHelper {
+  private class Loader implements Callable<Boolean> {
+    private final EntryKey key;
     private final Branch.NameKey dest;
     private final Repository repo;
     private final ReviewDb db;
 
-    private LoadHelper(Branch.NameKey dest, Repository repo, ReviewDb db) {
-      this.dest = checkNotNull(dest, "dest");
-      this.repo = checkNotNull(repo, "repo");
-      this.db = checkNotNull(db, "db");
-    }
-  }
-
-  @Singleton
-  public static class Loader extends CacheLoader<EntryKey, Boolean> {
-    private final SubmitStrategyFactory submitStrategyFactory;
-
-    @Inject
-    Loader(SubmitStrategyFactory submitStrategyFactory) {
-      this.submitStrategyFactory = submitStrategyFactory;
+    Loader(EntryKey key, Branch.NameKey dest, Repository repo, ReviewDb db) {
+      this.key = key;
+      this.dest = dest;
+      this.repo = repo;
+      this.db = db;
     }
 
     @Override
-    public Boolean load(EntryKey key)
+    public Boolean call()
         throws NoSuchProjectException, MergeException, IOException {
-      LoadHelper load = key.load;
-      key.load = null;
-      checkArgument(load != null, "Key cannot be loaded: %s", key);
       if (key.into.equals(ObjectId.zeroId())) {
         return true; // Assume yes on new branch.
       }
-      RefDatabase refDatabase = load.repo.getRefDatabase();
+      RefDatabase refDatabase = repo.getRefDatabase();
       Iterable<Ref> refs = Iterables.concat(
           refDatabase.getRefs(Constants.R_HEADS).values(),
           refDatabase.getRefs(Constants.R_TAGS).values());
-      try (RevWalk rw = CodeReviewCommit.newRevWalk(load.repo)) {
+      try (RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         RevFlag canMerge = rw.newFlag("CAN_MERGE");
         CodeReviewCommit rev = parse(rw, key.commit);
         rev.add(canMerge);
@@ -240,18 +216,18 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
         accepted.addAll(Arrays.asList(rev.getParents()));
         return submitStrategyFactory.create(
             key.submitType,
-            load.db,
-            load.repo,
+            db,
+            repo,
             rw,
             null /*inserter*/,
             canMerge,
             accepted,
-            load.dest,
+            dest,
             null).dryRun(tip, rev);
       }
     }
 
-    private static Set<RevCommit> alreadyAccepted(RevWalk rw, Iterable<Ref> refs)
+    private Set<RevCommit> alreadyAccepted(RevWalk rw, Iterable<Ref> refs)
         throws MissingObjectException, IOException {
       Set<RevCommit> accepted = Sets.newHashSet();
       for (Ref r : refs) {
@@ -264,7 +240,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
       return accepted;
     }
 
-    private static CodeReviewCommit parse(RevWalk rw, ObjectId id)
+    private CodeReviewCommit parse(RevWalk rw, ObjectId id)
         throws MissingObjectException, IncorrectObjectTypeException,
         IOException {
       return (CodeReviewCommit) rw.parseCommit(id);
@@ -280,10 +256,14 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     }
   }
 
-  private final LoadingCache<EntryKey, Boolean> cache;
+  private final SubmitStrategyFactory submitStrategyFactory;
+  private final Cache<EntryKey, Boolean> cache;
 
   @Inject
-  MergeabilityCacheImpl(@Named(CACHE_NAME) LoadingCache<EntryKey, Boolean> cache) {
+  MergeabilityCacheImpl(
+      SubmitStrategyFactory submitStrategyFactory,
+      @Named(CACHE_NAME) Cache<EntryKey, Boolean> cache) {
+    this.submitStrategyFactory = submitStrategyFactory;
     this.cache = cache;
   }
 
@@ -291,17 +271,14 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
   public boolean get(ObjectId commit, Ref intoRef, SubmitType submitType,
       String mergeStrategy, Branch.NameKey dest, Repository repo, ReviewDb db) {
     ObjectId into = intoRef != null ? intoRef.getObjectId() : ObjectId.zeroId();
-    EntryKey key =
-        new EntryKey(commit, into, submitType, mergeStrategy, dest, repo, db);
+    EntryKey key = new EntryKey(commit, into, submitType, mergeStrategy);
     try {
-      return cache.get(key);
+      return cache.get(key, new Loader(key, dest, repo, db));
     } catch (ExecutionException e) {
       log.error(String.format("Error checking mergeability of %s into %s (%s)",
             key.commit.name(), key.into.name(), key.submitType.name()),
           e.getCause());
       return false;
-    } finally {
-      key.load = null;
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a8c4c86_30cd08a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-06T21:10:38Z",
+      "side": 1,
+      "message": "Phew. I figured it out, and this actually fixes it.\n\nThe assumption prior to this code was that we would hold a reference to a given EntryKey if and only if MergeabilityCacheImpl.Loader#load is called. This assumption is wrong, in the case when the entry is read from the persistent cache. Then we call the persistent wrapper\u0027s load method, but _not_ the underlying load method that was responsible for nulling out this field.\n\nThe good news is now that we have this, it should work at clearing it in more cases.\n\nI will also take another look to see if we can use a non-LoadingCache. I thought for some reason we couldn\u0027t persist non-LoadingCaches but I might have been wrong.",
+      "revId": "af562e86415b017af6b9dea25acee1455a21d064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

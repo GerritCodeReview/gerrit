@@ -91,7 +91,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final PatchLineCommentsUtil plcUtil;
   private final ChangeEditUtil editUtil;
 
-  private Project.NameKey projectKey;
+  private Project.NameKey project;
   private final PatchSet.Id psIdBase;
   private final PatchSet.Id psIdNew;
   private final AccountDiffPreference diffPrefs;
@@ -150,7 +150,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
         throw new NoSuchEntityException();
       }
     }
-    projectKey = control.getProject().getNameKey();
+    project = control.getProject().getNameKey();
     final PatchList list;
 
     try {
@@ -188,7 +188,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
     detail = new PatchSetDetail();
     detail.setPatchSet(patchSet);
-    detail.setProject(projectKey);
+    detail.setProject(project);
 
     detail.setInfo(infoFactory.get(db, patchSet.getId()));
     detail.setPatches(patches);
@@ -251,12 +251,12 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     }
   }
 
-  private PatchListKey keyFor(final Whitespace whitespace) {
-    return new PatchListKey(projectKey, oldId, newId, whitespace);
+  private PatchListKey keyFor(Whitespace whitespace) {
+    return new PatchListKey(oldId, newId, whitespace);
   }
 
   private PatchList listFor(PatchListKey key)
       throws PatchListNotAvailableException {
-    return patchListCache.get(key);
+    return patchListCache.get(key, project);
   }
 }

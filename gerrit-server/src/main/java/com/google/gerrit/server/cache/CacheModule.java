@@ -19,7 +19,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.extensions.annotations.Exports;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
@@ -33,7 +33,7 @@ import java.lang.reflect.Type;
 /**
  * Miniature DSL to support binding {@link Cache} instances in Guice.
  */
-public abstract class CacheModule extends AbstractModule {
+public abstract class CacheModule extends FactoryModule {
   private static final TypeLiteral<Cache<?, ?>> ANY_CACHE =
       new TypeLiteral<Cache<?, ?>>() {};
 

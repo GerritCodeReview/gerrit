@@ -17,17 +17,17 @@ package com.google.gerrit.server.patch;
 
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
-import com.google.common.cache.CacheLoader;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -79,25 +79,34 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
+public class PatchListLoader implements Callable<PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
+
+  public interface Factory {
+    PatchListLoader create(PatchListKey key, Project.NameKey project);
+  }
 
   private final GitRepositoryManager repoManager;
   private final PatchListCache patchListCache;
   private final ThreeWayMergeStrategy mergeStrategy;
   private final ExecutorService diffExecutor;
+  private final PatchListKey key;
+  private final Project.NameKey project;
   private final long timeoutMillis;
 
-
-  @Inject
+  @AssistedInject
   PatchListLoader(GitRepositoryManager mgr,
       PatchListCache plc,
       @GerritServerConfig Config cfg,
-      @DiffExecutor ExecutorService de) {
+      @DiffExecutor ExecutorService de,
+      @Assisted PatchListKey k,
+      @Assisted Project.NameKey p) {
     repoManager = mgr;
     patchListCache = plc;
     mergeStrategy = MergeUtil.getMergeStrategy(cfg);
     diffExecutor = de;
+    key = k;
+    project = p;
     timeoutMillis =
         ConfigUtil.getTimeUnit(cfg, "cache", PatchListCacheImpl.FILE_NAME,
             "timeout", TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
@@ -105,9 +114,9 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   }
 
   @Override
-  public PatchList load(final PatchListKey key) throws IOException,
+  public PatchList call() throws IOException,
       PatchListNotAvailableException {
-    try (Repository repo = repoManager.openRepository(key.projectKey)) {
+    try (Repository repo = repoManager.openRepository(project)) {
       return readPatchList(key, repo);
     }
   }
@@ -159,25 +168,24 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       df.setDetectRenames(true);
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
-      Set<String> paths = key.getOldId() != null
-          ? FluentIterable.from(
-                  Iterables.concat(
-                      patchListCache.get(
-                          new PatchListKey(key.projectKey, null,
-                              key.getNewId(), key.getWhitespace()))
-                          .getPatches(),
-                      patchListCache.get(
-                          new PatchListKey(key.projectKey, null,
-                              key.getOldId(), key.getWhitespace()))
-                          .getPatches()))
-              .transform(new Function<PatchListEntry, String>() {
-                @Override
-                public String apply(PatchListEntry entry) {
-                  return entry.getNewName();
-                }
-              })
-          .toSet()
-          : null;
+      Set<String> paths = null;
+      if (key.getOldId() != null) {
+        PatchListKey newKey =
+            new PatchListKey(null, key.getNewId(), key.getWhitespace());
+        PatchListKey oldKey =
+            new PatchListKey(null, key.getOldId(), key.getWhitespace());
+        paths = FluentIterable
+            .from(patchListCache.get(newKey, project).getPatches())
+            .append(patchListCache.get(oldKey, project).getPatches())
+            .transform(new Function<PatchListEntry, String>() {
+              @Override
+              public String apply(PatchListEntry entry) {
+                return entry.getNewName();
+              }
+            })
+            .toSet();
+      }
+
       int cnt = diffEntries.size();
       List<PatchListEntry> entries = new ArrayList<>();
       entries.add(newCommitMessage(cmp, reader,
@@ -210,7 +218,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | TimeoutException e) {
       log.warn(timeoutMillis + " ms timeout reached for Diff loader"
-                      + " in project " + key.projectKey.get()
+                      + " in project " + project
                       + " on commit " + key.getNewId().name()
                       + " on path " + diffEntry.getNewPath()
                       + " comparing " + diffEntry.getOldId().name()

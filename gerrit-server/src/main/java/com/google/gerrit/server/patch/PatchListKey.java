@@ -23,7 +23,6 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
-import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -40,11 +39,7 @@ public class PatchListKey implements Serializable {
   private transient ObjectId newId;
   private transient Whitespace whitespace;
 
-  transient Project.NameKey projectKey; // not required to form the key
-
-  public PatchListKey(final Project.NameKey pk, final AnyObjectId a,
-      final AnyObjectId b, final Whitespace ws) {
-    projectKey = pk;
+  public PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws) {
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
     whitespace = ws;
@@ -94,10 +89,6 @@ public class PatchListKey implements Serializable {
   public String toString() {
     StringBuilder n = new StringBuilder();
     n.append("PatchListKey[");
-    if (projectKey != null) {
-      n.append(projectKey.get());
-      n.append(" ");
-    }
     n.append(oldId != null ? oldId.name() : "BASE");
     n.append("..");
     n.append(newId.name());

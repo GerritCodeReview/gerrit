@@ -17,16 +17,12 @@ package com.google.gerrit.server.patch;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
-import com.google.gerrit.reviewdb.client.Project;
-
-import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.List;
 
 public class IntraLineDiffKey implements Serializable {
   static final long serialVersionUID = 4L;
@@ -35,43 +31,11 @@ public class IntraLineDiffKey implements Serializable {
   private transient ObjectId aId;
   private transient ObjectId bId;
 
-  // Transient data passed through on cache misses to the loader.
-
-  private transient Text aText;
-  private transient Text bText;
-  private transient List<Edit> edits;
-
-  private transient Project.NameKey projectKey;
-  private transient ObjectId commit;
-  private transient String path;
-
-  public IntraLineDiffKey(ObjectId aId, Text aText, ObjectId bId, Text bText,
-      List<Edit> edits, Project.NameKey projectKey, ObjectId commit, String path,
+  public IntraLineDiffKey(ObjectId aId, ObjectId bId,
       boolean ignoreWhitespace) {
     this.aId = aId;
     this.bId = bId;
-
-    this.aText = aText;
-    this.bText = bText;
-    this.edits = edits;
-
-    this.projectKey = projectKey;
-    this.commit = commit;
-    this.path = path;
-
     this.ignoreWhitespace = ignoreWhitespace;
-  }
-
-  Text getTextA() {
-    return aText;
-  }
-
-  Text getTextB() {
-    return bText;
-  }
-
-  List<Edit> getEdits() {
-    return edits;
   }
 
   public ObjectId getBlobA() {
@@ -84,18 +48,6 @@ public class IntraLineDiffKey implements Serializable {
 
   public boolean isIgnoreWhitespace() {
     return ignoreWhitespace;
-  }
-
-  Project.NameKey getProject() {
-    return projectKey;
-  }
-
-  ObjectId getCommit() {
-    return commit;
-  }
-
-  String getPath() {
-    return path;
   }
 
   @Override
@@ -124,9 +76,6 @@ public class IntraLineDiffKey implements Serializable {
   public String toString() {
     StringBuilder n = new StringBuilder();
     n.append("IntraLineDiffKey[");
-    if (projectKey != null) {
-      n.append(projectKey.get()).append(" ");
-    }
     n.append(aId.name());
     n.append("..");
     n.append(bId.name());

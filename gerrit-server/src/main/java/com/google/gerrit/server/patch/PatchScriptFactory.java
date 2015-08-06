@@ -93,7 +93,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private boolean loadComments = true;
 
   private Change change;
-  private Project.NameKey projectKey;
+  private Project.NameKey project;
   private ChangeControl control;
   private ObjectId aId;
   private ObjectId bId;
@@ -145,7 +145,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     validatePatchSetId(psb);
 
     change = control.getChange();
-    projectKey = change.getProject();
+    project = change.getProject();
 
     aId = psa != null ? toObjectId(db, psa) : null;
     bId = toObjectId(db, psb);
@@ -155,7 +155,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       throw new NoSuchChangeException(changeId);
     }
 
-    try (Repository git = repoManager.openRepository(projectKey)) {
+    try (Repository git = repoManager.openRepository(project)) {
       try {
         final PatchList list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
         final PatchScriptBuilder b = newBuilder(list, git);
@@ -175,27 +175,27 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         throw new LargeObjectException("File content is too large", err);
       }
     } catch (RepositoryNotFoundException e) {
-      log.error("Repository " + projectKey + " not found", e);
+      log.error("Repository " + project + " not found", e);
       throw new NoSuchChangeException(changeId, e);
     } catch (IOException e) {
-      log.error("Cannot open repository " + projectKey, e);
+      log.error("Cannot open repository " + project, e);
       throw new NoSuchChangeException(changeId, e);
     }
   }
 
   private PatchListKey keyFor(final Whitespace whitespace) {
-    return new PatchListKey(projectKey, aId, bId, whitespace);
+    return new PatchListKey(aId, bId, whitespace);
   }
 
   private PatchList listFor(final PatchListKey key)
       throws PatchListNotAvailableException {
-    return patchListCache.get(key);
+    return patchListCache.get(key, project);
   }
 
   private PatchScriptBuilder newBuilder(final PatchList list, Repository git) {
     final AccountDiffPreference dp = new AccountDiffPreference(diffPrefs);
     final PatchScriptBuilder b = builderFactory.get();
-    b.setRepository(git, projectKey);
+    b.setRepository(git, project);
     b.setChange(change);
     b.setDiffPrefs(dp);
     b.setTrees(list.isAgainstParent(), list.getOldId(), list.getNewId());

@@ -16,13 +16,16 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 public interface PatchListCache {
-  public PatchList get(PatchListKey key) throws PatchListNotAvailableException;
+  public PatchList get(PatchListKey key, Project.NameKey project)
+      throws PatchListNotAvailableException;
 
   public PatchList get(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException;
 
-  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key);
+  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,
+      IntraLineDiffArgs args);
 }

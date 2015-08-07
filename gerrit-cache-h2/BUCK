@@ -13,3 +13,16 @@ java_library(
   ],
   visibility = ['PUBLIC'],
 )
+
+java_test(
+  name = 'tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [
+    ':cache-h2',
+    '//gerrit-server:server',
+    '//lib:guava',
+    '//lib:h2',
+    '//lib/guice:guice',
+    '//lib:junit',
+  ],
+)

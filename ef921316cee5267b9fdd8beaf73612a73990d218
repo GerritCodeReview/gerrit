@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a705d7ff_bc174178",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteGpgKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-07T05:14:04Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 86,
+        "startChar": 25,
+        "endLine": 86,
+        "endChar": 29
+      },
+      "revId": "ef921316cee5267b9fdd8beaf73612a73990d218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8af6189c_8bae2d68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
         "patchSetId": 3

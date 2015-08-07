@@ -20,6 +20,7 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -66,6 +67,12 @@ public class ChangeResource implements RestResource, HasETag {
       .putInt(user.isIdentifiedUser()
           ? ((IdentifiedUser) user).getAccountId().get()
           : 0);
+
+    if (user.isIdentifiedUser()) {
+      for (AccountGroup.UUID uuid : user.getEffectiveGroups().getKnownGroups()) {
+        h.putBytes(uuid.get().getBytes());
+      }
+    }
 
     byte[] buf = new byte[20];
     for (ProjectState p : control.getProjectControl().getProjectState().tree()) {

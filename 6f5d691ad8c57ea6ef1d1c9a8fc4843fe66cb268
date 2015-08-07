@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a705d7ff_1c2995bd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-07T05:11:12Z",
+      "side": 1,
+      "message": "The ugly thing here is we send an empty list for the other action. That is confusing if you are looking at the Network tab in the browser.\n\nUse two different create methods for the two different paths so we only initialize the member we need.",
+      "range": {
+        "startLine": 153,
+        "startChar": 3,
+        "endLine": 155,
+        "endChar": 9
+      },
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e83f66_c200e23b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-07T05:11:12Z",
+      "side": 1,
+      "message": "You can make UiBinder do this for you:\n\n  @UiHandler(\"deleteKey\")\n  void onDelete(ClickEvent e) {\n    keys.deleteChecked();\n  }\n\nThis is preferable over the explicit event handler. All the runtime looking magic using @UiHandler is still statically checked at compile time by the GWT compiler so there is no advantage to the older style explicit event handler.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 7
+      },
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a705d7ff_7c2ad9b6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-07T05:11:12Z",
+      "side": 1,
+      "message": "As a matter of style we do this inside of onLoad not onInitUI:\n\n  @Override\n  protected void onLoad() {\n    super.onLoad();\n    refreshKeys();\n  }",
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a705d7ff_5c2f1dc5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-07T05:11:12Z",
+      "side": 1,
+      "message": "keyText.setEnabled(false) here too so that the user can\u0027t edit the key text while RPC is running.\n\nThis is what we do in a draft line comment for example.",
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e83f66_822adab3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-07T05:11:12Z",
+      "side": 1,
+      "message": "I\u0027m confused. The result of addGpgKey is a map of what, all known keys for the user? But you go through an rtt delay before displaying the newly added key because you refreshKeys after clearing the text box and enabling the buttons?\n\nIdeally you don\u0027t clear the box and don\u0027t let the user start interacting again until the refresh is done.",
+      "range": {
+        "startLine": 159,
+        "startChar": 10,
+        "endLine": 165,
+        "endChar": 11
+      },
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a705d7ff_fc1dc99b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-07T05:11:12Z",
+      "side": 1,
+      "message": "One of the reasons we use setRowItem(row,k) above is so here you can use getRowItem(k) and get back a GpgKeyInfo that you can access the field of instead of relying on getText.",
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a705d7ff_3c2451e5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-07T05:11:12Z",
+      "side": 1,
+      "message": "deletes shouldn\u0027t be returning a native map. A DELETE method has no response.",
+      "range": {
+        "startLine": 257,
+        "startChar": 12,
+        "endLine": 259,
+        "endChar": 13
+      },
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

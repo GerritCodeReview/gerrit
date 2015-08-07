@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
@@ -113,6 +114,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       return ((LoadingCache<K, ValueHolder<V>>) mem).get(key).value;
     }
     throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public V get(K key, Callable<? extends V> valueLoader)
+      throws ExecutionException {
+    return mem.get(key, new LoadingCallable(key, valueLoader)).value;
   }
 
   @Override
@@ -227,6 +234,36 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       }
 
       final ValueHolder<V> h = new ValueHolder<>(loader.load(key));
+      h.created = TimeUtil.nowMs();
+      executor.execute(new Runnable() {
+        @Override
+        public void run() {
+          store.put(key, h);
+        }
+      });
+      return h;
+    }
+  }
+
+  private class LoadingCallable implements Callable<ValueHolder<V>> {
+    private final K key;
+    private final Callable<? extends V> loader;
+
+    LoadingCallable(K key, Callable<? extends V> loader) {
+      this.key = key;
+      this.loader = loader;
+    }
+
+    @Override
+    public ValueHolder<V> call() throws Exception {
+      if (store.mightContain(key)) {
+        ValueHolder<V> h = store.getIfPresent(key);
+        if (h != null) {
+          return h;
+        }
+      }
+
+      final ValueHolder<V> h = new ValueHolder<V>(loader.call());
       h.created = TimeUtil.nowMs();
       executor.execute(new Runnable() {
         @Override

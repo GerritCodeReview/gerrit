@@ -16,7 +16,6 @@ package com.google.gerrit.server.git.gpg;
 
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -35,8 +34,9 @@ import java.util.Collection;
 /**
  * Pre-receive hook to check signed pushes.
  * <p>
- * If configured, prior to processing any push using {@link ReceiveCommits},
- * requires that any push certificate present must be valid.
+ * If configured, prior to processing any push using
+ * {@link com.google.gerrit.server.git.ReceiveCommits}, requires that any push
+ * certificate present must be valid.
  */
 @Singleton
 public class SignedPushPreReceiveHook implements PreReceiveHook {

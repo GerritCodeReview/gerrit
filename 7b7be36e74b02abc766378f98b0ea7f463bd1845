@@ -118,6 +118,30 @@
       "revId": "7b7be36e74b02abc766378f98b0ea7f463bd1845",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e453f8_dbce73a7",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.3.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-08T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8af6189c_cbc2f527",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "7b7be36e74b02abc766378f98b0ea7f463bd1845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

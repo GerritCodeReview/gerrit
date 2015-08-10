@@ -91,6 +91,15 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addNonExistingMember_UnprocessableEntity() throws Exception {
+    try {
+      gApi.groups().id("Administrators").addMembers("non-existing");
+    } catch (UnprocessableEntityException expected) {
+      // Expected.
+    }
+  }
+
+  @Test
   public void addMultipleMembers() throws Exception {
     String g = createGroup("users");
     TestAccount u1 = accounts.create("u1", "u1@example.com", "Full Name 1");

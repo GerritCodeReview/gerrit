@@ -1,0 +1,7 @@
+include_defs('//gerrit-acceptance-tests/tests.defs')
+
+acceptance_tests(
+  srcs = glob(['*IT.java']),
+  labels = ['rest']
+)
+

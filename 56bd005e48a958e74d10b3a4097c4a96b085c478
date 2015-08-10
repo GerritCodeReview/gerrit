@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "877a9331_ebb55119",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-08-10T05:54:55Z",
+      "side": 1,
+      "message": "I misunderstood you previous comment. I\u0027ll fix it.",
+      "parentUuid": "6afe4471_5265140f",
+      "revId": "56bd005e48a958e74d10b3a4097c4a96b085c478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aafbdc84_0c5b775c",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-04T19:41:17Z",
       "side": 1,
       "message": "Would add a few words about adding this doc section to the commit message.",
+      "revId": "56bd005e48a958e74d10b3a4097c4a96b085c478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "877a9331_cbb0952c",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-08-10T05:54:55Z",
+      "side": 1,
+      "message": "Not my change. Compare against base.",
+      "parentUuid": "aafbdc84_0c5b775c",
       "revId": "56bd005e48a958e74d10b3a4097c4a96b085c478",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "676bdf6a_cab0832c",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-08-10T05:54:55Z",
+      "side": 1,
+      "message": "ditto",
+      "parentUuid": "aafbdc84_cc132f8d",
+      "range": {
+        "startLine": 584,
+        "startChar": 29,
+        "endLine": 584,
+        "endChar": 32
+      },
+      "revId": "56bd005e48a958e74d10b3a4097c4a96b085c478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aafbdc84_2c563336",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 8
@@ -70,6 +130,24 @@
       "writtenOn": "2015-08-04T19:41:17Z",
       "side": 1,
       "message": "No image to show that tab like for the others(?)",
+      "revId": "56bd005e48a958e74d10b3a4097c4a96b085c478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "676bdf6a_eab54719",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-08-10T05:54:55Z",
+      "side": 1,
+      "message": "ditto",
+      "parentUuid": "aafbdc84_2c563336",
       "revId": "56bd005e48a958e74d10b3a4097c4a96b085c478",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -80,6 +80,12 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addNonExistingMember_NotFound() throws Exception {
+    assertThat(PUT("/groups/Administrators/members/non-existing").getStatusCode())
+      .isEqualTo(HttpStatus.SC_NOT_FOUND);
+  }
+
+  @Test
   public void addMultipleMembers() throws Exception {
     group("users");
     TestAccount u1 = accounts.create("u1", "u1@example.com", "Full Name 1");

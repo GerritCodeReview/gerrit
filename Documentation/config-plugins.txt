@@ -121,7 +121,7 @@ The Gerrit Project doesn't provide binaries for these plugins, but
 there are some public services that offer the download of pre-built
 plugin jars:
 
-* link:https://ci.gerritforge.com/[CI Server from GerritForge]
+* link:https://gerrit-ci.gerritforge.com[CI Server from GerritForge]
 * link:http://builds.quelltextlich.at/gerrit/nightly/index.html[
   CI Server from Quelltextlich]
 

@@ -175,6 +175,24 @@
       "revId": "5de70292ba27f6264944dc493335812c238acb3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "676bdf6a_8aba8b08",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-08-10T05:54:55Z",
+      "side": 1,
+      "message": "Ok, I guess this comment was misplaced :)",
+      "parentUuid": "aafbdc84_4c657f0f",
+      "revId": "5de70292ba27f6264944dc493335812c238acb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

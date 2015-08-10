@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "877a9331_2bfef9a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-10T18:57:28Z",
+      "side": 1,
+      "message": "Done, in what I hope is at least somewhat idiomatic a fashion.",
+      "parentUuid": "a705d7ff_1c2995bd",
+      "range": {
+        "startLine": 153,
+        "startChar": 3,
+        "endLine": 155,
+        "endChar": 9
+      },
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67e83f66_c200e23b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-08-07T05:11:12Z",
       "side": 1,
       "message": "You can make UiBinder do this for you:\n\n  @UiHandler(\"deleteKey\")\n  void onDelete(ClickEvent e) {\n    keys.deleteChecked();\n  }\n\nThis is preferable over the explicit event handler. All the runtime looking magic using @UiHandler is still statically checked at compile time by the GWT compiler so there is no advantage to the older style explicit event handler.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 7
+      },
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8761b321_1308ac66",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-10T18:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67e83f66_c200e23b",
       "range": {
         "startLine": 72,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "877a9331_cb2975c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-10T18:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a705d7ff_7c2ad9b6",
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a705d7ff_5c2f1dc5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2015-08-07T05:11:12Z",
       "side": 1,
       "message": "keyText.setEnabled(false) here too so that the user can\u0027t edit the key text while RPC is running.\n\nThis is what we do in a draft line comment for example.",
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "877a9331_eb2eb1c7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-10T18:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a705d7ff_5c2f1dc5",
       "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "676bdf6a_2afeffa0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-10T18:57:28Z",
+      "side": 1,
+      "message": "The result is a map of all keys modified by the call. I did refreshKeys() here because I\u0027m lazy, so I didn\u0027t have to implement upserting a row in the table based on the response.\n\nAllowing the user to interact before the refresh is a bug. Fixed.",
+      "parentUuid": "67e83f66_822adab3",
+      "range": {
+        "startLine": 159,
+        "startChar": 10,
+        "endLine": 165,
+        "endChar": 11
+      },
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a705d7ff_fc1dc99b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
         "patchSetId": 1
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "877a9331_8b236dde",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-10T18:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a705d7ff_fc1dc99b",
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a705d7ff_3c2451e5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
         "patchSetId": 1
@@ -133,6 +259,30 @@
       "writtenOn": "2015-08-07T05:11:12Z",
       "side": 1,
       "message": "deletes shouldn\u0027t be returning a native map. A DELETE method has no response.",
+      "range": {
+        "startLine": 257,
+        "startChar": 12,
+        "endLine": 259,
+        "endChar": 13
+      },
+      "revId": "6f5d691ad8c57ea6ef1d1c9a8fc4843fe66cb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "676bdf6a_ca2963c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-10T18:57:28Z",
+      "side": 1,
+      "message": "It\u0027s not a DELETE method. It\u0027s a POST to /gpgkeys with deletes: [list of fingerprints]. The return value of that POST is a map.\n\nUsing DELETEs would not turn out well. Firing off a bunch of deletes in parallel is going to race on the ref updates on the gpg-keys ref. Firing them in sequence is going to be slow when our system takes 1+ second to do a single ref update.\n\nThat\u0027s why I spent the time to implement bulk deletes in the POST handler, even though it was ugly.",
+      "parentUuid": "a705d7ff_3c2451e5",
       "range": {
         "startLine": 257,
         "startChar": 12,

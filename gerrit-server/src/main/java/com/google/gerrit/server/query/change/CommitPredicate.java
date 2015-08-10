@@ -14,28 +14,47 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.server.index.ChangeField.EXACT_COMMIT;
+
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
 
-import java.util.Objects;
+import org.eclipse.jgit.lib.Constants;
 
-class ExactCommitPredicate extends IndexPredicate<ChangeData> {
-  ExactCommitPredicate(String id) {
-    super(ChangeField.COMMIT, id);
+class CommitPredicate extends IndexPredicate<ChangeData> {
+  static FieldDef<ChangeData, ?> commitField(Schema<ChangeData> schema,
+      String id) {
+    if (id.length() == Constants.OBJECT_ID_STRING_LENGTH
+        && schema.hasField(EXACT_COMMIT)) {
+      return EXACT_COMMIT;
+    }
+    return ChangeField.COMMIT;
+  }
+
+  CommitPredicate(Schema<ChangeData> schema, String id) {
+    super(commitField(schema, id), id);
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     String id = getValue().toLowerCase();
     for (PatchSet p : object.patchSets()) {
-      if (p.getRevision() != null
-          && Objects.equals(p.getRevision().get(), id)) {
+      if (equals(p, id)) {
         return true;
       }
     }
     return false;
+  }
+
+  private boolean equals(PatchSet p, String id) {
+    boolean exact = getField() == EXACT_COMMIT;
+    String rev = p.getRevision() != null ? p.getRevision().get() : null;
+    return (exact && id.equals(rev))
+        || (!exact && rev != null && rev.startsWith(id));
   }
 
   @Override

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "676bdf6a_6a66371d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-11T12:49:16Z",
+      "side": 1,
+      "message": "Do we need to synchronize access to this collection?\nMultiple threads could invoke doFilter(...) at the same time, couldn\u0027t they?",
+      "revId": "15f11620db86c330552011d3f0268657a2a356de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

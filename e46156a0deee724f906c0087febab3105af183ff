@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "676bdf6a_ea40e760",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-11T13:23:32Z",
+      "side": 1,
+      "message": "It\u0027s unclear to me whether it works for plugins which don\u0027t have a Buck build but which are built with Maven only. Can you please clarify?",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 57
+      },
+      "revId": "e46156a0deee724f906c0087febab3105af183ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "676bdf6a_2a703fca",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/PluginDaemonTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-11T13:23:32Z",
+      "side": 1,
+      "message": "[optional] It\u0027s a bit unexpected that a \u0027deployPlugin()\u0027 method creates the test site. The method name rather suggest that it deploys a plugin into an existing site. Maybe you could move the site creation out?",
+      "revId": "e46156a0deee724f906c0087febab3105af183ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "676bdf6a_ca3ba3f6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/PluginDaemonTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-11T13:23:32Z",
+      "side": 1,
+      "message": "Why do you check on \"buck-out\" to determine if it\u0027s a Maven build? Why don\u0027t you check for a \"pom.xml\"?\n\nWhen a plugin with Buck build is initially cloned, the \"buck-out\" folder doesn\u0027t exist, it is only created when the plugin is build for the first time. Also the \"buck-out\" folder may be deleted manually. In both cases it would wrongly detect a Maven build, wouldn\u0027t it?",
+      "range": {
+        "startLine": 137,
+        "startChar": 3,
+        "endLine": 137,
+        "endChar": 28
+      },
+      "revId": "e46156a0deee724f906c0087febab3105af183ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

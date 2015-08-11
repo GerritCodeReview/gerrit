@@ -54,6 +54,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
@@ -116,6 +117,7 @@ public abstract class AbstractQueryChangesTest {
   @Inject protected ChangeControl.GenericFactory changeControlFactory;
   @Inject protected GerritApi gApi;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
+  @Inject protected IndexCollection indexes;
   @Inject protected InMemoryDatabase schemaFactory;
   @Inject protected InMemoryRepositoryManager repoManager;
   @Inject protected InternalChangeQuery internalChangeQuery;
@@ -1156,8 +1158,8 @@ public abstract class AbstractQueryChangesTest {
     }
 
     for (int i = 1; i <= 11; i++) {
-      Iterable<ChangeData> cds =
-          internalChangeQuery.byCommitsOnBranchNotMerged(dest, shas, i);
+      Iterable<ChangeData> cds = internalChangeQuery.byCommitsOnBranchNotMerged(
+          indexes.getSearchIndex().getSchema(), dest, shas, i);
       Iterable<Integer> ids = FluentIterable.from(cds).transform(
           new Function<ChangeData, Integer>() {
             @Override

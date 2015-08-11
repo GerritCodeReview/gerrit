@@ -27,6 +27,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
@@ -126,27 +127,25 @@ public class InternalChangeQuery {
 
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(Branch.NameKey branch,
       List<String> hashes) throws OrmException {
-    return byCommitsOnBranchNotMerged(
-        branch, hashes, indexConfig.maxPrefixTerms());
+    Schema<ChangeData> schema = schema(indexes);
+    if (schema.hasField(ChangeField.EXACT_COMMIT)) {
+      return query(commitsOnBranchNotMerged(branch, commits(schema, hashes)));
+    } else {
+      return byCommitsOnBranchNotMerged(
+          schema, branch, hashes, indexConfig.maxPrefixTerms());
+    }
   }
 
   @VisibleForTesting
-  Iterable<ChangeData> byCommitsOnBranchNotMerged(Branch.NameKey branch,
-      List<String> hashes, int batchSize) throws OrmException {
-    Schema<ChangeData> schema = schema(indexes);
-    List<Predicate<ChangeData>> commits = new ArrayList<>(hashes.size());
-    for (String s : hashes) {
-      commits.add(commit(schema, s));
-    }
+  Iterable<ChangeData> byCommitsOnBranchNotMerged(Schema<ChangeData> schema,
+      Branch.NameKey branch, List<String> hashes, int batchSize)
+      throws OrmException {
+    List<Predicate<ChangeData>> commits = commits(schema, hashes);
     int numBatches = (hashes.size() / batchSize) + 1;
     List<Predicate<ChangeData>> queries = new ArrayList<>(numBatches);
     for (List<Predicate<ChangeData>> batch
         : Iterables.partition(commits, batchSize)) {
-      queries.add(and(
-            ref(branch),
-            project(branch.getParentKey()),
-            not(status(Change.Status.MERGED)),
-            or(batch)));
+      queries.add(commitsOnBranchNotMerged(branch, batch));
     }
     try {
       return FluentIterable.from(qp.queryChanges(queries))
@@ -159,6 +158,24 @@ public class InternalChangeQuery {
     } catch (QueryParseException e) {
       throw new OrmException(e);
     }
+  }
+
+  private static List<Predicate<ChangeData>> commits(Schema<ChangeData> schema,
+      List<String> hashes) {
+    List<Predicate<ChangeData>> commits = new ArrayList<>(hashes.size());
+    for (String s : hashes) {
+      commits.add(commit(schema, s));
+    }
+    return commits;
+  }
+
+  private static Predicate<ChangeData> commitsOnBranchNotMerged(
+      Branch.NameKey branch, List<Predicate<ChangeData>> commits) {
+    return and(
+        ref(branch),
+        project(branch.getParentKey()),
+        not(status(Change.Status.MERGED)),
+        or(commits));
   }
 
   public List<ChangeData> byProjectOpen(Project.NameKey project)

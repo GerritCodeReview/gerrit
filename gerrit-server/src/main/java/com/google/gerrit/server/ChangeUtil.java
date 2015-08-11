@@ -77,7 +77,6 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -369,13 +368,11 @@ public class ChangeUtil {
     ReviewDb db = this.db.get();
     db.changes().beginTransaction(change.getId());
     try {
-      Map<RevId, String> refsToDelete = new HashMap<>();
       List<PatchSet> patchSets = db.patchSets().byChange(changeId).toList();
       for (PatchSet ps : patchSets) {
         if (!ps.isDraft()) {
           throw new NoSuchChangeException(changeId);
         }
-        refsToDelete.put(ps.getRevision(), ps.getRefName());
         db.accountPatchReviews().delete(
             db.accountPatchReviews().byPatchSet(ps.getId()));
       }
@@ -390,19 +387,21 @@ public class ChangeUtil {
       db.starredChanges().delete(db.starredChanges().byChange(changeId));
       db.changes().delete(Collections.singleton(change));
 
-      // Delete all refs at once
+      // Delete all refs at once.
       try (Repository repo = gitManager.openRepository(change.getProject());
           RevWalk rw = new RevWalk(repo)) {
+        String prefix = new PatchSet.Id(changeId, 1).toRefName();
+        prefix = prefix.substring(0, prefix.length() - 1);
         BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
-        for (Map.Entry<RevId, String> e : refsToDelete.entrySet()) {
+        for (Ref ref : repo.getRefDatabase().getRefs(prefix).values()) {
           ru.addCommand(
-              new ReceiveCommand(ObjectId.fromString(e.getKey().get()),
-              ObjectId.zeroId(), e.getValue()));
+              new ReceiveCommand(
+                ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
         }
         ru.execute(rw, NullProgressMonitor.INSTANCE);
         for (ReceiveCommand cmd : ru.getCommands()) {
           if (cmd.getResult() != ReceiveCommand.Result.OK) {
-            throw new IOException("failed: " + cmd);
+            throw new IOException("failed: " + cmd + ": " + cmd.getResult());
           }
         }
       }

@@ -16,6 +16,24 @@
       "revId": "15f11620db86c330552011d3f0268657a2a356de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a79957fb_9cb0e52b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-11T18:44:45Z",
+      "side": 1,
+      "message": "Good catch.\nDone in PS2.",
+      "parentUuid": "676bdf6a_6a66371d",
+      "revId": "15f11620db86c330552011d3f0268657a2a356de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

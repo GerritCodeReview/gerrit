@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "443979cf_11bf4cf9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-12T12:59:44Z",
+      "side": 1,
+      "message": "Use the `exception` member from AbstractDaemonTest, instead of the try-catch-expected idiom.\n\n exception.expect(UnprocessableEntityException.class);\n exception.expectMessage(\"expected message\");\n gApi.groups().id(\"Administrators\").addMembers(\"non-existing\");\n\nthe second line is optional, if we need to verify the exception\u0027s message.",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "877a70764e4b69671f44ee9371a82523f5fe6a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

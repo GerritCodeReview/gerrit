@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a79957fb_3cc2717c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-12T13:30:05Z",
+      "side": 1,
+      "message": "The former.\nIt is a defect of AllRequestsFilters\u0027 FilterProxy.\n\nBut I am not sure what you mean by \"more specific\".\nThe issue is that \"FilterProxy did not keep\ntrack of which filters have been around when its own init\ngot called.\" From my point of view, it does not get more\nspecific than that. And that sentence is already part\nof the commit message.\n\nWhat phrasing should I add?",
+      "parentUuid": "e726ef9b_26c2767c",
+      "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e726ef9b_06c57a83",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-12T10:27:40Z",
       "side": 1,
       "message": "Maybe I\u0027m missing something... how does this interact with plugin reloading? When and how are filters from a plugin that gets unloaded removed from this collection?",
+      "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a79957fb_5ccf3da3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-12T13:30:05Z",
+      "side": 1,
+      "message": "When the gerrit site comes up the Singleton FilterProxy has\nit\u0027s `init` method called.\n\nLet\u0027s assume that 2 hours after the site start, we\u0027re\nloading a plugin that adds to the AllRequestFilter\nDynamicSet.\nFrom now on, this new plugin\u0027s AllRequestFilter is part of\nthe `filters` iterator in line 76.\n\nBut (before this patch) the new plugin\u0027s AllRequestFilter\nnewer had its `init` called.\n\nThe new plugin\u0027s AllRequestFilter\u0027s `init` did not get called\nduring FilterProxy\u0027s init at gerrit site start, as the plugin\nwas not around at that point in time.\n\nAnd the servlet container itself cannot init the new Plugin\u0027s\nAllRequestFilter, as it only knows about the FilterProxy\ninstance, not about FilterProxy\u0027s dynamic set of\n(sub-)filters.\n\nHence, FilterProxy has to take care about initing the filters\nexactly once before calling their `doFilter`.\nThat\u0027s what this change does.",
+      "parentUuid": "e726ef9b_06c57a83",
       "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

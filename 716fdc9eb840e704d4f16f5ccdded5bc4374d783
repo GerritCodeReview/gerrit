@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e726ef9b_26c2767c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-08-12T10:27:40Z",
+      "side": 1,
+      "message": "Strange, I never noticed that. Does this apply only to AllRequestFilters or to servlet filters in general? If the former, the commit message should be more specific.",
+      "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e726ef9b_06c57a83",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-08-12T10:27:40Z",
+      "side": 1,
+      "message": "Maybe I\u0027m missing something... how does this interact with plugin reloading? When and how are filters from a plugin that gets unloaded removed from this collection?",
+      "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

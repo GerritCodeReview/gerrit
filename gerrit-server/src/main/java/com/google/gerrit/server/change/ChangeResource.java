@@ -21,28 +21,45 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.ChangeSet;
+import com.google.gerrit.server.git.MergeSuperSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.ObjectId;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
 
 public class ChangeResource implements RestResource, HasETag {
   public static final TypeLiteral<RestView<ChangeResource>> CHANGE_KIND =
       new TypeLiteral<RestView<ChangeResource>>() {};
 
   private final ChangeControl control;
+  private final Provider<ReviewDb> dbProvider;
+  private final MergeSuperSet mergeSuperSet;
 
-  public ChangeResource(ChangeControl control) {
+  @Inject
+  public ChangeResource(ChangeControl control,
+      Provider<ReviewDb> dbProvider,
+      MergeSuperSet mergeSuperSet) {
     this.control = control;
+    this.dbProvider = dbProvider;
+    this.mergeSuperSet = mergeSuperSet;
   }
 
   protected ChangeResource(ChangeResource copy) {
     this.control = copy.control;
+    this.dbProvider = copy.dbProvider;
+    this.mergeSuperSet = copy.mergeSuperSet;
   }
 
   public ChangeControl getControl() {
@@ -79,6 +96,17 @@ public class ChangeResource implements RestResource, HasETag {
 
     for (ProjectState p : control.getProjectControl().getProjectState().tree()) {
       hashObjectId(h, p.getConfig().getRevision(), buf);
+    }
+
+    try {
+      ReviewDb db = dbProvider.get();
+      ChangeSet cs = mergeSuperSet.completeChangeSet(db,
+          ChangeSet.create(getChange()));
+      for (Change.Id id : cs.ids()) {
+        h.putLong(db.changes().get(id).getLastUpdatedOn().getTime());
+      }
+    } catch (IOException | OrmException e) {
+      h.putString(e.getMessage(), Charset.defaultCharset());
     }
   }
 

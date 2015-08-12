@@ -119,17 +119,14 @@ public class MergeSuperSet {
           Branch.NameKey destBranch = cd.change().getDest();
           repo.getRefDatabase().refresh();
           Ref ref = repo.getRefDatabase().getRef(destBranch.get());
-          if (ref == null) {
-            ret.add(cd.change());
-            // A new empty branch doesn't have additional changes
-            continue;
-          }
 
           rw.reset();
           rw.sort(RevSort.TOPO);
           rw.markStart(commit);
-          RevCommit head = rw.parseCommit(ref.getObjectId());
-          rw.markUninteresting(head);
+          if (ref != null) {
+            RevCommit head = rw.parseCommit(ref.getObjectId());
+            rw.markUninteresting(head);
+          }
 
           List<String> hashes = new ArrayList<>();
           for (RevCommit c : rw) {

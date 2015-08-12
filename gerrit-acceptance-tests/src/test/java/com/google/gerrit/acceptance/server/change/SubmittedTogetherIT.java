@@ -23,8 +23,10 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ProjectConfig;
 
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -118,6 +120,28 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       assertSubmittedTogether(id2);
       assertSubmittedTogether(id3, id3, id2);
     }
+  }
+
+  @Test
+  public void testNewBranchTwoChangesTogether() throws Exception {
+    Project.NameKey p1 = createProject("a-new-project", null, false);
+    TestRepository<?> repo1 = cloneProject(p1);
+
+    RevCommit c1 = repo1.branch("HEAD").commit().insertChangeId()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = GitUtil.getChangeId(repo1, c1).get();
+    pushHead(repo1, "refs/for/master", false);
+
+    RevCommit c2 = repo1.branch("HEAD").commit().insertChangeId()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = GitUtil.getChangeId(repo1, c2).get();
+    pushHead(repo1, "refs/for/master", false);
+    assertSubmittedTogether(id1);
+    assertSubmittedTogether(id2, id2, id1);
   }
 
   @Test

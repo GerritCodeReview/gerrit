@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e726ef9b_a6dca65a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-08-12T14:05:54Z",
+      "side": 1,
+      "message": "I meant that in that case the commit message should say \"AllRequestFilters\" instead of the very general \"servlet filters\". I thought at first \"oops, I should have seen this behavior -- why do my plugins work?\" until I realized that probably this only affected AllRequestFilters.",
+      "parentUuid": "a79957fb_3cc2717c",
+      "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e726ef9b_06c57a83",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "When the gerrit site comes up the Singleton FilterProxy has\nit\u0027s `init` method called.\n\nLet\u0027s assume that 2 hours after the site start, we\u0027re\nloading a plugin that adds to the AllRequestFilter\nDynamicSet.\nFrom now on, this new plugin\u0027s AllRequestFilter is part of\nthe `filters` iterator in line 76.\n\nBut (before this patch) the new plugin\u0027s AllRequestFilter\nnewer had its `init` called.\n\nThe new plugin\u0027s AllRequestFilter\u0027s `init` did not get called\nduring FilterProxy\u0027s init at gerrit site start, as the plugin\nwas not around at that point in time.\n\nAnd the servlet container itself cannot init the new Plugin\u0027s\nAllRequestFilter, as it only knows about the FilterProxy\ninstance, not about FilterProxy\u0027s dynamic set of\n(sub-)filters.\n\nHence, FilterProxy has to take care about initing the filters\nexactly once before calling their `doFilter`.\nThat\u0027s what this change does.",
       "parentUuid": "e726ef9b_06c57a83",
+      "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a79957fb_9cd70536",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-08-12T14:05:54Z",
+      "side": 1,
+      "message": "Sorry for not being clear. I understood that much.\n\nBut what happens if you now unload/restart the plugin again? This singleton FilterProxy stores a hard reference (in \"intializedFilters\") to a filter class from the now to be unloaded plugin, doesn\u0027t it? If so, doesn\u0027t plugin unloading keep this AllRequestFilter instance plus everything it references, plus all the class metadata, which leads to a memory leak? The \"filters\" DynamicSet is no problem; if I understood that right, it is designed exactly for such cases. But I\u0027m unsure about the plain \"initializedFilters\" HashSet... I don\u0027t see filters being removed from there, not even on destroy(). (And removing filters in destroy() means that any un-/re-loadable plugin had better have a LifecycleListener and destroy its filters in the stop() method.)\n\nAt least that\u0027s how I understood the Gerrit plugin mechanism. I\u0027m not 100% sure I understood it right, so maybe I missed something and this is a non-issue and is being solved already in some way? If so, I\u0027m curious to learn how.",
+      "parentUuid": "a79957fb_5ccf3da3",
       "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -295,6 +295,7 @@ public class AuthConfig {
 
   public boolean isLdapAuthType() {
     return authType == AuthType.LDAP ||
-        authType == AuthType.LDAP_BIND;
+        authType == AuthType.LDAP_BIND ||
+        authType == AuthType.HTTP_LDAP;
   }
 }

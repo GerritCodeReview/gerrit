@@ -221,7 +221,8 @@ public class LdapRealm extends AbstractRealm {
         final LdapQuery.Result m = helper.findAccount(schema, ctx, username,
             fetchMemberOfEagerly);
 
-        if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {
+        if ((authConfig.getAuthType() == AuthType.LDAP ||
+            authConfig.getAuthType() == AuthType.HTTP_LDAP) && !who.isSkipAuthentication()) {
           // We found the user account, but we need to verify
           // the password matches it before we can continue.
           //

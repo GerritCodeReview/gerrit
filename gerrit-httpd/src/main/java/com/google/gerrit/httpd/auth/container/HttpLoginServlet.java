@@ -115,6 +115,9 @@ class HttpLoginServlet extends HttpServlet {
     }
 
     final AuthRequest areq = AuthRequest.forUser(user);
+    // Authentication has been done by the layer above;
+    // don't authenticate again.
+    areq.setSkipAuthentication(true);
     areq.setDisplayName(authFilter.getRemoteDisplayname(req));
     areq.setEmailAddress(authFilter.getRemoteEmail(req));
     final AuthResult arsp;

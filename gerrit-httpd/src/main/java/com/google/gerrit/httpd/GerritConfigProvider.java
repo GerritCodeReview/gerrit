@@ -94,7 +94,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
         config.setRegisterText(cfg.getString("auth", null, "registertext"));
         config.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));
-        config.setHttpPasswordSettingsEnabled(!authConfig.isGitBasicAuth());
         break;
 
       case CUSTOM_EXTENSION:
@@ -117,6 +116,11 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       case OPENID_SSO:
         break;
     }
+
+    if (authConfig.isLdapAuthType()) {
+      config.setHttpPasswordSettingsEnabled(!authConfig.isGitBasicAuth());
+    }
+
     config.setSwitchAccountUrl(cfg.getString("auth", null, "switchAccountUrl"));
     config.setUseContributorAgreements(cfg.getBoolean("auth",
         "contributoragreements", false));

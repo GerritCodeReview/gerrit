@@ -30,7 +30,8 @@ public class AuthInfo extends JavaScriptObject {
   }
 
   public final boolean isLdap() {
-    return authType() == AuthType.LDAP || authType() == AuthType.LDAP_BIND;
+    return authType() == AuthType.LDAP || authType() == AuthType.LDAP_BIND
+        || authType() == AuthType.HTTP_LDAP;
   }
   public final boolean isOpenId() {
     return authType() == AuthType.OPENID;

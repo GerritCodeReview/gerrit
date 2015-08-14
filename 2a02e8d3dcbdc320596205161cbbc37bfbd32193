@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44333920_61bf96f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:00:22Z",
+      "side": 1,
+      "message": "Do this in the list() method instead? I don\u0027t see a reason to bother holding this as a singleton when we can just make it as small temporary garbage when it is actually invoked.",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84a3717f_e3c09275",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:00:22Z",
+      "side": 1,
+      "message": "Use keyId(fp)?",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44333920_c1c30280",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:00:22Z",
+      "side": 1,
+      "message": "Isn\u0027t this going to require the caller to give you more than 8 hex digits? Reads to me like the 8 digit path will never work.",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84a3717f_c3c31680",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:00:22Z",
+      "side": 1,
+      "message": "There is no value in making this class public when its not static. Potential external callers should use the list() method above to create an instance and get the injection currying required for this class to work.",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84a3717f_83cd1eac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:00:22Z",
+      "side": 1,
+      "message": "Do we want to do a bit of backoff and retry here in the server or in the client UI?\n\nI am just thinking about a bunch of users sending us keys at once. A few may get transient lock race errors that are fixable with a short backoff and retry.",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

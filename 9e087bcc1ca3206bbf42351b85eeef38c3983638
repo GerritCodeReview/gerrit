@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44333920_41d9b268",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:32:54Z",
+      "side": 1,
+      "message": "nit: two blank lines here, only one necessary",
+      "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84a3717f_83e67e22",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:32:54Z",
+      "side": 1,
+      "message": "These are racing with each other. doAddKey() is async. refreshKeys is async. The browser is going to fire both at the same time and then what you get in the end is random.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 18
+      },
+      "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84a3717f_4302c64a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:32:54Z",
+      "side": 1,
+      "message": "Move this into the callback so the UI doesn\u0027t go blank after add or remove while you are waiting on the GET?",
+      "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84a3717f_a3e37a11",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:32:54Z",
+      "side": 1,
+      "message": "also keyText.setEnabled(true); there is no place you set it enabled after its been disabled so you would need to do that here after the REST API call is done.",
+      "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44333920_e1ca8690",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:32:54Z",
+      "side": 1,
+      "message": "also keyText.setEnabled(true)?",
+      "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

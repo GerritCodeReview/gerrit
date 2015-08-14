@@ -22,6 +22,30 @@
       "revId": "aca88b072cc7ab3151801022bd397529d7b429a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "445c1964_d9cad390",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/Fingerprint.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-14T19:19:58Z",
+      "side": 1,
+      "message": "Thank you, I wanted NB.decodeInt32, but I couldn\u0027t find it in JGit. Now I know.",
+      "parentUuid": "84a3717f_43d96668",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 16
+      },
+      "revId": "aca88b072cc7ab3151801022bd397529d7b429a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

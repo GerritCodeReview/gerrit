@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
@@ -174,6 +176,17 @@ public class ChangeControl {
       return false;
     }
     return isVisible(db);
+  }
+
+  /** Can this user see the given patchset? */
+  public boolean isPatchVisible(PatchSet ps, ChangeData cd)
+      throws OrmException {
+    checkArgument(cd.getId().equals(ps.getId().getParentKey()),
+        "%s not for change %s", ps, cd.getId());
+    if (ps.isDraft() && !isDraftVisible(cd.db(), cd)) {
+      return false;
+    }
+    return isVisible(cd.db());
   }
 
   /** Can this user abandon this change? */

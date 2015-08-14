@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "84a3717f_03d36e4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:14:51Z",
+      "side": 1,
+      "message": "Thanks, I misread the code earlier.",
+      "parentUuid": "a44dd5b0_dccacd90",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a3717f_c3c31680",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
         "patchSetId": 8
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "The value in making it public is the return type of apply in RestReadView is Object, but here we override it to return Map\u003cString, GpgKeyInfo\u003e. This allows AccountApiImpl#listGpgKeys() to return Map\u003cString, GpgKeyInfo\u003e as well without downcasting.",
       "parentUuid": "84a3717f_c3c31680",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44333920_01ce8aa6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:14:51Z",
+      "side": 1,
+      "message": "Ack, that makes a lot of sense.",
+      "parentUuid": "445c1964_99c05b75",
       "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

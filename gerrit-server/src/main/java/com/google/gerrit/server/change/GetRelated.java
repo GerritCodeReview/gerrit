@@ -24,9 +24,8 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommonConverters;
-import com.google.gerrit.server.change.WalkSorter.PatchSetData;
+import com.google.gerrit.server.change.PatchSetAncestorSorter.PatchSetData;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.index.IndexCollection;
@@ -43,7 +42,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -54,7 +52,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final GetRelatedByAncestors byAncestors;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final Provider<WalkSorter> sorter;
+  private final PatchSetAncestorSorter sorter;
   private final IndexCollection indexes;
   private final boolean byAncestorsOnly;
 
@@ -63,7 +61,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       @GerritServerConfig Config cfg,
       GetRelatedByAncestors byAncestors,
       Provider<InternalChangeQuery> queryProvider,
-      Provider<WalkSorter> sorter,
+      PatchSetAncestorSorter sorter,
       IndexCollection indexes) {
     this.db = db;
     this.byAncestors = byAncestors;
@@ -107,16 +105,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
     }
     List<ChangeAndCommit> result = new ArrayList<>(cds.size());
 
-    PatchSet.Id editBaseId = rsrc.getEdit().isPresent()
-        ? rsrc.getEdit().get().getBasePatchSet().getId()
-        : null;
-    for (PatchSetData d : sorter.get()
-        .includePatchSets(choosePatchSets(thisPatchSetGroups, cds))
-        .setRetainBody(true)
-        .sort(cds)) {
+    boolean isEdit = rsrc.getEdit().isPresent();
+    PatchSet basePs = isEdit
+        ? rsrc.getEdit().get().getBasePatchSet()
+        : rsrc.getPatchSet();
+    for (PatchSetData d : sorter.sort(cds, basePs)) {
       PatchSet ps = d.patchSet();
       RevCommit commit;
-      if (ps.getId().equals(editBaseId)) {
+      if (isEdit && ps.getId().equals(basePs.getId())) {
         // Replace base of an edit with the edit itself.
         ps = rsrc.getPatchSet();
         commit = rsrc.getEdit().get().getEditCommit();
@@ -145,40 +141,6 @@ public class GetRelated implements RestReadView<RevisionResource> {
       }
     }
     return result;
-  }
-
-  private static Set<PatchSet.Id> choosePatchSets(List<String> groups,
-      List<ChangeData> cds) throws OrmException {
-    // Prefer the latest patch set matching at least one group from this
-    // revision; otherwise, just use the latest patch set overall.
-    Set<PatchSet.Id> result = new HashSet<>();
-    for (ChangeData cd : cds) {
-      Collection<PatchSet> patchSets = cd.patchSets();
-      List<PatchSet> sameGroup = new ArrayList<>(patchSets.size());
-      for (PatchSet ps : patchSets) {
-        if (hasAnyGroup(ps, groups)) {
-          sameGroup.add(ps);
-        }
-      }
-      result.add(ChangeUtil.PS_ID_ORDER.max(
-          !sameGroup.isEmpty() ? sameGroup : patchSets).getId());
-    }
-    return result;
-  }
-
-  private static boolean hasAnyGroup(PatchSet ps, List<String> groups) {
-    if (ps.getGroups() == null) {
-      return false;
-    }
-    // Expected size of each list is 1, so nested linear search is fine.
-    for (String g1 : ps.getGroups()) {
-      for (String g2 : groups) {
-        if (g1.equals(g2)) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
   public static class RelatedInfo {

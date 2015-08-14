@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84a3717f_43d96668",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/Fingerprint.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:12:36Z",
+      "side": 1,
+      "message": "fp[5] is upcast to int by sign extending and then shifted left only 16 bits. There are now very high bits set. Or not set depending on the sign-ness of fp[5].\n\nThe resulting hash is a mash of bits sure, but is not the same hash as ObjectId.\n\nBecause you use \u0026 fp[4] doesn\u0027t get to contribute anything unless fp[5] is negative.\n\n\nI would suggest just using NB.decodeInt32(fp, 4) here if that is what you want. Or use ByteBuffer.wrap(fp).getInt(4). Or write a correct conversion of 4 bytes into an int.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 16
+      },
+      "revId": "aca88b072cc7ab3151801022bd397529d7b429a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

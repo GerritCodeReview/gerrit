@@ -859,17 +859,38 @@ public abstract class AbstractQueryChangesTest {
     Change change2 = newChange(repo, commit2, null, null, null).insert();
 
     assertQuery("added:>4");
+    assertQuery("-added:<=4");
+
     assertQuery("added:3", change1);
+    assertQuery("-(added:<3 OR added>3)", change1);
+
     assertQuery("added:>2", change1);
+    assertQuery("-added:<=2", change1);
+
     assertQuery("added:>=3", change1);
+    assertQuery("-added:<3", change1);
+
     assertQuery("added:<1", change2);
+    assertQuery("-added:>=1", change2);
+
     assertQuery("added:<=0", change2);
+    assertQuery("-added:>0", change2);
 
     assertQuery("deleted:>3");
+    assertQuery("-deleted:<=3");
+
     assertQuery("deleted:2", change2);
+    assertQuery("-(deleted:<2 OR deleted>2)", change2);
+
     assertQuery("deleted:>1", change2);
+    assertQuery("-deleted:<=1", change2);
+
     assertQuery("deleted:>=2", change2);
+    assertQuery("-deleted:<2", change2);
+
     assertQuery("deleted:<1", change1);
+    assertQuery("-deleted:>=1", change1);
+
     assertQuery("deleted:<=0", change1);
 
     for (String str : Lists.newArrayList("delta", "size")) {

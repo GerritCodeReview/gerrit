@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "445c1964_b9c39f80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-14T19:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44333920_61bf96f8",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a3717f_e3c09275",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2015-08-14T19:00:22Z",
       "side": 1,
       "message": "Use keyId(fp)?",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44dd5b0_3cd9316a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-14T19:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84a3717f_e3c09275",
       "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a44dd5b0_dccacd90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-14T19:09:36Z",
+      "side": 1,
+      "message": "str can be 8 or 40 hex digits. We iterate over all external IDs looking for a suffix match starting on line 101, then fp gets populated with the full 20 bytes from the AccountExternalId key.",
+      "parentUuid": "44333920_c1c30280",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a3717f_c3c31680",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
         "patchSetId": 8
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "445c1964_99c05b75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-14T19:09:36Z",
+      "side": 1,
+      "message": "The value in making it public is the return type of apply in RestReadView is Object, but here we override it to return Map\u003cString, GpgKeyInfo\u003e. This allows AccountApiImpl#listGpgKeys() to return Map\u003cString, GpgKeyInfo\u003e as well without downcasting.",
+      "parentUuid": "84a3717f_c3c31680",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a3717f_83cd1eac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
         "patchSetId": 8
@@ -81,6 +153,24 @@
       "writtenOn": "2015-08-14T19:00:22Z",
       "side": 1,
       "message": "Do we want to do a bit of backoff and retry here in the server or in the client UI?\n\nI am just thinking about a bunch of users sending us keys at once. A few may get transient lock race errors that are fixable with a short backoff and retry.",
+      "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "445c1964_f9cd17ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-14T19:09:36Z",
+      "side": 1,
+      "message": "Yes, I plan to, left a TODO.",
+      "parentUuid": "84a3717f_83cd1eac",
       "revId": "2a02e8d3dcbdc320596205161cbbc37bfbd32193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

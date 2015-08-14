@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84a3717f_030cce78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/Fingerprint.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-14T19:34:43Z",
+      "side": 1,
+      "message": "Since you are using NB you could do to avoid the ByteBuffer:\n\n  return NB.decodeInt64(fp, 12);",
+      "revId": "4b79cbe5376bfacf691ca5991aaeb4bac1ddec13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

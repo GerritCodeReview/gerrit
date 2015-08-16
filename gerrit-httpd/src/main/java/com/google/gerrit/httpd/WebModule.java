@@ -128,6 +128,8 @@ public class WebModule extends LifecycleModule {
       case OPENID:
       case OPENID_SSO:
         // OpenID support is bound in WebAppInitializer and Daemon.
+      case SAML:
+        // SAML 2.0 support is bound in WebAppInitializer and Daemon.
       case CUSTOM_EXTENSION:
         break;
       default:

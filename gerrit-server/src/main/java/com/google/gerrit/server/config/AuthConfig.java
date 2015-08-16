@@ -240,6 +240,7 @@ public class AuthConfig {
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
       case OAUTH:
+      case SAML:
         // only way in is through some external system that the admin trusts
         //
         return true;

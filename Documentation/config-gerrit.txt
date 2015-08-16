@@ -155,6 +155,22 @@ types of data, and can be revoked by users at any time.
 Site owners have to register their application before getting started. Note
 that provider specific plugins must be used with this authentication scheme.
 +
+* SAML
++
+Gerrit authenticates the user using a SAML 2.0 Identity Provider.
++
+Before you start, you need to obtain a SAML metadata document from your
+identity provider.
++
+Gerrit looks for 3 attributes (which are configurable) in the AttributeStatement:
++
++ *DisplayName:* the full name of the user.
++ *EmailAddress:* email address of the user.
++ *UserName:* username (used for ssh).
++
+If any of these attributes is not found in the assertion, their value is
+taken from the NameId field of the SAML assertion.
++
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
 +
 *DO NOT USE*.  Only for use in a development environment.
@@ -3060,6 +3076,76 @@ By default, `MERGE_IF_NECESSARY`.
 A name of a group which exists in the database. Zero, one or many
 groups are allowed.  Each on its own line.  Groups which don't exist
 in the database are ignored.
+
+[[saml]]
+=== Section saml
+
+SAML integration is only enabled if `auth.type` is set to
+`SAML`. See above for a detailed description of the `auth.type`
+settings and their implications.
+
+An example SAML configuration follows, and then discussion of
+the parameters introduced here.
+
+----
+[saml]
+  metadataPath = https://example.com/app/gerrit/metadata
+  keystorePath = etc/samlKeystore.jks
+  privateKeyPassword = password1
+  keystorePassword = password2
+----
+
+[[ldap.metadataPath]]ldap.metadataPath::
++
+Location of IdP Metadata from your SAML identity provider.  The value
+can be a URL, or a local file.
++
+In addition, you need to create a keystore using a command like this:
+
+----
+keytool -genkeypair -alias pac4j -keypass password1 \
+  -keystore samlKeystore.jks \
+  -storepass password2 -keyalg RSA -keysize 2048 -validity 3650
+----
+
+[[saml.keystorePath]]saml.keystorePath::
++
+Path to the keystore created above. If not absolute, the path is resolved
+relative to `$site_path`.
+
+[[saml.privateKeyPassword]]saml.privateKeyPassword::
++
+Password protecting the private key of the generated key pair (needs to be the
+same as the password provided throguh the `keypass` flag above.)
+
+[[saml.keystorePassword]]saml.keystorePassword::
++
+Password that is used to protect the integrity of the keystore (needs to be the
+same as the password provided throguh the `keystore` flag above.)
+
+[[saml.displayNameAttr]]saml.displayNameAttr::
++
+Gerrit will look for an attribute with this name in the assertion to find a
+display name for the user. If the attribute is not found, the NameId from the
+SAML assertion is used instead.
++
++Default is `DisplayName`
+
+[[saml.emailAddressAttr]]saml.emailAddressAttr::
++
+Gerrit will look for an attribute with this name in the assertion to find a
+the email address of the user. If the attribute is not found, the NameId from the
+SAML assertion is used instead.
++
++Default is `EmailAddress`
+
+[[saml.userName]]saml.userNameAttr::
++
+Gerrit will look for an attribute with this name in the assertion to find a
+the email address of the user. If the attribute is not found, the NameId from the
+SAML assertion is used instead.
++
++Default is `UserName`
 
 [[rules]]
 === Section rules

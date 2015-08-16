@@ -149,6 +149,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       case OAUTH:
       case OPENID:
       case OPENID_SSO:
+      case SAML:
         break;
     }
     return info;

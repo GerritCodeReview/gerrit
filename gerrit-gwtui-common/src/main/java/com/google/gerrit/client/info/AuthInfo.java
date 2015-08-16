@@ -40,6 +40,10 @@ public class AuthInfo extends JavaScriptObject {
     return authType() == AuthType.OAUTH;
   }
 
+  public final boolean isSaml() {
+    return authType() == AuthType.SAML;
+  }
+
   public final boolean isDev() {
     return authType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
   }

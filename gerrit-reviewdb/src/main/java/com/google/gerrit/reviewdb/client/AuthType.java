@@ -83,5 +83,8 @@ public enum AuthType {
   DEVELOPMENT_BECOME_ANY_ACCOUNT,
 
   /** Generic OAuth provider over HTTP. */
-  OAUTH
+  OAUTH,
+
+  /** SAML 2.0 Provider */
+  SAML
 }

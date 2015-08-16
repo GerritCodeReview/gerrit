@@ -21,6 +21,7 @@ import com.google.common.base.Splitter;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
+import com.google.gerrit.httpd.auth.saml.SamlModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -356,6 +357,8 @@ public class WebAppInitializer extends GuiceServletContextListener
       modules.add(new OpenIdModule());
     } else if (authConfig.getAuthType() == AuthType.OAUTH) {
       modules.add(new OAuthModule());
+    } else if (authConfig.getAuthType() == AuthType.SAML) {
+      modules.add(new SamlModule());
     }
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
 

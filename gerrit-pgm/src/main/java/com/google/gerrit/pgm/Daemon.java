@@ -30,6 +30,7 @@ import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
+import com.google.gerrit.httpd.auth.saml.SamlModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -441,6 +442,8 @@ public class Daemon extends SiteProgram {
       modules.add(new OpenIdModule());
     } else if (authConfig.getAuthType() == AuthType.OAUTH) {
       modules.add(new OAuthModule());
+    } else if (authConfig.getAuthType() == AuthType.SAML) {
+      modules.add(new SamlModule());
     }
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
 

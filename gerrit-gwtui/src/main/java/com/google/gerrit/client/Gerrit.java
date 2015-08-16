@@ -730,15 +730,8 @@ public class Gerrit implements EntryPoint {
           break;
 
         case OAUTH:
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            @Override
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
-          break;
-
         case OPENID_SSO:
+        case SAML:
           menuRight.addItem(C.menuSignIn(), new Command() {
             @Override
             public void execute() {

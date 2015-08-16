@@ -102,6 +102,7 @@ java_library(
     '//gerrit-lucene:lucene',
     '//gerrit-oauth:oauth',
     '//gerrit-openid:openid',
+    '//gerrit-saml:saml',
     '//gerrit-solr:solr',
     '//lib:args4j',
     '//lib:gwtorm',

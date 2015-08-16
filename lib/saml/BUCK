@@ -1,0 +1,188 @@
+include_defs('//lib/maven.defs')
+
+maven_jar(
+  name = 'pac4j-saml',
+  id = 'org.pac4j:pac4j-saml:1.7.1',
+  sha1 = 'f32a6422878d15b253cfd3eac4347e3dc975285b',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+  deps = [
+      ':cryptacular',
+      ':opensaml-core',
+      ':opensaml-messaging-api',
+      ':opensaml-messaging-impl',
+      ':opensaml-profile-api',
+      ':opensaml-profile-impl',
+      ':opensaml-saml-api',
+      ':opensaml-saml-impl',
+      ':opensaml-soap-api',
+      ':opensaml-security-api',
+      ':opensaml-security-impl',
+      ':opensaml-xmlsec-api',
+      ':opensaml-xmlsec-impl',
+      ':opensaml-xmltooling',
+      ':pac4j-core',
+      ':shibboleth-java-support',
+      ':shibboleth-spring-extensions',
+      ':spring-core',
+      '//lib/commons:codec',
+      '//lib/joda:joda-time',
+      '//lib:velocity',
+  ]
+)
+
+maven_jar(
+  name = 'shibboleth-java-support',
+  id = 'net.shibboleth.utilities:java-support:7.1.1',
+  sha1 = '7380a42d4ef28f98f73657b0d0cbe59a8eba605b',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-core',
+  id = 'org.opensaml:opensaml-core:3.1.1',
+  sha1 = 'b72f6b92bdff0fe6b590a46f7a8958c84c654729',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-saml-api',
+  id = 'org.opensaml:opensaml-saml-api:3.1.1',
+  sha1 = '083f423f7d055037737197c2c1cdb8ae3b8c4875',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-saml-impl',
+  id = 'org.opensaml:opensaml-saml-impl:3.1.1',
+  sha1 = '2d2ad57af6123af47df93b38f449b5cb19e374f2',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-soap-api',
+  id = 'org.opensaml:opensaml-soap-api:3.1.1',
+  sha1 = '4f2aac3df4c8c6e5a043064a1f3caa47215f288e',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'spring-core',
+  id = 'org.springframework:spring-core:2.5.6',
+  sha1 = 'c450bc49099430e13d21548d1e3d1a564b7e35e9',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'shibboleth-spring-extensions',
+  id = 'net.shibboleth.ext:spring-extensions:5.1.1',
+  sha1 = 'db3750010ec1acf182927a60ffebb19753274ee1',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'pac4j-core',
+  id = 'org.pac4j:pac4j-core:1.7.1',
+  sha1 = 'dd28608917272b2104d95b7fdf181f0ee96dac8a',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-security-api',
+  id = 'org.opensaml:opensaml-security-api:3.1.1',
+  sha1 = '9e5e0625a4eaa52d40c3ddd1025b1cfdca87facf',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-security-impl',
+  id = 'org.opensaml:opensaml-security-impl:3.1.1',
+  sha1 = '110e40459c769148495fddbf1f4b9dd3f5afeafb',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-messaging-api',
+  id = 'org.opensaml:opensaml-messaging-api:3.1.1',
+  sha1 = 'b68ad4446d662917f9a4159b112afa4b37e3a9f9',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-messaging-impl',
+  id = 'org.opensaml:opensaml-messaging-impl:3.1.1',
+  sha1 = '7c3361351b4d8c7d236c442ed346b4972441835d',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-profile-api',
+  id = 'org.opensaml:opensaml-profile-api:3.1.1',
+  sha1 = '2cca31d4b61ecd0237978ae4c08b9872aa2590f8',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-profile-impl',
+  id = 'org.opensaml:opensaml-profile-impl:3.1.1',
+  sha1 = '7eec0a8d27425d6570543213547f0e2e4d92efa7',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-xmltooling',
+  id = 'org.opensaml:xmltooling:1.4.4',
+  sha1 = '8cf44998d4b9cca5f9eeb47cc95d95cea9f86714',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+  deps = [
+      ':apache-xmlsec'
+  ],
+)
+
+maven_jar(
+  name = 'opensaml-xmlsec-api',
+  id = 'org.opensaml:opensaml-xmlsec-api:3.1.1',
+  sha1 = '5f672d54217f9a757263a9b1ac1739ce2bbc6463',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'opensaml-xmlsec-impl',
+  id = 'org.opensaml:opensaml-xmlsec-impl:3.1.1',
+  sha1 = 'c62cddd3a5bcc04243aa9b978a4848be882af473',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'apache-xmlsec',
+  id = 'org.apache.santuario:xmlsec:2.0.5',
+  sha1 = '5105288b83e56be8bbb5e5aeac362bd04820cf46',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'cryptacular',
+  id = 'org.cryptacular:cryptacular:1.1.0',
+  sha1 = 'eabbba7a9379d531000debfba3c983f5071f7e60',
+  license = 'Apache2.0',
+  visibility = ['PUBLIC'],
+)
+

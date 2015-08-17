@@ -34,6 +34,24 @@
       "revId": "4b79cbe5376bfacf691ca5991aaeb4bac1ddec13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84e451f8_9bc30b81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/Fingerprint.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-17T17:31:08Z",
+      "side": 1,
+      "message": "Ok, future cleanup CL.",
+      "parentUuid": "a4707519_a4c0a274",
+      "revId": "4b79cbe5376bfacf691ca5991aaeb4bac1ddec13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

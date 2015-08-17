@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "64983d90_02b08a29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-17T11:43:37Z",
+      "side": 1,
+      "message": "Done in PS4.",
+      "parentUuid": "e726ef9b_a6dca65a",
+      "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e726ef9b_06c57a83",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
         "patchSetId": 2
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Sorry for not being clear. I understood that much.\n\nBut what happens if you now unload/restart the plugin again? This singleton FilterProxy stores a hard reference (in \"intializedFilters\") to a filter class from the now to be unloaded plugin, doesn\u0027t it? If so, doesn\u0027t plugin unloading keep this AllRequestFilter instance plus everything it references, plus all the class metadata, which leads to a memory leak? The \"filters\" DynamicSet is no problem; if I understood that right, it is designed exactly for such cases. But I\u0027m unsure about the plain \"initializedFilters\" HashSet... I don\u0027t see filters being removed from there, not even on destroy(). (And removing filters in destroy() means that any un-/re-loadable plugin had better have a LifecycleListener and destroy its filters in the stop() method.)\n\nAt least that\u0027s how I understood the Gerrit plugin mechanism. I\u0027m not 100% sure I understood it right, so maybe I missed something and this is a non-issue and is being solved already in some way? If so, I\u0027m curious to learn how.",
       "parentUuid": "a79957fb_5ccf3da3",
+      "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "449b398d_01b08a29",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-17T11:43:37Z",
+      "side": 1,
+      "message": "Gotcha. Done in PS4.",
+      "parentUuid": "a79957fb_9cd70536",
       "revId": "716fdc9eb840e704d4f16f5ccdded5bc4374d783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a4707519_64bf8af8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-17T14:16:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44333920_41d9b268",
+      "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a3717f_83e67e22",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2015-08-14T19:32:54Z",
       "side": 1,
       "message": "These are racing with each other. doAddKey() is async. refreshKeys is async. The browser is going to fire both at the same time and then what you get in the end is random.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 18
+      },
+      "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24a2c5bf_c0b97e15",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-17T14:16:34Z",
+      "side": 1,
+      "message": "Done. refreshKeys is already called from the actual addGpgKey callback, this must have been leftover from previous rewriting.",
+      "parentUuid": "84a3717f_83e67e22",
       "range": {
         "startLine": 103,
         "startChar": 0,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "24a2c5bf_a0be7af9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-17T14:16:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84a3717f_4302c64a",
+      "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a3717f_a3e37a11",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
         "patchSetId": 4
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "24a2c5bf_80c49689",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-17T14:16:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84a3717f_a3e37a11",
+      "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44333920_e1ca8690",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
         "patchSetId": 4
@@ -87,6 +165,24 @@
       "writtenOn": "2015-08-14T19:32:54Z",
       "side": 1,
       "message": "also keyText.setEnabled(true)?",
+      "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4707519_84c3a680",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGpgKeysScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-17T14:16:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44333920_e1ca8690",
       "revId": "9e087bcc1ca3206bbf42351b85eeef38c3983638",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

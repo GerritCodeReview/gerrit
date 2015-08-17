@@ -41,6 +41,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GpgKeys;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.gpg.Fingerprint;
 import com.google.gerrit.server.git.gpg.PublicKeyStore;
 import com.google.gerrit.server.git.gpg.TestKey;
 import com.google.inject.Inject;
@@ -348,7 +349,7 @@ public class AccountIT extends AbstractDaemonTest {
       assertKeyEquals(key, gApi.accounts().self().gpgKey(
           key.getKeyIdString()).get());
       assertKeyEquals(key, gApi.accounts().self().gpgKey(
-          fingerprintToString(key.getPublicKey().getFingerprint())).get());
+          Fingerprint.toString(key.getPublicKey().getFingerprint())).get());
       assertKeyMapContains(key, keyMap);
     }
 
@@ -383,7 +384,7 @@ public class AccountIT extends AbstractDaemonTest {
     String id = expected.getKeyIdString();
     assertThat(actual.id).named(id).isEqualTo(id);
     assertThat(actual.fingerprint).named(id).isEqualTo(
-        fingerprintToString(expected.getPublicKey().getFingerprint()));
+        Fingerprint.toString(expected.getPublicKey().getFingerprint()));
     @SuppressWarnings("unchecked")
     List<String> userIds =
         ImmutableList.copyOf(expected.getPublicKey().getUserIDs());

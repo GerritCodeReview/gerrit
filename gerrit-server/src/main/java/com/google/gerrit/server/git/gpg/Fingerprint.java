@@ -18,18 +18,31 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import org.eclipse.jgit.util.NB;
 
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class Fingerprint {
   private final byte[] fp;
 
+  public static String toString(byte[] fp) {
+    checkLength(fp);
+    return String.format(
+        "%04X %04X %04X %04X %04X  %04X %04X %04X %04X %04X",
+        NB.decodeUInt16(fp, 0), NB.decodeUInt16(fp, 2), NB.decodeUInt16(fp, 4),
+        NB.decodeUInt16(fp, 6), NB.decodeUInt16(fp, 8), NB.decodeUInt16(fp, 10),
+        NB.decodeUInt16(fp, 12), NB.decodeUInt16(fp, 14),
+        NB.decodeUInt16(fp, 16), NB.decodeUInt16(fp, 18));
+  }
+
+  private static byte[] checkLength(byte[] fp) {
+    checkArgument(fp.length == 20,
+        "fingerprint must be 20 bytes, got %s", fp.length);
+    return fp;
+  }
+
   public Fingerprint(byte[] fp) {
     // Don't bother with defensive copies; PGPPublicKey#getFingerprint() already
     // does so.
-    checkArgument(fp.length == 20,
-        "fingerprint must be 20 bytes, got %s", fp.length);
-    this.fp = fp;
+    this.fp = checkLength(fp);
   }
 
   public byte[] get() {
@@ -53,15 +66,10 @@ public class Fingerprint {
 
   @Override
   public String toString() {
-    ByteBuffer buf = ByteBuffer.wrap(fp);
-    return String.format(
-        "(%04X %04X %04X %04X %04X  %04X %04X %04X %04X %04X)",
-        buf.getShort(), buf.getShort(), buf.getShort(), buf.getShort(),
-        buf.getShort(), buf.getShort(), buf.getShort(), buf.getShort(),
-        buf.getShort(), buf.getShort());
+    return toString(fp);
   }
 
   public long getId() {
-    return ByteBuffer.wrap(fp).getLong(12);
+    return NB.decodeInt64(fp, 12);
   }
 }

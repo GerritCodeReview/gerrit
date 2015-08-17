@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountResource.GpgKey;
+import com.google.gerrit.server.git.gpg.Fingerprint;
 import com.google.gerrit.server.git.gpg.PublicKeyStore;
 import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.gwtorm.server.OrmException;
@@ -46,12 +47,12 @@ import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.eclipse.jgit.util.NB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -196,7 +197,7 @@ public class GpgKeys implements
   }
 
   private static long keyId(byte[] fp) {
-    return ByteBuffer.wrap(fp).getLong(fp.length - 8);
+    return NB.decodeInt32(fp, fp.length - 8);
   }
 
   static void checkEnabled() throws ResourceNotFoundException {
@@ -209,7 +210,7 @@ public class GpgKeys implements
     PGPPublicKey key = keyRing.getPublicKey();
     GpgKeyInfo info = new GpgKeyInfo();
     info.id = PublicKeyStore.keyIdToString(key.getKeyID());
-    info.fingerprint = PublicKeyStore.fingerprintToString(key.getFingerprint());
+    info.fingerprint = Fingerprint.toString(key.getFingerprint());
     @SuppressWarnings("unchecked")
     Iterator<String> userIds = key.getUserIDs();
     info.userIds = ImmutableList.copyOf(userIds);

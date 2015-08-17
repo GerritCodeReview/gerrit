@@ -37,6 +37,41 @@
     },
     {
       "key": {
+        "uuid": "449b398d_c1d2a245",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-08-17T21:57:13Z",
+      "side": 1,
+      "message": "Re: Did you test that? No, I don\u0027t have an infrastructure to build Gerrit itself here.\n\nSince you remove the hard references from the set on plugin stop, there should be no hard references to objects from the plugin being unloaded anymore in this set. That\u0027s why I thought at that point one wouldn\u0027t need weak references anymore. If despite cleanupInitializedFilters, there was still a hard reference to an AllRequestFilter from a plugin being unloaded, then something is amiss.\n\nAnyway, I thought it might lead to simpler code... but if you say you tested it - fine by me.",
+      "parentUuid": "449b398d_01d9aa69",
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64983d90_e2dda655",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-08-17T21:57:13Z",
+      "side": 1,
+      "message": "Just noticed: synchronization on a reference that\u0027s changed inside the synchronized block. Other threads will block on (and eventually acquire) the monitor of the object referenced by the old reference, but will operate on the newly referenced object unsynchronized and may execute concurrently with a new thread that arrives after the change and that will happily acquire the monitor of the new referenced object. Doing\n\n  synchronized (x) {\n    x \u003d new ...\n  }\n\nbreaks mutual exclusion.",
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64983d90_62c19677",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
         "patchSetId": 4
@@ -72,6 +107,30 @@
       "side": 1,
       "message": "\u003e Can this access ever be executed concurrently with the\n\u003e access on line 89 above?\n\nNo. Line 89 is within the synchronized block from line 77.\nSo if some thread is in line 89, all other threads block in\nline 103 due to line 77\u0027s synchronized.\n\nBut the reason it is formulated that way is to have a quick,\nand foremost lock-free check for the common case (i.e.: the\nfilter has already been initialized).\nWith this formulation, we only need to lock in the odd cases\nwhen either a new filter needs initialization (i.e.: line\n70ff), or a filter needs to get cleaned up (i.e.: line 78ff).\n\nHence with this formulation, we enable concurrency most of the\ntime.",
       "parentUuid": "64983d90_62c19677",
+      "range": {
+        "startLine": 103,
+        "startChar": 17,
+        "endLine": 103,
+        "endChar": 35
+      },
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64983d90_22cb8e97",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-08-17T21:57:13Z",
+      "side": 1,
+      "message": "Re: So if some thread is in line 89, all other threads block in line 103 due to line 77\u0027s synchronized.\n\nI beg to differ. Line 103 is an unsynchronized access to the initializedFilters variable and an unsynchronized method invocation on that object. Neither is blocked by any of the synchronized blocks above. But all right, reading and writing references is atomic, so you either get the old or the new reference (if line 89 runs concurrently) and in the worst case check the old (not-yet-cleaned) set, which shouldn\u0027t hurt... and the unsynchronized method call also happens to work because of the semantics of iterators on CopyOnWriteArrayList, which is used internally by the DynamicSet... isn\u0027t all that a bit fragile?",
+      "parentUuid": "64983d90_42ce92a7",
       "range": {
         "startLine": 103,
         "startChar": 17,

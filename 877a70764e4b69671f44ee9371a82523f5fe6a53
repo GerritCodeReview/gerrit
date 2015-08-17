@@ -22,6 +22,30 @@
       "revId": "877a70764e4b69671f44ee9371a82523f5fe6a53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "449b398d_a1be7ef9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-17T13:54:37Z",
+      "side": 1,
+      "message": "I wanted to stay consistent with how exceptions are checked in this test class. I would say that it\u0027s better to convert all exceptions checks in this class to the new style in an own commit.",
+      "parentUuid": "443979cf_11bf4cf9",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "877a70764e4b69671f44ee9371a82523f5fe6a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

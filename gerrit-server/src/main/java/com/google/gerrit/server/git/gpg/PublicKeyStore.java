@@ -38,11 +38,11 @@ import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.NB;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -335,7 +335,7 @@ public class PublicKeyStore implements AutoCloseable {
         "%s %s(%s)",
         keyIdToString(key.getKeyID()),
         it.hasNext() ? it.next() + " " : "",
-        fingerprintToString(key.getFingerprint()));
+        Fingerprint.toString(key.getFingerprint()));
   }
 
   public static String keyIdToString(long keyId) {
@@ -343,21 +343,9 @@ public class PublicKeyStore implements AutoCloseable {
     return String.format("%08X", (int) keyId);
   }
 
-  public static String fingerprintToString(byte[] fingerprint) {
-    if (fingerprint.length != 20) {
-      throw new IllegalArgumentException();
-    }
-    ByteBuffer buf = ByteBuffer.wrap(fingerprint);
-    return String.format(
-        "%04X %04X %04X %04X %04X  %04X %04X %04X %04X %04X",
-        buf.getShort(), buf.getShort(), buf.getShort(), buf.getShort(),
-        buf.getShort(), buf.getShort(), buf.getShort(), buf.getShort(),
-        buf.getShort(), buf.getShort());
-  }
-
   static ObjectId keyObjectId(long keyId) {
-    ByteBuffer buf = ByteBuffer.wrap(new byte[Constants.OBJECT_ID_LENGTH]);
-    buf.putLong(keyId);
-    return ObjectId.fromRaw(buf.array());
+    byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
+    NB.encodeInt64(buf, 0, keyId);
+    return ObjectId.fromRaw(buf);
   }
 }

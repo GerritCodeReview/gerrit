@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "449b398d_01d9aa69",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-17T20:30:50Z",
+      "side": 1,
+      "message": "\u003e Now hard references to objects from plugins being unloaded _are_ removed\n\nAre you sure? Did you test that?\nGC doesn\u0027t kill strongly reachable objects.\n\n(Out of curiosity I tested it. And as expected, this did not\nwork.)\n\nSome form of weak reference is needed here. To be consistent\nwith the rest of the code, DynamicSet seems the natural\nchoice to me.",
+      "parentUuid": "64983d90_82c49a89",
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64983d90_62c19677",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2015-08-17T18:11:25Z",
       "side": 1,
       "message": "Can this access ever be executed concurrently with the access on line 89 above? If so, just remove this test and call initFilter(), which synchronizes on this collection. And maybe rename to initFilterIfNeeded() then.",
+      "range": {
+        "startLine": 103,
+        "startChar": 17,
+        "endLine": 103,
+        "endChar": 35
+      },
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64983d90_42ce92a7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-17T20:30:50Z",
+      "side": 1,
+      "message": "\u003e Can this access ever be executed concurrently with the\n\u003e access on line 89 above?\n\nNo. Line 89 is within the synchronized block from line 77.\nSo if some thread is in line 89, all other threads block in\nline 103 due to line 77\u0027s synchronized.\n\nBut the reason it is formulated that way is to have a quick,\nand foremost lock-free check for the common case (i.e.: the\nfilter has already been initialized).\nWith this formulation, we only need to lock in the odd cases\nwhen either a new filter needs initialization (i.e.: line\n70ff), or a filter needs to get cleaned up (i.e.: line 78ff).\n\nHence with this formulation, we enable concurrency most of the\ntime.",
+      "parentUuid": "64983d90_62c19677",
       "range": {
         "startLine": 103,
         "startChar": 17,

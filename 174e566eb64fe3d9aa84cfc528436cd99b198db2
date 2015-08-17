@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64983d90_82c49a89",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-08-17T18:11:25Z",
+      "side": 1,
+      "message": "Now that this _is_ cleaned up on plugin unloading, does this have to be a DynamicSet? A plain HashSet storing hard references was only a problem as long it wasn\u0027t cleaned up. Now hard references to objects from plugins being unloaded _are_ removed, I think it\u0027d be fine.",
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64983d90_62c19677",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-08-17T18:11:25Z",
+      "side": 1,
+      "message": "Can this access ever be executed concurrently with the access on line 89 above? If so, just remove this test and call initFilter(), which synchronizes on this collection. And maybe rename to initFilterIfNeeded() then.",
+      "range": {
+        "startLine": 103,
+        "startChar": 17,
+        "endLine": 103,
+        "endChar": 35
+      },
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

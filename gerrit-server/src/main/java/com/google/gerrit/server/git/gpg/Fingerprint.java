@@ -39,9 +39,18 @@ public class Fingerprint {
     return fp;
   }
 
+  /**
+   * Wrap a fingerprint byte array.
+   * <p>
+   * The newly created Fingerprint object takes ownership of the byte array,
+   * which must not be subsequently modified. (Most callers, such as hex
+   * decoders and {@code
+   * org.bouncycastle.openpgp.PGPPublicKey#getFingerprint()}, already produce
+   * fresh byte arrays.)
+   *
+   * @param fp 20-byte fingerprint byte array to wrap.
+   */
   public Fingerprint(byte[] fp) {
-    // Don't bother with defensive copies; PGPPublicKey#getFingerprint() already
-    // does so.
     this.fp = checkLength(fp);
   }
 

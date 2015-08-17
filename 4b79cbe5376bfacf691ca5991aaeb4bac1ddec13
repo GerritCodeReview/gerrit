@@ -16,6 +16,24 @@
       "revId": "4b79cbe5376bfacf691ca5991aaeb4bac1ddec13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4707519_a4c0a274",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/Fingerprint.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-17T14:04:40Z",
+      "side": 1,
+      "message": "I found a bunch of places I can do this, scattered across files in this package. I will do a separate cleanup.",
+      "parentUuid": "84a3717f_030cce78",
+      "revId": "4b79cbe5376bfacf691ca5991aaeb4bac1ddec13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "449b398d_e12fe6c1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-18T14:12:42Z",
+      "side": 1,
+      "message": "I agree that a misbehaving filter will cause issues here.\n\nBut more generally: misbehaving plugin code will actually\ncause issues everywhere.\n\nWhile I also agree that the following assumption might be\nworth challenging, but Gerrit\u0027s code base generally assumes\nthat plugin code is good™.\n\nHence, there is no need to try/catch the `destroy`.",
+      "parentUuid": "64983d90_82edba01",
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64983d90_e2dda655",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
         "patchSetId": 4
@@ -83,6 +101,24 @@
       "writtenOn": "2015-08-17T21:57:13Z",
       "side": 1,
       "message": "Just noticed: synchronization on a reference that\u0027s changed inside the synchronized block. Other threads will block on (and eventually acquire) the monitor of the object referenced by the old reference, but will operate on the newly referenced object unsynchronized and may execute concurrently with a new thread that arrives after the change and that will happily acquire the monitor of the new referenced object. Doing\n\n  synchronized (x) {\n    x \u003d new ...\n  }\n\nbreaks mutual exclusion.",
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "449b398d_c124e2e8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-18T14:12:42Z",
+      "side": 1,
+      "message": "Done in PS5.",
+      "parentUuid": "64983d90_e2dda655",
       "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -148,6 +184,30 @@
       "side": 1,
       "message": "Re: So if some thread is in line 89, all other threads block in line 103 due to line 77\u0027s synchronized.\n\nI beg to differ. Line 103 is an unsynchronized access to the initializedFilters variable and an unsynchronized method invocation on that object. Neither is blocked by any of the synchronized blocks above. But all right, reading and writing references is atomic, so you either get the old or the new reference (if line 89 runs concurrently) and in the worst case check the old (not-yet-cleaned) set, which shouldn\u0027t hurt... and the unsynchronized method call also happens to work because of the semantics of iterators on CopyOnWriteArrayList, which is used internally by the DynamicSet... isn\u0027t all that a bit fragile?",
       "parentUuid": "64983d90_42ce92a7",
+      "range": {
+        "startLine": 103,
+        "startChar": 17,
+        "endLine": 103,
+        "endChar": 35
+      },
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64983d90_22fdcea2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-08-18T14:12:42Z",
+      "side": 1,
+      "message": "Scrap my above comment. I am stupid.\n\nThe argument goes differently.\n\nNew filters get added/removed hardly ever. So for \u003e\u003e99% of\ntypical invocations of doFilter, no initialization of new\nfilters is needed. To avoid hindering concurrent connections,\nwe do not want to enter synchronized blocks in the typical\ncase.\n\nHence, line 103 is doing an unsynchronized preliminary check.\nThis unsynchronized preliminary check allows for good concurrency and is always giving the right result if no\nfilters got initialized/destroyed concurrently.\n\nIf filters got initialized concurrently behind our back,\ninitFilter does the right thing, and saves this situation.\n\nIf filters got destroyed behind our back, there is little\none can do without breaking concurrency.\n\nBefore this change, initing and destroying were completely\nbroken. This change fixes initing, and in most cases\nalso destroying. If destroying is not fixed fully, that\u0027s\nok and fully fixing destroying can be done in a future\ncommit.",
+      "parentUuid": "64983d90_22cb8e97",
       "range": {
         "startLine": 103,
         "startChar": 17,

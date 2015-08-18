@@ -87,9 +87,9 @@ public class GroupMembers {
       return Collections.emptySet();
     }
 
-    final Set<AccountGroup.UUID> ownerGroups =
+    final Iterable<AccountGroup.UUID> ownerGroups =
         projectControl.controlFor(project, currentUser).getProjectState()
-            .getOwners();
+            .getAllOwners();
 
     final HashSet<Account> projectOwners = new HashSet<>();
     for (final AccountGroup.UUID ownerGroup : ownerGroups) {

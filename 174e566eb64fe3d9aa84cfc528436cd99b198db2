@@ -55,6 +55,23 @@
     },
     {
       "key": {
+        "uuid": "64983d90_82edba01",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1019877
+      },
+      "writtenOn": "2015-08-18T05:44:13Z",
+      "side": 1,
+      "message": "Personally, I\u0027d be more defensive here and try to protect the consistency of initializedFilters even if this destroy() call fails. I\u0027d wrap this in a try-catch (RuntimeException) and log the exception. Otherwise, a failing filter will never be removed from initializedFilters.",
+      "revId": "174e566eb64fe3d9aa84cfc528436cd99b198db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64983d90_e2dda655",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
         "patchSetId": 4

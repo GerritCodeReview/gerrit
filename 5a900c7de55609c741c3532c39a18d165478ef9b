@@ -34,6 +34,24 @@
       "revId": "5a900c7de55609c741c3532c39a18d165478ef9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84f7f1e0_e3afd2ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-19T18:50:58Z",
+      "side": 1,
+      "message": "\u003e The time stamp ought be enough as it will be updated whenever other things change in the change?\n\nNo. See ChangeUtil.bumpRowVersionNotLastUpdatedOn for some of many examples of things changing that are not the updated timestamp. The entire point of ChangeResource is to collect the set of things where if they are updated, we should consider the change updated.\n\n\u003e Looking at the history and the code of prepareETag, there is also inclusion of the row id and user id and notes.\n\u003e \n\u003e But that would be covered by prepareETag of the current RevisionResource?\n\nRow version of the current change is covered by that, but not row versions of any of the other changes.\n\n\u003e Also having a Collection of Changes in ChangeSet, which is an AutoValue storage class looks weird to me as a Change itself is mutable.\n\nYes, it\u0027s a little odd, but we have no immutable Change class, so it\u0027s the best we can do. Just loudly warn users not to mutate the Change objects.\n\nThe only other alternative I can think of is manually looking up all these Changes in the database in this loop body, which seems unnecessarily inefficient.",
+      "parentUuid": "a4e3151e_6cc4fb88",
+      "revId": "5a900c7de55609c741c3532c39a18d165478ef9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

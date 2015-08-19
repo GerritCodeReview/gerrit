@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64e67d2a_92be1cfa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRevisionActions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-19T17:57:11Z",
+      "side": 1,
+      "message": "Why are we no longer including the whole change ETag?\n\nFor efficiency you\u0027d probably also want to reuse the ProjectControl from this resource:\n\n ProjectControl ctl \u003d rsrc.getControl().getProjectControl();\n for (Change c : cs.changes()) {\n   new ChangeResource(ctl.controlFor(c)).prepareETag(h, user);\n }\n\nThis would imply storing a Collection\u003cChange\u003e in ChangeSet. But MergeSuperSet should be getting those for free from the secondary index, and I think the savings of not creating a bunch of new ChangeControls and ChangeDatas would be significant.",
+      "revId": "5a900c7de55609c741c3532c39a18d165478ef9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

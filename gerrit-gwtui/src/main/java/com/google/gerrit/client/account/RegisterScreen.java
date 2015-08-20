@@ -15,11 +15,11 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -56,8 +56,8 @@ public class RegisterScreen extends AccountScreen {
     contactGroup.add(whereFrom);
     contactGroup.add(new ContactPanelShort() {
       @Override
-      protected void display(final Account userAccount) {
-        super.display(userAccount);
+      protected void display(AccountInfo account) {
+        super.display(account);
 
         if ("".equals(nameTxt.getText())) {
           // No name? Encourage the user to provide us something.
@@ -69,7 +69,7 @@ public class RegisterScreen extends AccountScreen {
     });
     formBody.add(contactGroup);
 
-    if (Gerrit.getUserAccount().getUserName() == null
+    if (Gerrit.getUserAccount().username() == null
         && Gerrit.info().auth().canEdit(FieldName.USER_NAME)) {
       final FlowPanel fp = new FlowPanel();
       fp.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());

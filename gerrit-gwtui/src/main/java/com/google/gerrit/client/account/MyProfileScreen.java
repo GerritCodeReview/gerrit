@@ -17,12 +17,11 @@ package com.google.gerrit.client.account;
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.AvatarImage;
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GerritUiExtensionPoint;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -98,9 +97,9 @@ public class MyProfileScreen extends SettingsScreen {
         Gerrit.RESOURCES.css().header());
   }
 
-  void display(final Account account) {
+  void display(AccountInfo account) {
     if (Gerrit.info().plugin().hasAvatars()) {
-      avatar.setAccount(FormatUtil.asInfo(account), 93, false);
+      avatar.setAccount(account, 93, false);
       new RestApi("/accounts/").id("self").view("avatar.change.url")
           .get(new AsyncCallback<NativeString>() {
             @Override
@@ -119,9 +118,9 @@ public class MyProfileScreen extends SettingsScreen {
     if (Gerrit.info().auth().siteHasUsernames()) {
       info.setWidget(row++, fieldIdx, new UsernameField());
     }
-    info.setText(row++, fieldIdx, account.getFullName());
-    info.setText(row++, fieldIdx, account.getPreferredEmail());
-    info.setText(row++, fieldIdx, mediumFormat(account.getRegisteredOn()));
+    info.setText(row++, fieldIdx, account.name());
+    info.setText(row++, fieldIdx, account.email());
+    info.setText(row++, fieldIdx, mediumFormat(account.registeredOn()));
     info.setText(row, fieldIdx, account.getId().toString());
   }
 }

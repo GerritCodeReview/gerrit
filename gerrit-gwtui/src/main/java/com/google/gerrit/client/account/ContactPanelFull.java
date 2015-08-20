@@ -15,8 +15,8 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.ui.OnEditEnabler;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -88,18 +88,18 @@ class ContactPanelFull extends ContactPanelShort {
   }
 
   @Override
-  protected void display(final Account userAccount) {
-    super.display(userAccount);
-    displayHasContact(userAccount);
+  protected void display(AccountInfo account) {
+    super.display(account);
+    displayHasContact(account);
     addressTxt.setText("");
     countryTxt.setText("");
     phoneTxt.setText("");
     faxTxt.setText("");
   }
 
-  private void displayHasContact(final Account userAccount) {
-    if (userAccount.isContactFiled()) {
-      final Timestamp dt = userAccount.getContactFiledOn();
+  private void displayHasContact(AccountInfo account) {
+    if (account.contactFiledOn() != null) {
+      Timestamp dt = account.contactFiledOn();
       hasContact.setText(Util.M.contactOnFile(new Date(dt.getTime())));
       hasContact.setVisible(true);
     } else {
@@ -108,9 +108,9 @@ class ContactPanelFull extends ContactPanelShort {
   }
 
   @Override
-  void onSaveSuccess(final Account userAccount) {
-    super.onSaveSuccess(userAccount);
-    displayHasContact(userAccount);
+  void onSaveSuccess(AccountInfo account) {
+    super.onSaveSuccess(account);
+    displayHasContact(account);
   }
 
   @Override

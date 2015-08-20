@@ -91,7 +91,7 @@ public abstract class SettingsScreen extends MenuScreen {
       GerritUiExtensionPoint extensionPoint) {
     ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
     extensionPanel.putObject(GerritUiExtensionPoint.Key.ACCOUNT_INFO,
-        Gerrit.getUserAccountInfo());
+        Gerrit.getUserAccount());
     return extensionPanel;
   }
 }

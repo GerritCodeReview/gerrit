@@ -42,7 +42,7 @@ class UsernameField extends Composite {
   private Button setUserName;
 
   UsernameField() {
-    String user = Gerrit.getUserAccount().getUserName();
+    String user = Gerrit.getUserAccount().username();
     userNameLbl = new CopyableLabel(user != null ? user : "");
     userNameLbl.setStyleName(Gerrit.RESOURCES.css().accountUsername());
 
@@ -117,8 +117,8 @@ class UsernameField extends Composite {
     Util.ACCOUNT_SEC.changeUserName(newUserName,
         new GerritCallback<VoidResult>() {
           @Override
-          public void onSuccess(final VoidResult result) {
-            Gerrit.getUserAccount().setUserName(newUserName);
+          public void onSuccess(VoidResult result) {
+            Gerrit.getUserAccount().username(newUserName);
             userNameLbl.setText(newUserName);
             userNameLbl.setVisible(true);
             userNameTxt.setVisible(false);

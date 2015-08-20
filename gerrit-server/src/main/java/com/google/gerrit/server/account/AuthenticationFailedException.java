@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.server.account.AccountException;
-
 /** Authentication failed due to incorrect user or password. */
 public class AuthenticationFailedException extends AccountException {
   private static final long serialVersionUID = 1L;

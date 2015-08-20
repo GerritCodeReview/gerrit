@@ -14,8 +14,8 @@
 
 package com.google.gerrit.rules;
 
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.inject.Guice;

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -228,14 +229,18 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     @Override
     public AccountInfo apply(GroupResource resource, PutMember.Input input)
         throws AuthException, MethodNotAllowedException,
-        UnprocessableEntityException, OrmException {
+        ResourceNotFoundException, OrmException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id;
-      List<AccountInfo> list = put.apply(resource, in);
-      if (list.size() == 1) {
-        return list.get(0);
+      try {
+        List<AccountInfo> list = put.apply(resource, in);
+        if (list.size() == 1) {
+          return list.get(0);
+        }
+        throw new IllegalStateException();
+      } catch (UnprocessableEntityException e) {
+        throw new ResourceNotFoundException(id);
       }
-      throw new IllegalStateException();
     }
   }
 

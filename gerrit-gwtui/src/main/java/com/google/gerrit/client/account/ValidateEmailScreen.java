@@ -15,10 +15,11 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 public class ValidateEmailScreen extends AccountScreen {
   private final String magicToken;
@@ -36,7 +37,7 @@ public class ValidateEmailScreen extends AccountScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SEC.validateEmail(magicToken,
+    ConfigServerApi.confirmEmail(magicToken,
         new ScreenLoadCallback<VoidResult>(this) {
           @Override
           protected void preDisplay(final VoidResult result) {

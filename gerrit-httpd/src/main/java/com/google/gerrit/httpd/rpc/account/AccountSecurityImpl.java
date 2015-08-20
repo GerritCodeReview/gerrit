@@ -34,12 +34,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.contact.ContactStore;
-import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -57,10 +54,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final Realm realm;
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> user;
-  private final EmailTokenVerifier emailTokenVerifier;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
-  private final AccountManager accountManager;
   private final boolean useContactInfo;
 
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
@@ -74,9 +69,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   AccountSecurityImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser, final ContactStore cs,
       final Realm r, final Provider<IdentifiedUser> u,
-      final EmailTokenVerifier etv, final ProjectCache pc,
+      final ProjectCache pc,
       final AccountByEmailCache abec, final AccountCache uac,
-      final AccountManager am,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
       final ChangeHooks hooks, final GroupCache groupCache,
@@ -85,11 +79,9 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     contactStore = cs;
     realm = r;
     user = u;
-    emailTokenVerifier = etv;
     projectCache = pc;
     byEmailCache = abec;
     accountCache = uac;
-    accountManager = am;
     this.auditService = auditService;
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
@@ -200,23 +192,5 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         return VoidResult.INSTANCE;
       }
     });
-  }
-
-  @Override
-  public void validateEmail(final String tokenString,
-      final AsyncCallback<VoidResult> callback) {
-    try {
-      EmailTokenVerifier.ParsedToken token = emailTokenVerifier.decode(tokenString);
-      Account.Id currentUser = user.get().getAccountId();
-      if (currentUser.equals(token.getAccountId())) {
-        accountManager.link(currentUser, token.toAuthRequest());
-        callback.onSuccess(VoidResult.INSTANCE);
-      } else {
-        throw new EmailTokenVerifier.InvalidTokenException();
-      }
-    } catch (EmailTokenVerifier.InvalidTokenException | OrmException
-        | AccountException e) {
-      callback.onFailure(e);
-    }
   }
 }

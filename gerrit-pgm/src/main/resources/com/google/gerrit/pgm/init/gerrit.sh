@@ -59,7 +59,12 @@ test $# -gt 0 || usage
 running() {
   test -f $1 || return 1
   PID=`cat $1`
-  ps -p $PID >/dev/null 2>/dev/null || return 1
+  case "`uname`" in
+  MINGW*|CYGWIN*)
+    ps -W | grep $PID >/dev/null 2>/dev/null || return 1 ;;
+  *)
+    ps -p $PID >/dev/null 2>/dev/null || return 1 ;;
+  esac
   return 0
 }
 

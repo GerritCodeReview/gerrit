@@ -102,6 +102,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final AccountsCollection accounts;
   private final ChangesCollection changes;
   private final String label;
+  private final String labelWithParents;
   private final ParameterizedString titlePattern;
   private final ParameterizedString titlePatternWithAncestors;
   private final String submitTopicLabel;
@@ -133,6 +134,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.label = MoreObjects.firstNonNull(
         Strings.emptyToNull(cfg.getString("change", null, "submitLabel")),
         "Submit");
+    this.labelWithParents = MoreObjects.firstNonNull(
+        Strings.emptyToNull(
+            cfg.getString("change", null, "submitLabelWithParents")),
+        "Submit including parents");
     this.titlePattern = new ParameterizedString(MoreObjects.firstNonNull(
         cfg.getString("change", null, "submitTooltip"),
         DEFAULT_TOOLTIP));
@@ -319,7 +324,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         resource.getUser());
     if (submitProblems != null) {
       return new UiAction.Description()
-        .setLabel(treatWithTopic ? submitTopicLabel : label)
+        .setLabel(treatWithTopic
+            ? submitTopicLabel : (cs.size() > 1)
+                ? label : labelWithParents)
         .setTitle(submitProblems)
         .setVisible(true)
         .setEnabled(false);
@@ -345,7 +352,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ParameterizedString tp = cs.size() > 1 ? titlePatternWithAncestors :
           titlePattern;
       return new UiAction.Description()
-        .setLabel(label)
+        .setLabel(cs.size() > 1 ? label : labelWithParents)
         .setTitle(Strings.emptyToNull(tp.replace(params)))
         .setVisible(true)
         .setEnabled(Boolean.TRUE.equals(enabled));

@@ -863,6 +863,13 @@ Label name for the submit button.
 +
 Default is "Submit".
 
+[[change.submitLabelWithParents]]change.submitLabelWithParents::
++
+Label name for the submit button if the change has parents which will
+be submitted together with this change.
++
+Default is "Submit including parents".
+
 [[change.submitTooltip]]change.submitTooltip::
 +
 Tooltip for the submit button.  Variables available for replacement
@@ -903,9 +910,12 @@ Defaults to "Submit whole topic"
 If `change.submitWholeTopic` is configuerd to true and a change has a
 topic, this configuration determines the tooltip for the submit button
 instead of `change.submitTooltip`. The variable `${topicSize}` is available
-for the number of changes to be submitted.
+for the number of changes in the same topic to be submitted. The number of
+all changes to be submitted is in the variable `${submitSize}`.
 +
-Defaults to "Submit all ${topicSize} changes within the topic".
+Defaults to "Submit all ${topicSize} changes of the same topic
+(${submitSize} changes including ancestors and other
+changes related by topic)".
 
 [[change.replyLabel]]change.replyLabel::
 +

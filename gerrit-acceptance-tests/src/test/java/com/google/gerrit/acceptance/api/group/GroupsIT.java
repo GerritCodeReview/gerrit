@@ -56,20 +56,14 @@ import java.util.Map;
 public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void addToNonExistingGroup_NotFound() throws Exception {
-    try {
-      gApi.groups().id("non-existing").addMembers("admin");
-    } catch (ResourceNotFoundException expected) {
-      // Expected.
-    }
+    exception.expect(ResourceNotFoundException.class);
+    gApi.groups().id("non-existing").addMembers("admin");
   }
 
   @Test
   public void removeFromNonExistingGroup_NotFound() throws Exception {
-    try {
-      gApi.groups().id("non-existing").removeMembers("admin");
-    } catch (ResourceNotFoundException expected) {
-      // Expected.
-    }
+    exception.expect(ResourceNotFoundException.class);
+    gApi.groups().id("non-existing").removeMembers("admin");
   }
 
   @Test
@@ -155,22 +149,17 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void testCreateGroupWithoutCapability_Forbidden() throws Exception {
     setApiUser(user);
-    try {
-      gApi.groups().create(name("newGroup"));
-    } catch (AuthException expected) {
-      // Expected.
-    }
+    exception.expect(AuthException.class);
+    gApi.groups().create(name("newGroup"));
   }
 
   @Test
   public void testCreateGroupWhenGroupAlreadyExists_Conflict()
       throws Exception {
-    try {
-      gApi.groups().create("Administrators");
-    } catch (ResourceConflictException expected) {
-      // Expected.
-    }
+    exception.expect(ResourceConflictException.class);
+    gApi.groups().create("Administrators");
   }
+
   @Test
   public void testGetGroup() throws Exception {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
@@ -193,31 +182,30 @@ public class GroupsIT extends AbstractDaemonTest {
     // get name
     assertThat(gApi.groups().id(name).name()).isEqualTo(name);
 
-    // set name with name conflict
-    String other = name("other");
-    gApi.groups().create(other);
-    try {
-      gApi.groups().id(name).name(other);
-    } catch (ResourceConflictException expected) {
-      // Expected.
-    }
-
     // set name to same name
     gApi.groups().id(name).name(name);
     assertThat(gApi.groups().id(name).name()).isEqualTo(name);
 
-    // rename
+    // set name with name conflict
+    String other = name("other");
+    gApi.groups().create(other);
+    exception.expect(ResourceConflictException.class);
+    gApi.groups().id(name).name(other);
+  }
+
+  @Test
+  public void testGroupRename() throws Exception {
+    String name = name("group");
+    gApi.groups().create(name);
+
     String newName = name("newName");
     gApi.groups().id(name).name(newName);
     assertThat(getFromCache(newName)).isNotNull();
     assertThat(gApi.groups().id(newName).name()).isEqualTo(newName);
 
     assertThat(getFromCache(name)).isNull();
-    try {
-      gApi.groups().id(name).get();
-    } catch (ResourceNotFoundException expected) {
-      // Expceted.
-    }
+    exception.expect(ResourceNotFoundException.class);
+    gApi.groups().id(name).get();
   }
 
   @Test
@@ -279,20 +267,14 @@ public class GroupsIT extends AbstractDaemonTest {
         .isEqualTo(adminUUID);
 
     // set non existing owner
-    try {
-      gApi.groups().id(name).owner("Non-Existing Group");
-    } catch (UnprocessableEntityException expected) {
-      // Expected.
-    }
+    exception.expect(UnprocessableEntityException.class);
+    gApi.groups().id(name).owner("Non-Existing Group");
   }
 
   @Test
   public void listNonExistingGroupIncludes_NotFound() throws Exception {
-    try {
-      gApi.groups().id("non-existing").includedGroups();
-    } catch (ResourceNotFoundException expected) {
-      // Expected.
-    }
+    exception.expect(ResourceNotFoundException.class);
+    gApi.groups().id("non-existing").includedGroups();
   }
 
   @Test
@@ -304,11 +286,8 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void includeNonExistingGroup() throws Exception {
     String gx = createGroup("gx");
-    try {
-      gApi.groups().id(gx).addGroups("non-existing");
-    } catch (UnprocessableEntityException expecetd) {
-      // Expected.
-    }
+    exception.expect(UnprocessableEntityException.class);
+    gApi.groups().id(gx).addGroups("non-existing");
   }
 
   @Test
@@ -331,11 +310,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void listNonExistingGroupMembers_NotFound() throws Exception {
-    try {
-      gApi.groups().id("non-existing").members();
-    } catch (ResourceNotFoundException expected) {
-      // Expected.
-    }
+    exception.expect(ResourceNotFoundException.class);
+    gApi.groups().id("non-existing").members();
   }
 
   @Test

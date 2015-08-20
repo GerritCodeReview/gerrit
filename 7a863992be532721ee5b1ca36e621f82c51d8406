@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "241725da_d8af0dcb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-20T02:07:50Z",
+      "side": 1,
+      "message": "nit: this doesn\u0027t need to be inside the try block.",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 42
+      },
+      "revId": "7a863992be532721ee5b1ca36e621f82c51d8406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4e3151e_2ccef3a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/GpgKeyApiImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-20T02:07:50Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 64,
+        "startChar": 41,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "7a863992be532721ee5b1ca36e621f82c51d8406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

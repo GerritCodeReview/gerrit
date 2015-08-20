@@ -21,11 +21,9 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
-import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
-import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -38,7 +36,6 @@ import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.contact.ContactStore;
@@ -66,7 +63,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final AccountManager accountManager;
   private final boolean useContactInfo;
 
-  private final ChangeUserName.CurrentUser changeUserNameFactory;
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
 
@@ -81,7 +77,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final EmailTokenVerifier etv, final ProjectCache pc,
       final AccountByEmailCache abec, final AccountCache uac,
       final AccountManager am,
-      final ChangeUserName.CurrentUser changeUserNameFactory,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
       final ChangeHooks hooks, final GroupCache groupCache,
@@ -99,25 +94,10 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
 
-    this.changeUserNameFactory = changeUserNameFactory;
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.hooks = hooks;
     this.groupCache = groupCache;
-  }
-
-  @Override
-  public void changeUserName(final String newName,
-      final AsyncCallback<VoidResult> callback) {
-    if (realm.allowsEdit(Account.FieldName.USER_NAME)) {
-      if (newName == null || !newName.matches(Account.USER_NAME_PATTERN)) {
-        callback.onFailure(new InvalidUserNameException());
-      }
-      Handler.wrap(changeUserNameFactory.create(newName)).to(callback);
-    } else {
-      callback.onFailure(
-          new PermissionDeniedException("Not allowed to change username"));
-    }
   }
 
   @Override

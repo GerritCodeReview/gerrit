@@ -30,10 +30,6 @@ import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface AccountSecurity extends RemoteJsonService {
-  @Audit
-  @SignInRequired
-  void changeUserName(String newName, AsyncCallback<VoidResult> callback);
-
   @SignInRequired
   void myExternalIds(AsyncCallback<List<AccountExternalId>> callback);
 

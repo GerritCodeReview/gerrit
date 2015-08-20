@@ -302,7 +302,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(SubmoduleSectionParser.Factory.class);
 
     bind(AccountManager.class);
-    bind(ChangeUserName.CurrentUser.class);
     factory(ChangeUserName.Factory.class);
 
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})

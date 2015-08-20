@@ -28,7 +28,6 @@ import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
@@ -39,27 +38,11 @@ import java.util.regex.Pattern;
 
 /** Operation to change the username of an account. */
 public class ChangeUserName implements Callable<VoidResult> {
+  public static final String USERNAME_CANNOT_BE_CHANGED =
+      "Username cannot be changed.";
+
   private static final Pattern USER_NAME_PATTERN =
       Pattern.compile(Account.USER_NAME_PATTERN);
-
-  /** Factory to change the username for the current user. */
-  public static class CurrentUser {
-    private final Factory factory;
-    private final Provider<ReviewDb> db;
-    private final Provider<IdentifiedUser> user;
-
-    @Inject
-    CurrentUser(Factory factory, Provider<ReviewDb> db,
-        Provider<IdentifiedUser> user) {
-      this.factory = factory;
-      this.db = db;
-      this.user = user;
-    }
-
-    public ChangeUserName create(String newUsername) {
-      return factory.create(db.get(), user.get(), newUsername);
-    }
-  }
 
   /** Generic factory to change any user's username. */
   public interface Factory {
@@ -92,7 +75,7 @@ public class ChangeUserName implements Callable<VoidResult> {
       InvalidUserNameException {
     final Collection<AccountExternalId> old = old();
     if (!old.isEmpty()) {
-      throw new IllegalStateException("Username cannot be changed.");
+      throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
     }
 
     if (newUsername != null && !newUsername.isEmpty()) {

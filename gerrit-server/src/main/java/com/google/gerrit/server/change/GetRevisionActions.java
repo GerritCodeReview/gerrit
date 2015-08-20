@@ -70,7 +70,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       h.putBoolean(Submit.wholeTopicEnabled(config));
       ReviewDb db = dbProvider.get();
       ChangeSet cs = mergeSuperSet.completeChangeSet(db,
-          ChangeSet.create(rsrc.getChange()));
+          new ChangeSet(rsrc.getChange()));
       ProjectControl ctl = rsrc.getControl().getProjectControl();
       for (Change c : cs.changes()) {
         new ChangeResource(ctl.controlFor(c)).prepareETag(h, user);

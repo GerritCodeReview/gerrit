@@ -147,7 +147,7 @@ public class MergeSuperSet {
       }
     }
 
-    return ChangeSet.create(ret);
+    return new ChangeSet(ret);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
@@ -159,13 +159,9 @@ public class MergeSuperSet {
     while (!done) {
       List<Change> chgs = new ArrayList<>();
       done = true;
-      for (Change.Id cId : newCs.ids()) {
-        // TODO(sbeller): Cache the change data here and in completeChangeSet
-        // There is no need to reread it a few times.
-        ChangeData cd = changeDataFactory.create(db, cId);
-        chgs.add(cd.change());
-
-        String topic = cd.change().getTopic();
+      for (Change c : newCs.changes()) {
+        chgs.add(c);
+        String topic = c.getTopic();
         if (!Strings.isNullOrEmpty(topic) && !topicsTraversed.contains(topic)) {
           for (ChangeData addCd : queryProvider.get().byTopicOpen(topic)) {
             chgs.add(addCd.change());
@@ -174,7 +170,7 @@ public class MergeSuperSet {
           topicsTraversed.add(topic);
         }
       }
-      changes = ChangeSet.create(chgs);
+      changes = new ChangeSet(chgs);
       newCs = completeChangeSetWithoutTopic(db, changes);
     }
     return newCs;

@@ -14,67 +14,88 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.auto.value.AutoValue;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 
-/** A set of changes grouped together to be submitted atomically.*/
-@AutoValue
-public abstract class ChangeSet {
-  public static ChangeSet create(Iterable<Change> changes) {
-    ImmutableSet.Builder<Project.NameKey> pb = ImmutableSet.builder();
-    ImmutableSet.Builder<Branch.NameKey> bb = ImmutableSet.builder();
-    ImmutableSet.Builder<Change.Id> ib = ImmutableSet.builder();
-    ImmutableSet.Builder<PatchSet.Id> psb = ImmutableSet.builder();
-    ImmutableSetMultimap.Builder<Project.NameKey, Branch.NameKey> pbb =
-        ImmutableSetMultimap.builder();
-    ImmutableSetMultimap.Builder<Project.NameKey, Change.Id> pcb =
-        ImmutableSetMultimap.builder();
-    ImmutableSetMultimap.Builder<Branch.NameKey, Change.Id> cbb =
-        ImmutableSetMultimap.builder();
-    ImmutableSet.Builder<Change> cb = ImmutableSet.builder();
+import java.util.HashSet;
+import java.util.Set;
 
+/** A set of changes grouped together to be submitted atomically.*/
+public class ChangeSet {
+  private Set<Project.NameKey> projects;
+  private Set<Branch.NameKey> branches;
+  private Set<Change.Id> changeIds;
+  private Set<PatchSet.Id> patchsetIds;
+  private Multimap<Project.NameKey, Branch.NameKey> branchByProject;
+  private Multimap<Project.NameKey, Change.Id> changeIdbyProject;
+  private Multimap<Branch.NameKey, Change.Id> changeIdbyBranch;
+  private Set<Change> changes;
+
+  public ChangeSet(Iterable<Change> changes) {
+    this.changes = new HashSet<>();
+    projects = new HashSet<>();
+    branches = new HashSet<>();
+    changeIds = new HashSet<>();
+    patchsetIds = new HashSet<>();
+    branchByProject = HashMultimap.create();
+    changeIdbyProject = HashMultimap.create();
+    changeIdbyBranch = HashMultimap.create();
     for (Change c : changes) {
       Branch.NameKey branch = c.getDest();
       Project.NameKey project = branch.getParentKey();
-      pb.add(project);
-      bb.add(branch);
-      ib.add(c.getId());
-      psb.add(c.currentPatchSetId());
-      pbb.put(project, branch);
-      pcb.put(project, c.getId());
-      cbb.put(branch, c.getId());
-      cb.add(c);
+      projects.add(project);
+      branches.add(branch);
+      changeIds.add(c.getId());
+      patchsetIds.add(c.currentPatchSetId());
+      branchByProject.put(project, branch);
+      changeIdbyProject.put(project, c.getId());
+      changeIdbyBranch.put(branch, c.getId());
+      this.changes.add(c);
     }
-
-    return new AutoValue_ChangeSet(pb.build(), bb.build(), ib.build(),
-        psb.build(), pbb.build(), pcb.build(), cbb.build(), cb.build());
   }
 
-  public static ChangeSet create(Change change) {
-    return create(ImmutableList.of(change));
+  public ChangeSet(Change change) {
+    this(ImmutableList.of(change));
   }
 
-  public abstract ImmutableSet<Project.NameKey> projects();
-  public abstract ImmutableSet<Branch.NameKey> branches();
-  public abstract ImmutableSet<Change.Id> ids();
-  public abstract ImmutableSet<PatchSet.Id> patchIds();
-  public abstract ImmutableSetMultimap<Project.NameKey, Branch.NameKey>
-      branchesByProject();
-  public abstract ImmutableSetMultimap<Project.NameKey, Change.Id>
-      changesByProject();
-  public abstract ImmutableSetMultimap<Branch.NameKey, Change.Id>
-      changesByBranch();
-  public abstract ImmutableSet<Change> changes();
+  public Set<Project.NameKey> projects() {
+    return projects;
+  }
 
-  @Override
-  public int hashCode() {
-    return ids().hashCode();
+  public Set<Branch.NameKey> branches() {
+    return branches;
+  }
+
+  public Set<Change.Id> ids() {
+    return changeIds;
+  }
+
+  public Set<PatchSet.Id> patchIds() {
+    return patchsetIds;
+  }
+
+  public Multimap<Project.NameKey, Branch.NameKey>
+      branchesByProject() {
+    return branchByProject;
+  }
+
+  public Multimap<Project.NameKey, Change.Id>
+      changesByProject() {
+    return changeIdbyProject;
+  }
+
+  public Multimap<Branch.NameKey, Change.Id>
+      changesByBranch() {
+    return changeIdbyBranch;
+  }
+
+  public Set<Change> changes() {
+    return changes;
   }
 
   public int size() {

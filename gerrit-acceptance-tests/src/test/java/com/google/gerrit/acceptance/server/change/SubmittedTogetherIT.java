@@ -178,7 +178,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
               public String apply(ChangeInfo input) {
                 return input.changeId;
               }
-            })).inOrder();
+            }));
   }
 
   private RevCommit getRemoteHead() throws IOException {

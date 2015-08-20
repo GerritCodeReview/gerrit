@@ -60,8 +60,8 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       ResourceConflictException, Exception {
     try {
       ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(),
-          ChangeSet.create(resource.getChange()));
-      if (cs.ids().size() > 1) {
+          new ChangeSet(resource.getChange()));
+      if (cs.size() > 1) {
         return json.create(EnumSet.of(
             ListChangesOption.CURRENT_REVISION,
             ListChangesOption.CURRENT_COMMIT))

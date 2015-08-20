@@ -19,10 +19,10 @@ import static com.google.gerrit.client.FormatUtil.name;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupAuditEventInfo;
 import com.google.gerrit.client.groups.GroupInfo;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.FancyFlexTable;

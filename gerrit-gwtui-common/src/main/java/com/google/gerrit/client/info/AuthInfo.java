@@ -16,8 +16,8 @@ package com.google.gerrit.client.info;
 
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 

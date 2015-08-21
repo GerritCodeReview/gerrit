@@ -44,7 +44,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class GetPreferences implements RestReadView<AccountResource> {
@@ -54,6 +56,9 @@ public class GetPreferences implements RestReadView<AccountResource> {
   public static final String KEY_URL = "url";
   public static final String KEY_TARGET = "target";
   public static final String KEY_ID = "id";
+  public static final String URL_ALIAS = "urlAlias";
+  public static final String KEY_MATCH = "match";
+  public static final String KEY_TOKEN = "token";
 
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> db;
@@ -110,6 +115,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     ReviewCategoryStrategy reviewCategoryStrategy;
     DiffView diffView;
     List<TopMenu.MenuItem> my;
+    Map<String, String> urlAliases;
 
     public PreferenceInfo(AccountGeneralPreferences p,
         VersionedAccountPreferences v, Repository allUsers) {
@@ -129,12 +135,12 @@ public class GetPreferences implements RestReadView<AccountResource> {
         reviewCategoryStrategy = p.getReviewCategoryStrategy();
         diffView = p.getDiffView();
       }
-      my = my(v, allUsers);
+      loadFromAllUsers(v, allUsers);
     }
 
-    private List<TopMenu.MenuItem> my(VersionedAccountPreferences v,
+    private void loadFromAllUsers(VersionedAccountPreferences v,
         Repository allUsers) {
-      List<TopMenu.MenuItem> my = my(v);
+      my = my(v);
       if (my.isEmpty() && !v.isDefaults()) {
         try {
           VersionedAccountPreferences d = VersionedAccountPreferences.forDefault();
@@ -153,7 +159,8 @@ public class GetPreferences implements RestReadView<AccountResource> {
         my.add(new TopMenu.MenuItem("Starred Changes", "#/q/is:starred", null));
         my.add(new TopMenu.MenuItem("Groups", "#/groups/self", null));
       }
-      return my;
+
+      urlAliases = urlAliases(v);
     }
 
     private List<TopMenu.MenuItem> my(VersionedAccountPreferences v) {
@@ -174,6 +181,16 @@ public class GetPreferences implements RestReadView<AccountResource> {
         String defaultValue) {
       String val = cfg.getString(MY, subsection, key);
       return !Strings.isNullOrEmpty(val) ? val : defaultValue;
+    }
+
+    private static Map<String, String> urlAliases(VersionedAccountPreferences v) {
+      HashMap<String, String> urlAliases = new HashMap<>();
+      Config cfg = v.getConfig();
+      for (String subsection : cfg.getSubsections(URL_ALIAS)) {
+        urlAliases.put(cfg.getString(URL_ALIAS, subsection, KEY_MATCH),
+           cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
+      }
+      return !urlAliases.isEmpty() ? urlAliases : null;
     }
   }
 }

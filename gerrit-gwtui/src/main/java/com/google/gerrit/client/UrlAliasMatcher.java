@@ -20,18 +20,41 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UrlAliasMatcher {
+  private final Map<RegExp, String> userUrlAliases;
   private final Map<RegExp, String> globalUrlAliases;
 
   UrlAliasMatcher(Map<String, String> globalUrlAliases) {
-    this.globalUrlAliases = new HashMap<>();
-    if (globalUrlAliases != null) {
-      for (Map.Entry<String, String> e : globalUrlAliases.entrySet()) {
-        this.globalUrlAliases.put(RegExp.compile(e.getKey()), e.getValue());
+    this.globalUrlAliases = compile(globalUrlAliases);
+    this.userUrlAliases = new HashMap<>();
+  }
+
+  private static Map<RegExp, String> compile(Map<String, String> urlAliases) {
+    Map<RegExp, String> compiledUrlAliases = new HashMap<>();
+    if (urlAliases != null) {
+      for (Map.Entry<String, String> e : urlAliases.entrySet()) {
+        compiledUrlAliases.put(RegExp.compile(e.getKey()), e.getValue());
       }
     }
+    return compiledUrlAliases;
+  }
+
+  void clearUserAliases() {
+    this.userUrlAliases.clear();
+  }
+
+  void updateUserAliases(Map<String, String> userUrlAliases) {
+    clearUserAliases();
+    this.userUrlAliases.putAll(compile(userUrlAliases));
   }
 
   public String replace(String token) {
+    for (Map.Entry<RegExp, String> e : userUrlAliases.entrySet()) {
+      RegExp pat = e.getKey();
+      if (pat.exec(token) != null) {
+        return pat.replace(token, e.getValue());
+      }
+    }
+
     for (Map.Entry<RegExp, String> e : globalUrlAliases.entrySet()) {
       RegExp pat = e.getKey();
       if (pat.exec(token) != null) {

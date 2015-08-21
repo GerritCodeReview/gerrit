@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "24eac520_000c4678",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 1797,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-21T06:29:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6482fd52_32fd10a3",
+      "range": {
+        "startLine": 1797,
+        "startChar": 57,
+        "endLine": 1797,
+        "endChar": 64
+      },
+      "revId": "a808357f5173d1a7b4d09ed3a0895761c52c4b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6482fd52_d22a84b4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 23
@@ -36,6 +60,24 @@
       "writtenOn": "2015-08-21T05:58:07Z",
       "side": 1,
       "message": "Why is this added here?",
+      "revId": "a808357f5173d1a7b4d09ed3a0895761c52c4b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04edc137_bfd81767",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-08-21T06:29:21Z",
+      "side": 1,
+      "message": "This is some leftover from the earlier patch-sets. Removed this import.\n\nDone",
+      "parentUuid": "6482fd52_d22a84b4",
       "revId": "a808357f5173d1a7b4d09ed3a0895761c52c4b72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -80,25 +80,26 @@ public class MergeSuperSet {
     this.repoManager = repoManager;
   }
 
-  public ChangeSet completeChangeSet(ReviewDb db, ChangeSet changes)
+  public ChangeSet completeChangeSet(ReviewDb db, Change change)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       OrmException {
+    ChangeData cd = changeDataFactory.create(db, change.getId());
     if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, changes);
+      return completeChangeSetIncludingTopics(db, new ChangeSet(cd));
     } else {
-      return completeChangeSetWithoutTopic(db, changes);
+      return completeChangeSetWithoutTopic(db, new ChangeSet(cd));
     }
   }
 
   private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       OrmException {
-    List<Change> ret = new ArrayList<>();
+    List<ChangeData> ret = new ArrayList<>();
 
     for (Project.NameKey project : changes.projects()) {
       try (Repository repo = repoManager.openRepository(project);
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-        for (Change.Id cId : changes.changesByProject().get(project)) {
+        for (Change.Id cId : changes.changesByProject(project)) {
           ChangeData cd = changeDataFactory.create(db, cId);
 
           SubmitTypeRecord r = new SubmitRuleEvaluator(cd).getSubmitType();
@@ -106,7 +107,7 @@ public class MergeSuperSet {
             logErrorAndThrow("Failed to get submit type for " + cd.getId());
           }
           if (r.type == SubmitType.CHERRY_PICK) {
-            ret.add(cd.change());
+            ret.add(cd);
             continue;
           }
 
@@ -137,17 +138,15 @@ public class MergeSuperSet {
             // Merged changes are ok to exclude
             Iterable<ChangeData> destChanges = queryProvider.get()
                 .byCommitsOnBranchNotMerged(cd.change().getDest(), hashes);
-
             for (ChangeData chd : destChanges) {
-              Change chg = chd.change();
-              ret.add(chg);
+              ret.add(chd);
             }
           }
         }
       }
     }
 
-    return ChangeSet.create(ret);
+    return new ChangeSet(ret);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
@@ -157,24 +156,18 @@ public class MergeSuperSet {
     boolean done = false;
     ChangeSet newCs = completeChangeSetWithoutTopic(db, changes);
     while (!done) {
-      List<Change> chgs = new ArrayList<>();
+      List<ChangeData> chgs = new ArrayList<>();
       done = true;
-      for (Change.Id cId : newCs.ids()) {
-        // TODO(sbeller): Cache the change data here and in completeChangeSet
-        // There is no need to reread it a few times.
-        ChangeData cd = changeDataFactory.create(db, cId);
-        chgs.add(cd.change());
-
+      for (ChangeData cd : newCs.changes()) {
+        chgs.add(cd);
         String topic = cd.change().getTopic();
         if (!Strings.isNullOrEmpty(topic) && !topicsTraversed.contains(topic)) {
-          for (ChangeData addCd : queryProvider.get().byTopicOpen(topic)) {
-            chgs.add(addCd.change());
-          }
+          chgs.addAll(queryProvider.get().byTopicOpen(topic));
           done = false;
           topicsTraversed.add(topic);
         }
       }
-      changes = ChangeSet.create(chgs);
+      changes = new ChangeSet(chgs);
       newCs = completeChangeSetWithoutTopic(db, changes);
     }
     return newCs;

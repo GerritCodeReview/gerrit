@@ -14,70 +14,115 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 
-/** A set of changes grouped together to be submitted atomically.*/
-@AutoValue
-public abstract class ChangeSet {
-  public static ChangeSet create(Iterable<Change> changes) {
-    ImmutableSet.Builder<Project.NameKey> pb = ImmutableSet.builder();
-    ImmutableSet.Builder<Branch.NameKey> bb = ImmutableSet.builder();
-    ImmutableSet.Builder<Change.Id> ib = ImmutableSet.builder();
-    ImmutableSet.Builder<PatchSet.Id> psb = ImmutableSet.builder();
-    ImmutableSetMultimap.Builder<Project.NameKey, Branch.NameKey> pbb =
-        ImmutableSetMultimap.builder();
-    ImmutableSetMultimap.Builder<Project.NameKey, Change.Id> pcb =
-        ImmutableSetMultimap.builder();
-    ImmutableSetMultimap.Builder<Branch.NameKey, Change.Id> cbb =
-        ImmutableSetMultimap.builder();
-    ImmutableSet.Builder<Change> cb = ImmutableSet.builder();
+import java.util.HashSet;
+import java.util.Set;
 
-    for (Change c : changes) {
-      Branch.NameKey branch = c.getDest();
-      Project.NameKey project = branch.getParentKey();
-      pb.add(project);
-      bb.add(branch);
-      ib.add(c.getId());
-      psb.add(c.currentPatchSetId());
-      pbb.put(project, branch);
-      pcb.put(project, c.getId());
-      cbb.put(branch, c.getId());
-      cb.add(c);
+/**
+ * A set of changes grouped together to be submitted atomically.
+ * This is not thread safe.
+ */
+public class ChangeSet {
+  private Set<ChangeData> changeData;
+
+  public ChangeSet(Iterable<ChangeData> changes) {
+    Set<Change.Id> ids = new HashSet<>();
+    changeData = new HashSet<>();
+    for (ChangeData cd : changes) {
+      if (!ids.contains(cd.getId())) {
+        changeData.add(cd);
+        ids.add(cd.getId());
+      }
     }
-
-    return new AutoValue_ChangeSet(pb.build(), bb.build(), ib.build(),
-        psb.build(), pbb.build(), pcb.build(), cbb.build(), cb.build());
   }
 
-  public static ChangeSet create(Change change) {
-    return create(ImmutableList.of(change));
+  public ChangeSet(ChangeData change) {
+    this(ImmutableList.of(change));
   }
 
-  public abstract ImmutableSet<Project.NameKey> projects();
-  public abstract ImmutableSet<Branch.NameKey> branches();
-  public abstract ImmutableSet<Change.Id> ids();
-  public abstract ImmutableSet<PatchSet.Id> patchIds();
-  public abstract ImmutableSetMultimap<Project.NameKey, Branch.NameKey>
-      branchesByProject();
-  public abstract ImmutableSetMultimap<Project.NameKey, Change.Id>
-      changesByProject();
-  public abstract ImmutableSetMultimap<Branch.NameKey, Change.Id>
-      changesByBranch();
-  public abstract ImmutableSet<Change> changes();
+  public Set<Project.NameKey> projects() throws OrmException {
+    Set<Project.NameKey> ret = new HashSet<>();
+    for (ChangeData cd : changeData) {
+      ret.add(cd.change().getProject());
+    }
+    return ret;
+  }
 
-  @Override
-  public int hashCode() {
-    return ids().hashCode();
+  public Set<Branch.NameKey> branches() throws OrmException {
+    Set<Branch.NameKey> ret = new HashSet<>();
+    for (ChangeData cd : changeData) {
+      ret.add(cd.change().getDest());
+    }
+    return ret;
+  }
+
+  public Set<Change.Id> ids() {
+    Set<Change.Id> ret = new HashSet<>();
+    for (ChangeData cd : changeData) {
+      ret.add(cd.getId());
+    }
+    return ret;
+  }
+
+  public Set<PatchSet.Id> patchIds() throws OrmException {
+    Set<PatchSet.Id> ret = new HashSet<>();
+    for (ChangeData cd : changeData) {
+      ret.add(cd.change().currentPatchSetId());
+    }
+    return ret;
+  }
+
+  public Set<Branch.NameKey> branchesByProject(Project.NameKey project)
+      throws OrmException {
+    Set<Branch.NameKey> ret = new HashSet<>();
+    for (ChangeData cd : changeData) {
+      Branch.NameKey branch = cd.change().getDest();
+      if (branch.getParentKey().equals(project)) {
+        ret.add(branch);
+      }
+    }
+    return ret;
+  }
+
+  public Set<Change.Id> changesByProject(Project.NameKey project)
+      throws OrmException {
+    Set<Change.Id> ret = new HashSet<>();
+    for (ChangeData cd : changeData) {
+      if (cd.change().getProject().equals(project)) {
+        ret.add(cd.getId());
+      }
+    }
+    return ret;
+  }
+
+  public Set<Change.Id> changesByBranch(Branch.NameKey branch)
+      throws OrmException {
+    Set<Change.Id> ret = new HashSet<>();
+    for (ChangeData cd : changeData) {
+      if (cd.change().getDest().equals(branch)) {
+        ret.add(cd.getId());
+      }
+    }
+    return ret;
+  }
+
+  public Set<ChangeData> changes() {
+    return changeData;
   }
 
   public int size() {
-    return ids().size();
+    return changeData.size();
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(ids());
   }
 }

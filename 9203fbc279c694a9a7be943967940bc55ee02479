@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "44da59aa_29c4ed87",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-21T18:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4e3151e_ccdd2f56",
+      "range": {
+        "startLine": 709,
+        "startChar": 49,
+        "endLine": 709,
+        "endChar": 56
+      },
+      "revId": "9203fbc279c694a9a7be943967940bc55ee02479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4e3151e_ecd8eb67",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 11
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "44da59aa_09c12978",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-21T18:50:26Z",
+      "side": 1,
+      "message": "I don\u0027t mind a one-word change even if it gets changed back later, done.",
+      "parentUuid": "24f005dc_b0d23844",
+      "range": {
+        "startLine": 725,
+        "startChar": 19,
+        "endLine": 725,
+        "endChar": 27
+      },
+      "revId": "9203fbc279c694a9a7be943967940bc55ee02479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4e3151e_acd2e343",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 11
@@ -83,6 +131,30 @@
       "writtenOn": "2015-08-20T02:13:11Z",
       "side": 1,
       "message": "N",
+      "range": {
+        "startLine": 1633,
+        "startChar": 15,
+        "endLine": 1633,
+        "endChar": 16
+      },
+      "revId": "9203fbc279c694a9a7be943967940bc55ee02479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44da59aa_69cee5a7",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1633,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-21T18:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4e3151e_acd2e343",
       "range": {
         "startLine": 1633,
         "startChar": 15,

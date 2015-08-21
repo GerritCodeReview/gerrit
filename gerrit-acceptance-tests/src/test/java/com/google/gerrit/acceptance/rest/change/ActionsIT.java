@@ -154,7 +154,11 @@ public class ActionsIT extends AbstractDaemonTest {
       int nrChanges) {
     ActionInfo info = actions.get("submit");
     assertThat(info.enabled).isTrue();
-    assertThat(info.label).isEqualTo("Submit");
+    if (nrChanges == 1) {
+      assertThat(info.label).isEqualTo("Submit");
+    } else {
+      assertThat(info.label).isEqualTo("Submit including parents");
+    }
     assertThat(info.method).isEqualTo("POST");
     if (nrChanges == 1) {
       assertThat(info.title).isEqualTo("Submit patch set 1 into master");

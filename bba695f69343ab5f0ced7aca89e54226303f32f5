@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44da59aa_a9af3dcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-21T16:43:47Z",
+      "side": 1,
+      "message": "Some of these sets are rather heavyweight. Consider creating them on demand (and probably documenting that this class should only be used from a single thread).",
+      "revId": "bba695f69343ab5f0ced7aca89e54226303f32f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44da59aa_89b4f91e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-21T16:43:47Z",
+      "side": 1,
+      "message": "Are there any places where ChangeSets are created where you have Changes but not ChangeDatas? ChangeData is going to give you strictly more caching.",
+      "range": {
+        "startLine": 39,
+        "startChar": 28,
+        "endLine": 39,
+        "endChar": 34
+      },
+      "revId": "bba695f69343ab5f0ced7aca89e54226303f32f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c49c89da_edb94515",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-21T16:43:47Z",
+      "side": 1,
+      "message": "equals and hashCode are not necessary, but a toString listing at least the IDs would be nice.",
+      "revId": "bba695f69343ab5f0ced7aca89e54226303f32f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.config.AuthConfig;

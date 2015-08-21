@@ -331,14 +331,14 @@ public class MergeOp {
     }
   }
 
-  public void merge(ReviewDb db, ChangeSet changes, IdentifiedUser caller,
+  public void merge(ReviewDb db, Change change, IdentifiedUser caller,
       boolean checkSubmitRules) throws NoSuchChangeException,
       OrmException, ResourceConflictException {
-    logPrefix = String.format("[%s]: ", String.valueOf(changes.hashCode()));
+    logPrefix = String.format("[%s]: ", String.valueOf(change.hashCode()));
     this.db = db;
-    logDebug("Beginning merge of {}", changes);
+    logDebug("Beginning integration of {}", change);
     try {
-      ChangeSet cs = mergeSuperSet.completeChangeSet(db, changes);
+      ChangeSet cs = mergeSuperSet.completeChangeSet(db, change);
       logDebug("Calculated to merge {}", cs);
       if (checkSubmitRules) {
         logDebug("Checking submit rules and state");
@@ -365,11 +365,11 @@ public class MergeOp {
       logDebug("Perform the merges");
       for (Project.NameKey project : cs.projects()) {
         openRepository(project);
-        for (Branch.NameKey branch : cs.branchesByProject().get(project)) {
+        for (Branch.NameKey branch : cs.branchesByProject(project)) {
           setDestProject(branch);
 
           List<ChangeData> cds = new ArrayList<>();
-          for (Change.Id id : cs.changesByBranch().get(branch)) {
+          for (Change.Id id : cs.changesByBranch(branch)) {
             cds.add(changeDataFactory.create(db, id));
           }
           ListMultimap<SubmitType, ChangeData> submitting =
@@ -395,7 +395,7 @@ public class MergeOp {
       SubmoduleOp subOp = subOpProvider.get();
       for (Project.NameKey project : cs.projects()) {
         openRepository(project);
-        for (Branch.NameKey branch : cs.branchesByProject().get(project)) {
+        for (Branch.NameKey branch : cs.branchesByProject(project)) {
 
           RefUpdate update = updateBranch(branch);
           pendingRefUpdates.remove(branch);

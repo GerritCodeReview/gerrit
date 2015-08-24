@@ -18,6 +18,7 @@ import com.google.gerrit.httpd.rpc.account.AccountModule;
 import com.google.gerrit.httpd.rpc.changedetail.ChangeModule;
 import com.google.gerrit.httpd.rpc.patch.PatchModule;
 import com.google.gerrit.httpd.rpc.project.ProjectModule;
+import com.google.gerrit.server.change.SuggestReviewers;
 
 /** Registers servlets to answer RPCs from client UI. */
 public class UiRpcModule extends RpcServletModule {
@@ -34,5 +35,6 @@ public class UiRpcModule extends RpcServletModule {
     install(new ChangeModule());
     install(new PatchModule());
     install(new ProjectModule());
+    install(new SuggestReviewers.Module());
   }
 }

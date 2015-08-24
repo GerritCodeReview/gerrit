@@ -213,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "24d1e58c_0865a70f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T21:27:58Z",
+      "side": 1,
+      "message": "ok the O(n^2) code is fixed in PS8",
+      "parentUuid": "647cbd57_a253be42",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_421cb29c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 4

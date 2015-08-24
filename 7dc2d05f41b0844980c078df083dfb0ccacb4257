@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4e955d1_dcff4d9b",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-24T06:47:03Z",
+      "side": 1,
+      "message": "nit: not in alphabetical order.",
+      "range": {
+        "startLine": 20,
+        "startChar": 36,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "7dc2d05f41b0844980c078df083dfb0ccacb4257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4e955d1_fcfc09a9",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-24T06:47:03Z",
+      "side": 1,
+      "message": "adds",
+      "range": {
+        "startLine": 72,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 20
+      },
+      "revId": "7dc2d05f41b0844980c078df083dfb0ccacb4257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84e451f8_7b2abfb2",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-24T06:47:03Z",
+      "side": 1,
+      "message": "given",
+      "range": {
+        "startLine": 72,
+        "startChar": 25,
+        "endLine": 72,
+        "endChar": 30
+      },
+      "revId": "7dc2d05f41b0844980c078df083dfb0ccacb4257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

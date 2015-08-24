@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84bff131_e336720c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T20:16:21Z",
+      "side": 1,
+      "message": "I think this is backwards. ids() should return an ImmutableSet, since Change.Ids are immutable and hashable. changes() should not return a Set, since ChangeData doesn\u0027t implement equals/hashCode. (Or, if you prefer, an ImmutableMap\u003cChange.Id, ChangeData\u003e, but I don\u0027t know if you have any callers that would benefit from that.)",
+      "revId": "034f2b0b579ec378be6587bfd46a368bb5a64ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_83417e66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T20:16:21Z",
+      "side": 1,
+      "message": "Why this instead of SetMultimap (which you had before), which does the deduplication for you?",
+      "revId": "034f2b0b579ec378be6587bfd46a368bb5a64ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_c258c25f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T20:16:21Z",
+      "side": 1,
+      "message": "This is still O(n) inside a loop body. changesByBranch creates a fresh set on every invocation.",
+      "revId": "034f2b0b579ec378be6587bfd46a368bb5a64ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

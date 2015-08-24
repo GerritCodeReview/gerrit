@@ -195,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "647cbd57_a253be42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T20:11:01Z",
+      "side": 1,
+      "message": "If there are a constant number of sets created in some code path, then sure, reducing that constant number is premature optimization.\n\nI\u0027m more concerned about the obviously O(n^2) code in MergeOp.",
+      "parentUuid": "24d1e58c_8858775e",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_421cb29c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 4
@@ -329,6 +347,24 @@
       "side": 1,
       "message": "Mind that we did that before in line 1799. The reason is to be sure, so we can answer truthfully what is recorded in the database. If the merge failed to write the change to the db or failed to set the MERGED flag, we get the notification here. This is very similar to the code in Submit and seems to be causing problems for us.",
       "parentUuid": "84bff131_c362560a",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_436f86ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1797,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T20:11:01Z",
+      "side": 1,
+      "message": "Ack, I missed that on the LHS.",
+      "parentUuid": "04d4e17b_8758665e",
       "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

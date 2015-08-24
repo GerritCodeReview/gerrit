@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84bff131_23688ae7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T17:47:42Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we have some sort of stable/predictable order here?",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_4316667d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T17:47:42Z",
+      "side": 1,
+      "message": "\"This class\"",
+      "range": {
+        "startLine": 30,
+        "startChar": 3,
+        "endLine": 30,
+        "endChar": 7
+      },
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_e224e6e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T17:47:42Z",
+      "side": 1,
+      "message": "Nit: Paragraphs past the first should be separated with \u003cp\u003e",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_221fae93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T17:47:42Z",
+      "side": 1,
+      "message": "ImmutableSet to prevent callers from modifying it.",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_a353da42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T17:47:42Z",
+      "side": 1,
+      "message": "Do callers call these methods multiple times? If so, might be worth memoizing the result.",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_421cb29c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T17:47:42Z",
+      "side": 1,
+      "message": "Prefix with the class name:\n\n return getClass().getSimpleName() + ids();",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_6219b6ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T17:47:42Z",
+      "side": 1,
+      "message": "This seems inefficient, each of these branchesByProject calls is an O(n) walk over the whole change set.\n\nIf you keep the branchesByProject() method as a multimap, you can replace this and the outer loop with a nested walk over that multimap.",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_e35dd24c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T17:47:42Z",
+      "side": 1,
+      "message": "Another repeated O(n) walk not a great idea in an inner loop.",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_c362560a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1797,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T17:47:42Z",
+      "side": 1,
+      "message": "What\u0027s going on here? Is there a specific reason we need to re-read the change from the database at this point?",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

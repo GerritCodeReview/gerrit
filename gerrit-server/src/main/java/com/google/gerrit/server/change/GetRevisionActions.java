@@ -14,16 +14,18 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Strings;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.git.ChangeSet;
+import com.google.gerrit.server.git.MergeSuperSet;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
@@ -32,21 +34,25 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Singleton
 public class GetRevisionActions implements ETagView<RevisionResource> {
   private final ActionJson delegate;
-  private final Provider<InternalChangeQuery> queryProvider;
   private final Config config;
+  private final Provider<ReviewDb> dbProvider;
+  private final MergeSuperSet mergeSuperSet;
 
   @Inject
   GetRevisionActions(
       ActionJson delegate,
-      Provider<InternalChangeQuery> queryProvider,
+      Provider<ReviewDb> dbProvider,
+      MergeSuperSet mergeSuperSet,
       @GerritServerConfig Config config) {
     this.delegate = delegate;
-    this.queryProvider = queryProvider;
+    this.dbProvider = dbProvider;
+    this.mergeSuperSet = mergeSuperSet;
     this.config = config;
   }
 
@@ -57,18 +63,19 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
 
   @Override
   public String getETag(RevisionResource rsrc) {
-    String topic = rsrc.getChange().getTopic();
-    if (!Submit.wholeTopicEnabled(config)
-        || Strings.isNullOrEmpty(topic)) {
-      return rsrc.getETag();
-    }
     Hasher h = Hashing.md5().newHasher();
     CurrentUser user = rsrc.getControl().getCurrentUser();
     try {
-      for (ChangeData c : queryProvider.get().byTopicOpen(topic)) {
-        new ChangeResource(c.changeControl()).prepareETag(h, user);
+      rsrc.getChangeResource().prepareETag(h, user);
+      h.putBoolean(Submit.wholeTopicEnabled(config));
+      ReviewDb db = dbProvider.get();
+      ChangeSet cs = mergeSuperSet.completeChangeSet(db,
+          ChangeSet.create(rsrc.getChange()));
+      ProjectControl ctl = rsrc.getControl().getProjectControl();
+      for (Change c : cs.changes()) {
+        new ChangeResource(ctl.controlFor(c)).prepareETag(h, user);
       }
-    } catch (OrmException e){
+    } catch (IOException | OrmException e) {
       throw new OrmRuntimeException(e);
     }
     return h.hash().toString();

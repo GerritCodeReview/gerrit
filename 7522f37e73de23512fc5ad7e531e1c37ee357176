@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44da59aa_09eac9e7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T14:52:50Z",
+      "side": 1,
+      "message": "#/",
+      "range": {
+        "startLine": 176,
+        "startChar": 26,
+        "endLine": 176,
+        "endChar": 27
+      },
+      "revId": "7522f37e73de23512fc5ad7e531e1c37ee357176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

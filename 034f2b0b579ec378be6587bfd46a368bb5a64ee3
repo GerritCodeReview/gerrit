@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "04d4e17b_0765960f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T21:27:58Z",
+      "side": 1,
+      "message": "I agree on the the ids(), and for the `changes()` you\u0027d go with an ImmutableCollection ?",
+      "parentUuid": "84bff131_e336720c",
+      "revId": "034f2b0b579ec378be6587bfd46a368bb5a64ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84bff131_83417e66",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "04d4e17b_27689ae7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T21:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84bff131_83417e66",
+      "revId": "034f2b0b579ec378be6587bfd46a368bb5a64ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_c258c25f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2015-08-24T20:16:21Z",
       "side": 1,
       "message": "This is still O(n) inside a loop body. changesByBranch creates a fresh set on every invocation.",
+      "revId": "034f2b0b579ec378be6587bfd46a368bb5a64ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24d1e58c_687263d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T21:27:58Z",
+      "side": 1,
+      "message": "Right, I missed that. (I thought you referred to the `cs.branchesByProject().get(project)` in the second for loop only)\n\nFixed.",
+      "parentUuid": "647cbd57_c258c25f",
       "revId": "034f2b0b579ec378be6587bfd46a368bb5a64ee3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1787,31 +1787,28 @@ public class ReceiveCommits {
       throws OrmException, ResourceConflictException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
-    List<Change> changes = Lists.newArrayList(rsrc.getChange());
     try {
-      mergeOpProvider.get().merge(db, ChangeSet.create(changes),
+      mergeOpProvider.get().merge(db, rsrc.getChange(),
           (IdentifiedUser) changeCtl.getCurrentUser(), false);
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);
     }
     addMessage("");
-    for (Change c : changes) {
-      c = db.changes().get(c.getId());
-      switch (c.getStatus()) {
-        case MERGED:
-          addMessage("Change " + c.getChangeId() + " merged.");
+    Change c = db.changes().get(rsrc.getChange().getId());
+    switch (c.getStatus()) {
+      case MERGED:
+        addMessage("Change " + c.getChangeId() + " merged.");
+        break;
+      case NEW:
+        ChangeMessage msg = submit.getConflictMessage(rsrc);
+        if (msg != null) {
+          addMessage("Change " + c.getChangeId() + ": " + msg.getMessage());
           break;
-        case NEW:
-          ChangeMessage msg = submit.getConflictMessage(rsrc);
-          if (msg != null) {
-            addMessage("Change " + c.getChangeId() + ": " + msg.getMessage());
-            break;
-          }
-          //$FALL-THROUGH$
-        default:
-          addMessage("change " + c.getChangeId() + " is "
-              + c.getStatus().name().toLowerCase());
-      }
+        }
+        //$FALL-THROUGH$
+      default:
+        addMessage("change " + c.getChangeId() + " is "
+            + c.getStatus().name().toLowerCase());
     }
   }
 

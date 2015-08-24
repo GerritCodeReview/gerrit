@@ -14,70 +14,104 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.auto.value.AutoValue;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 
-/** A set of changes grouped together to be submitted atomically.*/
-@AutoValue
-public abstract class ChangeSet {
-  public static ChangeSet create(Iterable<Change> changes) {
-    ImmutableSet.Builder<Project.NameKey> pb = ImmutableSet.builder();
-    ImmutableSet.Builder<Branch.NameKey> bb = ImmutableSet.builder();
-    ImmutableSet.Builder<Change.Id> ib = ImmutableSet.builder();
-    ImmutableSet.Builder<PatchSet.Id> psb = ImmutableSet.builder();
-    ImmutableSetMultimap.Builder<Project.NameKey, Branch.NameKey> pbb =
-        ImmutableSetMultimap.builder();
-    ImmutableSetMultimap.Builder<Project.NameKey, Change.Id> pcb =
-        ImmutableSetMultimap.builder();
-    ImmutableSetMultimap.Builder<Branch.NameKey, Change.Id> cbb =
-        ImmutableSetMultimap.builder();
-    ImmutableSet.Builder<Change> cb = ImmutableSet.builder();
+import java.util.HashSet;
+import java.util.Set;
 
-    for (Change c : changes) {
-      Branch.NameKey branch = c.getDest();
-      Project.NameKey project = branch.getParentKey();
-      pb.add(project);
-      bb.add(branch);
-      ib.add(c.getId());
-      psb.add(c.currentPatchSetId());
-      pbb.put(project, branch);
-      pcb.put(project, c.getId());
-      cbb.put(branch, c.getId());
-      cb.add(c);
+/**
+ * A set of changes grouped together to be submitted atomically.
+ * <p>
+ * This class is not thread safe.
+ */
+public class ChangeSet {
+  private ImmutableCollection<ChangeData> changeData;
+
+  public ChangeSet(Iterable<ChangeData> changes) {
+    Set<Change.Id> ids = new HashSet<>();
+    ImmutableSet.Builder<ChangeData> cdb = ImmutableSet.builder();
+    for (ChangeData cd : changes) {
+      if (!ids.contains(cd.getId())) {
+        cdb.add(cd);
+        ids.add(cd.getId());
+      }
     }
-
-    return new AutoValue_ChangeSet(pb.build(), bb.build(), ib.build(),
-        psb.build(), pbb.build(), pcb.build(), cbb.build(), cb.build());
+    changeData = cdb.build();
   }
 
-  public static ChangeSet create(Change change) {
-    return create(ImmutableList.of(change));
+  public ChangeSet(ChangeData change) {
+    this(ImmutableList.of(change));
   }
 
-  public abstract ImmutableSet<Project.NameKey> projects();
-  public abstract ImmutableSet<Branch.NameKey> branches();
-  public abstract ImmutableSet<Change.Id> ids();
-  public abstract ImmutableSet<PatchSet.Id> patchIds();
-  public abstract ImmutableSetMultimap<Project.NameKey, Branch.NameKey>
-      branchesByProject();
-  public abstract ImmutableSetMultimap<Project.NameKey, Change.Id>
-      changesByProject();
-  public abstract ImmutableSetMultimap<Branch.NameKey, Change.Id>
-      changesByBranch();
-  public abstract ImmutableSet<Change> changes();
+  public ImmutableSet<Change.Id> ids() {
+    ImmutableSet.Builder<Change.Id> ret = ImmutableSet.builder();
+    for (ChangeData cd : changeData) {
+      ret.add(cd.getId());
+    }
+    return ret.build();
+  }
 
-  @Override
-  public int hashCode() {
-    return ids().hashCode();
+  public Set<PatchSet.Id> patchIds() throws OrmException {
+    Set<PatchSet.Id> ret = new HashSet<>();
+    for (ChangeData cd : changeData) {
+      ret.add(cd.change().currentPatchSetId());
+    }
+    return ret;
+  }
+
+  public SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject()
+      throws OrmException {
+    SetMultimap<Project.NameKey, Branch.NameKey> ret =
+        HashMultimap.create();
+    for (ChangeData cd : changeData) {
+      ret.put(cd.change().getProject(), cd.change().getDest());
+    }
+    return ret;
+  }
+
+  public Multimap<Project.NameKey, Change.Id> changesByProject()
+      throws OrmException {
+    ListMultimap<Project.NameKey, Change.Id> ret =
+        ArrayListMultimap.create();
+    for (ChangeData cd : changeData) {
+      ret.put(cd.change().getProject(), cd.getId());
+    }
+    return ret;
+  }
+
+  public Multimap<Branch.NameKey, Change.Id> changesByBranch()
+      throws OrmException {
+    ListMultimap<Branch.NameKey, Change.Id> ret =
+        ArrayListMultimap.create();
+    for (ChangeData cd : changeData) {
+      ret.put(cd.change().getDest(), cd.getId());
+    }
+    return ret;
+  }
+
+  public ImmutableCollection<ChangeData> changes() {
+    return changeData;
   }
 
   public int size() {
-    return ids().size();
+    return changeData.size();
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + ids();
   }
 }

@@ -22,6 +22,30 @@
       "revId": "2de67e1107535fd6b89ff6e0b2a1c7c803eae288",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_03eaaee7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/Fingerprint.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-24T15:22:28Z",
+      "side": 0,
+      "message": "Yes, the old PublicKeyStore.fingerprintToString has no parens, this is part of unifying them. Nobody was depending on the toString representation of a Fingerprint, but PublicKeyStore#keyToString(PGPPublicKey), and its test, _was_ depending on fingerprintToString having no parens.",
+      "parentUuid": "24d1e58c_48fddfa1",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 63
+      },
+      "revId": "2de67e1107535fd6b89ff6e0b2a1c7c803eae288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24d1e58c_a801fb46",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-24T01:56:29Z",
+      "side": 1,
+      "message": "\"delete\" for consistency with the field description in GpgKeyInfo?",
+      "range": {
+        "startLine": 722,
+        "startChar": 5,
+        "endLine": 722,
+        "endChar": 11
+      },
+      "revId": "d2ac86d779c91536d9810b95a0be39017a3e4920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24d1e58c_e80bf360",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-24T01:56:29Z",
+      "side": 1,
+      "message": "Or change these to \"removed\" for consistency with the name in GpgKeyInput?",
+      "range": {
+        "startLine": 1657,
+        "startChar": 27,
+        "endLine": 1657,
+        "endChar": 34
+      },
+      "revId": "d2ac86d779c91536d9810b95a0be39017a3e4920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24d1e58c_8806b75a",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1672,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-24T01:56:29Z",
+      "side": 1,
+      "message": "delete?",
+      "range": {
+        "startLine": 1672,
+        "startChar": 2,
+        "endLine": 1672,
+        "endChar": 8
+      },
+      "revId": "d2ac86d779c91536d9810b95a0be39017a3e4920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

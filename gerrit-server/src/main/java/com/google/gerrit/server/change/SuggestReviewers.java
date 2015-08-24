@@ -26,6 +26,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
@@ -42,9 +43,11 @@ import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -62,6 +65,17 @@ import java.util.Map;
 import java.util.Set;
 
 public class SuggestReviewers implements RestReadView<ChangeResource> {
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      DynamicItem.itemOf(binder(), ReviewerAnnotatorProvider.class);
+    }
+  }
+
+  public interface ReviewerAnnotatorProvider {
+    public String getAnnotation(SuggestedReviewerInfo ri, ChangeControl cc);
+  }
+
   private static final String MAX_SUFFIX = "\u9fa5";
   private static final int DEFAULT_MAX_SUGGESTED = 10;
   private static final int DEFAULT_MAX_MATCHES = 100;
@@ -97,6 +111,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   private final int fullTextMaxMatches;
   private final int maxSuggestedReviewers;
   private final ReviewerSuggestionCache reviewerSuggestionCache;
+  private final DynamicItem<ReviewerAnnotatorProvider> annotatorProvider;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
       usage = "maximum number of reviewers to list")
@@ -123,7 +138,8 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
       Provider<ReviewDb> dbProvider,
       @GerritServerConfig Config cfg,
       GroupBackend groupBackend,
-      ReviewerSuggestionCache reviewerSuggestionCache) {
+      ReviewerSuggestionCache reviewerSuggestionCache,
+      DynamicItem<ReviewerAnnotatorProvider> annotatorProvider) {
     this.accountLoader = accountLoaderFactory.create(true);
     this.accountControl = accountControlFactory.get();
     this.accountCache = accountCache;
@@ -151,6 +167,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
     this.maxAllowed = cfg.getInt("addreviewer", "maxAllowed",
         PostReviewers.DEFAULT_MAX_REVIEWERS);
+    this.annotatorProvider = annotatorProvider;
   }
 
   private interface VisibilityControl {
@@ -197,11 +214,17 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     reviewer = ORDERING.immutableSortedCopy(reviewer);
-    if (reviewer.size() <= limit) {
-      return reviewer;
-    } else {
-      return reviewer.subList(0, limit);
+    if (reviewer.size() > limit) {
+      reviewer = reviewer.subList(0, limit);
     }
+
+    ReviewerAnnotatorProvider rap = annotatorProvider.get();
+    if (rap != null) {
+      for (SuggestedReviewerInfo sri : reviewer) {
+        sri.annotation = rap.getAnnotation(sri, rsrc.getControl());
+      }
+    }
+    return reviewer;
   }
 
   private VisibilityControl getVisibility(final ChangeResource rsrc) {

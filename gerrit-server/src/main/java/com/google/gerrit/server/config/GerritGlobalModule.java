@@ -74,6 +74,7 @@ import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
+import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventsMetrics;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -254,6 +255,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new com.google.gerrit.server.config.Module());
     install(new com.google.gerrit.server.group.Module());
     install(new com.google.gerrit.server.project.Module());
+    install(new SuggestReviewers.Module());
 
     bind(GitReferenceUpdated.class);
     DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});

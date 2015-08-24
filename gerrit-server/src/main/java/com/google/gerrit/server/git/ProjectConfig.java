@@ -767,6 +767,17 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       Config pluginConfig = new Config();
       pluginConfigs.put(plugin, pluginConfig);
       for (String name : rc.getNames(PLUGIN, plugin)) {
+        String value = rc.getString(PLUGIN, plugin, name);
+        if (value.startsWith("Group[")) {
+          GroupReference refFromString = GroupReference.fromString(value);
+          GroupReference ref = groupList.byUUID(refFromString.getUUID());
+          if (ref == null) {
+            ref = refFromString;
+            error(new ValidationError(PROJECT_CONFIG,
+                "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
+          }
+          rc.setString(PLUGIN, plugin, name, ref.toString());
+        }
         pluginConfig.setStringList(PLUGIN, plugin, name,
             Arrays.asList(rc.getStringList(PLUGIN, plugin, name)));
       }
@@ -834,9 +845,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     saveContributorAgreements(rc, keepGroups);
     saveAccessSections(rc, keepGroups);
     saveNotifySections(rc, keepGroups);
+    savePluginSections(rc, keepGroups);
     groupList.retainUUIDs(keepGroups);
     saveLabelSections(rc);
-    savePluginSections(rc);
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
@@ -1089,7 +1100,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private void savePluginSections(Config rc) {
+  private void savePluginSections(Config rc, Set<AccountGroup.UUID> keepGroups) {
     List<String> existing = Lists.newArrayList(rc.getSubsections(PLUGIN));
     for (String name : existing) {
       rc.unsetSection(PLUGIN, name);
@@ -1099,6 +1110,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String plugin = e.getKey();
       Config pluginConfig = e.getValue();
       for (String name : pluginConfig.getNames(PLUGIN, plugin)) {
+        String value = pluginConfig.getString(PLUGIN, plugin, name);
+        if (value.startsWith("Group[")) {
+          GroupReference ref = resolve(GroupReference.fromString(value));
+          if (ref.getUUID() != null) {
+            keepGroups.add(ref.getUUID());
+            rc.setString(PLUGIN, plugin, name, ref.toString());
+          }
+        }
         rc.setStringList(PLUGIN, plugin, name,
             Arrays.asList(pluginConfig.getStringList(PLUGIN, plugin, name)));
       }

@@ -19,13 +19,12 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.MergeSuperSet;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
@@ -69,11 +68,9 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       rsrc.getChangeResource().prepareETag(h, user);
       h.putBoolean(Submit.wholeTopicEnabled(config));
       ReviewDb db = dbProvider.get();
-      ChangeSet cs = mergeSuperSet.completeChangeSet(db,
-          ChangeSet.create(rsrc.getChange()));
-      ProjectControl ctl = rsrc.getControl().getProjectControl();
-      for (Change c : cs.changes()) {
-        new ChangeResource(ctl.controlFor(c)).prepareETag(h, user);
+      ChangeSet cs = mergeSuperSet.completeChangeSet(db, rsrc.getChange());
+      for (ChangeData cd : cs.changes()) {
+        new ChangeResource(cd.changeControl()).prepareETag(h, user);
       }
     } catch (IOException | OrmException e) {
       throw new OrmRuntimeException(e);

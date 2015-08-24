@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.changes.ChangeApi;
@@ -68,13 +69,15 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
     @Override
     public String getDisplayString() {
+      String annotation = Strings.nullToEmpty(reviewer.annotation());
       if (reviewer.account() != null) {
-        return FormatUtil.nameEmail(reviewer.account());
+        return FormatUtil.nameEmail(reviewer.account()) + annotation;
       }
       return reviewer.group().name()
           + " ("
           + Util.C.suggestedGroupLabel()
-          + ")";
+          + ")"
+          + annotation;
     }
 
     @Override
@@ -89,6 +92,8 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
   public static class SuggestReviewerInfo extends JavaScriptObject {
     public final native AccountInfo account() /*-{ return this.account; }-*/;
     public final native GroupBaseInfo group() /*-{ return this.group; }-*/;
+    public final native String annotation() /*-{ return this.annotation; }-*/;
+
     protected SuggestReviewerInfo() {
     }
   }

@@ -65,6 +65,54 @@
     },
     {
       "key": {
+        "uuid": "04d4e17b_872fc6c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T18:33:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "647cbd57_e224e6e8",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4e17b_e724c2e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T18:33:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84bff131_4316667d",
+      "range": {
+        "startLine": 30,
+        "startChar": 3,
+        "endLine": 30,
+        "endChar": 7
+      },
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_221fae93",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 4
@@ -76,6 +124,30 @@
       "writtenOn": "2015-08-24T17:47:42Z",
       "side": 1,
       "message": "ImmutableSet to prevent callers from modifying it.",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24d1e58c_6819c3ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T18:33:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "647cbd57_221fae93",
       "range": {
         "startLine": 33,
         "startChar": 10,
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "24d1e58c_8858775e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T18:33:03Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this qualify as premature optimization?",
+      "parentUuid": "84bff131_a353da42",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_421cb29c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 4
@@ -116,6 +206,24 @@
       "writtenOn": "2015-08-24T17:47:42Z",
       "side": 1,
       "message": "Prefix with the class name:\n\n return getClass().getSimpleName() + ids();",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4e17b_271ffa93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T18:33:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "647cbd57_421cb29c",
       "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

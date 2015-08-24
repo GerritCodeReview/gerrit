@@ -180,7 +180,7 @@ public class SubmoduleOp {
   }
 
   protected void updateSuperProjects(ReviewDb db,
-      Set<Branch.NameKey> updatedBranches) throws SubmoduleException {
+      Collection<Branch.NameKey> updatedBranches) throws SubmoduleException {
     try {
       // These (repo/branch) will be updated later with all the given
       // individual submodule subscriptions

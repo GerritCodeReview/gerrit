@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
@@ -331,14 +332,14 @@ public class MergeOp {
     }
   }
 
-  public void merge(ReviewDb db, ChangeSet changes, IdentifiedUser caller,
+  public void merge(ReviewDb db, Change change, IdentifiedUser caller,
       boolean checkSubmitRules) throws NoSuchChangeException,
       OrmException, ResourceConflictException {
-    logPrefix = String.format("[%s]: ", String.valueOf(changes.hashCode()));
+    logPrefix = String.format("[%s]: ", String.valueOf(change.hashCode()));
     this.db = db;
-    logDebug("Beginning merge of {}", changes);
+    logDebug("Beginning integration of {}", change);
     try {
-      ChangeSet cs = mergeSuperSet.completeChangeSet(db, changes);
+      ChangeSet cs = mergeSuperSet.completeChangeSet(db, change);
       logDebug("Calculated to merge {}", cs);
       if (checkSubmitRules) {
         logDebug("Checking submit rules and state");
@@ -361,15 +362,16 @@ public class MergeOp {
     logDebug("Beginning merge attempt on {}", cs);
     Map<Branch.NameKey, ListMultimap<SubmitType, ChangeData>> toSubmit =
         new HashMap<>();
+    logDebug("Perform the merges");
     try {
-      logDebug("Perform the merges");
-      for (Project.NameKey project : cs.projects()) {
+      Multimap<Project.NameKey, Branch.NameKey> br = cs.branchesByProject();
+      for (Project.NameKey project : br.keySet()) {
         openRepository(project);
-        for (Branch.NameKey branch : cs.branchesByProject().get(project)) {
+        for (Branch.NameKey branch : br.get(project)) {
           setDestProject(branch);
 
           List<ChangeData> cds = new ArrayList<>();
-          for (Change.Id id : cs.changesByBranch().get(branch)) {
+          for (Change.Id id : cs.changesByBranch(branch)) {
             cds.add(changeDataFactory.create(db, id));
           }
           ListMultimap<SubmitType, ChangeData> submitting =
@@ -393,9 +395,9 @@ public class MergeOp {
       }
       logDebug("Write out the new branch tips");
       SubmoduleOp subOp = subOpProvider.get();
-      for (Project.NameKey project : cs.projects()) {
+      for (Project.NameKey project : br.keySet()) {
         openRepository(project);
-        for (Branch.NameKey branch : cs.branchesByProject().get(project)) {
+        for (Branch.NameKey branch : br.get(project)) {
 
           RefUpdate update = updateBranch(branch);
           pendingRefUpdates.remove(branch);
@@ -413,7 +415,8 @@ public class MergeOp {
         }
         closeRepository();
       }
-      updateSuperProjects(subOp, cs.branches());
+
+      updateSuperProjects(subOp, br.values());
       checkState(pendingRefUpdates.isEmpty(), "programmer error: "
           + "pending ref update list not emptied");
     } catch (NoSuchProjectException noProject) {
@@ -906,7 +909,7 @@ public class MergeOp {
   }
 
   private void updateSuperProjects(SubmoduleOp subOp,
-      Set<Branch.NameKey> branches) {
+      Collection<Branch.NameKey> branches) {
     logDebug("Updating superprojects");
     try {
       subOp.updateSuperProjects(db, branches);

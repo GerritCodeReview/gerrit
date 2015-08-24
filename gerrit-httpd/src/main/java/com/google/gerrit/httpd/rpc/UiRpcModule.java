@@ -36,5 +36,6 @@ public class UiRpcModule extends RpcServletModule {
     install(new PatchModule());
     install(new ProjectModule());
     install(new SuggestReviewers.Module());
+    install(new ApproverAnnotator.Module());
   }
 }

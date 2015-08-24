@@ -247,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "04d4e17b_47166e7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T18:51:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "647cbd57_6219b6ab",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84bff131_e35dd24c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 4
@@ -264,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "04d4e17b_a753ea42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T18:51:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84bff131_e35dd24c",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84bff131_c362560a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -275,6 +311,24 @@
       "writtenOn": "2015-08-24T17:47:42Z",
       "side": 1,
       "message": "What\u0027s going on here? Is there a specific reason we need to re-read the change from the database at this point?",
+      "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4e17b_8758665e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1797,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-24T18:51:30Z",
+      "side": 1,
+      "message": "Mind that we did that before in line 1799. The reason is to be sure, so we can answer truthfully what is recorded in the database. If the merge failed to write the change to the db or failed to set the MERGED flag, we get the notification here. This is very similar to the code in Submit and seems to be causing problems for us.",
+      "parentUuid": "84bff131_c362560a",
       "revId": "41619e6364b4eb737b03f0098e18a8f893d9287c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

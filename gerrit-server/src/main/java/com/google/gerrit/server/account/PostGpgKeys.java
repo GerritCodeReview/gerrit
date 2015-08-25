@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.git.gpg.CheckResult;
 import com.google.gerrit.server.git.gpg.Fingerprint;
 import com.google.gerrit.server.git.gpg.PublicKeyChecker;
 import com.google.gerrit.server.git.gpg.PublicKeyStore;
+import com.google.gerrit.server.mail.AddKeySender;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -53,6 +55,8 @@ import org.bouncycastle.openpgp.bc.BcPGPObjectFactory;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -70,20 +74,24 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     public List<String> delete;
   }
 
+  private final Logger log = LoggerFactory.getLogger(getClass());
   private final Provider<PersonIdent> serverIdent;
   private final Provider<ReviewDb> db;
   private final Provider<PublicKeyStore> storeProvider;
   private final PublicKeyChecker checker;
+  private final AddKeySender.Factory addKeyFactory;
 
   @Inject
   PostGpgKeys(@GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<ReviewDb> db,
       Provider<PublicKeyStore> storeProvider,
-      PublicKeyChecker checker) {
+      PublicKeyChecker checker,
+      AddKeySender.Factory addKeyFactory) {
     this.serverIdent = serverIdent;
     this.db = db;
     this.storeProvider = storeProvider;
     this.checker = checker;
+    this.addKeyFactory = addKeyFactory;
   }
 
   @Override
@@ -179,6 +187,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       Set<Fingerprint> toRemove) throws BadRequestException,
       ResourceConflictException, PGPException, IOException {
     try (PublicKeyStore store = storeProvider.get()) {
+      List<PGPPublicKey> addedKeys = new ArrayList<>();
       for (PGPPublicKeyRing keyRing : keyRings) {
         PGPPublicKey key = keyRing.getPublicKey();
         CheckResult result = checker.check(key);
@@ -187,7 +196,14 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
               "Problems with public key %s:\n%s",
               keyToString(key), Joiner.on('\n').join(result.getProblems())));
         }
+        addedKeys.add(key);
         store.add(keyRing);
+      }
+      try {
+        addKeyFactory.create(rsrc.getUser(), addedKeys).send();
+      } catch (EmailException e) {
+        log.error("Cannot send GPG key added message to "
+            + rsrc.getUser().getAccount().getPreferredEmail(), e);
       }
       for (Fingerprint fp : toRemove) {
         store.remove(fp.get());

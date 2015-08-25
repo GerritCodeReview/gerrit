@@ -168,11 +168,8 @@ public class ProjectListPopup {
     } else {
       popup.setPopupPositionAndShow(popupPosition);
       GlobalKey.dialog(popup);
-      try {
-        GlobalKey.addApplication(popup, new HidePopupPanelCommand(0,
-            KeyCodes.KEY_ESCAPE, popup));
-      } catch (Throwable e) {
-      }
+      GlobalKey.addApplication(popup, new HidePopupPanelCommand(0,
+          KeyCodes.KEY_ESCAPE, popup));
       projectsTab.setRegisterKeys(true);
       projectsTab.finishDisplay();
       filterTxt.setFocus(true);

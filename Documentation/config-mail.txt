@@ -28,6 +28,12 @@ The `Abandoned.vm` template will determine the contents of the email related
 to a change being abandoned.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
 `ChangeFooter.vm`.
 
+=== AddSshKey.vm
+
+The `AddSshKey.vm` template will determine the contents of the email related to
+SSH keys being added to a user account.  This notification is not sent when the
+key is administratively added to another user account.
+
 === ChangeFooter.vm
 
 The `ChangeFooter.vm` template will determine the contents of the footer

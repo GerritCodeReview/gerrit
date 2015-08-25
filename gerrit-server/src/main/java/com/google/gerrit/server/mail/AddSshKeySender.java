@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,56 +15,55 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-public class RegisterNewEmailSender extends OutgoingEmail {
+public class AddSshKeySender extends OutgoingEmail {
   public interface Factory {
-    public RegisterNewEmailSender create(String address);
+    public AddSshKeySender create(IdentifiedUser user, AccountSshKey sshKey);
   }
 
-  private final EmailTokenVerifier tokenVerifier;
+  private final IdentifiedUser callingUser;
   private final IdentifiedUser user;
-  private final String addr;
-  private String emailToken;
+  private final AccountSshKey sshKey;
 
   @Inject
-  public RegisterNewEmailSender(EmailArguments ea,
-      EmailTokenVerifier etv,
+  public AddSshKeySender(EmailArguments ea,
       IdentifiedUser callingUser,
-      @Assisted final String address) {
-    super(ea, "registernewemail");
-    tokenVerifier = etv;
-    user = callingUser;
-    addr = address;
+      @Assisted final IdentifiedUser user,
+      @Assisted final AccountSshKey sshKey) {
+    super(ea, "addsshkey");
+    this.callingUser = callingUser;
+    this.user = user;
+    this.sshKey = sshKey;
   }
 
   @Override
   protected void init() throws EmailException {
     super.init();
-    setHeader("Subject", "[Gerrit Code Review] Email Verification");
-    add(RecipientType.TO, new Address(addr));
+    setHeader("Subject", "[Gerrit Code Review] SSH Key Added");
+    add(RecipientType.TO, new Address(user.getAccount().getPreferredEmail()));
   }
 
   @Override
   protected boolean shouldSendMessage() {
-    return true;
+    // Don't send an email if an admin is adding a key to a user.
+    return !(!user.equals(callingUser) &&
+        callingUser.getCapabilities().canAdministrateServer());
   }
 
   @Override
   protected void format() throws EmailException {
-    appendText(velocifyFile("RegisterNewEmail.vm"));
+    appendText(velocifyFile("AddSshKey.vm"));
   }
 
   public String getUserNameEmail() {
     return getUserNameEmailFor(user.getAccountId());
   }
 
-  public String getEmailRegistrationToken() {
-    if (emailToken == null) {
-      emailToken = tokenVerifier.encode(user.getAccountId(), addr);
-    }
-    return emailToken;
+  public String getSshKey() {
+    return sshKey.getSshPublicKey();
   }
 }

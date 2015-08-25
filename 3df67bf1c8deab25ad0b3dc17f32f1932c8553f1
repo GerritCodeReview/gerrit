@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "84bff131_c33b76f2",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-25T13:05:16Z",
+      "side": 1,
+      "message": "It migrated up to line 717 in the get response. I honestly have no idea how that happened. Bad rebase, I guess.",
+      "parentUuid": "24d1e58c_c8b42fee",
+      "range": {
+        "startLine": 784,
+        "startChar": 54,
+        "endLine": 785,
+        "endChar": 31
+      },
+      "revId": "3df67bf1c8deab25ad0b3dc17f32f1932c8553f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d4e17b_074e368f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2015-08-25T00:57:21Z",
       "side": 1,
       "message": "\"delete\"?",
+      "range": {
+        "startLine": 142,
+        "startChar": 19,
+        "endLine": 142,
+        "endChar": 25
+      },
+      "revId": "3df67bf1c8deab25ad0b3dc17f32f1932c8553f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_02638a0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-25T13:05:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04d4e17b_074e368f",
       "range": {
         "startLine": 142,
         "startChar": 19,

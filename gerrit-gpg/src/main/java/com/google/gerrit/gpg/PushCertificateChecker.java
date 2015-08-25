@@ -31,6 +31,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -39,6 +41,9 @@ import java.util.List;
 
 /** Checker for push certificates. */
 public abstract class PushCertificateChecker {
+  private static final Logger log =
+      LoggerFactory.getLogger(PushCertificateChecker.class);
+
   private final PublicKeyChecker publicKeyChecker;
 
   protected PushCertificateChecker(PublicKeyChecker publicKeyChecker) {
@@ -49,28 +54,34 @@ public abstract class PushCertificateChecker {
    * Check a push certificate.
    *
    * @return result of the check.
-   * @throws PGPException if an error occurred during GPG checks.
-   * @throws IOException if an error occurred reading from the repository.
    */
-  public final CheckResult check(PushCertificate cert) throws PGPException, IOException {
+  public final CheckResult check(PushCertificate cert) {
     if (cert.getNonceStatus() != NonceStatus.OK) {
       return new CheckResult("Invalid nonce");
     }
-    PGPSignature sig = readSignature(cert);
-    if (sig == null) {
-      return new CheckResult("Invalid signature format");
-    }
-    Repository repo = getRepository();
     List<String> problems = new ArrayList<>();
-    try (PublicKeyStore store = new PublicKeyStore(repo)) {
-      checkSignature(sig, cert, store.get(sig.getKeyID()), problems);
-      checkCustom(repo, problems);
-      return new CheckResult(problems);
-    } finally {
-      if (shouldClose(repo)) {
-        repo.close();
+    try {
+      PGPSignature sig = readSignature(cert);
+      if (sig != null) {
+        @SuppressWarnings("resource")
+        Repository repo = getRepository();
+        try (PublicKeyStore store = new PublicKeyStore(repo)) {
+          checkSignature(sig, cert, store.get(sig.getKeyID()), problems);
+          checkCustom(repo, problems);
+        } finally {
+          if (shouldClose(repo)) {
+            repo.close();
+          }
+        }
+      } else {
+        problems.add("Invalid signature format");
       }
+    } catch (PGPException | IOException e) {
+      String msg = "Internal error checking push certificate";
+      log.error(msg, e);
+      problems.add(msg);
     }
+    return new CheckResult(problems);
   }
 
   /**

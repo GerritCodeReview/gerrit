@@ -286,6 +286,26 @@ public abstract class OutgoingEmail {
     }
   }
 
+  public String getUserNameEmailFor(Account.Id accountId) {
+    AccountState who = args.accountCache.get(accountId);
+    String name = who.getAccount().getFullName();
+    String email = who.getAccount().getPreferredEmail();
+
+    if (name != null && email != null) {
+      return name + " <" + email + ">";
+    } else if (email != null) {
+      return email;
+    } else if (name != null) {
+      return name;
+    } else {
+      String username = who.getUserName();
+      if (username != null) {
+        return username;
+      }
+    }
+    return null;
+  }
+
   protected boolean shouldSendMessage() {
     if (body.length() == 0) {
       // If we have no message body, don't send.

@@ -187,6 +187,7 @@ class NoShell implements Factory<Command> {
         try {
           return new URL(url).getHost();
         } catch (MalformedURLException e) {
+          // Ignored
         }
       }
       return SystemReader.getInstance().getHostname();

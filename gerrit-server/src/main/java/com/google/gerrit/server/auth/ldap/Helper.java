@@ -263,6 +263,7 @@ import javax.security.auth.login.LoginException;
             recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
           }
         } catch (PartialResultException e) {
+          // Ignored
         }
       }
     }
@@ -298,6 +299,7 @@ import javax.security.auth.login.LoginException;
                 dns.add((String) groups.next());
               }
             } catch (PartialResultException e) {
+              // Ignored
             }
           }
         } catch (NamingException e) {

@@ -270,6 +270,7 @@ public class SetReviewersCommand extends SshCommand {
     try {
       err.write((type + ": " + msg + "\n").getBytes(ENC));
     } catch (IOException e) {
+      // Ignored
     }
   }
 

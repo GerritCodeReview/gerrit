@@ -187,6 +187,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
     try {
       jvmSummary.host = InetAddress.getLocalHost().getHostName();
     } catch (UnknownHostException e) {
+      // Ignored
     }
 
     jvmSummary.currentWorkingDirectory =

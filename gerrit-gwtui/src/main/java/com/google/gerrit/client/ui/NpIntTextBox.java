@@ -89,6 +89,7 @@ public class NpIntTextBox extends NpTextBox {
       try {
         intValue = Integer.parseInt(getText());
       } catch (NumberFormatException e) {
+        // Ignored
       }
     }
     return intValue;

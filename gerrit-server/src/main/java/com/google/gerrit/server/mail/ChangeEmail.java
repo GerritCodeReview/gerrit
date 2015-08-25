@@ -109,11 +109,11 @@ public abstract class ChangeEmail extends NotificationEmail {
       for (Account.Id who : changeData.reviewers().values()) {
         names.add(getNameEmailFor(who));
       }
-
       for (String name : names) {
         appendText("Gerrit-Reviewer: " + name + "\n");
       }
     } catch (OrmException e) {
+      log.warn("Cannot get change reviewers", e);
     }
     formatFooter();
   }

@@ -278,6 +278,7 @@ public class SmtpEmailSender implements EmailSender {
         try {
           client.disconnect();
         } catch (IOException e2) {
+          //Ignored
         }
       }
       throw new EmailException(e.getMessage(), e);
@@ -286,6 +287,7 @@ public class SmtpEmailSender implements EmailSender {
         try {
           client.disconnect();
         } catch (IOException e2) {
+          // Ignored
         }
       }
       throw e;

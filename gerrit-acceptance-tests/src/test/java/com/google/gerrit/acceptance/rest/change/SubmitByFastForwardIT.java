@@ -16,12 +16,18 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.reviewdb.client.Change;
 
+import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 import java.util.Map;
@@ -102,5 +108,48 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         "Please rebase the change locally and upload again for review.");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);
+  }
+
+  @Test
+  public void submitFastForwardByMerge() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change =
+        createChange("Change 1", "a.txt", "content");
+    submit(change.getChangeId());
+
+    RevCommit oldHead = getRemoteHead();
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 =
+        createChange("Change 2", "b.txt", "other content");
+
+    approve(change2.getChangeId());
+    Map<String, ActionInfo> actions = getActions(change2.getChangeId());
+
+    assertThat(actions).containsKey("submit");
+    ActionInfo info = actions.get("submit");
+    assertThat(info.enabled).isNull();
+
+    submitWithConflict(change2.getChangeId());
+    assertThat(getRemoteHead()).isEqualTo(oldHead);
+    assertSubmitter(change.getChangeId(), 1);
+
+    String ins = "1494e6c107e4ffa54a9beef31c38599eb26ae0f0";
+    RevCommit c = testRepo.parseBody(
+        testRepo.commit().message("merge")
+        .parent(change.getCommit())
+        .parent(change2.getCommit())
+        .insertChangeId(ins)
+        .create());
+
+    String mergeId = GitUtil.getChangeId(testRepo, c).get();
+
+    PushCommand pushCmd = testRepo.git().push();
+    pushCmd.setRefSpecs(new RefSpec("HEAD:refs/for/master"));
+    Iterable<PushResult> r = pushCmd.call();
+    PushResult res = Iterables.getOnlyElement(r);
+    String m = res.getMessages();
+
+    approve(mergeId);
+    submit(mergeId);
   }
 }

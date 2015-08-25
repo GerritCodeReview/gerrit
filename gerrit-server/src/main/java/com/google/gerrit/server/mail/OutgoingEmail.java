@@ -268,6 +268,12 @@ public abstract class OutgoingEmail {
     return name;
   }
 
+  /**
+   * Gets the human readable name and email for an account;
+   * if neither are available, returns the Anonymous Coward name.
+   * @param accountId user to fetch
+   * @return name/email of account, or Anonymous Coward if unset
+   */
   public String getNameEmailFor(Account.Id accountId) {
     AccountState who = args.accountCache.get(accountId);
     String name = who.getAccount().getFullName();
@@ -284,6 +290,33 @@ public abstract class OutgoingEmail {
     } else /* (name == null && email == null) */{
       return args.anonymousCowardName + " #" + accountId;
     }
+  }
+
+  /**
+   * Gets the human readable name and email for an account;
+   * if both are unavailable, returns the username.  If no
+   * username is set, this function returns null.
+   * @param accountId user to fetch
+   * @return name/email of account, username, or null if unset
+   */
+  public String getUserNameEmailFor(Account.Id accountId) {
+    AccountState who = args.accountCache.get(accountId);
+    String name = who.getAccount().getFullName();
+    String email = who.getAccount().getPreferredEmail();
+
+    if (name != null && email != null) {
+      return name + " <" + email + ">";
+    } else if (email != null) {
+      return email;
+    } else if (name != null) {
+      return name;
+    } else {
+      String username = who.getUserName();
+      if (username != null) {
+        return username;
+      }
+    }
+    return null;
   }
 
   protected boolean shouldSendMessage() {

@@ -58,22 +58,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   }
 
   public String getUserNameEmail() {
-    String name = user.getAccount().getFullName();
-    String email = user.getAccount().getPreferredEmail();
-
-    if (name != null && email != null) {
-      return name + " <" + email + ">";
-    } else if (email != null) {
-      return email;
-    } else if (name != null) {
-      return name;
-    } else {
-      String username = user.getUserName();
-      if (username != null) {
-        return username;
-      }
-    }
-    return null;
+    return getUserNameEmailFor(user.getAccountId());
   }
 
   public String getEmailRegistrationToken() {

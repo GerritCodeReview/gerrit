@@ -140,9 +140,9 @@ public abstract class PushCertificateChecker {
         if (result.isOk()) {
           return;
         }
-        StringBuilder err = new StringBuilder("Invalid public key (")
+        StringBuilder err = new StringBuilder("Invalid public key ")
             .append(keyToString(k))
-            .append("):");
+            .append(":");
         for (int i = 0; i < result.getProblems().size(); i++) {
           err.append('\n').append("  ").append(result.getProblems().get(i));
         }
@@ -150,13 +150,13 @@ public abstract class PushCertificateChecker {
         return;
       } catch (PGPException e) {
         deferredProblems.add(
-            "Error checking signature with public key (" + keyToString(k)
+            "Error checking signature with public key " + keyToString(k)
             + ": " + e.getMessage());
       }
     }
     if (!anyKeys) {
       problems.add(
-          "No public keys found for Key ID " + keyIdToString(sig.getKeyID()));
+          "No public keys found for key ID " + keyIdToString(sig.getKeyID()));
     } else {
       problems.addAll(deferredProblems);
     }

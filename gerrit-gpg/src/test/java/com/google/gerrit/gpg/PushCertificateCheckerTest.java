@@ -96,7 +96,7 @@ public class PushCertificateCheckerTest {
     TestKey key2 = TestKey.key2();
     PushCertificate cert = newSignedCert(validNonce(), key2);
     assertProblems(cert,
-        "No public keys found for Key ID " + keyIdToString(key2.getKeyId()));
+        "No public keys found for key ID " + keyIdToString(key2.getKeyId()));
   }
 
   @Test
@@ -104,8 +104,8 @@ public class PushCertificateCheckerTest {
     TestKey key3 = TestKey.key3();
     PushCertificate cert = newSignedCert(validNonce(), key3);
     assertProblems(cert,
-        "Invalid public key (" + keyToString(key3.getPublicKey())
-          + "):\n  Key is expired");
+        "Invalid public key " + keyToString(key3.getPublicKey())
+          + ":\n  Key is expired");
   }
 
   private String validNonce() {

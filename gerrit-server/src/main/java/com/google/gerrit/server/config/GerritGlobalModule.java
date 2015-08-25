@@ -95,6 +95,7 @@ import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.index.ReindexAfterUpdate;
 import com.google.gerrit.server.mail.AddReviewerSender;
+import com.google.gerrit.server.mail.AddSshKeySender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.FromAddressGenerator;
@@ -187,6 +188,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(AddReviewerSender.Factory.class);
+    factory(AddSshKeySender.Factory.class);
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(ChangeJson.Factory.class);

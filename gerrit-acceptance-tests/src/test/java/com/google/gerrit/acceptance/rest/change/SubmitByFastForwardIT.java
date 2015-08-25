@@ -16,12 +16,14 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.reviewdb.client.Change;
 
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 import java.util.Map;
@@ -102,5 +104,40 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         "Please rebase the change locally and upload again for review.");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);
+  }
+
+  @Test
+  public void submitFastForwardByMerge() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change =
+        createChange("Change 1", "a.txt", "content");
+    submit(change.getChangeId());
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 =
+        createChange("Change 2", "b.txt", "other content");
+
+    approve(change2.getChangeId());
+    Map<String, ActionInfo> actions = getActions(change2.getChangeId());
+
+    assertThat(actions).containsKey("submit");
+    ActionInfo info = actions.get("submit");
+    assertThat(info.enabled).isNull();
+
+    String ins = "1494e6c107e4ffa54a9beef31c38599eb26ae0f0";
+    RevCommit c = testRepo.parseBody(
+        testRepo.branch("HEAD").commit().message("merge")
+        .parent(change.getCommit())
+        .parent(change2.getCommit())
+        .insertChangeId(ins)
+        .create());
+
+    String mergeId = GitUtil.getChangeId(testRepo, c).get();
+
+    testRepo.git().push()
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master")).call();
+
+    approve(mergeId);
+    submit(mergeId);
   }
 }

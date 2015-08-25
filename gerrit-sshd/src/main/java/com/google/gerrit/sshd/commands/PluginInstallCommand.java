@@ -107,6 +107,7 @@ final class PluginInstallCommand extends SshCommand {
       try {
         data.close();
       } catch (IOException err) {
+        // Ignored
       }
     }
   }

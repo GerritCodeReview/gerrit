@@ -37,6 +37,7 @@ class PluginScannerThread extends Thread {
           return;
         }
       } catch (InterruptedException e) {
+        // Ignored
       }
       loader.rescan();
     }
@@ -47,6 +48,7 @@ class PluginScannerThread extends Thread {
     try {
       join();
     } catch (InterruptedException e) {
+      // Ignored
     }
   }
 }

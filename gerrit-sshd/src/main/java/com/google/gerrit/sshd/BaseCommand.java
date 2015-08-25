@@ -356,6 +356,7 @@ public abstract class BaseCommand implements Command {
         err.write((f.getMessage() + "\n").getBytes(ENC));
         err.flush();
       } catch (IOException e2) {
+        // Ignored
       } catch (Throwable e2) {
         log.warn("Cannot send failure message to client", e2);
       }
@@ -366,6 +367,7 @@ public abstract class BaseCommand implements Command {
         err.write("fatal: internal server error\n".getBytes(ENC));
         err.flush();
       } catch (IOException e2) {
+        // Ignored
       } catch (Throwable e2) {
         log.warn("Cannot send internal server error message to client", e2);
       }
@@ -450,10 +452,12 @@ public abstract class BaseCommand implements Command {
           try {
             out.flush();
           } catch (Throwable e2) {
+            // Ignored
           }
           try {
             err.flush();
           } catch (Throwable e2) {
+            // Ignored
           }
           rc = handleError(e);
         } finally {

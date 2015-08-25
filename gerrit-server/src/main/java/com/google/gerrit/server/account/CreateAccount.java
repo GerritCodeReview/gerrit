@@ -154,6 +154,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
         try {
           db.accountExternalIds().delete(Collections.singleton(extUser));
         } catch (OrmException cleanupError) {
+          // Ignored
         }
         throw new UnprocessableEntityException(
             "email '" + input.email + "' already exists");

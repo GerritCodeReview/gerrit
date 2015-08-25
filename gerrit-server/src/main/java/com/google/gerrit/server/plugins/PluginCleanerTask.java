@@ -45,6 +45,7 @@ class PluginCleanerTask implements Runnable {
         Thread.sleep(50);
       }
     } catch (InterruptedException e) {
+      // Ignored
     }
 
     int left = loader.processPendingCleanups();

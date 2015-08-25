@@ -75,6 +75,7 @@ class LdapQuery {
           r.add(new Result(res.next()));
         }
       } catch (PartialResultException e) {
+        // Ignored
       }
       return r;
     } finally {

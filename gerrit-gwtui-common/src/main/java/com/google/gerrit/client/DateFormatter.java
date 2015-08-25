@@ -20,7 +20,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import java.util.Date;
 
 public class DateFormatter {
-  private final static long ONE_YEAR = 182L * 24 * 60 * 60 * 1000;
+  private static final long ONE_YEAR = 182L * 24 * 60 * 60 * 1000;
 
   private final DateTimeFormat sTime;
   private final DateTimeFormat sDate;

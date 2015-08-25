@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04d4e17b_674bb27f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/gpg/Fingerprint.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-25T00:59:11Z",
+      "side": 1,
+      "message": "nit: \").\"",
+      "range": {
+        "startLine": 49,
+        "startChar": 22,
+        "endLine": 49,
+        "endChar": 24
+      },
+      "revId": "de06f29922bb88f48ee93458e9ebbea6d774277d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

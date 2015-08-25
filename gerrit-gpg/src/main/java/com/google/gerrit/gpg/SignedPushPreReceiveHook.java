@@ -19,14 +19,11 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.bouncycastle.openpgp.PGPException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -40,9 +37,6 @@ import java.util.Collection;
  */
 @Singleton
 public class SignedPushPreReceiveHook implements PreReceiveHook {
-  private static final Logger log =
-      LoggerFactory.getLogger(SignedPushPreReceiveHook.class);
-
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final PublicKeyChecker keyChecker;
@@ -60,32 +54,27 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
   @Override
   public void onPreReceive(ReceivePack rp,
       Collection<ReceiveCommand> commands) {
-    try {
       PushCertificate cert = rp.getPushCertificate();
-      if (cert == null) {
-        return;
+    if (cert == null) {
+      return;
+    }
+    PushCertificateChecker checker = new PushCertificateChecker(keyChecker) {
+      @Override
+      protected Repository getRepository() throws IOException {
+        return repoManager.openRepository(allUsers);
       }
-      PushCertificateChecker checker = new PushCertificateChecker(keyChecker) {
-        @Override
-        protected Repository getRepository() throws IOException {
-          return repoManager.openRepository(allUsers);
-        }
 
-        @Override
-        protected boolean shouldClose(Repository repo) {
-          return true;
-        }
-      };
-      CheckResult result = checker.check(cert);
-      if (!result.isOk()) {
-        for (String problem : result.getProblems()) {
-          rp.sendMessage(problem);
-        }
-        reject(commands, "invalid push cert");
+      @Override
+      protected boolean shouldClose(Repository repo) {
+        return true;
       }
-    } catch (PGPException | IOException e) {
-      log.error("Error checking push certificate", e);
-      reject(commands, "push cert error");
+    };
+    CheckResult result = checker.check(cert);
+    if (!result.isOk()) {
+      for (String problem : result.getProblems()) {
+        rp.sendMessage(problem);
+      }
+      reject(commands, "invalid push cert");
     }
   }
 

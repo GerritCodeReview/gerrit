@@ -27,7 +27,7 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
-public class NotPredicateTest {
+public class NotPredicateTest extends PredicateTest {
   private static final class TestPredicate extends OperatorPredicate<String> {
     private TestPredicate(String name, String value) {
       super(name, value);
@@ -70,22 +70,16 @@ public class NotPredicateTest {
     final TestPredicate p = f("author", "bob");
     final Predicate<String> n = not(p);
 
-    try {
-      n.getChildren().clear();
-    } catch (RuntimeException e) {
-    }
+    exception.expect(RuntimeException.class);
+    n.getChildren().clear();
     assertOnlyChild("clear", p, n);
 
-    try {
-      n.getChildren().remove(0);
-    } catch (RuntimeException e) {
-    }
+    exception.expect(RuntimeException.class);
+    n.getChildren().remove(0);
     assertOnlyChild("remove(0)", p, n);
 
-    try {
-      n.getChildren().iterator().remove();
-    } catch (RuntimeException e) {
-    }
+    exception.expect(RuntimeException.class);
+    n.getChildren().iterator().remove();
     assertOnlyChild("remove(0)", p, n);
   }
 

@@ -27,7 +27,7 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
-public class OrPredicateTest {
+public class OrPredicateTest extends PredicateTest {
   private static final class TestPredicate extends OperatorPredicate<String> {
     private TestPredicate(String name, String value) {
       super(name, value);
@@ -64,22 +64,16 @@ public class OrPredicateTest {
     final TestPredicate b = f("author", "bob");
     final Predicate<String> n = or(a, b);
 
-    try {
-      n.getChildren().clear();
-    } catch (RuntimeException e) {
-    }
+    exception.expect(RuntimeException.class);
+    n.getChildren().clear();
     assertChildren("clear", n, of(a, b));
 
-    try {
-      n.getChildren().remove(0);
-    } catch (RuntimeException e) {
-    }
+    exception.expect(RuntimeException.class);
+    n.getChildren().remove(0);
     assertChildren("remove(0)", n, of(a, b));
 
-    try {
-      n.getChildren().iterator().remove();
-    } catch (RuntimeException e) {
-    }
+    exception.expect(RuntimeException.class);
+    n.getChildren().iterator().remove();
     assertChildren("remove(0)", n, of(a, b));
   }
 

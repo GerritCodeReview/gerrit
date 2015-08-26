@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
 import static com.google.gerrit.server.account.AccountResource.CAPABILITY_KIND;
 import static com.google.gerrit.server.account.AccountResource.EMAIL_KIND;
-import static com.google.gerrit.server.account.AccountResource.GPG_KEY_KIND;
 import static com.google.gerrit.server.account.AccountResource.SSH_KEY_KIND;
 import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KIND;
 
@@ -33,7 +32,6 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
     DynamicMap.mapOf(binder(), EMAIL_KIND);
-    DynamicMap.mapOf(binder(), GPG_KEY_KIND);
     DynamicMap.mapOf(binder(), SSH_KEY_KIND);
     DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
 
@@ -61,11 +59,6 @@ public class Module extends RestApiModule {
 
     get(SSH_KEY_KIND).to(GetSshKey.class);
     delete(SSH_KEY_KIND).to(DeleteSshKey.class);
-
-    child(ACCOUNT_KIND, "gpgkeys").to(GpgKeys.class);
-    post(ACCOUNT_KIND, "gpgkeys").to(PostGpgKeys.class);
-    get(GPG_KEY_KIND).to(GpgKeys.Get.class);
-    delete(GPG_KEY_KIND).to(DeleteGpgKey.class);
 
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);

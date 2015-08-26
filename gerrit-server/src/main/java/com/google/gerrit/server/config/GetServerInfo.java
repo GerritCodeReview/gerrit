@@ -29,12 +29,12 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.change.Submit;
-import com.google.gerrit.server.git.gpg.SignedPushModule;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -63,6 +63,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final String anonymousCowardName;
   private final GitwebConfig gitwebConfig;
   private final DynamicItem<AvatarProvider> avatar;
+  private final boolean enableSignedPush;
 
   @Inject
   public GetServerInfo(
@@ -77,7 +78,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       AllUsersName allUsersName,
       @AnonymousCowardName String anonymousCowardName,
       GitwebConfig gitwebConfig,
-      DynamicItem<AvatarProvider> avatar) {
+      DynamicItem<AvatarProvider> avatar,
+      @EnableSignedPush boolean enableSignedPush) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -90,6 +92,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.anonymousCowardName = anonymousCowardName;
     this.gitwebConfig = gitwebConfig;
     this.avatar = avatar;
+    this.enableSignedPush = enableSignedPush;
   }
 
   @Override
@@ -111,7 +114,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.urlAliases = !urlAliases.isEmpty() ? urlAliases : null;
 
     info.user = getUserInfo(anonymousCowardName);
-    info.receive = getReceiveInfo(config);
+    info.receive = getReceiveInfo();
     return info;
   }
 
@@ -310,9 +313,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private ReceiveInfo getReceiveInfo(Config cfg) {
+  private ReceiveInfo getReceiveInfo() {
     ReceiveInfo info = new ReceiveInfo();
-    info.enableSignedPush = SignedPushModule.isEnabled(cfg);
+    info.enableSignedPush = enableSignedPush;
     return info;
   }
 

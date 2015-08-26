@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.gpg.server;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -31,12 +31,12 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.gpg.Fingerprint;
+import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountResource.GpgKey;
-import com.google.gerrit.server.git.gpg.Fingerprint;
-import com.google.gerrit.server.git.gpg.PublicKeyStore;
+import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -60,17 +60,17 @@ import java.util.Map;
 
 @Singleton
 public class GpgKeys implements
-    ChildCollection<AccountResource, AccountResource.GpgKey> {
+    ChildCollection<AccountResource, GpgKey> {
   private static final Logger log = LoggerFactory.getLogger(GpgKeys.class);
 
   public static String MIME_TYPE = "application/pgp-keys";
 
-  private final DynamicMap<RestView<AccountResource.GpgKey>> views;
+  private final DynamicMap<RestView<GpgKey>> views;
   private final Provider<ReviewDb> db;
   private final Provider<PublicKeyStore> storeProvider;
 
   @Inject
-  GpgKeys(DynamicMap<RestView<AccountResource.GpgKey>> views,
+  GpgKeys(DynamicMap<RestView<GpgKey>> views,
       Provider<ReviewDb> db,
       Provider<PublicKeyStore> storeProvider) {
     this.views = views;
@@ -102,7 +102,7 @@ public class GpgKeys implements
       for (PGPPublicKeyRing keyRing : store.get(keyId)) {
         PGPPublicKey key = keyRing.getPublicKey();
         if (Arrays.equals(key.getFingerprint(), fp)) {
-          return new AccountResource.GpgKey(parent.getUser(), keyRing);
+          return new GpgKey(parent.getUser(), keyRing);
         }
       }
     }
@@ -172,7 +172,7 @@ public class GpgKeys implements
   }
 
   @Singleton
-  public static class Get implements RestReadView<AccountResource.GpgKey> {
+  public static class Get implements RestReadView<GpgKey> {
     @Override
     public GpgKeyInfo apply(GpgKey rsrc) throws IOException {
       return toJson(rsrc.getKeyRing());

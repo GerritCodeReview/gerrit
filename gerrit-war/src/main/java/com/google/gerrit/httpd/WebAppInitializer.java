@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
@@ -109,6 +110,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   private Path sitePath;
   private Injector dbInjector;
   private Injector cfgInjector;
+  private Config config;
   private Injector sysInjector;
   private Injector webInjector;
   private Injector sshInjector;
@@ -165,6 +167,8 @@ public class WebAppInitializer extends GuiceServletContextListener
       }
 
       cfgInjector = createCfgInjector();
+      config = cfgInjector.getInstance(
+          Key.get(Config.class, GerritServerConfig.class));
       sysInjector = createSysInjector();
       if (!sshdOff()) {
         sshInjector = createSshInjector();
@@ -204,8 +208,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   }
 
   private boolean sshdOff() {
-    Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    return new SshAddressesModule().getListenAddresses(cfg).isEmpty();
+    return new SshAddressesModule().getListenAddresses(config).isEmpty();
   }
 
   private Injector createDbInjector() {
@@ -296,6 +299,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
+    modules.add(new GpgModule(config));
     AbstractModule changeIndexModule;
     switch (IndexModule.getIndexType(cfgInjector)) {
       case LUCENE:

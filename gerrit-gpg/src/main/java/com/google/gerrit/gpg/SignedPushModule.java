@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git.gpg;
+package com.google.gerrit.gpg;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -44,20 +45,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public class SignedPushModule extends AbstractModule {
+class SignedPushModule extends AbstractModule {
   private static final Logger log =
       LoggerFactory.getLogger(SignedPushModule.class);
-
-  public static boolean isEnabled(Config cfg) {
-    return cfg.getBoolean("receive", null, "enableSignedPush", false);
-  }
 
   @Override
   protected void configure() {
     if (!BouncyCastleUtil.havePGP()) {
-      log.info("BouncyCastle PGP not installed; signed push verification is"
-          + " disabled");
-      return;
+      throw new ProvisionException("Bouncy Castle PGP not installed");
     }
     bind(PublicKeyChecker.class).to(GerritPublicKeyChecker.class);
     bind(PublicKeyStore.class).toProvider(StoreProvider.class);
@@ -73,12 +68,13 @@ public class SignedPushModule extends AbstractModule {
 
     @Inject
     Initializer(@GerritServerConfig Config cfg,
+        @EnableSignedPush boolean enableSignedPush,
         SignedPushPreReceiveHook hook,
         ProjectCache projectCache) {
       this.hook = hook;
       this.projectCache = projectCache;
 
-      if (isEnabled(cfg)) {
+      if (enableSignedPush) {
         String seed = cfg.getString("receive", null, "certNonceSeed");
         if (Strings.isNullOrEmpty(seed)) {
           seed = randomString(64);

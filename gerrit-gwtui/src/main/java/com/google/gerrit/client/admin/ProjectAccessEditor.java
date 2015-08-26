@@ -21,6 +21,7 @@ import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.ParentProjectBox;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -40,6 +41,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,7 @@ public class ProjectAccessEditor extends Composite implements
   DivElement history;
 
   @UiField
-  Anchor gitweb;
+  FlowPanel webLinkPanel;
 
   @UiField
   FlowPanel localContainer;
@@ -120,16 +122,7 @@ public class ProjectAccessEditor extends Composite implements
     } else {
       inheritsFrom.getStyle().setDisplay(Display.NONE);
     }
-
-    GitwebInfo c = Gerrit.info().gitweb();
-    if (value.isConfigVisible() && c != null) {
-      history.getStyle().setDisplay(Display.BLOCK);
-      gitweb.setText(c.getLinkName());
-      gitweb.setHref(c.toFileHistory(new Branch.NameKey(value.getProjectName(),
-          RefNames.REFS_CONFIG), "project.config"));
-    } else {
-      history.getStyle().setDisplay(Display.NONE);
-    }
+    setUpWebLinks();
 
     addSection.setVisible(editing && (!value.getOwnerOf().isEmpty() || value.canUpload()));
   }
@@ -160,6 +153,53 @@ public class ProjectAccessEditor extends Composite implements
   void setEditing(final boolean editing) {
     this.editing = editing;
     addSection.setVisible(editing);
+  }
+
+  private void setUpWebLinks() {
+    if (!value.isConfigVisible()) {
+      history.getStyle().setDisplay(Display.NONE);
+    } else {
+      GitwebInfo c = Gerrit.info().gitweb();
+      List<WebLinkInfoCommon> links = value.getFileHistoryLinks();
+      if (c == null && links == null) {
+        history.getStyle().setDisplay(Display.NONE);
+      }
+      if (c != null) {
+        webLinkPanel.add(toAnchor(c.toFileHistory(new Branch.NameKey(value.getProjectName(),
+            RefNames.REFS_CONFIG), "project.config"), c.getLinkName()));
+      }
+
+      if (links != null) {
+        for (WebLinkInfoCommon link : links) {
+          webLinkPanel.add(toAnchor(link));
+        }
+      }
+    }
+  }
+
+  private Anchor toAnchor(String href, String name) {
+    Anchor a = new Anchor();
+    a.setHref(href);
+    a.setText(name);
+    return a;
+  }
+
+  private static Anchor toAnchor(WebLinkInfoCommon info) {
+    Anchor a = new Anchor();
+    a.setHref(info.url);
+    if (info.target != null && !info.target.isEmpty()) {
+      a.setTarget(info.target);
+    }
+    if (info.imageUrl != null && !info.imageUrl.isEmpty()) {
+      Image img = new Image();
+      img.setAltText(info.name);
+      img.setUrl(info.imageUrl);
+      img.setTitle(info.name);
+      a.getElement().appendChild(img.getElement());
+    } else {
+      a.setText("(" + info.name + ")");
+    }
+    return a;
   }
 
   private class Source extends EditorSource<AccessSectionEditor> {

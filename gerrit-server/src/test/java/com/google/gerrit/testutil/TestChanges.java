@@ -18,6 +18,7 @@ import static org.easymock.EasyMock.expect;
 
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -28,7 +29,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;

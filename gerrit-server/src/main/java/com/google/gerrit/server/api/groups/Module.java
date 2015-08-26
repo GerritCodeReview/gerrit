@@ -15,7 +15,7 @@
 package com.google.gerrit.server.api.groups;
 
 import com.google.gerrit.extensions.api.groups.Groups;
-import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.extensions.config.FactoryModule;
 
 public class Module extends FactoryModule {
   @Override

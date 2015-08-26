@@ -1,7 +1,7 @@
 package com.google.gerrit.lifecycle;
 
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.inject.Singleton;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;

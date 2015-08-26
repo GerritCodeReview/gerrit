@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;

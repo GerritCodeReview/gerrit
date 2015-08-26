@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;

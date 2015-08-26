@@ -14,9 +14,9 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.httpd.rpc.RpcServletModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
-import com.google.gerrit.server.config.FactoryModule;
 
 public class ChangeModule extends RpcServletModule {
   public ChangeModule() {

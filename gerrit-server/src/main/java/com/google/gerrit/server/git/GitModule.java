@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.extensions.config.FactoryModule;
 
 /** Configures the Git support. */
 public class GitModule extends FactoryModule {

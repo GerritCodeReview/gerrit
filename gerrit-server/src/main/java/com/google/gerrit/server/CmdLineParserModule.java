@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.args4j.PatchSetIdHandler;
 import com.google.gerrit.server.args4j.ProjectControlHandler;
 import com.google.gerrit.server.args4j.SocketAddressHandler;
 import com.google.gerrit.server.args4j.TimestampHandler;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerUtil;

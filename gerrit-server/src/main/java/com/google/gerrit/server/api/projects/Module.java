@@ -15,7 +15,7 @@
 package com.google.gerrit.server.api.projects;
 
 import com.google.gerrit.extensions.api.projects.Projects;
-import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.extensions.config.FactoryModule;
 
 public class Module extends FactoryModule {
   @Override

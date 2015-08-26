@@ -16,11 +16,11 @@ package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.rules.PrologCompiler;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Injector;

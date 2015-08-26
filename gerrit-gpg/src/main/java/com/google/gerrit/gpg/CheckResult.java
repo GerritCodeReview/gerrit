@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git.gpg;
+package com.google.gerrit.gpg;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api.accounts;
+package com.google.gerrit.gpg.api;
 
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.DeleteGpgKey;
-import com.google.gerrit.server.account.GpgKeys;
+import com.google.gerrit.gpg.server.DeleteGpgKey;
+import com.google.gerrit.gpg.server.GpgKey;
+import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -28,20 +28,20 @@ import org.bouncycastle.openpgp.PGPException;
 
 import java.io.IOException;
 
-class GpgKeyApiImpl implements GpgKeyApi {
-  interface Factory {
-    GpgKeyApiImpl create(AccountResource.GpgKey rsrc);
+public class GpgKeyApiImpl implements GpgKeyApi {
+  public interface Factory {
+    GpgKeyApiImpl create(GpgKey rsrc);
   }
 
   private final GpgKeys.Get get;
   private final DeleteGpgKey delete;
-  private final AccountResource.GpgKey rsrc;
+  private final GpgKey rsrc;
 
   @AssistedInject
   GpgKeyApiImpl(
       GpgKeys.Get get,
       DeleteGpgKey delete,
-      @Assisted AccountResource.GpgKey rsrc) {
+      @Assisted GpgKey rsrc) {
     this.get = get;
     this.delete = delete;
     this.rsrc = rsrc;

@@ -5,6 +5,8 @@ java_library(
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
+    '//gerrit-gpg:gpg',
+    '//gerrit-gpg:testutil',
     '//gerrit-launcher:launcher',
     '//gerrit-lucene:lucene',
     '//gerrit-httpd:httpd',

@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.restapi;
+package com.google.gerrit.server;
 
-/** Method is not implemented in currently used implementation. */
-public class NotImplementedException extends UnsupportedOperationException {
-  private static final long serialVersionUID = 1L;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-  public NotImplementedException() {
-    this("Not implemented");
-  }
+import com.google.inject.BindingAnnotation;
 
-  public NotImplementedException(String message) {
-    super(message);
-  }
+import java.lang.annotation.Retention;
+
+/**
+ * Marker on a boolean indicating whether signed push is enabled on the server.
+ */
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface EnableSignedPush {
 }

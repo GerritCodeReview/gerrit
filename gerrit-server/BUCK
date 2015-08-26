@@ -72,9 +72,6 @@ java_library(
   ],
   provided_deps = [
     '//lib:servlet-api-3_1',
-    '//lib/bouncycastle:bcprov',
-    '//lib/bouncycastle:bcpg',
-    '//lib/bouncycastle:bcpkix',
   ],
   visibility = ['PUBLIC'],
 )
@@ -88,7 +85,6 @@ java_sources(
 TESTUTIL = glob([
   'src/test/java/com/google/gerrit/testutil/**/*.java',
   'src/test/java/com/google/gerrit/server/project/Util.java',
-  'src/test/java/com/google/gerrit/server/git/gpg/TestKey.java',
   ])
 java_library(
   name = 'testutil',
@@ -98,14 +94,13 @@ java_library(
     '//gerrit-common:server',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-extension-api:api',
+    '//gerrit-gpg:gpg',
     '//gerrit-lucene:lucene',
     '//gerrit-reviewdb:server',
     '//lib:gwtorm',
     '//lib:h2',
     '//lib:truth',
     '//lib/auto:auto-value',
-    '//lib/bouncycastle:bcpg',
-    '//lib/bouncycastle:bcprov',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
@@ -211,6 +206,7 @@ java_test(
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
+    '//gerrit-gpg:gpg',
     '//gerrit-reviewdb:server',
     '//gerrit-server/src/main/prolog:common',
     '//lib:args4j',
@@ -218,9 +214,6 @@ java_test(
     '//lib:guava',
     '//lib:gwtorm',
     '//lib:truth',
-    '//lib/bouncycastle:bcprov',
-    '//lib/bouncycastle:bcpg',
-    '//lib/bouncycastle:bcpkix',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/jgit:jgit',

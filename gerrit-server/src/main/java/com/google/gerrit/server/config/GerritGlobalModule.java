@@ -83,7 +83,6 @@ import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.git.gpg.SignedPushModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
@@ -181,7 +180,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(new NoteDbModule());
     install(new PrologModule());
     install(new SshAddressesModule());
-    install(new SignedPushModule());
     install(ThreadLocalRequestContext.module());
 
     bind(AccountResolver.class);

@@ -27,8 +27,6 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import com.jcraft.jsch.Session;
-
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Config;
@@ -39,9 +37,6 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
-import org.eclipse.jgit.transport.JschConfigSessionFactory;
-import org.eclipse.jgit.transport.OpenSshConfig;
-import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -91,15 +86,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
     @Override
     public void start() {
-      // Install our own factory which always runs in batch mode, as we
-      // have no UI available for interactive prompting.
-      SshSessionFactory.setInstance(new JschConfigSessionFactory() {
-        @Override
-        protected void configure(OpenSshConfig.Host hc, Session session) {
-          // Default configuration is batch mode.
-        }
-      });
-
       WindowCacheConfig cfg = new WindowCacheConfig();
       cfg.fromConfig(serverConfig);
       if (serverConfig.getString("core", null, "streamFileThreshold") == null) {

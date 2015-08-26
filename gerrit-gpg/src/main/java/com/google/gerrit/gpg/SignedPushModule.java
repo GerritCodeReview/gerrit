@@ -25,7 +25,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

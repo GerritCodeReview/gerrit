@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.contact;
+package com.google.gerrit.gpg.contact;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.gpg.BouncyCastleUtil;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -40,9 +41,9 @@ public class ContactStoreModule extends AbstractModule {
 
   @Nullable
   @Provides
-  public ContactStore provideContactStore(@GerritServerConfig final Config config,
-      final SitePaths site, final SchemaFactory<ReviewDb> schema,
-      final ContactStoreConnection.Factory connFactory) {
+  public ContactStore provideContactStore(@GerritServerConfig Config config,
+      SitePaths site, SchemaFactory<ReviewDb> schema,
+      ContactStoreConnection.Factory connFactory) {
     String url = config.getString("contactstore", null, "url");
     if (StringUtils.isEmptyOrNull(url)) {
       return new NoContactStore();

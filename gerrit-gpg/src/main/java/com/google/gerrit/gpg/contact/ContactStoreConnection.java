@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.contact;
+package com.google.gerrit.gpg.contact;
+
+import com.google.gerrit.server.ContactStore;
 
 import java.io.IOException;
 import java.net.URL;

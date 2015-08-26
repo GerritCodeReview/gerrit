@@ -1,6 +1,6 @@
 // Copyright 2011 Google Inc. All Rights Reserved.
 
-package com.google.gerrit.server.contact;
+package com.google.gerrit.gpg.contact;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;

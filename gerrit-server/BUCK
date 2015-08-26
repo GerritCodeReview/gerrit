@@ -72,10 +72,6 @@ java_library(
   ],
   provided_deps = [
     '//lib:servlet-api-3_1',
-    # TODO(dborowitz): Remove Bouncy Castle deps from server.
-    '//lib/bouncycastle:bcprov',
-    '//lib/bouncycastle:bcpg',
-    '//lib/bouncycastle:bcpkix',
   ],
   visibility = ['PUBLIC'],
 )
@@ -106,8 +102,6 @@ java_library(
     '//lib:h2',
     '//lib:truth',
     '//lib/auto:auto-value',
-    '//lib/bouncycastle:bcpg',
-    '//lib/bouncycastle:bcprov',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',

@@ -20,6 +20,7 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.gpg.GpgModule;
+import com.google.gerrit.gpg.contact.HttpContactStoreConnection;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
@@ -39,8 +40,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.RestCacheAdminModule;
 import com.google.gerrit.server.config.SitePath;
-import com.google.gerrit.server.contact.ContactStoreModule;
-import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.ChangeCacheImplModule;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -350,7 +349,6 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(H2CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(new HttpPluginModule());
-    modules.add(new ContactStoreModule());
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     if (authConfig.getAuthType() == AuthType.OPENID) {

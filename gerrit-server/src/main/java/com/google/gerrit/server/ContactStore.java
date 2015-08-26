@@ -12,22 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.contact;
+package com.google.gerrit.server;
 
 import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 
-public class NoContactStore implements ContactStore {
-  @Override
-  public boolean isEnabled() {
-    return false;
-  }
+public interface ContactStore {
+  boolean isEnabled();
 
-  @Override
-  public void store(Account account, ContactInformation info)
-      throws ContactInformationStoreException {
-    throw new ContactInformationStoreException(new IllegalStateException(
-        "ContactStore not configured"));
-  }
+  void store(Account account, ContactInformation info)
+      throws ContactInformationStoreException;
 }

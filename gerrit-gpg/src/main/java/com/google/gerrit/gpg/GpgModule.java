@@ -25,13 +25,13 @@ import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.gpg.api.GpgApiAdapterImpl;
 import com.google.gerrit.gpg.api.GpgKeyApiImpl;
+import com.google.gerrit.gpg.contact.ContactStoreModule;
 import com.google.gerrit.gpg.server.DeleteGpgKey;
 import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.server.PostGpgKeys;
 import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
-import com.google.gerrit.server.util.BouncyCastleUtil;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -66,6 +66,7 @@ public class GpgModule extends RestApiModule {
       return;
     }
 
+    install(new ContactStoreModule());
     install(new SignedPushModule());
     bind(GpgApiAdapter.class).to(GpgApiAdapterImpl.class);
     factory(GpgKeyApiImpl.Factory.class);

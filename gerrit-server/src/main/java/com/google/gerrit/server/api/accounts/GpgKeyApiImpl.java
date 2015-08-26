@@ -24,8 +24,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import org.bouncycastle.openpgp.PGPException;
-
 import java.io.IOException;
 
 class GpgKeyApiImpl implements GpgKeyApi {
@@ -60,7 +58,7 @@ class GpgKeyApiImpl implements GpgKeyApi {
   public void delete() throws RestApiException {
     try {
       delete.apply(rsrc, new DeleteGpgKey.Input());
-    } catch (PGPException | OrmException | IOException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot delete GPG key", e);
     }
   }

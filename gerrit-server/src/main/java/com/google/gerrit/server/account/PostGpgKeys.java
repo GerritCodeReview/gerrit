@@ -89,7 +89,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   @Override
   public Map<String, GpgKeyInfo> apply(AccountResource rsrc, Input input)
       throws ResourceNotFoundException, BadRequestException,
-      ResourceConflictException, PGPException, OrmException, IOException {
+      ResourceConflictException, OrmException, IOException {
     GpgKeys.checkEnabled();
 
     List<AccountExternalId> existingExtIds =
@@ -127,6 +127,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
             }
           }));
       return toJson(newKeys, toRemove);
+    } catch (PGPException e) {
+      throw new IOException(e);
     }
   }
 

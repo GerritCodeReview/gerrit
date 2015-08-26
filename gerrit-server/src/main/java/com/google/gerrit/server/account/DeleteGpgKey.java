@@ -58,7 +58,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
 
   @Override
   public Response<?> apply(GpgKey rsrc, Input input)
-      throws ResourceConflictException, PGPException, OrmException,
+      throws ResourceConflictException, OrmException,
       IOException {
     PGPPublicKey key = rsrc.getKeyRing().getPublicKey();
     AccountExternalId.Key extIdKey = new AccountExternalId.Key(
@@ -85,6 +85,8 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
           throw new ResourceConflictException(
               "Failed to delete public key: " + saveResult);
       }
+    } catch (PGPException e) {
+      throw new IOException(e);
     }
     return Response.none();
   }

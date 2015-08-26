@@ -35,8 +35,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.bouncycastle.openpgp.PGPException;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -132,7 +130,7 @@ public class AccountApiImpl implements AccountApi {
   public Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException {
     try {
       return gpgKeys.list().apply(account);
-    } catch (OrmException | PGPException | IOException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot list GPG keys", e);
     }
   }
@@ -145,7 +143,7 @@ public class AccountApiImpl implements AccountApi {
     in.delete = delete;
     try {
       return postGpgKeys.apply(account, in);
-    } catch (PGPException | OrmException | IOException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot add GPG key", e);
     }
   }
@@ -155,7 +153,7 @@ public class AccountApiImpl implements AccountApi {
     try {
       IdString idStr = IdString.fromDecoded(id);
       return gpgKeyApiFactory.create(gpgKeys.parse(account, idStr));
-    } catch (PGPException | OrmException | IOException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot get PGP key", e);
     }
   }

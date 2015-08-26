@@ -125,6 +125,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
+import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -180,7 +181,9 @@ public class GerritGlobalModule extends FactoryModule {
     install(new NoteDbModule());
     install(new PrologModule());
     install(new SshAddressesModule());
-    install(new SignedPushModule());
+    if (BouncyCastleUtil.havePGP()) {
+      install(new SignedPushModule());
+    }
     install(ThreadLocalRequestContext.module());
 
     bind(AccountResolver.class);

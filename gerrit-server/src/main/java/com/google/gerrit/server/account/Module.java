@@ -23,6 +23,7 @@ import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KI
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.util.BouncyCastleUtil;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class Module extends RestApiModule {
@@ -34,7 +35,9 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
     DynamicMap.mapOf(binder(), EMAIL_KIND);
-    DynamicMap.mapOf(binder(), GPG_KEY_KIND);
+    if (BouncyCastleUtil.havePGP()) {
+      DynamicMap.mapOf(binder(), GPG_KEY_KIND);
+    }
     DynamicMap.mapOf(binder(), SSH_KEY_KIND);
     DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
 
@@ -63,10 +66,12 @@ public class Module extends RestApiModule {
     get(SSH_KEY_KIND).to(GetSshKey.class);
     delete(SSH_KEY_KIND).to(DeleteSshKey.class);
 
-    child(ACCOUNT_KIND, "gpgkeys").to(GpgKeys.class);
-    post(ACCOUNT_KIND, "gpgkeys").to(PostGpgKeys.class);
-    get(GPG_KEY_KIND).to(GpgKeys.Get.class);
-    delete(GPG_KEY_KIND).to(DeleteGpgKey.class);
+    if (BouncyCastleUtil.havePGP()) {
+      child(ACCOUNT_KIND, "gpgkeys").to(GpgKeys.class);
+      post(ACCOUNT_KIND, "gpgkeys").to(PostGpgKeys.class);
+      get(GPG_KEY_KIND).to(GpgKeys.Get.class);
+      delete(GPG_KEY_KIND).to(DeleteGpgKey.class);
+    }
 
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);

@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.accounts;
 
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.util.BouncyCastleUtil;
 
 public class Module extends FactoryModule {
   @Override
@@ -23,6 +24,8 @@ public class Module extends FactoryModule {
     bind(Accounts.class).to(AccountsImpl.class);
 
     factory(AccountApiImpl.Factory.class);
-    factory(GpgKeyApiImpl.Factory.class);
+    if (BouncyCastleUtil.havePGP()) {
+      factory(GpgKeyApiImpl.Factory.class);
+    }
   }
 }

@@ -87,7 +87,7 @@ public class GpgKeys implements
 
   @Override
   public GpgKey parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, PGPException, OrmException,
+      throws ResourceNotFoundException, OrmException,
       IOException {
     checkEnabled();
     String str = CharMatcher.WHITESPACE.removeFrom(id.get()).toUpperCase();
@@ -105,6 +105,8 @@ public class GpgKeys implements
           return new AccountResource.GpgKey(parent.getUser(), keyRing);
         }
       }
+    } catch (PGPException e) {
+      throw new IOException(e);
     }
 
     throw new ResourceNotFoundException(id);
@@ -145,7 +147,7 @@ public class GpgKeys implements
   public class ListGpgKeys implements RestReadView<AccountResource> {
     @Override
     public Map<String, GpgKeyInfo> apply(AccountResource rsrc)
-        throws OrmException, PGPException, IOException {
+        throws OrmException, IOException {
       Map<String, GpgKeyInfo> keys = new HashMap<>();
       try (PublicKeyStore store = storeProvider.get()) {
         for (AccountExternalId extId : getGpgExtIds(rsrc)) {
@@ -166,6 +168,8 @@ public class GpgKeys implements
                 Fingerprint.toString(fp));
           }
         }
+      } catch (PGPException e) {
+        throw new IOException(e);
       }
       return keys;
     }

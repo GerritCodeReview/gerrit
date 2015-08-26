@@ -16,8 +16,8 @@ package com.google.gerrit.server.project;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitReceivePackGroupsProvider;
 import com.google.gerrit.server.config.GitUploadPackGroups;

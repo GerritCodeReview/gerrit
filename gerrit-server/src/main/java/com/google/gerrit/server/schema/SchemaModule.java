@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-import com.google.gerrit.server.config.FactoryModule;
 
 import org.eclipse.jgit.lib.PersonIdent;
 

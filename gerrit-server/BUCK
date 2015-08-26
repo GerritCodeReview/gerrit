@@ -139,6 +139,7 @@ java_library(
   deps = [
     ':server',
     '//gerrit-common:server',
+    '//gerrit-extension-api:api',
     '//lib:guava',
     '//lib:junit',
     '//lib:truth',

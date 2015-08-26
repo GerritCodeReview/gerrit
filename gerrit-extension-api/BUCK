@@ -28,6 +28,7 @@ java_library(
   exported_deps = [
     ':api',
     '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',
     '//lib:servlet-api-3_1',
   ],
@@ -37,7 +38,10 @@ java_library(
 java_library(
   name = 'api',
   srcs = glob([SRC + '**/*.java']),
-  provided_deps = ['//lib/guice:guice'],
+  provided_deps = [
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+  ],
   visibility = ['PUBLIC'],
 )
 

@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.util;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.MergeUtil;

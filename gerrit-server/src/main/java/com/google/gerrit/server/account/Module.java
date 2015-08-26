@@ -23,7 +23,6 @@ import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KI
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class Module extends RestApiModule {
   @Override
@@ -85,7 +84,7 @@ public class Module extends RestApiModule {
     delete(STARRED_CHANGE_KIND).to(StarredChanges.Delete.class);
     bind(StarredChanges.Create.class);
 
-    install(new FactoryModuleBuilder().build(CreateAccount.Factory.class));
-    install(new FactoryModuleBuilder().build(CreateEmail.Factory.class));
+    factory(CreateAccount.Factory.class);
+    factory(CreateEmail.Factory.class);
   }
 }

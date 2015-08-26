@@ -26,7 +26,6 @@ import com.google.gerrit.server.group.AddIncludedGroups.UpdateIncludedGroup;
 import com.google.gerrit.server.group.AddMembers.UpdateMember;
 import com.google.gerrit.server.group.DeleteIncludedGroups.DeleteIncludedGroup;
 import com.google.gerrit.server.group.DeleteMembers.DeleteMember;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class Module extends RestApiModule {
   @Override
@@ -67,7 +66,7 @@ public class Module extends RestApiModule {
     put(INCLUDED_GROUP_KIND).to(UpdateIncludedGroup.class);
     delete(INCLUDED_GROUP_KIND).to(DeleteIncludedGroup.class);
 
-    install(new FactoryModuleBuilder().build(CreateGroup.Factory.class));
+    factory(CreateGroup.Factory.class);
 
     DynamicSet.bind(binder(), GroupMemberAuditListener.class).to(
         DbGroupMemberAuditListener.class);

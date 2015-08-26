@@ -89,6 +89,10 @@ public class PublicKeyStore implements AutoCloseable {
 
   @Override
   public void close() {
+    reset();
+  }
+
+  private void reset() {
     if (reader != null) {
       reader.close();
       reader = null;
@@ -97,7 +101,7 @@ public class PublicKeyStore implements AutoCloseable {
   }
 
   private void load() throws IOException {
-    close();
+    reset();
     reader = repo.newObjectReader();
 
     Ref ref = repo.getRefDatabase().exactRef(RefNames.REFS_GPG_KEYS);
@@ -251,7 +255,7 @@ public class PublicKeyStore implements AutoCloseable {
     ru.setRefLogIdent(cb.getCommitter());
     ru.setRefLogMessage("Store public keys", true);
     RefUpdate.Result result = ru.update();
-    close();
+    reset();
     switch (result) {
       case FAST_FORWARD:
       case NEW:

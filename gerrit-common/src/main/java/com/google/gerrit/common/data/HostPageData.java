@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 
 import java.util.Date;
@@ -23,7 +22,6 @@ import java.util.List;
 /** Data sent as part of the host page, to bootstrap the UI. */
 public class HostPageData {
   public String version;
-  public Account account;
   public AccountDiffPreference accountDiffPref;
   public String xGerritAuth;
   public Theme theme;

@@ -22,7 +22,6 @@ import static com.google.gerrit.server.change.FileResource.FILE_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 
-import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
@@ -119,17 +118,12 @@ public class Module extends RestApiModule {
     get(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Get.class);
     get(CHANGE_EDIT_KIND, "meta").to(ChangeEdits.GetMeta.class);
 
-    install(new FactoryModule() {
-      @Override
-      protected void configure() {
-        factory(ReviewerResource.Factory.class);
-        factory(AccountLoader.Factory.class);
-        factory(EmailReviewComments.Factory.class);
-        factory(ChangeInserter.Factory.class);
-        factory(PatchSetInserter.Factory.class);
-        factory(ChangeEdits.Create.Factory.class);
-        factory(ChangeEdits.DeleteFile.Factory.class);
-      }
-    });
+    factory(ReviewerResource.Factory.class);
+    factory(AccountLoader.Factory.class);
+    factory(EmailReviewComments.Factory.class);
+    factory(ChangeInserter.Factory.class);
+    factory(PatchSetInserter.Factory.class);
+    factory(ChangeEdits.Create.Factory.class);
+    factory(ChangeEdits.DeleteFile.Factory.class);
   }
 }

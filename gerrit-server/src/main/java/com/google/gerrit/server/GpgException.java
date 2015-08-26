@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.restapi;
+package com.google.gerrit.server;
 
-/** Method is not implemented in currently used implementation. */
-public class NotImplementedException extends UnsupportedOperationException {
+/** Generic exception type for GPG-related exceptions. */
+public class GpgException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public NotImplementedException() {
-    this("Not implemented");
-  }
-
-  public NotImplementedException(String message) {
+  public GpgException(String message) {
     super(message);
   }
+
+  public GpgException(Throwable cause) {
+    super(cause);
+  }
+
+  public GpgException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }
+

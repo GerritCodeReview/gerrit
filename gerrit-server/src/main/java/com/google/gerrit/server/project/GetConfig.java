@@ -17,19 +17,17 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.lib.Config;
-
 @Singleton
 public class GetConfig implements RestReadView<ProjectResource> {
-  private final Config gerritConfig;
+  private final boolean serverEnableSignedPush;
   private final TransferConfig config;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
@@ -37,13 +35,13 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final DynamicMap<RestView<ProjectResource>> views;
 
   @Inject
-  public GetConfig(@GerritServerConfig Config gerritConfig,
+  public GetConfig(@EnableSignedPush boolean serverEnableSignedPush,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views) {
-    this.gerritConfig = gerritConfig;
+    this.serverEnableSignedPush = serverEnableSignedPush;
     this.config = config;
     this.pluginConfigEntries = pluginConfigEntries;
     this.allProjects = allProjects;
@@ -53,7 +51,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
 
   @Override
   public ConfigInfo apply(ProjectResource resource) {
-    return new ConfigInfo(gerritConfig, resource.getControl(), config,
+    return new ConfigInfo(serverEnableSignedPush, resource.getControl(), config,
         pluginConfigEntries, cfgFactory, allProjects, views);
   }
 }

@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritOptions;
 import com.google.gerrit.httpd.GetUserFilter;
@@ -143,6 +144,7 @@ public class Daemon extends SiteProgram {
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
   private Injector cfgInjector;
+  private Config config;
   private Injector sysInjector;
   private Injector sshInjector;
   private Injector webInjector;
@@ -272,14 +274,15 @@ public class Daemon extends SiteProgram {
       dbInjector = createDbInjector(MULTI_USER);
     }
     cfgInjector = createCfgInjector();
+    config = cfgInjector.getInstance(
+        Key.get(Config.class, GerritServerConfig.class));
     sysInjector = createSysInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class)
       .setDbCfgInjector(dbInjector, cfgInjector);
     manager.add(dbInjector, cfgInjector, sysInjector);
 
     if (!consoleLog) {
-      manager.add(ErrorLogFile.start(getSitePath(),
-          cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class))));
+      manager.add(ErrorLogFile.start(getSitePath(), config));
     }
 
     sshd &= !sshdOff();
@@ -300,8 +303,7 @@ public class Daemon extends SiteProgram {
   }
 
   private boolean sshdOff() {
-    Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    return new SshAddressesModule().getListenAddresses(cfg).isEmpty();
+    return new SshAddressesModule().getListenAddresses(config).isEmpty();
   }
 
   private String myVersion() {
@@ -335,6 +337,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
+    modules.add(new GpgModule(config));
     modules.add(createIndexModule());
     if (MoreObjects.firstNonNull(httpd, true)) {
       modules.add(new CanonicalWebUrlModule() {

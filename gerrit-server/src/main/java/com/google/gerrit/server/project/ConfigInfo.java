@@ -31,10 +31,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.git.gpg.SignedPushModule;
 import com.google.inject.util.Providers;
-
-import org.eclipse.jgit.lib.Config;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +55,7 @@ public class ConfigInfo {
   public Map<String, CommentLinkInfo> commentlinks;
   public ThemeInfo theme;
 
-  public ConfigInfo(Config gerritConfig,
+  public ConfigInfo(boolean serverEnableSignedPush,
       ProjectControl control,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -112,7 +109,7 @@ public class ConfigInfo {
     this.useContentMerge = useContentMerge;
     this.requireChangeId = requireChangeId;
     this.createNewChangeForAllNotInTarget = createNewChangeForAllNotInTarget;
-    if (SignedPushModule.isEnabled(gerritConfig)) {
+    if (serverEnableSignedPush) {
       this.enableSignedPush = enableSignedPush;
     }
 

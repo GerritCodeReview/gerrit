@@ -6,6 +6,7 @@ java_library(
   deps = [
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-extension-api:api',
+    '//gerrit-gpg:gpg',
     '//gerrit-httpd:httpd',
     '//gerrit-lucene:lucene',
     '//gerrit-oauth:oauth',

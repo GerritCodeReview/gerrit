@@ -4,6 +4,7 @@ java_library(
   name = 'classpath',
   deps = LIBS + PGMLIBS + [
     '//gerrit-acceptance-tests:lib',
+    '//gerrit-gpg:gpg_tests',
     '//gerrit-gwtdebug:gwtdebug',
     '//gerrit-gwtui:ui_module',
     '//gerrit-gwtui:ui_tests',

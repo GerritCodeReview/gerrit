@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -186,6 +187,7 @@ public class InMemoryModule extends FactoryModule {
     install(new DefaultCacheFactory.Module());
     install(new FakeEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
+    install(new GpgModule(cfg));
 
     IndexType indexType = null;
     try {

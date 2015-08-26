@@ -23,6 +23,5 @@ public class Module extends FactoryModule {
     bind(Accounts.class).to(AccountsImpl.class);
 
     factory(AccountApiImpl.Factory.class);
-    factory(GpgKeyApiImpl.Factory.class);
   }
 }

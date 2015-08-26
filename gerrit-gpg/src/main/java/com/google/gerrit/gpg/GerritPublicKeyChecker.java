@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git.gpg;
+package com.google.gerrit.gpg;
 
+import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
-import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyIdToString;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Ordering;

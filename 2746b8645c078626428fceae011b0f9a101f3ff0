@@ -187,6 +187,30 @@
       "revId": "2746b8645c078626428fceae011b0f9a101f3ff0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_42803204",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddSshKeySender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-26T04:09:02Z",
+      "side": 1,
+      "message": "P.S. There is \"getNameEmailFor()\" in the OutgoingEmail class, but it does have different semantics (since it adds \"Anonymous Coward\" as needed).  So... not sure if moving this up is helpful -- at least, it would be confusing.",
+      "parentUuid": "84bff131_63160257",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "2746b8645c078626428fceae011b0f9a101f3ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

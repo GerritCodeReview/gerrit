@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
-import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Function;
@@ -33,21 +33,23 @@ import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.gpg.Fingerprint;
+import com.google.gerrit.gpg.PublicKeyStore;
+import com.google.gerrit.gpg.server.GpgKeys;
+import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GpgKeys;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.gpg.Fingerprint;
-import com.google.gerrit.server.git.gpg.PublicKeyStore;
-import com.google.gerrit.server.git.gpg.TestKey;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -65,6 +67,13 @@ import java.util.List;
 import java.util.Map;
 
 public class AccountIT extends AbstractDaemonTest {
+  @ConfigSuite.Default
+  public static Config enableSignedPushConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "enableSignedPush", true);
+    return cfg;
+  }
+
   @Inject
   private Provider<PublicKeyStore> publicKeyStoreProvider;
 

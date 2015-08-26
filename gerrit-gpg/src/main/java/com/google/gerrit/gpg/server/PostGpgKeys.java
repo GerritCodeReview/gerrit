@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.gpg.server;
 
-import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyIdToString;
-import static com.google.gerrit.server.git.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
+import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Function;
@@ -32,14 +32,15 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.gpg.CheckResult;
+import com.google.gerrit.gpg.Fingerprint;
+import com.google.gerrit.gpg.PublicKeyChecker;
+import com.google.gerrit.gpg.PublicKeyStore;
+import com.google.gerrit.gpg.server.PostGpgKeys.Input;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.PostGpgKeys.Input;
-import com.google.gerrit.server.git.gpg.CheckResult;
-import com.google.gerrit.server.git.gpg.Fingerprint;
-import com.google.gerrit.server.git.gpg.PublicKeyChecker;
-import com.google.gerrit.server.git.gpg.PublicKeyStore;
+import com.google.gerrit.server.account.AccountResource;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

@@ -66,6 +66,7 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
       throw new BadRequestException("destination must be non-empty");
     }
 
+    @SuppressWarnings("resource")
     ReviewDb db = dbProvider.get();
     if (!control.isVisible(db)) {
       throw new AuthException("Cherry pick not permitted");
@@ -87,10 +88,8 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
       return json.create(ChangeJson.NO_OPTIONS).format(cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
-    } catch (MergeException e) {
+    } catch (MergeException | NoSuchChangeException e) {
       throw new ResourceConflictException(e.getMessage());
-    } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(e.getMessage());
     }
   }
 

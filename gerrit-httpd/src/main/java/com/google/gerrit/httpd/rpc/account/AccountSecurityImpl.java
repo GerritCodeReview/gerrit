@@ -17,10 +17,8 @@ package com.google.gerrit.httpd.rpc.account;
 import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
@@ -28,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -36,7 +33,6 @@ import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -50,13 +46,11 @@ import java.util.Set;
 
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
-  private final ContactStore contactStore;
   private final Realm realm;
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> user;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
-  private final boolean useContactInfo;
 
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
@@ -67,7 +61,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
-      final Provider<CurrentUser> currentUser, final ContactStore cs,
+      final Provider<CurrentUser> currentUser,
       final Realm r, final Provider<IdentifiedUser> u,
       final ProjectCache pc,
       final AccountByEmailCache abec, final AccountCache uac,
@@ -76,16 +70,12 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final ChangeHooks hooks, final GroupCache groupCache,
       final AuditService auditService) {
     super(schema, currentUser);
-    contactStore = cs;
     realm = r;
     user = u;
     projectCache = pc;
     byEmailCache = abec;
     accountCache = uac;
     this.auditService = auditService;
-
-    useContactInfo = contactStore != null && contactStore.isEnabled();
-
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.hooks = hooks;
@@ -105,7 +95,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   @Override
   public void updateContact(final String name, final String emailAddr,
-      final ContactInformation info, final AsyncCallback<Account> callback) {
+      final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       @Override
       public Account run(ReviewDb db) throws OrmException, Failure {
@@ -120,19 +110,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           throw new Failure(new PermissionDeniedException("Email address must be verified"));
         }
         me.setPreferredEmail(Strings.emptyToNull(emailAddr));
-        if (useContactInfo) {
-          if (ContactInformation.hasAddress(info)
-              || (me.isContactFiled() && ContactInformation.hasData(info))) {
-            me.setContactFiled(TimeUtil.nowTs());
-          }
-          if (ContactInformation.hasData(info)) {
-            try {
-              contactStore.store(me, info);
-            } catch (ContactInformationStoreException e) {
-              throw new Failure(e);
-            }
-          }
-        }
         db.accounts().update(Collections.singleton(me));
         if (!eq(oldEmail, me.getPreferredEmail())) {
           byEmailCache.evict(oldEmail);

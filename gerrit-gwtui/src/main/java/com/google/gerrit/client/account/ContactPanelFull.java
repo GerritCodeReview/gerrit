@@ -17,7 +17,6 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.ui.OnEditEnabler;
-import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -65,12 +64,6 @@ class ContactPanelFull extends ContactPanelShort {
     hasContact.setStyleName(Gerrit.RESOURCES.css().accountContactOnFile());
     hasContact.setVisible(false);
 
-    if (Gerrit.info().hasContactStore()) {
-      body.add(privhtml);
-      body.add(hasContact);
-      body.add(infoSecure);
-    }
-
     row(infoSecure, 0, Util.C.contactFieldAddress(), addressTxt);
     row(infoSecure, 1, Util.C.contactFieldCountry(), countryTxt);
     row(infoSecure, 2, Util.C.contactFieldPhone(), phoneTxt);
@@ -111,20 +104,5 @@ class ContactPanelFull extends ContactPanelShort {
   void onSaveSuccess(AccountInfo account) {
     super.onSaveSuccess(account);
     displayHasContact(account);
-  }
-
-  @Override
-  ContactInformation toContactInformation() {
-    final ContactInformation info;
-    if (Gerrit.info().hasContactStore()) {
-      info = new ContactInformation();
-      info.setAddress(addressTxt.getText());
-      info.setCountry(countryTxt.getText());
-      info.setPhoneNumber(phoneTxt.getText());
-      info.setFaxNumber(faxTxt.getText());
-    } else {
-      info = null;
-    }
-    return info;
   }
 }

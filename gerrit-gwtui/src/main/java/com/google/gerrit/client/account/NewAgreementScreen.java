@@ -23,7 +23,6 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -42,7 +41,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
@@ -59,9 +57,6 @@ public class NewAgreementScreen extends AccountScreen {
 
   private Panel agreementGroup;
   private HTML agreementHtml;
-
-  private Panel contactGroup;
-  private ContactPanelFull contactPanel;
 
   private Panel finalGroup;
   private NpTextBox yesIAgreeBox;
@@ -117,11 +112,6 @@ public class NewAgreementScreen extends AccountScreen {
     agreementGroup.add(agreementHtml);
     formBody.add(agreementGroup);
 
-    contactGroup = new FlowPanel();
-    contactGroup
-        .add(new SmallHeading(Util.C.newAgreementReviewContactHeading()));
-    formBody.add(contactGroup);
-
     finalGroup = new VerticalPanel();
     finalGroup.add(new SmallHeading(Util.C.newAgreementCompleteHeading()));
     final FlowPanel fp = new FlowPanel();
@@ -157,7 +147,6 @@ public class NewAgreementScreen extends AccountScreen {
   private void renderSelf() {
     current = null;
     agreementGroup.setVisible(false);
-    contactGroup.setVisible(false);
     finalGroup.setVisible(false);
     radios.clear();
 
@@ -206,21 +195,7 @@ public class NewAgreementScreen extends AccountScreen {
       yesIAgreeBox.setFocus(true);
       return;
     }
-
-    if (contactGroup.isVisible()) {
-      contactPanel.doSave(new AsyncCallback<Account>() {
-        @Override
-        public void onSuccess(Account result) {
-          doEnterAgreement();
-        }
-
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      });
-    } else {
-      doEnterAgreement();
-    }
+    doEnterAgreement();
   }
 
   private void doEnterAgreement() {
@@ -275,13 +250,6 @@ public class NewAgreementScreen extends AccountScreen {
       agreementGroup.setVisible(false);
     }
 
-    if (contactPanel == null && cla.isRequireContactInformation()) {
-      contactPanel = new ContactPanelFull();
-      contactGroup.add(contactPanel);
-      contactPanel.hideSaveButton();
-    }
-    contactGroup.setVisible(
-        cla.isRequireContactInformation() && cla.getAutoVerify() != null);
     finalGroup.setVisible(cla.getAutoVerify() != null);
     yesIAgreeBox.setText("");
     submit.setEnabled(false);

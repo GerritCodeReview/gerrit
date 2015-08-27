@@ -53,7 +53,6 @@
 . link:cmd-index.html[Command Line Tools]
 . link:config-plugins.html#replication[Replication]
 . link:config-plugins.html[Plugins]
-. link:config-contact.html[User Contact Information]
 . link:config-reverseproxy.html[Reverse Proxy]
 . link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
 . link:pgm-index.html[Server Side Administrative Tools]

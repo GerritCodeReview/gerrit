@@ -18,4 +18,5 @@ public class SuggestedReviewerInfo {
   public AccountInfo account;
   public GroupBaseInfo group;
   public String annotation;
+  public boolean separator;
 }

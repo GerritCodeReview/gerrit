@@ -43,7 +43,6 @@ public class GetDetail implements RestReadView<AccountResource> {
     Account a = rsrc.getUser().getAccount();
     AccountDetailInfo info = new AccountDetailInfo(a.getId().get());
     info.registeredOn = a.getRegisteredOn();
-    info.contactFiledOn = a.getContactFiledOn();
     try {
       directory.fillAccountInfo(Collections.singleton(info),
           EnumSet.allOf(FillOptions.class));
@@ -56,7 +55,6 @@ public class GetDetail implements RestReadView<AccountResource> {
 
   public static class AccountDetailInfo extends AccountInfo {
     public Timestamp registeredOn;
-    public Timestamp contactFiledOn;
 
     public AccountDetailInfo(Integer id) {
       super(id);

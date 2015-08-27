@@ -32,6 +32,5 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
     assertAccountInfo(admin, info);
     Account account = accountCache.get(admin.getId()).getAccount();
     assertThat(info.registeredOn).isEqualTo(account.getRegisteredOn());
-    assertThat(info.contactFiledOn).isEqualTo(account.getContactFiledOn());
   }
 }

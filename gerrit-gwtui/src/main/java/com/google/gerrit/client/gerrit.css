@@ -1031,18 +1031,6 @@ a:hover.downloadLink {
 .accountInfoBlock .gwt-Button {
   margin-left: 10px;
 }
-.accountContactPrivacyDetails {
-  margin-left: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  width: 40em;
-}
-.accountContactOnFile {
-  margin-left: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
 
 .addWatchPanel {
   margin-top: 10px;

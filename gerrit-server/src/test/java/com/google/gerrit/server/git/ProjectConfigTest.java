@@ -82,7 +82,6 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
             + "  description = A simple description\n" //
             + "  accepted = group Developers\n" //
             + "  accepted = group Staff\n" //
-            + "  requireContactInformation = true\n" //
             + "  autoVerify = group Developers\n" //
             + "  agreementUrl = http://www.example.com/agree\n")) //
         ));
@@ -97,7 +96,6 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     assertThat(ca.getAccepted().get(0).getGroup()).isEqualTo(developers);
     assertThat(ca.getAccepted().get(1).getGroup().getName()).isEqualTo("Staff");
     assertThat(ca.getAutoVerify().getName()).isEqualTo("Developers");
-    assertThat(ca.isRequireContactInformation()).isTrue();
 
     AccessSection section = cfg.getAccessSection("refs/heads/*");
     assertThat(section).isNotNull();
@@ -184,7 +182,6 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
             + "[contributor-agreement \"Individual\"]\n" //
             + "  description = A simple description\n" //
             + "  accepted = group Developers\n" //
-            + "  requireContactInformation = true\n" //
             + "  autoVerify = group Developers\n" //
             + "  agreementUrl = http://www.example.com/agree\n")) //
         ));
@@ -197,7 +194,6 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     Permission submit = section.getPermission(Permission.SUBMIT);
     submit.add(new PermissionRule(cfg.resolve(staff)));
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
-    ca.setRequireContactInformation(false);
     ca.setAccepted(Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
     ca.setAutoVerify(null);
     ca.setDescription("A new description");

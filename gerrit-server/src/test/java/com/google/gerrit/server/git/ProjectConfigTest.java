@@ -97,7 +97,6 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     assertThat(ca.getAccepted().get(0).getGroup()).isEqualTo(developers);
     assertThat(ca.getAccepted().get(1).getGroup().getName()).isEqualTo("Staff");
     assertThat(ca.getAutoVerify().getName()).isEqualTo("Developers");
-    assertThat(ca.isRequireContactInformation()).isTrue();
 
     AccessSection section = cfg.getAccessSection("refs/heads/*");
     assertThat(section).isNotNull();
@@ -197,7 +196,6 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     Permission submit = section.getPermission(Permission.SUBMIT);
     submit.add(new PermissionRule(cfg.resolve(staff)));
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
-    ca.setRequireContactInformation(false);
     ca.setAccepted(Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
     ca.setAutoVerify(null);
     ca.setDescription("A new description");

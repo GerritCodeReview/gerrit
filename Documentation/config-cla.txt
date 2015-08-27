@@ -29,7 +29,6 @@ Contributor agreements are defined as contributor-agreement sections in
 ====
   [contributor-agreement "Individual"]
     description = If you are going to be contributing code on your own, this is the one you want. You can sign this one online.
-    requireContactInformation = true
     agreementUrl = static/cla_individual.html
     autoVerify = group CLA Accepted - Individual
     accepted = group CLA Accepted - Individual
@@ -51,11 +50,6 @@ Commit the configuration change, and push it back:
 +
 Short text describing the contributor agreement. This text will appear
 when the user selects an agreement.
-
-[[contributor-agreement.name.requireContactInformation]]contributor-agreement.<name>.requireContactInformation::
-+
-True if the user must provide contact information when signing a
-contributor agreement. Default is false.
 
 [[contributor-agreement.name.agreementUrl]]contributor-agreement.<name>.agreementUrl::
 +

@@ -114,6 +114,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       return change.getDest().get();
     }
 
+    @SuppressWarnings("resource")
     ReviewDb db = dbProvider.get();
     PatchSet basePatchSet = parseBase(base);
     if (basePatchSet == null) {

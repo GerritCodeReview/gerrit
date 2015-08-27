@@ -37,6 +37,7 @@ public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
     this.cleanup = cleanup;
   }
 
+  @SuppressWarnings("resource")
   @Override
   public ReviewDb get() {
     if (db == null) {

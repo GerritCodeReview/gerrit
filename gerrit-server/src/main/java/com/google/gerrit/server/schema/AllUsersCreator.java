@@ -61,21 +61,14 @@ public class AllUsersCreator {
   }
 
   public void create() throws IOException, ConfigInvalidException {
-    Repository git = null;
-    try {
-      git = mgr.openRepository(allUsersName);
+    try (Repository git = mgr.openRepository(allUsersName)) {
       initAllUsers(git);
     } catch (RepositoryNotFoundException notFound) {
-      try {
-        git = mgr.createRepository(allUsersName);
+      try (Repository git = mgr.createRepository(allUsersName)) {
         initAllUsers(git);
       } catch (RepositoryNotFoundException err) {
         String name = allUsersName.get();
         throw new IOException("Cannot create repository " + name, err);
-      }
-    } finally {
-      if (git != null) {
-        git.close();
       }
     }
   }

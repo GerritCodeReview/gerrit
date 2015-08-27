@@ -15,12 +15,12 @@
 package com.google.gerrit.client.account;
 
 public class MyContactInformationScreen extends SettingsScreen {
-  private ContactPanelFull panel;
+  private ContactPanelShort panel;
 
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    panel = new ContactPanelFull() {
+    panel = new ContactPanelShort() {
       @Override
       void display() {
         MyContactInformationScreen.this.display();

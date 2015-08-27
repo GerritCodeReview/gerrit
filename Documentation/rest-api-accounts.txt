@@ -760,7 +760,7 @@ describes the GPG key.
 Add or delete one or more GPG keys for a user.
 
 The changes must be provided in the request body as a
-link:#gpg-key-input[GpgKeyInput] entity. Each new GPG key is provided in
+link:#gpg-keys-input[GpgKeysInput] entity. Each new GPG key is provided in
 ASCII armored format, and must contain a self-signed certification
 matching a registered email or other identity of the user.
 
@@ -1735,9 +1735,9 @@ associated with the public key.
 |`key`        |Not set for deleted keys|ASCII armored public key material.
 |========================
 
-[[gpg-key-input]]
-=== GpgKeyInput
-The `GpgKeyInput` entity contains information for adding GPG keys.
+[[gpg-keys-input]]
+=== GpgKeysInput
+The `GpgKeysInput` entity contains information for adding/deleting GPG keys.
 
 [options="header",cols="1,6"]
 |========================

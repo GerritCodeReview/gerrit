@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "04d4e17b_e71162e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012297
+      },
+      "writtenOn": "2015-08-27T16:46:54Z",
+      "side": 1,
+      "message": "It could be used for annotating people who wrote the original code (git blame), or to indicate the number of reviews each reviewer has done, or the number of approvals they have given.  It could indicate users who haven\u0027t had any activity in the last n days.  The options are limitless.",
+      "parentUuid": "04d4e17b_27937ae1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "e850e40b8463f4bed8d80c69fcd8d7261f379e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24d1e58c_883fd770",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
         "patchSetId": 1

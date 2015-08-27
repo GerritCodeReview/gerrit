@@ -497,6 +497,24 @@
     },
     {
       "key": {
+        "uuid": "647cbd57_22d40eb6",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T20:05:03Z",
+      "side": 1,
+      "message": "Sorry, read your message again.  Now I get what you\u0027re saying. :)\n\n\"From here, they appear to be tied, but I will go in for a closer look. ... On closer inspection, these are loafers.\"",
+      "parentUuid": "84bff131_83c4de0c",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_e25066df",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
         "patchSetId": 9

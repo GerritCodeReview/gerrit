@@ -223,7 +223,6 @@ public class SubmoduleOp {
     PersonIdent author = null;
 
     Repository pdb = null;
-    RevWalk recRw = null;
 
     StringBuilder msgbuf = new StringBuilder("Updated git submodules\n\n");
     try {
@@ -343,16 +342,12 @@ public class SubmoduleOp {
         default:
           throw new IOException(rfu.getResult().name());
       }
-      recRw = new RevWalk(pdb);
       // Recursive call: update subscribers of the subscriber
       updateSuperProjects(db, Sets.newHashSet(subscriber));
     } catch (IOException e) {
       throw new SubmoduleException("Cannot update gitlinks for "
           + subscriber.get(), e);
     } finally {
-      if (recRw != null) {
-        recRw.close();
-      }
       if (pdb != null) {
         pdb.close();
       }

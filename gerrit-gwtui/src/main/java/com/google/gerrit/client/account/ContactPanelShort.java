@@ -25,7 +25,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
-import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -356,11 +355,10 @@ class ContactPanelShort extends Composite {
       newEmail = currentEmail;
     }
 
-    final ContactInformation info = toContactInformation();
     save.setEnabled(false);
     registerNewEmail.setEnabled(false);
 
-    Util.ACCOUNT_SEC.updateContact(newName, newEmail, info,
+    Util.ACCOUNT_SEC.updateContact(newName, newEmail,
         new GerritCallback<Account>() {
           @Override
           public void onSuccess(Account result) {
@@ -386,10 +384,6 @@ class ContactPanelShort extends Composite {
     me.email(result.email());
     Gerrit.refreshMenuBar();
     display(me);
-  }
-
-  ContactInformation toContactInformation() {
-    return null;
   }
 
   private int emailListIndexOf(String value) {

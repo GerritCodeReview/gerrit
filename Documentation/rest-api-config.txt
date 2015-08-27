@@ -1095,18 +1095,6 @@ link:config-gerrit.html#change.submitWholeTopic[A configuration if
 the whole topic is submitted].
 |=============================
 
-[[contact-store-info]]
-=== ContactStoreInfo
-The `ContactStoreInfo` entity contains information about the contact
-store.
-
-[options="header",cols="1,6"]
-|=======================
-|Field Name |Description
-|`url`      |
-The link:config-gerrit.html#contactstore.url[URL of the contact store].
-|=======================
-
 [[download-info]]
 === DownloadInfo
 The `DownloadInfo` entity contains information about supported download
@@ -1363,9 +1351,6 @@ link:#auth-info[AuthInfo] entity.
 Information about the configuration from the
 link:config-gerrit.html#change[change] section as
 link:#change-config-info[ChangeConfigInfo] entity.
-|`contact_store`           |optional|
-Information about the contact store configuration as
-link:#contact-store-info[ContactStoreInfo] entity.
 |`download`                ||
 Information about the configured download options as
 link:#download-info[DownloadInfo] entity.

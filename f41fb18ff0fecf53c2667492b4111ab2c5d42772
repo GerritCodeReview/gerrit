@@ -232,6 +232,30 @@
     },
     {
       "key": {
+        "uuid": "84bff131_e3e2f292",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T20:51:39Z",
+      "side": 1,
+      "message": "Thanks; that\u0027s a great explanation!",
+      "parentUuid": "647cbd57_82db1ae3",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_027d4a56",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
         "patchSetId": 9
@@ -516,6 +540,30 @@
       "side": 1,
       "message": "#/settings/gpg-keys\n\nYes it requires enabling signed push. If you\u0027re going to monkey-test this change then you need to do that anyway ;)",
       "parentUuid": "84bff131_c3ced628",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_02e8ea6f",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T20:51:39Z",
+      "side": 1,
+      "message": "Actually, I kinda figured out I could wedge GPG keys in without doing that by using the REST API.... Hmmm... (It wasn\u0027t fun, though!)",
+      "parentUuid": "647cbd57_a2e81e75",
       "range": {
         "startLine": 45,
         "startChar": 0,

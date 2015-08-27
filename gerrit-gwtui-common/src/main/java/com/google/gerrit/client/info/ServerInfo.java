@@ -25,7 +25,6 @@ import java.util.Map;
 public class ServerInfo extends JavaScriptObject {
   public final native AuthInfo auth() /*-{ return this.auth; }-*/;
   public final native ChangeConfigInfo change() /*-{ return this.change; }-*/;
-  public final native ContactStoreInfo contactStore() /*-{ return this.contact_store; }-*/;
   public final native DownloadInfo download() /*-{ return this.download; }-*/;
   public final native GerritInfo gerrit() /*-{ return this.gerrit; }-*/;
   public final native GitwebInfo gitweb() /*-{ return this.gitweb; }-*/;
@@ -47,10 +46,6 @@ public class ServerInfo extends JavaScriptObject {
   private final native NativeMap<NativeString> _urlAliases() /*-{ return this.url_aliases; }-*/;
 
 
-  public final boolean hasContactStore() {
-    return contactStore() != null;
-  }
-
   public final boolean hasSshd() {
     return sshd() != null;
   }
@@ -68,13 +63,6 @@ public class ServerInfo extends JavaScriptObject {
         return this.submit_whole_topic; }-*/;
 
     protected ChangeConfigInfo() {
-    }
-  }
-
-  public static class ContactStoreInfo extends JavaScriptObject {
-    public final native String url() /*-{ return this.url; }-*/;
-
-    protected ContactStoreInfo() {
     }
   }
 

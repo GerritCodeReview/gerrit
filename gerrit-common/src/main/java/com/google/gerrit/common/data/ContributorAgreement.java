@@ -25,7 +25,6 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
   protected String name;
   protected String description;
   protected List<PermissionRule> accepted;
-  protected boolean requireContactInformation;
   protected GroupReference autoVerify;
   protected String agreementUrl;
 
@@ -63,14 +62,6 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
     this.accepted = accepted;
   }
 
-  public boolean isRequireContactInformation() {
-    return requireContactInformation;
-  }
-
-  public void setRequireContactInformation(boolean requireContactInformation) {
-    this.requireContactInformation = requireContactInformation;
-  }
-
   public GroupReference getAutoVerify() {
     return autoVerify;
   }
@@ -101,7 +92,6 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
     ContributorAgreement ca = new ContributorAgreement(name);
     ca.description = description;
     ca.accepted = Collections.emptyList();
-    ca.requireContactInformation = requireContactInformation;
     if (autoVerify != null) {
       ca.autoVerify = new GroupReference();
     }

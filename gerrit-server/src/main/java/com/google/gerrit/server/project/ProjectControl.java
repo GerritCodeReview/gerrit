@@ -352,19 +352,10 @@ public class ProjectControl {
     }
     final IdentifiedUser iUser = (IdentifiedUser) user;
 
-    boolean hasContactInfo = !missing(iUser.getAccount().getFullName())
-        && !missing(iUser.getAccount().getPreferredEmail())
-        && iUser.getAccount().isContactFiled();
-
     List<AccountGroup.UUID> okGroupIds = Lists.newArrayList();
-    List<AccountGroup.UUID> missingInfoGroupIds = Lists.newArrayList();
     for (ContributorAgreement ca : contributorAgreements) {
       List<AccountGroup.UUID> groupIds;
-      if (hasContactInfo || !ca.isRequireContactInformation()) {
-        groupIds = okGroupIds;
-      } else {
-        groupIds = missingInfoGroupIds;
-      }
+      groupIds = okGroupIds;
 
       for (PermissionRule rule : ca.getAccepted()) {
         if ((rule.getAction() == Action.ALLOW) && (rule.getGroup() != null)
@@ -376,28 +367,6 @@ public class ProjectControl {
 
     if (iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
       return Capable.OK;
-    }
-
-    if (iUser.getEffectiveGroups().containsAnyOf(missingInfoGroupIds)) {
-      final StringBuilder msg = new StringBuilder();
-      for (ContributorAgreement ca : contributorAgreements) {
-        if (ca.isRequireContactInformation()) {
-          msg.append(ca.getName());
-          break;
-        }
-      }
-      msg.append(" contributor agreement requires");
-      msg.append(" current contact information.\n");
-      if (canonicalWebUrl != null) {
-        msg.append("\nPlease review your contact information");
-        msg.append(":\n\n  ");
-        msg.append(canonicalWebUrl);
-        msg.append("#");
-        msg.append(PageLinks.SETTINGS_CONTACT);
-        msg.append("\n");
-      }
-      msg.append("\n");
-      return new Capable(msg.toString());
     }
 
     final StringBuilder msg = new StringBuilder();
@@ -413,10 +382,6 @@ public class ProjectControl {
     }
     msg.append("\n");
     return new Capable(msg.toString());
-  }
-
-  private static boolean missing(final String value) {
-    return value == null || value.trim().equals("");
   }
 
   private boolean canPerformOnAnyRef(String permissionName) {

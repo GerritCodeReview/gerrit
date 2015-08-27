@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04d4e17b_e7e20293",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-27T00:54:13Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "a50b4cf70e86cc7af9b3229d8d2209ad70f4d547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24d1e58c_e8c93323",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-27T00:54:13Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "a50b4cf70e86cc7af9b3229d8d2209ad70f4d547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24d1e58c_28d4ebb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-27T00:54:13Z",
+      "side": 1,
+      "message": "nit: wrap",
+      "revId": "a50b4cf70e86cc7af9b3229d8d2209ad70f4d547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24d1e58c_c8ceef28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-27T00:54:13Z",
+      "side": 1,
+      "message": "nit: the \u0027else if\u0027 should be on the same line as the closing brace of the previous \u0027if\u0027-block",
+      "revId": "a50b4cf70e86cc7af9b3229d8d2209ad70f4d547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4e17b_c7e7fea0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-27T00:54:13Z",
+      "side": 1,
+      "message": "optional: use the ternary operator\n\n return sshKey \u003d\u003d null ? null : sshKey.getSshPublicKey();",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 16
+      },
+      "revId": "a50b4cf70e86cc7af9b3229d8d2209ad70f4d547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4e17b_27fd3a2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-27T00:54:13Z",
+      "side": 1,
+      "message": "optional: ternary operator, as above.",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 16
+      },
+      "revId": "a50b4cf70e86cc7af9b3229d8d2209ad70f4d547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24d1e58c_08d127c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-27T00:54:13Z",
+      "side": 1,
+      "message": "nit: format as javadoc with @param and @returns",
+      "range": {
+        "startLine": 271,
+        "startChar": 2,
+        "endLine": 274,
+        "endChar": 5
+      },
+      "revId": "a50b4cf70e86cc7af9b3229d8d2209ad70f4d547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4e17b_07fab635",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-27T00:54:13Z",
+      "side": 1,
+      "message": "nit: format as javadoc",
+      "range": {
+        "startLine": 293,
+        "startChar": 2,
+        "endLine": 297,
+        "endChar": 5
+      },
+      "revId": "a50b4cf70e86cc7af9b3229d8d2209ad70f4d547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

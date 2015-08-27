@@ -217,6 +217,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private String problemsForSubmittingChangeset(
       ChangeSet cs, IdentifiedUser identifiedUser) {
     try {
+      @SuppressWarnings("resource")
       ReviewDb db = dbProvider.get();
       for (PatchSet.Id psId : cs.patchIds()) {
         ChangeControl changeControl = changeControlFactory

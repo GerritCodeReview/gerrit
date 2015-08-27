@@ -70,6 +70,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     @Override
     protected void configure() {
       DynamicItem.itemOf(binder(), ChangeReviewerAnnotator.Factory.class);
+      DynamicItem.itemOf(binder(), ChangeReviewerAnnotator.Factory.class);
     }
   }
 
@@ -80,6 +81,19 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     public String getAnnotation(SuggestedReviewerInfo ri);
+  }
+
+  public interface TargetedChangeReviewer {
+    /**
+     * A new instance of Factory will be instantiated for every suggestion
+     * request and followed by a single call to create() for that same request.
+     */
+    public interface Factory {
+      public TargetedChangeReviewer create(String query, int limit,
+          ChangeControl cc, VisibilityControl vc);
+    }
+
+    public List<SuggestedReviewerInfo> getReviewers();
   }
 
   private static final String MAX_SUFFIX = "\u9fa5";
@@ -119,6 +133,8 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   private final ReviewerSuggestionCache reviewerSuggestionCache;
   private final DynamicItem<ChangeReviewerAnnotator.Factory> annotatorFactory;
   private ChangeControl.GenericFactory changeControlFactory;
+  private final DynamicItem<TargetedChangeReviewer.Factory>
+      targetedReviewerFactory;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
       usage = "maximum number of reviewers to list")
@@ -147,7 +163,8 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
       GroupBackend groupBackend,
       ReviewerSuggestionCache reviewerSuggestionCache,
       DynamicItem<ChangeReviewerAnnotator.Factory> annotatorFactory,
-      ChangeControl.GenericFactory changeControlFactory) {
+      ChangeControl.GenericFactory changeControlFactory,
+      DynamicItem<TargetedChangeReviewer.Factory> targetedReviewersFactory) {
     this.accountLoader = accountLoaderFactory.create(true);
     this.accountControl = accountControlFactory.get();
     this.accountCache = accountCache;
@@ -177,6 +194,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
         PostReviewers.DEFAULT_MAX_REVIEWERS);
     this.annotatorFactory = annotatorFactory;
     this.changeControlFactory = changeControlFactory;
+    this.targetedReviewerFactory = targetedReviewersFactory;
   }
 
   public interface VisibilityControl {
@@ -203,6 +221,36 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     List<SuggestedReviewerInfo> reviewer = Lists.newArrayList();
+    ChangeControl cc = null;
+    try {
+      cc = changeControlFactory.controlFor(rsrc.getChange(), currentUser.get());
+      reviewer = getTargetedReviewers(query, limit, cc, visibilityControl);
+    } catch (NoSuchChangeException nsce) {
+      // intentionally left blank
+    }
+
+    reviewer.addAll(getGeneralReviewers(rsrc, limit, visibilityControl,
+        suggestedAccounts));
+
+    return reviewer;
+  }
+
+  private List<SuggestedReviewerInfo> getTargetedReviewers(String query, int limit,
+      ChangeControl cc, VisibilityControl vc) {
+    TargetedChangeReviewer.Factory tcrf = targetedReviewerFactory.get();
+    if (tcrf != null) {
+      // A plugin is available.
+      TargetedChangeReviewer tcr = tcrf.create(query, limit, cc, vc);
+      return tcr.getReviewers();
+    }
+    return new ArrayList<>();
+  }
+
+  private List<SuggestedReviewerInfo> getGeneralReviewers(ChangeResource rsrc,
+      int limit, VisibilityControl visibilityControl,
+      List<AccountInfo> suggestedAccounts) throws OrmException, IOException {
+    List<SuggestedReviewerInfo> reviewer = Lists.newArrayList();
+
     for (AccountInfo a : suggestedAccounts) {
       SuggestedReviewerInfo info = new SuggestedReviewerInfo();
       info.account = a;
@@ -227,20 +275,6 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
       reviewer = reviewer.subList(0, limit);
     }
 
-    ChangeControl cc = null;
-    try {
-      cc = changeControlFactory.controlFor(rsrc.getChange(), currentUser.get());
-    } catch (NoSuchChangeException nsce) {
-      return reviewer;
-    }
-
-    ChangeReviewerAnnotator.Factory f = annotatorFactory.get();
-    if (f != null) {
-      ChangeReviewerAnnotator cra = f.create(query, limit, cc, visibilityControl);
-      for (SuggestedReviewerInfo sri : reviewer) {
-        sri.annotation = cra.getAnnotation(sri);
-      }
-    }
     return reviewer;
   }
 

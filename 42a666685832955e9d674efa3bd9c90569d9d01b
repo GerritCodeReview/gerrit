@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "647cbd57_c2ed2284",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T20:25:43Z",
+      "side": 1,
+      "message": "Nit: logger should be the first statement in the class body.",
+      "revId": "42a666685832955e9d674efa3bd9c90569d9d01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_e2e22693",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T20:25:43Z",
+      "side": 1,
+      "message": "Might be plural GPG keys. I can probably live with this though TBH.",
+      "revId": "42a666685832955e9d674efa3bd9c90569d9d01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -73,15 +73,18 @@ public class ContactStoreModule extends AbstractModule {
         connFactory);
   }
 
-  private static boolean havePGP() {
+  public static boolean havePGP() {
     try {
       Class.forName(PGPPublicKey.class.getName());
+      System.err.println("Loaded PGPPublicKey.class successfully");
       addBouncyCastleProvider();
+      System.err.println("Added Bouncy Castle Provider class successfully.");
       return true;
     } catch (NoClassDefFoundError | ClassNotFoundException | SecurityException
         | NoSuchMethodException | InstantiationException
         | IllegalAccessException | InvocationTargetException
         | ClassCastException noBouncyCastle) {
+      noBouncyCastle.printStackTrace();
       return false;
     }
   }

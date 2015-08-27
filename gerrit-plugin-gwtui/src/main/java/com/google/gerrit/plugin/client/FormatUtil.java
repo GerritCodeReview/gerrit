@@ -22,7 +22,7 @@ import com.google.gerrit.client.info.AccountInfo;
 import java.util.Date;
 
 public class FormatUtil {
-  private final static AccountFormatter accountFormatter =
+  private static final AccountFormatter accountFormatter =
       new AccountFormatter(Plugin.get().getServerInfo().user()
           .anonymousCowardName());
 

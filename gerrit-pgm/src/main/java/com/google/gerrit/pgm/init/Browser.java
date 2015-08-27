@@ -75,6 +75,7 @@ public class Browser {
         try {
           Thread.sleep(100);
         } catch (InterruptedException ie) {
+          // Ignored
         }
         continue;
       }

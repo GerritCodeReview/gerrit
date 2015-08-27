@@ -65,6 +65,7 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
         return true;
       }
     } catch (NoSuchChangeException e) {
+      // Ignored
     }
     return false;
   }

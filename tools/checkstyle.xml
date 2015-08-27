@@ -104,4 +104,7 @@ edited to remove noisy warnings.
     <property name="checkFormat" value="$1"/>
     <property name="influenceFormat" value="$2"/>
   </module>
+  <module name="SuppressionFilter">
+    <property name="file" value="${samedir}/checkstyle_suppressions.xml"/>
+  </module>
 </module>

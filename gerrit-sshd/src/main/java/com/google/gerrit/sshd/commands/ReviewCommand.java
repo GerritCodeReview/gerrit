@@ -361,6 +361,7 @@ public class ReviewCommand extends SshCommand {
     try {
       err.write(msg.getBytes(ENC));
     } catch (IOException e) {
+      // Ignored
     }
   }
 

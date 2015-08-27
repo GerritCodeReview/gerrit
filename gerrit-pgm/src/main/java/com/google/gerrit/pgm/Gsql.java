@@ -52,6 +52,7 @@ public class Gsql extends SiteProgram {
         try {
           System.in.close();
         } catch (IOException e) {
+          // Ignored
         }
         manager.stop();
       }

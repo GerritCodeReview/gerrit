@@ -47,9 +47,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {
-  private final static String URL_ALIAS = "urlAlias";
-  private final static String KEY_MATCH = "match";
-  private final static String KEY_TOKEN = "token";
+  private static final String URL_ALIAS = "urlAlias";
+  private static final String KEY_MATCH = "match";
+  private static final String KEY_TOKEN = "token";
 
   private final Config config;
   private final AuthConfig authConfig;

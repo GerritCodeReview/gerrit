@@ -170,6 +170,7 @@ public class Init extends BaseInit {
     try {
       proc.getOutputStream().close();
     } catch (IOException e) {
+      // Ignored
     }
 
     IoUtil.copyWithThread(proc.getInputStream(), System.err);

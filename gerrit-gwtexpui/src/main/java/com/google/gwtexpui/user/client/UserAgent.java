@@ -81,6 +81,7 @@ public class UserAgent {
       try {
         return Integer.parseInt(p);
       } catch (NumberFormatException nan) {
+        // Ignored
       }
     }
     return -1;

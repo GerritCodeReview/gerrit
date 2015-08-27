@@ -367,6 +367,7 @@ public class EventFactory {
         patchSetAttribute.files.add(p);
       }
     } catch (PatchListNotAvailableException e) {
+      log.warn("Cannot get patch list", e);
     }
   }
 

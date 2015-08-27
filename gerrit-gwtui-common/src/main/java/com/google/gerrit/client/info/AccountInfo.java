@@ -44,22 +44,6 @@ public class AccountInfo extends JavaScriptObject {
   private final native Timestamp _getRegisteredOn() /*-{ return this._cts; }-*/;
   private final native void _setRegisteredOn(Timestamp ts) /*-{ this._cts = ts; }-*/;
 
-  public final Timestamp contactFiledOn() {
-    if (contactFiledOnRaw() != null) {
-      Timestamp ts = _getContactFiledOn();
-      if (ts == null) {
-        ts = JavaSqlTimestamp_JsonSerializer.parseTimestamp(contactFiledOnRaw());
-        _setContactFiledOn(ts);
-      }
-      return ts;
-    }
-    return null;
-  }
-
-  private final native String contactFiledOnRaw() /*-{ return this.contact_filed_on; }-*/;
-  private final native Timestamp _getContactFiledOn() /*-{ return this._cts; }-*/;
-  private final native void _setContactFiledOn(Timestamp ts) /*-{ this._cts = ts; }-*/;
-
   /**
    * @return true if the server supplied avatar information about this account.
    *         The information may be an empty list, indicating no avatars are

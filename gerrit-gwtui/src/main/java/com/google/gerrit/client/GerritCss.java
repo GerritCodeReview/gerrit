@@ -17,8 +17,6 @@ package com.google.gerrit.client;
 import com.google.gwt.resources.client.CssResource;
 
 public interface GerritCss extends CssResource {
-  String accountContactOnFile();
-  String accountContactPrivacyDetails();
   String accountDashboard();
   String accountInfoBlock();
   String accountLinkPanel();

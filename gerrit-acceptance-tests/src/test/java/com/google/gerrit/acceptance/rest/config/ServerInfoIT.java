@@ -94,9 +94,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.replyLabel).isEqualTo("Vote\u2026");
     assertThat(i.change.updateDelay).isEqualTo(50);
 
-    // contactstore
-    assertThat(i.contactStore).isNull();
-
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");
     assertThat(i.download.schemes).isEmpty();
@@ -146,9 +143,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.replyTooltip).startsWith("Reply and score");
     assertThat(i.change.replyLabel).isEqualTo("Reply\u2026");
     assertThat(i.change.updateDelay).isEqualTo(30);
-
-    // contactstore
-    assertThat(i.contactStore).isNull();
 
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");

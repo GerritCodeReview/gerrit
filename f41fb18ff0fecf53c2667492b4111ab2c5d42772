@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "84bff131_a3bf5a79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "Yep.  Thanks for that confirmation.  Seems like we best clean up the other two non-static Logger instances in another patch, and not introduce more.  I can only imagine some instances become rather performance critical.",
+      "parentUuid": "647cbd57_a26d7ead",
+      "range": {
+        "startLine": 55,
+        "startChar": 53,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_e2778677",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
         "patchSetId": 9
@@ -60,6 +84,24 @@
       "writtenOn": "2015-08-27T17:56:02Z",
       "side": 1,
       "message": "I don\u0027t think you want one email per new key.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_224b2e32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "Not particularly -- but it was the path of least resistance for now.  I suppose we could potentially assemble a temporary keyring and send that to the user instead?  I don\u0027t think that\u0027d be too much additional overhead.",
+      "parentUuid": "647cbd57_e2778677",
       "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -83,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "647cbd57_42483233",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "84bff131_835b3e01",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84bff131_e35032df",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
         "patchSetId": 9
@@ -94,6 +154,30 @@
       "writtenOn": "2015-08-27T17:56:02Z",
       "side": 1,
       "message": "AssistedInject",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_6245361a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "Question on this, since the @AssistedInject annotation seems to be poorly documented (at least on https://github.com/google/guice/wiki/AssistedInject) -- the @Assisted annotation on parameters is still necessary, right?\n\nI believe the RegisterNewEmailSender also uses this style, so it may need some cleanup, too.",
+      "parentUuid": "84bff131_e35032df",
       "range": {
         "startLine": 39,
         "startChar": 3,
@@ -129,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "647cbd57_82423a11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "OK; reminder (to myself) go clean up the RegisterNewEmailSender, then.",
+      "parentUuid": "647cbd57_027d4a56",
+      "range": {
+        "startLine": 42,
+        "startChar": 16,
+        "endLine": 42,
+        "endChar": 21
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_22624eba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
         "patchSetId": 9
@@ -140,6 +248,24 @@
       "writtenOn": "2015-08-27T17:56:02Z",
       "side": 1,
       "message": "Hm, I see you are following the RegisterNewEmailSender pattern rather than the ChangeEmail pattern. I guess I\u0027m ok with that, these emails should be similarly rare such that people may not care so much about the format.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_a2bf3e79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "Indeed; this class was largely based on RegisterNewEmailSender.  Logic being, we don\u0027t really want the ChangeEmail style header/footer combo, and yes, these emails should stand out to people (I think).  Don\u0027t want them accidentally being caught by a filter and ignored.",
+      "parentUuid": "647cbd57_22624eba",
       "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -169,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "647cbd57_c2c4420e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "Yeah, that does read really funny.  Thanks for reminding me of my boolean algebra. :)",
+      "parentUuid": "647cbd57_425f52f1",
+      "range": {
+        "startLine": 63,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 14
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_626c56aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
         "patchSetId": 9
@@ -180,6 +330,24 @@
       "writtenOn": "2015-08-27T17:56:02Z",
       "side": 1,
       "message": "This is wrong if both sshKey and gpgKey are non-null. If you use my suggestion to have two separate constructors, then you get a free built-in class invariant that exactly one is non-null, so this code would be fine.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_e2c94623",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "Right; I was going under the assumption that a user could only add a SSH *or* a GPG key at a time; never both.  I do agree, using two constructors is a great way to protect this.",
+      "parentUuid": "647cbd57_626c56aa",
       "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -271,6 +439,29 @@
     },
     {
       "key": {
+        "uuid": "84bff131_c3ced628",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "I didn\u0027t find the UI side for the GPG key upload (I see it requires enabling signed push now) -- so we can add a link to that, too.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84bff131_0348ee31",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
         "patchSetId": 9
@@ -288,6 +479,24 @@
     },
     {
       "key": {
+        "uuid": "84bff131_83c4de0c",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "Hmm.  Good question.  I think we still want to use the getUserNameEmail function (which returns Name \u003cemail\u003e, Email, Name, username, or null if all of the previous attempts fail).\n\nSo, there\u0027s still the possibility it could return null, but I can\u0027t think of a scenario where we would logically fall into this case.  Depends on if you think guarding against the chance for a null is not worth it in this particular instance.  I\u0027d *personally* tend to err on the side of caution, even if I think the chance is extremely remote.",
+      "parentUuid": "84bff131_0348ee31",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_e25066df",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
         "patchSetId": 9
@@ -299,6 +508,30 @@
       "writtenOn": "2015-08-27T17:56:02Z",
       "side": 1,
       "message": "I think this sentence was in RegisterNewEmail.vm just because emailRegistrationToken might be long and/or have special characters, possibly breaking linkification in a mail client. I think for a simpler URL like the one in this email it\u0027s probably unnecessary.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 27
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_e3c95223",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T19:06:08Z",
+      "side": 1,
+      "message": "I think you\u0027re right, though it didn\u0027t seem like it\u0027d hurt to add.",
+      "parentUuid": "647cbd57_e25066df",
       "range": {
         "startLine": 51,
         "startChar": 0,

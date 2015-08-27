@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static com.google.gerrit.pgm.init.api.InitUtil.dnOf;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
+import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -24,28 +25,53 @@ import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
+
 /** Initialize the {@code auth} configuration section. */
 @Singleton
 class InitAuth implements InitStep {
+  private static final String RECEIVE = "receive";
+  private static final String ENABLE_SIGNED_PUSH = "enableSignedPush";
+
+  private final Config cfg;
   private final ConsoleUI ui;
   private final Section auth;
   private final Section ldap;
+  private final Section receive;
+  private final Libraries libraries;
 
   @Inject
-  InitAuth(final ConsoleUI ui, final Section.Factory sections) {
+  InitAuth(InitFlags flags,
+      ConsoleUI ui,
+      Libraries libraries,
+      Section.Factory sections) {
+    this.cfg = flags.cfg;
     this.ui = ui;
     this.auth = sections.get("auth", null);
     this.ldap = sections.get("ldap", null);
+    this.receive = sections.get(RECEIVE, null);
+    this.libraries = libraries;
   }
 
   @Override
   public void run() {
     ui.header("User Authentication");
 
-    final AuthType auth_type =
-        auth.select("Authentication method", "type", AuthType.OPENID);
+    initAuthType();
+    if (auth.getSecure("registerEmailPrivateKey") == null) {
+      auth.setSecure("registerEmailPrivateKey", SignedToken.generateRandomKey());
+    }
+    if (auth.getSecure("restTokenPrivateKey") == null) {
+      auth.setSecure("restTokenPrivateKey", SignedToken.generateRandomKey());
+    }
 
-    switch (auth_type) {
+    initSignedPush();
+  }
+
+  private void initAuthType() {
+    AuthType authType =
+        auth.select("Authentication method", "type", AuthType.OPENID);
+    switch (authType) {
       case HTTP:
       case HTTP_LDAP: {
         String hdr = auth.get("httpHeader");
@@ -58,18 +84,11 @@ class InitAuth implements InitStep {
         break;
       }
 
-      case CLIENT_SSL_CERT_LDAP:
-      case CUSTOM_EXTENSION:
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case LDAP:
-      case LDAP_BIND:
-      case OAUTH:
-      case OPENID:
-      case OPENID_SSO:
+      default:
         break;
     }
 
-    switch (auth_type) {
+    switch (authType) {
       case LDAP:
       case LDAP_BIND:
       case HTTP_LDAP: {
@@ -94,22 +113,18 @@ class InitAuth implements InitStep {
         break;
       }
 
-      case CLIENT_SSL_CERT_LDAP:
-      case CUSTOM_EXTENSION:
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case HTTP:
-      case OAUTH:
-      case OPENID:
-      case OPENID_SSO:
+      default:
         break;
     }
+  }
 
-    if (auth.getSecure("registerEmailPrivateKey") == null) {
-      auth.setSecure("registerEmailPrivateKey", SignedToken.generateRandomKey());
-    }
-
-    if (auth.getSecure("restTokenPrivateKey") == null) {
-      auth.setSecure("restTokenPrivateKey", SignedToken.generateRandomKey());
+  private void initSignedPush() {
+    boolean def = cfg.getBoolean(RECEIVE, ENABLE_SIGNED_PUSH, false);
+    boolean enable = ui.yesno(def, "Enable signed push support");
+    receive.set("enableSignedPush", Boolean.toString(enable));
+    if (enable) {
+      libraries.bouncyCastleProvider.downloadRequired();
+      libraries.bouncyCastlePGP.downloadRequired();
     }
   }
 

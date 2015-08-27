@@ -22,6 +22,292 @@
       "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_a26d7ead",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "Yeah, but it\u0027s inconsistent with how we do things in Gerrit:\n\n $ find . -name \\*.java | xargs grep \u0027private static final Logger\u0027 | wc -l\n 198\n $ find . -name \\*.java | xargs grep \u0027private final Logger\u0027 | wc -l       \n 2\n\nProbably someone somewhere has written a static version of getClass() that inspects the call stack, but converting us to use that would be a separate cleanup.",
+      "parentUuid": "84bff131_6393a22e",
+      "range": {
+        "startLine": 55,
+        "startChar": 53,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_e2778677",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "I don\u0027t think you want one email per new key.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_835b3e01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "Instead of accepting two @Nullable arguments, use two factory methods:\n\n public AddKeySender(IdentifiedUser user, AccountSshKey sshKey);\n public AddKeySender(IdentifiedUser user, PGPPublicKey gpg);\n\nI guess this makes the constructor implementations uglier, but I\u0027m willing to live with that to make calling code clearer.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_e35032df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "AssistedInject",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_027d4a56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "Unnecssary finals.",
+      "range": {
+        "startLine": 42,
+        "startChar": 16,
+        "endLine": 42,
+        "endChar": 21
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_22624eba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "Hm, I see you are following the RegisterNewEmailSender pattern rather than the ChangeEmail pattern. I guess I\u0027m ok with that, these emails should be similarly rare such that people may not care so much about the format.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_425f52f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "!(! reads weirdly:\n\n return user.equals(callingUser)\n     || !callingUser.getCapabilities().canAdministrateServer();",
+      "range": {
+        "startLine": 63,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 14
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_626c56aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "This is wrong if both sshKey and gpgKey are non-null. If you use my suggestion to have two separate constructors, then you get a free built-in class invariant that exactly one is non-null, so this code would be fine.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_c35536cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "Nit: blank line before @param.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_82695a9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "Nit: end with periods.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_234b6a32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "Nit: blank line",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_a2565ed9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "Nit: periods",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_c25b6200",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "Can reduce one level of nesting here.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_0348ee31",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "This email must have been sent to some email address. Can we just use that email address here, rather than leaving out the whole block? The message may be a bit mystifying otherwise.",
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_e25066df",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T17:56:02Z",
+      "side": 1,
+      "message": "I think this sentence was in RegisterNewEmail.vm just because emailRegistrationToken might be long and/or have special characters, possibly breaking linkification in a mail client. I think for a simpler URL like the one in this email it\u0027s probably unnecessary.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 27
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

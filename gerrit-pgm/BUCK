@@ -108,7 +108,12 @@ java_library(
     '//lib:servlet-api-3_1',
     '//lib/prolog:prolog-cafe',
   ],
-  provided_deps = ['//gerrit-launcher:launcher'],
+  provided_deps = [
+    '//gerrit-launcher:launcher',
+    '//lib/bouncycastle:bcprov',
+    '//lib/bouncycastle:bcpg',
+    '//lib/bouncycastle:bcpkix',
+  ],
   visibility = [
     '//:',
     '//gerrit-acceptance-tests/...',

@@ -24,7 +24,6 @@ import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class Module extends RestApiModule {
   @Override
@@ -65,7 +64,7 @@ public class Module extends RestApiModule {
     get(BRANCH_KIND).to(GetBranch.class);
     delete(BRANCH_KIND).to(DeleteBranch.class);
     post(PROJECT_KIND, "branches:delete").to(DeleteBranches.class);
-    install(new FactoryModuleBuilder().build(CreateBranch.Factory.class));
+    factory(CreateBranch.Factory.class);
     get(BRANCH_KIND, "reflog").to(GetReflog.class);
     child(BRANCH_KIND, "files").to(FilesCollection.class);
     get(FILE_KIND, "content").to(GetContent.class);
@@ -81,7 +80,7 @@ public class Module extends RestApiModule {
     get(DASHBOARD_KIND).to(GetDashboard.class);
     put(DASHBOARD_KIND).to(SetDashboard.class);
     delete(DASHBOARD_KIND).to(DeleteDashboard.class);
-    install(new FactoryModuleBuilder().build(CreateProject.Factory.class));
+    factory(CreateProject.Factory.class);
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);

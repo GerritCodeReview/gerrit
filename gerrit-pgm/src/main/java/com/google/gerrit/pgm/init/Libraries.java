@@ -37,6 +37,7 @@ class Libraries {
 
   private final Provider<LibraryDownloader> downloadProvider;
 
+  /* final */LibraryDownloader bouncyCastlePGP;
   /* final */LibraryDownloader bouncyCastleProvider;
   /* final */LibraryDownloader bouncyCastleSSL;
   /* final */LibraryDownloader db2Driver;

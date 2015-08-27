@@ -52,6 +52,24 @@
       "revId": "4962d2206bfef9325c60b94809d66a9c61bc6c3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24d1e58c_a8b57b6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-08-27T17:55:15Z",
+      "side": 1,
+      "message": "Well and in line 47 we check if the id is not been added already? This is used to prevent double adding ChangeData with the same id.",
+      "parentUuid": "647cbd57_6293762e",
+      "revId": "4962d2206bfef9325c60b94809d66a9c61bc6c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,12 +16,9 @@ package com.google.gerrit.client.account;
 
 import com.google.gwt.i18n.client.Messages;
 
-import java.util.Date;
-
 public interface AccountMessages extends Messages {
   String lines(short cnt);
   String rowsPerPage(short cnt);
   String changeScreenServerDefault(String d);
   String enterIAGREE(String iagree);
-  String contactOnFile(Date lastDate);
 }

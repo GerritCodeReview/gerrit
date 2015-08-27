@@ -97,7 +97,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     ServerInfo info = new ServerInfo();
     info.auth = getAuthInfo(authConfig, realm);
     info.change = getChangeInfo(config);
-    info.contactStore = getContactStoreInfo();
     info.download =
         getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands,
             archiveFormats);
@@ -168,17 +167,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS);
     info.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
     return info;
-  }
-
-  private ContactStoreInfo getContactStoreInfo() {
-    String url = config.getString("contactstore", null, "url");
-    if (url == null) {
-      return null;
-    }
-
-    ContactStoreInfo contactStore = new ContactStoreInfo();
-    contactStore.url = url;
-    return contactStore;
   }
 
   private DownloadInfo getDownloadInfo(
@@ -323,7 +311,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class ServerInfo {
     public AuthInfo auth;
     public ChangeConfigInfo change;
-    public ContactStoreInfo contactStore;
     public DownloadInfo download;
     public GerritInfo gerrit;
     public GitwebInfo gitweb;
@@ -356,10 +343,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public String replyTooltip;
     public int updateDelay;
     public Boolean submitWholeTopic;
-  }
-
-  public static class ContactStoreInfo {
-    public String url;
   }
 
   public static class DownloadInfo {

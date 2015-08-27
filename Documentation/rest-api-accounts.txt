@@ -1452,10 +1452,6 @@ AccountInfo]. In addition `AccountDetailInfo` has the following fields:
 |`registered_on`     ||
 The link:rest-api.html#timestamp[timestamp] of when the account was
 registered.
-|`contact_filed_on`  |optional|
-The link:rest-api.html#timestamp[timestamp] of when contact information
-for this account was filed. Not set if no contact information was
-filed.
 |=================================
 
 [[account-info]]

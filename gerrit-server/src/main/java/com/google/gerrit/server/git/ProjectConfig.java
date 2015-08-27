@@ -97,7 +97,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String CONTRIBUTOR_AGREEMENT = "contributor-agreement";
   private static final String KEY_ACCEPTED = "accepted";
-  private static final String KEY_REQUIRE_CONTACT_INFORMATION = "requireContactInformation";
   private static final String KEY_AUTO_VERIFY = "autoVerify";
   private static final String KEY_AGREEMENT_URL = "agreementUrl";
 
@@ -455,8 +454,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     for (String name : rc.getSubsections(CONTRIBUTOR_AGREEMENT)) {
       ContributorAgreement ca = getContributorAgreement(name, true);
       ca.setDescription(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_DESCRIPTION));
-      ca.setRequireContactInformation(
-          rc.getBoolean(CONTRIBUTOR_AGREEMENT, name, KEY_REQUIRE_CONTACT_INFORMATION, false));
       ca.setAgreementUrl(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_AGREEMENT_URL));
       ca.setAccepted(loadPermissionRules(
           rc, CONTRIBUTOR_AGREEMENT, name, KEY_ACCEPTED, groupsByName, false));
@@ -883,7 +880,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       Config rc, Set<AccountGroup.UUID> keepGroups) {
     for (ContributorAgreement ca : sort(contributorAgreements.values())) {
       set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_DESCRIPTION, ca.getDescription());
-      set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_REQUIRE_CONTACT_INFORMATION, ca.isRequireContactInformation());
       set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_AGREEMENT_URL, ca.getAgreementUrl());
 
       if (ca.getAutoVerify() != null) {

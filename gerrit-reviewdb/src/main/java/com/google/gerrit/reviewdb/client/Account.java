@@ -182,9 +182,7 @@ public final class Account {
   @Column(id = 4, notNull = false)
   protected String preferredEmail;
 
-  /** When did the user last give us contact information? Null if never. */
-  @Column(id = 5, notNull = false)
-  protected Timestamp contactFiledOn;
+  // DELETED: id = 5 (contactFiledOn)
 
   /** This user's preferences */
   @Column(id = 6, name = Column.NONE)
@@ -255,18 +253,6 @@ public final class Account {
 
   public void setGeneralPreferences(final AccountGeneralPreferences p) {
     generalPreferences = p;
-  }
-
-  public boolean isContactFiled() {
-    return contactFiledOn != null;
-  }
-
-  public Timestamp getContactFiledOn() {
-    return contactFiledOn;
-  }
-
-  public void setContactFiled(Timestamp ts) {
-    contactFiledOn = ts;
   }
 
   public boolean isActive() {

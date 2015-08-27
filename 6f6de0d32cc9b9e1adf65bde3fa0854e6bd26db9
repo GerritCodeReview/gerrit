@@ -94,6 +94,30 @@
       "revId": "6f6de0d32cc9b9e1adf65bde3fa0854e6bd26db9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c569ce_05091237",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-08-27T11:33:52Z",
+      "side": 1,
+      "message": "I am aware of that... but I don\u0027t think this is such a big issue to justify the complexity of keeping the legacy cache locations.",
+      "parentUuid": "04d4e17b_27aa5a09",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "6f6de0d32cc9b9e1adf65bde3fa0854e6bd26db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

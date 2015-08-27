@@ -1934,6 +1934,9 @@ command can be used.
 Disabled plugins can be re-enabled using the
 link:cmd-plugin-enable.html[plugin enable] command.
 
+[[developer-documentation]]
+link:dev-plugin-targeted.html[Targeted Change Reviewer]
+
 == SEE ALSO
 
 * link:js-api.html[JavaScript API]

@@ -68,6 +68,9 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
     @Override
     public String getDisplayString() {
+      if (reviewer.separator()) {
+        return "----------";
+      }
       if (reviewer.account() != null) {
         return FormatUtil.nameEmail(reviewer.account()) + reviewer.annotation();
       }
@@ -80,6 +83,9 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
     @Override
     public String getReplacementString() {
+      if (reviewer.separator()) {
+        return "";
+      }
       if (reviewer.account() != null) {
         return FormatUtil.nameEmail(reviewer.account());
       }
@@ -91,6 +97,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
     public final native AccountInfo account() /*-{ return this.account; }-*/;
     public final native GroupBaseInfo group() /*-{ return this.group; }-*/;
     public final native String annotation() /*-{ return this.annotation; }-*/;
+    public final native boolean separator() /*-{ return this.separator; }-*/;
 
     protected SuggestReviewerInfo() {
     }

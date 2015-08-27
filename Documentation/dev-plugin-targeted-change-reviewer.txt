@@ -1,0 +1,28 @@
+Gerrit Code Review - Targeted Change Reviewers
+==============================================
+
+Gerrit supports plugins based on the `TargetedChangeReviewers` interface. The
+infrastructure allows plugins to add targeted change reviewers (e.g.,
+most popular approvers for a specific branch) to the top of the suggested
+reviewers dropdown list or to display them when the reviewer text box gets
+focus.
+
+The `TargetedChangeReviewer` interface is located in SuggestReviewers.java.
+The interface also contains a factory.  Any plugin that implements this interface
+will need to implement both `TargetedChangeReviewers` and its factory. The plugin
+will need to be bound as a DynamicItem of `TargetedChangeReviewer` factory.  This
+implies that, if more than one targeted reviewer plugin is needed, they will
+need to be created in series and the first plugin in the series should control
+the return of the other plugins.
+
+Plugins that use this interface will return a list of `ReviewerInfo` objects.
+
+A `ReviewerInfo` object may be created as a separator or marked as a separator.
+When a `ReviewerInfo` is a separator all other fields it may contain are ignored.
+The `SuggestOracle` will add dashes when it encounters a separator to
+separate the targeted reviewers from the general reviewers (the reviewers who
+are returned as a result of what the user typed in the suggestion textbox).
+
+The plugin should assign each ReviewerInfo object an annotation.  This will help
+identify what the reviewer is being targeted for.  No other annotations will be
+added to the targeted reviewers by the `SuggestServiceImpl` class.

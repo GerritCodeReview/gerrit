@@ -46,6 +46,30 @@
       "revId": "6f6de0d32cc9b9e1adf65bde3fa0854e6bd26db9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "245f25fb_181f8593",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-08-27T10:07:42Z",
+      "side": 1,
+      "message": "I see what you mean... However, the code which handles the old cache locations is already there. Isn\u0027t it just a matter of adding a couple of new entries in the legacy list?\n\nOn the other side, this all happens in the master branch. I am not even sure if it is worth the effort to support the legacy cache locations at all?",
+      "parentUuid": "04d4e17b_075e36bd",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "6f6de0d32cc9b9e1adf65bde3fa0854e6bd26db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

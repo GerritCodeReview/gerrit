@@ -42,7 +42,7 @@ public class CheckPgp extends SiteProgram {
     for (Map.Entry<String, Long> e : files.entrySet()) {
       System.err.format("%s %d\n", e.getKey(), e.getValue());
     }
-    boolean have = ContactStoreModule.havePGP();
+    boolean have = ContactStoreModule.havePGP(sitePaths);
     System.err.println("\nHave PGP? " + have);
     return have ? 0 : 127;
   }

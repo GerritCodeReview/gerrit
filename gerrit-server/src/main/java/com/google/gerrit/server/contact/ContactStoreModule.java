@@ -15,6 +15,7 @@
 package com.google.gerrit.server.contact;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -51,7 +52,7 @@ public class ContactStoreModule extends AbstractModule {
       return new NoContactStore();
     }
 
-    if (!havePGP()) {
+    if (!havePGP(site)) {
       throw new ProvisionException("BouncyCastle PGP not installed; "
           + " needed to encrypt contact information");
     }
@@ -73,7 +74,8 @@ public class ContactStoreModule extends AbstractModule {
         connFactory);
   }
 
-  public static boolean havePGP() {
+  public static boolean havePGP(SitePaths sitePaths) {
+    SiteLibraryLoaderUtil.loadSiteLib(sitePaths.lib_dir);
     try {
       Class.forName(PGPPublicKey.class.getName());
       System.err.println("Loaded PGPPublicKey.class successfully");

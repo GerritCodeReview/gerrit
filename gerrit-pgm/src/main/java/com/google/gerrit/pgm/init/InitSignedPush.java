@@ -1,0 +1,61 @@
+// Copyright (C) 2015 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.pgm.init;
+
+import com.google.gerrit.pgm.init.api.ConsoleUI;
+import com.google.gerrit.pgm.init.api.InitFlags;
+import com.google.gerrit.pgm.init.api.InitStep;
+import com.google.gerrit.pgm.init.api.Section;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
+
+@Singleton
+class InitSignedPush implements InitStep {
+  private static final String RECEIVE = "receive";
+  private static final String ENABLE_SIGNED_PUSH = "enableSignedPush";
+
+  private final Config cfg;
+  private final ConsoleUI ui;
+  private final Libraries libraries;
+  private final Section receive;
+
+  @Inject
+  InitSignedPush(InitFlags flags,
+      ConsoleUI ui,
+      Libraries libraries,
+      Section.Factory sections) {
+    this.cfg = flags.cfg;
+    this.ui = ui;
+    this.libraries = libraries;
+    this.receive = sections.get(RECEIVE, null);
+  }
+
+  @Override
+  public void run() throws Exception {
+    boolean def = cfg.getBoolean(RECEIVE, ENABLE_SIGNED_PUSH, false);
+    boolean enable = ui.yesno(def, "Enable signed push support");
+    receive.set("enableSignedPush", "true");
+    if (enable) {
+      libraries.bouncyCastleProvider.downloadRequired();
+      libraries.bouncyCastlePGP.downloadRequired();
+    }
+  }
+
+  @Override
+  public void postRun() {
+  }
+}

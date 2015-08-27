@@ -310,17 +310,13 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       ChangeData.Factory changeDataFactory,
       ProjectCache projectCache,
       GitRepositoryManager repoManager) {
-    Repository repo = null;
     // TODO - dborowitz: add NEW_CHANGE type for default.
     ChangeKind kind = ChangeKind.REWORK;
     // Trivial case: if we're on the first patch, we don't need to open
     // the repository.
     if (patch.getId().get() > 1) {
-      try {
+      try (Repository repo = repoManager.openRepository(change.getProject())) {
         ProjectState projectState = projectCache.checkedGet(change.getProject());
-
-        repo = repoManager.openRepository(change.getProject());
-
         ChangeData cd = changeDataFactory.create(db, change);
         Collection<PatchSet> patchSetCollection = cd.patchSets();
         PatchSet priorPs = patch;
@@ -347,10 +343,6 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         // Do nothing; assume we have a complex change
         log.warn("Unable to get change kind for patchSet " + patch.getPatchSetId() +
             "of change " + change.getChangeId(), e);
-      } finally {
-        if (repo != null) {
-          repo.close();
-        }
       }
     }
     return kind;

@@ -66,20 +66,19 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
       throw new BadRequestException("destination must be non-empty");
     }
 
-    ReviewDb db = dbProvider.get();
-    if (!control.isVisible(db)) {
-      throw new AuthException("Cherry pick not permitted");
-    }
+    try (ReviewDb db = dbProvider.get()) {
+      if (!control.isVisible(db)) {
+        throw new AuthException("Cherry pick not permitted");
+      }
 
-    String refName = RefNames.fullName(input.destination);
-    RefControl refControl = control.getProjectControl().controlForRef(refName);
-    if (!refControl.canUpload()) {
-      throw new AuthException("Not allowed to cherry pick "
-          + revision.getChange().getId().toString() + " to "
-          + input.destination);
-    }
+      String refName = RefNames.fullName(input.destination);
+      RefControl refControl = control.getProjectControl().controlForRef(refName);
+      if (!refControl.canUpload()) {
+        throw new AuthException("Not allowed to cherry pick "
+            + revision.getChange().getId().toString() + " to "
+            + input.destination);
+      }
 
-    try {
       Change.Id cherryPickedChangeId =
           cherryPickChange.cherryPick(revision.getChange(),
               revision.getPatchSet(), input.message, refName,
@@ -87,10 +86,8 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
       return json.create(ChangeJson.NO_OPTIONS).format(cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
-    } catch (MergeException e) {
+    } catch (MergeException | NoSuchChangeException e) {
       throw new ResourceConflictException(e.getMessage());
-    } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(e.getMessage());
     }
   }
 

@@ -114,36 +114,37 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       return change.getDest().get();
     }
 
-    ReviewDb db = dbProvider.get();
-    PatchSet basePatchSet = parseBase(base);
-    if (basePatchSet == null) {
-      throw new ResourceConflictException("base revision is missing: " + base);
-    } else if (!rsrc.getControl().isPatchVisible(basePatchSet, db)) {
-      throw new AuthException("base revision not accessible: " + base);
-    } else if (change.getId().equals(basePatchSet.getId().getParentKey())) {
-      throw new ResourceConflictException("cannot depend on self");
-    }
+    try (ReviewDb db = dbProvider.get()) {
+      PatchSet basePatchSet = parseBase(base);
+      if (basePatchSet == null) {
+        throw new ResourceConflictException("base revision is missing: " + base);
+      } else if (!rsrc.getControl().isPatchVisible(basePatchSet, db)) {
+        throw new AuthException("base revision not accessible: " + base);
+      } else if (change.getId().equals(basePatchSet.getId().getParentKey())) {
+        throw new ResourceConflictException("cannot depend on self");
+      }
 
-    Change baseChange = db.changes().get(basePatchSet.getId().getParentKey());
-    if (baseChange == null) {
-      return null;
-    }
+      Change baseChange = db.changes().get(basePatchSet.getId().getParentKey());
+      if (baseChange == null) {
+        return null;
+      }
 
-    if (!baseChange.getProject().equals(change.getProject())) {
-      throw new ResourceConflictException(
-          "base change is in wrong project: " + baseChange.getProject());
-    } else if (!baseChange.getDest().equals(change.getDest())) {
-      throw new ResourceConflictException(
-          "base change is targeting wrong branch: " + baseChange.getDest());
-    } else if (baseChange.getStatus() == Status.ABANDONED) {
-      throw new ResourceConflictException(
-          "base change is abandoned: " + baseChange.getKey());
-    } else if (isMergedInto(rw, rsrc.getPatchSet(), basePatchSet)) {
-      throw new ResourceConflictException(
-          "base change " + baseChange.getKey()
-          + " is a descendant of the current  change - recursion not allowed");
+      if (!baseChange.getProject().equals(change.getProject())) {
+        throw new ResourceConflictException(
+            "base change is in wrong project: " + baseChange.getProject());
+      } else if (!baseChange.getDest().equals(change.getDest())) {
+        throw new ResourceConflictException(
+            "base change is targeting wrong branch: " + baseChange.getDest());
+      } else if (baseChange.getStatus() == Status.ABANDONED) {
+        throw new ResourceConflictException(
+            "base change is abandoned: " + baseChange.getKey());
+      } else if (isMergedInto(rw, rsrc.getPatchSet(), basePatchSet)) {
+        throw new ResourceConflictException(
+            "base change " + baseChange.getKey()
+            + " is a descendant of the current  change - recursion not allowed");
+      }
+      return basePatchSet.getRevision().get();
     }
-    return basePatchSet.getRevision().get();
   }
 
   private boolean isMergedInto(RevWalk rw, PatchSet base, PatchSet tip)

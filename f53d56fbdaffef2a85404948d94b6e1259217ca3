@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "647cbd57_e27ea65b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/CheckPgp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-27T14:41:01Z",
+      "side": 1,
+      "message": "This is incomplete, the jars are only scanned when the dbInjector lifecycle listeners start.",
+      "revId": "f53d56fbdaffef2a85404948d94b6e1259217ca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

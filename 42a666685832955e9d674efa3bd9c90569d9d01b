@@ -33,6 +33,24 @@
       "revId": "42a666685832955e9d674efa3bd9c90569d9d01b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_22fdee2d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T20:51:39Z",
+      "side": 1,
+      "message": "Yep.  I kinda came to the same conclusion -- otherwise this email gets littered with \"one or more\" types of wording, or we have to start adding logic to treat things as plural -- not exactly great if we ever try any i18n efforts. :)",
+      "parentUuid": "647cbd57_e2e22693",
+      "revId": "42a666685832955e9d674efa3bd9c90569d9d01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

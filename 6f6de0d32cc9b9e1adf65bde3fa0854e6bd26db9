@@ -70,6 +70,30 @@
       "revId": "6f6de0d32cc9b9e1adf65bde3fa0854e6bd26db9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4e17b_27aa5a09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-27T10:14:27Z",
+      "side": 1,
+      "message": "\u003e I am not even sure if it is worth the effort to support the legacy cache locations at all?\n\nIf we change the path without adding the legacy handling, buck build will not find the library jars in the new location and download them again unnecessarily.",
+      "parentUuid": "245f25fb_181f8593",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "6f6de0d32cc9b9e1adf65bde3fa0854e6bd26db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

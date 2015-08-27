@@ -1062,10 +1062,10 @@ public class RestApiServlet extends HttpServlet {
     int maxSize = base64MaxSize(bin.getContentLength());
     int estSize = Math.min(base64MaxSize(HEAP_EST_SIZE), maxSize);
     TemporaryBuffer.Heap buf = heap(estSize, maxSize);
-    OutputStream encoded = BaseEncoding.base64().encodingStream(
-        new OutputStreamWriter(buf, ISO_8859_1));
-    bin.writeTo(encoded);
-    encoded.close();
+    try (OutputStream encoded = BaseEncoding.base64().encodingStream(
+        new OutputStreamWriter(buf, ISO_8859_1))) {
+      bin.writeTo(encoded);
+    }
     return asBinaryResult(buf);
   }
 

@@ -159,30 +159,30 @@ public class AccountApi {
       .post(GpgKeysInput.add(armored), cb);
   }
 
-  public static void removeGpgKeys(String account,
+  public static void deleteGpgKeys(String account,
       Iterable<String> fingerprints, AsyncCallback<NativeMap<GpgKeyInfo>> cb) {
     new RestApi("/accounts/")
       .id(account)
       .view("gpgkeys")
-      .post(GpgKeysInput.remove(fingerprints), cb);
+      .post(GpgKeysInput.delete(fingerprints), cb);
   }
 
   private static class GpgKeysInput extends JavaScriptObject {
     static GpgKeysInput add(String key) {
-      return createAdd(Natives.arrayOf(key));
+      return createWithAdd(Natives.arrayOf(key));
     }
 
-    static GpgKeysInput remove(Iterable<String> fingerprints) {
-      return createRemove(Natives.arrayOf(fingerprints));
+    static GpgKeysInput delete(Iterable<String> fingerprints) {
+      return createWithDelete(Natives.arrayOf(fingerprints));
     }
 
-    private static native GpgKeysInput createAdd(JsArrayString keys) /*-{
+    private static native GpgKeysInput createWithAdd(JsArrayString keys) /*-{
       return {'add': keys};
     }-*/;
 
-    private static native GpgKeysInput createRemove(
+    private static native GpgKeysInput createWithDelete(
         JsArrayString fingerprints) /*-{
-      return {'remove': fingerprints};
+      return {'delete': fingerprints};
     }-*/;
 
     protected GpgKeysInput() {

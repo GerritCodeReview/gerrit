@@ -252,7 +252,7 @@ public class MyGpgKeysScreen extends SettingsScreen {
           toDelete.add(getRowItem(row).fingerprint());
         }
       }
-      AccountApi.removeGpgKeys("self", toDelete,
+      AccountApi.deleteGpgKeys("self", toDelete,
           new GerritCallback<NativeMap<GpgKeyInfo>>() {
             @Override
             public void onSuccess(NativeMap<GpgKeyInfo> result) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04d4e17b_27937ae1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012297
+      },
+      "writtenOn": "2015-08-27T14:28:20Z",
+      "side": 1,
+      "message": "It will be used to indicate who can approve a change.  Follow-on changes will actually refine this a bit more.",
+      "parentUuid": "c4c569ce_65a446bb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "e850e40b8463f4bed8d80c69fcd8d7261f379e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24d1e58c_883fd770",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-08-27T09:26:11Z",
       "side": 1,
       "message": "Is it intended to append the annotation without a space?\n\nSame on line 78.",
+      "range": {
+        "startLine": 72,
+        "startChar": 55,
+        "endLine": 72,
+        "endChar": 57
+      },
+      "revId": "e850e40b8463f4bed8d80c69fcd8d7261f379e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4e17b_0790f6d0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012297
+      },
+      "writtenOn": "2015-08-27T14:28:20Z",
+      "side": 1,
+      "message": "The code that addes the annotation should control this.  They may want a dash or a colon or a space.",
+      "parentUuid": "24d1e58c_883fd770",
       "range": {
         "startLine": 72,
         "startChar": 55,

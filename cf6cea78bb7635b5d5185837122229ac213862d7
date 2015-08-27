@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84bff131_c3e7f6a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-27T20:54:50Z",
+      "side": 1,
+      "message": "I figured we didn\u0027t want to bug the user if the key already exists?  Though, I\u0027m not familiar with how this is supposed to work to tell if the key is left in the keystore even after removing it from a user\u0027s account.\n\n(Unrelated note: the \"delete\" button from the GPG settings page doesn\u0027t seem to remove the key.)",
+      "range": {
+        "startLine": 223,
+        "startChar": 8,
+        "endLine": 223,
+        "endChar": 23
+      },
+      "revId": "cf6cea78bb7635b5d5185837122229ac213862d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -147,10 +147,15 @@ public class SubmitRuleEvaluator {
     try {
       Project p = cd.changeControl().getProject();
       ruleName = p.getSubmitRule();
-      RuleName qn = RuleName.parse(ruleName);
-      if (qn == null) {
-        return ruleError("Wrong format of the submit rule name: "
-            + ruleName + " for project: " + p.getName());
+      RuleName qn;
+      if (ruleName != null) {
+        qn = RuleName.parse(ruleName);
+        if (qn == null) {
+          return ruleError("Wrong format of the submit rule name: "
+              + ruleName + " for project: " + p.getName());
+        }
+      } else {
+        qn = RuleName.DEFAULT_RULE;
       }
       return submitRules.get(qn.plugin, qn.name).evaluate(cd, flags);
     } catch (RuleEvalException e) {
@@ -167,7 +172,16 @@ public class SubmitRuleEvaluator {
     try {
       Project p = cd.changeControl().getProject();
       ruleName = p.getSubmitTypeRule();
-      RuleName qn = RuleName.parse(ruleName);
+      RuleName qn;
+      if (ruleName != null) {
+        qn = RuleName.parse(ruleName);
+        if (qn == null) {
+          return typeError("Wrong format of the submit type rule name: "
+              + ruleName + " for project: " + p.getName());
+        }
+      } else {
+        qn = RuleName.DEFAULT_TYPE_RULE;
+      }
       return submitTypeRules.get(qn.plugin, qn.name).getSubmitType(cd, flags);
     } catch (RuleEvalException e) {
       return typeError(e.getMessage(), e);
@@ -194,6 +208,9 @@ public class SubmitRuleEvaluator {
       return new RuleName(s.substring(0, i), s.substring(i + 1));
     }
 
+    static RuleName DEFAULT_RULE = new RuleName("gerrit", "default-submit-rule");
+    static RuleName DEFAULT_TYPE_RULE = new RuleName("gerrit", "default-submit-type");
+
     String plugin;
     String name;
 
@@ -214,6 +231,10 @@ public class SubmitRuleEvaluator {
     } else {
       return createRuleError(err);
     }
+  }
+
+  private SubmitTypeRecord typeError(String err) {
+    return typeError(err, null);
   }
 
   private SubmitTypeRecord typeError(String err, Exception e) {

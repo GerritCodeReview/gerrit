@@ -80,6 +80,10 @@ public final class Project {
 
   protected ProjectState state;
 
+  protected String submitRule;
+
+  protected String submitTypeRule;
+
   protected NameKey parent;
 
   protected InheritableBoolean requireChangeID;
@@ -290,11 +294,19 @@ public final class Project {
     parent = n;
   }
 
+  public void setSubmitRule(String rule) {
+    submitRule = rule;
+  }
+
   public String getSubmitRule() {
-    return "gerrit.default-submit-rule";
+    return submitRule;
+  }
+
+  public void setSubmitTypeRule(String typeRule) {
+    submitTypeRule = typeRule;
   }
 
   public String getSubmitTypeRule() {
-    return "gerrit.default-submit-type";
+    return submitTypeRule;
   }
 }

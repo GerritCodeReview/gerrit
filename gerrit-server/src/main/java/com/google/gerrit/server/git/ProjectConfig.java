@@ -124,6 +124,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_ACTION = "action";
   private static final String KEY_MERGE_CONTENT = "mergeContent";
   private static final String KEY_STATE = "state";
+  private static final String KEY_RULE = "rule";
+  private static final String KEY_TYPE_RULE = "typeRule";
 
   private static final String DASHBOARD = "dashboard";
   private static final String KEY_DEFAULT = "default";
@@ -428,6 +430,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, InheritableBoolean.INHERIT));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
+    p.setSubmitRule(rc.getString(SUBMIT, null, KEY_RULE));
+    p.setSubmitTypeRule(rc.getString(SUBMIT, null, KEY_TYPE_RULE));
 
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
     p.setLocalDefaultDashboard(rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
@@ -847,6 +851,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), InheritableBoolean.INHERIT);
+    set(rc, SUBMIT, null, KEY_RULE, p.getSubmitRule());
+    set(rc, SUBMIT, null, KEY_TYPE_RULE, p.getSubmitTypeRule());
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), defaultStateValue);
 

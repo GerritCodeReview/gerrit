@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 class AgreementInfoFactory extends Handler<AgreementInfo> {
-  private final Logger log = LoggerFactory.getLogger(getClass());
+  private static final Logger log = LoggerFactory.getLogger(AgreementInfoFactory.class);
 
   interface Factory {
     AgreementInfoFactory create();

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4c569ce_05e472ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-08-28T09:47:51Z",
+      "side": 1,
+      "message": "Reading the documentation [1] the HTTP_LDAP doesn\u0027t authenticate against LDAP. It only pre-populates a user’s full name and email address based on information obtained from the user’s account object in LDAP. However, the authentication is supposed to happen in the web server or servlet container and not within Gerrit.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#auth.type",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "0abe4b611172a35400436eea36634e2aea2b0ec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4c569ce_65e1e6ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-08-28T09:47:51Z",
+      "side": 1,
+      "message": "which documentation do you refer to?",
+      "range": {
+        "startLine": 11,
+        "startChar": 28,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "0abe4b611172a35400436eea36634e2aea2b0ec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

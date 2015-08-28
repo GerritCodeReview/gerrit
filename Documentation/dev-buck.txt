@@ -67,17 +67,7 @@ Create the Eclipse project:
   tools/eclipse/project.py
 ----
 
-In Eclipse, choose 'Import existing project' and select the `gerrit` project
-from the current working directory.
-
-Expand the `gerrit` project, right-click on the `buck-out` folder, select
-'Properties', and then under 'Attributes' check 'Derived'.
-
-Note that if you make any changes in the project configuration
-that get saved to the `.project` file, for example adding Resource
-Filters on a folder, they will be overwritten the next time you run
-`tools/eclipse/project.py`.
-
+and then follow the link:dev-eclipse.html#setup[setup instructions].
 
 === Refreshing the Classpath
 

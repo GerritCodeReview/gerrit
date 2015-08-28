@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "647cbd57_a23ade80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-28T03:23:29Z",
+      "side": 1,
+      "message": "Question: would it be better to convert to and send a GpgKeyInfo structure here?\n\nLooks like a trivial reimplementation of keyToString() would have to be added -- but this could easily be done to accommodate a GpgKeyInfo struct just the same. :)",
+      "range": {
+        "startLine": 217,
+        "startChar": 49,
+        "endLine": 217,
+        "endChar": 58
+      },
+      "revId": "cf6cea78bb7635b5d5185837122229ac213862d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84bff131_c3e7f6a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
         "patchSetId": 11

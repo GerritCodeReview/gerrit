@@ -83,13 +83,6 @@ public class FileContentUtil {
         raw = null;
       }
 
-      BinaryResult result;
-      if (raw != null) {
-        result = BinaryResult.create(raw);
-      } else {
-        result = asBinaryResult(obj);
-      }
-
       String type;
       if (mode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
         type = X_GIT_SYMLINK;
@@ -97,11 +90,16 @@ public class FileContentUtil {
         type = registry.getMimeType(path, raw).toString();
         type = resolveContentType(project, path, FileMode.FILE, type);
       }
-      return result.setContentType(type).base64();
+
+      return asBinaryResult(raw, obj).setContentType(type).base64();
     }
   }
 
-  private static BinaryResult asBinaryResult(final ObjectLoader obj) {
+  private static BinaryResult asBinaryResult(byte[] raw,
+      final ObjectLoader obj) {
+    if (raw != null) {
+      return BinaryResult.create(raw);
+    }
     BinaryResult result = new BinaryResult() {
       @Override
       public void writeTo(OutputStream os) throws IOException {

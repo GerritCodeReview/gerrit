@@ -59,20 +59,8 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
       throw new MethodNotAllowedException("remote installation is disabled");
     }
     try {
-      InputStream in;
-      if (input.raw != null) {
-        in = input.raw.getInputStream();
-      } else {
-        try {
-          in = new URL(input.url).openStream();
-        } catch (IOException e) {
-          throw new BadRequestException(e.getMessage());
-        }
-      }
-      try {
+      try (InputStream in = openStream(input)) {
         loader.installPluginFromStream(name, in);
-      } finally {
-        in.close();
       }
     } catch (PluginInstallException e) {
       StringWriter buf = new StringWriter();
@@ -91,6 +79,18 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
 
     ListPlugins.PluginInfo info = new ListPlugins.PluginInfo(loader.get(name));
     return created ? Response.created(info) : Response.ok(info);
+  }
+
+  private InputStream openStream(Input input)
+      throws IOException, BadRequestException {
+    if (input.raw != null) {
+      return input.raw.getInputStream();
+    }
+    try {
+      return new URL(input.url).openStream();
+    } catch (IOException e) {
+      throw new BadRequestException(e.getMessage());
+    }
   }
 
   @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)

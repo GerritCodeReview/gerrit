@@ -77,14 +77,15 @@ public class CssLinker extends AbstractLinker {
 
   private String name(final TreeLogger logger, final PublicResource r)
       throws UnableToCompleteException {
-    final ByteArrayOutputStream tmp = new ByteArrayOutputStream();
-    try (InputStream in = r.getContents(logger)) {
+    byte[] out;
+    try (ByteArrayOutputStream tmp = new ByteArrayOutputStream();
+        InputStream in = r.getContents(logger)) {
       final byte[] buf = new byte[2048];
       int n;
       while ((n = in.read(buf)) >= 0) {
         tmp.write(buf, 0, n);
       }
-      tmp.close();
+      out = tmp.toByteArray();
     } catch (IOException e) {
       final UnableToCompleteException ute = new UnableToCompleteException();
       ute.initCause(e);
@@ -98,7 +99,7 @@ public class CssLinker extends AbstractLinker {
     } else {
       base = "";
     }
-    return base + Util.computeStrongName(tmp.toByteArray()) + ".cache.css";
+    return base + Util.computeStrongName(out) + ".cache.css";
   }
 
   private static class CssPubRsrc extends PublicResource {

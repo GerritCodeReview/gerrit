@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04d4e17b_aad8cf66",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-28T01:54:48Z",
+      "side": 0,
+      "message": "These cases were explicitly added, rather than using default, so we get a compiler warning when a new enum value is added but is missed in a switch.\n\nSee 272d5c92d733d19633e9e3bb467b19aa641d6cc7 and 09cca313d2f39b149551a6cc9758934fbf927506",
+      "range": {
+        "startLine": 61,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 22
+      },
+      "revId": "4aab5c7e902f36f445fa7943907d5c0bc67b8375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4e17b_8add0b57",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAuth.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-28T01:54:48Z",
+      "side": 0,
+      "message": "same here",
+      "range": {
+        "startLine": 97,
+        "startChar": 7,
+        "endLine": 103,
+        "endChar": 22
+      },
+      "revId": "4aab5c7e902f36f445fa7943907d5c0bc67b8375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

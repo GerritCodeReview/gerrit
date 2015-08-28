@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "045781ea_0fed85ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-08-28T18:07:15Z",
+      "side": 1,
+      "message": "Drop the RFC. This should just die. It used to work but has been broken long enough that its incredibly likely nobody is using it. That is good justification for killing it.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 4
+      },
+      "revId": "f650253db7882ae53302e94d7afbd36b2dc61089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

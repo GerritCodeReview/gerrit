@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "647cbd57_628296a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-08-28T19:54:08Z",
+      "side": 1,
+      "message": "Instead of such a marker, I currently get a tilde (~) with hover saying \"Indirect ancestor\". Not sure what that means exactly; cannot research it now. And, if I click on that tilde-marked related change, I get the latter\u0027s latest patch set (rather than the not-current one). Still, the hereby new highlighting works as expected and doc looks ok \u003d\u003e Verify +1. Not ready to vote CR+1 though, because of this comment about the tilde which could lead to amending this commit message -or so. Or I could be making a mistake within my test case. Note: all buck tests passed.",
+      "revId": "d3f4ed2f4ca9b61ff438bb050115323e47a84e37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

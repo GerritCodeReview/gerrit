@@ -46,15 +46,12 @@ public abstract class BaseDataSourceType implements DataSourceType {
     if (path == null) {
       return ScriptRunner.NOOP;
     }
-    InputStream in =  ReviewDb.class.getResourceAsStream(path);
-    if (in == null) {
-      throw new IllegalStateException("SQL script " + path + " not found");
-    }
     ScriptRunner runner;
-    try {
+    try (InputStream in = ReviewDb.class.getResourceAsStream(path)) {
+      if (in == null) {
+        throw new IllegalStateException("SQL script " + path + " not found");
+      }
       runner = new ScriptRunner(path, in);
-    } finally {
-      in.close();
     }
     return runner;
   }

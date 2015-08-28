@@ -391,17 +391,14 @@ public class PatchListLoader implements Callable<PatchList> {
         Map<String, ObjectId> resolved = new HashMap<>();
         for (Map.Entry<String, MergeResult<? extends Sequence>> entry : r.entrySet()) {
           MergeResult<? extends Sequence> p = entry.getValue();
-          TemporaryBuffer buf =
-              new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024);
-          try {
+          try (TemporaryBuffer buf =
+              new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
             fmt.formatMerge(buf, p, "BASE", oursName, theirsName, "UTF-8");
             buf.close();
 
             try (InputStream in = buf.openInputStream()) {
               resolved.put(entry.getKey(), ins.insert(Constants.OBJ_BLOB, buf.length(), in));
             }
-          } finally {
-            buf.destroy();
           }
         }
 

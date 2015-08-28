@@ -76,6 +76,7 @@ class TagSet {
   }
 
   void prepare(TagMatcher m) {
+    @SuppressWarnings("resource")
     RevWalk rw = null;
     try {
       for (Ref currentRef : m.include) {

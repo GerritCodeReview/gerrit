@@ -49,6 +49,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.NB;
 
+import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -248,10 +249,21 @@ public class CatServlet extends HttpServlet {
     rsp.setDateHeader("Last-Modified", when);
     CacheHeaders.setNotCacheable(rsp);
 
-    OutputStream out;
-    ZipOutputStream zo;
+    try (OutputStream out = openOutputStream(
+        req, rsp, blobLoader, fromCommit, when, path, suffix, raw)) {
+      if (raw != null) {
+        out.write(raw);
+      } else {
+        blobLoader.copyTo(out);
+      }
+    }
+  }
 
-    final MimeType contentType = registry.getMimeType(path, raw);
+  private OutputStream openOutputStream(HttpServletRequest req,
+      HttpServletResponse rsp, ObjectLoader blobLoader,
+      RevCommit fromCommit, long when, String path, String suffix, byte[] raw)
+      throws IOException {
+    MimeType contentType = registry.getMimeType(path, raw);
     if (!registry.isSafeInline(contentType)) {
       // The content may not be safe to transmit inline, as a browser might
       // interpret it as HTML or JavaScript hosted by this site. Such code
@@ -266,33 +278,30 @@ public class CatServlet extends HttpServlet {
       rsp.setHeader("Content-Disposition", "attachment; filename=\""
           + safeFileName(path, suffix) + ".zip" + "\"");
 
-      zo = new ZipOutputStream(rsp.getOutputStream());
+      final ZipOutputStream zo = new ZipOutputStream(rsp.getOutputStream());
 
-      final ZipEntry e = new ZipEntry(safeFileName(path, rand(req, suffix)));
+      ZipEntry e = new ZipEntry(safeFileName(path, rand(req, suffix)));
       e.setComment(fromCommit.name() + ":" + path);
       e.setSize(blobLoader.getSize());
       e.setTime(when);
       zo.putNextEntry(e);
-      out = zo;
+      return new FilterOutputStream(zo) {
+        @Override
+        public void close() throws IOException {
+          try {
+            zo.closeEntry();
+          } finally {
+            super.close();
+          }
+        }
+      };
 
     } else {
       rsp.setContentType(contentType.toString());
       rsp.setHeader("Content-Length", "" + blobLoader.getSize());
 
-      out = rsp.getOutputStream();
-      zo = null;
+      return rsp.getOutputStream();
     }
-
-    if (raw != null) {
-      out.write(raw);
-    } else {
-      blobLoader.copyTo(out);
-    }
-
-    if (zo != null) {
-      zo.closeEntry();
-    }
-    out.close();
   }
 
   private static String safeFileName(String fileName, final String suffix) {

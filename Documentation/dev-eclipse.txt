@@ -10,6 +10,20 @@ runtime debugging environment.
 [[setup]]
 == Project Setup
 
+In your Eclipse installation's `eclipse.ini` file, add the following line in
+the `vmargs` section:
+
+----
+  -DmaxCompiledUnitsAtOnce=10000
+----
+
+Without this setting, annotation processing does not work reliably and the
+build is likely to fail with errors like:
+
+----
+  Could not write generated class ... javax.annotation.processing.FilerException: Source file already created
+----
+
 In Eclipse, choose 'Import existing project' and select the `gerrit` project
 from the current working directory.
 

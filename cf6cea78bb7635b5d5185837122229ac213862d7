@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "84bff131_a33aba80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-28T12:22:29Z",
+      "side": 1,
+      "message": "I think it would be fine to have a GpgKeyInfo-\u003eString function, although due to the way I split up the package later, it might have to be some mostly-duplicated code. Alternatively, you could just pass a List\u003cString\u003e into the sender.",
+      "parentUuid": "647cbd57_a23ade80",
+      "range": {
+        "startLine": 217,
+        "startChar": 49,
+        "endLine": 217,
+        "endChar": 58
+      },
+      "revId": "cf6cea78bb7635b5d5185837122229ac213862d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84bff131_c3e7f6a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2015-08-27T20:54:50Z",
       "side": 1,
       "message": "I figured we didn\u0027t want to bug the user if the key already exists?  Though, I\u0027m not familiar with how this is supposed to work to tell if the key is left in the keystore even after removing it from a user\u0027s account.\n\n(Unrelated note: the \"delete\" button from the GPG settings page doesn\u0027t seem to remove the key.)",
+      "range": {
+        "startLine": 223,
+        "startChar": 8,
+        "endLine": 223,
+        "endChar": 23
+      },
+      "revId": "cf6cea78bb7635b5d5185837122229ac213862d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "647cbd57_222fae41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-08-28T12:22:29Z",
+      "side": 1,
+      "message": "\u003e I figured we didn\u0027t want to bug the user if the key already exists?\n\nNO_CHANGE most likely means a race between two delete calls. Your assumption is correct, we don\u0027t want to send two emails in that case since we consider them idempotent.\n\n\u003e (Unrelated note: the \"delete\" button from the GPG settings page doesn\u0027t seem to remove the key.)\n\nhttps://gerrit-review.googlesource.com/70503",
+      "parentUuid": "84bff131_c3e7f6a0",
       "range": {
         "startLine": 223,
         "startChar": 8,

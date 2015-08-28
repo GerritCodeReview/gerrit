@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c4c569ce_25e7eed2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-08-28T09:36:28Z",
+      "side": 1,
+      "message": "\u003e $ find . -name \\*.java | xargs grep \u0027private static final Logger\u0027 | wc -l\n\nUse \"git grep\" instead:\n\n  $ git grep \u0027private static final Logger\u0027 | wc -l",
+      "parentUuid": "647cbd57_a26d7ead",
+      "range": {
+        "startLine": 55,
+        "startChar": 53,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_e2778677",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
         "patchSetId": 9

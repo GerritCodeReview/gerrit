@@ -116,14 +116,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
   private class Worker extends Thread {
     @Override
     public void run() {
-      final ReviewDb db;
-      try {
-        db = database.open();
-      } catch (OrmException e) {
-        e.printStackTrace();
-        return;
-      }
-      try {
+      try (ReviewDb db = database.open()){
         for (;;) {
           final AccountExternalId extId = next();
           if (extId == null) {
@@ -134,8 +127,8 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
             monitor.update(1);
           }
         }
-      } finally {
-        db.close();
+      } catch (OrmException e) {
+        e.printStackTrace();
       }
     }
   }

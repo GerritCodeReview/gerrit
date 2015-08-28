@@ -221,14 +221,10 @@ public class SubmoduleOp {
   private void updateGitlinks(ReviewDb db, Branch.NameKey subscriber,
       Collection<SubmoduleSubscription> updates) throws SubmoduleException {
     PersonIdent author = null;
-
-    Repository pdb = null;
-
     StringBuilder msgbuf = new StringBuilder("Updated git submodules\n\n");
-    try {
-      boolean sameAuthorForAll = true;
+    boolean sameAuthorForAll = true;
 
-      pdb = repoManager.openRepository(subscriber.getParentKey());
+    try (Repository pdb = repoManager.openRepository(subscriber.getParentKey())) {
       if (pdb.getRef(subscriber.get()) == null) {
         throw new SubmoduleException(
             "The branch was probably deleted from the subscriber repository");
@@ -347,10 +343,6 @@ public class SubmoduleOp {
     } catch (IOException e) {
       throw new SubmoduleException("Cannot update gitlinks for "
           + subscriber.get(), e);
-    } finally {
-      if (pdb != null) {
-        pdb.close();
-      }
     }
   }
 

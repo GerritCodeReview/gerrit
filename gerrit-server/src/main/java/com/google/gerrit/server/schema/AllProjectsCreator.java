@@ -96,26 +96,18 @@ public class AllProjectsCreator {
   }
 
   public void create() throws IOException, ConfigInvalidException {
-    Repository git = null;
-    try {
-      git = mgr.openRepository(allProjectsName);
+    try (Repository git = mgr.openRepository(allProjectsName)) {
       initAllProjects(git);
     } catch (RepositoryNotFoundException notFound) {
       // A repository may be missing if this project existed only to store
       // inheritable permissions. For example 'All-Projects'.
-      try {
-        git = mgr.createRepository(allProjectsName);
+      try (Repository git = mgr.createRepository(allProjectsName)) {
         initAllProjects(git);
-
         RefUpdate u = git.updateRef(Constants.HEAD);
         u.link(RefNames.REFS_CONFIG);
       } catch (RepositoryNotFoundException err) {
         String name = allProjectsName.get();
         throw new IOException("Cannot create repository " + name, err);
-      }
-    } finally {
-      if (git != null) {
-        git.close();
       }
     }
   }

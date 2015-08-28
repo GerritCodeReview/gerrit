@@ -2,10 +2,10 @@ include_defs('//lib/maven.defs')
 
 maven_jar(
   name = 'auto-value',
-  id = 'com.google.auto.value:auto-value:1.0',
-  sha1 = '5d13e60f5d190003176ca6ba4a410fae2e3f6315',
+  id = 'com.google.auto.value:auto-value:1.1',
+  sha1 = 'f6951c141ea3e89c0f8b01da16834880a1ebf162',
   # Exclude un-relocated dependencies and replace with our own versions; see
-  # https://github.com/google/auto/blob/auto-value-1.0/value/pom.xml#L147
+  # https://github.com/google/auto/blob/auto-value-1.1/value/pom.xml#L151
   exclude = ['org/apache/*'],
   deps = ['//lib:velocity'],
   license = 'Apache2.0',

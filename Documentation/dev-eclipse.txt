@@ -7,6 +7,35 @@ Java 6 or later SDK is also required to run GWT's compiler and
 runtime debugging environment.
 
 
+[[setup]]
+== Project Setup
+
+In your Eclipse installation's `eclipse.ini` file, add the following line in
+the `vmargs` section:
+
+----
+  -DmaxCompiledUnitsAtOnce=10000
+----
+
+Without this setting, annotation processing does not work reliably and the
+build is likely to fail with errors like:
+
+----
+  Could not write generated class ... javax.annotation.processing.FilerException: Source file already created
+----
+
+In Eclipse, choose 'Import existing project' and select the `gerrit` project
+from the current working directory.
+
+Expand the `gerrit` project, right-click on the `buck-out` folder, select
+'Properties', and then under 'Attributes' check 'Derived'.
+
+Note that if you make any changes in the project configuration
+that get saved to the `.project` file, for example adding Resource
+Filters on a folder, they will be overwritten the next time you run
+`tools/eclipse/project.py`.
+
+
 [[Formatting]]
 == Code Formatter Settings
 

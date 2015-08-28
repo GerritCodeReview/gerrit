@@ -45,6 +45,30 @@
       "revId": "0abe4b611172a35400436eea36634e2aea2b0ec0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bff131_0303cec9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-28T11:28:30Z",
+      "side": 1,
+      "message": "I think it was how I was reading the documentation of\nhttps://gerrit-review.googlesource.com/Documentation/config-gerrit.html#auth.gitBasicAuth\n\nAfter all, LDAP_BIND is not just the LDAP type, and it has the same behavior.  Also, issue 3151 seems to imply this is a regression from 2.9, but I\u0027ve not tested it back on that version.\n\nIn either case, perhaps the documentation should be updated to match. :)",
+      "parentUuid": "c4c569ce_65e1e6ba",
+      "range": {
+        "startLine": 11,
+        "startChar": 28,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "0abe4b611172a35400436eea36634e2aea2b0ec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

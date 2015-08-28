@@ -118,6 +118,30 @@
       "revId": "6f6de0d32cc9b9e1adf65bde3fa0854e6bd26db9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d4e17b_c7653e3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-28T01:19:00Z",
+      "side": 1,
+      "message": "The legacy locations are only intended to be kept around for a few months which should give people enough time to have run the build and had the existing artifacts moved.",
+      "parentUuid": "c4c569ce_05091237",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "6f6de0d32cc9b9e1adf65bde3fa0854e6bd26db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

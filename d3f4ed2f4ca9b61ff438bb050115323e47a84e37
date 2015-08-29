@@ -16,6 +16,24 @@
       "revId": "d3f4ed2f4ca9b61ff438bb050115323e47a84e37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "043061cc_87afa6cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-08-29T17:36:24Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean. See https://gerrit-review.googlesource.com/#/c/70420/1 for example. The change itself is marked with a tilde, but the dependent commit has an orange dot.",
+      "parentUuid": "647cbd57_628296a5",
+      "revId": "d3f4ed2f4ca9b61ff438bb050115323e47a84e37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

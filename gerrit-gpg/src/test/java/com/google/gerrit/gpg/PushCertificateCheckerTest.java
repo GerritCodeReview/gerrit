@@ -14,13 +14,13 @@
 
 package com.google.gerrit.gpg;
 
+import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.gpg.testutil.TestKey;
-import com.google.gerrit.reviewdb.client.RefNames;
 
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.BCPGOutputStream;
@@ -56,7 +56,7 @@ public class PushCertificateCheckerTest {
     TestKey key3 = TestKey.key3();
     tr = new TestRepository<>(new InMemoryRepository(
         new DfsRepositoryDescription("repo")));
-    tr.branch(RefNames.REFS_GPG_KEYS).commit()
+    tr.branch(REFS_GPG_KEYS).commit()
         .add(PublicKeyStore.keyObjectId(key1.getPublicKey().getKeyID()).name(),
             key1.getPublicKeyArmored())
         .add(PublicKeyStore.keyObjectId(key3.getPublicKey().getKeyID()).name(),

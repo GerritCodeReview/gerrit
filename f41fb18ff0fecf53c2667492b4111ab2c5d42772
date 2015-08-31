@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "043061cc_c7d27e45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-08-31T08:37:50Z",
+      "side": 1,
+      "message": "Which is likely irrelevant for comparing the number of occurrences of \"private static final Logger\u0027 vs \u0027private final Logger\u0027... and in general for checking coding stye patterns by counting the number of occurrences.",
+      "parentUuid": "a4f4f641_7faf6fb8",
+      "range": {
+        "startLine": 55,
+        "startChar": 53,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "f41fb18ff0fecf53c2667492b4111ab2c5d42772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647cbd57_e2778677",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostGpgKeys.java",
         "patchSetId": 9

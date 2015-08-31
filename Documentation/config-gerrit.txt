@@ -2982,6 +2982,14 @@ Default is zero.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
+[[receive.maxTrustDepth]]receive.maxTrustDepth::
++
+If signed push validation is link:#receive.enableSignedPush[enabled],
+set to the maximum depth to search when checking if a key is
+link:#receive.trustedKey[trusted].
++
+Default is 0, meaning only explicitly trusted keys are allowed.
+
 [[receive.threadPoolSize]]receive.threadPoolSize::
 +
 Maximum size of the thread pool in which the change data in received packs is
@@ -2999,6 +3007,25 @@ be specified using standard time unit abbreviations ('ms', 'sec',
 +
 Default is 2 minutes. If no unit is specified, milliseconds
 is assumed.
+
+[[receive.trustedKey]]receive.trustedKey::
++
+List of GPG key fingerprints that should be considered trust roots by
+the server when signed push validation is
+link:#receive.enableSignedPush[enabled]. A key is trusted by the server
+if it is either in this list, or a path of trust signatures leads from
+the key to a configured trust root. The maximum length of the path is
+determined by link:#receive.maxTrustDepth[`receive.maxTrustDepth`].
++
+Key fingerprints can be displayed with `gpg --list-keys
+--with-fingerprint`.
++
+Trust signatures can be added to a key using the `tsign` command to
+link:https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html[
+`gpg --edit-key`], after which the signed key should be re-uploaded.
++
+If no keys are specified, web-of-trust checks are disabled. This is the
+default behavior.
 
 
 [[repository]]

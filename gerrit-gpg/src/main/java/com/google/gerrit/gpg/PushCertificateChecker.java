@@ -63,6 +63,7 @@ public abstract class PushCertificateChecker {
     try {
       PGPSignature sig = readSignature(cert);
       if (sig != null) {
+        @SuppressWarnings("resource")
         Repository repo = getRepository();
         try (PublicKeyStore store = new PublicKeyStore(repo)) {
           checkSignature(sig, cert, store.get(sig.getKeyID()), problems);

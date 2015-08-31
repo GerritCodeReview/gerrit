@@ -37,16 +37,6 @@ public class PublicKeyCheckerTest {
   }
 
   @Test
-  public void wrongKeyId() throws Exception {
-    TestKey k = TestKey.key1();
-    long badId = k.getKeyId() + 1;
-    CheckResult result = checker.check(k.getPublicKey(), badId);
-    assertEquals(
-        Arrays.asList("Public key does not match ID 46328A8D"),
-        result.getProblems());
-  }
-
-  @Test
   public void keyExpiringInFuture() throws Exception {
     assertProblems(TestKey.key2());
   }
@@ -62,7 +52,7 @@ public class PublicKeyCheckerTest {
   }
 
   private void assertProblems(TestKey tk, String... expected) throws Exception {
-    CheckResult result = checker.check(tk.getPublicKey(), tk.getKeyId());
+    CheckResult result = checker.check(tk.getPublicKey());
     assertEquals(Arrays.asList(expected), result.getProblems());
   }
 }

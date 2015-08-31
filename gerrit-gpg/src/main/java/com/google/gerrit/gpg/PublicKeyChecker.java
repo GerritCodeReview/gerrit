@@ -14,8 +14,6 @@
 
 package com.google.gerrit.gpg;
 
-import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
-
 import org.bouncycastle.openpgp.PGPPublicKey;
 
 import java.util.ArrayList;
@@ -29,21 +27,7 @@ public class PublicKeyChecker {
    * @param key the public key.
    */
   public final CheckResult check(PGPPublicKey key) {
-    return check(key, key.getKeyID());
-  }
-
-  /**
-   * Check a public key.
-   *
-   * @param key the public key.
-   * @param expectedKeyId the key ID that the caller expects.
-   */
-  public final CheckResult check(PGPPublicKey key, long expectedKeyId) {
     List<String> problems = new ArrayList<>();
-    if (key.getKeyID() != expectedKeyId) {
-      problems.add(
-          "Public key does not match ID " + keyIdToString(expectedKeyId));
-    }
     if (key.isRevoked()) {
       // TODO(dborowitz): isRevoked is overeager:
       // http://www.bouncycastle.org/jira/browse/BJB-45
@@ -58,7 +42,7 @@ public class PublicKeyChecker {
         problems.add("Key is expired");
       }
     }
-    checkCustom(key, expectedKeyId, problems);
+    checkCustom(key, problems);
     return new CheckResult(problems);
   }
 
@@ -68,11 +52,9 @@ public class PublicKeyChecker {
    * Default implementation does nothing, but may be overridden by subclasses.
    *
    * @param key the public key.
-   * @param expectedKeyId the key ID that the caller expects.
    * @param problems list to which any problems should be added.
    */
-  public void checkCustom(PGPPublicKey key, long expectedKeyId,
-      List<String> problems) {
+  public void checkCustom(PGPPublicKey key, List<String> problems) {
     // Default implementation does nothing.
   }
 }

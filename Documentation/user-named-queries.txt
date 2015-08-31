@@ -3,15 +3,11 @@
 [[user-named-queries]]
 == User Named Queries
 It is possible to define named queries on a user level. To do
-this, define the named queries in the `queries` file of
-the user's account ref in the `All-Users` project.  The user's
-account ref is based on the user's account id which is an
-integer.  The account refs are sharded by the last two digits
-(`+nn+`) in the refname, leading to refs of the format
-`+refs/users/nn/accountid+`.  The user's queries file is a
-2 column tab delimited file.  The left column represents the
-name of the query, and the right column represents the query
-expression represented by the name.
+this, define the named queries in the `queries` file under the
+link:intro-user.html#user-refs[user's ref] in the `All-Users` project.  The
+user's queries file is a 2 column tab delimited file.  The left
+column represents the name of the query, and the right column
+represents the query expression represented by the name.
 
 Example queries file:
 

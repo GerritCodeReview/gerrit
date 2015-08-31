@@ -53,14 +53,8 @@ public class VersionedAccountQueries extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    ValidationError.Sink errors = new ValidationError.Sink() {
-      @Override
-      public void error(ValidationError error) {
-        log.error("Error parsing file " + QueryList.FILE_NAME + ": " +
-            error.getMessage());
-      }
-    };
-    queryList = QueryList.parse(readUTF8(QueryList.FILE_NAME), errors);
+    queryList = QueryList.parse(readUTF8(QueryList.FILE_NAME),
+        QueryList.createLoggerSink(QueryList.FILE_NAME, log));
   }
 
   @Override

@@ -57,12 +57,6 @@ public class RefNames {
 
   public static final String EDIT_PREFIX = "edit-";
 
-  /**
-   * Special ref for GPG public keys used by {@link
-   * com.google.gerrit.gpg.SignedPushPreReceiveHook}.
-   */
-  public static final String REFS_GPG_KEYS = "refs/meta/gpg-keys";
-
   public static String fullName(String ref) {
     return ref.startsWith(REFS) ? ref : REFS_HEADS + ref;
   }

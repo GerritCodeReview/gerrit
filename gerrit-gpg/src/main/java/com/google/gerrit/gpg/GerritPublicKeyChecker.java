@@ -17,12 +17,15 @@ package com.google.gerrit.gpg;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Ordering;
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -31,10 +34,12 @@ import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.operator.bc.BcPGPContentVerifierBuilderProvider;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -54,10 +59,26 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private final String webUrl;
   private final Provider<IdentifiedUser> userProvider;
 
+  private static List<Fingerprint> getTrustedFingerprints(Config cfg) {
+    String[] strs = cfg.getStringList("receive", null, "trustedKey");
+    if (strs == null || strs.length == 0) {
+      return null;
+    }
+    List<Fingerprint> fps = new ArrayList<>(strs.length);
+    for (String str : strs) {
+      str = CharMatcher.WHITESPACE.removeFrom(str).toUpperCase();
+      fps.add(new Fingerprint(BaseEncoding.base16().decode(str)));
+    }
+    return fps;
+  }
+
   @Inject
   GerritPublicKeyChecker(
+      @GerritServerConfig Config cfg,
       @CanonicalWebUrl String webUrl,
       Provider<IdentifiedUser> userProvider) {
+    super(cfg.getInt("receive", null, "maxTrustDepth", 0),
+        getTrustedFingerprints(cfg));
     this.webUrl = webUrl;
     this.userProvider = userProvider;
   }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84fb7233_5eb4b50a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-31T06:16:59Z",
+      "side": 1,
+      "message": "nit:\n\n output.append(key).append(\"\\n\");\n\nor, instead of using a StringBuilder:\n\n return Joiner.on(\"\\n\").join(gpgKeys);",
+      "range": {
+        "startLine": 110,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 34
+      },
+      "revId": "8fd3c31cef78f99cd70c88ad72ac5455a3674217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "242d6577_08c4a787",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-31T06:16:59Z",
+      "side": 1,
+      "message": "It\u0027s possible that more than one GPG key be added, in which case \"a new GPG key\" won\u0027t make sense.\n\nMaybe replace this with something like:\n\n One or more ${email.keyType} keys have been added to Gerrit Code Review at ${email.gerritHost}:\n \n #if($email.sshKey)\n $email.sshKey\n #elseif($email.gpgKeys)\n $email.gpgKeys\n #end",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 4
+      },
+      "revId": "8fd3c31cef78f99cd70c88ad72ac5455a3674217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "242d6577_28c16b78",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-08-31T06:16:59Z",
+      "side": 1,
+      "message": "\"manage your keys\" ?",
+      "range": {
+        "startLine": 46,
+        "startChar": 13,
+        "endLine": 46,
+        "endChar": 37
+      },
+      "revId": "8fd3c31cef78f99cd70c88ad72ac5455a3674217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

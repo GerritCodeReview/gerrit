@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0436a2de_32b93003",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-31T14:56:13Z",
+      "side": 1,
+      "message": "I actually like Joiner.  Hadn\u0027t seen that class before, but definitely makes this code clean!",
+      "parentUuid": "84fb7233_5eb4b50a",
+      "range": {
+        "startLine": 110,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 34
+      },
+      "revId": "8fd3c31cef78f99cd70c88ad72ac5455a3674217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "242d6577_08c4a787",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
         "patchSetId": 12
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0436a2de_72afb8b8",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-31T14:56:13Z",
+      "side": 1,
+      "message": "That actually sounds reasonable.  I may want to update the subject accordingly too.",
+      "parentUuid": "242d6577_08c4a787",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 4
+      },
+      "revId": "8fd3c31cef78f99cd70c88ad72ac5455a3674217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "242d6577_28c16b78",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
         "patchSetId": 12
@@ -59,6 +107,30 @@
       "writtenOn": "2015-08-31T06:16:59Z",
       "side": 1,
       "message": "\"manage your keys\" ?",
+      "range": {
+        "startLine": 46,
+        "startChar": 13,
+        "endLine": 46,
+        "endChar": 37
+      },
+      "revId": "8fd3c31cef78f99cd70c88ad72ac5455a3674217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0436a2de_52b4b40a",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.vm",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-08-31T14:56:13Z",
+      "side": 1,
+      "message": "Works for me.",
+      "parentUuid": "242d6577_28c16b78",
       "range": {
         "startLine": 46,
         "startChar": 13,

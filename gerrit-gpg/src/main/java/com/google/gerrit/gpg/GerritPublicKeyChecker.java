@@ -63,8 +63,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   }
 
   @Override
-  public void checkCustom(PGPPublicKey key, long expectedKeyId,
-      List<String> problems) {
+  public void checkCustom(PGPPublicKey key, List<String> problems) {
     try {
       Set<String> allowedUserIds = getAllowedUserIds();
       if (allowedUserIds.isEmpty()) {

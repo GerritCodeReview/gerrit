@@ -17,8 +17,6 @@ package com.google.gerrit.gpg;
 import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.gerrit.reviewdb.client.RefNames;
-
 import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPException;
@@ -73,6 +71,9 @@ public class PublicKeyStore implements AutoCloseable {
   private static final ObjectId EMPTY_TREE =
       ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904");
 
+  /** Ref where GPG public keys are stored. */
+  public static final String REFS_GPG_KEYS = "refs/meta/gpg-keys";
+
   private final Repository repo;
   private ObjectReader reader;
   private RevCommit tip;
@@ -104,7 +105,7 @@ public class PublicKeyStore implements AutoCloseable {
     reset();
     reader = repo.newObjectReader();
 
-    Ref ref = repo.getRefDatabase().exactRef(RefNames.REFS_GPG_KEYS);
+    Ref ref = repo.getRefDatabase().exactRef(REFS_GPG_KEYS);
     if (ref == null) {
       return;
     }
@@ -249,7 +250,7 @@ public class PublicKeyStore implements AutoCloseable {
       ins.flush();
     }
 
-    RefUpdate ru = repo.updateRef(RefNames.REFS_GPG_KEYS);
+    RefUpdate ru = repo.updateRef(PublicKeyStore.REFS_GPG_KEYS);
     ru.setExpectedOldObjectId(tip);
     ru.setNewObjectId(newTip);
     ru.setRefLogIdent(cb.getCommitter());

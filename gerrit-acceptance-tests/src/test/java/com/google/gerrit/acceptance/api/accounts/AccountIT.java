@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -39,7 +40,6 @@ import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -99,9 +99,9 @@ public class AccountIT extends AbstractDaemonTest {
   @After
   public void clearPublicKeyStore() throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      Ref ref = repo.getRef(RefNames.REFS_GPG_KEYS);
+      Ref ref = repo.getRef(REFS_GPG_KEYS);
       if (ref != null) {
-        RefUpdate ru = repo.updateRef(RefNames.REFS_GPG_KEYS);
+        RefUpdate ru = repo.updateRef(REFS_GPG_KEYS);
         ru.setForceUpdate(true);
         assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
       }
@@ -115,7 +115,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @After
   public void deleteGpgKeys() throws Exception {
-    String ref = RefNames.REFS_GPG_KEYS;
+    String ref = REFS_GPG_KEYS;
     try (Repository repo = repoManager.openRepository(allUsers)) {
       if (repo.getRefDatabase().exactRef(ref) != null) {
         RefUpdate ru = repo.updateRef(ref);

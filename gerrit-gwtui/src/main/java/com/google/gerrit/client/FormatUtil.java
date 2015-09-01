@@ -105,6 +105,6 @@ public class FormatUtil {
   }
 
   private static AccountFormatter createAccountFormatter() {
-    return new AccountFormatter(Gerrit.info().user().anonymousCowardName());
+    return new AccountFormatter(GerritCommon.info().user().anonymousCowardName());
   }
 }

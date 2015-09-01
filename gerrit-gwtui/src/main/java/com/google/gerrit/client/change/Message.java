@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
@@ -204,7 +205,7 @@ class Message extends Composite {
       if (info.author().name() != null) {
         return info.author().name();
       }
-      return Gerrit.info().user().anonymousCowardName();
+      return GerritCommon.info().user().anonymousCowardName();
     }
     return Util.C.messageNoAuthor();
   }

@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
@@ -101,8 +102,8 @@ class ContactPanelShort extends Composite {
     }
 
     int row = 0;
-    if (!Gerrit.info().auth().canEdit(FieldName.USER_NAME)
-        && Gerrit.info().auth().siteHasUsernames()) {
+    if (!GerritCommon.info().auth().canEdit(FieldName.USER_NAME)
+        && GerritCommon.info().auth().siteHasUsernames()) {
       infoPlainText.resizeRows(infoPlainText.getRowCount() + 1);
       row(infoPlainText, row++, Util.C.userName(), new UsernameField());
     }
@@ -110,12 +111,12 @@ class ContactPanelShort extends Composite {
     if (!canEditFullName()) {
       FlowPanel nameLine = new FlowPanel();
       nameLine.add(nameTxt);
-      if (Gerrit.info().auth().editFullNameUrl() != null) {
+      if (GerritCommon.info().auth().editFullNameUrl() != null) {
         Button edit = new Button(Util.C.linkEditFullName());
         edit.addClickHandler(new ClickHandler() {
           @Override
           public void onClick(ClickEvent event) {
-            Window.open(Gerrit.info().auth().editFullNameUrl(), "_blank", null);
+            Window.open(GerritCommon.info().auth().editFullNameUrl(), "_blank", null);
           }
         });
         nameLine.add(edit);
@@ -168,11 +169,11 @@ class ContactPanelShort extends Composite {
   }
 
   private boolean canEditFullName() {
-    return Gerrit.info().auth().canEdit(Account.FieldName.FULL_NAME);
+    return GerritCommon.info().auth().canEdit(Account.FieldName.FULL_NAME);
   }
 
   private boolean canRegisterNewEmail() {
-    return Gerrit.info().auth().canEdit(Account.FieldName.REGISTER_NEW_EMAIL);
+    return GerritCommon.info().auth().canEdit(Account.FieldName.REGISTER_NEW_EMAIL);
   }
 
   void hideSaveButton() {
@@ -275,7 +276,7 @@ class ContactPanelShort extends Composite {
           @Override
           public void onSuccess(EmailInfo result) {
             box.hide();
-            if (Gerrit.info().auth().isDev()) {
+            if (GerritCommon.info().auth().isDev()) {
               currentEmail = addr;
               if (emailPick.getItemCount() == 0) {
                 AccountInfo me = Gerrit.getUserAccount();
@@ -325,7 +326,7 @@ class ContactPanelShort extends Composite {
     buttons.add(register);
     buttons.add(cancel);
 
-    if (!Gerrit.info().auth().isDev()) {
+    if (!GerritCommon.info().auth().isDev()) {
       body.add(new HTML(Util.C.descRegisterNewEmail()));
     }
     body.add(inEmail);

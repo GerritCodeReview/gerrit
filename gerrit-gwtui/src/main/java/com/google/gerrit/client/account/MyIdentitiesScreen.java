@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.auth.openid.OpenIdUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -58,8 +59,8 @@ public class MyIdentitiesScreen extends SettingsScreen {
     });
     add(deleteIdentity);
 
-    if (Gerrit.info().auth().isOpenId()
-        || Gerrit.info().auth().isOAuth()) {
+    if (GerritCommon.info().auth().isOpenId()
+        || GerritCommon.info().auth().isOAuth()) {
       Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
       linkIdentity.addClickHandler(new ClickHandler() {
         @Override

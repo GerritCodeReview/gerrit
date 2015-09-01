@@ -15,6 +15,7 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.client.info.DownloadInfo.DownloadSchemeInfo;
@@ -60,8 +61,8 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
   public static List<DownloadUrlLink> createDownloadUrlLinks(
       boolean allowAnonymous, DownloadPanel downloadPanel) {
     List<DownloadUrlLink> urls = new ArrayList<>();
-    for (String s : Gerrit.info().download().schemes()) {
-      DownloadSchemeInfo scheme = Gerrit.info().download().scheme(s);
+    for (String s : GerritCommon.info().download().schemes()) {
+      DownloadSchemeInfo scheme = GerritCommon.info().download().scheme(s);
       if (scheme.isAuthRequired() && !allowAnonymous) {
         continue;
       }

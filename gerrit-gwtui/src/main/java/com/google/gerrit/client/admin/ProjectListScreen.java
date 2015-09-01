@@ -18,6 +18,7 @@ import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.info.GitwebInfo;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.projects.ProjectInfo;
@@ -173,7 +174,7 @@ public class ProjectListScreen extends Screen {
       }
 
       private void addWebLinks(int row, ProjectInfo k) {
-        GitwebInfo gitwebLink = Gerrit.info().gitweb();
+        GitwebInfo gitwebLink = GerritCommon.info().gitweb();
         List<WebLinkInfo> webLinks = Natives.asList(k.webLinks());
         if (gitwebLink != null || (webLinks != null && !webLinks.isEmpty())) {
           FlowPanel p = new FlowPanel();

@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.api.ExtensionPanel;
@@ -42,7 +43,7 @@ public class MyPasswordScreen extends SettingsScreen {
   protected void onInitUI() {
     super.onInitUI();
 
-    String url = Gerrit.info().auth().httpPasswordUrl();
+    String url = GerritCommon.info().auth().httpPasswordUrl();
     if (url != null) {
       Anchor link = new Anchor();
       link.setText(Util.C.linkObtainPassword());

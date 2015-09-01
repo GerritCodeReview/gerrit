@@ -18,6 +18,7 @@ import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.api.ExtensionPanel;
@@ -338,10 +339,10 @@ public class ChangeScreen extends Screen {
 
   private void initReplyButton(ChangeInfo info, String revision) {
     if (!info.revision(revision).isEdit()) {
-      reply.setTitle(Gerrit.info().change().replyLabel());
+      reply.setTitle(GerritCommon.info().change().replyLabel());
       reply.setHTML(new SafeHtmlBuilder()
         .openDiv()
-        .append(Gerrit.info().change().replyLabel())
+        .append(GerritCommon.info().change().replyLabel())
         .closeDiv());
       if (hasDraftComments) {
         reply.setStyleName(style.highlight());
@@ -1233,7 +1234,7 @@ public class ChangeScreen extends Screen {
     // TODO info card hover
     String name = info.owner().name() != null
         ? info.owner().name()
-        : Gerrit.info().user().anonymousCowardName();
+        : GerritCommon.info().user().anonymousCowardName();
 
     if (info.owner().avatar(AvatarInfo.DEFAULT_SIZE) != null) {
       ownerPanel.insert(new AvatarImage(info.owner()), 0);
@@ -1335,7 +1336,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void startPoller() {
-    if (Gerrit.isSignedIn() && 0 < Gerrit.info().change().updateDelay()) {
+    if (Gerrit.isSignedIn() && 0 < GerritCommon.info().change().updateDelay()) {
       updateCheck = new UpdateCheckTimer(this);
       updateCheck.schedule();
       handlers.add(UserActivityMonitor.addValueChangeHandler(updateCheck));

@@ -15,6 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeList;
@@ -164,7 +165,7 @@ class DownloadBox extends VerticalPanel {
   }
 
   private void insertArchive() {
-    List<String> activated = Gerrit.info().download().archives();
+    List<String> activated = GerritCommon.info().download().archives();
     if (activated.isEmpty()) {
       return;
     }

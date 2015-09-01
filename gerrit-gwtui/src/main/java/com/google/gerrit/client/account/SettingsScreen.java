@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.api.ExtensionSettingsScreen;
@@ -39,18 +40,18 @@ public abstract class SettingsScreen extends MenuScreen {
     linkByGerrit(Util.C.tabPreferences(), PageLinks.SETTINGS_PREFERENCES);
     linkByGerrit(Util.C.tabWatchedProjects(), PageLinks.SETTINGS_PROJECTS);
     linkByGerrit(Util.C.tabContactInformation(), PageLinks.SETTINGS_CONTACT);
-    if (Gerrit.info().hasSshd()) {
+    if (GerritCommon.info().hasSshd()) {
       linkByGerrit(Util.C.tabSshKeys(), PageLinks.SETTINGS_SSHKEYS);
     }
-    if (Gerrit.info().auth().isHttpPasswordSettingsEnabled()) {
+    if (GerritCommon.info().auth().isHttpPasswordSettingsEnabled()) {
       linkByGerrit(Util.C.tabHttpAccess(), PageLinks.SETTINGS_HTTP_PASSWORD);
     }
-    if (Gerrit.info().receive().enableSignedPush()) {
+    if (GerritCommon.info().receive().enableSignedPush()) {
       linkByGerrit(Util.C.tabGpgKeys(), PageLinks.SETTINGS_GPGKEYS);
     }
     linkByGerrit(Util.C.tabWebIdentities(), PageLinks.SETTINGS_WEBIDENT);
     linkByGerrit(Util.C.tabMyGroups(), PageLinks.SETTINGS_MYGROUPS);
-    if (Gerrit.info().auth().useContributorAgreements()) {
+    if (GerritCommon.info().auth().useContributorAgreements()) {
       linkByGerrit(Util.C.tabAgreements(), PageLinks.SETTINGS_AGREEMENTS);
     }
 

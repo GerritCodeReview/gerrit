@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
@@ -117,7 +118,7 @@ public class Header extends Composite {
     }
 
     GitwebInfo gw = (project != null && commit != null)
-        ? Gerrit.info().gitweb() : null;
+        ? GerritCommon.info().gitweb() : null;
     int s = path.lastIndexOf('/') + 1;
     if (gw != null && s > 0) {
       String base = path.substring(0, s - 1);
@@ -194,7 +195,7 @@ public class Header extends Composite {
   }
 
   void setChangeInfo(ChangeInfo info) {
-    GitwebInfo gw = Gerrit.info().gitweb();
+    GitwebInfo gw = GerritCommon.info().gitweb();
     if (gw != null) {
       for (RevisionInfo rev : Natives.asList(info.revisions().values())) {
         if (patchSetId.getId().equals(rev.id())) {

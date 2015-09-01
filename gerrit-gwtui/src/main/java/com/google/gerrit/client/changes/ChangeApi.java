@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.info.ChangeInfo.EditInfo;
@@ -55,7 +55,7 @@ public class ChangeApi {
     input.subject(emptyToNull(subject));
     input.baseChange(emptyToNull(base));
 
-    if (Gerrit.info().change().allowDrafts()) {
+    if (GerritCommon.info().change().allowDrafts()) {
       input.status(Change.Status.DRAFT.toString());
     }
 

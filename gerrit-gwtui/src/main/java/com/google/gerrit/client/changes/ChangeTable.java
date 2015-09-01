@@ -18,6 +18,7 @@ import static com.google.gerrit.client.FormatUtil.relativeFormat;
 import static com.google.gerrit.client.FormatUtil.shortFormat;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
@@ -366,7 +367,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   private static Widget getSizeWidget(ChangeInfo c) {
-    int largeChangeSize = Gerrit.info().change().largeChange();
+    int largeChangeSize = GerritCommon.info().change().largeChange();
     int changedLines = c.insertions() + c.deletions();
     int p = 100;
     if (changedLines < largeChangeSize) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import static com.google.gerrit.client.GerritCommon.myServerInfo;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
@@ -109,7 +110,6 @@ public class Gerrit implements EntryPoint {
   public static final String INDEX = "Documentation/index.html";
 
   private static String myHost;
-  private static ServerInfo myServerInfo;
   private static AccountInfo myAccount;
   private static AccountPreferencesInfo myPrefs;
   private static UrlAliasMatcher urlAliasMatcher;
@@ -287,11 +287,6 @@ public class Gerrit implements EntryPoint {
 
   public static RootPanel getBottomMenu() {
     return bottomMenu;
-  }
-
-  /** Get the public configuration data used by this Gerrit instance. */
-  public static ServerInfo info() {
-    return myServerInfo;
   }
 
   public static UrlAliasMatcher getUrlAliasMatcher() {
@@ -518,9 +513,9 @@ public class Gerrit implements EntryPoint {
 
     btmmenu.add(new InlineHTML(M.poweredBy(vs)));
 
-    String reportBugUrl = info().gerrit().reportBugUrl();
+    String reportBugUrl = GerritCommon.info().gerrit().reportBugUrl();
     if (reportBugUrl != null) {
-      String reportBugText = info().gerrit().reportBugText();
+      String reportBugText = GerritCommon.info().gerrit().reportBugText();
       Anchor a = new Anchor(
           reportBugText == null ? C.reportBug() : reportBugText,
           reportBugUrl);
@@ -649,7 +644,7 @@ public class Gerrit implements EntryPoint {
     menuBars = new HashMap<>();
 
     boolean signedIn = isSignedIn();
-    AuthInfo authInfo = info().auth();
+    AuthInfo authInfo = GerritCommon.info().auth();
     LinkMenuBar m;
 
     m = new LinkMenuBar();

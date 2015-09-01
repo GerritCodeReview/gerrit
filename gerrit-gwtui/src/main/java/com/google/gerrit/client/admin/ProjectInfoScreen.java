@@ -15,6 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.StringListPanel;
 import com.google.gerrit.client.access.AccessMap;
@@ -244,7 +245,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     saveEnabler.listenTo(requireChangeID);
     grid.addHtml(Util.C.requireChangeID(), requireChangeID);
 
-    if (Gerrit.info().receive().enableSignedPush()) {
+    if (GerritCommon.info().receive().enableSignedPush()) {
       enableSignedPush = newInheritedBooleanBox();
       saveEnabler.listenTo(enableSignedPush);
       grid.add(Util.C.enableSignedPush(), enableSignedPush);
@@ -291,7 +292,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHeader(new SmallHeading(Util.C.headingAgreements()));
 
     contributorAgreements = newInheritedBooleanBox();
-    if (Gerrit.info().auth().useContributorAgreements()) {
+    if (GerritCommon.info().auth().useContributorAgreements()) {
       saveEnabler.listenTo(contributorAgreements);
       grid.add(Util.C.useContributorAgreements(), contributorAgreements);
     }
@@ -337,7 +338,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     }
     if (inheritedIndex >= 0) {
-      if (Gerrit.info().gerrit().isAllProjects(getProjectKey())) {
+      if (GerritCommon.info().gerrit().isAllProjects(getProjectKey())) {
         if (box.getSelectedIndex() == inheritedIndex) {
           for (int i = 0; i < box.getItemCount(); i++) {
             if (box.getValue(i).equals(InheritableBoolean.FALSE.name())) {

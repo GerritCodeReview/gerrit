@@ -18,6 +18,7 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.NativeString;
@@ -44,7 +45,7 @@ public class MyProfileScreen extends SettingsScreen {
     HorizontalPanel h = new HorizontalPanel();
     add(h);
 
-    if (Gerrit.info().plugin().hasAvatars()) {
+    if (GerritCommon.info().plugin().hasAvatars()) {
       VerticalPanel v = new VerticalPanel();
       v.addStyleName(Gerrit.RESOURCES.css().avatarInfoPanel());
       h.add(v);
@@ -63,13 +64,13 @@ public class MyProfileScreen extends SettingsScreen {
       fieldIdx = 1;
     }
 
-    info = new Grid((Gerrit.info().auth().siteHasUsernames() ? 1 : 0) + 4, 2);
+    info = new Grid((GerritCommon.info().auth().siteHasUsernames() ? 1 : 0) + 4, 2);
     info.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     info.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
     h.add(info);
 
     int row = 0;
-    if (Gerrit.info().auth().siteHasUsernames()) {
+    if (GerritCommon.info().auth().siteHasUsernames()) {
       infoRow(row++, Util.C.userName());
     }
     infoRow(row++, Util.C.fullName());
@@ -98,7 +99,7 @@ public class MyProfileScreen extends SettingsScreen {
   }
 
   void display(AccountInfo account) {
-    if (Gerrit.info().plugin().hasAvatars()) {
+    if (GerritCommon.info().plugin().hasAvatars()) {
       avatar.setAccount(account, 93, false);
       new RestApi("/accounts/").id("self").view("avatar.change.url")
           .get(new AsyncCallback<NativeString>() {
@@ -115,7 +116,7 @@ public class MyProfileScreen extends SettingsScreen {
     }
 
     int row = 0;
-    if (Gerrit.info().auth().siteHasUsernames()) {
+    if (GerritCommon.info().auth().siteHasUsernames()) {
       info.setWidget(row++, fieldIdx, new UsernameField());
     }
     info.setText(row++, fieldIdx, account.name());

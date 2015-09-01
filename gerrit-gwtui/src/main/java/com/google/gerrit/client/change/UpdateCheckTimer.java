@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -26,7 +26,7 @@ class UpdateCheckTimer extends Timer implements ValueChangeHandler<Boolean> {
   private static final int MAX_PERIOD = 3 * 60 * 1000;
   private static final int IDLE_PERIOD = 2 * 3600 * 1000;
   private static final int POLL_PERIOD =
-      Gerrit.info().change().updateDelay() * 1000;
+      GerritCommon.info().change().updateDelay() * 1000;
 
   private final ChangeScreen screen;
   private int delay;

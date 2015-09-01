@@ -99,8 +99,6 @@ public interface GerritConstants extends Constants {
   String searchHint();
   String searchButton();
 
-  String rpcStatusWorking();
-
   String sectionNavigation();
   String sectionActions();
   String keySearch();

@@ -42,8 +42,8 @@ public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
 
   RpcStatus() {
     loading = new InlineLabel();
-    loading.setText(Gerrit.C.rpcStatusWorking());
-    loading.setStyleName(Gerrit.RESOURCES.css().rpcStatus());
+    loading.setText(GerritCommon.C.rpcStatusWorking());
+    loading.setStyleName(GerritCommon.RESOURCES.css().rpcStatus());
     loading.setVisible(false);
     RootPanel.get().add(loading);
   }

@@ -15,7 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
-import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.info.GitwebInfo;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.ParentProjectBox;
@@ -159,7 +159,7 @@ public class ProjectAccessEditor extends Composite implements
     if (!value.isConfigVisible()) {
       history.getStyle().setDisplay(Display.NONE);
     } else {
-      GitwebInfo c = Gerrit.info().gitweb();
+      GitwebInfo c = GerritCommon.info().gitweb();
       List<WebLinkInfoCommon> links = value.getFileHistoryLinks();
       if (c == null && links == null) {
         history.getStyle().setDisplay(Display.NONE);

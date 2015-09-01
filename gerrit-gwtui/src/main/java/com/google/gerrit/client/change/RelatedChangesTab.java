@@ -15,6 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
@@ -306,7 +307,7 @@ class RelatedChangesTab implements IsWidget {
       sb.closeSpan();
 
       sb.openSpan();
-      GitwebInfo gw = Gerrit.info().gitweb();
+      GitwebInfo gw = GerritCommon.info().gitweb();
       if (gw != null && (!info.hasChangeNumber() || !info.hasRevisionNumber())) {
         sb.setStyleName(RelatedChanges.R.css().gitweb());
         sb.setAttribute("title", gw.getLinkName());
@@ -344,7 +345,7 @@ class RelatedChangesTab implements IsWidget {
             id.getId());
       }
 
-      GitwebInfo gw = Gerrit.info().gitweb();
+      GitwebInfo gw = GerritCommon.info().gitweb();
       if (gw != null && project != null) {
         return gw.toRevision(project, info.commit().commit());
       }

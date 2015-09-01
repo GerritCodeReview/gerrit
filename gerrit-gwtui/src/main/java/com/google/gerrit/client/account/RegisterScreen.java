@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.InlineHyperlink;
@@ -70,7 +71,7 @@ public class RegisterScreen extends AccountScreen {
     formBody.add(contactGroup);
 
     if (Gerrit.getUserAccount().username() == null
-        && Gerrit.info().auth().canEdit(FieldName.USER_NAME)) {
+        && GerritCommon.info().auth().canEdit(FieldName.USER_NAME)) {
       final FlowPanel fp = new FlowPanel();
       fp.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
       fp.add(new SmallHeading(Util.C.welcomeUsernameHeading()));
@@ -99,7 +100,7 @@ public class RegisterScreen extends AccountScreen {
       formBody.add(fp);
     }
 
-    if (Gerrit.info().hasSshd()) {
+    if (GerritCommon.info().hasSshd()) {
       final FlowPanel sshKeyGroup = new FlowPanel();
       sshKeyGroup.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
       sshKeyGroup.add(new SmallHeading(Util.C.welcomeSshKeyHeading()));
@@ -116,7 +117,7 @@ public class RegisterScreen extends AccountScreen {
 
     final FlowPanel choices = new FlowPanel();
     choices.setStyleName(Gerrit.RESOURCES.css().registerScreenNextLinks());
-    if (Gerrit.info().auth().useContributorAgreements()) {
+    if (GerritCommon.info().auth().useContributorAgreements()) {
       final FlowPanel agreementGroup = new FlowPanel();
       agreementGroup.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
       agreementGroup.add(new SmallHeading(Util.C.welcomeAgreementHeading()));

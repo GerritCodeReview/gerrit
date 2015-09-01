@@ -50,10 +50,10 @@ public class UserPopupPanel extends PopupPanel {
       userEmail.setText(account.email());
     }
     if (showSettingsLink) {
-      if (Gerrit.info().auth().switchAccountUrl() != null) {
-        switchAccount.setHref(Gerrit.info().auth().switchAccountUrl());
-      } else if (Gerrit.info().auth().isDev()
-          || Gerrit.info().auth().isOpenId()) {
+      if (GerritCommon.info().auth().switchAccountUrl() != null) {
+        switchAccount.setHref(GerritCommon.info().auth().switchAccountUrl());
+      } else if (GerritCommon.info().auth().isDev()
+          || GerritCommon.info().auth().isOpenId()) {
         switchAccount.setHref(Gerrit.selfRedirect("/login/"));
       } else {
         switchAccount.removeFromParent();

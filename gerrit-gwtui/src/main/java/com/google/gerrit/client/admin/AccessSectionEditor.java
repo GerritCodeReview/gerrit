@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -250,7 +250,7 @@ public class AccessSectionEditor extends Composite implements
     if (value.getPermission(permissionName) != null) {
       return;
     }
-    if (Gerrit.info().gerrit().isAllProjects(projectAccess.getProjectName())
+    if (GerritCommon.info().gerrit().isAllProjects(projectAccess.getProjectName())
         && !Permission.canBeOnAllProjects(value.getName(), permissionName)) {
       return;
     }

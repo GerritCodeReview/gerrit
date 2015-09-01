@@ -123,7 +123,6 @@ public interface GerritCss extends CssResource {
   String iconHeader();
   String identityUntrustedExternalId();
   String infoBlock();
-  String inputFieldTypeHint();
   String labelNotApplicable();
   String leftMostCell();
   String lineNumber();
@@ -164,7 +163,6 @@ public interface GerritCss extends CssResource {
   String registerScreenSection();
   String reviewedPanelBottom();
   String rightBorder();
-  String rpcStatus();
   String screen();
   String screenHeader();
   String searchPanel();

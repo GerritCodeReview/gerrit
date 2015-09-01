@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import static com.google.gerrit.common.PageLinks.op;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.info.ChangeInfo;
@@ -215,7 +216,7 @@ public class RelatedChanges extends TabPanel {
         EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT),
         new TabChangeListCallback(Tab.CHERRY_PICKS, info.project(), revision));
 
-    if (!Gerrit.info().change().isSubmitWholeTopicEnabled()
+    if (!GerritCommon.info().change().isSubmitWholeTopicEnabled()
         && info.topic() != null && !"".equals(info.topic())) {
       StringBuilder topicQuery = new StringBuilder();
       topicQuery.append("status:open");

@@ -105,10 +105,6 @@ a:hover {
   top: -1px;
 }
 
-.inputFieldTypeHint {
-  color: grey;
-}
-
 .smallHeading {
   margin-top: 5px;
   font-weight: bold;
@@ -323,21 +319,6 @@ a:hover {
   box-sizing: content-box;
 }
 .suggestBoxPopup {
-  z-index: 200;
-}
-
-/** RPC Status **/
-.rpcStatus {
-  position: fixed;
-  top: 6px;
-  left: 50%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 10px;
-  padding-right: 10px;
-  text-align: center;
-  font-weight: bold;
-  background: #FFF1A8;
   z-index: 200;
 }
 

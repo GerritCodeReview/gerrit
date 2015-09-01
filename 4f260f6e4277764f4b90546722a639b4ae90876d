@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a442364a_6f2471f2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-01T02:08:05Z",
+      "side": 1,
+      "message": "if",
+      "range": {
+        "startLine": 185,
+        "startChar": 26,
+        "endLine": 185,
+        "endChar": 29
+      },
+      "revId": "4f260f6e4277764f4b90546722a639b4ae90876d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_100ce47a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-01T02:08:05Z",
+      "side": 1,
+      "message": "iff",
+      "range": {
+        "startLine": 188,
+        "startChar": 26,
+        "endLine": 188,
+        "endChar": 29
+      },
+      "revId": "4f260f6e4277764f4b90546722a639b4ae90876d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_b0fab8a9",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/registration/DynamicSetTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-01T02:08:05Z",
+      "side": 1,
+      "message": "General comment regarding usage of `assertThat`:\n\nInstead of:\n\n assertThat(ds.contains(x)).isTrue()\n\nand\n\n assertThat(ds.contains(y)).isFalse()\n\nit would be better to do:\n\n assertThat(ds).contains(x);\n\nand\n\n assertThat(ds).doesNotContain(y);",
+      "revId": "4f260f6e4277764f4b90546722a639b4ae90876d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_f0f040cd",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/registration/DynamicSetTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-01T02:08:05Z",
+      "side": 1,
+      "message": "no",
+      "range": {
+        "startLine": 82,
+        "startChar": 24,
+        "endLine": 82,
+        "endChar": 27
+      },
+      "revId": "4f260f6e4277764f4b90546722a639b4ae90876d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

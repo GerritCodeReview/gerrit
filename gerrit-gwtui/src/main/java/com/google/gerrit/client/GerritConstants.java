@@ -29,8 +29,6 @@ public interface GerritConstants extends Constants {
   String registerDialogTitle();
   String loginTypeUnsupported();
 
-  String errorTitle();
-  String errorDialogContinue();
   String warnTitle();
 
   String confirmationDialogOk();
@@ -98,8 +96,6 @@ public interface GerritConstants extends Constants {
 
   String searchHint();
   String searchButton();
-
-  String rpcStatusWorking();
 
   String sectionNavigation();
   String sectionActions();

@@ -16,6 +16,7 @@ package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
@@ -64,7 +65,7 @@ public class PluginLoader extends DialogBox {
     this.loadTimeout = loadTimeout;
     progress = new ProgressBar(Gerrit.C.loadingPlugins());
 
-    setStyleName(Gerrit.RESOURCES.css().errorDialog());
+    setStyleName(GerritCommon.RESOURCES.css().errorDialog());
     addStyleName(Gerrit.RESOURCES.css().loadingPluginsDialog());
   }
 
@@ -86,7 +87,7 @@ public class PluginLoader extends DialogBox {
         setText(Window.getTitle());
         setWidget(progress);
         setGlassEnabled(true);
-        getGlassElement().addClassName(Gerrit.RESOURCES.css().errorDialogGlass());
+        getGlassElement().addClassName(GerritCommon.RESOURCES.css().errorDialogGlass());
         hide(true);
         center();
         visible = true;

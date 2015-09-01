@@ -14,11 +14,12 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.RpcStatus;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
       public void run() {
         SuggestUtil.SVC.suggestAccountGroupForProject(
             projectName, req.getQuery(), req.getLimit(),
-            new GerritCallback<List<GroupReference>>() {
+            new AsyncCallback<List<GroupReference>>() {
               @Override
               public void onSuccess(final List<GroupReference> result) {
                 priorResults.clear();
@@ -50,6 +51,12 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
                   priorResults.put(p.getName(), p.getUUID());
                 }
                 callback.onSuggestionsReady(req, new Response(r));
+              }
+
+              @Override
+              public void onFailure(Throwable caught) {
+                // suggestAccountGroupForProject() will only throw RuntimeExceptions
+                new ErrorDialog(caught).center();
               }
             });
       }

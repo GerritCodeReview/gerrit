@@ -45,6 +45,30 @@
       "revId": "9479f9054c573fc40a6a7a46fcd107eb1494eb8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_5afdb5a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:56:03Z",
+      "side": 1,
+      "message": "As long as AndSource picks the source by comparing costs of its children, it\u0027s possible it would get called.\n\nI think the main way this happens is combining with is:starred, since IsStarredByPredicate has cost 0 and IndexedChangeQuery has cost 1.\n\nBut yeah we have little to no test coverage of these.",
+      "parentUuid": "aafbdc84_0ce09708",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "9479f9054c573fc40a6a7a46fcd107eb1494eb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

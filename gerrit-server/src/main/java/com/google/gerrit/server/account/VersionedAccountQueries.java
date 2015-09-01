@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.QueryList;
-import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.VersionedMetaData;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;

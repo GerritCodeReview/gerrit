@@ -107,16 +107,16 @@ public class ReviewerSuggestionCache {
 
     List<String> segments = Splitter.on(' ').omitEmptyStrings().splitToList(
         query.toLowerCase());
-    BooleanQuery q = new BooleanQuery();
+    BooleanQuery.Builder q = new BooleanQuery.Builder();
     for (String field : ALL) {
-      BooleanQuery and = new BooleanQuery();
+      BooleanQuery.Builder and = new BooleanQuery.Builder();
       for (String s : segments) {
         and.add(new PrefixQuery(new Term(field, s)), Occur.MUST);
       }
-      q.add(and, Occur.SHOULD);
+      q.add(and.build(), Occur.SHOULD);
     }
 
-    TopDocs results = searcher.search(q, n);
+    TopDocs results = searcher.search(q.build(), n);
     ScoreDoc[] hits = results.scoreDocs;
 
     List<AccountInfo> result = new LinkedList<>();

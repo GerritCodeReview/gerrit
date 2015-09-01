@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c43f2ab4_302c88c8",
+        "filename": "Documentation/user-named-destinations.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-01T14:17:47Z",
+      "side": 1,
+      "message": "Thanks!  It gets way more useful once you can reference other users\u0027s destinations.  A group based concept would be even more powerful eventually (same for named queries), but we need a place to store the group data.  Are we ready for an All-Groups project soon?",
+      "parentUuid": "c4664a12_18b98502",
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e46fcee4_b9c97f91",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAccountDestinations.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c43f2ab4_d05bfc6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAccountDestinations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-01T14:17:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e46fcee4_b9c97f91",
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e46fcee4_59d62332",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/DestinationList.java",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2015-09-01T10:58:56Z",
       "side": 1,
       "message": "Multimap\u003cString, Branch.NameKey\u003e",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 30,
+        "endChar": 42
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a442364a_ef5e215d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/DestinationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-01T14:17:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e46fcee4_59d62332",
       "range": {
         "startLine": 30,
         "startChar": 10,
@@ -99,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "a442364a_cf5b5d6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TabFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-01T14:17:47Z",
+      "side": 1,
+      "message": "Line 3 is wrapped, which I think gives it a double indent, and then since it is a function inside a class definition (which ends on line 38), I think it gets another indent?  Do we have an official guide for this?",
+      "parentUuid": "c4664a12_38bec9eb",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 8
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c43f2ab4_50502c4a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1
@@ -116,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "c43f2ab4_b0687801",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-01T14:17:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c43f2ab4_50502c4a",
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c43f2ab4_704b30a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1
@@ -127,6 +229,30 @@
       "writtenOn": "2015-09-01T11:40:40Z",
       "side": 1,
       "message": "Why is this needed?",
+      "range": {
+        "startLine": 846,
+        "startChar": 2,
+        "endLine": 846,
+        "endChar": 32
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_90657429",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-01T14:17:47Z",
+      "side": 1,
+      "message": "Not sure how that slipped in, probably a rebase error, thanks!",
+      "parentUuid": "c43f2ab4_704b30a0",
       "range": {
         "startLine": 846,
         "startChar": 2,
@@ -162,6 +288,30 @@
     },
     {
       "key": {
+        "uuid": "a442364a_8f655529",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/DestinationListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-01T14:17:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c43f2ab4_105aa46a",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a442364a_0f5a856a",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/DestinationListTest.java",
         "patchSetId": 1
@@ -185,6 +335,30 @@
     },
     {
       "key": {
+        "uuid": "a442364a_6f32312a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/DestinationListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-01T14:17:47Z",
+      "side": 1,
+      "message": "This is effectively an equals, so it should be commutative.  I agree that it reads better the other way, so I switched it.",
+      "parentUuid": "a442364a_0f5a856a",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 61
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c43f2ab4_3055a83a",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/DestinationListTest.java",
         "patchSetId": 1
@@ -196,6 +370,30 @@
       "writtenOn": "2015-09-01T11:40:40Z",
       "side": 1,
       "message": "This could be inlined in the following assertion.",
+      "range": {
+        "startLine": 162,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 39
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a442364a_2f2c29c8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/DestinationListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-01T14:17:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c43f2ab4_3055a83a",
       "range": {
         "startLine": 162,
         "startChar": 4,

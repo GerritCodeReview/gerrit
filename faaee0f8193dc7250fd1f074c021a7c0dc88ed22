@@ -22,6 +22,30 @@
       "revId": "faaee0f8193dc7250fd1f074c021a7c0dc88ed22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_faeda9f2",
+        "filename": "tools/merge_jars.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-09-01T18:40:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa059cff_9c77e5ae",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "faaee0f8193dc7250fd1f074c021a7c0dc88ed22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a442364a_af96d938",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-01T18:50:37Z",
+      "side": 1,
+      "message": "The hard part is to write good code, not uploading it. ;)",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "07e3bdf25c38d20715501b5617a70755624090e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

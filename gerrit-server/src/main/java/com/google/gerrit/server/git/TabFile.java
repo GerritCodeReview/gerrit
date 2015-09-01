@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import org.slf4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -125,5 +127,10 @@ public class TabFile {
       r.append(' ');
     }
     return r.toString();
+  }
+
+  public static ValidationError.Sink createLoggerSink(String file, Logger log) {
+    return ValidationError.createLoggerSink("Error parsing file " + file + ": ",
+        log);
   }
 }

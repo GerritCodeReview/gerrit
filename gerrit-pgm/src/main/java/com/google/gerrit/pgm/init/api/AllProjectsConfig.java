@@ -102,15 +102,8 @@ public class AllProjectsConfig extends VersionedMetaData {
   }
 
   private GroupList readGroupList() throws IOException {
-    ValidationError.Sink errors = new ValidationError.Sink() {
-      @Override
-      public void error(ValidationError error) {
-        log.error("Error parsing file " + GroupList.FILE_NAME + ": " + error.getMessage());
-      }
-    };
-    String text = readUTF8(GroupList.FILE_NAME);
-
-    return GroupList.parse(text, errors);
+    return GroupList.parse(readUTF8(GroupList.FILE_NAME),
+        GroupList.createLoggerSink(GroupList.FILE_NAME, log));
   }
 
   @Override

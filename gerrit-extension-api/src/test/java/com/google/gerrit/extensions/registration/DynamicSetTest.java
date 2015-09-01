@@ -23,10 +23,20 @@ import com.google.inject.util.Providers;
 import org.junit.Test;
 
 public class DynamicSetTest {
+  // In tests for {@link DynamicSet#contains(Object)}, be sure to avoid
+  // {@code assertThat(ds).contains(...) @} and
+  // {@code assertThat(ds).DoesNotContains(...) @} as (since
+  // {@link DynamicSet@} is not a {@link Collection@}) those boil down to
+  // iterating over the {@link DynamicSet@} and checking equality instead
+  // of calling {@link DynamicSet#contains(Object)}.
+  // To test for {@link DynamicSet#contains(Object)}, use
+  // {@code assertThat(ds.contains(...)).isTrue() @} and
+  // {@code assertThat(ds.contains(...)).isFalse() @} instead.
+
   @Test
   public void testContainsWithEmpty() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
-    assertThat(ds).doesNotContain(2);
+    assertThat(ds.contains(2)).isFalse(); //See above comment about ds.contains
   }
 
   @Test
@@ -34,7 +44,7 @@ public class DynamicSetTest {
     DynamicSet<Integer> ds = new DynamicSet<>();
     ds.add(2);
 
-    assertThat(ds).contains(2);
+    assertThat(ds.contains(2)).isTrue(); //See above comment about ds.contains
   }
 
   @Test
@@ -42,7 +52,7 @@ public class DynamicSetTest {
     DynamicSet<Integer> ds = new DynamicSet<>();
     ds.add(2);
 
-    assertThat(ds).doesNotContain(3);
+    assertThat(ds.contains(3)).isFalse(); //See above comment about ds.contains
   }
 
   @Test
@@ -51,7 +61,7 @@ public class DynamicSetTest {
     ds.add(2);
     ds.add(4);
 
-    assertThat(ds).contains(4);
+    assertThat(ds.contains(4)).isTrue(); //See above comment about ds.contains
   }
 
   @Test
@@ -60,7 +70,7 @@ public class DynamicSetTest {
     ds.add(2);
     ds.add(4);
 
-    assertThat(ds).doesNotContain(3);
+    assertThat(ds.contains(3)).isFalse(); //See above comment about ds.contains
   }
 
   @Test
@@ -74,12 +84,12 @@ public class DynamicSetTest {
     ds.add(6);
 
     // At first, 4 is contained.
-    assertThat(ds).contains(4);
+    assertThat(ds.contains(4)).isTrue(); //See above comment about ds.contains
 
     // Then we remove 4.
     handle.remove();
 
     // And now 4 should no longer be contained.
-    assertThat(ds).doesNotContain(4);
+    assertThat(ds.contains(4)).isFalse(); //See above comment about ds.contains
   }
 }

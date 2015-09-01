@@ -9,6 +9,8 @@ link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcode
 New Features
 ------------
 
+ Hey StupidSing, see this.
+
 * GERRIT-129  Make the browser window title reflect the current scre...
 +
 Useful usability enhancement when you have multiple tabs open.

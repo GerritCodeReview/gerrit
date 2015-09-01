@@ -82,11 +82,11 @@ public class QueryBuilder {
   private Query or(Predicate<ChangeData> p)
       throws QueryParseException {
     try {
-      BooleanQuery q = new BooleanQuery();
+      BooleanQuery.Builder q = new BooleanQuery.Builder();
       for (int i = 0; i < p.getChildCount(); i++) {
         q.add(toQuery(p.getChild(i)), SHOULD);
       }
-      return q;
+      return q.build();
     } catch (BooleanQuery.TooManyClauses e) {
       throw new QueryParseException("cannot create query for index: " + p, e);
     }
@@ -95,7 +95,7 @@ public class QueryBuilder {
   private Query and(Predicate<ChangeData> p)
       throws QueryParseException {
     try {
-      BooleanQuery b = new BooleanQuery();
+      BooleanQuery.Builder b = new BooleanQuery.Builder();
       List<Query> not = Lists.newArrayListWithCapacity(p.getChildCount());
       for (int i = 0; i < p.getChildCount(); i++) {
         Predicate<ChangeData> c = p.getChild(i);
@@ -113,7 +113,7 @@ public class QueryBuilder {
       for (Query q : not) {
         b.add(q, MUST_NOT);
       }
-      return b;
+      return b.build();
     } catch (BooleanQuery.TooManyClauses e) {
       throw new QueryParseException("cannot create query for index: " + p, e);
     }
@@ -127,10 +127,10 @@ public class QueryBuilder {
     }
 
     // Lucene does not support negation, start with all and subtract.
-    BooleanQuery q = new BooleanQuery();
-    q.add(new MatchAllDocsQuery(), MUST);
-    q.add(toQuery(n), MUST_NOT);
-    return q;
+    return new BooleanQuery.Builder()
+      .add(new MatchAllDocsQuery(), MUST)
+      .add(toQuery(n), MUST_NOT)
+      .build();
   }
 
   private Query fieldQuery(IndexPredicate<ChangeData> p)

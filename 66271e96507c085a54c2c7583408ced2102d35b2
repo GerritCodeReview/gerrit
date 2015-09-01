@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0436a2de_d2e6641d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:56:03Z",
+      "side": 1,
+      "message": "Committer would also be nice.",
+      "revId": "66271e96507c085a54c2c7583408ced2102d35b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_7a02f94a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:56:03Z",
+      "side": 1,
+      "message": "Yes, I would be in favor of some simple tokenization scheme.",
+      "revId": "66271e96507c085a54c2c7583408ced2102d35b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0436a2de_12d50c21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:56:03Z",
+      "side": 1,
+      "message": "In the predicate implementation you use equalsIgnoreCase, which is reasonable, but this also needs to be normalized so exact string matches work.",
+      "revId": "66271e96507c085a54c2c7583408ced2102d35b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0436a2de_f2e968ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:56:03Z",
+      "side": 1,
+      "message": "I hate silently swallowing exceptions. I would prefer wrapping in OrmException but if you want to return false, at least log the IOException.",
+      "revId": "66271e96507c085a54c2c7583408ced2102d35b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

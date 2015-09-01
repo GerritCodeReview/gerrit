@@ -17,6 +17,7 @@ package com.google.gerrit.gpg;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static org.junit.Assert.assertEquals;
 
+import com.google.common.base.Stopwatch;
 import com.google.gerrit.gpg.testutil.TestKey;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -33,6 +34,7 @@ import org.junit.rules.ExpectedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class PublicKeyCheckerTest {
   @Rule
@@ -106,6 +108,40 @@ public class PublicKeyCheckerTest {
     assertProblems(checker, kc);
     assertProblems(checker, kd);
     assertProblems(checker, ke, "Key is expired", "No path to a trusted key");
+  }
+
+  @Test
+  public void trustBenchmark() throws Exception {
+    add(keyA());
+    TestKey kc = add(keyC());
+    TestKey kd = add(keyD());
+    save();
+
+    PublicKeyChecker checker = newChecker(2, kd);
+    for (int x = 0; x < 5; x++) {
+      Stopwatch sw = Stopwatch.createStarted();
+      long min = Long.MAX_VALUE;
+      long max = Long.MIN_VALUE;
+      long lastUs = sw.elapsed(TimeUnit.MICROSECONDS);
+      for (int i = 0; i < 1000; i++) {
+        assertProblems(checker, kc);
+        long nextUs = sw.elapsed(TimeUnit.MICROSECONDS);
+        long t = nextUs - lastUs;
+        lastUs = nextUs;
+        if (t < min) {
+          min = t;
+        }
+        if (t > max) {
+          max = t;
+        }
+      }
+      long total = sw.elapsed(TimeUnit.MILLISECONDS);
+      System.err.println("total ms = " + total);
+      System.err.println("avg   ms = " + (total / 1000.));
+      System.err.println("min   ms = " + (min / 1000.));
+      System.err.println("max   ms = " + (max / 1000.));
+      System.err.println("");
+    }
   }
 
   @Test

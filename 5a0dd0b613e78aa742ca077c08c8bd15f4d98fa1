@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4664a12_18b98502",
+        "filename": "Documentation/user-named-destinations.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-01T10:58:56Z",
+      "side": 1,
+      "message": "Nice concept",
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e46fcee4_b9c97f91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VersionedAccountDestinations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-01T10:58:56Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e46fcee4_59d62332",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/DestinationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-01T10:58:56Z",
+      "side": 1,
+      "message": "Multimap\u003cString, Branch.NameKey\u003e",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 30,
+        "endChar": 42
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e46fcee4_99ccbba2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TabFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-01T10:58:56Z",
+      "side": 1,
+      "message": "nit: wrong indentation level (3 spaces to the previos line)",
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4664a12_38bec9eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TabFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-01T10:58:56Z",
+      "side": 1,
+      "message": "nit: is this whole block indented properly?\n\nLooking at a couple of examples in our code it looks like the line 35 should be just 2 spaces indented, etc..",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 8
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "046dc2ec_9accada2",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:34:57Z",
+      "side": 1,
+      "message": "The Gerrit search model distinguishes between empty and missing fields, I don\u0027t think it\u0027s right to discard empty strings.",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_bac97191",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:34:57Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_7adbd958",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:34:57Z",
+      "side": 1,
+      "message": "for (Predicate\u003cChangeData\u003e c : p.getChildren())",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_5ad61532",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:34:57Z",
+      "side": 1,
+      "message": "This arm\u0027s-length recursion feels wrong. Can this be pushed into the implementation of not()?",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_1ad09d30",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:34:57Z",
+      "side": 1,
+      "message": "getChildren",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_3ad56121",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:34:57Z",
+      "side": 1,
+      "message": "Endpoints are inclusive in the positive form of the query, so presumably this should be exclusive.",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_dae9c5ef",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:34:57Z",
+      "side": 1,
+      "message": "This is not a sufficient check, since that backslash could itself be escaped.\n\nReally it would be really nice to not have to munge regexes at all.",
+      "range": {
+        "startLine": 171,
+        "startChar": 34,
+        "endLine": 171,
+        "endChar": 55
+      },
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0436a2de_72d69832",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-01T13:34:57Z",
+      "side": 1,
+      "message": "So am I correct in reading that all regex queries in Elastic Search have an implicit ^ and $? That is, \"foo.key\u003db.*d\" matches \"bcd\" but _not_ \"abcd\" nor \"bcde\"?",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

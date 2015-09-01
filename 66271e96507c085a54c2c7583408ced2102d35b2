@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "a442364a_4f9e4d5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-01T15:42:32Z",
+      "side": 1,
+      "message": "Sounds reasonable as a follow up change.  I generally think that anything is fine as a follow on change as long as you are not introducing \"bad\" code/behavior without it.  In this case, that would clearly be an extra feature.",
+      "parentUuid": "a442364a_ef45017f",
+      "revId": "66271e96507c085a54c2c7583408ced2102d35b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0436a2de_12d50c21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 4

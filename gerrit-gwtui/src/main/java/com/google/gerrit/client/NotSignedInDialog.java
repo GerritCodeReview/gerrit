@@ -35,8 +35,8 @@ public class NotSignedInDialog extends PopupPanel implements CloseHandler<PopupP
   public NotSignedInDialog() {
     super(/* auto hide */false, /* modal */true);
     setGlassEnabled(true);
-    getGlassElement().addClassName(Gerrit.RESOURCES.css().errorDialogGlass());
-    addStyleName(Gerrit.RESOURCES.css().errorDialog());
+    getGlassElement().addClassName(GerritCommon.RESOURCES.css().errorDialogGlass());
+    addStyleName(GerritCommon.RESOURCES.css().errorDialog());
 
     final FlowPanel buttons = new FlowPanel();
     signin = new Button();
@@ -65,7 +65,7 @@ public class NotSignedInDialog extends PopupPanel implements CloseHandler<PopupP
     buttons.add(close);
 
     Label title = new Label(Gerrit.C.notSignedInTitle());
-    title.setStyleName(Gerrit.RESOURCES.css().errorDialogTitle());
+    title.setStyleName(GerritCommon.RESOURCES.css().errorDialogTitle());
 
     FlowPanel center = new FlowPanel();
     center.add(title);

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
 import java.util.Collections;
@@ -29,7 +29,7 @@ public abstract class SuggestAfterTypingNCharsOracle extends HighlightSuggestOra
 
   @Override
   protected void onRequestSuggestions(Request req, Callback cb) {
-    if (req.getQuery().length() >= Gerrit.info().suggest().from()) {
+    if (req.getQuery().length() >= GerritCommon.info().suggest().from()) {
       _onRequestSuggestions(req, cb);
     } else {
       List<Suggestion> none = Collections.emptyList();

@@ -16,6 +16,7 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritCommon;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.OnEditEnabler;
@@ -219,7 +220,7 @@ public class NewAgreementScreen extends AccountScreen {
     String url = cla.getAgreementUrl();
     if (url != null && url.length() > 0) {
       agreementGroup.setVisible(true);
-      agreementHtml.setText(Gerrit.C.rpcStatusWorking());
+      agreementHtml.setText(GerritCommon.C.rpcStatusWorking());
       if (!url.startsWith("http:") && !url.startsWith("https:")) {
         url = GWT.getHostPageBaseURL() + url;
       }

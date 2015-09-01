@@ -40,18 +40,18 @@ public class ErrorDialog extends PopupPanel {
   protected ErrorDialog() {
     super(/* auto hide */false, /* modal */true);
     setGlassEnabled(true);
-    getGlassElement().addClassName(Gerrit.RESOURCES.css().errorDialogGlass());
+    getGlassElement().addClassName(GerritCommon.RESOURCES.css().errorDialogGlass());
 
     text = new Label();
-    text.setStyleName(Gerrit.RESOURCES.css().errorDialogTitle());
+    text.setStyleName(GerritCommon.RESOURCES.css().errorDialogTitle());
 
     body = new FlowPanel();
 
     final FlowPanel buttons = new FlowPanel();
-    buttons.setStyleName(Gerrit.RESOURCES.css().errorDialogButtons());
+    buttons.setStyleName(GerritCommon.RESOURCES.css().errorDialogButtons());
 
     closey = new Button();
-    closey.setText(Gerrit.C.errorDialogContinue());
+    closey.setText(GerritCommon.C.errorDialogContinue());
     closey.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -75,8 +75,8 @@ public class ErrorDialog extends PopupPanel {
     center.add(body);
     center.add(buttons);
 
-    setText(Gerrit.C.errorTitle());
-    addStyleName(Gerrit.RESOURCES.css().errorDialog());
+    setText(GerritCommon.C.errorTitle());
+    addStyleName(GerritCommon.RESOURCES.css().errorDialog());
     add(center);
 
     int l = Window.getScrollLeft() + 20;
@@ -144,7 +144,7 @@ public class ErrorDialog extends PopupPanel {
 
     if (hdr != null) {
       final Label r = new Label(hdr);
-      r.setStyleName(Gerrit.RESOURCES.css().errorDialogErrorType());
+      r.setStyleName(GerritCommon.RESOURCES.css().errorDialogErrorType());
       body.add(r);
     }
 

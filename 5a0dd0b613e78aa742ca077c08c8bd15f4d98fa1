@@ -96,6 +96,115 @@
       "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_50502c4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-01T11:40:40Z",
+      "side": 1,
+      "message": "nit: should be after FIELD_DELTA",
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_704b30a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-01T11:40:40Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 846,
+        "startChar": 2,
+        "endLine": 846,
+        "endChar": 32
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_105aa46a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/DestinationListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-01T11:40:40Z",
+      "side": 1,
+      "message": "Should this block have the `static` modifier?",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a442364a_0f5a856a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/DestinationListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-01T11:40:40Z",
+      "side": 1,
+      "message": "Should this assertion be the other way around?\n\n assertThat(branches).containsExactlyElementsIn(D_SIMPLE);",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 61
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_3055a83a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/DestinationListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-01T11:40:40Z",
+      "side": 1,
+      "message": "This could be inlined in the following assertion.",
+      "range": {
+        "startLine": 162,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 39
+      },
+      "revId": "5a0dd0b613e78aa742ca077c08c8bd15f4d98fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

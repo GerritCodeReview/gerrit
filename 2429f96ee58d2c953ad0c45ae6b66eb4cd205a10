@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4664a12_b8e099ff",
+        "filename": "Documentation/user-named-destinations.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-02T12:02:04Z",
+      "side": 1,
+      "message": "What if one want to add all branches of a project? Listing all of them here and having to maintain them is not nice.\n\nHave you thought about a git-like wildcard support in branch names:\n\n  refs/heads/*   gerrit",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "2429f96ee58d2c953ad0c45ae6b66eb4cd205a10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

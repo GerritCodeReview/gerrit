@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "a442364a_2fbf8999",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3332,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T09:51:42Z",
+      "side": 1,
+      "message": "safe_content",
+      "range": {
+        "startLine": 3332,
+        "startChar": 123,
+        "endLine": 3332,
+        "endChar": 130
+      },
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_10c4e429",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3375,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T09:51:42Z",
+      "side": 1,
+      "message": "Move this up to after the paragraph 3343-3344?  Otherwise it\u0027s mentioned after the example shows its usage.",
+      "range": {
+        "startLine": 3374,
+        "startChar": 0,
+        "endLine": 3375,
+        "endChar": 81
+      },
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04fea26f_12b42c0a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 1
@@ -13,6 +59,52 @@
       "writtenOn": "2015-09-02T09:23:02Z",
       "side": 1,
       "message": "nit: line too long",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a442364a_efa8615c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T09:51:42Z",
+      "side": 1,
+      "message": "nit: don\u0027t use final unless necessary for compilation.\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style\n\nAlso in a few other places below.",
+      "range": {
+        "startLine": 152,
+        "startChar": 6,
+        "endLine": 152,
+        "endChar": 11
+      },
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a442364a_0fc4c529",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T09:51:42Z",
+      "side": 1,
+      "message": "nit: the else clause is redundant.",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 163,
+        "endChar": 14
+      },
       "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -81,6 +173,29 @@
       "writtenOn": "2015-09-02T09:23:02Z",
       "side": 1,
       "message": "make use of the try-with-resources for auto-closing the zipOut?",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_f0a8405c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T09:51:42Z",
+      "side": 1,
+      "message": "Is it possible to inline all this to a single statement?",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 18
+      },
       "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

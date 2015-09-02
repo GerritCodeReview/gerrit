@@ -62,6 +62,7 @@ import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.DisabledReviewDb;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
@@ -123,13 +124,15 @@ public abstract class AbstractQueryChangesTest {
   @Inject protected InternalChangeQuery internalChangeQuery;
   @Inject protected NotesMigration notesMigration;
   @Inject protected ProjectControl.GenericFactory projectControlFactory;
+  @Inject protected ChangeQueryBuilder queryBuilder;
+  @Inject protected QueryProcessor queryProcessor;
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected ThreadLocalRequestContext requestContext;
 
   protected LifecycleManager lifecycle;
   protected ReviewDb db;
   protected Account.Id userId;
-  protected CurrentUser user;
+  protected IdentifiedUser user;
   protected volatile long clockStepMs;
 
   private String systemTimeZone;
@@ -1194,6 +1197,41 @@ public abstract class AbstractQueryChangesTest {
           .containsExactlyElementsIn(expectedIds);
     }
   }
+
+  @Test
+  public void prepopulatedFields() throws Exception {
+    assume().that(notesMigration.enabled()).isFalse();
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = newChange(repo, null, null, null, null).insert();
+
+    db = new DisabledReviewDb();
+    requestContext.setContext(newRequestContext(userId));
+    // Use QueryProcessor directly instead of API so we get ChangeDatas back.
+    List<ChangeData> cds = queryProcessor
+        .queryChanges(queryBuilder.parse(change.getId().toString()))
+        .changes();
+    assertThat(cds).hasSize(1);
+
+    ChangeData cd = cds.get(0);
+    cd.change();
+    cd.patchSets();
+    cd.currentApprovals();
+    cd.changedLines();
+    cd.reviewedBy();
+
+    // TODO(dborowitz): Swap out GitRepositoryManager somehow? Will probably be
+    // necessary for notedb anyway.
+    cd.isMergeable();
+
+    // Don't use ExpectedException since that wouldn't distinguish between
+    // failures here and on the previous calls.
+    try {
+      cd.messages();
+    } catch (AssertionError e) {
+      assertThat(e.getMessage()).isEqualTo(DisabledReviewDb.MESSAGE);
+    }
+  }
+
 
   protected ChangeInserter newChange(
       TestRepository<Repo> repo,

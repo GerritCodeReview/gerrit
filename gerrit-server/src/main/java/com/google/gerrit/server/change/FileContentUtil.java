@@ -16,6 +16,12 @@ package com.google.gerrit.server.change;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Strings;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -26,8 +32,11 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import eu.medsea.mimeutil.MimeType;
+
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -35,9 +44,14 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.NB;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.util.Random;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Singleton
 public class FileContentUtil {
@@ -45,6 +59,8 @@ public class FileContentUtil {
   private static final String X_GIT_SYMLINK = "x-git/symlink";
   private static final String X_GIT_GITLINK = "x-git/gitlink";
   private static final int MAX_SIZE = 5 << 20;
+  private static final String ZIP_TYPE = "application/zip";
+  private static final Random rng = new Random();
 
   private final GitRepositoryManager repoManager;
   private final FileTypeRegistry registry;
@@ -75,7 +91,7 @@ public class FileContentUtil {
             .base64();
       }
 
-      final ObjectLoader obj = repo.open(id, OBJ_BLOB);
+      ObjectLoader obj = repo.open(id, OBJ_BLOB);
       byte[] raw;
       try {
         raw = obj.getCachedBytes(MAX_SIZE);
@@ -108,6 +124,133 @@ public class FileContentUtil {
     };
     result.setContentLength(obj.getSize());
     return result;
+  }
+
+  public BinaryResult downloadContent(ProjectState project, ObjectId revstr,
+      String path, @Nullable String suffix)
+          throws ResourceNotFoundException, IOException {
+    suffix = Strings.emptyToNull(CharMatcher.inRange('a', 'z')
+        .retainFrom(suffix));
+
+    try (Repository repo = openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(revstr);
+      ObjectReader reader = rw.getObjectReader();
+      TreeWalk tw = TreeWalk.forPath(reader, path, commit.getTree());
+      if (tw == null) {
+        throw new ResourceNotFoundException();
+      }
+
+      int mode = tw.getFileMode(0).getObjectType();
+      if (mode != Constants.OBJ_BLOB) {
+        throw new ResourceNotFoundException();
+      }
+
+      ObjectId id = tw.getObjectId(0);
+      ObjectLoader obj = repo.open(id, OBJ_BLOB);
+      byte[] raw;
+      try {
+        raw = obj.getCachedBytes(MAX_SIZE);
+      } catch (LargeObjectException e) {
+        raw = null;
+      }
+
+      MimeType contentType = registry.getMimeType(path, raw);
+      return registry.isSafeInline(contentType)
+          ? wrapBlob(project, path, obj, raw, contentType, suffix)
+          : zipBlob(path, obj, commit, suffix);
+    }
+  }
+
+  private BinaryResult wrapBlob(ProjectState project, String path,
+      final ObjectLoader obj, byte[] raw, MimeType contentType,
+      @Nullable String suffix) {
+    return asBinaryResult(raw, obj)
+        .setContentType(contentType.toString())
+        .setAttachmentName(safeFileName(path, suffix));
+  }
+
+  private BinaryResult zipBlob(final String path, final ObjectLoader obj,
+      RevCommit commit, final @Nullable String suffix) {
+    final String commitName = commit.getName();
+    final long when = commit.getCommitTime() * 1000L;
+    return new BinaryResult() {
+      @Override
+      public void writeTo(OutputStream os) throws IOException {
+        try (ZipOutputStream zipOut = new ZipOutputStream(os)) {
+          String decoration = randSuffix();
+          if (!Strings.isNullOrEmpty(suffix)) {
+            decoration = suffix + '-' + decoration;
+          }
+          ZipEntry e = new ZipEntry(safeFileName(path, decoration));
+          e.setComment(commitName + ":" + path);
+          e.setSize(obj.getSize());
+          e.setTime(when);
+          zipOut.putNextEntry(e);
+          obj.copyTo(zipOut);
+          zipOut.closeEntry();
+        }
+      }
+    }.setContentType(ZIP_TYPE)
+        .setAttachmentName(safeFileName(path, suffix) + ".zip")
+        .disableGzip();
+  }
+
+  private static String safeFileName(String fileName, @Nullable String suffix) {
+    // Convert a file path (e.g. "src/Init.c") to a safe file name with
+    // no meta-characters that might be unsafe on any given platform.
+    //
+    int slash = fileName.lastIndexOf('/');
+    if (slash >= 0) {
+      fileName = fileName.substring(slash + 1);
+    }
+
+    StringBuilder r = new StringBuilder(fileName.length());
+    for (int i = 0; i < fileName.length(); i++) {
+      final char c = fileName.charAt(i);
+      if (c == '_' || c == '-' || c == '.' || c == '@') {
+        r.append(c);
+      } else if ('0' <= c && c <= '9') {
+        r.append(c);
+      } else if ('A' <= c && c <= 'Z') {
+        r.append(c);
+      } else if ('a' <= c && c <= 'z') {
+        r.append(c);
+      } else if (c == ' ' || c == '\n' || c == '\r' || c == '\t') {
+        r.append('-');
+      } else {
+        r.append('_');
+      }
+    }
+    fileName = r.toString();
+
+    int ext = fileName.lastIndexOf('.');
+    if (suffix == null) {
+      return fileName;
+    } else if (ext <= 0) {
+      return fileName + "_" + suffix;
+    } else {
+      return fileName.substring(0, ext) + "_" + suffix
+          + fileName.substring(ext);
+    }
+  }
+
+  private static String randSuffix() {
+    // Produce a random suffix that is difficult (or nearly impossible)
+    // for an attacker to guess in advance. This reduces the risk that
+    // an attacker could upload a *.class file and have us send a ZIP
+    // that can be invoked through an applet tag in the victim's browser.
+    //
+    Hasher h = Hashing.md5().newHasher();
+    byte[] buf = new byte[8];
+
+    NB.encodeInt64(buf, 0, TimeUtil.nowMs());
+    h.putBytes(buf);
+
+    rng.nextBytes(buf);
+    h.putBytes(buf);
+
+    return h.hash().toString();
   }
 
   public static String resolveContentType(ProjectState project, String path,

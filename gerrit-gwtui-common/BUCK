@@ -22,12 +22,6 @@ gwt_module(
 
 java_library(
   name = 'client-lib',
-  exported_deps = [':client-lib2'],
-  visibility = ['PUBLIC'],
-)
-
-java_library(
-  name = 'client-lib2',
   srcs = glob(['src/main/**/*.java']),
   resources = glob(['src/main/**/*']),
   exported_deps = EXPORTED_DEPS,

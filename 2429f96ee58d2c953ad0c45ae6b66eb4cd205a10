@@ -22,6 +22,30 @@
       "revId": "2429f96ee58d2c953ad0c45ae6b66eb4cd205a10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a442364a_0fdba507",
+        "filename": "Documentation/user-named-destinations.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-09-02T15:05:47Z",
+      "side": 1,
+      "message": "Yeah, I thought about that and think it is a great idea.  I also think that at some point destinations should be able to point to other destinations.  I will consider those follow on features (for future changes) since it is best to keep each change as small as possible.",
+      "parentUuid": "c4664a12_b8e099ff",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "2429f96ee58d2c953ad0c45ae6b66eb4cd205a10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

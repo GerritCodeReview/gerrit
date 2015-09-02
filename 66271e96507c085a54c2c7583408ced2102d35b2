@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c43f2ab4_9001f410",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T03:18:13Z",
+      "side": 1,
+      "message": "Done in this change.",
+      "parentUuid": "a442364a_0f316520",
+      "revId": "66271e96507c085a54c2c7583408ced2102d35b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "046dc2ec_7a02f94a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -108,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "c43f2ab4_b004f820",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T03:18:13Z",
+      "side": 1,
+      "message": "Done in this change.",
+      "parentUuid": "0436a2de_92e0dcff",
+      "revId": "66271e96507c085a54c2c7583408ced2102d35b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0436a2de_12d50c21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 4
@@ -125,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "c43f2ab4_f0fa807c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T03:18:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0436a2de_12d50c21",
+      "revId": "66271e96507c085a54c2c7583408ced2102d35b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0436a2de_f2e968ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
         "patchSetId": 4
@@ -136,6 +190,24 @@
       "writtenOn": "2015-09-01T13:56:03Z",
       "side": 1,
       "message": "I hate silently swallowing exceptions. I would prefer wrapping in OrmException but if you want to return false, at least log the IOException.",
+      "revId": "66271e96507c085a54c2c7583408ced2102d35b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_d0f77c92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T03:18:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0436a2de_f2e968ef",
       "revId": "66271e96507c085a54c2c7583408ced2102d35b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

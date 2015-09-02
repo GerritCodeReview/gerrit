@@ -14,25 +14,24 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.server.index.ChangeField.COMMIT;
 import static com.google.gerrit.server.index.ChangeField.EXACT_COMMIT;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
 
-import org.eclipse.jgit.lib.Constants;
-
 class CommitPredicate extends IndexPredicate<ChangeData> {
   static FieldDef<ChangeData, ?> commitField(Schema<ChangeData> schema,
       String id) {
-    if (id.length() == Constants.OBJECT_ID_STRING_LENGTH
+    if (id.length() == OBJECT_ID_STRING_LENGTH
         && schema.hasField(EXACT_COMMIT)) {
       return EXACT_COMMIT;
     }
-    return ChangeField.COMMIT;
+    return COMMIT;
   }
 
   CommitPredicate(Schema<ChangeData> schema, String id) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_2cd63331",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3332,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done, good catch",
+      "parentUuid": "a442364a_2fbf8999",
+      "range": {
+        "startLine": 3332,
+        "startChar": 123,
+        "endLine": 3332,
+        "endChar": 130
+      },
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c43f2ab4_10c4e429",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-02T09:51:42Z",
       "side": 1,
       "message": "Move this up to after the paragraph 3343-3344?  Otherwise it\u0027s mentioned after the example shows its usage.",
+      "range": {
+        "startLine": 3374,
+        "startChar": 0,
+        "endLine": 3375,
+        "endChar": 81
+      },
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_0cdb7759",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3375,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c43f2ab4_10c4e429",
       "range": {
         "startLine": 3374,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_8bbf4de4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04fea26f_12b42c0a",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a442364a_efa8615c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2015-09-02T09:51:42Z",
       "side": 1,
       "message": "nit: don\u0027t use final unless necessary for compilation.\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style\n\nAlso in a few other places below.",
+      "range": {
+        "startLine": 152,
+        "startChar": 6,
+        "endLine": 152,
+        "endChar": 11
+      },
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_ebcc11a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done, thanks. The convention must have changed; this was mostly just copied from old code in CatServlet.",
+      "parentUuid": "a442364a_efa8615c",
       "range": {
         "startLine": 152,
         "startChar": 6,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_cbc95591",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a442364a_0fc4c529",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 163,
+        "endChar": 14
+      },
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4664a12_38d56921",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 1
@@ -122,6 +236,24 @@
       "writtenOn": "2015-09-02T09:23:02Z",
       "side": 1,
       "message": "nit: line too long",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_2bd61931",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4664a12_38d56921",
       "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_0bdb5d59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4664a12_d8e9cdef",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4664a12_f8e6111d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 1
@@ -162,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_eccc2ba3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4664a12_f8e6111d",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04fea26f_32afb0b9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 1
@@ -173,6 +341,24 @@
       "writtenOn": "2015-09-02T09:23:02Z",
       "side": 1,
       "message": "make use of the try-with-resources for auto-closing the zipOut?",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_ccc96f91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04fea26f_32afb0b9",
       "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -202,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_4bd56520",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done; it\u0027s a new look I\u0027ve never seen before, composing builder methods with an anonymous class instantiation. I don\u0027t know if there\u0027s an applicable indentation convention for that.",
+      "parentUuid": "c43f2ab4_f0a8405c",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 18
+      },
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a442364a_2ff1c9a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
         "patchSetId": 1
@@ -213,6 +423,30 @@
       "writtenOn": "2015-09-02T01:24:27Z",
       "side": 1,
       "message": "Note to self: this should not be a singleton, presumably, since it has an option.",
+      "range": {
+        "startLine": 30,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_8cbf67e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T21:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a442364a_2ff1c9a1",
       "range": {
         "startLine": 30,
         "startChar": 1,

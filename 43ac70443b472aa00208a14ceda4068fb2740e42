@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "046dc2ec_3a5a416b",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-02T15:01:56Z",
+      "side": 1,
+      "message": "Hm, surprised this works, since I don\u0027t think there is an \"elasticsearch\" in /BUCK.",
+      "revId": "43ac70443b472aa00208a14ceda4068fb2740e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

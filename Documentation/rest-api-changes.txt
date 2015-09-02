@@ -3326,6 +3326,54 @@ Alternatively, if the only value of the Accept request header is
 `application/json` the content is returned as JSON string and
 `X-FYI-Content-Encoding` is set to `json`.
 
+[[get-safe-content]]
+=== Get Safe Content
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/content'
+--
+
+Similar to legacy CatServlet, gets the content of a file from a certain revision,
+in a format that poses no risk for inadvertent execution of untrusted code.
+
+If the content type is defined as safe, it is returned verbatim. If
+the content type is potentially executable, it is returned as a ZIP
+file, which contains a single file with a randomized name having the
+same base and suffix as the true filename.
+
+The HTTP resource Content-Type is dependent on the file type: the
+applicable type for safe files, or "application/zip" for unsafe files.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/website%2Freleases%2Flogo.png/safe_content HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment; filename="logo.png"
+  Content-Type: image/png
+
+  `[binary data for logo.png]`
+----
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/safe_content?side=new HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: Content-Disposition:attachment; filename="RefControl_new-931cdb73ae9d97eb500a3533455b055d90b99944.java.zip"
+  Content-Type:application/zip
+
+  `[binary ZIP archive containing a single file, "RefControl_new-cb218df1337df48a0e7ab30a49a8067ac7321881.java"]`
+----
+
+The `side` parameter can be specified to decorate the names of the files.
+Only the lowercase Roman letters a-z are permitted; other characters are ignored.
+
 [[get-diff]]
 === Get Diff
 --

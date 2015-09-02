@@ -42,7 +42,7 @@ import com.google.gwtorm.server.StatementExecutor;
 
 /** ReviewDb that is disabled for testing. */
 public class DisabledReviewDb implements ReviewDb {
-  private static final String MESSAGE = "ReviewDb is disabled for this test";
+  public static final String MESSAGE = "ReviewDb is disabled for this test";
 
   @Override
   public void close() {

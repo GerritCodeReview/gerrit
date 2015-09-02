@@ -14,6 +14,7 @@
 
 package com.google.gerrit.gpg;
 
+import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyObjectId;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
@@ -23,7 +24,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.gpg.testutil.TestKey;
-import com.google.gerrit.reviewdb.client.RefNames;
 
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
@@ -84,13 +84,13 @@ public class PublicKeyStoreTest {
   @Test
   public void testGet() throws Exception {
     TestKey key1 = TestKey.key1();
-    tr.branch(RefNames.REFS_GPG_KEYS)
+    tr.branch(REFS_GPG_KEYS)
         .commit()
         .add(keyObjectId(key1.getKeyId()).name(),
           key1.getPublicKeyArmored())
         .create();
     TestKey key2 = TestKey.key2();
-    tr.branch(RefNames.REFS_GPG_KEYS)
+    tr.branch(REFS_GPG_KEYS)
         .commit()
         .add(keyObjectId(key2.getKeyId()).name(),
           key2.getPublicKeyArmored())
@@ -104,7 +104,7 @@ public class PublicKeyStoreTest {
   public void testGetMultiple() throws Exception {
     TestKey key1 = TestKey.key1();
     TestKey key2 = TestKey.key2();
-    tr.branch(RefNames.REFS_GPG_KEYS)
+    tr.branch(REFS_GPG_KEYS)
         .commit()
         .add(keyObjectId(key1.getKeyId()).name(),
             key1.getPublicKeyArmored()
@@ -131,7 +131,7 @@ public class PublicKeyStoreTest {
   public void saveAppendsToExistingList() throws Exception {
     TestKey key1 = TestKey.key1();
     TestKey key2 = TestKey.key2();
-    tr.branch(RefNames.REFS_GPG_KEYS)
+    tr.branch(REFS_GPG_KEYS)
         .commit()
         // Mismatched for this key ID, but we can still read it out.
         .add(keyObjectId(key1.getKeyId()).name(), key2.getPublicKeyArmored())
@@ -146,7 +146,7 @@ public class PublicKeyStoreTest {
         RevWalk rw = new RevWalk(reader)) {
       NoteMap notes = NoteMap.read(
           reader, tr.getRevWalk().parseCommit(
-            tr.getRepository().getRef(RefNames.REFS_GPG_KEYS).getObjectId()));
+            tr.getRepository().getRef(REFS_GPG_KEYS).getObjectId()));
       String contents = new String(
           reader.open(notes.get(keyObjectId(key1.getKeyId()))).getBytes(),
           UTF_8);

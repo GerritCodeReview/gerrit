@@ -2863,28 +2863,16 @@ Default is 5 seconds. Negative values will be converted to 0.
 [[receive]]
 === Section receive
 
-This section is used to set who can execute the 'receive-pack' and
-to limit the maximum Git object size that 'receive-pack' will accept.
-'receive-pack' is what runs on the server during a user's push or
-repo upload command. It also contains some advanced options for tuning the
-behavior of Gerrit's 'receive-pack' mechanism.
+This section is used to configure behavior of the 'receive-pack'
+handler, which responds to 'git push' requests.
 
-----
-[receive]
-  allowGroup = GROUP_ALLOWED_TO_EXECUTE
-  allowGroup = YET_ANOTHER_GROUP_ALLOWED_TO_EXECUTE
-  maxObjectSizeLimit = 40 m
-----
-
-[[receive.enableSignedPush]]receive.enableSignedPush::
+[[receive.allowGroup]]receive.allowGroup::
 +
-If true, server-side signed push validation is enabled.
+Name of the groups of users that are allowed to execute
+'receive-pack' on the server. One or more groups can be set.
 +
-When a client pushes with `git push --signed`, this ensures that the
-push certificate is valid and signed with a valid public key stored in
-the `refs/gpg-keys` branch of `All-Users`.
-+
-Defaults to false.
+If no groups are added, any user will be allowed to execute
+'receive-pack' on the server.
 
 [[receive.certNonceSeed]]receive.certNonceSeed::
 +
@@ -2909,6 +2897,18 @@ repositories, since the lag also includes the time to count objects on
 the client.
 +
 Default is 5 minutes.
+
+[[receive.changeUpdateThreads]]receive.changeUpdateThreads::
++
+Number of threads to perform change creation or patch set updates
+concurrently. Each thread uses its own database connection from
+the database connection pool, and if all threads are busy then
+main receive thread will also perform a change creation or patch
+set update.
++
+Defaults to 1, using only the main receive thread. This feature is for
+databases with very high latency that can benefit from concurrent
+operations when multiple changes are impacted at once.
 
 [[receive.checkMagicRefs]]receive.checkMagicRefs::
 +
@@ -2938,13 +2938,30 @@ references to access commits intended to be hidden from the user.
 +
 Default is true.
 
-[[receive.allowGroup]]receive.allowGroup::
+[[receive.enableSignedPush]]receive.enableSignedPush::
 +
-Name of the groups of users that are allowed to execute
-'receive-pack' on the server. One or more groups can be set.
+If true, server-side signed push validation is enabled.
 +
-If no groups are added, any user will be allowed to execute
-'receive-pack' on the server.
+When a client pushes with `git push --signed`, this ensures that the
+push certificate is valid and signed with a valid public key stored in
+the `refs/gpg-keys` branch of `All-Users`.
++
+Defaults to false.
+
+[[receive.maxBatchChanges]]receive.maxBatchChanges::
++
+The maximum number of changes that Gerrit allows to be pushed
+in a batch for review. When this number is exceeded Gerrit rejects
+the push with an error message.
++
+May be overridden for certain groups by specifying a limit in the
+link:access-control.html#capability_batchChangesLimit['Batch Changes Limit']
+global capability.
++
+This setting can be used to prevent users from uploading large
+number of changes for review by mistake.
++
+Default is zero, no limit.
 
 [[receive.maxObjectSizeLimit]]receive.maxObjectSizeLimit::
 +
@@ -2965,39 +2982,12 @@ Default is zero.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
-[[receive.maxBatchChanges]]receive.maxBatchChanges::
-+
-The maximum number of changes that Gerrit allows to be pushed
-in a batch for review. When this number is exceeded Gerrit rejects
-the push with an error message.
-+
-May be overridden for certain groups by specifying a limit in the
-link:access-control.html#capability_batchChangesLimit['Batch Changes Limit']
-global capability.
-+
-This setting can be used to prevent users from uploading large
-number of changes for review by mistake.
-+
-Default is zero, no limit.
-
 [[receive.threadPoolSize]]receive.threadPoolSize::
 +
 Maximum size of the thread pool in which the change data in received packs is
 processed.
 +
 Defaults to the number of available CPUs according to the Java runtime.
-
-[[receive.changeUpdateThreads]]receive.changeUpdateThreads::
-+
-Number of threads to perform change creation or patch set updates
-concurrently. Each thread uses its own database connection from
-the database connection pool, and if all threads are busy then
-main receive thread will also perform a change creation or patch
-set update.
-+
-Defaults to 1, using only the main receive thread. This feature is for
-databases with very high latency that can benefit from concurrent
-operations when multiple changes are impacted at once.
 
 [[receive.timeout]]receive.timeout::
 +

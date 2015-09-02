@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0436a2de_321ed0a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-02T14:55:40Z",
+      "side": 1,
+      "message": "I don\u0027t know if there\u0027s any really sane organization of this list, but I would probably put these up in the block starting at line 81.",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0436a2de_92f7bcc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-02T14:55:40Z",
+      "side": 1,
+      "message": "Also split email using the same splitter (in addition to just \"@\")?",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_da17857f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-02T14:55:40Z",
+      "side": 1,
+      "message": "Nit: multi-line javadocs should have /** on a line by itself.",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0436a2de_722458f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-02T14:55:40Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_fa14c97c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-02T14:55:40Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0436a2de_522954c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-02T14:55:40Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

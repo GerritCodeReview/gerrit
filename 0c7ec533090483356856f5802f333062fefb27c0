@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "0436a2de_d214247d",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-02T15:54:03Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/70613",
+      "parentUuid": "0436a2de_f217287f",
+      "revId": "0c7ec533090483356856f5802f333062fefb27c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0436a2de_32d01031",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
         "patchSetId": 14

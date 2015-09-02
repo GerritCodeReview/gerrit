@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "046dc2ec_5a4b759f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-02T14:57:06Z",
+      "side": 1,
+      "message": "Ping. (I\u0027m guessing you picked up the easy fixes and are letting Janice do this more substantial bit.)",
+      "parentUuid": "046dc2ec_5ad61532",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "046dc2ec_1ad09d30",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
         "patchSetId": 28

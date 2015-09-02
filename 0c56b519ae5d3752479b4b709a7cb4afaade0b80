@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "04fea26f_12b42c0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-02T09:23:02Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4664a12_38d56921",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-02T09:23:02Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4664a12_d8e9cdef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-02T09:23:02Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4664a12_f8e6111d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-02T09:23:02Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04fea26f_32afb0b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-02T09:23:02Z",
+      "side": 1,
+      "message": "make use of the try-with-resources for auto-closing the zipOut?",
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a442364a_2ff1c9a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
         "patchSetId": 1

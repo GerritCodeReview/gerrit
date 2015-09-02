@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance;
+package com.google.gerrit.testutil;
 
 import com.google.gerrit.reviewdb.server.AccountAccess;
 import com.google.gerrit.reviewdb.server.AccountDiffPreferenceAccess;
@@ -41,7 +41,7 @@ import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.StatementExecutor;
 
 /** ReviewDb that is disabled for testing. */
-class DisabledReviewDb implements ReviewDb {
+public class DisabledReviewDb implements ReviewDb {
   private static final String MESSAGE = "ReviewDb is disabled for this test";
 
   @Override

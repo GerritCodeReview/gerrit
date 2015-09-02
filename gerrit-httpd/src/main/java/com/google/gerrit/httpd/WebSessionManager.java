@@ -201,6 +201,10 @@ public class WebSessionManager {
       this.auth = auth;
     }
 
+    public long getExpiresAt() {
+      return expiresAt;
+    }
+
     Account.Id getAccountId() {
       return accountId;
     }

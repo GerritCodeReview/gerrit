@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestScoped
 public abstract class CacheBasedWebSession implements WebSession {
   private static final String ACCOUNT_COOKIE = "GerritAccount";
-  protected static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);
+  public static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);
 
   private final HttpServletRequest request;
   private final HttpServletResponse response;

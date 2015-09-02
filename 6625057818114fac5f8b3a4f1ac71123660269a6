@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "c43f2ab4_9018d47e",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T07:55:06Z",
+      "side": 1,
+      "message": "In the following change BaseQueryBuilder is changed to QueryBuilder, reducing the length of the line.",
+      "parentUuid": "046dc2ec_bac97191",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "046dc2ec_7adbd958",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
         "patchSetId": 28
@@ -47,6 +65,24 @@
       "writtenOn": "2015-09-01T13:34:57Z",
       "side": 1,
       "message": "for (Predicate\u003cChangeData\u003e c : p.getChildren())",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a442364a_4fbacda9",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T07:55:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "046dc2ec_7adbd958",
       "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "c43f2ab4_70b570b7",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T07:55:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "046dc2ec_1ad09d30",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "046dc2ec_3ad56121",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
         "patchSetId": 28
@@ -98,6 +152,24 @@
       "writtenOn": "2015-09-01T13:34:57Z",
       "side": 1,
       "message": "Endpoints are inclusive in the positive form of the query, so presumably this should be exclusive.",
+      "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43f2ab4_50ba6ca9",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-02T07:55:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "046dc2ec_3ad56121",
       "revId": "6625057818114fac5f8b3a4f1ac71123660269a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

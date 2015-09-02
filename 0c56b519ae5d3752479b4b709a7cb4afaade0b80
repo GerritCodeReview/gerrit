@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a442364a_2ff1c9a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-02T01:24:27Z",
+      "side": 1,
+      "message": "Note to self: this should not be a singleton, presumably, since it has an option.",
+      "range": {
+        "startLine": 30,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "0c56b519ae5d3752479b4b709a7cb4afaade0b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

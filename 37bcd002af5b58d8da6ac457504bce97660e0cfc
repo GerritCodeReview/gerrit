@@ -22,6 +22,30 @@
       "revId": "37bcd002af5b58d8da6ac457504bce97660e0cfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_2c4bd3a0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-03T08:33:35Z",
+      "side": 1,
+      "message": "This isn\u0027t a blocker, so I\u0027m going to submit it as it is.",
+      "parentUuid": "24f6469e_abe969f0",
+      "range": {
+        "startLine": 1226,
+        "startChar": 4,
+        "endLine": 1227,
+        "endChar": 47
+      },
+      "revId": "37bcd002af5b58d8da6ac457504bce97660e0cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

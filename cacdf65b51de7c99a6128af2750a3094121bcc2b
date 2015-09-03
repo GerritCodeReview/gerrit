@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4664a12_58d61d32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/TrackingValueExtractor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-09-03T10:59:16Z",
+      "side": 1,
+      "message": "Is there any case where the operation of extracting the values would be anything other then a string match?\nIf not, couldn\u0027t another solution be to implement this class as a simple match:er picking up regexp:s from the config?\nWould that be more in line with previous implementations of other operations in Gerrit, or am I way off?",
+      "range": {
+        "startLine": 29,
+        "startChar": 31,
+        "endLine": 29,
+        "endChar": 40
+      },
+      "revId": "cacdf65b51de7c99a6128af2750a3094121bcc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4664a12_f8edb1f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/TrackingValueExtractorProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-09-03T10:59:16Z",
+      "side": 1,
+      "message": "\u003e The limitation is that there can only be one implementation.\n\nWhat stands in the way of:\n TrackingValueExtractorsProvider implements Provider\u003cList\u003cTrackingValueExtractor\u003e\u003e {..}\n?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 49
+      },
+      "revId": "cacdf65b51de7c99a6128af2750a3094121bcc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

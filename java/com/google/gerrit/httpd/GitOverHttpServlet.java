@@ -33,6 +33,7 @@ import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.git.AxisMappingLocalDiskRepositoryManager;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.TracingHook;
@@ -314,7 +315,13 @@ public class GitOverHttpServlet extends GitServlet {
       user.setAccessPath(AccessPath.GIT);
 
       try {
-        Project.NameKey nameKey = Project.nameKey(projectName);
+        /* Axis fork start */
+        Project.NameKey nameKey =
+            manager instanceof AxisMappingLocalDiskRepositoryManager
+                ? ((AxisMappingLocalDiskRepositoryManager) manager)
+                    .getRealName(Project.nameKey(projectName))
+                : Project.nameKey(projectName);
+        /* Axis fork end */
         ProjectState state =
             projectCache
                 .get(nameKey)

@@ -20,6 +20,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.ProjectUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.git.AxisMappingLocalDiskRepositoryManager;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -29,6 +31,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Optional;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -41,17 +44,20 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
 
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
+  private final GitRepositoryManager repoManager;
 
   @Inject
   public ProjectHandler(
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
+      GitRepositoryManager repoManager,
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
       @Assisted final Setter<ProjectState> setter) {
     super(parser, option, setter);
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
+    this.repoManager = repoManager;
   }
 
   @Override
@@ -73,6 +79,18 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
 
     String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);
     Project.NameKey nameKey = Project.nameKey(nameWithoutSuffix);
+
+    /* Axis fork start */
+    try {
+      if (repoManager instanceof AxisMappingLocalDiskRepositoryManager) {
+        AxisMappingLocalDiskRepositoryManager mappingRepoManager =
+            (AxisMappingLocalDiskRepositoryManager) repoManager;
+        nameKey = mappingRepoManager.getRealName(nameKey);
+      }
+    } catch (RepositoryNotFoundException re) {
+      logger.atWarning().withCause(re).log("Cannot open project %s", nameKey);
+    }
+    /* Axis fork end */
 
     Optional<ProjectState> state;
     try {

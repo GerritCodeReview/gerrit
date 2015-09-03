@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
+import com.google.gerrit.server.git.AxisMappingLocalDiskRepositoryManager.AxisMappingLocalDiskRepositoryManagerModule;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.SystemReaderInstaller;
 import com.google.gerrit.server.schema.SchemaModule;
@@ -142,6 +143,9 @@ public abstract class SiteProgram extends AbstractProgram {
     // The only implementation of experiments is available in all programs that can use
     // gerrit.config
     modules.add(new ConfigExperimentFeaturesModule());
+    /* Axis fork start */
+    modules.add(new AxisMappingLocalDiskRepositoryManagerModule());
+    /* Axis fork end */
 
     try {
       List<Module> extraDbModules =

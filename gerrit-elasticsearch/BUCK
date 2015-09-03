@@ -12,6 +12,7 @@ java_library(
     '//lib:gson',
     '//lib:guava',
     '//lib:gwtorm',
+    '//lib/commons:codec',
     '//lib/commons:lang',
     '//lib/elasticsearch:elasticsearch',
     '//lib/elasticsearch:jest',
@@ -22,6 +23,7 @@ java_library(
     '//lib/log:api',
     '//lib/lucene:analyzers-common',
     '//lib/lucene:core-and-backward-codecs',
+    '//lib:protobuf',
   ],
   visibility = ['PUBLIC'],
 )

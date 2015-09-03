@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44fb3a86_8cf76793",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:22:51Z",
+      "side": 1,
+      "message": "Why do we want this commit? (I guess refactoring to make the follow up patches easier...)",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "5ac4276b56c1501e1bd4aaee3065b450c49cb69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

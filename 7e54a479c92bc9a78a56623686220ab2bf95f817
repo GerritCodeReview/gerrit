@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_4c0c5f7c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-03T01:20:43Z",
+      "side": 1,
+      "message": "Moved it up after the \"owner:\" ones.",
+      "parentUuid": "0436a2de_321ed0a0",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0436a2de_92f7bcc1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2015-09-02T14:55:40Z",
       "side": 1,
       "message": "Also split email using the same splitter (in addition to just \"@\")?",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_acf063cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-03T01:20:43Z",
+      "side": 1,
+      "message": "Unless I\u0027m misunderstanding your comment, this is what it\u0027s already doing.\n\nLine 416 splits the email address on \"@\", so for\n\n \"user.name@domain.com\"\n\nthe parts are\n\n [\"user.name\", \"domain.com\"]\n\nThen on this line we concatenate the name and email and split on \"@.- \".  The concatenated string is something like:\n\n \"user name user.name@domain.com\"\n\nwhich gets split to\n\n [\"user\", \"name\", \"user\", \"name\", \"domain\", \"com\"]\n\nThe concatenated string was lowercased, so we have a repeated \"user\" and \"name\", but that\u0027s fine since we\u0027re adding them to a hashset.",
+      "parentUuid": "0436a2de_92f7bcc1",
       "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_8ceda7f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-03T01:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "046dc2ec_da17857f",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0436a2de_722458f2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2015-09-02T14:55:40Z",
       "side": 1,
       "message": "Same.",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_ecfa6baa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-03T01:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0436a2de_722458f2",
       "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_ccf7afc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-03T01:20:43Z",
+      "side": 1,
+      "message": "Done.  Also in CommitterPredicate.",
+      "parentUuid": "046dc2ec_fa14c97c",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0436a2de_522954c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
         "patchSetId": 9
@@ -98,6 +188,24 @@
       "writtenOn": "2015-09-02T14:55:40Z",
       "side": 1,
       "message": "Long line",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_2c2473f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AuthorPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-03T01:20:43Z",
+      "side": 1,
+      "message": "It\u0027s only one column longer than the guideline, but OK.\n\nDone.",
+      "parentUuid": "0436a2de_522954c8",
       "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

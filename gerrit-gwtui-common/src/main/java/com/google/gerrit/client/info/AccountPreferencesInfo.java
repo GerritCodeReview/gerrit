@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -73,11 +72,7 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   public final native boolean useFlashClipboard()
   /*-{ return this.use_flash_clipboard || false }-*/;
 
-  public final DownloadScheme downloadScheme() {
-    String s = downloadSchemeRaw();
-    return s != null ? DownloadScheme.valueOf(s) : null;
-  }
-  private final native String downloadSchemeRaw()
+  public final native String downloadScheme()
   /*-{ return this.download_scheme }-*/;
 
   public final DownloadCommand downloadCommand() {
@@ -142,10 +137,7 @@ public class AccountPreferencesInfo extends JavaScriptObject {
   public final native void useFlashClipboard(boolean u)
   /*-{ this.use_flash_clipboard = u }-*/;
 
-  public final void downloadScheme(DownloadScheme d) {
-    downloadSchemeRaw(d != null ? d.toString() : null);
-  }
-  private final native void downloadSchemeRaw(String d)
+  public final native void downloadScheme(String d)
   /*-{ this.download_scheme = d }-*/;
 
   public final void downloadCommand(DownloadCommand d) {

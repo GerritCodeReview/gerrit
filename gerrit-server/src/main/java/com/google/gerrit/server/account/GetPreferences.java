@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -103,7 +102,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Short changesPerPage;
     Boolean showSiteHeader;
     Boolean useFlashClipboard;
-    DownloadScheme downloadScheme;
+    String downloadScheme;
     DownloadCommand downloadCommand;
     Boolean copySelfOnEmail;
     DateFormat dateFormat;

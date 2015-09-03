@@ -26,7 +26,6 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -221,7 +220,7 @@ class DownloadBox extends VerticalPanel {
         scheme.setVisible(false);
       } else {
         int select = 0;
-        String find = getUserPreference();
+        String find = Gerrit.getUserPreferences().downloadScheme();
         if (find != null) {
           for (int i = 0; i < scheme.getItemCount(); i++) {
             if (find.equals(scheme.getValue(i))) {
@@ -236,35 +235,13 @@ class DownloadBox extends VerticalPanel {
     renderCommands();
   }
 
-  private static String getUserPreference() {
-    DownloadScheme pref = Gerrit.getUserPreferences().downloadScheme();
-    if (pref != null) {
-      switch (pref) {
-        case ANON_GIT:
-          return "git";
-        case ANON_HTTP:
-          return "anonymous http";
-        case HTTP:
-          return "http";
-        case SSH:
-          return "ssh";
-        case REPO_DOWNLOAD:
-          return "repo";
-        default:
-          return null;
-      }
-    }
-    return null;
-  }
-
   private void saveScheme() {
-    DownloadScheme scheme = getSelectedScheme();
+    String schemeStr = scheme.getValue(scheme.getSelectedIndex());
     AccountPreferencesInfo prefs = Gerrit.getUserPreferences();
-    if (Gerrit.isSignedIn() && scheme != null
-        && scheme != prefs.downloadScheme()) {
-      prefs.downloadScheme(scheme);
+    if (Gerrit.isSignedIn() && !schemeStr.equals(prefs.downloadScheme())) {
+      prefs.downloadScheme(schemeStr);
       AccountPreferencesInfo in = AccountPreferencesInfo.create();
-      in.downloadScheme(scheme);
+      in.downloadScheme(schemeStr);
       AccountApi.self().view("preferences")
           .put(in, new AsyncCallback<JavaScriptObject>() {
             @Override
@@ -276,21 +253,5 @@ class DownloadBox extends VerticalPanel {
             }
           });
     }
-  }
-
-  private DownloadScheme getSelectedScheme() {
-    String id = scheme.getValue(scheme.getSelectedIndex());
-    if ("git".equals(id)) {
-      return DownloadScheme.ANON_GIT;
-    } else if ("anonymous http".equals(id)) {
-      return DownloadScheme.ANON_HTTP;
-    } else if ("http".equals(id)) {
-      return DownloadScheme.HTTP;
-    } else if ("ssh".equals(id)) {
-      return DownloadScheme.SSH;
-    } else if ("repo".equals(id)) {
-      return DownloadScheme.REPO_DOWNLOAD;
-    }
-    return null;
   }
 }

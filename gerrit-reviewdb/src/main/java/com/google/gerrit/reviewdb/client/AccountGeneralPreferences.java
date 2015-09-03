@@ -25,11 +25,6 @@ public final class AccountGeneralPreferences {
   /** Valid choices for the page size. */
   public static final short[] PAGESIZE_CHOICES = {10, 25, 50, 100};
 
-  /** Preferred scheme type to download a change. */
-  public static enum DownloadScheme {
-    ANON_GIT, ANON_HTTP, HTTP, SSH, REPO_DOWNLOAD
-  }
-
   /** Preferred method to download a change. */
   public static enum DownloadCommand {
     REPO_DOWNLOAD, PULL, CHECKOUT, CHERRY_PICK, FORMAT_PATCH
@@ -187,19 +182,49 @@ public final class AccountGeneralPreferences {
     useFlashClipboard = b;
   }
 
-  public DownloadScheme getDownloadUrl() {
-    if (downloadUrl == null) {
-      return null;
+  public String getDownloadUrl() {
+    // Translate from legacy enum names to modern display names. (May be removed
+    // if accompanied by a 2-phase schema upgrade.)
+    if (downloadUrl != null) {
+      switch (downloadUrl) {
+        case "ANON_GIT":
+          return CoreDownloadSchemes.ANON_GIT;
+        case "ANON_HTTP":
+          return CoreDownloadSchemes.ANON_HTTP;
+        case "HTTP":
+          return CoreDownloadSchemes.HTTP;
+        case "SSH":
+          return CoreDownloadSchemes.SSH;
+        case "REPO_DOWNLOAD":
+          return CoreDownloadSchemes.REPO_DOWNLOAD;
+      }
     }
-    return DownloadScheme.valueOf(downloadUrl);
+    return downloadUrl;
   }
 
-  public void setDownloadUrl(DownloadScheme url) {
-    if (url != null) {
-      downloadUrl = url.name();
-    } else {
-      downloadUrl = null;
+  public void setDownloadUrl(String url) {
+    // Translate from modern display names to legacy enum names. (May be removed
+    // if accompanied by a 2-phase schema upgrade.)
+    if (downloadUrl != null) {
+      switch (url) {
+        case CoreDownloadSchemes.ANON_GIT:
+          url = "ANON_GIT";
+          break;
+        case CoreDownloadSchemes.ANON_HTTP:
+          url = "ANON_HTTP";
+          break;
+        case CoreDownloadSchemes.HTTP:
+          url = "HTTP";
+          break;
+        case CoreDownloadSchemes.SSH:
+          url = "SSH";
+          break;
+        case CoreDownloadSchemes.REPO_DOWNLOAD:
+          url = "REPO_DOWNLOAD";
+          break;
+      }
     }
+    downloadUrl = url;
   }
 
   public DownloadCommand getDownloadCommand() {

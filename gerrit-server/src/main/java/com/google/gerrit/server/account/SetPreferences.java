@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -60,7 +59,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public Short changesPerPage;
     public Boolean showSiteHeader;
     public Boolean useFlashClipboard;
-    public DownloadScheme downloadScheme;
+    public String downloadScheme;
     public DownloadCommand downloadCommand;
     public Boolean copySelfOnEmail;
     public DateFormat dateFormat;

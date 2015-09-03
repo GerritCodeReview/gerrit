@@ -16,35 +16,50 @@ package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-/** Download protocol from {@code gerrit.config}. */
+/**
+ * Download protocol from {@code gerrit.config}.
+ * <p>
+ * Only used to configure the built-in set of schemes and commands in the core
+ * download-commands plugin; not used by other plugins.
+ */
 @Singleton
 public class DownloadConfig {
-  private final ImmutableSet<DownloadScheme> downloadSchemes;
+  private final ImmutableSet<String> downloadSchemes;
   private final ImmutableSet<DownloadCommand> downloadCommands;
   private final ImmutableSet<ArchiveFormat> archiveFormats;
 
   @Inject
   DownloadConfig(@GerritServerConfig final Config cfg) {
-    List<DownloadScheme> allSchemes =
-        ConfigUtil.getEnumList(cfg, "download", null, "scheme",
-            DownloadScheme.values(), null);
-    if (isOnlyNull(allSchemes)) {
+    String[] allSchemes = cfg.getStringList("download", null, "scheme");
+    if (allSchemes.length == 0) {
       downloadSchemes = ImmutableSet.of(
-          DownloadScheme.SSH,
-          DownloadScheme.HTTP,
-          DownloadScheme.ANON_HTTP);
+          CoreDownloadSchemes.SSH,
+          CoreDownloadSchemes.HTTP,
+          CoreDownloadSchemes.ANON_HTTP);
     } else {
-      downloadSchemes = ImmutableSet.copyOf(allSchemes);
+      List<String> normalized = new ArrayList<>(allSchemes.length);
+      for (String s : allSchemes) {
+        String core = toCoreScheme(s);
+        if (core == null) {
+          throw new IllegalArgumentException(
+              "not a core download scheme: " + s);
+        }
+        normalized.add(core);
+      }
+      downloadSchemes = ImmutableSet.copyOf(normalized);
     }
 
     DownloadCommand[] downloadCommandValues = DownloadCommand.values();
@@ -73,8 +88,23 @@ public class DownloadConfig {
     return list.size() == 1 && list.get(0) == null;
   }
 
+  private static String toCoreScheme(String s) {
+    try {
+      Field f = CoreDownloadSchemes.class.getField(s.toUpperCase());
+      int m = Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL;
+      if ((f.getModifiers() & m) != 0 && (f.getType().equals(String.class))) {
+        return (String) f.get(null);
+      } else {
+        return null;
+      }
+    } catch (NoSuchFieldException | SecurityException | IllegalArgumentException
+        | IllegalAccessException e) {
+      return null;
+    }
+  }
+
   /** Scheme used to download. */
-  public ImmutableSet<DownloadScheme> getDownloadSchemes() {
+  public ImmutableSet<String> getDownloadSchemes() {
     return downloadSchemes;
   }
 

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.CommandName;
@@ -130,6 +130,6 @@ public class DefaultCommandModule extends CommandModule {
   }
 
   private boolean sshEnabled() {
-    return downloadConfig.getDownloadSchemes().contains(DownloadScheme.SSH);
+    return downloadConfig.getDownloadSchemes().contains(CoreDownloadSchemes.SSH);
   }
 }

@@ -130,8 +130,6 @@ public class DefaultCommandModule extends CommandModule {
   }
 
   private boolean sshEnabled() {
-    return downloadConfig.getDownloadSchemes().contains(DownloadScheme.SSH)
-        || downloadConfig.getDownloadSchemes().contains(
-            DownloadScheme.DEFAULT_DOWNLOADS);
+    return downloadConfig.getDownloadSchemes().contains(DownloadScheme.SSH);
   }
 }

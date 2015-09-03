@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.server.change.ArchiveFormat;
@@ -39,15 +40,25 @@ public class DownloadConfig {
   DownloadConfig(@GerritServerConfig final Config cfg) {
     List<DownloadScheme> allSchemes =
         ConfigUtil.getEnumList(cfg, "download", null, "scheme",
-            DownloadScheme.DEFAULT_DOWNLOADS);
-    downloadSchemes =
-        Collections.unmodifiableSet(new HashSet<>(allSchemes));
+            DownloadScheme.values(), null);
+    if (isOnlyNull(allSchemes)) {
+      downloadSchemes = ImmutableSet.of(
+          DownloadScheme.SSH,
+          DownloadScheme.HTTP,
+          DownloadScheme.ANON_HTTP);
+    } else {
+      downloadSchemes = ImmutableSet.copyOf(allSchemes);
+    }
 
+    DownloadCommand[] downloadCommandValues = DownloadCommand.values();
     List<DownloadCommand> allCommands =
         ConfigUtil.getEnumList(cfg, "download", null, "command",
-            DownloadCommand.DEFAULT_DOWNLOADS);
-    downloadCommands =
-        Collections.unmodifiableSet(new HashSet<>(allCommands));
+            downloadCommandValues, null);
+    if (isOnlyNull(allCommands)) {
+      downloadCommands = ImmutableSet.copyOf(downloadCommandValues);
+    } else {
+      downloadCommands = ImmutableSet.copyOf(allCommands);
+    }
 
     String v = cfg.getString("download", null, "archive");
     if (v == null) {
@@ -59,6 +70,10 @@ public class DownloadConfig {
           "download", null, "archive",
           ArchiveFormat.TGZ));
     }
+  }
+
+  private static boolean isOnlyNull(List<?> list) {
+    return list.size() == 1 && list.get(0) == null;
   }
 
   /** Scheme used to download. */

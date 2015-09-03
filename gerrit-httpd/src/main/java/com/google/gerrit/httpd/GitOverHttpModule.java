@@ -55,8 +55,7 @@ public class GitOverHttpModule extends ServletModule {
   }
 
   private boolean isHttpEnabled(){
-    return downloadConfig.getDownloadSchemes().contains(DownloadScheme.DEFAULT_DOWNLOADS)
-        || downloadConfig.getDownloadSchemes().contains(DownloadScheme.ANON_HTTP)
+    return downloadConfig.getDownloadSchemes().contains(DownloadScheme.ANON_HTTP)
         || downloadConfig.getDownloadSchemes().contains(DownloadScheme.HTTP);
   }
 }

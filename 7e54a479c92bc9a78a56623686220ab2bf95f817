@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_8c42c773",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-03T14:20:36Z",
+      "side": 1,
+      "message": "Hmm, it\u0027s not quite as straightforward as this.\n\n parts.addAll(s.split(...));\n\ndoes not compile.",
+      "parentUuid": "44fb3a86_4c31ff1f",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "046dc2ec_da17857f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 9

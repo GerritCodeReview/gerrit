@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "046dc2ec_1a2c1dc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-03T13:08:21Z",
+      "side": 1,
+      "message": "Oh, I missed that you were concatenating name + \" \" + email.\n\nIn that case I think what you have is correct, but no need to do the extra concatenation just to split it:\n\n parts.addAll(s.split(person.getName().toLowerCase()));\n parts.addAll(s.split(email));",
+      "parentUuid": "44fb3a86_acf063cc",
+      "revId": "7e54a479c92bc9a78a56623686220ab2bf95f817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "046dc2ec_da17857f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 9

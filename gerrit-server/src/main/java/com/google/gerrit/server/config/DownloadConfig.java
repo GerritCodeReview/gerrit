@@ -23,18 +23,15 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
-import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /** Download protocol from {@code gerrit.config}. */
 @Singleton
 public class DownloadConfig {
-  private final Set<DownloadScheme> downloadSchemes;
-  private final Set<DownloadCommand> downloadCommands;
-  private final Set<ArchiveFormat> archiveFormats;
+  private final ImmutableSet<DownloadScheme> downloadSchemes;
+  private final ImmutableSet<DownloadCommand> downloadCommands;
+  private final ImmutableSet<ArchiveFormat> archiveFormats;
 
   @Inject
   DownloadConfig(@GerritServerConfig final Config cfg) {
@@ -62,11 +59,11 @@ public class DownloadConfig {
 
     String v = cfg.getString("download", null, "archive");
     if (v == null) {
-      archiveFormats = EnumSet.allOf(ArchiveFormat.class);
+      archiveFormats = ImmutableSet.copyOf(EnumSet.allOf(ArchiveFormat.class));
     } else if (v.isEmpty() || "off".equalsIgnoreCase(v)) {
-      archiveFormats = Collections.emptySet();
+      archiveFormats = ImmutableSet.of();
     } else {
-      archiveFormats = new HashSet<>(ConfigUtil.getEnumList(cfg,
+      archiveFormats = ImmutableSet.copyOf(ConfigUtil.getEnumList(cfg,
           "download", null, "archive",
           ArchiveFormat.TGZ));
     }
@@ -77,17 +74,17 @@ public class DownloadConfig {
   }
 
   /** Scheme used to download. */
-  public Set<DownloadScheme> getDownloadSchemes() {
+  public ImmutableSet<DownloadScheme> getDownloadSchemes() {
     return downloadSchemes;
   }
 
   /** Command used to download. */
-  public Set<DownloadCommand> getDownloadCommands() {
+  public ImmutableSet<DownloadCommand> getDownloadCommands() {
     return downloadCommands;
   }
 
   /** Archive formats for downloading. */
-  public Set<ArchiveFormat> getArchiveFormats() {
+  public ImmutableSet<ArchiveFormat> getArchiveFormats() {
     return archiveFormats;
   }
 }

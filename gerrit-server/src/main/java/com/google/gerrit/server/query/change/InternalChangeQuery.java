@@ -128,7 +128,7 @@ public class InternalChangeQuery {
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(Branch.NameKey branch,
       List<String> hashes) throws OrmException {
     Schema<ChangeData> schema = schema(indexes);
-    if (schema.hasField(ChangeField.EXACT_COMMIT)) {
+    if (schema != null && schema.hasField(ChangeField.EXACT_COMMIT)) {
       return query(commitsOnBranchNotMerged(branch, commits(schema, hashes)));
     } else {
       return byCommitsOnBranchNotMerged(

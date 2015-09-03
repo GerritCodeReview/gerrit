@@ -501,7 +501,7 @@ public class MergeOp {
       if (branchUpdate.getOldObjectId() != null) {
         branchTip =
             (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
-      } else if (repo.getFullBranch().equals(destBranch.get())) {
+      } else if (Objects.equals(repo.getFullBranch(), destBranch.get())) {
         branchTip = null;
         branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
       } else {

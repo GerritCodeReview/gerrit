@@ -9,6 +9,7 @@ maven_jar(
   id = 'org.bouncycastle:bcprov-jdk15on:' + VERSION,
   sha1 = '88a941faf9819d371e3174b5ed56a3f3f7d73269',
   license = 'DO_NOT_DISTRIBUTE', #'bouncycastle'
+  exclude = ['META-INF/BCKEY.*'],
 )
 
 maven_jar(
@@ -16,6 +17,7 @@ maven_jar(
   id = 'org.bouncycastle:bcpg-jdk15on:' + VERSION,
   sha1 = 'ff4665a4b5633ff6894209d5dd10b7e612291858',
   license = 'DO_NOT_DISTRIBUTE', #'bouncycastle'
+  exclude = ['META-INF/BCKEY.*'],
   deps = [':bcprov'],
 )
 

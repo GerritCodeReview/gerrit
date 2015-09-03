@@ -253,7 +253,7 @@ public class SubmoduleOp {
           }
 
           DirCacheEntry dce = dc.getEntry(s.getPath());
-          ObjectId oldId = null;
+          ObjectId oldId;
           if (dce != null) {
             if (!dce.getFileMode().equals(FileMode.GITLINK)) {
               log.error("Requested to update gitlink " + s.getPath() + " in "
@@ -283,10 +283,7 @@ public class SubmoduleOp {
 
             try {
               rw.markStart(newCommit);
-
-              if (oldId != null) {
-                rw.markUninteresting(rw.parseCommit(oldId));
-              }
+              rw.markUninteresting(rw.parseCommit(oldId));
               for (RevCommit c : rw) {
                 msgbuf.append(c.getFullMessage() + "\n\n");
               }

@@ -215,12 +215,11 @@ public class BaseInit extends SiteProgram {
 
     if (secureStoreInitData != null && currentSecureStoreClassName != null
         && !currentSecureStoreClassName.equals(secureStoreInitData.className)) {
-      String err =
-          String.format(
-              "Different secure store was previously configured: %s. "
-              + "Use SwitchSecureStore program to switch between implementations.",
-              currentSecureStoreClassName);
-      die(err, new RuntimeException("secure store mismatch"));
+      String err = String.format(
+          "Different secure store was previously configured: %s. "
+          + "Use SwitchSecureStore program to switch between implementations.",
+          currentSecureStoreClassName);
+      throw die(err);
     }
 
     m.add(new InitModule(standalone, initDb));

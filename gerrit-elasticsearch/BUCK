@@ -12,6 +12,8 @@ java_library(
     '//lib:gson',
     '//lib:guava',
     '//lib:gwtorm',
+    '//lib:protobuf',
+    '//lib/commons:codec',
     '//lib/commons:lang',
     '//lib/elasticsearch:elasticsearch',
     '//lib/elasticsearch:jest',

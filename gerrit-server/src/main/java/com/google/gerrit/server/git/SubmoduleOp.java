@@ -121,6 +121,10 @@ public class SubmoduleOp {
         RevWalk rw = new RevWalk(repo)) {
 
       ObjectId id = repo.resolve(destBranch.get());
+      if (id == null) {
+        logAndThrowSubmoduleException(
+            "Cannot resolve submodule destination branch " + destBranch);
+      }
       RevCommit commit = rw.parseCommit(id);
 
       Set<SubmoduleSubscription> oldSubscriptions =

@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.SystemReaderInstaller;
+import com.google.gerrit.server.git.MappingLocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.inject.AbstractModule;
@@ -128,6 +129,7 @@ public abstract class SiteProgram extends AbstractProgram {
 
     modules.add(new SchemaModule());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
+    modules.add(new MappingLocalDiskRepositoryManager.Module());
 
     try {
       return Guice.createInjector(

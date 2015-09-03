@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24f6469e_eb11b18a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-03T14:26:29Z",
+      "side": 1,
+      "message": "I don\u0027t this is any better than the previous version. We\u0027ve got rid of the string concatenation, but now we have two calls to split() and two loops.",
+      "range": {
+        "startLine": 419,
+        "startChar": 4,
+        "endLine": 424,
+        "endChar": 5
+      },
+      "revId": "1c2e7488c43e61f5fe3c1ce9e1b3e92dca726bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

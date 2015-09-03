@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24f6469e_6b7ae1b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/DownloadConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:21:19Z",
+      "side": 1,
+      "message": "Would it make sense to move line 53 into the condition here?",
+      "range": {
+        "startLine": 58,
+        "startChar": 25,
+        "endLine": 58,
+        "endChar": 44
+      },
+      "revId": "f30590ee8eba6b37331fbc496a741d749ddee88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

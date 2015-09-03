@@ -32,7 +32,7 @@ public class DownloadUrlPanel extends FlowPanel {
     return getWidgetCount() == 0;
   }
 
-  public void select(String urlType) {
+  public void select(String schemeName) {
     DownloadUrlLink first = null;
 
     for (Widget w : this) {
@@ -41,7 +41,7 @@ public class DownloadUrlPanel extends FlowPanel {
         if (first == null) {
           first = d;
         }
-        if (d.getUrlType().equals(urlType)) {
+        if (d.getSchemeName().equals(schemeName)) {
           d.select();
           return;
         }

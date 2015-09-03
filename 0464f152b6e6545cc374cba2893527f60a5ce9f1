@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_cc932f48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-03T18:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24f6469e_2b2459f1",
+      "range": {
+        "startLine": 164,
+        "startChar": 47,
+        "endLine": 164,
+        "endChar": 48
+      },
+      "revId": "0464f152b6e6545cc374cba2893527f60a5ce9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_6b2ca1c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-03T18:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_ac5ea35b",
+      "range": {
+        "startLine": 164,
+        "startChar": 31,
+        "endLine": 164,
+        "endChar": 78
+      },
+      "revId": "0464f152b6e6545cc374cba2893527f60a5ce9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_8c5be76b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-09-03T10:47:57Z",
       "side": 1,
       "message": "unnecessary final",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 11
+      },
+      "revId": "0464f152b6e6545cc374cba2893527f60a5ce9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_2c80f3e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-03T18:26:32Z",
+      "side": 1,
+      "message": "I believe it\u0027s necessary for the callback reference at or near line 179.",
+      "parentUuid": "44fb3a86_8c5be76b",
       "range": {
         "startLine": 170,
         "startChar": 6,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_0c8537f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-03T18:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_ec68ab02",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 53
+      },
+      "revId": "0464f152b6e6545cc374cba2893527f60a5ce9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6469e_0b299dc9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2015-09-03T10:47:57Z",
       "side": 1,
       "message": "unnecessary finals on these args.",
+      "range": {
+        "startLine": 191,
+        "startChar": 31,
+        "endLine": 191,
+        "endChar": 36
+      },
+      "revId": "0464f152b6e6545cc374cba2893527f60a5ce9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_4b31e51f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-03T18:26:32Z",
+      "side": 1,
+      "message": "I believe these are necessary because the parameters are referenced in a deferred callback method.",
+      "parentUuid": "24f6469e_0b299dc9",
       "range": {
         "startLine": 191,
         "startChar": 31,
@@ -134,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_ab45e97f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-03T18:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_cc65ef28",
+      "revId": "0464f152b6e6545cc374cba2893527f60a5ce9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6469e_6b1e61a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 2
@@ -145,6 +283,30 @@
       "writtenOn": "2015-09-03T10:47:57Z",
       "side": 1,
       "message": "Make this a javadoc?  (I\u0027m not sure if javadoc is supposed to be used for private methods?)",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 217,
+        "endChar": 6
+      },
+      "revId": "0464f152b6e6545cc374cba2893527f60a5ce9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_4c7f3fa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-03T18:26:32Z",
+      "side": 1,
+      "message": "It seems like javadoc for private methods isn\u0027t conventional in this code base. Personally I don\u0027t see the harm, but perhaps it interacts poorly with assumptions for some automation. If anyone else knows definitively, please chime in.",
+      "parentUuid": "24f6469e_6b1e61a1",
       "range": {
         "startLine": 215,
         "startChar": 4,
@@ -174,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_6c7afbb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-03T18:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_2c32b328",
+      "revId": "0464f152b6e6545cc374cba2893527f60a5ce9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6469e_4b23a5e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 2
@@ -185,6 +365,30 @@
       "writtenOn": "2015-09-03T10:47:57Z",
       "side": 1,
       "message": "javadoc?",
+      "range": {
+        "startLine": 259,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 6
+      },
+      "revId": "0464f152b6e6545cc374cba2893527f60a5ce9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_ac7343df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-03T18:26:32Z",
+      "side": 1,
+      "message": "See above; compare to the documentation convention exhbited in CatServlet.rand().",
+      "parentUuid": "24f6469e_4b23a5e7",
       "range": {
         "startLine": 259,
         "startChar": 4,

@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "24f6469e_0becfdc8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3330,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "Maybe we call this Download?",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_2c0e3340",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3332,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "download?",
+      "range": {
+        "startLine": 3332,
+        "startChar": 123,
+        "endLine": 3332,
+        "endChar": 135
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6469e_4ba8c57b",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -71,6 +111,29 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_6bf141a1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3365,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "s/side/name/?",
+      "range": {
+        "startLine": 3365,
+        "startChar": 239,
+        "endLine": 3365,
+        "endChar": 243
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_ec6d4bfa",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -94,6 +157,40 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_0cba57a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "No point in using the MimeType class here. String ZIP_TYPE would be sufficient.",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_8bf74d93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "I don\u0027t think we need a SecureRandom here. Any old random will do.\n\nSecureRandom has a nasty habit of blocking hard when system entropy goes low. That\u0027s good for generating a new AES key. Its bad for just needing some random digits the caller has low probability of being able to predict.",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_cc6a0fe0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -105,6 +202,30 @@
       "writtenOn": "2015-09-03T22:02:16Z",
       "side": 1,
       "message": "This assumes knowledge about the underlying encoding, I\u0027d use `Character.isLetter(c)` or so (not sure if there are any better ways)",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 35
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_2cb593b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "Character.isLetter() permits more things than we want here.\n\nBut this can be cleaned up to be:\n\n  side \u003d CharMatcher.inRange(\u0027a\u0027, \u0027z\u0027).retainFrom(side);",
+      "parentUuid": "44fb3a86_cc6a0fe0",
       "range": {
         "startLine": 131,
         "startChar": 8,
@@ -186,6 +307,86 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_2b0e1940",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "This is asBinaryResult() above. Don\u0027t duplicate code if you don\u0027t have to.",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 5
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_cc184f80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "Do this above and store in a variable. Its hard to read buried in here.",
+      "range": {
+        "startLine": 184,
+        "startChar": 24,
+        "endLine": 185,
+        "endChar": 65
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_cb015510",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "String rand \u003d randSuffix();\nif (!Strings.isNullOrEmpty(side)) {\n  rand \u003d side + \u0027-\u0027 rand;\n}\n\nThen safeFileName(path, rand);",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_ec1b8b79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "Don\u0027t make this call at all. If its unset it defaults to -1 which is more clear; we didn\u0027t set any content length so we deferred and let the system handle it elsewhere, which it does.",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_6cf15ba1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -197,6 +398,30 @@
       "writtenOn": "2015-09-03T22:02:16Z",
       "side": 1,
       "message": "So we don\u0027t actually compress at all, but just want to wrap it? Why don\u0027t we zip it (Is cpu more valuable than bandwidth here?)",
+      "range": {
+        "startLine": 210,
+        "startChar": 9,
+        "endLine": 210,
+        "endChar": 20
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_eb041122",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "RestApiServlet tries to gzip the payload by default. That means it will gzip(zip(file)). The double compression will probably yield a larger file.",
+      "parentUuid": "44fb3a86_6cf15ba1",
       "range": {
         "startLine": 210,
         "startChar": 9,
@@ -255,6 +480,23 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_ac2183af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "Hasher h \u003d Hashing.md5().newHasher() would be better here.",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6469e_2b80d9e8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -278,6 +520,87 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_4c0d7f3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "A few lines down we have:\n\n  rng.nextBytes(buf)\n\nwhich collects 8 random bytes from a PRNG and tosses those into the SHA-1 hash too.",
+      "parentUuid": "24f6469e_2b80d9e8",
+      "range": {
+        "startLine": 261,
+        "startChar": 27,
+        "endLine": 261,
+        "endChar": 45
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_8c1e476b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "h.hash().toString()",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_6c083b31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "Call this DownloadContent?",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_4bf6059b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "name?",
+      "range": {
+        "startLine": 32,
+        "startChar": 20,
+        "endLine": 32,
+        "endChar": 24
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6469e_8b890d1c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
         "patchSetId": 3
@@ -294,6 +617,53 @@
         "startChar": 8,
         "endLine": 49,
         "endChar": 14
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_abfa097b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "Please follow Stefan\u0027s suggestion; two very long deep invocations like this on earlier lines makes it hard to see the overall call.",
+      "parentUuid": "24f6469e_8b890d1c",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 14
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_0c137768",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-03T23:55:58Z",
+      "side": 1,
+      "message": "download?",
+      "range": {
+        "startLine": 108,
+        "startChar": 20,
+        "endLine": 108,
+        "endChar": 32
       },
       "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

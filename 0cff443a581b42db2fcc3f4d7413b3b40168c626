@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_cbe03501",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-03T00:29:07Z",
+      "side": 1,
+      "message": "Still todo: Dave\u0027s comment from the previous PS.",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 40
+      },
+      "revId": "0cff443a581b42db2fcc3f4d7413b3b40168c626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0436a2de_1223cce8",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryBuilder.java",
         "patchSetId": 29

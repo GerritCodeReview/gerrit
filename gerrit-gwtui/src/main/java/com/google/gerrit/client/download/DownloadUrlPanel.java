@@ -15,7 +15,6 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,7 +32,7 @@ public class DownloadUrlPanel extends FlowPanel {
     return getWidgetCount() == 0;
   }
 
-  public void select(AccountGeneralPreferences.DownloadScheme urlType) {
+  public void select(String urlType) {
     DownloadUrlLink first = null;
 
     for (Widget w : this) {
@@ -42,7 +41,7 @@ public class DownloadUrlPanel extends FlowPanel {
         if (first == null) {
           first = d;
         }
-        if (d.getUrlType() == urlType) {
+        if (d.getUrlType().equals(urlType)) {
           d.select();
           return;
         }

@@ -31,6 +31,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.ChangeField.ChangeProtoField;
+import com.google.gerrit.server.index.ChangeField.PatchSetApprovalProtoField;
+import com.google.gerrit.server.index.ChangeField.PatchSetProtoField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.FieldDef;
@@ -47,6 +50,7 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -65,6 +69,7 @@ import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
 import io.searchbox.indices.IndicesExists;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
@@ -76,6 +81,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -190,33 +196,39 @@ class ElasticChangeIndex implements ChangeIndex, LifecycleListener {
     return builder.endObject().string();
   }
 
+  private static <T> List<T> decodeProtos(JsonObject doc, String fieldName,
+      ProtobufCodec<T> codec) {
+    JsonArray array = doc.getAsJsonArray(fieldName);
+    if (array.size() == 0) {
+      return Collections.emptyList();
+    }
+    List<T> result = new ArrayList<>(array.size());
+    for (JsonElement item : array) {
+      result.add(codec.decode(Base64.decodeBase64(item.toString())));
+    }
+    return result;
+  }
+
   private ChangeData toChangeData(JsonElement json) {
     JsonObject source = json.getAsJsonObject().get("_source").getAsJsonObject();
-    int id = source.get(ChangeField.LEGACY_ID2.getName()).getAsInt();
-    ChangeData cd = changeDataFactory.create(db.get(), new Change.Id(id));
     JsonElement c = source.get(ChangeField.CHANGE.getName());
 
     if (c == null) {
-      return cd;
+      int id = source.get(ChangeField.LEGACY_ID2.getName()).getAsInt();
+      return changeDataFactory.create(db.get(), new Change.Id(id));
     }
-//    // Change proto.
-//    byte[] cb = c.getAsString().getBytes();
-//    Change change = ChangeProtoField.CODEC.decode(cb);
-//    cd = changeDataFactory.create(db.get(), change);
+
+    ChangeData cd = changeDataFactory.create(db.get(),
+        ChangeProtoField.CODEC.decode(Base64.decodeBase64(c.getAsString())));
 
     // Patch sets.
-//    List<PatchSet> patchSets =
-//        decodeProtos(doc, PATCH_SET_FIELD, PatchSetProtoField.CODEC);
-//    if (!patchSets.isEmpty()) {
-//      // Will be an empty list for schemas prior to when this field was stored;
-//      // this cannot be valid since a change needs at least one patch set.
-//      cd.setPatchSets(patchSets);
-//    }
-//
-//    // Approvals.
-//    cd.setCurrentApprovals(
-//        decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoField.CODEC));
-//
+    cd.setPatchSets(decodeProtos(
+        source, ChangeField.PATCH_SET.getName(), PatchSetProtoField.CODEC));
+
+    // Approvals.
+    cd.setCurrentApprovals(decodeProtos(
+        source, ChangeField.APPROVAL.getName(), PatchSetApprovalProtoField.CODEC));
+
     // Changed lines.
     int added = source.get(ChangeField.ADDED.getName()).getAsInt();
     int deleted = source.get(ChangeField.DELETED.getName()).getAsInt();

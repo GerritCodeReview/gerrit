@@ -33,6 +33,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.TracingHook;
+import com.google.gerrit.server.git.MappingLocalDiskRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
@@ -284,6 +285,13 @@ public class GitOverHttpServlet extends GitServlet {
 
       try {
         Project.NameKey nameKey = Project.nameKey(projectName);
+
+        /* Axis fork start */
+        if (manager instanceof MappingLocalDiskRepositoryManager) {
+          nameKey = ((MappingLocalDiskRepositoryManager) manager).getRealName(nameKey);
+        }
+        /* Axis fork end */
+
         ProjectState state = projectCache.checkedGet(nameKey);
         if (state == null || !state.statePermitsRead()) {
           throw new RepositoryNotFoundException(nameKey.get());

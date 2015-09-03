@@ -262,14 +262,16 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     }
   }
 
-  private List<File> getAllFiles(File dir, String extension) {
+  private List<File> getAllFiles(File dir, String extension)
+      throws IOException {
     ArrayList<File> fileList = new ArrayList<>();
     getAllFiles(dir, extension, fileList);
     return fileList;
   }
 
-  private void getAllFiles(File dir, String extension, List<File> fileList) {
-    for (File f : dir.listFiles()) {
+  private void getAllFiles(File dir, String extension, List<File> fileList)
+      throws IOException {
+    for (File f : listFiles(dir)) {
       if (f.getName().endsWith(extension)) {
         fileList.add(f);
       }
@@ -279,14 +281,16 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     }
   }
 
-  private List<String> getRelativePaths(File dir, String extension) {
+  private List<String> getRelativePaths(File dir, String extension)
+      throws IOException {
     ArrayList<String> pathList = new ArrayList<>();
     getRelativePaths(dir, extension, "", pathList);
     return pathList;
   }
 
-  private void getRelativePaths(File dir, String extension, String path, List<String> pathList) {
-    for (File f : dir.listFiles()) {
+  private static void getRelativePaths(File dir, String extension, String path,
+      List<String> pathList) throws IOException {
+    for (File f : listFiles(dir)) {
       if (f.getName().endsWith(extension)) {
         pathList.add(path + f.getName());
       }
@@ -296,8 +300,8 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     }
   }
 
-  private void deleteAllFiles(File dir) {
-    for (File f : dir.listFiles()) {
+  private static void deleteAllFiles(File dir) throws IOException {
+    for (File f : listFiles(dir)) {
       if (f.isDirectory()) {
         deleteAllFiles(f);
       } else {
@@ -305,5 +309,13 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
       }
     }
     dir.delete();
+  }
+
+  private static File[] listFiles(File dir) throws IOException {
+    File[] files = dir.listFiles();
+    if (files == null) {
+      throw new IOException("Failed to list directory: " + dir);
+    }
+    return files;
   }
 }

@@ -1,0 +1,303 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24f6469e_4ba8c57b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3335,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "I would not mention the similarity to CatServlet as the first sentence. (Because I am new to Gerrit, I have no idea what the CatServlet does. So just tell me, what this thing does.)",
+      "range": {
+        "startLine": 3335,
+        "startChar": 0,
+        "endLine": 3335,
+        "endChar": 29
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_8c7007d4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3338,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "How would I find out what is safe (who defined it, where?)",
+      "range": {
+        "startLine": 3338,
+        "startChar": 0,
+        "endLine": 3338,
+        "endChar": 38
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_ab8cc92b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3360,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "Would it make sense to put binary data here?\nHow is it encoded, like a \u0027safe\u0027 base64 or just the raw data? Do we need to care about endianness here?",
+      "range": {
+        "startLine": 3360,
+        "startChar": 3,
+        "endLine": 3360,
+        "endChar": 29
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_ec6d4bfa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3366,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "Would it make sense to give an example of the side parameter here?",
+      "range": {
+        "startLine": 3365,
+        "startChar": 0,
+        "endLine": 3366,
+        "endChar": 4
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_cc6a0fe0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "This assumes knowledge about the underlying encoding, I\u0027d use `Character.isLetter(c)` or so (not sure if there are any better ways)",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 35
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_2ce753e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "So, I never saw the ProjectState as an argument to a `openRepository` function (or any helper function), and it turns out it will only extract the Project.NameKey which you could get cheaper in GetSafeContent.java [less().nested().functions()], though you also need it in wrapBlob to resolveContentType. Looking at that, we\u0027d only need the config of the project there, not the entire project state. Not sure if that\u0027s an easy refactor to not drag the project state along.",
+      "range": {
+        "startLine": 138,
+        "startChar": 26,
+        "endLine": 138,
+        "endChar": 51
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_eb96d139",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "Do we need to check 0 is out of bounds, or if there are more than one elements?",
+      "range": {
+        "startLine": 152,
+        "startChar": 35,
+        "endLine": 152,
+        "endChar": 36
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_0cec17c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "This might be different from the MIME we used to determine if it is safe, do we need to do it as in `resolveContentType` ?",
+      "range": {
+        "startLine": 161,
+        "startChar": 38,
+        "endLine": 161,
+        "endChar": 49
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_6cf15ba1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "So we don\u0027t actually compress at all, but just want to wrap it? Why don\u0027t we zip it (Is cpu more valuable than bandwidth here?)",
+      "range": {
+        "startLine": 210,
+        "startChar": 9,
+        "endLine": 210,
+        "endChar": 20
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_4cf61f9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "swapped lines. Though you don\u0027t need the condition (if slash \u003d\u003d -1 then we do the substring from -1+1 \u003d 0, so all is good?)",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 23
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_cb931548",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "Would it make sense to have these conditions collapsed into one, or even better have another function `getSafeCharacterFor` ?",
+      "range": {
+        "startLine": 225,
+        "startChar": 10,
+        "endLine": 232,
+        "endChar": 20
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_2b80d9e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "So we only take the time as input for the randomness here, would it make sense to add more entropy which the attacker cannot obtain by looking at the wall clock?\n\nSuch as a process id, randomness from the kernel, is there a class to provide guaranteed entropy which an attacker cannot observe at all?",
+      "range": {
+        "startLine": 261,
+        "startChar": 27,
+        "endLine": 261,
+        "endChar": 45
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_8b890d1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-03T22:02:16Z",
+      "side": 1,
+      "message": "These two lines could be wrapped into one without overflowing the line.\n\nEdit: Oh I see each parameter is on its own line. Then it may improve readability to get `rsrc.getRevision()` into a variable first or even the whole expression to obtain the project state and the the object.",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 14
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

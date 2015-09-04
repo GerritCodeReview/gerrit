@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Splitter;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -41,6 +43,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
@@ -124,8 +127,8 @@ public class ReviewerSuggestionCache {
     for (ScoreDoc h : hits) {
       Document doc = searcher.doc(h.doc);
 
-      AccountInfo info = new AccountInfo(
-          doc.getField(ID).numericValue().intValue());
+      IndexableField idField = checkNotNull(doc.getField(ID));
+      AccountInfo info = new AccountInfo(idField.numericValue().intValue());
       info.name = doc.get(NAME);
       info.email = doc.get(EMAIL);
       info.username = doc.get(USERNAME);

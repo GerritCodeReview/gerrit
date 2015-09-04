@@ -17,6 +17,7 @@ package com.google.gerrit.gpg;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.PageLinks;
@@ -35,6 +36,7 @@ import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -78,8 +80,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
       while (userIds.hasNext()) {
         String userId = userIds.next();
         if (isAllowed(userId, allowedUserIds)) {
-          @SuppressWarnings("unchecked")
-          Iterator<PGPSignature> sigs = key.getSignaturesForID(userId);
+          Iterator<PGPSignature> sigs = getSignaturesForId(key, userId);
           while (sigs.hasNext()) {
             if (isValidCertification(key, sigs.next(), userId)) {
               return;
@@ -94,6 +95,14 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
       log.warn(msg + " " + keyIdToString(key.getKeyID()), e);
       problems.add(msg);
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  private Iterator<PGPSignature> getSignaturesForId(PGPPublicKey key,
+      String userId) {
+    return MoreObjects.firstNonNull(
+        key.getSignaturesForID(userId),
+        Collections.emptyIterator());
   }
 
   private Set<String> getAllowedUserIds() {

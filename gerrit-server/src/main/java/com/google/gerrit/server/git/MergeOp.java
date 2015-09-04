@@ -505,7 +505,7 @@ public class MergeOp {
       if (branchUpdate.getOldObjectId() != null) {
         branchTip =
             (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
-      } else if (repo.getFullBranch().equals(destBranch.get())) {
+      } else if (Objects.equals(repo.getFullBranch(), destBranch.get())) {
         branchTip = null;
         branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
       } else {
@@ -702,8 +702,12 @@ public class MergeOp {
     CodeReviewCommit currentTip =
         mergeTip != null ? mergeTip.getCurrentTip() : null;
     if (Objects.equals(branchTip, currentTip)) {
-      logDebug("Branch already at merge tip {}, no update to perform",
-          currentTip.name());
+      if (currentTip != null) {
+        logDebug("Branch already at merge tip {}, no update to perform",
+            currentTip.name());
+      } else {
+        logDebug("Both branch and merge tip are nonexistent, no update");
+      }
       return null;
     } else if (currentTip == null) {
       logDebug("No merge tip, no update to perform");

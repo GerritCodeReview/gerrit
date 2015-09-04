@@ -162,7 +162,7 @@ public class UploadArchive extends AbstractGitCommand {
 
       // Find out the object to get from the specified reference and paths
       ObjectId treeId = repo.resolve(options.treeIsh);
-      if (treeId.equals(ObjectId.zeroId())) {
+      if (treeId == null) {
         throw new Failure(4, "fatal: reference not found");
       }
 

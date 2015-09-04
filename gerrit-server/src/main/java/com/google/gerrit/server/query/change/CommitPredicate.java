@@ -28,7 +28,7 @@ class CommitPredicate extends IndexPredicate<ChangeData> {
   static FieldDef<ChangeData, ?> commitField(Schema<ChangeData> schema,
       String id) {
     if (id.length() == OBJECT_ID_STRING_LENGTH
-        && schema.hasField(EXACT_COMMIT)) {
+        && schema != null && schema.hasField(EXACT_COMMIT)) {
       return EXACT_COMMIT;
     }
     return COMMIT;

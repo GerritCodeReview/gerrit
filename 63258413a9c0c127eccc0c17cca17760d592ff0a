@@ -46,6 +46,30 @@
       "revId": "63258413a9c0c127eccc0c17cca17760d592ff0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84dff222_bee6f91b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1777,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-04T14:59:08Z",
+      "side": 1,
+      "message": "Right, the other lines just have a newline before the final column content, but generally in this file line wrapping happens at ~72 columns.\n\nChanged punctuation as David suggested.",
+      "parentUuid": "24f6469e_eb1b7179",
+      "range": {
+        "startLine": 1777,
+        "startChar": 51,
+        "endLine": 1777,
+        "endChar": 69
+      },
+      "revId": "63258413a9c0c127eccc0c17cca17760d592ff0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

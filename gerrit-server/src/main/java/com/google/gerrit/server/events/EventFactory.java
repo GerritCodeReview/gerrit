@@ -235,6 +235,12 @@ public class EventFactory {
         for (PatchSet p :
             db.patchSets().byRevision(a.getAncestorRevision())) {
           Change c = db.changes().get(p.getId().getParentKey());
+          if (c == null) {
+            log.error("Error while generating the ancestor change for"
+                + " revision " + a.getAncestorRevision() + ": Cannot find"
+                + " Change entry in database for " + p.getId().getParentKey());
+            continue;
+          }
           ca.dependsOn.add(newDependsOn(c, p));
         }
       }
@@ -255,6 +261,12 @@ public class EventFactory {
             continue;
           }
           final Change c = db.changes().get(p.getId().getParentKey());
+          if (c == null) {
+            log.error("Error while generating the list of descendants for"
+                + " revision " + revId.get() + ": Cannot find Change entry in"
+                + " database for " + p.getId().getParentKey());
+            continue;
+          }
           ca.neededBy.add(newNeededBy(c, p));
         }
       }

@@ -93,6 +93,30 @@
       "revId": "cacdf65b51de7c99a6128af2750a3094121bcc2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04fea26f_92e65c1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/TrackingValueExtractorProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-09-04T07:57:02Z",
+      "side": 1,
+      "message": "True that.",
+      "parentUuid": "24f6469e_ab17a97f",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 49
+      },
+      "revId": "cacdf65b51de7c99a6128af2750a3094121bcc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -18,6 +18,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /** A map of native JSON objects, keyed by a string. */
@@ -56,6 +59,13 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
 
   public final Set<String> keySet() {
     return Natives.keys(this);
+  }
+
+  public final List<String> sortedKeys() {
+    Set<String> keys = keySet();
+    List<String> sorted = new ArrayList<>(keys);
+    Collections.sort(sorted);
+    return sorted;
   }
 
   public final native JsArray<T> values()

@@ -23,7 +23,6 @@ import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.EditInfo;
 import com.google.gerrit.client.info.ChangeInfo.FetchInfo;
 import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -119,7 +118,7 @@ class DownloadBox extends VerticalPanel {
     if (scheme.getItemCount() > 0) {
       FetchInfo fetchInfo =
           fetch.get(scheme.getValue(scheme.getSelectedIndex()));
-      for (String commandName : Natives.keys(fetchInfo.commands())) {
+      for (String commandName : fetchInfo.commands().sortedKeys()) {
         CopyableLabel copyLabel =
             new CopyableLabel(fetchInfo.command(commandName));
         copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadBoxCopyLabel());
@@ -209,7 +208,7 @@ class DownloadBox extends VerticalPanel {
   }
 
   private void renderScheme() {
-    for (String id : fetch.keySet()) {
+    for (String id : fetch.sortedKeys()) {
       scheme.addItem(id);
     }
     if (scheme.getItemCount() == 0) {

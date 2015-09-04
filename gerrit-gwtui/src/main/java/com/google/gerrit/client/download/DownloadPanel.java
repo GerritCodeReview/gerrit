@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
-import java.util.Set;
+import java.util.List;
 
 public abstract class DownloadPanel extends FlowPanel {
   protected final String project;
@@ -63,6 +63,6 @@ public abstract class DownloadPanel extends FlowPanel {
     commands.select();
   }
 
-  protected abstract Set<DownloadCommandInfo> getCommands(
+  protected abstract List<DownloadCommandInfo> getCommands(
       DownloadSchemeInfo schemeInfo);
 }

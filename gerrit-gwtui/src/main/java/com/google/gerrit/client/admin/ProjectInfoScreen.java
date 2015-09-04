@@ -69,7 +69,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public class ProjectInfoScreen extends ProjectScreen {
   private boolean isOwner;
@@ -710,7 +709,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
 
     @Override
-    protected Set<DownloadCommandInfo> getCommands(DownloadSchemeInfo schemeInfo) {
+    protected List<DownloadCommandInfo> getCommands(DownloadSchemeInfo schemeInfo) {
       return schemeInfo.cloneCommands(project);
     }
   }

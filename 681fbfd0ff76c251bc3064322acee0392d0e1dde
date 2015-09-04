@@ -22,6 +22,30 @@
       "revId": "681fbfd0ff76c251bc3064322acee0392d0e1dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84dff222_9ee93df1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-04T13:20:12Z",
+      "side": 1,
+      "message": "I doubt it actually scans the commit messages, but it ought to pick up that the issues were fixed :)",
+      "parentUuid": "24f6469e_0bba3da8",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "681fbfd0ff76c251bc3064322acee0392d0e1dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

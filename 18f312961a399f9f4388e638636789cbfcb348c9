@@ -46,6 +46,30 @@
       "revId": "18f312961a399f9f4388e638636789cbfcb348c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_1af17da1",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-04T14:59:01Z",
+      "side": 1,
+      "message": "Added \"2-phase\" here to make it sound scarier ;)",
+      "parentUuid": "046dc2ec_7a9e795a",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 43
+      },
+      "revId": "18f312961a399f9f4388e638636789cbfcb348c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24f6469e_0b135d68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-04T00:03:42Z",
+      "side": 1,
+      "message": "Declare this final.",
+      "revId": "57c50cc1e07b18d60ded68f45d33cd3739759f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_4cc45f2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-04T00:03:42Z",
+      "side": 1,
+      "message": "You can do this instead:\n\n  if (ids.add(cd.getId())) {\n    cdb.add(cd);\n  }\n\nas add returns true only if the set was modified by the addition. add returns false when the member already exists in the set. So that gets you the !contains test for free.",
+      "range": {
+        "startLine": 47,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 7
+      },
+      "revId": "57c50cc1e07b18d60ded68f45d33cd3739759f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

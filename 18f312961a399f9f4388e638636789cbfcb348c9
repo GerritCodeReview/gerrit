@@ -22,6 +22,30 @@
       "revId": "18f312961a399f9f4388e638636789cbfcb348c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_7a9e795a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-04T01:23:23Z",
+      "side": 1,
+      "message": "No, it\u0027s seriously like a half day\u0027s worth of work for me just to save like 20 lines of code.",
+      "parentUuid": "44fb3a86_accfc33e",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 43
+      },
+      "revId": "18f312961a399f9f4388e638636789cbfcb348c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24f6469e_0bba3da8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-04T01:43:37Z",
+      "side": 1,
+      "message": "Will coverity-scan detect these and automatically close the corresponding CIDs?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "681fbfd0ff76c251bc3064322acee0392d0e1dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

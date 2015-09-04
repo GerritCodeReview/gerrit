@@ -23,7 +23,10 @@ import static com.google.gerrit.server.account.GetPreferences.MY;
 import static com.google.gerrit.server.account.GetPreferences.URL_ALIAS;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.TopMenu;
@@ -79,22 +82,27 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
   private final Provider<ReviewDb> db;
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllUsersName allUsersName;
+  private final DynamicMap<DownloadScheme> downloadSchemes;
 
   @Inject
-  SetPreferences(Provider<CurrentUser> self, AccountCache cache,
-      Provider<ReviewDb> db, MetaDataUpdate.User metaDataUpdateFactory,
-      AllUsersName allUsersName) {
+  SetPreferences(Provider<CurrentUser> self,
+      AccountCache cache,
+      Provider<ReviewDb> db,
+      MetaDataUpdate.User metaDataUpdateFactory,
+      AllUsersName allUsersName,
+      DynamicMap<DownloadScheme> downloadSchemes) {
     this.self = self;
     this.cache = cache;
     this.db = db;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
+    this.downloadSchemes = downloadSchemes;
   }
 
   @Override
   public GetPreferences.PreferenceInfo apply(AccountResource rsrc, Input i)
-      throws AuthException, ResourceNotFoundException, OrmException,
-      IOException, ConfigInvalidException {
+      throws AuthException, ResourceNotFoundException, BadRequestException,
+      OrmException, IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("restricted to members of Modify Accounts");
@@ -133,7 +141,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
         p.setUseFlashClipboard(i.useFlashClipboard);
       }
       if (i.downloadScheme != null) {
-        p.setDownloadUrl(i.downloadScheme);
+        setDownloadScheme(p, i.downloadScheme);
       }
       if (i.downloadCommand != null) {
         p.setDownloadCommand(i.downloadCommand);
@@ -223,5 +231,17 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
         i++;
       }
     }
+  }
+
+  private void setDownloadScheme(AccountGeneralPreferences p, String scheme)
+      throws BadRequestException {
+    for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
+      if (e.getExportName().equals(scheme)
+          && e.getProvider().get().isEnabled()) {
+        p.setDownloadUrl(scheme);
+        return;
+      }
+    }
+    throw new BadRequestException("Unsupported download scheme: " + scheme);
   }
 }

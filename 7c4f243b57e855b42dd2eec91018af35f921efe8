@@ -272,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_cb22f57e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3365,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-04T23:07:36Z",
+      "side": 1,
+      "message": "I like suffix, thanks.",
+      "parentUuid": "44fb3a86_8c280763",
+      "range": {
+        "startLine": 3365,
+        "startChar": 239,
+        "endLine": 3365,
+        "endChar": 243
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_ec6d4bfa",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -578,6 +602,30 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_2bdf39cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-04T23:07:36Z",
+      "side": 1,
+      "message": "To answer Stefan\u0027s question, no, you don\u0027t have to bounds check here. TreeWalk.forPath() above either returns null or a TreeWalk with 1 tree in it at index 0. So the index 0 is successful here.",
+      "parentUuid": "44fb3a86_2cdf53cf",
+      "range": {
+        "startLine": 152,
+        "startChar": 35,
+        "endLine": 152,
+        "endChar": 36
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_0cec17c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -748,6 +796,24 @@
       "side": 1,
       "message": "Done. I used the name decoration since rand isn\u0027t descriptive of the whole string.",
       "parentUuid": "24f6469e_cb015510",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_0be4fd9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-04T23:07:36Z",
+      "side": 1,
+      "message": "Ack, decoration is a better name, thanks.",
+      "parentUuid": "44fb3a86_6ce95b78",
       "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

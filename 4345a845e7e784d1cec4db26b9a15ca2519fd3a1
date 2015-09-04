@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4664a12_b80e5967",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-09-04T10:25:04Z",
+      "side": 1,
+      "message": "With your new TrackingValues class (which I like) couldn\u0027t we stuff the footer extraction in there and make it responsible for all tracking data extraction?\nThat would be so clean and comfort my Asberger.\n  return args.trackingValues.getValues(input);",
+      "range": {
+        "startLine": 359,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 80
+      },
+      "revId": "4345a845e7e784d1cec4db26b9a15ca2519fd3a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

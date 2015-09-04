@@ -2201,7 +2201,7 @@ Maximum number of client connections which can enter the worker
 thread pool waiting for a worker thread to become available.
 0 sets the queue size to the Integer.MAX_VALUE.
 +
-By default 50.
+By default 200.
 
 [[httpd.maxWait]]httpd.maxWait::
 +

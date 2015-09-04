@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44fb3a86_ecfc2b39",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/AccountGroupSuggestOracle.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-04T22:17:56Z",
+      "side": 1,
+      "message": "This moved a lot more code than I had expected to move. This isn\u0027t going to work out long-term, so this CL as-is won\u0027t fly.\n\nI _thought_ we had group suggestions in the REST API. We don\u0027t. Seems like that should be fixed.\n\nOnce group suggestions are in the REST API we can use the RestApi object to get to the group suggestion invocations.\n\nSadly gerrit-gwtui and gerrit-plugin-gwtui have different copies of RestApi that look similar but have different implementations. This is intentional to get everything to work right. We might need some sort of shim between the two to allow code to be shared.\n\nAnother approach is we add the group suggestion widget to the JavaScript (and GWT) plugin API. Basically expose it as a widget the developer can \"bind\" onto an input text element in their screen. Implementation stays in gerrit-gwtui but gerrit-plugin-gwtui gets a shim that knows how to call through the JavaScript bridge API to use that object when it wants one.\n\nThat might be the most straightforward thing to implement. Exposing a JavaScript function in gerrit-gwtui that accepts an input DOM element and returns an object handle, after attaching the suggestion glue to it.",
+      "revId": "f39de88b6b1ef48bbefb25dcfcf4d350681d0ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

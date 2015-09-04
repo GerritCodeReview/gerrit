@@ -22,6 +22,30 @@
       "revId": "63258413a9c0c127eccc0c17cca17760d592ff0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_eb1b7179",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1777,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-04T01:26:18Z",
+      "side": 1,
+      "message": "There are no semicolons on the surrounding lines...\n\nI would actually replace the semicolon here with a period and make \"may be...\" a new sentence.",
+      "parentUuid": "24f6469e_eb6d31fa",
+      "range": {
+        "startLine": 1777,
+        "startChar": 51,
+        "endLine": 1777,
+        "endChar": 69
+      },
+      "revId": "63258413a9c0c127eccc0c17cca17760d592ff0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

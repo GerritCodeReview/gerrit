@@ -22,6 +22,30 @@
       "revId": "f30590ee8eba6b37331fbc496a741d749ddee88b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_4b0d653f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/DownloadConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-04T01:09:21Z",
+      "side": 1,
+      "message": "downloadCommandValues is also used at line 56.",
+      "parentUuid": "24f6469e_6b7ae1b8",
+      "range": {
+        "startLine": 58,
+        "startChar": 25,
+        "endLine": 58,
+        "endChar": 44
+      },
+      "revId": "f30590ee8eba6b37331fbc496a741d749ddee88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

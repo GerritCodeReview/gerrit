@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_6b8dc1f8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3330,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24f6469e_0becfdc8",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_2c0e3340",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2015-09-03T23:55:58Z",
       "side": 1,
       "message": "download?",
+      "range": {
+        "startLine": 3332,
+        "startChar": 123,
+        "endLine": 3332,
+        "endChar": 135
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_4b92851a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3332,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_2c0e3340",
       "range": {
         "startLine": 3332,
         "startChar": 123,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_ab96890a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3335,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24f6469e_4ba8c57b",
+      "range": {
+        "startLine": 3335,
+        "startChar": 0,
+        "endLine": 3335,
+        "endChar": 29
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_8c7007d4",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -76,6 +142,30 @@
       "writtenOn": "2015-09-03T22:02:16Z",
       "side": 1,
       "message": "How would I find out what is safe (who defined it, where?)",
+      "range": {
+        "startLine": 3338,
+        "startChar": 0,
+        "endLine": 3338,
+        "endChar": 38
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_4c373fc6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3338,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_8c7007d4",
       "range": {
         "startLine": 3338,
         "startChar": 0,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_ac2b435e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3360,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Just raw binary data: the bare bits of a hypothetical logo.png, or any other deemed-safe type. I\u0027m sure that the png format deals with endianness in some reasonable manner. Including literal example data seems impractical in this setting. I amended the documentation starting at line 3338 to make this point more clearly.",
+      "parentUuid": "24f6469e_ab8cc92b",
+      "range": {
+        "startLine": 3360,
+        "startChar": 3,
+        "endLine": 3360,
+        "endChar": 29
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6469e_6bf141a1",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -122,6 +236,30 @@
       "writtenOn": "2015-09-03T23:55:58Z",
       "side": 1,
       "message": "s/side/name/?",
+      "range": {
+        "startLine": 3365,
+        "startChar": 239,
+        "endLine": 3365,
+        "endChar": 243
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_8c280763",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3365,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "How about suffix, since name is misleading? Done.",
+      "parentUuid": "24f6469e_6bf141a1",
       "range": {
         "startLine": 3365,
         "startChar": 239,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_8b93cd1a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3366,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "This example is already illustrating the side parameter (now renamed as suffix per request by sop@).",
+      "parentUuid": "44fb3a86_ec6d4bfa",
+      "range": {
+        "startLine": 3365,
+        "startChar": 0,
+        "endLine": 3366,
+        "endChar": 4
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_0cba57a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -174,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_eba09161",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_0cba57a8",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6469e_8bf74d93",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -185,6 +365,24 @@
       "writtenOn": "2015-09-03T23:55:58Z",
       "side": 1,
       "message": "I don\u0027t think we need a SecureRandom here. Any old random will do.\n\nSecureRandom has a nasty habit of blocking hard when system entropy goes low. That\u0027s good for generating a new AES key. Its bad for just needing some random digits the caller has low probability of being able to predict.",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_ec254b89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24f6469e_8bf74d93",
       "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -238,6 +436,54 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_cb9dd527",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Interesting, thanks. Done.",
+      "parentUuid": "44fb3a86_2cb593b8",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 35
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_cc220f7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done (per sop@ suggestion)",
+      "parentUuid": "44fb3a86_cc6a0fe0",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 35
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_2ce753e8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -249,6 +495,30 @@
       "writtenOn": "2015-09-03T22:02:16Z",
       "side": 1,
       "message": "So, I never saw the ProjectState as an argument to a `openRepository` function (or any helper function), and it turns out it will only extract the Project.NameKey which you could get cheaper in GetSafeContent.java [less().nested().functions()], though you also need it in wrapBlob to resolveContentType. Looking at that, we\u0027d only need the config of the project there, not the entire project state. Not sure if that\u0027s an easy refactor to not drag the project state along.",
+      "range": {
+        "startLine": 138,
+        "startChar": 26,
+        "endLine": 138,
+        "endChar": 51
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_2b6a99b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Interesting--thorough analysis. Notice that in resolveContentType() we need the config for each project in the tree, not just a single config. It would be possible to build a list of all configs and pass that in, but it doesn\u0027t seem like a win for simplicity at that point. Since we\u0027re already pulling in ProjectState for the other purpose, it doesn\u0027t seem like we gain anything by factoring it out from the openRepository method. Let me know if you see another angle.",
+      "parentUuid": "44fb3a86_2ce753e8",
       "range": {
         "startLine": 138,
         "startChar": 26,
@@ -284,6 +554,30 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_2cdf53cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "This logic parallels the existing getContent() method above, which seems to be working as intended. I hoped to factor this change so that both applications shared common logic, but it wasn\u0027t practical.",
+      "parentUuid": "24f6469e_eb96d139",
+      "range": {
+        "startLine": 152,
+        "startChar": 35,
+        "endLine": 152,
+        "endChar": 36
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_0cec17c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -295,6 +589,30 @@
       "writtenOn": "2015-09-03T22:02:16Z",
       "side": 1,
       "message": "This might be different from the MIME we used to determine if it is safe, do we need to do it as in `resolveContentType` ?",
+      "range": {
+        "startLine": 161,
+        "startChar": 38,
+        "endLine": 161,
+        "endChar": 49
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_ab7de97e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Good catch. Performing the resolveContentType step in wrapBlob was out of sync with original behavior in CatServlet. The value of contentType is now used in wrapBlob without further refinement.",
+      "parentUuid": "44fb3a86_0cec17c9",
       "range": {
         "startLine": 161,
         "startChar": 38,
@@ -330,6 +648,30 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_4b69e5be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24f6469e_2b0e1940",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 5
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_cc184f80",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -341,6 +683,30 @@
       "writtenOn": "2015-09-03T23:55:58Z",
       "side": 1,
       "message": "Do this above and store in a variable. Its hard to read buried in here.",
+      "range": {
+        "startLine": 184,
+        "startChar": 24,
+        "endLine": 185,
+        "endChar": 65
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_0ce417a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_cc184f80",
       "range": {
         "startLine": 184,
         "startChar": 24,
@@ -370,6 +736,24 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_6ce95b78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done. I used the name decoration since rand isn\u0027t descriptive of the whole string.",
+      "parentUuid": "24f6469e_cb015510",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_ec1b8b79",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -381,6 +765,24 @@
       "writtenOn": "2015-09-03T23:55:58Z",
       "side": 1,
       "message": "Don\u0027t make this call at all. If its unset it defaults to -1 which is more clear; we didn\u0027t set any content length so we deferred and let the system handle it elsewhere, which it does.",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24f6469e_0b6fddc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_ec1b8b79",
       "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -457,6 +859,30 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_4cee1f82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Weird, I wonder how that happened when I just cut-and-pasted the whole method from CatServlet. Accursed gremlins! Fixed.\n\nYour point is true about the substring. Still, I think the clarity and efficiency of the code is better with the condition in place.",
+      "parentUuid": "44fb3a86_4cf61f9b",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 23
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6469e_cb931548",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -480,6 +906,30 @@
     },
     {
       "key": {
+        "uuid": "44fb3a86_acf22362",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "This is stage 1 of moving this method here from another class (CatServlet). I think it\u0027s better not to make significant refactoring changes during a move; instead, we could work on this method later in a refactoring CL, so that the history is easier to follow. (I conceded in an earlier patch to remove pre-existing blank lines, but that\u0027s not too confusing.)",
+      "parentUuid": "24f6469e_cb931548",
+      "range": {
+        "startLine": 225,
+        "startChar": 10,
+        "endLine": 232,
+        "endChar": 20
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_ac2183af",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
         "patchSetId": 3
@@ -491,6 +941,24 @@
       "writtenOn": "2015-09-03T23:55:58Z",
       "side": 1,
       "message": "Hasher h \u003d Hashing.md5().newHasher() would be better here.",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_8cef677a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_ac2183af",
       "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -561,6 +1029,24 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_6b64a1e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_8c1e476b",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_6c083b31",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
         "patchSetId": 3
@@ -578,6 +1064,24 @@
     },
     {
       "key": {
+        "uuid": "24f6469e_2b51f9ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_6c083b31",
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f6469e_4bf6059b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
         "patchSetId": 3
@@ -589,6 +1093,30 @@
       "writtenOn": "2015-09-03T23:55:58Z",
       "side": 1,
       "message": "name?",
+      "range": {
+        "startLine": 32,
+        "startChar": 20,
+        "endLine": 32,
+        "endChar": 24
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_0c0b77ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "How about suffix? Done.",
+      "parentUuid": "24f6469e_4bf6059b",
       "range": {
         "startLine": 32,
         "startChar": 20,
@@ -635,6 +1163,54 @@
       "writtenOn": "2015-09-03T23:55:58Z",
       "side": 1,
       "message": "Please follow Stefan\u0027s suggestion; two very long deep invocations like this on earlier lines makes it hard to see the overall call.",
+      "parentUuid": "24f6469e_8b890d1c",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 14
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_8c164712",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24f6469e_abfa097b",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 14
+      },
+      "revId": "7c4f243b57e855b42dd2eec91018af35f921efe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44fb3a86_ac198346",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetSafeContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2015-09-04T22:57:33Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "24f6469e_8b890d1c",
       "range": {
         "startLine": 48,

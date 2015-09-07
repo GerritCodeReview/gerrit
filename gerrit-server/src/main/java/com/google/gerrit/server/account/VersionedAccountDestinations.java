@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.DestinationList;
+import com.google.gerrit.server.git.TabFile;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.VersionedMetaData;
 
@@ -61,7 +62,7 @@ public class VersionedAccountDestinations extends VersionedMetaData {
         String path = p.path;
         if (path.startsWith(prefix)) {
           String label = path.substring(prefix.length());
-          ValidationError.Sink errors = destinations.createLoggerSink(path, log);
+          ValidationError.Sink errors = TabFile.createLoggerSink(path, log);
           destinations.parseLabel(label, readUTF8(path), errors);
         }
       }

@@ -53,18 +53,6 @@ outdated patch sets, but only on the current patch set.
 +
 The change has all necessary approvals and may be submitted.
 
-- [[submitted-merge-pending]]`Submitted, Merge Pending`:
-+
-The change was submitted and was added to the merge queue.
-+
-The change stays in the merge queue if it depends on a change that is
-still in review. In this case it will get automatically merged when all
-dependency changes have been merged.
-+
-This status can also mean that the change depends on an abandoned
-change or on an outdated patch set of another change. In this case you
-may want to rebase the change.
-
 - [[merged]]`Merged`:
 +
 The change was successfully merged into the destination branch.

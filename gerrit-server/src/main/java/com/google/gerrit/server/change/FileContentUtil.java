@@ -48,7 +48,6 @@ import org.eclipse.jgit.util.NB;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.security.MessageDigest;
 import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -157,19 +156,19 @@ public class FileContentUtil {
 
       MimeType contentType = registry.getMimeType(path, raw);
       return registry.isSafeInline(contentType)
-          ? wrapBlob(project, path, obj, raw, contentType, suffix)
+          ? wrapBlob(path, obj, raw, contentType, suffix)
           : zipBlob(path, obj, commit, suffix);
     }
   }
 
-  private BinaryResult wrapBlob(ProjectState project, String path,
-      final ObjectLoader obj, byte[] raw, MimeType contentType,
-      @Nullable String suffix) {
+  private BinaryResult wrapBlob(String path, final ObjectLoader obj, byte[] raw,
+      MimeType contentType, @Nullable String suffix) {
     return asBinaryResult(raw, obj)
         .setContentType(contentType.toString())
         .setAttachmentName(safeFileName(path, suffix));
   }
 
+  @SuppressWarnings("resource")
   private BinaryResult zipBlob(final String path, final ObjectLoader obj,
       RevCommit commit, final @Nullable String suffix) {
     final String commitName = commit.getName();

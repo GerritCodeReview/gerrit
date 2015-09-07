@@ -88,6 +88,12 @@ Changes that conflict with change 'ID'. Change 'ID' can be specified
 as a legacy numerical 'ID' such as 15183, or a newer style Change-Id
 that was scraped out of the commit message.
 
+[[destination]]
+destination:'NAME'::
++
+Changes which match the current user's destination named 'NAME'.
+(see link:user-named-destinations.html[Named Destinations]).
+
 [[owner]]
 owner:'USER', o:'USER'::
 +

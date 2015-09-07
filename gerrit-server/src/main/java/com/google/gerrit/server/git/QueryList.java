@@ -28,7 +28,7 @@ public class QueryList extends TabFile {
 
   public static QueryList parse(String text, ValidationError.Sink errors)
       throws IOException {
-    return new QueryList(parse(text, FILE_NAME, errors));
+    return new QueryList(parse(text, FILE_NAME, TRIM, TRIM, errors));
   }
 
   public String getQuery(String name) {

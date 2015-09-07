@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24f6469e_8b1d8d2a",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-07T19:52:59Z",
+      "side": 1,
+      "message": "I am confused by this; above it seems we only add ! ok results to signerResults. If we had an ok result we early returned above and never reached this loop.",
+      "range": {
+        "startLine": 200,
+        "startChar": 1,
+        "endLine": 203,
+        "endChar": 7
+      },
+      "revId": "2d73738118aed6f9b2825eec10669863b4adb45f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

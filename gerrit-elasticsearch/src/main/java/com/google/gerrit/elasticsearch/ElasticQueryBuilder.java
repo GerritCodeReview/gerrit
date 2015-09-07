@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -35,8 +34,6 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.joda.time.DateTime;
-
-import java.util.List;
 
 public class ElasticQueryBuilder extends com.google.gerrit.lucene.QueryBuilder {
   public ElasticQueryBuilder(Analyzer analyzer) {
@@ -62,21 +59,8 @@ public class ElasticQueryBuilder extends com.google.gerrit.lucene.QueryBuilder {
       throws QueryParseException {
     try {
       BoolQueryBuilder b = QueryBuilders.boolQuery();
-      List<QueryBuilder> not = Lists.newArrayListWithCapacity(p.getChildCount());
       for (Predicate<ChangeData> c : p.getChildren()) {
-        if (c instanceof NotPredicate) {
-          Predicate<ChangeData> n = c.getChild(0);
-          if (n instanceof TimestampRangePredicate) {
-            b.must(notTimestamp((TimestampRangePredicate<ChangeData>) n));
-          } else {
-            not.add(toQueryBuilder(n));
-          }
-        } else {
-          b.must(toQueryBuilder(c));
-        }
-      }
-      for (QueryBuilder q : not) {
-        b.mustNot(q);
+        b.must(toQueryBuilder(c));
       }
       return b;
     } catch (BooleanQuery.TooManyClauses e) {

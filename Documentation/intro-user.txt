@@ -563,11 +563,23 @@ The project owner may enable link:user-upload.html#auto_merge[
 auto-merge on push] to benefit from the automatic merge/rebase on
 server side while pushing directly into the repository.
 
+[[user-refs]]
+== User Refs
+
+User configuration data such as link:#preferences[preferences] is
+stored in the `All-Users` project under a per-user ref.  The user's
+ref is based on the user's account id which is an integer.  The user
+refs are sharded by the last two digits (`+nn+`) in the refname,
+leading to refs of the format `+refs/users/nn/accountid+`.
+
 [[preferences]]
 == Preferences
 
 There are several options to control the rendering in the Gerrit web UI.
 Users can configure their preferences under `Settings` > `Preferences`.
+The user's preferences are stored in a `git config` style file named
+`preferences.config` under the link:#user-refs[user's ref] in the
+`All-Users` project.
 
 The following preferences can be configured:
 

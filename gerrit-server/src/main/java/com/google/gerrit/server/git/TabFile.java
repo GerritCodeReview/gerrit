@@ -32,11 +32,11 @@ public class TabFile {
   }
 
   public static Parser TRIM = new Parser() {
-        public String parse(String str) {
-           return str.trim();
-        }
-      };
-
+    @Override
+    public String parse(String str) {
+       return str.trim();
+    }
+  };
 
   protected static class Row {
     public String left;
@@ -50,7 +50,7 @@ public class TabFile {
 
   protected static List<Row> parse(String text, String filename, Parser left,
       Parser right, ValidationError.Sink errors) throws IOException {
-    List<Row> rows = new ArrayList<Row>();
+    List<Row> rows = new ArrayList<>();
     BufferedReader br = new BufferedReader(new StringReader(text));
     String s;
     for (int lineNumber = 1; (s = br.readLine()) != null; lineNumber++) {

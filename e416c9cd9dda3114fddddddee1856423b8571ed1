@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "84dff222_5ea335a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-08T12:45:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24f6469e_8b410d2b",
+      "range": {
+        "startLine": 241,
+        "startChar": 31,
+        "endLine": 241,
+        "endChar": 66
+      },
+      "revId": "e416c9cd9dda3114fddddddee1856423b8571ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44fb3a86_ec138b20",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/DownloadConfig.java",
         "patchSetId": 3
@@ -59,6 +83,54 @@
       "writtenOn": "2015-09-04T22:51:15Z",
       "side": 1,
       "message": "unnecessary ()",
+      "range": {
+        "startLine": 95,
+        "startChar": 41,
+        "endLine": 95,
+        "endChar": 75
+      },
+      "revId": "e416c9cd9dda3114fddddddee1856423b8571ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84dff222_7ea8f17b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/DownloadConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-08T12:45:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_ec138b20",
+      "range": {
+        "startLine": 95,
+        "startChar": 10,
+        "endLine": 95,
+        "endChar": 37
+      },
+      "revId": "e416c9cd9dda3114fddddddee1856423b8571ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "046dc2ec_3adb2108",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/DownloadConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-08T12:45:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb3a86_cc104f17",
       "range": {
         "startLine": 95,
         "startChar": 41,

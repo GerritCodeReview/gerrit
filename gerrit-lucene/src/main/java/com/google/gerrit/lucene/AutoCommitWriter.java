@@ -25,13 +25,22 @@ import org.apache.lucene.store.Directory;
 import java.io.IOException;
 
 /** Writer that optionally flushes/commits after every write. */
-class AutoCommitWriter extends IndexWriter {
+public class AutoCommitWriter extends IndexWriter {
   private boolean autoCommit;
+
+  AutoCommitWriter(Directory dir, IndexWriterConfig config)
+      throws IOException {
+    this(dir, config, false);
+  }
 
   AutoCommitWriter(Directory dir, IndexWriterConfig config, boolean autoCommit)
       throws IOException {
     super(dir, config);
-    this.autoCommit = autoCommit;
+    setAutoCommit(autoCommit);
+  }
+
+  public void setAutoCommit(boolean enable) {
+    this.autoCommit = enable;
   }
 
   @Override
@@ -99,7 +108,7 @@ class AutoCommitWriter extends IndexWriter {
     }
   }
 
-  private void autoFlush() throws IOException {
+  public void autoFlush() throws IOException {
     if (autoCommit) {
       manualFlush();
     }

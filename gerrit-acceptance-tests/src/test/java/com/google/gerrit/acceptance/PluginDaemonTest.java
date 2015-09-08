@@ -25,6 +25,7 @@ import org.junit.runner.Description;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ProcessBuilder.Redirect;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -39,8 +40,6 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
 
   private static final String BUCKLC = "buck";
   private static final String BUCKOUT = "buck-out";
-  private static final String BUILD = "build";
-  private static final String EMPTY = "src/main/java/ForceJarIfMissing.java";
 
   private Path gen;
   private Path testSite;
@@ -162,11 +161,23 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     }
 
     ProcessBuilder processBuilder =
-        new ProcessBuilder(buck, BUILD, target).directory(pluginRoot.toFile())
+        new ProcessBuilder(buck, "build", target).directory(pluginRoot.toFile())
             .redirectErrorStream(true);
+    // otherwise plugin jar creation fails:
+    processBuilder.environment().put("NO_BUCKD", "1");
 
-    Path forceJar = pluginSource.resolve(EMPTY);
+    Path forceJar = pluginSource.resolve("src/main/java/ForceJarIfMissing.java");
+    // if exists after cancelled test:
+    Files.deleteIfExists(forceJar);
+
     Files.createFile(forceJar);
+    testSite = tempSiteDir.getRoot().toPath();
+
+    // otherwise process often hangs:
+    Path log = testSite.resolve("log");
+    processBuilder.redirectErrorStream(true);
+    processBuilder.redirectOutput(Redirect.appendTo(log.toFile()));
+
     try {
       processBuilder.start().waitFor();
     } finally {
@@ -188,7 +199,6 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
   }
 
   private void createTestSiteDirs() throws IOException {
-    testSite = tempSiteDir.getRoot().toPath();
     SitePaths sitePath = new SitePaths(testSite);
     pluginsSitePath = Files.createDirectories(sitePath.plugins_dir);
     Files.createDirectories(sitePath.tmp_dir);

@@ -142,6 +142,30 @@
       "revId": "251b1574d203b64ccb3fa6851fffed2c7f296921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04fea26f_92701cd4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-08T14:26:55Z",
+      "side": 1,
+      "message": "Since the assumption in this class is that when gpgKeys !\u003d null then also gpgKeys.size() \u003e 0, this code can be left as is.",
+      "parentUuid": "c4a3aab1_10afe4b8",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 23
+      },
+      "revId": "251b1574d203b64ccb3fa6851fffed2c7f296921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

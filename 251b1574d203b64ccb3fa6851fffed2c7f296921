@@ -46,6 +46,30 @@
       "revId": "251b1574d203b64ccb3fa6851fffed2c7f296921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04fea26f_12854cf9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-08T12:45:42Z",
+      "side": 1,
+      "message": "1. I think that David\u0027s comment makes sense because this is a public method... so, in the long run, you never know about all the usages.\n\n2. I don\u0027t see any usage of this method?\n\n $ git grep -i getgpgkeys\ngerrit-server/src/main/java/com/google/gerrit/server/mail/AddKeySender.java:  public String getGpgKeys() {\n\nOnly this single place is found.",
+      "parentUuid": "84dff222_1e4b6da0",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 23
+      },
+      "revId": "251b1574d203b64ccb3fa6851fffed2c7f296921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -170,7 +170,7 @@ public class FileContentUtil {
 
   @SuppressWarnings("resource")
   private BinaryResult zipBlob(final String path, final ObjectLoader obj,
-      RevCommit commit, final @Nullable String suffix) {
+      RevCommit commit, @Nullable final String suffix) {
     final String commitName = commit.getName();
     final long when = commit.getCommitTime() * 1000L;
     return new BinaryResult() {

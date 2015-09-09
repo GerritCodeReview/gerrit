@@ -16,6 +16,24 @@
       "revId": "f39de88b6b1ef48bbefb25dcfcf4d350681d0ea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f236e4_4fe7ed19",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/AccountGroupSuggestOracle.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-09T00:57:38Z",
+      "side": 1,
+      "message": "OK. I started to add the group suggestions to the REST API in Ia1cfa068246127c29f1b74f6aa4562a9167c301e (WIP)",
+      "parentUuid": "44fb3a86_ecfc2b39",
+      "revId": "f39de88b6b1ef48bbefb25dcfcf4d350681d0ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

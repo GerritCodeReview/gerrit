@@ -154,8 +154,8 @@ public abstract class PushCertificateChecker {
         StringBuilder err = new StringBuilder("Invalid public key ")
             .append(keyToString(k))
             .append(":");
-        for (int i = 0; i < result.getProblems().size(); i++) {
-          err.append('\n').append("  ").append(result.getProblems().get(i));
+        for (String problem : result.getProblems()) {
+          err.append("\n  ").append(problem);
         }
         problems.add(err.toString());
         return;

@@ -303,7 +303,7 @@ public class PublicKeyStore implements AutoCloseable {
     }
     if (toWrite.size() == existing.size()) {
       return;
-    } else if (toWrite.size() > 0) {
+    } else if (!toWrite.isEmpty()) {
       notes.set(keyObjectId(keyId),
           ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
     } else {

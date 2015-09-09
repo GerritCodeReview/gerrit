@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
@@ -93,15 +94,15 @@ public class AuthConfig {
 
 
     String key = cfg.getString("auth", null, "registerEmailPrivateKey");
-    if (key != null && !key.isEmpty()) {
-      int age = (int) ConfigUtil.getTimeUnit(cfg,
-          "auth", null, "maxRegisterEmailTokenAge",
-          TimeUnit.SECONDS.convert(12, TimeUnit.HOURS),
-          TimeUnit.SECONDS);
-      emailReg = new SignedToken(age, key);
-    } else {
-      emailReg = null;
+    if (Strings.isNullOrEmpty(key)) {
+      throw new IllegalStateException(
+          "missing auth.registerEmailPrivateKey; run init");
     }
+    int age = (int) ConfigUtil.getTimeUnit(cfg,
+        "auth", null, "maxRegisterEmailTokenAge",
+        TimeUnit.SECONDS.convert(12, TimeUnit.HOURS),
+        TimeUnit.SECONDS);
+    emailReg = new SignedToken(age, key);
   }
 
   private static List<OpenIdProviderPattern> toPatterns(Config cfg, String name) {

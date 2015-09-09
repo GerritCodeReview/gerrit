@@ -85,6 +85,8 @@ public class InMemoryModule extends FactoryModule {
 
   public static void setDefaults(Config cfg) {
     cfg.setEnum("auth", null, "type", AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT);
+    cfg.setString("auth", null, "registerEmailPrivateKey",
+        "2zHNrXE2bsoylzUqDxZp0H1cqUmjgWb6");
     cfg.setString("gerrit", null, "allProjects", "Test-Projects");
     cfg.setString("gerrit", null, "basePath", "git");
     cfg.setString("gerrit", null, "canonicalWebUrl", "http://test/");

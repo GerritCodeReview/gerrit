@@ -172,6 +172,38 @@ Query 25 groups starting from index 50.
   GET /groups/?n=25&S=50 HTTP/1.0
 ----
 
+[[group-suggestions]]
+==== Group Suggestions
+The `/groups/` URL can also be used to give group suggestions,
+with `suggestion` parameter.
+It must comes with `match` parameter and exactly one `project` or `p` parameter,
+and will override (ignore) any `visible-to-all`, `owned` or `S` parameters.
+
+.Request
+----
+  GET /groups/?suggestion&p=All-Projects&match=ad HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "Administrators": {
+      "url": "#/admin/groups/uuid-59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "options": {},
+      "description": "Gerrit Site Administrators",
+      "group_id": 1,
+      "owner": "Administrators",
+      "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b"
+    }
+  }
+----
+
 [[get-group]]
 === Get Group
 --

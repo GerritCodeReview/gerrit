@@ -127,7 +127,7 @@ class HttpLoginServlet extends HttpServlet {
       try {
         log.debug("Associating external identity \"{}\" to user \"{}\"",
             remoteExternalId, user);
-        updateRemoteExternalId(arsp, remoteExternalId);
+        updateRemoteExternalId(arsp, remoteExternalId, user);
       } catch (AccountException | OrmException e) {
         log.error("Unable to associate external identity \"" + remoteExternalId
             + "\" to user \"" + user + "\"", e);
@@ -151,13 +151,14 @@ class HttpLoginServlet extends HttpServlet {
     rsp.sendRedirect(rdr.toString());
   }
 
-  private void updateRemoteExternalId(AuthResult arsp, String remoteAuthToken)
-      throws AccountException, OrmException {
+  private void updateRemoteExternalId(AuthResult arsp, String remoteAuthToken,
+      String username) throws AccountException, OrmException {
     AccountExternalId remoteAuthExtId =
         new AccountExternalId(arsp.getAccountId(), new AccountExternalId.Key(
             SCHEME_EXTERNAL, remoteAuthToken));
-    accountManager.updateLink(arsp.getAccountId(),
-        new AuthRequest(remoteAuthExtId.getExternalId()));
+    AuthRequest who = new AuthRequest(remoteAuthExtId.getExternalId());
+    who.setUserName(username);
+    accountManager.updateLink(arsp.getAccountId(), who);
   }
 
   private void replace(Document doc, String name, String value) {

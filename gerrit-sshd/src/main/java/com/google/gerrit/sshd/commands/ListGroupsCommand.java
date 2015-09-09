@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GetGroups;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson;
@@ -71,9 +72,10 @@ public class ListGroupsCommand extends SshCommand {
         final Provider<IdentifiedUser> identifiedUser,
         final IdentifiedUser.GenericFactory userFactory,
         final Provider<GetGroups> accountGetGroups,
-        final GroupJson json) {
+        final GroupJson json,
+        GroupBackend groupBackend) {
       super(groupCache, groupControlFactory, genericGroupControlFactory,
-          identifiedUser, userFactory, accountGetGroups, json);
+          identifiedUser, userFactory, accountGetGroups, json, groupBackend);
     }
 
     void display(final PrintWriter out) throws OrmException {

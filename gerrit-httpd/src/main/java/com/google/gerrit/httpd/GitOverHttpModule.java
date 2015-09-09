@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
@@ -55,8 +55,7 @@ public class GitOverHttpModule extends ServletModule {
   }
 
   private boolean isHttpEnabled(){
-    return downloadConfig.getDownloadSchemes().contains(DownloadScheme.DEFAULT_DOWNLOADS)
-        || downloadConfig.getDownloadSchemes().contains(DownloadScheme.ANON_HTTP)
-        || downloadConfig.getDownloadSchemes().contains(DownloadScheme.HTTP);
+    return downloadConfig.getDownloadSchemes().contains(CoreDownloadSchemes.ANON_HTTP)
+        || downloadConfig.getDownloadSchemes().contains(CoreDownloadSchemes.HTTP);
   }
 }

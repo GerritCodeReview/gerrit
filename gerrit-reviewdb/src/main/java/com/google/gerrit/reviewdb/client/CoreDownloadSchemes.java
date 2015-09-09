@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.download;
+package com.google.gerrit.reviewdb.client;
 
-import com.google.gwt.core.client.GWT;
+/**
+ * Download scheme string constants supported by the download-commands core
+ * plugin.
+ */
+public class CoreDownloadSchemes {
+  public static final String ANON_GIT = "git";
+  public static final String ANON_HTTP = "anonymous http";
+  public static final String HTTP = "http";
+  public static final String SSH = "ssh";
+  public static final String REPO_DOWNLOAD = "repo";
 
-public class Util {
-  public static final DownloadMessages M = GWT.create(DownloadMessages.class);
+  private CoreDownloadSchemes() {
+  }
 }

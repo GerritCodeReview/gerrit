@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Set;
 
 public class DownloadInfo extends JavaScriptObject {
-  public final Set<String> schemes() {
-    return Natives.keys(_schemes());
+  public final List<String> schemes() {
+    return _schemes().sortedKeys();
   }
 
   public final List<String> archives() {
@@ -46,8 +46,8 @@ public class DownloadInfo extends JavaScriptObject {
   }
 
   public static class DownloadSchemeInfo extends JavaScriptObject {
-    public final Set<String> commandNames() {
-      return Natives.keys(_commands());
+    public final List<String> commandNames() {
+      return _commands().sortedKeys();
     }
 
     public final Set<DownloadCommandInfo> commands(String project) {
@@ -67,13 +67,14 @@ public class DownloadInfo extends JavaScriptObject {
       return project.substring(project.lastIndexOf('/') + 1);
     }
 
-    public final Set<String> cloneCommandNames() {
-      return Natives.keys(_cloneCommands());
+    public final List<String> cloneCommandNames() {
+      return _cloneCommands().sortedKeys();
     }
 
-    public final Set<DownloadCommandInfo> cloneCommands(String project) {
-      Set<DownloadCommandInfo> commands = new HashSet<>();
-      for (String commandName : cloneCommandNames()) {
+    public final List<DownloadCommandInfo> cloneCommands(String project) {
+      List<String> commandNames = cloneCommandNames();
+      List<DownloadCommandInfo> commands = new ArrayList<>(commandNames.size());
+      for (String commandName : commandNames) {
         commands.add(new DownloadCommandInfo(commandName, cloneCommand(
             commandName, project)));
       }

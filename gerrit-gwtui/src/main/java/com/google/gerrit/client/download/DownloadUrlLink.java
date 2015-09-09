@@ -18,7 +18,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.client.info.DownloadInfo.DownloadSchemeInfo;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,32 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DownloadUrlLink extends Anchor implements ClickHandler {
-  private enum KnownScheme {
-    ANON_GIT(DownloadScheme.ANON_GIT, "git", Util.M.anonymousDownload("Git")),
-    ANON_HTTP(DownloadScheme.ANON_HTTP, "anonymous http", Util.M.anonymousDownload("HTTP")),
-    SSH(DownloadScheme.SSH, "ssh", "SSH"),
-    HTTP(DownloadScheme.HTTP, "http", "HTTP");
-
-    public final DownloadScheme downloadScheme;
-    public final String name;
-    public final String text;
-
-    private KnownScheme(DownloadScheme downloadScheme, String name, String text) {
-      this.downloadScheme = downloadScheme;
-      this.name = name;
-      this.text = text;
-    }
-
-    static KnownScheme get(String name) {
-      for (KnownScheme s : values()) {
-        if (s.name.equals(name)) {
-          return s;
-        }
-      }
-      return null;
-    }
-  }
-
   public static List<DownloadUrlLink> createDownloadUrlLinks(
       boolean allowAnonymous, DownloadPanel downloadPanel) {
     List<DownloadUrlLink> urls = new ArrayList<>();
@@ -65,41 +38,29 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
       if (scheme.isAuthRequired() && !allowAnonymous) {
         continue;
       }
-
-      KnownScheme knownScheme = KnownScheme.get(s);
-      if (knownScheme != null) {
-        urls.add(new DownloadUrlLink(downloadPanel, scheme,
-            knownScheme.downloadScheme, knownScheme.text));
-      } else {
-        urls.add(new DownloadUrlLink(downloadPanel, scheme, s));
-      }
+      urls.add(new DownloadUrlLink(downloadPanel, scheme, s));
     }
     return urls;
   }
 
   private final DownloadPanel downloadPanel;
   private final DownloadSchemeInfo schemeInfo;
-  private final DownloadScheme scheme;
+  private final String schemeName;
 
   public DownloadUrlLink(DownloadPanel downloadPanel,
-      DownloadSchemeInfo schemeInfo, String text) {
-    this(downloadPanel, schemeInfo, null, text);
-  }
-
-  public DownloadUrlLink(DownloadPanel downloadPanel,
-      DownloadSchemeInfo schemeInfo, DownloadScheme urlType, String text) {
-    super(text);
+      DownloadSchemeInfo schemeInfo, String schemeName) {
+    super(schemeName);
     setStyleName(Gerrit.RESOURCES.css().downloadLink());
     Roles.getTabRole().set(getElement());
     addClickHandler(this);
 
     this.downloadPanel = downloadPanel;
     this.schemeInfo = schemeInfo;
-    this.scheme = urlType;
+    this.schemeName = schemeName;
   }
 
-  public DownloadScheme getUrlType() {
-    return scheme;
+  public String getSchemeName() {
+    return schemeName;
   }
 
   @Override
@@ -110,11 +71,10 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
     select();
 
     AccountPreferencesInfo prefs = Gerrit.getUserPreferences();
-    if (Gerrit.isSignedIn() && scheme != null
-        && scheme != prefs.downloadScheme()) {
-      prefs.downloadScheme(scheme);
+    if (Gerrit.isSignedIn() && !schemeName.equals(prefs.downloadScheme())) {
+      prefs.downloadScheme(schemeName);
       AccountPreferencesInfo in = AccountPreferencesInfo.create();
-      in.downloadScheme(scheme);
+      in.downloadScheme(schemeName);
       AccountApi.self().view("preferences")
           .put(in, new AsyncCallback<JavaScriptObject>() {
             @Override

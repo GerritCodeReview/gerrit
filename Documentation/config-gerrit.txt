@@ -237,6 +237,13 @@ to express their setting:
 +
 Default is -1, permitting infinite time between authentications.
 
+[[auth.registerEmailPrivateKey]]auth.registerEmailPrivateKey::
++
+Private key to use when generating an email verification token.
++
+If not set, a random key is generated when running the
+link:pgm-init.html[site initialization].
+
 [[auth.maxRegisterEmailTokenAge]]auth.maxRegisterEmailTokenAge::
 +
 Time in seconds before an email verification token sent to a user in

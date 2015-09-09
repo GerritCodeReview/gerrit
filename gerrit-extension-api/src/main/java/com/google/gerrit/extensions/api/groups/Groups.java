@@ -63,6 +63,7 @@ public interface Groups {
     private int limit;
     private int start;
     private String substring;
+    private String suggest;
 
     public List<GroupInfo> get() throws RestApiException {
       Map<String, GroupInfo> map = getAsMap();
@@ -128,6 +129,11 @@ public interface Groups {
       return this;
     }
 
+    public ListRequest withSuggest(String suggest) {
+      this.suggest = suggest;
+      return this;
+    }
+
     public EnumSet<ListGroupsOption> getOptions() {
       return options;
     }
@@ -162,6 +168,10 @@ public interface Groups {
 
     public String getSubstring() {
       return substring;
+    }
+
+    public String getSuggest() {
+      return suggest;
     }
   }
 }

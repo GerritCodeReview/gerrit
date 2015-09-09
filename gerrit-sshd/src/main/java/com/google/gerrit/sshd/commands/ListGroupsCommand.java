@@ -19,10 +19,12 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GetGroups;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson;
@@ -71,12 +73,13 @@ public class ListGroupsCommand extends SshCommand {
         final Provider<IdentifiedUser> identifiedUser,
         final IdentifiedUser.GenericFactory userFactory,
         final Provider<GetGroups> accountGetGroups,
-        final GroupJson json) {
+        final GroupJson json,
+        GroupBackend groupBackend) {
       super(groupCache, groupControlFactory, genericGroupControlFactory,
-          identifiedUser, userFactory, accountGetGroups, json);
+          identifiedUser, userFactory, accountGetGroups, json, groupBackend);
     }
 
-    void display(final PrintWriter out) throws OrmException {
+    void display(final PrintWriter out) throws OrmException, BadRequestException {
       final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
       for (final GroupInfo info : get()) {
         formatter.addColumn(MoreObjects.firstNonNull(info.name, "n/a"));

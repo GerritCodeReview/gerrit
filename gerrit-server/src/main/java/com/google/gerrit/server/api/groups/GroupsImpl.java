@@ -138,6 +138,7 @@ class GroupsImpl implements Groups {
     list.setLimit(req.getLimit());
     list.setStart(req.getStart());
     list.setMatchSubstring(req.getSubstring());
+    list.setSuggest(req.getSuggest());
     try {
       return list.apply(tlr);
     } catch (OrmException e) {

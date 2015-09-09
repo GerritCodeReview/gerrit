@@ -16,14 +16,18 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -32,6 +36,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GetGroups;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupComparator;
 import com.google.gerrit.server.account.GroupControl;
@@ -64,6 +69,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<GetGroups> accountGetGroups;
   private final GroupJson json;
+  private final GroupBackend groupBackend;
 
   private EnumSet<ListGroupsOption> options =
       EnumSet.noneOf(ListGroupsOption.class);
@@ -73,6 +79,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private int limit;
   private int start;
   private String matchSubstring;
+  private String suggest;
 
   @Option(name = "--project", aliases = {"-p"},
       usage = "projects for which the groups should be listed")
@@ -121,6 +128,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.matchSubstring = matchSubstring;
   }
 
+  @Option(name = "--suggest", usage = "to get a suggestion of groups")
+  public void setSuggest(String suggest) {
+    this.suggest = suggest;
+  }
+
   @Option(name = "-o", usage = "Output options per group")
   void addOption(ListGroupsOption o) {
     options.add(o);
@@ -137,7 +149,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final GroupControl.GenericFactory genericGroupControlFactory,
       final Provider<IdentifiedUser> identifiedUser,
       final IdentifiedUser.GenericFactory userFactory,
-      final Provider<GetGroups> accountGetGroups, GroupJson json) {
+      final Provider<GetGroups> accountGetGroups, GroupJson json,
+      GroupBackend groupBackend) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.genericGroupControlFactory = genericGroupControlFactory;
@@ -145,6 +158,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.userFactory = userFactory;
     this.accountGetGroups = accountGetGroups;
     this.json = json;
+    this.groupBackend = groupBackend;
   }
 
   public void setOptions(EnumSet<ListGroupsOption> options) {
@@ -161,7 +175,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   @Override
   public SortedMap<String, GroupInfo> apply(TopLevelResource resource)
-      throws OrmException {
+      throws OrmException, BadRequestException {
     SortedMap<String, GroupInfo> output = Maps.newTreeMap();
     for (GroupInfo info : get()) {
       output.put(MoreObjects.firstNonNull(
@@ -172,51 +186,105 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return output;
   }
 
-  public List<GroupInfo> get() throws OrmException {
-    List<GroupInfo> groupInfos;
+  public List<GroupInfo> get() throws OrmException, BadRequestException {
+    if (!Strings.isNullOrEmpty(suggest)) {
+      return suggestGroups();
+    }
+
+    if (owned) {
+      return getGroupsOwnedBy(
+          user != null ? userFactory.create(user) : identifiedUser.get());
+    }
+
     if (user != null) {
-      if (owned) {
-        groupInfos = getGroupsOwnedBy(userFactory.create(user));
-      } else {
-        groupInfos = accountGetGroups.get().apply(
-            new AccountResource(userFactory.create(user)));
+      return accountGetGroups.get().apply(
+          new AccountResource(userFactory.create(user)));
+    }
+
+    return getAllGroups();
+  }
+
+  private List<GroupInfo> getAllGroups() throws OrmException {
+    List<GroupInfo> groupInfos;
+    List<AccountGroup> groupList;
+    if (!projects.isEmpty()) {
+      Map<AccountGroup.UUID, AccountGroup> groups = Maps.newHashMap();
+      for (final ProjectControl projectControl : projects) {
+        final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
+        for (final GroupReference groupRef : groupsRefs) {
+          final AccountGroup group = groupCache.get(groupRef.getUUID());
+          if (group != null) {
+            groups.put(group.getGroupUUID(), group);
+          }
+        }
       }
+      groupList = filterGroups(groups.values());
     } else {
-      if (owned) {
-        groupInfos = getGroupsOwnedBy(identifiedUser.get());
-      } else {
-        List<AccountGroup> groupList;
-        if (!projects.isEmpty()) {
-          Map<AccountGroup.UUID, AccountGroup> groups = Maps.newHashMap();
-          for (final ProjectControl projectControl : projects) {
-            final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
-            for (final GroupReference groupRef : groupsRefs) {
-              final AccountGroup group = groupCache.get(groupRef.getUUID());
-              if (group != null) {
-                groups.put(group.getGroupUUID(), group);
-              }
-            }
-          }
-          groupList = filterGroups(groups.values());
-        } else {
-          groupList = filterGroups(groupCache.all());
-        }
-        groupInfos = Lists.newArrayListWithCapacity(groupList.size());
-        int found = 0;
-        int foundIndex = 0;
-        for (AccountGroup group : groupList) {
-          if (foundIndex++ < start) {
-            continue;
-          }
-          if (limit > 0 && ++found > limit) {
-            break;
-          }
-          groupInfos.add(json.addOptions(options).format(
-              GroupDescriptions.forAccountGroup(group)));
-        }
+      groupList = filterGroups(groupCache.all());
+    }
+    groupInfos = Lists.newArrayListWithCapacity(groupList.size());
+    int found = 0;
+    int foundIndex = 0;
+    for (AccountGroup group : groupList) {
+      if (foundIndex++ < start) {
+        continue;
+      }
+      if (limit > 0 && ++found > limit) {
+        break;
+      }
+      groupInfos.add(json.addOptions(options).format(
+          GroupDescriptions.forAccountGroup(group)));
+    }
+    return groupInfos;
+  }
+
+  private List<GroupInfo> suggestGroups() throws OrmException, BadRequestException {
+    if (conflictingSuggestParameters()) {
+      throw new BadRequestException(
+          "You should only have no more than one --project and -n with --suggest");
+    }
+
+    List<GroupReference> groupRefs = Lists.newArrayList(Iterables.limit(
+        groupBackend.suggest(
+            suggest, Iterables.getFirst(projects, null)),
+        limit <= 0 ? 10 : Math.min(limit, 10)));
+
+    List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groupRefs.size());
+    for (final GroupReference ref : groupRefs) {
+      GroupDescription.Basic desc = groupBackend.get(ref.getUUID());
+      if (desc != null) {
+        groupInfos.add(json.addOptions(options).format(desc));
       }
     }
     return groupInfos;
+  }
+
+  private boolean conflictingSuggestParameters() {
+    if (Strings.isNullOrEmpty(suggest)) {
+      return false;
+    }
+    if (projects.size() > 1) {
+      return true;
+    }
+    if (visibleToAll) {
+      return true;
+    }
+    if (user != null) {
+      return true;
+    }
+    if (owned) {
+      return true;
+    }
+    if (start != 0) {
+      return true;
+    }
+    if (!groupsToInspect.isEmpty()) {
+      return true;
+    }
+    if (!Strings.isNullOrEmpty(matchSubstring)) {
+      return true;
+    }
+    return false;
   }
 
   private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4f236e4_8fd4b525",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2379,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-09T00:41:53Z",
+      "side": 0,
+      "message": "This bit was not part of the change that was supposed to be reverted.",
+      "range": {
+        "startLine": 2375,
+        "startChar": 6,
+        "endLine": 2379,
+        "endChar": 46
+      },
+      "revId": "d6f7d2de8190905f3b99eee692fb20c1ab93b7ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

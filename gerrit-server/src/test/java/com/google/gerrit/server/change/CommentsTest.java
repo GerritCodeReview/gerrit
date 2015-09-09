@@ -180,6 +180,8 @@ public class CommentsTest  {
         bind(AccountLoader.Factory.class).toInstance(alf);
         bind(ReviewDb.class).toInstance(db);
         bind(Realm.class).to(FakeRealm.class);
+        config.setString("auth", null, "registerEmailPrivateKey",
+            "2zHNrXE2bsoylzUqDxZp0H1cqUmjgWb6");
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
         bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
         install(new GitModule());

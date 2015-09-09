@@ -124,8 +124,11 @@ public class AbstractChangeNotesTest {
         bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
         bind(CapabilityControl.Factory.class)
             .toProvider(Providers.<CapabilityControl.Factory> of(null));
+        Config config = new Config();
+        config.setString("auth", null, "registerEmailPrivateKey",
+            "2zHNrXE2bsoylzUqDxZp0H1cqUmjgWb6");
         bind(Config.class).annotatedWith(GerritServerConfig.class)
-            .toInstance(new Config());
+            .toInstance(config);
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)

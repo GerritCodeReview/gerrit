@@ -235,6 +235,8 @@ public abstract class AbstractDaemonTest {
     GerritServer.Description methodDesc =
       GerritServer.Description.forTestMethod(description, configName);
 
+    baseConfig.setString("auth", null, "registerEmailPrivateKey",
+        "2zHNrXE2bsoylzUqDxZp0H1cqUmjgWb6");
     baseConfig.setString("gerrit", null, "tempSiteDir",
         tempSiteDir.getRoot().getPath());
     if (classDesc.equals(methodDesc)) {

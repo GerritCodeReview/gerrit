@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
@@ -23,6 +24,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
 public class AuthConfig {
+  private static final Logger log = LoggerFactory.getLogger(AuthConfig.class);
+
   private final AuthType authType;
   private final String httpHeader;
   private final String httpDisplaynameHeader;
@@ -93,15 +98,16 @@ public class AuthConfig {
 
 
     String key = cfg.getString("auth", null, "registerEmailPrivateKey");
-    if (key != null && !key.isEmpty()) {
-      int age = (int) ConfigUtil.getTimeUnit(cfg,
-          "auth", null, "maxRegisterEmailTokenAge",
-          TimeUnit.SECONDS.convert(12, TimeUnit.HOURS),
-          TimeUnit.SECONDS);
-      emailReg = new SignedToken(age, key);
-    } else {
-      emailReg = null;
+    if (Strings.isNullOrEmpty(key)) {
+      String msg = "missing auth.registerEmailPrivateKey; run init";
+      log.error(msg);
+      throw new IllegalStateException(msg);
     }
+    int age = (int) ConfigUtil.getTimeUnit(cfg,
+        "auth", null, "maxRegisterEmailTokenAge",
+        TimeUnit.SECONDS.convert(12, TimeUnit.HOURS),
+        TimeUnit.SECONDS);
+    emailReg = new SignedToken(age, key);
   }
 
   private static List<OpenIdProviderPattern> toPatterns(Config cfg, String name) {

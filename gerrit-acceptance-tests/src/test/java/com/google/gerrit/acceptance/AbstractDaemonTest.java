@@ -76,6 +76,7 @@ import org.eclipse.jgit.transport.Transport;
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -193,6 +194,9 @@ public abstract class AbstractDaemonTest {
     }
   };
 
+  @Rule
+  public TemporaryFolder tempSiteDir = new TemporaryFolder();
+
   @AfterClass
   public static void stopCommonServer() throws Exception {
     if (commonServer != null) {
@@ -222,12 +226,14 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
 
-  private void beforeTest(Description description) throws Exception {
+  protected void beforeTest(Description description) throws Exception {
     GerritServer.Description classDesc =
       GerritServer.Description.forTestClass(description, configName);
     GerritServer.Description methodDesc =
       GerritServer.Description.forTestMethod(description, configName);
 
+    baseConfig.setString("gerrit", null, "tempSiteDir",
+        tempSiteDir.getRoot().getPath());
     if (classDesc.equals(methodDesc)) {
       if (commonServer == null) {
         commonServer = GerritServer.start(classDesc, baseConfig);

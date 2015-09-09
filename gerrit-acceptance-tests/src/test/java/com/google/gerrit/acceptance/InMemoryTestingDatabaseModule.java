@@ -62,7 +62,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     // TODO(dborowitz): Use jimfs.
     bind(Path.class)
       .annotatedWith(SitePath.class)
-      .toInstance(Paths.get("UNIT_TEST_GERRIT_SITE"));
+      .toInstance(Paths.get(cfg.getString("gerrit", null, "tempSiteDir")));
 
     bind(GitRepositoryManager.class)
       .toInstance(new InMemoryRepositoryManager());

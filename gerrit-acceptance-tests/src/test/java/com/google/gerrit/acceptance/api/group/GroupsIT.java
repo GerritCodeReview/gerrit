@@ -402,6 +402,17 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testSuggestGroup() throws Exception {
+    Map<String, GroupInfo> groups = gApi.groups().list().withSuggest("adm").getAsMap();
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).hasSize(1);
+
+    groups = gApi.groups().list().withSuggest("adm").getAsMap();
+    assertThat(groups).containsKey("Administrators");
+    assertThat(groups).hasSize(1);
+  }
+
+  @Test
   public void testAllGroupInfoFieldsSetCorrectly() throws Exception {
     AccountGroup adminGroup = getFromCache("Administrators");
     Map<String, GroupInfo> groups =

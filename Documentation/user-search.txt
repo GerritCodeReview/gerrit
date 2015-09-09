@@ -367,6 +367,19 @@ reviewedby:'USER'::
 Changes where 'USER' has commented on the change more recently than the
 last update (comment or patch set) from the change owner.
 
+[[author]]
+author:'AUTHOR'::
++
+Changes where 'AUTHOR' is the author of the current patch set. 'AUTHOR' may be
+the author's exact email address, or part of the name or email address.
+
+[[committer]]
+committer:'COMMITTER'::
++
+Changes where 'COMMITTER' is the committer of the current patch set.
+'COMMITTER' may be the committer's exact email address, or part of the name or
+email address.
+
 
 == Argument Quoting
 

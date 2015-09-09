@@ -16,6 +16,7 @@ package com.google.gerrit.server.index;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
@@ -38,12 +39,14 @@ import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.CodedOutputStream;
 
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterLine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -401,6 +404,64 @@ public class ChangeField {
             }
           }
           return null;
+        }
+      };
+
+  private static Set<String> getPersonParts(PersonIdent person) {
+    if (person == null) {
+      return ImmutableSet.of();
+    }
+    HashSet<String> parts = Sets.newHashSet();
+    String email = person.getEmailAddress().toLowerCase();
+    parts.add(email);
+    parts.addAll(Arrays.asList(email.split("@")));
+    Splitter s = Splitter.on(CharMatcher.anyOf("@.- ")).omitEmptyStrings();
+    Iterables.addAll(parts, s.split(email));
+    Iterables.addAll(parts, s.split(person.getName().toLowerCase()));
+    return parts;
+  }
+
+  public static Set<String> getAuthorParts(ChangeData cd) throws OrmException {
+    try {
+      return getPersonParts(cd.getAuthor());
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  public static Set<String> getCommitterParts(ChangeData cd) throws OrmException {
+    try {
+      return getPersonParts(cd.getCommitter());
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  /**
+   * The exact email address, or any part of the author name or email address,
+   * in the current patch set.
+   */
+  public static final FieldDef<ChangeData, Iterable<String>> AUTHOR =
+      new FieldDef.Repeatable<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_AUTHOR, FieldType.FULL_TEXT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return getAuthorParts(input);
+        }
+      };
+
+  /**
+   * The exact email address, or any part of the committer name or email address,
+   * in the current patch set.
+   */
+  public static final FieldDef<ChangeData, Iterable<String>> COMMITTER =
+      new FieldDef.Repeatable<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_COMMITTER, FieldType.FULL_TEXT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return getCommitterParts(input);
         }
       };
 

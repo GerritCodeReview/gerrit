@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 public enum CommitMergeStatus {
   /** */
-  CLEAN_MERGE("Change has been successfully merged into the git repository"),
+  CLEAN_MERGE("Change has been successfully merged"),
 
   /** */
   CLEAN_PICK("Change has been successfully cherry-picked"),

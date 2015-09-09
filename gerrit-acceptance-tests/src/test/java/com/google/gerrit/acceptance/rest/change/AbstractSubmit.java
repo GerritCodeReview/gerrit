@@ -161,7 +161,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           "Change has been successfully cherry-picked as ");
     } else {
       assertThat(Iterables.getLast(info.messages).message).isEqualTo(
-          "Change has been successfully merged into the git repository by Administrator");
+          "Change has been successfully merged by Administrator");
     }
   }
 

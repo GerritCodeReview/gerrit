@@ -70,6 +70,30 @@
       "revId": "2d73738118aed6f9b2825eec10669863b4adb45f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84f3721a_7ecdf19b",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-09T16:32:27Z",
+      "side": 1,
+      "message": "Thanks for catching, done.",
+      "parentUuid": "c4bacaed_980bf564",
+      "range": {
+        "startLine": 200,
+        "startChar": 1,
+        "endLine": 203,
+        "endChar": 7
+      },
+      "revId": "2d73738118aed6f9b2825eec10669863b4adb45f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

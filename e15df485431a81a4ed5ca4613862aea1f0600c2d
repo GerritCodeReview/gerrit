@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4bacaed_180fe565",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-09T06:48:30Z",
+      "side": 1,
+      "message": "I don\u0027t think it was broken by a rebase.  The other parts were removed in PS1 and there was no change in that file across the remaining patch sets.",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "e15df485431a81a4ed5ca4613862aea1f0600c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

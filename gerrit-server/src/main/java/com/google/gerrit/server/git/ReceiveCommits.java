@@ -2382,7 +2382,11 @@ public class ReceiveCommits {
     walk.sort(RevSort.NONE);
     try {
       Set<ObjectId> existing = Sets.newHashSet();
-      walk.markStart(walk.parseCommit(cmd.getNewId()));
+      RevObject parsedObject = walk.parseAny(cmd.getNewId());
+      if (!(parsedObject instanceof RevCommit)) {
+        return;
+      }
+      walk.markStart((RevCommit)parsedObject);
       markHeadsAsUninteresting(walk, existing, cmd.getRefName());
 
       RevCommit c;

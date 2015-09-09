@@ -60,7 +60,6 @@ public class AuthConfig {
   private final String cookiePath;
   private final boolean cookieSecure;
   private final SignedToken emailReg;
-  private final SignedToken restToken;
 
   @Inject
   AuthConfig(@GerritServerConfig final Config cfg)
@@ -102,15 +101,6 @@ public class AuthConfig {
       emailReg = new SignedToken(age, key);
     } else {
       emailReg = null;
-    }
-
-    key = cfg.getString("auth", null, "restTokenPrivateKey");
-    if (key != null && !key.isEmpty()) {
-      int age = (int) ConfigUtil.getTimeUnit(cfg,
-          "auth", null, "maxRestTokenAge", 60, TimeUnit.SECONDS);
-      restToken = new SignedToken(age, key);
-    } else {
-      restToken = null;
     }
   }
 
@@ -194,10 +184,6 @@ public class AuthConfig {
 
   public SignedToken getEmailRegistrationToken() {
     return emailReg;
-  }
-
-  public SignedToken getRestToken() {
-    return restToken;
   }
 
   /** OpenID identities which the server permits for authentication. */

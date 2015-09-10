@@ -28,33 +28,33 @@ public interface ProjectApi {
   String description() throws RestApiException;
   void description(PutDescriptionInput in) throws RestApiException;
 
-  ListBranchesRequest branches();
-  ListTagsRequest tags();
+  ListRefsRequest<BranchInfo> branches();
+  ListRefsRequest<TagInfo> tags();
 
-  public abstract class ListBranchesRequest {
-    private int limit;
-    private int start;
-    private String substring;
-    private String regex;
+  public abstract class ListRefsRequest<T extends RefInfo> {
+    protected int limit;
+    protected int start;
+    protected String substring;
+    protected String regex;
 
-    public abstract List<BranchInfo> get() throws RestApiException;
+    public abstract List<T> get() throws RestApiException;
 
-    public ListBranchesRequest withLimit(int limit) {
+    public ListRefsRequest<T> withLimit(int limit) {
       this.limit = limit;
       return this;
     }
 
-    public ListBranchesRequest withStart(int start) {
+    public ListRefsRequest<T> withStart(int start) {
       this.start = start;
       return this;
     }
 
-    public ListBranchesRequest withSubstring(String substring) {
+    public ListRefsRequest<T> withSubstring(String substring) {
       this.substring = substring;
       return this;
     }
 
-    public ListBranchesRequest withRegex(String regex) {
+    public ListRefsRequest<T> withRegex(String regex) {
       this.regex = regex;
       return this;
     }
@@ -73,32 +73,6 @@ public interface ProjectApi {
 
     public String getRegex() {
       return regex;
-    }
-
-  }
-
-  public abstract class ListTagsRequest {
-    private int limit;
-    private int start;
-
-    public abstract List<TagInfo> get() throws RestApiException;
-
-    public ListTagsRequest withStart(int start) {
-      this.start = start;
-      return this;
-    }
-
-    public ListTagsRequest withLimit(int limit) {
-      this.limit = limit;
-      return this;
-    }
-
-    public int getStart() {
-      return start;
-    }
-
-    public int getLimit() {
-      return limit;
     }
   }
 
@@ -162,12 +136,12 @@ public interface ProjectApi {
     }
 
     @Override
-    public ListBranchesRequest branches() {
+    public ListRefsRequest<BranchInfo> branches() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ListTagsRequest tags() {
+    public ListRefsRequest<TagInfo> tags() {
       throw new NotImplementedException();
     }
 

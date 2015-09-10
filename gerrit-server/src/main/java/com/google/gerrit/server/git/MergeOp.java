@@ -229,6 +229,10 @@ public class MergeOp {
   public static List<SubmitRecord> checkSubmitRule(ChangeData cd)
       throws ResourceConflictException, OrmException {
     PatchSet patchSet = cd.currentPatchSet();
+    if (patchSet == null) {
+      throw new ResourceConflictException(
+          "missing current patch set for change " + cd.getId());
+    }
     List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
         .setPatchSet(patchSet)
         .evaluate();

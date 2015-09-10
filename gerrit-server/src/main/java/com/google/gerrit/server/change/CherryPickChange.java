@@ -30,6 +30,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeException;
@@ -60,7 +62,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -125,16 +126,16 @@ public class CherryPickChange {
     String destinationBranch = RefNames.shortName(ref);
     IdentifiedUser identifiedUser = (IdentifiedUser) currentUser.get();
     try (Repository git = gitManager.openRepository(project);
-        RevWalk revWalk = new RevWalk(git)) {
+        CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(git)) {
       Ref destRef = git.getRefDatabase().exactRef(ref);
       if (destRef == null) {
         throw new InvalidChangeOperationException(String.format(
             "Branch %s does not exist.", destinationBranch));
       }
 
-      final RevCommit mergeTip = revWalk.parseCommit(destRef.getObjectId());
+      CodeReviewCommit mergeTip = revWalk.parseCommit(destRef.getObjectId());
 
-      RevCommit commitToCherryPick =
+      CodeReviewCommit commitToCherryPick =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
       PersonIdent committerIdent =
@@ -148,7 +149,7 @@ public class CherryPickChange {
       String commitMessage =
           ChangeIdUtil.insertId(message, computedChangeId).trim() + '\n';
 
-      RevCommit cherryPickCommit;
+      CodeReviewCommit cherryPickCommit;
       try (ObjectInserter oi = git.newObjectInserter()) {
         ProjectState projectState = refControl.getProjectControl().getProjectState();
         cherryPickCommit =
@@ -207,7 +208,7 @@ public class CherryPickChange {
   }
 
   private Change.Id insertPatchSet(Repository git, RevWalk revWalk, Change change,
-      RevCommit cherryPickCommit, RefControl refControl,
+      CodeReviewCommit cherryPickCommit, RefControl refControl,
       IdentifiedUser identifiedUser)
       throws InvalidChangeOperationException, IOException, OrmException,
       NoSuchChangeException {
@@ -228,7 +229,7 @@ public class CherryPickChange {
 
   private Change createNewChange(Repository git, RevWalk revWalk,
       Change.Key changeKey, Project.NameKey project,
-      Ref destRef, RevCommit cherryPickCommit, RefControl refControl,
+      Ref destRef, CodeReviewCommit cherryPickCommit, RefControl refControl,
       IdentifiedUser identifiedUser, String topic)
       throws OrmException, InvalidChangeOperationException, IOException {
     Change change =
@@ -271,7 +272,7 @@ public class CherryPickChange {
   }
 
   private void addMessageToSourceChange(Change change, PatchSet.Id patchSetId,
-      String destinationBranch, RevCommit cherryPickCommit,
+      String destinationBranch, CodeReviewCommit cherryPickCommit,
       IdentifiedUser identifiedUser, RefControl refControl) throws OrmException {
     ChangeMessage changeMessage = new ChangeMessage(
         new ChangeMessage.Key(

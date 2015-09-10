@@ -50,6 +50,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
@@ -86,7 +87,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -148,7 +148,7 @@ public class MergeOp {
   private ProjectState destProject;
   private ReviewDb db;
   private Repository repo;
-  private RevWalk rw;
+  private CodeReviewRevWalk rw;
   private RevFlag canMergeFlag;
   private ObjectInserter inserter;
   private PersonIdent refLogIdent;
@@ -503,8 +503,7 @@ public class MergeOp {
       RefUpdate branchUpdate = repo.updateRef(destBranch.get());
       CodeReviewCommit branchTip;
       if (branchUpdate.getOldObjectId() != null) {
-        branchTip =
-            (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
+        branchTip = rw.parseCommit(branchUpdate.getOldObjectId());
       } else if (Objects.equals(repo.getFullBranch(), destBranch.get())) {
         branchTip = null;
         branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
@@ -637,7 +636,7 @@ public class MergeOp {
 
       CodeReviewCommit commit;
       try {
-        commit = (CodeReviewCommit) rw.parseCommit(id);
+        commit = rw.parseCommit(id);
       } catch (IOException e) {
         logError("Invalid commit " + idstr + " on patch set " + ps.getId(), e);
         commits.put(changeId, CodeReviewCommit.revisionGone(ctl));

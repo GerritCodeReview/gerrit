@@ -34,6 +34,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -164,9 +165,10 @@ public class MergeUtil {
     return result;
   }
 
-  public RevCommit createCherryPickFromCommit(Repository repo,
+  public CodeReviewCommit createCherryPickFromCommit(Repository repo,
       ObjectInserter inserter, RevCommit mergeTip, RevCommit originalCommit,
-      PersonIdent cherryPickCommitterIdent, String commitMsg, RevWalk rw)
+      PersonIdent cherryPickCommitterIdent, String commitMsg,
+      CodeReviewRevWalk rw)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       MergeIdenticalTreeException, MergeConflictException {
 
@@ -361,9 +363,9 @@ public class MergeUtil {
     }
   }
 
-  public boolean canFastForward(final MergeSorter mergeSorter,
-      final CodeReviewCommit mergeTip, final RevWalk rw,
-      final CodeReviewCommit toMerge) throws MergeException {
+  public boolean canFastForward(MergeSorter mergeSorter,
+      CodeReviewCommit mergeTip, CodeReviewRevWalk rw, CodeReviewCommit toMerge)
+      throws MergeException {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
       return false;
     }
@@ -375,9 +377,9 @@ public class MergeUtil {
     }
   }
 
-  public boolean canCherryPick(final MergeSorter mergeSorter,
-      final Repository repo, final CodeReviewCommit mergeTip, final RevWalk rw,
-      final CodeReviewCommit toMerge) throws MergeException {
+  public boolean canCherryPick(MergeSorter mergeSorter, Repository repo,
+      CodeReviewCommit mergeTip, CodeReviewRevWalk rw, CodeReviewCommit toMerge)
+      throws MergeException {
     if (mergeTip == null) {
       // The branch is unborn. Fast-forward is possible.
       //
@@ -445,7 +447,7 @@ public class MergeUtil {
   }
 
   public CodeReviewCommit mergeOneCommit(PersonIdent author,
-      PersonIdent committer, Repository repo, RevWalk rw,
+      PersonIdent committer, Repository repo, CodeReviewRevWalk rw,
       ObjectInserter inserter, RevFlag canMergeFlag, Branch.NameKey destBranch,
       CodeReviewCommit mergeTip, CodeReviewCommit n) throws MergeException {
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
@@ -481,22 +483,22 @@ public class MergeUtil {
     }
   }
 
-  private static CodeReviewCommit failed(final RevWalk rw,
-      final RevFlag canMergeFlag, final CodeReviewCommit mergeTip,
-      final CodeReviewCommit n, final CommitMergeStatus failure)
+  private static CodeReviewCommit failed(CodeReviewRevWalk rw,
+      RevFlag canMergeFlag, CodeReviewCommit mergeTip, CodeReviewCommit n,
+      CommitMergeStatus failure)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
     rw.resetRetain(canMergeFlag);
     rw.markStart(n);
     rw.markUninteresting(mergeTip);
     CodeReviewCommit failed;
-    while ((failed = (CodeReviewCommit) rw.next()) != null) {
+    while ((failed = rw.next()) != null) {
       failed.setStatusCode(failure);
     }
     return failed;
   }
 
   public CodeReviewCommit writeMergeCommit(PersonIdent author,
-      PersonIdent committer, RevWalk rw, ObjectInserter inserter,
+      PersonIdent committer, CodeReviewRevWalk rw, ObjectInserter inserter,
       RevFlag canMergeFlag, Branch.NameKey destBranch,
       CodeReviewCommit mergeTip, ObjectId treeId, CodeReviewCommit n)
       throws IOException, MissingObjectException,
@@ -505,8 +507,8 @@ public class MergeUtil {
     rw.resetRetain(canMergeFlag);
     rw.markStart(n);
     rw.markUninteresting(mergeTip);
-    for (final RevCommit c : rw) {
-      final CodeReviewCommit crc = (CodeReviewCommit) c;
+    CodeReviewCommit crc;
+    while ((crc = rw.next()) != null) {
       if (crc.getPatchsetId() != null) {
         merged.add(crc);
       }
@@ -536,7 +538,7 @@ public class MergeUtil {
     mergeCommit.setMessage(msgbuf.toString());
 
     CodeReviewCommit mergeResult =
-        (CodeReviewCommit) rw.parseCommit(commit(inserter, mergeCommit));
+        rw.parseCommit(commit(inserter, mergeCommit));
     mergeResult.setControl(n.getControl());
     return mergeResult;
   }

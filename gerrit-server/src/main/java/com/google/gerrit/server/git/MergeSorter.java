@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevCommitList;
 import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,12 +28,12 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class MergeSorter {
-  private final RevWalk rw;
+  private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
 
-  public MergeSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
-      final RevFlag canMergeFlag) {
+  public MergeSorter(CodeReviewRevWalk rw, Set<RevCommit> alreadyAccepted,
+      RevFlag canMergeFlag) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.accepted = alreadyAccepted;
@@ -51,8 +52,8 @@ public class MergeSorter {
         rw.markUninteresting(c);
       }
 
-      RevCommit c;
-      final RevCommitList<RevCommit> contents = new RevCommitList<>();
+      CodeReviewCommit c;
+      RevCommitList<RevCommit> contents = new RevCommitList<>();
       while ((c = rw.next()) != null) {
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
           // We cannot merge n as it would bring something we
@@ -62,7 +63,7 @@ public class MergeSorter {
             n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
             n.missing = new ArrayList<>();
           }
-          n.missing.add((CodeReviewCommit) c);
+          n.missing.add(c);
         } else {
           contents.add(c);
         }

@@ -157,9 +157,9 @@ public class CherryPick extends SubmitStrategy {
 
     PersonIdent committer = args.caller.newCommitterIdent(
         TimeUtil.nowTs(), args.serverIdent.get().getTimeZone());
-    CodeReviewCommit newCommit =
-        (CodeReviewCommit) args.mergeUtil.createCherryPickFromCommit(args.repo,
-            args.inserter, mergeTip, n, committer, cherryPickCmtMsg, args.rw);
+    CodeReviewCommit newCommit = args.mergeUtil.createCherryPickFromCommit(
+        args.repo, args.inserter, mergeTip, n, committer, cherryPickCmtMsg,
+        args.rw);
 
     PatchSet.Id id =
         ChangeUtil.nextPatchSetId(args.repo, n.change().currentPatchSetId());

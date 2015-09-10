@@ -22,6 +22,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RebaseChange;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -39,7 +40,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,17 +85,16 @@ public class SubmitStrategyFactory {
     this.indexer = indexer;
   }
 
-  public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
-      final Repository repo, final RevWalk rw, final ObjectInserter inserter,
-      final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
-      final Branch.NameKey destBranch, final IdentifiedUser caller)
+  public SubmitStrategy create(SubmitType submitType, ReviewDb db,
+      Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
+      RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
+      Branch.NameKey destBranch, IdentifiedUser caller)
       throws MergeException, NoSuchProjectException {
     ProjectState project = getProject(destBranch);
-    final SubmitStrategy.Arguments args =
-        new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db,
-            changeControlFactory, repo, rw, inserter, canMergeFlag,
-            alreadyAccepted, destBranch,approvalsUtil,
-            mergeUtilFactory.create(project), indexer, caller);
+    SubmitStrategy.Arguments args = new SubmitStrategy.Arguments(
+        identifiedUserFactory, myIdent, db, changeControlFactory, repo, rw,
+        inserter, canMergeFlag, alreadyAccepted, destBranch,approvalsUtil,
+        mergeUtilFactory.create(project), indexer, caller);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args, patchSetInfoFactory, gitRefUpdated);

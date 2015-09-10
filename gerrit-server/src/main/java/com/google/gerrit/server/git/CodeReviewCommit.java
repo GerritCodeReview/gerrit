@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.Change;
@@ -21,6 +23,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -28,6 +32,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.IOException;
 import java.util.List;
 
 /** Extended commit entity with code review specific metadata. */
@@ -50,11 +55,11 @@ public class CodeReviewCommit extends RevCommit {
         }
       }).nullsFirst();
 
-  public static RevWalk newRevWalk(Repository repo) {
+  public static CodeReviewRevWalk newRevWalk(Repository repo) {
     return new CodeReviewRevWalk(repo);
   }
 
-  public static RevWalk newRevWalk(ObjectReader reader) {
+  public static CodeReviewRevWalk newRevWalk(ObjectReader reader) {
     return new CodeReviewRevWalk(reader);
   }
 
@@ -85,7 +90,7 @@ public class CodeReviewCommit extends RevCommit {
     return r;
   }
 
-  private static class CodeReviewRevWalk extends RevWalk {
+  public static class CodeReviewRevWalk extends RevWalk {
     private CodeReviewRevWalk(Repository repo) {
       super(repo);
     }
@@ -95,8 +100,41 @@ public class CodeReviewCommit extends RevCommit {
     }
 
     @Override
-    protected RevCommit createCommit(AnyObjectId id) {
+    protected CodeReviewCommit createCommit(AnyObjectId id) {
       return new CodeReviewCommit(id);
+    }
+
+    @Override
+    public CodeReviewCommit next() throws MissingObjectException,
+         IncorrectObjectTypeException, IOException {
+      return (CodeReviewCommit) super.next();
+    }
+
+    @Override
+    public void markStart(RevCommit c) throws MissingObjectException,
+        IncorrectObjectTypeException, IOException {
+      checkArgument(c instanceof CodeReviewCommit);
+      super.markStart(c);
+    }
+
+    @Override
+    public void markUninteresting(final RevCommit c)
+        throws MissingObjectException, IncorrectObjectTypeException,
+        IOException {
+      checkArgument(c instanceof CodeReviewCommit);
+      super.markUninteresting(c);
+    }
+
+    @Override
+    public CodeReviewCommit lookupCommit(AnyObjectId id) {
+      return (CodeReviewCommit) super.lookupCommit(id);
+    }
+
+    @Override
+    public CodeReviewCommit parseCommit(AnyObjectId id)
+        throws MissingObjectException, IncorrectObjectTypeException,
+        IOException {
+      return (CodeReviewCommit) super.parseCommit(id);
     }
   }
 

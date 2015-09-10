@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -206,11 +207,11 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
       Iterable<Ref> refs = Iterables.concat(
           refDatabase.getRefs(Constants.R_HEADS).values(),
           refDatabase.getRefs(Constants.R_TAGS).values());
-      try (RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+      try (CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         RevFlag canMerge = rw.newFlag("CAN_MERGE");
-        CodeReviewCommit rev = parse(rw, key.commit);
+        CodeReviewCommit rev = rw.parseCommit(key.commit);
         rev.add(canMerge);
-        CodeReviewCommit tip = parse(rw, key.into);
+        CodeReviewCommit tip = rw.parseCommit(key.into);
         Set<RevCommit> accepted = alreadyAccepted(rw, refs);
         accepted.add(tip);
         accepted.addAll(Arrays.asList(rev.getParents()));
@@ -238,12 +239,6 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
         }
       }
       return accepted;
-    }
-
-    private CodeReviewCommit parse(RevWalk rw, ObjectId id)
-        throws MissingObjectException, IncorrectObjectTypeException,
-        IOException {
-      return (CodeReviewCommit) rw.parseCommit(id);
     }
   }
 

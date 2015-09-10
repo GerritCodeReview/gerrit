@@ -22,6 +22,30 @@
       "revId": "cbb09f83751e8606891bd69cbde41c9e686cb279",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4bacaed_d8128d63",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PushCertificateChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-10T00:47:27Z",
+      "side": 1,
+      "message": "It\u0027s not worth rebasing the whole series again for this. Let\u0027s submit it as-is and this minor refactor can be done in a follow-up, if necessary.",
+      "parentUuid": "c4bacaed_18024514",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 159,
+        "endChar": 9
+      },
+      "revId": "cbb09f83751e8606891bd69cbde41c9e686cb279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

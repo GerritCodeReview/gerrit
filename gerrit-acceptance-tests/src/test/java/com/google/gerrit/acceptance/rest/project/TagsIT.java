@@ -138,6 +138,23 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listTagsWithRegexFilter() throws Exception {
+    createTags();
+    List<TagInfo> result = getTags().withRegex("^tag-[C|D]$").get();
+    assertTagList(
+        FluentIterable.from(ImmutableList.of("tag-C", "tag-D")), result);
+  }
+
+  @Test
+  public void listTagsWithSubstringFilter() throws Exception {
+    createTags();
+    List<TagInfo> result = getTags().withSubstring("tag-").get();
+    assertTagList(FluentIterable.from(testTags), result);
+    result = getTags().withSubstring("ag-B").get();
+    assertTagList(FluentIterable.from(ImmutableList.of("tag-B")), result);
+  }
+
+  @Test
   public void listTagsOfNonVisibleBranch() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/hidden");

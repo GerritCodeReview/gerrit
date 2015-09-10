@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.api.projects.TagInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -39,6 +40,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -53,6 +55,19 @@ public class ListTags implements RestReadView<ProjectResource> {
   private final TagCache tagCache;
   private final ChangeCache changeCache;
 
+  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of tags to list")
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
+
+  @Option(name = "--start", aliases = {"-s"}, metaVar = "CNT", usage = "number of tags to skip")
+  public void setStart(int start) {
+    this.start = start;
+  }
+
+  private int limit;
+  private int start;
+
   @Inject
   public ListTags(GitRepositoryManager repoManager,
       Provider<ReviewDb> dbProvider,
@@ -66,7 +81,7 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Override
   public List<TagInfo> apply(ProjectResource resource) throws IOException,
-      ResourceNotFoundException {
+      ResourceNotFoundException, BadRequestException {
     List<TagInfo> tags = Lists.newArrayList();
 
     try (Repository repo = getRepository(resource.getNameKey());
@@ -85,7 +100,10 @@ public class ListTags implements RestReadView<ProjectResource> {
       }
     });
 
-    return tags;
+    return new RefFilter<TagInfo>(Constants.R_TAGS)
+        .start(start)
+        .limit(limit)
+        .filter(tags);
   }
 
   public TagInfo get(ProjectResource resource, IdString id)

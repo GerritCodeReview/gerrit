@@ -1453,6 +1453,80 @@ Only includes tags under the `refs/tags/` namespace.
   ]
 ----
 
+[[tag-options]]
+==== Tag Options
+
+Limit(n)::
+Limit the number of tags to be included in the results.
++
+.Request
+----
+  GET /projects/work%2Fmy-project/tags?n=2 HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "refs/tags/v1.0",
+      "revision": "49ce77fdcfd3398dc0dedbe016d1a425fd52d666",
+      "object": "1624f5af8ae89148d1a3730df8c290413e3dcf30",
+      "message": "Annotated tag",
+      "tagger": {
+        "name": "David Pursehouse",
+        "email": "david.pursehouse@sonymobile.com",
+        "date": "2014-10-06 07:35:03.000000000",
+        "tz": 540
+      }
+    },
+    {
+      "ref": "refs/tags/v2.0",
+      "revision": "1624f5af8ae89148d1a3730df8c290413e3dcf30"
+    }
+  ]
+----
+
+Skip(s)::
+Skip the given number of tags from the beginning of the list.
++
+.Request
+----
+  GET /projects/work%2Fmy-project/tags?n=2&s=1 HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "refs/tags/v2.0",
+      "revision": "1624f5af8ae89148d1a3730df8c290413e3dcf30"
+    },
+    {
+      "ref": "refs/tags/v3.0",
+      "revision": "c628685b3c5a3614571ecb5c8fceb85db9112313",
+      "object": "1624f5af8ae89148d1a3730df8c290413e3dcf30",
+      "message": "Signed tag\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1.4.11 (GNU/Linux)\n\niQEcBAABAgAGBQJUMlqYAAoJEPI2qVPgglptp7MH/j+KFcittFbxfSnZjUl8n5IZ\nveZo7wE+syjD9sUbMH4EGv0WYeVjphNTyViBof+stGTNkB0VQzLWI8+uWmOeiJ4a\nzj0LsbDOxodOEMI5tifo02L7r4Lzj++EbqtKv8IUq2kzYoQ2xjhKfFiGjeYOn008\n9PGnhNblEHZgCHguGR6GsfN8bfA2XNl9B5Ysl5ybX1kAVs/TuLZR4oDMZ/pW2S75\nhuyNnSgcgq7vl2gLGefuPs9lxkg5Fj3GZr7XPZk4pt/x1oiH7yXxV4UzrUwg2CC1\nfHrBlNbQ4uJNY8TFcwof52Z0cagM5Qb/ZSLglHbqEDGA68HPqbwf5z2hQyU2/U4\u003d\n\u003dZtUX\n-----END PGP SIGNATURE-----",
+      "tagger": {
+        "name": "David Pursehouse",
+        "email": "david.pursehouse@sonymobile.com",
+        "date": "2014-10-06 09:02:16.000000000",
+        "tz": 540
+      }
+    }
+  ]
+----
+
+
 [[get-tag]]
 === Get Tag
 --

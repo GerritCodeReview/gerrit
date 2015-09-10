@@ -22,6 +22,30 @@
       "revId": "789c01bd7013a2ba3b2b982e218dcc5bce92577b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4bacaed_18c7e524",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-10T19:39:00Z",
+      "side": 1,
+      "message": "Thanks. Is it better now?",
+      "parentUuid": "a4f236e4_cfb99db5",
+      "range": {
+        "startLine": 108,
+        "startChar": 41,
+        "endLine": 110,
+        "endChar": 62
+      },
+      "revId": "789c01bd7013a2ba3b2b982e218dcc5bce92577b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

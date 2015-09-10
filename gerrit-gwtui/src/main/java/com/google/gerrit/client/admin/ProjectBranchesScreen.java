@@ -53,7 +53,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -74,7 +73,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ProjectBranchesScreen extends ProjectScreen {
+public class ProjectBranchesScreen extends ProjectRefsScreen {
   private Hyperlink prev;
   private Hyperlink next;
   private BranchesTable branchTable;
@@ -83,56 +82,16 @@ public class ProjectBranchesScreen extends ProjectScreen {
   private HintTextBox nameTxtBox;
   private HintTextBox irevTxtBox;
   private FlowPanel addPanel;
-  private int pageSize;
-  private int start;
   private NpTextBox filterTxt;
-  private String match;
   private Query query;
 
-  public ProjectBranchesScreen(final Project.NameKey toShow) {
+  public ProjectBranchesScreen(Project.NameKey toShow) {
     super(toShow);
-    pageSize = Gerrit.getUserPreferences().changesPerPage();
   }
 
-  private void parseToken() {
-    String token = getToken();
-
-    for (String kvPair : token.split("[,;&/?]")) {
-      String[] kv = kvPair.split("=", 2);
-      if (kv.length != 2 || kv[0].isEmpty()) {
-        continue;
-      }
-
-      if ("filter".equals(kv[0])) {
-        match = URL.decodeQueryString(kv[1]);
-      }
-
-      if ("skip".equals(kv[0])
-          && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
-        start = Integer.parseInt(URL.decodeQueryString(kv[1]));
-      }
-    }
-  }
-
-  private void setupNavigationLink(Hyperlink link, String filter, int skip) {
-    link.setTargetHistoryToken(getTokenForScreen(filter, skip));
-    link.setVisible(true);
-  }
-
-  private String getTokenForScreen(String filter, int skip) {
-    String token = PageLinks.toProjectBranches(getProjectKey());
-    if (filter != null && !filter.isEmpty()) {
-      token += "?filter=" + URL.encodeQueryString(filter);
-    }
-    if (skip > 0) {
-      if (token.contains("?filter=")) {
-        token += ",";
-      } else {
-        token += "?";
-      }
-      token += "skip=" + skip;
-    }
-    return token;
+  @Override
+  public String getToken(Project.NameKey key) {
+    return PageLinks.toProjectBranches(getProjectKey());
   }
 
   @Override

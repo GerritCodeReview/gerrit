@@ -230,6 +230,8 @@ public class ProjectApiImpl implements ProjectApi {
     ListTags list = listTagsProvider.get();
     list.setLimit(request.getLimit());
     list.setStart(request.getStart());
+    list.setMatchSubstring(request.getSubstring());
+    list.setMatchRegex(request.getRegex());
     try {
       return list.apply(checkExists());
     } catch (IOException e) {

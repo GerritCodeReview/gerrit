@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8430d27f_16fb1cb1",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-09-10T08:14:07Z",
+      "side": 1,
+      "message": "Shouldn\u0027t there be some documentation that this in fact overrides gerrit.config. So you can no longer trust that your auto commit settings in the config reflects the actual state in Gerrit?",
+      "range": {
+        "startLine": 42,
+        "startChar": 14,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "7dc7b0049e027191f43aa4eea98ce77ce67a913e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

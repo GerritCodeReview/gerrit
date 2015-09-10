@@ -34,6 +34,24 @@
       "revId": "2d4cfcaea2c85270edb7514cb4dce80e1f3dcfa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64ee7e38_bd4adf99",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PushCertificateChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-10T20:46:26Z",
+      "side": 1,
+      "message": "\"Invalid public key \" + keyToString(signer) + ...\n\n* it\u0027s less typing\n* the compiler converts it to a StringBuilder behind the scenes, but presizes it so it won\u0027t have to grow",
+      "parentUuid": "a4f236e4_af07791f",
+      "revId": "2d4cfcaea2c85270edb7514cb4dce80e1f3dcfa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

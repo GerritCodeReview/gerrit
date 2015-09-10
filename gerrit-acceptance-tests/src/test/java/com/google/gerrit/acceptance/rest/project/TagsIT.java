@@ -16,9 +16,12 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.projects.ProjectApi.ListTagsRequest;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
@@ -28,6 +31,9 @@ import org.junit.Test;
 import java.util.List;
 
 public class TagsIT extends AbstractDaemonTest {
+  private static final List<String> testTags = ImmutableList.of(
+      "tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H");
+
   @Test
   public void listTagsOfNonExistingProject() throws Exception {
     assertThat(adminSession.get("/projects/non-existing/tags").getStatusCode())
@@ -78,7 +84,7 @@ public class TagsIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push2.to("refs/for/master%submit");
     r2.assertOkStatus();
 
-    List<TagInfo> result = getTags();
+    List<TagInfo> result = getTags().get();
     assertThat(result).hasSize(2);
 
     TagInfo t = result.get(0);
@@ -91,6 +97,44 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(t.message).isEqualTo(tag2.message);
     assertThat(t.tagger.name).isEqualTo(tag2.tagger.getName());
     assertThat(t.tagger.email).isEqualTo(tag2.tagger.getEmailAddress());
+  }
+
+  private void assertTagList(FluentIterable<String> expected, List<TagInfo> actual)
+      throws Exception {
+    assertThat(actual).hasSize(expected.size());
+    for (int i = 0; i < expected.size(); i ++) {
+      assertThat(actual.get(i).ref).isEqualTo("refs/tags/" + expected.get(i));
+    }
+  }
+
+  @Test
+  public void listTagsWithoutOptions() throws Exception {
+    createTags();
+    List<TagInfo> result = getTags().get();
+    assertTagList(FluentIterable.from(testTags), result);
+  }
+
+  @Test
+  public void listTagsWithStartOption() throws Exception {
+    createTags();
+    List<TagInfo> result = getTags().withStart(1).get();
+    assertTagList(FluentIterable.from(testTags).skip(1), result);
+  }
+
+  @Test
+  public void listTagsWithLimitOption() throws Exception {
+    createTags();
+    int limit = testTags.size() - 1;
+    List<TagInfo> result = getTags().withLimit(limit).get();
+    assertTagList(FluentIterable.from(testTags).limit(limit), result);
+  }
+
+  @Test
+  public void listTagsWithLimitAndStartOption() throws Exception {
+    createTags();
+    int limit = testTags.size() - 3;
+    List<TagInfo> result = getTags().withStart(1).withLimit(limit).get();
+    assertTagList(FluentIterable.from(testTags).skip(1).limit(limit), result);
   }
 
   @Test
@@ -113,7 +157,7 @@ public class TagsIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push2.to("refs/for/hidden%submit");
     r2.assertOkStatus();
 
-    List<TagInfo> result = getTags();
+    List<TagInfo> result = getTags().get();
     assertThat(result).hasSize(2);
     assertThat(result.get(0).ref).isEqualTo("refs/tags/" + tag1.name);
     assertThat(result.get(0).revision).isEqualTo(r1.getCommitId().getName());
@@ -121,7 +165,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.get(1).revision).isEqualTo(r2.getCommitId().getName());
 
     blockRead(project, "refs/heads/hidden");
-    result = getTags();
+    result = getTags().get();
     assertThat(result).hasSize(1);
     assertThat(result.get(0).ref).isEqualTo("refs/tags/" + tag1.name);
     assertThat(result.get(0).revision).isEqualTo(r1.getCommitId().getName());
@@ -144,11 +188,24 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(tagInfo.revision).isEqualTo(r1.getCommitId().getName());
   }
 
-  private TagInfo getTag(String ref) throws Exception {
-    return gApi.projects().name(project.get()).tag(ref).get();
+  private void createTags() throws Exception {
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.CREATE, project, "refs/tags/*");
+    grant(Permission.PUSH, project, "refs/tags/*");
+    for (String tagname : testTags) {
+      PushOneCommit.Tag tag = new PushOneCommit.Tag(tagname);
+      PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+      push.setTag(tag);
+      PushOneCommit.Result result = push.to("refs/for/master%submit");
+      result.assertOkStatus();
+    }
   }
 
-  private List<TagInfo> getTags() throws Exception {
-    return gApi.projects().name(project.get()).tags().get();
+  private ListTagsRequest getTags() throws Exception {
+    return gApi.projects().name(project.get()).tags();
+  }
+
+  private TagInfo getTag(String ref) throws Exception {
+    return gApi.projects().name(project.get()).tag(ref).get();
   }
 }

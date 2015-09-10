@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.registration;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.Key;
 import com.google.inject.util.Providers;
 

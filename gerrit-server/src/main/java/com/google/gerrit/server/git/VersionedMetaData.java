@@ -50,8 +50,8 @@ import org.eclipse.jgit.util.RawParseUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Objects;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Support for metadata stored within a version controlled branch.

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
@@ -35,9 +33,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
-import dk.brics.automaton.RegExp;
-import dk.brics.automaton.RunAutomaton;
-
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -50,7 +45,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -96,18 +90,15 @@ public class ListBranches implements RestReadView<ProjectResource> {
   @Override
   public List<BranchInfo> apply(ProjectResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException {
-    FluentIterable<BranchInfo> branches = allBranches(rsrc);
-    branches = filterBranches(branches);
-    if (start > 0) {
-      branches = branches.skip(start);
-    }
-    if (limit > 0) {
-      branches = branches.limit(limit);
-    }
-    return branches.toList();
+    return new RefFilter<BranchInfo>(Constants.R_HEADS)
+        .subString(matchSubstring)
+        .regex(matchRegex)
+        .start(start)
+        .limit(limit)
+        .filter(allBranches(rsrc));
   }
 
-  private FluentIterable<BranchInfo> allBranches(ProjectResource rsrc)
+  private List<BranchInfo> allBranches(ProjectResource rsrc)
       throws IOException, ResourceNotFoundException {
     List<Ref> refs;
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
@@ -162,7 +153,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
     }
     Collections.sort(branches, new BranchComparator());
-    return FluentIterable.from(branches);
+    return branches;
   }
 
   private static class BranchComparator implements Comparator<BranchInfo> {
@@ -181,61 +172,6 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
     private static boolean isConfig(BranchInfo i) {
       return RefNames.REFS_CONFIG.equals(i.ref);
-    }
-  }
-
-  private FluentIterable<BranchInfo> filterBranches(
-      FluentIterable<BranchInfo> branches) throws BadRequestException {
-    if (!Strings.isNullOrEmpty(matchSubstring)) {
-      branches = branches.filter(new SubstringPredicate(matchSubstring));
-    } else if (!Strings.isNullOrEmpty(matchRegex)) {
-      branches = branches.filter(new RegexPredicate(matchRegex));
-    }
-    return branches;
-  }
-
-  private static class SubstringPredicate implements Predicate<BranchInfo> {
-    private final String substring;
-
-    private SubstringPredicate(String substring) {
-      this.substring = substring.toLowerCase(Locale.US);
-    }
-
-    @Override
-    public boolean apply(BranchInfo in) {
-      String ref = in.ref;
-      if (ref.startsWith(Constants.R_HEADS)) {
-        ref = ref.substring(Constants.R_HEADS.length());
-      }
-      ref = ref.toLowerCase(Locale.US);
-      return ref.contains(substring);
-    }
-  }
-
-  private static class RegexPredicate implements Predicate<BranchInfo> {
-    private final RunAutomaton a;
-
-    private RegexPredicate(String regex) throws BadRequestException {
-      if (regex.startsWith("^")) {
-        regex = regex.substring(1);
-        if (regex.endsWith("$") && !regex.endsWith("\\$")) {
-          regex = regex.substring(0, regex.length() - 1);
-        }
-      }
-      try {
-        a = new RunAutomaton(new RegExp(regex).toAutomaton());
-      } catch (IllegalArgumentException e) {
-        throw new BadRequestException(e.getMessage());
-      }
-    }
-
-    @Override
-    public boolean apply(BranchInfo in) {
-      if (!in.ref.startsWith(Constants.R_HEADS)){
-        return a.run(in.ref);
-      } else {
-        return a.run(in.ref.substring(Constants.R_HEADS.length()));
-      }
     }
   }
 

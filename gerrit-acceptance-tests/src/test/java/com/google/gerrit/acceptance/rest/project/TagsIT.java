@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.extensions.api.projects.ProjectApi.ListTagsRequest;
+import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
@@ -201,7 +201,7 @@ public class TagsIT extends AbstractDaemonTest {
     }
   }
 
-  private ListTagsRequest getTags() throws Exception {
+  private ListRefsRequest<TagInfo> getTags() throws Exception {
     return gApi.projects().name(project.get()).tags();
   }
 

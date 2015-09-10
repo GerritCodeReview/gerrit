@@ -22,6 +22,30 @@
       "revId": "7dc7b0049e027191f43aa4eea98ce77ce67a913e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8430d27f_36f898b1",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-09-10T08:38:59Z",
+      "side": 1,
+      "message": "Hmm. Good questions. No, I don\u0027t think so. You need to write a real plug-in to access the Gerrits internals and the index writers. This patch does not change anything for a default installation. Plug-ins can generally be written to override a lot of stuff in Gerrit.config. \n\nI think documenting that way may just bloat the documentation and would confuse Gerrit admins:\n\n  \"Please know you cannot trust cache size for \u0027git_tags\u0027, since someone can use a reflection plugin to modify the cache size).\"\n\nI think it make sense to document @Extension points and typical plug-ins entry points to help devs, but not all of Gerrits core internals.",
+      "parentUuid": "8430d27f_16fb1cb1",
+      "range": {
+        "startLine": 42,
+        "startChar": 14,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "7dc7b0049e027191f43aa4eea98ce77ce67a913e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

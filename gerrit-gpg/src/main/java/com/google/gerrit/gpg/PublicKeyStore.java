@@ -23,7 +23,9 @@ import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
+import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.bc.BcPGPObjectFactory;
+import org.bouncycastle.openpgp.operator.bc.BcPGPContentVerifierBuilderProvider;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -73,6 +75,52 @@ public class PublicKeyStore implements AutoCloseable {
 
   /** Ref where GPG public keys are stored. */
   public static final String REFS_GPG_KEYS = "refs/meta/gpg-keys";
+
+  /**
+   * Choose the public key that produced a signature.
+   * <p>
+   * @param keyRings candidate keys.
+   * @param sig signature object.
+   * @param data signed payload.
+   * @return the key chosen from {@code keyRings} that was able to verify the
+   *     signature, or null if none was found.
+   * @throws PGPException if an error occurred verifying the signature.
+   */
+  public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
+      PGPSignature sig, byte[] data) throws PGPException {
+    for (PGPPublicKeyRing kr : keyRings) {
+      PGPPublicKey k = kr.getPublicKey();
+      sig.init(new BcPGPContentVerifierBuilderProvider(), k);
+      sig.update(data);
+      if (sig.verify()) {
+        return k;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Choose the public key that produced a certification.
+   * <p>
+   * @param keyRings candidate keys.
+   * @param sig signature object.
+   * @param userId user ID being certified.
+   * @param key key being certified.
+   * @return the key chosen from {@code keyRings} that was able to verify the
+   *     certification, or null if none was found.
+   * @throws PGPException if an error occurred verifying the certification.
+   */
+  public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
+      PGPSignature sig, String userId, PGPPublicKey key) throws PGPException {
+    for (PGPPublicKeyRing kr : keyRings) {
+      PGPPublicKey k = kr.getPublicKey();
+      sig.init(new BcPGPContentVerifierBuilderProvider(), k);
+      if (sig.verifyCertification(userId, key)) {
+        return k;
+      }
+    }
+    return null;
+  }
 
   private final Repository repo;
   private ObjectReader reader;
@@ -303,7 +351,7 @@ public class PublicKeyStore implements AutoCloseable {
     }
     if (toWrite.size() == existing.size()) {
       return;
-    } else if (toWrite.size() > 0) {
+    } else if (!toWrite.isEmpty()) {
       notes.set(keyObjectId(keyId),
           ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
     } else {

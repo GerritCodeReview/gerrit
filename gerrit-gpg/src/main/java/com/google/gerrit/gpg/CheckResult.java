@@ -21,6 +21,8 @@ import java.util.List;
 
 /** Result of checking an object like a key or signature. */
 public class CheckResult {
+  public static final CheckResult OK = new CheckResult();
+
   private final List<String> problems;
 
   CheckResult(String... problems) {

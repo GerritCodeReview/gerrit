@@ -21,12 +21,10 @@ import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPObjectFactory;
 import org.bouncycastle.openpgp.PGPPublicKey;
-import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.PGPSignatureList;
 import org.bouncycastle.openpgp.bc.BcPGPObjectFactory;
-import org.bouncycastle.openpgp.operator.bc.BcPGPContentVerifierBuilderProvider;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificate;
@@ -66,7 +64,7 @@ public abstract class PushCertificateChecker {
         @SuppressWarnings("resource")
         Repository repo = getRepository();
         try (PublicKeyStore store = new PublicKeyStore(repo)) {
-          checkSignature(sig, cert, store.get(sig.getKeyID()), problems);
+          checkSignature(sig, cert, store, problems);
           checkCustom(repo, problems);
         } finally {
           if (shouldClose(repo)) {
@@ -129,47 +127,31 @@ public abstract class PushCertificateChecker {
     return null;
   }
 
-  private void checkSignature(PGPSignature sig,
-      PushCertificate cert, PGPPublicKeyRingCollection keys,
-      List<String> problems) {
-    List<String> deferredProblems = new ArrayList<>();
-    boolean anyKeys = false;
-    for (PGPPublicKeyRing kr : keys) {
-      PGPPublicKey k = kr.getPublicKey();
-      anyKeys = true;
-      try {
-        sig.init(new BcPGPContentVerifierBuilderProvider(), k);
-        sig.update(Constants.encode(cert.toText()));
-        if (!sig.verify()) {
-          // TODO(dborowitz): Privacy issues with exposing fingerprint/user ID
-          // of keys having the same ID as the pusher's key?
-          deferredProblems.add(
-              "Signature not valid with public key: " + keyToString(k));
-          continue;
-        }
-        CheckResult result = publicKeyChecker.check(k, sig.getKeyID());
-        if (result.isOk()) {
-          return;
-        }
-        StringBuilder err = new StringBuilder("Invalid public key ")
-            .append(keyToString(k))
-            .append(":");
-        for (int i = 0; i < result.getProblems().size(); i++) {
-          err.append('\n').append("  ").append(result.getProblems().get(i));
-        }
-        problems.add(err.toString());
-        return;
-      } catch (PGPException e) {
-        deferredProblems.add(
-            "Error checking signature with public key " + keyToString(k)
-            + ": " + e.getMessage());
-      }
+  private void checkSignature(PGPSignature sig, PushCertificate cert,
+      PublicKeyStore store, List<String> problems)
+      throws PGPException, IOException {
+    PGPPublicKeyRingCollection keys = store.get(sig.getKeyID());
+    if (!keys.getKeyRings().hasNext()) {
+      problems.add("No public keys found for key ID "
+          + keyIdToString(sig.getKeyID()));
+      return;
     }
-    if (!anyKeys) {
-      problems.add(
-          "No public keys found for key ID " + keyIdToString(sig.getKeyID()));
-    } else {
-      problems.addAll(deferredProblems);
+    PGPPublicKey signer =
+        PublicKeyStore.getSigner(keys, sig, Constants.encode(cert.toText()));
+    if (signer == null) {
+      problems.add("Signature by " + keyIdToString(sig.getKeyID())
+          + " is not valid");
+      return;
+    }
+    CheckResult result = publicKeyChecker.check(signer, store);
+    if (!result.isOk()) {
+      StringBuilder err = new StringBuilder("Invalid public key ")
+          .append(keyToString(signer))
+          .append(":");
+      for (String problem : result.getProblems()) {
+        err.append("\n  ").append(problem);
+      }
+      problems.add(err.toString());
     }
   }
 }

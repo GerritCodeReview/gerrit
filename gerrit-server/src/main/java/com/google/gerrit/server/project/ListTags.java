@@ -63,8 +63,20 @@ public class ListTags implements RestReadView<ProjectResource> {
     this.start = start;
   }
 
+  @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH", usage = "match tags substring")
+  public void setMatchSubstring(String matchSubstring) {
+    this.matchSubstring = matchSubstring;
+  }
+
+  @Option(name = "--regex", aliases = {"-r"}, metaVar = "REGEX", usage = "match tags regex")
+  public void setMatchRegex(String matchRegex) {
+    this.matchRegex = matchRegex;
+  }
+
   private int limit;
   private int start;
+  private String matchSubstring;
+  private String matchRegex;
 
   @Inject
   public ListTags(GitRepositoryManager repoManager,
@@ -101,6 +113,8 @@ public class ListTags implements RestReadView<ProjectResource> {
     return new RefFilter<TagInfo>(Constants.R_TAGS)
         .start(start)
         .limit(limit)
+        .subString(matchSubstring)
+        .regex(matchRegex)
         .filter(tags);
   }
 

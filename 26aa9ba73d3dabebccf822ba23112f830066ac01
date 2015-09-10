@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64ee7e38_5df8fbb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2015-09-10T15:23:46Z",
+      "side": 0,
+      "message": "Just for my understanding: dispose() does other things besides closing the object reader, like resetting the internal state. If using TRW, the close() method is called but it \"only\" close the reader. Aren\u0027t the other things dispose() does needed?",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 21
+      },
+      "revId": "26aa9ba73d3dabebccf822ba23112f830066ac01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

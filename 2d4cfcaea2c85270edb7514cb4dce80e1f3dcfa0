@@ -16,6 +16,24 @@
       "revId": "2d4cfcaea2c85270edb7514cb4dce80e1f3dcfa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f236e4_af07791f",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PushCertificateChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-10T13:11:03Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not sure what you mean by \"eliminate the explicit StringBuilder\".",
+      "parentUuid": "24f806fa_fbb8ef00",
+      "revId": "2d4cfcaea2c85270edb7514cb4dce80e1f3dcfa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

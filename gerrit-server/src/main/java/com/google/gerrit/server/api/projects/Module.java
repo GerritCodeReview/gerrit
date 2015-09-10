@@ -23,6 +23,7 @@ public class Module extends FactoryModule {
     bind(Projects.class).to(ProjectsImpl.class);
 
     factory(BranchApiImpl.Factory.class);
+    factory(TagApiImpl.Factory.class);
     factory(ProjectApiImpl.Factory.class);
     factory(ChildProjectApiImpl.Factory.class);
   }

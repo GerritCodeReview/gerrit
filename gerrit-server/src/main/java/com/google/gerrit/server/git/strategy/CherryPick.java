@@ -45,7 +45,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -69,13 +68,11 @@ public class CherryPick extends SubmitStrategy {
       Collection<CodeReviewCommit> toMerge) throws MergeException {
     MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
-    while (!sorted.isEmpty()) {
-      CodeReviewCommit n = sorted.remove(0);
-      Timestamp now = TimeUtil.nowTs();
-      try (BatchUpdate u = args.newBatchUpdate(now)) {
-        // TODO(dborowitz): This won't work when mergeTip is updated only at the
-        // end of the batch.
-        if (mergeTip.getCurrentTip() == null) {
+    boolean first = true;
+    try (BatchUpdate u = args.newBatchUpdate(TimeUtil.nowTs())) {
+      while (!sorted.isEmpty()) {
+        CodeReviewCommit n = sorted.remove(0);
+        if (first && branchTip == null) {
           u.addOp(n.getControl(), new CherryPickUnbornRootOp(mergeTip, n));
         } else if (n.getParentCount() == 0) {
           u.addOp(n.getControl(), new CherryPickRootOp(n));
@@ -84,10 +81,11 @@ public class CherryPick extends SubmitStrategy {
         } else {
           u.addOp(n.getControl(), new CherryPickMultipleParentsOp(mergeTip, n));
         }
-        u.execute();
-      } catch (UpdateException | RestApiException e) {
-        throw new MergeException("Cannot merge " + n.name(), e);
+        first = false;
       }
+      u.execute();
+    } catch (UpdateException | RestApiException e) {
+      throw new MergeException("Cannot cherry-pick onto " + args.destBranch);
     }
     // TODO(dborowitz): When BatchUpdate is hoisted out of CherryPick,
     // SubmitStrategy should probably no longer return MergeTip, instead just

@@ -22,7 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
-import com.google.gerrit.extensions.api.projects.ProjectApi.ListBranchesRequest;
+import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
 import org.junit.Test;
@@ -155,7 +155,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
         list().withRegex(".*ast.*r").get());
   }
 
-  private ListBranchesRequest list() throws Exception {
+  private ListRefsRequest<BranchInfo> list() throws Exception {
     return gApi.projects().name(project.get()).branches();
   }
 

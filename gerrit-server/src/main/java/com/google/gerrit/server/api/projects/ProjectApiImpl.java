@@ -22,6 +22,8 @@ import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
+import com.google.gerrit.extensions.api.projects.TagApi;
+import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -35,6 +37,7 @@ import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.GetDescription;
 import com.google.gerrit.server.project.ListBranches;
 import com.google.gerrit.server.project.ListChildProjects;
+import com.google.gerrit.server.project.ListTags;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
@@ -66,7 +69,9 @@ public class ProjectApiImpl implements ProjectApi {
   private final ProjectJson projectJson;
   private final String name;
   private final BranchApiImpl.Factory branchApi;
+  private final TagApiImpl.Factory tagApi;
   private final Provider<ListBranches> listBranchesProvider;
+  private final ListTags listTags;
 
   @AssistedInject
   ProjectApiImpl(Provider<CurrentUser> user,
@@ -79,11 +84,13 @@ public class ProjectApiImpl implements ProjectApi {
       ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
+      TagApiImpl.Factory tagApiFactory,
       Provider<ListBranches> listBranchesProvider,
+      ListTags listTags,
       @Assisted ProjectResource project) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        listBranchesProvider, project, null);
+        tagApiFactory, listBranchesProvider, listTags, project, null);
   }
 
   @AssistedInject
@@ -97,11 +104,13 @@ public class ProjectApiImpl implements ProjectApi {
       ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
+      TagApiImpl.Factory tagApiFactory,
       Provider<ListBranches> listBranchesProvider,
+      ListTags listTags,
       @Assisted String name) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        listBranchesProvider, null, name);
+        tagApiFactory, listBranchesProvider, listTags, null, name);
   }
 
   private ProjectApiImpl(Provider<CurrentUser> user,
@@ -114,7 +123,9 @@ public class ProjectApiImpl implements ProjectApi {
       ChildProjectsCollection children,
       ProjectJson projectJson,
       BranchApiImpl.Factory branchApiFactory,
+      TagApiImpl.Factory tagApiFactory,
       Provider<ListBranches> listBranchesProvider,
+      ListTags listTags,
       ProjectResource project,
       String name) {
     this.user = user;
@@ -129,7 +140,9 @@ public class ProjectApiImpl implements ProjectApi {
     this.project = project;
     this.name = name;
     this.branchApi = branchApiFactory;
+    this.tagApi = tagApiFactory;
     this.listBranchesProvider = listBranchesProvider;
+    this.listTags = listTags;
   }
 
   @Override
@@ -203,6 +216,24 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
+  public ListTagsRequest tags() {
+    return new ListTagsRequest() {
+      @Override
+      public List<TagInfo> get() throws RestApiException {
+        return listTags();
+      }
+    };
+  }
+
+  private List<TagInfo> listTags() throws RestApiException {
+    try {
+      return listTags.apply(checkExists());
+    } catch (IOException e) {
+      throw new RestApiException("Cannot list tags", e);
+    }
+  }
+
+  @Override
   public List<ProjectInfo> children() throws RestApiException {
     return children(false);
   }
@@ -227,6 +258,11 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public BranchApi branch(String ref) throws ResourceNotFoundException {
     return branchApi.create(checkExists(), ref);
+  }
+
+  @Override
+  public TagApi tag(String ref) throws ResourceNotFoundException {
+    return tagApi.create(checkExists(), ref);
   }
 
   private ProjectResource checkExists() throws ResourceNotFoundException {

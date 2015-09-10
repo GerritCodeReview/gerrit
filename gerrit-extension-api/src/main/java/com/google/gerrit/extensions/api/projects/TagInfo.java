@@ -16,9 +16,7 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.common.GitPerson;
 
-public class TagInfo {
-  public String ref;
-  public String revision;
+public class TagInfo extends RefInfo {
   public String object;
   public String message;
   public GitPerson tagger;

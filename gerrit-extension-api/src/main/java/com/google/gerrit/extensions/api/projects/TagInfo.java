@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.api.projects;
+
+import com.google.gerrit.extensions.common.GitPerson;
 
 public class TagInfo {
   public String ref;

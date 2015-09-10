@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4bacaed_1894852f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-10T00:03:21Z",
+      "side": 1,
+      "message": "MESSAGE could be more descriptive like, um, WRONG_NUMBER_OF_PROJECTS or such?",
+      "range": {
+        "startLine": 195,
+        "startChar": 31,
+        "endLine": 195,
+        "endChar": 39
+      },
+      "revId": "fd78f75b930254dbce3124596bece0dada8b7f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4bacaed_f87f91a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-10T00:03:21Z",
+      "side": 1,
+      "message": "Instead of forcing to have just one project given, we could use just the first one?\n\nIf I understand Java right, the more idiomatic way would be\nsimilar as in the test suite to have:\n\n    try {\n        projects.getFirstElementorDie() // I cannot remember the method name\n    } catch (Exception e) {\n        throw new OrmException(MESSAGE);\n    }\n\nNot sure if this is a good improvement here though.",
+      "range": {
+        "startLine": 197,
+        "startChar": 42,
+        "endLine": 198,
+        "endChar": 66
+      },
+      "revId": "fd78f75b930254dbce3124596bece0dada8b7f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4bacaed_d884cdfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-10T00:03:21Z",
+      "side": 1,
+      "message": "Do we need to take care to not expose groups here. Are there hidden groups only selected people know these groups even exist?",
+      "range": {
+        "startLine": 203,
+        "startChar": 10,
+        "endLine": 205,
+        "endChar": 11
+      },
+      "revId": "fd78f75b930254dbce3124596bece0dada8b7f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

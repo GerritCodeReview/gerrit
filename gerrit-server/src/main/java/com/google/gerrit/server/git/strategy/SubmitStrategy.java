@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeSorter;
 import com.google.gerrit.server.git.MergeTip;
@@ -37,7 +38,6 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -58,7 +58,7 @@ public abstract class SubmitStrategy {
     protected final ChangeControl.GenericFactory changeControlFactory;
 
     protected final Repository repo;
-    protected final RevWalk rw;
+    protected final CodeReviewRevWalk rw;
     protected final ObjectInserter inserter;
     protected final RevFlag canMergeFlag;
     protected final Set<RevCommit> alreadyAccepted;
@@ -72,7 +72,7 @@ public abstract class SubmitStrategy {
     Arguments(IdentifiedUser.GenericFactory identifiedUserFactory,
         Provider<PersonIdent> serverIdent, ReviewDb db,
         ChangeControl.GenericFactory changeControlFactory, Repository repo,
-        RevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
+        CodeReviewRevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
         Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
         ApprovalsUtil approvalsUtil, MergeUtil mergeUtil,
         ChangeIndexer indexer, IdentifiedUser caller) {

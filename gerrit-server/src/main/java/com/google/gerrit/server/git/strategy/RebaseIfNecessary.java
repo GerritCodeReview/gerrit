@@ -97,7 +97,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
             // rebaseChange.rebase() may already have copied some approvals,
             // use upsert, not insert, to avoid constraint violation on database
             args.db.patchSetApprovals().upsert(approvals);
-            CodeReviewCommit newTip = (CodeReviewCommit) args.rw.parseCommit(
+            CodeReviewCommit newTip = args.rw.parseCommit(
                 ObjectId.fromString(newPatchSet.getRevision().get()));
             mergeTip.moveTipTo(newTip, newTip);
             n.change().setCurrentPatchSet(

@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,13 +29,12 @@ import java.util.List;
 import java.util.Set;
 
 public class RebaseSorter {
-
-  private final RevWalk rw;
+  private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
 
-  public RebaseSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
-      final RevFlag canMergeFlag) {
+  public RebaseSorter(CodeReviewRevWalk rw, Set<RevCommit> alreadyAccepted,
+      RevFlag canMergeFlag) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.accepted = alreadyAccepted;
@@ -55,7 +55,7 @@ public class RebaseSorter {
 
       CodeReviewCommit c;
       final List<CodeReviewCommit> contents = new ArrayList<>();
-      while ((c = (CodeReviewCommit) rw.next()) != null) {
+      while ((c = rw.next()) != null) {
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.

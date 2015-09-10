@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -109,17 +110,15 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           }
           try (Repository repo =
                 args.repoManager.openRepository(otherChange.getProject());
-              RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+              CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
             RevFlag canMergeFlag = rw.newFlag("CAN_MERGE");
             CodeReviewCommit commit =
-                (CodeReviewCommit) rw.parseCommit(changeDataCache.getTestAgainst());
-            SubmitStrategy strategy =
-                args.submitStrategyFactory.create(submitType,
-                    db.get(), repo, rw, null, canMergeFlag,
-                    getAlreadyAccepted(repo, rw, commit),
-                    otherChange.getDest(), null);
-            CodeReviewCommit otherCommit =
-                (CodeReviewCommit) rw.parseCommit(other);
+                rw.parseCommit(changeDataCache.getTestAgainst());
+            SubmitStrategy strategy = args.submitStrategyFactory.create(
+                submitType, db.get(), repo, rw, null, canMergeFlag,
+                getAlreadyAccepted(repo, rw, commit), otherChange.getDest(),
+                null);
+            CodeReviewCommit otherCommit = rw.parseCommit(other);
             otherCommit.add(canMergeFlag);
             conflicts = !strategy.dryRun(commit, otherCommit);
             args.conflictsCache.put(conflictsKey, conflicts);

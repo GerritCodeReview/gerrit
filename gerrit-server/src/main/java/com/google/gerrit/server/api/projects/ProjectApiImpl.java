@@ -192,8 +192,8 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
-  public ListBranchesRequest branches() {
-    return new ListBranchesRequest() {
+  public ListRefsRequest<BranchInfo> branches() {
+    return new ListRefsRequest<BranchInfo>() {
       @Override
       public List<BranchInfo> get() throws RestApiException {
         return listBranches(this);
@@ -201,7 +201,7 @@ public class ProjectApiImpl implements ProjectApi {
     };
   }
 
-  private List<BranchInfo> listBranches(ListBranchesRequest request)
+  private List<BranchInfo> listBranches(ListRefsRequest<BranchInfo> request)
       throws RestApiException {
     ListBranches list = listBranchesProvider.get();
     list.setLimit(request.getLimit());
@@ -216,8 +216,8 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
-  public ListTagsRequest tags() {
-    return new ListTagsRequest() {
+  public ListRefsRequest<TagInfo> tags() {
+    return new ListRefsRequest<TagInfo>() {
       @Override
       public List<TagInfo> get() throws RestApiException {
         return listTags(this);
@@ -225,7 +225,7 @@ public class ProjectApiImpl implements ProjectApi {
     };
   }
 
-  private List<TagInfo> listTags(ListTagsRequest request)
+  private List<TagInfo> listTags(ListRefsRequest<TagInfo> request)
       throws RestApiException {
     ListTags list = listTagsProvider.get();
     list.setLimit(request.getLimit());

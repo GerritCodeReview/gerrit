@@ -78,7 +78,28 @@ public interface ProjectApi {
   }
 
   public abstract class ListTagsRequest {
+    private int limit;
+    private int start;
+
     public abstract List<TagInfo> get() throws RestApiException;
+
+    public ListTagsRequest withStart(int start) {
+      this.start = start;
+      return this;
+    }
+
+    public ListTagsRequest withLimit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    public int getStart() {
+      return start;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
   }
 
   List<ProjectInfo> children() throws RestApiException;

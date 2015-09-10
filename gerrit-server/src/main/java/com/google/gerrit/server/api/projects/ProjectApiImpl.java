@@ -71,7 +71,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final BranchApiImpl.Factory branchApi;
   private final TagApiImpl.Factory tagApi;
   private final Provider<ListBranches> listBranchesProvider;
-  private final ListTags listTags;
+  private final Provider<ListTags> listTagsProvider;
 
   @AssistedInject
   ProjectApiImpl(Provider<CurrentUser> user,
@@ -86,11 +86,11 @@ public class ProjectApiImpl implements ProjectApi {
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
       Provider<ListBranches> listBranchesProvider,
-      ListTags listTags,
+      Provider<ListTags> listTagsProvider,
       @Assisted ProjectResource project) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, listBranchesProvider, listTags, project, null);
+        tagApiFactory, listBranchesProvider, listTagsProvider, project, null);
   }
 
   @AssistedInject
@@ -106,11 +106,11 @@ public class ProjectApiImpl implements ProjectApi {
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
       Provider<ListBranches> listBranchesProvider,
-      ListTags listTags,
+      Provider<ListTags> listTagsProvider,
       @Assisted String name) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, listBranchesProvider, listTags, null, name);
+        tagApiFactory, listBranchesProvider, listTagsProvider, null, name);
   }
 
   private ProjectApiImpl(Provider<CurrentUser> user,
@@ -125,7 +125,7 @@ public class ProjectApiImpl implements ProjectApi {
       BranchApiImpl.Factory branchApiFactory,
       TagApiImpl.Factory tagApiFactory,
       Provider<ListBranches> listBranchesProvider,
-      ListTags listTags,
+      Provider<ListTags> listTagsProvider,
       ProjectResource project,
       String name) {
     this.user = user;
@@ -142,7 +142,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.branchApi = branchApiFactory;
     this.tagApi = tagApiFactory;
     this.listBranchesProvider = listBranchesProvider;
-    this.listTags = listTags;
+    this.listTagsProvider = listTagsProvider;
   }
 
   @Override
@@ -220,14 +220,18 @@ public class ProjectApiImpl implements ProjectApi {
     return new ListTagsRequest() {
       @Override
       public List<TagInfo> get() throws RestApiException {
-        return listTags();
+        return listTags(this);
       }
     };
   }
 
-  private List<TagInfo> listTags() throws RestApiException {
+  private List<TagInfo> listTags(ListTagsRequest request)
+      throws RestApiException {
+    ListTags list = listTagsProvider.get();
+    list.setLimit(request.getLimit());
+    list.setStart(request.getStart());
     try {
-      return listTags.apply(checkExists());
+      return list.apply(checkExists());
     } catch (IOException e) {
       throw new RestApiException("Cannot list tags", e);
     }

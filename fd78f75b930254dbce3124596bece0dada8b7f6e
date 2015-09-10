@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c4bacaed_b8d599d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-10T18:13:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4bacaed_1894852f",
+      "range": {
+        "startLine": 195,
+        "startChar": 31,
+        "endLine": 195,
+        "endChar": 39
+      },
+      "revId": "fd78f75b930254dbce3124596bece0dada8b7f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4bacaed_f87f91a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c4bacaed_98dad501",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-10T18:13:34Z",
+      "side": 1,
+      "message": "Maybe the last one makes more sense? At least that\u0027s how many CLI programs handle it when more than one parameter are specified and only one is needed.\n\nAlso this is required so we have to throw the exception when no project is provided anyway, so I don\u0027t think auto pick the first/last one will make things any better (user might get confused when some of their project parameters are silently swallowed).",
+      "parentUuid": "c4bacaed_f87f91a7",
+      "range": {
+        "startLine": 197,
+        "startChar": 42,
+        "endLine": 198,
+        "endChar": 66
+      },
+      "revId": "fd78f75b930254dbce3124596bece0dada8b7f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4bacaed_d884cdfe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2015-09-10T00:03:21Z",
       "side": 1,
       "message": "Do we need to take care to not expose groups here. Are there hidden groups only selected people know these groups even exist?",
+      "range": {
+        "startLine": 203,
+        "startChar": 10,
+        "endLine": 205,
+        "endChar": 11
+      },
+      "revId": "fd78f75b930254dbce3124596bece0dada8b7f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f236e4_efb461bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-10T18:13:34Z",
+      "side": 1,
+      "message": "filterGroups() will take care of that.",
+      "parentUuid": "c4bacaed_d884cdfe",
       "range": {
         "startLine": 203,
         "startChar": 10,

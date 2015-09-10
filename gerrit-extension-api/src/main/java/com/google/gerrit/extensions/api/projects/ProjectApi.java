@@ -29,6 +29,7 @@ public interface ProjectApi {
   void description(PutDescriptionInput in) throws RestApiException;
 
   ListBranchesRequest branches();
+  ListTagsRequest tags();
 
   public abstract class ListBranchesRequest {
     private int limit;
@@ -76,6 +77,10 @@ public interface ProjectApi {
 
   }
 
+  public abstract class ListTagsRequest {
+    public abstract List<TagInfo> get() throws RestApiException;
+  }
+
   List<ProjectInfo> children() throws RestApiException;
   List<ProjectInfo> children(boolean recursive) throws RestApiException;
   ChildProjectApi child(String name) throws RestApiException;
@@ -94,6 +99,14 @@ public interface ProjectApi {
    * @return API for accessing the branch.
    */
   BranchApi branch(String ref) throws RestApiException;
+
+  /**
+   * Look up a tag by refname.
+   * @param ref branch name, with or without "refs/tags/" prefix.
+   * @throws RestApiException if a problem occurred reading the project.
+   * @return API for accessing the tag.
+   */
+  TagApi tag(String ref) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -132,6 +145,11 @@ public interface ProjectApi {
     }
 
     @Override
+    public ListTagsRequest tags() {
+      throw new NotImplementedException();
+    }
+
+    @Override
     public List<ProjectInfo> children() {
       throw new NotImplementedException();
     }
@@ -148,6 +166,11 @@ public interface ProjectApi {
 
     @Override
     public BranchApi branch(String ref) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public TagApi tag(String ref) throws RestApiException {
       throw new NotImplementedException();
     }
   }

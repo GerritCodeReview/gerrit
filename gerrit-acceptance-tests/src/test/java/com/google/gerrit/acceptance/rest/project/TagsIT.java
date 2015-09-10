@@ -18,10 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.extensions.common.TagInfo;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.extensions.api.projects.TagInfo;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
@@ -30,17 +29,34 @@ import java.util.List;
 
 public class TagsIT extends AbstractDaemonTest {
   @Test
-  public void listTagsOfNonExistingProject_NotFound() throws Exception {
+  public void listTagsOfNonExistingProject() throws Exception {
     assertThat(adminSession.get("/projects/non-existing/tags").getStatusCode())
         .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
-  public void listTagsOfNonVisibleProject_NotFound() throws Exception {
+  public void listTagsOfNonExistingProjectWithApi() throws Exception {
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects().name("does-not-exist").tags();
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects().name("does-not-exist").tag("tag").get();
+  }
+
+  @Test
+  public void listTagsOfNonVisibleProject() throws Exception {
     blockRead(project, "refs/*");
     assertThat(
         userSession.get("/projects/" + project.get() + "/tags").getStatusCode())
         .isEqualTo(HttpStatus.SC_NOT_FOUND);
+  }
+
+  @Test
+  public void listTagsOfNonVisibleProjectWithApi() throws Exception {
+    blockRead(project, "refs/*");
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects().name(project.get()).tags();
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects().name(project.get()).tag("tag").get();
   }
 
   @Test
@@ -62,8 +78,7 @@ public class TagsIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push2.to("refs/for/master%submit");
     r2.assertOkStatus();
 
-    List<TagInfo> result =
-        toTagInfoList(adminSession.get("/projects/" + project.get() + "/tags"));
+    List<TagInfo> result = getTags();
     assertThat(result).hasSize(2);
 
     TagInfo t = result.get(0);
@@ -98,8 +113,7 @@ public class TagsIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push2.to("refs/for/hidden%submit");
     r2.assertOkStatus();
 
-    List<TagInfo> result =
-        toTagInfoList(adminSession.get("/projects/" + project.get() + "/tags"));
+    List<TagInfo> result = getTags();
     assertThat(result).hasSize(2);
     assertThat(result.get(0).ref).isEqualTo("refs/tags/" + tag1.name);
     assertThat(result.get(0).revision).isEqualTo(r1.getCommitId().getName());
@@ -107,8 +121,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.get(1).revision).isEqualTo(r2.getCommitId().getName());
 
     blockRead(project, "refs/heads/hidden");
-    result =
-        toTagInfoList(adminSession.get("/projects/" + project.get() + "/tags"));
+    result = getTags();
     assertThat(result).hasSize(1);
     assertThat(result.get(0).ref).isEqualTo("refs/tags/" + tag1.name);
     assertThat(result.get(0).revision).isEqualTo(r1.getCommitId().getName());
@@ -126,18 +139,16 @@ public class TagsIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = push1.to("refs/for/master%submit");
     r1.assertOkStatus();
 
-    RestResponse response =
-        adminSession.get("/projects/" + project.get() + "/tags/" + tag1.name);
-    TagInfo tagInfo =
-        newGson().fromJson(response.getReader(), TagInfo.class);
+    TagInfo tagInfo = getTag(tag1.name);
     assertThat(tagInfo.ref).isEqualTo("refs/tags/" + tag1.name);
     assertThat(tagInfo.revision).isEqualTo(r1.getCommitId().getName());
   }
 
-  private static List<TagInfo> toTagInfoList(RestResponse r) throws Exception {
-    List<TagInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<List<TagInfo>>() {}.getType());
-    return result;
+  private TagInfo getTag(String ref) throws Exception {
+    return gApi.projects().name(project.get()).tag(ref).get();
+  }
+
+  private List<TagInfo> getTags() throws Exception {
+    return gApi.projects().name(project.get()).tags().get();
   }
 }

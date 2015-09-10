@@ -69,16 +69,12 @@ public class ListTags implements RestReadView<ProjectResource> {
       ResourceNotFoundException {
     List<TagInfo> tags = Lists.newArrayList();
 
-    try (Repository repo = getRepository(resource.getNameKey())) {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        Map<String, Ref> all = visibleTags(resource.getControl(), repo,
-            repo.getRefDatabase().getRefs(Constants.R_TAGS));
-        for (Ref ref : all.values()) {
-          tags.add(createTagInfo(ref, rw));
-        }
-      } finally {
-        rw.dispose();
+    try (Repository repo = getRepository(resource.getNameKey());
+        RevWalk rw = new RevWalk(repo)) {
+      Map<String, Ref> all = visibleTags(resource.getControl(), repo,
+          repo.getRefDatabase().getRefs(Constants.R_TAGS));
+      for (Ref ref : all.values()) {
+        tags.add(createTagInfo(ref, rw));
       }
     }
 

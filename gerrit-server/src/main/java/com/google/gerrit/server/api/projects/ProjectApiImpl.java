@@ -220,13 +220,16 @@ public class ProjectApiImpl implements ProjectApi {
     return new ListTagsRequest() {
       @Override
       public List<TagInfo> get() throws RestApiException {
-        return listTags();
+        return listTags(this);
       }
     };
   }
 
-  private List<TagInfo> listTags() throws RestApiException {
+  private List<TagInfo> listTags(ListTagsRequest request)
+      throws RestApiException {
     ListTags list = listTagsProvider.get();
+    list.setLimit(request.getLimit());
+    list.setStart(request.getStart());
     try {
       return list.apply(checkExists());
     } catch (IOException e) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24f806fa_fbb8ef00",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PushCertificateChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-10T13:08:00Z",
+      "side": 1,
+      "message": "If you\u0027re going to do this you should eliminate the explicit StringBuilder entirely so the compiler can at least presize it for you.",
+      "revId": "2d4cfcaea2c85270edb7514cb4dce80e1f3dcfa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

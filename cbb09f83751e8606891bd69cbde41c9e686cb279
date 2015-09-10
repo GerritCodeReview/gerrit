@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4bacaed_18024514",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PushCertificateChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-10T00:43:10Z",
+      "side": 1,
+      "message": "Is it worth using a Joiner and inlining the whole block into a single statement?\n\n problems.add(new StringBuilder(\"Invalid public key \")\n   .append(keyToString(k).\n   .append(\":\\n  \")\n   .append(Joiner.on(\"\\n  \").join(result.getProblems()))\n   .toString());",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 159,
+        "endChar": 9
+      },
+      "revId": "cbb09f83751e8606891bd69cbde41c9e686cb279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

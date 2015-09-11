@@ -697,7 +697,7 @@ public class Gerrit implements EntryPoint {
     menuBars.put(GerritTopMenu.PROJECTS.menuName, projectsBar);
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
     projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsInfo(), ProjectScreen.INFO));
-    projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsBranches(), ProjectScreen.BRANCH));
+    projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsBranches(), ProjectScreen.BRANCHES));
     projectsBar.addItem(new ProjectLinkMenuItem(C.menuProjectsAccess(), ProjectScreen.ACCESS));
     final LinkMenuItem dashboardsMenuItem =
         new ProjectLinkMenuItem(C.menuProjectsDashboards(),

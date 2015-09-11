@@ -19,7 +19,7 @@ import com.google.gerrit.reviewdb.client.Project;
 
 public abstract class ProjectScreen extends Screen {
   public static final String INFO = "info";
-  public static final String BRANCH = "branches";
+  public static final String BRANCHES = "branches";
   public static final String ACCESS = "access";
   public static final String DASHBOARDS = "dashboards";
 

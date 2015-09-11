@@ -733,8 +733,8 @@ public class Dispatcher {
             return new ProjectInfoScreen(k);
           }
 
-          if (ProjectScreen.BRANCH.equals(panel)
-              || matchPrefix(ProjectScreen.BRANCH, panel)) {
+          if (ProjectScreen.BRANCHES.equals(panel)
+              || matchPrefix(ProjectScreen.BRANCHES, panel)) {
             return new ProjectBranchesScreen(k);
           }
 

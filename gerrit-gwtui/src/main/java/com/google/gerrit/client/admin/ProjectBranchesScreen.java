@@ -147,7 +147,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
           }
         });
     query = new Query(match).start(start).run();
-    savedPanel = BRANCH;
+    savedPanel = BRANCHES;
   }
 
   private void updateForm() {

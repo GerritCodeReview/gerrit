@@ -44,6 +44,27 @@ public class ProjectApi {
         .put(input, cb);
   }
 
+  /** Retrieve all visible tags of the project */
+  public static void getTags(Project.NameKey name,
+      AsyncCallback<JsArray<TagInfo>> cb) {
+    project(name).view("tags").get(cb);
+  }
+
+  public static void getTags(Project.NameKey name, int limit, int start,
+      String match, AsyncCallback<JsArray<TagInfo>> cb) {
+   RestApi call = project(name).view("tags");
+   call.addParameter("n", limit);
+   call.addParameter("s", start);
+   if (match != null) {
+     if (match.startsWith("^")) {
+       call.addParameter("r", match);
+     } else {
+       call.addParameter("m", match);
+     }
+   }
+   call.get(cb);
+  }
+
   /** Create a new branch */
   public static void createBranch(Project.NameKey name, String ref,
       String revision, AsyncCallback<BranchInfo> cb) {

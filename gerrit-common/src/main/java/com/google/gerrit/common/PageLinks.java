@@ -89,6 +89,10 @@ public class PageLinks {
     return "/admin/projects/" + p.get() + ",branches";
   }
 
+  public static String toProjectTags(Project.NameKey p) {
+    return "/admin/projects/" + p.get() + ",tags";
+  }
+
   public static String toAccountQuery(String fullname, Status status) {
     return toChangeQuery(op("owner", fullname) + " " + status(status));
   }

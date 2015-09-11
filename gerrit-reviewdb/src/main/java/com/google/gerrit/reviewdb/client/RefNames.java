@@ -21,6 +21,8 @@ public class RefNames {
 
   public static final String REFS_HEADS = "refs/heads/";
 
+  public static final String REFS_TAGS = "refs/tags/";
+
   public static final String REFS_CHANGES = "refs/changes/";
 
   /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
@@ -62,9 +64,12 @@ public class RefNames {
   }
 
   public static final String shortName(String ref) {
-    return ref.startsWith(REFS_HEADS)
-        ? ref.substring(REFS_HEADS.length())
-        : ref;
+    if (ref.startsWith(REFS_HEADS)) {
+      return ref.substring(REFS_HEADS.length());
+    } else if (ref.startsWith(REFS_TAGS)) {
+      return ref.substring(REFS_TAGS.length());
+    }
+    return ref;
   }
 
   public static String refsUsers(Account.Id accountId) {

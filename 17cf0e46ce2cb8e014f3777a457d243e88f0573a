@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4195610_d7983c6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-11T12:31:33Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this check belong to the RefConfigSection.isValid(...) ?",
+      "range": {
+        "startLine": 546,
+        "startChar": 43,
+        "endLine": 546,
+        "endChar": 67
+      },
+      "revId": "17cf0e46ce2cb8e014f3777a457d243e88f0573a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8430d27f_96540c3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-09-11T12:31:33Z",
+      "side": 1,
+      "message": "Compiling a regular expression is more expensive than the other checks done below. Move this check down to be the last \"else if\" and, this way, only execute it if cheaper tests go through.",
+      "range": {
+        "startLine": 683,
+        "startChar": 0,
+        "endLine": 687,
+        "endChar": 5
+      },
+      "revId": "17cf0e46ce2cb8e014f3777a457d243e88f0573a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

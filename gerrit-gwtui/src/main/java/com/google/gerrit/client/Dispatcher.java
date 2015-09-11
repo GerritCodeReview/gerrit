@@ -66,6 +66,7 @@ import com.google.gerrit.client.admin.ProjectDashboardsScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.admin.ProjectTagsScreen;
 import com.google.gerrit.client.api.ExtensionScreen;
 import com.google.gerrit.client.api.ExtensionSettingsScreen;
 import com.google.gerrit.client.change.ChangeScreen;
@@ -736,6 +737,11 @@ public class Dispatcher {
           if (ProjectScreen.BRANCHES.equals(panel)
               || matchPrefix(ProjectScreen.BRANCHES, panel)) {
             return new ProjectBranchesScreen(k);
+          }
+
+          if (ProjectScreen.TAGS.equals(panel)
+              || matchPrefix(ProjectScreen.TAGS, panel)) {
+            return new ProjectTagsScreen(k);
           }
 
           if (ProjectScreen.ACCESS.equals(panel)) {

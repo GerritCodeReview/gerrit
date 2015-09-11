@@ -22,6 +22,30 @@
       "revId": "26aa9ba73d3dabebccf822ba23112f830066ac01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4bacaed_b88c79fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-11T00:21:26Z",
+      "side": 0,
+      "message": "I wrote the original code [1] and I don\u0027t think I intentionally used dispose instead of close. Rather I probably just copy-pasted it from another place.\n\nIn this case, the RevWalk is only used within this short block and is not needed any more afterwards, so I think it\u0027s OK to use try-with-resource here.\n\n[1] https://gerrit-review.googlesource.com/#/c/60621/18/gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+      "parentUuid": "64ee7e38_5df8fbb1",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 21
+      },
+      "revId": "26aa9ba73d3dabebccf822ba23112f830066ac01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

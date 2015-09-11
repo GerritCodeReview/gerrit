@@ -70,6 +70,30 @@
       "revId": "7dc7b0049e027191f43aa4eea98ce77ce67a913e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8430d27f_16123c8f",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-09-11T08:44:08Z",
+      "side": 1,
+      "message": "Ok! I think that is totally fine. I\u0027ll push a new PS.",
+      "parentUuid": "a4195610_f736a01a",
+      "range": {
+        "startLine": 42,
+        "startChar": 14,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "7dc7b0049e027191f43aa4eea98ce77ce67a913e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

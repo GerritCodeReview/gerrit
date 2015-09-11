@@ -104,6 +104,7 @@ public interface AdminConstants extends Constants {
   String buttonDeleteBranch();
   String saveHeadButton();
   String cancelHeadButton();
+  String columnTagName();
 
   String groupItemHelp();
 

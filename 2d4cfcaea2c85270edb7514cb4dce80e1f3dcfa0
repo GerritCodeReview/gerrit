@@ -52,6 +52,24 @@
       "revId": "2d4cfcaea2c85270edb7514cb4dce80e1f3dcfa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4bacaed_9891b517",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PushCertificateChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-11T00:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64ee7e38_bd4adf99",
+      "revId": "2d4cfcaea2c85270edb7514cb4dce80e1f3dcfa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

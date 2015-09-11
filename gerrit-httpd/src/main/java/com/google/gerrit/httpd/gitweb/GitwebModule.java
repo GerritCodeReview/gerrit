@@ -19,7 +19,7 @@ import com.google.inject.servlet.ServletModule;
 public class GitwebModule extends ServletModule {
   @Override
   protected void configureServlets() {
-    serve("/gitweb").with(GitwebServlet.class);
+    serveRegex("^/(?:a/)?gitweb").with(GitwebServlet.class);
     serve("/gitweb-logo.png").with(GitLogoServlet.class);
     serve("/gitweb.js").with(GitwebJavaScriptServlet.class);
     serve("/gitweb-default.css").with(GitwebCssServlet.Default.class);

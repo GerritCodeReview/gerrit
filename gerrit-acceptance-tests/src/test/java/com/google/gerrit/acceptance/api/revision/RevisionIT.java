@@ -60,6 +60,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @NoHttpd
@@ -555,10 +556,12 @@ public class RevisionIT extends AbstractDaemonTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String res = new String(os.toByteArray(), StandardCharsets.UTF_8);
-    DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
     ChangeInfo change = changeApi.get();
     RevisionInfo rev = change.revisions.get(change.currentRevision);
-    String date = dateFormat.format(rev.commit.author.date);
+    DateFormat df = new SimpleDateFormat(
+        "EEE, dd MMM yyyy HH:mm:ss Z",
+        Locale.US);
+    String date = df.format(rev.commit.author.date);
     assertThat(res).isEqualTo(
         String.format(PATCH, r.getCommitId().name(), date, r.getChangeId()));
   }

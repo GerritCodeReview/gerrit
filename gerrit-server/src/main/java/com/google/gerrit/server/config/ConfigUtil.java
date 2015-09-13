@@ -269,7 +269,7 @@ public class ConfigUtil {
    * @param section section
    * @param sub subsection
    * @param s instance of class with config values
-   * @params defaults instance of class with default values
+   * @param defaults instance of class with default values
    * @throws ConfigInvalidException
    */
   public static <T> void storeSection(Config cfg, String section, String sub,
@@ -323,7 +323,7 @@ public class ConfigUtil {
    * @param section section
    * @param sub subsection
    * @param s instance of class in which the values are set
-   * @params defaults instance of class with default values
+   * @param defaults instance of class with default values
    * @return loaded instance
    * @throws ConfigInvalidException
    */

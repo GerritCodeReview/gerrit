@@ -159,7 +159,7 @@ public class PushCertificateCheckerTest {
 
   private void assertProblems(PushCertificate cert, String... expected)
       throws Exception {
-    CheckResult result = checker.check(cert);
+    CheckResult result = checker.check(cert).getCheckResult();
     assertEquals(Arrays.asList(expected), result.getProblems());
   }
 }

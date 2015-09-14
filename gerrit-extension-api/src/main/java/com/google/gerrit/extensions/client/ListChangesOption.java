@@ -59,7 +59,10 @@ public enum ListChangesOption {
   CHANGE_ACTIONS(16),
 
   /** Include a copy of commit messages including review footers. */
-  COMMIT_FOOTERS(17);
+  COMMIT_FOOTERS(17),
+
+  /** Include push certificate information along with any patch sets. */
+  PUSH_CERTIFICATES(18);
 
   private final int value;
 

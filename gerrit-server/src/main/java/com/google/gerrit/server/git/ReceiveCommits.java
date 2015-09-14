@@ -2074,6 +2074,8 @@ public class ReceiveCommits {
       newPatchSet.setUploader(currentUser.getAccountId());
       newPatchSet.setRevision(toRevId(newCommit));
       newPatchSet.setGroups(groups);
+      newPatchSet.setPushCertificate(
+          rp.getPushCertificate().toTextWithSignature());
       if (magicBranch != null && magicBranch.draft) {
         newPatchSet.setDraft(true);
       }

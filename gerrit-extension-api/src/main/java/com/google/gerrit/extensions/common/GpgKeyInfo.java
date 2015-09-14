@@ -17,6 +17,23 @@ package com.google.gerrit.extensions.common;
 import java.util.List;
 
 public class GpgKeyInfo {
+  public enum Status {
+    /** Something is wrong with this key. */
+    BAD,
+
+    /**
+     * Inspecting only this key found no problems, but the system does not fully
+     * trust the key's origin.
+     */
+    OK,
+
+    /**
+     * This key is valid, and the system knows enough about the key and its
+     * origin to trust it.
+     */
+    TRUSTED;
+  }
+
   public String id;
   public String fingerprint;
   public List<String> userIds;

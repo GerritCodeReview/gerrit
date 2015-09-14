@@ -681,7 +681,7 @@ public class JettyServer {
       throws FileNotFoundException, IOException {
     Properties properties = new Properties();
     try (InputStream in = new FileInputStream(
-        new File(new File(gen, "tools"), "buck.properties"))) {
+        new File(new File(gen, "tools/buck.properties"), "buck.properties"))) {
       properties.load(in);
     }
     return properties;

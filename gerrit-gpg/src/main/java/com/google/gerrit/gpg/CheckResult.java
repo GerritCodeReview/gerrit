@@ -14,6 +14,8 @@
 
 package com.google.gerrit.gpg;
 
+import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,24 +23,60 @@ import java.util.List;
 
 /** Result of checking an object like a key or signature. */
 public class CheckResult {
-  public static final CheckResult OK = new CheckResult();
+  static CheckResult ok(String... problems) {
+    return create(Status.OK, problems);
+  }
 
+  static CheckResult bad(String... problems) {
+    return create(Status.BAD, problems);
+  }
+
+  static CheckResult trusted() {
+    return new CheckResult(Status.TRUSTED, Collections.<String> emptyList());
+  }
+
+  static CheckResult create(Status status, String... problems) {
+    List<String> problemList = problems.length > 0
+        ? Collections.unmodifiableList(Arrays.asList(problems))
+        : Collections.<String> emptyList();
+    return new CheckResult(status, problemList);
+  }
+
+  static CheckResult create(Status status, List<String> problems) {
+    return new CheckResult(status,
+        Collections.unmodifiableList(new ArrayList<>(problems)));
+  }
+
+  static CheckResult create(List<String> problems) {
+    return new CheckResult(
+        problems.isEmpty() ? Status.OK : Status.BAD,
+        Collections.unmodifiableList(problems));
+  }
+
+  private final Status status;
   private final List<String> problems;
 
-  CheckResult(String... problems) {
-    this(Arrays.asList(problems));
+  private CheckResult(Status status, List<String> problems) {
+    if (status == null) {
+      throw new IllegalArgumentException("status must not be null");
+    }
+    this.status = status;
+    this.problems = problems;
   }
 
-  CheckResult(List<String> problems) {
-    this.problems = Collections.unmodifiableList(new ArrayList<>(problems));
-  }
-
-  /**
-   * @return whether the result is entirely ok, i.e. has passed any verification
-   *     or validation checks.
-   */
+  /** @return whether the result has status {@link Status#OK} or better. */
   public boolean isOk() {
-    return problems.isEmpty();
+    return status.compareTo(Status.OK) >= 0;
+  }
+
+  /** @return whether the result has status {@link Status#TRUSTED} or better. */
+  public boolean isTrusted() {
+    return status.compareTo(Status.TRUSTED) >= 0;
+  }
+
+  /** @return the status enum value associated with the object. */
+  public Status getStatus() {
+    return status;
   }
 
   /** @return any problems encountered during checking. */
@@ -49,12 +87,9 @@ public class CheckResult {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder(getClass().getSimpleName())
-        .append('[');
+        .append('[').append(status);
     for (int i = 0; i < problems.size(); i++) {
-      if (i > 0) {
-        sb.append(", ");
-      }
-      sb.append(problems.get(i));
+      sb.append(i == 0 ? ": " : ", ").append(problems.get(i));
     }
     return sb.append(']').toString();
   }

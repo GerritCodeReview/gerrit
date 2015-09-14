@@ -86,13 +86,12 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   }
 
   @Override
-  public void checkCustom(PGPPublicKey key, List<String> problems) {
+  public CheckResult checkCustom(PGPPublicKey key) {
     try {
       Set<String> allowedUserIds = getAllowedUserIds();
       if (allowedUserIds.isEmpty()) {
-        problems.add("No identities found for user; check "
+        return CheckResult.bad("No identities found for user; check "
             + webUrl + "#" + PageLinks.SETTINGS_WEBIDENT);
-        return;
       }
 
       @SuppressWarnings("unchecked")
@@ -103,17 +102,17 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
           Iterator<PGPSignature> sigs = getSignaturesForId(key, userId);
           while (sigs.hasNext()) {
             if (isValidCertification(key, sigs.next(), userId)) {
-              return;
+              return CheckResult.trusted();
             }
           }
         }
       }
 
-      problems.add(missingUserIds(allowedUserIds));
+      return CheckResult.bad(missingUserIds(allowedUserIds));
     } catch (PGPException e) {
       String msg = "Error checking user IDs for key";
       log.warn(msg + " " + keyIdToString(key.getKeyID()), e);
-      problems.add(msg);
+      return CheckResult.bad(msg);
     }
   }
 

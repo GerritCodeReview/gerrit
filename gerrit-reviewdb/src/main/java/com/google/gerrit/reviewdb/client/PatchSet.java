@@ -199,6 +199,10 @@ public final class PatchSet {
   @Column(id = 6, notNull = false)
   protected String groups;
 
+  /** Certificate sent with a push that created this patch set. */
+  @Column(id = 7, notNull = false)
+  protected String pushCertficate;
+
   protected PatchSet() {
   }
 
@@ -256,6 +260,14 @@ public final class PatchSet {
 
   public String getRefName() {
     return id.toRefName();
+  }
+
+  public String getPushCertificate() {
+    return pushCertficate;
+  }
+
+  public void setPushCertificate(String cert) {
+    pushCertficate = cert;
   }
 
   @Override

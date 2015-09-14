@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "649cbed8_cd2289e3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-14T05:54:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09115b42_7a2539ee",
+      "revId": "2c13c9dcc5f35db4d2a7ecc472fe84f028f050f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09115b42_5a2a75be",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2015-09-14T05:33:37Z",
       "side": 1,
       "message": "Are these TODOs intended to be done in this commit?",
+      "range": {
+        "startLine": 286,
+        "startChar": 4,
+        "endLine": 288,
+        "endChar": 61
+      },
+      "revId": "2c13c9dcc5f35db4d2a7ecc472fe84f028f050f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649cbed8_ad23bde9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-14T05:54:04Z",
+      "side": 1,
+      "message": "Yes. This change is kind of WIP. I stopped working on it because the review process for the whole series was staled.",
+      "parentUuid": "09115b42_5a2a75be",
       "range": {
         "startLine": 286,
         "startChar": 4,

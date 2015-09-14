@@ -135,7 +135,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
               return toExtIdKey(fp.get());
             }
           }));
-      return toJson(newKeys, toRemove);
+      return toJson(newKeys, toRemove, store);
     }
   }
 
@@ -238,13 +238,13 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
         BaseEncoding.base16().encode(fp));
   }
 
-  private static Map<String, GpgKeyInfo> toJson(
+  private Map<String, GpgKeyInfo> toJson(
       Collection<PGPPublicKeyRing> keys,
-      Set<Fingerprint> deleted) throws IOException {
+      Set<Fingerprint> deleted, PublicKeyStore store) throws IOException {
     Map<String, GpgKeyInfo> infos =
         Maps.newHashMapWithExpectedSize(keys.size() + deleted.size());
     for (PGPPublicKeyRing keyRing : keys) {
-      GpgKeyInfo info = GpgKeys.toJson(keyRing);
+      GpgKeyInfo info = GpgKeys.toJson(keyRing, checker, store);
       infos.put(info.id, info);
       info.id = null;
     }

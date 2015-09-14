@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09115b42_7ad7792e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-14T02:33:34Z",
+      "side": 1,
+      "message": "This is not necessary.  The test will still fail as expected if the error occurs.",
+      "range": {
+        "startLine": 571,
+        "startChar": 4,
+        "endLine": 573,
+        "endChar": 5
+      },
+      "revId": "22acf6d0518a5d8639d4c6b1c80255c2f0d7633c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d7827f_0ae75b1a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-14T02:33:34Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 592,
+        "startChar": 6,
+        "endLine": 594,
+        "endChar": 5
+      },
+      "revId": "22acf6d0518a5d8639d4c6b1c80255c2f0d7633c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

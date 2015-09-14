@@ -14,8 +14,6 @@
 
 package com.google.gerrit.pgm.init.api;
 
-import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
-
 import com.google.gerrit.common.Die;
 
 import java.io.Console;
@@ -218,7 +216,7 @@ public abstract class ConsoleUI {
           return def;
         }
         for (final T e : options) {
-          if (equalsIgnoreCase(e.toString(), r)) {
+          if (e.toString().equalsIgnoreCase(r)) {
             return e;
           }
         }

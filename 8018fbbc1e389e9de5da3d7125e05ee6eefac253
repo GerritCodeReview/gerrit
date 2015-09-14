@@ -22,6 +22,30 @@
       "revId": "8018fbbc1e389e9de5da3d7125e05ee6eefac253",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4416da01_74fb48b0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditPreferencesAction.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-14T07:51:26Z",
+      "side": 1,
+      "message": "Yes, but this is needed for early exit on the line 37. This approach seems to be a common idiom in our code base:\n\n   $ git grep \u0027popup !\u003d null\u0027 | wc -l\n   13",
+      "parentUuid": "09115b42_fa1829b1",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "8018fbbc1e389e9de5da3d7125e05ee6eefac253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

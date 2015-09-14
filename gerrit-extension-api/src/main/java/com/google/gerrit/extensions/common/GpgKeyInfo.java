@@ -43,4 +43,7 @@ public class GpgKeyInfo {
   public String fingerprint;
   public List<String> userIds;
   public String key;
+
+  public Status status;
+  public List<String> problems;
 }

@@ -224,8 +224,8 @@ try:
   gen_factorypath()
 
   try:
-    targets = ['//tools:buck.properties'] + MAIN + GWT
-    check_call(['buck', 'build'] + targets)
+    targets = ['//tools:buck'] + MAIN + GWT
+    check_call(['buck', 'build', '--deep'] + targets)
   except CalledProcessError as err:
     exit(1)
 except KeyboardInterrupt:

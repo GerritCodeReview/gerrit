@@ -14,10 +14,14 @@
 
 package com.google.gerrit.gpg;
 
+import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.BAD;
+import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.OK;
+import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.TRUSTED;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 
 import com.google.common.base.Joiner;
+import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 
 import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.openpgp.PGPException;
@@ -57,31 +61,59 @@ public abstract class PushCertificateChecker {
    */
   public final CheckResult check(PushCertificate cert) {
     if (cert.getNonceStatus() != NonceStatus.OK) {
-      return new CheckResult("Invalid nonce");
+      return CheckResult.bad("Invalid nonce");
     }
-    List<String> problems = new ArrayList<>();
+    List<CheckResult> results = new ArrayList<>(2);
+    CheckResult sigResult = null;
     try {
       PGPSignature sig = readSignature(cert);
       if (sig != null) {
         @SuppressWarnings("resource")
         Repository repo = getRepository();
         try (PublicKeyStore store = new PublicKeyStore(repo)) {
-          checkSignature(sig, cert, store, problems);
-          checkCustom(repo, problems);
+          sigResult = checkSignature(sig, cert, store);
+          results.add(checkCustom(repo));
         } finally {
           if (shouldClose(repo)) {
             repo.close();
           }
         }
       } else {
-        problems.add("Invalid signature format");
+        results.add(CheckResult.bad("Invalid signature format"));
       }
     } catch (PGPException | IOException e) {
       String msg = "Internal error checking push certificate";
       log.error(msg, e);
-      problems.add(msg);
+      results.add(CheckResult.bad(msg));
     }
-    return new CheckResult(problems);
+
+    return combine(sigResult, results);
+  }
+
+  private static CheckResult combine(CheckResult sigResult,
+      List<CheckResult> results) {
+    // Combine results:
+    //  - If any input result is BAD, the final result is bad.
+    //  - If sigResult is TRUSTED and no other result is BAD, the final result
+    //    is TRUSTED.
+    //  - Otherwise, the result is OK.
+    List<String> problems = new ArrayList<>();
+    boolean bad = false;
+    for (CheckResult result : results) {
+      problems.addAll(result.getProblems());
+      bad |= result.getStatus() == BAD;
+    }
+    Status status = bad ? BAD : OK;
+
+    if (sigResult != null) {
+      problems.addAll(sigResult.getProblems());
+      if (sigResult.getStatus() == BAD) {
+        status = BAD;
+      } else if (sigResult.getStatus() == TRUSTED) {
+        status = TRUSTED;
+      }
+    }
+    return CheckResult.create(status, problems);
   }
 
   /**
@@ -104,13 +136,14 @@ public abstract class PushCertificateChecker {
   /**
    * Perform custom checks.
    * <p>
-   * Default implementation does nothing, but may be overridden by subclasses.
+   * Default implementation reports no problems, but may be overridden by
+   * subclasses.
    *
    * @param repo a repository previously returned by {@link #getRepository()}.
-   * @param problems list to which any problems should be added.
+   * @return the result of the custom check.
    */
-  protected void checkCustom(Repository repo, List<String> problems) {
-    // Default implementation does nothing.
+  protected CheckResult checkCustom(Repository repo) {
+    return CheckResult.ok();
   }
 
   private PGPSignature readSignature(PushCertificate cert) throws IOException {
@@ -129,28 +162,27 @@ public abstract class PushCertificateChecker {
     return null;
   }
 
-  private void checkSignature(PGPSignature sig, PushCertificate cert,
-      PublicKeyStore store, List<String> problems)
-      throws PGPException, IOException {
+  private CheckResult checkSignature(PGPSignature sig, PushCertificate cert,
+      PublicKeyStore store) throws PGPException, IOException {
     PGPPublicKeyRingCollection keys = store.get(sig.getKeyID());
     if (!keys.getKeyRings().hasNext()) {
-      problems.add("No public keys found for key ID "
+      return CheckResult.bad("No public keys found for key ID "
           + keyIdToString(sig.getKeyID()));
-      return;
     }
     PGPPublicKey signer =
         PublicKeyStore.getSigner(keys, sig, Constants.encode(cert.toText()));
     if (signer == null) {
-      problems.add("Signature by " + keyIdToString(sig.getKeyID())
+      return CheckResult.bad("Signature by " + keyIdToString(sig.getKeyID())
           + " is not valid");
-      return;
     }
     CheckResult result = publicKeyChecker.check(signer, store);
-    if (!result.isOk()) {
-      problems.add("Invalid public key "
-          + keyToString(signer)
-          + ":\n  "
-          + Joiner.on("\n  ").join(result.getProblems()));
+    if (!result.getProblems().isEmpty()) {
+      StringBuilder err = new StringBuilder("Invalid public key ")
+          .append(keyToString(signer))
+          .append(":\n  ")
+          .append(Joiner.on("\n  ").join(result.getProblems()));
+      return CheckResult.create(result.getStatus(), err.toString());
     }
+    return result;
   }
 }

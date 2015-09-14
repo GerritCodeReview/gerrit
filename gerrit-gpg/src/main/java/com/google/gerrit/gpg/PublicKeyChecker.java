@@ -14,8 +14,13 @@
 
 package com.google.gerrit.gpg;
 
+import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.BAD;
+import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.OK;
+import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.TRUSTED;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+
+import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 
 import org.bouncycastle.bcpg.SignatureSubpacket;
 import org.bouncycastle.bcpg.SignatureSubpacketTags;
@@ -105,18 +110,55 @@ public class PublicKeyChecker {
   /**
    * Perform custom checks.
    * <p>
-   * Default implementation does nothing, but may be overridden by subclasses.
+   * Default implementation reports no problems, but may be overridden by
+   * subclasses.
    *
    * @param key the public key.
-   * @param problems list to which any problems should be added.
+   * @return the result of the custom check.
    */
-  public void checkCustom(PGPPublicKey key, List<String> problems) {
-    // Default implementation does nothing.
+  public CheckResult checkCustom(PGPPublicKey key) {
+    return CheckResult.ok();
   }
 
   private CheckResult check(PGPPublicKey key, PublicKeyStore store, int depth,
       boolean expand, Set<Fingerprint> seen) {
-    List<String> problems = new ArrayList<>();
+    CheckResult basicResult = checkBasic(key);
+    CheckResult customResult = checkCustom(key);
+    CheckResult trustResult = checkWebOfTrust(key, store, depth, seen);
+    if (!expand && !trustResult.isTrusted()) {
+      trustResult = CheckResult.create(trustResult.getStatus(),
+          "Key is not trusted");
+    }
+
+    List<String> problems = new ArrayList<>(
+        basicResult.getProblems().size()
+        + customResult.getProblems().size()
+        + trustResult.getProblems().size());
+    problems.addAll(basicResult.getProblems());
+    problems.addAll(customResult.getProblems());
+    problems.addAll(trustResult.getProblems());
+
+    Status status;
+    if (basicResult.getStatus() == BAD
+        || customResult.getStatus() == BAD
+        || trustResult.getStatus() == BAD) {
+      // Any BAD result and the final result is BAD.
+      status = BAD;
+    } else if (trustResult.getStatus() == TRUSTED) {
+      // basicResult is BAD or OK, whereas trustResult is BAD or TRUSTED. If
+      // TRUSTED, we trust the final result.
+      status = TRUSTED;
+    } else {
+      // All results were OK or better, but trustResult was not TRUSTED. Don't
+      // let subclasses bypass checkWebOfTrust by returning TRUSTED; just return
+      // OK here.
+      status = OK;
+    }
+    return CheckResult.create(status, problems);
+  }
+
+  private CheckResult checkBasic(PGPPublicKey key) {
+    List<String> problems = new ArrayList<>(2);
     if (key.isRevoked()) {
       // TODO(dborowitz): isRevoked is overeager:
       // http://www.bouncycastle.org/jira/browse/BJB-45
@@ -131,33 +173,26 @@ public class PublicKeyChecker {
         problems.add("Key is expired");
       }
     }
-    checkCustom(key, problems);
-
-    CheckResult trustResult = checkWebOfTrust(key, store, depth, seen);
-    if (expand) {
-      problems.addAll(trustResult.getProblems());
-    } else if (!trustResult.isOk()) {
-      problems.add("Key is not trusted");
-    }
-    return new CheckResult(problems);
+    return CheckResult.create(problems);
   }
 
   private CheckResult checkWebOfTrust(PGPPublicKey key, PublicKeyStore store,
       int depth, Set<Fingerprint> seen) {
     if (trusted == null || store == null) {
-      return CheckResult.OK; // Trust checking not configured.
+      // Trust checking not configured, server trusts all OK keys.
+      return CheckResult.trusted();
     }
     Fingerprint fp = new Fingerprint(key.getFingerprint());
     if (seen.contains(fp)) {
-      return new CheckResult("Key is trusted in a cycle");
+      return CheckResult.ok("Key is trusted in a cycle");
     }
     seen.add(fp);
 
     Fingerprint trustedFp = trusted.get(key.getKeyID());
     if (trustedFp != null && trustedFp.equals(fp)) {
-      return CheckResult.OK; // Directly trusted.
+      return CheckResult.trusted(); // Directly trusted.
     } else if (depth >= maxTrustDepth) {
-      return new CheckResult(
+      return CheckResult.ok(
           "No path of depth <= " + maxTrustDepth + " to a trusted key");
     }
 
@@ -182,14 +217,15 @@ public class PublicKeyChecker {
             || Arrays.equals(signer.getFingerprint(), key.getFingerprint())) {
           continue;
         }
-        CheckResult signerResult = checkTrustSubpacket(sig, depth);
-        if (signerResult.isOk()) {
-          signerResult = check(signer, store, depth + 1, false, seen);
-          if (signerResult.isOk()) {
-            return CheckResult.OK;
+        String subpacketProblem = checkTrustSubpacket(sig, depth);
+        if (subpacketProblem == null) {
+          CheckResult signerResult =
+              check(signer, store, depth + 1, false, seen);
+          if (signerResult.isTrusted()) {
+            return CheckResult.trusted();
           }
         }
-        signerResults.add(new CheckResult(
+        signerResults.add(CheckResult.ok(
             "Certification by " + keyToString(signer)
             + " is valid, but key is not trusted"));
       }
@@ -200,7 +236,7 @@ public class PublicKeyChecker {
     for (CheckResult signerResult : signerResults) {
       problems.addAll(signerResult.getProblems());
     }
-    return new CheckResult(problems);
+    return CheckResult.create(OK, problems);
   }
 
   private static PGPPublicKey getSigner(PublicKeyStore store, PGPSignature sig,
@@ -208,42 +244,42 @@ public class PublicKeyChecker {
     try {
       PGPPublicKeyRingCollection signers = store.get(sig.getKeyID());
       if (!signers.getKeyRings().hasNext()) {
-        results.add(new CheckResult(
+        results.add(CheckResult.ok(
             "Key " + keyIdToString(sig.getKeyID())
             + " used for certification is not in store"));
         return null;
       }
       PGPPublicKey signer = PublicKeyStore.getSigner(signers, sig, userId, key);
       if (signer == null) {
-        results.add(new CheckResult(
+        results.add(CheckResult.ok(
             "Certification by " + keyIdToString(sig.getKeyID())
             + " is not valid"));
         return null;
       }
       return signer;
     } catch (PGPException | IOException e) {
-      results.add(new CheckResult(
+      results.add(CheckResult.ok(
           "Error checking certification by " + keyIdToString(sig.getKeyID())));
       return null;
     }
   }
 
-  private CheckResult checkTrustSubpacket(PGPSignature sig, int depth) {
+  private String checkTrustSubpacket(PGPSignature sig, int depth) {
     SignatureSubpacket trustSub = sig.getHashedSubPackets().getSubpacket(
         SignatureSubpacketTags.TRUST_SIG);
     if (trustSub == null || trustSub.getData().length != 2) {
-      return new CheckResult("Certification is missing trust information");
+      return "Certification is missing trust information";
     }
     byte amount = trustSub.getData()[1];
     if (amount < COMPLETE_TRUST) {
-      return new CheckResult("Certification does not fully trust key");
+      return "Certification does not fully trust key";
     }
     byte level = trustSub.getData()[0];
     int required = depth + 1;
     if (level < required) {
-      return new CheckResult("Certification trusts to depth " + level
-          + ", but depth " + required + " is required");
+      return "Certification trusts to depth " + level
+          + ", but depth " + required + " is required";
     }
-    return CheckResult.OK;
+    return null;
   }
 }

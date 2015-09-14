@@ -247,9 +247,11 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     Map<String, GpgKeyInfo> infos =
         Maps.newHashMapWithExpectedSize(keys.size() + deleted.size());
     for (PGPPublicKeyRing keyRing : keys) {
+      PGPPublicKey key = keyRing.getPublicKey();
       // Unlike when storing keys, include web-of-trust checks when producing
       // result JSON, so the user at least knows of any issues.
-      GpgKeyInfo info = GpgKeys.toJson(keyRing, checker, store);
+      CheckResult result = checker.check(key, store);
+      GpgKeyInfo info = GpgKeys.toJson(key, result);
       infos.put(info.id, info);
       info.id = null;
     }

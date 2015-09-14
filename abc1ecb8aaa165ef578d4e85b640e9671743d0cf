@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4416da01_54e1ec01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-14T05:49:01Z",
+      "side": 1,
+      "message": "This seems to be behavioral change to me. I thought that the main purpose of using this utility method from JGit is to produce null-pointer safe code, but this is not the case. From the Javadoc of StringUtils.equalsIgnoreCase:\n\n  This method does not honor the JVM locale, but instead \n  always behaves as though it is in the US-ASCII locale.",
+      "revId": "abc1ecb8aaa165ef578d4e85b640e9671743d0cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4416da01_b4fcc0ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-14T05:49:01Z",
+      "side": 1,
+      "message": "I this needed? Original code wasn\u0027t null pointer safe either.",
+      "range": {
+        "startLine": 387,
+        "startChar": 10,
+        "endLine": 387,
+        "endChar": 23
+      },
+      "revId": "abc1ecb8aaa165ef578d4e85b640e9671743d0cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -499,4 +499,28 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(approval._accountId).isEqualTo(user.id.get());
     assertThat(approval.value).isNull();
   }
+
+  @Test
+  public void pushCertificates() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = amendChange(r1.getChangeId());
+
+    ChangeInfo info = gApi.changes()
+        .id(r1.getChangeId())
+        .get(EnumSet.of(
+            ListChangesOption.ALL_REVISIONS,
+            ListChangesOption.PUSH_CERTIFICATES));
+
+    RevisionInfo rev1 = info.revisions.get(r1.getCommit().name());
+    assertThat(rev1).isNotNull();
+    assertThat(rev1.pushCertificate).isNotNull();
+    assertThat(rev1.pushCertificate.certificate).isNull();
+    assertThat(rev1.pushCertificate.key).isNull();
+
+    RevisionInfo rev2 = info.revisions.get(r2.getCommit().name());
+    assertThat(rev2).isNotNull();
+    assertThat(rev2.pushCertificate).isNotNull();
+    assertThat(rev2.pushCertificate.certificate).isNull();
+    assertThat(rev2.pushCertificate.key).isNull();
+  }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4416da01_944f04aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-14T15:03:02Z",
+      "side": 1,
+      "message": "Can it be that Issue 3447 was fixed as well and worth adding here, in context of:\n\n* https://github.com/codemirror/CodeMirror/pull/3372\n* https://github.com/codemirror/CodeMirror/pull/3400",
+      "revId": "76492c0325fe4f9006bb77d5ec98c2def8a9e72f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

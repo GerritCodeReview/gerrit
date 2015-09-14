@@ -32,7 +32,9 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.gpg.BouncyCastleUtil;
+import com.google.gerrit.gpg.CheckResult;
 import com.google.gerrit.gpg.Fingerprint;
+import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -68,14 +70,17 @@ public class GpgKeys implements
   private final DynamicMap<RestView<GpgKey>> views;
   private final Provider<ReviewDb> db;
   private final Provider<PublicKeyStore> storeProvider;
+  private final PublicKeyChecker checker;
 
   @Inject
   GpgKeys(DynamicMap<RestView<GpgKey>> views,
       Provider<ReviewDb> db,
-      Provider<PublicKeyStore> storeProvider) {
+      Provider<PublicKeyStore> storeProvider,
+      PublicKeyChecker checker) {
     this.views = views;
     this.db = db;
     this.storeProvider = storeProvider;
+    this.checker = checker;
   }
 
   @Override
@@ -155,7 +160,7 @@ public class GpgKeys implements
           for (PGPPublicKeyRing keyRing : store.get(keyId(fp))) {
             if (Arrays.equals(keyRing.getPublicKey().getFingerprint(), fp)) {
               found = true;
-              GpgKeyInfo info = toJson(keyRing);
+              GpgKeyInfo info = toJson(keyRing, checker, store);
               keys.put(info.id, info);
               info.id = null;
               break;
@@ -173,9 +178,21 @@ public class GpgKeys implements
 
   @Singleton
   public static class Get implements RestReadView<GpgKey> {
+    private final Provider<PublicKeyStore> storeProvider;
+    private final PublicKeyChecker checker;
+
+    @Inject
+    Get(Provider<PublicKeyStore> storeProvider,
+        PublicKeyChecker checker) {
+      this.storeProvider = storeProvider;
+      this.checker = checker;
+    }
+
     @Override
     public GpgKeyInfo apply(GpgKey rsrc) throws IOException {
-      return toJson(rsrc.getKeyRing());
+      try (PublicKeyStore store = storeProvider.get()) {
+        return toJson(rsrc.getKeyRing(), checker, store);
+      }
     }
   }
 
@@ -207,7 +224,8 @@ public class GpgKeys implements
     }
   }
 
-  static GpgKeyInfo toJson(PGPPublicKeyRing keyRing) throws IOException {
+  static GpgKeyInfo toJson(PGPPublicKeyRing keyRing, PublicKeyChecker checker,
+      PublicKeyStore store) throws IOException {
     PGPPublicKey key = keyRing.getPublicKey();
     GpgKeyInfo info = new GpgKeyInfo();
     info.id = PublicKeyStore.keyIdToString(key.getKeyID());
@@ -215,6 +233,7 @@ public class GpgKeys implements
     @SuppressWarnings("unchecked")
     Iterator<String> userIds = key.getUserIDs();
     info.userIds = ImmutableList.copyOf(userIds);
+
     try (ByteArrayOutputStream out = new ByteArrayOutputStream(4096);
         ArmoredOutputStream aout = new ArmoredOutputStream(out)) {
       // This is not exactly the key stored in the store, but is equivalent. In
@@ -224,6 +243,13 @@ public class GpgKeys implements
       key.encode(aout);
       info.key = new String(out.toByteArray(), UTF_8);
     }
+
+    CheckResult checkResult = checker.check(key, store);
+    info.status = checkResult.getStatus();
+    if (!checkResult.getProblems().isEmpty()) {
+      info.problems = checkResult.getProblems();
+    }
+
     return info;
   }
 }

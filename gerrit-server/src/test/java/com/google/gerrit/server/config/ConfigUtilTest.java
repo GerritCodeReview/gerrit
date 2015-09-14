@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.extensions.client.Theme;
-
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
@@ -23,6 +21,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
+
+import com.google.gerrit.extensions.client.Theme;
 
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;

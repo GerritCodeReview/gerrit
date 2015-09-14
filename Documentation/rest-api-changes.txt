@@ -315,6 +315,14 @@ default. Optional fields are:
   link:#revision-info[RevisionInfo].
 --
 
+[[push-certificates]]
+--
+* `PUSH_CERTIFICATES`: include push certificate information in the
+  link:#revision-info[RevisionInfo]. Ignored if signed push is not
+  link:config-gerrit.html#receive.enableSignedPush[enabled] on the
+  server.
+--
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -4355,6 +4363,23 @@ If `status` is set, an additional plaintext message describing the
 outcome of the fix.
 |===========================
 
+[[push-certificate-info]]
+=== PushCertificateInfo
+The `PushCertificateInfo` entity contains information about a push
+certificate provided when the user pushed for review with `git push
+--signed HEAD:refs/for/<branch>`. Only used when signed push is
+link:config-gerrit.html#receive.enableSignedPush[enabled] on the server.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name|Description
+|`certificate`|Signed certificate payload and GPG signature block.
+|`key`        |
+Information about the key that signed the push, along with any problems
+found while checking the signature or the key itself, as a
+link:rest-api-accounts.html#gpg-key-info[GpgKeyInfo] entity.
+|===========================
+
 [[rebase-input]]
 === RebaseInput
 The `RebaseInput` entity contains information for changing parent when rebasing.
@@ -4566,6 +4591,12 @@ this is the current patch set, contains the full commit message with
 Gerrit-specific commit footers, as if this revision were submitted
 using the link:project-configuration.html#cherry_pick[Cherry Pick]
 submit type.
+|`push_certificate` |optional|
+If the link:#push-certificates[PUSH_CERTIFICATES] option is requested,
+contains the push certificate provided by the user when uploading this
+patch set as a link:#push-certificate-info[PushCertificateInfo] entity.
+This field is always set if the option is requested; if no push
+certificate was provided, it is set to an empty object.
 |===========================
 
 [[rule-input]]

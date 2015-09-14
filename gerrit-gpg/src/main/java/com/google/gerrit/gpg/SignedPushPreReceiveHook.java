@@ -55,7 +55,8 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
       return;
     }
     CheckResult result = checkerFactory.create(user.get(), true)
-        .check(cert);
+        .check(cert)
+        .getCheckResult();
     if (isAllowed(result, commands)) {
       for (String problem : result.getProblems()) {
         rp.sendMessage(problem);

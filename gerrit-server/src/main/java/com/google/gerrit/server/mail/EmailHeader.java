@@ -151,7 +151,7 @@ public abstract class EmailHeader {
     public void write(Writer w) throws IOException {
       final SimpleDateFormat fmt;
       // Mon, 1 Jun 2009 10:49:44 -0700
-      fmt = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+      fmt = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US);
       w.write(fmt.format(value));
     }
 

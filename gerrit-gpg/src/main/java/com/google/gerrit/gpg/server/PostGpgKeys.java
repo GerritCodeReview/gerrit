@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.CheckResult;
 import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
+import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.PostGpgKeys.Input;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -135,7 +136,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
               return toExtIdKey(fp.get());
             }
           }));
-      return toJson(newKeys, toRemove);
+      return toJson(newKeys, toRemove, store);
     }
   }
 
@@ -240,11 +241,12 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
 
   private static Map<String, GpgKeyInfo> toJson(
       Collection<PGPPublicKeyRing> keys,
-      Set<Fingerprint> deleted) throws IOException {
+      Set<Fingerprint> deleted, PublicKeyStore store) throws IOException {
+    PublicKeyChecker checker = new PublicKeyChecker();
     Map<String, GpgKeyInfo> infos =
         Maps.newHashMapWithExpectedSize(keys.size() + deleted.size());
     for (PGPPublicKeyRing keyRing : keys) {
-      GpgKeyInfo info = GpgKeys.toJson(keyRing);
+      GpgKeyInfo info = GpgKeys.toJson(keyRing, checker, store);
       infos.put(info.id, info);
       info.id = null;
     }

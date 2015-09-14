@@ -17,8 +17,6 @@ package com.google.gerrit.server.config;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 
-import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
-
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
@@ -62,7 +60,7 @@ public class ConfigUtil {
 
     String n = valueString.replace(' ', '_').replace('-', '_');
     for (final T e : all) {
-      if (equalsIgnoreCase(e.name(), n)) {
+      if (n.equalsIgnoreCase(e.name())) {
         return e;
       }
     }
@@ -386,7 +384,7 @@ public class ConfigUtil {
 
   private static boolean match(final String a, final String... cases) {
     for (final String b : cases) {
-      if (equalsIgnoreCase(a, b)) {
+      if (b != null && b.equalsIgnoreCase(a)) {
         return true;
       }
     }

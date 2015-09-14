@@ -30,8 +30,8 @@ import org.junit.Test;
 import java.util.concurrent.TimeUnit;
 
 public class ConfigUtilTest {
-  private final static String SECT = "foo";
-  private final static String SUB = "bar";
+  private static final String SECT = "foo";
+  private static final String SUB = "bar";
 
   static class SectionInfo {
     public static final String CONSTANT = "42";

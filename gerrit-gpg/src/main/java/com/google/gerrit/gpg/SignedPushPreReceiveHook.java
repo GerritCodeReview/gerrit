@@ -16,6 +16,7 @@ package com.google.gerrit.gpg;
 
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -69,13 +70,36 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
         return true;
       }
     };
+
     CheckResult result = checker.check(cert).getCheckResult();
-    if (!result.isOk()) {
+    if (isAllowed(result, commands)) {
       for (String problem : result.getProblems()) {
         rp.sendMessage(problem);
       }
       reject(commands, "invalid push cert");
     }
+  }
+
+  private static boolean isAllowed(CheckResult result,
+      Collection<ReceiveCommand> commands) {
+    if (onlyMagicBranches(commands)) {
+      // Only pushing magic branches: allow a valid push certificate even if the
+      // key is not ultimately trusted. Assume anyone with Submit permission to
+      // the branch is able to verify during review that the code is legitimate.
+      return result.isOk();
+    } else {
+      // Directly updating one or more refs: require a trusted key.
+      return result.isTrusted();
+    }
+  }
+
+  private static boolean onlyMagicBranches(Iterable<ReceiveCommand> commands) {
+    for (ReceiveCommand c : commands) {
+      if (!MagicBranch.isMagicBranch(c.getRefName())) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private static void reject(Collection<ReceiveCommand> commands,

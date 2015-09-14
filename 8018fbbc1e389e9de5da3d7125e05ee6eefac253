@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09115b42_fa1829b1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditPreferencesAction.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-14T07:15:14Z",
+      "side": 1,
+      "message": "optional: this check is redundant because it\u0027s done in the body of hide().",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "8018fbbc1e389e9de5da3d7125e05ee6eefac253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

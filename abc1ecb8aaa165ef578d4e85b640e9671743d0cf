@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "09115b42_3a1fc19c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-14T05:57:41Z",
+      "side": 1,
+      "message": "equalsIgnore case is used 78 times in the code base, but only 2 are using the jgit implementation.\n\n $ git grep equalsIgnoreCase | wc -l\n 78\n $ git grep equalsIgnoreCase | grep import | wc -l\n 2",
+      "parentUuid": "4416da01_54e1ec01",
+      "revId": "abc1ecb8aaa165ef578d4e85b640e9671743d0cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4416da01_b4fcc0ad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
         "patchSetId": 2

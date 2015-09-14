@@ -412,6 +412,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(actual.userIds).named(id).containsExactlyElementsIn(userIds);
     assertThat(actual.key).named(id)
         .startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");
+    assertThat(actual.status).isEqualTo(GpgKeyInfo.Status.TRUSTED);
+    assertThat(actual.problems).isNull();
   }
 
   private void addExternalIdEmail(TestAccount account, String email)

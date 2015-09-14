@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4416da01_9436e419",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-14T17:35:08Z",
+      "side": 1,
+      "message": "I think this change fixed it: [1]. Could you try to rebase this change on top of it and upgrade Buck to the most recent revision?\n\n* [1] https://gerrit-review.googlesource.com/70873",
+      "range": {
+        "startLine": 15,
+        "startChar": 33,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "fcdfa33abfe7d9637c3207659c347dfde6c2ddfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

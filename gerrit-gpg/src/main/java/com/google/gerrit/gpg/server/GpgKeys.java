@@ -160,7 +160,7 @@ public class GpgKeys implements
           for (PGPPublicKeyRing keyRing : store.get(keyId(fp))) {
             if (Arrays.equals(keyRing.getPublicKey().getFingerprint(), fp)) {
               found = true;
-              GpgKeyInfo info = toJson(keyRing, checker, store);
+              GpgKeyInfo info = toJson(keyRing.getPublicKey(), checker, store);
               keys.put(info.id, info);
               info.id = null;
               break;
@@ -191,7 +191,7 @@ public class GpgKeys implements
     @Override
     public GpgKeyInfo apply(GpgKey rsrc) throws IOException {
       try (PublicKeyStore store = storeProvider.get()) {
-        return toJson(rsrc.getKeyRing(), checker, store);
+        return toJson(rsrc.getKeyRing().getPublicKey(), checker, store);
       }
     }
   }
@@ -224,9 +224,8 @@ public class GpgKeys implements
     }
   }
 
-  static GpgKeyInfo toJson(PGPPublicKeyRing keyRing, PublicKeyChecker checker,
-      PublicKeyStore store) throws IOException {
-    PGPPublicKey key = keyRing.getPublicKey();
+  public static GpgKeyInfo toJson(PGPPublicKey key, CheckResult checkResult)
+      throws IOException {
     GpgKeyInfo info = new GpgKeyInfo();
     info.id = PublicKeyStore.keyIdToString(key.getKeyID());
     info.fingerprint = Fingerprint.toString(key.getFingerprint());
@@ -244,12 +243,23 @@ public class GpgKeys implements
       info.key = new String(out.toByteArray(), UTF_8);
     }
 
-    CheckResult checkResult = checker.check(key, store);
     info.status = checkResult.getStatus();
     if (!checkResult.getProblems().isEmpty()) {
       info.problems = checkResult.getProblems();
     }
 
     return info;
+  }
+
+  static GpgKeyInfo toJson(PGPPublicKey key, PublicKeyChecker checker,
+      PublicKeyStore store) throws IOException {
+    return toJson(key, checker.check(key, store));
+  }
+
+  public static void toJson(GpgKeyInfo info, CheckResult checkResult) {
+    info.status = checkResult.getStatus();
+    if (!checkResult.getProblems().isEmpty()) {
+      info.problems = checkResult.getProblems();
+    }
   }
 }

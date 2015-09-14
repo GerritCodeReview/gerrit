@@ -69,7 +69,7 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
         return true;
       }
     };
-    CheckResult result = checker.check(cert);
+    CheckResult result = checker.check(cert).getCheckResult();
     if (!result.isOk()) {
       for (String problem : result.getProblems()) {
         rp.sendMessage(problem);

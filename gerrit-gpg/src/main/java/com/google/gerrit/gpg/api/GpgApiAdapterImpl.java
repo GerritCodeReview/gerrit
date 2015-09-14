@@ -16,8 +16,10 @@ package com.google.gerrit.gpg.api;
 
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.gpg.PushCertificateChecker;
 import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.server.PostGpgKeys;
 import com.google.gerrit.server.GpgException;
@@ -27,6 +29,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.bouncycastle.openpgp.PGPException;
+import org.eclipse.jgit.transport.PushCertificate;
+import org.eclipse.jgit.transport.PushCertificateParser;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,15 +40,18 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
   private final PostGpgKeys postGpgKeys;
   private final GpgKeys gpgKeys;
   private final GpgKeyApiImpl.Factory gpgKeyApiFactory;
+  private final PushCertificateChecker pushCertChecker;
 
   @Inject
   GpgApiAdapterImpl(
       PostGpgKeys postGpgKeys,
       GpgKeys gpgKeys,
-      GpgKeyApiImpl.Factory gpgKeyApiFactory) {
+      GpgKeyApiImpl.Factory gpgKeyApiFactory,
+      PushCertificateChecker pushCertChecker) {
     this.postGpgKeys = postGpgKeys;
     this.gpgKeys = gpgKeys;
     this.gpgKeyApiFactory = gpgKeyApiFactory;
+    this.pushCertChecker = pushCertChecker;
   }
 
   @Override
@@ -80,4 +87,22 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
       throw new GpgException(e);
     }
   }
+
+  @Override
+  public PushCertificateInfo checkPushCertificate(String certStr) throws GpgException {
+    try {
+      PushCertificate cert = PushCertificateParser.fromString(certStr);
+      PushCertificateChecker.Result result = pushCertChecker.check(cert);
+      PushCertificateInfo info = new PushCertificateInfo();
+      info.certificate = certStr;
+      if (result.getPublicKey() != null) {
+        info.key =
+            GpgKeys.toJson(result.getPublicKey(), result.getCheckResult());
+      }
+      return info;
+    } catch (IOException e) {
+      throw new GpgException(e);
+    }
+  }
+
 }

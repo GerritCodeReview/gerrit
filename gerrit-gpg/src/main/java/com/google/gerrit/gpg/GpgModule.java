@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
 
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -93,6 +94,11 @@ public class GpgModule extends RestApiModule {
 
     @Override
     public GpgKeyApi gpgKey(AccountResource account, IdString idStr) {
+      throw new NotImplementedException(MSG);
+    }
+
+    @Override
+    public PushCertificateInfo checkPushCertificate(String certStr) {
       throw new NotImplementedException(MSG);
     }
   }

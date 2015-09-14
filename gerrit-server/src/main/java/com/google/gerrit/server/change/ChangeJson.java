@@ -29,6 +29,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COMMANDS;
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
@@ -84,9 +85,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.api.accounts.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
@@ -149,6 +152,7 @@ public class ChangeJson {
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
+  private final GpgApiAdapter gpgApi;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -173,6 +177,7 @@ public class ChangeJson {
       ChangeMessagesUtil cmUtil,
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
+      GpgApiAdapter gpgApi,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -192,6 +197,7 @@ public class ChangeJson {
     this.cmUtil = cmUtil;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
+    this.gpgApi = gpgApi;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -254,8 +260,8 @@ public class ChangeJson {
       } else {
         return toChangeInfo(cd, limitToPsId);
       }
-    } catch (PatchListNotAvailableException | OrmException | IOException
-        | RuntimeException e) {
+    } catch (PatchListNotAvailableException | GpgException | OrmException
+        | IOException | RuntimeException e) {
       if (!has(CHECK)) {
         Throwables.propagateIfPossible(e, OrmException.class);
         throw new OrmException(e);
@@ -315,8 +321,8 @@ public class ChangeJson {
       if (i == null) {
         try {
           i = toChangeInfo(cd, Optional.<PatchSet.Id> absent());
-        } catch (PatchListNotAvailableException | OrmException | IOException
-            | RuntimeException e) {
+        } catch (PatchListNotAvailableException | GpgException | OrmException
+            | IOException | RuntimeException e) {
           if (has(CHECK)) {
             i = checkOnly(cd);
           } else {
@@ -359,8 +365,8 @@ public class ChangeJson {
   }
 
   private ChangeInfo toChangeInfo(ChangeData cd,
-      Optional<PatchSet.Id> limitToPsId)
-      throws PatchListNotAvailableException, OrmException, IOException {
+      Optional<PatchSet.Id> limitToPsId) throws PatchListNotAvailableException,
+      GpgException, OrmException, IOException {
     ChangeInfo out = new ChangeInfo();
 
     if (has(CHECK)) {
@@ -816,8 +822,8 @@ public class ChangeJson {
   }
 
   private Map<String, RevisionInfo> revisions(ChangeControl ctl,
-      Map<PatchSet.Id, PatchSet> map)
-      throws PatchListNotAvailableException, OrmException, IOException {
+      Map<PatchSet.Id, PatchSet> map) throws PatchListNotAvailableException,
+      GpgException, OrmException, IOException {
     Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
     for (PatchSet in : map.values()) {
       if ((has(ALL_REVISIONS)
@@ -858,7 +864,8 @@ public class ChangeJson {
   }
 
   private RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in)
-      throws PatchListNotAvailableException, OrmException, IOException {
+      throws PatchListNotAvailableException, GpgException, OrmException,
+      IOException {
     Change c = ctl.getChange();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(c.currentPatchSetId());
@@ -901,6 +908,10 @@ public class ChangeJson {
 
       actionJson.addRevisionActions(out,
           new RevisionResource(new ChangeResource(ctl), in));
+    }
+
+    if (has(PUSH_CERTIFICATES) && in.getPushCertificate() != null) {
+      out.pushCertificate = gpgApi.checkPushCertificate(in.getPushCertificate());
     }
 
     return out;

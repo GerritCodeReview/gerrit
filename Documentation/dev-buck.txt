@@ -106,7 +106,7 @@ To build the Gerrit web application:
 The output executable WAR will be placed in:
 
 ----
-  buck-out/gen/gerrit.war
+  buck-out/gen/gerrit/gerrit.war
 ----
 
 
@@ -121,7 +121,7 @@ To build Gerrit in headless mode, i.e. without the GWT Web UI:
 The output executable WAR will be placed in:
 
 ----
-  buck-out/gen/headless.war
+  buck-out/gen/headless/headless.war
 ----
 
 === Extension and Plugin API JAR Files
@@ -137,8 +137,8 @@ project directories in `buck-out/gen`, here as example for plugin API:
 
 ----
   buck-out/gen/gerrit-plugin-api/plugin-api.jar
+  buck-out/gen/gerrit-plugin-api/plugin-api-javadoc/plugin-api-javadoc.jar
   buck-out/gen/gerrit-plugin-api/plugin-api-src.jar
-  buck-out/gen/gerrit-plugin-api/plugin-api-javadoc.jar
 ----
 
 Install {extension,plugin,gwt}-api to the local maven repository:
@@ -170,7 +170,7 @@ The output JAR files for individual plugins will be placed in:
 The JAR files will also be packaged in:
 
 ----
-  buck-out/gen/plugins/core.zip
+  buck-out/gen/plugins/core/core.zip
 ----
 
 To build a specific plugin:
@@ -224,7 +224,7 @@ placed in:
 The html files will also be bundled into `searchfree.zip` in this location:
 
 ----
-  buck-out/gen/Documentation/searchfree.zip
+  buck-out/gen/Documentation/searchfree/searchfree.zip
 ----
 
 To build the executable WAR with the documentation included:
@@ -236,7 +236,7 @@ To build the executable WAR with the documentation included:
 The WAR file will be placed in:
 
 ----
-  buck-out/gen/withdocs.war
+  buck-out/gen/withdocs/withdocs.war
 ----
 
 [[soyc]]
@@ -272,7 +272,7 @@ all core plugins:
 The output release WAR will be placed in:
 
 ----
-  buck-out/gen/release.war
+  buck-out/gen/release/release.war
 ----
 
 [[all]]

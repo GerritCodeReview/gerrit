@@ -189,7 +189,7 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
 
   private Properties loadBuckProperties() throws IOException {
     Properties properties = new Properties();
-    Path propertiesPath = gen.resolve("tools").resolve("buck.properties");
+    Path propertiesPath = gen.resolve("tools/buck/buck.properties");
     if (Files.exists(propertiesPath)) {
       try (InputStream in = Files.newInputStream(propertiesPath)) {
         properties.load(in);

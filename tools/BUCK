@@ -42,7 +42,7 @@ def os_path():
   return environ.get('PATH')
 
 genrule(
-  name = 'buck.properties',
+  name = 'buck',
   cmd = 'echo buck=`which buck`>$OUT;' +
     ("echo PATH=\''%s'\' >>$OUT;" % shquote(os_path())),
   deps = [],

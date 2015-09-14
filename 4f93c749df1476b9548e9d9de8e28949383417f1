@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4416da01_34ea70e4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/EditPreferencesIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-14T05:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09115b42_5adcb54e",
+      "range": {
+        "startLine": 22,
+        "startChar": 43,
+        "endLine": 22,
+        "endChar": 62
+      },
+      "revId": "4f93c749df1476b9548e9d9de8e28949383417f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d7827f_4ae15302",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EditPreferencesInfo.java",
         "patchSetId": 32
@@ -36,6 +60,24 @@
       "writtenOn": "2015-09-14T02:51:13Z",
       "side": 1,
       "message": "Unnecessary import.  Theme is in the same package.",
+      "revId": "4f93c749df1476b9548e9d9de8e28949383417f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649cbed8_0dee51ee",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EditPreferencesInfo.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-14T05:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04d7827f_4ae15302",
       "revId": "4f93c749df1476b9548e9d9de8e28949383417f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

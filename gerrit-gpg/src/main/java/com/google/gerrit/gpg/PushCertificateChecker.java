@@ -48,6 +48,24 @@ public abstract class PushCertificateChecker {
   private static final Logger log =
       LoggerFactory.getLogger(PushCertificateChecker.class);
 
+  public static class Result {
+    private final PGPPublicKey key;
+    private final CheckResult checkResult;
+
+    private Result(PGPPublicKey key, CheckResult checkResult) {
+      this.key = key;
+      this.checkResult = checkResult;
+    }
+
+    public PGPPublicKey getPublicKey() {
+      return key;
+    }
+
+    public CheckResult getCheckResult() {
+      return checkResult;
+    }
+  }
+
   private final PublicKeyChecker publicKeyChecker;
   private final boolean checkNonce;
 
@@ -62,12 +80,12 @@ public abstract class PushCertificateChecker {
    *
    * @return result of the check.
    */
-  public final CheckResult check(PushCertificate cert) {
+  public final Result check(PushCertificate cert) {
     if (checkNonce && cert.getNonceStatus() != NonceStatus.OK) {
-      return CheckResult.bad("Invalid nonce");
+      return new Result(null, CheckResult.bad("Invalid nonce"));
     }
     List<CheckResult> results = new ArrayList<>(2);
-    CheckResult sigResult = null;
+    Result sigResult = null;
     try {
       PGPSignature sig = readSignature(cert);
       if (sig != null) {
@@ -93,8 +111,7 @@ public abstract class PushCertificateChecker {
     return combine(sigResult, results);
   }
 
-  private static CheckResult combine(CheckResult sigResult,
-      List<CheckResult> results) {
+  private static Result combine(Result sigResult, List<CheckResult> results) {
     // Combine results:
     //  - If any input result is BAD, the final result is bad.
     //  - If sigResult is TRUSTED and no other result is BAD, the final result
@@ -108,15 +125,20 @@ public abstract class PushCertificateChecker {
     }
     Status status = bad ? BAD : OK;
 
+    PGPPublicKey key;
     if (sigResult != null) {
-      problems.addAll(sigResult.getProblems());
-      if (sigResult.getStatus() == BAD) {
+      key = sigResult.getPublicKey();
+      CheckResult cr = sigResult.getCheckResult();
+      problems.addAll(cr.getProblems());
+      if (cr.getStatus() == BAD) {
         status = BAD;
-      } else if (sigResult.getStatus() == TRUSTED) {
+      } else if (cr.getStatus() == TRUSTED) {
         status = TRUSTED;
       }
+    } else {
+      key = null;
     }
-    return CheckResult.create(status, problems);
+    return new Result(key, CheckResult.create(status, problems));
   }
 
   /**
@@ -165,18 +187,20 @@ public abstract class PushCertificateChecker {
     return null;
   }
 
-  private CheckResult checkSignature(PGPSignature sig, PushCertificate cert,
+  private Result checkSignature(PGPSignature sig, PushCertificate cert,
       PublicKeyStore store) throws PGPException, IOException {
     PGPPublicKeyRingCollection keys = store.get(sig.getKeyID());
     if (!keys.getKeyRings().hasNext()) {
-      return CheckResult.bad("No public keys found for key ID "
-          + keyIdToString(sig.getKeyID()));
+      return new Result(null,
+          CheckResult.bad("No public keys found for key ID "
+              + keyIdToString(sig.getKeyID())));
     }
     PGPPublicKey signer =
         PublicKeyStore.getSigner(keys, sig, Constants.encode(cert.toText()));
     if (signer == null) {
-      return CheckResult.bad("Signature by " + keyIdToString(sig.getKeyID())
-          + " is not valid");
+      return new Result(null,
+          CheckResult.bad("Signature by " + keyIdToString(sig.getKeyID())
+              + " is not valid"));
     }
     CheckResult result = publicKeyChecker.check(signer, store);
     if (!result.getProblems().isEmpty()) {
@@ -184,8 +208,9 @@ public abstract class PushCertificateChecker {
           .append(keyToString(signer))
           .append(":\n  ")
           .append(Joiner.on("\n  ").join(result.getProblems()));
-      return CheckResult.create(result.getStatus(), err.toString());
+      return new Result(
+          signer, CheckResult.create(result.getStatus(), err.toString()));
     }
-    return result;
+    return new Result(signer, result);
   }
 }

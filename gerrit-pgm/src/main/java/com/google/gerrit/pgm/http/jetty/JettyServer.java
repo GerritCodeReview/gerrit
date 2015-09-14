@@ -682,7 +682,7 @@ public class JettyServer {
       throws FileNotFoundException, IOException {
     Properties properties = new Properties();
     try (InputStream in = new FileInputStream(
-        gen.resolve(Paths.get("tools/buck.properties")).toFile())) {
+        gen.resolve(Paths.get("tools/buck/buck.properties")).toFile())) {
       properties.load(in);
     }
     return properties;

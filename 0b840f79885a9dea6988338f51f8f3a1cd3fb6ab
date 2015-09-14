@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04d7827f_cad42327",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 1790,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-14T02:27:17Z",
+      "side": 1,
+      "message": "nit: this is not aligned with previous table entries.",
+      "range": {
+        "startLine": 1790,
+        "startChar": 36,
+        "endLine": 1790,
+        "endChar": 56
+      },
+      "revId": "0b840f79885a9dea6988338f51f8f3a1cd3fb6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -26,7 +26,7 @@ genrule(
   name = 'query_link',
   cmd = 'ln -s $(location :lib) $OUT',
   deps = [':lib'],
-  out = 'query_parser.jar',
+  out = 'query_link.jar',
 )
 
 prebuilt_jar(

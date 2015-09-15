@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4416da01_d4a7bca9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-09-15T10:30:47Z",
+      "side": 1,
+      "message": "Why wrap the postEvent call to the dispatcher in a private method?",
+      "range": {
+        "startLine": 687,
+        "startChar": 6,
+        "endLine": 687,
+        "endChar": 45
+      },
+      "revId": "dd969aa189053b210e32e3d793f5da0251c603c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

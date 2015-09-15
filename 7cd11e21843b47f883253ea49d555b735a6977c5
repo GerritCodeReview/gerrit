@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04d7827f_0aa63b8d",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-15T22:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09115b42_3abea19b",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 19
+      },
+      "revId": "7cd11e21843b47f883253ea49d555b735a6977c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d7827f_cac38322",
         "filename": "Documentation/rest-api-groups.txt",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "09115b42_faa7098a",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-15T22:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04d7827f_cac38322",
+      "range": {
+        "startLine": 176,
+        "startChar": 5,
+        "endLine": 176,
+        "endChar": 22
+      },
+      "revId": "7cd11e21843b47f883253ea49d555b735a6977c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d7827f_2aa97f5f",
         "filename": "Documentation/rest-api-groups.txt",
         "patchSetId": 7
@@ -59,6 +107,30 @@
       "writtenOn": "2015-09-15T21:58:40Z",
       "side": 1,
       "message": "Hm. Would something like\n\n [[suggest-group]]\n \u003d\u003d\u003d Suggest Group\n \u0027GET /groups/suggest\u0027\n\n Suggest groups for a given query `q` pertaining to project\n `project` (the `project` parameter is optional) and result\n limit `n`. If result limit is not passed, then the default 10\n is used.\n\n ----\n   GET /groups/suggest?q\u003dAd\u0026project\u003dAll-Projects HTTP/1.0\n ----\n\n .Response\n ----\n   HTTP/1.1 200 OK\n   Content-Disposition: attachment\n   Content-Type: application/json; charset\u003dUTF-8\n\n   )]}\u0027\n   {\n     \"Administrators\": {\n       \"url\": \"#/admin/groups/uuid-59b92f35489e62c80d1ab1bf0c2d17843038df8b\",\n       \"options\": {},\n       \"description\": \"Gerrit Site Administrators\",\n       \"group_id\": 1,\n       \"owner\": \"Administrators\",\n       \"owner_id\": \"59b92f35489e62c80d1ab1bf0c2d17843038df8b\",\n       \"id\": \"59b92f35489e62c80d1ab1bf0c2d17843038df8b\"\n     }\n   }\n ----\n\nmake sense?\n\nAlternatively this could be an option for the \"List Groups\" call:\n\n \u003d\u003d\u003d\u003d Suggest Group\n The `suggest` option indicates a user-entered string that\n should be auto-completed to a group name. If this option is set\n and `n` is not set, then `n` defaults to 10.\n\n When using this option, the `project` option can name the\n current project, to allow context-dependent suggestions.\n\n Not compatible with `visible-to-all`, `owned`, or `S`. (Attempts\n to use one of those options combined with `suggest` will error\n out.)\n\n .Request\n ----\n   GET /groups/?suggest\u003dAd\u0026project\u003dAll-Projects HTTP/1.0\n ----\n\n .Response\n [...]",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 28
+      },
+      "revId": "7cd11e21843b47f883253ea49d555b735a6977c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d7827f_6ab377cf",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-15T22:31:10Z",
+      "side": 1,
+      "message": "Currently all the groups rest API, except /groups/, are in the form of /groups/{group-id}/{command}, so making /groups/suggest to work will be a non-trivial effort. I\u0027d prefer to keep /groups/?suggest instead. Tweaked the text.",
+      "parentUuid": "04d7827f_2aa97f5f",
       "range": {
         "startLine": 177,
         "startChar": 0,

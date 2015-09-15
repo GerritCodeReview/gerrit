@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "649cbed8_4d197981",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-15T16:11:46Z",
+      "side": 1,
+      "message": "I would expect this change extend PatchListCacheIT and add test method for the problem it\u0027s trying to fix.",
+      "revId": "dbe43b488df36b61a14074cf7fbe463d2a80cbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4416da01_746ea8f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-15T16:11:46Z",
+      "side": 1,
+      "message": "Naming convention for this project for Java code is to use camelCase and_not_underscore_case.",
+      "range": {
+        "startLine": 175,
+        "startChar": 18,
+        "endLine": 175,
+        "endChar": 41
+      },
+      "revId": "dbe43b488df36b61a14074cf7fbe463d2a80cbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d7827f_aa98cf6d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 2

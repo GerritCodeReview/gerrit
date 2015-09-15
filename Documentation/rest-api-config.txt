@@ -1193,6 +1193,8 @@ meta data of all users is stored].
 Custom base URL where Gerrit server documentation is located.
 (Documentation may still be available at /Documentation relative to the
 Gerrit base path even if this value is unset.)
+|`edit_gpg_keys`     |not set if `false`|
+Whether to enable the web UI for editing GPG keys.
 |`report_bug_url`    |optional|
 link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
 |`report_bug_text`   |optional, not set if default|

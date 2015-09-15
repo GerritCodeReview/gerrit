@@ -35,6 +35,8 @@ public class GpgModule extends FactoryModule {
   protected void configure() {
     boolean configEnableSignedPush =
         cfg.getBoolean("receive", null, "enableSignedPush", false);
+    boolean configEditGpgKeys =
+        cfg.getBoolean("gerrit", null, "editGpgKeys", true);
     boolean havePgp = BouncyCastleUtil.havePGP();
     boolean enableSignedPush = configEnableSignedPush && havePgp;
     bindConstant().annotatedWith(EnableSignedPush.class).to(enableSignedPush);
@@ -47,6 +49,6 @@ public class GpgModule extends FactoryModule {
       install(new SignedPushModule());
       factory(GerritPushCertificateChecker.Factory.class);
     }
-    install(new GpgApiModule(enableSignedPush));
+    install(new GpgApiModule(enableSignedPush && configEditGpgKeys));
   }
 }

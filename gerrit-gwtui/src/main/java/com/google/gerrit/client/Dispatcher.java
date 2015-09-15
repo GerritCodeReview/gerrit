@@ -538,7 +538,8 @@ public class Dispatcher {
           return new MySshKeysScreen();
         }
 
-        if (matchExact(SETTINGS_GPGKEYS, token)) {
+        if (matchExact(SETTINGS_GPGKEYS, token)
+            && Gerrit.info().gerrit().editGpgKeys()) {
           return new MyGpgKeysScreen();
         }
 

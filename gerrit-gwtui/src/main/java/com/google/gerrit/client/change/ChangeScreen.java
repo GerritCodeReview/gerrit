@@ -38,6 +38,8 @@ import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.info.FileInfo;
+import com.google.gerrit.client.info.GpgKeyInfo;
+import com.google.gerrit.client.info.PushCertificateInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.projects.ConfigInfoCache.Entry;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -112,17 +114,18 @@ public class ChangeScreen extends Screen {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
-    String labelName();
     String avatar();
-    String label_user();
+    String hashtagName();
+    String highlight();
+    String label_may();
+    String labelName();
+    String label_need();
     String label_ok();
     String label_reject();
-    String label_may();
-    String label_need();
+    String label_user();
+    String pushCertStatus();
     String replyBox();
     String selected();
-    String highlight();
-    String hashtagName();
   }
 
   static ChangeScreen get(NativeEvent in) {
@@ -164,11 +167,14 @@ public class ChangeScreen extends Screen {
   @UiField Reviewers reviewers;
   @UiField Hashtags hashtags;
   @UiField Element hashtagTableRow;
+
   @UiField FlowPanel ownerPanel;
   @UiField InlineHyperlink ownerLink;
+
   @UiField Element uploaderRow;
   @UiField FlowPanel uploaderPanel;
   @UiField InlineLabel uploaderName;
+
   @UiField Element statusText;
   @UiField Image projectSettings;
   @UiField AnchorElement projectSettingsLink;
@@ -292,11 +298,19 @@ public class ChangeScreen extends Screen {
     p.add(extensionPanel);
   }
 
+  private boolean enableSignedPush() {
+    return Gerrit.info().receive().enableSignedPush();
+  }
+
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
-    ChangeList.addOptions(call, EnumSet.of(
-      ListChangesOption.CHANGE_ACTIONS,
-      ListChangesOption.ALL_REVISIONS));
+    EnumSet<ListChangesOption> opts = EnumSet.of(
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.CHANGE_ACTIONS);
+    if (enableSignedPush()) {
+      opts.add(ListChangesOption.PUSH_CERTIFICATES);
+    }
+    ChangeList.addOptions(call, opts);
     if (!fg) {
       call.background();
     }
@@ -1146,13 +1160,14 @@ public class ChangeScreen extends Screen {
   }
 
   private void renderChangeInfo(ChangeInfo info) {
+    RevisionInfo revisionInfo = info.revision(revision);
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
 
     labels.set(info);
 
     renderOwner(info);
-    renderUploader(info, revision);
+    renderUploader(info, revisionInfo);
     renderActionTextDate(info);
     renderDiffBaseListBox(info);
     initReplyButton(info, revision);
@@ -1189,7 +1204,7 @@ public class ChangeScreen extends Screen {
     // render it faster.
     if (!info.status().isOpen()
         || !revision.equals(info.currentRevision())
-        || info.revision(revision).isEdit()) {
+        || revisionInfo.isEdit()) {
       setVisible(strategy, false);
     }
 
@@ -1200,7 +1215,6 @@ public class ChangeScreen extends Screen {
     quickApprove.setVisible(false);
     actions.reloadRevisionActions(emptyMap);
 
-    RevisionInfo revisionInfo = info.revision(revision);
     boolean current = revision.equals(info.currentRevision())
         && !revisionInfo.isEdit();
 
@@ -1252,10 +1266,12 @@ public class ChangeScreen extends Screen {
         : String.valueOf(info.owner()._accountId()), Change.Status.NEW));
   }
 
-  private void renderUploader(ChangeInfo info, String revision) {
-    AccountInfo uploader = info.revision(revision).uploader();
-    if (uploader == null
-        || uploader._accountId() == info.owner()._accountId()) {
+  private void renderUploader(ChangeInfo changeInfo, RevisionInfo revInfo) {
+    AccountInfo uploader = revInfo.uploader();
+    boolean isOwner = uploader == null
+        || uploader._accountId() == changeInfo.owner()._accountId();
+    renderPushCertificate(revInfo, isOwner ? ownerPanel : uploaderPanel);
+    if (isOwner) {
       uploaderRow.getStyle().setDisplay(Display.NONE);
       return;
     }
@@ -1269,6 +1285,37 @@ public class ChangeScreen extends Screen {
     uploaderName.setTitle(email(uploader, name));
   }
 
+  private void renderPushCertificate(RevisionInfo revInfo, FlowPanel panel) {
+    if (!enableSignedPush()) {
+      return;
+    }
+    Image status = new Image();
+    panel.add(status);
+    status.setStyleName(style.pushCertStatus());
+    if (!revInfo.hasPushCertificate()
+        || revInfo.pushCertificate().key() == null) {
+      status.setResource(Gerrit.RESOURCES.question());
+      status.setTitle(Util.C.pushCertMissing());
+      return;
+    }
+    PushCertificateInfo certInfo = revInfo.pushCertificate();
+    GpgKeyInfo.Status s = certInfo.key().status();
+    switch (s) {
+      case BAD:
+        status.setResource(Gerrit.RESOURCES.redNot());
+        status.setTitle(problems(Util.C.pushCertBad(), certInfo));
+        break;
+      case OK:
+        status.setResource(Gerrit.RESOURCES.warning());
+        status.setTitle(problems(Util.C.pushCertOk(), certInfo));
+        break;
+      case TRUSTED:
+        status.setResource(Gerrit.RESOURCES.greenCheck());
+        status.setTitle(Util.C.pushCertTrusted());
+        break;
+    }
+  }
+
   private static String name(AccountInfo info) {
     return info.name() != null
         ? info.name()
@@ -1277,6 +1324,21 @@ public class ChangeScreen extends Screen {
 
   private static String email(AccountInfo info, String name) {
     return info.email() != null ? info.email() : name;
+  }
+
+  private static String problems(String msg, PushCertificateInfo info) {
+    if (info.key() == null
+        || !info.key().hasProblems()
+        || info.key().problems().length() == 0) {
+      return msg;
+    }
+
+    StringBuilder sb = new StringBuilder();
+    sb.append(msg).append(':');
+    for (String problem : Natives.asList(info.key().problems())) {
+      sb.append('\n').append(problem);
+    }
+    return sb.toString();
   }
 
   private void renderSubmitType(String action) {

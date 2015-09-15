@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.account;
+package com.google.gerrit.client.info;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayString;
 
-public class GpgKeyInfo extends JavaScriptObject {
-  public final native String id() /*-{ return this.id; }-*/;
-  public final native String fingerprint() /*-{ return this.fingerprint; }-*/;
-  public final native JsArrayString userIds() /*-{ return this.user_ids; }-*/;
-  public final native String key() /*-{ return this.key; }-*/;
+public class PushCertificateInfo extends JavaScriptObject {
+  public final native String certificate() /*-{ return this.certificate; }-*/;
+  public final native GpgKeyInfo key() /*-{ return this.key; }-*/;
 
-  protected GpgKeyInfo() {
+  protected PushCertificateInfo() {
   }
 }

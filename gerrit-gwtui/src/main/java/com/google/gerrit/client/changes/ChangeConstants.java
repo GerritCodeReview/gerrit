@@ -202,4 +202,9 @@ public interface ChangeConstants extends Constants {
   String diffAllUnified();
 
   String votable();
+
+  String pushCertMissing();
+  String pushCertBad();
+  String pushCertOk();
+  String pushCertTrusted();
 }

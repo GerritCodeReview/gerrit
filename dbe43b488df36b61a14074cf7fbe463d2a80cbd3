@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04d7827f_ca0c2346",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1017553
+      },
+      "writtenOn": "2015-09-15T15:49:47Z",
+      "side": 1,
+      "message": "I could add an \"|| previous_patchset_paths \u003d\u003d null\" to the if case to avoid such dereferencing, but previous_patchset_paths was null if and only if paths was, which made the check redundant.\n\nIf you want me to add that or-condition instead, I can.  Or if you want me to use Collections.emptySet() instead of null I can, though for consistency if we do that here we should also do it 12 lines above for the assignment of \"paths\" as well, since \"paths\" and \"previous_patchset_paths\" are being set up nearly identically.",
+      "parentUuid": "04d7827f_aa98cf6d",
+      "range": {
+        "startLine": 186,
+        "startChar": 12,
+        "endLine": 186,
+        "endChar": 16
+      },
+      "revId": "dbe43b488df36b61a14074cf7fbe463d2a80cbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09115b42_7a81b9ed",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-15T05:18:51Z",
       "side": 1,
       "message": "if",
+      "range": {
+        "startLine": 193,
+        "startChar": 61,
+        "endLine": 193,
+        "endChar": 64
+      },
+      "revId": "dbe43b488df36b61a14074cf7fbe463d2a80cbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_fa2269b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1017553
+      },
+      "writtenOn": "2015-09-15T15:49:47Z",
+      "side": 1,
+      "message": "Actually, I did mean iff, though perhaps I shouldn\u0027t have abbreviated and spelled it out (https://en.wikipedia.org/wiki/If_and_only_if).",
+      "parentUuid": "09115b42_7a81b9ed",
       "range": {
         "startLine": 193,
         "startChar": 61,

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.info;
 
+import com.google.gerrit.client.changes.PushCertificateInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
@@ -309,6 +310,9 @@ public class ChangeInfo extends JavaScriptObject {
 
     public final native boolean hasFetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
     public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;
+
+    public final native boolean hasPushCertificate() /*-{ return this.hasOwnProperty('push_certificate'); }-*/;
+    public final native PushCertificateInfo pushCertificate() /*-{ return this.push_certificate; }-*/;
 
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
       final int editParent = findEditParent(list);

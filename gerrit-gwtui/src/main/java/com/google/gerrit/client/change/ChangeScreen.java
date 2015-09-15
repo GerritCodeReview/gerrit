@@ -289,8 +289,9 @@ public class ChangeScreen extends Screen {
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
+      ListChangesOption.ALL_REVISIONS,
       ListChangesOption.CHANGE_ACTIONS,
-      ListChangesOption.ALL_REVISIONS));
+      ListChangesOption.PUSH_CERTIFICATES));
     if (!fg) {
       call.background();
     }

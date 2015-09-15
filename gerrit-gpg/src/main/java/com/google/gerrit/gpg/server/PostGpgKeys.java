@@ -35,7 +35,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.CheckResult;
 import com.google.gerrit.gpg.Fingerprint;
-import com.google.gerrit.gpg.PublicKeyChecker;
+import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.PostGpgKeys.Input;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -79,19 +79,19 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   private final Provider<PersonIdent> serverIdent;
   private final Provider<ReviewDb> db;
   private final Provider<PublicKeyStore> storeProvider;
-  private final PublicKeyChecker checker;
+  private final GerritPublicKeyChecker.Factory checkerFactory;
   private final AddKeySender.Factory addKeyFactory;
 
   @Inject
   PostGpgKeys(@GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<ReviewDb> db,
       Provider<PublicKeyStore> storeProvider,
-      PublicKeyChecker checker,
+      GerritPublicKeyChecker.Factory checkerFactory,
       AddKeySender.Factory addKeyFactory) {
     this.serverIdent = serverIdent;
     this.db = db;
     this.storeProvider = storeProvider;
-    this.checker = checker;
+    this.checkerFactory = checkerFactory;
     this.addKeyFactory = addKeyFactory;
   }
 
@@ -192,7 +192,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       for (PGPPublicKeyRing keyRing : keyRings) {
         PGPPublicKey key = keyRing.getPublicKey();
         // Don't check web of trust; admins can fill in certifications later.
-        CheckResult result = checker.check(key);
+        CheckResult result = checkerFactory.create(rsrc.getUser()).check(key);
         if (!result.isOk()) {
           throw new BadRequestException(String.format(
               "Problems with public key %s:\n%s",

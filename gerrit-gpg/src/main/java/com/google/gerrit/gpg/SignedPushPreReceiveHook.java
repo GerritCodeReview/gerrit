@@ -14,9 +14,11 @@
 
 package com.google.gerrit.gpg;
 
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Repository;
@@ -39,16 +41,19 @@ import java.util.Collection;
 public class SignedPushPreReceiveHook implements PreReceiveHook {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
-  private final PublicKeyChecker keyChecker;
+  private final Provider<IdentifiedUser> user;
+  private final GerritPublicKeyChecker.Factory keyCheckerFactory;
 
   @Inject
   public SignedPushPreReceiveHook(
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      PublicKeyChecker keyChecker) {
+      Provider<IdentifiedUser> user,
+      GerritPublicKeyChecker.Factory keyCheckerFactory) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
-    this.keyChecker = keyChecker;
+    this.user = user;
+    this.keyCheckerFactory = keyCheckerFactory;
   }
 
   @Override
@@ -58,6 +63,7 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
     if (cert == null) {
       return;
     }
+    PublicKeyChecker keyChecker = keyCheckerFactory.create(user.get());
     PushCertificateChecker checker = new PushCertificateChecker(keyChecker) {
       @Override
       protected Repository getRepository() throws IOException {

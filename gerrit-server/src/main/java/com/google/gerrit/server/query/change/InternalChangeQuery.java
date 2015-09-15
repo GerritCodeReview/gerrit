@@ -128,12 +128,14 @@ public class InternalChangeQuery {
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(Branch.NameKey branch,
       List<String> hashes) throws OrmException {
     Schema<ChangeData> schema = schema(indexes);
+    int batchSize;
     if (schema != null && schema.hasField(ChangeField.EXACT_COMMIT)) {
-      return query(commitsOnBranchNotMerged(branch, commits(schema, hashes)));
+      // TODO(dborowitz): Move to IndexConfig and use in more places.
+      batchSize = 500;
     } else {
-      return byCommitsOnBranchNotMerged(
-          schema, branch, hashes, indexConfig.maxPrefixTerms());
+      batchSize = indexConfig.maxPrefixTerms();
     }
+    return byCommitsOnBranchNotMerged(schema, branch, hashes, batchSize);
   }
 
   @VisibleForTesting

@@ -17,6 +17,8 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.GpgKeyInfo;
+import com.google.gerrit.client.changes.PushCertificateInfo;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
@@ -31,6 +33,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.CssResource;
@@ -79,6 +82,10 @@ class CommitBox extends Composite {
   @UiField ScrollPanel scroll;
   @UiField Button more;
   @UiField Element parentNotCurrentText;
+
+  @UiField TableRowElement pushCert;
+  @UiField Image pushCertStatus;
+
   private boolean expanded;
 
   CommitBox() {
@@ -125,6 +132,7 @@ class CommitBox extends Composite {
     }
 
     setParents(change.project(), revInfo.commit().parents());
+    setPushCertificate(revInfo);
   }
 
   void setParentNotCurrent(boolean parentNotCurrent) {
@@ -181,6 +189,54 @@ class CommitBox extends Composite {
       previous = next;
       next = DOM.createTR().cast();
     }
+  }
+
+  private void setPushCertificate(RevisionInfo revInfo) {
+    if (!Gerrit.info().receive().enableSignedPush()) {
+      return;
+    }
+    pushCert.getStyle().setDisplay(Display.TABLE_ROW);
+    // TODO: Constants? Or else multiple fields in ui.xml?
+    if (!revInfo.hasPushCertificate()
+        || revInfo.pushCertificate().key() == null) {
+      pushCertStatus.setResource(Gerrit.RESOURCES.redNot());
+      pushCertStatus.setTitle(
+          "This patch set was created without a push certificate");
+      return;
+    }
+    PushCertificateInfo certInfo = revInfo.pushCertificate();
+    GpgKeyInfo.Status s = certInfo.key().status();
+    switch (s) {
+      case BAD:
+        pushCertStatus.setResource(Gerrit.RESOURCES.redNot());
+        pushCertStatus.setTitle(problems(
+            "Push certificate is invalid", certInfo));
+        break;
+      case OK:
+        pushCertStatus.setResource(Gerrit.RESOURCES.warning());
+        pushCertStatus.setTitle(problems(
+            "Push certificate is valid, but key is not trusted", certInfo));
+        break;
+      case TRUSTED:
+        pushCertStatus.setResource(Gerrit.RESOURCES.greenCheck());
+        pushCertStatus.setTitle("Push certificate is valid and key is trusted");
+        break;
+    }
+  }
+
+  private static String problems(String msg, PushCertificateInfo info) {
+    if (info.key() == null
+        || !info.key().hasProblems()
+        || info.key().problems().length() == 0) {
+      return msg;
+    }
+
+    StringBuilder sb = new StringBuilder();
+    sb.append(msg).append(':');
+    for (String problem : Natives.asList(info.key().problems())) {
+      sb.append('\n').append(problem);
+    }
+    return sb.toString();
   }
 
   private void addLinks(String project, CommitInfo c, FlowPanel panel) {

@@ -28,11 +28,8 @@ import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
@@ -41,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -89,15 +87,11 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         r.put(name, e.getValue());
       }
     }
-    rp.setAdvertisedRefs(r, advertiseHistory(r.values(), rp));
+    rp.setAdvertisedRefs(r, advertiseOpenChanges());
   }
 
-  private Set<ObjectId> advertiseHistory(
-      Iterable<Ref> sending,
-      BaseReceivePack rp) {
-    Set<ObjectId> toInclude = Sets.newHashSet();
-
-    // Advertise some recent open changes, in case a commit is based one.
+  private Set<ObjectId> advertiseOpenChanges() {
+    // Advertise some recent open changes, in case a commit is based on one.
     final int limit = 32;
     try {
       Set<PatchSet.Id> toGet = Sets.newHashSetWithExpectedSize(limit);
@@ -110,68 +104,18 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
           toGet.add(id);
         }
       }
+
+      Set<ObjectId> r = Sets.newHashSetWithExpectedSize(toGet.size());
       for (PatchSet ps : db.patchSets().get(toGet)) {
         if (ps.getRevision() != null && ps.getRevision().get() != null) {
-          toInclude.add(ObjectId.fromString(ps.getRevision().get()));
+          r.add(ObjectId.fromString(ps.getRevision().get()));
         }
       }
+      return r;
     } catch (OrmException err) {
       log.error("Cannot list open changes of " + projectName, err);
+      return Collections.emptySet();
     }
-
-    // Size of an additional ".have" line.
-    final int haveLineLen = 4 + Constants.OBJECT_ID_STRING_LENGTH + 1 + 5 + 1;
-
-    // Maximum number of bytes to "waste" in the advertisement with
-    // a peek at this repository's current reachable history.
-    final int maxExtraSize = 8192;
-
-    // Number of recent commits to advertise immediately, hoping to
-    // show a client a nearby merge base.
-    final int base = 64;
-
-    // Number of commits to skip once base has already been shown.
-    final int step = 16;
-
-    // Total number of commits to extract from the history.
-    final int max = maxExtraSize / haveLineLen;
-
-    // Scan history until the advertisement is full.
-    Set<ObjectId> alreadySending = Sets.newHashSet();
-    RevWalk rw = rp.getRevWalk();
-    for (Ref ref : sending) {
-      try {
-        if (ref.getObjectId() != null) {
-          alreadySending.add(ref.getObjectId());
-          rw.markStart(rw.parseCommit(ref.getObjectId()));
-        }
-      } catch (IOException badCommit) {
-        continue;
-      }
-    }
-
-    int stepCnt = 0;
-    RevCommit c;
-    try {
-      while ((c = rw.next()) != null && toInclude.size() < max) {
-        if (alreadySending.contains(c)
-            || toInclude.contains(c)
-            || c.getParentCount() > 1) {
-          // Do nothing
-        } else if (toInclude.size() < base) {
-          toInclude.add(c);
-        } else {
-          stepCnt = ++stepCnt % step;
-          if (stepCnt == 0) {
-            toInclude.add(c);
-          }
-        }
-      }
-    } catch (IOException err) {
-      log.error("Error trying to advertise history on " + projectName, err);
-    }
-    rw.reset();
-    return toInclude;
   }
 
   private static boolean skip(String name) {

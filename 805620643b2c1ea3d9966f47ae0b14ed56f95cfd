@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4d98eb5_29f18dd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/HackPushNegotiateHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-15T21:22:30Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "805620643b2c1ea3d9966f47ae0b14ed56f95cfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

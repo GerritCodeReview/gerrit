@@ -16,6 +16,24 @@
       "revId": "76492c0325fe4f9006bb77d5ec98c2def8a9e72f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_fa46e98a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-15T00:53:36Z",
+      "side": 1,
+      "message": "No, it\u0027s not fixed by simply updating codemirror.  We also need to add an entry in mime-types.properties and maybe some other places.  I\u0027d rather do that in a separate change.",
+      "parentUuid": "4416da01_944f04aa",
+      "revId": "76492c0325fe4f9006bb77d5ec98c2def8a9e72f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

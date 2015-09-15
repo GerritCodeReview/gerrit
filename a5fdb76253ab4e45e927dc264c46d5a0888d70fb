@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09115b42_7a98996b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-15T02:18:56Z",
+      "side": 1,
+      "message": "This is no longer used.",
+      "revId": "a5fdb76253ab4e45e927dc264c46d5a0888d70fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

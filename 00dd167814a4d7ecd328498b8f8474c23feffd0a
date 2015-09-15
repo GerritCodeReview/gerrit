@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "649cbed8_ed7945c4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AutoCommitWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-09-15T09:08:06Z",
+      "side": 1,
+      "message": "nit: IMO this is redundant, since the second call to this method will also override Gerrit configuration (and the previous call but that\u0027s sort of lies in the nature of a setter :-) ).",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 71
+      },
+      "revId": "00dd167814a4d7ecd328498b8f8474c23feffd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -334,6 +334,10 @@ limitations under the License.
     .changeExtension {
       padding-top: 5px;
     }
+
+    .pushCertStatus {
+      float: right;
+    }
   </ui:style>
 
   <g:HTMLPanel styleName='{style.cs2}'>
@@ -426,6 +430,7 @@ limitations under the License.
               <td>
                 <g:FlowPanel ui:field='uploaderPanel' styleName='{style.uploaderPanel}'>
                   <g:InlineLabel ui:field='uploaderName'/>
+                  <g:Image ui:field='pushCertStatus' styleName='{style.pushCertStatus}'/>
                 </g:FlowPanel>
               </td>
             </tr>

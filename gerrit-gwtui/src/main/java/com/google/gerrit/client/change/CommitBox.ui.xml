@@ -193,6 +193,10 @@ limitations under the License.
         <th><ui:msg>Change-Id</ui:msg></th>
         <td><clippy:CopyableLabel styleName='{style.clippy}' ui:field='idText'/></td>
       </tr>
+      <tr ui:field='pushCert' style='display: none'>
+        <th><ui:msg>Push certificate</ui:msg></th>
+        <td><g:Image ui:field='pushCertStatus'/></td>
+      </tr>
     </table>
   </g:HTMLPanel>
 </ui:UiBinder>

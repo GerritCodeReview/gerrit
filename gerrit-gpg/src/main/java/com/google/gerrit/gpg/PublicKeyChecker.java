@@ -114,16 +114,19 @@ public class PublicKeyChecker {
    * subclasses.
    *
    * @param key the public key.
+   * @param depth the depth from the initial key passed to {@link #check(
+   *     PGPPublicKey, PublicKeyStore)}: 0 if this was the initial key, up to a
+   *     maximum of {@code maxTrustDepth}.
    * @return the result of the custom check.
    */
-  public CheckResult checkCustom(PGPPublicKey key) {
+  public CheckResult checkCustom(PGPPublicKey key, int depth) {
     return CheckResult.ok();
   }
 
   private CheckResult check(PGPPublicKey key, PublicKeyStore store, int depth,
       boolean expand, Set<Fingerprint> seen) {
     CheckResult basicResult = checkBasic(key);
-    CheckResult customResult = checkCustom(key);
+    CheckResult customResult = checkCustom(key, depth);
     CheckResult trustResult = checkWebOfTrust(key, store, depth, seen);
     if (!expand && !trustResult.isTrusted()) {
       trustResult = CheckResult.create(trustResult.getStatus(),

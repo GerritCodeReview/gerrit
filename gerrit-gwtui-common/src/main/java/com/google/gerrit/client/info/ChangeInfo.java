@@ -311,6 +311,9 @@ public class ChangeInfo extends JavaScriptObject {
     public final native boolean hasFetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
     public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;
 
+    public final native boolean hasPushCertificate() /*-{ return this.hasOwnProperty('push_certificate'); }-*/;
+    public final native PushCertificateInfo pushCertificate() /*-{ return this.push_certificate; }-*/;
+
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
       final int editParent = findEditParent(list);
       Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {

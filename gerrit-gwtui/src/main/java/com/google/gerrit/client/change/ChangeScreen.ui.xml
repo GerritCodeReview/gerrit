@@ -426,6 +426,7 @@ limitations under the License.
               <td>
                 <g:FlowPanel ui:field='uploaderPanel' styleName='{style.uploaderPanel}'>
                   <g:InlineLabel ui:field='uploaderName'/>
+                  <g:Image ui:field='pushCertStatus'/>
                 </g:FlowPanel>
               </td>
             </tr>

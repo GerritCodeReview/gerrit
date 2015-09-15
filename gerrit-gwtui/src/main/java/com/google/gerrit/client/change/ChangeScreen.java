@@ -38,6 +38,8 @@ import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.info.FileInfo;
+import com.google.gerrit.client.info.GpgKeyInfo;
+import com.google.gerrit.client.info.PushCertificateInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.projects.ConfigInfoCache.Entry;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -164,11 +166,15 @@ public class ChangeScreen extends Screen {
   @UiField Reviewers reviewers;
   @UiField Hashtags hashtags;
   @UiField Element hashtagTableRow;
+
   @UiField FlowPanel ownerPanel;
   @UiField InlineHyperlink ownerLink;
+
   @UiField Element uploaderRow;
   @UiField FlowPanel uploaderPanel;
   @UiField InlineLabel uploaderName;
+  @UiField Image pushCertStatus;
+
   @UiField Element statusText;
   @UiField Image projectSettings;
   @UiField AnchorElement projectSettingsLink;
@@ -292,11 +298,20 @@ public class ChangeScreen extends Screen {
     p.add(extensionPanel);
   }
 
+  private boolean enableSignedPush() {
+    return Gerrit.info().receive().enableSignedPush();
+  }
+
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
+
     ChangeList.addOptions(call, EnumSet.of(
-      ListChangesOption.CHANGE_ACTIONS,
-      ListChangesOption.ALL_REVISIONS));
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.CHANGE_ACTIONS));
+    if (enableSignedPush()) {
+      ChangeList.addOptions(call, EnumSet.of(
+          ListChangesOption.PUSH_CERTIFICATES));
+    }
     if (!fg) {
       call.background();
     }
@@ -1146,13 +1161,14 @@ public class ChangeScreen extends Screen {
   }
 
   private void renderChangeInfo(ChangeInfo info) {
+    RevisionInfo revisionInfo = info.revision(revision);
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
 
     labels.set(info);
 
     renderOwner(info);
-    renderUploader(info, revision);
+    renderUploader(info, revisionInfo);
     renderActionTextDate(info);
     renderDiffBaseListBox(info);
     initReplyButton(info, revision);
@@ -1189,7 +1205,7 @@ public class ChangeScreen extends Screen {
     // render it faster.
     if (!info.status().isOpen()
         || !revision.equals(info.currentRevision())
-        || info.revision(revision).isEdit()) {
+        || revisionInfo.isEdit()) {
       setVisible(strategy, false);
     }
 
@@ -1200,7 +1216,6 @@ public class ChangeScreen extends Screen {
     quickApprove.setVisible(false);
     actions.reloadRevisionActions(emptyMap);
 
-    RevisionInfo revisionInfo = info.revision(revision);
     boolean current = revision.equals(info.currentRevision())
         && !revisionInfo.isEdit();
 
@@ -1252,9 +1267,10 @@ public class ChangeScreen extends Screen {
         : String.valueOf(info.owner()._accountId()), Change.Status.NEW));
   }
 
-  private void renderUploader(ChangeInfo info, String revision) {
-    AccountInfo uploader = info.revision(revision).uploader();
-    if (uploader._accountId() == info.owner()._accountId()) {
+  private void renderUploader(ChangeInfo changeInfo, RevisionInfo revInfo) {
+    AccountInfo uploader = revInfo.uploader();
+    if (!enableSignedPush()
+        && uploader._accountId() == changeInfo.owner()._accountId()) {
       uploaderRow.getStyle().setDisplay(Display.NONE);
       return;
     }
@@ -1266,6 +1282,37 @@ public class ChangeScreen extends Screen {
     String name = name(uploader);
     uploaderName.setText(name);
     uploaderName.setTitle(email(uploader, name));
+    renderPushCertificate(revInfo);
+  }
+
+  private void renderPushCertificate(RevisionInfo revInfo) {
+    if (!enableSignedPush()) {
+      return;
+    }
+    if (!revInfo.hasPushCertificate()
+        || revInfo.pushCertificate().key() == null) {
+      pushCertStatus.setResource(Gerrit.RESOURCES.question());
+      pushCertStatus.setTitle(Util.C.pushCertMissing());
+      return;
+    }
+    PushCertificateInfo certInfo = revInfo.pushCertificate();
+    GpgKeyInfo.Status s = certInfo.key().status();
+    switch (s) {
+      case BAD:
+        pushCertStatus.setResource(Gerrit.RESOURCES.redNot());
+        pushCertStatus.setTitle(problems(
+            Util.C.pushCertBad(), certInfo));
+        break;
+      case OK:
+        pushCertStatus.setResource(Gerrit.RESOURCES.warning());
+        pushCertStatus.setTitle(problems(
+            Util.C.pushCertOk(), certInfo));
+        break;
+      case TRUSTED:
+        pushCertStatus.setResource(Gerrit.RESOURCES.greenCheck());
+        pushCertStatus.setTitle(Util.C.pushCertTrusted());
+        break;
+    }
   }
 
   private static String name(AccountInfo info) {
@@ -1276,6 +1323,21 @@ public class ChangeScreen extends Screen {
 
   private static String email(AccountInfo info, String name) {
     return info.email() != null ? info.email() : name;
+  }
+
+  private static String problems(String msg, PushCertificateInfo info) {
+    if (info.key() == null
+        || !info.key().hasProblems()
+        || info.key().problems().length() == 0) {
+      return msg;
+    }
+
+    StringBuilder sb = new StringBuilder();
+    sb.append(msg).append(':');
+    for (String problem : Natives.asList(info.key().problems())) {
+      sb.append('\n').append(problem);
+    }
+    return sb.toString();
   }
 
   private void renderSubmitType(String action) {

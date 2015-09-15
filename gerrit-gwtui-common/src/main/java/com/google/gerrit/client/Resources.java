@@ -104,4 +104,7 @@ public interface Resources extends ClientBundle {
 
   @Source("warning.png")
   public ImageResource warning();
+
+  @Source("question.png")
+  public ImageResource question();
 }

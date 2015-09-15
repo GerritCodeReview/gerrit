@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09115b42_daa44588",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-09-15T23:15:04Z",
+      "side": 1,
+      "message": "(or `p`)\n\nWhat does the project option mean in other List Groups queries? It doesn\u0027t seem to be documented.",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 14
+      },
+      "revId": "154bc687ebdab15c1da5d72bb44a67dd43791426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d7827f_ead5a7d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-09-15T23:15:04Z",
+      "side": 1,
+      "message": "(optional) could be handled in a separate method that returns a List\u003cAccountGroup\u003e",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 42
+      },
+      "revId": "154bc687ebdab15c1da5d72bb44a67dd43791426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_9aaecd62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-09-15T23:15:04Z",
+      "side": 1,
+      "message": "Please also check for visibleToAll, user, owned, q, start, and match, since they are not supported in this mode.",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 32
+      },
+      "revId": "154bc687ebdab15c1da5d72bb44a67dd43791426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_bab191c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-09-15T23:15:04Z",
+      "side": 1,
+      "message": "can decrease nesting by leaving out the \u0027else\u0027",
+      "range": {
+        "startLine": 195,
+        "startChar": 7,
+        "endLine": 195,
+        "endChar": 14
+      },
+      "revId": "154bc687ebdab15c1da5d72bb44a67dd43791426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

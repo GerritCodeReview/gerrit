@@ -53,7 +53,6 @@ class SignedPushModule extends AbstractModule {
     if (!BouncyCastleUtil.havePGP()) {
       throw new ProvisionException("Bouncy Castle PGP not installed");
     }
-    bind(PublicKeyChecker.class).to(GerritPublicKeyChecker.class);
     bind(PublicKeyStore.class).toProvider(StoreProvider.class);
     DynamicSet.bind(binder(), ReceivePackInitializer.class)
         .to(Initializer.class);

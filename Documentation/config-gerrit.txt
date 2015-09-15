@@ -1713,6 +1713,15 @@ If unset or empty, the documentation tab will only be shown if
 `/Documentation/index.html` can be reached by the browser at app load
 time.
 
+[[gerrit.editGpgKeys]]gerrit.editGpgKeys::
++
+If enabled and server-side signed push validation is also
+link:#receive.enableSignedPush[enabled], enable the web UI for editing
+GPG keys. If disabled, GPG keys can only be added by administrators
+with direct git access to All-Users.
++
+Defaults to true.
+
 [[gerrit.installCommitMsgHookCommand]]gerrit.installCommitMsgHookCommand::
 +
 Optional command to install the `commit-msg` hook. Typically of the

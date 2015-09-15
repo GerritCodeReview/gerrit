@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "649cbed8_2d74edc6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventDispatcher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-09-15T10:25:36Z",
+      "side": 1,
+      "message": "Nit: newline before param list",
+      "range": {
+        "startLine": 47,
+        "startChar": 5,
+        "endLine": 47,
+        "endChar": 54
+      },
+      "revId": "931f252db0346eb52be67223f7efa2ac6e0897fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

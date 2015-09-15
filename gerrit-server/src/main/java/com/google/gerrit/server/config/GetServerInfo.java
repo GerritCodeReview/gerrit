@@ -238,6 +238,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     info.reportBugText = cfg.getString("gerrit", null, "reportBugText");
     info.docUrl = getDocUrl(cfg);
+    info.editGpgKeys = toBoolean(enableSignedPush
+        && cfg.getBoolean("gerrit", null, "editGpgKeys", true));
     return info;
   }
 
@@ -367,6 +369,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public String docUrl;
     public String reportBugUrl;
     public String reportBugText;
+    public Boolean editGpgKeys;
   }
 
   public static class GitwebInfo {

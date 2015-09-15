@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.info.GpgKeyInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;

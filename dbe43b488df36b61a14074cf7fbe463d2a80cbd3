@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04d7827f_aa98cf6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-15T05:18:51Z",
+      "side": 1,
+      "message": "This is set to null but is potentially dereferenced on lines 196 and 197.\n\nIt might be better to use Collections.emptySet() here.",
+      "range": {
+        "startLine": 186,
+        "startChar": 12,
+        "endLine": 186,
+        "endChar": 16
+      },
+      "revId": "dbe43b488df36b61a14074cf7fbe463d2a80cbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_7a81b9ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-15T05:18:51Z",
+      "side": 1,
+      "message": "if",
+      "range": {
+        "startLine": 193,
+        "startChar": 61,
+        "endLine": 193,
+        "endChar": 64
+      },
+      "revId": "dbe43b488df36b61a14074cf7fbe463d2a80cbd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

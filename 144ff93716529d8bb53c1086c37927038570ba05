@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04d7827f_aab44fbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-09-15T20:33:40Z",
+      "side": 1,
+      "message": "Please make the commit message self-contained. E.g.\n\n This allows group autocompletion without using gwtjsonrpc. The\n immediate motivation is using group autocompletion in a plugin\u0027s\n UI.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "144ff93716529d8bb53c1086c37927038570ba05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_ba1cf172",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-09-15T20:33:40Z",
+      "side": 1,
+      "message": "Ideally this should be as similar to \u0027Suggest Account\u0027 as possible: https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#suggest-account\n\nE.g.,\n\n GET /groups/?p\u003dAll-Projects\u0026q\u003dAdm\n\nWhat is the effect of the project field?\n\nWhat does it mean that this overrides visible-to-all parameters? Hidden groups have to remain hidden --- that e.g. saves different partners using a shared host from seeing each other.",
+      "range": {
+        "startLine": 175,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 4
+      },
+      "revId": "144ff93716529d8bb53c1086c37927038570ba05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

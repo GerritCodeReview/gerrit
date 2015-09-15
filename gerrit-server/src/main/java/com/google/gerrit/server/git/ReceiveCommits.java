@@ -485,6 +485,7 @@ public class ReceiveCommits {
     advHooks.add(rp.getAdvertiseRefsHook());
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(
         db, queryProvider, projectControl.getProject().getNameKey()));
+    advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
   }
 

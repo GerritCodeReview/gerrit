@@ -25,7 +25,6 @@ java_library(
 genrule(
   name = 'query_link',
   cmd = 'ln -s $(location :lib) $OUT',
-  deps = [':lib'],
   out = 'query_parser.jar',
 )
 

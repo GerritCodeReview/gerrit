@@ -16,6 +16,24 @@
       "revId": "a01d3893b25838bbfe04698ef63a344fa0af8e10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_da17a50f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-16T06:41:46Z",
+      "side": 1,
+      "message": "Yeah, there\u0027s a lot of duplicate code in this change, not only in this file.  I did start to refactor some of it out, but it got quite messy.",
+      "parentUuid": "649cbed8_6dca752f",
+      "revId": "a01d3893b25838bbfe04698ef63a344fa0af8e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

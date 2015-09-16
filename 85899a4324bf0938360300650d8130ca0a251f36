@@ -94,6 +94,30 @@
       "revId": "85899a4324bf0938360300650d8130ca0a251f36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4416da01_741ce872",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T06:27:25Z",
+      "side": 1,
+      "message": "I don\u0027t think anyone would notice it in this context. Guice would need slightly more overhead to retrieve the singeton instance by calling provider.get() method.",
+      "parentUuid": "04d7827f_eae80777",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 24
+      },
+      "revId": "85899a4324bf0938360300650d8130ca0a251f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

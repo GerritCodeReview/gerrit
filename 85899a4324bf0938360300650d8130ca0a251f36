@@ -118,6 +118,30 @@
       "revId": "85899a4324bf0938360300650d8130ca0a251f36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_9af80d42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-16T06:29:58Z",
+      "side": 1,
+      "message": "It was an easy rebase, so done.",
+      "parentUuid": "4416da01_741ce872",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 24
+      },
+      "revId": "85899a4324bf0938360300650d8130ca0a251f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

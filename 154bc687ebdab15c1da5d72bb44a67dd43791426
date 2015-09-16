@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "04d7827f_8a3cebac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-16T05:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09115b42_ba78718a",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 42
+      },
+      "revId": "154bc687ebdab15c1da5d72bb44a67dd43791426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09115b42_9aaecd62",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 9

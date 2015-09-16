@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4416da01_94b9c4b6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T07:57:15Z",
+      "side": 1,
+      "message": "Move this method higher in the inheritance hierarchy and name it say parseRefToken or some such?",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 3
+      },
+      "revId": "a89ac09a699839dfad9f008c7e45b84e9ba42476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649cbed8_6da1d563",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T07:57:15Z",
+      "side": 1,
+      "message": "Same here?",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 3
+      },
+      "revId": "a89ac09a699839dfad9f008c7e45b84e9ba42476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649cbed8_4d9e9923",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T07:57:15Z",
+      "side": 1,
+      "message": "This part is the same with lines 85-94 below. Extract this in private method, say getRefInfo(RestApi call, ...) and call it fro both methods: getTags() and getBranches() and passing in the specific RestApi implementation?",
+      "range": {
+        "startLine": 56,
+        "startChar": 3,
+        "endLine": 65,
+        "endChar": 16
+      },
+      "revId": "a89ac09a699839dfad9f008c7e45b84e9ba42476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649cbed8_0d949101",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T07:57:15Z",
+      "side": 1,
+      "message": "Nit: missing colon after closing \u0027)\u0027.",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 22
+      },
+      "revId": "a89ac09a699839dfad9f008c7e45b84e9ba42476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

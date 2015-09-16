@@ -278,10 +278,6 @@ public class PatchListLoader implements Callable<PatchList> {
     final FileMode oldMode = fileHeader.getOldMode();
     final FileMode newMode = fileHeader.getNewMode();
 
-    if (oldMode == FileMode.GITLINK || newMode == FileMode.GITLINK) {
-      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
-    }
-
     if (aTree == null // want combined diff
         || fileHeader.getPatchType() != PatchType.UNIFIED
         || fileHeader.getHunks().isEmpty()) {

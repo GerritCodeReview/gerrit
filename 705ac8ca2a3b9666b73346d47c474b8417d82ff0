@@ -16,6 +16,138 @@
       "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649cbed8_ad50ddfc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PaginatedProjectScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T19:00:36Z",
+      "side": 1,
+      "message": "Can be removed and thus be package protected.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4416da01_34d0b0df",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PaginatedProjectScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T19:00:36Z",
+      "side": 1,
+      "message": "Not need to be public, protected should be fine.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 8
+      },
+      "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649cbed8_8d5521ed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PaginatedProjectScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T19:00:36Z",
+      "side": 1,
+      "message": "protected. This method is only used in base class, line 55 above.",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 8
+      },
+      "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4416da01_14cdb445",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PaginatedProjectScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T19:00:36Z",
+      "side": 1,
+      "message": "Nit: Unneeded line.",
+      "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649cbed8_ed5ae51a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T19:00:36Z",
+      "side": 1,
+      "message": "protected",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 8
+      },
+      "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649cbed8_cd5f2909",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T19:00:36Z",
+      "side": 1,
+      "message": "protected",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 8
+      },
+      "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.nio.charset.Charset;
 
 public class PatchListEntry {
   private static final byte[] EMPTY_HEADER = {};
@@ -89,10 +90,7 @@ public class PatchListEntry {
 
     header = compact(hdr);
 
-    if (hdr instanceof CombinedFileHeader
-        || hdr.getHunks().isEmpty() //
-        || hdr.getOldMode() == FileMode.GITLINK
-        || hdr.getNewMode() == FileMode.GITLINK) {
+    if (hdr instanceof CombinedFileHeader || hdr.getHunks().isEmpty()) {
       edits = Collections.emptyList();
     } else {
       edits = Collections.unmodifiableList(editList);

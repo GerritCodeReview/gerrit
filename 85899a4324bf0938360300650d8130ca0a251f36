@@ -70,6 +70,30 @@
       "revId": "85899a4324bf0938360300650d8130ca0a251f36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d7827f_eae80777",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-16T06:22:20Z",
+      "side": 1,
+      "message": "\u003e I thought, our policy is to have every single change sel contained and correct\n\nGenerally, yes, although I\u0027m not sure that applies in the context of several changes that are tied together under the same topic and can only be submitted together.\n\nIs there any significant disadvantage to using a Provider when it\u0027s not strictly needed?",
+      "parentUuid": "4416da01_94126462",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 24
+      },
+      "revId": "85899a4324bf0938360300650d8130ca0a251f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

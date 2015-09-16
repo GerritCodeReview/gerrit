@@ -89,10 +89,10 @@ public class PatchListEntry {
 
     header = compact(hdr);
 
-    if (hdr instanceof CombinedFileHeader
-        || hdr.getHunks().isEmpty() //
-        || hdr.getOldMode() == FileMode.GITLINK
-        || hdr.getNewMode() == FileMode.GITLINK) {
+    if (hdr.getHunks().isEmpty())
+      System.err.println(newName + " has no hunks!!!");
+
+    if (hdr instanceof CombinedFileHeader || hdr.getHunks().isEmpty()) {
       edits = Collections.emptyList();
     } else {
       edits = Collections.unmodifiableList(editList);

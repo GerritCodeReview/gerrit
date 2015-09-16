@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4416da01_b4b4c0bc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/RefInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T07:45:19Z",
+      "side": 1,
+      "message": "[Optional] We started to follow ChangeInfo approach: [1] where all client classes are bundled together in one single file. Edwin followed this approach in his recent refactoring. So may be just move all existing and new project specific classes to PorjectInfo.java, instead of introducing new tiny classes.\n\n* [1] gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+      "revId": "aa9f816578dacc46b704da693b88f5bd475d8da1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

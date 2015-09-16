@@ -26,7 +26,7 @@ public class ProjectDashboardsScreen extends ProjectScreen {
   Project.NameKey project;
 
   public ProjectDashboardsScreen(final Project.NameKey project) {
-    super(project);
+    super(project, DASHBOARDS);
     this.project = project;
   }
 
@@ -40,7 +40,6 @@ public class ProjectDashboardsScreen extends ProjectScreen {
         dashes.display(result);
       }
     });
-    savedPanel = DASHBOARDS;
   }
 
   @Override

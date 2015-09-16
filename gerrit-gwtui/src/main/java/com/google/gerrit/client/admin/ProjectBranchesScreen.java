@@ -90,7 +90,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
   private Query query;
 
   public ProjectBranchesScreen(final Project.NameKey toShow) {
-    super(toShow);
+    super(toShow, BRANCHES);
     pageSize = Gerrit.getUserPreferences().changesPerPage();
   }
 
@@ -147,7 +147,6 @@ public class ProjectBranchesScreen extends ProjectScreen {
           }
         });
     query = new Query(match).start(start).run();
-    savedPanel = BRANCHES;
   }
 
   private void updateForm() {

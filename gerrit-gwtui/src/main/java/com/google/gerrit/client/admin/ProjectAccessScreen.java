@@ -104,7 +104,7 @@ public class ProjectAccessScreen extends ProjectScreen {
   private NativeMap<CapabilityInfo> capabilityMap;
 
   public ProjectAccessScreen(final Project.NameKey toShow) {
-    super(toShow);
+    super(toShow, ACCESS);
   }
 
   @Override
@@ -140,7 +140,6 @@ public class ProjectAccessScreen extends ProjectScreen {
             displayReadOnly(access);
           }
         }));
-    savedPanel = ACCESS;
   }
 
   private void displayReadOnly(ProjectAccess access) {

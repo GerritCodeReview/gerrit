@@ -23,8 +23,8 @@ public abstract class ProjectScreen extends Screen {
   public static final String ACCESS = "access";
   public static final String DASHBOARDS = "dashboards";
 
-  protected static String savedPanel;
-  protected static Project.NameKey savedKey;
+  private static String savedPanel;
+  private static Project.NameKey savedKey;
 
   public static String getSavedPanel() {
     return savedPanel;
@@ -35,9 +35,11 @@ public abstract class ProjectScreen extends Screen {
   }
 
   private final Project.NameKey name;
+  private final String panel;
 
-  public ProjectScreen(final Project.NameKey toShow) {
-    name = toShow;
+  public ProjectScreen(Project.NameKey toShow, String panel) {
+    this.name = toShow;
+    this.panel = panel;
   }
 
   public Project.NameKey getProjectKey() {
@@ -54,5 +56,6 @@ public abstract class ProjectScreen extends Screen {
   protected void onLoad() {
     super.onLoad();
     savedKey = name;
+    savedPanel = panel;
   }
 }

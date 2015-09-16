@@ -98,7 +98,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private OnEditEnabler saveEnabler;
 
   public ProjectInfoScreen(final Project.NameKey toShow) {
-    super(toShow);
+    super(toShow, INFO);
   }
 
   @Override
@@ -163,8 +163,6 @@ public class ProjectInfoScreen extends ProjectScreen {
             display(result);
           }
         }));
-
-    savedPanel = INFO;
   }
 
   private void enableForm() {

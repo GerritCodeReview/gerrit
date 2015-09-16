@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "649cbed8_edd5c5d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T06:02:26Z",
+      "side": 1,
+      "message": "Now this class can\u0027t be singleton any more. That\u0027s, because the client could occasionally pass new options introduced below and Servlet API machinery would assign these options to the single instance, and mutate it. This mutation is \"visible\" for other clients that might not passed these options. As the consequence this would result in unexpected results (filter would be applied, even though, clients haven\u0027t passed these options).",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 10
+      },
+      "revId": "3463faef4c9e8173ab516230e885e5affb7b6456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

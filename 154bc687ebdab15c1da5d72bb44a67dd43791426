@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "09115b42_5ae275bf",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-16T00:10:45Z",
+      "side": 1,
+      "message": "Done.\n\nIt\u0027s used to only list groups that are in the ACL of the specified projects (filter out unrelated groups).",
+      "parentUuid": "09115b42_daa44588",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 14
+      },
+      "revId": "154bc687ebdab15c1da5d72bb44a67dd43791426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d7827f_ead5a7d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-15T23:15:04Z",
       "side": 1,
       "message": "(optional) could be handled in a separate method that returns a List\u003cAccountGroup\u003e",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 42
+      },
+      "revId": "154bc687ebdab15c1da5d72bb44a67dd43791426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_3ad7c1dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-16T00:10:45Z",
+      "side": 1,
+      "message": "I refactored the conflicting parameters check into a separated function, but I don\u0027t really feel this is necessary.",
+      "parentUuid": "04d7827f_ead5a7d2",
       "range": {
         "startLine": 192,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "04d7827f_2ad05fdf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-16T00:10:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09115b42_9aaecd62",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 32
+      },
+      "revId": "154bc687ebdab15c1da5d72bb44a67dd43791426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09115b42_bab191c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 9
@@ -82,6 +154,30 @@
       "writtenOn": "2015-09-15T23:15:04Z",
       "side": 1,
       "message": "can decrease nesting by leaving out the \u0027else\u0027",
+      "range": {
+        "startLine": 195,
+        "startChar": 7,
+        "endLine": 195,
+        "endChar": 14
+      },
+      "revId": "154bc687ebdab15c1da5d72bb44a67dd43791426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d7827f_cada6302",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-16T00:10:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09115b42_bab191c8",
       "range": {
         "startLine": 195,
         "startChar": 7,

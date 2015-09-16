@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "649cbed8_6dca752f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T06:38:36Z",
+      "side": 1,
+      "message": "You did great job by extracting RefInfo class in previous change in this series:\n\n  \"Make BranchInfo and TagInfo share a common base class\"\n\nJust go ahead and apply the same approach on the client side, by introdicung RefInfo client class, moving common methods (actualy all methods below) to this class (so that TagInfo wouldn\u0027t be need at all atm?) and derive  existing BranchInfo class from new RefInfo class.\n\nFor example, check AccountInfo hierarchie: [1]. Both ApprovalInfo and ReviewerInfo share this base class.\n\n* [1] http://imgur.com/MpFKW29",
+      "revId": "a01d3893b25838bbfe04698ef63a344fa0af8e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4d00a8b_a823bbe9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-09-16T14:12:16Z",
+      "side": 1,
+      "message": "final?",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 39
+      },
+      "revId": "66b24c23eb22f59882cd86a5193c739cbf4063db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

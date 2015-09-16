@@ -45,6 +45,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -467,6 +468,10 @@ class PatchScriptBuilder {
 
           } else if (mode.getObjectType() == Constants.OBJ_BLOB) {
             srcContent = Text.asByteArray(db.open(id, Constants.OBJ_BLOB));
+
+          } else if (mode.getObjectType() == Constants.OBJ_COMMIT) {
+              String strContent = "Subproject commit " + ObjectId.toString(id);
+              srcContent = strContent.getBytes(Charset.forName("ISO-8859-1"));
 
           } else {
             srcContent = Text.NO_BYTES;

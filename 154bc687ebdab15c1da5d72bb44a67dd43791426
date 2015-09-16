@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "09115b42_ba78718a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-09-16T03:56:36Z",
+      "side": 1,
+      "message": "Sorry for the lack of clarity. I meant that the code could look something like\n\n  if (!Strings.isNullOrEmpty(suggest)) {\n    return getGroupSuggestions(suggest);\n  } else if (owned) {\n    return getGroupsOwnedBy(\n        user !\u003d null ? userFactory.create(user) : identifiedUser.get());\n  } else if (user !\u003d null) {\n    return accountGetGroups.get()\n        .apply(new AccountResource(userFactory.create(user)));\n  } else if (!projects.isEmpty()) {\n    return getGroupsForProjects(projects);\n  } else {\n    return getAllGroups();\n  }\n\nand the more specialized logic could go in a getGroupSuggestion function.\n\nBut this code already inlines the logic for each mode, so that is more of a refactoring suggestion (and not necessarily in scope for this change).",
+      "parentUuid": "09115b42_3ad7c1dd",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 42
+      },
+      "revId": "154bc687ebdab15c1da5d72bb44a67dd43791426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09115b42_9aaecd62",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 9

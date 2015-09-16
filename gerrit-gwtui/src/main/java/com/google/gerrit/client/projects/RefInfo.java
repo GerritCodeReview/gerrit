@@ -14,16 +14,17 @@
 
 package com.google.gerrit.client.projects;
 
-import com.google.gerrit.client.info.ActionInfo;
-import com.google.gerrit.client.info.WebLinkInfo;
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gwt.core.client.JsArray;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gwt.core.client.JavaScriptObject;
 
-public class BranchInfo extends RefInfo {
-  public final native boolean canDelete() /*-{ return this['can_delete'] ? true : false; }-*/;
-  public final native NativeMap<ActionInfo> actions() /*-{ return this.actions }-*/;
-  public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
+public class RefInfo extends JavaScriptObject {
+  public final String getShortName() {
+    return RefNames.shortName(ref());
+  }
 
-  protected BranchInfo() {
+  public final native String ref() /*-{ return this.ref; }-*/;
+  public final native String revision() /*-{ return this.revision; }-*/;
+
+  protected RefInfo() {
   }
 }

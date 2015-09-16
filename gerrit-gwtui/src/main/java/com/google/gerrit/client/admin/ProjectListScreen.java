@@ -44,12 +44,11 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 import java.util.List;
 
-public class ProjectListScreen extends Screen {
+public class ProjectListScreen extends PaginatedProjectScreen {
   private Hyperlink prev;
   private Hyperlink next;
   private ProjectsTable projects;
   private NpTextBox filterTxt;
-  private int pageSize;
 
   private String match = "";
   private int start;

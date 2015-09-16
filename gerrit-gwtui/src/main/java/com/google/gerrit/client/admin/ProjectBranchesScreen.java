@@ -74,7 +74,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ProjectBranchesScreen extends ProjectScreen {
+public class ProjectBranchesScreen extends PaginatedProjectScreen {
   private Hyperlink prev;
   private Hyperlink next;
   private BranchesTable branchTable;
@@ -83,7 +83,6 @@ public class ProjectBranchesScreen extends ProjectScreen {
   private HintTextBox nameTxtBox;
   private HintTextBox irevTxtBox;
   private FlowPanel addPanel;
-  private int pageSize;
   private int start;
   private NpTextBox filterTxt;
   private String match;
@@ -91,7 +90,6 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
   public ProjectBranchesScreen(final Project.NameKey toShow) {
     super(toShow, BRANCHES);
-    pageSize = Gerrit.getUserPreferences().changesPerPage();
   }
 
   private void parseToken() {

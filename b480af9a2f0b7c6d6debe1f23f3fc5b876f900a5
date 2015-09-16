@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09115b42_7a6bf9ba",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-16T03:25:32Z",
+      "side": 1,
+      "message": "/projects/ uses ?p\u003dprefixstr as a way to do suggestion.\n\nBe nice if this API mirrored that. Unfortunately p was previously taken for a project filtering option.",
+      "revId": "b480af9a2f0b7c6d6debe1f23f3fc5b876f900a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_3a6581e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-16T03:25:32Z",
+      "side": 1,
+      "message": "No reason for this to be a static. Just put the text in the constructor call.",
+      "revId": "b480af9a2f0b7c6d6debe1f23f3fc5b876f900a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_5a7035a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-16T03:25:32Z",
+      "side": 1,
+      "message": "BadRequestException",
+      "range": {
+        "startLine": 194,
+        "startChar": 18,
+        "endLine": 194,
+        "endChar": 30
+      },
+      "revId": "b480af9a2f0b7c6d6debe1f23f3fc5b876f900a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_1a6abdb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-16T03:25:32Z",
+      "side": 1,
+      "message": "Iterables.getFirstElement(projects, null)",
+      "range": {
+        "startLine": 198,
+        "startChar": 23,
+        "endLine": 198,
+        "endChar": 67
+      },
+      "revId": "b480af9a2f0b7c6d6debe1f23f3fc5b876f900a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_fa7ee977",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-16T03:25:32Z",
+      "side": 1,
+      "message": "The point of suggestion is to get any candidate group. By looking in the group cache you have ruled out external groups that come in via LDAP or other pluggable group backends.",
+      "range": {
+        "startLine": 201,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 7
+      },
+      "revId": "b480af9a2f0b7c6d6debe1f23f3fc5b876f900a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04d7827f_ca5f0309",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-16T03:25:32Z",
+      "side": 1,
+      "message": "I thought GroupBackend.suggest() was supposed to do this sort of security filtering for you.",
+      "revId": "b480af9a2f0b7c6d6debe1f23f3fc5b876f900a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

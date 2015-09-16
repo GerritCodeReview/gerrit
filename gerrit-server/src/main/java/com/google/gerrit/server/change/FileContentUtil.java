@@ -60,6 +60,8 @@ public class FileContentUtil {
   private static final int MAX_SIZE = 5 << 20;
   private static final String ZIP_TYPE = "application/zip";
   private static final Random rng = new Random();
+  private static final CharMatcher LOWERCASE_OR_DIGITS =
+      CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('0', '9'));
 
   private final GitRepositoryManager repoManager;
   private final FileTypeRegistry registry;
@@ -128,8 +130,8 @@ public class FileContentUtil {
   public BinaryResult downloadContent(ProjectState project, ObjectId revstr,
       String path, @Nullable String suffix)
           throws ResourceNotFoundException, IOException {
-    suffix = Strings.emptyToNull(CharMatcher.inRange('a', 'z')
-        .retainFrom(Strings.nullToEmpty(suffix)));
+    suffix = Strings.emptyToNull(
+        LOWERCASE_OR_DIGITS.retainFrom(Strings.nullToEmpty(suffix)));
 
     try (Repository repo = openRepository(project);
         RevWalk rw = new RevWalk(repo)) {

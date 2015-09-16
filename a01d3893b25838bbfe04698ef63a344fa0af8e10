@@ -34,6 +34,24 @@
       "revId": "a01d3893b25838bbfe04698ef63a344fa0af8e10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09115b42_9a112d1c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-16T06:43:11Z",
+      "side": 1,
+      "message": "TagInfo will probably be needed in future if we want to show anything more than the name and revision, for example annotated/signed tag details.",
+      "parentUuid": "09115b42_da17a50f",
+      "revId": "a01d3893b25838bbfe04698ef63a344fa0af8e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

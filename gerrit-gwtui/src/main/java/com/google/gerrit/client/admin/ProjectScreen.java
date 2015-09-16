@@ -47,7 +47,9 @@ public abstract class ProjectScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setPageTitle(Util.M.project(name.get()));
+    if (name != null) {
+      setPageTitle(Util.M.project(name.get()));
+    }
   }
 
   @Override

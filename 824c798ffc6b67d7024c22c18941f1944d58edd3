@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4416da01_94eb84b2",
+        "filename": "gerrit-antlr/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T04:51:29Z",
+      "side": 1,
+      "message": "Not related to this change, but this line is not needed and can be removed.",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 18
+      },
+      "revId": "824c798ffc6b67d7024c22c18941f1944d58edd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "649cbed8_2da98d5f",
+        "filename": "lib/prolog/prolog.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-16T04:51:29Z",
+      "side": 1,
+      "message": "Not related to this change, but this line is not needed and can be removed.",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 31
+      },
+      "revId": "824c798ffc6b67d7024c22c18941f1944d58edd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

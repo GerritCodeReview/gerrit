@@ -16,6 +16,24 @@
       "revId": "a72a69947e0975e1655b1ea1197db08679dcdf74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09d23be7_32d6f02f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-17T06:32:10Z",
+      "side": 1,
+      "message": "We have some really long titles, so just shrinking the width of the search box won\u0027t always work (in some case the search box will be too small to use).\n\nMake it auto hide might work, but that\u0027s too much js for me, I\u0027m not a js guru :(",
+      "parentUuid": "497a73ab_d4eafce1",
+      "revId": "a72a69947e0975e1655b1ea1197db08679dcdf74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

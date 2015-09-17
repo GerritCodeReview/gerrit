@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09d23be7_92679c31",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-17T17:23:51Z",
+      "side": 1,
+      "message": "Why are we running the same suggestion test twice?",
+      "range": {
+        "startLine": 410,
+        "startChar": 3,
+        "endLine": 412,
+        "endChar": 34
+      },
+      "revId": "6a01d4511a8ac0d8da9a466729aa46fe222640cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09d23be7_b264202d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-17T17:23:51Z",
+      "side": 1,
+      "message": "groupBackend.get(ref.getUUID())\n\nFor the internal group backend this will use the group cache and build you the group description. For the other backends they will build their own Basic instance and populate fields they support.",
+      "range": {
+        "startLine": 256,
+        "startChar": 6,
+        "endLine": 281,
+        "endChar": 10
+      },
+      "revId": "6a01d4511a8ac0d8da9a466729aa46fe222640cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89970b02_de5d4561",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1021683
+      },
+      "writtenOn": "2015-09-17T14:57:09Z",
+      "side": 1,
+      "message": "As it stands, getMappings() produces invalid JSON:\n\n{\n    \"mappings\": {\n        \"open_changes\": {\n            \"properties\": {\n                ...\n            }\n        }\n    },\n    {\n        \"closed_changes\": {\n            \"properties\": {\n                ...\n           }\n        }\n    }\n}\n\nIt seems the addMapping() call in ElasticQueryChangesTest requires getMappingProperties() to return a JSON object (i.e. a string with leading and trailing braces, which is what this function does) but that won\u0027t work when getMappings() calls this function.",
+      "range": {
+        "startLine": 234,
+        "startChar": 25,
+        "endLine": 234,
+        "endChar": 26
+      },
+      "revId": "6331a860dcb7d02ccd309aa3123ad5ac7b11f6ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

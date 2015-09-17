@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -44,12 +45,18 @@ public class CustomLabelIT extends AbstractDaemonTest {
       value(0, "No score"),
       value(-1, "Negative"));
 
+  private final LabelType P = category("CustomLabel2",
+      value(1, "Positive"),
+      value(0, "No score"));
+
   @Before
   public void setUp() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     AccountGroup.UUID anonymousUsers =
         SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
     Util.allow(cfg, Permission.forLabel(Q.getName()), -1, 1, anonymousUsers,
+        "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel(P.getName()), 0, 1, anonymousUsers,
         "refs/heads/*");
     saveProjectConfig(cfg);
   }
@@ -108,6 +115,26 @@ public class CustomLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void customLabelAnyWithBlock_Addreviewer_ZeroVote() throws Exception {
+    P.setFunctionName("AnyWithBlock");
+    saveLabelConfig();
+    PushOneCommit.Result r = createChange();
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(r.getChangeId())
+        .addReviewer(in);
+
+    revision(r).review(new ReviewInput().label(P.getName(), 0));
+    ChangeInfo c = get(r.getChangeId());
+    LabelInfo q = c.labels.get(P.getName());
+    assertThat(q.all).hasSize(2);
+    assertThat(q.disliked).isNull();
+    assertThat(q.rejected).isNull();
+    assertThat(q.blocking).isNull();
+  }
+
+  @Test
   public void customLabelMaxWithBlock_NegativeVoteBlock() throws Exception {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
@@ -123,6 +150,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
   private void saveLabelConfig() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     cfg.getLabelSections().put(Q.getName(), Q);
+    cfg.getLabelSections().put(P.getName(), P);
     saveProjectConfig(cfg);
   }
 

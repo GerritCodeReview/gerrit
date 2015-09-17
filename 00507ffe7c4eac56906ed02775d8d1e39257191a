@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49143388_44bd4eec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-17T19:45:27Z",
+      "side": 1,
+      "message": "null and 0 are not required in the constructor; the runtime will null/zero the fields you don\u0027t assign for you.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "00507ffe7c4eac56906ed02775d8d1e39257191a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09ccfb7b_42b35224",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-17T19:45:27Z",
+      "side": 1,
+      "message": "Maybe this so it matches above with SubstringPredicate?\n\n  String ref \u003d in.ref;\n  if (ref.startsWith(prefix)) {\n    ref \u003d ref.substring(prefix.length());\n  }\n  return a.run(ref);",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 121,
+        "endChar": 7
+      },
+      "revId": "00507ffe7c4eac56906ed02775d8d1e39257191a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

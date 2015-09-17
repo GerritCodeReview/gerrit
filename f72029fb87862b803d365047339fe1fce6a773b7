@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49143388_84be26e6",
+        "filename": "lib/prolog/prolog.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-09-17T19:50:37Z",
+      "side": 0,
+      "message": "How does gerrit-server/src/main/prolog:common work after this? Does buck know to build common__lib?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 34
+      },
+      "revId": "f72029fb87862b803d365047339fe1fce6a773b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

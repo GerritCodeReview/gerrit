@@ -9,10 +9,13 @@ CM_JS = [
   'lib/codemirror.js',
   'mode/meta.js',
   'keymap/vim.js',
+  'keymap/emacs.js',
 ]
 
 CM_ADDONS = [
   'dialog/dialog.js',
+  'edit/closebrackets.js',
+  'edit/matchbrackets.js',
   'edit/trailingspace.js',
   'scroll/annotatescrollbar.js',
   'scroll/simplescrollbars.js',

@@ -18,23 +18,31 @@ package com.google.gerrit.extensions.client;
 public class EditPreferencesInfo {
   public Integer tabSize;
   public Integer lineLength;
+  public Integer cursorBlinkRate;
   public Boolean hideTopMenu;
   public Boolean showTabs;
   public Boolean showWhitespaceErrors;
   public Boolean syntaxHighlighting;
   public Boolean hideLineNumbers;
+  public Boolean matchBrackets;
+  public Boolean autoCloseBrackets;
   public Theme theme;
+  public KeyMapType keyMapType;
 
   public static EditPreferencesInfo defaults() {
     EditPreferencesInfo i = new EditPreferencesInfo();
     i.tabSize = 8;
     i.lineLength = 100;
+    i.cursorBlinkRate = 0;
     i.hideTopMenu = false;
     i.showTabs = true;
     i.showWhitespaceErrors = false;
     i.syntaxHighlighting = true;
     i.hideLineNumbers = false;
+    i.matchBrackets = true;
+    i.autoCloseBrackets = false;
     i.theme = Theme.DEFAULT;
+    i.keyMapType = KeyMapType.DEFAULT;
     return i;
   }
 }

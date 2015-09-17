@@ -1339,11 +1339,15 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
   )]}'
   {
     "theme": "ECLIPSE",
+    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
+    "cursor_blink_rate": 530,
     "hide_top_menu": true,
     "show_whitespace_errors": true,
-    "hide_line_numbers": true
+    "hide_line_numbers": true,
+    "match_brackets": true,
+    "auto_close_brackets": true
   }
 ----
 
@@ -1365,13 +1369,17 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   {
     "theme": "ECLIPSE",
+    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
+    "cursor_blink_rate": 530,
     "hide_top_menu": true,
     "show_tabs": true,
     "show_whitespace_errors": true,
     "syntax_highlighting": true,
-    "hide_line_numbers": true
+    "hide_line_numbers": true,
+    "match_brackets": true,
+    "auto_close_brackets": true
   }
 ----
 
@@ -1757,10 +1765,16 @@ preferences of a user.
 The CodeMirror theme. Currently only a subset of light and dark
 CodeMirror themes are supported. Light themes `DEFAULT`, `ECLIPSE`,
 `ELEGANT`, `NEAT`. Dark themes `MIDNIGHT`, `NIGHT`, `TWILIGHT`.
+|`key_map_type`                ||
+The CodeMirror key map. Currently only a subset of key maps are
+supported: `DEFAULT`, `EMACS`, `VIM`.
 |`tab_size`                    ||
 Number of spaces that should be used to display one tab.
 |`line_length`                 ||
 Number of characters that should be displayed per line.
+|`cursor_blink_rate`           ||
+Half-period in milliseconds used for cursor blinking.
+Setting it to 0 disables cursor blinking.
 |`hide_top_menu`               |not set if `false`|
 If true the top menu header and site header is hidden.
 |`show_tabs`                   |not set if `false`|
@@ -1771,6 +1785,10 @@ Whether whitespace errors should be shown.
 Whether syntax highlighting should be enabled.
 |`hide_line_numbers`           |not set if `false`|
 Whether line numbers should be hidden.
+|`match_brackets`              |not set if `false`|
+Whether matching brackets should be highlighted.
+|`auto_close_brackets`         |not set if `false`|
+Whether brackets and quotes should be auto-closed during typing.
 |===========================================
 
 [[email-info]]

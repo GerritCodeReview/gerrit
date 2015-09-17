@@ -44,6 +44,7 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
+import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -257,11 +258,18 @@ public class EditScreen extends Screen {
   @Override
   public void registerKeys() {
     super.registerKeys();
-    cm.addKeyMap(KeyMap.create()
+    KeyMap localKeyMap = KeyMap.create();
+    localKeyMap
         .on("Ctrl-L", gotoLine())
         .on("Cmd-L", gotoLine())
-        .on("Cmd-S", save())
-        .on("Ctrl-S", save()));
+        .on("Cmd-S", save());
+
+    // TODO(davido): Find a better way to prevent key maps collisions
+    if (prefs.keyMapType() != KeyMapType.EMACS) {
+      localKeyMap.on("Ctrl-S", save());
+    }
+
+    cm.addKeyMap(localKeyMap);
   }
 
   private Runnable gotoLine() {
@@ -433,15 +441,17 @@ public class EditScreen extends Screen {
     cm = CodeMirror.create(editor, Configuration.create()
         .set("value", content)
         .set("readOnly", false)
-        .set("cursorBlinkRate", 0)
+        .set("cursorBlinkRate", prefs.cursorBlinkRate())
         .set("cursorHeight", 0.85)
         .set("lineNumbers", prefs.hideLineNumbers())
         .set("tabSize", prefs.tabSize())
         .set("lineWrapping", false)
+        .set("matchBrackets", prefs.matchBrackets())
+        .set("autoCloseBrackets", prefs.autoCloseBrackets())
         .set("scrollbarStyle", "overlay")
         .set("styleSelectedText", true)
         .set("showTrailingSpace", prefs.showWhitespaceErrors())
-        .set("keyMap", "default")
+        .set("keyMap", prefs.keyMapType().name().toLowerCase())
         .set("theme", prefs.theme().name().toLowerCase())
         .set("mode", mode != null ? mode.mode() : null));
   }

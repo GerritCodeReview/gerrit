@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
+import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 
 import org.apache.http.HttpStatus;
@@ -36,22 +37,30 @@ public class EditPreferencesIT extends AbstractDaemonTest {
 
     assertThat(out.lineLength).isEqualTo(100);
     assertThat(out.tabSize).isEqualTo(8);
+    assertThat(out.cursorBlinkRate).isEqualTo(0);
     assertThat(out.hideTopMenu).isNull();
     assertThat(out.showTabs).isTrue();
     assertThat(out.showWhitespaceErrors).isNull();
     assertThat(out.syntaxHighlighting).isTrue();
     assertThat(out.hideLineNumbers).isNull();
+    assertThat(out.matchBrackets).isTrue();
+    assertThat(out.autoCloseBrackets).isNull();
     assertThat(out.theme).isEqualTo(Theme.DEFAULT);
+    assertThat(out.keyMapType).isEqualTo(KeyMapType.DEFAULT);
 
     // change some default values
     out.lineLength = 80;
     out.tabSize = 4;
+    out.cursorBlinkRate = 500;
     out.hideTopMenu = true;
     out.showTabs = false;
     out.showWhitespaceErrors = true;
     out.syntaxHighlighting = false;
     out.hideLineNumbers = true;
+    out.matchBrackets = false;
+    out.autoCloseBrackets = true;
     out.theme = Theme.TWILIGHT;
+    out.keyMapType = KeyMapType.EMACS;
 
     r = adminSession.put(endPoint, out);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
@@ -72,11 +81,15 @@ public class EditPreferencesIT extends AbstractDaemonTest {
       EditPreferencesInfo in) {
     assertThat(out.lineLength).isEqualTo(in.lineLength);
     assertThat(out.tabSize).isEqualTo(in.tabSize);
+    assertThat(out.cursorBlinkRate).isEqualTo(in.cursorBlinkRate);
     assertThat(out.hideTopMenu).isEqualTo(in.hideTopMenu);
     assertThat(out.showTabs).isNull();
     assertThat(out.showWhitespaceErrors).isEqualTo(in.showWhitespaceErrors);
     assertThat(out.syntaxHighlighting).isNull();
     assertThat(out.hideLineNumbers).isEqualTo(in.hideLineNumbers);
+    assertThat(out.matchBrackets).isNull();
+    assertThat(out.autoCloseBrackets).isEqualTo(in.autoCloseBrackets);
     assertThat(out.theme).isEqualTo(in.theme);
+    assertThat(out.keyMapType).isEqualTo(in.keyMapType);
   }
 }

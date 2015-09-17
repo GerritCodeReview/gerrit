@@ -20,6 +20,7 @@ import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.EditPreferences;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.NpIntTextBox;
+import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -55,12 +56,16 @@ class EditPreferencesBox extends Composite {
   @UiField Anchor close;
   @UiField NpIntTextBox tabWidth;
   @UiField NpIntTextBox lineLength;
+  @UiField NpIntTextBox cursorBlinkRate;
   @UiField ToggleButton topMenu;
   @UiField ToggleButton syntaxHighlighting;
   @UiField ToggleButton showTabs;
   @UiField ToggleButton whitespaceErrors;
   @UiField ToggleButton lineNumbers;
+  @UiField ToggleButton matchBrackets;
+  @UiField ToggleButton autoCloseBrackets;
   @UiField ListBox theme;
+  @UiField ListBox keyMap;
   @UiField Button apply;
   @UiField Button save;
 
@@ -68,6 +73,7 @@ class EditPreferencesBox extends Composite {
     this.view = view;
     initWidget(uiBinder.createAndBindUi(this));
     initTheme();
+    initKeyMapType();
   }
 
   void set(EditPreferences prefs) {
@@ -75,12 +81,16 @@ class EditPreferencesBox extends Composite {
 
     tabWidth.setIntValue(prefs.tabSize());
     lineLength.setIntValue(prefs.lineLength());
+    cursorBlinkRate.setIntValue(prefs.cursorBlinkRate());
     topMenu.setValue(!prefs.hideTopMenu());
     syntaxHighlighting.setValue(prefs.syntaxHighlighting());
     showTabs.setValue(prefs.showTabs());
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     lineNumbers.setValue(prefs.hideLineNumbers());
+    matchBrackets.setValue(prefs.matchBrackets());
+    autoCloseBrackets.setValue(prefs.autoCloseBrackets());
     setTheme(prefs.theme());
+    setKeyMapType(prefs.keyMapType());
   }
 
   @UiHandler("tabWidth")
@@ -98,6 +108,17 @@ class EditPreferencesBox extends Composite {
     if (v != null && v.length() > 0) {
       prefs.lineLength(Math.max(1, Integer.parseInt(v)));
       view.setLineLength(prefs.lineLength());
+    }
+  }
+
+  @UiHandler("cursorBlinkRate")
+  void onCursoBlinkRate(ValueChangeEvent<String> e) {
+    String v = e.getValue();
+    if (v != null && v.length() > 0) {
+      // A negative value hides the cursor entirely:
+      // don't let user shoot himself in the foot.
+      prefs.cursorBlinkRate(Math.max(0, Integer.parseInt(v)));
+      view.getEditor().setOption("cursorBlinkRate", prefs.cursorBlinkRate());
     }
   }
 
@@ -132,6 +153,18 @@ class EditPreferencesBox extends Composite {
     view.setSyntaxHighlighting(prefs.syntaxHighlighting());
   }
 
+  @UiHandler("matchBrackets")
+  void onMatchBrackets(ValueChangeEvent<Boolean> e) {
+    prefs.matchBrackets(e.getValue());
+    view.getEditor().setOption("matchBrackets", prefs.matchBrackets());
+  }
+
+  @UiHandler("autoCloseBrackets")
+  void onCloseBrackets(ValueChangeEvent<Boolean> e) {
+    prefs.autoCloseBrackets(e.getValue());
+    view.getEditor().setOption("autoCloseBrackets", prefs.autoCloseBrackets());
+  }
+
   @UiHandler("theme")
   void onTheme(@SuppressWarnings("unused") ChangeEvent e) {
     final Theme newTheme = Theme.valueOf(theme.getValue(theme.getSelectedIndex()));
@@ -148,6 +181,14 @@ class EditPreferencesBox extends Composite {
         });
       }
     });
+  }
+
+  @UiHandler("keyMap")
+  void onKeyMap(@SuppressWarnings("unused") ChangeEvent e) {
+    KeyMapType keyMapType = KeyMapType.valueOf(
+        keyMap.getValue(keyMap.getSelectedIndex()));
+    prefs.keyMapType(keyMapType);
+    view.getEditor().setOption("keyMap", keyMapType.name().toLowerCase());
   }
 
   @UiHandler("apply")
@@ -209,5 +250,28 @@ class EditPreferencesBox extends Composite {
     theme.addItem(
         Theme.TWILIGHT.name().toLowerCase(),
         Theme.TWILIGHT.name());
+  }
+
+  private void setKeyMapType(KeyMapType v) {
+    String name = v != null ? v.name() : KeyMapType.DEFAULT.name();
+    for (int i = 0; i < keyMap.getItemCount(); i++) {
+      if (keyMap.getValue(i).equals(name)) {
+        keyMap.setSelectedIndex(i);
+        return;
+      }
+    }
+    keyMap.setSelectedIndex(0);
+  }
+
+  private void initKeyMapType() {
+    keyMap.addItem(
+        KeyMapType.DEFAULT.name().toLowerCase(),
+        KeyMapType.DEFAULT.name());
+    keyMap.addItem(
+        KeyMapType.EMACS.name().toLowerCase(),
+        KeyMapType.EMACS.name());
+    keyMap.addItem(
+        KeyMapType.VIM.name().toLowerCase(),
+        KeyMapType.VIM.name());
   }
 }

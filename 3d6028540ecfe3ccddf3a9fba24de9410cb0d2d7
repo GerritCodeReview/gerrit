@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89970b02_bef639c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-17T06:34:38Z",
+      "side": 1,
+      "message": "Inconsistent point in the end of the item. Either remove point in the end of the previous item or add it here and below.",
+      "revId": "3d6028540ecfe3ccddf3a9fba24de9410cb0d2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9904f0a_7f4f4faa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-17T06:34:38Z",
+      "side": 1,
+      "message": "This is really sensible and the pointer to this upstream commit: [1] and the background information should be provided here, something like:\n\nTo void collision and allow two different genrule targets in the same Buck file with the same output artifact name coexist, genrule\u0027s output are now namespaced with the genrule name that is guaranteed to be unique. The bad new are: That means that all direct references to genrule() outputs are invalid now and must be adjusted. The good news are: After this change, something like this become valid:\n\n  genrule(\n    name \u003d foo\n    cmd \u003d [...],\n    out \u003d baz)\n\n  genrule(\n    name \u003d bar\n    cmd \u003d [...],\n    out \u003d baz)\n\nBecause of namespacing of the genrule\u0027s output after: [1], these two rules above can coexist with the following output artifacts:\n\n  buck-out/gen/[...]/foo/baz\n  buck-out/gen/[.../]bar/baz\n\n\nWe should also check if we reference other genrule() stuff in our toolchain, like Maven deployment, GWT SuperDevMode, etc.\n\n* [1] https://github.com/facebook/buck/commit/c92ef212b53fff08a8452649b4d4faadc6b89b11",
+      "revId": "3d6028540ecfe3ccddf3a9fba24de9410cb0d2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

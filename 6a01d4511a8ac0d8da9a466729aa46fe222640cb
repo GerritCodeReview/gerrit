@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "497a73ab_54982c6b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-17T17:36:23Z",
+      "side": 1,
+      "message": "On second thought, if we can find \"Administrators\" from \"adm\" then it means it\u0027s case insensitive, so no need to test with \"Adm\" again. Removed.",
+      "parentUuid": "497a73ab_f4437878",
+      "range": {
+        "startLine": 410,
+        "startChar": 3,
+        "endLine": 412,
+        "endChar": 34
+      },
+      "revId": "6a01d4511a8ac0d8da9a466729aa46fe222640cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09d23be7_b264202d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 12

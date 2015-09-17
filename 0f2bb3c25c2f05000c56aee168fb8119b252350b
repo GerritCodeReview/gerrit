@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "497a73ab_94e48416",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-17T05:24:57Z",
+      "side": 1,
+      "message": "Actually that one is not relevant for this change, it\u0027s more relevant to the extended functionality that you mentioned in the second paragraph.",
+      "parentUuid": "09d23be7_f2be28e7",
+      "revId": "0f2bb3c25c2f05000c56aee168fb8119b252350b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09d23be7_52ae14bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 1

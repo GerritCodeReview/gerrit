@@ -282,6 +282,7 @@ max_with_block(Label, Min, Max, need(Max)) :-
 %%
 %% - The maximum is never used.
 %%
+any_with_block(Label, 0, may(_)).
 any_with_block(Label, Min, reject(Who)) :-
   check_label_range_permission(Label, Min, ok(Who)),
   !

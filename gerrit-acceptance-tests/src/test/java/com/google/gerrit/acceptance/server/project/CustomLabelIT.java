@@ -44,6 +44,10 @@ public class CustomLabelIT extends AbstractDaemonTest {
       value(0, "No score"),
       value(-1, "Negative"));
 
+  private final LabelType P = category("CustomLabel",
+      value(1, "Positive"),
+      value(0, "No score"));
+
   @Before
   public void setUp() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
@@ -105,6 +109,20 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNotNull();
     assertThat(q.blocking).isTrue();
+  }
+
+  @Test
+  public void customLabelAnyWithBlock_ZeroVoteBlock() throws Exception {
+    Q.setFunctionName("AnyWithBlock");
+    saveLabelConfig();
+    PushOneCommit.Result r = createChange();
+    revision(r).review(new ReviewInput().label(P.getName(), 0));
+    ChangeInfo c = get(r.getChangeId());
+    LabelInfo q = c.labels.get(P.getName());
+    assertThat(q.all).hasSize(1);
+    assertThat(q.disliked).isNull();
+    assertThat(q.rejected).isNull();
+    assertThat(q.blocking).isNull();
   }
 
   @Test

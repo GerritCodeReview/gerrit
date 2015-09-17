@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "09d23be7_f2be28e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1019219
+      },
+      "writtenOn": "2015-09-17T02:44:37Z",
+      "side": 1,
+      "message": "Feel free to edit this in if you like.. I didn\u0027t even know there was an open bug, I just found the problem in my day to day use at $dayjob and thought I\u0027d take a crack at fixing it...",
+      "parentUuid": "497a73ab_f4be18e7",
+      "revId": "0f2bb3c25c2f05000c56aee168fb8119b252350b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09d23be7_52ae14bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-09-17T00:49:55Z",
       "side": 1,
       "message": "nit: indentation should be 2 columns",
+      "range": {
+        "startLine": 473,
+        "startChar": 12,
+        "endLine": 473,
+        "endChar": 14
+      },
+      "revId": "0f2bb3c25c2f05000c56aee168fb8119b252350b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "497a73ab_34d6d02f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1019219
+      },
+      "writtenOn": "2015-09-17T02:44:37Z",
+      "side": 1,
+      "message": "Oops you are right. Will fix.",
+      "parentUuid": "09d23be7_52ae14bc",
       "range": {
         "startLine": 473,
         "startChar": 12,

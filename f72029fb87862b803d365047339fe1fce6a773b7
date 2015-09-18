@@ -45,6 +45,30 @@
       "revId": "f72029fb87862b803d365047339fe1fce6a773b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "898d4b47_6ebdafec",
+        "filename": "lib/prolog/prolog.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-18T06:03:07Z",
+      "side": 0,
+      "message": "I agree that commit message of this change is missing context and background. In general, i would prefer always more context in commit messages in this project. A good example is my comment in this patch set: [1]. I thought it wasn\u0027t enough to just say move property to new location and proposed background description with pointer to the corresponding commit. Change owner had different opinion.\n\n* [1] https://gerrit-review.googlesource.com/#/c/70887/6//COMMIT_MSG@26",
+      "parentUuid": "49143388_84be26e6",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 34
+      },
+      "revId": "f72029fb87862b803d365047339fe1fce6a773b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

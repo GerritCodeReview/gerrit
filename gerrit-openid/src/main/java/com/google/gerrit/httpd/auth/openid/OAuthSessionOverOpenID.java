@@ -127,10 +127,12 @@ class OAuthSessionOverOpenID {
       Account.Id actualId = accountManager.lookup(user.getExternalId());
       // Use case 1: claimed identity was provided during handshake phase
       if (!Strings.isNullOrEmpty(claimedIdentifier)) {
+        log.debug("Claimed identity is set");
         Account.Id claimedId = accountManager.lookup(claimedIdentifier);
         if (claimedId != null && actualId != null) {
           if (claimedId.equals(actualId)) {
             // Both link to the same account, that's what we expected.
+            log.debug("Both link to the same account. All is fine.");
           } else {
             // This is (for now) a fatal error. There are two records
             // for what might be the same user.
@@ -144,7 +146,7 @@ class OAuthSessionOverOpenID {
           }
         } else if (claimedId != null && actualId == null) {
           // Claimed account already exists: link to it.
-          //
+          log.debug("Claimed account already exists: link to it.");
           try {
             accountManager.link(claimedId, areq);
           } catch (OrmException e) {
@@ -157,11 +159,14 @@ class OAuthSessionOverOpenID {
         }
       } else if (linkMode) {
         // Use case 2: link mode activated from the UI
+        Account.Id accountId = identifiedUser.get().getAccountId();
         try {
-          accountManager.link(identifiedUser.get().getAccountId(), areq);
+          log.debug("Linking \"{}\" to \"{}\"", user.getExternalId(),
+              accountId);
+          accountManager.link(accountId, areq);
         } catch (OrmException e) {
           log.error("Cannot link: " + user.getExternalId()
-              + " to user identity: " + identifiedUser.get().getAccountId());
+              + " to user identity: " + accountId);
           rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
           return;
         } finally {

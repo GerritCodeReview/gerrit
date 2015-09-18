@@ -22,6 +22,30 @@
       "revId": "bb6dba8ebb7ef5e1f57386d5a93ddab506daaa54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09ccfb7b_6254d63f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1019219
+      },
+      "writtenOn": "2015-09-18T15:31:06Z",
+      "side": 1,
+      "message": "Woops, I had this in as part of debugging. I will remove it in the final version.",
+      "parentUuid": "49143388_4459ce73",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 55
+      },
+      "revId": "bb6dba8ebb7ef5e1f57386d5a93ddab506daaa54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

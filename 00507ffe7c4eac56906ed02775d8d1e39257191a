@@ -93,6 +93,30 @@
       "revId": "00507ffe7c4eac56906ed02775d8d1e39257191a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49143388_e4e43a17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-18T03:06:34Z",
+      "side": 1,
+      "message": "Thanks, the original wasn\u0027t so great. This is better.",
+      "parentUuid": "49143388_a4ea42e0",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 121,
+        "endChar": 7
+      },
+      "revId": "00507ffe7c4eac56906ed02775d8d1e39257191a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

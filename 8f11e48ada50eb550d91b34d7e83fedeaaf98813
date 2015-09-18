@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "898d4b47_cecb0387",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-18T08:04:33Z",
+      "side": 1,
+      "message": "Nit: rong indentation level.",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 17
+      },
+      "revId": "8f11e48ada50eb550d91b34d7e83fedeaaf98813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "898d4b47_eec8bf8c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-18T08:04:33Z",
+      "side": 1,
+      "message": "You missed my previous comment on re-using this block or decided not to address it? With 85-93 block below?",
+      "range": {
+        "startLine": 56,
+        "startChar": 3,
+        "endLine": 64,
+        "endChar": 4
+      },
+      "revId": "8f11e48ada50eb550d91b34d7e83fedeaaf98813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "898d4b47_0ed7cb2e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-18T08:04:33Z",
+      "side": 1,
+      "message": "Wouldn\u0027t dropping this file for now and only using RefInfo would be a cleaner approach?",
+      "revId": "8f11e48ada50eb550d91b34d7e83fedeaaf98813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

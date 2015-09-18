@@ -128,6 +128,24 @@
       "revId": "8f11e48ada50eb550d91b34d7e83fedeaaf98813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "898d4b47_8eeadbe0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-18T08:46:54Z",
+      "side": 1,
+      "message": "Define later? 1 month, one year, longer?",
+      "parentUuid": "09ccfb7b_22256eef",
+      "revId": "8f11e48ada50eb550d91b34d7e83fedeaaf98813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

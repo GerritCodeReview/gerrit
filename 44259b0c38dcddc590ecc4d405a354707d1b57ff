@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09ccfb7b_a246de89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-18T18:49:40Z",
+      "side": 1,
+      "message": "Is there any reason we hard code the char set?\nWe could just use the local default, IIRC Gerrit has a config or option to have a default char set.",
+      "range": {
+        "startLine": 153,
+        "startChar": 35,
+        "endLine": 153,
+        "endChar": 63
+      },
+      "revId": "44259b0c38dcddc590ecc4d405a354707d1b57ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49143388_c4649e2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-18T18:44:05Z",
+      "side": 1,
+      "message": "nit: I feel that trying to catch RuntimeExceptions might not be a good practice, but we were doing it before anyway. It would be great if we can change the exception thrown to some non-RuntimeException instead.",
+      "range": {
+        "startLine": 336,
+        "startChar": 30,
+        "endLine": 336,
+        "endChar": 46
+      },
+      "revId": "5c3899cd549def014ef9c881362927eb2e0eda32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

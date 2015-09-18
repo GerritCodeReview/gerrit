@@ -294,7 +294,7 @@ public class ChangeJson {
     Map<Change.Id, ChangeInfo> out = Maps.newHashMap();
     for (QueryResult r : in) {
       List<ChangeInfo> infos = toChangeInfo(out, r.changes());
-      if (r.moreChanges()) {
+      if (!infos.isEmpty() && r.moreChanges()) {
         infos.get(infos.size() - 1)._moreChanges = true;
       }
       res.add(infos);

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -35,7 +34,7 @@ public class HintTextBox extends NpTextBox {
   private HandlerRegistration keyDownHandler;
 
   private String hintText;
-  private String hintStyleName = Gerrit.RESOURCES.css().inputFieldTypeHint();
+  private String hintStyleName = ".inputFieldTypeHint { color: grey; }";
 
   private String prevText;
 

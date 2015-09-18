@@ -123,7 +123,6 @@ public interface GerritCss extends CssResource {
   String iconHeader();
   String identityUntrustedExternalId();
   String infoBlock();
-  String inputFieldTypeHint();
   String labelNotApplicable();
   String leftMostCell();
   String lineNumber();

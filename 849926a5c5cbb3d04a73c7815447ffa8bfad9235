@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "898d4b47_6ed68f30",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-18T08:46:54Z",
+      "side": 1,
+      "message": "My personal style would be to put this helper method below the two that use it. But I just checked our style in dev-contributing.txt and this\u0027s OK:\n\n* Finally instance members, then constructors, and then instance methods.\n* Some common exceptions are private helper static methods, which might appear near the instance methods which they help (but may also appear at the top).",
+      "revId": "849926a5c5cbb3d04a73c7815447ffa8bfad9235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "898d4b47_4ed1d335",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-18T08:46:54Z",
+      "side": 1,
+      "message": "Nit: missing one blank in indentation level.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 3
+      },
+      "revId": "849926a5c5cbb3d04a73c7815447ffa8bfad9235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

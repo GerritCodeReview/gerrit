@@ -128,14 +128,20 @@ public class FileContentUtil {
   }
 
   public BinaryResult downloadContent(ProjectState project, ObjectId revstr,
-      String path, @Nullable String suffix)
+      String path, @Nullable Integer parent)
           throws ResourceNotFoundException, IOException {
-    suffix = Strings.emptyToNull(
-        LOWERCASE_OR_DIGITS.retainFrom(Strings.nullToEmpty(suffix)));
-
     try (Repository repo = openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
+      String suffix = "new";
       RevCommit commit = rw.parseCommit(revstr);
+      if (parent != null && parent > 0) {
+        if (commit.getParentCount() == 1) {
+          suffix = "old";
+        } else {
+          suffix = "old" + parent;
+        }
+        commit = rw.parseCommit(commit.getParent(parent - 1));
+      }
       ObjectReader reader = rw.getObjectReader();
       TreeWalk tw = TreeWalk.forPath(reader, path, commit.getTree());
       if (tw == null) {

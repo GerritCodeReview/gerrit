@@ -16,7 +16,8 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.common.TagInfo;
+import com.google.gerrit.extensions.api.projects.TagInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -39,6 +39,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -46,12 +47,36 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-@Singleton
 public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> dbProvider;
   private final TagCache tagCache;
   private final ChangeCache changeCache;
+
+  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of tags to list")
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
+
+  @Option(name = "--start", aliases = {"-s"}, metaVar = "CNT", usage = "number of tags to skip")
+  public void setStart(int start) {
+    this.start = start;
+  }
+
+  @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH", usage = "match tags substring")
+  public void setMatchSubstring(String matchSubstring) {
+    this.matchSubstring = matchSubstring;
+  }
+
+  @Option(name = "--regex", aliases = {"-r"}, metaVar = "REGEX", usage = "match tags regex")
+  public void setMatchRegex(String matchRegex) {
+    this.matchRegex = matchRegex;
+  }
+
+  private int limit;
+  private int start;
+  private String matchSubstring;
+  private String matchRegex;
 
   @Inject
   public ListTags(GitRepositoryManager repoManager,
@@ -66,19 +91,15 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Override
   public List<TagInfo> apply(ProjectResource resource) throws IOException,
-      ResourceNotFoundException {
+      ResourceNotFoundException, BadRequestException {
     List<TagInfo> tags = Lists.newArrayList();
 
-    try (Repository repo = getRepository(resource.getNameKey())) {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        Map<String, Ref> all = visibleTags(resource.getControl(), repo,
-            repo.getRefDatabase().getRefs(Constants.R_TAGS));
-        for (Ref ref : all.values()) {
-          tags.add(createTagInfo(ref, rw));
-        }
-      } finally {
-        rw.dispose();
+    try (Repository repo = getRepository(resource.getNameKey());
+        RevWalk rw = new RevWalk(repo)) {
+      Map<String, Ref> all = visibleTags(resource.getControl(), repo,
+          repo.getRefDatabase().getRefs(Constants.R_TAGS));
+      for (Ref ref : all.values()) {
+        tags.add(createTagInfo(ref, rw));
       }
     }
 
@@ -89,7 +110,12 @@ public class ListTags implements RestReadView<ProjectResource> {
       }
     });
 
-    return tags;
+    return new RefFilter<TagInfo>(Constants.R_TAGS)
+        .start(start)
+        .limit(limit)
+        .subString(matchSubstring)
+        .regex(matchRegex)
+        .filter(tags);
   }
 
   public TagInfo get(ProjectResource resource, IdString id)

@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,23 @@
 
 package com.google.gerrit.extensions.api.projects;
 
-import com.google.gerrit.extensions.common.ActionInfo;
-import com.google.gerrit.extensions.common.WebLinkInfo;
+import com.google.gerrit.extensions.common.GitPerson;
 
-import java.util.List;
-import java.util.Map;
+public class TagInfo extends RefInfo {
+  public String object;
+  public String message;
+  public GitPerson tagger;
 
-public class BranchInfo extends RefInfo {
-  public Boolean canDelete;
-  public Map<String, ActionInfo> actions;
-  public List<WebLinkInfo> webLinks;
+  public TagInfo(String ref, String revision) {
+    this.ref = ref;
+    this.revision = revision;
+  }
+
+  public TagInfo(String ref, String revision, String object,
+      String message, GitPerson tagger) {
+    this(ref, revision);
+    this.object = object;
+    this.message = message;
+    this.tagger = tagger;
+  }
 }

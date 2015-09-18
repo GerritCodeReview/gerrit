@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,25 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.api.projects;
 
-public class TagInfo {
+public class RefInfo {
   public String ref;
   public String revision;
-  public String object;
-  public String message;
-  public GitPerson tagger;
-
-  public TagInfo(String ref, String revision) {
-    this.ref = ref;
-    this.revision = revision;
-  }
-
-  public TagInfo(String ref, String revision, String object,
-      String message, GitPerson tagger) {
-    this(ref, revision);
-    this.object = object;
-    this.message = message;
-    this.tagger = tagger;
-  }
 }

@@ -28,32 +28,33 @@ public interface ProjectApi {
   String description() throws RestApiException;
   void description(PutDescriptionInput in) throws RestApiException;
 
-  ListBranchesRequest branches();
+  ListRefsRequest<BranchInfo> branches();
+  ListRefsRequest<TagInfo> tags();
 
-  public abstract class ListBranchesRequest {
-    private int limit;
-    private int start;
-    private String substring;
-    private String regex;
+  public abstract class ListRefsRequest<T extends RefInfo> {
+    protected int limit;
+    protected int start;
+    protected String substring;
+    protected String regex;
 
-    public abstract List<BranchInfo> get() throws RestApiException;
+    public abstract List<T> get() throws RestApiException;
 
-    public ListBranchesRequest withLimit(int limit) {
+    public ListRefsRequest<T> withLimit(int limit) {
       this.limit = limit;
       return this;
     }
 
-    public ListBranchesRequest withStart(int start) {
+    public ListRefsRequest<T> withStart(int start) {
       this.start = start;
       return this;
     }
 
-    public ListBranchesRequest withSubstring(String substring) {
+    public ListRefsRequest<T> withSubstring(String substring) {
       this.substring = substring;
       return this;
     }
 
-    public ListBranchesRequest withRegex(String regex) {
+    public ListRefsRequest<T> withRegex(String regex) {
       this.regex = regex;
       return this;
     }
@@ -73,7 +74,6 @@ public interface ProjectApi {
     public String getRegex() {
       return regex;
     }
-
   }
 
   List<ProjectInfo> children() throws RestApiException;
@@ -94,6 +94,15 @@ public interface ProjectApi {
    * @return API for accessing the branch.
    */
   BranchApi branch(String ref) throws RestApiException;
+
+  /**
+   * Look up a tag by refname.
+   * <p>
+   * @param ref tag name, with or without "refs/tags/" prefix.
+   * @throws RestApiException if a problem occurred reading the project.
+   * @return API for accessing the tag.
+   */
+  TagApi tag(String ref) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -127,7 +136,12 @@ public interface ProjectApi {
     }
 
     @Override
-    public ListBranchesRequest branches() {
+    public ListRefsRequest<BranchInfo> branches() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ListRefsRequest<TagInfo> tags() {
       throw new NotImplementedException();
     }
 
@@ -148,6 +162,11 @@ public interface ProjectApi {
 
     @Override
     public BranchApi branch(String ref) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public TagApi tag(String ref) throws RestApiException {
       throw new NotImplementedException();
     }
   }

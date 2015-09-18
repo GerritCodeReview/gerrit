@@ -14,14 +14,20 @@
 
 package com.google.gerrit.extensions.api.projects;
 
-import com.google.gerrit.extensions.common.ActionInfo;
-import com.google.gerrit.extensions.common.WebLinkInfo;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 
-import java.util.List;
-import java.util.Map;
+public interface TagApi {
+  TagInfo get() throws RestApiException;
 
-public class BranchInfo extends RefInfo {
-  public Boolean canDelete;
-  public Map<String, ActionInfo> actions;
-  public List<WebLinkInfo> webLinks;
+  /**
+   * A default implementation which allows source compatibility
+   * when adding new methods to the interface.
+   **/
+  public class NotImplemented implements TagApi {
+    @Override
+    public TagInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+  }
 }

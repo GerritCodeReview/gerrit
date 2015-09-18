@@ -164,11 +164,14 @@ class LoginForm extends HttpServlet {
       mode = SignInMode.SIGN_IN;
     }
 
+    log.debug("mode \"{}\"", mode);
     OAuthServiceProvider oauthProvider = lookupOAuthServiceProvider(id);
 
     if (oauthProvider == null) {
+      log.debug("OpenId provider \"{}\"", id);
       discover(req, res, link, id, remember, token, mode);
     } else {
+      log.debug("OAuth provider \"{}\"", id);
       OAuthSessionOverOpenID oauthSession = oauthSessionProvider.get();
       if (!currentUserProvider.get().isIdentifiedUser()
           && oauthSession.isLoggedIn()) {
@@ -355,6 +358,7 @@ class LoginForm extends HttpServlet {
           if (providerId.equals(
               String.format("%s_%s", pluginName, e.getKey()))) {
             return e.getValue().get();
+
           }
         }
     }

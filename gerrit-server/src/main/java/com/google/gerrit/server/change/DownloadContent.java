@@ -30,8 +30,8 @@ import java.io.IOException;
 public class DownloadContent implements RestReadView<FileResource> {
   private final FileContentUtil fileContentUtil;
 
-  @Option(name = "--suffix")
-  private String suffix;
+  @Option(name = "--parent")
+  private Integer parent;
 
   @Inject
   DownloadContent(FileContentUtil fileContentUtil) {
@@ -47,6 +47,6 @@ public class DownloadContent implements RestReadView<FileResource> {
         rsrc.getRevision().getControl().getProjectControl().getProjectState();
     ObjectId revstr = ObjectId.fromString(
         rsrc.getRevision().getPatchSet().getRevision().get());
-    return fileContentUtil.downloadContent(projectState, revstr, path, suffix);
+    return fileContentUtil.downloadContent(projectState, revstr, path, parent);
   }
 }

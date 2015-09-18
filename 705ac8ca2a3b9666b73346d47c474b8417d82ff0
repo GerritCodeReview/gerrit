@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "49143388_8415867a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PaginatedProjectScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-18T05:11:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "649cbed8_ad50ddfc",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4416da01_34d0b0df",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PaginatedProjectScreen.java",
         "patchSetId": 2
@@ -53,6 +77,30 @@
       "writtenOn": "2015-09-16T19:00:36Z",
       "side": 1,
       "message": "Not need to be public, protected should be fine.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 8
+      },
+      "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09ccfb7b_6206965f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PaginatedProjectScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-18T05:11:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4416da01_34d0b0df",
       "range": {
         "startLine": 27,
         "startChar": 2,
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "09ccfb7b_820b9a62",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PaginatedProjectScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-18T05:11:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "649cbed8_8d5521ed",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 8
+      },
+      "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4416da01_14cdb445",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PaginatedProjectScreen.java",
         "patchSetId": 2
@@ -99,6 +171,24 @@
       "writtenOn": "2015-09-16T19:00:36Z",
       "side": 1,
       "message": "Nit: Unneeded line.",
+      "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09ccfb7b_a2efbee9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PaginatedProjectScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-18T05:11:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4416da01_14cdb445",
       "revId": "705ac8ca2a3b9666b73346d47c474b8417d82ff0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

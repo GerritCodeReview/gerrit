@@ -39,7 +39,6 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
@@ -334,8 +333,11 @@ public class IdentifiedUser extends CurrentUser {
       try {
         starredChanges = starredChangeIds(
             starredQuery != null ? starredQuery : starredQuery());
-      } catch (OrmException | OrmRuntimeException e) {
+      } catch (OrmException | RuntimeException e) {
         log.warn("Cannot query starred changes", e);
+        starredChanges = Collections.emptySet();
+      } finally {
+        starredQuery = null;
       }
     }
     return starredChanges;

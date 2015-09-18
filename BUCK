@@ -22,11 +22,9 @@ API_DEPS = [
 
 genrule(
   name = 'api',
-  cmd = ';'.join(
-    ['cd $TMP'] +
-    ['ln -s $(location %s) .' % n for n in API_DEPS] +
-    ['zip -q0 $OUT *']),
-  out = 'api.zip',
+  cmd = 'echo done >$OUT',
+  deps = API_DEPS,
+  out = '__fake.api__',
 )
 
 genrule(

@@ -3347,10 +3347,12 @@ for information about safe file type configuration.
 The HTTP resource Content-Type is dependent on the file type: the
 applicable type for safe files, or "application/zip" for unsafe files.
 
-The `suffix` parameter can be specified to decorate the names of the files.
-The suffix is inserted between the base filename and the random component or
-extension, or appended to the filename if neither such component is present.
-Only the lowercase Roman letters a-z are permitted; other characters are ignored.
+The numerical `parent` parameter can be specified to request the named file
+from a parent commit of the specified revision. The value is the 1-based
+index of the parent's position in the commit object.
+
+Filenames are decorated with a suffix of `_new` for the current patch,
+`_old` for the only parent, or `_oldN` for the Nth parent of many.
 
 .Request
 ----

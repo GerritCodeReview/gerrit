@@ -22,6 +22,30 @@
       "revId": "5c3899cd549def014ef9c881362927eb2e0eda32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09ccfb7b_8232ba24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-18T18:46:57Z",
+      "side": 1,
+      "message": "Usually yes; this case is horrible because we can\u0027t easily change the underlying database to throw OrmRuntimeException. Its chucking SomeCustomInternalRuntimeException during an Iterator\u0027s hasNext() method.",
+      "parentUuid": "49143388_c4649e2e",
+      "range": {
+        "startLine": 336,
+        "startChar": 30,
+        "endLine": 336,
+        "endChar": 46
+      },
+      "revId": "5c3899cd549def014ef9c881362927eb2e0eda32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

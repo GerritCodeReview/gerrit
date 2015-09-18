@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "49143388_a45d2262",
+        "filename": "Documentation/dev-plugin-targeted-change-reviewer.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012297
+      },
+      "writtenOn": "2015-09-18T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c43f2ab4_d0141c7d",
+      "range": {
+        "startLine": 4,
+        "startChar": 37,
+        "endLine": 4,
+        "endChar": 60
+      },
+      "revId": "209ff07c768d10251a6b10ef601b070d3423486b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a442364a_8f0e7567",
         "filename": "Documentation/dev-plugin-targeted-change-reviewer.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-01T02:43:22Z",
       "side": 1,
       "message": "nit: there\u0027s an extra space here",
+      "range": {
+        "startLine": 22,
+        "startChar": 17,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "209ff07c768d10251a6b10ef601b070d3423486b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09ccfb7b_02106a84",
+        "filename": "Documentation/dev-plugin-targeted-change-reviewer.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012297
+      },
+      "writtenOn": "2015-09-18T13:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a442364a_8f0e7567",
       "range": {
         "startLine": 22,
         "startChar": 17,

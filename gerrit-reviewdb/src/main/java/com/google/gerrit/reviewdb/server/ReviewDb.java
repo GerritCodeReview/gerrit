@@ -68,8 +68,7 @@ public interface ReviewDb extends Schema {
   @Relation(id = 13)
   AccountGroupMemberAuditAccess accountGroupMembersAudit();
 
-  @Relation(id = 17)
-  AccountDiffPreferenceAccess accountDiffPreferences();
+  //Deleted @Relation(id = 17)
 
   @Relation(id = 18)
   StarredChangeAccess starredChanges();

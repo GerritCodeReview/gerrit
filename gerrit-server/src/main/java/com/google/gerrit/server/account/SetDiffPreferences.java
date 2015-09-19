@@ -22,14 +22,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
-import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -39,23 +35,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @Singleton
 public class SetDiffPreferences implements
     RestModifyView<AccountResource, DiffPreferencesInfo> {
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> db;
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final Provider<AllUsersName> allUsersName;
 
   @Inject
   SetDiffPreferences(Provider<CurrentUser> self,
-      Provider<ReviewDb> db,
       MetaDataUpdate.User metaDataUpdateFactory,
       Provider<AllUsersName> allUsersName) {
     this.self = self;
-    this.db = db;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
   }
@@ -75,21 +67,7 @@ public class SetDiffPreferences implements
 
     Account.Id userId = rsrc.getUser().getAccountId();
     DiffPreferencesInfo out = writeToGit(in, userId);
-    writeToDb(in, userId);
     return out;
-  }
-
-  private void writeToDb(DiffPreferencesInfo in, Account.Id id)
-      throws OrmException {
-    db.get().accounts().beginTransaction(id);
-    try {
-      AccountDiffPreference p = db.get().accountDiffPreferences().get(id);
-      p = initAccountDiffPreferences(p, in, id);
-      db.get().accountDiffPreferences().upsert(Collections.singleton(p));
-      db.get().commit();
-    } finally {
-      db.get().rollback();
-    }
   }
 
   private DiffPreferencesInfo writeToGit(DiffPreferencesInfo in,
@@ -111,38 +89,5 @@ public class SetDiffPreferences implements
       md.close();
     }
     return out;
-  }
-
-  private static AccountDiffPreference initAccountDiffPreferences(
-      AccountDiffPreference a, DiffPreferencesInfo i, Account.Id id) {
-    if (a == null) {
-      a = AccountDiffPreference.createDefault(id);
-    }
-    a.setContext((short)(int)i.context);
-    a.setExpandAllComments(b(i.expandAllComments));
-    a.setHideLineNumbers(b(i.hideLineNumbers));
-    a.setHideTopMenu(b(i.hideTopMenu));
-    a.setIgnoreWhitespace(Whitespace.forCode(
-        PatchListKey.WHITESPACE_TYPES.get(i.ignoreWhitespace)));
-    a.setIntralineDifference(b(i.intralineDifference));
-    a.setLineLength(i.lineLength);
-    a.setManualReview(i.manualReview);
-    a.setRenderEntireFile(b(i.renderEntireFile));
-    a.setRetainHeader(b(i.retainHeader));
-    a.setShowLineEndings(b(i.showLineEndings));
-    a.setShowTabs(b(i.showTabs));
-    a.setShowWhitespaceErrors(b(i.showWhitespaceErrors));
-    a.setSkipDeleted(b(i.skipDeleted));
-    a.setSkipUncommented(b(i.skipUncommented));
-    a.setSyntaxHighlighting(b(i.syntaxHighlighting));
-    a.setTabSize(i.tabSize);
-    a.setTheme(i.theme);
-    a.setHideEmptyPane(b(i.hideEmptyPane));
-    a.setAutoHideDiffTableHeader(i.autoHideDiffTableHeader);
-    return a;
-  }
-
-  private static boolean b(Boolean b) {
-    return b == null ? false : b;
   }
 }

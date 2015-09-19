@@ -22,20 +22,11 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
-import com.google.gerrit.testutil.ConfigSuite;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class DiffPreferencesIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config readFromGitConfig() {
-    Config cfg = new Config();
-    cfg.setBoolean("user", null, "readPrefsFromGit", true);
-    return cfg;
-  }
-
   @Test
   public void getDiffPreferencesOfNonExistingAccount_NotFound()
       throws Exception {

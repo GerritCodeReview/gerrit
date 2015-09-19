@@ -41,6 +41,7 @@ java_library(
     '//lib/jgit:jgit',
     '//lib/log:api',
     '//lib/mina:sshd',
+    '//lib:velocity',
   ],
   visibility = ['PUBLIC'],
 )

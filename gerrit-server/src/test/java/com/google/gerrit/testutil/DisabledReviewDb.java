@@ -15,7 +15,6 @@
 package com.google.gerrit.testutil;
 
 import com.google.gerrit.reviewdb.server.AccountAccess;
-import com.google.gerrit.reviewdb.server.AccountDiffPreferenceAccess;
 import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
 import com.google.gerrit.reviewdb.server.AccountGroupAccess;
 import com.google.gerrit.reviewdb.server.AccountGroupByIdAccess;
@@ -121,11 +120,6 @@ public class DisabledReviewDb implements ReviewDb {
 
   @Override
   public AccountGroupMemberAuditAccess accountGroupMembersAudit() {
-    throw new Disabled();
-  }
-
-  @Override
-  public AccountDiffPreferenceAccess accountDiffPreferences() {
     throw new Disabled();
   }
 

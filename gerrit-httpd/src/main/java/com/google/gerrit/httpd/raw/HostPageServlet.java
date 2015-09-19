@@ -43,7 +43,6 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -250,8 +249,7 @@ public class HostPageServlet extends HttpServlet {
   private DiffPreferencesInfo getDiffPreferences(IdentifiedUser user) {
     try {
       return getDiff.apply(new AccountResource(user));
-    } catch (AuthException | OrmException | ConfigInvalidException
-        | IOException e) {
+    } catch (AuthException | ConfigInvalidException | IOException e) {
       log.warn("Cannot query account diff preferences", e);
     }
     return DiffPreferencesInfo.defaults();

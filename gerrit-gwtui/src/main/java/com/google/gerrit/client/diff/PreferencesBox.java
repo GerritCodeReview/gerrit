@@ -14,12 +14,13 @@
 
 package com.google.gerrit.client.diff;
 
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.DEFAULT_CONTEXT;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_ALL;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_LEADING_AND_TRAILING;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_NONE;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_TRAILING;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.DEFAULT_CONTEXT;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.WHOLE_FILE_CONTEXT;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_ALL;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_LEADING_AND_TRAILING;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_NONE;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_TRAILING;
+
 import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
 
 import com.google.gerrit.client.Gerrit;

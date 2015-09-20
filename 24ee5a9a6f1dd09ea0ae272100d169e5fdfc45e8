@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "898d4b47_6e320f28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-20T13:43:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09ccfb7b_8280fae8",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "24ee5a9a6f1dd09ea0ae272100d169e5fdfc45e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49143388_049d165b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "4997d354_ac5a4365",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-20T13:43:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49143388_049d165b",
+      "range": {
+        "startLine": 12,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "24ee5a9a6f1dd09ea0ae272100d169e5fdfc45e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4997d354_8c5d8762",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-20T13:43:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09ccfb7b_627bf6ba",
+      "range": {
+        "startLine": 12,
+        "startChar": 32,
+        "endLine": 12,
+        "endChar": 43
+      },
+      "revId": "24ee5a9a6f1dd09ea0ae272100d169e5fdfc45e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09ccfb7b_4286f207",
         "filename": "gerrit-plugin-api/BUCK",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2015-09-20T12:28:11Z",
       "side": 1,
       "message": "nit: Should be after \u0027//lib:servlet-api-3_1\u0027",
+      "revId": "24ee5a9a6f1dd09ea0ae272100d169e5fdfc45e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "898d4b47_4e2d53c3",
+        "filename": "gerrit-plugin-api/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-20T13:43:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09ccfb7b_4286f207",
       "revId": "24ee5a9a6f1dd09ea0ae272100d169e5fdfc45e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

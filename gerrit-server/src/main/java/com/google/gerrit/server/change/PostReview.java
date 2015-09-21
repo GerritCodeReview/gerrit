@@ -99,6 +99,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private List<PatchLineComment> comments = Lists.newArrayList();
   private List<String> labelDelta = Lists.newArrayList();
   private Map<String, Short> categories = Maps.newHashMap();
+  private Map<String, Boolean> approvalStatus = Maps.newHashMap();
 
   @Inject
   PostReview(Provider<ReviewDb> db,
@@ -457,8 +458,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         if (c != null) {
           if (c.getValue() != 0) {
             addLabelDelta(normName, (short) 0);
+            approvalStatus.put(ent.getKey(), true);
+          } else {
+            approvalStatus.put(ent.getKey(), false);
           }
           del.add(c);
+        } else {
+          approvalStatus.put(ent.getKey(), false);
         }
         categories.put(ent.getKey(), (short) 0);
         update.putApproval(ent.getKey(), (short) 0);
@@ -467,10 +473,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         c.setGranted(timestamp);
         ups.add(c);
         addLabelDelta(normName, c.getValue());
+        approvalStatus.put(ent.getKey(), true);
         categories.put(normName, c.getValue());
         update.putApproval(ent.getKey(), ent.getValue());
       } else if (c != null && c.getValue() == ent.getValue()) {
         current.put(normName, c);
+        approvalStatus.put(ent.getKey(), false);
         if (message != null) {
           categories.put(normName, c.getValue());
           update.putApproval(normName, c.getValue());
@@ -484,6 +492,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         c.setGranted(timestamp);
         ups.add(c);
         addLabelDelta(normName, c.getValue());
+        approvalStatus.put(ent.getKey(), true);
         categories.put(normName, c.getValue());
         update.putApproval(ent.getKey(), ent.getValue());
       }
@@ -590,7 +599,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           user.getAccount(),
           rsrc.getPatchSet(),
           message.getMessage(),
-          categories, db.get());
+          categories, approvalStatus, db.get());
     } catch (OrmException e) {
       log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
     }

@@ -64,6 +64,7 @@ java_test(
   deps = [
     ':client',
     '//lib:junit',
+    '//lib/gwt:user',
     '//lib/jgit:jgit',
   ],
   source_under_test = [':client'],

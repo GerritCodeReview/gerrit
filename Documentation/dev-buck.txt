@@ -109,6 +109,21 @@ The output executable WAR will be placed in:
   buck-out/gen/gerrit.war
 ----
 
+=== Running gerrit.war directly from Buck
+
+Gerrit.war can be executed directly from Buck:
+
+----
+  buck run g -- `{args}`
+----
+
+For example to reindex existing gerrit site, the following
+command can be used:
+
+----
+  buck run g -- reindex --site-path test_gerrit_site
+----
+
 
 === Headless Mode
 

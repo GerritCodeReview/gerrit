@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "096b1b6b_aabc2ff1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T20:15:55Z",
+      "side": 1,
+      "message": "Remove this \"is\".",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 29
+      },
+      "revId": "29c10ce73f3fd586920e67bd612c224e0f764d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "096b1b6b_4ac25371",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventDispatcher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T20:15:55Z",
+      "side": 1,
+      "message": "Description for db parameter is missing.",
+      "revId": "29c10ce73f3fd586920e67bd612c224e0f764d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

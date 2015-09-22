@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9e24745_81ccdaa0",
+        "filename": "lib/bouncycastle/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-22T21:57:22Z",
+      "side": 0,
+      "message": "Bouncycastle libraries cannot be included in a fat-jar (e.g. gerrit-plugin-api-2.12-SNAPSHOT.jar) with or without the associated signature + public key.\n\nAt the moment Bouncycastle classes *are* included in Gerrit plugin API which is fundamentally incorrect.\n\nIf you exclude the BCKey* you\u0027ll then fail the signature verification ... but if you do not include the signature the libraries cannot be used as they are not properly signed.\n\nWhy are we moving away from dynamically downloading them from the Internet? I am possibly missing something :-(",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 1
+      },
+      "revId": "26da0269eaba3800fc273703d9bb8a392a4092dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

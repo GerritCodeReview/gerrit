@@ -22,6 +22,110 @@
       "revId": "66b24c23eb22f59882cd86a5193c739cbf4063db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9e24745_01b8cafc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T20:15:20Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "c4d00a8b_a823bbe9",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 39
+      },
+      "revId": "66b24c23eb22f59882cd86a5193c739cbf4063db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9e24745_a1b2be1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T20:15:20Z",
+      "side": 1,
+      "message": "Some parameters are missing.",
+      "revId": "66b24c23eb22f59882cd86a5193c739cbf4063db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9e24745_c1ad42bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T20:15:20Z",
+      "side": 1,
+      "message": "unrestrictedListeners parameter description is missing.",
+      "revId": "66b24c23eb22f59882cd86a5193c739cbf4063db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "898d4b47_8e5d7b62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T20:15:20Z",
+      "side": 1,
+      "message": "Nit: no final in new code. Here, and in all methods below.",
+      "range": {
+        "startLine": 90,
+        "startChar": 24,
+        "endLine": 90,
+        "endChar": 29
+      },
+      "revId": "66b24c23eb22f59882cd86a5193c739cbf4063db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4997d354_0c4a779a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T20:15:20Z",
+      "side": 1,
+      "message": "Is the method order correct? Shoudn\u0027t non static private methods appear as last in the class.",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 3
+      },
+      "revId": "66b24c23eb22f59882cd86a5193c739cbf4063db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "096b1b6b_8ab7eb0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T20:15:34Z",
+      "side": 0,
+      "message": "All finals should be removed in the previous change in this series.",
+      "range": {
+        "startLine": 90,
+        "startChar": 24,
+        "endLine": 90,
+        "endChar": 29
+      },
+      "revId": "66b24c23eb22f59882cd86a5193c739cbf4063db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

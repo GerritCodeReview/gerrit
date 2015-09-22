@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "096b1b6b_caade3be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-22T18:51:41Z",
+      "side": 1,
+      "message": "Can you clarify if this supposed to support the reindex program? I saw discussion i this change and that patch set 4 took different approach, trying to use TrackingValueExtractorProvider to load a class from lib directory and use it (similar to how secure store is working). In the later patch sets this approach seems to be  replaced with plugin-only approach, and thus reindex program that currently doesn\u0027t load plugins wouldn\u0027t be able to respect custom tracking id extactor?",
+      "revId": "4345a845e7e784d1cec4db26b9a15ca2519fd3a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4664a12_b80e5967",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 9

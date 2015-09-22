@@ -547,7 +547,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       Config rc, Map<String, GroupReference> groupsByName) {
     accessSections = new HashMap<>();
     for (String refName : rc.getSubsections(ACCESS)) {
-      if (RefConfigSection.isValid(refName)) {
+      if (RefConfigSection.isValid(refName) & isValidRegex(refName)) {
         AccessSection as = getAccessSection(refName, true);
 
         for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {
@@ -578,6 +578,17 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       loadPermissionRules(rc, CAPABILITY, null, varName, groupsByName, perm,
           GlobalCapability.hasRange(varName));
     }
+  }
+
+  private boolean isValidRegex(String refPattern) {
+    try {
+      Pattern.compile(refPattern.replace("${username}/", ""));
+    } catch (PatternSyntaxException e) {
+      error(new ValidationError(PROJECT_CONFIG, "Invalid ref name: "
+          + e.getMessage()));
+      return false;
+    }
+    return true;
   }
 
   private void loadBranchOrderSection(Config rc) {

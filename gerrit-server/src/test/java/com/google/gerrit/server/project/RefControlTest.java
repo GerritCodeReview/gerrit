@@ -35,6 +35,7 @@ import static com.google.gerrit.testutil.InMemoryRepositoryManager.newRepository
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -669,5 +670,30 @@ public class RefControlTest {
         .getRange(LABEL + "Code-Review");
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
+  }
+
+  @Test
+  public void testValidateRefPatternsOK() throws Exception {
+    RefControl.validateRefPattern("refs/*");
+    RefControl.validateRefPattern("^refs/heads/*");
+    RefControl.validateRefPattern("^refs/tags/[0-9a-zA-Z-_.]+");
+    RefControl.validateRefPattern("refs/heads/review/${username}/*");
+  }
+
+  @Test(expected = InvalidNameException.class)
+  public void testValidateBadRefPatternDoubleCaret() throws Exception {
+    RefControl.validateRefPattern("^^refs/*");
+  }
+
+  @Test(expected = InvalidNameException.class)
+  public void testValidateBadRefPatternDanglingCharacter() throws Exception {
+    RefControl
+        .validateRefPattern("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}*");
+  }
+
+  @Test
+  public void testValidateRefPatternNoDanglingCharacter() throws Exception {
+    RefControl
+        .validateRefPattern("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}");
   }
 }

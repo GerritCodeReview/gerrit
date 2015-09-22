@@ -36,3 +36,14 @@ genrule(
   ],
   out = '__fake.all__',
 )
+
+genrule(
+  name = 'g_cmd',
+  cmd = 'echo "java -jar $(location :gerrit) \$*" > $OUT; chmod +x $OUT',
+  out = 'g.sh',
+)
+
+sh_binary(
+  name = 'g',
+  main = ':g_cmd',
+)

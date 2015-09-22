@@ -8,6 +8,7 @@
   chrome = //:chrome
   docs = //Documentation:searchfree
   firefox = //:firefox
+  g = //:g
   gerrit = //:gerrit
   headless = //:headless
   release = //:release

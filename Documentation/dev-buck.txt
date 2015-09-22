@@ -109,6 +109,21 @@ The output executable WAR will be placed in:
   buck-out/gen/gerrit.war
 ----
 
+=== Running daemon directly from Buck
+
+Gerrit daemon can be executed directly from Buck:
+
+----
+  buck run daemon -- `{args}`
+----
+
+For example to reindex existing gerrit site, the following
+command can be used:
+
+----
+  buck run daemon -- reindex --site-path test_gerrit_site
+----
+
 
 === Headless Mode
 

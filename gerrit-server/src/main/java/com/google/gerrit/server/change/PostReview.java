@@ -45,6 +45,7 @@ import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -59,6 +60,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -166,7 +168,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       ChangeUpdate update = updateFactory.create(revision.getControl(), timestamp);
       update.setPatchSetId(revision.getPatchSet().getId());
-      dirty |= insertComments(revision, update, input.comments, input.drafts);
+      dirty |= insertComments(revision, update, input.comments, input.drafts,
+          input.omitDuplicateComments);
       dirty |= updateLabels(revision, update, input.labels);
       dirty |= insertMessage(revision, input.message, update);
       if (dirty) {
@@ -337,8 +340,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private boolean insertComments(RevisionResource rsrc,
-      ChangeUpdate update, Map<String, List<CommentInput>> in, DraftHandling draftsHandling)
-      throws OrmException {
+      ChangeUpdate update, Map<String, List<CommentInput>> in, DraftHandling draftsHandling,
+      boolean omitDuplicateComments) throws OrmException {
     if (in == null) {
       in = Collections.emptyMap();
     }
@@ -355,37 +358,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     List<PatchLineComment> del = Lists.newArrayList();
     List<PatchLineComment> ups = Lists.newArrayList();
 
+    PatchLineCommentAccess patchLineCommentAccess = db.get().patchComments();
+    List<PatchLineComment> patchLineComments =
+        patchLineCommentAccess.byChange(rsrc.getChange().getId()).toList();
+
     for (Map.Entry<String, List<CommentInput>> ent : in.entrySet()) {
-      String path = ent.getKey();
-      for (CommentInput c : ent.getValue()) {
-        String parent = Url.decode(c.inReplyTo);
-        PatchLineComment e = drafts.remove(Url.decode(c.id));
-        if (e == null) {
-          e = new PatchLineComment(
-              new PatchLineComment.Key(
-                  new Patch.Key(rsrc.getPatchSet().getId(), path),
-                  ChangeUtil.messageUUID(db.get())),
-              c.line != null ? c.line : 0,
-              rsrc.getAccountId(),
-              parent, timestamp);
-        } else if (parent != null) {
-          e.setParentUuid(parent);
-        }
-        e.setStatus(PatchLineComment.Status.PUBLISHED);
-        e.setWrittenOn(timestamp);
-        e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
-        setCommentRevId(e, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
-        e.setMessage(c.message);
-        if (c.range != null) {
-          e.setRange(new CommentRange(
-              c.range.startLine,
-              c.range.startCharacter,
-              c.range.endLine,
-              c.range.endCharacter));
-          e.setLine(c.range.endLine);
-        }
-        ups.add(e);
-      }
+      addUpsertComments(rsrc, ent, ups, drafts, patchLineComments, omitDuplicateComments);
     }
 
     switch (MoreObjects.firstNonNull(draftsHandling, DraftHandling.DELETE)) {
@@ -409,6 +387,56 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     plcUtil.upsertComments(db.get(), update, ups);
     comments.addAll(ups);
     return !del.isEmpty() || !ups.isEmpty();
+  }
+
+  private void addUpsertComments(RevisionResource rsrc,
+      Map.Entry<String, List<CommentInput>> ent, List<PatchLineComment> ups,
+      Map<String, PatchLineComment> drafts, List<PatchLineComment> patchLineComments,
+      boolean omitDuplicateComments) throws OrmException {
+    String path = ent.getKey();
+    for (CommentInput c : ent.getValue()) {
+      if (omitDuplicateComments) {
+        for (PatchLineComment comment : patchLineComments) {
+          if (comment.getStatus() == PatchLineComment.Status.PUBLISHED
+              && c.id.equals(comment.getKey().get())) {
+            continue;
+          }
+        }
+      }
+
+      String parent = Url.decode(c.inReplyTo);
+      PatchLineComment e = drafts.remove(Url.decode(c.id));
+      String uuid;
+      if (omitDuplicateComments) {
+        uuid = c.id;
+      } else {
+        uuid = e == null ? ChangeUtil.messageUUID(db.get()) : parent;
+      }
+      if (e == null) {
+        e = new PatchLineComment(
+            new PatchLineComment.Key(
+                new Patch.Key(rsrc.getPatchSet().getId(), path), uuid),
+            c.line != null ? c.line : 0,
+            rsrc.getAccountId(),
+            parent, timestamp);
+      } else if (parent != null) {
+        e.setParentUuid(uuid);
+      }
+      e.setStatus(PatchLineComment.Status.PUBLISHED);
+      e.setWrittenOn(timestamp);
+      e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
+      setCommentRevId(e, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
+      e.setMessage(c.message);
+      if (c.range != null) {
+        e.setRange(new CommentRange(
+            c.range.startLine,
+            c.range.startCharacter,
+            c.range.endLine,
+            c.range.endCharacter));
+        e.setLine(c.range.endLine);
+      }
+      ups.add(e);
+    }
   }
 
   private Map<String, PatchLineComment> changeDrafts(RevisionResource rsrc)

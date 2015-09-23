@@ -43,9 +43,5 @@ java_library(
     '//lib/log:log4j',
     '//lib/mina:sshd',
   ],
-  visibility = [
-    '//gerrit-plugin-api/...',
-    '//tools/eclipse:classpath',
-    '//gerrit-acceptance-tests/...',
-  ],
+  visibility = ['PUBLIC'],
 )

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "89754b40_ee29dfc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-23T13:43:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "096b1b6b_aabc2ff1",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 29
+      },
+      "revId": "29c10ce73f3fd586920e67bd612c224e0f764d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "096b1b6b_4ac25371",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventDispatcher.java",
         "patchSetId": 13
@@ -36,6 +60,24 @@
       "writtenOn": "2015-09-22T20:15:55Z",
       "side": 1,
       "message": "Description for db parameter is missing.",
+      "revId": "29c10ce73f3fd586920e67bd612c224e0f764d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "895e2bce_a60a265e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventDispatcher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-23T13:43:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "096b1b6b_4ac25371",
       "revId": "29c10ce73f3fd586920e67bd612c224e0f764d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

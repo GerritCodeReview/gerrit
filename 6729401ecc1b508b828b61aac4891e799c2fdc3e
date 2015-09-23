@@ -49,6 +49,75 @@
     },
     {
       "key": {
+        "uuid": "895e2bce_c6d64231",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-23T02:12:58Z",
+      "side": 1,
+      "message": "Use toList to convert this into a list and keep it throughout this loop. That way you only query the database the first time.",
+      "range": {
+        "startLine": 367,
+        "startChar": 10,
+        "endLine": 368,
+        "endChar": 72
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "895e2bce_e6db3e56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-23T02:12:58Z",
+      "side": 1,
+      "message": "I think you mean getKey().get() to grab the unique identifier.",
+      "range": {
+        "startLine": 371,
+        "startChar": 35,
+        "endLine": 371,
+        "endChar": 48
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "895e2bce_26c9568f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-23T02:12:58Z",
+      "side": 1,
+      "message": "This is Java, equality doesn\u0027t work with \u003d\u003d here. You need .equals().",
+      "range": {
+        "startLine": 371,
+        "startChar": 19,
+        "endLine": 371,
+        "endChar": 50
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "895e2bce_46c25271",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1
@@ -84,6 +153,30 @@
       "side": 1,
       "message": "There\u0027s one just below on line 397. :-) But parens around the conditional is a Good Thing(tm). Done.",
       "parentUuid": "895e2bce_46c25271",
+      "range": {
+        "startLine": 383,
+        "startChar": 16,
+        "endLine": 383,
+        "endChar": 71
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89754b40_2ec9278f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-23T02:12:58Z",
+      "side": 1,
+      "message": "parens aren\u0027t required in our coding style",
+      "parentUuid": "89754b40_6ebf2fe4",
       "range": {
         "startLine": 383,
         "startChar": 16,

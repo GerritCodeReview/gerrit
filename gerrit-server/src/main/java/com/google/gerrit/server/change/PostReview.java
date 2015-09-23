@@ -358,8 +358,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     List<PatchLineComment> del = Lists.newArrayList();
     List<PatchLineComment> ups = Lists.newArrayList();
 
+    PatchLineCommentAccess patchLineCommentAccess = db.get().patchComments();
+    List<PatchLineComment> patchLineComments =
+        patchLineCommentAccess.byChange(rsrc.getChange().getId()).toList();
+
     for (Map.Entry<String, List<CommentInput>> ent : in.entrySet()) {
-      addUpsertComments(rsrc, ent, ups, drafts, omitDuplicateComments);
+      addUpsertComments(rsrc, ent, ups, drafts, patchLineComments, omitDuplicateComments);
     }
 
     switch (MoreObjects.firstNonNull(draftsHandling, DraftHandling.DELETE)) {
@@ -387,17 +391,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   private void addUpsertComments(RevisionResource rsrc,
       Map.Entry<String, List<CommentInput>> ent, List<PatchLineComment> ups,
-      Map<String, PatchLineComment> drafts, boolean omitDuplicateComments)
-      throws OrmException {
+      Map<String, PatchLineComment> drafts, List<PatchLineComment> patchLineComments,
+      boolean omitDuplicateComments) throws OrmException {
     String path = ent.getKey();
     for (CommentInput c : ent.getValue()) {
       if (omitDuplicateComments) {
-        PatchLineCommentAccess patchLineCommentAccess = db.get().patchComments();
-        ResultSet<PatchLineComment> patchLineComments =
-            patchLineCommentAccess.byChange(rsrc.getChange().getId());
         for (PatchLineComment comment : patchLineComments) {
           if (comment.getStatus() == PatchLineComment.Status.PUBLISHED
-              && c.id == comment.getParentUuid()) {
+              && c.id.equals(comment.getKey().get())) {
             continue;
           }
         }
@@ -409,7 +410,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (omitDuplicateComments) {
         uuid = c.id;
       } else {
-        uuid = (e == null) ? ChangeUtil.messageUUID(db.get()) : parent;
+        uuid = e == null ? ChangeUtil.messageUUID(db.get()) : parent;
       }
       if (e == null) {
         e = new PatchLineComment(

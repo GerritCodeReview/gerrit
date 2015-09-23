@@ -93,6 +93,30 @@
       "revId": "c119357384fa3dde79bfbf6864d58f0f804bec59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9e24745_a100fe42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-23T10:50:14Z",
+      "side": 1,
+      "message": "I\u0027ve rephrased the commit message in patch-set #3 to address your concerns :-)\n\nThinking about it, if you add the test framework classes in the main Gerrit plugin API (compile scope) you may risk to refer to them in your plugin non-test code, which is wrong *AND* dangerous.",
+      "parentUuid": "e9e24745_41ebf2e6",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "c119357384fa3dde79bfbf6864d58f0f804bec59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

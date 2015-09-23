@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "096b1b6b_2ae27f09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-23T10:20:42Z",
+      "side": 1,
+      "message": "Does it then makes sense to have two jars?\ngerrit-plugin-api\ngerrit-acceptance-tests-lib\n\nThe name should tell what the jar contains: if it contains base classes for acceptance tests (that are tests anyway) it shouldn\u0027t be in the plugin api.\n\nPossibly (for some reason I am not aware of) BouncyCastle makes sense in the acceptance-tests-lib but it definitely doesn\u0027t in the plugin api.",
+      "parentUuid": "096b1b6b_0ae53b10",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "c119357384fa3dde79bfbf6864d58f0f804bec59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9e24745_41ebf2e6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-23T10:14:19Z",
       "side": 1,
       "message": "I think you are mixing something here. Nobody supposed to use the Gerrit plugin API for runtime! If someone does that, this is seriously broken and must be changed. Gerrit Plugin API (or for any other project for that matter) is only there to compile the plugin against it, and not to be used at runtime. Any dependency that not yet provided in the Plugin API but are needed by a plugin should be spelled out as provided in plugin build toolchain. Otherwise they would be provided twice and would potentially collide with the same library in Gerrit itself.",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "c119357384fa3dde79bfbf6864d58f0f804bec59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9e24745_81e5fa12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-23T10:20:42Z",
+      "side": 1,
+      "message": "/runtime/compile-time\n\nYou are right :-) my point was \"you shouldn\u0027t rely on the fact that BouncyCastle is available at runtime\" ... but if you have BouncyCastle in Plugin API you may be able to actually compile your code and then realise that it doesn\u0027t work at at runtime.\n\nBTW *even* at compile-time it is incorrect to use an shaded jar with security libraries in it ;-)",
+      "parentUuid": "e9e24745_41ebf2e6",
       "range": {
         "startLine": 12,
         "startChar": 16,

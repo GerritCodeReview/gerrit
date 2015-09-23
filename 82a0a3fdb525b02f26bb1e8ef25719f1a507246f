@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "895e2bce_66ed0ef0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-09-23T16:52:57Z",
+      "side": 1,
+      "message": "This doesn\u0027t touch CatServlet itself.",
+      "revId": "82a0a3fdb525b02f26bb1e8ef25719f1a507246f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

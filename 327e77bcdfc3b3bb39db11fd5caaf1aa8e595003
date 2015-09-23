@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "895e2bce_26e2b609",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/LoginForm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-23T12:55:49Z",
+      "side": 1,
+      "message": "Intentional blank line added?",
+      "revId": "327e77bcdfc3b3bb39db11fd5caaf1aa8e595003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

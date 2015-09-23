@@ -118,6 +118,54 @@
     },
     {
       "key": {
+        "uuid": "89754b40_8ed05b34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-09-23T04:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "895e2bce_e6db3e56",
+      "range": {
+        "startLine": 371,
+        "startChar": 35,
+        "endLine": 371,
+        "endChar": 48
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89754b40_eedb1f56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-09-23T04:53:25Z",
+      "side": 1,
+      "message": "Oh yeah...Done.",
+      "parentUuid": "895e2bce_26c9568f",
+      "range": {
+        "startLine": 371,
+        "startChar": 19,
+        "endLine": 371,
+        "endChar": 50
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "895e2bce_46c25271",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1
@@ -177,6 +225,30 @@
       "side": 1,
       "message": "parens aren\u0027t required in our coding style",
       "parentUuid": "89754b40_6ebf2fe4",
+      "range": {
+        "startLine": 383,
+        "startChar": 16,
+        "endLine": 383,
+        "endChar": 71
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "895e2bce_86d04a34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-09-23T04:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89754b40_2ec9278f",
       "range": {
         "startLine": 383,
         "startChar": 16,

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89754b40_4ec27371",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-23T00:21:43Z",
+      "side": 1,
+      "message": "I wonder if now would be a good time to move the inner loop contents out to a helper function.\n\nOnce upon a time a wise man told me a function is too large when it doesn\u0027t fit on a screen any more. That would be the case here.",
+      "range": {
+        "startLine": 364,
+        "startChar": 6,
+        "endLine": 365,
+        "endChar": 36
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "895e2bce_46c25271",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-23T00:21:43Z",
+      "side": 1,
+      "message": "While this is cool to read\u0026write, I cannot remember seeing a ternary operator in Gerrit.\n\nAt least I\u0027d suggest (parenthesis around the condition).",
+      "range": {
+        "startLine": 383,
+        "startChar": 16,
+        "endLine": 383,
+        "endChar": 71
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

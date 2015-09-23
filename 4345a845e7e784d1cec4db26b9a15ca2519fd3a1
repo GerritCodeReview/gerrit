@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "89754b40_6ee88fe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-23T12:29:24Z",
+      "side": 1,
+      "message": "*facepalm*\n\nNo, this won\u0027t work with reindex, which is, of course, the exact reason why it was implemented the other way before.\n\nI completely forgot about this when I picked up the change again.  I should have recapped the previous review comments.",
+      "parentUuid": "096b1b6b_caade3be",
+      "revId": "4345a845e7e784d1cec4db26b9a15ca2519fd3a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4664a12_b80e5967",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 9

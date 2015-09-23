@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "89754b40_0ecc6b9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-09-23T00:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89754b40_4ec27371",
+      "range": {
+        "startLine": 364,
+        "startChar": 6,
+        "endLine": 365,
+        "endChar": 36
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "895e2bce_46c25271",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-23T00:21:43Z",
       "side": 1,
       "message": "While this is cool to read\u0026write, I cannot remember seeing a ternary operator in Gerrit.\n\nAt least I\u0027d suggest (parenthesis around the condition).",
+      "range": {
+        "startLine": 383,
+        "startChar": 16,
+        "endLine": 383,
+        "endChar": 71
+      },
+      "revId": "6729401ecc1b508b828b61aac4891e799c2fdc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89754b40_6ebf2fe4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-09-23T00:53:51Z",
+      "side": 1,
+      "message": "There\u0027s one just below on line 397. :-) But parens around the conditional is a Good Thing(tm). Done.",
+      "parentUuid": "895e2bce_46c25271",
       "range": {
         "startLine": 383,
         "startChar": 16,

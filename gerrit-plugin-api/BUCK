@@ -31,6 +31,7 @@ java_library(
     '//lib:args4j',
     '//lib:guava',
     '//lib:gwtorm',
+    '//lib/joda:joda-time',
     '//lib:jsch',
     '//lib:mime-util',
     '//lib:servlet-api-3_1',

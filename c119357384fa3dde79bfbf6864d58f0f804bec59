@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "096b1b6b_0ae53b10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-23T10:14:19Z",
+      "side": 1,
+      "message": "Nobody added tests to the Plugin API. What was added in the original change that this change is partially reverting, was acceptance-test-framework with unit test and mock deps. This was added to the Plugin API to seamlessly support involved unit tests implementation in Gerrit plugins, that can spawn Gerrit process and run all kind of unit tests, that were only possible in Gerrit core before that change. This was a good change and is the right thing to do. It significantly simplifies Buck build in tree and standalone implementation.\n\nBut, as you have noticed the original change pulled in too much dependencies in the Plugin API. The correct fix would be to split the //gerrit-acceptance-tests:lib in parts we want to add to the Plugin API and in parts we don\u0027t. Particularly, this deep depends transitively on BouncyCastle an that\u0027s why it\u0027s added as well.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "c119357384fa3dde79bfbf6864d58f0f804bec59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9e24745_41ebf2e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-23T10:14:19Z",
+      "side": 1,
+      "message": "I think you are mixing something here. Nobody supposed to use the Gerrit plugin API for runtime! If someone does that, this is seriously broken and must be changed. Gerrit Plugin API (or for any other project for that matter) is only there to compile the plugin against it, and not to be used at runtime. Any dependency that not yet provided in the Plugin API but are needed by a plugin should be spelled out as provided in plugin build toolchain. Otherwise they would be provided twice and would potentially collide with the same library in Gerrit itself.",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "c119357384fa3dde79bfbf6864d58f0f804bec59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

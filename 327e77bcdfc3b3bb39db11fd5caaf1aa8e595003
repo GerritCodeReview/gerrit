@@ -16,6 +16,24 @@
       "revId": "327e77bcdfc3b3bb39db11fd5caaf1aa8e595003",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9e24745_41f012cd",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/LoginForm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-23T14:02:44Z",
+      "side": 1,
+      "message": "Done (clueless why it\u0027s there and how i missed it).",
+      "parentUuid": "895e2bce_26e2b609",
+      "revId": "327e77bcdfc3b3bb39db11fd5caaf1aa8e595003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

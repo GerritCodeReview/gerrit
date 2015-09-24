@@ -46,6 +46,30 @@
       "revId": "20e8dadf3a61f64ef005c616011776df3f4c63fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced58901_80d3963a",
+        "filename": "gerrit-acceptance-tests/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-24T14:43:08Z",
+      "side": 1,
+      "message": "BouncyCastle is directly referenced in Dave\u0027s tests:\n\nSee:\ngerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java\n\nI believe then we need to keep where it is now :-(",
+      "parentUuid": "ced58901_40d98e5c",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 32
+      },
+      "revId": "20e8dadf3a61f64ef005c616011776df3f4c63fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

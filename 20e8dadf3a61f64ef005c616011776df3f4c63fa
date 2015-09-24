@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aed8553b_bfe43718",
+        "filename": "gerrit-acceptance-tests/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-24T14:09:51Z",
+      "side": 1,
+      "message": "Untested, but have you tried a non-intrusive change, like letting all as is and only move the bouncy castle libraries from exported_deps to provided_deps set, e.g.:\n\n    [...]\n    \u0027//lib/log:log4j\u0027,\n    \u0027//lib/mina:sshd\u0027,\n  ],\n  provided_eps \u003d [\n    \u0027//lib/bouncycastle:bcpg\u0027,\n    \u0027//lib/bouncycastle:bcprov\u0027,\n  ],\n  [...]\n\n? If the tests are still successful, the plugin-api shouldn\u0027t contain the bouncy castle libraries any more; still, acceptance-framework can be split further, but this can be done in a follow-up change.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 32
+      },
+      "revId": "20e8dadf3a61f64ef005c616011776df3f4c63fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

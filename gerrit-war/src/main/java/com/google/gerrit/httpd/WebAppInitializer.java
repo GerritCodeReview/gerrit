@@ -65,6 +65,7 @@ import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
+import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -299,16 +300,15 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
-    AbstractModule changeIndexModule;
     IndexType indexType = IndexModule.getIndexType(cfgInjector);
     switch (indexType) {
       case LUCENE:
-        changeIndexModule = new LuceneIndexModule();
+        modules.add(new LuceneIndexModule());
+        modules.add(new IndexCommandsModule());
         break;
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }
-    modules.add(changeIndexModule);
     modules.add(new CanonicalWebUrlModule() {
       @Override
       protected Class<? extends Provider<String>> provider() {

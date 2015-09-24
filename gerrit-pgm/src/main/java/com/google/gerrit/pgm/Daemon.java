@@ -80,6 +80,7 @@ import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
+import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -338,7 +339,7 @@ public class Daemon extends SiteProgram {
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
-    modules.add(createIndexModule());
+    addIndexModules(modules);
     if (MoreObjects.firstNonNull(httpd, true)) {
       modules.add(new CanonicalWebUrlModule() {
         @Override
@@ -375,14 +376,16 @@ public class Daemon extends SiteProgram {
     return cfgInjector.createChildInjector(modules);
   }
 
-  private AbstractModule createIndexModule() {
+  private void addIndexModules(List<Module> modules) {
     if (slave) {
-      return new DummyIndexModule();
+      modules.add(new DummyIndexModule());
     }
     IndexType indexType = IndexModule.getIndexType(cfgInjector);
     switch (indexType) {
       case LUCENE:
-        return luceneModule != null ? luceneModule : new LuceneIndexModule();
+        modules.add(luceneModule != null ? luceneModule : new LuceneIndexModule());
+        modules.add(new IndexCommandsModule());
+        break;
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }

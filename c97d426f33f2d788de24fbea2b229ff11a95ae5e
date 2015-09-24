@@ -22,6 +22,29 @@
       "revId": "c97d426f33f2d788de24fbea2b229ff11a95ae5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced58901_20ad6ac1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-24T05:20:57Z",
+      "side": 1,
+      "message": "I appreciate your efforts to find a workaround, but this approach wouldn\u0027t fly with standalone Buck build implementations. And of course cookbook-plugin supports standalone build mode. Your proposal would just kill this build mode in cookbook-plugin. Needless to say, I will not accept such a change in cookbook-plugin.\n\nAs for my previous comment: the correct fix is to include only needed parts and some transitive deps from //gerrit-acceptance-tests:lib to support unit tests with only Plugin API available (standalonde build mode) and not in tree build mode. TBH: in tree build is just abusing the whole Plugin API by not using it at all; when all plugins always going to use in tree build mode only, and rest of non-migrated Maven-plugins would migrate to in tree Buck build (I guess the only plugin that wasn\u0027t migrated yet to Buck in tree build is GitHub?) than we could just kill the Plugin API, not expose it any more, and nobody would even notice.",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 40
+      },
+      "revId": "c97d426f33f2d788de24fbea2b229ff11a95ae5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

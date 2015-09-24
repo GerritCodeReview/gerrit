@@ -34,12 +34,12 @@ public class DefaultCommandModule extends CommandModule {
 
   @Override
   protected void configure() {
-    final CommandName git = Commands.named("git");
-    final CommandName gerrit = Commands.named("gerrit");
+    CommandName git = Commands.named("git");
+    CommandName gerrit = Commands.named("gerrit");
     CommandName index = Commands.named(gerrit, "index");
-    final CommandName logging = Commands.named(gerrit, "logging");
-    final CommandName plugin = Commands.named(gerrit, "plugin");
-    final CommandName testSubmit = Commands.named(gerrit, "test-submit");
+    CommandName logging = Commands.named(gerrit, "logging");
+    CommandName plugin = Commands.named(gerrit, "plugin");
+    CommandName testSubmit = Commands.named(gerrit, "test-submit");
 
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
     command(gerrit, AproposCommand.class);

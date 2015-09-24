@@ -94,6 +94,30 @@
       "revId": "20e8dadf3a61f64ef005c616011776df3f4c63fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced58901_00df863d",
+        "filename": "gerrit-acceptance-tests/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-24T20:46:05Z",
+      "side": 1,
+      "message": "Yes, that\u0027s exactly what I wanted to achieve as well.\ngerrit-acceptance-framework should then be regularly published to maven and installed locally when you do a \"buck build api_install\".",
+      "parentUuid": "aed8553b_ffdebf3f",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 32
+      },
+      "revId": "20e8dadf3a61f64ef005c616011776df3f4c63fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

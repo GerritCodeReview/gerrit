@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ee116dd4_e9ac55c6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-09-24T14:35:22Z",
+      "side": 1,
+      "message": "I tried giving it a different name, then it throws BadRequestException saying that the label is not configured. I tried adding the permission of the LabelType P in setUp() method but it still throws the exception. Only way to avoid the exception was to keep the name \u0027CustomLabel\u0027.",
+      "parentUuid": "ae42154a_cfbd9deb",
+      "range": {
+        "startLine": 47,
+        "startChar": 40,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "eff14f816118a8e8621346fcdd385014a5255262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae42154a_efc06169",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
         "patchSetId": 2

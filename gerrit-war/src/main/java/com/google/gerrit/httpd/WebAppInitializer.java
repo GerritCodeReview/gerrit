@@ -65,6 +65,7 @@ import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
+import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -117,6 +118,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   private GuiceFilter filter;
 
   private ServletContext servletContext;
+  private IndexType indexType;
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res,
@@ -166,6 +168,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       }
 
       cfgInjector = createCfgInjector();
+      initIndexType();
       config = cfgInjector.getInstance(
           Key.get(Config.class, GerritServerConfig.class));
       sysInjector = createSysInjector();
@@ -299,16 +302,13 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
-    AbstractModule changeIndexModule;
-    IndexType indexType = IndexModule.getIndexType(cfgInjector);
     switch (indexType) {
       case LUCENE:
-        changeIndexModule = new LuceneIndexModule();
+        modules.add(new LuceneIndexModule());
         break;
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }
-    modules.add(changeIndexModule);
     modules.add(new CanonicalWebUrlModule() {
       @Override
       protected Class<? extends Provider<String>> provider() {
@@ -327,12 +327,19 @@ public class WebAppInitializer extends GuiceServletContextListener
     return cfgInjector.createChildInjector(modules);
   }
 
+  private void initIndexType() {
+    indexType = IndexModule.getIndexType(cfgInjector);
+  }
+
   private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(sysInjector.getInstance(SshModule.class));
     modules.add(new SshHostKeyModule());
     modules.add(new DefaultCommandModule(false,
         sysInjector.getInstance(DownloadConfig.class)));
+    if (indexType == IndexType.LUCENE) {
+      modules.add(new IndexCommandsModule());
+    }
     return sysInjector.createChildInjector(modules);
   }
 

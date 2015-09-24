@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aed8553b_7fd38f3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-24T12:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae42154a_afca5985",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "c97d426f33f2d788de24fbea2b229ff11a95ae5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ced58901_20ad6ac1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2015-09-24T05:20:57Z",
       "side": 1,
       "message": "I appreciate your efforts to find a workaround, but this approach wouldn\u0027t fly with standalone Buck build implementations. And of course cookbook-plugin supports standalone build mode. Your proposal would just kill this build mode in cookbook-plugin. Needless to say, I will not accept such a change in cookbook-plugin.\n\nAs for my previous comment: the correct fix is to include only needed parts and some transitive deps from //gerrit-acceptance-tests:lib to support unit tests with only Plugin API available (standalonde build mode) and not in tree build mode. TBH: in tree build is just abusing the whole Plugin API by not using it at all; when all plugins always going to use in tree build mode only, and rest of non-migrated Maven-plugins would migrate to in tree Buck build (I guess the only plugin that wasn\u0027t migrated yet to Buck in tree build is GitHub?) than we could just kill the Plugin API, not expose it any more, and nobody would even notice.",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 40
+      },
+      "revId": "c97d426f33f2d788de24fbea2b229ff11a95ae5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced58901_e0caa286",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-24T12:51:19Z",
+      "side": 1,
+      "message": "Let\u0027s find a solution for standalone BUCK build as well: I\u0027m sure it should be feasible to sort this out.\n\nWith regards to the tree build and the maven plugins, I think it is not relevant to this change as this was more removing BouncyCastle classes from Plugins API which results in a JAR with invalid signature.\n\nI am sure we can finalise the remaining bits and pieces :-) You can join the efforts and help out as well :-)",
+      "parentUuid": "ced58901_20ad6ac1",
       "range": {
         "startLine": 26,
         "startChar": 9,

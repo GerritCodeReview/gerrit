@@ -85,9 +85,18 @@ public class EditPreferences extends JavaScriptObject {
   }
   private final native String keyMapTypeRaw() /*-{ return this.key_map_type }-*/;
 
-  public final int tabSize() {return get("tab_size", 8); }
-  public final int lineLength() {return get("line_length", 100); }
-  public final int cursorBlinkRate() {return get("cursor_blink_rate", 0); }
+  public final int tabSize() {
+    return get("tab_size", 8);
+  }
+
+  public final int lineLength() {
+    return get("line_length", 100);
+  }
+
+  public final int cursorBlinkRate() {
+    return get("cursor_blink_rate", 0);
+  }
+
   public final native boolean hideTopMenu() /*-{ return this.hide_top_menu || false }-*/;
   public final native boolean showTabs() /*-{ return this.show_tabs || false }-*/;
   public final native boolean showWhitespaceErrors() /*-{ return this.show_whitespace_errors || false }-*/;

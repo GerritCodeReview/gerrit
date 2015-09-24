@@ -22,6 +22,30 @@
       "revId": "20e8dadf3a61f64ef005c616011776df3f4c63fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced58901_40d98e5c",
+        "filename": "gerrit-acceptance-tests/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-24T14:29:51Z",
+      "side": 1,
+      "message": "Those libs were added by DaveB for his GPG support in Gerrit for signed commits. They aren\u0027t provided at runtime as they are needed for his integration tests.\n\nBut it is worth trying it :-)",
+      "parentUuid": "aed8553b_bfe43718",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 32
+      },
+      "revId": "20e8dadf3a61f64ef005c616011776df3f4c63fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

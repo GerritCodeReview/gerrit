@@ -176,6 +176,24 @@
       "revId": "52071e5dac17062df3ead14ba942228b1c695676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ceef49fe_70c1706b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexStartCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-09-24T19:51:19Z",
+      "side": 1,
+      "message": "I will work on this and try to find a solution",
+      "parentUuid": "4ea8b95b_6404aa57",
+      "revId": "52071e5dac17062df3ead14ba942228b1c695676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

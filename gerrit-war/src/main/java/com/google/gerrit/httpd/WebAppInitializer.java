@@ -45,6 +45,7 @@ import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
@@ -299,12 +300,13 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
     AbstractModule changeIndexModule;
-    switch (IndexModule.getIndexType(cfgInjector)) {
+    IndexType indexType = IndexModule.getIndexType(cfgInjector);
+    switch (indexType) {
       case LUCENE:
         changeIndexModule = new LuceneIndexModule();
         break;
       default:
-        throw new IllegalStateException("unsupported index.type");
+        throw new IllegalStateException("unsupported index.type = " + indexType);
     }
     modules.add(changeIndexModule);
     modules.add(new CanonicalWebUrlModule() {

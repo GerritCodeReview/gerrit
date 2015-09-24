@@ -27,6 +27,8 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -91,6 +93,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -143,7 +147,19 @@ public class MergeOp {
 
   private final Map<Change.Id, List<SubmitRecord>> records;
   private final Map<Change.Id, CodeReviewCommit> commits;
-  private String logPrefix;
+
+  private static final String MACHINE_ID;
+  static {
+    String id;
+    try {
+      id = InetAddress.getLocalHost().getHostAddress();
+    } catch (UnknownHostException e) {
+      id = "unknown";
+    }
+    MACHINE_ID = id;
+  }
+  private String staticSubmissionId;
+  private String submissionId;
 
   private ProjectState destProject;
   private ReviewDb db;
@@ -336,10 +352,19 @@ public class MergeOp {
     }
   }
 
+  private void updateSubmissionId(Change change) {
+    Hasher h = Hashing.sha1().newHasher();
+    h.putLong(Thread.currentThread().getId())
+        .putUnencodedChars(MACHINE_ID);
+    staticSubmissionId = h.hash().toString().substring(0, 8);
+    submissionId = change.getId().get() + "-" + TimeUtil.nowMs() +
+        "-" + staticSubmissionId;
+  }
+
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
       boolean checkSubmitRules) throws NoSuchChangeException,
       OrmException, ResourceConflictException {
-    logPrefix = String.format("[%s]: ", String.valueOf(change.hashCode()));
+    updateSubmissionId(change);
     this.db = db;
     logDebug("Beginning integration of {}", change);
     try {
@@ -997,6 +1022,7 @@ public class MergeOp {
       @Override
       public Change update(Change c) {
         c.setStatus(Change.Status.MERGED);
+        c.setSubmissionId(submissionId);
         if (!merged.equals(c.currentPatchSetId())) {
           // Uncool; the patch set changed after we merged it.
           // Go back to the patch set that was actually merged.
@@ -1253,28 +1279,28 @@ public class MergeOp {
 
   private void logDebug(String msg, Object... args) {
     if (log.isDebugEnabled()) {
-      log.debug(logPrefix + msg, args);
+      log.debug("[" + submissionId + "]" + msg, args);
     }
   }
 
   private void logWarn(String msg, Throwable t) {
     if (log.isWarnEnabled()) {
-      log.warn(logPrefix + msg, t);
+      log.warn("[" + submissionId + "]" + msg, t);
     }
   }
 
   private void logWarn(String msg) {
     if (log.isWarnEnabled()) {
-      log.warn(logPrefix + msg);
+      log.warn("[" + submissionId + "]" + msg);
     }
   }
 
   private void logError(String msg, Throwable t) {
     if (log.isErrorEnabled()) {
       if (t != null) {
-        log.error(logPrefix + msg, t);
+        log.error("[" + submissionId + "]" + msg, t);
       } else {
-        log.error(logPrefix + msg);
+        log.error("[" + submissionId + "]" + msg);
       }
     }
   }

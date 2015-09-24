@@ -158,6 +158,24 @@
       "revId": "52071e5dac17062df3ead14ba942228b1c695676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ea8b95b_6404aa57",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexStartCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-24T09:29:25Z",
+      "side": 1,
+      "message": "Since Solr was removed on master, Lucene is the only index available and this is not a problem.  However now we\u0027ve found during testing of Elasticsearch that it\u0027s causing injection errors.\n\nhttp://paste.openstack.org/show/473632/\n\nI\u0027ve started trying to fix it, but it\u0027s not working yet:\n\nhttps://gerrit-review.googlesource.com/#/c/71107/",
+      "parentUuid": "132d0577_281fab8f",
+      "revId": "52071e5dac17062df3ead14ba942228b1c695676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

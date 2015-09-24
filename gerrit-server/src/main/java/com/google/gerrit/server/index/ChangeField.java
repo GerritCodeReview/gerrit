@@ -207,6 +207,21 @@ public class ChangeField {
         }
       };
 
+  /** Change status string, in the same format as {@code status:}. */
+  public static final FieldDef<ChangeData, String> CHANGESET =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_CHANGE_SET, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return c.getChangeSet();
+        }
+      };
+
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
       new FieldDef.Single<ChangeData, Timestamp>(

@@ -95,6 +95,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_BEFORE = "before";
   public static final String FIELD_BRANCH = "branch";
   public static final String FIELD_CHANGE = "change";
+  public static final String FIELD_CHANGE_SET = "changeset";
   public static final String FIELD_COMMENT = "comment";
   public static final String FIELD_COMMENTBY = "commentby";
   public static final String FIELD_COMMIT = "commit";

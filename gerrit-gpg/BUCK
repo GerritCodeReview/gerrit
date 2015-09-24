@@ -1,22 +1,23 @@
+DEPS = [
+  '//gerrit-common:server',
+  '//gerrit-extension-api:api',
+  '//gerrit-reviewdb:server',
+  '//gerrit-server:server',
+  '//lib:guava',
+  '//lib:gwtorm',
+  '//lib/guice:guice',
+  '//lib/guice:guice-assistedinject',
+  '//lib/guice:guice-servlet',
+  '//lib/jgit:jgit',
+  '//lib/log:api',
+]
+
 java_library(
   name = 'gpg',
   srcs = glob(['src/main/java/**/*.java']),
-  deps = [
-    '//gerrit-common:server',
-    '//gerrit-extension-api:api',
-    '//gerrit-reviewdb:server',
-    '//gerrit-server:server',
-    '//lib:guava',
-    '//lib:gwtorm',
-    '//lib/guice:guice',
-    '//lib/guice:guice-assistedinject',
-    '//lib/guice:guice-servlet',
-    '//lib/jgit:jgit',
-    '//lib/log:api',
-  ],
-  provided_deps = [
-    '//lib/bouncycastle:bcprov',
+  provided_deps = DEPS + [
     '//lib/bouncycastle:bcpg',
+    '//lib/bouncycastle:bcprov',
   ],
   visibility = ['PUBLIC'],
 )
@@ -28,12 +29,10 @@ TESTUTIL_SRCS = [
 java_library(
   name = 'testutil',
   srcs = TESTUTIL_SRCS,
-  deps = [
+  deps = DEPS + [
     ':gpg',
-    '//lib:guava',
     '//lib/bouncycastle:bcpg',
     '//lib/bouncycastle:bcprov',
-    '//lib/jgit:jgit',
   ],
   visibility = ['PUBLIC'],
 )
@@ -44,20 +43,15 @@ java_test(
     ['src/test/java/**/*.java'],
     excludes = TESTUTIL_SRCS,
   ),
-  deps = [
+  deps = DEPS + [
     ':gpg',
     ':testutil',
-    '//gerrit-extension-api:api',
-    '//gerrit-reviewdb:server',
-    '//gerrit-server:server',
+    '//gerrit-cache-h2:cache-h2',
+    '//gerrit-lucene:lucene',  
     '//gerrit-server:testutil',
-    '//lib:guava',
-    '//lib:gwtorm',
     '//lib:truth',
     '//lib/bouncycastle:bcpg',
     '//lib/bouncycastle:bcprov',
-    '//lib/guice:guice',
-    '//lib/jgit:jgit',
     '//lib/jgit:junit',
   ],
   source_under_test = [':gpg'],

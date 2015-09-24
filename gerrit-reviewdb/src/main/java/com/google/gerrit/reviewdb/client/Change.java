@@ -453,6 +453,9 @@ public final class Change {
   @Column(id = 17, notNull = false)
   protected String originalSubject;
 
+  @Column(id = 18, notNull = false)
+  protected String changeSet;
+
   protected Change() {
   }
 
@@ -479,6 +482,7 @@ public final class Change {
     currentPatchSetId = other.currentPatchSetId;
     subject = other.subject;
     originalSubject = other.originalSubject;
+    changeSet = other.changeSet;
     topic = other.topic;
   }
 
@@ -560,6 +564,14 @@ public final class Change {
       // Newly created changes remember the first commit's subject.
       originalSubject = subject;
     }
+  }
+
+  public String getChangeSet() {
+    return changeSet;
+  }
+
+  public void setChangeSet(String cs) {
+    this.changeSet = cs;
   }
 
   public Status getStatus() {

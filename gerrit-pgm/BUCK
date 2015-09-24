@@ -53,25 +53,37 @@ java_library(
   ],
   provided_deps = ['//gerrit-launcher:launcher'],
   visibility = [
+    '//gerrit-acceptance-framework/...',
     '//gerrit-acceptance-tests/...',
     '//gerrit-war:',
   ],
 )
 
+REST_UTIL_DEPS = [
+  '//gerrit-cache-h2:cache-h2',
+  '//gerrit-util-cli:cli',
+  '//lib:args4j',
+  '//lib:gwtorm',
+  '//lib/commons:dbcp',
+]
+
 java_library(
   name = 'util',
-  srcs = glob([SRCS + 'util/*.java']),
-  deps = DEPS + [
-    '//gerrit-cache-h2:cache-h2',
-    '//gerrit-util-cli:cli',
-    '//lib:args4j',
-    '//lib:gwtorm',
-    '//lib/commons:dbcp',
-  ],
+  deps = DEPS + REST_UTIL_DEPS,
+  exported_deps = [':util-nodep'],
   visibility = [
     '//gerrit-acceptance-tests/...',
     '//gerrit-gwtdebug:gwtdebug',
     '//gerrit-war:',
+  ],
+)
+
+java_library(
+  name = 'util-nodep',
+  srcs = glob([SRCS + 'util/*.java']),
+  provided_deps = DEPS + REST_UTIL_DEPS,
+  visibility = [
+    '//gerrit-acceptance-framework/...',
   ],
 )
 
@@ -90,36 +102,52 @@ java_library(
   visibility = ['//gerrit-war:'],
 )
 
+REST_PGM_DEPS = [
+  ':http',
+  ':init',
+  ':init-api',
+  ':util',
+  '//gerrit-cache-h2:cache-h2',
+  '//gerrit-gpg:gpg',
+  '//gerrit-lucene:lucene',
+  '//gerrit-oauth:oauth',
+  '//gerrit-openid:openid',
+  '//lib:args4j',
+  '//lib:gwtorm',
+  '//lib:protobuf',
+  '//lib:servlet-api-3_1',
+  '//lib/auto:auto-value',
+  '//lib/prolog:cafeteria',
+  '//lib/prolog:compiler',
+  '//lib/prolog:runtime',
+]
+
 java_library(
   name = 'pgm',
-  srcs = glob([SRCS + '*.java', SRCS + 'rules/*.java']),
   resources = glob([RSRCS + '*']),
-  deps = DEPS + [
-    ':http',
-    ':init',
-    ':init-api',
-    ':util',
-    '//gerrit-cache-h2:cache-h2',
-    '//gerrit-gpg:gpg',
-    '//gerrit-lucene:lucene',
-    '//gerrit-oauth:oauth',
-    '//gerrit-openid:openid',
-    '//lib:args4j',
-    '//lib:gwtorm',
-    '//lib:protobuf',
-    '//lib:servlet-api-3_1',
-    '//lib/auto:auto-value',
-    '//lib/prolog:cafeteria',
-    '//lib/prolog:compiler',
-    '//lib/prolog:runtime',
+  deps = DEPS + REST_PGM_DEPS + [
+    ':daemon',
   ],
-  provided_deps = ['//gerrit-launcher:launcher'],
   visibility = [
     '//:',
     '//gerrit-acceptance-tests/...',
     '//gerrit-gwtdebug:gwtdebug',
     '//tools/eclipse:classpath',
     '//Documentation:licenses.txt',
+  ],
+)
+
+# no transitive deps, used for gerrit-acceptance-framework
+java_library(
+  name = 'daemon',
+  srcs = glob([SRCS + '*.java', SRCS + 'rules/*.java']),
+  resources = glob([RSRCS + '*']),
+  deps = ['//lib/auto:auto-value'],
+  provided_deps = DEPS + REST_PGM_DEPS + [
+    '//gerrit-launcher:launcher',
+  ],
+  visibility = [
+    '//gerrit-acceptance-framework/...',
   ],
 )
 

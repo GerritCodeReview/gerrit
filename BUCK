@@ -9,6 +9,9 @@ gerrit_war(name = 'withdocs', docs = True)
 gerrit_war(name = 'release',  ui = 'ui_optdbg_r', docs = True, context = ['//plugins:core'],  visibility = ['//tools/maven:'])
 
 API_DEPS = [
+  '//gerrit-acceptance-framework:api',
+  '//gerrit-acceptance-framework:src',
+  '//gerrit-acceptance-framework:javadoc',
   '//gerrit-extension-api:extension-api',
   '//gerrit-extension-api:extension-api-src',
   '//gerrit-extension-api:extension-api-javadoc',

@@ -194,6 +194,10 @@ public class InternalChangeQuery {
     return query(commit(schema(indexes), id.name()));
   }
 
+  public List<ChangeData> byChangeSet(String cs) throws OrmException {
+    return query(new ChangeSetPredicate(cs));
+  }
+
   public List<ChangeData> byProjectGroups(Project.NameKey project,
       Collection<String> groups) throws OrmException {
     List<GroupPredicate> groupPredicates = new ArrayList<>(groups.size());

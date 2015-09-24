@@ -14,15 +14,11 @@
 
 package com.google.gerrit.acceptance.server.change;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ProjectConfig;
 
@@ -33,8 +29,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 public class SubmittedTogetherIT extends AbstractDaemonTest {
 
@@ -165,20 +159,6 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
     assertSubmittedTogether(id1);
     assertSubmittedTogether(id2);
-  }
-
-  private void assertSubmittedTogether(String chId, String... expected)
-      throws Exception {
-    List<ChangeInfo> actual = gApi.changes().id(chId).submittedTogether();
-    assertThat(actual).hasSize(expected.length);
-    assertThat(Arrays.asList(expected))
-        .containsExactlyElementsIn(
-            Iterables.transform(actual, new Function<ChangeInfo, String>() {
-              @Override
-              public String apply(ChangeInfo input) {
-                return input.changeId;
-              }
-            })).inOrder();
   }
 
   private RevCommit getRemoteHead() throws IOException {

@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
@@ -60,8 +59,6 @@ public class FileContentUtil {
   private static final int MAX_SIZE = 5 << 20;
   private static final String ZIP_TYPE = "application/zip";
   private static final Random rng = new Random();
-  private static final CharMatcher LOWERCASE_OR_DIGITS =
-      CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('0', '9'));
 
   private final GitRepositoryManager repoManager;
   private final FileTypeRegistry registry;

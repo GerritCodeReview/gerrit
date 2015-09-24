@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee116dd4_09c8c98c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-09-24T19:56:18Z",
+      "side": 1,
+      "message": "I think that in the long term, we want to extract the online reindexing mechanism from lucene into the secondary index abstraction so any implementation could benefits from such a nice feature.\n\nFor now, I agree with the proposed fix. I will try to figure out how to get it to work for the test as well.",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "d5f8627d58f0e0f6166b90855c91d611762f121f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

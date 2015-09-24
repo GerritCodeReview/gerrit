@@ -70,6 +70,30 @@
       "revId": "20e8dadf3a61f64ef005c616011776df3f4c63fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed8553b_ffdebf3f",
+        "filename": "gerrit-acceptance-tests/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-24T19:31:04Z",
+      "side": 1,
+      "message": "I\u0027m working on fixing it: The idea is to split the current gerrit-acceptance-tests in two parts and will propose a change in a moment:\n\n* framework + some needed deps, that is exposed as additional plugin artifact in addition to currently available plugin-api and plugin-gwtui\n* rest of the gerrit-acceptance-test project\n\nWith this in place we would be able to seamlessly support unit testing in three build modes:\n\n* Buck in tree build mode: new variable will be definded in bucklets/gerrit_plugin.bucklet, say: GERRIT_TESTS that will point to: //gerrit-acceptance-framework:lib\n* Buck standalone build mode: the same variable GERRIT_TESTS would be defined in bucklets/gerrit_plugin.bucklet that will poipnt to //lib/gerrit:acceptance-framework. This new artifact would need to be added in already existing file //lib/gerrit/BUCK in plugins, that support standalone build mode\n* Maven build: just add a dependency on new exposed gerrit-acceptance-framework artifact when new release is published",
+      "parentUuid": "ced58901_80d3963a",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 32
+      },
+      "revId": "20e8dadf3a61f64ef005c616011776df3f4c63fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -339,7 +339,8 @@ public class MergeOp {
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
       boolean checkSubmitRules) throws NoSuchChangeException,
       OrmException, ResourceConflictException {
-    logPrefix = String.format("[%s]: ", String.valueOf(change.hashCode()));
+    logPrefix = String.format("[%s %s]: ", String.valueOf(TimeUtil.nowTs()),
+        String.valueOf(change.hashCode()));
     this.db = db;
     logDebug("Beginning integration of {}", change);
     try {
@@ -997,6 +998,7 @@ public class MergeOp {
       @Override
       public Change update(Change c) {
         c.setStatus(Change.Status.MERGED);
+        c.setChangeSet(logPrefix);
         if (!merged.equals(c.currentPatchSetId())) {
           // Uncool; the patch set changed after we merged it.
           // Go back to the patch set that was actually merged.

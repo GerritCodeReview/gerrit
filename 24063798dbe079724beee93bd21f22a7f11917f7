@@ -211,6 +211,23 @@
       "revId": "24063798dbe079724beee93bd21f22a7f11917f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3295acb_69b66513",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-09-25T18:02:59Z",
+      "side": 1,
+      "message": "cookbook-plugin revision should be 2d25edee3f9ae354d875c2591bdd44bd937125fe",
+      "revId": "24063798dbe079724beee93bd21f22a7f11917f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

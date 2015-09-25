@@ -70,6 +70,30 @@
       "revId": "1ebb9834dd77973b14928b82a9e8d623ed142ba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ea8b95b_e472dad8",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/ui/GroupSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-25T18:09:19Z",
+      "side": 1,
+      "message": "Unfortunately the plugin using it is not externally available :(",
+      "parentUuid": "f3295acb_c9c67182",
+      "range": {
+        "startLine": 57,
+        "startChar": 38,
+        "endLine": 57,
+        "endChar": 47
+      },
+      "revId": "1ebb9834dd77973b14928b82a9e8d623ed142ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

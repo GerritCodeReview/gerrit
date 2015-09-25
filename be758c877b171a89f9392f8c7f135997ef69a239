@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae42154a_cf8b5d13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-25T10:14:34Z",
+      "side": 1,
+      "message": "Is there any valid case where the external ID is not in the cache, and we should then get it from the DB (on line 159)?",
+      "range": {
+        "startLine": 155,
+        "startChar": 6,
+        "endLine": 157,
+        "endChar": 26
+      },
+      "revId": "be758c877b171a89f9392f8c7f135997ef69a239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

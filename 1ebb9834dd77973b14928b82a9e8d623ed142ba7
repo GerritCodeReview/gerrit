@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3295acb_e9c9b592",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/ui/GroupSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-09-25T17:57:46Z",
+      "side": 1,
+      "message": "@Yuxuan, in order to get rid of the GroupInfo dummy class (and the empty constructor warning), could we use any subclass of JavaScriptObject here, like NativeString or even JavascriptObject itself?",
+      "range": {
+        "startLine": 57,
+        "startChar": 38,
+        "endLine": 57,
+        "endChar": 47
+      },
+      "revId": "1ebb9834dd77973b14928b82a9e8d623ed142ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

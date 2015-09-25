@@ -77,5 +77,8 @@ public class GroupSuggestOracle extends SuggestOracle {
 
   private static class GroupInfo extends JavaScriptObject {
     // Dummy class, does nothing.
+
+    protected GroupInfo() {
+    }
   }
 }

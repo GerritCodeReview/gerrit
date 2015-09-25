@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae42154a_ef5ce164",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-25T00:47:04Z",
+      "side": 1,
+      "message": "AbstractDaemonTest",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "550a4cec09d417411088ea013ba4abd4a5c428cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae42154a_cf591d73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-25T00:47:04Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to move it to AbstractSubmit?",
+      "revId": "550a4cec09d417411088ea013ba4abd4a5c428cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

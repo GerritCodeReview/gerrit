@@ -22,6 +22,30 @@
       "revId": "4cbebe94277100c4a3be074e75939f606e1e5793",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ea8b95b_e4409a70",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 53
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-25T06:31:03Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right.",
+      "parentUuid": "aed8553b_5f208bdd",
+      "range": {
+        "startLine": 398,
+        "startChar": 4,
+        "endLine": 403,
+        "endChar": 5
+      },
+      "revId": "4cbebe94277100c4a3be074e75939f606e1e5793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

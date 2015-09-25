@@ -22,6 +22,30 @@
       "revId": "a402ccb8e4c7c901554e936fbe1e7df0998bd207",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed8553b_1f30c31c",
+        "filename": "gerrit-acceptance-tests/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-25T10:54:11Z",
+      "side": 0,
+      "message": "Gerrit Daemon depends on it and /gerrit-gpg is also wasn\u0027t included in plugin-api (you may argue, it should be included in the plugin-api). I think it wasn\u0027t included in the plugin-api for a reason, but because Daemon wouldn\u0027t start without it, it must be included at least in acceptance-framework. Note, it would be a trivial change to move stuff from acceptance-framework to plugin-api, though.",
+      "parentUuid": "aed8553b_7f58ef6f",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 22
+      },
+      "revId": "a402ccb8e4c7c901554e936fbe1e7df0998bd207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

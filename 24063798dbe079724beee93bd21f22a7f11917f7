@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aed8553b_3f35870d",
+        "filename": "bucklets/gerrit_plugin.bucklet",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-25T10:54:11Z",
+      "side": 1,
+      "message": "To fix/keep this list lexicographically sorted.",
+      "parentUuid": "aed8553b_5f532b54",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 47
+      },
+      "revId": "24063798dbe079724beee93bd21f22a7f11917f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ced58901_20264afd",
         "filename": "gerrit-acceptance-framework/BUCK",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "aed8553b_7f2f0fbf",
+        "filename": "gerrit-acceptance-framework/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-25T10:54:11Z",
+      "side": 1,
+      "message": "| Why is GPG part of the framework?\n\nThis is a part of Gerrit and is used in Daemon. GPG code wasn\u0027t included in plugin-api. I am open to move it from acceptance-framework to plugin-api. But this could be done in a follow-up change (if at all).\n\n\u003e If we fetch GPG as well we may again end up with the BouncyCastle dependency.\n\nNo. GPG code doesn\u0027t depend transitively on bouncy castle. Only GPG testutil does, but it wasn\u0027t included in the framework.",
+      "parentUuid": "ced58901_20264afd",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "24063798dbe079724beee93bd21f22a7f11917f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ced58901_402b4ec4",
         "filename": "gerrit-gpg/BUCK",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2015-09-25T10:13:58Z",
       "side": 1,
       "message": "Is there a reason behind the change of the bcpg / bcprov ordering?",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "24063798dbe079724beee93bd21f22a7f11917f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed8553b_ff631f23",
+        "filename": "gerrit-gpg/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-25T10:54:11Z",
+      "side": 1,
+      "message": "Yes. Otherwise I wouldn\u0027t change it: for one this list was not lexicographically sorted, for another the sorting order was correct on the lin 34-35 below and thus non-consistent; I was already at it, so I fixed it too.",
+      "parentUuid": "ced58901_402b4ec4",
       "range": {
         "startLine": 20,
         "startChar": 4,
@@ -106,6 +178,30 @@
       "side": 1,
       "message": "Yes.  Without this it doesn\u0027t compile.",
       "parentUuid": "aed8553b_9f5cd364",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "24063798dbe079724beee93bd21f22a7f11917f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced58901_a0197ab4",
+        "filename": "gerrit-gwtdebug/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-25T10:54:11Z",
+      "side": 1,
+      "message": "It was explained in the commit message, why gerrit-pgm:pgm was split to break transitive dependency chain, to not pull to many dependencies in new acceptance-framework artifact.",
+      "parentUuid": "ae42154a_af981965",
       "range": {
         "startLine": 5,
         "startChar": 4,

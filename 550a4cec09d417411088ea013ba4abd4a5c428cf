@@ -39,6 +39,24 @@
       "revId": "550a4cec09d417411088ea013ba4abd4a5c428cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ea8b95b_6487ca04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-25T17:57:56Z",
+      "side": 1,
+      "message": "Originally we had that method for testing the new tab, which was only related to submitting a bit. The test SubmittedTogetherIT also inherits from the AbstractDaemonTest base class and not from the more specialized AbstractSubmit class. And I don\u0027t want to change that as the submitted together tab should really not inherit from AbstractSubmit as it doesn\u0027t submit.",
+      "parentUuid": "ae42154a_cf591d73",
+      "revId": "550a4cec09d417411088ea013ba4abd4a5c428cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

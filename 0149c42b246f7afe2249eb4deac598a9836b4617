@@ -16,6 +16,24 @@
       "revId": "0149c42b246f7afe2249eb4deac598a9836b4617",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed8553b_bf40b76f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-09-25T21:18:18Z",
+      "side": 1,
+      "message": "The reason I\u0027m saying this, is that this change is based on the tree, that still includes this change: [1]. However, this line was reverted in this change [2]. So when the [2] is going to be merged before this change, then this change would break acceptance-framework. So why LuceneIndexModule works and ElasticIndexModule wouldn\u0027t? That\u0027s because: gerrit-sshd depends transitively on gerrit-lucene, but not on ES:\n\n\n  $ buck audit classpath --dot //gerrit-sshd:sshd | grep \u0027\\-\u003e \\\"//gerrit-lucene:lucene\u0027\n  \"//gerrit-sshd:sshd\" -\u003e \"//gerrit-lucene:lucene\";\n\n\nIOW, when [2] is reverted, ES wouldn\u0027t be included neither in plugin-api nor in acceptance-framework, and this would reak plugin unit tests in both mode: in gerrit tree and in standalone mode.\n\nTo rectify it, //gerrit-elasticsearch:elasticsearch should be included either in plugin-api or in acceptance-framework. I wonder, why don\u0027t we make //gerrit-sshd:sshd rule depend on //gerrit-elasticsearch:elasticsearch? This would allow us to potentiall expose gerrit SSH commands that deal with index start (like now with lucene backend) and because gerrit-plugin-api transitively depends on //gerrit-sshd:sshd, this would include ES and all its dependencies in the plugin-API (and unit tests in plugins would still work).\n\n* [1] https://gerrit-review.googlesource.com/#/c/69425/22/gerrit-plugin-api/BUCK@23\n* [2] I4cadf6616de36ca24712f8b07d282b7a50911105",
+      "parentUuid": "ced58901_404eeeb1",
+      "revId": "0149c42b246f7afe2249eb4deac598a9836b4617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3295acb_49bba1f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2015-09-25T15:19:13Z",
+      "side": 1,
+      "message": "Plugins having their own log file is a common case but the code for creating it was duplicated. See, e.g., ...",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "02ba32d74abbe33d6c9639648322b1be8d4534ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ceef49fe_30e2c80b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2015-09-25T15:19:13Z",
+      "side": 1,
+      "message": "New paragraph ??",
+      "revId": "02ba32d74abbe33d6c9639648322b1be8d4534ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

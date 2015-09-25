@@ -77,5 +77,9 @@ public class GroupSuggestOracle extends SuggestOracle {
 
   private static class GroupInfo extends JavaScriptObject {
     // Dummy class, does nothing.
+
+    // This constructor is needed to make GWT happy. See Issue 3583
+    protected GroupInfo() {
+    }
   }
 }

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aed8553b_5f532b54",
+        "filename": "bucklets/gerrit_plugin.bucklet",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-25T10:13:58Z",
+      "side": 1,
+      "message": "Why to we need to change line position of GERRIT_PLUGIN_API as well?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 47
+      },
+      "revId": "24063798dbe079724beee93bd21f22a7f11917f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced58901_20264afd",
+        "filename": "gerrit-acceptance-framework/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-25T10:13:58Z",
+      "side": 1,
+      "message": "Why is GPG part of the framework? I thought it was needed only for DaveB tests. If we fetch GPG as well we may again end up with the BouncyCastle dependency in our way ... which is (again) potentially disrupting the jar signature.",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "24063798dbe079724beee93bd21f22a7f11917f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ced58901_402b4ec4",
+        "filename": "gerrit-gpg/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-25T10:13:58Z",
+      "side": 1,
+      "message": "Is there a reason behind the change of the bcpg / bcprov ordering?",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "24063798dbe079724beee93bd21f22a7f11917f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed8553b_9f5cd364",
+        "filename": "gerrit-gwtdebug/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-25T10:13:58Z",
+      "side": 1,
+      "message": "Is this a related change?",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "24063798dbe079724beee93bd21f22a7f11917f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

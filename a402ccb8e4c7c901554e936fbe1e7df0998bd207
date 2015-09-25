@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aed8553b_7f58ef6f",
+        "filename": "gerrit-acceptance-tests/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-25T10:13:58Z",
+      "side": 0,
+      "message": "I believe gerrit-gpg should stay in the acceptance-tests and not being pulled into the framework",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 22
+      },
+      "revId": "a402ccb8e4c7c901554e936fbe1e7df0998bd207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

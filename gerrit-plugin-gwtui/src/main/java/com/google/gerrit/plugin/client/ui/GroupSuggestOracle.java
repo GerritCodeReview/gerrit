@@ -52,9 +52,9 @@ public class GroupSuggestOracle extends SuggestOracle {
     if (req.getLimit() > 0) {
       rest.addParameter("n", req.getLimit());
     }
-    rest.get(new AsyncCallback<NativeMap<GroupInfo>>() {
+    rest.get(new AsyncCallback<NativeMap<JavaScriptObject>>() {
       @Override
-      public void onSuccess(NativeMap<GroupInfo> result) {
+      public void onSuccess(NativeMap<JavaScriptObject> result) {
         List<String> keys = result.sortedKeys();
         List<Suggestion> suggestions = new ArrayList<>(keys.size());
         for (String g : keys) {
@@ -73,12 +73,5 @@ public class GroupSuggestOracle extends SuggestOracle {
   private static void responseEmptySuggestion(Request req, Callback done) {
     List<Suggestion> empty = Collections.emptyList();
     done.onSuggestionsReady(req, new Response(empty));
-  }
-
-  private static class GroupInfo extends JavaScriptObject {
-    // Dummy class, does nothing.
-
-    protected GroupInfo() {
-    }
   }
 }

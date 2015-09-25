@@ -118,6 +118,30 @@
       "revId": "1ebb9834dd77973b14928b82a9e8d623ed142ba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae42154a_0f8165ec",
+        "filename": "gerrit-plugin-gwtui/src/main/java/com/google/gerrit/plugin/client/ui/GroupSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-09-25T18:18:49Z",
+      "side": 1,
+      "message": "Just verified that JavaScriptObject works. Sorry about the trouble.",
+      "parentUuid": "f3295acb_29d58d23",
+      "range": {
+        "startLine": 57,
+        "startChar": 38,
+        "endLine": 57,
+        "endChar": 47
+      },
+      "revId": "1ebb9834dd77973b14928b82a9e8d623ed142ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

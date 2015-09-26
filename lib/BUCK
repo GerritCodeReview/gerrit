@@ -153,8 +153,8 @@ maven_jar(
 
 maven_jar(
   name = 'h2',
-  id = 'com.h2database:h2:1.3.174',
-  sha1 = '2fb55391f525bc3ef9f320a379d19350af96a554',
+  id = 'com.h2database:h2:1.4.189',
+  sha1 = '729cc6463437e87238e85aa81dd3771c3b8e2a0f',
   license = 'h2',
 )
 

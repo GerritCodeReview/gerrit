@@ -32,6 +32,8 @@ public class DatabaseConfigModule extends AbstractModule {
     bind(DatabaseConfigInitializer.class).annotatedWith(
         Names.named("db2")).to(DB2Initializer.class);
     bind(DatabaseConfigInitializer.class).annotatedWith(
+        Names.named("derby")).to(DerbyInitializer.class);
+    bind(DatabaseConfigInitializer.class).annotatedWith(
         Names.named("h2")).to(H2Initializer.class);
     bind(DatabaseConfigInitializer.class).annotatedWith(
         Names.named("jdbc")).to(JDBCInitializer.class);

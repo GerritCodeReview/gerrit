@@ -45,6 +45,7 @@ java_library(
     '//gerrit-common:annotations',
     '//gerrit-lucene:lucene',
     '//lib:args4j',
+    '//lib:derby',
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
     '//lib:h2',

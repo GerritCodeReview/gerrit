@@ -26,11 +26,11 @@ define_license(name = 'DO_NOT_DISTRIBUTE')
 
 maven_jar(
   name = 'gwtorm_client',
-  id = 'com.google.gerrit:gwtorm:1.14-16-gc4e356a',
-  bin_sha1 = '01225468065812bbe5f27972df6dafa9d796d833',
-  src_sha1 = '3622460ed58684cb33f786e3748637c8eea324f9',
+  id = 'com.google.gerrit:gwtorm:1.15-SNAPSHOT',
+  bin_sha1 = '8b32d9f3af27726422156b247201563e2ed2b710',
+  src_sha1 = 'dbb0b530e4be6b0c6e72ded66394a8df624b4013',
   license = 'Apache2.0',
-  repository = GERRIT,
+  repository = MAVEN_LOCAL,
 )
 
 java_library(
@@ -149,6 +149,14 @@ maven_jar(
   sha1 = '2e35862b0435c1b027a21f3d6eecbe50e6e08d54',
   license = 'Apache2.0',
   visibility = ['//lib:grappa'],
+)
+
+maven_jar(
+  name = 'derby',
+  id = 'org.apache.derby:derby:10.11.1.1',
+  sha1 = 'df4b50061e8e4c348ce243b921f53ee63ba9bbe1',
+  license = 'Apache2.0',
+  attach_source = False,
 )
 
 maven_jar(

@@ -18,6 +18,20 @@ and it's not possible to set up H2 in a load balanced/hotswap configuration.
 
 If this option interests you, you might want to consider link:install-quick.html[the quick guide].
 
+[[createdb_debry]]
+=== Apache Derby
+
+If Derby is selected, Gerrit will automatically set up the embedded Derby
+database as backend so no set up or configuration is necessary.
+
+Currently only support for embedded mode is added. There are two other
+deployment options for Apache Derby that can be added later [1]:
++
+* Derby Network Server (standalone mode)
+* Embedded Server (hybrid mode)
++
+[1] http://db.apache.org/derby/papers/DerbyTut/ns_intro.html#ns
+
 [[createdb_postgres]]
 === PostgreSQL
 

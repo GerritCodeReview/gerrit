@@ -97,6 +97,7 @@ java_library(
     '//gerrit-gpg:gpg',
     '//gerrit-lucene:lucene',
     '//gerrit-reviewdb:server',
+    '//lib:derby',
     '//lib:gwtorm',
     '//lib:h2',
     '//lib:truth',

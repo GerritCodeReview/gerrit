@@ -22,6 +22,7 @@ public class DataSourceModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(DataSourceType.class).annotatedWith(Names.named("db2")).to(DB2.class);
+    bind(DataSourceType.class).annotatedWith(Names.named("derby")).to(Derby.class);
     bind(DataSourceType.class).annotatedWith(Names.named("h2")).to(H2.class);
     bind(DataSourceType.class).annotatedWith(Names.named("jdbc")).to(JDBC.class);
     bind(DataSourceType.class).annotatedWith(Names.named("mysql")).to(MySql.class);

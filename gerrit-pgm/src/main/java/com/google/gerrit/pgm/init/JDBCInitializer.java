@@ -33,7 +33,9 @@ class JDBCInitializer implements DatabaseConfigInitializer {
   private void guessDriver(Section database) {
     String url = Strings.emptyToNull(database.get("url"));
     if (url != null && Strings.isNullOrEmpty(database.get("driver"))) {
-      if (url.startsWith("jdbc:h2:")) {
+      if (url.startsWith("jdbc:derby:")) {
+        database.set("driver", "org.apache.derby.jdbc.EmbeddedDriver");
+      } else if (url.startsWith("jdbc:h2:")) {
         database.set("driver", "org.h2.Driver");
       } else if (url.startsWith("jdbc:mysql:")) {
         database.set("driver", "com.mysql.jdbc.Driver");

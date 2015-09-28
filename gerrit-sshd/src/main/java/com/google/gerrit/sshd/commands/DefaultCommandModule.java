@@ -34,12 +34,11 @@ public class DefaultCommandModule extends CommandModule {
 
   @Override
   protected void configure() {
-    final CommandName git = Commands.named("git");
-    final CommandName gerrit = Commands.named("gerrit");
-    CommandName index = Commands.named(gerrit, "index");
-    final CommandName logging = Commands.named(gerrit, "logging");
-    final CommandName plugin = Commands.named(gerrit, "plugin");
-    final CommandName testSubmit = Commands.named(gerrit, "test-submit");
+    CommandName git = Commands.named("git");
+    CommandName gerrit = Commands.named("gerrit");
+    CommandName logging = Commands.named(gerrit, "logging");
+    CommandName plugin = Commands.named(gerrit, "plugin");
+    CommandName testSubmit = Commands.named(gerrit, "test-submit");
 
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
     command(gerrit, AproposCommand.class);
@@ -57,10 +56,6 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, StreamEvents.class);
     command(gerrit, VersionCommand.class);
     command(gerrit, GarbageCollectionCommand.class);
-
-    command(index).toProvider(new DispatchCommandProvider(index));
-    command(index, IndexActivateCommand.class);
-    command(index, IndexStartCommand.class);
 
     command(gerrit, "plugin").toProvider(new DispatchCommandProvider(plugin));
     command(plugin, PluginLsCommand.class);

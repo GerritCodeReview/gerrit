@@ -80,6 +80,7 @@ import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
+import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -155,6 +156,7 @@ public class Daemon extends SiteProgram {
   private Module emailModule;
 
   private Runnable serverStarted;
+  private IndexType indexType;
 
   public Daemon() {
   }
@@ -276,6 +278,7 @@ public class Daemon extends SiteProgram {
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(
         Key.get(Config.class, GerritServerConfig.class));
+    initIndexType();
     sysInjector = createSysInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class)
       .setDbCfgInjector(dbInjector, cfgInjector);
@@ -379,10 +382,19 @@ public class Daemon extends SiteProgram {
     if (slave) {
       return new DummyIndexModule();
     }
-    IndexType indexType = IndexModule.getIndexType(cfgInjector);
     switch (indexType) {
       case LUCENE:
         return luceneModule != null ? luceneModule : new LuceneIndexModule();
+      default:
+        throw new IllegalStateException("unsupported index.type = " + indexType);
+    }
+  }
+
+  private void initIndexType() {
+    indexType = IndexModule.getIndexType(cfgInjector);
+    switch (indexType) {
+      case LUCENE:
+        break;
       default:
         throw new IllegalStateException("unsupported index.type = " + indexType);
     }
@@ -403,6 +415,9 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new DefaultCommandModule(slave,
         sysInjector.getInstance(DownloadConfig.class)));
+    if (indexType == IndexType.LUCENE) {
+      modules.add(new IndexCommandsModule());
+    }
     return sysInjector.createChildInjector(modules);
   }
 

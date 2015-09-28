@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ea8b95b_44b72ebf",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-28T14:09:03Z",
+      "side": 1,
+      "message": "We started to use the google truth library for new tests.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "cba46b985f64e08f6b730f1e7dcf53087e8590c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae42154a_6f0c7149",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-28T14:09:03Z",
+      "side": 1,
+      "message": "No need for the variable.  Just inline it in one return statement.",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 21
+      },
+      "revId": "cba46b985f64e08f6b730f1e7dcf53087e8590c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ea8b95b_64bcaaa2",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-28T14:09:03Z",
+      "side": 1,
+      "message": "This will be something like:\n\n assertThat(menuEntries).isNotEmpty();\n\nwith google truth.",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 39
+      },
+      "revId": "cba46b985f64e08f6b730f1e7dcf53087e8590c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ea8b95b_24c6b236",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-28T14:09:03Z",
+      "side": 1,
+      "message": "assertThat(x).isEqualTo(y)",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 16
+      },
+      "revId": "cba46b985f64e08f6b730f1e7dcf53087e8590c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae42154a_8fff9568",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-28T14:09:03Z",
+      "side": 1,
+      "message": "assertThat(allItems).hasSize(3);",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 37
+      },
+      "revId": "cba46b985f64e08f6b730f1e7dcf53087e8590c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ea8b95b_04c1361d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-28T14:09:03Z",
+      "side": 1,
+      "message": "assertThat(x).isEqualTo(y)",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 16
+      },
+      "revId": "cba46b985f64e08f6b730f1e7dcf53087e8590c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

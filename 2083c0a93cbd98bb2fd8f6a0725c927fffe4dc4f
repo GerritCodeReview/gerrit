@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2a90a898_ef4b213c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConstantsProperties.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-28T12:53:44Z",
+      "side": 1,
+      "message": "Yes, makes more sense :-)",
+      "parentUuid": "2a90a898_afce7991",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "2083c0a93cbd98bb2fd8f6a0725c927fffe4dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b1c70_b0ced891",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
         "patchSetId": 13
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4a8b1c70_702f107a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-28T12:53:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8b1c70_b0ced891",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 20
+      },
+      "revId": "2083c0a93cbd98bb2fd8f6a0725c927fffe4dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8b1c70_50b44c10",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
         "patchSetId": 13
@@ -59,6 +107,30 @@
       "writtenOn": "2014-05-12T09:47:18Z",
       "side": 1,
       "message": "Move this around line 104, where it is used?",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 67
+      },
+      "revId": "2083c0a93cbd98bb2fd8f6a0725c927fffe4dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8b1c70_103c84b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritTopMenus.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-28T12:53:44Z",
+      "side": 1,
+      "message": "Yep",
+      "parentUuid": "4a8b1c70_50b44c10",
       "range": {
         "startLine": 71,
         "startChar": 4,

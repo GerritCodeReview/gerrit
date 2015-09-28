@@ -76,7 +76,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           }
         });
 
-  public static Comparator<PatchLineComment> PLC_ORDER =
+  public static final Comparator<PatchLineComment> PLC_ORDER =
       new Comparator<PatchLineComment>() {
     @Override
     public int compare(PatchLineComment c1, PatchLineComment c2) {

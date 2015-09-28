@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aed8553b_df6f3bf2",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-28T14:13:42Z",
+      "side": 1,
+      "message": "Ah good to know :-) Will definitely adopt Google Truth then, thanx.",
+      "parentUuid": "4ea8b95b_44b72ebf",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "cba46b985f64e08f6b730f1e7dcf53087e8590c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae42154a_6f0c7149",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
         "patchSetId": 36
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "aed8553b_ff6cffff",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-28T14:13:42Z",
+      "side": 1,
+      "message": "Yes I know ... just wanted to make it more readable :-)",
+      "parentUuid": "ae42154a_6f0c7149",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 21
+      },
+      "revId": "cba46b985f64e08f6b730f1e7dcf53087e8590c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ea8b95b_64bcaaa2",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
         "patchSetId": 36
@@ -59,6 +107,30 @@
       "writtenOn": "2015-09-28T14:09:03Z",
       "side": 1,
       "message": "This will be something like:\n\n assertThat(menuEntries).isNotEmpty();\n\nwith google truth.",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 39
+      },
+      "revId": "cba46b985f64e08f6b730f1e7dcf53087e8590c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed8553b_1fe523e0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/GerritTopMenusTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-28T14:13:42Z",
+      "side": 1,
+      "message": "Thanks, will definitely change that.\nGoogle truth remembers me of Hamcrest, which I liked very much.",
+      "parentUuid": "4ea8b95b_64bcaaa2",
       "range": {
         "startLine": 84,
         "startChar": 4,

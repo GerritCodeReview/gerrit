@@ -38,7 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -141,18 +140,15 @@ public class AccountManager {
     // without having to query the DB every time
     if (keyScheme.equals(AccountExternalId.SCHEME_GERRIT)
         || keyScheme.equals(AccountExternalId.SCHEME_USERNAME)) {
-      String username = keyValue.substring(keyScheme.length());
-      Collection<AccountExternalId> externalIds =
-          byIdCache.getByUsername(username).getExternalIds();
-      for (AccountExternalId accountExternalId : externalIds) {
-        if (accountExternalId.isScheme(keyScheme)) {
-          return accountExternalId;
+      AccountState state = byIdCache.getByUsername(
+          keyValue.substring(keyScheme.length()));
+      if (state != null) {
+        for (AccountExternalId accountExternalId : state.getExternalIds()) {
+          if (accountExternalId.getKey().equals(key)) {
+            return accountExternalId;
+          }
         }
       }
-
-      log.warn(
-          "Cannot find account external id for user {} in cache, possibly a stale entry",
-          username);
     }
     return db.accountExternalIds().get(key);
   }

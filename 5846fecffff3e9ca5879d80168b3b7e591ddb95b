@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38990ffa_5cc9fd93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T18:09:12Z",
+      "side": 1,
+      "message": "c.getStatus().isOpen()",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 72,
+        "endChar": 62
+      },
+      "revId": "5846fecffff3e9ca5879d80168b3b7e591ddb95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38990ffa_7cc6b984",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T18:09:12Z",
+      "side": 1,
+      "message": "Factor this out.",
+      "range": {
+        "startLine": 75,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 28
+      },
+      "revId": "5846fecffff3e9ca5879d80168b3b7e591ddb95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38990ffa_9cd1c53e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T18:09:12Z",
+      "side": 1,
+      "message": "Probably, but maybe you should switch on all cases with a default that throws IllegalStateException?",
+      "revId": "5846fecffff3e9ca5879d80168b3b7e591ddb95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d86713cc_d9b43308",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T18:09:12Z",
+      "side": 1,
+      "message": "Bad copy/paste of this comment.",
+      "revId": "5846fecffff3e9ca5879d80168b3b7e591ddb95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d86713cc_f9b9f7fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T18:09:12Z",
+      "side": 1,
+      "message": "Maybe CHANGESET for consistency.",
+      "range": {
+        "startLine": 213,
+        "startChar": 35,
+        "endLine": 213,
+        "endChar": 45
+      },
+      "revId": "5846fecffff3e9ca5879d80168b3b7e591ddb95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38990ffa_bcd68131",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeSetPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T18:09:12Z",
+      "side": 1,
+      "message": "Blank line.",
+      "revId": "5846fecffff3e9ca5879d80168b3b7e591ddb95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d86713cc_19bf8be2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeSetPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T18:09:12Z",
+      "side": 1,
+      "message": "Unnecessary final.",
+      "range": {
+        "startLine": 29,
+        "startChar": 23,
+        "endLine": 29,
+        "endChar": 29
+      },
+      "revId": "5846fecffff3e9ca5879d80168b3b7e591ddb95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38990ffa_dccb4d88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeSetPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T18:09:12Z",
+      "side": 1,
+      "message": "So there is no way to match changes without a changeSet here? Possibly that is ok, just checking that you\u0027ve thought about it.",
+      "revId": "5846fecffff3e9ca5879d80168b3b7e591ddb95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

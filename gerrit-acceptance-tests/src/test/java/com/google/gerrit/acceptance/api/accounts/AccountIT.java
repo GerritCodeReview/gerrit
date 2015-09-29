@@ -38,6 +38,7 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.testutil.TestKey;
+import com.google.gerrit.gpg.testutil.TestKeys;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
@@ -204,7 +205,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addGpgKey() throws Exception {
-    TestKey key = TestKey.key1();
+    TestKey key = TestKeys.key1();
     String id = key.getKeyIdString();
     addExternalIdEmail(admin, "test1@example.com");
 
@@ -220,7 +221,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void reAddExistingGpgKey() throws Exception {
     addExternalIdEmail(admin, "test5@example.com");
-    TestKey key = TestKey.key5();
+    TestKey key = TestKeys.key5();
     String id = key.getKeyIdString();
     PGPPublicKey pk = key.getPublicKey();
 
@@ -243,7 +244,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     db.accountExternalIds().insert(Collections.singleton(extId));
 
-    TestKey key = TestKey.key5();
+    TestKey key = TestKeys.key5();
     addGpgKey(key.getPublicKeyArmored());
     setApiUser(user);
 
@@ -254,7 +255,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void listGpgKeys() throws Exception {
-    List<TestKey> keys = TestKey.allValidKeys();
+    List<TestKey> keys = TestKeys.allValidKeys();
     List<String> toAdd = new ArrayList<>(keys.size());
     for (TestKey key : keys) {
       addExternalIdEmail(admin,
@@ -267,7 +268,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteGpgKey() throws Exception {
-    TestKey key = TestKey.key1();
+    TestKey key = TestKeys.key1();
     String id = key.getKeyIdString();
     addExternalIdEmail(admin, "test1@example.com");
     addGpgKey(key.getPublicKeyArmored());
@@ -283,13 +284,13 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addAndRemoveGpgKeys() throws Exception {
-    for (TestKey key : TestKey.allValidKeys()) {
+    for (TestKey key : TestKeys.allValidKeys()) {
       addExternalIdEmail(admin,
           PushCertificateIdent.parse(key.getFirstUserId()).getEmailAddress());
     }
-    TestKey key1 = TestKey.key1();
-    TestKey key2 = TestKey.key2();
-    TestKey key5 = TestKey.key5();
+    TestKey key1 = TestKeys.key1();
+    TestKey key2 = TestKeys.key2();
+    TestKey key5 = TestKeys.key5();
 
     Map<String, GpgKeyInfo> infos = gApi.accounts().self().putGpgKeys(
         ImmutableList.of(

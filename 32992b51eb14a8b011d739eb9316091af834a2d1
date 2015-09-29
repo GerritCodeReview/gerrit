@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98d83b3c_7fd1cf37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-29T01:58:46Z",
+      "side": 1,
+      "message": "This test is still passing if I revert the change in gerrit-server/src/main/prolog/gerrit_common.pl\n\nI would expect it to fail.",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "32992b51eb14a8b011d739eb9316091af834a2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

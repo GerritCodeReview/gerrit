@@ -57,7 +57,7 @@ public abstract class AbstractRealm implements Realm {
   @Override
   public boolean hasEmailAddress(IdentifiedUser user, String email) {
     for (AccountExternalId ext : user.state().getExternalIds()) {
-      if (Objects.equals(ext.getEmailAddress(), email)) {
+      if (email != null && email.equalsIgnoreCase(ext.getEmailAddress())) {
         return true;
       }
     }

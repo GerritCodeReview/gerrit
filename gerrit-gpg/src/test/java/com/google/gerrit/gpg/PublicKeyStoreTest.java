@@ -24,6 +24,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.gpg.testutil.TestKey;
+import com.google.gerrit.gpg.testutil.TestKeys;
 
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
@@ -60,13 +61,13 @@ public class PublicKeyStoreTest {
 
   @Test
   public void testKeyIdToString() throws Exception {
-    PGPPublicKey key = TestKey.key1().getPublicKey();
+    PGPPublicKey key = TestKeys.key1().getPublicKey();
     assertEquals("46328A8C", keyIdToString(key.getKeyID()));
   }
 
   @Test
   public void testKeyToString() throws Exception {
-    PGPPublicKey key = TestKey.key1().getPublicKey();
+    PGPPublicKey key = TestKeys.key1().getPublicKey();
     assertEquals("46328A8C Testuser One <test1@example.com>"
           + " (04AE A7ED 2F82 1133 E5B1  28D1 ED06 25DC 4632 8A8C)",
         keyToString(key));
@@ -74,7 +75,7 @@ public class PublicKeyStoreTest {
 
   @Test
   public void testKeyObjectId() throws Exception {
-    PGPPublicKey key = TestKey.key1().getPublicKey();
+    PGPPublicKey key = TestKeys.key1().getPublicKey();
     String objId = keyObjectId(key.getKeyID()).name();
     assertEquals("ed0625dc46328a8c000000000000000000000000", objId);
     assertEquals(keyIdToString(key.getKeyID()).toLowerCase(),
@@ -83,13 +84,13 @@ public class PublicKeyStoreTest {
 
   @Test
   public void testGet() throws Exception {
-    TestKey key1 = TestKey.key1();
+    TestKey key1 = TestKeys.key1();
     tr.branch(REFS_GPG_KEYS)
         .commit()
         .add(keyObjectId(key1.getKeyId()).name(),
           key1.getPublicKeyArmored())
         .create();
-    TestKey key2 = TestKey.key2();
+    TestKey key2 = TestKeys.key2();
     tr.branch(REFS_GPG_KEYS)
         .commit()
         .add(keyObjectId(key2.getKeyId()).name(),
@@ -102,8 +103,8 @@ public class PublicKeyStoreTest {
 
   @Test
   public void testGetMultiple() throws Exception {
-    TestKey key1 = TestKey.key1();
-    TestKey key2 = TestKey.key2();
+    TestKey key1 = TestKeys.key1();
+    TestKey key2 = TestKeys.key2();
     tr.branch(REFS_GPG_KEYS)
         .commit()
         .add(keyObjectId(key1.getKeyId()).name(),
@@ -116,8 +117,8 @@ public class PublicKeyStoreTest {
 
   @Test
   public void save() throws Exception {
-    TestKey key1 = TestKey.key1();
-    TestKey key2 = TestKey.key2();
+    TestKey key1 = TestKeys.key1();
+    TestKey key2 = TestKeys.key2();
     store.add(key1.getPublicKeyRing());
     store.add(key2.getPublicKeyRing());
 
@@ -129,8 +130,8 @@ public class PublicKeyStoreTest {
 
   @Test
   public void saveAppendsToExistingList() throws Exception {
-    TestKey key1 = TestKey.key1();
-    TestKey key2 = TestKey.key2();
+    TestKey key1 = TestKeys.key1();
+    TestKey key2 = TestKeys.key2();
     tr.branch(REFS_GPG_KEYS)
         .commit()
         // Mismatched for this key ID, but we can still read it out.
@@ -160,7 +161,7 @@ public class PublicKeyStoreTest {
 
   @Test
   public void updateExisting() throws Exception {
-    TestKey key5 = TestKey.key5();
+    TestKey key5 = TestKeys.key5();
     PGPPublicKeyRing keyRing = key5.getPublicKeyRing();
     PGPPublicKey key = keyRing.getPublicKey();
     store.add(keyRing);
@@ -184,7 +185,7 @@ public class PublicKeyStoreTest {
 
   @Test
   public void remove() throws Exception {
-    TestKey key1 = TestKey.key1();
+    TestKey key1 = TestKeys.key1();
     store.add(key1.getPublicKeyRing());
     assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
     assertKeys(key1.getKeyId(), key1);
@@ -196,11 +197,11 @@ public class PublicKeyStoreTest {
 
   @Test
   public void removeNonexisting() throws Exception {
-    TestKey key1 = TestKey.key1();
+    TestKey key1 = TestKeys.key1();
     store.add(key1.getPublicKeyRing());
     assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
 
-    TestKey key2 = TestKey.key2();
+    TestKey key2 = TestKeys.key2();
     store.remove(key2.getPublicKey().getFingerprint());
     assertEquals(RefUpdate.Result.NO_CHANGE, store.save(newCommitBuilder()));
     assertKeys(key1.getKeyId(), key1);
@@ -208,7 +209,7 @@ public class PublicKeyStoreTest {
 
   @Test
   public void addThenRemove() throws Exception {
-    TestKey key1 = TestKey.key1();
+    TestKey key1 = TestKeys.key1();
     store.add(key1.getPublicKeyRing());
     store.remove(key1.getPublicKey().getFingerprint());
     assertEquals(RefUpdate.Result.NO_CHANGE, store.save(newCommitBuilder()));

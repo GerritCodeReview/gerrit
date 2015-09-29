@@ -24,6 +24,8 @@ java_library(
 
 TESTUTIL_SRCS = [
   'src/test/java/com/google/gerrit/gpg/testutil/TestKey.java',
+  'src/test/java/com/google/gerrit/gpg/testutil/TestKeys.java',
+  'src/test/java/com/google/gerrit/gpg/testutil/TestTrustKeys.java',
 ]
 
 java_library(

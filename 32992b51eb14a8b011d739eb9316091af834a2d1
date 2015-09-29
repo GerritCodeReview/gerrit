@@ -46,6 +46,30 @@
       "revId": "32992b51eb14a8b011d739eb9316091af834a2d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78df0724_9eecddf4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-29T14:12:41Z",
+      "side": 1,
+      "message": "Then should the test add a reviewer?",
+      "parentUuid": "f881374d_92b4fc06",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "32992b51eb14a8b011d739eb9316091af834a2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -41,6 +41,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -192,6 +193,14 @@ public class InternalChangeQuery {
 
   public List<ChangeData> byCommit(ObjectId id) throws OrmException {
     return query(commit(schema(indexes), id.name()));
+  }
+
+  public List<ChangeData> byChangeSet(String cs) throws OrmException {
+    if (cs.isEmpty()) {
+      return Collections.emptyList();
+    } else {
+      return query(new ChangeSetPredicate(cs));
+    }
   }
 
   public List<ChangeData> byProjectGroups(Project.NameKey project,

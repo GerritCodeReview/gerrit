@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d86713cc_39bc4feb",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T18:11:15Z",
+      "side": 1,
+      "message": "Generally the order is swapped, actual followed by expected). That has the minor side benefit that you could do .containsExactly(expected).inOrder() without wrapping in a list, since containsExactly takes Object...",
+      "revId": "30b457f8a36f57e91f08f23862ea4138d6b83ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

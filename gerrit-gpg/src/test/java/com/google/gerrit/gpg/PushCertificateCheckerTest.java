@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.gpg.testutil.TestKey;
+import com.google.gerrit.gpg.testutil.TestKeys;
 
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.BCPGOutputStream;
@@ -52,8 +53,8 @@ public class PushCertificateCheckerTest {
 
   @Before
   public void setUp() throws Exception {
-    TestKey key1 = TestKey.key1();
-    TestKey key3 = TestKey.key3();
+    TestKey key1 = TestKeys.key1();
+    TestKey key3 = TestKeys.key3();
     tr = new TestRepository<>(new InMemoryRepository(
         new DfsRepositoryDescription("repo")));
     tr.branch(REFS_GPG_KEYS).commit()
@@ -81,19 +82,19 @@ public class PushCertificateCheckerTest {
 
   @Test
   public void validCert() throws Exception {
-    PushCertificate cert = newSignedCert(validNonce(), TestKey.key1());
+    PushCertificate cert = newSignedCert(validNonce(), TestKeys.key1());
     assertProblems(cert);
   }
 
   @Test
   public void invalidNonce() throws Exception {
-    PushCertificate cert = newSignedCert("invalid-nonce", TestKey.key1());
+    PushCertificate cert = newSignedCert("invalid-nonce", TestKeys.key1());
     assertProblems(cert, "Invalid nonce");
   }
 
   @Test
   public void missingKey() throws Exception {
-    TestKey key2 = TestKey.key2();
+    TestKey key2 = TestKeys.key2();
     PushCertificate cert = newSignedCert(validNonce(), key2);
     assertProblems(cert,
         "No public keys found for key ID " + keyIdToString(key2.getKeyId()));
@@ -101,7 +102,7 @@ public class PushCertificateCheckerTest {
 
   @Test
   public void invalidKey() throws Exception {
-    TestKey key3 = TestKey.key3();
+    TestKey key3 = TestKeys.key3();
     PushCertificate cert = newSignedCert(validNonce(), key3);
     assertProblems(cert,
         "Invalid public key " + keyToString(key3.getPublicKey())

@@ -22,9 +22,7 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
-TESTUTIL_SRCS = [
-  'src/test/java/com/google/gerrit/gpg/testutil/TestKey.java',
-]
+TESTUTIL_SRCS = glob(['src/test/**/testutil/**/*.java'])
 
 java_library(
   name = 'testutil',

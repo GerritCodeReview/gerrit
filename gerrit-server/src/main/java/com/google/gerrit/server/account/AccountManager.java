@@ -142,17 +142,15 @@ public class AccountManager {
     if (keyScheme.equals(AccountExternalId.SCHEME_GERRIT)
         || keyScheme.equals(AccountExternalId.SCHEME_USERNAME)) {
       String username = keyValue.substring(keyScheme.length());
-      Collection<AccountExternalId> externalIds =
-          byIdCache.getByUsername(username).getExternalIds();
-      for (AccountExternalId accountExternalId : externalIds) {
-        if (accountExternalId.isScheme(keyScheme)) {
-          return accountExternalId;
+      AccountState byUsername = byIdCache.getByUsername(username);
+      if (byUsername != null) {
+        Collection<AccountExternalId> externalIds = byUsername.getExternalIds();
+        for (AccountExternalId accountExternalId : externalIds) {
+          if (accountExternalId.isScheme(keyScheme)) {
+            return accountExternalId;
+          }
         }
       }
-
-      log.warn(
-          "Cannot find account external id for user {} in cache, possibly a stale entry",
-          username);
     }
     return db.accountExternalIds().get(key);
   }

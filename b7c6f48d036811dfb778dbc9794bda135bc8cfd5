@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78df0724_3e54a942",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/CheckResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-29T22:29:52Z",
+      "side": 1,
+      "message": "Java detail question: Is \u003e\u003d the same here as java.lang.Enum.compareTo() ?\n\nAs we rely on the order of the enum here, would it make sense to add a comment at the enum to not reorder them?",
+      "range": {
+        "startLine": 69,
+        "startChar": 34,
+        "endLine": 69,
+        "endChar": 44
+      },
+      "revId": "b7c6f48d036811dfb778dbc9794bda135bc8cfd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98d83b3c_1f9d2361",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-29T22:29:52Z",
+      "side": 1,
+      "message": "So we return one problem at a time and not all of them together. Makes sense for now, but as a user I\u0027d wish to see all problems at once to know how much debugging effort I need to spend here.",
+      "range": {
+        "startLine": 93,
+        "startChar": 15,
+        "endLine": 93,
+        "endChar": 29
+      },
+      "revId": "b7c6f48d036811dfb778dbc9794bda135bc8cfd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98d83b3c_3fa2e799",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-29T22:29:52Z",
+      "side": 1,
+      "message": "You did arithmetic on the status before, so could you do a \n\n  status \u003d min(...)\n\noperation here ?",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 44
+      },
+      "revId": "b7c6f48d036811dfb778dbc9794bda135bc8cfd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

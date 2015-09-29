@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.gpg.testutil.TestKey;
+import com.google.gerrit.gpg.testutil.TestKeys;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -86,7 +87,7 @@ public class GerritPublicKeyCheckerTest {
     userId =
         accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     Account userAccount = db.accounts().get(userId);
-    // Note: does not match any key in TestKey.
+    // Note: does not match any key in TestKeys.
     userAccount.setPreferredEmail("user@example.com");
     db.accounts().update(ImmutableList.of(userAccount));
     user = reloadUser();
@@ -123,9 +124,9 @@ public class GerritPublicKeyCheckerTest {
 
   @Test
   public void defaultGpgCertificationMatchesEmail() throws Exception {
-    TestKey key = TestKey.key5();
+    TestKey key = TestKeys.key5();
     assertProblems(
-        TestKey.key5(),
+        TestKeys.key5(),
         "Key must contain a valid certification for one of the following "
           + "identities:\n"
           + "  gerrit:user\n"
@@ -139,7 +140,7 @@ public class GerritPublicKeyCheckerTest {
   public void defaultGpgCertificationDoesNotMatchEmail() throws Exception {
     addExternalId("test", "test", "nobody@example.com");
     assertProblems(
-        TestKey.key5(),
+        TestKeys.key5(),
         "Key must contain a valid certification for one of the following "
           + "identities:\n"
           + "  gerrit:user\n"
@@ -151,14 +152,14 @@ public class GerritPublicKeyCheckerTest {
   @Test
   public void manualCertificationMatchesExternalId() throws Exception {
     addExternalId("foo", "myId", null);
-    assertNoProblems(TestKey.key5());
+    assertNoProblems(TestKeys.key5());
   }
 
   @Test
   public void manualCertificationDoesNotExternalId() throws Exception {
     addExternalId("foo", "otherId", null);
     assertProblems(
-        TestKey.key5(),
+        TestKeys.key5(),
         "Key must contain a valid certification for one of the following "
           + "identities:\n"
           + "  foo:otherId\n"
@@ -172,7 +173,7 @@ public class GerritPublicKeyCheckerTest {
         db.accountExternalIds().byAccount(user.getAccountId()));
     reloadUser();
     assertProblems(
-        TestKey.key5(),
+        TestKeys.key5(),
         "No identities found for user; check"
           + " http://test/#/settings/web-identities");
   }

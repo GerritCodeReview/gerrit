@@ -16,6 +16,24 @@
       "revId": "2cc1e552f93756e3fa0a852beeaeaca439817d6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38ce6fa4_14f454b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-29T14:23:16Z",
+      "side": 1,
+      "message": "OR when the user cannot be found on cache or DB when it actually doesn\u0027t exist yet. I am about to fix it now.",
+      "parentUuid": "3814af87_64b5ea01",
+      "revId": "2cc1e552f93756e3fa0a852beeaeaca439817d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

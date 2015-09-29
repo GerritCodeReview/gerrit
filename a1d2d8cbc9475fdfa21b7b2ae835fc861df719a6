@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38990ffa_9cf8e5b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T20:01:40Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "a1d2d8cbc9475fdfa21b7b2ae835fc861df719a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38990ffa_bcfda1a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T20:01:40Z",
+      "side": 1,
+      "message": "Change the name to correspond to the new change field name.",
+      "revId": "a1d2d8cbc9475fdfa21b7b2ae835fc861df719a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

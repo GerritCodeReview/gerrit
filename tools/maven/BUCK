@@ -10,16 +10,19 @@ maven_package(
   url = URL,
   version = GERRIT_VERSION,
   jar = {
+    'gerrit-acceptance-framework': '//gerrit-acceptance-framework:api',
     'gerrit-extension-api': '//gerrit-extension-api:extension-api',
     'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api',
     'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api',
   },
   src = {
+    'gerrit-acceptance-framework': '//gerrit-acceptance-framework:src',
     'gerrit-extension-api': '//gerrit-extension-api:extension-api-src',
     'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api-src',
     'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api-src',
   },
   doc = {
+    'gerrit-acceptance-framework': '//gerrit-acceptance-framework:javadoc',
     'gerrit-extension-api': '//gerrit-extension-api:extension-api-javadoc',
     'gerrit-plugin-api': '//gerrit-plugin-api:plugin-api-javadoc',
     'gerrit-plugin-gwtui': '//gerrit-plugin-gwtui:gwtui-api-javadoc',

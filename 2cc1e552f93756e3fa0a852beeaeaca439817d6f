@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3814af87_64b5ea01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T14:16:52Z",
+      "side": 1,
+      "message": "This returns null when passing in \"gerrit:\" and there is no corresponding \"user:\" external ID, since getByUsername only looks up with \"user:\".",
+      "revId": "2cc1e552f93756e3fa0a852beeaeaca439817d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

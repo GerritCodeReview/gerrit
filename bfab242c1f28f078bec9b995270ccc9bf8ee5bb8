@@ -145,6 +145,24 @@
       "revId": "bfab242c1f28f078bec9b995270ccc9bf8ee5bb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38ce6fa4_941e24a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-29T14:44:05Z",
+      "side": 1,
+      "message": "Thanks for spotting this out ... fix coming.",
+      "parentUuid": "3814af87_44ba6ef3",
+      "revId": "bfab242c1f28f078bec9b995270ccc9bf8ee5bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

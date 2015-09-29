@@ -15,15 +15,6 @@ Rebuilds the secondary index.
 --threads::
 	Number of threads to use for indexing.
 
---recheck-mergeable::
-	Recheck the mergeable flag on all open changes. For each open change,
-	look up for which commit the mergeability check was last done and if
-	this commit is different from the HEAD commit of the change's destination
-	branch, recompute the mergeability flag of the change by checking if the
-	commit of the current patch set can be merged into the destination branch.
-	Because this operation is computationally expensive, it is not enabled
-	by default.
-
 --schema-version::
 	Schema version to reindex; default is most recent version.
 

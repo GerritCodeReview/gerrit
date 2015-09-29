@@ -72,6 +72,7 @@ public class SystemLog {
 
   public AsyncAppender createAsyncAppender(String name, Layout layout) {
     AsyncAppender async = new AsyncAppender();
+    async.setName(name);
     async.setBlocking(true);
     async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
     async.setLocationInfo(false);

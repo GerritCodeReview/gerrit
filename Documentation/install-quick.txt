@@ -163,7 +163,7 @@ This will create a repository that you can clone to work with.
 Download a local clone of the repository and move into it
 
 ----
-  user@host:~$ git clone ssh://user@host:29418/demo-project
+  user@host:~$ git clone ssh://user@localhost:29418/demo-project
   Cloning into demo-project...
   remote: Counting objects: 2, done
   remote: Finding sources: 100% (2/2)

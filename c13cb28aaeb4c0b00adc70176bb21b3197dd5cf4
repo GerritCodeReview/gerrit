@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d86713cc_f9d01737",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T20:00:47Z",
+      "side": 1,
+      "message": "Nit: Start with a capital letter and end with a period.\n\nI would also be explicit about when this is set, like \"Only set if the status is MERGED.\"",
+      "revId": "c13cb28aaeb4c0b00adc70176bb21b3197dd5cf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38990ffa_7cddd948",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T20:00:47Z",
+      "side": 1,
+      "message": "Store this part in an actual static field:\n\n private static final String MACHINE_ID;\n static {\n   try {\n     MACHINE_ID \u003d InetAddress.getLocalHost().getHostAddress();\n   } catch (UnknownHostException e) {\n     MACHINE_ID \u003d \"unknown\";\n   }\n }\n\nOtherwise it\u0027s racy, and is not really cached for very long since MergeOps are not reusable.\n\nThen later:\n\n h.putLong(Thread.currentThread().getId())\n     .putUnencodedChars(MACHINE_ID)\n     ...",
+      "revId": "c13cb28aaeb4c0b00adc70176bb21b3197dd5cf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38990ffa_5ce01dfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T20:00:47Z",
+      "side": 1,
+      "message": "You still need to set logPrefix.",
+      "revId": "c13cb28aaeb4c0b00adc70176bb21b3197dd5cf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

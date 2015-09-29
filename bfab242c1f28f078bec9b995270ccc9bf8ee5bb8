@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "18f7ebe2_03f42eb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-29T14:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98d83b3c_bf10b78b",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "bfab242c1f28f078bec9b995270ccc9bf8ee5bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98d83b3c_df0d7b72",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "38ce6fa4_f41f989f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-29T14:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98d83b3c_df0d7b72",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "bfab242c1f28f078bec9b995270ccc9bf8ee5bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78df0724_def665c2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2015-09-29T14:30:08Z",
       "side": 1,
       "message": "Was this supposed to be part of one of the previous sentences?",
+      "revId": "bfab242c1f28f078bec9b995270ccc9bf8ee5bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38ce6fa4_d4249cee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-29T14:33:50Z",
+      "side": 1,
+      "message": "... was supposed to be on line #2 ... let me move it up :-)",
+      "parentUuid": "78df0724_def665c2",
       "revId": "bfab242c1f28f078bec9b995270ccc9bf8ee5bb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

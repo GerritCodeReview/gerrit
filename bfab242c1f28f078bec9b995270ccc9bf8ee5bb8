@@ -128,6 +128,23 @@
       "revId": "bfab242c1f28f078bec9b995270ccc9bf8ee5bb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3814af87_44ba6ef3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-09-29T14:40:46Z",
+      "side": 1,
+      "message": "When looking up \"gerrit:foo\", we actually look in the cache for \"user:foo\". Then we iterate through the actual external IDs belonging to that user, and see if one matches the \"gerrit:\" secheme.\n\nUnfortunately I don\u0027t think we actually enforce that \"gerrit:foo\" and \"user:foo\" belong to the same actual user. This ID might actually be \"gerrit:bar\", even though \"gerrit:foo\" belongs to some completely different user.\n\nI think you can work around this issue by changing this line to:\n\n if (accountExternalId.getKey().equals(key))\n\nIn the case I described, this would return false for \"gerrit:bar\", so we would fall through to looking up \"gerrit:foo\" in the database, which is fine. (Actually it\u0027s possible we would incur two cold cache lookups that aren\u0027t actually used, but I don\u0027t think that\u0027s worth worrying about.)",
+      "revId": "bfab242c1f28f078bec9b995270ccc9bf8ee5bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

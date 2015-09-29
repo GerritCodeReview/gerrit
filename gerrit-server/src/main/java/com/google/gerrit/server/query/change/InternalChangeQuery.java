@@ -27,6 +27,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
@@ -38,9 +39,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -192,6 +196,15 @@ public class InternalChangeQuery {
 
   public List<ChangeData> byCommit(ObjectId id) throws OrmException {
     return query(commit(schema(indexes), id.name()));
+  }
+  private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
+  public List<ChangeData> bySubmissionId(String cs) throws OrmException {
+    log.error("bySubmissionId(" + cs + ")");;
+    if (cs.isEmpty()) {
+      return Collections.emptyList();
+    } else {
+      return query(new SubmissionIdPredicate(cs));
+    }
   }
 
   public List<ChangeData> byProjectGroups(Project.NameKey project,

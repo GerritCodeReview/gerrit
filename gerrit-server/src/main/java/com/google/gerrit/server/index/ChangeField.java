@@ -207,6 +207,21 @@ public class ChangeField {
         }
       };
 
+  /** Submission id assigned by MergeOp. */
+  public static final FieldDef<ChangeData, String> SUBMISSIONID =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_SUBMISSIONID, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return c.getSubmissionId();
+        }
+      };
+
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
       new FieldDef.Single<ChangeData, Timestamp>(

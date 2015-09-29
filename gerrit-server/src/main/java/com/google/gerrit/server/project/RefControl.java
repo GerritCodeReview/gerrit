@@ -50,6 +50,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 
 /** Manages access control for Git references (aka branches, tags). */
@@ -682,6 +684,11 @@ public class RefControl {
       }
     } else if (!Repository.isValidRefName(refPattern)) {
       throw new InvalidNameException(refPattern);
+    }
+    try {
+      Pattern.compile(refPattern.replace("${username}/", ""));
+    } catch (PatternSyntaxException e) {
+      throw new InvalidNameException(refPattern + " " + e.getMessage());
     }
   }
 }

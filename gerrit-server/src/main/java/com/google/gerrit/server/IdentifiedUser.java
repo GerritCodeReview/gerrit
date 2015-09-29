@@ -195,7 +195,7 @@ public class IdentifiedUser extends CurrentUser {
   private final GroupBackend groupBackend;
   private final String anonymousCowardName;
   private final Boolean disableReverseDnsLookup;
-  private final Set<String> validEmails = Sets.newHashSetWithExpectedSize(4);
+  private final Set<String> validEmails = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
 
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
@@ -292,7 +292,7 @@ public class IdentifiedUser extends CurrentUser {
       validEmails.add(email);
       return true;
     } else if (invalidEmails == null) {
-      invalidEmails = Sets.newHashSetWithExpectedSize(4);
+      invalidEmails = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
     }
     invalidEmails.add(email);
     return false;

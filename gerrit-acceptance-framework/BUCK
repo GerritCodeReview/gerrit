@@ -31,7 +31,7 @@ PROVIDED = [
 ]
 
 java_binary(
-  name = 'api',
+  name = 'acceptance-framework',
   deps = [':lib'],
   visibility = ['PUBLIC'],
 )
@@ -57,8 +57,18 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
+# The above java_sources produces a .jar somewhere in the depths of
+# buck-out, but it does not bring it to
+# buck-out/gen/gerrit-acceptance-framework/gerrit-acceptance-framework-src.jar.
+# We fix that by the following java_binary.
+java_binary(
+  name = 'acceptance-framework-src',
+  deps = [ ':src' ],
+  visibility = ['PUBLIC'],
+)
+
 java_doc(
-  name = 'javadoc',
+  name = 'acceptance-framework-javadoc',
   title = 'Gerrit Acceptance Test Framework Documentation',
   pkgs = [' com.google.gerrit.acceptance'],
   paths = ['src/test/java'],

@@ -14,15 +14,20 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.MergeSuperSet;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,14 +48,17 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final MergeSuperSet mergeSuperSet;
 
   @Inject
   SubmittedTogether(ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
+      Provider<InternalChangeQuery> queryProvider,
       MergeSuperSet mergeSuperSet) {
     this.json = json;
     this.dbProvider = dbProvider;
+    this.queryProvider = queryProvider;
     this.mergeSuperSet = mergeSuperSet;
   }
 
@@ -59,16 +67,33 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       throws AuthException, BadRequestException,
       ResourceConflictException, Exception {
     try {
-      ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(),
-          resource.getChange());
-      if (cs.size() > 1) {
-        return json.create(EnumSet.of(
-            ListChangesOption.CURRENT_REVISION,
-            ListChangesOption.CURRENT_COMMIT))
-          .format(cs.ids());
+      Change c = resource.getChange();
+      List<Change.Id> ids;
+      if (c.getStatus().isOpen()) {
+        ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c);
+        ids = cs.ids().asList();
+      } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
+        ids = Lists.newArrayList();
+        String subId = c.getSubmissionId();
+        if (subId.isEmpty()) {
+          ids = Collections.emptyList();
+        } else {
+          for (ChangeData cd : queryProvider.get().bySubmissionId(subId)) {
+            ids.add(cd.getId());
+          }
+        }
       } else {
-        return Collections.emptyList();
+        // ABANDONED
+        throw new IllegalStateException("Changes in state " + c.getStatus() +
+                  " cannot be queried for submitted_together");
       }
+      if (ids.size() <= 1) {
+        ids = Collections.emptyList();
+      }
+      return json.create(EnumSet.of(
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.CURRENT_COMMIT))
+        .format(ids);
     } catch (OrmException | IOException e) {
       log.error("Error on getting a ChangeSet", e);
       throw e;

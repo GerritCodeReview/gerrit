@@ -94,6 +94,102 @@
       "revId": "32992b51eb14a8b011d739eb9316091af834a2d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38990ffa_bcaf61b1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-09-29T17:51:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98d83b3c_7fd1cf37",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "32992b51eb14a8b011d739eb9316091af834a2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d86713cc_99aabba2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-09-29T17:51:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f881374d_92b4fc06",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "32992b51eb14a8b011d739eb9316091af834a2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38990ffa_fcb9e9fe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-09-29T17:51:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f881374d_32c67084",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "32992b51eb14a8b011d739eb9316091af834a2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38990ffa_dcb42d08",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-09-29T17:51:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78df0724_9eecddf4",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "32992b51eb14a8b011d739eb9316091af834a2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

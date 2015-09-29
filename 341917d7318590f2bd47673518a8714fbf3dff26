@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98d83b3c_9f4933a1",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-09-29T20:41:12Z",
+      "side": 1,
+      "message": "Even with the explanations of interrelations between keys in the in the TestTrustKey refactoring, understanding these failure cases is a bit difficult. Maybe moving each failure case into an appropriately named test would help (this test\u0027s name indicates it it testing only valid cases.)",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 19
+      },
+      "revId": "341917d7318590f2bd47673518a8714fbf3dff26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -67,6 +67,7 @@ public class GpgModule extends RestApiModule {
 
     install(new SignedPushModule());
     bind(GpgApiAdapter.class).to(GpgApiAdapterImpl.class);
+    factory(GerritPushCertificateChecker.Factory.class);
     factory(GpgKeyApiImpl.Factory.class);
 
     DynamicMap.mapOf(binder(), GPG_KEY_KIND);

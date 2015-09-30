@@ -15,20 +15,16 @@
 package com.google.gerrit.gpg;
 
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 
-import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -40,21 +36,15 @@ import java.util.Collection;
  */
 @Singleton
 public class SignedPushPreReceiveHook implements PreReceiveHook {
-  private final GitRepositoryManager repoManager;
-  private final AllUsersName allUsers;
   private final Provider<IdentifiedUser> user;
-  private final GerritPublicKeyChecker.Factory keyCheckerFactory;
+  private final GerritPushCertificateChecker.Factory checkerFactory;
 
   @Inject
   public SignedPushPreReceiveHook(
-      GitRepositoryManager repoManager,
-      AllUsersName allUsers,
       Provider<IdentifiedUser> user,
-      GerritPublicKeyChecker.Factory keyCheckerFactory) {
-    this.repoManager = repoManager;
-    this.allUsers = allUsers;
+      GerritPushCertificateChecker.Factory checkerFactory) {
     this.user = user;
-    this.keyCheckerFactory = keyCheckerFactory;
+    this.checkerFactory = checkerFactory;
   }
 
   @Override
@@ -64,19 +54,8 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
     if (cert == null) {
       return;
     }
-    PublicKeyChecker keyChecker = keyCheckerFactory.create(user.get());
-    PushCertificateChecker checker = new PushCertificateChecker(keyChecker) {
-      @Override
-      protected Repository getRepository() throws IOException {
-        return repoManager.openRepository(allUsers);
-      }
-
-      @Override
-      protected boolean shouldClose(Repository repo) {
-        return true;
-      }
-    };
-    CheckResult result = checker.check(cert);
+    CheckResult result = checkerFactory.create(user.get())
+        .check(cert);
     if (isAllowed(result, commands)) {
       for (String problem : result.getProblems()) {
         rp.sendMessage(problem);

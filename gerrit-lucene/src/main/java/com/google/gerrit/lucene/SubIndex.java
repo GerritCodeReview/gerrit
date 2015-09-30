@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /** Piece of the change index that is implemented as a separate Lucene index. */
-class SubIndex {
+public class SubIndex {
   private static final Logger log = LoggerFactory.getLogger(SubIndex.class);
 
   private final Directory dir;
@@ -70,13 +70,13 @@ class SubIndex {
     long commitPeriod = writerConfig.getCommitWithinMs();
 
     if (commitPeriod < 0) {
-      delegateWriter = new IndexWriter(dir, writerConfig.getLuceneConfig());
+      delegateWriter = new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
     } else if (commitPeriod == 0) {
       delegateWriter =
           new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), true);
     } else {
       final AutoCommitWriter autoCommitWriter =
-          new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), false);
+          new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
       delegateWriter = autoCommitWriter;
 
       new ScheduledThreadPoolExecutor(1, new ThreadFactoryBuilder()
@@ -189,6 +189,10 @@ class SubIndex {
 
   void deleteAll() throws IOException {
     writer.deleteAll();
+  }
+
+  public TrackingIndexWriter getWriter() {
+    return writer;
   }
 
   IndexSearcher acquire() throws IOException {

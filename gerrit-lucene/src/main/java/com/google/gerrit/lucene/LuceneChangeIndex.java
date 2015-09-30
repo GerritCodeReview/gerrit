@@ -386,6 +386,14 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
+  public SubIndex getOpenChangesIndex() {
+    return openIndex;
+  }
+
+  public SubIndex getClosedChangesIndex() {
+    return closedIndex;
+  }
+
   private class QuerySource implements ChangeDataSource {
     private final List<SubIndex> indexes;
     private final Query query;

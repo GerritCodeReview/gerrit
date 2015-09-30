@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78df0724_7e5e3164",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/testutil/TestTrustKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-09-30T00:42:20Z",
+      "side": 1,
+      "message": "Make it plural: \"TestTrustKeys\"?",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 25
+      },
+      "revId": "b53b47fe66a82d467afb436392e1609de7ad7b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

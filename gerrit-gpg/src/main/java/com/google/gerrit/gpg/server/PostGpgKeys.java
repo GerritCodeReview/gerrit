@@ -36,12 +36,12 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.CheckResult;
 import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
-import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.PostGpgKeys.Input;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.mail.AddKeySender;
 import com.google.gwtorm.server.OrmException;
@@ -136,7 +136,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
               return toExtIdKey(fp.get());
             }
           }));
-      return toJson(newKeys, toRemove, store);
+      return toJson(newKeys, toRemove, store, rsrc.getUser());
     }
   }
 
@@ -239,13 +239,16 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
         BaseEncoding.base16().encode(fp));
   }
 
-  private static Map<String, GpgKeyInfo> toJson(
+  private Map<String, GpgKeyInfo> toJson(
       Collection<PGPPublicKeyRing> keys,
-      Set<Fingerprint> deleted, PublicKeyStore store) throws IOException {
-    PublicKeyChecker checker = new PublicKeyChecker();
+      Set<Fingerprint> deleted, PublicKeyStore store, IdentifiedUser user)
+      throws IOException {
+    GerritPublicKeyChecker checker = checkerFactory.create(user);
     Map<String, GpgKeyInfo> infos =
         Maps.newHashMapWithExpectedSize(keys.size() + deleted.size());
     for (PGPPublicKeyRing keyRing : keys) {
+      // Unlike when storing keys, include web-of-trust checks when producing
+      // result JSON, so the user at least knows of any issues.
       GpgKeyInfo info = GpgKeys.toJson(keyRing, checker, store);
       infos.put(info.id, info);
       info.id = null;

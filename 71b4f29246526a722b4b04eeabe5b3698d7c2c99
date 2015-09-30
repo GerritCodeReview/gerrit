@@ -22,6 +22,30 @@
       "revId": "71b4f29246526a722b4b04eeabe5b3698d7c2c99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f52f82b3_a2e35e09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-09-30T17:36:21Z",
+      "side": 1,
+      "message": "I guess by having this commit, we test also for a change in default permissions as a side effect with these tests.\n\nWhich may be good?",
+      "parentUuid": "f52f82b3_62d2f63f",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "71b4f29246526a722b4b04eeabe5b3698d7c2c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

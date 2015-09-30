@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.gpg.BouncyCastleUtil;
 import com.google.gerrit.gpg.CheckResult;
 import com.google.gerrit.gpg.Fingerprint;
+import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.reviewdb.client.Account;
@@ -70,17 +71,17 @@ public class GpgKeys implements
   private final DynamicMap<RestView<GpgKey>> views;
   private final Provider<ReviewDb> db;
   private final Provider<PublicKeyStore> storeProvider;
-  private final PublicKeyChecker checker;
+  private final GerritPublicKeyChecker.Factory checkerFactory;
 
   @Inject
   GpgKeys(DynamicMap<RestView<GpgKey>> views,
       Provider<ReviewDb> db,
       Provider<PublicKeyStore> storeProvider,
-      PublicKeyChecker checker) {
+      GerritPublicKeyChecker.Factory checkerFactory) {
     this.views = views;
     this.db = db;
     this.storeProvider = storeProvider;
-    this.checker = checker;
+    this.checkerFactory = checkerFactory;
   }
 
   @Override
@@ -160,7 +161,10 @@ public class GpgKeys implements
           for (PGPPublicKeyRing keyRing : store.get(keyId(fp))) {
             if (Arrays.equals(keyRing.getPublicKey().getFingerprint(), fp)) {
               found = true;
-              GpgKeyInfo info = toJson(keyRing, checker, store);
+              GpgKeyInfo info = toJson(
+                  keyRing,
+                  checkerFactory.create(rsrc.getUser()),
+                  store);
               keys.put(info.id, info);
               info.id = null;
               break;
@@ -179,19 +183,22 @@ public class GpgKeys implements
   @Singleton
   public static class Get implements RestReadView<GpgKey> {
     private final Provider<PublicKeyStore> storeProvider;
-    private final PublicKeyChecker checker;
+    private final GerritPublicKeyChecker.Factory checkerFactory;
 
     @Inject
     Get(Provider<PublicKeyStore> storeProvider,
-        PublicKeyChecker checker) {
+        GerritPublicKeyChecker.Factory checkerFactory) {
       this.storeProvider = storeProvider;
-      this.checker = checker;
+      this.checkerFactory = checkerFactory;
     }
 
     @Override
     public GpgKeyInfo apply(GpgKey rsrc) throws IOException {
       try (PublicKeyStore store = storeProvider.get()) {
-        return toJson(rsrc.getKeyRing(), checker, store);
+        return toJson(
+            rsrc.getKeyRing(),
+            checkerFactory.create(rsrc.getUser()),
+            store);
       }
     }
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "753d529e_cecc63a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_108.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-01T16:55:42Z",
+      "side": 1,
+      "message": "If we\u0027re only talking about SUBMITTED, I would just treat that as an open change, since submitted was an open state.",
+      "revId": "3eb7a83dc6bab5ec3993926b30f11952fa9514d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

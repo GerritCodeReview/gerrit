@@ -16,6 +16,24 @@
       "revId": "3eb7a83dc6bab5ec3993926b30f11952fa9514d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f52f82b3_6207965d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_108.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-01T16:59:41Z",
+      "side": 1,
+      "message": "Schema_109.java would take care of moving submitted changes back to new.\n\nDid we mess up the order somehow?",
+      "parentUuid": "753d529e_cecc63a2",
+      "revId": "3eb7a83dc6bab5ec3993926b30f11952fa9514d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

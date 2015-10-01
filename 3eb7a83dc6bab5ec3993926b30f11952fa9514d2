@@ -34,6 +34,24 @@
       "revId": "3eb7a83dc6bab5ec3993926b30f11952fa9514d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55a68ed6_ddfccba8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_108.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-01T20:34:35Z",
+      "side": 1,
+      "message": "When Schema_108 gets executed, the submitted state has been already dropped and doestn\u0027t get recognised anymore by the c.getStatus().",
+      "parentUuid": "f52f82b3_6207965d",
+      "revId": "3eb7a83dc6bab5ec3993926b30f11952fa9514d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -251,6 +251,8 @@ public final class Change {
   private static final char MIN_OPEN = 'a';
   /** Database constant for {@link Status#NEW}. */
   public static final char STATUS_NEW = 'n';
+  /** @deprecated Unused status, used only during migration to Ver. 2.12 */
+  public static final char STATUS_SUBMITTED = 's';
   /** Database constant for {@link Status#DRAFT}. */
   public static final char STATUS_DRAFT = 'd';
   /** Maximum database status constant for an open change. */
@@ -288,6 +290,11 @@ public final class Change {
      * </ul>
      */
     NEW(STATUS_NEW, ChangeStatus.NEW),
+
+    /**
+     * @deprecated Unused status, used only during migration to Ver. 2.12
+     */
+    SUBMITTED(STATUS_SUBMITTED, ChangeStatus.SUBMITTED),
 
     /**
      * Change is a draft change that only consists of draft patchsets.

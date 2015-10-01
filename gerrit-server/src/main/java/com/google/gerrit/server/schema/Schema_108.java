@@ -19,6 +19,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -58,7 +59,7 @@ public class Schema_108 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     ui.message("Listing all changes ...");
     SetMultimap<Project.NameKey, Change.Id> openByProject =
-        getOpenChangesByProject(db);
+        getOpenChangesByProject(db, ui);
     ui.message("done");
 
     ui.message("Updating groups for open changes ...");
@@ -139,11 +140,15 @@ public class Schema_108 extends SchemaVersion {
   }
 
   private SetMultimap<Project.NameKey, Change.Id> getOpenChangesByProject(
-      ReviewDb db) throws OrmException {
+      ReviewDb db, UpdateUI ui) throws OrmException {
     SetMultimap<Project.NameKey, Change.Id> openByProject =
         HashMultimap.create();
     for (Change c : db.changes().all()) {
-      if (c.getStatus().isOpen()) {
+      Status status = c.getStatus();
+      if (status == null) {
+        ui.message("Skipping migration of Change " + c.getChangeId()
+            + " because it has an obsolete/unsupported state");
+      } else if (status.isOpen()) {
         openByProject.put(c.getProject(), c.getId());
       }
     }

@@ -35,6 +35,11 @@ public enum ChangeStatus {
   NEW,
 
   /**
+   * @deprecated Unused status, used only during migration to Ver. 2.12
+   */
+  SUBMITTED,
+
+  /**
    * Change is a draft change that only consists of draft patchsets.
    *
    * <p>

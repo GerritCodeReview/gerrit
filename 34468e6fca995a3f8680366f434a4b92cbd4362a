@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "553e8eed_3df80fb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_108.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-01T09:27:22Z",
+      "side": 1,
+      "message": "\"because it has\"",
+      "range": {
+        "startLine": 150,
+        "startChar": 16,
+        "endLine": 150,
+        "endChar": 27
+      },
+      "revId": "34468e6fca995a3f8680366f434a4b92cbd4362a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

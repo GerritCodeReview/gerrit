@@ -19,6 +19,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -143,9 +144,15 @@ public class Schema_108 extends SchemaVersion {
     SetMultimap<Project.NameKey, Change.Id> openByProject =
         HashMultimap.create();
     for (Change c : db.changes().all()) {
-      if (c.getStatus().isOpen()) {
-        openByProject.put(c.getProject(), c.getId());
+      Status status = c.getStatus();
+      if (status != null && status.isClosed()) {
+        continue;
       }
+
+      // The old "submitted" state is not supported anymore
+      // (thus status is null) but it was an opened state and needs
+      // to be migrated as such
+      openByProject.put(c.getProject(), c.getId());
     }
     return openByProject;
   }

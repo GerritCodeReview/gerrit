@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "026bfa6a_6abab7f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-02T11:43:00Z",
+      "side": 1,
+      "message": "non-existent",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "4018621a7cb44bb22ed52dd9ecb8099edc1df298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "026bfa6a_0ac77b83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_108.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-02T11:43:00Z",
+      "side": 1,
+      "message": "wrap this?",
+      "range": {
+        "startLine": 158,
+        "startChar": 78,
+        "endLine": 158,
+        "endChar": 97
+      },
+      "revId": "4018621a7cb44bb22ed52dd9ecb8099edc1df298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "753d529e_8e209bdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_108.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-02T11:43:00Z",
+      "side": 1,
+      "message": "belongs",
+      "range": {
+        "startLine": 158,
+        "startChar": 27,
+        "endLine": 158,
+        "endChar": 35
+      },
+      "revId": "4018621a7cb44bb22ed52dd9ecb8099edc1df298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "026bfa6a_2ac4bf7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_108.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-02T11:43:00Z",
+      "side": 1,
+      "message": "I wonder if this is too much text to display for potentially many changes?",
+      "range": {
+        "startLine": 159,
+        "startChar": 23,
+        "endLine": 159,
+        "endChar": 93
+      },
+      "revId": "4018621a7cb44bb22ed52dd9ecb8099edc1df298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "026bfa6a_cacf2398",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_108.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-02T11:43:00Z",
+      "side": 1,
+      "message": "What about collecting a list of projects that don\u0027t exist any more, and then listing them at the end with the \"you may need to remove ...\" message?",
+      "revId": "4018621a7cb44bb22ed52dd9ecb8099edc1df298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

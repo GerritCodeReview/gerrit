@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75d9d26e_ae30971b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-10-02T16:42:01Z",
+      "side": 1,
+      "message": "i don\u0027t like such redundancy, so i would start this line with \"... to link to [...]\", but i don\u0027t know what the custom is here.",
+      "revId": "9739deecdbc6eb9c3bdb1d5a482065148a859800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

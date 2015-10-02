@@ -45,6 +45,12 @@ contains a Change-Id in the commit message you also need to replace
 it with a new Change-Id (case 1. and 3. above), otherwise the push
 will fail with another error message.
 
+== Fast-forward merges
+
+You will also encounter this error if you did a Fast-forward merge
+and try to push the result.  A workaround is to use the link:user-upload.html#base[Selecting Merge Base]
+feature or enable the link:project-configuration.html#_use_target_branch_when_determining_new_changes_to_open[Use target branch when determining new changes to open]
+configuration.
 
 GERRIT
 ------

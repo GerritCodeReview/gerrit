@@ -14,14 +14,17 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -44,6 +47,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 public class Schema_108 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
@@ -59,7 +63,7 @@ public class Schema_108 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     ui.message("Listing all changes ...");
     SetMultimap<Project.NameKey, Change.Id> openByProject =
-        getOpenChangesByProject(db);
+        getOpenChangesByProject(db, ui);
     ui.message("done");
 
     ui.message("Updating groups for open changes ...");
@@ -140,7 +144,9 @@ public class Schema_108 extends SchemaVersion {
   }
 
   private SetMultimap<Project.NameKey, Change.Id> getOpenChangesByProject(
-      ReviewDb db) throws OrmException {
+      ReviewDb db, UpdateUI ui) throws OrmException {
+    SortedSet<NameKey> projects = repoManager.list();
+    SortedSet<NameKey> nonExistentProjects = Sets.newTreeSet();
     SetMultimap<Project.NameKey, Change.Id> openByProject =
         HashMultimap.create();
     for (Change c : db.changes().all()) {
@@ -149,10 +155,22 @@ public class Schema_108 extends SchemaVersion {
         continue;
       }
 
-      // The old "submitted" state is not supported anymore
-      // (thus status is null) but it was an opened state and needs
-      // to be migrated as such
-      openByProject.put(c.getProject(), c.getId());
+      NameKey projectKey = c.getProject();
+      if (!projects.contains(projectKey)) {
+        nonExistentProjects.add(projectKey);
+      } else {
+        // The old "submitted" state is not supported anymore
+        // (thus status is null) but it was an opened state and needs
+        // to be migrated as such
+        openByProject.put(projectKey, c.getId());
+      }
+    }
+
+    if (!nonExistentProjects.isEmpty()) {
+      ui.message("Detected open changes referring to the following non-existent projects:");
+      ui.message(Joiner.on(", ").join(nonExistentProjects));
+      ui.message("It is highly recommended to remove\n"
+          + "the obsolete open changes, comments and patch-sets from your DB.\n");
     }
     return openByProject;
   }

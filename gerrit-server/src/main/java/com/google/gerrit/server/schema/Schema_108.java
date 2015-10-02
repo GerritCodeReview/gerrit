@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -44,6 +45,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 public class Schema_108 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
@@ -59,7 +61,7 @@ public class Schema_108 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     ui.message("Listing all changes ...");
     SetMultimap<Project.NameKey, Change.Id> openByProject =
-        getOpenChangesByProject(db);
+        getOpenChangesByProject(db, ui);
     ui.message("done");
 
     ui.message("Updating groups for open changes ...");
@@ -140,7 +142,8 @@ public class Schema_108 extends SchemaVersion {
   }
 
   private SetMultimap<Project.NameKey, Change.Id> getOpenChangesByProject(
-      ReviewDb db) throws OrmException {
+      ReviewDb db, UpdateUI ui) throws OrmException {
+    SortedSet<NameKey> projects = repoManager.list();
     SetMultimap<Project.NameKey, Change.Id> openByProject =
         HashMultimap.create();
     for (Change c : db.changes().all()) {
@@ -149,10 +152,17 @@ public class Schema_108 extends SchemaVersion {
         continue;
       }
 
+      NameKey projectKey = c.getProject();
+      if (!projects.contains(projectKey)) {
+        ui.message("Skipping migration of Change " + c.getChangeId()
+            + " because it belonged to project " + projectKey.get() + " which is not accessible "
+            + " anymore: you may need to remove the records from the Gerrit DB in the future.");
+      }
+
       // The old "submitted" state is not supported anymore
       // (thus status is null) but it was an opened state and needs
       // to be migrated as such
-      openByProject.put(c.getProject(), c.getId());
+      openByProject.put(projectKey, c.getId());
     }
     return openByProject;
   }

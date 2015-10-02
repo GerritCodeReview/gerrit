@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -141,15 +142,22 @@ public class Schema_108 extends SchemaVersion {
 
   private SetMultimap<Project.NameKey, Change.Id> getOpenChangesByProject(
       ReviewDb db, UpdateUI ui) throws OrmException {
+    Set<NameKey> projects = repoManager.list();
     SetMultimap<Project.NameKey, Change.Id> openByProject =
         HashMultimap.create();
     for (Change c : db.changes().all()) {
-      Status status = c.getStatus();
-      if (status == null) {
+      NameKey projectKey = c.getProject();
+      if (projects.contains(projectKey)) {
+        Status status = c.getStatus();
+        if (status == null) {
+          ui.message("Skipping migration of Change " + c.getChangeId()
+              + " because it has an obsolete/unsupported state");
+        } else if (status.isOpen()) {
+          openByProject.put(c.getProject(), c.getId());
+        }
+      } else {
         ui.message("Skipping migration of Change " + c.getChangeId()
-            + " because it has an obsolete/unsupported state");
-      } else if (status.isOpen()) {
-        openByProject.put(c.getProject(), c.getId());
+            + " because it belongs to unaccessible project " + projectKey.get());
       }
     }
     return openByProject;

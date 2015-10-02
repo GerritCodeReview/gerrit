@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "753d529e_aefc77a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-02T01:24:39Z",
+      "side": 1,
+      "message": "This import is no longer used.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 26
+      },
+      "revId": "5743ce9a5df7bccb838c1c65d530896cb91fa054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55a68ed6_3d9a8f63",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-03T21:00:09Z",
+      "side": 1,
+      "message": "New gwtorm release with Apache Derby support is needed for this change.",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "5c46017cea080610cbd10fdb003749ffa7bacc14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

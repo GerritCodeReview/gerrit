@@ -427,8 +427,8 @@ abstract class DiffScreen extends Screen {
         new NoOpKeyCommand(0, 'j', PatchUtil.C.lineNext()),
         new NoOpKeyCommand(0, 'k', PatchUtil.C.linePrev()));
     keysNavigation.add(
-        new NoOpKeyCommand(0, 'n', PatchUtil.C.chunkNext2()),
-        new NoOpKeyCommand(0, 'p', PatchUtil.C.chunkPrev2()));
+        new NoOpKeyCommand(0, 'n', PatchUtil.C.chunkNext()),
+        new NoOpKeyCommand(0, 'p', PatchUtil.C.chunkPrev()));
     keysNavigation.add(
         new NoOpKeyCommand(KeyCommand.M_SHIFT, 'n', PatchUtil.C.commentNext()),
         new NoOpKeyCommand(KeyCommand.M_SHIFT, 'p', PatchUtil.C.commentPrev()));

@@ -17,27 +17,7 @@ package com.google.gerrit.client.patches;
 import com.google.gwt.i18n.client.Constants;
 
 public interface PatchConstants extends Constants {
-  String draft();
-
-  String buttonReply();
-  String buttonEdit();
-  String buttonSave();
-  String buttonCancel();
-  String buttonDiscard();
-
-  String noDifference();
   String patchBase();
-  String patchBaseAutoMerge();
-  String patchHeaderPatchSet();
-  String patchHeaderOld();
-  String patchHeaderNew();
-  String patchSet();
-
-  String patchHistoryTitle();
-  String disabledOnLargeFiles();
-  String intralineFailure();
-  String intralineTimeout();
-  String illegalNumberOfColumns();
 
   String upToChange();
   String openReply();
@@ -45,20 +25,15 @@ public interface PatchConstants extends Constants {
   String lineNext();
   String chunkPrev();
   String chunkNext();
-  String chunkPrev2();
-  String chunkNext2();
   String commentPrev();
   String commentNext();
   String focusSideA();
   String focusSideB();
-  String fileList();
   String expandComment();
   String expandAllCommentsOnCurrentLine();
   String toggleSideA();
   String toggleIntraline();
   String showPreferences();
-
-  String openEditScreen();
 
   String toggleReviewed();
   String markAsReviewedAndGoToNext();
@@ -76,12 +51,9 @@ public interface PatchConstants extends Constants {
   String previousFileHelp();
   String nextFileHelp();
 
-  String reviewedAnd();
-  String next();
   String download();
   String edit();
   String addFileCommentToolTip();
-  String addFileCommentByDoubleClick();
 
   String buttonReplyDone();
   String cannedReplyDone();

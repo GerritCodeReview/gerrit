@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55a68ed6_fd842704",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-04T13:54:44Z",
+      "side": 1,
+      "message": "I don\u0027t think we are going to maintain two different unified screen implementations:\n\n  c/\u003cchange\u003e/\u003cpath\u003e,unified \u003d\u003e backed by Unified.java\n  c/\u003cchange\u003e/\u003cpath\u003e,unified1 \u003d\u003e backed by UnifiedPatchScreen.java\n\nI\u0027ve just uploaded a follow-up change with removal of old unified diff screen.",
+      "revId": "f1aa4c776edfdaa60a10deecdb6438a9006b774c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

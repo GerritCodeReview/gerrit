@@ -59,8 +59,6 @@ public class DiffPreferencesInfo {
   public Theme theme;
   public Whitespace ignoreWhitespace;
   public Boolean retainHeader;
-  public Boolean skipDeleted;
-  public Boolean skipUncommented;
 
   public static DiffPreferencesInfo defaults() {
     DiffPreferencesInfo i = new DiffPreferencesInfo();
@@ -77,8 +75,6 @@ public class DiffPreferencesInfo {
     i.showLineEndings = true;
     i.showTabs = true;
     i.showWhitespaceErrors = true;
-    i.skipDeleted = false;
-    i.skipUncommented = false;
     i.syntaxHighlighting = true;
     i.hideTopMenu = false;
     i.autoHideDiffTableHeader = true;

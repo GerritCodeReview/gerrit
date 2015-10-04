@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.WHOLE_FILE_CONTEXT;
 import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.gerrit.client.Dispatcher;

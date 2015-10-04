@@ -112,8 +112,6 @@ public class Schema_115 extends SchemaVersion {
           prefs.showLineEndings = toBoolean(rs.getString(12));
           prefs.showTabs = toBoolean(rs.getString(13));
           prefs.showWhitespaceErrors = toBoolean(rs.getString(14));
-          prefs.skipDeleted = toBoolean(rs.getString(15));
-          prefs.skipUncommented = toBoolean(rs.getString(16));
           prefs.syntaxHighlighting = toBoolean(rs.getString(17));
           prefs.tabSize = rs.getInt(18);
           // Enum with name as values; can be null

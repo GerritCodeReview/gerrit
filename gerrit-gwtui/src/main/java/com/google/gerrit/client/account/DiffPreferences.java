@@ -44,8 +44,6 @@ public class DiffPreferences extends JavaScriptObject {
     p.theme(in.theme);
     p.hideEmptyPane(in.hideEmptyPane);
     p.retainHeader(in.retainHeader);
-    p.skipUncommented(in.skipUncommented);
-    p.skipDeleted(in.skipDeleted);
     p.matchBrackets(in.matchBrackets);
     return p;
   }
@@ -62,8 +60,6 @@ public class DiffPreferences extends JavaScriptObject {
     p.showLineEndings = showLineEndings();
     p.showTabs = showTabs();
     p.showWhitespaceErrors = showWhitespaceErrors();
-    p.skipDeleted = skipDeleted();
-    p.skipUncommented = skipUncommented();
     p.syntaxHighlighting = syntaxHighlighting();
     p.hideTopMenu = hideTopMenu();
     p.autoHideDiffTableHeader = autoHideDiffTableHeader();
@@ -138,8 +134,6 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void renderEntireFile(boolean r) /*-{ this.render_entire_file = r }-*/;
   public final native void retainHeader(boolean r) /*-{ this.retain_header = r }-*/;
   public final native void hideEmptyPane(boolean s) /*-{ this.hide_empty_pane = s }-*/;
-  public final native void skipUncommented(boolean s) /*-{ this.skip_uncommented = s }-*/;
-  public final native void skipDeleted(boolean s) /*-{ this.skip_deleted = s }-*/;
   public final native void matchBrackets(boolean m) /*-{ this.match_brackets = m }-*/;
   public final native boolean intralineDifference() /*-{ return this.intraline_difference || false }-*/;
   public final native boolean showLineEndings() /*-{ return this.show_line_endings || false }-*/;
@@ -154,8 +148,6 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean renderEntireFile() /*-{ return this.render_entire_file || false }-*/;
   public final native boolean hideEmptyPane() /*-{ return this.hide_empty_pane || false }-*/;
   public final native boolean retainHeader() /*-{ return this.retain_header || false }-*/;
-  public final native boolean skipUncommented() /*-{ return this.skip_uncommented || false }-*/;
-  public final native boolean skipDeleted() /*-{ return this.skip_deleted || false }-*/;
   public final native boolean matchBrackets() /*-{ return this.match_brackets || false }-*/;
 
   private final native void setThemeRaw(String i) /*-{ this.theme = i }-*/;

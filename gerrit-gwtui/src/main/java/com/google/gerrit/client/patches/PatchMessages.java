@@ -16,12 +16,9 @@ package com.google.gerrit.client.patches;
 
 import com.google.gwt.i18n.client.Messages;
 
-import java.util.Date;
-
 public interface PatchMessages extends Messages {
   String expandBefore(int cnt);
   String expandAfter(int cnt);
-  String draftSaved(Date when);
   String patchSkipRegion(String lineNumber);
   String fileNameWithShortcutKey(String file, String key);
 }

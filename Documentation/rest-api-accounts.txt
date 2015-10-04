@@ -1680,10 +1680,6 @@ box.
 Whether tabs should be shown.
 |`show_whitespace_errors`      |not set if `false`|
 Whether whitespace errors should be shown.
-|`skip_deleted`                |not set if `false`|
-Whether deleted files should be skipped on file switch.
-|`skip_uncommented`            |not set if `false`|
-Whether uncommented files should be skipped on file switch.
 |`syntax_highlighting`         |not set if `false`|
 Whether syntax highlighting should be enabled.
 |`hide_top_menu`               |not set if `false`|
@@ -1736,10 +1732,6 @@ box.
 Whether tabs should be shown.
 |`show_whitespace_errors`      |optional|
 Whether whitespace errors should be shown.
-|`skip_deleted`                |optional|
-Whether deleted files should be skipped on file switch.
-|`skip_uncommented`            |optional|
-Whether uncommented files should be skipped on file switch.
 |`syntax_highlighting`         |optional|
 Whether syntax highlighting should be enabled.
 |`hide_top_menu`               |optional|

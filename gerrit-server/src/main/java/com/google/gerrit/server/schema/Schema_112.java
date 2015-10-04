@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,32 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.patches;
+package com.google.gerrit.server.schema;
 
-class PatchLine {
-  static enum Type {
-    DELETE, INSERT, REPLACE, CONTEXT
-  }
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-  private PatchLine.Type type;
-  private int lineA;
-  private int lineB;
-
-  PatchLine(final PatchLine.Type t, final int a, final int b) {
-    type = t;
-    lineA = a;
-    lineB = b;
-  }
-
-  PatchLine.Type getType() {
-    return type;
-  }
-
-  int getLineA() {
-    return lineA;
-  }
-
-  int getLineB() {
-    return lineB;
+public class Schema_112 extends SchemaVersion {
+  @Inject
+  Schema_112(Provider<Schema_111> prior) {
+    super(prior);
   }
 }

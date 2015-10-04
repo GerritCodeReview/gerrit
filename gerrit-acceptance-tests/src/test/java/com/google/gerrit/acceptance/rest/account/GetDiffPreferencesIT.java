@@ -52,8 +52,6 @@ public class GetDiffPreferencesIT extends AbstractDaemonTest {
     assertThat(toBoolean(actual.showLineEndings)).isEqualTo(expected.isShowLineEndings());
     assertThat(toBoolean(actual.showTabs)).isEqualTo(expected.isShowTabs());
     assertThat(toBoolean(actual.showWhitespaceErrors)).isEqualTo(expected.isShowWhitespaceErrors());
-    assertThat(toBoolean(actual.skipDeleted)).isEqualTo(expected.isSkipDeleted());
-    assertThat(toBoolean(actual.skipUncommented)).isEqualTo(expected.isSkipUncommented());
     assertThat(toBoolean(actual.syntaxHighlighting)).isEqualTo(expected.isSyntaxHighlighting());
     assertThat(actual.tabSize).isEqualTo(expected.getTabSize());
   }

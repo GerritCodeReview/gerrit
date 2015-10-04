@@ -44,8 +44,6 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
     Boolean showLineEndings;
     Boolean showTabs;
     Boolean showWhitespaceErrors;
-    Boolean skipDeleted;
-    Boolean skipUncommented;
     Boolean syntaxHighlighting;
     Boolean hideTopMenu;
     Boolean autoHideDiffTableHeader;
@@ -115,12 +113,6 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
       }
       if (input.showWhitespaceErrors != null) {
         p.setShowWhitespaceErrors(input.showWhitespaceErrors);
-      }
-      if (input.skipDeleted != null) {
-        p.setSkipDeleted(input.skipDeleted);
-      }
-      if (input.skipUncommented != null) {
-        p.setSkipUncommented(input.skipUncommented);
       }
       if (input.syntaxHighlighting != null) {
         p.setSyntaxHighlighting(input.syntaxHighlighting);

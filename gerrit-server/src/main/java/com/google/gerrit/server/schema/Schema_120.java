@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.prettify.client;
+package com.google.gerrit.server.schema;
 
-import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-public interface SparseHtmlFile {
-  /** @return the line of formatted HTML. */
-  SafeHtml getSafeHtmlLine(int lineNo);
-
-  /** @return the number of lines in this sparse list. */
-  int size();
-
-  /** @return true if the line is valid in this sparse list. */
-  boolean contains(int idx);
-
-  /** @return true if this line ends in the middle of a character edit span. */
-  boolean hasTrailingEdit(int idx);
+public class Schema_120 extends SchemaVersion {
+  @Inject
+  Schema_120(Provider<Schema_119> prior) {
+    super(prior);
+  }
 }

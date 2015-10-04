@@ -14,22 +14,9 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gerrit.common.data.ChangeDetailService;
-import com.google.gerrit.common.data.PatchDetailService;
 import com.google.gwt.core.client.GWT;
-import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class PatchUtil {
   public static final PatchConstants C = GWT.create(PatchConstants.class);
   public static final PatchMessages M = GWT.create(PatchMessages.class);
-  public static final ChangeDetailService CHANGE_SVC;
-  public static final PatchDetailService PATCH_SVC;
-
-  static {
-    CHANGE_SVC = GWT.create(ChangeDetailService.class);
-    JsonUtil.bind(CHANGE_SVC, "rpc/ChangeDetailService");
-
-    PATCH_SVC = GWT.create(PatchDetailService.class);
-    JsonUtil.bind(PATCH_SVC, "rpc/PatchDetailService");
-  }
 }

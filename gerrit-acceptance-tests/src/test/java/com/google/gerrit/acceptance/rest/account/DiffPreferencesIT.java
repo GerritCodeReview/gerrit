@@ -52,8 +52,6 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(o.showLineEndings).isEqualTo(d.showLineEndings);
     assertThat(o.showTabs).isEqualTo(d.showTabs);
     assertThat(o.showWhitespaceErrors).isEqualTo(d.showWhitespaceErrors);
-    assertThat(o.skipDeleted).isNull();
-    assertThat(o.skipUncommented).isNull();
     assertThat(o.syntaxHighlighting).isEqualTo(d.syntaxHighlighting);
     assertThat(o.hideTopMenu).isNull();
     assertThat(o.autoHideDiffTableHeader).isEqualTo(d.autoHideDiffTableHeader);
@@ -83,8 +81,6 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.showLineEndings ^= true;
     i.showTabs ^= true;
     i.showWhitespaceErrors ^= true;
-    i.skipDeleted ^= true;
-    i.skipUncommented ^= true;
     i.syntaxHighlighting ^= true;
     i.hideTopMenu ^= true;
     i.autoHideDiffTableHeader ^= true;
@@ -110,8 +106,6 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(o.showLineEndings).isNull();
     assertThat(o.showTabs).isNull();
     assertThat(o.showWhitespaceErrors).isNull();
-    assertThat(o.skipDeleted).isEqualTo(i.skipDeleted);
-    assertThat(o.skipUncommented).isEqualTo(i.skipUncommented);
     assertThat(o.syntaxHighlighting).isNull();
     assertThat(o.hideTopMenu).isEqualTo(i.hideTopMenu);
     assertThat(o.autoHideDiffTableHeader).isNull();
@@ -140,8 +134,6 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(a.showLineEndings).isNull();
     assertThat(a.showTabs).isNull();
     assertThat(a.showWhitespaceErrors).isNull();
-    assertThat(a.skipDeleted).isEqualTo(o.skipDeleted);
-    assertThat(a.skipUncommented).isEqualTo(o.skipUncommented);
     assertThat(a.syntaxHighlighting).isNull();
     assertThat(a.hideTopMenu).isEqualTo(o.hideTopMenu);
     assertThat(a.autoHideDiffTableHeader).isNull();

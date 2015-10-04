@@ -120,12 +120,6 @@ public class Schema_115 extends SchemaVersion {
           if (availableColumns.contains("show_whitespace_errors")) {
             prefs.showWhitespaceErrors = toBoolean(rs.getString("show_whitespace_errors"));
           }
-          if (availableColumns.contains("skip_deleted")) {
-            prefs.skipDeleted = toBoolean(rs.getString("skip_deleted"));
-          }
-          if (availableColumns.contains("skip_uncommented")) {
-            prefs.skipUncommented = toBoolean(rs.getString("skip_uncommented"));
-          }
           if (availableColumns.contains("syntax_highlighting")) {
             prefs.syntaxHighlighting = toBoolean(rs.getString("syntax_highlighting"));
           }

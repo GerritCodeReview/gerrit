@@ -88,7 +88,6 @@ import com.google.gerrit.client.documentation.DocScreen;
 import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
-import com.google.gerrit.client.patches.UnifiedPatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.Screen;
@@ -479,9 +478,7 @@ public class Dispatcher {
     } else if ("sidebyside".equals(panel)) {
       codemirror(token, null, id, side, line, false);
     } else if ("unified".equals(panel)) {
-      unified(token, baseId, id, side, line);
-    } else if ("unified1".equals(panel)) {
-      unified1(token, baseId, id);
+      unified(token, baseId, id, line);
     } else if ("edit".equals(panel)) {
       codemirror(token, null, id, side, line, true);
     } else {
@@ -500,18 +497,6 @@ public class Dispatcher {
       public void onSuccess() {
         Gerrit.display(token,
             new Unified(baseId, id.getParentKey(), id.get(), side, line));
-      }
-    });
-  }
-
-  private static void unified1(final String token,
-      final PatchSet.Id baseId,
-      final Patch.Key id) {
-    GWT.runAsync(new AsyncSplit(token) {
-      @Override
-      public void onSuccess() {
-        UnifiedPatchScreen.TopView top = Gerrit.getPatchScreenTopView();
-        Gerrit.display(token, new UnifiedPatchScreen(id, top, baseId));
       }
     });
   }

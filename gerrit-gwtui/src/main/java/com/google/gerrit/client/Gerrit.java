@@ -34,7 +34,6 @@ import com.google.gerrit.client.info.ServerInfo;
 import com.google.gerrit.client.info.TopMenu;
 import com.google.gerrit.client.info.TopMenuItem;
 import com.google.gerrit.client.info.TopMenuList;
-import com.google.gerrit.client.patches.UnifiedPatchScreen;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
@@ -53,7 +52,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -134,7 +132,6 @@ public class Gerrit implements EntryPoint {
   private static SearchPanel searchPanel;
   private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
-  private static UnifiedPatchScreen patchScreen;
   private static String lastChangeListToken;
   private static String lastViewToken;
 
@@ -146,13 +143,6 @@ public class Gerrit implements EntryPoint {
   static void upgradeUI(String token) {
     History.newItem(Dispatcher.RELOAD_UI + token, false);
     Window.Location.reload();
-  }
-
-  public static UnifiedPatchScreen.TopView getPatchScreenTopView() {
-    if (patchScreen == null) {
-      return null;
-    }
-    return patchScreen.getTopView();
   }
 
   public static void displayLastChangeList() {
@@ -204,26 +194,6 @@ public class Gerrit implements EntryPoint {
     } else {
       view.setToken(token);
       body.setView(view);
-    }
-  }
-
-  /**
-   * Update any top level menus which can vary based on the view which was
-   * loaded.
-   * @param view the loaded view.
-   */
-  public static void updateMenus(Screen view) {
-    LinkMenuBar diffBar = menuBars.get(GerritTopMenu.DIFFERENCES.menuName);
-    if (view instanceof UnifiedPatchScreen) {
-      patchScreen = (UnifiedPatchScreen) view;
-      menuLeft.setVisible(diffBar, true);
-      menuLeft.selectTab(menuLeft.getWidgetIndex(diffBar));
-    } else {
-      if (patchScreen != null && menuLeft.getSelectedWidget() == diffBar) {
-        menuLeft.selectTab(isSignedIn() ? 1 : 0);
-      }
-      patchScreen = null;
-      menuLeft.setVisible(diffBar, false);
     }
   }
 
@@ -694,15 +664,6 @@ public class Gerrit implements EntryPoint {
       menuLeft.selectTab(0);
     }
 
-    patchScreen = null;
-    LinkMenuBar diffBar = new LinkMenuBar();
-    menuBars.put(GerritTopMenu.DIFFERENCES.menuName, diffBar);
-    menuLeft.addInvisible(diffBar, C.menuDiff());
-    addDiffLink(diffBar, C.menuDiffCommit(), UnifiedPatchScreen.TopView.COMMIT);
-    addDiffLink(diffBar, C.menuDiffPreferences(), UnifiedPatchScreen.TopView.PREFERENCES);
-    addDiffLink(diffBar, C.menuDiffPatchSets(), UnifiedPatchScreen.TopView.PATCH_SETS);
-    addDiffLink(diffBar, C.menuDiffFiles(), UnifiedPatchScreen.TopView.FILES);
-
     final LinkMenuBar projectsBar = new LinkMenuBar();
     menuBars.put(GerritTopMenu.PROJECTS.menuName, projectsBar);
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
@@ -987,19 +948,6 @@ public class Gerrit implements EntryPoint {
   private static void insertLink(final LinkMenuBar m, final String text,
       final String historyToken, final int beforeIndex) {
     m.insertItem(new LinkMenuItem(text, historyToken), beforeIndex);
-  }
-
-  private static void addDiffLink(final LinkMenuBar m, final String text,
-      final UnifiedPatchScreen.TopView tv) {
-    m.addItem(new LinkMenuItem(text, "") {
-        @Override
-        public void go() {
-          if (patchScreen != null) {
-            patchScreen.setTopView(tv);
-          }
-          AnchorElement.as(getElement()).blur();
-        }
-      });
   }
 
   private static LinkMenuItem addProjectLink(LinkMenuBar m, TopMenuItem item) {

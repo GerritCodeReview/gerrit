@@ -15,8 +15,6 @@
 package com.google.gerrit.httpd.rpc;
 
 import com.google.gerrit.httpd.rpc.account.AccountModule;
-import com.google.gerrit.httpd.rpc.changedetail.ChangeModule;
-import com.google.gerrit.httpd.rpc.patch.PatchModule;
 import com.google.gerrit.httpd.rpc.project.ProjectModule;
 
 /** Registers servlets to answer RPCs from client UI. */
@@ -31,8 +29,6 @@ public class UiRpcModule extends RpcServletModule {
     rpc(SystemInfoServiceImpl.class);
 
     install(new AccountModule());
-    install(new ChangeModule());
-    install(new PatchModule());
     install(new ProjectModule());
   }
 }

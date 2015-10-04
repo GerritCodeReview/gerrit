@@ -103,11 +103,9 @@ public class AccountDiffPreference {
   @Column(id = 9)
   protected short context;
 
-  @Column(id = 10)
-  protected boolean skipDeleted;
+  // DELETED 10
 
-  @Column(id = 11)
-  protected boolean skipUncommented;
+  // DELETED 11
 
   @Column(id = 12)
   protected boolean expandAllComments;
@@ -156,8 +154,6 @@ public class AccountDiffPreference {
     this.showLineEndings = p.showLineEndings;
     this.intralineDifference = p.intralineDifference;
     this.showTabs = p.showTabs;
-    this.skipDeleted = p.skipDeleted;
-    this.skipUncommented = p.skipUncommented;
     this.expandAllComments = p.expandAllComments;
     this.context = p.context;
     this.retainHeader = p.retainHeader;
@@ -246,22 +242,6 @@ public class AccountDiffPreference {
   public void setContext(final short context) {
     assert 0 <= context || context == WHOLE_FILE_CONTEXT;
     this.context = context;
-  }
-
-  public boolean isSkipDeleted() {
-    return skipDeleted;
-  }
-
-  public void setSkipDeleted(boolean skip) {
-    skipDeleted = skip;
-  }
-
-  public boolean isSkipUncommented() {
-    return skipUncommented;
-  }
-
-  public void setSkipUncommented(boolean skip) {
-    skipUncommented = skip;
   }
 
   public boolean isExpandAllComments() {

@@ -453,7 +453,10 @@ public final class Change {
   @Column(id = 17, notNull = false)
   protected String originalSubject;
 
-  /** unique id for the changes submitted together assigned during merging */
+  /**
+   * Unique id for the changes submitted together assigned during merging.
+   * Only set if the status is MERGED.
+   */
   @Column(id = 18, notNull = false)
   protected String submissionId;
 

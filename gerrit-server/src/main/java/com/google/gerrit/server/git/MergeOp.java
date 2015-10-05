@@ -148,6 +148,17 @@ public class MergeOp {
 
   private final Map<Change.Id, List<SubmitRecord>> records;
   private final Map<Change.Id, CodeReviewCommit> commits;
+
+  private static final String MACHINE_ID;
+  static {
+    String id;
+    try {
+      id = InetAddress.getLocalHost().getHostAddress();
+    } catch (UnknownHostException e) {
+      id = "unknown";
+    }
+    MACHINE_ID = id;
+  }
   private String staticSubmissionId;
   private String submissionId;
 
@@ -345,12 +356,8 @@ public class MergeOp {
   private void updateSubmissionId(Change change) {
     if (staticSubmissionId == null) {
       Hasher h = Hashing.sha1().newHasher();
-      h.putLong(Thread.currentThread().getId());
-      try {
-        h.putBytes(InetAddress.getLocalHost().getAddress());
-      } catch (UnknownHostException e) {
-        h.putString(e.toString(), Charset.defaultCharset());
-      }
+      h.putLong(Thread.currentThread().getId())
+          .putUnencodedChars(MACHINE_ID);
       staticSubmissionId = h.toString().substring(0, 8);
     }
     submissionId = change.getId().get() + "-" + TimeUtil.nowMs() +

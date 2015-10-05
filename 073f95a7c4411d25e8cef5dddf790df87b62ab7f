@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebdb2404_f0b70012",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/SignedPushPreReceiveHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-05T18:31:08Z",
+      "side": 1,
+      "message": "How are we going to communicate this to the users?\n\"Only direct pushes can be trusted using the signed push cert, while code to be reviewed can come from Malice claiming to be Alice, so no guarantees there.\"\n\nAs a user reviewing code I would like to know if I am reviewing code that was actually authored by the author in question or if some man-in-the-middle attack sneaked in some hard to find bug.",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 93,
+        "endChar": 80
+      },
+      "revId": "073f95a7c4411d25e8cef5dddf790df87b62ab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ba9c860_65d34638",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/GpgKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-05T21:35:20Z",
+      "side": 1,
+      "message": "Why do we need the condition here?",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 47
+      },
+      "revId": "6c9ff5b41368fae90e1bc5fc8bbd4aee303dff79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

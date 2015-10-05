@@ -22,6 +22,30 @@
       "revId": "b53b47fe66a82d467afb436392e1609de7ad7b81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "026bfa6a_aace6f98",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/testutil/TestTrustKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-05T15:34:44Z",
+      "side": 1,
+      "message": "Went one step further and moved the other keys out of TestKey (which is a type) and into TestKeys (a collection of static instances).",
+      "parentUuid": "78df0724_7e5e3164",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 25
+      },
+      "revId": "b53b47fe66a82d467afb436392e1609de7ad7b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

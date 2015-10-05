@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "75d9d26e_2e002710",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-10-05T15:39:49Z",
+      "side": 1,
+      "message": "Yes, I noticed the red label. It is a bit ugly. Do you want to also fix that? Maybe in a follow up change in order to keep this one small and nice?\n\nI tested again both solutions and could confirm that this patch set still blocks submit when the lowest vote is +1 for a +1+2 range.\n\nThe solution proposed by me works.",
+      "parentUuid": "026bfa6a_6ae15702",
+      "revId": "ce7249b3d384dabcb2147865efb7190727367f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55a68ed6_9d83e3f8",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 4

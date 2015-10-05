@@ -46,6 +46,30 @@
       "revId": "b53b47fe66a82d467afb436392e1609de7ad7b81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebdb2404_70ac70ca",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/testutil/TestTrustKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-05T17:48:46Z",
+      "side": 1,
+      "message": "I think the patch is good as is, but another improvement could be renaming the `keyA` or in PS3 `key1()` to be `validKeyWithNoExpiration()` maybe?",
+      "parentUuid": "026bfa6a_aace6f98",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 25
+      },
+      "revId": "b53b47fe66a82d467afb436392e1609de7ad7b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

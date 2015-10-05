@@ -1,0 +1,25 @@
+<script src="../bower_components/page/page.js"></script>
+<script>
+window.addEventListener('WebComponentsReady', function() {
+  // Middleware
+  function scrollToTop(ctx, next) {
+    app.scrollPageToTop();
+    next();
+  }
+
+  // Routes
+  page('/', function() {
+    page.redirect('/q/status:open');
+  });
+
+  page('/q/:query', scrollToTop, function(data) {
+    app.route = 'change-list';
+    app.params = data.params;
+  });
+
+  page({
+    hashbang: true
+  });
+
+});
+</script>

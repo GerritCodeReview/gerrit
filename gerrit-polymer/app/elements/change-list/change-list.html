@@ -1,0 +1,217 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="change-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table {
+        border: 1px solid #eee;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        border-bottom: 1px solid #eee;
+        padding: 2px 5px;
+        vertical-align: top;
+      }
+      th {
+        background: #eee;
+        text-align: left;
+      }
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .positionIndicator {
+        opacity: .1;
+        visibility: hidden;
+      }
+      :focus .positionIndicator {
+        opacity: 1;
+      }
+      :focus .is-selected {
+        background-color: #d8EdF9;
+      }
+      .is-selected .positionIndicator {
+        visibility: visible;
+      }
+      .avatarImage {
+        height: 16px;
+        vertical-align: -4px;
+        width: 16px;
+      }
+    </style>
+
+    <iron-ajax
+        auto
+        url="/changes/"
+        params="{{_computeQueryParams(query)}}"
+        handle-as="text"
+        on-response="_handleResponse"
+        debounce-duration="300"></iron-ajax>
+    <iron-a11y-keys
+        target="[[keyTarget]]"
+        keys="j k enter"
+        on-keys-pressed="_handleKey"></iron-a11y-keys>
+    <table tabindex="0">
+      <tr>
+        <th></th> <!-- keyboard position indicator -->
+        <th>Subject</th>
+        <th>Status</th>
+        <th>Owner</th>
+        <th>Project</th>
+        <th>Branch</th>
+        <th>Updated</th>
+        <th>Size</th>
+        <th title="Code-Review">CR</th>
+        <th title="Library-Compliance">LC</th>
+        <th title="Verified">V</th>
+      </tr>
+      <template id="changeList" is="dom-repeat" items="{{changes}}" as="change">
+        <tr class$="{{_computeItemClass(index)}}">
+          <td>
+            <span class="positionIndicator">&#x25b6;</span>
+          </td>
+          <td>
+            <a href$="[[_changeURL(change)]]">[[change.subject]]</a>
+          </td>
+          <td>[[change.status]]</td>
+          <td>
+            <img class="avatarImage" src$="[[change.owner.avatars.0.url]]">
+            <a href$="[[_ownerLink(change.owner)]]" title$="[[_ownerTitle(change.owner)]]">[[change.owner.name]]</a>
+          </td>
+          <td>
+            <a href$="[[_projectURL(change.project)]]">[[change.project]]</a>
+          </td>
+          <td>
+            <a href$="[[_projectBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
+          </td>
+          <td><date-formatter date-str="[[change.updated]]"></date-formatter></td>
+          <td>Size</td>
+          <td title="Code-Review">CR</td>
+          <td title="Library-Compliance">LC</td>
+          <td title="Verified">V</td>
+        </tr>
+      </template>
+    </table>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    var BASE_URL = 'https://gerrit-review.googlesource.com/';
+
+    Polymer({
+      is: 'change-list',
+
+      properties: {
+        /**
+         * The query string used to refine the list.
+         */
+        query: {
+          type: String,
+          value: 'status:open',
+          notify: true
+        },
+
+        /**
+         * The target element used by the a11y key handler.
+         */
+        keyTarget: {
+          type: Object,
+          value: function() {
+            return document.body;
+          }
+        },
+
+        /**
+         * The index of the currently selected change item.
+         */
+        selectedIndex: {
+          type: Number,
+          value: 0,
+          observer: '_selectedIndexChanged'
+        }
+      },
+
+      _selectedIndexChanged: function(value) {
+        // Don’t re-render the entire list.
+        var changeEls = this.querySelectorAll('tr.change');
+        for (var i = 0; i < changeEls.length; i++) {
+          this.toggleClass('is-selected', i === value, changeEls[i]);
+        }
+      },
+
+      _computeItemClass: function(index) {
+        var classes = ['change'];
+        if (index === this.selectedIndex) {
+          classes.push('is-selected');
+        }
+        return classes.join(' ');
+      },
+
+      _computeQueryParams: function(query) {
+        var obj = {
+          n: 25,  // Number of results to return.
+          O: 81,  // Include owner information.
+          S: 0,   // Offset for results.
+        };
+        if (query && query.length > 0) {
+          obj.q = query;
+        }
+        return obj;
+      },
+
+      _handleResponse: function(e, req) {
+        this.changes = JSON.parse(req.response.substring(')]}\''.length));
+      },
+
+      _handleKey: function(e) {
+        var len = (this.changes && this.changes.length) || 0;
+        switch(e.detail.combo) {
+          case 'j':
+            if (this.selectedIndex === len - 1) { return; }
+            this.selectedIndex += 1;
+            break;
+          case 'k':
+            if (this.selectedIndex === 0) { return; }
+            this.selectedIndex -= 1;
+            break;
+          case 'enter':
+            window.location.href =
+                this._changeURL(this.changes[this.selectedIndex]);
+            break;
+        }
+      },
+
+      _changeURL: function(change) {
+        return BASE_URL + change._number;
+      },
+
+      _ownerLink: function(owner) {
+        return '/q/owner:' + encodeURIComponent(owner.email) + '+status:open';
+      },
+
+      _ownerTitle: function(owner) {
+        // TODO: Is this safe from XSS attacks?
+        return owner.name + ' <' + owner.email + '>';
+      },
+
+      _projectURL: function(project) {
+        return BASE_URL + '#/projects/' + project + ',dashboards/default';
+      },
+
+      _projectBranchURL: function(project, branch) {
+        return '/q/status:open+project:' + project + '+branch:' + branch;
+      },
+
+    });
+
+  })();
+  </script>
+</dom-module>

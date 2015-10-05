@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="description" content="Gerrit Code Review">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PolyGerrit</title>
+
+<!-- build:css styles/main.css -->
+<link rel="stylesheet" href="styles/main.css">
+<!-- endbuild-->
+
+<!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
+<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<!-- endbuild -->
+
+<!-- will be replaced with elements/elements.vulcanized.html -->
+<link rel="import" href="elements/elements.html">
+<!-- endreplace-->
+
+<!-- For shared styles, shared-styles.html import in elements.html -->
+<style is="custom-style" include="shared-styles"></style>
+
+<body unresolved>
+<template is="dom-bind" id="app">
+  <style>
+    change-list {
+      margin: 0 20px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+    }
+    .bigTitle {
+      color: #000;
+      font-size: 24px;
+      text-decoration: none;
+    }
+    .bigTitle:hover {
+      text-decoration: underline;
+    }
+    .searchContainer {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+    }
+    search-bar {
+      width: 500px;
+    }
+  </style>
+  <header role="banner">
+    <a href="/" class="bigTitle">PolyGerrit</a>
+    <div class="searchContainer">
+      <search-bar value="[[params.query]]" roll="search"></search-bar>
+    </div>
+  </header>
+  <change-list query="[[params.query]]" roll="main"></change-list>
+  <footer roll="contentinfo">Powered by PolyGerrit</footer>
+</template>
+
+<!-- build:js scripts/app.js -->
+<script src="scripts/app.js"></script>
+<!-- endbuild-->
+
+
+

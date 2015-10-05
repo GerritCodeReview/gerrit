@@ -1,0 +1,52 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<script src="../../bower_components/moment/moment.js"></script>
+
+<dom-module id="date-formatter">
+  <template>
+    <style>
+      :host {
+        display: inline;
+      }
+    </style>
+    <span>{{_computeDateStr(dateStr)}}</span>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    var moment = moment || {};
+
+    Polymer({
+      is: 'date-formatter',
+
+      properties: {
+        dateStr: {
+          type: String,
+          value: null,
+          notify: true
+        }
+      },
+
+      _computeDateStr: function(dateStr) {
+        // Moment is used due to inconsistencies between browsers in parsing
+        // JSON-formatted dates.
+        var d = moment.utc(dateStr).local();
+        var now = moment();
+        var diff = now.diff(d, 'days');
+        if (diff < 1) {
+          // Is the day of the week different?
+          if (d.day() !== now.day()) {
+            return d.format('MMM D'); // 'Aug 29'
+          }
+          return d.format('h:mm A');  // '2:14 AM'
+        } else if (diff >= 1 <= 180) {
+          // From one to six months.
+          return d.format('MMM D');  // 'Aug 29'
+        }
+        // More than six months.
+        return d.format('MMM D, YYYY'); // 'Aug 29, 1997'
+      },
+    });
+  })();
+  </script>
+</dom-module>

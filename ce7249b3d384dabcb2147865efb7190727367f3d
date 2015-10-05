@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "026bfa6a_6ae15702",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-05T15:25:48Z",
+      "side": 1,
+      "message": "I tried with the steps you have described here.\nIt is true that the label with +1+2 turns red when an added reviewer votes +1 but I noticed that it is not blocking submit. Have you noticed this as well?",
+      "parentUuid": "75d9d26e_6ef62f97",
+      "revId": "ce7249b3d384dabcb2147865efb7190727367f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55a68ed6_9d83e3f8",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 4
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Yes, it also better matches the documentation which tells that only negative values could block.",
       "parentUuid": "753d529e_6e0c4f73",
+      "revId": "ce7249b3d384dabcb2147865efb7190727367f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "753d529e_8e4dfbb7",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-05T15:25:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55a68ed6_5d767bcd",
       "revId": "ce7249b3d384dabcb2147865efb7190727367f3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

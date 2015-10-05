@@ -49,9 +49,12 @@ public abstract class PushCertificateChecker {
       LoggerFactory.getLogger(PushCertificateChecker.class);
 
   private final PublicKeyChecker publicKeyChecker;
+  private final boolean checkNonce;
 
-  protected PushCertificateChecker(PublicKeyChecker publicKeyChecker) {
+  protected PushCertificateChecker(PublicKeyChecker publicKeyChecker,
+      boolean checkNonce) {
     this.publicKeyChecker = publicKeyChecker;
+    this.checkNonce = checkNonce;
   }
 
   /**
@@ -60,7 +63,7 @@ public abstract class PushCertificateChecker {
    * @return result of the check.
    */
   public final CheckResult check(PushCertificate cert) {
-    if (cert.getNonceStatus() != NonceStatus.OK) {
+    if (checkNonce && cert.getNonceStatus() != NonceStatus.OK) {
       return CheckResult.bad("Invalid nonce");
     }
     List<CheckResult> results = new ArrayList<>(2);

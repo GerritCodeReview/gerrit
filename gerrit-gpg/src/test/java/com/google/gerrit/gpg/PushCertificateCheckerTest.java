@@ -66,8 +66,11 @@ public class PushCertificateCheckerTest {
     signedPushConfig = new SignedPushConfig();
     signedPushConfig.setCertNonceSeed("sekret");
     signedPushConfig.setCertNonceSlopLimit(60 * 24);
+    checker = newChecker(true);
+  }
 
-    checker = new PushCertificateChecker(new PublicKeyChecker()) {
+  private PushCertificateChecker newChecker(boolean checkNonce) {
+    return new PushCertificateChecker(new PublicKeyChecker(), checkNonce) {
       @Override
       protected Repository getRepository() {
         return tr.getRepository();
@@ -90,6 +93,13 @@ public class PushCertificateCheckerTest {
   public void invalidNonce() throws Exception {
     PushCertificate cert = newSignedCert("invalid-nonce", TestKeys.key1());
     assertProblems(cert, "Invalid nonce");
+  }
+
+  @Test
+  public void invalidNonceNotChecked() throws Exception {
+    checker = newChecker(false);
+    PushCertificate cert = newSignedCert("invalid-nonce", TestKeys.key1());
+    assertProblems(cert);
   }
 
   @Test

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "753d529e_4e0f9368",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-05T14:01:59Z",
+      "side": 1,
+      "message": "I could not reproduce that. An AnyWithBlock label with only +1 and +2 does not block submit on my side.\nWas the DefaultValue of the label +1 instead of 0?",
+      "parentUuid": "55a68ed6_bd7e9fa4",
+      "revId": "ce7249b3d384dabcb2147865efb7190727367f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55a68ed6_9d83e3f8",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-05T12:28:54Z",
       "side": 1,
       "message": "hint (non tested): instead of the line 285, try adding a Min \u003c 0 condition above this line:\n\n  any_with_block(Label, Min, reject(Who)) :-\n    Min \u003c 0,\n    check_label_range_permission(Label, Min, ok(Who)),\n    !\n    .",
+      "revId": "ce7249b3d384dabcb2147865efb7190727367f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "753d529e_6e0c4f73",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-05T14:01:59Z",
+      "side": 1,
+      "message": "It works too. I think it is a neater solution.",
+      "parentUuid": "55a68ed6_9d83e3f8",
       "revId": "ce7249b3d384dabcb2147865efb7190727367f3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

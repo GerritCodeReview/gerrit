@@ -22,6 +22,30 @@
       "revId": "073f95a7c4411d25e8cef5dddf790df87b62ab7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abf12ca4_2ea747e8",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/SignedPushPreReceiveHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-05T18:37:47Z",
+      "side": 1,
+      "message": "If you read to the end of the series, it ends up in the ChangeInfo, which I\u0027m almost done plumbing into the change screen itself.\n\nBasically, for pushes to review, a human (well, a reviewer, at any rate) is responsible for reviewing it--Gerrit will tell you the status of the push cert, and the reviewer takes that into account when deciding whether to click \"submit\". But in the case of a push not for review, there is no other reviewer, so Gerrit itself has to do more checks.\n\nThe motivation is to lower the barrier to entry for contributors. If we required signed push from a trusted key even for review, then a user can\u0027t contribute to a project until they\u0027ve uploaded a GPG key. That is too high a bar.",
+      "parentUuid": "ebdb2404_f0b70012",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 93,
+        "endChar": 80
+      },
+      "revId": "073f95a7c4411d25e8cef5dddf790df87b62ab7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

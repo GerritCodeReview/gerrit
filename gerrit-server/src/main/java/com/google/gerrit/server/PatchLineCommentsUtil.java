@@ -68,7 +68,7 @@ import java.util.Set;
  */
 @Singleton
 public class PatchLineCommentsUtil {
-  public static Ordering<PatchLineComment> PLC_ORDER =
+  public static final Ordering<PatchLineComment> PLC_ORDER =
       new Ordering<PatchLineComment>() {
     @Override
     public int compare(PatchLineComment c1, PatchLineComment c2) {

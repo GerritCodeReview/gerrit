@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "753d529e_0e62eb1f",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-05T15:55:00Z",
+      "side": 1,
+      "message": "Yes your suggested solution is the only one working in that case.\n\nI think we could still submit the functionality fix before waiting for red label UI to be fixed in this same change.\n\nFixing the ugliness of UI might take some time depending on its complexity and it could unnecessarily drag the whole fix.",
+      "parentUuid": "75d9d26e_2e002710",
+      "revId": "ce7249b3d384dabcb2147865efb7190727367f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55a68ed6_9d83e3f8",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 4

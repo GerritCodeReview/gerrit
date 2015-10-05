@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "753d529e_8ea97bb0",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/CheckResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-05T15:34:29Z",
+      "side": 1,
+      "message": "\u003e Java detail question: Is \u003e\u003d the same here as java.lang.Enum.compareTo() ?\n\nYes, enums are java.lang.Enum.\n\n\u003e As we rely on the order of the enum here, would it make sense to add a comment at the enum to not reorder them?\n\nGood point, comment added.",
+      "parentUuid": "78df0724_3e54a942",
+      "range": {
+        "startLine": 69,
+        "startChar": 34,
+        "endLine": 69,
+        "endChar": 44
+      },
+      "revId": "b7c6f48d036811dfb778dbc9794bda135bc8cfd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98d83b3c_1f9d2361",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b53d0a4f_20c84a8f",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-05T15:34:29Z",
+      "side": 1,
+      "message": "This is one check, and the result of this check is a single problem. There are more checks in PublicKeyChecker.#check, and they are combined into a single result object containing all problems.",
+      "parentUuid": "98d83b3c_1f9d2361",
+      "range": {
+        "startLine": 93,
+        "startChar": 15,
+        "endLine": 93,
+        "endChar": 29
+      },
+      "revId": "b7c6f48d036811dfb778dbc9794bda135bc8cfd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98d83b3c_3fa2e799",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-09-29T22:29:52Z",
       "side": 1,
       "message": "You did arithmetic on the status before, so could you do a \n\n  status \u003d min(...)\n\noperation here ?",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 44
+      },
+      "revId": "b7c6f48d036811dfb778dbc9794bda135bc8cfd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "753d529e_aeae37b3",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-05T15:34:29Z",
+      "side": 1,
+      "message": "Unfortunately it\u0027s not exactly the min. checkBasic can only return BAD or OK because it by design does not check trust, so if we took the min, we\u0027d never get TRUSTED.\n\nI could theoretically do:\n\n if (Ordering.natural().min(status1, status2, status3) \u003d\u003d BAD)\n\nbut it ends up not really saving space or being clearer.\n\nI did add some comments though.",
+      "parentUuid": "98d83b3c_3fa2e799",
       "range": {
         "startLine": 142,
         "startChar": 4,

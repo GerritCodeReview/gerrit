@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abf12ca4_6eb14f21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-05T20:28:44Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me that we actually want to use this nested path. Certainly we would need to replace the HostPageServlet (which serves /) with some sort of alias into this directory. But then we would have a bunch of relative paths to other static content, right? Would the Polymer code expect those to just work?\n\nIn other words, would it make more sense to just serve this from /hello.html?",
+      "range": {
+        "startLine": 26,
+        "startChar": 31,
+        "endLine": 26,
+        "endChar": 61
+      },
+      "revId": "3bb99566a6e99443de6070dc832e8f49ba548d17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

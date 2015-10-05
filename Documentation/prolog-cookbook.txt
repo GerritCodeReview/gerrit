@@ -972,6 +972,136 @@ only_allow_author_to_submit(S, S) :-
 only_allow_author_to_submit(S1, [label('Only-Author-Can-Submit', need(_)) | S1]).
 ----
 
+=== Example 16: Block submission if a commit changes files not in the whitelist or in the blacklist
+This example checks a submission against a whitelist and a blacklist defined
+as part of `rules.pl`.
+
+We start by describing the whitelist as a series of regex_matches against the
+repository name, branch name and path.  A basic whitelist entry consists of
+`regex_matches('some/repos/.\*', R), regex_matches('tmp/.*', B), regex_matches('.*', P);`
+(',' represents AND and ';' represents OR in Prolog.)
+
+If you have a lengthy whitelist, you might get `StackOverflowError`.  You may
+need to adjust your JVM stack size with the `-Xss` flag or you can try to shrink
+your whitelist by reorganizing it like below.  (Removing duplications in branch
+and repo declarations.)
+
+[source,prolog]
+----
+whitelisted(R, B, P) :-
+  (regex_matches('some/branch.*', B),
+    (regex_matches('name/of/the/repository', R),
+      regex_matches('file/path/config.xml', P);
+      regex_matches('another/file/path/.*', P)
+      )
+    );
+  regex_matches('other/repos/.*', R), regex_matches('tmp/.*', B), regex_matches('.*', P);
+  regex_matches('refs/meta/config', B).
+----
+
+
+Similarly, we can define the blacklist like so:
+[source,prolog]
+----
+blacklisted(R, B, P) :-
+  regex_matches('demo/project2', R), regex_matches('blacklist.txt', P).
+----
+
+Or if you don't have a blacklist, you can just define this:
+[source,prolog]
+----
+blacklisted(R, B, P) :-
+  false.
+----
+
+Next, we integrate the whitelist and blacklist with link:prolog-change-facts.html[
+Prolog Facts for Gerrit Change].  If the repository, branch, and path
+combination is not (\+) whitelisted or (;) blacklisted, then an `impossible`
+label will be added to gate the change from submission.
+
+[source,prolog]
+----
+add_whitelisted([label('Whitelisted', ok(_)) | In], Out) :-
+   gerrit:change_owner(A),
+   Out = [ label('Whitelisted', ok(A)) | In ], !.
+add_whitelisted(In, Out) :-
+  gerrit:commit_delta('.*', T, P, _),
+  gerrit:change_branch(B),
+  gerrit:change_project(R),
+  (\+ whitelisted(R, B, P); blacklisted(R, B, P)),
+  Out = [ label('Whitelisted', impossible(_)) | In ], !.
+add_whitelisted(In, Out) :-
+  gerrit:change_owner(A),
+  Out = [ label('Whitelisted', ok(A)) | In ].
+----
+
+Then, we can add the logic to the `submit_rule` if we want to have the check on
+a per project level.
+[source,prolog]
+----
+submit_rule(S) :-
+  gerrit:default_submit(X),
+  X =.. [submit | Ls],
+  add_whitelisted(Ls, Rs),
+  S =.. [submit | Rs].
+----
+
+Or we can add the logic to the `submit_filter` if we want to have the check on
+a set of projects inheriting permission from the current project.
+
+[source,prolog]
+----
+submit_filter(In, Out) :-
+  In =.. [submit | Ls],
+  add_whitelisted(Ls, Rs),
+  Out =.. [submit | Rs].
+----
+
+Putting everything together:
+
+`rules.pl`
+[source,prolog]
+----
+whitelisted(R, B, P) :-
+  (regex_matches('some/branch.*', B),
+    (regex_matches('name/of/the/repository', R),
+      regex_matches('file/path/config.xml', P);
+      regex_matches('another/file/path/.*', P)
+      )
+    );
+  regex_matches('other/repos/.*', R), regex_matches('tmp/.*', B), regex_matches('.*', P);
+  regex_matches('refs/meta/config', B).
+
+blacklisted(R, B, P) :-
+  regex_matches('demo/project2', R), regex_matches('blacklist.txt', P);
+  false.
+
+add_whitelisted([label('Whitelisted', ok(_)) | In], Out) :-
+   gerrit:change_owner(A),
+   Out = [ label('Whitelisted', ok(A)) | In ], !.
+add_whitelisted(In, Out) :-
+  gerrit:commit_delta('.*', T, P, _),
+  gerrit:change_branch(B),
+  gerrit:change_project(R),
+  (\+ whitelisted(R, B, P); blacklisted(R, B, P)),
+  Out = [ label('Whitelisted', impossible(_)) | In ], !.
+add_whitelisted(In, Out) :-
+  gerrit:change_owner(A),
+  Out = [ label('Whitelisted', ok(A)) | In ].
+
+submit_rule(S) :-
+  gerrit:default_submit(X),
+  X =.. [submit | Ls],
+  add_whitelisted(Ls, Rs),
+  S =.. [submit | Rs].
+
+submit_filter(In, Out) :-
+  In =.. [submit | Ls],
+  add_whitelisted(Ls, Rs),
+  Out =.. [submit | Rs].
+----
+
+
 == Examples - Submit Type
 The following examples show how to implement own submit type rules.
 

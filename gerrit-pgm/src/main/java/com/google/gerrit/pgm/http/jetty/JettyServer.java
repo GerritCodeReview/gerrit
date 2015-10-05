@@ -61,6 +61,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.BlockingArrayQueue;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
@@ -154,6 +155,7 @@ public class JettyServer {
 
   private final SitePaths site;
   private final Server httpd;
+  private final boolean useStaticUi;
 
   private boolean reverseProxy;
 
@@ -165,7 +167,7 @@ public class JettyServer {
       final JettyEnv env, final HttpLogFactory httpLogFactory)
       throws MalformedURLException, IOException {
     this.site = site;
-
+    useStaticUi = cfg.getBoolean("gerrit", null, "useFancyNewStaticUi", false);
     httpd = new Server(threadPool(cfg));
     httpd.setConnectors(listen(httpd, cfg));
 
@@ -474,7 +476,11 @@ public class JettyServer {
     ds.setInitParameter("useFileMappedBuffer", "false");
     ds.setInitParameter("gzip", "true");
 
-    app.setWelcomeFiles(new String[0]);
+    if (useStaticUi) {
+      app.setWelcomeFiles(new String[]{"index.html"});
+    } else {
+      app.setWelcomeFiles(new String[0]);
+    }
     return app;
   }
 
@@ -572,75 +578,85 @@ public class JettyServer {
     p.createNewFile();
     p.deleteOnExit();
 
-    app.addFilter(new FilterHolder(new Filter() {
-      private final boolean gwtuiRecompile =
-          System.getProperty("gerrit.disable-gwtui-recompile") == null;
-      private final UserAgentRule rule = new UserAgentRule();
-      private final Set<String> uaInitialized = new HashSet<>();
-      private String lastTarget;
-      private long lastTime;
+    Resource rsrc = Resource.newResource(dstwar.toURI());
 
-      @Override
-      public void doFilter(ServletRequest request, ServletResponse res,
-          FilterChain chain) throws IOException, ServletException {
-        String pkg = "gerrit-gwtui";
-        String target = "ui_" + rule.select((HttpServletRequest) request);
-        if (gwtuiRecompile || !uaInitialized.contains(target)) {
-          String rule = "//" + pkg + ":" + target;
-          // TODO(davido): instead of assuming specific Buck's internal
-          // target directory for gwt_binary() artifacts, ask Buck for
-          // the location of user agent permutation GWT zip, e. g.:
-          // $ buck targets --show_output //gerrit-gwtui:ui_safari \
-          //    | awk '{print $2}'
-          String child = String.format("%s/__gwt_binary_%s__", pkg, target);
-          File zip = new File(new File(gen, child), target + ".zip");
+    if (!useStaticUi) {
+      app.addFilter(new FilterHolder(new Filter() {
+        private final boolean gwtuiRecompile =
+            System.getProperty("gerrit.disable-gwtui-recompile") == null;
+        private final UserAgentRule rule = new UserAgentRule();
+        private final Set<String> uaInitialized = new HashSet<>();
+        private String lastTarget;
+        private long lastTime;
 
-          synchronized (this) {
-            try {
-              build(root, gen, rule);
-            } catch (BuildFailureException e) {
-              displayFailure(rule, e.why, (HttpServletResponse) res);
-              return;
+        @Override
+        public void doFilter(ServletRequest request, ServletResponse res,
+            FilterChain chain) throws IOException, ServletException {
+          String pkg = "gerrit-gwtui";
+          String target = "ui_" + rule.select((HttpServletRequest) request);
+          if (gwtuiRecompile || !uaInitialized.contains(target)) {
+            String rule = "//" + pkg + ":" + target;
+            // TODO(davido): instead of assuming specific Buck's internal
+            // target directory for gwt_binary() artifacts, ask Buck for
+            // the location of user agent permutation GWT zip, e. g.:
+            // $ buck targets --show_output //gerrit-gwtui:ui_safari \
+            //    | awk '{print $2}'
+            String child = String.format("%s/__gwt_binary_%s__", pkg, target);
+            File zip = new File(new File(gen, child), target + ".zip");
+
+            synchronized (this) {
+              try {
+                build(root, gen, rule);
+              } catch (BuildFailureException e) {
+                displayFailure(rule, e.why, (HttpServletResponse) res);
+                return;
+              }
+
+              if (!target.equals(lastTarget) || lastTime != zip.lastModified()) {
+                lastTarget = target;
+                lastTime = zip.lastModified();
+                unpack(zip, dstwar);
+              }
             }
-
-            if (!target.equals(lastTarget) || lastTime != zip.lastModified()) {
-              lastTarget = target;
-              lastTime = zip.lastModified();
-              unpack(zip, dstwar);
-            }
+            uaInitialized.add(target);
           }
-          uaInitialized.add(target);
+          chain.doFilter(request, res);
         }
-        chain.doFilter(request, res);
-      }
 
-      private void displayFailure(String rule, byte[] why, HttpServletResponse res)
-          throws IOException {
-        res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        res.setContentType("text/html");
-        res.setCharacterEncoding(Charsets.UTF_8.name());
-        CacheHeaders.setNotCacheable(res);
+        private void displayFailure(String rule, byte[] why, HttpServletResponse res)
+            throws IOException {
+          res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+          res.setContentType("text/html");
+          res.setCharacterEncoding(Charsets.UTF_8.name());
+          CacheHeaders.setNotCacheable(res);
 
-        Escaper html = HtmlEscapers.htmlEscaper();
-        try (PrintWriter w = res.getWriter()) {
-          w.write("<html><title>BUILD FAILED</title><body>");
-          w.format("<h1>%s FAILED</h1>", html.escape(rule));
-          w.write("<pre>");
-          w.write(html.escape(RawParseUtils.decode(why)));
-          w.write("</pre>");
-          w.write("</body></html>");
+          Escaper html = HtmlEscapers.htmlEscaper();
+          try (PrintWriter w = res.getWriter()) {
+            w.write("<html><title>BUILD FAILED</title><body>");
+            w.format("<h1>%s FAILED</h1>", html.escape(rule));
+            w.write("<pre>");
+            w.write(html.escape(RawParseUtils.decode(why)));
+            w.write("</pre>");
+            w.write("</body></html>");
+          }
         }
-      }
 
-      @Override
-      public void init(FilterConfig config) {
-      }
+        @Override
+        public void init(FilterConfig config) {
+        }
 
-      @Override
-      public void destroy() {
-      }
-    }), "/", EnumSet.of(DispatcherType.REQUEST));
-    return Resource.newResource(dstwar.toURI());
+        @Override
+        public void destroy() {
+        }
+      }), "/", EnumSet.of(DispatcherType.REQUEST));
+    } else {
+      rsrc = new ResourceCollection(staticUi(root), rsrc);
+    }
+    return rsrc;
+  }
+
+  private Resource staticUi(File root) {
+    return Resource.newResource(new File(root, "fancy-new-static-ui"));
   }
 
   private static void build(File root, File gen, String target)

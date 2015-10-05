@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "753d529e_2e5fa75c",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-05T15:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "753d529e_0e62eb1f",
+      "revId": "ce7249b3d384dabcb2147865efb7190727367f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55a68ed6_9d83e3f8",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 4

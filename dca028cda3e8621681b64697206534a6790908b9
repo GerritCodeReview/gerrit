@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ba9c860_e5b73612",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PushCertificateCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-10-05T18:46:31Z",
+      "side": 1,
+      "message": "assertNoProblems() would be clearer.",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 18
+      },
+      "revId": "dca028cda3e8621681b64697206534a6790908b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

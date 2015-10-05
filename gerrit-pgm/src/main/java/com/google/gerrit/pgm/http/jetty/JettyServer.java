@@ -60,7 +60,10 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.BlockingArrayQueue;
 import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.resource.EmptyResource;
+import org.eclipse.jetty.util.resource.FileResource;
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
@@ -154,6 +157,7 @@ public class JettyServer {
 
   private final SitePaths site;
   private final Server httpd;
+  private final boolean useStaticUi;
 
   private boolean reverseProxy;
 
@@ -165,7 +169,7 @@ public class JettyServer {
       final JettyEnv env, final HttpLogFactory httpLogFactory)
       throws MalformedURLException, IOException {
     this.site = site;
-
+    useStaticUi = cfg.getBoolean("gerrit", null, "useFancyNewStaticUi", false);
     httpd = new Server(threadPool(cfg));
     httpd.setConnectors(listen(httpd, cfg));
 
@@ -640,7 +644,25 @@ public class JettyServer {
       public void destroy() {
       }
     }), "/", EnumSet.of(DispatcherType.REQUEST));
-    return Resource.newResource(dstwar.toURI());
+
+    Resource rsrc = Resource.newResource(dstwar.toURI());
+    if (useStaticUi) {
+      rsrc = new ResourceCollection(staticUi(root), rsrc);
+    }
+    return rsrc;
+  }
+
+  private Resource staticUi(File root) {
+    return new FileResource(root.toURI()) {
+      @Override
+      public Resource addPath(String path)
+          throws MalformedURLException, IOException {
+        if (!path.startsWith("/fancy-new-static-ui")) {
+          return EmptyResource.INSTANCE;
+        }
+        return super.addPath(path);
+      }
+    };
   }
 
   private static void build(File root, File gen, String target)

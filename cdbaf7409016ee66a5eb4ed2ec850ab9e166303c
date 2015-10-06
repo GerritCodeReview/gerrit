@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4bf6f09e_8bb74d13",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T13:05:06Z",
+      "side": 1,
+      "message": "It\u0027s theoretically possible to backfill using some heuristic based on ref update time, assuming you have reflogs back that far. But even if we wrote such a tool (which I don\u0027t think is a requirement to get this submitted), I don\u0027t think we can guarantee users would be able to backfill everything, so I think we don\u0027t need to guarantee it\u0027s available on every MERGED change.\n\nI guess we could set the value to something unique during the upgrade, but the submitted_together endpoint is easy to implement even without it.",
+      "parentUuid": "ebd0848a_08b80703",
+      "range": {
+        "startLine": 457,
+        "startChar": 1,
+        "endLine": 458,
+        "endChar": 38
+      },
+      "revId": "cdbaf7409016ee66a5eb4ed2ec850ab9e166303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bc1bc6c_9ab52d0f",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
         "patchSetId": 5
@@ -65,6 +89,23 @@
     },
     {
       "key": {
+        "uuid": "4bf6f09e_ebc41172",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T13:05:06Z",
+      "side": 1,
+      "message": "This works, but like I said before, this in practice doesn\u0027t actually get reused because MergeOp instances are not reused.",
+      "revId": "cdbaf7409016ee66a5eb4ed2ec850ab9e166303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bc1bc6c_7abb7902",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 5
@@ -76,6 +117,30 @@
       "writtenOn": "2015-10-06T09:05:34Z",
       "side": 1,
       "message": "This is wrong. It should be:\n  h.hash().toString()",
+      "range": {
+        "startLine": 361,
+        "startChar": 27,
+        "endLine": 361,
+        "endChar": 39
+      },
+      "revId": "cdbaf7409016ee66a5eb4ed2ec850ab9e166303c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abf12ca4_cec16360",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T13:05:06Z",
+      "side": 1,
+      "message": "Good catch, I think someone even suggested recently that Guava team add an Error Prone check for this case.",
+      "parentUuid": "2bc1bc6c_7abb7902",
       "range": {
         "startLine": 361,
         "startChar": 27,

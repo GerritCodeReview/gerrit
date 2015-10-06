@@ -22,6 +22,30 @@
       "revId": "af687f791df94541bb3c26342e33188fa27c02e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a1e55d_1cb0951d",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-06T18:08:18Z",
+      "side": 1,
+      "message": "We don\u0027t really need it, but I suppose having a deterministic order is fine (Refresh page, and the changes in the submitted together tab change order randomly? Not cool IMO)",
+      "parentUuid": "103989d0_71f458bd",
+      "range": {
+        "startLine": 612,
+        "startChar": 15,
+        "endLine": 612,
+        "endChar": 25
+      },
+      "revId": "af687f791df94541bb3c26342e33188fa27c02e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

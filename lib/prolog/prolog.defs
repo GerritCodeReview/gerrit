@@ -33,7 +33,6 @@ def prolog_cafe_library(
   genrule(
     name = name + '__ln',
     cmd = 'ln -s $(location :%s__lib) $OUT' % name,
-    deps = [':%s__lib' % name],
     out = name + '.jar',
   )
   prebuilt_jar(

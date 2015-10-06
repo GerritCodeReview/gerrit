@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "902499ae_cdb6c918",
+        "filename": "gerrit-polymer/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T17:20:11Z",
+      "side": 1,
+      "message": "That said, IMHO we should continue to support workflows that look mostly familiar to frontend app developers who aren\u0027t used to Java stuff.\n\nOn the one hand, for the Java stuff, we already impose upon people a workflow that people may not be familiar with (Buck over Maven). But on the other hand, historically, the unfamiliar environment has been a deterrent to getting developers used to modern frontend development techniques to contribute to the project.\n\nI\u0027m picturing a one-step setup for JS like we currently do for Eclipse:\n\n $ ./tools/eclipse/project.py # Create Eclipse project\n $ ./tools/js/setup.py # Set up gulp build\n\nAfter running this once per package, you can use `gulp test:local` and it should just work.\n\nOr, if you prefer buck, the tests should just get run with `buck test` as well.",
+      "parentUuid": "7033a5f5_ecb98b08",
+      "revId": "094ac21ca0acf03795e1506d8f22d913c70a1c29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "103989d0_71cfb88b",
         "filename": "gerrit-polymer/README.md",
         "patchSetId": 2

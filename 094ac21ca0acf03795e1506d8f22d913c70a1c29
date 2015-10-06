@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7033a5f5_ecb98b08",
+        "filename": "gerrit-polymer/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T17:12:27Z",
+      "side": 1,
+      "message": "Thanks for documenting all these steps. This may be a (surmountable) challenge to get building in a reasonably hermetic way.\n\nRight now the only external dependencies of Gerrit are:\n\n* Java\n* Buck\n* Python\n* Bash\n* A few other common Unix utilities (zip, ln, etc.)\n\nEverything else is downloaded as part of the build process.\n\nFortunately we already have a script to download arbitrary files over http (tools/download_file.py), and a mechanism for specifying new build rules (Buck genrules are basically Bazel genrules), so I think it\u0027s all possible, it might just take a bit of work.\n\nNot work that you personally have to do, though :)",
+      "revId": "094ac21ca0acf03795e1506d8f22d913c70a1c29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "103989d0_71cfb88b",
         "filename": "gerrit-polymer/README.md",
         "patchSetId": 2

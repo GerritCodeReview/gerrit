@@ -46,6 +46,30 @@
       "revId": "1ab9cb848d60475491fd0ceb21e752db3e881bc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_91d9fc52",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-06T17:27:00Z",
+      "side": 1,
+      "message": "OK, I\u0027m not insisting on this, but would be nice to clean it up once.",
+      "parentUuid": "7033a5f5_ccb6cf18",
+      "range": {
+        "startLine": 605,
+        "startChar": 4,
+        "endLine": 607,
+        "endChar": 38
+      },
+      "revId": "1ab9cb848d60475491fd0ceb21e752db3e881bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

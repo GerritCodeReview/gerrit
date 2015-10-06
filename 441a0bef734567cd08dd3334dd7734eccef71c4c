@@ -22,6 +22,30 @@
       "revId": "441a0bef734567cd08dd3334dd7734eccef71c4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "902499ae_6da6b5ed",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T16:51:22Z",
+      "side": 1,
+      "message": "It\u0027s new behavior in this change (PublicKeyChecker became GerritPublicKeyChecker). Moved up to where that change happened to make it clearer.",
+      "parentUuid": "ebdb2404_70d31038",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 63
+      },
+      "revId": "441a0bef734567cd08dd3334dd7734eccef71c4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

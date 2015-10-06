@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70a1e55d_9cdca543",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1019219
+      },
+      "writtenOn": "2015-10-06T21:37:04Z",
+      "side": 1,
+      "message": "No. This is an identical copy of what git diff shows. ie:\n\n-Subproject commit b6dd87499a7e2d1e8d32f48dc0206efa952c6584\n+Subproject commit 63889c1da4d097d6123816160c88494a7d8fcb52\n\nI agree we could be consistent, except that I\u0027d rather be consistent with what Git actually shows right now. Eventually I\u0027d like to go grab the actual log data from the submodule, but I think we should do what CGit does here.",
+      "parentUuid": "306daded_bac0915c",
+      "range": {
+        "startLine": 152,
+        "startChar": 20,
+        "endLine": 152,
+        "endChar": 30
+      },
+      "revId": "4fece998d9ea21821fd4af0816887c5050a316ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "306daded_5acff58a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-06T21:14:00Z",
       "side": 1,
       "message": "Submodule",
+      "range": {
+        "startLine": 471,
+        "startChar": 33,
+        "endLine": 471,
+        "endChar": 43
+      },
+      "revId": "4fece998d9ea21821fd4af0816887c5050a316ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a1e55d_bcd96152",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1019219
+      },
+      "writtenOn": "2015-10-06T21:37:04Z",
+      "side": 1,
+      "message": "Same as the other comment. I\u0027m being identical to what the actual contents are of a git diff of a submodule change.",
+      "parentUuid": "306daded_5acff58a",
       "range": {
         "startLine": 471,
         "startChar": 33,

@@ -22,6 +22,30 @@
       "revId": "3639cc5a858b9d6e452c89546dd6657cbe333302",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_31b0101e",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/GpgKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T16:51:09Z",
+      "side": 1,
+      "message": "Yeah, your interpretation is more reasonable, and more in line with CheckResult itself. Done.",
+      "parentUuid": "ebdb2404_b0c17860",
+      "range": {
+        "startLine": 249,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 47
+      },
+      "revId": "3639cc5a858b9d6e452c89546dd6657cbe333302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

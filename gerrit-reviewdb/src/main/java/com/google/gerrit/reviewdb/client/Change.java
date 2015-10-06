@@ -453,6 +453,13 @@ public final class Change {
   @Column(id = 17, notNull = false)
   protected String originalSubject;
 
+  /**
+   * Unique id for the changes submitted together assigned during merging.
+   * Only set if the status is MERGED.
+   */
+  @Column(id = 18, notNull = false)
+  protected String submissionId;
+
   protected Change() {
   }
 
@@ -479,6 +486,7 @@ public final class Change {
     currentPatchSetId = other.currentPatchSetId;
     subject = other.subject;
     originalSubject = other.originalSubject;
+    submissionId = other.submissionId;
     topic = other.topic;
   }
 
@@ -560,6 +568,14 @@ public final class Change {
       // Newly created changes remember the first commit's subject.
       originalSubject = subject;
     }
+  }
+
+  public String getSubmissionId() {
+    return submissionId;
+  }
+
+  public void setSubmissionId(String id) {
+    this.submissionId = id;
   }
 
   public Status getStatus() {

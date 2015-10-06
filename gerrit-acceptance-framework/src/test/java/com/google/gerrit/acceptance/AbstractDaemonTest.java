@@ -14,12 +14,15 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
 
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
@@ -593,5 +596,18 @@ public abstract class AbstractDaemonTest {
       .id(id)
       .revision(1)
       .actions();
+  }
+
+  protected void assertSubmittedTogether(String chId, String... expected)
+      throws Exception {
+    List<ChangeInfo> actual = gApi.changes().id(chId).submittedTogether();
+    assertThat(actual).hasSize(expected.length);
+    assertThat(Iterables.transform(actual,
+        new Function<ChangeInfo, String>() {
+      @Override
+      public String apply(ChangeInfo input) {
+        return input.changeId;
+      }
+    })).containsExactly((Object[])expected).inOrder();
   }
 }

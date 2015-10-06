@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50194171_33b0081e",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T16:50:52Z",
+      "side": 1,
+      "message": "I do that in checkIdsForExpectedUser. The reason it\u0027s different in ForArbitraryUser is that the user viewing this error message is not the user that the key belongs to. If my key is invalid because it\u0027s signed by your key but your user has no identities, it\u0027s not going to help me to go to that page.",
+      "parentUuid": "ebdb2404_d0bafcfc",
+      "range": {
+        "startLine": 175,
+        "startChar": 58,
+        "endLine": 175,
+        "endChar": 61
+      },
+      "revId": "416486976cffeca6335f100cdc883cf58f8d0e24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ba9c860_65aca6ca",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "103989d0_71a698ed",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T16:50:52Z",
+      "side": 1,
+      "message": "I see where you\u0027re coming from, but Bouncy Castle is full of this crap where you have no choice but to do a linear search (and also each of these iterators is over a fresh defensive copy of the list, sigh).",
+      "parentUuid": "8ba9c860_65aca6ca",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 192,
+        "endChar": 32
+      },
+      "revId": "416486976cffeca6335f100cdc883cf58f8d0e24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ba9c860_05b13221",
         "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2015-10-05T18:26:31Z",
       "side": 1,
       "message": "I don\u0027t understand this error in combination with the comment // D and E trust C to be a valid introducer of depth 2.\nabove. What is the difference between D and E except for E being outdated here?",
+      "range": {
+        "startLine": 345,
+        "startChar": 8,
+        "endLine": 345,
+        "endChar": 36
+      },
+      "revId": "416486976cffeca6335f100cdc883cf58f8d0e24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_51ab94b1",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T16:50:52Z",
+      "side": 1,
+      "message": "The comment you\u0027re referring to is talking about the values in the trust subpacket in D and E\u0027s signatures. That\u0027s different from the root trusted keys on the server. Added some more comments.",
+      "parentUuid": "8ba9c860_05b13221",
       "range": {
         "startLine": 345,
         "startChar": 8,

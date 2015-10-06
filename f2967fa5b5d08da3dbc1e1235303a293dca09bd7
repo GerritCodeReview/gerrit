@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bc1bc6c_1ad91d52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-06T12:56:16Z",
+      "side": 1,
+      "message": "I see this message when I start the daemon from Eclipse or directly from the war file, but not when I start Gerrit with the gerrit.sh script.\n\n  $ ./bin/gerrit.sh start\n  Starting Gerrit Code Review: FAILED\n\nShouldn\u0027t it be written to log file in this case?",
+      "revId": "f2967fa5b5d08da3dbc1e1235303a293dca09bd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

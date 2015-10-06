@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "902499ae_ede2a502",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T18:21:46Z",
+      "side": 1,
+      "message": "Constants in this class are for fields that are recognized by the query language, which this is not (nor should it be). This is only used for the field name in ChangeField; just hard-code it there instead.",
+      "revId": "432ee5ed886abebd26d120a78c0b25fe4fe4f0fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

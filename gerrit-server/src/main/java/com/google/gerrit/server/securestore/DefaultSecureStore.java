@@ -26,7 +26,6 @@ import org.eclipse.jgit.util.FS;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +35,7 @@ public class DefaultSecureStore extends SecureStore {
 
   @Inject
   DefaultSecureStore(SitePaths site) {
-    Path secureConfig = site.etc_dir.resolve("secure.config");
-    sec = new FileBasedConfig(secureConfig.toFile(), FS.DETECTED);
+    sec = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
     try {
       sec.load();
     } catch (Exception e) {

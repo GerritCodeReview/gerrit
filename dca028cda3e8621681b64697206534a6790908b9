@@ -22,6 +22,30 @@
       "revId": "dca028cda3e8621681b64697206534a6790908b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7033a5f5_6ca6bbed",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PushCertificateCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T16:51:02Z",
+      "side": 1,
+      "message": "I agree, but I\u0027ll do that as a separate cleanup. (You can tell I agree because I wrote GerritPublicKeyCheckerTest much more recently, and it has a separate assertNoProblems helper :).",
+      "parentUuid": "8ba9c860_e5b73612",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 18
+      },
+      "revId": "dca028cda3e8621681b64697206534a6790908b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

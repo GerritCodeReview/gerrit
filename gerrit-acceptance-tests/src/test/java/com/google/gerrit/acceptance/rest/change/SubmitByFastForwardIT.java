@@ -49,8 +49,10 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     PushOneCommit.Result change = createChange();
     PushOneCommit.Result change2 = createChange();
 
-    approve(change.getChangeId());
-    submit(change2.getChangeId());
+    String id1 = change.getChangeId();
+    String id2 = change2.getChangeId();
+    approve(id1);
+    submit(id2);
 
     RevCommit head = getRemoteHead();
     assertThat(head.getId()).isEqualTo(change2.getCommitId());
@@ -59,6 +61,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertSubmitter(change2.getChangeId(), 1);
     assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
+    assertSubmittedTogether(id1, id1, id2);
+    assertSubmittedTogether(id2, id1, id2);
   }
 
   @Test

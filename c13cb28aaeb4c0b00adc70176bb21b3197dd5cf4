@@ -86,6 +86,24 @@
       "revId": "c13cb28aaeb4c0b00adc70176bb21b3197dd5cf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abf12ca4_2ece2790",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T13:05:06Z",
+      "side": 1,
+      "message": "Thanks, I missed your changes to logError et al. below.",
+      "parentUuid": "ebdb2404_30cd8890",
+      "revId": "c13cb28aaeb4c0b00adc70176bb21b3197dd5cf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

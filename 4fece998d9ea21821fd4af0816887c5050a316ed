@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "306daded_bac0915c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-06T21:14:00Z",
+      "side": 1,
+      "message": "Should we be consistent here and name it submodule?",
+      "range": {
+        "startLine": 152,
+        "startChar": 20,
+        "endLine": 152,
+        "endChar": 30
+      },
+      "revId": "4fece998d9ea21821fd4af0816887c5050a316ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "306daded_5acff58a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-06T21:14:00Z",
+      "side": 1,
+      "message": "Submodule",
+      "range": {
+        "startLine": 471,
+        "startChar": 33,
+        "endLine": 471,
+        "endChar": 43
+      },
+      "revId": "4fece998d9ea21821fd4af0816887c5050a316ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "306daded_7ad43920",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-06T21:36:10Z",
+      "side": 1,
+      "message": "empty string is not a valid reason to throw an exception ;)",
+      "range": {
+        "startLine": 111,
+        "startChar": 28,
+        "endLine": 112,
+        "endChar": 28
+      },
+      "revId": "ec5f977a833f4c4fb386798c9f2426f49c8fa330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a1e55d_fcdfe935",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-06T21:36:10Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 252,
+        "startChar": 4,
+        "endLine": 253,
+        "endChar": 28
+      },
+      "revId": "ec5f977a833f4c4fb386798c9f2426f49c8fa330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

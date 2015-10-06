@@ -70,6 +70,30 @@
       "revId": "b53b47fe66a82d467afb436392e1609de7ad7b81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50194171_73a680ed",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/testutil/TestTrustKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-06T15:05:25Z",
+      "side": 1,
+      "message": "I think the keys in TestKeys could be renamed, because they serve specific purposes and don\u0027t have any relation to each other. I think the keys in this file should keep their letter identifiers, because you should be referring to the diagrams when using them.",
+      "parentUuid": "ebdb2404_70ac70ca",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 25
+      },
+      "revId": "b53b47fe66a82d467afb436392e1609de7ad7b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

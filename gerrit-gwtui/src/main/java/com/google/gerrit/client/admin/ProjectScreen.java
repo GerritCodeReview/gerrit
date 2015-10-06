@@ -22,6 +22,7 @@ public abstract class ProjectScreen extends Screen {
   public static final String BRANCHES = "branches";
   public static final String ACCESS = "access";
   public static final String DASHBOARDS = "dashboards";
+  public static final String TAGS = "tags";
 
   protected static String savedPanel;
   protected static Project.NameKey savedKey;
@@ -47,7 +48,9 @@ public abstract class ProjectScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setPageTitle(Util.M.project(name.get()));
+    if (name != null) {
+      setPageTitle(Util.M.project(name.get()));
+    }
   }
 
   @Override

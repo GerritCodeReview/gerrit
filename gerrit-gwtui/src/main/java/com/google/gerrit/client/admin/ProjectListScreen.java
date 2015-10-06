@@ -28,12 +28,10 @@ import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.ProjectSearchLink;
 import com.google.gerrit.client.ui.ProjectsTable;
-import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -44,37 +42,21 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 import java.util.List;
 
-public class ProjectListScreen extends Screen {
+public class ProjectListScreen extends PaginatedProjectScreen {
   private Hyperlink prev;
   private Hyperlink next;
   private ProjectsTable projects;
   private NpTextBox filterTxt;
-  private int pageSize;
 
-  private String match = "";
-  private int start;
   private Query query;
 
   public ProjectListScreen() {
-    pageSize = Gerrit.getUserPreferences().changesPerPage();
+    super(null);
   }
 
   public ProjectListScreen(String params) {
     this();
-    for (String kvPair : params.split("[,;&]")) {
-      String[] kv = kvPair.split("=", 2);
-      if (kv.length != 2 || kv[0].isEmpty()) {
-        continue;
-      }
-
-      if ("filter".equals(kv[0])) {
-        match = URL.decodeQueryString(kv[1]);
-      }
-
-      if ("skip".equals(kv[0]) && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
-        start = Integer.parseInt(URL.decodeQueryString(kv[1]));
-      }
-    }
+    parseToken(params);
   }
 
   @Override
@@ -83,25 +65,9 @@ public class ProjectListScreen extends Screen {
     query = new Query(match).start(start).run();
   }
 
-  private void setupNavigationLink(Hyperlink link, String filter, int skip) {
-    link.setTargetHistoryToken(getTokenForScreen(filter, skip));
-    link.setVisible(true);
-  }
-
-  private String getTokenForScreen(String filter, int skip) {
-    String token = ADMIN_PROJECTS;
-    if (filter != null && !filter.isEmpty()) {
-      token += "?filter=" + URL.encodeQueryString(filter);
-    }
-    if (skip > 0) {
-      if (token.contains("?filter=")) {
-        token += ",";
-      } else {
-        token += "?";
-      }
-      token += "skip=" + skip;
-    }
-    return token;
+  @Override
+  public String getScreenToken() {
+    return ADMIN_PROJECTS;
   }
 
   @Override

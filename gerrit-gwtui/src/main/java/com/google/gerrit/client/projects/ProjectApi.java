@@ -44,6 +44,32 @@ public class ProjectApi {
         .put(input, cb);
   }
 
+  private static RestApi getRestApi(Project.NameKey name, String viewName,
+      int limit, int start, String match) {
+    RestApi call = project(name).view(viewName);
+    call.addParameter("n", limit);
+    call.addParameter("s", start);
+    if (match != null) {
+      if (match.startsWith("^")) {
+        call.addParameter("r", match);
+      } else {
+        call.addParameter("m", match);
+      }
+    }
+    return call;
+  }
+
+  /** Retrieve all visible tags of the project */
+  public static void getTags(Project.NameKey name,
+      AsyncCallback<JsArray<TagInfo>> cb) {
+    project(name).view("tags").get(cb);
+  }
+
+  public static void getTags(Project.NameKey name, int limit, int start,
+      String match, AsyncCallback<JsArray<TagInfo>> cb) {
+    getRestApi(name, "tags", limit, start, match).get(cb);
+  }
+
   /** Create a new branch */
   public static void createBranch(Project.NameKey name, String ref,
       String revision, AsyncCallback<BranchInfo> cb) {
@@ -60,17 +86,7 @@ public class ProjectApi {
 
   public static void getBranches(Project.NameKey name, int limit, int start,
        String match, AsyncCallback<JsArray<BranchInfo>> cb) {
-    RestApi call = project(name).view("branches");
-    call.addParameter("n", limit);
-    call.addParameter("s", start);
-    if (match != null) {
-      if (match.startsWith("^")) {
-        call.addParameter("r", match);
-      } else {
-        call.addParameter("m", match);
-      }
-    }
-    call.get(cb);
+    getRestApi(name, "branches", limit, start, match).get(cb);
   }
 
   /**

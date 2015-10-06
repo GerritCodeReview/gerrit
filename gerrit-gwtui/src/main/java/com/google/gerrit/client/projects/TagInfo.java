@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,9 @@
 
 package com.google.gerrit.client.projects;
 
-import com.google.gerrit.client.info.ActionInfo;
-import com.google.gerrit.client.info.WebLinkInfo;
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gwt.core.client.JsArray;
+public class TagInfo extends RefInfo {
 
-public class BranchInfo extends RefInfo {
-  public final native boolean canDelete() /*-{ return this['can_delete'] ? true : false; }-*/;
-  public final native NativeMap<ActionInfo> actions() /*-{ return this.actions }-*/;
-  public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
-
-  protected BranchInfo() {
+  // TODO(dpursehouse) add extra tag-related fields (message, tagger, etc)
+  protected TagInfo() {
   }
 }

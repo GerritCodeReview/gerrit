@@ -17,6 +17,8 @@ package com.google.gerrit.gpg;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 
+import com.google.common.base.Joiner;
+
 import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPObjectFactory;
@@ -145,13 +147,10 @@ public abstract class PushCertificateChecker {
     }
     CheckResult result = publicKeyChecker.check(signer, store);
     if (!result.isOk()) {
-      StringBuilder err = new StringBuilder("Invalid public key ")
-          .append(keyToString(signer))
-          .append(":");
-      for (String problem : result.getProblems()) {
-        err.append("\n  ").append(problem);
-      }
-      problems.add(err.toString());
+      problems.add("Invalid public key "
+          + keyToString(signer)
+          + ":\n  "
+          + Joiner.on("\n  ").join(result.getProblems()));
     }
   }
 }

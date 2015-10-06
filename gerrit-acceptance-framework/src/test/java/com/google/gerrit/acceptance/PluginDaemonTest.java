@@ -202,6 +202,7 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     SitePaths sitePath = new SitePaths(testSite);
     pluginsSitePath = Files.createDirectories(sitePath.plugins_dir);
     Files.createDirectories(sitePath.tmp_dir);
+    Files.createDirectories(sitePath.etc_dir);
   }
 
   private void copyJarToTestSite() throws IOException {

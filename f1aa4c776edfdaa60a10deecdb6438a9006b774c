@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "ebd0848a_48d95f51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-06T13:37:55Z",
+      "side": 1,
+      "message": "I noticed the following problems/missing features:\n\n* commit block is missing\n* line number inly visible for line 1\n* clicking on range based comment popup has no effect: comment draft isn\u0027t opened",
+      "revId": "f1aa4c776edfdaa60a10deecdb6438a9006b774c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bc1bc6c_7ae939de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-06T13:37:55Z",
+      "side": 1,
+      "message": "Is the last item from the comment above related?",
+      "revId": "f1aa4c776edfdaa60a10deecdb6438a9006b774c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55a68ed6_fd842704",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 11

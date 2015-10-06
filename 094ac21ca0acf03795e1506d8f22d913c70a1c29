@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "103989d0_71cfb88b",
+        "filename": "gerrit-polymer/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-06T16:44:03Z",
+      "side": 1,
+      "message": "Is this correct?\n\n  bower ENOENT No bower.json present\n\nThe file is in gerrit-polymer and when issued in this directory `bower install` bower_components directory is created and the deps are installed.",
+      "range": {
+        "startLine": 54,
+        "startChar": 36,
+        "endLine": 54,
+        "endChar": 42
+      },
+      "revId": "094ac21ca0acf03795e1506d8f22d913c70a1c29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50194171_33c92884",
+        "filename": "gerrit-polymer/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-06T16:44:03Z",
+      "side": 1,
+      "message": "Failing here, not sure if something is missing: [1].\n\n* [1] http://paste.openstack.org/show/475498/",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 15
+      },
+      "revId": "094ac21ca0acf03795e1506d8f22d913c70a1c29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_51d4b41f",
+        "filename": "gerrit-polymer/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-06T16:44:03Z",
+      "side": 1,
+      "message": "Failing here: [1]. Looks like a path mismatch:\n\n  $ gulp\n  [18:38:07] Using gulpfile ~/projects/gerrit/gerrit-polymer/gulpfile.js\n  [18:38:09] Starting \u0027vulcanize\u0027...\n  ERROR finding /home/davido/projects/gerrit/gerrit-polymer/\\\n  dist/bower_components/webcomponentsjs/webcomponents-lite.min.js\n\nThis file exists direct in:\n\n  $ find . -name webcomponents-lite.min.js\n  ./bower_components/webcomponentsjs/webcomponents-lite.min.js\n\nand not in dist.\n\n* [1] http://paste.openstack.org/show/475500",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 4
+      },
+      "revId": "094ac21ca0acf03795e1506d8f22d913c70a1c29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_31c93084",
+        "filename": "gerrit-polymer/test_server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-06T16:44:03Z",
+      "side": 1,
+      "message": "Any comments in README.txt how to set test_server up and running, like installing the dependency on Golang, and running:\n\n  $ go run test_server.go",
+      "revId": "094ac21ca0acf03795e1506d8f22d913c70a1c29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -146,6 +146,24 @@
       "revId": "6298133598a3ee38f9fc4190063c64d5f5f77a53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a1e55d_9cc34569",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-06T18:11:42Z",
+      "side": 1,
+      "message": "I switched the order in SubmitByFastForwardIT, such that the tests now pass.",
+      "parentUuid": "103989d0_31fed09b",
+      "revId": "6298133598a3ee38f9fc4190063c64d5f5f77a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

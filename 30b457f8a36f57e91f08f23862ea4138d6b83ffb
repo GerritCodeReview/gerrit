@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ebd0848a_88ab57b2",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-06T06:25:49Z",
+      "side": 1,
+      "message": "So, we have here the order\n\n  assertThat(actual).foo(expected);\n\njust to swap the order on the next line with:\n\n  assertThat(expected).bar(actual);\n\nMake this method consistently swap the order (consistently used in the rest of the test code) and do it wrong on both lines, 604 and 605?",
+      "range": {
+        "startLine": 604,
+        "startChar": 4,
+        "endLine": 604,
+        "endChar": 48
+      },
+      "revId": "30b457f8a36f57e91f08f23862ea4138d6b83ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d86713cc_39bc4feb",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 3
@@ -13,6 +36,24 @@
       "writtenOn": "2015-09-29T18:11:15Z",
       "side": 1,
       "message": "Generally the order is swapped, actual followed by expected). That has the minor side benefit that you could do .containsExactly(expected).inOrder() without wrapping in a list, since containsExactly takes Object...",
+      "revId": "30b457f8a36f57e91f08f23862ea4138d6b83ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebd0848a_a8a61be8",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-06T06:25:49Z",
+      "side": 1,
+      "message": "I also think, that the order assertThat(actual).foo(expected) should be consistently used, not to mention avoiding to create a list:\n\n  assertThat(Iterables.transform(actual,\n        new Function\u003cChangeInfo, String\u003e() {\n      @Override\n      public String apply(ChangeInfo input) {\n        return input.changeId;\n      }\n    })).containsExactly((Object[])expected).inOrder();",
+      "parentUuid": "d86713cc_39bc4feb",
       "revId": "30b457f8a36f57e91f08f23862ea4138d6b83ffb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "103989d0_71f458bd",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-06T17:49:49Z",
+      "side": 1,
+      "message": "Do we really need to check the order? Isn\u0027t it a set of changes that is submitted together and the order is not important?",
+      "range": {
+        "startLine": 612,
+        "startChar": 15,
+        "endLine": 612,
+        "endChar": 25
+      },
+      "revId": "af687f791df94541bb3c26342e33188fa27c02e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

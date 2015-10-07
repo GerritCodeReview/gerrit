@@ -52,6 +52,7 @@ public interface AccountConstants extends Constants {
   String tabAccountSummary();
   String tabAgreements();
   String tabContactInformation();
+  String tabDiffPreferences();
   String tabGpgKeys();
   String tabHttpAccess();
   String tabMyGroups();

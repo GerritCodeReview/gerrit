@@ -1726,19 +1726,12 @@ public class ReceiveCommits {
     CheckedFuture<Void, RestApiException> insertChange() throws IOException {
       rp.getRevWalk().parseBody(commit);
 
-      final Thread caller = Thread.currentThread();
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
         public Void call() throws OrmException, IOException,
             ResourceConflictException {
-          if (caller == Thread.currentThread()) {
-            insertChange(db);
-          } else {
-            try (ReviewDb db = schemaFactory.open()) {
-              insertChange(db);
-            }
-          }
+          insertChangeImpl();
           synchronized (newProgress) {
             newProgress.update(1);
           }
@@ -1748,7 +1741,7 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    private void insertChange(ReviewDb db) throws OrmException, IOException,
+    private void insertChangeImpl() throws OrmException, IOException,
         ResourceConflictException {
       final PatchSet ps = ins.setGroups(groups).getPatchSet();
       final Account.Id me = currentUser.getAccountId();
@@ -1762,17 +1755,11 @@ public class ReceiveCommits {
       }
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
-
-      ChangeMessage msg =
-          new ChangeMessage(new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(db)), me, ps.getCreatedOn(), ps.getId());
-      msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
-
       ins
         .setReviewers(recipients.getReviewers())
         .setExtraCC(recipients.getCcOnly())
         .setApprovals(approvals)
-        .setMessage(msg)
+        .setMessage("Uploaded patch set " + ps.getPatchSetId() + ".")
         .setRequestScopePropagator(requestScopePropagator)
         .setSendMail(true)
         .insert();

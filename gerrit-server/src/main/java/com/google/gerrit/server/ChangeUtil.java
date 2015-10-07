@@ -23,7 +23,6 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.Project;
@@ -311,22 +310,18 @@ public class ChangeUtil {
             change.getDest().getParentKey().get(), ru.getResult()));
       }
 
-      ChangeMessage cmsg = new ChangeMessage(
-          new ChangeMessage.Key(changeId, messageUUID(db.get())),
-          user().getAccountId(), TimeUtil.nowTs(), patchSetId);
       StringBuilder msgBuf = new StringBuilder();
       msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
       msgBuf.append("\n\n");
       msgBuf.append("This patchset was reverted in change: ")
             .append(change.getKey().get());
-      cmsg.setMessage(msgBuf.toString());
 
-      ins.setMessage(cmsg).insert();
+      ins.setMessage(msgBuf.toString()).insert();
 
       try {
         RevertedSender cm = revertedSenderFactory.create(change.getId());
         cm.setFrom(user().getAccountId());
-        cm.setChangeMessage(cmsg);
+        cm.setChangeMessage(ins.getChangeMessage());
         cm.send();
       } catch (Exception err) {
         log.error("Cannot send email for revert change " + change.getId(),

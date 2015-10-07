@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -31,6 +32,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GroupCollector;
@@ -79,12 +81,14 @@ public class ChangeInserter {
   private final WorkQueue workQueue;
 
   private final ProjectControl projectControl;
+  private final IdentifiedUser user;
   private final Change change;
   private final PatchSet patchSet;
   private final RevCommit commit;
   private final PatchSetInfo patchSetInfo;
 
-  private ChangeMessage changeMessage;
+  // Fields exposed as setters.
+  private String message;
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
@@ -92,6 +96,9 @@ public class ChangeInserter {
   private RequestScopePropagator requestScopePropagator;
   private boolean runHooks;
   private boolean sendMail;
+
+  // Fields set during the insertion process.
+  private ChangeMessage changeMessage;
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
@@ -130,6 +137,7 @@ public class ChangeInserter {
     this.runHooks = true;
     this.sendMail = true;
 
+    user = checkUser(projectControl);
     patchSet =
         new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
     patchSet.setCreatedOn(change.getCreatedOn());
@@ -139,12 +147,18 @@ public class ChangeInserter {
     change.setCurrentPatchSet(patchSetInfo);
   }
 
+  private static IdentifiedUser checkUser(ProjectControl ctl) {
+    checkArgument(ctl.getCurrentUser().isIdentifiedUser(),
+        "only IdentifiedUser may create change");
+    return (IdentifiedUser) ctl.getCurrentUser();
+  }
+
   public Change getChange() {
     return change;
   }
 
-  public ChangeInserter setMessage(ChangeMessage changeMessage) {
-    this.changeMessage = changeMessage;
+  public ChangeInserter setMessage(String message) {
+    this.message = message;
     return this;
   }
 
@@ -202,6 +216,15 @@ public class ChangeInserter {
     return patchSetInfo;
   }
 
+  public ChangeMessage getChangeMessage() {
+    if (message == null) {
+      return null;
+    }
+    checkState(changeMessage != null,
+        "getChangeMessage() only valid after inserting change");
+    return changeMessage;
+  }
+
   public Change insert() throws OrmException, IOException {
     ReviewDb db = dbProvider.get();
     ChangeControl ctl = projectControl.controlFor(change);
@@ -221,7 +244,12 @@ public class ChangeInserter {
           patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
       approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
           ctl, approvals);
-      if (messageIsForChange()) {
+      if (message != null) {
+        changeMessage =
+            new ChangeMessage(new ChangeMessage.Key(change.getId(),
+                ChangeUtil.messageUUID(db)), user.getAccountId(),
+                patchSet.getCreatedOn(), patchSet.getId());
+        changeMessage.setMessage(message);
         cmUtil.addChangeMessage(db, update, changeMessage);
       }
       db.commit();
@@ -241,11 +269,7 @@ public class ChangeInserter {
       }
     }
 
-    CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
-    if (!messageIsForChange()) {
-      commitMessageNotForChange();
-    }
-    f.checkedGet();
+    indexer.index(db, change);
 
     if (sendMail) {
       Runnable sender = new Runnable() {
@@ -289,30 +313,5 @@ public class ChangeInserter {
     }
 
     return change;
-  }
-
-  private void commitMessageNotForChange() throws OrmException,
-      IOException {
-    ReviewDb db = dbProvider.get();
-    if (changeMessage != null) {
-      Change otherChange =
-          db.changes().get(changeMessage.getPatchSetId().getParentKey());
-      ChangeUtil.bumpRowVersionNotLastUpdatedOn(
-          changeMessage.getKey().getParentKey(), db);
-      ChangeControl otherControl = projectControl.controlFor(otherChange);
-      ChangeUpdate updateForOtherChange =
-          updateFactory.create(otherControl, change.getLastUpdatedOn());
-      cmUtil.addChangeMessage(db, updateForOtherChange, changeMessage);
-      updateForOtherChange.commit();
-    }
-  }
-
-  private boolean messageIsForChange() {
-    if (changeMessage == null) {
-      return false;
-    }
-    Change.Id id = change.getId();
-    Change.Id msgId = changeMessage.getKey().getParentKey();
-    return msgId.equals(id);
   }
 }

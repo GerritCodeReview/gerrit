@@ -22,6 +22,30 @@
       "revId": "5503d59216c923956b8af39d9745d7eea401287a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65a1255e_5ca5bdde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T18:44:56Z",
+      "side": 1,
+      "message": "Yes, that is clear to me now, I guess it wasn\u0027t back when I wrote this comment.",
+      "parentUuid": "50194171_9307dc54",
+      "range": {
+        "startLine": 131,
+        "startChar": 30,
+        "endLine": 131,
+        "endChar": 55
+      },
+      "revId": "5503d59216c923956b8af39d9745d7eea401287a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

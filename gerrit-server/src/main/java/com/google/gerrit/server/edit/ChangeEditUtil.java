@@ -17,7 +17,6 @@ package com.google.gerrit.server.edit;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Optional;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -25,9 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeKind;
@@ -39,6 +36,8 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -67,6 +66,7 @@ public class ChangeEditUtil {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeIndexer indexer;
+  private final ProjectCache projectCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
   private final ChangeKindCache changeKindCache;
@@ -76,6 +76,7 @@ public class ChangeEditUtil {
       PatchSetInserter.Factory patchSetInserterFactory,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
+      ProjectCache projectCache,
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
       ChangeKindCache changeKindCache) {
@@ -83,6 +84,7 @@ public class ChangeEditUtil {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.changeControlFactory = changeControlFactory;
     this.indexer = indexer;
+    this.projectCache = projectCache;
     this.db = db;
     this.user = user;
     this.changeKindCache = changeKindCache;
@@ -216,17 +218,19 @@ public class ChangeEditUtil {
       Repository repo, RevWalk rw, PatchSet basePatchSet, RevCommit squashed)
       throws NoSuchChangeException, RestApiException, UpdateException,
       InvalidChangeOperationException, IOException {
-    PatchSet ps = new PatchSet(
-        ChangeUtil.nextPatchSetId(change.currentPatchSetId()));
-    ps.setRevision(new RevId(ObjectId.toString(squashed)));
-    ps.setUploader(edit.getUser().getAccountId());
-    ps.setCreatedOn(TimeUtil.nowTs());
+    PatchSetInserter inserter =
+        patchSetInserterFactory.create(repo, rw,
+            changeControlFactory.controlFor(change, edit.getUser()),
+            squashed);
 
     StringBuilder message = new StringBuilder("Patch set ")
-      .append(ps.getPatchSetId())
+      .append(inserter.getPatchSetId().get())
       .append(": ");
 
-    ChangeKind kind = changeKindCache.getChangeKind(db.get(), change, ps);
+    ProjectState project = projectCache.get(change.getDest().getParentKey());
+    // Previously checked that the base patch set is the current patch set.
+    ObjectId prior = ObjectId.fromString(basePatchSet.getRevision().get());
+    ChangeKind kind = changeKindCache.getChangeKind(project, repo, prior, squashed);
     if (kind == ChangeKind.NO_CODE_CHANGE) {
       message.append("Commit message was updated.");
     } else {
@@ -235,11 +239,7 @@ public class ChangeEditUtil {
         .append(".");
     }
 
-    PatchSetInserter inserter =
-        patchSetInserterFactory.create(repo, rw,
-            changeControlFactory.controlFor(change, edit.getUser()),
-            squashed);
-    return inserter.setPatchSet(ps)
+    return inserter
         .setDraft(change.getStatus() == Status.DRAFT ||
             basePatchSet.isDraft())
         .setMessage(message.toString())

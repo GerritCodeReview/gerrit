@@ -345,17 +345,17 @@ public class ConsistencyChecker {
             + " is merged");
         return;
       }
-      checkMergedBitMatchesStatus(currPs, currPsCommit, merged);
+      checkMergedBitMatchesStatus(currPs.getId(), currPsCommit, merged);
     }
   }
 
-  private void checkMergedBitMatchesStatus(PatchSet ps, RevCommit commit,
+  private void checkMergedBitMatchesStatus(PatchSet.Id psId, RevCommit commit,
       boolean merged) {
     String refName = change.getDest().get();
     if (merged && change.getStatus() != Change.Status.MERGED) {
       ProblemInfo p = problem(String.format(
           "Patch set %d (%s) is merged into destination ref %s (%s), but change"
-          + " status is %s", ps.getId().get(), commit.name(),
+          + " status is %s", psId.get(), commit.name(),
           refName, tip.name(), change.getStatus()));
       if (fix != null) {
         fixMerged(p);
@@ -416,9 +416,9 @@ public class ConsistencyChecker {
                   commit.name(), changeId, change.getKey().get()));
             return;
           }
-          PatchSet ps = insertPatchSet(commit);
-          if (ps != null) {
-            checkMergedBitMatchesStatus(ps, commit, true);
+          PatchSet.Id psId = insertPatchSet(commit);
+          if (psId != null) {
+            checkMergedBitMatchesStatus(psId, commit, true);
           }
           break;
 
@@ -447,7 +447,7 @@ public class ConsistencyChecker {
     }
   }
 
-  private PatchSet insertPatchSet(RevCommit commit) {
+  private PatchSet.Id insertPatchSet(RevCommit commit) {
     ProblemInfo p =
         problem("No patch set found for merged commit " + commit.name());
     if (!user.get().isIdentifiedUser()) {
@@ -470,9 +470,10 @@ public class ConsistencyChecker {
           .setMessage(
               "Patch set for merged commit inserted by consistency checker")
           .insert();
+      PatchSet.Id psId = change.currentPatchSetId();
       p.status = Status.FIXED;
-      p.outcome = "Inserted as patch set " + change.currentPatchSetId().get();
-      return inserter.getPatchSet();
+      p.outcome = "Inserted as patch set " + psId.get();
+      return psId;
     } catch (InvalidChangeOperationException | IOException
         | NoSuchChangeException | UpdateException | RestApiException e) {
       warn(e);

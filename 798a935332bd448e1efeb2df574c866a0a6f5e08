@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "50194171_f33e10f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T11:54:48Z",
+      "side": 1,
+      "message": "After building with buck gerrit.war is now found at buck-out/gen/gerrit/gerrit.war, and no longer at buck-out/gen/gerrit.war. This means this path must be updated in dev-buck.txt. Maybe this should be also mentioned in the commit message.",
+      "range": {
+        "startLine": 22,
+        "startChar": 61,
+        "endLine": 22,
+        "endChar": 71
+      },
+      "revId": "798a935332bd448e1efeb2df574c866a0a6f5e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50194171_732b20bb",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 7
@@ -31,6 +54,24 @@
       "side": 1,
       "message": "I gave the answer to that question in glory details in my comment: [1], where I suggested to include it in the commit message. If the change owner would include my suggested explanation *why* this code must be adapted, i guess, you wouldn\u0027t ask this question. Unfortunately change owner decided that such details shouldn\u0027t be included in the commit message.\n\nGiven that Buck moving forward really fast and extending its concepts, rules not to mention fixing bugs, i tend to disagree with this opinion. The more background information we can provide the better.\n\n* [1] https://gerrit-review.googlesource.com/#/c/70887/6//COMMIT_MSG@26 on Sep 17 8:34 AM",
       "parentUuid": "50194171_732b20bb",
+      "revId": "798a935332bd448e1efeb2df574c866a0a6f5e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_b138800a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T11:54:48Z",
+      "side": 1,
+      "message": "Thanks, so the path is really \".../tools/buck.properties/buck.properties\" now?",
+      "parentUuid": "50194171_3325a8e5",
       "revId": "798a935332bd448e1efeb2df574c866a0a6f5e08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

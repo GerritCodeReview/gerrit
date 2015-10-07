@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "103989d0_3117f08d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T07:19:01Z",
+      "side": 1,
+      "message": "Why PatchSetInfo and not PatchSetInserter?",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 16
+      },
+      "revId": "8557c17c5ae021365074227541090c96b724fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50194171_532264ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T07:19:01Z",
+      "side": 1,
+      "message": "Why is the default changed, doesn\u0027t this effect any existing callers?",
+      "range": {
+        "startLine": 118,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 34
+      },
+      "revId": "8557c17c5ae021365074227541090c96b724fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50194171_131cecab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T07:19:01Z",
+      "side": 1,
+      "message": "1. If we have this do we still need to check for certain exception types above?\n\n2. Shouldn\u0027t we throw an exception if propagation is not possible?",
+      "revId": "8557c17c5ae021365074227541090c96b724fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50194171_3317e88d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T07:19:01Z",
+      "side": 1,
+      "message": "It may make sense to execute some (or all?) post operations in parallel (e.g. sending email and triggering hooks).",
+      "range": {
+        "startLine": 187,
+        "startChar": 22,
+        "endLine": 187,
+        "endChar": 47
+      },
+      "revId": "8557c17c5ae021365074227541090c96b724fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50194171_731d60ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T07:19:01Z",
+      "side": 1,
+      "message": "I wonder whether firing the refUpdated events should rather be a post operation. In the past we had bug reports that complained that the ref event is received before the database is updated. E.g. a plugin that listens to ref updates would do a query to fetch the corresponding data from the database and this then fails because it\u0027s not there yet, see [1,2].\n\n[1] https://code.google.com/p/gerrit/issues/detail?id\u003d2181\n[2] https://code.google.com/p/gerrit/issues/detail?id\u003d2090",
+      "revId": "8557c17c5ae021365074227541090c96b724fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

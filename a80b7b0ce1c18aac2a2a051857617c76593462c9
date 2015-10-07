@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "50194171_d352f447",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T09:03:33Z",
+      "side": 1,
+      "message": "initRepository() needs to be called here too.",
+      "revId": "a80b7b0ce1c18aac2a2a051857617c76593462c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "103989d0_7142187d",
         "filename": "plugins/download-commands",
         "patchSetId": 6

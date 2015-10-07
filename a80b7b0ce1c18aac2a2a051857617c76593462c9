@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "65a1255e_1caf35c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T18:44:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50194171_13518c45",
+      "range": {
+        "startLine": 128,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 49
+      },
+      "revId": "a80b7b0ce1c18aac2a2a051857617c76593462c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50194171_d352f447",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "e558b543_08b4c70d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T18:44:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50194171_d352f447",
+      "revId": "a80b7b0ce1c18aac2a2a051857617c76593462c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "103989d0_7142187d",
         "filename": "plugins/download-commands",
         "patchSetId": 6
@@ -53,6 +95,24 @@
       "writtenOn": "2015-10-07T08:45:45Z",
       "side": 1,
       "message": "Unintended submodule update?",
+      "revId": "a80b7b0ce1c18aac2a2a051857617c76593462c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e558b543_e8b85304",
+        "filename": "plugins/download-commands",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T18:44:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "103989d0_7142187d",
       "revId": "a80b7b0ce1c18aac2a2a051857617c76593462c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "65a1255e_9c5ee550",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T22:22:53Z",
+      "side": 1,
+      "message": "Hm. I could see it for OrmException maybe. But for PGPException it feels like it could also be a problem with the key itself, rather than something transient that can be fixed by retrying, we just don\u0027t know. In that case, returning it in the CheckResult to the user would definitely be the right behavior.",
+      "parentUuid": "853e19eb_5db4fb0e",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 45
+      },
+      "revId": "72917ff2e35f50fba3085b035fb396913a718b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2559ed73_3aa5c1e0",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
         "patchSetId": 5

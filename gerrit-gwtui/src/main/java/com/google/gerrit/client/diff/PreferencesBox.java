@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -54,6 +55,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.UIObject;
 
 import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
@@ -62,11 +64,11 @@ import net.codemirror.theme.ThemeLoader;
 import java.util.Objects;
 
 /** Displays current diff preferences. */
-class PreferencesBox extends Composite {
+public class PreferencesBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PreferencesBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  interface Style extends CssResource {
+  public interface Style extends CssResource {
     String dialog();
   }
 
@@ -76,6 +78,7 @@ class PreferencesBox extends Composite {
   private Timer updateContextTimer;
 
   @UiField Style style;
+  @UiField Element header;
   @UiField Anchor close;
   @UiField ListBox ignoreWhitespace;
   @UiField NpIntTextBox tabWidth;
@@ -87,6 +90,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton whitespaceErrors;
   @UiField ToggleButton showTabs;
   @UiField ToggleButton lineNumbers;
+  @UiField Element leftSideLabel;
   @UiField ToggleButton leftSide;
   @UiField ToggleButton emptyPane;
   @UiField ToggleButton topMenu;
@@ -95,17 +99,24 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton expandAllComments;
   @UiField ToggleButton renderEntireFile;
   @UiField ListBox theme;
+  @UiField Element modeLabel;
   @UiField ListBox mode;
   @UiField Button apply;
   @UiField Button save;
 
-  PreferencesBox(SideBySide view) {
+  public PreferencesBox(SideBySide view) {
     this.view = view;
 
     initWidget(uiBinder.createAndBindUi(this));
     initIgnoreWhitespace();
     initTheme();
-    initMode();
+
+    if (view != null) {
+      initMode();
+    } else {
+      UIObject.setVisible(header, false);
+      apply.setVisible(false);
+    }
   }
 
   @Override
@@ -113,40 +124,47 @@ class PreferencesBox extends Composite {
     super.onLoad();
 
     save.setVisible(Gerrit.isSignedIn());
-    addDomHandler(new KeyDownHandler() {
-      @Override
-      public void onKeyDown(KeyDownEvent event) {
-        if (event.getNativeKeyCode() == KEY_ESCAPE
-            || event.getNativeKeyCode() == ',') {
-          close();
-        }
-      }
-    }, KeyDownEvent.getType());
 
-    updateContextTimer = new Timer() {
-      @Override
-      public void run() {
-        if (prefs.context() == WHOLE_FILE_CONTEXT) {
-          contextEntireFile.setValue(true);
+    if (view != null) {
+      addDomHandler(new KeyDownHandler() {
+        @Override
+        public void onKeyDown(KeyDownEvent event) {
+          if (event.getNativeKeyCode() == KEY_ESCAPE
+              || event.getNativeKeyCode() == ',') {
+            close();
+          }
         }
-        if (view.canRenderEntireFile(prefs)) {
-          renderEntireFile.setEnabled(true);
-          renderEntireFile.setValue(prefs.renderEntireFile());
-        } else {
-          renderEntireFile.setValue(false);
-          renderEntireFile.setEnabled(false);
+      }, KeyDownEvent.getType());
+
+      updateContextTimer = new Timer() {
+        @Override
+        public void run() {
+          if (prefs.context() == WHOLE_FILE_CONTEXT) {
+            contextEntireFile.setValue(true);
+          }
+          if (view.canRenderEntireFile(prefs)) {
+            renderEntireFile.setEnabled(true);
+            renderEntireFile.setValue(prefs.renderEntireFile());
+          } else {
+            renderEntireFile.setValue(false);
+            renderEntireFile.setEnabled(false);
+          }
+          view.setContext(prefs.context());
         }
-        view.setContext(prefs.context());
-      }
-    };
+      };
+    }
   }
 
-  void set(DiffPreferences prefs) {
+  public Style getStyle() {
+    return style;
+  }
+
+  public void set(DiffPreferences prefs) {
     this.prefs = prefs;
 
     setIgnoreWhitespace(prefs.ignoreWhitespace());
     tabWidth.setIntValue(prefs.tabSize());
-    if (Patch.COMMIT_MSG.equals(view.getPath())) {
+    if (view != null && Patch.COMMIT_MSG.equals(view.getPath())) {
       lineLength.setEnabled(false);
       lineLength.setIntValue(72);
     } else {
@@ -157,17 +175,22 @@ class PreferencesBox extends Composite {
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     showTabs.setValue(prefs.showTabs());
     lineNumbers.setValue(prefs.showLineNumbers());
-    leftSide.setValue(view.diffTable.isVisibleA());
     emptyPane.setValue(!prefs.hideEmptyPane());
-    leftSide.setEnabled(!(prefs.hideEmptyPane()
-        && view.diffTable.getChangeType() == ChangeType.ADDED));
+    if (view != null) {
+      leftSide.setValue(view.diffTable.isVisibleA());
+      leftSide.setEnabled(!(prefs.hideEmptyPane()
+          && view.diffTable.getChangeType() == ChangeType.ADDED));
+    } else {
+      UIObject.setVisible(leftSideLabel, false);
+      leftSide.setVisible(false);
+    }
     topMenu.setValue(!prefs.hideTopMenu());
     autoHideDiffTableHeader.setValue(!prefs.autoHideDiffTableHeader());
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
     setTheme(prefs.theme());
 
-    if (view.canRenderEntireFile(prefs)) {
+    if (view == null || view.canRenderEntireFile(prefs)) {
       renderEntireFile.setValue(prefs.renderEntireFile());
       renderEntireFile.setEnabled(true);
     } else {
@@ -175,22 +198,31 @@ class PreferencesBox extends Composite {
       renderEntireFile.setEnabled(false);
     }
 
-    mode.setEnabled(prefs.syntaxHighlighting());
-    if (prefs.syntaxHighlighting()) {
-      setMode(view.getCmFromSide(DisplaySide.B).getStringOption("mode"));
+    if (view != null) {
+      mode.setEnabled(prefs.syntaxHighlighting());
+      if (prefs.syntaxHighlighting()) {
+        setMode(view.getCmFromSide(DisplaySide.B).getStringOption("mode"));
+      }
+    } else {
+      UIObject.setVisible(modeLabel, false);
+      mode.setVisible(false);
     }
 
-    switch (view.getIntraLineStatus()) {
-      case OFF:
-      case OK:
-        intralineDifference.setValue(prefs.intralineDifference());
-        break;
+    if (view != null) {
+      switch (view.getIntraLineStatus()) {
+        case OFF:
+        case OK:
+          intralineDifference.setValue(prefs.intralineDifference());
+          break;
 
-      case TIMEOUT:
-      case FAILURE:
-        intralineDifference.setValue(false);
-        intralineDifference.setEnabled(false);
-        break;
+        case TIMEOUT:
+        case FAILURE:
+          intralineDifference.setValue(false);
+          intralineDifference.setEnabled(false);
+          break;
+      }
+    } else {
+      intralineDifference.setValue(prefs.intralineDifference());
     }
 
     if (prefs.context() == WHOLE_FILE_CONTEXT) {
@@ -207,13 +239,17 @@ class PreferencesBox extends Composite {
   void onIgnoreWhitespace(@SuppressWarnings("unused") ChangeEvent e) {
     prefs.ignoreWhitespace(Whitespace.valueOf(
         ignoreWhitespace.getValue(ignoreWhitespace.getSelectedIndex())));
-    view.reloadDiffInfo();
+    if (view != null) {
+      view.reloadDiffInfo();
+    }
   }
 
   @UiHandler("intralineDifference")
   void onIntralineDifference(ValueChangeEvent<Boolean> e) {
     prefs.intralineDifference(e.getValue());
-    view.setShowIntraline(prefs.intralineDifference());
+    if (view != null) {
+      view.setShowIntraline(prefs.intralineDifference());
+    }
   }
 
   @UiHandler("context")
@@ -239,7 +275,9 @@ class PreferencesBox extends Composite {
       return;
     }
     prefs.context(c);
-    updateContextTimer.schedule(200);
+    if (view != null) {
+      updateContextTimer.schedule(200);
+    }
   }
 
   @UiHandler("contextEntireFile")
@@ -257,7 +295,9 @@ class PreferencesBox extends Composite {
       context.setFocus(true);
       context.setSelectionRange(0, context.getText().length());
     }
-    updateContextTimer.schedule(200);
+    if (view != null) {
+      updateContextTimer.schedule(200);
+    }
   }
 
   @UiHandler("tabWidth")
@@ -265,14 +305,16 @@ class PreferencesBox extends Composite {
     String v = e.getValue();
     if (v != null && v.length() > 0) {
       prefs.tabSize(Math.max(1, Integer.parseInt(v)));
-      view.operation(new Runnable() {
-        @Override
-        public void run() {
-          int v = prefs.tabSize();
-          view.getCmFromSide(DisplaySide.A).setOption("tabSize", v);
-          view.getCmFromSide(DisplaySide.B).setOption("tabSize", v);
-        }
-      });
+      if (view != null) {
+        view.operation(new Runnable() {
+          @Override
+          public void run() {
+            int v = prefs.tabSize();
+            view.getCmFromSide(DisplaySide.A).setOption("tabSize", v);
+            view.getCmFromSide(DisplaySide.B).setOption("tabSize", v);
+          }
+        });
+      }
     }
   }
 
@@ -281,30 +323,38 @@ class PreferencesBox extends Composite {
     String v = e.getValue();
     if (v != null && v.length() > 0) {
       prefs.lineLength(Math.max(1, Integer.parseInt(v)));
-      view.operation(new Runnable() {
-        @Override
-        public void run() {
-          view.setLineLength(prefs.lineLength());
-        }
-      });
+      if (view != null) {
+        view.operation(new Runnable() {
+          @Override
+          public void run() {
+            view.setLineLength(prefs.lineLength());
+          }
+        });
+      }
     }
   }
   @UiHandler("expandAllComments")
   void onExpandAllComments(ValueChangeEvent<Boolean> e) {
     prefs.expandAllComments(e.getValue());
-    view.getCommentManager().setExpandAllComments(prefs.expandAllComments());
+    if (view != null) {
+      view.getCommentManager().setExpandAllComments(prefs.expandAllComments());
+    }
   }
 
   @UiHandler("showTabs")
   void onShowTabs(ValueChangeEvent<Boolean> e) {
     prefs.showTabs(e.getValue());
-    view.setShowTabs(prefs.showTabs());
+    if (view != null) {
+      view.setShowTabs(prefs.showTabs());
+    }
   }
 
   @UiHandler("lineNumbers")
   void onLineNumbers(ValueChangeEvent<Boolean> e) {
     prefs.showLineNumbers(e.getValue());
-    view.setShowLineNumbers(prefs.showLineNumbers());
+    if (view != null) {
+      view.setShowLineNumbers(prefs.showLineNumbers());
+    }
   }
 
   @UiHandler("leftSide")
@@ -315,29 +365,35 @@ class PreferencesBox extends Composite {
   @UiHandler("emptyPane")
   void onHideEmptyPane(ValueChangeEvent<Boolean> e) {
     prefs.hideEmptyPane(!e.getValue());
-    view.diffTable.setHideEmptyPane(prefs.hideEmptyPane());
-    if (prefs.hideEmptyPane()) {
-      if (view.diffTable.getChangeType() == ChangeType.ADDED) {
-        leftSide.setValue(false);
-        leftSide.setEnabled(false);
+    if (view != null) {
+      view.diffTable.setHideEmptyPane(prefs.hideEmptyPane());
+      if (prefs.hideEmptyPane()) {
+        if (view.diffTable.getChangeType() == ChangeType.ADDED) {
+          leftSide.setValue(false);
+          leftSide.setEnabled(false);
+        }
+      } else {
+        leftSide.setValue(view.diffTable.isVisibleA());
+        leftSide.setEnabled(true);
       }
-    } else {
-      leftSide.setValue(view.diffTable.isVisibleA());
-      leftSide.setEnabled(true);
     }
   }
 
   @UiHandler("topMenu")
   void onTopMenu(ValueChangeEvent<Boolean> e) {
     prefs.hideTopMenu(!e.getValue());
-    Gerrit.setHeaderVisible(!prefs.hideTopMenu());
-    view.resizeCodeMirror();
+    if (view != null) {
+      Gerrit.setHeaderVisible(!prefs.hideTopMenu());
+      view.resizeCodeMirror();
+    }
   }
 
   @UiHandler("autoHideDiffTableHeader")
   void onAutoHideDiffTableHeader(ValueChangeEvent<Boolean> e) {
     prefs.autoHideDiffTableHeader(!e.getValue());
-    view.setAutoHideDiffHeader(!e.getValue());
+    if (view != null) {
+      view.setAutoHideDiffHeader(!e.getValue());
+    }
   }
 
   @UiHandler("manualReview")
@@ -348,11 +404,13 @@ class PreferencesBox extends Composite {
   @UiHandler("syntaxHighlighting")
   void onSyntaxHighlighting(ValueChangeEvent<Boolean> e) {
     prefs.syntaxHighlighting(e.getValue());
-    mode.setEnabled(prefs.syntaxHighlighting());
-    if (prefs.syntaxHighlighting()) {
-      setMode(view.getContentType());
+    if (view != null) {
+      mode.setEnabled(prefs.syntaxHighlighting());
+      if (prefs.syntaxHighlighting()) {
+        setMode(view.getContentType());
+      }
+      view.setSyntaxHighlighting(prefs.syntaxHighlighting());
     }
-    view.setSyntaxHighlighting(prefs.syntaxHighlighting());
   }
 
   @UiHandler("mode")
@@ -386,42 +444,48 @@ class PreferencesBox extends Composite {
   @UiHandler("whitespaceErrors")
   void onWhitespaceErrors(ValueChangeEvent<Boolean> e) {
     prefs.showWhitespaceErrors(e.getValue());
-    view.operation(new Runnable() {
-      @Override
-      public void run() {
-        boolean s = prefs.showWhitespaceErrors();
-        view.getCmFromSide(DisplaySide.A).setOption("showTrailingSpace", s);
-        view.getCmFromSide(DisplaySide.B).setOption("showTrailingSpace", s);
-      }
-    });
+    if (view != null) {
+      view.operation(new Runnable() {
+        @Override
+        public void run() {
+          boolean s = prefs.showWhitespaceErrors();
+          view.getCmFromSide(DisplaySide.A).setOption("showTrailingSpace", s);
+          view.getCmFromSide(DisplaySide.B).setOption("showTrailingSpace", s);
+        }
+      });
+    }
   }
 
   @UiHandler("renderEntireFile")
   void onRenderEntireFile(ValueChangeEvent<Boolean> e) {
     prefs.renderEntireFile(e.getValue());
-    view.updateRenderEntireFile();
+    if (view != null) {
+      view.updateRenderEntireFile();
+    }
   }
 
   @UiHandler("theme")
   void onTheme(@SuppressWarnings("unused") ChangeEvent e) {
     final Theme newTheme = getSelectedTheme();
     prefs.theme(newTheme);
-    ThemeLoader.loadTheme(newTheme, new GerritCallback<Void>() {
-      @Override
-      public void onSuccess(Void result) {
-        view.operation(new Runnable() {
-          @Override
-          public void run() {
-            if (getSelectedTheme() == newTheme && isAttached()) {
-              String t = newTheme.name().toLowerCase();
-              view.getCmFromSide(DisplaySide.A).setOption("theme", t);
-              view.getCmFromSide(DisplaySide.B).setOption("theme", t);
-              view.setThemeStyles(newTheme.isDark());
+    if (view != null) {
+      ThemeLoader.loadTheme(newTheme, new GerritCallback<Void>() {
+        @Override
+        public void onSuccess(Void result) {
+          view.operation(new Runnable() {
+            @Override
+            public void run() {
+              if (getSelectedTheme() == newTheme && isAttached()) {
+                String t = newTheme.name().toLowerCase();
+                view.getCmFromSide(DisplaySide.A).setOption("theme", t);
+                view.getCmFromSide(DisplaySide.B).setOption("theme", t);
+                view.setThemeStyles(newTheme.isDark());
+              }
             }
-          }
-        });
-      }
-    });
+          });
+        }
+      });
+    }
   }
 
   private Theme getSelectedTheme() {
@@ -446,7 +510,9 @@ class PreferencesBox extends Composite {
         Gerrit.setAccountDiffPreference(p);
       }
     });
-    close();
+    if (view != null) {
+      close();
+    }
   }
 
   @UiHandler("close")

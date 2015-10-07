@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "70a1e55d_9cf105c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-07T12:18:19Z",
+      "side": 1,
+      "message": "nit: no blank line between this and Change-Id",
+      "revId": "14df3d3bef44808758883b3b65eed3ea250ddd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "103989d0_7190d84c",
         "filename": "gerrit-war/src/main/resources/log4j.properties",
         "patchSetId": 1

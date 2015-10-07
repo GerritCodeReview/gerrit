@@ -252,6 +252,30 @@
       "revId": "849926a5c5cbb3d04a73c7815447ffa8bfad9235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "306daded_9adcad43",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-07T03:38:28Z",
+      "side": 1,
+      "message": "\u003e Did you forget to upload the new ps?\n\nI\u0027m not sure what happened here.  I\u0027m out of the office now; will check when I get back.  Anyway, thanks for fixing it.",
+      "parentUuid": "103989d0_f1e7280a",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 3
+      },
+      "revId": "849926a5c5cbb3d04a73c7815447ffa8bfad9235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

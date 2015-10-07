@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "853e19eb_ddd64b1f",
+        "filename": "gerrit-gpg/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-07T23:53:46Z",
+      "side": 1,
+      "message": "As far as I can see, these are the only files under `testutil`. Is there any reason to list them all explicitly instead of using a glob?",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 68
+      },
+      "revId": "0c152359bd4526a845eef9d6fec61659676d9c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

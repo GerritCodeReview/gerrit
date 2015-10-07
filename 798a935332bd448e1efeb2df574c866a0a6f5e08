@@ -93,6 +93,24 @@
       "revId": "798a935332bd448e1efeb2df574c866a0a6f5e08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50194171_93359c14",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T12:20:22Z",
+      "side": 1,
+      "message": "I would like this more :-)",
+      "parentUuid": "103989d0_319a506b",
+      "revId": "798a935332bd448e1efeb2df574c866a0a6f5e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

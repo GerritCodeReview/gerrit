@@ -34,6 +34,7 @@ import static com.google.gerrit.common.PageLinks.SETTINGS_HTTP_PASSWORD;
 import static com.google.gerrit.common.PageLinks.SETTINGS_MYGROUPS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_NEW_AGREEMENT;
 import static com.google.gerrit.common.PageLinks.SETTINGS_PREFERENCES;
+import static com.google.gerrit.common.PageLinks.SETTINGS_DIFF_PREFERENCES;
 import static com.google.gerrit.common.PageLinks.SETTINGS_PROJECTS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_SSHKEYS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_WEBIDENT;
@@ -41,6 +42,7 @@ import static com.google.gerrit.common.PageLinks.toChangeQuery;
 
 import com.google.gerrit.client.account.MyAgreementsScreen;
 import com.google.gerrit.client.account.MyContactInformationScreen;
+import com.google.gerrit.client.account.MyDiffPreferencesScreen;
 import com.google.gerrit.client.account.MyGpgKeysScreen;
 import com.google.gerrit.client.account.MyGroupsScreen;
 import com.google.gerrit.client.account.MyIdentitiesScreen;
@@ -525,6 +527,10 @@ public class Dispatcher {
 
         if (matchExact(SETTINGS_PREFERENCES, token)) {
           return new MyPreferencesScreen();
+        }
+
+        if (matchExact(SETTINGS_DIFF_PREFERENCES, token)) {
+          return new MyDiffPreferencesScreen();
         }
 
         if (matchExact(SETTINGS_PROJECTS, token)) {

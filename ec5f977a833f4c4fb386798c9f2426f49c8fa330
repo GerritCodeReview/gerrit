@@ -45,6 +45,23 @@
       "revId": "ec5f977a833f4c4fb386798c9f2426f49c8fa330",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_111cecab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T07:29:18Z",
+      "side": 1,
+      "message": "nit: wrap line",
+      "revId": "ec5f977a833f4c4fb386798c9f2426f49c8fa330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

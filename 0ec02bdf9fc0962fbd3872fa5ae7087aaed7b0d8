@@ -16,6 +16,29 @@
       "revId": "0ec02bdf9fc0962fbd3872fa5ae7087aaed7b0d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_11518c45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T09:00:29Z",
+      "side": 1,
+      "message": "Use getBatchRefUpdate() to ensure batchRefUpdate is not null?",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 18
+      },
+      "revId": "0ec02bdf9fc0962fbd3872fa5ae7087aaed7b0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

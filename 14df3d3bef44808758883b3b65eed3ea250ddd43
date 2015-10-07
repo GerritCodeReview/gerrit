@@ -69,6 +69,24 @@
       "revId": "14df3d3bef44808758883b3b65eed3ea250ddd43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50194171_339a486b",
+        "filename": "gerrit-war/src/main/resources/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T12:45:24Z",
+      "side": 1,
+      "message": "It works for me too when I run it from eclipse, but not when I start it with Jetty. I\u0027ve uploaded a new patch set that should make it work with Jetty too.",
+      "parentUuid": "103989d0_119f4c5b",
+      "revId": "14df3d3bef44808758883b3b65eed3ea250ddd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

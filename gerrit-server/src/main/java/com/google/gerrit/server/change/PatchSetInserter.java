@@ -88,6 +88,7 @@ public class PatchSetInserter {
     GERRIT, RECEIVE_COMMITS, NONE
   }
 
+  // Injected fields.
   private final ChangeHooks hooks;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
@@ -98,15 +99,19 @@ public class PatchSetInserter {
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
 
+  // Assisted-injected fields.
   private final RevCommit commit;
   private final ChangeControl ctl;
   private final IdentifiedUser user;
   private final Repository git;
   private final RevWalk revWalk;
 
+  // Lazily initialized fields.
   private PatchSet.Id psId;
-  private String message;
+
+  // Fields exposed as setters.
   private SshInfo sshInfo;
+  private String message;
   private ValidatePolicy validatePolicy = ValidatePolicy.GERRIT;
   private boolean draft;
   private Iterable<String> groups;

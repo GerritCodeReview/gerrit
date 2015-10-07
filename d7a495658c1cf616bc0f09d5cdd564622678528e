@@ -22,6 +22,30 @@
       "revId": "d7a495658c1cf616bc0f09d5cdd564622678528e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65a1255e_dc546d34",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PushCertificateChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T22:20:25Z",
+      "side": 1,
+      "message": "Good catch, fixed.",
+      "parentUuid": "2559ed73_1aaa7db0",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 52
+      },
+      "revId": "d7a495658c1cf616bc0f09d5cdd564622678528e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

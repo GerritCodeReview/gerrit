@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "103989d0_314c90ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T09:39:53Z",
+      "side": 1,
+      "message": "If batchRefUpdate is no longer set in initRepository() we can get an NPE here, should this addRefUpdate method be removed, since now you would use ChangeContext.getBatchRefUpdate().addCommand(...).\n\nMaybe add a addRefUpdate to ChangeContext?",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 18
+      },
+      "revId": "107d439712882108228f8c3d834441c5ecc3f743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_d152e447",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T09:39:53Z",
+      "side": 1,
+      "message": "Not sure I get what is the problem with this. Isn\u0027t mergeTip updated when u.execute() is executed below?",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 28
+      },
+      "revId": "107d439712882108228f8c3d834441c5ecc3f743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

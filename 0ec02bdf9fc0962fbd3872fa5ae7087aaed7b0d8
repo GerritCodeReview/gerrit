@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e558b543_68a583df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T18:45:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50194171_b30ad85a",
+      "revId": "0ec02bdf9fc0962fbd3872fa5ae7087aaed7b0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "103989d0_11518c45",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 4
@@ -35,6 +53,53 @@
         "startChar": 4,
         "endLine": 182,
         "endChar": 18
+      },
+      "revId": "0ec02bdf9fc0962fbd3872fa5ae7087aaed7b0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e558b543_48aabfb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T18:45:00Z",
+      "side": 1,
+      "message": "I think I was trying to avoid this method throwing IOException? But it doesn\u0027t actually affect any callers, so done.",
+      "parentUuid": "103989d0_11518c45",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 18
+      },
+      "revId": "0ec02bdf9fc0962fbd3872fa5ae7087aaed7b0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e558b543_28af8bc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T18:45:00Z",
+      "side": 1,
+      "message": "This could NPE, fixed.",
+      "range": {
+        "startLine": 223,
+        "startChar": 24,
+        "endLine": 223,
+        "endChar": 38
       },
       "revId": "0ec02bdf9fc0962fbd3872fa5ae7087aaed7b0d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

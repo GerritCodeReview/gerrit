@@ -45,6 +45,30 @@
       "revId": "107d439712882108228f8c3d834441c5ecc3f743",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_3125b0e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T10:34:05Z",
+      "side": 1,
+      "message": "OK, I got it after looking at the last change in this series.",
+      "parentUuid": "103989d0_d152e447",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 28
+      },
+      "revId": "107d439712882108228f8c3d834441c5ecc3f743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

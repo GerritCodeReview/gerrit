@@ -394,18 +394,14 @@ public class MergeOp {
     logDebug("Perform the merges");
     try {
       Multimap<Project.NameKey, Branch.NameKey> br = cs.branchesByProject();
-      Multimap<Branch.NameKey, Change.Id> cbb = cs.changesByBranch();
+      Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
       for (Project.NameKey project : br.keySet()) {
         openRepository(project);
         for (Branch.NameKey branch : br.get(project)) {
           setDestProject(branch);
 
-          List<ChangeData> cds = new ArrayList<>();
-          for (Change.Id id : cbb.get(branch)) {
-            cds.add(changeDataFactory.create(db, id));
-          }
           ListMultimap<SubmitType, ChangeData> submitting =
-              validateChangeList(cds);
+              validateChangeList(cbb.get(branch));
           toSubmit.put(branch, submitting);
 
           Set<SubmitType> submitTypes = new HashSet<>(submitting.keySet());
@@ -586,7 +582,7 @@ public class MergeOp {
   }
 
   private ListMultimap<SubmitType, ChangeData> validateChangeList(
-      List<ChangeData> submitted) throws MergeException {
+      Collection<ChangeData> submitted) throws MergeException {
     logDebug("Validating {} changes", submitted.size());
     ListMultimap<SubmitType, ChangeData> toSubmit = ArrayListMultimap.create();
 

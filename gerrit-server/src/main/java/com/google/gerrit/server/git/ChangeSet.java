@@ -91,12 +91,12 @@ public class ChangeSet {
     return ret;
   }
 
-  public Multimap<Branch.NameKey, Change.Id> changesByBranch()
+  public Multimap<Branch.NameKey, ChangeData> changesByBranch()
       throws OrmException {
-    ListMultimap<Branch.NameKey, Change.Id> ret =
+    ListMultimap<Branch.NameKey, ChangeData> ret =
         ArrayListMultimap.create();
     for (ChangeData cd : changeData) {
-      ret.put(cd.change().getDest(), cd.getId());
+      ret.put(cd.change().getDest(), cd);
     }
     return ret;
   }

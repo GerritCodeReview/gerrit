@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "853e19eb_5db4fb0e",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-07T20:51:17Z",
+      "side": 1,
+      "message": "I dunno --- I haven\u0027t audited the caller carefully enough. If you\u0027ve thought about it, I\u0027m happy.\n\nThe ideal would be that the end-user gets a lightbox or message on the terminal effectively saying \"We screwed up --- please try again\". That way they don\u0027t waste time trying to figure out where they went wrong generating the key.",
+      "parentUuid": "e558b543_a8f49bb4",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 45
+      },
+      "revId": "72917ff2e35f50fba3085b035fb396913a718b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2559ed73_3aa5c1e0",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
         "patchSetId": 5

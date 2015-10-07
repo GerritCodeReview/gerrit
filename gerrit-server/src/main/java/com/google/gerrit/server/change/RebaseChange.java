@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeUtil;
@@ -64,6 +65,7 @@ public class RebaseChange {
   private final TimeZone serverTimeZone;
   private final MergeUtil.Factory mergeUtilFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final BatchUpdate.Factory updateFactory;
 
   @Inject
   RebaseChange(ChangeControl.GenericFactory changeControlFactory,
@@ -71,13 +73,15 @@ public class RebaseChange {
       @GerritPersonIdent PersonIdent myIdent,
       GitRepositoryManager gitManager,
       MergeUtil.Factory mergeUtilFactory,
-      PatchSetInserter.Factory patchSetInserterFactory) {
+      PatchSetInserter.Factory patchSetInserterFactory,
+      BatchUpdate.Factory updateFactory) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
     this.mergeUtilFactory = mergeUtilFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
+    this.updateFactory = updateFactory;
   }
 
   /**
@@ -282,12 +286,15 @@ public class RebaseChange {
         .setSendMail(false)
         .setRunHooks(runHooks);
 
-    Change newChange = patchSetInserter
-        .setMessage("Patch Set " + patchSetInserter.getPatchSetId().get()
-          + ": Patch Set " + patchSetId.get() + " was rebased")
-        .insert();
+    try (BatchUpdate bu = updateFactory.create(
+        db.get(), change.getDest().getParentKey(), TimeUtil.nowTs())) {
+      bu.addOp(changeControl, patchSetInserter.setMessage(
+          "Patch Set " + patchSetInserter.getPatchSetId().get()
+          + ": Patch Set " + patchSetId.get() + " was rebased"));
+      bu.execute();
+    }
 
-    return db.get().patchSets().get(newChange.currentPatchSetId());
+    return db.get().patchSets().get(patchSetInserter.getPatchSetId());
   }
 
   /**

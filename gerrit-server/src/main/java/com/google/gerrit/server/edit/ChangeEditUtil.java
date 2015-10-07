@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Optional;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -30,11 +31,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -70,6 +71,7 @@ public class ChangeEditUtil {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
   private final ChangeKindCache changeKindCache;
+  private final BatchUpdate.Factory updateFactory;
 
   @Inject
   ChangeEditUtil(GitRepositoryManager gitManager,
@@ -79,7 +81,8 @@ public class ChangeEditUtil {
       ProjectCache projectCache,
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
-      ChangeKindCache changeKindCache) {
+      ChangeKindCache changeKindCache,
+      BatchUpdate.Factory updateFactory) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.changeControlFactory = changeControlFactory;
@@ -88,6 +91,7 @@ public class ChangeEditUtil {
     this.db = db;
     this.user = user;
     this.changeKindCache = changeKindCache;
+    this.updateFactory = updateFactory;
   }
 
   /**
@@ -161,16 +165,12 @@ public class ChangeEditUtil {
             "only edit for current patch set can be published");
       }
 
-      try {
-        Change updatedChange =
-            insertPatchSet(edit, change, repo, rw, basePatchSet,
-                squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
-        // TODO(davido): This should happen in the same BatchRefUpdate.
-        deleteRef(repo, edit);
-        indexer.index(db.get(), updatedChange);
-      } catch (InvalidChangeOperationException e) {
-        throw new ResourceConflictException(e.getMessage());
-      }
+      Change updatedChange =
+          insertPatchSet(edit, change, repo, rw, basePatchSet,
+              squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
+      // TODO(davido): This should happen in the same BatchRefUpdate.
+      deleteRef(repo, edit);
+      indexer.index(db.get(), updatedChange);
     }
   }
 
@@ -217,11 +217,10 @@ public class ChangeEditUtil {
   private Change insertPatchSet(ChangeEdit edit, Change change,
       Repository repo, RevWalk rw, PatchSet basePatchSet, RevCommit squashed)
       throws NoSuchChangeException, RestApiException, UpdateException,
-      InvalidChangeOperationException, IOException {
+      IOException {
+    ChangeControl ctl = changeControlFactory.controlFor(change, edit.getUser());
     PatchSetInserter inserter =
-        patchSetInserterFactory.create(repo, rw,
-            changeControlFactory.controlFor(change, edit.getUser()),
-            squashed);
+        patchSetInserterFactory.create(repo, rw, ctl, squashed);
 
     StringBuilder message = new StringBuilder("Patch set ")
       .append(inserter.getPatchSetId().get())
@@ -239,11 +238,16 @@ public class ChangeEditUtil {
         .append(".");
     }
 
-    return inserter
+    try (BatchUpdate bu = updateFactory.create(
+        db.get(), change.getDest().getParentKey(), TimeUtil.nowTs())) {
+      bu.addOp(ctl, inserter
         .setDraft(change.getStatus() == Status.DRAFT ||
             basePatchSet.isDraft())
-        .setMessage(message.toString())
-        .insert();
+        .setMessage(message.toString()));
+      bu.execute();
+    }
+
+    return inserter.getChange();
   }
 
   private static void deleteRef(Repository repo, ChangeEdit edit)

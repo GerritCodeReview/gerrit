@@ -17,11 +17,10 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -41,7 +40,6 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.GroupCollector;
-import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -69,7 +67,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Collections;
 
-public class PatchSetInserter {
+public class PatchSetInserter extends BatchUpdate.Op {
   private static final Logger log =
       LoggerFactory.getLogger(PatchSetInserter.class);
 
@@ -91,7 +89,6 @@ public class PatchSetInserter {
   private final ChangeHooks hooks;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -119,10 +116,15 @@ public class PatchSetInserter {
   private Account.Id uploader;
   private boolean allowClosed;
 
+  // Fields set during some phase of BatchUpdate.Op.
+  private Change change;
+  private PatchSet patchSet;
+  private ChangeMessage changeMessage;
+  private SetMultimap<ReviewerState, Account.Id> oldReviewers;
+
   @AssistedInject
   public PatchSetInserter(ChangeHooks hooks,
       ReviewDb db,
-      BatchUpdate.Factory batchUpdateFactory,
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
@@ -135,7 +137,6 @@ public class PatchSetInserter {
       @Assisted RevCommit commit) {
     this.hooks = hooks;
     this.db = db;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
@@ -210,121 +211,108 @@ public class PatchSetInserter {
     return this;
   }
 
-  public Change insert() throws InvalidChangeOperationException, IOException,
-       UpdateException, RestApiException {
-    init();
-    validate();
-
-    Op op = new Op();
-    try (BatchUpdate bu = batchUpdateFactory.create(
-          db, ctl.getChange().getProject(), TimeUtil.nowTs())) {
-      bu.addOp(ctl, op);
-      bu.execute();
-    }
-    return op.change;
+  public Change getChange() {
+    checkState(change != null, "getChange() only valid after executing update");
+    return change;
   }
 
-  private class Op extends BatchUpdate.Op {
-    private Change change;
-    private PatchSet patchSet;
-    private ChangeMessage changeMessage;
-    private SetMultimap<ReviewerState, Account.Id> oldReviewers;
+  @Override
+  public void updateRepo(RepoContext ctx)
+      throws InvalidChangeOperationException, IOException {
+    init();
+    validate();
+    ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
+        commit, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
+  }
 
-    @Override
-    public void updateRepo(RepoContext ctx) throws IOException {
-      ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
-          commit, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
+  @Override
+  public void updateChange(ChangeContext ctx) throws OrmException,
+      InvalidChangeOperationException {
+    change = ctx.readChange();
+    Change.Id id = change.getId();
+    final PatchSet.Id currentPatchSetId = change.currentPatchSetId();
+    if (!change.getStatus().isOpen() && !allowClosed) {
+      throw new InvalidChangeOperationException(String.format(
+          "Change %s is closed", change.getId()));
     }
 
-    @Override
-    public void updateChange(ChangeContext ctx) throws OrmException,
-        InvalidChangeOperationException {
-      change = ctx.readChange();
-      Change.Id id = change.getId();
-      final PatchSet.Id currentPatchSetId = change.currentPatchSetId();
-      if (!change.getStatus().isOpen() && !allowClosed) {
-        throw new InvalidChangeOperationException(String.format(
-            "Change %s is closed", change.getId()));
-      }
+    patchSet = new PatchSet(psId);
+    patchSet.setCreatedOn(ctx.getWhen());
+    patchSet.setUploader(firstNonNull(uploader, ctl.getChange().getOwner()));
+    patchSet.setRevision(new RevId(commit.name()));
+    patchSet.setDraft(draft);
 
-      patchSet = new PatchSet(psId);
-      patchSet.setCreatedOn(ctx.getWhen());
-      patchSet.setUploader(firstNonNull(uploader, ctl.getChange().getOwner()));
-      patchSet.setRevision(new RevId(commit.name()));
-      patchSet.setDraft(draft);
+    ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
+    if (groups != null) {
+      patchSet.setGroups(groups);
+    } else {
+      patchSet.setGroups(GroupCollector.getCurrentGroups(db, change));
+    }
+    db.patchSets().insert(Collections.singleton(patchSet));
 
-      ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
-      if (groups != null) {
-        patchSet.setGroups(groups);
-      } else {
-        patchSet.setGroups(GroupCollector.getCurrentGroups(db, change));
-      }
-      db.patchSets().insert(Collections.singleton(patchSet));
+    if (sendMail) {
+      oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());
+    }
 
-      if (sendMail) {
-        oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());
-      }
+    if (message != null) {
+      changeMessage = new ChangeMessage(
+          new ChangeMessage.Key(
+              ctl.getChange().getId(), ChangeUtil.messageUUID(db)),
+          user.getAccountId(), ctx.getWhen(), patchSet.getId());
+      changeMessage.setMessage(message);
+    }
 
-      if (message != null) {
-        changeMessage = new ChangeMessage(
-            new ChangeMessage.Key(
-                ctl.getChange().getId(), ChangeUtil.messageUUID(db)),
-            user.getAccountId(), ctx.getWhen(), patchSet.getId());
-        changeMessage.setMessage(message);
-      }
-
-      // TODO(dborowitz): Throw ResourceConflictException instead of using
-      // AtomicUpdate.
-      change = db.changes().atomicUpdate(id, new AtomicUpdate<Change>() {
-        @Override
-        public Change update(Change change) {
-          if (change.getStatus().isClosed() && !allowClosed) {
-            return null;
-          }
-          if (!change.currentPatchSetId().equals(currentPatchSetId)) {
-            return null;
-          }
-          if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
-            change.setStatus(Change.Status.NEW);
-          }
-          change.setCurrentPatchSet(patchSetInfoFactory.get(commit, psId));
-          ChangeUtil.updated(change);
-          return change;
+    // TODO(dborowitz): Throw ResourceConflictException instead of using
+    // AtomicUpdate.
+    change = db.changes().atomicUpdate(id, new AtomicUpdate<Change>() {
+      @Override
+      public Change update(Change change) {
+        if (change.getStatus().isClosed() && !allowClosed) {
+          return null;
         }
-      });
-      if (change == null) {
-        throw new ChangeModifiedException(String.format(
-            "Change %s was modified", id));
+        if (!change.currentPatchSetId().equals(currentPatchSetId)) {
+          return null;
+        }
+        if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
+          change.setStatus(Change.Status.NEW);
+        }
+        change.setCurrentPatchSet(patchSetInfoFactory.get(commit, psId));
+        ChangeUtil.updated(change);
+        return change;
       }
+    });
+    if (change == null) {
+      throw new ChangeModifiedException(String.format(
+          "Change %s was modified", id));
+    }
 
-      approvalCopier.copy(db, ctl, patchSet);
-      if (changeMessage != null) {
-        cmUtil.addChangeMessage(db, ctx.getChangeUpdate(), changeMessage);
+    approvalCopier.copy(db, ctl, patchSet);
+    if (changeMessage != null) {
+      cmUtil.addChangeMessage(db, ctx.getChangeUpdate(), changeMessage);
+    }
+  }
+
+  @Override
+  public void postUpdate(Context ctx) throws OrmException {
+    if (sendMail) {
+      try {
+        PatchSetInfo info = patchSetInfoFactory.get(commit, psId);
+        ReplacePatchSetSender cm = replacePatchSetFactory.create(
+            change.getId());
+        cm.setFrom(user.getAccountId());
+        cm.setPatchSet(patchSet, info);
+        cm.setChangeMessage(changeMessage);
+        cm.addReviewers(oldReviewers.get(ReviewerState.REVIEWER));
+        cm.addExtraCC(oldReviewers.get(ReviewerState.CC));
+        cm.send();
+      } catch (Exception err) {
+        log.error("Cannot send email for new patch set on change "
+            + change.getId(), err);
       }
     }
 
-    @Override
-    public void postUpdate(Context ctx) throws OrmException {
-      if (sendMail) {
-        try {
-          PatchSetInfo info = patchSetInfoFactory.get(commit, psId);
-          ReplacePatchSetSender cm = replacePatchSetFactory.create(
-              change.getId());
-          cm.setFrom(user.getAccountId());
-          cm.setPatchSet(patchSet, info);
-          cm.setChangeMessage(changeMessage);
-          cm.addReviewers(oldReviewers.get(ReviewerState.REVIEWER));
-          cm.addExtraCC(oldReviewers.get(ReviewerState.CC));
-          cm.send();
-        } catch (Exception err) {
-          log.error("Cannot send email for new patch set on change "
-              + change.getId(), err);
-        }
-      }
-
-      if (runHooks) {
-        hooks.doPatchsetCreatedHook(change, patchSet, ctx.getDb());
-      }
+    if (runHooks) {
+      hooks.doPatchsetCreatedHook(change, patchSet, ctx.getDb());
     }
   }
 

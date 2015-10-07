@@ -28,6 +28,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ProblemInfo.Status;
@@ -42,12 +43,12 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -111,6 +112,7 @@ public class ConsistencyChecker {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final BatchUpdate.Factory updateFactory;
 
   private FixInput fix;
   private Change change;
@@ -131,7 +133,8 @@ public class ConsistencyChecker {
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       ChangeControl.GenericFactory changeControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
-      PatchSetInserter.Factory patchSetInserterFactory) {
+      PatchSetInserter.Factory patchSetInserterFactory,
+      BatchUpdate.Factory updateFactory) {
     this.db = db;
     this.repoManager = repoManager;
     this.user = user;
@@ -139,6 +142,7 @@ public class ConsistencyChecker {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
+    this.updateFactory = updateFactory;
     reset();
   }
 
@@ -461,21 +465,24 @@ public class ConsistencyChecker {
       ChangeControl ctl = changeControlFactory.controlFor(change, user.get());
       PatchSetInserter inserter =
           patchSetInserterFactory.create(repo, rw, ctl, commit);
-      change = inserter.setValidatePolicy(ValidatePolicy.NONE)
-          .setRunHooks(false)
-          .setSendMail(false)
-          .setAllowClosed(true)
-          .setUploader(((IdentifiedUser) user.get()).getAccountId())
-          // TODO: fix setMessage to work without init()
-          .setMessage(
-              "Patch set for merged commit inserted by consistency checker")
-          .insert();
+      try (BatchUpdate bu = updateFactory.create(
+          db.get(), change.getDest().getParentKey(), TimeUtil.nowTs())) {
+        bu.addOp(ctl, inserter.setValidatePolicy(ValidatePolicy.NONE)
+            .setRunHooks(false)
+            .setSendMail(false)
+            .setAllowClosed(true)
+            .setUploader(((IdentifiedUser) user.get()).getAccountId())
+            // TODO: fix setMessage to work without init()
+            .setMessage(
+                "Patch set for merged commit inserted by consistency checker"));
+        bu.execute();
+      }
+      change = inserter.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
       p.status = Status.FIXED;
       p.outcome = "Inserted as patch set " + psId.get();
       return psId;
-    } catch (InvalidChangeOperationException | IOException
-        | NoSuchChangeException | UpdateException | RestApiException e) {
+    } catch (NoSuchChangeException | UpdateException | RestApiException e) {
       warn(e);
       p.status = Status.FIX_FAILED;
       p.outcome = "Error inserting new patch set";

@@ -31,6 +31,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -86,6 +87,7 @@ public class CherryPickChange {
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final ChangeUpdate.Factory updateFactory;
+  private final BatchUpdate.Factory batchUpdateFactory;
 
   @Inject
   CherryPickChange(Provider<ReviewDb> db,
@@ -98,7 +100,8 @@ public class CherryPickChange {
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeMessagesUtil changeMessagesUtil,
-      ChangeUpdate.Factory updateFactory) {
+      ChangeUpdate.Factory updateFactory,
+      BatchUpdate.Factory batchUpdateFactory) {
     this.db = db;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
@@ -110,6 +113,7 @@ public class CherryPickChange {
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeMessagesUtil = changeMessagesUtil;
     this.updateFactory = updateFactory;
+    this.batchUpdateFactory = batchUpdateFactory;
   }
 
   public Change.Id cherryPick(Change change, PatchSet patch,
@@ -210,23 +214,26 @@ public class CherryPickChange {
     }
   }
 
-  private Change.Id insertPatchSet(Repository git, RevWalk revWalk, Change change,
-      CodeReviewCommit cherryPickCommit, RefControl refControl,
+  private Change.Id insertPatchSet(Repository git, RevWalk revWalk,
+      Change change, CodeReviewCommit cherryPickCommit, RefControl refControl,
       IdentifiedUser identifiedUser)
-      throws InvalidChangeOperationException, IOException, OrmException,
-      UpdateException, RestApiException {
+      throws IOException, OrmException, UpdateException, RestApiException {
     final ChangeControl changeControl =
         refControl.getProjectControl().controlFor(change);
     final PatchSetInserter inserter = patchSetInserterFactory
         .create(git, revWalk, changeControl, cherryPickCommit);
     final PatchSet.Id newPatchSetId = inserter.getPatchSetId();
     PatchSet current = db.get().patchSets().get(change.currentPatchSetId());
-    inserter
-      .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
-      .setDraft(current.isDraft())
-      .setUploader(identifiedUser.getAccountId())
-      .setSendMail(false)
-      .insert();
+
+    try (BatchUpdate bu = batchUpdateFactory.create(
+        db.get(), change.getDest().getParentKey(), TimeUtil.nowTs())) {
+      bu.addOp(changeControl, inserter
+          .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
+          .setDraft(current.isDraft())
+          .setUploader(identifiedUser.getAccountId())
+          .setSendMail(false));
+      bu.execute();
+    }
     return change.getId();
   }
 

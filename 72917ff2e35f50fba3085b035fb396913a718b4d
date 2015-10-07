@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "853e19eb_3da5afe0",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-07T20:42:42Z",
+      "side": 1,
+      "message": "This means the user will get a message indicating that the check failed instead of a 500-like message, right?\n\nWould there be a way to propagate back the OrmException instead?",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 45
+      },
+      "revId": "72917ff2e35f50fba3085b035fb396913a718b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2559ed73_3aa5c1e0",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-07T20:42:42Z",
+      "side": 1,
+      "message": "(optional) could decrease nesting:\n\n  if (!isAllowed(...)) {\n    continue;\n  }",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 46
+      },
+      "revId": "72917ff2e35f50fba3085b035fb396913a718b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

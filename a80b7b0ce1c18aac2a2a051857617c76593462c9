@@ -22,6 +22,30 @@
       "revId": "a80b7b0ce1c18aac2a2a051857617c76593462c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65a1255e_3ccb1180",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T19:11:02Z",
+      "side": 0,
+      "message": "Yes, because we assume the BatchRefUpdate wants to specify something for the reflog, and there\u0027s no way to update the reflog for only some of the ref updates in the batch.\n\nI don\u0027t think it\u0027s a serious loss.",
+      "parentUuid": "103989d0_b15f604e",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 192,
+        "endChar": 25
+      },
+      "revId": "a80b7b0ce1c18aac2a2a051857617c76593462c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

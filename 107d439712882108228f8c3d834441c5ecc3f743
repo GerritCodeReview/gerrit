@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "65a1255e_7cd1992b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T19:11:02Z",
+      "side": 1,
+      "message": "Good idea, moved this to RepoContext.",
+      "parentUuid": "103989d0_314c90ab",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 18
+      },
+      "revId": "107d439712882108228f8c3d834441c5ecc3f743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "103989d0_d152e447",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 3

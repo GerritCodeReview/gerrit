@@ -155,15 +155,17 @@ limitations under the License.
   </ui:style>
 
   <g:HTMLPanel styleName='{style.box}'>
-    <table style='width: 100%'>
-      <tr>
-        <td><ui:msg>Diff Preferences</ui:msg></td>
-        <td style='text-align: right'>
-          <g:Anchor ui:field='close' href='javascript:;'><ui:msg>Close</ui:msg></g:Anchor>
-        </td>
-      </tr>
-    </table>
-    <hr/>
+    <div ui:field='header'>
+      <table style='width: 100%'>
+        <tr>
+          <td><ui:msg>Diff Preferences</ui:msg></td>
+          <td style='text-align: right'>
+            <g:Anchor ui:field='close' href='javascript:;'><ui:msg>Close</ui:msg></g:Anchor>
+          </td>
+        </tr>
+      </table>
+      <hr/>
+    </div>
     <table class='{style.table}'>
       <tr>
         <th><ui:msg>Theme</ui:msg></th>
@@ -208,7 +210,7 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
-        <th><ui:msg>Language</ui:msg></th>
+        <th><div ui:field='modeLabel'><ui:msg>Language</ui:msg></div></th>
         <td><g:ListBox ui:field='mode'/></td>
       </tr>
       <tr>
@@ -240,7 +242,7 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
-        <th><ui:msg>Left Side</ui:msg></th>
+        <th><div ui:field='leftSideLabel'><ui:msg>Left Side</ui:msg></div></th>
         <td><g:ToggleButton ui:field='leftSide'>
           <g:upFace><ui:msg>Hide</ui:msg></g:upFace>
           <g:downFace><ui:msg>Show</ui:msg></g:downFace>

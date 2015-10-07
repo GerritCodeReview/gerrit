@@ -75,6 +75,24 @@
       "revId": "798a935332bd448e1efeb2df574c866a0a6f5e08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103989d0_319a506b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-07T12:18:15Z",
+      "side": 1,
+      "message": "Yes. BTW, i see that we have another usage of the same var:\n\n  gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/PluginDaemonTest.java:\n  Path propertiesPath \u003d gen.resolve(\"tools\").resolve(\"buck.properties\");\n\nBut may be we should better separate the rule name from output name:\n\nSo instead saying:\n\n  genrule(\n    name \u003d \u0027buck.properties\u0027,\n  [...]\n\nwe could say:\n\n  genrule(\n    name \u003d \u0027buck\u0027,\n    cmd \u003d \u0027echo buck\u003d`which buck`\u003e$OUT;\u0027 +\n      (\"echo PATH\u003d\\\u0027\u0027%s\u0027\\\u0027 \u003e\u003e$OUT;\" % shquote(os_path())),\n    deps \u003d [],\n    out \u003d \u0027buck.properties\u0027,\n    visibility \u003d [\u0027PUBLIC\u0027],\n  )\n\nin which case this would be more cleaner:\n\n  new File(new File(gen, \"tools/buck\"), \"buck.properties\"))) {\n  [...]\n\nOf course the usage of //tools:buck.properties must be replaced with //tools:buck when we decide to do that.",
+      "parentUuid": "103989d0_b138800a",
+      "revId": "798a935332bd448e1efeb2df574c866a0a6f5e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

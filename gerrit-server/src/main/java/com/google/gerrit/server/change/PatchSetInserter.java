@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.ChangeHooks;
@@ -37,10 +37,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
+import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -103,7 +103,7 @@ public class PatchSetInserter {
   private final Repository git;
   private final RevWalk revWalk;
 
-  private PatchSet patchSet;
+  private PatchSet.Id psId;
   private String message;
   private SshInfo sshInfo;
   private ValidatePolicy validatePolicy = ValidatePolicy.GERRIT;
@@ -152,27 +152,12 @@ public class PatchSetInserter {
     return (IdentifiedUser) ctl.getCurrentUser();
   }
 
-  public PatchSetInserter setPatchSet(PatchSet patchSet) {
-    Change c = ctl.getChange();
-    PatchSet.Id psid = patchSet.getId();
-    checkArgument(psid.getParentKey().equals(c.getId()),
-        "patch set %s not for change %s", psid, c.getId());
-    checkArgument(psid.get() > c.currentPatchSetId().get(),
-        "new patch set ID %s is not greater than current patch set ID %s",
-        psid.get(), c.currentPatchSetId().get());
-    this.patchSet = patchSet;
-    return this;
-  }
-
   public PatchSet.Id getPatchSetId() throws IOException {
-    init();
-    return patchSet.getId();
-  }
-
-  public PatchSet getPatchSet() {
-    checkState(patchSet != null,
-        "getPatchSet() only valid after patch set is created");
-    return patchSet;
+    if (psId == null) {
+      psId =
+          ChangeUtil.nextPatchSetId(git, ctl.getChange().currentPatchSetId());
+    }
+    return psId;
   }
 
   public PatchSetInserter setMessage(String message) {
@@ -227,7 +212,7 @@ public class PatchSetInserter {
 
     Op op = new Op();
     try (BatchUpdate bu = batchUpdateFactory.create(
-          db, ctl.getChange().getProject(), patchSet.getCreatedOn())) {
+          db, ctl.getChange().getProject(), TimeUtil.nowTs())) {
       bu.addOp(ctl, op);
       bu.execute();
     }
@@ -236,13 +221,14 @@ public class PatchSetInserter {
 
   private class Op extends BatchUpdate.Op {
     private Change change;
+    private PatchSet patchSet;
     private ChangeMessage changeMessage;
     private SetMultimap<ReviewerState, Account.Id> oldReviewers;
 
     @Override
     public void updateRepo(RepoContext ctx) throws IOException {
       ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
-          commit, patchSet.getRefName(), ReceiveCommand.Type.CREATE));
+          commit, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
     }
 
     @Override
@@ -255,6 +241,12 @@ public class PatchSetInserter {
         throw new InvalidChangeOperationException(String.format(
             "Change %s is closed", change.getId()));
       }
+
+      patchSet = new PatchSet(psId);
+      patchSet.setCreatedOn(ctx.getWhen());
+      patchSet.setUploader(firstNonNull(uploader, ctl.getChange().getOwner()));
+      patchSet.setRevision(new RevId(commit.name()));
+      patchSet.setDraft(draft);
 
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
       if (groups != null) {
@@ -290,8 +282,7 @@ public class PatchSetInserter {
           if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
             change.setStatus(Change.Status.NEW);
           }
-          change.setCurrentPatchSet(patchSetInfoFactory.get(commit,
-              patchSet.getId()));
+          change.setCurrentPatchSet(patchSetInfoFactory.get(commit, psId));
           ChangeUtil.updated(change);
           return change;
         }
@@ -311,8 +302,7 @@ public class PatchSetInserter {
     public void postUpdate(Context ctx) throws OrmException {
       if (sendMail) {
         try {
-          PatchSetInfo info =
-              patchSetInfoFactory.get(commit, patchSet.getId());
+          PatchSetInfo info = patchSetInfoFactory.get(commit, psId);
           ReplacePatchSetSender cm = replacePatchSetFactory.create(
               change.getId());
           cm.setFrom(user.getAccountId());
@@ -333,20 +323,9 @@ public class PatchSetInserter {
     }
   }
 
-  private void init() throws IOException {
+  private void init() {
     if (sshInfo == null) {
       sshInfo = new NoSshInfo();
-    }
-    if (patchSet == null) {
-      patchSet = new PatchSet(
-          ChangeUtil.nextPatchSetId(git, ctl.getChange().currentPatchSetId()));
-      patchSet.setCreatedOn(TimeUtil.nowTs());
-      patchSet.setUploader(ctl.getChange().getOwner());
-      patchSet.setRevision(new RevId(commit.name()));
-    }
-    patchSet.setDraft(draft);
-    if (uploader != null) {
-      patchSet.setUploader(uploader);
     }
   }
 
@@ -354,7 +333,7 @@ public class PatchSetInserter {
     CommitValidators cv =
         commitValidatorsFactory.create(ctl.getRefControl(), sshInfo, git);
 
-    String refName = patchSet.getRefName();
+    String refName = getPatchSetId().toRefName();
     CommitReceivedEvent event = new CommitReceivedEvent(
         new ReceiveCommand(
             ObjectId.zeroId(),

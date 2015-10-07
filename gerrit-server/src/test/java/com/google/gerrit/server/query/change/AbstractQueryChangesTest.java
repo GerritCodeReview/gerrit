@@ -54,6 +54,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
@@ -113,6 +114,7 @@ public abstract class AbstractQueryChangesTest {
 
   @ConfigSuite.Parameter public Config config;
   @Inject protected AccountManager accountManager;
+  @Inject protected BatchUpdate.Factory updateFactory;
   @Inject protected ChangeInserter.Factory changeFactory;
   @Inject protected PatchSetInserter.Factory patchSetFactory;
   @Inject protected ChangeControl.GenericFactory changeControlFactory;
@@ -1326,12 +1328,19 @@ public abstract class AbstractQueryChangesTest {
             .add("file" + n, "contents " + n)
             .create());
     ChangeControl ctl = changeControlFactory.controlFor(c.getId(), user);
-    return patchSetFactory.create(
+
+    PatchSetInserter inserter = patchSetFactory.create(
           repo.getRepository(), repo.getRevWalk(), ctl, commit)
         .setSendMail(false)
         .setRunHooks(false)
-        .setValidatePolicy(ValidatePolicy.NONE)
-        .insert();
+        .setValidatePolicy(ValidatePolicy.NONE);
+    try (BatchUpdate bu = updateFactory.create(
+        db, c.getDest().getParentKey(), TimeUtil.nowTs())) {
+      bu.addOp(ctl, inserter);
+      bu.execute();
+    }
+
+    return inserter.getChange();
   }
 
   protected void assertBadQuery(Object query) throws Exception {

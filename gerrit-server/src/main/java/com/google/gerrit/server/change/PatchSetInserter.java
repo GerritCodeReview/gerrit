@@ -22,7 +22,6 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -38,11 +37,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
-import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -92,7 +90,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private final ChangeHooks hooks;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
-  private final BatchUpdate.Factory batchUpdateFactory;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -129,7 +126,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
   @AssistedInject
   public PatchSetInserter(ChangeHooks hooks,
       ReviewDb db,
-      BatchUpdate.Factory batchUpdateFactory,
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
@@ -142,7 +138,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
       @Assisted RevCommit commit) {
     this.hooks = hooks;
     this.db = db;
-    this.batchUpdateFactory = batchUpdateFactory;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
@@ -217,14 +212,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     return this;
   }
 
-  public Change insert() throws UpdateException, RestApiException {
-    // TODO(dborowitz): Kill once callers are migrated.
-    // Eventually, callers should always be responsible for executing.
-    try (BatchUpdate bu = batchUpdateFactory.create(
-          db, ctl.getChange().getProject(), TimeUtil.nowTs())) {
-      bu.addOp(ctl, this);
-      bu.execute();
-    }
+  public Change getChange() {
+    checkState(change != null, "getChange() only valid after executing update");
     return change;
   }
 

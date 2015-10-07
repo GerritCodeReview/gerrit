@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "103989d0_7190d84c",
+        "filename": "gerrit-war/src/main/resources/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T12:03:44Z",
+      "side": 1,
+      "message": "Hmm, I see that the output from the reindexing program now contains the thread name, but entries in my error_log are still without thread name. Am I expecting something wrong?",
+      "revId": "14df3d3bef44808758883b3b65eed3ea250ddd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

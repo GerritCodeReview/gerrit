@@ -81,7 +81,7 @@ public class ErrorLogFile {
 
     if (text) {
       root.addAppender(SystemLog.createAppender(logdir, LOG_NAME,
-          new PatternLayout("[%d] %-5p %c %x: %m%n")));
+          new PatternLayout("[%d] [%t] %-5p %c %x: %m%n")));
     }
 
     if (json) {

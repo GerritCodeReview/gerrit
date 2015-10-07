@@ -22,6 +22,30 @@
       "revId": "b777877a752afb3e4742827ea369c96d60e336e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65a1255e_7caaf9b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-07T18:44:45Z",
+      "side": 1,
+      "message": "Done.\n\n(It\u0027s actually not till several commits later that I added a getWhen method to BatchUpdate, and I don\u0027t really want to deal with the rebase, but it\u0027s easy enough to extract a local here.)",
+      "parentUuid": "50194171_5347048b",
+      "range": {
+        "startLine": 119,
+        "startChar": 14,
+        "endLine": 119,
+        "endChar": 54
+      },
+      "revId": "b777877a752afb3e4742827ea369c96d60e336e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

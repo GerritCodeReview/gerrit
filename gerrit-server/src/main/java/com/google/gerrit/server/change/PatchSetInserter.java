@@ -50,7 +50,6 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ChangeModifiedException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -94,7 +93,6 @@ public class PatchSetInserter {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
   private final BatchUpdate.Factory batchUpdateFactory;
-  private final ChangeControl.GenericFactory ctlFactory;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -109,7 +107,7 @@ public class PatchSetInserter {
   private Repository git;
   private RevWalk revWalk;
   private PatchSet patchSet;
-  private ChangeMessage changeMessage;
+  private String message;
   private SshInfo sshInfo;
   private ValidatePolicy validatePolicy = ValidatePolicy.GERRIT;
   private boolean draft;
@@ -122,7 +120,6 @@ public class PatchSetInserter {
   @AssistedInject
   public PatchSetInserter(ChangeHooks hooks,
       ReviewDb db,
-      ChangeControl.GenericFactory ctlFactory,
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
@@ -135,7 +132,6 @@ public class PatchSetInserter {
     this.hooks = hooks;
     this.db = db;
     this.batchUpdateFactory = null;
-    this.ctlFactory = ctlFactory;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
@@ -153,7 +149,6 @@ public class PatchSetInserter {
   public PatchSetInserter(ChangeHooks hooks,
       ReviewDb db,
       BatchUpdate.Factory batchUpdateFactory,
-      ChangeControl.GenericFactory ctlFactory,
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
@@ -167,7 +162,6 @@ public class PatchSetInserter {
     this.hooks = hooks;
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
-    this.ctlFactory = ctlFactory;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
@@ -213,19 +207,8 @@ public class PatchSetInserter {
     return patchSet;
   }
 
-  public PatchSetInserter setMessage(String message)
-      throws OrmException, IOException {
-    init();
-    changeMessage = new ChangeMessage(
-        new ChangeMessage.Key(
-            ctl.getChange().getId(), ChangeUtil.messageUUID(db)),
-        user.getAccountId(), TimeUtil.nowTs(), patchSet.getId());
-    changeMessage.setMessage(message);
-    return this;
-  }
-
-  public PatchSetInserter setMessage(ChangeMessage changeMessage) {
-    this.changeMessage = changeMessage;
+  public PatchSetInserter setMessage(String message) {
+    this.message = message;
     return this;
   }
 
@@ -269,8 +252,8 @@ public class PatchSetInserter {
     return this;
   }
 
-  public Change insert() throws InvalidChangeOperationException, OrmException,
-      IOException, NoSuchChangeException, UpdateException, RestApiException {
+  public Change insert() throws InvalidChangeOperationException, IOException,
+       UpdateException, RestApiException {
     init();
     validate();
 
@@ -287,9 +270,6 @@ public class PatchSetInserter {
     Op op = new Op();
     try {
       bu.addOp(ctl, op);
-      if (!messageIsForChange()) {
-        commitMessageNotForChange(bu);
-      }
       if (executeBatch) {
         bu.execute();
       }
@@ -303,6 +283,7 @@ public class PatchSetInserter {
 
   private class Op extends BatchUpdate.Op {
     private Change change;
+    private ChangeMessage changeMessage;
     private SetMultimap<ReviewerState, Account.Id> oldReviewers;
 
     @Override
@@ -334,6 +315,14 @@ public class PatchSetInserter {
         oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());
       }
 
+      if (message != null) {
+        changeMessage = new ChangeMessage(
+            new ChangeMessage.Key(
+                ctl.getChange().getId(), ChangeUtil.messageUUID(db)),
+            user.getAccountId(), ctx.getWhen(), patchSet.getId());
+        changeMessage.setMessage(message);
+      }
+
       // TODO(dborowitz): Throw ResourceConflictException instead of using
       // AtomicUpdate.
       change = db.changes().atomicUpdate(id, new AtomicUpdate<Change>() {
@@ -360,7 +349,7 @@ public class PatchSetInserter {
       }
 
       approvalCopier.copy(db, ctl, patchSet);
-      if (messageIsForChange()) {
+      if (changeMessage != null) {
         cmUtil.addChangeMessage(db, ctx.getChangeUpdate(), changeMessage);
       }
     }
@@ -389,21 +378,6 @@ public class PatchSetInserter {
         hooks.doPatchsetCreatedHook(change, patchSet, ctx.getDb());
       }
     }
-  }
-
-  private void commitMessageNotForChange(BatchUpdate bu)
-      throws NoSuchChangeException, OrmException {
-    if (changeMessage == null) {
-      return;
-    }
-    bu.addOp(ctlFactory.controlFor(
-        changeMessage.getPatchSetId().getParentKey(), user), new Op() {
-      @Override
-      public void updateChange(ChangeContext ctx) throws OrmException {
-        cmUtil.addChangeMessage(
-            ctx.getDb(), ctx.getChangeUpdate(), changeMessage);
-      }
-    });
   }
 
   private void init() throws IOException {
@@ -455,10 +429,5 @@ public class PatchSetInserter {
     } catch (CommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());
     }
-  }
-
-  private boolean messageIsForChange() {
-    return changeMessage != null && changeMessage.getKey().getParentKey()
-        .equals(patchSet.getId().getParentKey());
   }
 }

@@ -21,11 +21,9 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
@@ -284,17 +282,9 @@ public class RebaseChange {
         .setSendMail(false)
         .setRunHooks(runHooks);
 
-    PatchSet.Id newPatchSetId = patchSetInserter.getPatchSetId();
-    ChangeMessage cmsg = new ChangeMessage(
-        new ChangeMessage.Key(change.getId(),
-            ChangeUtil.messageUUID(db.get())), uploader.getAccountId(),
-            TimeUtil.nowTs(), patchSetId);
-
-    cmsg.setMessage("Patch Set " + newPatchSetId.get()
-        + ": Patch Set " + patchSetId.get() + " was rebased");
-
     Change newChange = patchSetInserter
-        .setMessage(cmsg)
+        .setMessage("Patch Set " + patchSetInserter.getPatchSetId().get()
+          + ": Patch Set " + patchSetId.get() + " was rebased")
         .insert();
 
     return db.get().patchSets().get(newChange.currentPatchSetId());

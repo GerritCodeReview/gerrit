@@ -214,7 +214,7 @@ public class CherryPickChange {
       CodeReviewCommit cherryPickCommit, RefControl refControl,
       IdentifiedUser identifiedUser)
       throws InvalidChangeOperationException, IOException, OrmException,
-      NoSuchChangeException, UpdateException, RestApiException {
+      UpdateException, RestApiException {
     final ChangeControl changeControl =
         refControl.getProjectControl().controlFor(change);
     final PatchSetInserter inserter = patchSetInserterFactory

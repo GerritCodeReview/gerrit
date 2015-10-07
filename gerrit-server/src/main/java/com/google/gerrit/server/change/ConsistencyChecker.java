@@ -473,7 +473,7 @@ public class ConsistencyChecker {
       p.status = Status.FIXED;
       p.outcome = "Inserted as patch set " + change.currentPatchSetId().get();
       return inserter.getPatchSet();
-    } catch (InvalidChangeOperationException | OrmException | IOException
+    } catch (InvalidChangeOperationException | IOException
         | NoSuchChangeException | UpdateException | RestApiException e) {
       warn(e);
       p.status = Status.FIX_FAILED;

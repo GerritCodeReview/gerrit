@@ -215,7 +215,7 @@ public class ChangeEditUtil {
   private Change insertPatchSet(ChangeEdit edit, Change change,
       Repository repo, RevWalk rw, PatchSet basePatchSet, RevCommit squashed)
       throws NoSuchChangeException, RestApiException, UpdateException,
-      InvalidChangeOperationException, OrmException, IOException {
+      InvalidChangeOperationException, IOException {
     PatchSet ps = new PatchSet(
         ChangeUtil.nextPatchSetId(change.currentPatchSetId()));
     ps.setRevision(new RevId(ObjectId.toString(squashed)));

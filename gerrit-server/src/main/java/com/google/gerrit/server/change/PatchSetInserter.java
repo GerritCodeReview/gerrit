@@ -76,8 +76,6 @@ public class PatchSetInserter {
   public static interface Factory {
     PatchSetInserter create(Repository git, RevWalk revWalk, ChangeControl ctl,
         RevCommit commit);
-    PatchSetInfo create(BatchUpdate batchUpdate, ChangeControl ctl,
-        RevCommit commit);
   }
 
   /**
@@ -102,10 +100,9 @@ public class PatchSetInserter {
   private final RevCommit commit;
   private final ChangeControl ctl;
   private final IdentifiedUser user;
-  private final BatchUpdate batchUpdate;
+  private final Repository git;
+  private final RevWalk revWalk;
 
-  private Repository git;
-  private RevWalk revWalk;
   private PatchSet patchSet;
   private String message;
   private SshInfo sshInfo;
@@ -116,34 +113,6 @@ public class PatchSetInserter {
   private boolean sendMail = true;
   private Account.Id uploader;
   private boolean allowClosed;
-
-  @AssistedInject
-  public PatchSetInserter(ChangeHooks hooks,
-      ReviewDb db,
-      ApprovalsUtil approvalsUtil,
-      ApprovalCopier approvalCopier,
-      ChangeMessagesUtil cmUtil,
-      PatchSetInfoFactory patchSetInfoFactory,
-      CommitValidators.Factory commitValidatorsFactory,
-      ReplacePatchSetSender.Factory replacePatchSetFactory,
-      @Assisted BatchUpdate batchUpdate,
-      @Assisted ChangeControl ctl,
-      @Assisted RevCommit commit) {
-    this.hooks = hooks;
-    this.db = db;
-    this.batchUpdateFactory = null;
-    this.approvalsUtil = approvalsUtil;
-    this.approvalCopier = approvalCopier;
-    this.cmUtil = cmUtil;
-    this.patchSetInfoFactory = patchSetInfoFactory;
-    this.commitValidatorsFactory = commitValidatorsFactory;
-    this.replacePatchSetFactory = replacePatchSetFactory;
-
-    this.batchUpdate = batchUpdate;
-    this.commit = commit;
-    this.ctl = ctl;
-    this.user = checkUser(ctl);
-  }
 
   @AssistedInject
   public PatchSetInserter(ChangeHooks hooks,
@@ -169,7 +138,6 @@ public class PatchSetInserter {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
 
-    this.batchUpdate = null;
     this.git = git;
     this.revWalk = revWalk;
     this.commit = commit;
@@ -259,24 +227,11 @@ public class PatchSetInserter {
 
     // TODO(dborowitz): Kill once callers are migrated.
     // Eventually, callers should always be responsible for executing.
-    boolean executeBatch = false;
-    BatchUpdate bu = batchUpdate;
-    if (batchUpdate == null) {
-      bu = batchUpdateFactory.create(
-          db, ctl.getChange().getProject(), patchSet.getCreatedOn());
-      executeBatch = true;
-    }
-
     Op op = new Op();
-    try {
+    try (BatchUpdate bu = batchUpdateFactory.create(
+          db, ctl.getChange().getProject(), patchSet.getCreatedOn())) {
       bu.addOp(ctl, op);
-      if (executeBatch) {
-        bu.execute();
-      }
-    } finally {
-      if (executeBatch) {
-        bu.close();
-      }
+      bu.execute();
     }
     return op.change;
   }
@@ -381,10 +336,6 @@ public class PatchSetInserter {
   }
 
   private void init() throws IOException {
-    if (git == null) {
-      git = batchUpdate.getRepository();
-      revWalk = batchUpdate.getRevWalk();
-    }
     if (sshInfo == null) {
       sshInfo = new NoSshInfo();
     }

@@ -16,6 +16,24 @@
       "revId": "6a146c95f4b5ae3b65259d526e37425d8b7417d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70a1e55d_bcee41e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-07T13:02:21Z",
+      "side": 1,
+      "message": "I haven\u0027t fully tested it yet.  I\u0027ll try it tomorrow when I\u0027m in the office.",
+      "parentUuid": "103989d0_d180a4f7",
+      "revId": "6a146c95f4b5ae3b65259d526e37425d8b7417d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

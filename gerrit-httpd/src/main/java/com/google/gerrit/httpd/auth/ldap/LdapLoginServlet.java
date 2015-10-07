@@ -40,6 +40,8 @@ import org.w3c.dom.Element;
 
 import java.io.IOException;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -109,6 +111,7 @@ class LdapLoginServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
+    req.setCharacterEncoding(UTF_8.name());
     String username = Strings.nullToEmpty(req.getParameter("username")).trim();
     String password = Strings.nullToEmpty(req.getParameter("password"));
     String remember = Strings.nullToEmpty(req.getParameter("rememberme"));

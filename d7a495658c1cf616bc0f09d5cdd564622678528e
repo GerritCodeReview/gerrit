@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2559ed73_1aaa7db0",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PushCertificateChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-07T21:26:45Z",
+      "side": 1,
+      "message": "This overrides status when it was BAD due to one of the results (unlike what the comment says).",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 52
+      },
+      "revId": "d7a495658c1cf616bc0f09d5cdd564622678528e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "103989d0_d180a4f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-07T12:52:48Z",
+      "side": 1,
+      "message": "Does this work for you? I\u0027m still not seeing this log message when I\u0027m starting Gerrit with Jetty from gerrit.sh. Maybe it\u0027s too early and we can\u0027t log yet?",
+      "revId": "6a146c95f4b5ae3b65259d526e37425d8b7417d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

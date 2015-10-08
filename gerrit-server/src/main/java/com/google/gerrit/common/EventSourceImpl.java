@@ -187,7 +187,7 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
     if (event instanceof RefEvent) {
       RefEvent rev = (RefEvent) event;
       String ref = rev.getRefName();
-      if (PatchSet.isRef(ref)) {
+      if (PatchSet.isChangeRef(ref)) {
         Change.Id cid;
         if (event instanceof ChangeEvent) {
           cid = ((ChangeEvent) event).getChangeId();

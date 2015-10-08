@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45c9819b_f340d075",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T10:24:50Z",
+      "side": 1,
+      "message": "EventSourceImpl?",
+      "range": {
+        "startLine": 69,
+        "startChar": 19,
+        "endLine": 69,
+        "endChar": 40
+      },
+      "revId": "6cf844823dadd2acfad4e74bd5211c0e43180ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c9819b_13090c6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T10:24:50Z",
+      "side": 1,
+      "message": "nit: do not use final for parameters if not required",
+      "range": {
+        "startLine": 74,
+        "startChar": 25,
+        "endLine": 75,
+        "endChar": 11
+      },
+      "revId": "6cf844823dadd2acfad4e74bd5211c0e43180ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

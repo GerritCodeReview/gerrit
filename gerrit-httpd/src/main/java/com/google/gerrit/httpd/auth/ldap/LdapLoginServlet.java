@@ -92,7 +92,7 @@ class LdapLoginServlet extends HttpServlet {
     byte[] bin = HtmlDomUtil.toUTF8(doc);
     res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     res.setContentType("text/html");
-    res.setCharacterEncoding("UTF-8");
+    res.setCharacterEncoding(UTF_8.name());
     res.setContentLength(bin.length);
     try (ServletOutputStream out = res.getOutputStream()) {
       out.write(bin);

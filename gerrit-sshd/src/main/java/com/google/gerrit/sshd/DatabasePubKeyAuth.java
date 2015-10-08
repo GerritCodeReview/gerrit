@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Preconditions;
@@ -193,7 +194,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
           }
 
           try {
-            byte[] bin = Base64.decodeBase64(line.getBytes("ISO-8859-1"));
+            byte[] bin = Base64.decodeBase64(line.getBytes(ISO_8859_1.name()));
             keys.add(new Buffer(bin).getRawPublicKey());
           } catch (RuntimeException | SshException e) {
             logBadKey(path, line, e);

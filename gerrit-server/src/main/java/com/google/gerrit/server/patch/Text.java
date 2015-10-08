@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -37,7 +39,6 @@ import java.text.SimpleDateFormat;
 
 public class Text extends RawText {
   private static final Logger log = LoggerFactory.getLogger(Text.class);
-  private static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
   private static final int bigFileThreshold = PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
 
   public static final byte[] NO_BYTES = {};

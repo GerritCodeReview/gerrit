@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
@@ -235,7 +237,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       display(buf);
       return BinaryResult.create(buf.toByteArray())
           .setContentType("text/plain")
-          .setCharacterEncoding("UTF-8");
+          .setCharacterEncoding(UTF_8.name());
     }
     return apply();
   }
@@ -251,7 +253,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     if (displayOutputStream != null) {
       try {
         stdout = new PrintWriter(new BufferedWriter(
-            new OutputStreamWriter(displayOutputStream, "UTF-8")));
+            new OutputStreamWriter(displayOutputStream, UTF_8.name())));
       } catch (UnsupportedEncodingException e) {
         throw new RuntimeException("JVM lacks UTF-8 encoding", e);
       }

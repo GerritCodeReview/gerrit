@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5979d01_7e467191",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T12:02:07Z",
+      "side": 1,
+      "message": "\u003e Can you point me to any complaints, feature requests or \n \u003e issues to allow to change diff preferences outside of the \n \u003e context of side by side and unified screens?\n\nWe have an internal feature request from one of our users for this. He saw on a colleagues screen that the diff looked different and asked this colleague how to get it and then he was told to change an option in the diff preferences. So he went to his users settings and couldn\u0027t find any diff preferences. I think it\u0027s reasonable to expect to find the diff preferences right next to the other preferences.\n\n \u003e just create a side-by-side screen below of this window, \n \u003e render there some old/new and apply the change on that \n \u003e mini diff screen, embedded in my diff settings screen. Do \n \u003e we really want do that?\n\nI think it\u0027s a cool idea, but I\u0027m likely not having time to implement it.\n\n \u003e Consequently, you may argue, that Inline Editor \n \u003e preferences, that were separated recently from diff \n \u003e preferences also not exposed in my settings screen, and \n \u003e should be added on its own screen in My Inline Editor \n \u003e preferences.\n\nYes, but it shouldn\u0027t be much work to show the same control twice in different places?\n\n \u003e Consequently, if you really insist on doing that, then \n \u003e why should we preserve the activation of diff- and \n \u003e inline edit-preferences in two different contexts, view-\n \u003e context and no-view-context?\n\nBecause it is convenient to directly access these preferences when you are looking at a diff and you may want to switch something temporarily.",
+      "parentUuid": "45c9819b_7355e02c",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 62
+      },
+      "revId": "e558582fc8c68aa29d15249910a216dbd8cbcabd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5979d01_9e0b3d63",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-10-08T11:48:04Z",
       "side": 1,
       "message": "For me this is another reason not do that.",
+      "revId": "e558582fc8c68aa29d15249910a216dbd8cbcabd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5979d01_1e4bad98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T12:02:07Z",
+      "side": 1,
+      "message": "For me it would be rather a reason to make those real diff preferences which are stored on server-side.",
+      "parentUuid": "a5979d01_9e0b3d63",
       "revId": "e558582fc8c68aa29d15249910a216dbd8cbcabd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

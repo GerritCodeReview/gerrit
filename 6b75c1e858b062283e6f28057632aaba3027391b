@@ -22,6 +22,30 @@
       "revId": "6b75c1e858b062283e6f28057632aaba3027391b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e558b543_c80eaf74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-08T12:45:05Z",
+      "side": 1,
+      "message": "NoSuchChangeException doesn\u0027t fit so I would have to bin-pack these differently, and it\u0027s not like it\u0027s going to fit on one line.",
+      "parentUuid": "853e19eb_bd11bf93",
+      "range": {
+        "startLine": 476,
+        "startChar": 13,
+        "endLine": 477,
+        "endChar": 68
+      },
+      "revId": "6b75c1e858b062283e6f28057632aaba3027391b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

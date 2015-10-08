@@ -63,6 +63,7 @@ public class FileInfoJson {
       d.status = e.getChangeType() != Patch.ChangeType.MODIFIED
           ? e.getChangeType().getCode() : null;
       d.oldPath = e.getOldName();
+      d.sizeDelta = e.getSizeDelta();
       if (e.getPatchType() == Patch.PatchType.BINARY) {
         d.binary = true;
       } else {
@@ -76,6 +77,7 @@ public class FileInfoJson {
         // when the file was rewritten and too little content survived. Write
         // a single record with data from both sides.
         d.status = Patch.ChangeType.REWRITE.getCode();
+        d.sizeDelta = o.sizeDelta;
         if (o.binary != null && o.binary) {
           d.binary = true;
         }

@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.api.InitUtil.die;
 import static com.google.gerrit.pgm.init.api.InitUtil.savePublic;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
@@ -172,8 +173,8 @@ class UpgradeFrom2_0_x implements InitStep {
           return false;
         }
 
-        String n = URLDecoder.decode(pair.substring(0, eq), "UTF-8");
-        String v = URLDecoder.decode(pair.substring(eq + 1), "UTF-8");
+        String n = URLDecoder.decode(pair.substring(0, eq), UTF_8.name());
+        String v = URLDecoder.decode(pair.substring(eq + 1), UTF_8.name());
 
         if ("user".equals(n) || "username".equals(n)) {
           username = v;

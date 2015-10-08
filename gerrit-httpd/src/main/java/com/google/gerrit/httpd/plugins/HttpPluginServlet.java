@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.plugins;
 import static com.google.gerrit.common.FileUtil.lastModified;
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CHARACTER_ENCODING;
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CONTENT_TYPE;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Optional;
@@ -468,13 +469,13 @@ class HttpPluginServlet extends HttpServlet
     m.appendTail(sb);
 
     byte[] html = new MarkdownFormatter()
-      .markdownToDocHtml(sb.toString(), "UTF-8");
+      .markdownToDocHtml(sb.toString(), UTF_8.name());
     resourceCache.put(cacheKey, new SmallResource(html)
         .setContentType("text/html")
-        .setCharacterEncoding("UTF-8")
+        .setCharacterEncoding(UTF_8.name())
         .setLastModified(lastModifiedTime));
     res.setContentType("text/html");
-    res.setCharacterEncoding("UTF-8");
+    res.setCharacterEncoding(UTF_8.name());
     res.setContentLength(html.length);
     res.setDateHeader("Last-Modified", lastModifiedTime);
     res.getOutputStream().write(html);
@@ -526,7 +527,7 @@ class HttpPluginServlet extends HttpServlet
       charEnc = Strings.emptyToNull(atts.get(ATTR_CHARACTER_ENCODING));
     }
     if (charEnc == null) {
-      charEnc = "UTF-8";
+      charEnc = UTF_8.name();
     }
     return new MarkdownFormatter().extractTitleFromMarkdown(
           readWholeEntry(scanner, entry),
@@ -553,7 +554,7 @@ class HttpPluginServlet extends HttpServlet
     }
 
     String txtmd = RawParseUtils.decode(
-        Charset.forName(encoding != null ? encoding : "UTF-8"),
+        Charset.forName(encoding != null ? encoding : UTF_8.name()),
         rawmd);
     long time = entry.getTime();
     if (0 < time) {

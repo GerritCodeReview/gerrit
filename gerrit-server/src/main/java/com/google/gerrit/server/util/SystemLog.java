@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -60,7 +62,7 @@ public class SystemLog {
     final DailyRollingFileAppender dst = new DailyRollingFileAppender();
     dst.setName(name);
     dst.setLayout(layout);
-    dst.setEncoding("UTF-8");
+    dst.setEncoding(UTF_8.name());
     dst.setFile(resolve(logdir).resolve(name).toString());
     dst.setImmediateFlush(true);
     dst.setAppend(true);

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.auth.container;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_EXTERNAL;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -102,7 +103,7 @@ class HttpLoginServlet extends HttpServlet {
       final byte[] bin = HtmlDomUtil.toUTF8(doc);
       rsp.setStatus(HttpServletResponse.SC_FORBIDDEN);
       rsp.setContentType("text/html");
-      rsp.setCharacterEncoding("UTF-8");
+      rsp.setCharacterEncoding(UTF_8.name());
       rsp.setContentLength(bin.length);
       try (ServletOutputStream out = rsp.getOutputStream()) {
         out.write(bin);

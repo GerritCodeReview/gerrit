@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -32,7 +34,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -65,11 +66,10 @@ public class QueryShell {
 
   @Inject
   QueryShell(final SchemaFactory<ReviewDb> dbFactory,
-      @Assisted final InputStream in, @Assisted final OutputStream out)
-          throws UnsupportedEncodingException {
+      @Assisted final InputStream in, @Assisted final OutputStream out) {
     this.dbFactory = dbFactory;
-    this.in = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-    this.out = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
+    this.in = new BufferedReader(new InputStreamReader(in, UTF_8));
+    this.out = new PrintWriter(new OutputStreamWriter(out, UTF_8));
   }
 
   public void setOutputFormat(OutputFormat fmt) {

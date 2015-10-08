@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_REJECT_COMMITS;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -41,7 +42,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -137,12 +137,12 @@ public class BanCommit {
   }
 
   private ObjectId createNoteContent(String reason, ObjectInserter inserter)
-      throws UnsupportedEncodingException, IOException {
+      throws IOException {
     String noteContent = reason != null ? reason : "";
     if (noteContent.length() > 0 && !noteContent.endsWith("\n")) {
       noteContent = noteContent + "\n";
     }
-    return inserter.insert(Constants.OBJ_BLOB, noteContent.getBytes("UTF-8"));
+    return inserter.insert(Constants.OBJ_BLOB, noteContent.getBytes(UTF_8));
   }
 
   private PersonIdent createPersonIdent() {

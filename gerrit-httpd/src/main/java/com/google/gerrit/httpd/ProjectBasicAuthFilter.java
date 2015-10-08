@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.MoreObjects;
@@ -188,7 +189,7 @@ class ProjectBasicAuthFilter implements Filter {
   }
 
   private String encoding(HttpServletRequest req) {
-    return MoreObjects.firstNonNull(req.getCharacterEncoding(), "UTF-8");
+    return MoreObjects.firstNonNull(req.getCharacterEncoding(), UTF_8.name());
   }
 
   static class Response extends HttpServletResponseWrapper {

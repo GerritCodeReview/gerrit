@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -73,7 +75,7 @@ class ScriptRunner {
   }
 
   private List<String> parse(final InputStream in) throws IOException {
-    try (BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"))) {
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(in, UTF_8))) {
       String delimiter = ";";
       List<String> commands = new ArrayList<>();
       StringBuilder buffer = new StringBuilder();

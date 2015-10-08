@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -164,7 +166,7 @@ public class OutputStreamQuery {
   public void query(String queryString) throws IOException {
     out = new PrintWriter( //
         new BufferedWriter( //
-            new OutputStreamWriter(outputStream, "UTF-8")));
+            new OutputStreamWriter(outputStream, UTF_8)));
     try {
       if (queryProcessor.isDisabled()) {
         ErrorMessage m = new ErrorMessage();

@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Function;
@@ -297,7 +298,7 @@ public class PatchListLoader implements Callable<PatchList> {
         aCommit != null ? Text.forCommit(reader, aCommit) : Text.EMPTY;
     Text bText = Text.forCommit(reader, bCommit);
 
-    byte[] rawHdr = hdr.toString().getBytes("UTF-8");
+    byte[] rawHdr = hdr.toString().getBytes(UTF_8);
     byte[] aContent = aText.getContent();
     byte[] bContent = bText.getContent();
     long sizeDelta = bContent.length - aContent.length;
@@ -431,7 +432,7 @@ public class PatchListLoader implements Callable<PatchList> {
           MergeResult<? extends Sequence> p = entry.getValue();
           try (TemporaryBuffer buf =
               new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024)) {
-            fmt.formatMerge(buf, p, "BASE", oursName, theirsName, "UTF-8");
+            fmt.formatMerge(buf, p, "BASE", oursName, theirsName, UTF_8.name());
             buf.close();
 
             try (InputStream in = buf.openInputStream()) {

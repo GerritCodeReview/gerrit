@@ -14,6 +14,8 @@
 
 package org.apache.commons.net.smtp;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 
 import org.apache.commons.codec.binary.Base64;
@@ -35,8 +37,6 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLSocketFactory;
 
 public class AuthSMTPClient extends SMTPClient {
-  private static final String UTF_8 = "UTF-8";
-
   private String authTypes;
 
   public AuthSMTPClient(final String charset) {
@@ -65,11 +65,9 @@ public class AuthSMTPClient extends SMTPClient {
     _input_ = _socket_.getInputStream();
     _output_ = _socket_.getOutputStream();
     _reader =
-        new BufferedReader(new InputStreamReader(_input_,
-                      UTF_8));
+        new BufferedReader(new InputStreamReader(_input_, UTF_8));
     _writer =
-        new BufferedWriter(new OutputStreamWriter(_output_,
-                      UTF_8));
+        new BufferedWriter(new OutputStreamWriter(_output_, UTF_8));
     return true;
   }
 
@@ -190,7 +188,7 @@ public class AuthSMTPClient extends SMTPClient {
     return SMTPReply.isPositiveCompletion(sendCommand("AUTH", cmd));
   }
 
-  private static String encodeBase64(final byte[] data) throws UnsupportedEncodingException {
+  private static String encodeBase64(final byte[] data) {
     return new String(Base64.encodeBase64(data), UTF_8);
   }
 }

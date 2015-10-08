@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm.init;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -120,7 +122,7 @@ class Libraries {
       if (in == null) {
         throw new FileNotFoundException("Cannot load resource " + p);
       }
-      try (Reader r = new InputStreamReader(in, "UTF-8")) {
+      try (Reader r = new InputStreamReader(in, UTF_8)) {
         final StringBuilder buf = new StringBuilder();
         final char[] tmp = new char[512];
         int n;

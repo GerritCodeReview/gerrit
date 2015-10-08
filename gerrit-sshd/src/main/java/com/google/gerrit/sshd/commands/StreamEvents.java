@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.EventSource;
@@ -125,7 +126,7 @@ final class StreamEvents extends BaseCommand {
       if (!msg.endsWith("\n")) {
         msg += "\n";
       }
-      err.write(msg.getBytes("UTF-8"));
+      err.write(msg.getBytes(UTF_8));
       err.flush();
       onExit(1);
       return;

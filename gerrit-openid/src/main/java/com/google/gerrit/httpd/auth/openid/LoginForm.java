@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -320,7 +322,7 @@ class LoginForm extends HttpServlet {
     byte[] bin = HtmlDomUtil.toUTF8(doc);
     res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     res.setContentType("text/html");
-    res.setCharacterEncoding("UTF-8");
+    res.setCharacterEncoding(UTF_8.name());
     res.setContentLength(bin.length);
     try (ServletOutputStream out = res.getOutputStream()) {
       out.write(bin);

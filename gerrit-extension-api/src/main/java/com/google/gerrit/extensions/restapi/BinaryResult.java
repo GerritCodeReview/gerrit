@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.restapi;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
@@ -23,7 +25,6 @@ import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
-import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 
 /**
@@ -187,7 +188,7 @@ public abstract class BinaryResult implements Closeable {
     try {
       Charset cs = enc != null
           ? Charset.forName(enc)
-          : StandardCharsets.UTF_8;
+          : UTF_8;
       return cs.newDecoder()
         .onMalformedInput(CodingErrorAction.REPORT)
         .onUnmappableCharacter(CodingErrorAction.REPORT)
@@ -226,9 +227,9 @@ public abstract class BinaryResult implements Closeable {
     private final String str;
 
     StringResult(String str) {
-      super(str.getBytes(StandardCharsets.UTF_8));
+      super(str.getBytes(UTF_8));
       setContentType("text/plain");
-      setCharacterEncoding("UTF-8");
+      setCharacterEncoding(UTF_8.name());
       this.str = str;
     }
 

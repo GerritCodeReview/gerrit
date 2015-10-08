@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.raw;
 import static com.google.gerrit.httpd.HtmlDomUtil.compress;
 import static com.google.gerrit.httpd.HtmlDomUtil.newDocument;
 import static com.google.gerrit.httpd.HtmlDomUtil.toUTF8;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CACHE_CONTROL;
 import static org.eclipse.jgit.util.HttpSupport.HDR_EXPIRES;
@@ -143,7 +144,7 @@ public class ToolServlet extends HttpServlet {
     rsp.setHeader(HDR_PRAGMA, "no-cache");
     rsp.setHeader(HDR_CACHE_CONTROL, "no-cache, must-revalidate");
     rsp.setContentType("text/html");
-    rsp.setCharacterEncoding("UTF-8");
+    rsp.setCharacterEncoding(UTF_8.name());
     rsp.setContentLength(tosend.length);
     try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);

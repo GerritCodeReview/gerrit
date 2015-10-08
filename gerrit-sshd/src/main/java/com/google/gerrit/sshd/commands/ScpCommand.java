@@ -22,6 +22,8 @@
  */
 package com.google.gerrit.sshd.commands;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.tools.ToolsCatalog.Entry;
 import com.google.gerrit.sshd.BaseCommand;
@@ -188,7 +190,7 @@ final class ScpCommand extends BaseCommand {
       }
     }
 
-    out.write("E\n".getBytes("UTF-8"));
+    out.write("E\n".getBytes(UTF_8));
     out.flush();
     readAck();
   }
@@ -210,7 +212,7 @@ final class ScpCommand extends BaseCommand {
     buf.append(" ");
     buf.append(dir.getName());
     buf.append("\n");
-    out.write(buf.toString().getBytes("UTF-8"));
+    out.write(buf.toString().getBytes(UTF_8));
     out.flush();
   }
 

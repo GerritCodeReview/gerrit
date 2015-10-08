@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45c9819b_53dd443c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T07:38:03Z",
+      "side": 1,
+      "message": "ctx.getWhen()?",
+      "range": {
+        "startLine": 249,
+        "startChar": 28,
+        "endLine": 249,
+        "endChar": 44
+      },
+      "revId": "31e05ff5fc5cb7bae9824d939dd79b0559867d53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

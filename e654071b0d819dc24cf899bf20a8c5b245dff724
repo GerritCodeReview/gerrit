@@ -46,6 +46,30 @@
       "revId": "e654071b0d819dc24cf899bf20a8c5b245dff724",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65a1255e_bc5ba15f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-08T13:30:15Z",
+      "side": 1,
+      "message": "The reason I cleaned that up later in the series is that I was tired of difficult rebases and I\u0027d like to get the early part of this series merged.\n\nI\u0027m happy to change this to PatchSetInserter so it\u0027s not so obviously broken, but I\u0027d rather not have to rework the entire series.",
+      "parentUuid": "a5979d01_dedf8536",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 16
+      },
+      "revId": "e654071b0d819dc24cf899bf20a8c5b245dff724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

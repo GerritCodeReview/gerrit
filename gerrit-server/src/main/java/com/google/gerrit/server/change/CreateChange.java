@@ -58,7 +58,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -201,10 +200,6 @@ public class CreateChange implements
           .setValidatePolicy(CommitValidators.Policy.GERRIT);
       ins.setMessage(String.format("Uploaded patch set %s.",
           ins.getPatchSet().getPatchSetId()));
-      ins.validate();
-
-      updateRef(git, rw, c, change, ins.getPatchSet());
-
       String topic = input.topic;
       if (topic != null) {
         topic = Strings.emptyToNull(topic.trim());
@@ -216,19 +211,6 @@ public class CreateChange implements
 
       ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
       return Response.created(json.format(change.getId()));
-    }
-  }
-
-  private static void updateRef(Repository git, RevWalk rw, RevCommit c,
-      Change change, PatchSet newPatchSet) throws IOException {
-    RefUpdate ru = git.updateRef(newPatchSet.getRefName());
-    ru.setExpectedOldObjectId(ObjectId.zeroId());
-    ru.setNewObjectId(c);
-    ru.disableRefLog();
-    if (ru.update(rw) != RefUpdate.Result.NEW) {
-      throw new IOException(String.format(
-          "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
-          change.getDest().getParentKey().get(), ru.getResult()));
     }
   }
 

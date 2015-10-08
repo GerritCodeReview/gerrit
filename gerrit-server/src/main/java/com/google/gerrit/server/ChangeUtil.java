@@ -276,26 +276,13 @@ public class ChangeUtil {
       ChangeInserter ins = changeInserterFactory.create(
             git, revWalk, refControl.getProjectControl(), change, revertCommit)
           .setValidatePolicy(CommitValidators.Policy.GERRIT);
-      ins.validate();
-
-      PatchSet ps = ins.getPatchSet();
-      RefUpdate ru = git.updateRef(ps.getRefName());
-      ru.setExpectedOldObjectId(ObjectId.zeroId());
-      ru.setNewObjectId(revertCommit);
-      ru.disableRefLog();
-      if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-        throw new IOException(String.format(
-            "Failed to create ref %s in %s: %s", ps.getRefName(),
-            change.getDest().getParentKey().get(), ru.getResult()));
-      }
-
       StringBuilder msgBuf = new StringBuilder();
       msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
       msgBuf.append("\n\n");
       msgBuf.append("This patchset was reverted in change: ")
             .append(change.getKey().get());
-
-      ins.setMessage(msgBuf.toString()).insert();
+      ins.setMessage(msgBuf.toString())
+          .insert();
 
       try {
         RevertedSender cm = revertedSenderFactory.create(change.getId());

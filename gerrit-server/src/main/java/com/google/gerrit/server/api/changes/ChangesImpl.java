@@ -32,6 +32,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.CreateChange;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
@@ -95,7 +96,8 @@ class ChangesImpl implements Changes {
           TopLevelResource.INSTANCE, in).value();
       return api.create(changes.parse(TopLevelResource.INSTANCE,
           IdString.fromUrl(out.changeId)));
-    } catch (OrmException | IOException | InvalidChangeOperationException e) {
+    } catch (OrmException | IOException | InvalidChangeOperationException
+        | UpdateException e) {
       throw new RestApiException("Cannot create change", e);
     }
   }

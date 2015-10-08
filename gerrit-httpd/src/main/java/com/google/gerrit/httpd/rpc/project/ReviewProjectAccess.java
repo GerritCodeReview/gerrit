@@ -37,11 +37,12 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SetParent;
@@ -51,6 +52,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -73,6 +75,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final ProjectCache projectCache;
   private final ChangesCollection changes;
   private final ChangeInserter.Factory changeInserterFactory;
+  private final BatchUpdate.Factory updateFactory;
 
   @Inject
   ReviewProjectAccess(final ProjectControl.Factory projectControlFactory,
@@ -84,6 +87,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       AllProjectsNameProvider allProjects,
       ChangesCollection changes,
       ChangeInserter.Factory changeInserterFactory,
+      BatchUpdate.Factory updateFactory,
       Provider<SetParent> setParent,
 
       @Assisted("projectName") Project.NameKey projectName,
@@ -100,6 +104,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.projectCache = projectCache;
     this.changes = changes;
     this.changeInserterFactory = changeInserterFactory;
+    this.updateFactory = updateFactory;
   }
 
   @Override
@@ -123,12 +128,19 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
             config.getProject().getNameKey(),
             RefNames.REFS_CONFIG),
         TimeUtil.nowTs());
-    try (RevWalk rw = new RevWalk(md.getRepository())) {
-      changeInserterFactory.create(md.getRepository(), rw, ctl, change, commit)
-          .setValidatePolicy(CommitValidators.Policy.NONE)
-          .setUpdateRef(false) // Created by commitToNewRef.
-          .insert();
-    } catch (InvalidChangeOperationException e) {
+    try (RevWalk rw = new RevWalk(md.getRepository());
+        ObjectInserter objInserter = md.getRepository().newObjectInserter();
+        BatchUpdate bu = updateFactory.create(
+          db, change.getProject(), ctl.getCurrentUser(),
+          change.getCreatedOn())) {
+      bu.setRepository(md.getRepository(), rw, objInserter);
+      bu.insertChange(
+          changeInserterFactory.create(
+                ctl.controlForRef(change.getDest().get()), change, commit)
+              .setValidatePolicy(CommitValidators.Policy.NONE)
+              .setUpdateRef(false)); // Created by commitToNewRef.
+      bu.execute();
+    } catch (UpdateException | RestApiException e) {
       throw new IOException(e);
     }
 

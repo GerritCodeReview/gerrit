@@ -195,7 +195,7 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
       return changeApi.id(revert.apply(change, in)._number);
-    } catch (OrmException | EmailException | IOException e) {
+    } catch (OrmException | EmailException | IOException | UpdateException e) {
       throw new RestApiException("Cannot revert change", e);
     }
   }

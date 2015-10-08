@@ -38,10 +38,10 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 =
         repo.parseBody(repo.commit().message("foo_bar_foo").create());
-    Change change1 = newChange(repo, commit1, null, null, null).insert();
+    Change change1 = insert(newChange(repo, commit1, null, null, null));
     RevCommit commit2 =
         repo.parseBody(repo.commit().message("one.two.three").create());
-    Change change2 = newChange(repo, commit2, null, null, null).insert();
+    Change change2 = insert(newChange(repo, commit2, null, null, null));
 
     assertQuery("message:foo_ba");
     assertQuery("message:bar", change1);

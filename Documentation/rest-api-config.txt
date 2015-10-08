@@ -60,7 +60,7 @@ As result a link:#server-info[ServerInfo] entity is returned.
       ]
     },
     "download": {
-      "schemes": [
+      "schemes": {
         "anonymous http": {
           "url": "http://gerrithost:8080/${project}",
           "commands": {
@@ -70,7 +70,7 @@ As result a link:#server-info[ServerInfo] entity is returned.
             "Cherry Pick": "git fetch http://gerrithost:8080/${project} ${ref} \u0026\u0026 git cherry-pick FETCH_HEAD"
           },
           "clone_commands": {
-            "Clone": "git clone http://gerrithost:8080/${project}"
+            "Clone": "git clone http://gerrithost:8080/${project}",
             "Clone with commit-msg hook": "git clone http://gerrithost:8080/${project} \u0026\u0026 scp -p -P 29418 jdoe@gerrithost:hooks/commit-msg ${project}/.git/hooks/"
           }
         },
@@ -104,7 +104,7 @@ As result a link:#server-info[ServerInfo] entity is returned.
             "Clone with commit-msg hook": "git clone ssh://jdoe@gerrithost:29418/${project} \u0026\u0026 scp -p -P 29418 jdoe@gerrithost:hooks/commit-msg ${project}/.git/hooks/"
           }
         }
-      ],
+      },
       "archives": [
         "tgz",
         "tar",

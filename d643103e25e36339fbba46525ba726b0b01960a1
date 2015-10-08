@@ -39,6 +39,48 @@
       "revId": "d643103e25e36339fbba46525ba726b0b01960a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65a1255e_bc8de12f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-08T14:12:42Z",
+      "side": 1,
+      "message": "There is no serious or big reason I choose to set the encoding here. The only reason is that the bug was reported specifically on the LDAP login and the login involves in the POST request parameters. \n\nWe could always move it higher up the call stack if necessary.\n\nYes it is true that we only call it on responses and in order to apply the encoding to the parameters in the POST request, we need to call it on the requests as well.",
+      "parentUuid": "853e19eb_fdf4e7b5",
+      "revId": "d643103e25e36339fbba46525ba726b0b01960a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e558b543_2822ebde",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-08T14:12:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "853e19eb_ddf12bc4",
+      "range": {
+        "startLine": 112,
+        "startChar": 29,
+        "endLine": 112,
+        "endChar": 36
+      },
+      "revId": "d643103e25e36339fbba46525ba726b0b01960a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

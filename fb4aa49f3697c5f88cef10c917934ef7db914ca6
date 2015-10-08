@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45c9819b_b300184b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T07:55:39Z",
+      "side": 0,
+      "message": "ConsistencyChecker is still trying to catch these exception, but since they cannot occur anymore, we have a compile error there.",
+      "range": {
+        "startLine": 214,
+        "startChar": 32,
+        "endLine": 214,
+        "endChar": 77
+      },
+      "revId": "fb4aa49f3697c5f88cef10c917934ef7db914ca6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

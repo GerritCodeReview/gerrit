@@ -60,6 +60,17 @@ public class CommitValidators {
   private static final Logger log = LoggerFactory
       .getLogger(CommitValidators.class);
 
+  public static enum Policy {
+    /** Use {@link #validateForGerritCommits}. */
+    GERRIT,
+
+    /** Use {@link #validateForReceiveCommits}. */
+    RECEIVE_COMMITS,
+
+    /** Do not validate commits. */
+    NONE
+  }
+
   public interface Factory {
     CommitValidators create(RefControl refControl, SshInfo sshInfo,
         Repository repo);

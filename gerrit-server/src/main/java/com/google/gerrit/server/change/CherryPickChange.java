@@ -192,13 +192,10 @@ public class CherryPickChange {
         }
         Change newChange = createNewChange(git, revWalk, changeKey, project,
             destRef, cherryPickCommit, refControl,
-            identifiedUser, newTopic);
+            identifiedUser, newTopic, change.getDest());
 
         addMessageToSourceChange(change, patch.getId(), destinationBranch,
             cherryPickCommit, identifiedUser, refControl);
-
-        addMessageToDestinationChange(newChange, change.getDest().getShortName(),
-            identifiedUser, refControl);
 
         return newChange.getId();
       }
@@ -233,7 +230,7 @@ public class CherryPickChange {
   private Change createNewChange(Repository git, RevWalk revWalk,
       Change.Key changeKey, Project.NameKey project,
       Ref destRef, CodeReviewCommit cherryPickCommit, RefControl refControl,
-      IdentifiedUser identifiedUser, String topic)
+      IdentifiedUser identifiedUser, String topic, Branch.NameKey sourceBranch)
       throws OrmException, InvalidChangeOperationException, IOException {
     Change change =
         new Change(changeKey, new Change.Id(db.get().nextChangeId()),
@@ -244,6 +241,8 @@ public class CherryPickChange {
             git, revWalk, refControl.getProjectControl(), change,
             cherryPickCommit)
         .setValidatePolicy(CommitValidators.Policy.GERRIT);
+    ins.setMessage(
+        messageForDestinationChange(ins.getPatchSet().getId(), sourceBranch));
     ins.validate();
     PatchSet newPatchSet = ins.getPatchSet();
 
@@ -284,24 +283,13 @@ public class CherryPickChange {
     changeMessagesUtil.addChangeMessage(db.get(), update, changeMessage);
   }
 
-  private void addMessageToDestinationChange(Change change, String sourceBranch,
-      IdentifiedUser identifiedUser, RefControl refControl) throws OrmException {
-    PatchSet.Id patchSetId =
-        db.get().patchSets().get(change.currentPatchSetId()).getId();
-    ChangeMessage changeMessage = new ChangeMessage(
-        new ChangeMessage.Key(
-            patchSetId.getParentKey(), ChangeUtil.messageUUID(db.get())),
-            identifiedUser.getAccountId(), TimeUtil.nowTs(), patchSetId);
-
-    StringBuilder sb = new StringBuilder("Patch Set ")
+  private String messageForDestinationChange(PatchSet.Id patchSetId,
+      Branch.NameKey sourceBranch) {
+    return new StringBuilder("Patch Set ")
       .append(patchSetId.get())
       .append(": Cherry Picked from branch ")
-      .append(sourceBranch)
-      .append(".");
-    changeMessage.setMessage(sb.toString());
-
-    ChangeControl ctl = refControl.getProjectControl().controlFor(change);
-    ChangeUpdate update = updateFactory.create(ctl, change.getCreatedOn());
-    changeMessagesUtil.addChangeMessage(db.get(), update, changeMessage);
+      .append(sourceBranch.getShortName())
+      .append(".")
+      .toString();
   }
 }

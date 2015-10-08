@@ -31,10 +31,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeTriplet;
-import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.RevertedSender;
@@ -43,9 +41,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.IdGenerator;
-import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -193,7 +189,6 @@ public class ChangeUtil {
   }
 
   private final Provider<CurrentUser> userProvider;
-  private final CommitValidators.Factory commitValidatorsFactory;
   private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
   private final RevertedSender.Factory revertedSenderFactory;
@@ -204,7 +199,6 @@ public class ChangeUtil {
 
   @Inject
   ChangeUtil(Provider<CurrentUser> userProvider,
-      CommitValidators.Factory commitValidatorsFactory,
       Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
       RevertedSender.Factory revertedSenderFactory,
@@ -213,7 +207,6 @@ public class ChangeUtil {
       GitReferenceUpdated gitRefUpdated,
       ChangeIndexer indexer) {
     this.userProvider = userProvider;
-    this.commitValidatorsFactory = commitValidatorsFactory;
     this.db = db;
     this.queryProvider = queryProvider;
     this.revertedSenderFactory = revertedSenderFactory;
@@ -224,7 +217,7 @@ public class ChangeUtil {
   }
 
   public Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
-      String message, PersonIdent myIdent, SshInfo sshInfo)
+      String message, PersonIdent myIdent)
       throws NoSuchChangeException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException {
@@ -280,26 +273,12 @@ public class ChangeUtil {
           changeToRevert.getDest(),
           TimeUtil.nowTs());
       change.setTopic(changeToRevert.getTopic());
-      ChangeInserter ins =
-          changeInserterFactory.create(refControl.getProjectControl(),
-              change, revertCommit);
+      ChangeInserter ins = changeInserterFactory.create(
+            git, revWalk, refControl.getProjectControl(), change, revertCommit)
+          .setValidatePolicy(CommitValidators.Policy.GERRIT);
+      ins.validate();
+
       PatchSet ps = ins.getPatchSet();
-
-      String ref = refControl.getRefName();
-      String cmdRef = MagicBranch.NEW_PUBLISH_CHANGE
-          + ref.substring(ref.lastIndexOf('/') + 1);
-      CommitReceivedEvent commitReceivedEvent = new CommitReceivedEvent(
-          new ReceiveCommand(ObjectId.zeroId(), revertCommit.getId(), cmdRef),
-          refControl.getProjectControl().getProject(),
-          refControl.getRefName(), revertCommit, user());
-
-      try {
-        commitValidatorsFactory.create(refControl, sshInfo, git)
-            .validateForGerritCommits(commitReceivedEvent);
-      } catch (CommitValidationException e) {
-        throw new InvalidChangeOperationException(e.getMessage());
-      }
-
       RefUpdate ru = git.updateRef(ps.getRefName());
       ru.setExpectedOldObjectId(ObjectId.zeroId());
       ru.setNewObjectId(revertCommit);

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
@@ -34,15 +35,22 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
@@ -51,7 +59,11 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +74,8 @@ import java.util.Set;
 
 public class ChangeInserter {
   public static interface Factory {
-    ChangeInserter create(ProjectControl ctl, Change c, RevCommit rc);
+    ChangeInserter create(Repository git, RevWalk revWalk, ProjectControl ctl,
+        Change c, RevCommit rc);
   }
 
   private static final Logger log =
@@ -79,8 +92,11 @@ public class ChangeInserter {
   private final HashtagsUtil hashtagsUtil;
   private final AccountCache accountCache;
   private final WorkQueue workQueue;
+  private final CommitValidators.Factory commitValidatorsFactory;
 
-  private final ProjectControl projectControl;
+  private final Repository git;
+  private final RevWalk revWalk;
+  private final RefControl refControl;
   private final IdentifiedUser user;
   private final Change change;
   private final PatchSet patchSet;
@@ -89,6 +105,8 @@ public class ChangeInserter {
 
   // Fields exposed as setters.
   private String message;
+  private CommitValidators.Policy validatePolicy =
+      CommitValidators.Policy.GERRIT;
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
@@ -99,6 +117,7 @@ public class ChangeInserter {
 
   // Fields set during the insertion process.
   private ChangeMessage changeMessage;
+  private boolean validated; // TODO(dborowitz): Remove; see validate().
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
@@ -113,6 +132,9 @@ public class ChangeInserter {
       HashtagsUtil hashtagsUtil,
       AccountCache accountCache,
       WorkQueue workQueue,
+      CommitValidators.Factory commitValidatorsFactory,
+      @Assisted Repository git,
+      @Assisted RevWalk revWalk,
       @Assisted ProjectControl projectControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
@@ -127,7 +149,11 @@ public class ChangeInserter {
     this.hashtagsUtil = hashtagsUtil;
     this.accountCache = accountCache;
     this.workQueue = workQueue;
-    this.projectControl = projectControl;
+    this.commitValidatorsFactory = commitValidatorsFactory;
+
+    this.git = git;
+    this.revWalk = revWalk;
+    this.refControl = projectControl.controlForRef(change.getDest());
     this.change = change;
     this.commit = commit;
     this.reviewers = Collections.emptySet();
@@ -159,6 +185,11 @@ public class ChangeInserter {
 
   public ChangeInserter setMessage(String message) {
     this.message = message;
+    return this;
+  }
+
+  public ChangeInserter setValidatePolicy(CommitValidators.Policy validate) {
+    this.validatePolicy = checkNotNull(validate);
     return this;
   }
 
@@ -225,8 +256,12 @@ public class ChangeInserter {
     return changeMessage;
   }
 
-  public Change insert() throws OrmException, IOException {
+  public Change insert()
+      throws OrmException, IOException, InvalidChangeOperationException {
+    validate();
+
     ReviewDb db = dbProvider.get();
+    ProjectControl projectControl = refControl.getProjectControl();
     ChangeControl ctl = projectControl.controlFor(change);
     ChangeUpdate update = updateFactory.create(
         ctl,
@@ -313,5 +348,44 @@ public class ChangeInserter {
     }
 
     return change;
+  }
+
+  // TODO(dborowitz): This is only public because callers expect validation to
+  // happen before updating any refs, and they are still updating refs manually.
+  // Make private once we have migrated ref updates into this class.
+  public void validate() throws IOException, InvalidChangeOperationException {
+    if (validated || validatePolicy == CommitValidators.Policy.NONE) {
+      return;
+    }
+    CommitValidators cv =
+        commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
+
+    String refName = patchSet.getId().toRefName();
+    CommitReceivedEvent event = new CommitReceivedEvent(
+        new ReceiveCommand(
+            ObjectId.zeroId(),
+            commit.getId(),
+            refName),
+        refControl.getProjectControl().getProject(),
+        refControl.getRefName(),
+        commit,
+        user);
+
+    try {
+      switch (validatePolicy) {
+      case RECEIVE_COMMITS:
+        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(git, revWalk);
+        cv.validateForReceiveCommits(event, rejectCommits);
+        break;
+      case GERRIT:
+        cv.validateForGerritCommits(event);
+        break;
+      case NONE:
+        break;
+      }
+    } catch (CommitValidationException e) {
+      throw new InvalidChangeOperationException(e.getMessage());
+    }
+    validated = true;
   }
 }

@@ -41,15 +41,12 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.project.RefControl;
-import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -65,7 +62,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 import java.io.IOException;
@@ -83,7 +79,6 @@ public class CreateChange implements
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> userProvider;
   private final ProjectsCollection projectsCollection;
-  private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson.Factory jsonFactory;
   private final ChangeUtil changeUtil;
@@ -95,7 +90,6 @@ public class CreateChange implements
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> userProvider,
       ProjectsCollection projectsCollection,
-      CommitValidators.Factory commitValidatorsFactory,
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson.Factory json,
       ChangeUtil changeUtil,
@@ -105,7 +99,6 @@ public class CreateChange implements
     this.serverTimeZone = myIdent.getTimeZone();
     this.userProvider = userProvider;
     this.projectsCollection = projectsCollection;
-    this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.jsonFactory = json;
     this.changeUtil = changeUtil;
@@ -203,12 +196,13 @@ public class CreateChange implements
           new Branch.NameKey(project, refName),
           now);
 
-      ChangeInserter ins = changeInserterFactory
-          .create(refControl.getProjectControl(), change, c);
+      ChangeInserter ins = changeInserterFactory.create(
+              git, rw, refControl.getProjectControl(), change, c)
+          .setValidatePolicy(CommitValidators.Policy.GERRIT);
       ins.setMessage(String.format("Uploaded patch set %s.",
           ins.getPatchSet().getPatchSetId()));
+      ins.validate();
 
-      validateCommit(git, refControl, c, me, ins);
       updateRef(git, rw, c, change, ins.getPatchSet());
 
       String topic = input.topic;
@@ -222,29 +216,6 @@ public class CreateChange implements
 
       ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
       return Response.created(json.format(change.getId()));
-    }
-  }
-
-  private void validateCommit(Repository git, RefControl refControl,
-      RevCommit c, IdentifiedUser me, ChangeInserter ins)
-      throws ResourceConflictException {
-    PatchSet newPatchSet = ins.getPatchSet();
-    CommitValidators commitValidators =
-        commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
-    CommitReceivedEvent commitReceivedEvent =
-        new CommitReceivedEvent(new ReceiveCommand(
-            ObjectId.zeroId(),
-            c.getId(),
-            newPatchSet.getRefName()),
-            refControl.getProjectControl().getProject(),
-            refControl.getRefName(),
-            c,
-            me);
-
-    try {
-      commitValidators.validateForGerritCommits(commitReceivedEvent);
-    } catch (CommitValidationException e) {
-      throw new ResourceConflictException(e.getMessage());
     }
   }
 

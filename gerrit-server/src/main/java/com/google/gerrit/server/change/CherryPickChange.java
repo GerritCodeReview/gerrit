@@ -30,7 +30,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -40,7 +39,6 @@ import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
@@ -50,7 +48,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -66,7 +63,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 import java.io.IOException;
@@ -81,7 +77,6 @@ public class CherryPickChange {
   private final GitRepositoryManager gitManager;
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> currentUser;
-  private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -95,7 +90,6 @@ public class CherryPickChange {
       @GerritPersonIdent PersonIdent myIdent,
       GitRepositoryManager gitManager,
       Provider<CurrentUser> currentUser,
-      CommitValidators.Factory commitValidatorsFactory,
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
@@ -107,7 +101,6 @@ public class CherryPickChange {
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
     this.currentUser = currentUser;
-    this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -247,24 +240,12 @@ public class CherryPickChange {
             identifiedUser.getAccountId(), new Branch.NameKey(project,
                 destRef.getName()), TimeUtil.nowTs());
     change.setTopic(topic);
-    ChangeInserter ins =
-        changeInserterFactory.create(refControl.getProjectControl(), change,
-            cherryPickCommit);
+    ChangeInserter ins = changeInserterFactory.create(
+            git, revWalk, refControl.getProjectControl(), change,
+            cherryPickCommit)
+        .setValidatePolicy(CommitValidators.Policy.GERRIT);
+    ins.validate();
     PatchSet newPatchSet = ins.getPatchSet();
-
-    CommitValidators commitValidators =
-        commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
-    CommitReceivedEvent commitReceivedEvent =
-        new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-            cherryPickCommit.getId(), newPatchSet.getRefName()), refControl
-            .getProjectControl().getProject(), refControl.getRefName(),
-            cherryPickCommit, identifiedUser);
-
-    try {
-      commitValidators.validateForGerritCommits(commitReceivedEvent);
-    } catch (CommitValidationException e) {
-      throw new InvalidChangeOperationException(e.getMessage());
-    }
 
     final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
     ru.setExpectedOldObjectId(ObjectId.zeroId());

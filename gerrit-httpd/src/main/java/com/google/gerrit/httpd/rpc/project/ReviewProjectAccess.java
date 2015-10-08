@@ -39,7 +39,9 @@ import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SetParent;
@@ -50,6 +52,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.List;
@@ -120,9 +123,14 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
             config.getProject().getNameKey(),
             RefNames.REFS_CONFIG),
         TimeUtil.nowTs());
-    ChangeInserter ins =
-        changeInserterFactory.create(ctl, change, commit);
-    ins.insert();
+    try (RevWalk rw = new RevWalk(md.getRepository())) {
+      ChangeInserter ins = changeInserterFactory.create(
+              md.getRepository(), rw, ctl, change, commit)
+          .setValidatePolicy(CommitValidators.Policy.NONE);
+      ins.insert();
+    } catch (InvalidChangeOperationException e) {
+      throw new IOException(e);
+    }
 
     ChangeResource rsrc;
     try {

@@ -32,7 +32,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -74,8 +73,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       revertedChangeId = changeUtil.revert(control,
             change.currentPatchSetId(),
             Strings.emptyToNull(input.message),
-            new PersonIdent(myIdent, TimeUtil.nowTs()),
-            new NoSshInfo());
+            new PersonIdent(myIdent, TimeUtil.nowTs()));
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (NoSuchChangeException e) {

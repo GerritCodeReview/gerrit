@@ -1312,9 +1312,10 @@ public abstract class AbstractQueryChangesTest {
         new Branch.NameKey(project, branch), TimeUtil.nowTs());
     IdentifiedUser user = userFactory.create(Providers.of(db), ownerId);
     return changeFactory.create(
-        projectControlFactory.controlFor(project, user),
-        change,
-        commit);
+          repo.getRepository(), repo.getRevWalk(),
+          projectControlFactory.controlFor(project, user),
+          change, commit)
+        .setValidatePolicy(CommitValidators.Policy.NONE);
   }
 
   protected Change newPatchSet(TestRepository<Repo> repo, Change c)

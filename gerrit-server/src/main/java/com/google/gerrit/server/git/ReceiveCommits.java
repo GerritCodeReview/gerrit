@@ -111,6 +111,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -1717,8 +1718,11 @@ public class ReceiveCommits {
           magicBranch.dest,
           TimeUtil.nowTs());
       change.setTopic(magicBranch.topic);
-      ins = changeInserterFactory.create(ctl.getProjectControl(), change, c)
-          .setDraft(magicBranch.draft);
+      ins = changeInserterFactory.create(
+            repo, rp.getRevWalk(), ctl.getProjectControl(), change, c)
+          .setDraft(magicBranch.draft)
+          // Changes already validated in validateNewCommits.
+          .setValidatePolicy(CommitValidators.Policy.NONE);
       cmd = new ReceiveCommand(ObjectId.zeroId(), c,
           ins.getPatchSet().getRefName());
     }
@@ -1730,7 +1734,7 @@ public class ReceiveCommits {
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
         public Void call() throws OrmException, IOException,
-            ResourceConflictException {
+            ResourceConflictException, InvalidChangeOperationException {
           insertChangeImpl();
           synchronized (newProgress) {
             newProgress.update(1);
@@ -1742,7 +1746,7 @@ public class ReceiveCommits {
     }
 
     private void insertChangeImpl() throws OrmException, IOException,
-        ResourceConflictException {
+        ResourceConflictException, InvalidChangeOperationException {
       final PatchSet ps = ins.setGroups(groups).getPatchSet();
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "853e19eb_3d412f78",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-08T11:46:40Z",
+      "side": 1,
+      "message": "Has something changed recently?  I am not seeing the submodule difference any more.",
+      "revId": "7b9f5910fbb60a3b52d4fdc648ca934d19b9b4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

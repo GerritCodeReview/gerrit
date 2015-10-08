@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "45c9819b_7355e02c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-08T11:48:04Z",
+      "side": 1,
+      "message": "Can you point me to any complaints, feature requests or issues to allow to change diff preferences outside of the context of side by side and unified screens?\n\nSuch setting as hide/show empty pane, themes, cursor blink rates (see my pending change where i added it), etc. should be tried out, before applied and this is not done in this change (yet?). Well, with some overhead you could do everything, just create a side-by-side screen below of this window, render there some old/new and apply the change on that mini diff screen, embedded in my diff settings screen. Do we really want do that?\n\nConsequently, you may argue, that Inine Editor preferences, that were separated recently from diff preferences also not exposed in my settings screen, and should be added on its own screen in My Inline Editor preferences. Again, with mini Inline Editor below the settings with sample content to try out the changes.\n\nConsequently, if you really insist on doing that, then why should we preserve the activation of diff- and inline edit-preferences in two different contexts, view-context and no-view-context? Just go ahead, and drop their invocation in context of corresponding views and do it all in my setting screen. Only the transient setting and ones that can be overridden, should be extra presented in view context. Not the persistent ones. There are only two of them, hide left/right side and language selection. For the former you can just offer key binding and for the later dropdown direct in header, and don\u0027t bother with popup box in view context altogether.",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 62
+      },
+      "revId": "e558582fc8c68aa29d15249910a216dbd8cbcabd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5979d01_9e0b3d63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-08T11:48:04Z",
+      "side": 1,
+      "message": "For me this is another reason not do that.",
+      "revId": "e558582fc8c68aa29d15249910a216dbd8cbcabd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "103989d0_317370dd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

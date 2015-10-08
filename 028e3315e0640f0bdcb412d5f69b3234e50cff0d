@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45c9819b_33f528b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T08:57:32Z",
+      "side": 1,
+      "message": "nit: We do not use \u0027final\u0027 for parameters anymore when it is not required.",
+      "range": {
+        "startLine": 538,
+        "startChar": 31,
+        "endLine": 538,
+        "endChar": 65
+      },
+      "revId": "028e3315e0640f0bdcb412d5f69b3234e50cff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5979d01_fee7e109",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T08:57:32Z",
+      "side": 1,
+      "message": "nit: remove final, here and also below in line 567",
+      "range": {
+        "startLine": 548,
+        "startChar": 8,
+        "endLine": 548,
+        "endChar": 13
+      },
+      "revId": "028e3315e0640f0bdcb412d5f69b3234e50cff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5979d01_9ef49db5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T08:57:32Z",
+      "side": 1,
+      "message": "Can you use RefNames.REFS_CHANGES here?",
+      "range": {
+        "startLine": 553,
+        "startChar": 57,
+        "endLine": 553,
+        "endChar": 71
+      },
+      "revId": "028e3315e0640f0bdcb412d5f69b3234e50cff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c9819b_13f22cc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T08:57:32Z",
+      "side": 1,
+      "message": "Use the Constants.R_HEADS constant from jgit.",
+      "range": {
+        "startLine": 561,
+        "startChar": 36,
+        "endLine": 561,
+        "endChar": 49
+      },
+      "revId": "028e3315e0640f0bdcb412d5f69b3234e50cff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

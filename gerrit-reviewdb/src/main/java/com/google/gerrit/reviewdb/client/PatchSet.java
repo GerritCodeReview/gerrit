@@ -30,10 +30,12 @@ public final class PatchSet {
     return Id.fromRef(name) != null;
   }
 
-  /** Is the reference name a change reference?
+  /**
+   * Is the reference name a change reference?
    *
    * @deprecated use isChangeRef instead.
    **/
+  @Deprecated
   public static boolean isRef(String name) {
     return isChangeRef(name);
   }

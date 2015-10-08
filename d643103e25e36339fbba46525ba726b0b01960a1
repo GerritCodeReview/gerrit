@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "853e19eb_fdf4e7b5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-08T00:10:14Z",
+      "side": 1,
+      "message": "Why is the character encoding not set higher up the call stack?\n\nLooking through the code for existing usage of this method, it looks like we only call it on responses, and not requests.",
+      "revId": "d643103e25e36339fbba46525ba726b0b01960a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "853e19eb_ddf12bc4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-08T00:10:14Z",
+      "side": 1,
+      "message": "Maybe better to static import `java.nio.charset.StandardCharsets.UTF_8` and use:\n\n UTF_8.name()",
+      "range": {
+        "startLine": 112,
+        "startChar": 29,
+        "endLine": 112,
+        "endChar": 36
+      },
+      "revId": "d643103e25e36339fbba46525ba726b0b01960a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

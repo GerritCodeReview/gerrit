@@ -46,6 +46,30 @@
       "revId": "b777877a752afb3e4742827ea369c96d60e336e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c9819b_53b66416",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T06:44:05Z",
+      "side": 1,
+      "message": "Yes, extracting the local here is what I meant.",
+      "parentUuid": "65a1255e_7caaf9b1",
+      "range": {
+        "startLine": 119,
+        "startChar": 14,
+        "endLine": 119,
+        "endChar": 54
+      },
+      "revId": "b777877a752afb3e4742827ea369c96d60e336e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

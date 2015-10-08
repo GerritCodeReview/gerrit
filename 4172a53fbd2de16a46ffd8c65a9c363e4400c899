@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5979d01_be8dd92f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T17:24:09Z",
+      "side": 1,
+      "message": "I think yes, because the PatchListEntry can come from the cache and maybe it was created before the new code was deployed.",
+      "parentUuid": "2559ed73_da5be55e",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 63
+      },
+      "revId": "4172a53fbd2de16a46ffd8c65a9c363e4400c899",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "853e19eb_dd5beb5e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-08T17:19:29Z",
       "side": 1,
       "message": "Would it make sense to report an error instead here?\nOr is that to take into account new/deleted files?",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 221,
+        "endChar": 14
+      },
+      "revId": "4172a53fbd2de16a46ffd8c65a9c363e4400c899",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5979d01_9e901d45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T17:24:09Z",
+      "side": 1,
+      "message": "Yes, this is needed for new/deleted files.",
+      "parentUuid": "853e19eb_dd5beb5e",
       "range": {
         "startLine": 221,
         "startChar": 10,

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a5979d01_be087966",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T11:41:21Z",
+      "side": 1,
+      "message": "You were right that this was a caching issue. \u0027buck build docs --deep\u0027 still didn\u0027t create it, but I got it after deleting my caches manually.",
+      "parentUuid": "45c9819b_530f8470",
+      "range": {
+        "startLine": 221,
+        "startChar": 2,
+        "endLine": 221,
+        "endChar": 58
+      },
+      "revId": "012502d9f22eb70eaae3e6d41e5c5791510ae1c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2559ed73_fad98951",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/PluginDaemonTest.java",
         "patchSetId": 8
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "This is test code and we don\u0027t support other platform, at least not for dev, but it would make sense to consequently use Paths.get() for that (that would translate the path to platform specific):\n\n  gerrit-server/src/main/java/com/google/gerrit/server/config/GitwebCgiConfig.java:    \n  Path pkgCgi \u003d Paths.get(\"/usr/lib/cgi-bin/gitweb.cgi\");",
       "parentUuid": "2559ed73_fad98951",
+      "range": {
+        "startLine": 192,
+        "startChar": 44,
+        "endLine": 192,
+        "endChar": 45
+      },
+      "revId": "012502d9f22eb70eaae3e6d41e5c5791510ae1c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c9819b_5352e446",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/PluginDaemonTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T11:41:21Z",
+      "side": 1,
+      "message": "Yes, let\u0027s better use Paths.get() here and in JettyServer.",
+      "parentUuid": "a5979d01_de11c592",
       "range": {
         "startLine": 192,
         "startChar": 44,

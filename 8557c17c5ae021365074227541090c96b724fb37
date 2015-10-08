@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a5979d01_deb8e504",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T06:23:49Z",
+      "side": 1,
+      "message": "Ah, I missed this.",
+      "parentUuid": "902499ae_4df9b9b1",
+      "range": {
+        "startLine": 118,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 34
+      },
+      "revId": "8557c17c5ae021365074227541090c96b724fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50194171_131cecab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 9
@@ -178,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "45c9819b_f3a450e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T06:23:49Z",
+      "side": 1,
+      "message": "I agree, it\u0027s something we can worry about later.",
+      "parentUuid": "7033a5f5_0c03b755",
+      "range": {
+        "startLine": 187,
+        "startChar": 22,
+        "endLine": 187,
+        "endChar": 47
+      },
+      "revId": "8557c17c5ae021365074227541090c96b724fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50194171_731d60ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 9
@@ -207,6 +255,24 @@
       "side": 1,
       "message": "That\u0027s a really good point. Done.\n\n(Won\u0027t it be nice when everything uses this one interface, so we would only have to make one change to fix the ordering everywhere? :)",
       "parentUuid": "50194171_731d60ab",
+      "revId": "8557c17c5ae021365074227541090c96b724fb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5979d01_3eb4690e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T06:23:49Z",
+      "side": 1,
+      "message": "Yes, this shows how useful this class is. Ensuring this when the code is distributed over all the code base is rather a nightmare...",
+      "parentUuid": "902499ae_2dfe6d9b",
       "revId": "8557c17c5ae021365074227541090c96b724fb37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

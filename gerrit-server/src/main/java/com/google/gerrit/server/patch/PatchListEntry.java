@@ -18,10 +18,12 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.readBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
+import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt64;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt64;
 
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
@@ -49,7 +51,7 @@ public class PatchListEntry {
 
   static PatchListEntry empty(final String fileName) {
     return new PatchListEntry(ChangeType.MODIFIED, PatchType.UNIFIED, null,
-        fileName, EMPTY_HEADER, Collections.<Edit> emptyList(), 0, 0);
+        fileName, EMPTY_HEADER, Collections.<Edit> emptyList(), 0, 0, 0);
   }
 
   private final ChangeType changeType;
@@ -60,8 +62,9 @@ public class PatchListEntry {
   private final List<Edit> edits;
   private final int insertions;
   private final int deletions;
+  private final long sizeDelta;
 
-  PatchListEntry(final FileHeader hdr, List<Edit> editList) {
+  PatchListEntry(FileHeader hdr, List<Edit> editList, long sizeDelta) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);
 
@@ -106,12 +109,12 @@ public class PatchListEntry {
     }
     insertions = ins;
     deletions = del;
+    this.sizeDelta = sizeDelta;
   }
 
-  private PatchListEntry(final ChangeType changeType,
-      final PatchType patchType, final String oldName, final String newName,
-      final byte[] header, final List<Edit> edits, final int insertions,
-      final int deletions) {
+  private PatchListEntry(ChangeType changeType, PatchType patchType,
+      String oldName, String newName, byte[] header, List<Edit> edits,
+      int insertions, int deletions, long sizeDelta) {
     this.changeType = changeType;
     this.patchType = patchType;
     this.oldName = oldName;
@@ -120,6 +123,7 @@ public class PatchListEntry {
     this.edits = edits;
     this.insertions = insertions;
     this.deletions = deletions;
+    this.sizeDelta = sizeDelta;
   }
 
   int weigh() {
@@ -166,6 +170,10 @@ public class PatchListEntry {
     return deletions;
   }
 
+  public long getSizeDelta() {
+    return sizeDelta;
+  }
+
   public List<String> getHeaderLines() {
     final IntList m = RawParseUtils.lineMap(header, 0, header.length);
     final List<String> headerLines = new ArrayList<>(m.size() - 1);
@@ -190,7 +198,7 @@ public class PatchListEntry {
     return p;
   }
 
-  void writeTo(final OutputStream out) throws IOException {
+  void writeTo(OutputStream out) throws IOException {
     writeEnum(out, changeType);
     writeEnum(out, patchType);
     writeString(out, oldName);
@@ -198,6 +206,7 @@ public class PatchListEntry {
     writeBytes(out, header);
     writeVarInt32(out, insertions);
     writeVarInt32(out, deletions);
+    writeFixInt64(out, sizeDelta);
 
     writeVarInt32(out, edits.size());
     for (final Edit e : edits) {
@@ -208,17 +217,18 @@ public class PatchListEntry {
     }
   }
 
-  static PatchListEntry readFrom(final InputStream in) throws IOException {
-    final ChangeType changeType = readEnum(in, ChangeType.values());
-    final PatchType patchType = readEnum(in, PatchType.values());
-    final String oldName = readString(in);
-    final String newName = readString(in);
-    final byte[] hdr = readBytes(in);
-    final int ins = readVarInt32(in);
-    final int del = readVarInt32(in);
+  static PatchListEntry readFrom(InputStream in) throws IOException {
+    ChangeType changeType = readEnum(in, ChangeType.values());
+    PatchType patchType = readEnum(in, PatchType.values());
+    String oldName = readString(in);
+    String newName = readString(in);
+    byte[] hdr = readBytes(in);
+    int ins = readVarInt32(in);
+    int del = readVarInt32(in);
+    long sizeDelta = readFixInt64(in);
 
-    final int editCount = readVarInt32(in);
-    final Edit[] editArray = new Edit[editCount];
+    int editCount = readVarInt32(in);
+    Edit[] editArray = new Edit[editCount];
     for (int i = 0; i < editCount; i++) {
       int beginA = readVarInt32(in);
       int endA = readVarInt32(in);
@@ -228,7 +238,7 @@ public class PatchListEntry {
     }
 
     return new PatchListEntry(changeType, patchType, oldName, newName, hdr,
-        toList(editArray), ins, del);
+        toList(editArray), ins, del, sizeDelta);
   }
 
   private static List<Edit> toList(Edit[] l) {

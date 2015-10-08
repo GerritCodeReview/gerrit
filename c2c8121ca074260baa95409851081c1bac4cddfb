@@ -22,6 +22,30 @@
       "revId": "c2c8121ca074260baa95409851081c1bac4cddfb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2559ed73_fa0b4961",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-08T11:56:15Z",
+      "side": 1,
+      "message": "IIRC it was because all the callers of fireEvent pass in an Event.\n\nThe signatures of these methods all get changed in a later change in the series (\"Define stricter Event firing criteria\").",
+      "parentUuid": "45c9819b_330c087a",
+      "range": {
+        "startLine": 750,
+        "startChar": 52,
+        "endLine": 750,
+        "endChar": 89
+      },
+      "revId": "c2c8121ca074260baa95409851081c1bac4cddfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -24,9 +24,8 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -41,7 +40,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
@@ -81,6 +82,7 @@ public class CreateChange implements
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson.Factory jsonFactory;
   private final ChangeUtil changeUtil;
+  private final BatchUpdate.Factory updateFactory;
   private final boolean allowDrafts;
 
   @Inject
@@ -92,6 +94,7 @@ public class CreateChange implements
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson.Factory json,
       ChangeUtil changeUtil,
+      BatchUpdate.Factory updateFactory,
       @GerritServerConfig Config config) {
     this.db = db;
     this.gitManager = gitManager;
@@ -101,15 +104,15 @@ public class CreateChange implements
     this.changeInserterFactory = changeInserterFactory;
     this.jsonFactory = json;
     this.changeUtil = changeUtil;
+    this.updateFactory = updateFactory;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
   }
 
   @Override
   public Response<ChangeInfo> apply(TopLevelResource parent,
-      ChangeInfo input) throws AuthException, OrmException,
-      BadRequestException, UnprocessableEntityException, IOException,
-      InvalidChangeOperationException, ResourceNotFoundException,
-      MethodNotAllowedException, ResourceConflictException {
+      ChangeInfo input)
+      throws AuthException, OrmException, IOException,
+      InvalidChangeOperationException, RestApiException, UpdateException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }
@@ -186,31 +189,38 @@ public class CreateChange implements
           mergeTip, author, author, input.subject);
       String commitMessage = ChangeIdUtil.insertId(input.subject, id);
 
-      RevCommit c = newCommit(git, rw, author, mergeTip, commitMessage);
+      try (ObjectInserter oi = git.newObjectInserter()) {
+        RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);
 
-      Change change = new Change(
-          getChangeId(id, c),
-          new Change.Id(db.get().nextChangeId()),
-          me.getAccountId(),
-          new Branch.NameKey(project, refName),
-          now);
+        Change change = new Change(
+            getChangeId(id, c),
+            new Change.Id(db.get().nextChangeId()),
+            me.getAccountId(),
+            new Branch.NameKey(project, refName),
+            now);
 
-      ChangeInserter ins = changeInserterFactory.create(
-              git, rw, refControl.getProjectControl(), change, c)
-          .setValidatePolicy(CommitValidators.Policy.GERRIT);
-      ins.setMessage(String.format("Uploaded patch set %s.",
-          ins.getPatchSet().getPatchSetId()));
-      String topic = input.topic;
-      if (topic != null) {
-        topic = Strings.emptyToNull(topic.trim());
+        ChangeInserter ins = changeInserterFactory
+            .create(refControl, change, c)
+            .setValidatePolicy(CommitValidators.Policy.GERRIT);
+        ins.setMessage(String.format("Uploaded patch set %s.",
+            ins.getPatchSet().getPatchSetId()));
+        String topic = input.topic;
+        if (topic != null) {
+          topic = Strings.emptyToNull(topic.trim());
+        }
+        change.setTopic(topic);
+        ins.setDraft(input.status != null && input.status == ChangeStatus.DRAFT);
+        ins.setGroups(groups);
+        try (BatchUpdate bu = updateFactory.create(
+            db.get(), change.getProject(), me, now)) {
+          bu.setRepository(git, rw, oi);
+          bu.insertChange(ins);
+          bu.execute();
+        }
+        ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
+        return Response.created(json.format(change.getId()));
       }
-      change.setTopic(topic);
-      ins.setDraft(input.status != null && input.status == ChangeStatus.DRAFT);
-      ins.setGroups(groups);
-      ins.insert();
 
-      ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
-      return Response.created(json.format(change.getId()));
     }
   }
 
@@ -223,20 +233,16 @@ public class CreateChange implements
     return changeKey;
   }
 
-  private static RevCommit newCommit(Repository git, RevWalk rw,
+  private static RevCommit newCommit(ObjectInserter oi, RevWalk rw,
       PersonIdent authorIdent, RevCommit mergeTip, String commitMessage)
       throws IOException {
-    RevCommit emptyCommit;
-    try (ObjectInserter oi = git.newObjectInserter()) {
-      CommitBuilder commit = new CommitBuilder();
-      commit.setTreeId(mergeTip.getTree().getId());
-      commit.setParentId(mergeTip);
-      commit.setAuthor(authorIdent);
-      commit.setCommitter(authorIdent);
-      commit.setMessage(commitMessage);
-      emptyCommit = rw.parseCommit(insert(oi, commit));
-    }
-    return emptyCommit;
+    CommitBuilder commit = new CommitBuilder();
+    commit.setTreeId(mergeTip.getTree().getId());
+    commit.setParentId(mergeTip);
+    commit.setAuthor(authorIdent);
+    commit.setCommitter(authorIdent);
+    commit.setMessage(commitMessage);
+    return rw.parseCommit(insert(oi, commit));
   }
 
   private static ObjectId insert(ObjectInserter inserter,

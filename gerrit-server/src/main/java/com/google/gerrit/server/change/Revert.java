@@ -20,17 +20,17 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -58,8 +58,8 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
   @Override
   public ChangeInfo apply(ChangeResource req, RevertInput input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      ResourceNotFoundException, IOException, OrmException, EmailException {
+      throws IOException, OrmException, EmailException, RestApiException,
+      UpdateException {
     ChangeControl control = req.getControl();
     Change change = req.getChange();
     if (!control.canAddPatchSet()) {
@@ -74,8 +74,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
             change.currentPatchSetId(),
             Strings.emptyToNull(input.message),
             new PersonIdent(myIdent, TimeUtil.nowTs()));
-    } catch (InvalidChangeOperationException e) {
-      throw new BadRequestException(e.getMessage());
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }

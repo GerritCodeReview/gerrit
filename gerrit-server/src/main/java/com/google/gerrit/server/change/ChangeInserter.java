@@ -36,34 +36,31 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
+import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,30 +70,23 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-public class ChangeInserter {
+public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   public static interface Factory {
-    ChangeInserter create(Repository git, RevWalk revWalk, ProjectControl ctl,
-        Change c, RevCommit rc);
+    ChangeInserter create(RefControl ctl, Change c, RevCommit rc);
   }
 
   private static final Logger log =
       LoggerFactory.getLogger(ChangeInserter.class);
 
-  private final Provider<ReviewDb> dbProvider;
-  private final ChangeUpdate.Factory updateFactory;
-  private final GitReferenceUpdated gitRefUpdated;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final ChangeIndexer indexer;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final HashtagsUtil hashtagsUtil;
   private final AccountCache accountCache;
   private final WorkQueue workQueue;
   private final CommitValidators.Factory commitValidatorsFactory;
 
-  private final Repository git;
-  private final RevWalk revWalk;
   private final RefControl refControl;
   private final IdentifiedUser user;
   private final Change change;
@@ -121,40 +111,35 @@ public class ChangeInserter {
   private ChangeMessage changeMessage;
 
   @Inject
-  ChangeInserter(Provider<ReviewDb> dbProvider,
-      ChangeUpdate.Factory updateFactory,
-      PatchSetInfoFactory patchSetInfoFactory,
-      GitReferenceUpdated gitRefUpdated,
+  ChangeInserter(PatchSetInfoFactory patchSetInfoFactory,
       ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      ChangeIndexer indexer,
       CreateChangeSender.Factory createChangeSenderFactory,
       HashtagsUtil hashtagsUtil,
       AccountCache accountCache,
       WorkQueue workQueue,
       CommitValidators.Factory commitValidatorsFactory,
-      @Assisted Repository git,
-      @Assisted RevWalk revWalk,
-      @Assisted ProjectControl projectControl,
+      @Assisted RefControl refControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
-    this.dbProvider = dbProvider;
-    this.updateFactory = updateFactory;
-    this.gitRefUpdated = gitRefUpdated;
+    String projectName = refControl.getProjectControl().getProject().getName();
+    String refName = refControl.getRefName();
+    checkArgument(projectName.equals(change.getProject().get())
+          && refName.equals(change.getDest().get()),
+        "RefControl for %s,%s does not match change destination %s",
+        projectName, refName, change.getDest());
+
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.indexer = indexer;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.hashtagsUtil = hashtagsUtil;
     this.accountCache = accountCache;
     this.workQueue = workQueue;
     this.commitValidatorsFactory = commitValidatorsFactory;
 
-    this.git = git;
-    this.revWalk = revWalk;
-    this.refControl = projectControl.controlForRef(change.getDest());
+    this.refControl = refControl;
     this.change = change;
     this.commit = commit;
     this.reviewers = Collections.emptySet();
@@ -165,7 +150,7 @@ public class ChangeInserter {
     this.sendMail = true;
     this.updateRef = true;
 
-    user = checkUser(projectControl);
+    user = checkUser(refControl);
     patchSet =
         new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
     patchSet.setCreatedOn(change.getCreatedOn());
@@ -175,14 +160,19 @@ public class ChangeInserter {
     change.setCurrentPatchSet(patchSetInfo);
   }
 
-  private static IdentifiedUser checkUser(ProjectControl ctl) {
+  private static IdentifiedUser checkUser(RefControl ctl) {
     checkArgument(ctl.getCurrentUser().isIdentifiedUser(),
         "only IdentifiedUser may create change");
     return (IdentifiedUser) ctl.getCurrentUser();
   }
 
+  @Override
   public Change getChange() {
     return change;
+  }
+
+  public IdentifiedUser getUser() {
+    return user;
   }
 
   public ChangeInserter setMessage(String message) {
@@ -263,58 +253,58 @@ public class ChangeInserter {
     return changeMessage;
   }
 
-  public Change insert()
-      throws OrmException, IOException, InvalidChangeOperationException {
-    validate();
-
-    updateRef();
-
-    ReviewDb db = dbProvider.get();
-    ProjectControl projectControl = refControl.getProjectControl();
-    ChangeControl ctl = projectControl.controlFor(change);
-    ChangeUpdate update = updateFactory.create(
-        ctl,
-        change.getCreatedOn());
-    db.changes().beginTransaction(change.getId());
-    try {
-      ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
-      if (patchSet.getGroups() == null) {
-        patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));
-      }
-      db.patchSets().insert(Collections.singleton(patchSet));
-      db.changes().insert(Collections.singleton(change));
-      LabelTypes labelTypes = projectControl.getLabelTypes();
-      approvalsUtil.addReviewers(db, update, labelTypes, change,
-          patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
-      approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
-          ctl, approvals);
-      if (message != null) {
-        changeMessage =
-            new ChangeMessage(new ChangeMessage.Key(change.getId(),
-                ChangeUtil.messageUUID(db)), user.getAccountId(),
-                patchSet.getCreatedOn(), patchSet.getId());
-        changeMessage.setMessage(message);
-        cmUtil.addChangeMessage(db, update, changeMessage);
-      }
-      db.commit();
-    } finally {
-      db.rollback();
+  @Override
+  public void updateRepo(RepoContext ctx)
+      throws InvalidChangeOperationException, IOException {
+    validate(ctx);
+    if (!updateRef) {
+      return;
     }
+    ctx.addRefUpdate(
+        new ReceiveCommand(ObjectId.zeroId(), commit, patchSet.getRefName()));
+  }
 
-    update.commit();
+  @Override
+  public void updateChange(ChangeContext ctx) throws OrmException, IOException {
+    ReviewDb db = ctx.getDb();
+    ChangeControl ctl = ctx.getChangeControl();
+    ChangeUpdate update = ctx.getChangeUpdate();
+    db.changes().beginTransaction(change.getId());
+    ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
+    if (patchSet.getGroups() == null) {
+      patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));
+    }
+    db.patchSets().insert(Collections.singleton(patchSet));
+    db.changes().insert(Collections.singleton(change));
+    LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
+    approvalsUtil.addReviewers(db, update, labelTypes, change,
+        patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
+    approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
+        ctx.getChangeControl(), approvals);
+    if (message != null) {
+      changeMessage =
+          new ChangeMessage(new ChangeMessage.Key(change.getId(),
+              ChangeUtil.messageUUID(db)), user.getAccountId(),
+              patchSet.getCreatedOn(), patchSet.getId());
+      changeMessage.setMessage(message);
+      cmUtil.addChangeMessage(db, update, changeMessage);
+    }
 
     if (hashtags != null && hashtags.size() > 0) {
       try {
         HashtagsInput input = new HashtagsInput();
         input.add = hashtags;
+        // TODO(dborowitz): Migrate HashtagsUtil so it doesn't create another
+        // ChangeUpdate.
         hashtagsUtil.setHashtags(ctl, input, false, false);
       } catch (ValidationException | AuthException e) {
         log.error("Cannot add hashtags to change " + change.getId(), e);
       }
     }
+  }
 
-    indexer.index(db, change);
-
+  @Override
+  public void postUpdate(Context ctx) throws OrmException {
     if (sendMail) {
       Runnable sender = new Runnable() {
         @Override
@@ -344,10 +334,8 @@ public class ChangeInserter {
       }
     }
 
-    gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
-        ObjectId.zeroId(), commit);
-
     if (runHooks) {
+      ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (hashtags != null && hashtags.size() > 0) {
         hooks.doHashtagsChangedHook(change,
@@ -355,31 +343,15 @@ public class ChangeInserter {
             hashtags, null, hashtags, db);
       }
     }
-
-    return change;
   }
 
-  private void updateRef() throws IOException {
-    if (!updateRef) {
-      return;
-    }
-    RefUpdate ru = git.updateRef(patchSet.getRefName());
-    ru.setExpectedOldObjectId(ObjectId.zeroId());
-    ru.setNewObjectId(commit);
-    ru.disableRefLog();
-    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-      throw new IOException(String.format(
-          "Failed to create ref %s in %s: %s", ru.getRef().getName(),
-          change.getDest().getParentKey().get(), ru.getResult()));
-    }
-  }
-
-  private void validate() throws IOException, InvalidChangeOperationException {
+  private void validate(RepoContext ctx)
+      throws IOException, InvalidChangeOperationException {
     if (validatePolicy == CommitValidators.Policy.NONE) {
       return;
     }
-    CommitValidators cv =
-        commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
+    CommitValidators cv = commitValidatorsFactory.create(
+        refControl, new NoSshInfo(), ctx.getRepository());
 
     String refName = patchSet.getId().toRefName();
     CommitReceivedEvent event = new CommitReceivedEvent(
@@ -388,14 +360,15 @@ public class ChangeInserter {
             commit.getId(),
             refName),
         refControl.getProjectControl().getProject(),
-        refControl.getRefName(),
+        change.getDest().get(),
         commit,
         user);
 
     try {
       switch (validatePolicy) {
       case RECEIVE_COMMITS:
-        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(git, revWalk);
+        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(
+            ctx.getRepository(), ctx.getRevWalk());
         cv.validateForReceiveCommits(event, rejectCommits);
         break;
       case GERRIT:

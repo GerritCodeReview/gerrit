@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
@@ -32,12 +33,13 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -196,6 +198,7 @@ public class ChangeUtil {
   private final GitRepositoryManager gitManager;
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeIndexer indexer;
+  private final BatchUpdate.Factory updateFactory;
 
   @Inject
   ChangeUtil(Provider<CurrentUser> userProvider,
@@ -205,7 +208,8 @@ public class ChangeUtil {
       ChangeInserter.Factory changeInserterFactory,
       GitRepositoryManager gitManager,
       GitReferenceUpdated gitRefUpdated,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      BatchUpdate.Factory updateFactory) {
     this.userProvider = userProvider;
     this.db = db;
     this.queryProvider = queryProvider;
@@ -214,13 +218,14 @@ public class ChangeUtil {
     this.gitManager = gitManager;
     this.gitRefUpdated = gitRefUpdated;
     this.indexer = indexer;
+    this.updateFactory = updateFactory;
   }
 
   public Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
       String message, PersonIdent myIdent)
       throws NoSuchChangeException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException {
+      RestApiException, UpdateException {
     Change.Id changeId = patchSetId.getParentKey();
     PatchSet patch = db.get().patchSets().get(patchSetId);
     if (patch == null) {
@@ -259,42 +264,49 @@ public class ChangeUtil {
           ChangeIdUtil.insertId(message, computedChangeId, true));
 
       RevCommit revertCommit;
+      ChangeInserter ins;
       try (ObjectInserter oi = git.newObjectInserter()) {
         ObjectId id = oi.insert(revertCommitBuilder);
         oi.flush();
         revertCommit = revWalk.parseCommit(id);
+
+        RefControl refControl = ctl.getRefControl();
+        Change change = new Change(
+            new Change.Key("I" + computedChangeId.name()),
+            new Change.Id(db.get().nextChangeId()),
+            user().getAccountId(),
+            changeToRevert.getDest(),
+            TimeUtil.nowTs());
+        change.setTopic(changeToRevert.getTopic());
+        ins = changeInserterFactory.create(
+              refControl, change, revertCommit)
+            .setValidatePolicy(CommitValidators.Policy.GERRIT);
+        StringBuilder msgBuf = new StringBuilder();
+        msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
+        msgBuf.append("\n\n");
+        msgBuf.append("This patchset was reverted in change: ")
+              .append(change.getKey().get());
+        ins.setMessage(msgBuf.toString());
+        try (BatchUpdate bu = updateFactory.create(
+            db.get(), change.getProject(), refControl.getCurrentUser(),
+            change.getCreatedOn())) {
+          bu.setRepository(git, revWalk, oi);
+          bu.insertChange(ins);
+          bu.execute();
+        }
       }
 
-      RefControl refControl = ctl.getRefControl();
-      Change change = new Change(
-          new Change.Key("I" + computedChangeId.name()),
-          new Change.Id(db.get().nextChangeId()),
-          user().getAccountId(),
-          changeToRevert.getDest(),
-          TimeUtil.nowTs());
-      change.setTopic(changeToRevert.getTopic());
-      ChangeInserter ins = changeInserterFactory.create(
-            git, revWalk, refControl.getProjectControl(), change, revertCommit)
-          .setValidatePolicy(CommitValidators.Policy.GERRIT);
-      StringBuilder msgBuf = new StringBuilder();
-      msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
-      msgBuf.append("\n\n");
-      msgBuf.append("This patchset was reverted in change: ")
-            .append(change.getKey().get());
-      ins.setMessage(msgBuf.toString())
-          .insert();
-
+      Change.Id id = ins.getChange().getId();
       try {
-        RevertedSender cm = revertedSenderFactory.create(change.getId());
+        RevertedSender cm = revertedSenderFactory.create(id);
         cm.setFrom(user().getAccountId());
         cm.setChangeMessage(ins.getChangeMessage());
         cm.send();
       } catch (Exception err) {
-        log.error("Cannot send email for revert change " + change.getId(),
-            err);
+        log.error("Cannot send email for revert change " + id, err);
       }
 
-      return change.getId();
+      return id;
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeId, e);
     }

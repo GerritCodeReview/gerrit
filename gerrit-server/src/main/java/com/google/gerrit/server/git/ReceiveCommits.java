@@ -111,7 +111,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -137,6 +136,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -306,6 +306,7 @@ public class ReceiveCommits {
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
   private final ChangeKindCache changeKindCache;
+  private final BatchUpdate.Factory batchUpdateFactory;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -382,7 +383,8 @@ public class ReceiveCommits {
       final ChangeKindCache changeKindCache,
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       final NotesMigration notesMigration,
-      final ChangeEditUtil editUtil) throws IOException {
+      final ChangeEditUtil editUtil,
+      final BatchUpdate.Factory batchUpdateFactory) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.queryProvider = queryProvider;
@@ -415,6 +417,7 @@ public class ReceiveCommits {
     this.allProjectsName = allProjectsName;
     this.receiveConfig = config;
     this.changeKindCache = changeKindCache;
+    this.batchUpdateFactory = batchUpdateFactory;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -1718,8 +1721,7 @@ public class ReceiveCommits {
           magicBranch.dest,
           TimeUtil.nowTs());
       change.setTopic(magicBranch.topic);
-      ins = changeInserterFactory.create(
-            repo, rp.getRevWalk(), ctl.getProjectControl(), change, c)
+      ins = changeInserterFactory.create(ctl, change, c)
           .setDraft(magicBranch.draft)
           // Changes already validated in validateNewCommits.
           .setValidatePolicy(CommitValidators.Policy.NONE);
@@ -1733,8 +1735,8 @@ public class ReceiveCommits {
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
-        public Void call() throws OrmException, IOException,
-            ResourceConflictException, InvalidChangeOperationException {
+        public Void call()
+            throws OrmException, RestApiException, UpdateException {
           insertChangeImpl();
           synchronized (newProgress) {
             newProgress.update(1);
@@ -1745,8 +1747,8 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    private void insertChangeImpl() throws OrmException, IOException,
-        ResourceConflictException, InvalidChangeOperationException {
+    private void insertChangeImpl()
+        throws OrmException, RestApiException, UpdateException {
       final PatchSet ps = ins.setGroups(groups).getPatchSet();
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
@@ -1759,15 +1761,20 @@ public class ReceiveCommits {
       }
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
-      ins
-        .setReviewers(recipients.getReviewers())
-        .setExtraCC(recipients.getCcOnly())
-        .setApprovals(approvals)
-        .setMessage("Uploaded patch set " + ps.getPatchSetId() + ".")
-        .setRequestScopePropagator(requestScopePropagator)
-        .setSendMail(true)
-        .setUpdateRef(false)
-        .insert();
+      try (ObjectInserter oi = repo.newObjectInserter();
+          BatchUpdate bu = batchUpdateFactory.create(
+            db, change.getProject(), currentUser, change.getCreatedOn())) {
+        bu.setRepository(repo, rp.getRevWalk(), oi);
+        bu.insertChange(ins
+            .setReviewers(recipients.getReviewers())
+            .setExtraCC(recipients.getCcOnly())
+            .setApprovals(approvals)
+            .setMessage("Uploaded patch set " + ps.getPatchSetId() + ".")
+            .setRequestScopePropagator(requestScopePropagator)
+            .setSendMail(true)
+            .setUpdateRef(false));
+        bu.execute();
+      }
       created = true;
 
       if (magicBranch != null && magicBranch.submit) {

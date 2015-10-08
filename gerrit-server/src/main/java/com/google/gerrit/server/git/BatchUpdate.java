@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
@@ -44,6 +45,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -115,14 +117,20 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public class ChangeContext extends Context {
+    private final ChangeControl ctl;
     private final ChangeUpdate update;
 
-    private ChangeContext(ChangeUpdate update) {
-      this.update = update;
+    private ChangeContext(ChangeControl ctl) {
+      this.ctl = ctl;
+      this.update = changeUpdateFactory.create(ctl, when);
     }
 
     public ChangeUpdate getChangeUpdate() {
       return update;
+    }
+
+    public ChangeControl getChangeControl() {
+      return ctl;
     }
 
     public Change getChange() {
@@ -149,6 +157,10 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
+  public abstract static class InsertChangeOp extends Op {
+    public abstract Change getChange();
+  }
+
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
   private final ChangeIndexer indexer;
@@ -161,6 +173,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Timestamp when;
 
   private final ListMultimap<Change.Id, Op> ops = ArrayListMultimap.create();
+  private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<CheckedFuture<?, IOException>> indexFutures =
       new ArrayList<>();
 
@@ -235,7 +248,17 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public BatchUpdate addOp(Change.Id id, Op op) {
+    checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
     ops.put(id, op);
+    return this;
+  }
+
+  public BatchUpdate insertChange(InsertChangeOp op) {
+    Change c = op.getChange();
+    checkArgument(!newChanges.containsKey(c.getId()),
+        "only one op allowed to create change %s", c.getId());
+    newChanges.put(c.getId(), c);
+    ops.get(c.getId()).add(0, op);
     return this;
   }
 
@@ -300,24 +323,35 @@ public class BatchUpdate implements AutoCloseable {
       for (Map.Entry<Change.Id, Collection<Op>> e : ops.asMap().entrySet()) {
         Change.Id id = e.getKey();
         db.changes().beginTransaction(id);
-        Change change = db.changes().get(id);
-        ChangeControl ctl = changeControlFactory.controlFor(change, user);
-        ChangeUpdate update = changeUpdateFactory.create(ctl, when);
+        ChangeContext ctx;
         try {
+          ctx = newChangeContext(id);
           for (Op op : e.getValue()) {
-            op.updateChange(new ChangeContext(update));
+            op.updateChange(ctx);
           }
           db.commit();
         } finally {
           db.rollback();
         }
-        update.commit();
+        ctx.getChangeUpdate().commit();
         indexFutures.add(indexer.indexAsync(id));
       }
     } catch (Exception e) {
       Throwables.propagateIfPossible(e);
       throw new UpdateException(e);
     }
+  }
+
+  private ChangeContext newChangeContext(Change.Id id) throws Exception {
+    Change c = newChanges.get(id);
+    if (c == null) {
+      c = db.changes().get(id);
+    }
+    // Pass in preloaded change to controlFor, to avoid:
+    //  - reading from a db that does not belong to this update
+    //  - attempting to read a change that doesn't exist yet
+    return new ChangeContext(
+      changeControlFactory.controlFor(c, user));
   }
 
   private void reindexChanges() throws IOException {

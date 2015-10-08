@@ -82,9 +82,9 @@ public class LuceneQueryChangesV14Test extends LuceneQueryChangesTest {
   public void isReviewed() throws Exception {
     clockStepMs = MILLISECONDS.convert(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = newChange(repo, null, null, null, null).insert();
-    Change change2 = newChange(repo, null, null, null, null).insert();
-    Change change3 = newChange(repo, null, null, null, null).insert();
+    Change change1 = insert(newChange(repo, null, null, null, null));
+    Change change2 = insert(newChange(repo, null, null, null, null));
+    Change change3 = insert(newChange(repo, null, null, null, null));
 
     gApi.changes()
       .id(change1.getId().get())

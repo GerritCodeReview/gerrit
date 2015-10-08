@@ -84,13 +84,13 @@ public class PatchSetTest {
   }
 
   private static void assertRef(int changeId, int psId, String refName) {
-    assertThat(PatchSet.isRef(refName)).isTrue();
+    assertThat(PatchSet.isChangeRef(refName)).isTrue();
     assertThat(PatchSet.Id.fromRef(refName))
         .isEqualTo(new PatchSet.Id(new Change.Id(changeId), psId));
   }
 
   private static void assertNotRef(String refName) {
-    assertThat(PatchSet.isRef(refName)).isFalse();
+    assertThat(PatchSet.isChangeRef(refName)).isFalse();
     assertThat(PatchSet.Id.fromRef(refName)).isNull();
   }
 }

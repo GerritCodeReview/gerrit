@@ -26,8 +26,16 @@ import java.util.List;
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
   /** Is the reference name a change reference? */
-  public static boolean isRef(String name) {
+  public static boolean isChangeRef(String name) {
     return Id.fromRef(name) != null;
+  }
+
+  /** Is the reference name a change reference?
+   *
+   * @deprecated use isChangeRef instead.
+   **/
+  public static boolean isRef(String name) {
+    return isChangeRef(name);
   }
 
   public static String joinGroups(Iterable<String> groups) {

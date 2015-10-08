@@ -83,6 +83,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Enumeration;
@@ -562,9 +563,9 @@ public class JettyServer {
 
   private Resource useDeveloperBuild(ServletContextHandler app)
       throws IOException {
-    final File dir = GerritLauncher.getDeveloperBuckOut();
-    final File gen = new File(dir, "gen");
-    final File root = dir.getParentFile();
+    final Path dir = GerritLauncher.getDeveloperBuckOut();
+    final Path gen = dir.resolve("gen");
+    final Path root = dir.getParent();
     final File dstwar = makeWarTempDir();
     File ui = new File(dstwar, "gerrit_ui");
     File p = new File(ui, "permutations");
@@ -593,7 +594,7 @@ public class JettyServer {
           // $ buck targets --show_output //gerrit-gwtui:ui_safari \
           //    | awk '{print $2}'
           String child = String.format("%s/__gwt_binary_%s__", pkg, target);
-          File zip = new File(new File(gen, child), target + ".zip");
+          File zip = gen.resolve(child).resolve(target + ".zip").toFile();
 
           synchronized (this) {
             try {
@@ -643,13 +644,13 @@ public class JettyServer {
     return Resource.newResource(dstwar.toURI());
   }
 
-  private static void build(File root, File gen, String target)
+  private static void build(Path root, Path gen, String target)
       throws IOException, BuildFailureException {
     log.info("buck build " + target);
     Properties properties = loadBuckProperties(gen);
     String buck = MoreObjects.firstNonNull(properties.getProperty("buck"), "buck");
     ProcessBuilder proc = new ProcessBuilder(buck, "build", target)
-        .directory(root)
+        .directory(root.toFile())
         .redirectErrorStream(true);
     if (properties.containsKey("PATH")) {
       proc.environment().put("PATH", properties.getProperty("PATH"));
@@ -677,11 +678,11 @@ public class JettyServer {
     log.info(String.format("UPDATED    %s in %.3fs", target, time / 1000.0));
   }
 
-  private static Properties loadBuckProperties(File gen)
+  private static Properties loadBuckProperties(Path gen)
       throws FileNotFoundException, IOException {
     Properties properties = new Properties();
     try (InputStream in = new FileInputStream(
-        new File(new File(gen, "tools"), "buck.properties"))) {
+        gen.resolve(Paths.get("tools/buck.properties")).toFile())) {
       properties.load(in);
     }
     return properties;

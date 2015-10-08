@@ -65,6 +65,8 @@ public class FileInfoJson {
       d.oldPath = e.getOldName();
       if (e.getPatchType() == Patch.PatchType.BINARY) {
         d.binary = true;
+        d.sizeDelta =
+            e.getSizeDelta() != null ? e.getSizeDelta() : null;
       } else {
         d.linesInserted = e.getInsertions() > 0 ? e.getInsertions() : null;
         d.linesDeleted = e.getDeletions() > 0 ? e.getDeletions() : null;
@@ -78,6 +80,7 @@ public class FileInfoJson {
         d.status = Patch.ChangeType.REWRITE.getCode();
         if (o.binary != null && o.binary) {
           d.binary = true;
+          d.sizeDelta = o.sizeDelta;
         }
         if (o.linesInserted != null) {
           d.linesInserted = o.linesInserted;

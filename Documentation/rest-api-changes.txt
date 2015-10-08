@@ -4199,6 +4199,9 @@ Not set for binary files or if no lines were inserted.
 |`lines_deleted` |optional|
 Number of deleted lines. +
 Not set for binary files or if no lines were deleted.
+|`size_delta`    |optional|
+Number of bytes by which the file size increased/decreased.
+Only set if the file is binary.
 |=============================
 
 [[fix-input]]

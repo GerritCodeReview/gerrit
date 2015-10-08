@@ -15,6 +15,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
@@ -59,6 +61,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
@@ -194,12 +197,28 @@ public class PatchListLoader implements Callable<PatchList> {
         DiffEntry diffEntry = diffEntries.get(i);
         if (paths == null || paths.contains(diffEntry.getNewPath())
             || paths.contains(diffEntry.getOldPath())) {
+
           FileHeader fh = toFileHeader(key, df, diffEntry);
-          entries.add(newEntry(aTree, fh));
+          PatchListEntry e = newEntry(aTree, fh);
+          if (com.google.gerrit.reviewdb.client.Patch.PatchType.BINARY
+              .equals(e.getPatchType())) {
+            e.setSizeDelta(getFileSize(repo, reader, diffEntry.getNewPath(), bTree)
+                - getFileSize(repo, reader, diffEntry.getOldPath(), aTree));
+          }
+          entries.add(e);
         }
       }
       return new PatchList(a, b, againstParent,
           entries.toArray(new PatchListEntry[entries.size()]));
+    }
+  }
+
+  private static long getFileSize(Repository repo, ObjectReader reader,
+      String path, RevTree t) throws IOException {
+    try (TreeWalk tw = TreeWalk.forPath(reader, path, t)) {
+      return tw != null
+          ? repo.open(tw.getObjectId(0), OBJ_BLOB).getSize()
+          : 0;
     }
   }
 

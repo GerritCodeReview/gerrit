@@ -60,6 +60,7 @@ public class PatchListEntry {
   private final List<Edit> edits;
   private final int insertions;
   private final int deletions;
+  private Long sizeDelta;
 
   PatchListEntry(final FileHeader hdr, List<Edit> editList) {
     changeType = toChangeType(hdr);
@@ -164,6 +165,14 @@ public class PatchListEntry {
 
   public int getDeletions() {
     return deletions;
+  }
+
+  public void setSizeDelta(Long sizeDelta) {
+    this.sizeDelta = sizeDelta;
+  }
+
+  public Long getSizeDelta() {
+    return sizeDelta;
   }
 
   public List<String> getHeaderLines() {

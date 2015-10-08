@@ -276,6 +276,30 @@
       "revId": "849926a5c5cbb3d04a73c7815447ffa8bfad9235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2559ed73_1afc3da1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-08T06:00:43Z",
+      "side": 1,
+      "message": "Yes, it looks like I made the changes locally but for some reason didn\u0027t push them :(",
+      "parentUuid": "306daded_9adcad43",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 3
+      },
+      "revId": "849926a5c5cbb3d04a73c7815447ffa8bfad9235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

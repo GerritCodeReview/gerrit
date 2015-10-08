@@ -22,6 +22,30 @@
       "revId": "6e995c4287118f1af10e0066a51bd0371cd7ba68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65a1255e_9c902545",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-08T13:46:21Z",
+      "side": 1,
+      "message": "Yes, good idea for future cleanup.",
+      "parentUuid": "45c9819b_93051c5b",
+      "range": {
+        "startLine": 229,
+        "startChar": 51,
+        "endLine": 229,
+        "endChar": 67
+      },
+      "revId": "6e995c4287118f1af10e0066a51bd0371cd7ba68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

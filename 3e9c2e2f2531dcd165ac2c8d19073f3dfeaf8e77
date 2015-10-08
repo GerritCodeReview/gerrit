@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "254acd42_12b92c07",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1726,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-08T23:04:20Z",
+      "side": 1,
+      "message": "(just curious) Is enableSignedPush also being enabled a hard requirement or an accident of how it currently works?\n\nIn principle someone could want to allow people to upload their public GPG keys without enabling any kind of checking of push certs, as a way of doing setup before the step that could break people.\n\nThat\u0027s probably academic because enableSignedPush doesn\u0027t mean that people *have* to use --signed and no one would expect a push with --signed with invalid certs to succeed.",
+      "range": {
+        "startLine": 1725,
+        "startChar": 11,
+        "endLine": 1726,
+        "endChar": 39
+      },
+      "revId": "3e9c2e2f2531dcd165ac2c8d19073f3dfeaf8e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

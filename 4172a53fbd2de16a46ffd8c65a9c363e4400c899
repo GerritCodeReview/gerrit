@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2559ed73_1a2d5dd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-08T17:26:51Z",
+      "side": 1,
+      "message": "Not sure I follow.\n\nIf `e.getSizeDelta() !\u003d null` is true, we assign `e.getSizeDelta()`. If it is null, we assign null, which makes it seem like a no-op to me.\nSo \n    d.sizeDelta \u003d e.getSizeDelta();\n\nshould cover both cases?",
+      "parentUuid": "a5979d01_be8dd92f",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 63
+      },
+      "revId": "4172a53fbd2de16a46ffd8c65a9c363e4400c899",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "853e19eb_dd5beb5e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 1

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5979d01_fedcc143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-08T07:26:59Z",
+      "side": 1,
+      "message": "Can this be removed now?",
+      "range": {
+        "startLine": 228,
+        "startChar": 2,
+        "endLine": 229,
+        "endChar": 70
+      },
+      "revId": "1dafba0a414b58b5a5568d8e3e760fff0340dd87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

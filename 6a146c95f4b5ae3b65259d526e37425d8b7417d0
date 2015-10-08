@@ -52,6 +52,24 @@
       "revId": "6a146c95f4b5ae3b65259d526e37425d8b7417d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "853e19eb_5d1d1ba7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-08T07:21:53Z",
+      "side": 1,
+      "message": "I think it\u0027s because the error log file is not initialised until after the config is initialised.\n\nSee Daemon.start():\n\n    if (dbInjector \u003d\u003d null) {\n      dbInjector \u003d createDbInjector(MULTI_USER);\n    }\n    cfgInjector \u003d createCfgInjector();\n    config \u003d cfgInjector.getInstance(\n        Key.get(Config.class, GerritServerConfig.class));\n    initIndexType();\n    sysInjector \u003d createSysInjector();\n    sysInjector.getInstance(PluginGuiceEnvironment.class)\n      .setDbCfgInjector(dbInjector, cfgInjector);\n    manager.add(dbInjector, cfgInjector, sysInjector);\n\n    if (!consoleLog) {\n      manager.add(ErrorLogFile.start(getSitePath(), config));\n    }",
+      "parentUuid": "2559ed73_baea71d3",
+      "revId": "6a146c95f4b5ae3b65259d526e37425d8b7417d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

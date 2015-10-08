@@ -34,6 +34,24 @@
       "revId": "6a146c95f4b5ae3b65259d526e37425d8b7417d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2559ed73_baea71d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-08T07:09:19Z",
+      "side": 1,
+      "message": "I\u0027m seeing the same results as you.",
+      "parentUuid": "70a1e55d_bcee41e2",
+      "revId": "6a146c95f4b5ae3b65259d526e37425d8b7417d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

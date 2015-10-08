@@ -1766,6 +1766,7 @@ public class ReceiveCommits {
         .setMessage("Uploaded patch set " + ps.getPatchSetId() + ".")
         .setRequestScopePropagator(requestScopePropagator)
         .setSendMail(true)
+        .setUpdateRef(false)
         .insert();
       created = true;
 

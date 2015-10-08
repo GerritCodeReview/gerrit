@@ -124,10 +124,10 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
             RefNames.REFS_CONFIG),
         TimeUtil.nowTs());
     try (RevWalk rw = new RevWalk(md.getRepository())) {
-      ChangeInserter ins = changeInserterFactory.create(
-              md.getRepository(), rw, ctl, change, commit)
-          .setValidatePolicy(CommitValidators.Policy.NONE);
-      ins.insert();
+      changeInserterFactory.create(md.getRepository(), rw, ctl, change, commit)
+          .setValidatePolicy(CommitValidators.Policy.NONE)
+          .setUpdateRef(false) // Created by commitToNewRef.
+          .insert();
     } catch (InvalidChangeOperationException e) {
       throw new IOException(e);
     }

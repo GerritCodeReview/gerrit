@@ -60,7 +60,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -241,24 +240,9 @@ public class CherryPickChange {
             git, revWalk, refControl.getProjectControl(), change,
             cherryPickCommit)
         .setValidatePolicy(CommitValidators.Policy.GERRIT);
-    ins.setMessage(
-        messageForDestinationChange(ins.getPatchSet().getId(), sourceBranch));
-    ins.validate();
-    PatchSet newPatchSet = ins.getPatchSet();
-
-    final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
-    ru.setExpectedOldObjectId(ObjectId.zeroId());
-    ru.setNewObjectId(cherryPickCommit);
-    ru.disableRefLog();
-    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-      throw new IOException(String.format(
-          "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
-          change.getDest().getParentKey().get(), ru.getResult()));
-    }
-
-    ins.insert();
-
-    return change;
+    return ins.setMessage(
+          messageForDestinationChange(ins.getPatchSet().getId(), sourceBranch))
+        .insert();
   }
 
   private void addMessageToSourceChange(Change change, PatchSet.Id patchSetId,

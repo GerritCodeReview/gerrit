@@ -59,6 +59,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -114,6 +115,7 @@ public class ChangeInserter {
   private RequestScopePropagator requestScopePropagator;
   private boolean runHooks;
   private boolean sendMail;
+  private boolean updateRef;
 
   // Fields set during the insertion process.
   private ChangeMessage changeMessage;
@@ -162,6 +164,7 @@ public class ChangeInserter {
     this.hashtags = Collections.emptySet();
     this.runHooks = true;
     this.sendMail = true;
+    this.updateRef = true;
 
     user = checkUser(projectControl);
     patchSet =
@@ -243,6 +246,11 @@ public class ChangeInserter {
     return this;
   }
 
+  public ChangeInserter setUpdateRef(boolean updateRef) {
+    this.updateRef = updateRef;
+    return this;
+  }
+
   public PatchSetInfo getPatchSetInfo() {
     return patchSetInfo;
   }
@@ -259,6 +267,8 @@ public class ChangeInserter {
   public Change insert()
       throws OrmException, IOException, InvalidChangeOperationException {
     validate();
+
+    updateRef();
 
     ReviewDb db = dbProvider.get();
     ProjectControl projectControl = refControl.getProjectControl();
@@ -350,10 +360,22 @@ public class ChangeInserter {
     return change;
   }
 
-  // TODO(dborowitz): This is only public because callers expect validation to
-  // happen before updating any refs, and they are still updating refs manually.
-  // Make private once we have migrated ref updates into this class.
-  public void validate() throws IOException, InvalidChangeOperationException {
+  private void updateRef() throws IOException {
+    if (!updateRef) {
+      return;
+    }
+    RefUpdate ru = git.updateRef(patchSet.getRefName());
+    ru.setExpectedOldObjectId(ObjectId.zeroId());
+    ru.setNewObjectId(commit);
+    ru.disableRefLog();
+    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+      throw new IOException(String.format(
+          "Failed to create ref %s in %s: %s", ru.getRef().getName(),
+          change.getDest().getParentKey().get(), ru.getResult()));
+    }
+  }
+
+  private void validate() throws IOException, InvalidChangeOperationException {
     if (validated || validatePolicy == CommitValidators.Policy.NONE) {
       return;
     }

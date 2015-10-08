@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.gerrit.common.FileUtil.lastModified;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -201,7 +202,7 @@ public class HostPageServlet extends HttpServlet {
     plugins(w);
     messages(w);
 
-    final byte[] hpd = w.toString().getBytes("UTF-8");
+    final byte[] hpd = w.toString().getBytes(UTF_8);
     final byte[] raw = Bytes.concat(page.part1, hpd, page.part2);
     final byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
@@ -353,8 +354,8 @@ public class HostPageServlet extends HttpServlet {
         if (p < 0) {
           throw new IOException("No tag in transformed host page HTML");
         }
-        part1 = raw.substring(0, p).getBytes("UTF-8");
-        part2 = raw.substring(raw.indexOf('>', p) + 1).getBytes("UTF-8");
+        part1 = raw.substring(0, p).getBytes(UTF_8);
+        part2 = raw.substring(raw.indexOf('>', p) + 1).getBytes(UTF_8);
       }
     }
 

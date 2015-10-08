@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.server.documentation.Constants;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -108,7 +110,7 @@ public class DocIndexer {
 
         String title;
         try (BufferedReader titleReader = new BufferedReader(
-            new InputStreamReader(new FileInputStream(file), "UTF-8"))) {
+            new InputStreamReader(new FileInputStream(file), UTF_8))) {
           title = titleReader.readLine();
           if (title != null && title.startsWith("[[")) {
             // Generally the first line of the txt is the title. In a few cases the

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.gitweb;
 
 import static com.google.gerrit.common.FileUtil.lastModified;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.GitwebCgiConfig;
@@ -25,6 +26,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
@@ -51,7 +53,7 @@ abstract class GitwebCssServlet extends HttpServlet {
     }
   }
 
-  private static final String ENC = "UTF-8";
+  private static final Charset ENC = UTF_8;
 
   private final long modified;
   private final byte[] raw_css;
@@ -65,7 +67,7 @@ abstract class GitwebCssServlet extends HttpServlet {
       final String raw = HtmlDomUtil.readFile(dir, name);
       if (raw != null) {
         modified = lastModified(src);
-        raw_css = raw.getBytes(ENC);
+        raw_css = raw.getBytes(UTF_8);
         gz_css = HtmlDomUtil.compress(raw_css);
       } else {
         modified = -1L;
@@ -89,7 +91,7 @@ abstract class GitwebCssServlet extends HttpServlet {
       final HttpServletResponse rsp) throws IOException {
     if (raw_css != null) {
       rsp.setContentType("text/css");
-      rsp.setCharacterEncoding(ENC);
+      rsp.setCharacterEncoding(ENC.name());
       final byte[] toSend;
       if (RPCServletUtils.acceptsGzipEncoding(req)) {
         rsp.setHeader("Content-Encoding", "gzip");

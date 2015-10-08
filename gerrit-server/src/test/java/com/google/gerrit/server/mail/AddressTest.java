@@ -20,8 +20,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.io.UnsupportedEncodingException;
-
 public class AddressTest {
   @Rule
   public ExpectedException exception = ExpectedException.none();
@@ -155,10 +153,6 @@ public class AddressTest {
   }
 
   private static String format(final String name, final String email) {
-    try {
-      return new Address(name, email).toHeaderString();
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Cannot encode address", e);
-    }
+    return new Address(name, email).toHeaderString();
   }
 }

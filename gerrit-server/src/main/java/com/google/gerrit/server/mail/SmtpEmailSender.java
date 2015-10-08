@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
@@ -241,7 +243,7 @@ public class SmtpEmailSender implements EmailSender {
   }
 
   private SMTPClient open() throws EmailException {
-    final AuthSMTPClient client = new AuthSMTPClient("UTF-8");
+    final AuthSMTPClient client = new AuthSMTPClient(UTF_8.name());
 
     if (smtpEncryption == Encryption.SSL) {
       client.enableSSL(sslVerify);

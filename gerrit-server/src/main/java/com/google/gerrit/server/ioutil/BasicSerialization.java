@@ -29,6 +29,8 @@
 
 package com.google.gerrit.server.ioutil;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.reviewdb.client.CodedEnum;
 
 import org.eclipse.jgit.util.IO;
@@ -139,7 +141,7 @@ public class BasicSerialization {
     if (bin.length == 0) {
       return null;
     }
-    return new String(bin, 0, bin.length, "UTF-8");
+    return new String(bin, 0, bin.length, UTF_8);
   }
 
   /** Write a UTF-8 string, prefixed by its byte length in a varint. */
@@ -148,7 +150,7 @@ public class BasicSerialization {
     if (s == null) {
       writeVarInt32(output, 0);
     } else {
-      writeBytes(output, s.getBytes("UTF-8"));
+      writeBytes(output, s.getBytes(UTF_8));
     }
   }
 

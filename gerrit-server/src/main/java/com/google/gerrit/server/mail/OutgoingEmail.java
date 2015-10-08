@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -443,7 +445,7 @@ public abstract class OutgoingEmail {
       if (runtime.getLoaderNameForResource(name) == null) {
         name = "com/google/gerrit/server/mail/" + name;
       }
-      Template template = runtime.getTemplate(name, "UTF-8");
+      Template template = runtime.getTemplate(name, UTF_8.name());
       StringWriter w = new StringWriter();
       template.merge(velocityContext, w);
       return w.toString();

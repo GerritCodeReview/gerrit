@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -51,13 +53,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class BaseCommand implements Command {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
-  public static final String ENC = "UTF-8";
+  public static final Charset ENC = UTF_8;
 
   private static final int PRIVATE_STATUS = 1 << 30;
   static final int STATUS_CANCEL = PRIVATE_STATUS | 1;
@@ -309,14 +311,7 @@ public abstract class BaseCommand implements Command {
 
   /** Wrap the supplied output stream in a UTF-8 encoded PrintWriter. */
   protected static PrintWriter toPrintWriter(final OutputStream o) {
-    try {
-      return new PrintWriter(new BufferedWriter(new OutputStreamWriter(o, ENC)));
-    } catch (UnsupportedEncodingException e) {
-      // Our default encoding is required by the specifications for the
-      // runtime APIs, this should never, ever happen.
-      //
-      throw new RuntimeException("JVM lacks " + ENC + " encoding", e);
-    }
+    return new PrintWriter(new BufferedWriter(new OutputStreamWriter(o, ENC)));
   }
 
   private int handleError(final Throwable e) {

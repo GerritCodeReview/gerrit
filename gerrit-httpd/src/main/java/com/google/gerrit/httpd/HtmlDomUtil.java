@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.io.ByteStreams;
 
 import org.w3c.dom.Document;
@@ -27,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -50,7 +51,7 @@ import javax.xml.xpath.XPathFactory;
 /** Utility functions to deal with HTML using W3C DOM operations. */
 public class HtmlDomUtil {
   /** Standard character encoding we prefer (UTF-8). */
-  public static final Charset ENC = StandardCharsets.UTF_8;
+  public static final Charset ENC = UTF_8;
 
   /** DOCTYPE for a standards mode HTML document. */
   public static final String HTML_STRICT =

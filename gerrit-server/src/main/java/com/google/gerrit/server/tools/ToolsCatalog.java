@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.tools;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.Version;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -72,7 +74,7 @@ public class ToolsCatalog {
     SortedMap<String, Entry> toc = new TreeMap<>();
     final BufferedReader br =
         new BufferedReader(new InputStreamReader(new ByteArrayInputStream(
-            read("TOC")), "UTF-8"));
+            read("TOC")), UTF_8));
     String line;
     while ((line = br.readLine()) != null) {
       if (line.length() > 0 && !line.startsWith("#")) {

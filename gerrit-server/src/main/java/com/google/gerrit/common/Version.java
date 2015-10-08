@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +41,7 @@ public class Version {
       if (in == null) {
         return "(dev)";
       }
-      try (BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF-8"))) {
+      try (BufferedReader r = new BufferedReader(new InputStreamReader(in, UTF_8))) {
         String vs = r.readLine();
         if (vs != null && vs.startsWith("v")) {
           vs = vs.substring(1);

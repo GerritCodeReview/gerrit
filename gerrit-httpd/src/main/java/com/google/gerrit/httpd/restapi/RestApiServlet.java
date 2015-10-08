@@ -819,7 +819,7 @@ public class RestApiServlet extends HttpServlet {
     }
     res.setHeader("X-FYI-Content-Encoding", "base64");
     res.setHeader("X-FYI-Content-Type", src.getContentType());
-    return b64.setContentType("text/plain").setCharacterEncoding("ISO-8859-1");
+    return b64.setContentType("text/plain").setCharacterEncoding(ISO_8859_1.name());
   }
 
   private static BinaryResult stackGzip(HttpServletResponse res,

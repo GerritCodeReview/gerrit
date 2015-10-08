@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.mail;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.MoreObjects;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -104,8 +105,7 @@ public abstract class EmailHeader {
     }
   }
 
-  static java.lang.String quotedPrintable(java.lang.String value)
-      throws UnsupportedEncodingException {
+  static java.lang.String quotedPrintable(java.lang.String value) {
     final StringBuilder r = new StringBuilder();
 
     r.append("=?UTF-8?Q?");
@@ -115,7 +115,7 @@ public abstract class EmailHeader {
         r.append('_');
 
       } else if (needsQuotedPrintableWithinPhrase(cp)) {
-        byte[] buf = new java.lang.String(Character.toChars(cp)).getBytes("UTF-8");
+        byte[] buf = new java.lang.String(Character.toChars(cp)).getBytes(UTF_8);
         for (byte b: buf) {
           r.append('=');
           r.append(Integer.toHexString((b >>> 4) & 0x0f).toUpperCase());

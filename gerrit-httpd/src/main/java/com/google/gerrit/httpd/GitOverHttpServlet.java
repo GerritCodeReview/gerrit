@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
@@ -160,7 +162,7 @@ public class GitOverHttpServlet extends GitServlet {
         ServiceNotEnabledException {
       try {
         // TODO: remove this code when Guice fixes its issue 745
-        projectName = URLDecoder.decode(projectName, "UTF-8");
+        projectName = URLDecoder.decode(projectName, UTF_8.name());
       } catch (UnsupportedEncodingException e) {
         // leave it encoded
       }

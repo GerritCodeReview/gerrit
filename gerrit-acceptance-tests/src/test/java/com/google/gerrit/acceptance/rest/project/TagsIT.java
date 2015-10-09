@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -26,6 +27,11 @@ import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
 import org.apache.http.HttpStatus;
+import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Test;
 
 import java.util.List;
@@ -84,15 +90,29 @@ public class TagsIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push2.to("refs/for/master%submit");
     r2.assertOkStatus();
 
+    String tag3Ref = Constants.R_TAGS + "vLatest";
+    PushCommand pushCmd = testRepo.git().push();
+    pushCmd.setRefSpecs(new RefSpec(tag2.name + ":" + tag3Ref));
+    Iterable<PushResult> r = pushCmd.call();
+    assertThat(Iterables.getOnlyElement(r).getRemoteUpdate(tag3Ref).getStatus())
+        .isEqualTo(Status.OK);
+
     List<TagInfo> result = getTags().get();
-    assertThat(result).hasSize(2);
+    assertThat(result).hasSize(3);
 
     TagInfo t = result.get(0);
-    assertThat(t.ref).isEqualTo("refs/tags/" + tag1.name);
+    assertThat(t.ref).isEqualTo(Constants.R_TAGS + tag1.name);
     assertThat(t.revision).isEqualTo(r1.getCommitId().getName());
 
     t = result.get(1);
-    assertThat(t.ref).isEqualTo("refs/tags/" + tag2.name);
+    assertThat(t.ref).isEqualTo(Constants.R_TAGS + tag2.name);
+    assertThat(t.object).isEqualTo(r2.getCommitId().getName());
+    assertThat(t.message).isEqualTo(tag2.message);
+    assertThat(t.tagger.name).isEqualTo(tag2.tagger.getName());
+    assertThat(t.tagger.email).isEqualTo(tag2.tagger.getEmailAddress());
+
+    t = result.get(2);
+    assertThat(t.ref).isEqualTo(tag3Ref);
     assertThat(t.object).isEqualTo(r2.getCommitId().getName());
     assertThat(t.message).isEqualTo(tag2.message);
     assertThat(t.tagger.name).isEqualTo(tag2.tagger.getName());

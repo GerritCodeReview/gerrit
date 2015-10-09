@@ -157,7 +157,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       RevTag tag = (RevTag)object;
       // Annotated or signed tag
       return new TagInfo(
-          Constants.R_TAGS + tag.getTagName(),
+          ref.getName(),
           tag.getName(),
           tag.getObject().getName(),
           tag.getFullMessage().trim(),

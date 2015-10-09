@@ -37,9 +37,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.StringUtil;
 import com.google.gerrit.server.WebLinks;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
@@ -109,7 +109,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   private final CurrentUser currentUser;
   private final ProjectCache projectCache;
-  private final GroupCache groupCache;
+  private final GroupsCollection groupsCollection;
   private final GroupControl.Factory groupControlFactory;
   private final GitRepositoryManager repoManager;
   private final ProjectNode.Factory projectNodeFactory;
@@ -191,13 +191,16 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private AccountGroup.UUID groupUuid;
 
   @Inject
-  protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
-      GroupCache groupCache, GroupControl.Factory groupControlFactory,
-      GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory,
+  protected ListProjects(CurrentUser currentUser,
+      ProjectCache projectCache,
+      GroupsCollection groupsCollection,
+      GroupControl.Factory groupControlFactory,
+      GitRepositoryManager repoManager,
+      ProjectNode.Factory projectNodeFactory,
       WebLinks webLinks) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
-    this.groupCache = groupCache;
+    this.groupsCollection = groupsCollection;
     this.groupControlFactory = groupControlFactory;
     this.repoManager = repoManager;
     this.projectNodeFactory = projectNodeFactory;
@@ -280,7 +283,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             break;
           }
           if (!pctl.getLocalGroups().contains(
-              GroupReference.forGroup(groupCache.get(groupUuid)))) {
+              GroupReference.forGroup(groupsCollection.parseId(groupUuid.get())))) {
             continue;
           }
         }

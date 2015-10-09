@@ -17,6 +17,7 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gwt.i18n.client.NumberFormat;
 
 import java.util.Date;
 
@@ -106,5 +107,20 @@ public class FormatUtil {
 
   private static AccountFormatter createAccountFormatter() {
     return new AccountFormatter(Gerrit.info().user().anonymousCowardName());
+  }
+
+  public static String formatBytes(long bytes) {
+    if (bytes == 0) {
+      return "+/- 0 B";
+    }
+
+    if (Math.abs(bytes) < 1024) {
+      return (bytes > 0 ? "+" : "") + bytes + " B";
+    }
+
+    int exp = (int) (Math.log(Math.abs(bytes)) / Math.log(1024));
+    return (bytes > 0 ? "+" : "")
+        + NumberFormat.getFormat("#.0").format(bytes / Math.pow(1024, exp))
+        + " " + "KMGTPE".charAt(exp - 1) + "iB";
   }
 }

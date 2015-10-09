@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "4a618e1e_33920854",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-09T12:41:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "254acd42_525f344d",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "8407c113e528cf36985d442186650435dfd50a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea0a4213_f8539149",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -155,6 +179,24 @@
       "writtenOn": "2015-10-09T12:38:23Z",
       "side": 1,
       "message": "Do we know why it was annotated as deprecated?  That change was almost 3 years ago; I wonder if the intention at that time was to remove hooks support soon after?",
+      "revId": "8407c113e528cf36985d442186650435dfd50a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a618e1e_93395c0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-09T12:41:04Z",
+      "side": 1,
+      "message": "/me don\u0027t know.",
+      "parentUuid": "ea0a4213_f8539149",
       "revId": "8407c113e528cf36985d442186650435dfd50a8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -81,6 +81,30 @@
       "revId": "5f5c52a4a21234117d7b831397c3868fe31f6174",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a618e1e_734ac093",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-09T11:35:21Z",
+      "side": 1,
+      "message": "Missed to upload the changes? I missed that this is a change on stable branch, so my comment is optional.",
+      "parentUuid": "6a665238_14453484",
+      "range": {
+        "startLine": 357,
+        "startChar": 11,
+        "endLine": 357,
+        "endChar": 51
+      },
+      "revId": "5f5c52a4a21234117d7b831397c3868fe31f6174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

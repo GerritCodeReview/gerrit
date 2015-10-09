@@ -15,6 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.changes.ChangeApi;
@@ -750,6 +751,8 @@ public class FileTable extends FlowPanel {
               .append(info.linesDeleted());
           }
         }
+      } else if (info.binary()) {
+        sb.append(FormatUtil.formatBytes(info.sizeDelta()));
       }
       sb.closeTd();
     }

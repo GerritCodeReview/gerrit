@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a665238_b453a04a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-09T11:52:59Z",
+      "side": 1,
+      "message": "[Optional] Move this method at the bottom of this class, together with isIdentifiedUser.",
+      "revId": "6b63be5d259443aa6ccc17169675f9986d669e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a618e1e_93503c3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-09T11:52:59Z",
+      "side": 1,
+      "message": "There are more places with \u0027instanceof InternalUser\u0027 in code, that can also be replaced with \u0027isInternalUser()\u0027, but this can be done later on master:\n\n  $ git grep \"instanceof InternalUser\" | wc -l\n  4",
+      "revId": "6b63be5d259443aa6ccc17169675f9986d669e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

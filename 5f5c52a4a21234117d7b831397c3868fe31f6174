@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4a618e1e_33404874",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-10-09T11:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a618e1e_930f9c6f",
+      "revId": "5f5c52a4a21234117d7b831397c3868fe31f6174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a665238_34403074",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-10-09T10:41:21Z",
       "side": 1,
       "message": "Instead of this cast, new method can be added to CurrentUser:\n\n  /** Check if user is the InernalUser */\n  public boolean isInternalUser() {\n    return false;\n  }\n\nand overloaded in InternalUser and return true. Then the line 357 above can just be:\n\n  getCurrentUser().isInternalUser()\n\nThe same was done for isIdentifiedUser() method.",
+      "range": {
+        "startLine": 357,
+        "startChar": 11,
+        "endLine": 357,
+        "endChar": 51
+      },
+      "revId": "5f5c52a4a21234117d7b831397c3868fe31f6174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a665238_14453484",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-10-09T11:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a665238_34403074",
       "range": {
         "startLine": 357,
         "startChar": 11,

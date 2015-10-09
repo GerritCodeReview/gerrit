@@ -22,6 +22,30 @@
       "revId": "8407c113e528cf36985d442186650435dfd50a8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "254acd42_d24a4493",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-09T12:10:46Z",
+      "side": 1,
+      "message": "It\u0027s using the preferred email address that\u0027s set on your account.  This is the same email address that appears when you are included in reviewer suggestions.",
+      "parentUuid": "6a665238_d409fc69",
+      "range": {
+        "startLine": 2,
+        "startChar": 29,
+        "endLine": 2,
+        "endChar": 54
+      },
+      "revId": "8407c113e528cf36985d442186650435dfd50a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

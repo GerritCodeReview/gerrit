@@ -30,6 +30,12 @@ public class FileInfo extends JavaScriptObject {
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
   public final native String status() /*-{ return this.status; }-*/;
 
+  public final long sizeDelta() {
+    return (long)_sizeDelta();
+  }
+
+  private final native double _sizeDelta() /*-{ return this.size_delta || 0; }-*/;
+
   public final native int _row() /*-{ return this._row }-*/;
   public final native void _row(int r) /*-{ this._row = r }-*/;
 

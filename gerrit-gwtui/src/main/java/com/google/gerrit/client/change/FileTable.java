@@ -44,6 +44,7 @@ import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.DOM;
@@ -750,9 +751,26 @@ public class FileTable extends FlowPanel {
               .append(info.linesDeleted());
           }
         }
+      } else if (info.binary()) {
+        sb.append(formatBytes(info.sizeDelta()));
       }
       sb.closeTd();
     }
+
+    private String formatBytes(long bytes) {
+      if (bytes == 0) {
+        return "+/- 0";
+      }
+
+      if (Math.abs(bytes) < 1024) {
+        return (bytes > 0 ? "+" : "") + bytes + " B";
+      }
+
+      int exp = (int) (Math.log(Math.abs(bytes)) / Math.log(1024));
+      return (bytes > 0 ? "+" : "")
+          + NumberFormat.getFormat("#.0").format(bytes / Math.pow(1024, exp))
+          + " " + "KMGTPE".charAt(exp - 1) + "iB";
+  }
 
     private void columnDelta2(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn2());

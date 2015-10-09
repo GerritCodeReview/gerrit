@@ -16,6 +16,24 @@
       "revId": "776180da1093aa7d813bafb32a7e7ddfac7a9484",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "254acd42_320f1072",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-09T07:08:34Z",
+      "side": 0,
+      "message": "Looks like it shouldn\u0027t have been removed in the conflict resolution, but strangely the tests still pass without it.\n\nAnyway, done.  New PS coming soon.",
+      "parentUuid": "4a618e1e_33cde894",
+      "revId": "776180da1093aa7d813bafb32a7e7ddfac7a9484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

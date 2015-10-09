@@ -46,6 +46,30 @@
       "revId": "bf509df2adb0e919c0b9aa4c0da3f5ac460d2faf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a618e1e_93b4bc0f",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-09T06:26:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0a4213_78f661c5",
+      "range": {
+        "startLine": 570,
+        "startChar": 23,
+        "endLine": 570,
+        "endChar": 31
+      },
+      "revId": "bf509df2adb0e919c0b9aa4c0da3f5ac460d2faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

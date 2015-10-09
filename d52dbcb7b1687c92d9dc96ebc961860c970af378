@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "254acd42_92799cbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-09T13:18:25Z",
+      "side": 1,
+      "message": "Doh.  This is one of the disadvantages of the inline editor :)\n\nDone.",
+      "parentUuid": "4a618e1e_b36e18ef",
+      "revId": "d52dbcb7b1687c92d9dc96ebc961860c970af378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a618e1e_7375a0bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 2

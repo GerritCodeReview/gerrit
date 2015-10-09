@@ -88,6 +88,11 @@ public abstract class CurrentUser {
     return null;
   }
 
+  /** Check if the CurrentUser is an InternalUser. */
+  public boolean isInternalUser() {
+    return false;
+  }
+
   /** Capabilities available to this user account. */
   public CapabilityControl getCapabilities() {
     if (capabilities == null) {

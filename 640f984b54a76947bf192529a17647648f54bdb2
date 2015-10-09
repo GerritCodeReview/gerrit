@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea0a4213_b85d1956",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/FileInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-09T12:43:14Z",
+      "side": 1,
+      "message": "In the preceding 2 fields we use the boxed type (`Integer` rather than `int`).  Why do we use a primitive Java type for this one?  I.e. should this be `Long` instead?",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 13
+      },
+      "revId": "640f984b54a76947bf192529a17647648f54bdb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

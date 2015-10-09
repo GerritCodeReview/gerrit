@@ -33,7 +33,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -258,7 +257,7 @@ public class ProjectControl {
 
   /** Can this user see this project exists? */
   public boolean isVisible() {
-    return (user instanceof InternalUser
+    return (user.isInternalUser()
         || canPerformOnAnyRef(Permission.READ)) && !isHidden();
   }
 
@@ -287,7 +286,7 @@ public class ProjectControl {
   }
 
   public boolean allRefsAreVisible(Set<String> ignore) {
-    return user instanceof InternalUser
+    return user.isInternalUser()
         || canPerformOnAllRefs(Permission.READ, ignore);
   }
 

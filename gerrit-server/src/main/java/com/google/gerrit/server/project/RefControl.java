@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
 import dk.brics.automaton.RegExp;
@@ -118,7 +117,7 @@ public class RefControl {
   public boolean isVisible() {
     if (isVisible == null) {
       isVisible =
-          (getCurrentUser() instanceof InternalUser || canPerform(Permission.READ))
+          (getCurrentUser().isInternalUser() || canPerform(Permission.READ))
               && canRead();
     }
     return isVisible;

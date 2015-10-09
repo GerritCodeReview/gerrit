@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a665238_341f90a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-09T07:58:34Z",
+      "side": 1,
+      "message": "[optional] Maybe this could be controlled by a site configuration parameter. At least I could imagine that some organization would like this to be extra secure.",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "f23908be9292f3d54e29bfaac0b43ad829ad5279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

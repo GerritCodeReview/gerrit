@@ -75,6 +75,30 @@
       "revId": "b0e5983233ff0a0adea0f5fc2b10f1ef2d6652db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "254acd42_b245c084",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.7.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-09T12:08:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a618e1e_d3d7541b",
+      "range": {
+        "startLine": 14,
+        "startChar": 54,
+        "endLine": 14,
+        "endChar": 61
+      },
+      "revId": "b0e5983233ff0a0adea0f5fc2b10f1ef2d6652db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

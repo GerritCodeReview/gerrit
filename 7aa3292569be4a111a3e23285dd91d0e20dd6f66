@@ -22,6 +22,30 @@
       "revId": "7aa3292569be4a111a3e23285dd91d0e20dd6f66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a665238_54a16ca0",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/FileInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-09T12:51:37Z",
+      "side": 1,
+      "message": "It\u0027s because JSNI methods cannot have \u0027long\u0027 as a parameter type or a return type [1], it\u0027s suggested to use double in this case.\n\nI tested this code by hard-coding Long.MAX_VALUE as sizeDelta on server side and it works nicely.\n\n[1] http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html#important",
+      "parentUuid": "254acd42_b22ce0d4",
+      "range": {
+        "startLine": 37,
+        "startChar": 23,
+        "endLine": 37,
+        "endChar": 29
+      },
+      "revId": "7aa3292569be4a111a3e23285dd91d0e20dd6f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

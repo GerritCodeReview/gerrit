@@ -22,6 +22,30 @@
       "revId": "3e9c2e2f2531dcd165ac2c8d19073f3dfeaf8e77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6547653f_ccae2fc3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1726,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-09T13:47:22Z",
+      "side": 1,
+      "message": "An accident, I guess. We are certainly going to do the latter transition you suggested.",
+      "parentUuid": "254acd42_12b92c07",
+      "range": {
+        "startLine": 1725,
+        "startChar": 11,
+        "endLine": 1726,
+        "endChar": 39
+      },
+      "revId": "3e9c2e2f2531dcd165ac2c8d19073f3dfeaf8e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

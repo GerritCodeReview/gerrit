@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ea0a4213_18cc0594",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-09T02:10:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "254acd42_b2d0602a",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "d326781f2159df5b87185f7ea5c8a38cf06cfbd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea0a4213_58d27d33",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ea0a4213_f8e031fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-09T02:10:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0a4213_58d27d33",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "d326781f2159df5b87185f7ea5c8a38cf06cfbd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea0a4213_38c7c975",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2015-10-09T02:10:20Z",
       "side": 1,
       "message": "I think the footer key should be hyphenated.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 8
+      },
+      "revId": "d326781f2159df5b87185f7ea5c8a38cf06cfbd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea0a4213_d8dd6d3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-09T02:10:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0a4213_38c7c975",
       "range": {
         "startLine": 24,
         "startChar": 0,

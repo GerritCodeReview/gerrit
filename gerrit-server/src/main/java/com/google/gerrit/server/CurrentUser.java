@@ -100,4 +100,9 @@ public abstract class CurrentUser {
   public boolean isIdentifiedUser() {
     return false;
   }
+
+  /** Check if the CurrentUser is an InternalUser. */
+  public boolean isInternalUser() {
+    return false;
+  }
 }

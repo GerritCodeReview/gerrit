@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.auth.ldap;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
@@ -106,6 +108,7 @@ class LdapLoginServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
+    req.setCharacterEncoding(UTF_8.name());
     String username = Strings.nullToEmpty(req.getParameter("username")).trim();
     String password = Strings.nullToEmpty(req.getParameter("password"));
     String remember = Strings.nullToEmpty(req.getParameter("rememberme"));

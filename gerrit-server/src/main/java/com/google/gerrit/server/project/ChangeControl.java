@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -352,6 +353,7 @@ public class ChangeControl {
 
   public boolean isDraftVisible(ReviewDb db, ChangeData cd)
       throws OrmException {
-    return isOwner() || isReviewer(db, cd) || getRefControl().canViewDrafts();
+    return isOwner() || isReviewer(db, cd) || getRefControl().canViewDrafts()
+        || getCurrentUser().isInternalUser();
   }
 }

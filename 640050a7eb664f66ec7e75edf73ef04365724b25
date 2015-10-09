@@ -22,6 +22,30 @@
       "revId": "640050a7eb664f66ec7e75edf73ef04365724b25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a53ddda0_8ecb3b81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-09T14:03:32Z",
+      "side": 1,
+      "message": "Done, sorry, running tests is slow so I only ran gpg_tests not acceptance tests :(",
+      "parentUuid": "4a618e1e_93e67c0f",
+      "range": {
+        "startLine": 2079,
+        "startChar": 10,
+        "endLine": 2079,
+        "endChar": 33
+      },
+      "revId": "640050a7eb664f66ec7e75edf73ef04365724b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

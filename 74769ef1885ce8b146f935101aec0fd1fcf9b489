@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a665238_b4b72013",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-09T05:54:00Z",
+      "side": 1,
+      "message": "[Optional] Mention this bug as well [1].\n\n* [1] https://code.google.com/p/gerrit/issues/detail?id\u003d3424",
+      "revId": "74769ef1885ce8b146f935101aec0fd1fcf9b489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

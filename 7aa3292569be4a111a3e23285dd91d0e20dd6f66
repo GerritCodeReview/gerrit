@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "254acd42_b22ce0d4",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/FileInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-09T12:46:39Z",
+      "side": 1,
+      "message": "Why return double if it\u0027s cast to long at the call location?",
+      "range": {
+        "startLine": 37,
+        "startChar": 23,
+        "endLine": 37,
+        "endChar": 29
+      },
+      "revId": "7aa3292569be4a111a3e23285dd91d0e20dd6f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

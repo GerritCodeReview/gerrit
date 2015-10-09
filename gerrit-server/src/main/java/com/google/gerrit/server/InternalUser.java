@@ -62,6 +62,11 @@ public class InternalUser extends CurrentUser {
   }
 
   @Override
+  public boolean isInternalUser() {
+    return true;
+  }
+
+  @Override
   public String toString() {
     return "InternalUser";
   }

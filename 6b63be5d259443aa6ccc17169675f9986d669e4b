@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6a665238_f45d1855",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-10-09T12:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a665238_b453a04a",
+      "revId": "6b63be5d259443aa6ccc17169675f9986d669e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a618e1e_93503c3f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-09T11:52:59Z",
       "side": 1,
       "message": "There are more places with \u0027instanceof InternalUser\u0027 in code, that can also be replaced with \u0027isInternalUser()\u0027, but this can be done later on master:\n\n  $ git grep \"instanceof InternalUser\" | wc -l\n  4",
+      "revId": "6b63be5d259443aa6ccc17169675f9986d669e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a618e1e_d35ab45a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-10-09T12:04:30Z",
+      "side": 1,
+      "message": "Yes. When this is merged to master I\u0027m planning to fix the rest of rest there. It goes a bit outside of the scope of a bug fix.",
+      "parentUuid": "4a618e1e_93503c3f",
       "revId": "6b63be5d259443aa6ccc17169675f9986d669e4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

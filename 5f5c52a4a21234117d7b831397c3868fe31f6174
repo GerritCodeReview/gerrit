@@ -105,6 +105,30 @@
       "revId": "5f5c52a4a21234117d7b831397c3868fe31f6174",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a665238_544faca1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-10-09T11:37:51Z",
+      "side": 1,
+      "message": "Yeah. Messed up the push. Fixed. Thanks.",
+      "parentUuid": "4a618e1e_734ac093",
+      "range": {
+        "startLine": 357,
+        "startChar": 11,
+        "endLine": 357,
+        "endChar": 51
+      },
+      "revId": "5f5c52a4a21234117d7b831397c3868fe31f6174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

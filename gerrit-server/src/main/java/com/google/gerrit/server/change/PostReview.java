@@ -91,7 +91,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final ChangeIndexer indexer;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
-  @Deprecated private final ChangeHooks hooks;
+  private final ChangeHooks hooks;
 
   private Change change;
   private ChangeMessage message;
@@ -577,7 +577,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return true;
   }
 
-  @Deprecated
   private void fireCommentAddedHook(RevisionResource rsrc) {
     IdentifiedUser user = (IdentifiedUser) rsrc.getControl().getCurrentUser();
     try {

@@ -22,6 +22,30 @@
       "revId": "bf509df2adb0e919c0b9aa4c0da3f5ac460d2faf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a665238_34a4b0e4",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-09T02:52:26Z",
+      "side": 1,
+      "message": "I haven\u0027t tested, but we could query for the last path element:\n\n  dir.getName(dir.getNameCount()).equals(\"buck-out\")",
+      "parentUuid": "ea0a4213_78f661c5",
+      "range": {
+        "startLine": 570,
+        "startChar": 23,
+        "endLine": 570,
+        "endChar": 31
+      },
+      "revId": "bf509df2adb0e919c0b9aa4c0da3f5ac460d2faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

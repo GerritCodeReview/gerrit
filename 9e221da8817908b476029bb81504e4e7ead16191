@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a53ddda0_0eb90b07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-10-09T13:23:18Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this lock be local to the PatchListLoader.load method?\n\nCorrect me if I am wrong but the way it is now, it will prevent to PatchListLoader from computing diff in parallel for 2 different repositories. \n\nMaybe we should synchronize on the repository object?",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 28
+      },
+      "revId": "9e221da8817908b476029bb81504e4e7ead16191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "254acd42_f2a108a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-09T13:10:00Z",
+      "side": 1,
+      "message": "Unused import.  Only noticed after it was merged.  I uploaded a fix.",
+      "revId": "e63e609b3c2c35bd1d328d431d5650456ab9554b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

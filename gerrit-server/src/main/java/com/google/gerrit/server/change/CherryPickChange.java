@@ -215,8 +215,9 @@ public class CherryPickChange {
     PatchSet current = db.get().patchSets().get(change.currentPatchSetId());
 
     try (BatchUpdate bu = batchUpdateFactory.create(
-        db.get(), change.getDest().getParentKey(), TimeUtil.nowTs())) {
-      bu.addOp(changeControl, inserter
+        db.get(), change.getDest().getParentKey(), identifiedUser,
+        TimeUtil.nowTs())) {
+      bu.addOp(change.getId(), inserter
           .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
           .setDraft(current.isDraft())
           .setUploader(identifiedUser.getAccountId())

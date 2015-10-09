@@ -288,8 +288,8 @@ public class RebaseChange {
         .setRunHooks(runHooks);
 
     try (BatchUpdate bu = updateFactory.create(
-        db.get(), change.getDest().getParentKey(), TimeUtil.nowTs())) {
-      bu.addOp(changeControl, patchSetInserter.setMessage(
+        db.get(), change.getProject(), uploader, TimeUtil.nowTs())) {
+      bu.addOp(change.getId(), patchSetInserter.setMessage(
           "Patch Set " + patchSetInserter.getPatchSetId().get()
           + ": Patch Set " + patchSetId.get() + " was rebased"));
       bu.execute();

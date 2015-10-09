@@ -220,7 +220,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   @Override
   public void updateChange(ChangeContext ctx) throws OrmException,
       InvalidChangeOperationException {
-    change = ctx.readChange();
+    change = ctx.getChange();
     Change.Id id = change.getId();
     final PatchSet.Id currentPatchSetId = change.currentPatchSetId();
     if (!change.getStatus().isOpen() && !allowClosed) {

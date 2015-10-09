@@ -93,9 +93,10 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       final String msgTxt, final Account account)
       throws RestApiException, UpdateException {
     Op op = new Op(msgTxt, account);
+    Change c = control.getChange();
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        control.getChange().getProject(), TimeUtil.nowTs())) {
-      u.addOp(control, op).execute();
+        c.getProject(), control.getCurrentUser(), TimeUtil.nowTs())) {
+      u.addOp(c.getId(), op).execute();
     }
     return op.change;
   }
@@ -116,7 +117,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     @Override
     public void updateChange(ChangeContext ctx) throws OrmException,
         ResourceConflictException {
-      change = ctx.readChange();
+      change = ctx.getChange();
       if (change == null || !change.getStatus().isOpen()) {
         throw new ResourceConflictException("change is " + status(change));
       } else if (change.getStatus() == Change.Status.DRAFT) {

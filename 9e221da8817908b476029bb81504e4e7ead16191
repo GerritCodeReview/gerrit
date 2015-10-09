@@ -70,6 +70,30 @@
       "revId": "9e221da8817908b476029bb81504e4e7ead16191",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6547653f_6cc0db5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-10-09T14:16:05Z",
+      "side": 1,
+      "message": "Thanks for the detailed answer and for fixing this issue.",
+      "parentUuid": "6a665238_946b04df",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 28
+      },
+      "revId": "9e221da8817908b476029bb81504e4e7ead16191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

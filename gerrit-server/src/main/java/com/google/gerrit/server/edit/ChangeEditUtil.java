@@ -239,8 +239,9 @@ public class ChangeEditUtil {
     }
 
     try (BatchUpdate bu = updateFactory.create(
-        db.get(), change.getDest().getParentKey(), TimeUtil.nowTs())) {
-      bu.addOp(ctl, inserter
+        db.get(), change.getProject(), ctl.getCurrentUser(),
+        TimeUtil.nowTs())) {
+      bu.addOp(change.getId(), inserter
         .setDraft(change.getStatus() == Status.DRAFT ||
             basePatchSet.isDraft())
         .setMessage(message.toString()));

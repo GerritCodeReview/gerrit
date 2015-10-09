@@ -466,8 +466,10 @@ public class ConsistencyChecker {
       PatchSetInserter inserter =
           patchSetInserterFactory.create(repo, rw, ctl, commit);
       try (BatchUpdate bu = updateFactory.create(
-          db.get(), change.getDest().getParentKey(), TimeUtil.nowTs())) {
-        bu.addOp(ctl, inserter.setValidatePolicy(CommitValidators.Policy.NONE)
+          db.get(), change.getDest().getParentKey(), user.get(),
+          TimeUtil.nowTs())) {
+        bu.addOp(change.getId(), inserter
+            .setValidatePolicy(CommitValidators.Policy.NONE)
             .setRunHooks(false)
             .setSendMail(false)
             .setAllowClosed(true)

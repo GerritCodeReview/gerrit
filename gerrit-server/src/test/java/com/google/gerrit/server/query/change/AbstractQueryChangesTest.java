@@ -1336,8 +1336,8 @@ public abstract class AbstractQueryChangesTest {
         .setRunHooks(false)
         .setValidatePolicy(CommitValidators.Policy.NONE);
     try (BatchUpdate bu = updateFactory.create(
-        db, c.getDest().getParentKey(), TimeUtil.nowTs())) {
-      bu.addOp(ctl, inserter);
+        db, c.getDest().getParentKey(), user, TimeUtil.nowTs())) {
+      bu.addOp(c.getId(), inserter);
       bu.execute();
     }
 

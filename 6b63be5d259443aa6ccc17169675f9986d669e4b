@@ -69,6 +69,24 @@
       "revId": "6b63be5d259443aa6ccc17169675f9986d669e4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a665238_342950c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-09T12:10:28Z",
+      "side": 1,
+      "message": "That\u0027s fine.",
+      "parentUuid": "4a618e1e_d35ab45a",
+      "revId": "6b63be5d259443aa6ccc17169675f9986d669e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

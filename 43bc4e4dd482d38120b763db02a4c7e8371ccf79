@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a665238_94e6640f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-09T07:42:19Z",
+      "side": 1,
+      "message": "It\u0027s solving a part of the problem. If you just assign new access rights on a project to an existing group, this ACL change will still not be seen by the browser unless something else is changed on the change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "43bc4e4dd482d38120b763db02a4c7e8371ccf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

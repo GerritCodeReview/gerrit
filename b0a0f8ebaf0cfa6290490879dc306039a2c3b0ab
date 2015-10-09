@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "254acd42_f2fbc876",
+        "filename": "Documentation/error-no-new-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-10-09T15:09:37Z",
+      "side": 1,
+      "message": "Removed this because this configuration is not available in 2.10",
+      "revId": "b0a0f8ebaf0cfa6290490879dc306039a2c3b0ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.WorkQueue;
@@ -277,6 +278,12 @@ public class ChangeInserter {
         hooks.doHashtagsChangedHook(change,
             accountCache.get(change.getOwner()).getAccount(),
             hashtags, null, hashtags, db);
+      }
+
+      if (!approvals.isEmpty()) {
+        hooks.doCommentAddedHook(change,
+            ((IdentifiedUser) ctl.getCurrentUser()).getAccount(), patchSet,
+            null, approvals, db);
       }
     }
 

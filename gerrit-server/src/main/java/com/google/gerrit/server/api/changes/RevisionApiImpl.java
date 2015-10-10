@@ -212,7 +212,7 @@ class RevisionApiImpl implements RevisionApi {
   public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
     try {
       return changes.id(cherryPick.apply(revision, in)._number);
-    } catch (OrmException | EmailException | IOException | UpdateException e) {
+    } catch (OrmException | IOException | UpdateException e) {
       throw new RestApiException("Cannot cherry pick", e);
     }
   }

@@ -272,8 +272,7 @@ public class ChangeEdits implements
 
     @Override
     public Response<EditInfo> apply(ChangeResource rsrc) throws AuthException,
-        IOException, InvalidChangeOperationException,
-        ResourceNotFoundException, OrmException {
+        IOException, ResourceNotFoundException, OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         return Response.none();
@@ -382,7 +381,7 @@ public class ChangeEdits implements
 
     @Override
     public Response<?> apply(ChangeEditResource rsrc, Input input)
-        throws AuthException, ResourceConflictException, IOException {
+        throws AuthException, ResourceConflictException {
       String path = rsrc.getPath();
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
@@ -442,7 +441,7 @@ public class ChangeEdits implements
 
     @Override
     public Response<?> apply(ChangeEditResource rsrc)
-        throws ResourceNotFoundException, IOException {
+        throws IOException {
       try {
         return Response.ok(fileContentUtil.getContent(
               rsrc.getControl().getProjectControl().getProjectState(),

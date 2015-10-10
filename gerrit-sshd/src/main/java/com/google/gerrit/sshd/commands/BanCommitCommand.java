@@ -71,7 +71,7 @@ public class BanCommitCommand extends SshCommand {
       printCommits(r.newlyBanned, "The following commits were banned");
       printCommits(r.alreadyBanned, "The following commits were already banned");
       printCommits(r.ignored, "The following ids do not represent commits and were ignored");
-    } catch (RestApiException | IOException | InterruptedException e) {
+    } catch (RestApiException | IOException e) {
       throw die(e);
     }
   }

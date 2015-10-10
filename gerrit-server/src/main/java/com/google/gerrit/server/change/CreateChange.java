@@ -109,10 +109,9 @@ public class CreateChange implements
   }
 
   @Override
-  public Response<ChangeInfo> apply(TopLevelResource parent,
-      ChangeInfo input)
-      throws AuthException, OrmException, IOException,
-      InvalidChangeOperationException, RestApiException, UpdateException {
+  public Response<ChangeInfo> apply(TopLevelResource parent, ChangeInfo input)
+      throws OrmException, IOException, InvalidChangeOperationException,
+      RestApiException, UpdateException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }

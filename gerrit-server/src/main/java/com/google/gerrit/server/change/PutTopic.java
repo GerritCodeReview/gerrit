@@ -40,7 +40,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -69,8 +68,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
 
   @Override
   public Response<String> apply(ChangeResource req, Input input)
-      throws AuthException, UpdateException, RestApiException, OrmException,
-      IOException {
+      throws UpdateException, RestApiException {
     ChangeControl ctl = req.getControl();
     if (!ctl.canEditTopicName()) {
       throw new AuthException("changing topic not permitted");

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -57,8 +56,7 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
 
   @Override
   public ChangeInfo apply(RevisionResource revision, CherryPickInput input)
-      throws OrmException, IOException, EmailException, UpdateException,
-      RestApiException {
+      throws OrmException, IOException, UpdateException, RestApiException {
     final ChangeControl control = revision.getControl();
 
     if (input.message == null || input.message.trim().isEmpty()) {

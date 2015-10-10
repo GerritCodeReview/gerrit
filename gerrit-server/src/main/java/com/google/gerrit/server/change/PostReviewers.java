@@ -21,7 +21,6 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -129,7 +128,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   @Override
   public PostResult apply(ChangeResource rsrc, AddReviewerInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
-      OrmException, EmailException, IOException {
+      OrmException, IOException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
     }

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.api.changes;
 
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -51,7 +50,6 @@ import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -180,7 +178,7 @@ class ChangeApiImpl implements ChangeApi {
   public void restore(RestoreInput in) throws RestApiException {
     try {
       restore.apply(change, in);
-    } catch (OrmException | IOException | UpdateException e) {
+    } catch (OrmException | UpdateException e) {
       throw new RestApiException("Cannot restore change", e);
     }
   }
@@ -194,7 +192,7 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
       return changeApi.id(revert.apply(change, in)._number);
-    } catch (OrmException | EmailException | IOException | UpdateException e) {
+    } catch (OrmException | IOException | UpdateException e) {
       throw new RestApiException("Cannot revert change", e);
     }
   }
@@ -219,7 +217,7 @@ class ChangeApiImpl implements ChangeApi {
     in.topic = topic;
     try {
       putTopic.apply(change, in);
-    } catch (OrmException | IOException | UpdateException e) {
+    } catch (UpdateException e) {
       throw new RestApiException("Cannot set topic", e);
     }
   }
@@ -235,7 +233,7 @@ class ChangeApiImpl implements ChangeApi {
   public void addReviewer(AddReviewerInput in) throws RestApiException {
     try {
       postReviewers.apply(change, in);
-    } catch (OrmException | EmailException | IOException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot add change reviewer", e);
     }
   }
@@ -292,7 +290,7 @@ class ChangeApiImpl implements ChangeApi {
     try {
       Response<EditInfo> edit = editDetail.apply(change);
       return edit.isNone() ? null : edit.value();
-    } catch (IOException | OrmException | InvalidChangeOperationException e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot retrieve change edit", e);
     }
   }

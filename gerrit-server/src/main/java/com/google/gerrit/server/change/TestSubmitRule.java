@@ -20,7 +20,6 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -70,7 +69,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
 
   @Override
   public List<Record> apply(RevisionResource rsrc, Input input)
-      throws AuthException, BadRequestException, OrmException {
+      throws AuthException, OrmException {
     if (input == null) {
       input = new Input();
     }

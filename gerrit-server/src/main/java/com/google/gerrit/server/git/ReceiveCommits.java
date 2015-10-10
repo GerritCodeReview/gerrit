@@ -2279,6 +2279,11 @@ public class ReceiveCommits {
             change, currentUser.getAccount(), newPatchSet, db, newCommit.getName());
       }
 
+      if (!approvals.isEmpty()) {
+        hooks.doCommentAddedHook(change, currentUser.getAccount(), newPatchSet,
+            null, approvals, db);
+      }
+
       if (magicBranch != null && magicBranch.submit) {
         submit(changeCtl, newPatchSet);
       }

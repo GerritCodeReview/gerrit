@@ -181,7 +181,7 @@ class ChangeApiImpl implements ChangeApi {
   public void restore(RestoreInput in) throws RestApiException {
     try {
       restore.apply(change, in);
-    } catch (OrmException | IOException | UpdateException e) {
+    } catch (OrmException | UpdateException e) {
       throw new RestApiException("Cannot restore change", e);
     }
   }

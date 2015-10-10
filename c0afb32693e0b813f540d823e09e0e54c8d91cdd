@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "254acd42_7208b83e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-10T13:11:43Z",
+      "side": 1,
+      "message": "Name it just `token`?",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "c0afb32693e0b813f540d823e09e0e54c8d91cdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

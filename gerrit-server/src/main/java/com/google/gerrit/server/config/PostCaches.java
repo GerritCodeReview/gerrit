@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -68,9 +67,8 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
   }
 
   @Override
-  public Object apply(ConfigResource rsrc, Input input) throws AuthException,
-      ResourceNotFoundException, BadRequestException,
-      UnprocessableEntityException {
+  public Object apply(ConfigResource rsrc, Input input)
+      throws AuthException, BadRequestException, UnprocessableEntityException {
     if (input == null || input.operation == null) {
       throw new BadRequestException("operation must be specified");
     }

@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -60,7 +59,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   @Override
   public ChangeInfo apply(ChangeResource req, RevertInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
-      ResourceNotFoundException, IOException, OrmException, EmailException {
+      ResourceNotFoundException, IOException, OrmException {
     ChangeControl control = req.getControl();
     Change change = req.getChange();
     if (!control.canAddPatchSet()) {

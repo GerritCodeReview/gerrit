@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -64,8 +63,8 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
   @Override
   public Response<?> apply(RevisionResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, OrmException, IOException {
+      throws AuthException, ResourceConflictException, OrmException,
+      IOException {
     if (!rsrc.getPatchSet().isDraft()) {
       throw new ResourceConflictException("Patch set is not a draft");
     }
@@ -147,8 +146,8 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Input input)
-        throws AuthException, ResourceConflictException,
-        ResourceNotFoundException, IOException, OrmException {
+        throws AuthException, ResourceConflictException, IOException,
+        OrmException {
       PatchSet ps = dbProvider.get().patchSets()
         .get(rsrc.getChange().currentPatchSetId());
       if (ps == null) {

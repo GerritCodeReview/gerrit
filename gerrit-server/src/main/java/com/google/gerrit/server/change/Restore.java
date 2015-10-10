@@ -47,7 +47,6 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -78,9 +77,8 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   }
 
   @Override
-  public ChangeInfo apply(ChangeResource req, final RestoreInput input)
-      throws AuthException, RestApiException, UpdateException, OrmException,
-      IOException {
+  public ChangeInfo apply(ChangeResource req, RestoreInput input)
+      throws RestApiException, UpdateException, OrmException {
     ChangeControl ctl = req.getControl();
     if (!ctl.canRestore()) {
       throw new AuthException("restore not permitted");

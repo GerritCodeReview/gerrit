@@ -1318,6 +1318,11 @@ public class ReceiveCommits {
       }
     }
 
+    if (magicBranch.edit && !receiveConfig.allowEdits) {
+      errors.put(Error.CODE_REVIEW, ref);
+      reject(cmd, "edit workflow is disabled");
+    }
+
     if (!magicBranch.ctl.canUpload()) {
       errors.put(Error.CODE_REVIEW, ref);
       reject(cmd, "cannot upload review");

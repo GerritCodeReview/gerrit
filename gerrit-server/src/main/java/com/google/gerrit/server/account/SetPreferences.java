@@ -40,6 +40,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.SetPreferences.Input;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gwtorm.server.OrmException;
@@ -83,9 +84,11 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllUsersName allUsersName;
   private final DynamicMap<DownloadScheme> downloadSchemes;
+  private final boolean allowEdits;
 
   @Inject
-  SetPreferences(Provider<CurrentUser> self,
+  SetPreferences(@GerritServerConfig Config cfg,
+      Provider<CurrentUser> self,
       AccountCache cache,
       Provider<ReviewDb> db,
       MetaDataUpdate.User metaDataUpdateFactory,
@@ -97,6 +100,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
     this.downloadSchemes = downloadSchemes;
+    allowEdits = cfg.getBoolean("change", "allowEdits", true);
   }
 
   @Override
@@ -181,7 +185,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       versionedPrefs.commit(md);
       cache.evict(accountId);
       return new GetPreferences.PreferenceInfo(
-          p, versionedPrefs, md.getRepository());
+          p, versionedPrefs, md.getRepository(), allowEdits);
     } finally {
       md.close();
       db.get().rollback();

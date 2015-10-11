@@ -1716,7 +1716,9 @@ public class ReceiveCommits {
       ChangeMessage msg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),
               ChangeUtil.messageUUID(db)), me, ps.getCreatedOn(), ps.getId());
-      msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
+      StringBuilder msgs = renderMessageWithApprovals(ps.getPatchSetId(),
+          approvals);
+      msg.setMessage(msgs.toString() + ".");
 
       ins
         .setReviewers(recipients.getReviewers())
@@ -1840,6 +1842,22 @@ public class ReceiveCommits {
         replaceByChange.get(c.getId()).change = c;
       }
     }
+  }
+
+  private StringBuilder renderMessageWithApprovals(int patchSetId,
+      Map<String, Short> approvals) {
+    StringBuilder msgs = new StringBuilder("Uploaded patch set " + patchSetId);
+    if (!approvals.isEmpty()) {
+      msgs.append(":");
+      for (Map.Entry<String, Short> e : approvals.entrySet()) {
+        msgs.append(" ")
+            .append(e.getKey())
+            .append(e.getValue() < 0
+                ? e.getValue()
+                : "+" + e.getValue());
+      }
+    }
+    return msgs;
   }
 
   private class ReplaceRequest {
@@ -2075,26 +2093,28 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    private ChangeMessage newChangeMessage(ReviewDb db, ChangeKind changeKind)
+    private ChangeMessage newChangeMessage(ReviewDb db, ChangeKind changeKind,
+        Map<String, Short> approvals)
         throws OrmException {
       msg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
               .messageUUID(db)), currentUser.getAccountId(), newPatchSet.getCreatedOn(),
               newPatchSet.getId());
-      String message = "Uploaded patch set " + newPatchSet.getPatchSetId();
+      StringBuilder msgs = renderMessageWithApprovals(
+          newPatchSet.getPatchSetId(), approvals);
       switch (changeKind) {
         case TRIVIAL_REBASE:
         case NO_CHANGE:
-          message += ": Patch Set " + priorPatchSet.get() + " was rebased";
+          msgs.append(": Patch Set " + priorPatchSet.get() + " was rebased");
           break;
         case NO_CODE_CHANGE:
-          message += ": Commit message was updated";
+          msgs.append(": Commit message was updated");
           break;
         case REWORK:
         default:
           break;
       }
-      msg.setMessage(message + ".");
+      msg.setMessage(msgs.toString() + ".");
       return msg;
     }
 
@@ -2158,7 +2178,8 @@ public class ReceiveCommits {
         changeKind = changeKindCache.getChangeKind(
             projectControl.getProjectState(), repo, priorCommit, newCommit);
 
-        cmUtil.addChangeMessage(db, update, newChangeMessage(db, changeKind));
+        cmUtil.addChangeMessage(db, update, newChangeMessage(db, changeKind,
+            approvals));
 
         if (mergedIntoRef == null) {
           // Change should be new, so it can go through review again.

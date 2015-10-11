@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea0a4213_58803df3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-11T13:32:01Z",
+      "side": 1,
+      "message": "Why was this changed?  Now there is no null check.",
+      "range": {
+        "startLine": 278,
+        "startChar": 10,
+        "endLine": 278,
+        "endChar": 29
+      },
+      "revId": "017489b78ccffad25493ae7eaa2b2e0dd14fc1aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

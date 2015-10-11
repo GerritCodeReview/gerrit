@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.LabelType;
@@ -40,6 +41,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -258,6 +260,19 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message)
         .isEqualTo("Uploaded patch set 1.");
+  }
+
+  @Test
+  @GerritConfig(name = "change.allowEdits", value = "false")
+  public void createEmptyChange_NotAllowed()
+      throws Exception {
+    ChangeInfo in = new ChangeInfo();
+    in.branch = Constants.MASTER;
+    in.subject = "Create a change from the API";
+    in.project = project.get();
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("edit workflow is disabled");
+    gApi.changes().create(in);
   }
 
   @Test

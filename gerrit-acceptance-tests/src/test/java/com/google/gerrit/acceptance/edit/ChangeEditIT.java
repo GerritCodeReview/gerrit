@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CONFLICT;
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
@@ -30,6 +31,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
@@ -369,6 +371,20 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.allowEdits", value = "false")
+  public void updateMessageRest_NotAllowed() throws Exception {
+    assertThat(adminSession.get(urlEditMessage()).getStatusCode())
+        .isEqualTo(SC_NOT_FOUND);
+    EditMessage.Input in = new EditMessage.Input();
+    in.message = String.format("New commit message\n\n" +
+        CONTENT_NEW2_STR + "\n\nChange-Id: %s",
+        change.getKey());
+    assertThat(adminSession.put(urlEditMessage(), in).getStatusCode())
+        .isEqualTo(SC_BAD_REQUEST);
+
+  }
+
+  @Test
   public void updateMessageRest() throws Exception {
     assertThat(adminSession.get(urlEditMessage()).getStatusCode())
         .isEqualTo(SC_NOT_FOUND);
@@ -459,6 +475,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.allowEdits", value = "false")
+  public void createEditByDeletingExistingFileRest_NotAllowed()
+      throws Exception {
+    RestResponse r = adminSession.delete(urlEditFile());
+    assertThat(r.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
+  }
+
+  @Test
   public void createEditByDeletingExistingFileRest() throws Exception {
     RestResponse r = adminSession.delete(urlEditFile());
     assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
@@ -538,6 +562,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.allowEdits", value = "false")
+  public void restoreDeletedFileInPatchSetRest_NotAllowed()
+      throws Exception {
+    Post.Input in = new Post.Input();
+    in.restorePath = FILE_NAME;
+    assertThat(adminSession.post(urlEdit2(), in).getStatusCode()).isEqualTo(
+        SC_BAD_REQUEST);
+  }
+
+  @Test
   public void restoreDeletedFileInPatchSetRest() throws Exception {
     Post.Input in = new Post.Input();
     in.restorePath = FILE_NAME;
@@ -562,6 +596,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
         ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME), CONTENT_NEW2);
+  }
+
+  @Test
+  @GerritConfig(name = "change.allowEdits", value = "false")
+  public void createAndChangeEditInOneRequestRest_NotAllowed()
+      throws Exception {
+    Put.Input in = new Put.Input();
+    in.content = RestSession.newRawInput(CONTENT_NEW);
+    assertThat(adminSession.putRaw(urlEditFile(), in.content).getStatusCode())
+        .isEqualTo(SC_BAD_REQUEST);
   }
 
   @Test

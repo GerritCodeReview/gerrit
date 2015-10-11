@@ -28,6 +28,7 @@ class ReceiveConfig {
   final boolean checkMagicRefs;
   final boolean checkReferencedObjectsAreReachable;
   final boolean allowDrafts;
+  final boolean allowEdits;
   private final int systemMaxBatchChanges;
 
   @Inject
@@ -40,6 +41,9 @@ class ReceiveConfig {
         true);
     allowDrafts = config.getBoolean(
         "change", null, "allowDrafts",
+        true);
+    allowEdits = config.getBoolean(
+        "change", null, "allowEdits",
         true);
     systemMaxBatchChanges = config.getInt("receive", "maxBatchChanges", 0);
   }

@@ -89,6 +89,7 @@ public class CreateChange implements
   private final ChangeJson.Factory jsonFactory;
   private final ChangeUtil changeUtil;
   private final boolean allowDrafts;
+  private final boolean allowEdits;
 
   @Inject
   CreateChange(Provider<ReviewDb> db,
@@ -111,6 +112,7 @@ public class CreateChange implements
     this.jsonFactory = json;
     this.changeUtil = changeUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
+    this.allowEdits = config.getBoolean("change", "allowEdits", true);
   }
 
   @Override
@@ -119,6 +121,10 @@ public class CreateChange implements
       BadRequestException, UnprocessableEntityException, IOException,
       InvalidChangeOperationException, ResourceNotFoundException,
       MethodNotAllowedException, ResourceConflictException {
+    if (!allowEdits) {
+      throw new BadRequestException("edit workflow is disabled");
+    }
+
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }

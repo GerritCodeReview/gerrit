@@ -864,6 +864,13 @@ deleted or published.
 +
 Default is true.
 
+[[change.allowEdits]]change.allowEdits::
++
+Allow edits workflow. If set to false, edits cannot be created,
+deleted, published or rebased.
++
+Default is true.
+
 [[change.submitLabel]]change.submitLabel::
 +
 Label name for the submit button.

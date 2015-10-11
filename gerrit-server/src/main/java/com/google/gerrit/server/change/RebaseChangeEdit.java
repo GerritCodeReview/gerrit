@@ -18,6 +18,7 @@ import com.google.common.base.Optional;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -36,6 +38,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
@@ -80,20 +84,26 @@ public class RebaseChangeEdit implements
     private final ChangeEditModifier editModifier;
     private final ChangeEditUtil editUtil;
     private final Provider<ReviewDb> db;
+    private final boolean allowEdits;
 
     @Inject
-    Rebase(ChangeEditModifier editModifier,
+    Rebase(@GerritServerConfig Config cfg,
+        ChangeEditModifier editModifier,
         ChangeEditUtil editUtil,
         Provider<ReviewDb> db) {
       this.editModifier = editModifier;
       this.editUtil = editUtil;
       this.db = db;
+      allowEdits = cfg.getBoolean("change", "allowEdits", true);
     }
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Rebase.Input in)
         throws AuthException, ResourceConflictException, IOException,
-        InvalidChangeOperationException, OrmException {
+        InvalidChangeOperationException, OrmException, BadRequestException {
+      if (!allowEdits) {
+        throw new BadRequestException("edit workflow is disabled");
+      }
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         throw new ResourceConflictException(String.format(

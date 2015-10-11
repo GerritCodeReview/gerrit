@@ -244,17 +244,19 @@ public class ChangeScreen extends Screen {
             public void onFailure(Throwable caught) {
             }
           }));
-      ChangeApi.editWithFiles(changeId.get(), group.add(
-          new AsyncCallback<EditInfo>() {
-            @Override
-            public void onSuccess(EditInfo result) {
-              edit = result;
-            }
+      if (Gerrit.info().change().allowEdits()) {
+        ChangeApi.editWithFiles(changeId.get(), group.add(
+            new AsyncCallback<EditInfo>() {
+              @Override
+              public void onSuccess(EditInfo result) {
+                edit = result;
+              }
 
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-          }));
+              @Override
+              public void onFailure(Throwable caught) {
+              }
+            }));
+      }
     }
     loadChangeInfo(true, group.addFinal(
         new GerritCallback<ChangeInfo>() {
@@ -471,7 +473,8 @@ public class ChangeScreen extends Screen {
   }
 
   private void initEditMode(ChangeInfo info, String revision) {
-    if (Gerrit.isSignedIn() && info.status().isOpen()) {
+    if (Gerrit.isSignedIn() && info.status().isOpen()
+        && Gerrit.info().change().allowEdits()) {
       RevisionInfo rev = info.revision(revision);
       if (isEditModeEnabled(info, rev)) {
         editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);

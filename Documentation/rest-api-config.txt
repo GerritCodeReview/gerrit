@@ -1078,6 +1078,9 @@ section.
 |`allow_drafts`       |not set if `false`|
 link:config-gerrit.html#change.allowDrafts[Whether draft workflow is
 allowed].
+|`allow_edits`       |not set if `false`|
+link:config-gerrit.html#change.allowEdits[Whether edit workflow is
+allowed].
 |`large_change`       ||
 link:config-gerrit.html#change.largeChange[Number of changed lines from
 which on a change is considered as a large change].

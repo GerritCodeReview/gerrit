@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
@@ -30,12 +31,15 @@ import java.io.IOException;
 public class GetPreferences implements RestReadView<ConfigResource> {
   private final AllUsersName allUsersName;
   private final GitRepositoryManager gitMgr;
+  private final boolean allowEdits;
 
   @Inject
-  public GetPreferences(AllUsersName allUsersName,
+  public GetPreferences(@GerritServerConfig Config cfg,
+      AllUsersName allUsersName,
       GitRepositoryManager gitMgr) {
     this.allUsersName = allUsersName;
     this.gitMgr = gitMgr;
+    allowEdits = cfg.getBoolean("change", "allowEdits", true);
   }
 
   @Override
@@ -45,7 +49,7 @@ public class GetPreferences implements RestReadView<ConfigResource> {
       VersionedAccountPreferences p =
           VersionedAccountPreferences.forDefault();
       p.load(git);
-      return new PreferenceInfo(null, p, git);
+      return new PreferenceInfo(null, p, git, allowEdits);
     }
   }
 }

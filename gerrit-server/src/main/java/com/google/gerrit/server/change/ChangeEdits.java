@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
@@ -55,6 +56,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Option;
 
@@ -153,9 +155,11 @@ public class ChangeEdits implements
     private final Put putEdit;
     private final Change change;
     private final String path;
+    private final boolean allowEdits;
 
     @Inject
-    Create(Provider<ReviewDb> db,
+    Create(@GerritServerConfig Config cfg,
+        Provider<ReviewDb> db,
         ChangeEditUtil editUtil,
         ChangeEditModifier editModifier,
         Put putEdit,
@@ -167,12 +171,16 @@ public class ChangeEdits implements
       this.putEdit = putEdit;
       this.change = change;
       this.path = path;
+      allowEdits = cfg.getBoolean("change", "allowEdits", true);
     }
 
     @Override
     public Response<?> apply(ChangeResource resource, Put.Input input)
         throws AuthException, IOException, ResourceConflictException,
-        OrmException, InvalidChangeOperationException {
+        OrmException, InvalidChangeOperationException, BadRequestException {
+      if (!allowEdits) {
+        throw new BadRequestException("edit workflow is disabled");
+      }
       Optional<ChangeEdit> edit = editUtil.byChange(change);
       if (edit.isPresent()) {
         throw new ResourceConflictException(String.format(
@@ -208,9 +216,11 @@ public class ChangeEdits implements
     private final ChangeEditModifier editModifier;
     private final Provider<ReviewDb> db;
     private final String path;
+    private final boolean allowEdits;
 
     @Inject
-    DeleteFile(ChangeEditUtil editUtil,
+    DeleteFile(@GerritServerConfig Config cfg,
+        ChangeEditUtil editUtil,
         ChangeEditModifier editModifier,
         Provider<ReviewDb> db,
         @Assisted String path) {
@@ -218,12 +228,16 @@ public class ChangeEdits implements
       this.editModifier = editModifier;
       this.db = db;
       this.path = path;
+      allowEdits = cfg.getBoolean("change", "allowEdits", true);
     }
 
     @Override
     public Response<?> apply(ChangeResource rsrc, DeleteFile.Input in)
         throws IOException, AuthException, ResourceConflictException,
         OrmException, InvalidChangeOperationException, BadRequestException {
+      if (!allowEdits) {
+        throw new BadRequestException("edit workflow is disabled");
+      }
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (edit.isPresent()) {
         // Edit is wiped out
@@ -322,20 +336,26 @@ public class ChangeEdits implements
     private final Provider<ReviewDb> db;
     private final ChangeEditUtil editUtil;
     private final ChangeEditModifier editModifier;
+    private final boolean allowEdits;
 
     @Inject
-    Post(Provider<ReviewDb> db,
+    Post(@GerritServerConfig Config cfg,
+        Provider<ReviewDb> db,
         ChangeEditUtil editUtil,
         ChangeEditModifier editModifier) {
       this.db = db;
       this.editUtil = editUtil;
       this.editModifier = editModifier;
+      allowEdits = cfg.getBoolean("change", "allowEdits", true);
     }
 
     @Override
     public Response<?> apply(ChangeResource resource, Post.Input input)
         throws AuthException, InvalidChangeOperationException, IOException,
-        ResourceConflictException, OrmException {
+        ResourceConflictException, OrmException, BadRequestException {
+      if (!allowEdits) {
+        throw new BadRequestException("edit workflow is disabled");
+      }
       Optional<ChangeEdit> edit = editUtil.byChange(resource.getChange());
       if (!edit.isPresent()) {
         edit = createEdit(resource.getChange());
@@ -497,20 +517,26 @@ public class ChangeEdits implements
     private final Provider<ReviewDb> db;
     private final ChangeEditModifier editModifier;
     private final ChangeEditUtil editUtil;
+    private final boolean allowEdits;
 
     @Inject
-    EditMessage(Provider<ReviewDb> db,
+    EditMessage(@GerritServerConfig Config cfg,
+        Provider<ReviewDb> db,
         ChangeEditModifier editModifier,
         ChangeEditUtil editUtil) {
       this.db = db;
       this.editModifier = editModifier;
       this.editUtil = editUtil;
+      allowEdits = cfg.getBoolean("change", "allowEdits", true);
     }
 
     @Override
     public Object apply(ChangeResource rsrc, Input input) throws AuthException,
         IOException, InvalidChangeOperationException, BadRequestException,
         ResourceConflictException, OrmException {
+      if (!allowEdits) {
+        throw new BadRequestException("edit workflow is disabled");
+      }
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         editModifier.createEdit(rsrc.getChange(),

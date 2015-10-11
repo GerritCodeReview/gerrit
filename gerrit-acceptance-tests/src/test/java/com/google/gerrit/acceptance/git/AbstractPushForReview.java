@@ -19,6 +19,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -152,6 +153,18 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = pushTo("refs/for/master%draft");
     r.assertOkStatus();
     r.assertChange(Change.Status.DRAFT, null);
+  }
+
+  @Test
+  @GerritConfig(name = "change.allowEdits", value = "false")
+  public void testPushForMasterAsEdit_NotAllowed() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    EditInfo edit = getEdit(r.getChangeId());
+    assertThat(edit).isNull();
+
+    r = amendChange(r.getChangeId(), "refs/for/master%edit");
+    r.assertMessage("edit workflow is disabled");
   }
 
   @Test

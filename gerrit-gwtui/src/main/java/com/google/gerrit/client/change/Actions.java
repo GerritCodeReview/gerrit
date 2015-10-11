@@ -107,7 +107,9 @@ class Actions extends Composite {
       a2b(actions, "abandon", abandon);
       a2b(actions, "restore", restore);
       a2b(actions, "revert", revert);
-      a2b(actions, "followup", followUp);
+      if (Gerrit.info().change().allowEdits()) {
+        a2b(actions, "followup", followUp);
+      }
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, actions.get(id)));
       }

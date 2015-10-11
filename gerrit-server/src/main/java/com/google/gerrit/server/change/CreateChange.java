@@ -84,6 +84,7 @@ public class CreateChange implements
   private final ChangeUtil changeUtil;
   private final BatchUpdate.Factory updateFactory;
   private final boolean allowDrafts;
+  private final boolean allowEdits;
 
   @Inject
   CreateChange(Provider<ReviewDb> db,
@@ -106,12 +107,17 @@ public class CreateChange implements
     this.changeUtil = changeUtil;
     this.updateFactory = updateFactory;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
+    this.allowEdits = config.getBoolean("change", "allowEdits", true);
   }
 
   @Override
   public Response<ChangeInfo> apply(TopLevelResource parent, ChangeInfo input)
       throws OrmException, IOException, InvalidChangeOperationException,
       RestApiException, UpdateException {
+    if (!allowEdits) {
+      throw new BadRequestException("edit workflow is disabled");
+    }
+
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }

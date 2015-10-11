@@ -213,7 +213,7 @@ public class SideBySide extends Screen {
         }
       }));
 
-    if (Gerrit.isSignedIn()) {
+    if (Gerrit.isSignedIn() && Gerrit.info().change().allowEdits()) {
       ChangeApi.edit(changeId.get(), group2.add(
           new AsyncCallback<EditInfo>() {
             @Override
@@ -374,7 +374,6 @@ public class SideBySide extends Screen {
         .on("O", commentManager.toggleOpenBox(cm))
         .on("Enter", commentManager.toggleOpenBox(cm))
         .on("N", maybeNextVimSearch(cm))
-        .on("E", openEditScreen(cm))
         .on("P", chunkManager.diffChunkNav(cm, Direction.PREV))
         .on("Shift-A", diffTable.toggleA())
         .on("Shift-M", header.reviewedAndNext())
@@ -436,6 +435,9 @@ public class SideBySide extends Screen {
       cm.on("beforeSelectionChange", onSelectionChange(cm));
       cm.on("gutterClick", onGutterClick(cm));
       keyMap.on("C", commentManager.insertNewDraft(cm));
+    }
+    if (Gerrit.info().change().allowEdits()) {
+      keyMap.on("E", openEditScreen(cm));
     }
     cm.addKeyMap(keyMap);
     if (renderEntireFile()) {

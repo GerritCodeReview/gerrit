@@ -16,14 +16,18 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.DeleteChangeEdit.Input;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
@@ -33,15 +37,22 @@ public class DeleteChangeEdit implements RestModifyView<ChangeResource, Input> {
   }
 
   private final ChangeEditUtil editUtil;
+  private final boolean allowEdits;
 
   @Inject
-  DeleteChangeEdit(ChangeEditUtil editUtil) {
+  DeleteChangeEdit(@GerritServerConfig Config cfg,
+      ChangeEditUtil editUtil) {
     this.editUtil = editUtil;
+    allowEdits = cfg.getBoolean("change", "allowEdits", true);
   }
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, IOException {
+      throws AuthException, ResourceNotFoundException, IOException,
+      BadRequestException {
+    if (!allowEdits) {
+      throw new BadRequestException("edit workflow is disabled");
+    }
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
     if (edit.isPresent()) {
       editUtil.delete(edit.get());

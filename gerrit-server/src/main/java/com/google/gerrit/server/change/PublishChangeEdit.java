@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -27,6 +28,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.UpdateException;
@@ -34,6 +36,8 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
@@ -76,16 +80,22 @@ public class PublishChangeEdit implements
     }
 
     private final ChangeEditUtil editUtil;
+    private final boolean allowEdits;
 
     @Inject
-    Publish(ChangeEditUtil editUtil) {
+    Publish(@GerritServerConfig Config cfg,
+        ChangeEditUtil editUtil) {
       this.editUtil = editUtil;
+      allowEdits = cfg.getBoolean("change", "allowEdits", true);
     }
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Publish.Input in)
         throws NoSuchChangeException, IOException, OrmException,
         RestApiException, UpdateException {
+      if (!allowEdits) {
+        throw new BadRequestException("edit workflow is disabled");
+      }
       Capable r =
           rsrc.getControl().getProjectControl().canPushToAtLeastOneRef();
       if (r != Capable.OK) {

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gwtorm.server.OrmException;
@@ -63,15 +64,19 @@ public class GetPreferences implements RestReadView<AccountResource> {
   private final Provider<ReviewDb> db;
   private final AllUsersName allUsersName;
   private final GitRepositoryManager gitMgr;
+  private final boolean allowEdits;
 
   @Inject
-  GetPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db,
+  GetPreferences(@GerritServerConfig Config cfg,
+      Provider<CurrentUser> self,
+      Provider<ReviewDb> db,
       AllUsersName allUsersName,
       GitRepositoryManager gitMgr) {
     this.self = self;
     this.db = db;
     this.allUsersName = allUsersName;
     this.gitMgr = gitMgr;
+    allowEdits = cfg.getBoolean("change", "allowEdits", true);
   }
 
   @Override
@@ -94,7 +99,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
       VersionedAccountPreferences p =
           VersionedAccountPreferences.forUser(rsrc.getUser().getAccountId());
       p.load(git);
-      return new PreferenceInfo(a.getGeneralPreferences(), p, git);
+      return new PreferenceInfo(a.getGeneralPreferences(), p, git, allowEdits);
     }
   }
 
@@ -117,7 +122,8 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Map<String, String> urlAliases;
 
     public PreferenceInfo(AccountGeneralPreferences p,
-        VersionedAccountPreferences v, Repository allUsers) {
+        VersionedAccountPreferences v, Repository allUsers,
+        boolean allowEdits) {
       if (p != null) {
         changesPerPage = p.getMaximumPageSize();
         showSiteHeader = p.isShowSiteHeader() ? true : null;
@@ -134,11 +140,11 @@ public class GetPreferences implements RestReadView<AccountResource> {
         reviewCategoryStrategy = p.getReviewCategoryStrategy();
         diffView = p.getDiffView();
       }
-      loadFromAllUsers(v, allUsers);
+      loadFromAllUsers(v, allUsers, allowEdits);
     }
 
     private void loadFromAllUsers(VersionedAccountPreferences v,
-        Repository allUsers) {
+        Repository allUsers, boolean allowEdits) {
       my = my(v);
       if (my.isEmpty() && !v.isDefaults()) {
         try {
@@ -153,7 +159,9 @@ public class GetPreferences implements RestReadView<AccountResource> {
         my.add(new TopMenu.MenuItem("Changes", "#/dashboard/self", null));
         my.add(new TopMenu.MenuItem("Drafts", "#/q/owner:self+is:draft", null));
         my.add(new TopMenu.MenuItem("Draft Comments", "#/q/has:draft", null));
-        my.add(new TopMenu.MenuItem("Edits", "#/q/has:edit", null));
+        if (allowEdits) {
+          my.add(new TopMenu.MenuItem("Edits", "#/q/has:edit", null));
+        }
         my.add(new TopMenu.MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
         my.add(new TopMenu.MenuItem("Starred Changes", "#/q/is:starred", null));
         my.add(new TopMenu.MenuItem("Groups", "#/groups/self", null));

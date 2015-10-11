@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
@@ -34,12 +35,15 @@ import java.io.IOException;
 public class SetPreferences implements RestModifyView<ConfigResource, Input> {
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllUsersName allUsersName;
+  private final boolean allowEdits;
 
   @Inject
-  SetPreferences(MetaDataUpdate.User metaDataUpdateFactory,
+  SetPreferences(@GerritServerConfig Config cfg,
+      MetaDataUpdate.User metaDataUpdateFactory,
       AllUsersName allUsersName) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
+    allowEdits = cfg.getBoolean("change", "allowEdits", true);
   }
 
   @Override
@@ -64,7 +68,7 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
       p.load(md);
       com.google.gerrit.server.account.SetPreferences.storeMyMenus(p, i.my);
       p.commit(md);
-      return new PreferenceInfo(null, p, md.getRepository());
+      return new PreferenceInfo(null, p, md.getRepository(), allowEdits);
     } finally {
       md.close();
     }

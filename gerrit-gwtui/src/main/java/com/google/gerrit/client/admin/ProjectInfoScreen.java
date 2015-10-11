@@ -583,7 +583,8 @@ public class ProjectInfoScreen extends ProjectScreen {
   private void initProjectActions(ConfigInfo info) {
     actionsGrid.clear(true);
     actionsGrid.removeAllRows();
-    boolean showCreateChange = Gerrit.isSignedIn();
+    boolean showCreateChange = Gerrit.isSignedIn()
+        && Gerrit.info().change().allowEdits();
 
     NativeMap<ActionInfo> actions = info.actions();
     if (actions == null) {

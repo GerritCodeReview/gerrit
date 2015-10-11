@@ -101,7 +101,7 @@ class PublishedBox extends CommentBox {
           new SafeHtmlBuilder().append(msg).wikify()));
     }
 
-    fix.setVisible(open);
+    fix.setVisible(open && Gerrit.info().change().allowEdits());
   }
 
   @Override

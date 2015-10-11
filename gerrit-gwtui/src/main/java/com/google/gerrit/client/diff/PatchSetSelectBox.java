@@ -110,7 +110,8 @@ class PatchSetSelectBox extends Composite {
     if (!Patch.COMMIT_MSG.equals(path)) {
       linkPanel.add(createDownloadLink());
     }
-    if (!binary && open && idActive != null && Gerrit.isSignedIn()) {
+    if (!binary && open && idActive != null && Gerrit.isSignedIn()
+        && Gerrit.info().change().allowEdits()) {
       if ((editExists && idActive.get() == 0)
           || (!editExists && current)) {
         linkPanel.add(createEditIcon());

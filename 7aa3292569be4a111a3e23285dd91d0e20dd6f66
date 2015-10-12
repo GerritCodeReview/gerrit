@@ -105,6 +105,24 @@
       "revId": "7aa3292569be4a111a3e23285dd91d0e20dd6f66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a618e1e_338848f3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-12T10:12:26Z",
+      "side": 1,
+      "message": "| i\u0027m still with you at \u0027G\u0027, but you definitely lost me at \u0027T\u0027 ... ^^\n\nThis explanation my help you to understand what happens here: [1]. Note however, that this answer is not GWT compatible and must be converted, see: [2] for why and how.\n\n* [1] http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java\n* [2] http://demeranville.com/formatting-file-sizes-making-bytes-human-readable-in-gwt",
+      "parentUuid": "4a618e1e_936b1cdf",
+      "revId": "7aa3292569be4a111a3e23285dd91d0e20dd6f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -80,9 +80,15 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       } else {
         cds = getForAbandonedChange();
       }
+
       if (cds.size() <= 1) {
         cds = Collections.emptyList();
+      } else {
+        // Skip sorting for singleton lists, to avoid WalkSorter opening the
+        // repo just to fill out the commit field in PatchSetData.
+        cds = sort(cds);
       }
+
       return json.create(EnumSet.of(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT))
@@ -99,24 +105,20 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     return cs.changes().asList();
   }
 
-  private List<ChangeData> getForMergedChange(Change c)
-      throws OrmException, IOException  {
-    String subId = c.getSubmissionId();
-    List<ChangeData> cds = queryProvider.get().bySubmissionId(subId);
-    if (cds.size() <= 1) {
-      // Bypass WalkSorter to avoid opening the repo just to populate the commit
-      // field in PatchSetData that we would throw out in apply() above anyway.
-      return Collections.emptyList();
-    }
+  private List<ChangeData> getForMergedChange(Change c) throws OrmException {
+    return queryProvider.get().bySubmissionId(c.getSubmissionId());
+  }
 
+  private List<ChangeData> getForAbandonedChange() {
+    return Collections.emptyList();
+  }
+
+  private List<ChangeData> sort(List<ChangeData> cds)
+      throws OrmException, IOException {
     List<ChangeData> sorted = new ArrayList<>(cds.size());
     for (PatchSetData psd : sorter.get().sort(cds)) {
       sorted.add(psd.data());
     }
     return sorted;
-  }
-
-  private List<ChangeData> getForAbandonedChange() {
-    return Collections.emptyList();
   }
 }

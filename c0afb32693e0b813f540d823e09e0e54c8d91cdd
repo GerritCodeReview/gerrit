@@ -22,6 +22,30 @@
       "revId": "c0afb32693e0b813f540d823e09e0e54c8d91cdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a618e1e_53cd0448",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-10-12T07:12:59Z",
+      "side": 1,
+      "message": "Saša opted for \"decodedToken\" to indicate that the string is already URL-decoded.",
+      "parentUuid": "254acd42_7208b83e",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "c0afb32693e0b813f540d823e09e0e54c8d91cdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4dd2ad_3cf131c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-12T18:50:30Z",
+      "side": 1,
+      "message": "Ok that would have been too easy.\n\nWhen I was looking at https://gerrit-review.googlesource.com/#/q/topic:submitted-together-fix\nI noticed there was a conflict between changes with that same topic.\n\n\u003e https://gerrit-review.googlesource.com/#/c/71428/3 tells me it is conflicting with https://gerrit-review.googlesource.com/#/c/71461/1 though they are the same topic and have a Git ancestor relationship",
+      "parentUuid": "7f3e16ee_5db23b22",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

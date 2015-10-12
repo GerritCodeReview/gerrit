@@ -30,6 +30,15 @@ public class FileInfo extends JavaScriptObject {
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
   public final native String status() /*-{ return this.status; }-*/;
 
+
+  // JSNI methods cannot have 'long' as a parameter type or a return type and
+  // it's suggested to use double in this case:
+  // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html#important
+  public final long sizeDelta() {
+    return (long)_sizeDelta();
+  }
+  private final native double _sizeDelta() /*-{ return this.size_delta || 0; }-*/;
+
   public final native int _row() /*-{ return this._row }-*/;
   public final native void _row(int r) /*-{ this._row = r }-*/;
 

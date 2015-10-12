@@ -15,6 +15,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
@@ -59,6 +61,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
@@ -196,12 +199,25 @@ public class PatchListLoader implements Callable<PatchList> {
         DiffEntry diffEntry = diffEntries.get(i);
         if (paths == null || paths.contains(diffEntry.getNewPath())
             || paths.contains(diffEntry.getOldPath())) {
+
           FileHeader fh = toFileHeader(key, df, diffEntry);
-          entries.add(newEntry(aTree, fh));
+          long sizeDelta =
+              getFileSize(repo, reader, diffEntry.getNewPath(), bTree)
+                  - getFileSize(repo, reader, diffEntry.getOldPath(), aTree);
+          entries.add(newEntry(aTree, fh, sizeDelta));
         }
       }
       return new PatchList(a, b, againstParent,
           entries.toArray(new PatchListEntry[entries.size()]));
+    }
+  }
+
+  private static long getFileSize(Repository repo, ObjectReader reader,
+      String path, RevTree t) throws IOException {
+    try (TreeWalk tw = TreeWalk.forPath(reader, path, t)) {
+      return tw != null
+          ? repo.open(tw.getObjectId(0), OBJ_BLOB).getSize()
+          : 0;
     }
   }
 
@@ -273,32 +289,39 @@ public class PatchListLoader implements Callable<PatchList> {
     Text bText = Text.forCommit(reader, bCommit);
 
     byte[] rawHdr = hdr.toString().getBytes("UTF-8");
-    RawText aRawText = new RawText(aText.getContent());
-    RawText bRawText = new RawText(bText.getContent());
+    byte[] aContent = aText.getContent();
+    byte[] bContent = bText.getContent();
+    long sizeDelta = bContent.length - aContent.length;
+    RawText aRawText = new RawText(aContent);
+    RawText bRawText = new RawText(bContent);
     EditList edits = new HistogramDiff().diff(cmp, aRawText, bRawText);
     FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
-    return new PatchListEntry(fh, edits);
+    return new PatchListEntry(fh, edits, sizeDelta);
   }
 
-  private PatchListEntry newEntry(RevTree aTree, FileHeader fileHeader) {
+  private PatchListEntry newEntry(RevTree aTree, FileHeader fileHeader,
+      long sizeDelta) {
     final FileMode oldMode = fileHeader.getOldMode();
     final FileMode newMode = fileHeader.getNewMode();
 
     if (oldMode == FileMode.GITLINK || newMode == FileMode.GITLINK) {
-      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList(),
+          sizeDelta);
     }
 
     if (aTree == null // want combined diff
         || fileHeader.getPatchType() != PatchType.UNIFIED
         || fileHeader.getHunks().isEmpty()) {
-      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList(),
+          sizeDelta);
     }
 
     List<Edit> edits = fileHeader.toEditList();
     if (edits.isEmpty()) {
-      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList(),
+          sizeDelta);
     } else {
-      return new PatchListEntry(fileHeader, edits);
+      return new PatchListEntry(fileHeader, edits, sizeDelta);
     }
   }
 

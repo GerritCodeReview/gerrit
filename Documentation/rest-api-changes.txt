@@ -413,29 +413,36 @@ default. Optional fields are:
           },
           "files": {
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeCache.java": {
-              "lines_deleted": 8
+              "lines_deleted": 8,
+              "size_delta": -412
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeDetailCache.java": {
-              "lines_inserted": 1
+              "lines_inserted": 1,
+              "size_delta": 23
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java": {
               "lines_inserted": 11,
-              "lines_deleted": 19
+              "lines_deleted": 19,
+              "size_delta": -298
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java": {
               "lines_inserted": 23,
-              "lines_deleted": 20
+              "lines_deleted": 20,
+              "size_delta": 132
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java": {
               "status": "D",
-              "lines_deleted": 139
+              "lines_deleted": 139,
+              "size_delta": -5512
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarredChanges.java": {
               "status": "A",
-              "lines_inserted": 204
+              "lines_inserted": 204,
+              "size_delta": 8345
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java": {
-              "lines_deleted": 9
+              "lines_deleted": 9,
+              "size_delta": -343
             }
           }
         }
@@ -3262,11 +3269,13 @@ sorted by file path.
   {
     "/COMMIT_MSG": {
       "status": "A",
-      "lines_inserted": 7
+      "lines_inserted": 7,
+      "size_delta": 551
     },
     "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": {
       "lines_inserted": 5,
-      "lines_deleted": 3
+      "lines_deleted": 3,
+      "size_delta": 98
     }
   }
 ----
@@ -4207,6 +4216,8 @@ Not set for binary files or if no lines were inserted.
 |`lines_deleted` |optional|
 Number of deleted lines. +
 Not set for binary files or if no lines were deleted.
+|`size_delta`    ||
+Number of bytes by which the file size increased/decreased.
 |=============================
 
 [[fix-input]]

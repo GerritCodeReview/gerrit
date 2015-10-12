@@ -16,6 +16,29 @@
       "revId": "74769ef1885ce8b146f935101aec0fd1fcf9b489",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ffefa6f_32ca1080",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-10-12T20:36:30Z",
+      "side": 1,
+      "message": "PatchListLoader is a singleton. So now all diff threads serialize on this one object?\n\nWhat you really wanted to synchronize on is the ObjectReader buried inside of the DiffFormatter. So maybe DiffFormatter is the better object to lock around, or the ObjectReader itself made above on line 139?",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 9
+      },
+      "revId": "74769ef1885ce8b146f935101aec0fd1fcf9b489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

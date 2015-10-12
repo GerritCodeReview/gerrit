@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f3e16ee_5db23b22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-12T18:42:10Z",
+      "side": 1,
+      "message": "Actually it should be accurate. Querying by the same files being touches is done for pre-filtering but then ConflictsPredicate runs a dry-run merge to check if there are real conflicts or not [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java#123",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

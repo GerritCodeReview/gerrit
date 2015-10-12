@@ -46,6 +46,30 @@
       "revId": "c0afb32693e0b813f540d823e09e0e54c8d91cdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f1eb25a_34c4706f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LoginUrlToken.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-10-12T08:24:25Z",
+      "side": 1,
+      "message": "Just \u0027token\u0027 is would be also OK for me. The most important thing is that the old name \"encoded...\" doesn\u0027t match any more.",
+      "parentUuid": "4a618e1e_53cd0448",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "c0afb32693e0b813f540d823e09e0e54c8d91cdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

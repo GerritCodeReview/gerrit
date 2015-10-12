@@ -25,6 +25,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -124,10 +125,10 @@ public class RebuildNotedb extends SiteProgram {
               allUsersRepo.getRefDatabase().newBatchUpdate();
           List<ListenableFuture<?>> futures = Lists.newArrayList();
 
-          // Here, we truncate the project name to 50 characters to ensure that
+          // Here, we elide the project name to 50 characters to ensure that
           // the whole monitor line for a project fits on one line (<80 chars).
           final MultiProgressMonitor mpm = new MultiProgressMonitor(System.out,
-              truncateProjectName(project.get()));
+              FormatUtil.elide(project.get(), 50));
           final Task doneTask =
               mpm.beginSubTask("done", changesByProject.get(project).size());
           final Task failedTask =
@@ -165,17 +166,6 @@ public class RebuildNotedb extends SiteProgram {
     System.out.format("Rebuild %d changes in %.01fs (%.01f/s)\n",
         changesByProject.size(), t, changesByProject.size() / t);
     return ok.get() ? 0 : 1;
-  }
-
-  private static String truncateProjectName(String projectName) {
-    int monitorStringMaxLength = 50;
-    String monitorString = (projectName.length() > monitorStringMaxLength)
-        ? projectName.substring(0, monitorStringMaxLength)
-        : projectName;
-    if (projectName.length() > monitorString.length()) {
-      monitorString = monitorString + "...";
-    }
-    return monitorString;
   }
 
   private static void execute(BatchRefUpdate bru, Repository repo)

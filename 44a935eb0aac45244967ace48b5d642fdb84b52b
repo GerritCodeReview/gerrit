@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1ffefa6f_b2dd6047",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-10-12T22:46:13Z",
+      "side": 1,
+      "message": "Sorry about that.  I had actually thought this was targeted for master.",
+      "parentUuid": "7f3e16ee_fdc06761",
+      "revId": "44a935eb0aac45244967ace48b5d642fdb84b52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_fcd7c920",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I\u0027m rendering exactly the same way, like in PostReview:\n\n  Khai Do 8:47 PM\n  Patch Set 5: Code-Review-1 Verified-1\n\n^^^ You see, no comma? Why would you expect that the label list is rendered differly when passed through magic branch compared to votes from the UI? Or dou you mean to fix PostReview as well? But may be we should better do it on master (if at all)?",
       "parentUuid": "5f4dd2ad_fcd7c920",
+      "revId": "44a935eb0aac45244967ace48b5d642fdb84b52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ffefa6f_52c99486",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1862,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-10-12T22:46:13Z",
+      "side": 1,
+      "message": "No reason, just a cosmetic nit.  Sorry, I didn\u0027t realize it was like that in PostReview.  Agreed, it\u0027s better to be consistent.",
+      "parentUuid": "7f3e16ee_9db32323",
       "revId": "44a935eb0aac45244967ace48b5d642fdb84b52b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf0a4e5b_4fb28d22",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-12T17:06:11Z",
+      "side": 1,
+      "message": "I considered that but it was using HTTP not the extension API so I bailed.",
+      "parentUuid": "1ffefa6f_72adb8c0",
+      "range": {
+        "startLine": 202,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 3
+      },
+      "revId": "c5047a536f84ee06224ee514debdfb29b605a646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_fcc06961",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2015-10-12T17:03:07Z",
       "side": 1,
       "message": "Why do we apply the sorting only in the merged case? It would also benefit in the open-change case.",
+      "range": {
+        "startLine": 113,
+        "startChar": 28,
+        "endLine": 113,
+        "endChar": 52
+      },
+      "revId": "c5047a536f84ee06224ee514debdfb29b605a646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff10aa5_2ea3c7d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-12T17:06:11Z",
+      "side": 1,
+      "message": "I kind of thought it already did that but looking at MergeSuperSet I don\u0027t think it does, and the fact that the order was different in my two test cases may have just been an accident. Will do this in a followup.",
+      "parentUuid": "5f4dd2ad_9cb32523",
       "range": {
         "startLine": 113,
         "startChar": 28,

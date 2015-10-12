@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f3e16ee_3dcacf7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-12T19:43:49Z",
+      "side": 0,
+      "message": "So, this was second time the transaction was started (without close), after this code in executeChangeOps() already started the first transaction (correctly):\n\n  private void executeChangeOps() throws UpdateException {\n    try {\n      for (Map.Entry\u003cChange.Id, Collection\u003cOp\u003e\u003e e : ops.asMap().entrySet()) {\n        Change.Id id \u003d e.getKey();\n        db.changes().beginTransaction(id);\n        ChangeContext ctx;\n        try {\n          ctx \u003d newChangeContext(id);\n          for (Op op : e.getValue()) {\n            op.updateChange(ctx);\n          }\n          db.commit();\n        } finally {\n          db.rollback();\n        }\n  [...]\n\nI wonder why no one test was failing?",
+      "revId": "b729d3e82b862847cf929f7a51a09f7a32a15e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

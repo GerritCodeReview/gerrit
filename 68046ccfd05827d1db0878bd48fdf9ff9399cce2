@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5f1eb25a_d4577c3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-12T14:55:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "254acd42_f297480d",
+      "range": {
+        "startLine": 12,
+        "startChar": 23,
+        "endLine": 12,
+        "endChar": 37
+      },
+      "revId": "68046ccfd05827d1db0878bd48fdf9ff9399cce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea0a4213_9806d531",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-12T14:35:51Z",
       "side": 1,
       "message": "With git grep I can see that there are 2 other elide methods in the codebase. Would it be possible to consolidate them all to one utility method?",
+      "range": {
+        "startLine": 170,
+        "startChar": 2,
+        "endLine": 177,
+        "endChar": 3
+      },
+      "revId": "68046ccfd05827d1db0878bd48fdf9ff9399cce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f1eb25a_b4640021",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-12T14:55:10Z",
+      "side": 1,
+      "message": "Yes, but we need a new FormatUtil class that is shared between server and client. The eliding of SSH keys is different since there the \"...\" shouldn\u0027t be in the middle but 10 characters from the end. So I would keep this a separate method.\n\nDone.",
+      "parentUuid": "ea0a4213_9806d531",
       "range": {
         "startLine": 170,
         "startChar": 2,

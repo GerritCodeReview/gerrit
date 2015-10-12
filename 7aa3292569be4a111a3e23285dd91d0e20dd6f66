@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "4a618e1e_7392c022",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-12T11:57:56Z",
+      "side": 1,
+      "message": "This method cannot be made static here because it\u0027s a method of an inner non-static class... but I moved it to FormatUtil and made it static there.\n\nStill the test is required to be a GwtTest since this method is using NumberFormat from GWT, hence I could only add an ignored test, that we can enable once the issue with running GWT tests is solved.",
+      "parentUuid": "5f1eb25a_94d4641e",
+      "revId": "7aa3292569be4a111a3e23285dd91d0e20dd6f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a618e1e_936b1cdf",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
         "patchSetId": 1

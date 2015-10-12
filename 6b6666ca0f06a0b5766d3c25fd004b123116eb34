@@ -75,6 +75,24 @@
       "revId": "6b6666ca0f06a0b5766d3c25fd004b123116eb34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6547653f_6c09bb69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1767,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-12T13:32:05Z",
+      "side": 1,
+      "message": "Right. It kind of sucks that we have to create an ObjectInserter for this case that we never use, but that\u0027s how setRepository currently works. I considered allowing the inserter to be null, but I want to wait a bit before doing that, to see if we can end up reusing more inserters as we hoist BatchUpdates higher. (Note that an inserter that is never used should only be a slight waste of memory, it shouldn\u0027t incur any I/O to the repository.)",
+      "parentUuid": "4a618e1e_5370649b",
+      "revId": "6b6666ca0f06a0b5766d3c25fd004b123116eb34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

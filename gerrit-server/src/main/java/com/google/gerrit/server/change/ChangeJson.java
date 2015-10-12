@@ -279,23 +279,13 @@ public class ChangeJson {
   public List<List<ChangeInfo>> formatQueryResults(List<QueryResult> in)
       throws OrmException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    Iterable<ChangeData> all = FluentIterable.from(in)
+    ensureLoaded(FluentIterable.from(in)
         .transformAndConcat(new Function<QueryResult, List<ChangeData>>() {
           @Override
           public List<ChangeData> apply(QueryResult in) {
             return in.changes();
           }
-        });
-    ChangeData.ensureChangeLoaded(all);
-    if (has(ALL_REVISIONS)) {
-      ChangeData.ensureAllPatchSetsLoaded(all);
-    } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
-      ChangeData.ensureCurrentPatchSetLoaded(all);
-    }
-    if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
-      ChangeData.ensureReviewedByLoadedForOpenChanges(all);
-    }
-    ChangeData.ensureCurrentApprovalsLoaded(all);
+        }));
 
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
     Map<Change.Id, ChangeInfo> out = Maps.newHashMap();
@@ -308,6 +298,31 @@ public class ChangeJson {
     }
     accountLoader.fill();
     return res;
+  }
+
+  public List<ChangeInfo> formatChangeDatas(Collection<ChangeData> in)
+      throws OrmException {
+    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+    ensureLoaded(in);
+    List<ChangeInfo> out = new ArrayList<>(in.size());
+    for (ChangeData cd : in) {
+      out.add(format(cd));
+    }
+    accountLoader.fill();
+    return out;
+  }
+
+  private void ensureLoaded(Iterable<ChangeData> all) throws OrmException {
+    ChangeData.ensureChangeLoaded(all);
+    if (has(ALL_REVISIONS)) {
+      ChangeData.ensureAllPatchSetsLoaded(all);
+    } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
+      ChangeData.ensureCurrentPatchSetLoaded(all);
+    }
+    if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
+      ChangeData.ensureReviewedByLoadedForOpenChanges(all);
+    }
+    ChangeData.ensureCurrentApprovalsLoaded(all);
   }
 
   private boolean has(ListChangesOption option) {

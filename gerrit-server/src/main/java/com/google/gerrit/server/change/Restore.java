@@ -88,8 +88,8 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
 
     Op op = new Op(input);
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        req.getChange().getProject(), TimeUtil.nowTs())) {
-      u.addOp(ctl, op).execute();
+        req.getChange().getProject(), ctl.getCurrentUser(), TimeUtil.nowTs())) {
+      u.addOp(req.getChange().getId(), op).execute();
     }
     return json.create(ChangeJson.NO_OPTIONS).format(op.change);
   }
@@ -110,7 +110,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     public void updateChange(ChangeContext ctx) throws OrmException,
         ResourceConflictException {
       caller = (IdentifiedUser) ctx.getUser();
-      change = ctx.readChange();
+      change = ctx.getChange();
       if (change == null || change.getStatus() != Status.ABANDONED) {
         throw new ResourceConflictException("change is " + status(change));
       }

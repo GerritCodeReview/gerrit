@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -31,25 +33,35 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
+import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,33 +70,34 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-public class ChangeInserter {
+public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   public static interface Factory {
-    ChangeInserter create(ProjectControl ctl, Change c, RevCommit rc);
+    ChangeInserter create(RefControl ctl, Change c, RevCommit rc);
   }
 
   private static final Logger log =
       LoggerFactory.getLogger(ChangeInserter.class);
 
-  private final Provider<ReviewDb> dbProvider;
-  private final ChangeUpdate.Factory updateFactory;
-  private final GitReferenceUpdated gitRefUpdated;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final ChangeIndexer indexer;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final HashtagsUtil hashtagsUtil;
   private final AccountCache accountCache;
   private final WorkQueue workQueue;
+  private final CommitValidators.Factory commitValidatorsFactory;
 
-  private final ProjectControl projectControl;
+  private final RefControl refControl;
+  private final IdentifiedUser user;
   private final Change change;
   private final PatchSet patchSet;
   private final RevCommit commit;
   private final PatchSetInfo patchSetInfo;
 
-  private ChangeMessage changeMessage;
+  // Fields exposed as setters.
+  private String message;
+  private CommitValidators.Policy validatePolicy =
+      CommitValidators.Policy.GERRIT;
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
@@ -92,35 +105,41 @@ public class ChangeInserter {
   private RequestScopePropagator requestScopePropagator;
   private boolean runHooks;
   private boolean sendMail;
+  private boolean updateRef;
+
+  // Fields set during the insertion process.
+  private ChangeMessage changeMessage;
 
   @Inject
-  ChangeInserter(Provider<ReviewDb> dbProvider,
-      ChangeUpdate.Factory updateFactory,
-      PatchSetInfoFactory patchSetInfoFactory,
-      GitReferenceUpdated gitRefUpdated,
+  ChangeInserter(PatchSetInfoFactory patchSetInfoFactory,
       ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      ChangeIndexer indexer,
       CreateChangeSender.Factory createChangeSenderFactory,
       HashtagsUtil hashtagsUtil,
       AccountCache accountCache,
       WorkQueue workQueue,
-      @Assisted ProjectControl projectControl,
+      CommitValidators.Factory commitValidatorsFactory,
+      @Assisted RefControl refControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
-    this.dbProvider = dbProvider;
-    this.updateFactory = updateFactory;
-    this.gitRefUpdated = gitRefUpdated;
+    String projectName = refControl.getProjectControl().getProject().getName();
+    String refName = refControl.getRefName();
+    checkArgument(projectName.equals(change.getProject().get())
+          && refName.equals(change.getDest().get()),
+        "RefControl for %s,%s does not match change destination %s",
+        projectName, refName, change.getDest());
+
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.indexer = indexer;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.hashtagsUtil = hashtagsUtil;
     this.accountCache = accountCache;
     this.workQueue = workQueue;
-    this.projectControl = projectControl;
+    this.commitValidatorsFactory = commitValidatorsFactory;
+
+    this.refControl = refControl;
     this.change = change;
     this.commit = commit;
     this.reviewers = Collections.emptySet();
@@ -129,7 +148,9 @@ public class ChangeInserter {
     this.hashtags = Collections.emptySet();
     this.runHooks = true;
     this.sendMail = true;
+    this.updateRef = true;
 
+    user = checkUser(refControl);
     patchSet =
         new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
     patchSet.setCreatedOn(change.getCreatedOn());
@@ -139,12 +160,28 @@ public class ChangeInserter {
     change.setCurrentPatchSet(patchSetInfo);
   }
 
+  private static IdentifiedUser checkUser(RefControl ctl) {
+    checkArgument(ctl.getCurrentUser().isIdentifiedUser(),
+        "only IdentifiedUser may create change");
+    return (IdentifiedUser) ctl.getCurrentUser();
+  }
+
+  @Override
   public Change getChange() {
     return change;
   }
 
-  public ChangeInserter setMessage(ChangeMessage changeMessage) {
-    this.changeMessage = changeMessage;
+  public IdentifiedUser getUser() {
+    return user;
+  }
+
+  public ChangeInserter setMessage(String message) {
+    this.message = message;
+    return this;
+  }
+
+  public ChangeInserter setValidatePolicy(CommitValidators.Policy validate) {
+    this.validatePolicy = checkNotNull(validate);
     return this;
   }
 
@@ -198,55 +235,76 @@ public class ChangeInserter {
     return this;
   }
 
+  public ChangeInserter setUpdateRef(boolean updateRef) {
+    this.updateRef = updateRef;
+    return this;
+  }
+
   public PatchSetInfo getPatchSetInfo() {
     return patchSetInfo;
   }
 
-  public Change insert() throws OrmException, IOException {
-    ReviewDb db = dbProvider.get();
-    ChangeControl ctl = projectControl.controlFor(change);
-    ChangeUpdate update = updateFactory.create(
-        ctl,
-        change.getCreatedOn());
-    db.changes().beginTransaction(change.getId());
-    try {
-      ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
-      if (patchSet.getGroups() == null) {
-        patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));
-      }
-      db.patchSets().insert(Collections.singleton(patchSet));
-      db.changes().insert(Collections.singleton(change));
-      LabelTypes labelTypes = projectControl.getLabelTypes();
-      approvalsUtil.addReviewers(db, update, labelTypes, change,
-          patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
-      approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
-          ctl, approvals);
-      if (messageIsForChange()) {
-        cmUtil.addChangeMessage(db, update, changeMessage);
-      }
-      db.commit();
-    } finally {
-      db.rollback();
+  public ChangeMessage getChangeMessage() {
+    if (message == null) {
+      return null;
     }
+    checkState(changeMessage != null,
+        "getChangeMessage() only valid after inserting change");
+    return changeMessage;
+  }
 
-    update.commit();
+  @Override
+  public void updateRepo(RepoContext ctx)
+      throws InvalidChangeOperationException, IOException {
+    validate(ctx);
+    if (!updateRef) {
+      return;
+    }
+    ctx.addRefUpdate(
+        new ReceiveCommand(ObjectId.zeroId(), commit, patchSet.getRefName()));
+  }
+
+  @Override
+  public void updateChange(ChangeContext ctx) throws OrmException, IOException {
+    ReviewDb db = ctx.getDb();
+    ChangeControl ctl = ctx.getChangeControl();
+    ChangeUpdate update = ctx.getChangeUpdate();
+    db.changes().beginTransaction(change.getId());
+    ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
+    if (patchSet.getGroups() == null) {
+      patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));
+    }
+    db.patchSets().insert(Collections.singleton(patchSet));
+    db.changes().insert(Collections.singleton(change));
+    LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
+    approvalsUtil.addReviewers(db, update, labelTypes, change,
+        patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
+    approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
+        ctx.getChangeControl(), approvals);
+    if (message != null) {
+      changeMessage =
+          new ChangeMessage(new ChangeMessage.Key(change.getId(),
+              ChangeUtil.messageUUID(db)), user.getAccountId(),
+              patchSet.getCreatedOn(), patchSet.getId());
+      changeMessage.setMessage(message);
+      cmUtil.addChangeMessage(db, update, changeMessage);
+    }
 
     if (hashtags != null && hashtags.size() > 0) {
       try {
         HashtagsInput input = new HashtagsInput();
         input.add = hashtags;
+        // TODO(dborowitz): Migrate HashtagsUtil so it doesn't create another
+        // ChangeUpdate.
         hashtagsUtil.setHashtags(ctl, input, false, false);
       } catch (ValidationException | AuthException e) {
         log.error("Cannot add hashtags to change " + change.getId(), e);
       }
     }
+  }
 
-    CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
-    if (!messageIsForChange()) {
-      commitMessageNotForChange();
-    }
-    f.checkedGet();
-
+  @Override
+  public void postUpdate(Context ctx) throws OrmException {
     if (sendMail) {
       Runnable sender = new Runnable() {
         @Override
@@ -276,10 +334,8 @@ public class ChangeInserter {
       }
     }
 
-    gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
-        ObjectId.zeroId(), commit);
-
     if (runHooks) {
+      ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (hashtags != null && hashtags.size() > 0) {
         hooks.doHashtagsChangedHook(change,
@@ -287,32 +343,42 @@ public class ChangeInserter {
             hashtags, null, hashtags, db);
       }
     }
-
-    return change;
   }
 
-  private void commitMessageNotForChange() throws OrmException,
-      IOException {
-    ReviewDb db = dbProvider.get();
-    if (changeMessage != null) {
-      Change otherChange =
-          db.changes().get(changeMessage.getPatchSetId().getParentKey());
-      ChangeUtil.bumpRowVersionNotLastUpdatedOn(
-          changeMessage.getKey().getParentKey(), db);
-      ChangeControl otherControl = projectControl.controlFor(otherChange);
-      ChangeUpdate updateForOtherChange =
-          updateFactory.create(otherControl, change.getLastUpdatedOn());
-      cmUtil.addChangeMessage(db, updateForOtherChange, changeMessage);
-      updateForOtherChange.commit();
+  private void validate(RepoContext ctx)
+      throws IOException, InvalidChangeOperationException {
+    if (validatePolicy == CommitValidators.Policy.NONE) {
+      return;
     }
-  }
+    CommitValidators cv = commitValidatorsFactory.create(
+        refControl, new NoSshInfo(), ctx.getRepository());
 
-  private boolean messageIsForChange() {
-    if (changeMessage == null) {
-      return false;
+    String refName = patchSet.getId().toRefName();
+    CommitReceivedEvent event = new CommitReceivedEvent(
+        new ReceiveCommand(
+            ObjectId.zeroId(),
+            commit.getId(),
+            refName),
+        refControl.getProjectControl().getProject(),
+        change.getDest().get(),
+        commit,
+        user);
+
+    try {
+      switch (validatePolicy) {
+      case RECEIVE_COMMITS:
+        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(
+            ctx.getRepository(), ctx.getRevWalk());
+        cv.validateForReceiveCommits(event, rejectCommits);
+        break;
+      case GERRIT:
+        cv.validateForGerritCommits(event);
+        break;
+      case NONE:
+        break;
+      }
+    } catch (CommitValidationException e) {
+      throw new InvalidChangeOperationException(e.getMessage());
     }
-    Change.Id id = change.getId();
-    Change.Id msgId = changeMessage.getKey().getParentKey();
-    return msgId.equals(id);
   }
 }

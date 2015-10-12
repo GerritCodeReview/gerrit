@@ -42,10 +42,10 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -466,8 +466,10 @@ public class ConsistencyChecker {
       PatchSetInserter inserter =
           patchSetInserterFactory.create(repo, rw, ctl, commit);
       try (BatchUpdate bu = updateFactory.create(
-          db.get(), change.getDest().getParentKey(), TimeUtil.nowTs())) {
-        bu.addOp(ctl, inserter.setValidatePolicy(ValidatePolicy.NONE)
+          db.get(), change.getDest().getParentKey(), user.get(),
+          TimeUtil.nowTs())) {
+        bu.addOp(change.getId(), inserter
+            .setValidatePolicy(CommitValidators.Policy.NONE)
             .setRunHooks(false)
             .setSendMail(false)
             .setAllowClosed(true)

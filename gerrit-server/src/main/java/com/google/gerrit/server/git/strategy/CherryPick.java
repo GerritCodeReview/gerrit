@@ -72,14 +72,15 @@ public class CherryPick extends SubmitStrategy {
     try (BatchUpdate u = args.newBatchUpdate(TimeUtil.nowTs())) {
       while (!sorted.isEmpty()) {
         CodeReviewCommit n = sorted.remove(0);
+        Change.Id cid = n.change().getId();
         if (first && branchTip == null) {
-          u.addOp(n.getControl(), new CherryPickUnbornRootOp(mergeTip, n));
+          u.addOp(cid, new CherryPickUnbornRootOp(mergeTip, n));
         } else if (n.getParentCount() == 0) {
-          u.addOp(n.getControl(), new CherryPickRootOp(n));
+          u.addOp(cid, new CherryPickRootOp(n));
         } else if (n.getParentCount() == 1) {
-          u.addOp(n.getControl(), new CherryPickOneOp(mergeTip, n));
+          u.addOp(cid, new CherryPickOneOp(mergeTip, n));
         } else {
-          u.addOp(n.getControl(), new CherryPickMultipleParentsOp(mergeTip, n));
+          u.addOp(cid, new CherryPickMultipleParentsOp(mergeTip, n));
         }
         first = false;
       }

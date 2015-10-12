@@ -31,7 +31,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -75,7 +74,7 @@ import java.util.Map;
 public class BatchUpdate implements AutoCloseable {
   public interface Factory {
     public BatchUpdate create(ReviewDb db, Project.NameKey project,
-        Timestamp when);
+        CurrentUser user, Timestamp when);
   }
 
   public class Context {
@@ -118,18 +117,24 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public class ChangeContext extends Context {
+    private final ChangeControl ctl;
     private final ChangeUpdate update;
 
-    private ChangeContext(ChangeUpdate update) {
-      this.update = update;
+    private ChangeContext(ChangeControl ctl) {
+      this.ctl = ctl;
+      this.update = changeUpdateFactory.create(ctl, when);
     }
 
     public ChangeUpdate getChangeUpdate() {
       return update;
     }
 
-    public Change readChange() throws OrmException {
-      return db.changes().get(update.getChange().getId());
+    public ChangeControl getChangeControl() {
+      return ctl;
+    }
+
+    public Change getChange() {
+      return update.getChange();
     }
 
     public CurrentUser getUser() {
@@ -152,17 +157,23 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
+  public abstract static class InsertChangeOp extends Op {
+    public abstract Change getChange();
+  }
+
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
   private final ChangeIndexer indexer;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final GitReferenceUpdated gitRefUpdated;
 
   private final Project.NameKey project;
+  private final CurrentUser user;
   private final Timestamp when;
 
   private final ListMultimap<Change.Id, Op> ops = ArrayListMultimap.create();
-  private final Map<Change.Id, ChangeControl> changeControls = new HashMap<>();
+  private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<CheckedFuture<?, IOException>> indexFutures =
       new ArrayList<>();
 
@@ -175,17 +186,21 @@ public class BatchUpdate implements AutoCloseable {
   @AssistedInject
   BatchUpdate(GitRepositoryManager repoManager,
       ChangeIndexer indexer,
+      ChangeControl.GenericFactory changeControlFactory,
       ChangeUpdate.Factory changeUpdateFactory,
       GitReferenceUpdated gitRefUpdated,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
+      @Assisted CurrentUser user,
       @Assisted Timestamp when) {
     this.db = db;
     this.repoManager = repoManager;
     this.indexer = indexer;
+    this.changeControlFactory = changeControlFactory;
     this.changeUpdateFactory = changeUpdateFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.project = project;
+    this.user = user;
     this.when = when;
   }
 
@@ -232,14 +247,18 @@ public class BatchUpdate implements AutoCloseable {
     return inserter;
   }
 
-  public BatchUpdate addOp(ChangeControl ctl, Op op) {
-    Change.Id id = ctl.getChange().getId();
-    ChangeControl old = changeControls.get(id);
-    // TODO(dborowitz): Not sure this is guaranteed in general.
-    checkArgument(old == null || old == ctl,
-        "mismatched ChangeControls for change %s", id);
+  public BatchUpdate addOp(Change.Id id, Op op) {
+    checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
     ops.put(id, op);
-    changeControls.put(id, ctl);
+    return this;
+  }
+
+  public BatchUpdate insertChange(InsertChangeOp op) {
+    Change c = op.getChange();
+    checkArgument(!newChanges.containsKey(c.getId()),
+        "only one op allowed to create change %s", c.getId());
+    newChanges.put(c.getId(), c);
+    ops.get(c.getId()).add(0, op);
     return this;
   }
 
@@ -303,24 +322,36 @@ public class BatchUpdate implements AutoCloseable {
     try {
       for (Map.Entry<Change.Id, Collection<Op>> e : ops.asMap().entrySet()) {
         Change.Id id = e.getKey();
-        ChangeUpdate update =
-            changeUpdateFactory.create(changeControls.get(id), when);
         db.changes().beginTransaction(id);
+        ChangeContext ctx;
         try {
+          ctx = newChangeContext(id);
           for (Op op : e.getValue()) {
-            op.updateChange(new ChangeContext(update));
+            op.updateChange(ctx);
           }
           db.commit();
         } finally {
           db.rollback();
         }
-        update.commit();
+        ctx.getChangeUpdate().commit();
         indexFutures.add(indexer.indexAsync(id));
       }
     } catch (Exception e) {
       Throwables.propagateIfPossible(e);
       throw new UpdateException(e);
     }
+  }
+
+  private ChangeContext newChangeContext(Change.Id id) throws Exception {
+    Change c = newChanges.get(id);
+    if (c == null) {
+      c = db.changes().get(id);
+    }
+    // Pass in preloaded change to controlFor, to avoid:
+    //  - reading from a db that does not belong to this update
+    //  - attempting to read a change that doesn't exist yet
+    return new ChangeContext(
+      changeControlFactory.controlFor(c, user));
   }
 
   private void reindexChanges() throws IOException {

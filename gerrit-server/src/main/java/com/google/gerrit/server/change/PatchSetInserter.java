@@ -76,15 +76,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
         RevCommit commit);
   }
 
-  /**
-   * Whether to use {@link CommitValidators#validateForGerritCommits},
-   * {@link CommitValidators#validateForReceiveCommits}, or no commit
-   * validation.
-   */
-  public static enum ValidatePolicy {
-    GERRIT, RECEIVE_COMMITS, NONE
-  }
-
   // Injected fields.
   private final ChangeHooks hooks;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -108,7 +99,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
   // Fields exposed as setters.
   private SshInfo sshInfo;
   private String message;
-  private ValidatePolicy validatePolicy = ValidatePolicy.GERRIT;
+  private CommitValidators.Policy validatePolicy =
+      CommitValidators.Policy.GERRIT;
   private boolean draft;
   private Iterable<String> groups;
   private boolean runHooks = true;
@@ -176,7 +168,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     return this;
   }
 
-  public PatchSetInserter setValidatePolicy(ValidatePolicy validate) {
+  public PatchSetInserter setValidatePolicy(CommitValidators.Policy validate) {
     this.validatePolicy = checkNotNull(validate);
     return this;
   }
@@ -228,7 +220,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   @Override
   public void updateChange(ChangeContext ctx) throws OrmException,
       InvalidChangeOperationException {
-    change = ctx.readChange();
+    change = ctx.getChange();
     Change.Id id = change.getId();
     final PatchSet.Id currentPatchSetId = change.currentPatchSetId();
     if (!change.getStatus().isOpen() && !allowClosed) {

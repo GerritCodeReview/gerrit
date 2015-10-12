@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.change.RebaseChange;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
@@ -28,6 +27,7 @@ import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -90,7 +90,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
                     n.change(), n.getPatchsetId(), args.caller,
                     mergeTip.getCurrentTip(), args.mergeUtil,
-                    args.serverIdent.get(), false, ValidatePolicy.NONE);
+                    args.serverIdent.get(), false,
+                    CommitValidators.Policy.NONE);
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.approvalsUtil.byPatchSet(args.db,
                 n.getControl(), n.getPatchsetId())) {

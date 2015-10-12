@@ -26,12 +26,12 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -141,7 +141,7 @@ public class RebaseChange {
       rebase(git, rw, inserter, change, patchSet.getId(),
           uploader, baseCommit, mergeUtilFactory.create(
               rsrc.getControl().getProjectControl().getProjectState(), true),
-          committerIdent, true, ValidatePolicy.GERRIT);
+          committerIdent, true, CommitValidators.Policy.GERRIT);
     } catch (MergeConflictException e) {
       throw new ResourceConflictException(e.getMessage());
     }
@@ -259,7 +259,8 @@ public class RebaseChange {
   public PatchSet rebase(Repository git, RevWalk rw,
       ObjectInserter inserter, Change change, PatchSet.Id patchSetId,
       IdentifiedUser uploader, RevCommit baseCommit, MergeUtil mergeUtil,
-      PersonIdent committerIdent, boolean runHooks, ValidatePolicy validate)
+      PersonIdent committerIdent, boolean runHooks,
+      CommitValidators.Policy validate)
       throws NoSuchChangeException, OrmException, IOException,
       InvalidChangeOperationException, MergeConflictException, UpdateException,
       RestApiException {
@@ -287,8 +288,8 @@ public class RebaseChange {
         .setRunHooks(runHooks);
 
     try (BatchUpdate bu = updateFactory.create(
-        db.get(), change.getDest().getParentKey(), TimeUtil.nowTs())) {
-      bu.addOp(changeControl, patchSetInserter.setMessage(
+        db.get(), change.getProject(), uploader, TimeUtil.nowTs())) {
+      bu.addOp(change.getId(), patchSetInserter.setMessage(
           "Patch Set " + patchSetInserter.getPatchSetId().get()
           + ": Patch Set " + patchSetId.get() + " was rebased"));
       bu.execute();

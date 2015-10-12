@@ -100,7 +100,8 @@ public abstract class SubmitStrategy {
     }
 
     BatchUpdate newBatchUpdate(Timestamp when) {
-      return batchUpdateFactory.create(db, destBranch.getParentKey(), when)
+      return batchUpdateFactory
+          .create(db, destBranch.getParentKey(), caller, when)
           .setRepository(repo, rw, inserter);
     }
   }

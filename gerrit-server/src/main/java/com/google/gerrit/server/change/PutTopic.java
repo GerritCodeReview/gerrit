@@ -78,8 +78,8 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
 
     Op op = new Op(ctl, input != null ? input : new Input());
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        req.getChange().getProject(), TimeUtil.nowTs())) {
-      u.addOp(ctl, op);
+        req.getChange().getProject(), ctl.getCurrentUser(), TimeUtil.nowTs())) {
+      u.addOp(req.getChange().getId(), op);
       u.execute();
     }
     return Strings.isNullOrEmpty(op.newTopicName)
@@ -102,7 +102,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
 
     @Override
     public void updateChange(ChangeContext ctx) throws OrmException {
-      change = ctx.readChange();
+      change = ctx.getChange();
       String newTopicName = Strings.nullToEmpty(input.topic);
       String oldTopicName = Strings.nullToEmpty(change.getTopic());
       if (oldTopicName.equals(newTopicName)) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a618e1e_93d79cce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-12T08:22:35Z",
+      "side": 1,
+      "message": "Can this now be removed too?",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 72
+      },
+      "revId": "c18a89ae67d0edc6eaa586fc672d73439edb9c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

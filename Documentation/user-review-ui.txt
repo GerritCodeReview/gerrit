@@ -540,13 +540,13 @@ through.
 +
 image::images/user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/user-review-ui-change-screen-related-changes-indicators.png"]
 
-- [[conflicts-with]]`Conflicts With`:
+- [[conflicts-with]]`May Conflict`:
 +
-This tab page shows changes that conflict with the current change.
+This tab page shows changes that may conflict with the current change.
 Non-mergeable changes are filtered out; only conflicting changes that
 are mergeable are shown.
 +
-If this change is merged, its conflicting changes will have merge
+If this change is merged, its conflicting changes may have merge
 conflicts and must be rebased. The rebase of the other changes with the
 conflict resolution must then be done manually.
 +

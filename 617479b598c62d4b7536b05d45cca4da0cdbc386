@@ -46,6 +46,30 @@
       "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_6dadd5c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-12T18:53:34Z",
+      "side": 1,
+      "message": "I think I noticed this too, that at least on gerrit-review it sometimes lists changes which actually do not conflict... :-(\nMust be buggy somewhere.",
+      "parentUuid": "5f4dd2ad_3cf131c8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

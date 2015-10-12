@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.server.index.ChangeField.SUBMISSIONID;
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.not;
 import static com.google.gerrit.server.query.Predicate.or;
@@ -21,6 +22,7 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
@@ -196,7 +198,7 @@ public class InternalChangeQuery {
   }
 
   public List<ChangeData> bySubmissionId(String cs) throws OrmException {
-    if (cs.isEmpty()) {
+    if (Strings.isNullOrEmpty(cs) || !schema(indexes).hasField(SUBMISSIONID)) {
       return Collections.emptyList();
     } else {
       return query(new SubmissionIdPredicate(cs));

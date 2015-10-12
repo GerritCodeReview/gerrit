@@ -87,7 +87,7 @@ After compiling (above), run Gerrit's 'init' command to create a
 testing site for development use:
 
 ----
-  java -jar buck-out/gen/gerrit.war init -d ../gerrit_testsite
+  java -jar buck-out/gen/gerrit/gerrit.war init -d ../gerrit_testsite
 ----
 
 Accept defaults by pressing Enter until 'init' completes, or add
@@ -130,7 +130,7 @@ The daemon can be directly launched from the build area, without
 copying to the test site:
 
 ----
-  java -jar buck-out/gen/gerrit.war daemon -d ../gerrit_testsite
+  java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite
 ----
 
 === Running the Daemon with Gerrit Inspector
@@ -149,7 +149,7 @@ Gerrit Inspect can be started by adding '-s' option to the
 command used to launch the daemon:
 
 ----
-  java -jar buck-out/gen/gerrit.war daemon -d ../gerrit_testsite -s
+  java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite -s
 ----
 
 Gerrit Inspector examines Java libraries first, then loads
@@ -176,7 +176,7 @@ The embedded H2 database can be queried and updated from the
 command line.  If the daemon is not currently running:
 
 ----
-  java -jar buck-out/gen/gerrit.war gsql -d ../gerrit_testsite
+  java -jar buck-out/gen/gerrit/gerrit.war gsql -d ../gerrit_testsite
 ----
 
 Or, if it is running and the database is in use, connect over SSH

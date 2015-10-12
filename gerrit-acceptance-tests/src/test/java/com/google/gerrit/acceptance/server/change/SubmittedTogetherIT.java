@@ -19,10 +19,10 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.ProjectConfig;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -141,11 +141,8 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   @Test
+  @TestProjectInput(submitType = SubmitType.CHERRY_PICK)
   public void testCherryPickWithoutAncestors() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getProject().setSubmitType(SubmitType.CHERRY_PICK);
-    saveProjectConfig(project, cfg);
-
     // Create two commits and push.
     RevCommit c1_1 = commitBuilder()
         .add("a.txt", "1")

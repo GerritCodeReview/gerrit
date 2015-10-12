@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "ea0a4213_187ac5ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-12T13:19:30Z",
+      "side": 1,
+      "message": "hashtags can be changed (to a possibly null value) by a call to this method.",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 170,
+        "endChar": 3
+      },
+      "revId": "017489b78ccffad25493ae7eaa2b2e0dd14fc1aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea0a4213_58803df3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 6
@@ -54,6 +77,30 @@
       "side": 1,
       "message": "I considered to implement this simplification in its own change and decided to include it here (it\u0027s unrelated to this change). We never need null check for a collection. Collection is never null. If a collection is null, it\u0027s worng and should be turned to always not being null. That\u0027s the rule. This rule has some exception on the client side. I\u0027m not aware of any server side exception form this rule.",
       "parentUuid": "ea0a4213_58803df3",
+      "range": {
+        "startLine": 278,
+        "startChar": 10,
+        "endLine": 278,
+        "endChar": 29
+      },
+      "revId": "017489b78ccffad25493ae7eaa2b2e0dd14fc1aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea0a4213_f86ef1ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-12T13:19:30Z",
+      "side": 1,
+      "message": "hashtags can be set to null by the setHashtags method, before this method is called.",
+      "parentUuid": "4a618e1e_13c38c21",
       "range": {
         "startLine": 278,
         "startChar": 10,

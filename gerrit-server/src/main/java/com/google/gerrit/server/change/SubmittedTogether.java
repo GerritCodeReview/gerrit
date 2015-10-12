@@ -72,34 +72,34 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       ResourceConflictException, Exception {
     try {
       Change c = resource.getChange();
-      List<Change.Id> ids;
+      List<ChangeData> cds;
       if (c.getStatus().isOpen()) {
-        ids = getForOpenChange(c);
+        cds = getForOpenChange(c);
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
-        ids = getForMergedChange(c);
+        cds = getForMergedChange(c);
       } else {
-        ids = getForAbandonedChange();
+        cds = getForAbandonedChange();
       }
-      if (ids.size() <= 1) {
-        ids = Collections.emptyList();
+      if (cds.size() <= 1) {
+        cds = Collections.emptyList();
       }
       return json.create(EnumSet.of(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT))
-        .format(ids);
+        .formatChangeDatas(cds);
     } catch (OrmException | IOException e) {
       log.error("Error on getting a ChangeSet", e);
       throw e;
     }
   }
 
-  private List<Change.Id> getForOpenChange(Change c)
+  private List<ChangeData> getForOpenChange(Change c)
       throws OrmException, IOException {
     ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c);
-    return cs.ids().asList();
+    return cs.changes().asList();
   }
 
-  private List<Change.Id> getForMergedChange(Change c)
+  private List<ChangeData> getForMergedChange(Change c)
       throws OrmException, IOException  {
     String subId = c.getSubmissionId();
     List<ChangeData> cds = queryProvider.get().bySubmissionId(subId);
@@ -109,14 +109,14 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       return Collections.emptyList();
     }
 
-    List<Change.Id> ids = new ArrayList<>(cds.size());
+    List<ChangeData> sorted = new ArrayList<>(cds.size());
     for (PatchSetData psd : sorter.get().sort(cds)) {
-      ids.add(psd.data().getId());
+      sorted.add(psd.data());
     }
-    return ids;
+    return sorted;
   }
 
-  private List<Change.Id> getForAbandonedChange() {
+  private List<ChangeData> getForAbandonedChange() {
     return Collections.emptyList();
   }
 }

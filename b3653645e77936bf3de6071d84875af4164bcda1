@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a618e1e_5397c410",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/FormatUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-12T12:16:53Z",
+      "side": 1,
+      "message": "Thanks for adding it. Actually it looks like that the get-test-tools support for GWT 2.7 was fixed in this pull request: [1] and this PR was even merged. Unfortunately the author seems to be disappeared, and nobody can make a new release. I wonder if someone from maintainers can take over it, build new release from master and upload to Google storage bucket? At very least, with `local_jar()` (or pointing to MAVEN_LOCAL), gwt-test-utils could be adjusted and new unit test can be verified.\n\n  local_jar(\n  name \u003d \u0027gwt-test-utils\u0027,\n  [...]\n\n* [1] https://github.com/gwt-test-utils/gwt-test-utils/pull/69",
+      "revId": "b3653645e77936bf3de6071d84875af4164bcda1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

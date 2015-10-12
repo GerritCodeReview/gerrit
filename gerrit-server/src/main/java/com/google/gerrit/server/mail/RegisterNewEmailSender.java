@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
@@ -63,7 +65,8 @@ public class RegisterNewEmailSender extends OutgoingEmail {
 
   public String getEmailRegistrationToken() {
     if (emailToken == null) {
-      emailToken = tokenVerifier.encode(user.getAccountId(), addr);
+      emailToken = checkNotNull(
+          tokenVerifier.encode(user.getAccountId(), addr), "token");
     }
     return emailToken;
   }

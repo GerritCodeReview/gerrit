@@ -124,10 +124,10 @@ public class RebuildNotedb extends SiteProgram {
               allUsersRepo.getRefDatabase().newBatchUpdate();
           List<ListenableFuture<?>> futures = Lists.newArrayList();
 
-          // Here, we truncate the project name to 50 characters to ensure that
+          // Here, we elide the project name to 50 characters to ensure that
           // the whole monitor line for a project fits on one line (<80 chars).
           final MultiProgressMonitor mpm = new MultiProgressMonitor(System.out,
-              truncateProjectName(project.get()));
+              elide(project.get()));
           final Task doneTask =
               mpm.beginSubTask("done", changesByProject.get(project).size());
           final Task failedTask =
@@ -167,15 +167,13 @@ public class RebuildNotedb extends SiteProgram {
     return ok.get() ? 0 : 1;
   }
 
-  private static String truncateProjectName(String projectName) {
+  private static String elide(String s) {
     int monitorStringMaxLength = 50;
-    String monitorString = (projectName.length() > monitorStringMaxLength)
-        ? projectName.substring(0, monitorStringMaxLength)
-        : projectName;
-    if (projectName.length() > monitorString.length()) {
-      monitorString = monitorString + "...";
+    if (s == null || s.length() <= monitorStringMaxLength) {
+      return s;
     }
-    return monitorString;
+    int len = (monitorStringMaxLength - 3) / 2;
+    return s.substring(0, len) + "..." + s.substring(s.length() - len);
   }
 
   private static void execute(BatchRefUpdate bru, Repository repo)

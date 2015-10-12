@@ -73,6 +73,23 @@
     },
     {
       "key": {
+        "uuid": "5f1eb25a_94d4641e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-12T11:19:39Z",
+      "side": 1,
+      "message": "Optional: It shouldn\u0027t be much trouble to provide a test for that? gwt-test-utils is still broken on GWT 2.7, and thus all unit tests are disabled: [1], but one could extract this method in some utility class or make it static?\n\n                   0:        0 B        0 B\n                  27:       27 B       27 B\n                 999:      999 B      999 B\n                1000:     1.0 kB     1000 B\n                1023:     1.0 kB     1023 B\n                1024:     1.0 kB    1.0 KiB\n                1728:     1.7 kB    1.7 KiB\n              110592:   110.6 kB  108.0 KiB\n             7077888:     7.1 MB    6.8 MiB\n           452984832:   453.0 MB  432.0 MiB\n         28991029248:    29.0 GB   27.0 GiB\n       1855425871872:     1.9 TB    1.7 TiB\n 9223372036854775807:     9.2 EB    8.0 EiB \n\n[1] https://github.com/gwt-test-utils/gwt-test-utils/issues/68",
+      "revId": "7aa3292569be4a111a3e23285dd91d0e20dd6f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a618e1e_936b1cdf",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
         "patchSetId": 1

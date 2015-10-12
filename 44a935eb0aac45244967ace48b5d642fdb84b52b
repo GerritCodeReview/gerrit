@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ffefa6f_92b3fc22",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-10-12T18:47:51Z",
+      "side": 1,
+      "message": "I get an error when attempting to run tests,  it says \u0027is\u0027 method is undefined.  Should this be isEqualTo() instead?",
+      "revId": "44a935eb0aac45244967ace48b5d642fdb84b52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4dd2ad_fcd7c920",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1862,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-10-12T18:47:51Z",
+      "side": 1,
+      "message": "nit: It would be nice to separate the labels with a comma so it looks like \"Code-Review+1, Verfiied+1\".  Pretty minor though.",
+      "revId": "44a935eb0aac45244967ace48b5d642fdb84b52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

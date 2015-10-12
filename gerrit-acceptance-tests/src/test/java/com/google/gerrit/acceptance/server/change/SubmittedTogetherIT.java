@@ -14,10 +14,12 @@
 
 package com.google.gerrit.acceptance.server.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
@@ -158,6 +160,37 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     assertSubmittedTogether(id2);
   }
 
+  @Test
+  public void testSubmissionIdSavedOnMergeInOneProject() throws Exception {
+    // Create two commits and push.
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(c1_1);
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master", false);
+
+    assertSubmittedTogether(id1);
+    assertSubmittedTogether(id2, id2, id1);
+
+    approve(id1);
+    approve(id2);
+    submit(id2);
+    assertMerged(id1);
+    assertMerged(id2);
+
+    // Prior to submission this was empty, but the post-merge value is what was
+    // actually submitted.
+    assertSubmittedTogether(id1, id2, id1);
+
+    assertSubmittedTogether(id2, id2, id1);
+  }
+
   private RevCommit getRemoteHead() throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
@@ -167,5 +200,20 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   private String getChangeId(RevCommit c) throws Exception {
     return GitUtil.getChangeId(testRepo, c).get();
+  }
+
+  private void submit(String changeId) throws Exception {
+    gApi.changes()
+        .id(changeId)
+        .current()
+        .submit();
+  }
+
+  private void assertMerged(String changeId) throws Exception {
+    assertThat(gApi
+        .changes()
+        .id(changeId)
+        .get()
+        .status).isEqualTo(ChangeStatus.MERGED);
   }
 }

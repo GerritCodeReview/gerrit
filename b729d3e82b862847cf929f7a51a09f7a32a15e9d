@@ -34,6 +34,24 @@
       "revId": "b729d3e82b862847cf929f7a51a09f7a32a15e9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_adb69d12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-12T19:49:59Z",
+      "side": 0,
+      "message": "True, that\u0027s how we implemented the beginTransaction in JdbcAccess:\n\n  @Override\n  public void beginTransaction(K key) throws OrmException {\n    try {\n      schema.getConnection().setAutoCommit(false);\n    } catch (SQLException e) {\n      throw convertError(\"beginTransaction\", e);\n    }\n  }\n\nProbably we could try harder to detect that, but this is different issue and unrelated to this change.",
+      "parentUuid": "9ff10aa5_4ec9f386",
+      "revId": "b729d3e82b862847cf929f7a51a09f7a32a15e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

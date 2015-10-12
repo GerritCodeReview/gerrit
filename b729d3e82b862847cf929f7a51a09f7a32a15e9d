@@ -16,6 +16,24 @@
       "revId": "b729d3e82b862847cf929f7a51a09f7a32a15e9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff10aa5_4ec9f386",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-12T19:45:04Z",
+      "side": 0,
+      "message": "Presumably because H2 allows this. Megastore does not.",
+      "parentUuid": "7f3e16ee_3dcacf7f",
+      "revId": "b729d3e82b862847cf929f7a51a09f7a32a15e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

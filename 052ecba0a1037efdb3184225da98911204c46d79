@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f4dd2ad_7cad79c0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-12T16:56:46Z",
+      "side": 1,
+      "message": "the ?",
+      "range": {
+        "startLine": 188,
+        "startChar": 32,
+        "endLine": 188,
+        "endChar": 40
+      },
+      "revId": "052ecba0a1037efdb3184225da98911204c46d79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ffefa6f_12a8acb0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-12T16:56:46Z",
+      "side": 1,
+      "message": "Additionally to this comment explaining the situation (what-would-happen before submit and what-happened post submit) it may make sense to add an `assertSubmittedTogether` just before the call to submit?",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 17
+      },
+      "revId": "052ecba0a1037efdb3184225da98911204c46d79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

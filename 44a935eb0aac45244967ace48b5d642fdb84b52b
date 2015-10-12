@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7f3e16ee_fdc06761",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-12T19:22:38Z",
+      "side": 1,
+      "message": "That\u0027s because of wrong conflict resolution:\n\n\u003c\u003c\u003c\u003c\u003c\u003c\u003c HEAD\n    assertThat(cr.all.get(0).value).isEqualTo(1);\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n    assertThat(cr.all.get(0).value.intValue()).is(1);\n    assertThat(Iterables.getLast(ci.messages).message).isEqualTo(\n        \"Uploaded patch set 1: Code-Review+1.\");\n\u003e\u003e\u003e\u003e\u003e\u003e\u003e 44a935e... ReceiveCommits: Include approvals from magic branch in change message\n\nWhy don\u0027t you verify on stable-2.11? Anyway, I resolved the conflict for you, if you prefer to verify on master: [1].\n\n* [1] http://paste.openstack.org/show/476059",
+      "parentUuid": "1ffefa6f_92b3fc22",
+      "revId": "44a935eb0aac45244967ace48b5d642fdb84b52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_fcd7c920",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-12T18:47:51Z",
       "side": 1,
       "message": "nit: It would be nice to separate the labels with a comma so it looks like \"Code-Review+1, Verfiied+1\".  Pretty minor though.",
+      "revId": "44a935eb0aac45244967ace48b5d642fdb84b52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f3e16ee_9db32323",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1862,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-12T19:22:38Z",
+      "side": 1,
+      "message": "I\u0027m rendering exactly the same way, like in PostReview:\n\n  Khai Do 8:47 PM\n  Patch Set 5: Code-Review-1 Verified-1\n\n^^^ You see, no comma? Why would you expect that the label list is rendered differly when passed through magic branch compared to votes from the UI? Or dou you mean to fix PostReview as well? But may be we should better do it on master (if at all)?",
+      "parentUuid": "5f4dd2ad_fcd7c920",
       "revId": "44a935eb0aac45244967ace48b5d642fdb84b52b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

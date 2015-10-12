@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ff10aa5_ced4c31f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-12T20:31:48Z",
+      "side": 1,
+      "message": "Undecided on whether this should be float. The right-hand side thus far is for buttons/icons you can click on, which this is not. On the other hand, putting it somewhere else means it doesn\u0027t line up visually as well.",
+      "revId": "fefb4bfac5aa57b3d62fc799ec889e6d24654e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

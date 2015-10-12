@@ -93,6 +93,30 @@
       "revId": "43bc4e4dd482d38120b763db02a4c7e8371ccf79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f1eb25a_b4c08060",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-12T07:32:47Z",
+      "side": 1,
+      "message": "You are right, thanks for pointing out :-)",
+      "parentUuid": "a53ddda0_6e09af69",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 5
+      },
+      "revId": "43bc4e4dd482d38120b763db02a4c7e8371ccf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

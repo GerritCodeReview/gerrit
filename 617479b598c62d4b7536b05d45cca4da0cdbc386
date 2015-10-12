@@ -70,6 +70,86 @@
       "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff10aa5_eed7ff20",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-12T19:53:11Z",
+      "side": 1,
+      "message": "Optional: short explanation of why? \"because they touch the same files\"",
+      "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf0a4e5b_cfd4bd1f",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-12T19:53:11Z",
+      "side": 1,
+      "message": "s/may/should/",
+      "range": {
+        "startLine": 550,
+        "startChar": 14,
+        "endLine": 550,
+        "endChar": 18
+      },
+      "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff10aa5_8edabb4a",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-12T19:53:11Z",
+      "side": 1,
+      "message": "This sentence is not really applicable anymore, I would drop it.",
+      "range": {
+        "startLine": 550,
+        "startChar": 31,
+        "endLine": 551,
+        "endChar": 47
+      },
+      "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf0a4e5b_efd70121",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-12T19:53:11Z",
+      "side": 1,
+      "message": "The reason I bailed on making this change is I didn\u0027t want to update this screenshot. Thanks for volunteering!",
+      "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

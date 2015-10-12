@@ -76,7 +76,7 @@ public class RebuildNotedb extends SiteProgram {
   private static final Logger log =
       LoggerFactory.getLogger(RebuildNotedb.class);
 
-  @Option(name = "--threads", usage = "Number of threads to use for indexing")
+  @Option(name = "--threads", usage = "Number of threads to use for rebuilding NoteDb")
   private int threads = Runtime.getRuntime().availableProcessors();
 
   private Injector dbInjector;

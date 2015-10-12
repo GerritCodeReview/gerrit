@@ -52,7 +52,7 @@ public class ConfigServerApi {
   }
 
   private static class EmailConfirmationInput extends JavaScriptObject {
-    final native void setToken(String t) /*-{ this.t = t; }-*/;
+    final native void setToken(String token) /*-{ this.token = token; }-*/;
 
     static EmailConfirmationInput create() {
       return createObject().cast();

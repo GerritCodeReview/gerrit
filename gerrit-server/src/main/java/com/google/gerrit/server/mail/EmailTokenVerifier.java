@@ -26,13 +26,13 @@ public interface EmailTokenVerifier {
    * @param emailAddress the address to add.
    * @return an unforgeable string to email to {@code emailAddress}. Presenting
    *         the string provides proof the user has the ability to read messages
-   *         sent to that address.
+   *         sent to that address. Must not be null.
    */
   public String encode(Account.Id accountId, String emailAddress);
 
   /**
    * Decode a token previously created.
-   * @param tokenString the string created by encode.
+   * @param tokenString the string created by encode. Never null.
    * @return a pair of account id and email address.
    * @throws InvalidTokenException the token is invalid, expired, malformed, etc.
    */

@@ -63,6 +63,9 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
     if (input == null) {
       input = new Input();
     }
+    if (input.token == null) {
+      throw new UnprocessableEntityException("missing token");
+    }
 
     try {
       EmailTokenVerifier.ParsedToken token = emailTokenVerifier.decode(input.token);

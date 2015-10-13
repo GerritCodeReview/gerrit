@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7fec56ce_0dcff18f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-13T06:45:08Z",
+      "side": 1,
+      "message": "I see. I was sceptical first, but now looking at it: [1], i see the value and the overhead is very minimal.\n\n* [1] http://imgur.com/JNzYQLo\n\n| Yes, but it shouldn\u0027t be much work to show the same control twice in different places?\n\nSure. Would you upload a follow-up for inline editor settings then, or should I do that?",
+      "parentUuid": "a5979d01_7e467191",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 62
+      },
+      "revId": "e558582fc8c68aa29d15249910a216dbd8cbcabd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5979d01_9e0b3d63",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

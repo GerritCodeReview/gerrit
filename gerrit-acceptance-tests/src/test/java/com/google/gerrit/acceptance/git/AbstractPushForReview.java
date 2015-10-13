@@ -16,8 +16,11 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -32,10 +35,16 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
+import org.joda.time.DateTimeUtils.MillisProvider;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @ConfigSuite.Config
@@ -52,6 +61,24 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   private String sshUrl;
+
+  @BeforeClass
+  public static void setTimeForTesting() {
+    final long clockStepMs = MILLISECONDS.convert(1, SECONDS);
+    final AtomicLong clockMs = new AtomicLong(
+        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
+    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
+      @Override
+      public long getMillis() {
+        return clockMs.getAndAdd(clockStepMs);
+      }
+    });
+  }
+
+  @AfterClass
+  public static void restoreTime() {
+    DateTimeUtils.setCurrentMillisSystem();
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -177,6 +204,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
     assertThat(cr.all.get(0).value).isEqualTo(1);
+    assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
+        "Uploaded patch set 1: Code-Review+1.");
 
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
@@ -185,9 +214,20 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     ci = get(r.getChangeId());
     cr = ci.labels.get("Code-Review");
+    assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
+        "Uploaded patch set 2: Code-Review+2.");
+
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
     assertThat(cr.all.get(0).value).isEqualTo(2);
+
+    push =
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+            "c.txt", "moreContent", r.getChangeId());
+    r = push.to("refs/for/master/%l=Code-Review+2");
+    ci = get(r.getChangeId());
+    assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
+        "Uploaded patch set 3.");
   }
 
   @Test

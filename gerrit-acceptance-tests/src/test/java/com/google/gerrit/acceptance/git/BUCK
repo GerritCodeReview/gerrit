@@ -22,7 +22,10 @@ acceptance_tests(
 java_library(
   name = 'push_for_review',
   srcs = ['AbstractPushForReview.java'],
-  deps = ['//gerrit-acceptance-tests:lib'],
+  deps = [
+    '//gerrit-acceptance-tests:lib',
+    '//lib/joda:joda-time',
+  ],
 )
 
 java_library(

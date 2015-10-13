@@ -105,7 +105,11 @@ is already decoded and should not be decoded again.
 When using the `%l` option to apply a review label on uploaded changes or
 patch sets, the applied label was not mentioned in the change message.
 
-* Fire the `comment-added` hook for approvals from the magic branch.
+* link:https://code.google.com/p/gerrit/issues/detail?id=3020[Issue 3020]:
+Fire the `comment-added` hook for approvals from the magic branch.
 +
 When using the `%l` option to apply a review label on uploaded changes or
 patch sets, the `comment-added` hook was not being fired.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3599[Issue 3599]:
+Fix internal server error on unified diff screen for anonymous users.

@@ -34,6 +34,24 @@
       "revId": "4eb4a603c1ef681d569379a99a3947ee6fac22f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f3e16ee_3d476f90",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-13T12:00:57Z",
+      "side": 1,
+      "message": "Thanks, now I understand, this code in Gerrit.display() takes care of it:\n\n   * If {@link Screen#isRequiresSignIn()} is true and the user is not signed in\n   * yet the screen instance will be discarded, sign-in will take place, and\n   * will redirect to this location upon success.\n   *\n   * @param token location that refers to {@code view}.\n   * @param view the view to load.\n   */\n  public static void display(final String token, final Screen view) {\n    if (view.isRequiresSignIn() \u0026\u0026 !isSignedIn()) {\n      doSignIn(token);",
+      "parentUuid": "7fec56ce_4d17398e",
+      "revId": "4eb4a603c1ef681d569379a99a3947ee6fac22f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

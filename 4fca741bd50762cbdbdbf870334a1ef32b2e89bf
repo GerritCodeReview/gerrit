@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f3e16ee_1d4c33b1",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.4.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-13T12:16:26Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 108,
+        "startChar": 45,
+        "endLine": 108,
+        "endChar": 52
+      },
+      "revId": "4fca741bd50762cbdbdbf870334a1ef32b2e89bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

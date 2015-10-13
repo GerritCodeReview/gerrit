@@ -128,6 +128,30 @@
       "revId": "e558582fc8c68aa29d15249910a216dbd8cbcabd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_6dc4b570",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-13T06:47:09Z",
+      "side": 1,
+      "message": "I think, this should stay as is, to emphasize, that this is more or less the same dialog that is re-used on those dialogs. This would help users to understand that\u0027s the same thing (minus transient settings).",
+      "parentUuid": "103989d0_317370dd",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 43
+      },
+      "revId": "e558582fc8c68aa29d15249910a216dbd8cbcabd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

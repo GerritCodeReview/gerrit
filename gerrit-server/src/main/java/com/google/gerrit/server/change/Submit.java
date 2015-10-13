@@ -277,7 +277,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
-    if (problemsForSubmittingChanges(Arrays.asList(cd), resource.getUser())
+    if (!resource.getControl().getCurrentUser().isIdentifiedUser() ||
+        problemsForSubmittingChanges(Arrays.asList(cd), resource.getUser())
         != null) {
       visible = false;
     }

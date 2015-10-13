@@ -266,6 +266,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return null;
   }
 
+  private static UiAction.Description hidden() {
+    return new UiAction.Description()
+      .setLabel("")
+      .setTitle("")
+      .setVisible(false);
+  }
+
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     PatchSet.Id current = resource.getChange().currentPatchSetId();
@@ -275,19 +282,17 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         && resource.getPatchSet().getId().equals(current)
         && resource.getControl().canSubmit();
 
+    if (!visible) {
+      return hidden();
+    }
+
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
     if (problemsForSubmittingChanges(Arrays.asList(cd), resource.getUser())
         != null) {
-      visible = false;
+      return hidden();
     }
 
-    if (!visible) {
-      return new UiAction.Description()
-        .setLabel("")
-        .setTitle("")
-        .setVisible(false);
-    }
     if (submitWholeTopic && !Strings.isNullOrEmpty(topic)) {
       List<ChangeData> changesByTopic = null;
       try {

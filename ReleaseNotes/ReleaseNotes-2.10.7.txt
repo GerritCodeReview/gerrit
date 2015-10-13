@@ -14,5 +14,6 @@ Bug Fixes
 Synchronize Myers diff and Histogram diff invocations to prevent pack file
 corruption.
 +
-See also the link:https://git.eclipse.org/r/#/c/57583[bug report on JGit].
+See also the link:https://bugs.eclipse.org/bugs/show_bug.cgi?id=467467[
+bug report on JGit].
 

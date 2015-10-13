@@ -145,9 +145,13 @@ public class PatchFile {
     if (tw == null) {
       return Text.EMPTY;
     }
-    if (tw.getFileMode(0).getObjectType() != Constants.OBJ_BLOB) {
+    if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
+      return new Text(repo.open(tw.getObjectId(0), Constants.OBJ_BLOB));
+    } else if (tw.getFileMode(0).getObjectType() == Constants.OBJ_COMMIT) {
+      String str = "Subproject commit " + ObjectId.toString(tw.getObjectId(0));
+      return new Text(str.getBytes());
+    } else {
       return Text.EMPTY;
     }
-    return new Text(repo.open(tw.getObjectId(0), Constants.OBJ_BLOB));
   }
 }

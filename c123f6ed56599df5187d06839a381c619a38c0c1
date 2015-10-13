@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ff10aa5_aee4d702",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-10-13T12:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f4dd2ad_1c9a7570",
+      "range": {
+        "startLine": 976,
+        "startChar": 13,
+        "endLine": 976,
+        "endChar": 18
+      },
+      "revId": "c123f6ed56599df5187d06839a381c619a38c0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffefa6f_f2052851",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2015-10-13T12:35:35Z",
       "side": 1,
       "message": "nit: add a blank line before this",
+      "revId": "c123f6ed56599df5187d06839a381c619a38c0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf0a4e5b_cfeb1dcf",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-10-13T12:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ffefa6f_f2052851",
       "revId": "c123f6ed56599df5187d06839a381c619a38c0c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

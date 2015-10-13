@@ -28,6 +28,7 @@ import com.google.gerrit.client.changes.RevisionInfoCache;
 import com.google.gerrit.client.changes.StarredChanges;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffApi;
+import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.AccountInfo.AvatarInfo;
 import com.google.gerrit.client.info.ActionInfo;
 import com.google.gerrit.client.info.ChangeInfo;
@@ -66,6 +67,7 @@ import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.SelectElement;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -86,6 +88,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -163,6 +166,9 @@ public class ChangeScreen extends Screen {
   @UiField Element hashtagTableRow;
   @UiField FlowPanel ownerPanel;
   @UiField InlineHyperlink ownerLink;
+  @UiField Element uploaderRow;
+  @UiField FlowPanel uploaderPanel;
+  @UiField InlineLabel uploaderName;
   @UiField Element statusText;
   @UiField Image projectSettings;
   @UiField AnchorElement projectSettingsLink;
@@ -1146,6 +1152,7 @@ public class ChangeScreen extends Screen {
     labels.set(info);
 
     renderOwner(info);
+    renderUploader(info, revision);
     renderActionTextDate(info);
     renderDiffBaseListBox(info);
     initReplyButton(info, revision);
@@ -1231,23 +1238,44 @@ public class ChangeScreen extends Screen {
 
   private void renderOwner(ChangeInfo info) {
     // TODO info card hover
-    String name = info.owner().name() != null
-        ? info.owner().name()
-        : Gerrit.info().user().anonymousCowardName();
-
+    String name = name(info.owner());
     if (info.owner().avatar(AvatarInfo.DEFAULT_SIZE) != null) {
       ownerPanel.insert(new AvatarImage(info.owner()), 0);
     }
     ownerLink.setText(name);
-    ownerLink.setTitle(info.owner().email() != null
-        ? info.owner().email()
-        : name);
+    ownerLink.setTitle(email(info.owner(), name));
     ownerLink.setTargetHistoryToken(PageLinks.toAccountQuery(
         info.owner().name() != null
         ? info.owner().name()
         : info.owner().email() != null
         ? info.owner().email()
         : String.valueOf(info.owner()._accountId()), Change.Status.NEW));
+  }
+
+  private void renderUploader(ChangeInfo info, String revision) {
+    AccountInfo uploader = info.revision(revision).uploader();
+    if (uploader._accountId() == info.owner()._accountId()) {
+      uploaderRow.getStyle().setDisplay(Display.NONE);
+      return;
+    }
+    uploaderRow.getStyle().setDisplay(Display.TABLE_ROW);
+
+    if (uploader.avatar(AvatarInfo.DEFAULT_SIZE) != null) {
+      uploaderPanel.insert(new AvatarImage(uploader), 0);
+    }
+    String name = name(uploader);
+    uploaderName.setText(name);
+    uploaderName.setTitle(email(uploader, name));
+  }
+
+  private static String name(AccountInfo info) {
+    return info.name() != null
+        ? info.name()
+        : Gerrit.info().user().anonymousCowardName();
+  }
+
+  private static String email(AccountInfo info, String name) {
+    return info.email() != null ? info.email() : name;
   }
 
   private void renderSubmitType(String action) {

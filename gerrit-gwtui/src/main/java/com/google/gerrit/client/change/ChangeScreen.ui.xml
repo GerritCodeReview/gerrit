@@ -315,7 +315,7 @@ limitations under the License.
       background-color: trimColor;
     }
 
-    .ownerPanel img {
+    .ownerPanel img, .uploaderPanel img {
       margin: 0 2px 0 0;
       width: 16px;
       height: 16px !important;
@@ -418,6 +418,14 @@ limitations under the License.
               <td>
                 <g:FlowPanel ui:field='ownerPanel' styleName='{style.ownerPanel}'>
                   <x:InlineHyperlink ui:field='ownerLink'/>
+                </g:FlowPanel>
+              </td>
+            </tr>
+            <tr ui:field='uploaderRow'>
+              <th><ui:msg>Uploader</ui:msg></th>
+              <td>
+                <g:FlowPanel ui:field='uploaderPanel' styleName='{style.uploaderPanel}'>
+                  <g:InlineLabel ui:field='uploaderName'/>
                 </g:FlowPanel>
               </td>
             </tr>

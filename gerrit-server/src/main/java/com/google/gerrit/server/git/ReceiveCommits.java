@@ -1732,12 +1732,19 @@ public class ReceiveCommits {
     CheckedFuture<Void, RestApiException> insertChange() throws IOException {
       rp.getRevWalk().parseBody(commit);
 
+      final Thread caller = Thread.currentThread();
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
         public Void call()
             throws OrmException, RestApiException, UpdateException {
-          insertChangeImpl();
+          if (caller == Thread.currentThread()) {
+            insertChange(ReceiveCommits.this.db);
+          } else {
+            try (ReviewDb threadLocalDb = schemaFactory.open()) {
+              insertChange(threadLocalDb);
+            }
+          }
           synchronized (newProgress) {
             newProgress.update(1);
           }
@@ -1747,7 +1754,7 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    private void insertChangeImpl()
+    private void insertChange(ReviewDb threadLocalDb)
         throws OrmException, RestApiException, UpdateException {
       final PatchSet ps = ins.setGroups(groups).getPatchSet();
       final Account.Id me = currentUser.getAccountId();
@@ -1762,8 +1769,8 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
       try (ObjectInserter oi = repo.newObjectInserter();
-          BatchUpdate bu = batchUpdateFactory.create(
-            db, change.getProject(), currentUser, change.getCreatedOn())) {
+          BatchUpdate bu = batchUpdateFactory.create(threadLocalDb,
+            change.getProject(), currentUser, change.getCreatedOn())) {
         bu.setRepository(repo, rp.getRevWalk(), oi);
         bu.insertChange(ins
             .setReviewers(recipients.getReviewers())

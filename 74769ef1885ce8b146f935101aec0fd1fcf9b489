@@ -39,6 +39,30 @@
       "revId": "74769ef1885ce8b146f935101aec0fd1fcf9b489",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_cdbde9ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-13T04:00:47Z",
+      "side": 1,
+      "message": "| PatchListLoader is a singleton. So now all diff threads serialize on this one object?\n\nUnfortunately, this change was submitted twice, on 2.10 and 2.11, and thus we have two discussion threads. I already answered similar question in: [1] and explained why the serialization implemented in this diff is correct.\n\n* [1] https://gerrit-review.googlesource.com/#/c/71380/2/gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java@90",
+      "parentUuid": "1ffefa6f_32ca1080",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 9
+      },
+      "revId": "74769ef1885ce8b146f935101aec0fd1fcf9b489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

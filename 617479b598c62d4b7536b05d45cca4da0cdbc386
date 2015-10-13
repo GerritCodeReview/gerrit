@@ -90,6 +90,29 @@
     },
     {
       "key": {
+        "uuid": "1ffefa6f_f2eec8e0",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:07:22Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 549,
+        "startChar": 26,
+        "endLine": 549,
+        "endChar": 29
+      },
+      "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf0a4e5b_cfd4bd1f",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 1
@@ -101,6 +124,30 @@
       "writtenOn": "2015-10-12T19:53:11Z",
       "side": 1,
       "message": "s/may/should/",
+      "range": {
+        "startLine": 550,
+        "startChar": 14,
+        "endLine": 550,
+        "endChar": 18
+      },
+      "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4dd2ad_bc5a6163",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:07:22Z",
+      "side": 1,
+      "message": "\"and need to be rebased\"",
+      "parentUuid": "bf0a4e5b_cfd4bd1f",
       "range": {
         "startLine": 550,
         "startChar": 14,
@@ -147,6 +194,24 @@
       "writtenOn": "2015-10-12T19:53:11Z",
       "side": 1,
       "message": "The reason I bailed on making this change is I didn\u0027t want to update this screenshot. Thanks for volunteering!",
+      "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4dd2ad_5c56bd42",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:07:22Z",
+      "side": 1,
+      "message": "I\u0027m sure there are already a few screenshots that are out of sync with the current UI.\n\nMight be worth punting this to before we make stable-2.12 and then do them all at once?",
+      "parentUuid": "bf0a4e5b_efd70121",
       "revId": "617479b598c62d4b7536b05d45cca4da0cdbc386",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

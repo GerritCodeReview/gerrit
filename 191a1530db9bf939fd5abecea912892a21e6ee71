@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fec56ce_edeee5e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-13T10:16:34Z",
+      "side": 1,
+      "message": "Can this statement be formulated more clearly? I didn\u0027t know what is meant with the page, current file that is opened in change editor or first/initial gerrit page?",
+      "revId": "191a1530db9bf939fd5abecea912892a21e6ee71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_cdeb29cf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-13T10:16:34Z",
+      "side": 1,
+      "message": "Have you verified, that the new approach also works when anonymous user click on \"e\" in side-by-side screen and then is routed to login dialog, or when user directly issue this URL (with \",edit\" suffix) in browser:\n\n  https://gerrit-review.googlesource.com/#/c/71443/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java,edit",
+      "revId": "191a1530db9bf939fd5abecea912892a21e6ee71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

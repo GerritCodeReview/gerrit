@@ -151,15 +151,17 @@ limitations under the License.
   </ui:style>
 
   <g:HTMLPanel styleName='{style.box}'>
-    <table style='width: 100%'>
-      <tr>
-        <td><ui:msg>Edit Preferences</ui:msg></td>
-        <td style='text-align: right'>
-          <g:Anchor ui:field='close' href='javascript:;'><ui:msg>Close</ui:msg></g:Anchor>
-        </td>
-      </tr>
-    </table>
-    <hr/>
+    <div ui:field='header'>
+      <table style='width: 100%'>
+        <tr>
+          <td><ui:msg>Edit Preferences</ui:msg></td>
+          <td style='text-align: right'>
+            <g:Anchor ui:field='close' href='javascript:;'><ui:msg>Close</ui:msg></g:Anchor>
+          </td>
+        </tr>
+      </table>
+      <hr/>
+    </div>
     <table class='{style.table}'>
       <tr>
         <th><ui:msg>Theme</ui:msg></th>

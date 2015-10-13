@@ -38,6 +38,7 @@ public abstract class SettingsScreen extends MenuScreen {
     linkByGerrit(Util.C.tabAccountSummary(), PageLinks.SETTINGS);
     linkByGerrit(Util.C.tabPreferences(), PageLinks.SETTINGS_PREFERENCES);
     linkByGerrit(Util.C.tabDiffPreferences(), PageLinks.SETTINGS_DIFF_PREFERENCES);
+    linkByGerrit(Util.C.tabEditPreferences(), PageLinks.SETTINGS_EDIT_PREFERENCES);
     linkByGerrit(Util.C.tabWatchedProjects(), PageLinks.SETTINGS_PROJECTS);
     linkByGerrit(Util.C.tabContactInformation(), PageLinks.SETTINGS_CONTACT);
     if (Gerrit.info().hasSshd()) {

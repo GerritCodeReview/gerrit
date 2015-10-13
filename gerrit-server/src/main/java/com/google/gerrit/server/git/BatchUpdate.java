@@ -85,6 +85,10 @@ public class BatchUpdate implements AutoCloseable {
     public ReviewDb getDb() {
       return db;
     }
+
+    public CurrentUser getUser() {
+      return user;
+    }
   }
 
   public class RepoContext extends Context {
@@ -135,10 +139,6 @@ public class BatchUpdate implements AutoCloseable {
 
     public Change getChange() {
       return update.getChange();
-    }
-
-    public CurrentUser getUser() {
-      return update.getUser();
     }
   }
 

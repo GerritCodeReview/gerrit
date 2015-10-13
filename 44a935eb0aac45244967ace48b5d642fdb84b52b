@@ -78,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "7f3e16ee_1d339330",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-13T14:02:19Z",
+      "side": 1,
+      "message": "| It would have been better to put this bit in the renderMessageWithApprovals method.\n\nI considered this too, but in other code path, change kind is passed as well, like \"Commit message was updated\".\n\nWhat would probably work is pass optional suffix in this method. In this case, the point would be rendered in renderMessageWithApprovals. Here we would pass null as suffix, and in other code path, we would extract the code in new method that creates the suffix and call it, like:\n\nWithout suffix:\n\n  renderMessageWithApprovals(ps.getPatchSetId(),\n          approvals, Collections.\u003cString, PatchSetApproval\u003eemptyMap(), null);\n\nWith suffix:\n\n  renderMessageWithApprovals(ps.getPatchSetId(),\n          approvals, scanLabels(), retrieveSuffix());",
+      "parentUuid": "1ffefa6f_72513849",
+      "range": {
+        "startLine": 1722,
+        "startChar": 37,
+        "endLine": 1722,
+        "endChar": 42
+      },
+      "revId": "44a935eb0aac45244967ace48b5d642fdb84b52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_fcd7c920",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5

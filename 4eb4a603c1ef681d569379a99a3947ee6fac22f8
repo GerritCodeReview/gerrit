@@ -16,6 +16,24 @@
       "revId": "4eb4a603c1ef681d569379a99a3947ee6fac22f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_4d17398e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-13T11:44:15Z",
+      "side": 1,
+      "message": "When you are signed-in, this screen is directly loaded. If you are not signed-in you get redirected to the sign-in dialog and after successful sign in you get back to this screen and its load code is executed. Basically it ensures that the screen is not loaded for anonymous users.",
+      "parentUuid": "7f3e16ee_bd0b7f66",
+      "revId": "4eb4a603c1ef681d569379a99a3947ee6fac22f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

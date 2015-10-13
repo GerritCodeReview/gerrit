@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ffefa6f_92e13cf3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "General comment: it might be better to implement this as a REST API endpoint instead?",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4dd2ad_3c477190",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "Don\u0027t use final in new code unless needed by the compiler.",
+      "range": {
+        "startLine": 77,
+        "startChar": 13,
+        "endLine": 77,
+        "endChar": 18
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4dd2ad_1c4c35b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "Wrap this to the next line.  For injected parameters we put each one on a new line.",
+      "range": {
+        "startLine": 81,
+        "startChar": 47,
+        "endLine": 81,
+        "endChar": 66
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4dd2ad_9c08456b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "Put this in a try-with-resource",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 61
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4dd2ad_dc02cd46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "No final in new code.  Also below.",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 9
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4dd2ad_bc0b8166",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "Put this in a try-with-resource on line 115.",
+      "range": {
+        "startLine": 116,
+        "startChar": 12,
+        "endLine": 116,
+        "endChar": 47
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ffefa6f_12f6ecbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "Not needed if repo is opened in try-with-resource (line 112)",
+      "range": {
+        "startLine": 135,
+        "startChar": 6,
+        "endLine": 137,
+        "endChar": 5
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f4dd2ad_fc050951",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "Can\u0027t we check the change state earlier and abort if it\u0027s not open?",
+      "range": {
+        "startLine": 173,
+        "startChar": 48,
+        "endLine": 174,
+        "endChar": 26
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ffefa6f_72fbf8a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "Why use a StringBuilder but initialise it with a concatenation? :)\n\nIt would be neater to add multiple .append calls for these.",
+      "range": {
+        "startLine": 178,
+        "startChar": 38,
+        "endLine": 180,
+        "endChar": 77
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ffefa6f_b2e44003",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "!Strings.isNullOrEmpty(changeComment)",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 59
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ffefa6f_5200744a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T06:02:49Z",
+      "side": 1,
+      "message": "Should this be msgBug.toString()?  Otherwise msgBuf isn\u0027t used.",
+      "range": {
+        "startLine": 187,
+        "startChar": 41,
+        "endLine": 187,
+        "endChar": 54
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

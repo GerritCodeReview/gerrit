@@ -62,6 +62,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -90,6 +91,7 @@ import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -308,6 +310,7 @@ public class ReceiveCommits {
   private final ReceiveConfig receiveConfig;
   private final ChangeKindCache changeKindCache;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final SetHashtagsOp.Factory hashtagsFactory;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -385,7 +388,8 @@ public class ReceiveCommits {
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       final NotesMigration notesMigration,
       final ChangeEditUtil editUtil,
-      final BatchUpdate.Factory batchUpdateFactory) throws IOException {
+      final BatchUpdate.Factory batchUpdateFactory,
+      final SetHashtagsOp.Factory hashtagsFactory) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.queryProvider = queryProvider;
@@ -419,6 +423,7 @@ public class ReceiveCommits {
     this.receiveConfig = config;
     this.changeKindCache = changeKindCache;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.hashtagsFactory = hashtagsFactory;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -1765,7 +1770,6 @@ public class ReceiveCommits {
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.labels;
-        ins.setHashtags(magicBranch.hashtags);
       }
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
@@ -1783,6 +1787,12 @@ public class ReceiveCommits {
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
             .setUpdateRef(false));
+        if (magicBranch != null) {
+          bu.addOp(
+              ins.getChange().getId(),
+              hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags))
+                .setRunHooks(false));
+        }
         bu.execute();
       }
       created = true;

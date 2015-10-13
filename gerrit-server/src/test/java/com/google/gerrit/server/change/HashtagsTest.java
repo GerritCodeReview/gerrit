@@ -28,7 +28,7 @@ public class HashtagsTest {
 
   @Test
   public void nullCommitMessage() throws Exception {
-    assertThat(HashtagsUtil.extractTags(null)).isEmpty();
+    assertThat(HashtagsUtil.extractTags((String) null)).isEmpty();
   }
 
   @Test

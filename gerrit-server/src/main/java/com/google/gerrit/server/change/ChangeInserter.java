@@ -21,8 +21,6 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.extensions.api.changes.HashtagsInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -34,7 +32,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -53,7 +50,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -82,8 +78,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final CreateChangeSender.Factory createChangeSenderFactory;
-  private final HashtagsUtil hashtagsUtil;
-  private final AccountCache accountCache;
   private final WorkQueue workQueue;
   private final CommitValidators.Factory commitValidatorsFactory;
 
@@ -101,7 +95,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
-  private Set<String> hashtags;
   private RequestScopePropagator requestScopePropagator;
   private boolean runHooks;
   private boolean sendMail;
@@ -116,8 +109,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CreateChangeSender.Factory createChangeSenderFactory,
-      HashtagsUtil hashtagsUtil,
-      AccountCache accountCache,
       WorkQueue workQueue,
       CommitValidators.Factory commitValidatorsFactory,
       @Assisted RefControl refControl,
@@ -134,8 +125,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.createChangeSenderFactory = createChangeSenderFactory;
-    this.hashtagsUtil = hashtagsUtil;
-    this.accountCache = accountCache;
     this.workQueue = workQueue;
     this.commitValidatorsFactory = commitValidatorsFactory;
 
@@ -145,7 +134,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
-    this.hashtags = Collections.emptySet();
     this.runHooks = true;
     this.sendMail = true;
     this.updateRef = true;
@@ -203,11 +191,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   public ChangeInserter setGroups(Iterable<String> groups) {
     patchSet.setGroups(groups);
-    return this;
-  }
-
-  public ChangeInserter setHashtags(Set<String> hashtags) {
-    this.hashtags = hashtags;
     return this;
   }
 
@@ -288,18 +271,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       changeMessage.setMessage(message);
       cmUtil.addChangeMessage(db, update, changeMessage);
     }
-
-    if (hashtags != null && hashtags.size() > 0) {
-      try {
-        HashtagsInput input = new HashtagsInput();
-        input.add = hashtags;
-        // TODO(dborowitz): Migrate HashtagsUtil so it doesn't create another
-        // ChangeUpdate.
-        hashtagsUtil.setHashtags(ctl, input, false, false);
-      } catch (ValidationException | AuthException e) {
-        log.error("Cannot add hashtags to change " + change.getId(), e);
-      }
-    }
   }
 
   @Override
@@ -336,17 +307,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (runHooks) {
       ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
-      if (hashtags != null && hashtags.size() > 0) {
-        hooks.doHashtagsChangedHook(change,
-            accountCache.get(change.getOwner()).getAccount(),
-            hashtags, null, hashtags, db);
-      }
-
-      if (approvals != null && !approvals.isEmpty()) {
-        hooks.doCommentAddedHook(change,
-            ((IdentifiedUser) refControl.getCurrentUser()).getAccount(),
-            patchSet, null, approvals, db);
-      }
     }
   }
 

@@ -31,6 +31,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /** State supporting processing of a single {@link Patch} instance. */
 public class PatchFile {
@@ -145,9 +146,13 @@ public class PatchFile {
     if (tw == null) {
       return Text.EMPTY;
     }
-    if (tw.getFileMode(0).getObjectType() != Constants.OBJ_BLOB) {
+    if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
+      return new Text(repo.open(tw.getObjectId(0), Constants.OBJ_BLOB));
+    } else if (tw.getFileMode(0).getObjectType() == Constants.OBJ_COMMIT) {
+      String str = "Subproject commit " + ObjectId.toString(tw.getObjectId(0));
+      return new Text(str.getBytes());
+    } else {
       return Text.EMPTY;
     }
-    return new Text(repo.open(tw.getObjectId(0), Constants.OBJ_BLOB));
   }
 }

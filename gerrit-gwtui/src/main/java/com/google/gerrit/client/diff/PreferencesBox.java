@@ -36,7 +36,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -116,8 +116,7 @@ public class PreferencesBox extends Composite {
       initMode();
     } else {
       UIObject.setVisible(header, false);
-      apply.setVisible(false);
-      save.getElement().getStyle().setMarginLeft(72, Unit.PX);
+      apply.getElement().getStyle().setVisibility(Visibility.HIDDEN);
     }
   }
 

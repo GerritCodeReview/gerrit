@@ -341,6 +341,12 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
             accountCache.get(change.getOwner()).getAccount(),
             hashtags, null, hashtags, db);
       }
+
+      if (approvals != null && !approvals.isEmpty()) {
+        hooks.doCommentAddedHook(change,
+            ((IdentifiedUser) refControl.getCurrentUser()).getAccount(),
+            patchSet, null, approvals, db);
+      }
     }
   }
 

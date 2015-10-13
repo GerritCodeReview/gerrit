@@ -14,12 +14,11 @@
 
 package com.google.gerrit.client;
 
+import static com.google.gerrit.client.FormatUtil.formatBytes;
 import static org.junit.Assert.assertEquals;
 
 import com.googlecode.gwt.test.GwtModule;
 import com.googlecode.gwt.test.GwtTest;
-
-import static com.google.gerrit.client.FormatUtil.formatBytes;
 
 import org.junit.Ignore;
 import org.junit.Test;

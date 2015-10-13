@@ -16,6 +16,24 @@
       "revId": "72ff714ec549406932d304c8bf06b88c9e0ac5f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f3e16ee_dd380b08",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.4.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-13T23:02:07Z",
+      "side": 1,
+      "message": "| I still have to verify that my attempt actually fixed it.\n\nI\u0027ve uploaded new fix version and removed dead code and verified that it works as expected.",
+      "parentUuid": "7fec56ce_cd616910",
+      "revId": "72ff714ec549406932d304c8bf06b88c9e0ac5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

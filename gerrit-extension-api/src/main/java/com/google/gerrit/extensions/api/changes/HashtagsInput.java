@@ -22,4 +22,11 @@ public class HashtagsInput {
   @DefaultInput
   public Set<String> add;
   public Set<String> remove;
+
+  public HashtagsInput(){
+  }
+
+  public HashtagsInput(Set<String> add) {
+    this.add = add;
+  }
 }

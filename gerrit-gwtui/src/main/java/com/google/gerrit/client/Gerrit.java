@@ -20,6 +20,7 @@ import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
 
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.AccountCapabilities;
+import com.google.gerrit.client.account.EditPreferences;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.api.PluginLoader;
@@ -400,6 +401,7 @@ public class Gerrit implements EntryPoint {
   static void deleteSessionCookie() {
     myAccount = AccountInfo.create(0, null, null, null);
     myAccountDiffPref = null;
+    editPrefs = null;
     myPrefs = AccountPreferencesInfo.createDefault();
     urlAliasMatcher.clearUserAliases();
     xGerritAuth = null;
@@ -488,16 +490,26 @@ public class Gerrit implements EntryPoint {
                 }
           }));
           AccountApi.self().view("preferences")
-              .get(cbg.addFinal(new GerritCallback<AccountPreferencesInfo>() {
+              .get(cbg.add(new GerritCallback<AccountPreferencesInfo>() {
             @Override
             public void onSuccess(AccountPreferencesInfo prefs) {
               myPrefs = prefs;
               onModuleLoad2(result);
             }
           }));
+          AccountApi.getEditPreferences(
+              cbg.addFinal(new GerritCallback<EditPreferences>() {
+            @Override
+            public void onSuccess(EditPreferences prefs) {
+              EditPreferencesInfo prefsInfo = new EditPreferencesInfo();
+              prefs.copyTo(prefsInfo);
+              editPrefs = prefsInfo;
+            }
+          }));
         } else {
           myAccount = AccountInfo.create(0, null, null, null);
           myPrefs = AccountPreferencesInfo.createDefault();
+          editPrefs = null;
           onModuleLoad2(result);
         }
       }

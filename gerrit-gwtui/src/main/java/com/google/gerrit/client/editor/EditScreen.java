@@ -22,7 +22,6 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.VoidResult;
-import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.EditPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeEditApi;
@@ -43,7 +42,6 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -132,26 +130,8 @@ public class EditScreen extends Screen {
   protected void onLoad() {
     super.onLoad();
 
-    EditPreferencesInfo current = Gerrit.getEditPreferences();
-    if (current == null) {
-      AccountApi.getEditPreferences(
-        new GerritCallback<EditPreferences>() {
-          @Override
-          public void onSuccess(EditPreferences r) {
-            prefs = r;
-            EditPreferencesInfo global = new EditPreferencesInfo();
-            r.copyTo(global);
-            Gerrit.setEditPreferences(global);
-            onLoad2();
-          }
-        });
-    } else {
-      prefs = EditPreferences.create(current);
-      onLoad2();
-    }
-  }
+    prefs = EditPreferences.create(Gerrit.getEditPreferences());
 
-  private void onLoad2() {
     CallbackGroup group1 = new CallbackGroup();
     final CallbackGroup group2 = new CallbackGroup();
     final CallbackGroup group3 = new CallbackGroup();

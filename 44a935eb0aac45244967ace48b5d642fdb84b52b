@@ -55,6 +55,29 @@
     },
     {
       "key": {
+        "uuid": "1ffefa6f_72513849",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-13T13:47:21Z",
+      "side": 1,
+      "message": "It would have been better to put this bit in the renderMessageWithApprovals method.",
+      "range": {
+        "startLine": 1722,
+        "startChar": 37,
+        "endLine": 1722,
+        "endChar": 42
+      },
+      "revId": "44a935eb0aac45244967ace48b5d642fdb84b52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_fcd7c920",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5

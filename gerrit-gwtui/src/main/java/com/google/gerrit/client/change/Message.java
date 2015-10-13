@@ -138,15 +138,9 @@ class Message extends Composite {
   }
 
   private void setName(boolean open) {
-    name.setInnerText(open ? authorName(info) : elide(authorName(info), 20));
-  }
-
-  private static String elide(final String s, final int len) {
-    if (s == null || s.length() <= len || len <= 10) {
-      return s;
-    }
-    int i = (len - 3) / 2;
-    return s.substring(0, i) + "..." + s.substring(s.length() - i);
+    name.setInnerText(open
+        ? authorName(info)
+        : com.google.gerrit.common.FormatUtil.elide(authorName(info), 20));
   }
 
   void autoOpen() {

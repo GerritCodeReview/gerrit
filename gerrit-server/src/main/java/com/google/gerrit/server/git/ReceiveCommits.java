@@ -1732,12 +1732,19 @@ public class ReceiveCommits {
     CheckedFuture<Void, RestApiException> insertChange() throws IOException {
       rp.getRevWalk().parseBody(commit);
 
+      final Thread caller = Thread.currentThread();
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
         public Void call()
             throws OrmException, RestApiException, UpdateException {
-          insertChangeImpl();
+          if (caller == Thread.currentThread()) {
+            insertChange(db);
+          } else {
+            try (ReviewDb db = schemaFactory.open()) {
+              insertChange(db);
+            }
+          }
           synchronized (newProgress) {
             newProgress.update(1);
           }
@@ -1747,7 +1754,7 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    private void insertChangeImpl()
+    private void insertChange(ReviewDb db)
         throws OrmException, RestApiException, UpdateException {
       final PatchSet ps = ins.setGroups(groups).getPatchSet();
       final Account.Id me = currentUser.getAccountId();

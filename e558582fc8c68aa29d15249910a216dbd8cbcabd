@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7fec56ce_6dfb15a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-13T09:36:39Z",
+      "side": 1,
+      "message": "\u003e I see. I was sceptical first, but now looking at it: [1], i \n\u003e see the value and the overhead is very minimal.\n\nThanks for coming back to this change. I should have provided the screenshot right away.\n\n\u003e Sure. Would you upload a follow-up for inline editor\n\u003e settings then, or should I do that?\n\nDone:\n  https://gerrit-review.googlesource.com/71444",
+      "parentUuid": "7fec56ce_0dcff18f",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 62
+      },
+      "revId": "e558582fc8c68aa29d15249910a216dbd8cbcabd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5979d01_9e0b3d63",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

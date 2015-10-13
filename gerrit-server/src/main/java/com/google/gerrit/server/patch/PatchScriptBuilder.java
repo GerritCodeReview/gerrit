@@ -179,9 +179,7 @@ class PatchScriptBuilder {
     }
 
     boolean hugeFile = false;
-    if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {
-      // Do nothing
-    } else if (a.src == b.src && a.size() <= context
+    if (a.src == b.src && a.size() <= context
         && content.getEdits().isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
@@ -427,7 +425,11 @@ class PatchScriptBuilder {
     }
 
     void addLine(int line) {
-      dst.addLine(line, src.getString(line));
+      try {
+        dst.addLine(line, src.getString(line));
+      } catch (ArrayIndexOutOfBoundsException e) {
+        // ignore
+      }
     }
 
     void resolve(final Side other, final ObjectId within) throws IOException {
@@ -467,6 +469,10 @@ class PatchScriptBuilder {
 
           } else if (mode.getObjectType() == Constants.OBJ_BLOB) {
             srcContent = Text.asByteArray(db.open(id, Constants.OBJ_BLOB));
+
+          } else if (mode.getObjectType() == Constants.OBJ_COMMIT) {
+            String strContent = "Subproject commit " + ObjectId.toString(id);
+            srcContent = strContent.getBytes();
 
           } else {
             srcContent = Text.NO_BYTES;

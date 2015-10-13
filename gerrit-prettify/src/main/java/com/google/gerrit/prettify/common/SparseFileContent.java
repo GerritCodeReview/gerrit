@@ -70,11 +70,7 @@ public class SparseFileContent {
   }
 
   public String get(final int idx) {
-    final String line = getLine(idx);
-    if (line == null) {
-      throw new ArrayIndexOutOfBoundsException(idx);
-    }
-    return line;
+    return getLine(idx);
   }
 
   public boolean contains(final int idx) {

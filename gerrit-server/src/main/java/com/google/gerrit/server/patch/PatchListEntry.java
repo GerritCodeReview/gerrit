@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.patch.CombinedFileHeader;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.util.IntList;
@@ -94,10 +93,7 @@ public class PatchListEntry {
 
     header = compact(hdr);
 
-    if (hdr instanceof CombinedFileHeader
-        || hdr.getHunks().isEmpty() //
-        || hdr.getOldMode() == FileMode.GITLINK
-        || hdr.getNewMode() == FileMode.GITLINK) {
+    if (hdr instanceof CombinedFileHeader || hdr.getHunks().isEmpty()) {
       edits = Collections.emptyList();
     } else {
       edits = Collections.unmodifiableList(editList);

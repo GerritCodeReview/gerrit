@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.errors.CorruptEntityException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -140,19 +142,25 @@ public class PatchFile {
     }
   }
 
-  private Text load(final ObjectId tree, final String path)
+  private Text load(ObjectId tree, String path)
       throws MissingObjectException, IncorrectObjectTypeException,
       CorruptObjectException, IOException {
     if (path == null) {
       return Text.EMPTY;
     }
-    final TreeWalk tw = TreeWalk.forPath(repo, path, tree);
+    TreeWalk tw = TreeWalk.forPath(repo, path, tree);
     if (tw == null) {
       return Text.EMPTY;
     }
-    if (tw.getFileMode(0).getObjectType() != Constants.OBJ_BLOB) {
-      return Text.EMPTY;
+    switch (tw.getFileMode(0).getObjectType()) {
+      case Constants.OBJ_BLOB:
+        return new Text(repo.open(tw.getObjectId(0), Constants.OBJ_BLOB));
+      case Constants.OBJ_COMMIT:
+        String str = "Subproject commit "
+            + ObjectId.toString(tw.getObjectId(0));
+        return new Text(str.getBytes(UTF_8));
+      default:
+        return Text.EMPTY;
     }
-    return new Text(repo.open(tw.getObjectId(0), Constants.OBJ_BLOB));
   }
 }

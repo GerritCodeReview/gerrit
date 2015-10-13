@@ -98,6 +98,7 @@ class InitSshd implements InitStep {
       System.err.print("Generating SSH host key ...");
       System.err.flush();
 
+      SecurityUtils.setRegisterBouncyCastle(true);
       if (SecurityUtils.isBouncyCastleRegistered()) {
         // Generate the SSH daemon host key using ssh-keygen.
         //

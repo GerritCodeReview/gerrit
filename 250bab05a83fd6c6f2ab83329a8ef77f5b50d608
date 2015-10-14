@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7fec56ce_4dc8d93b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-10-14T13:40:00Z",
+      "side": 1,
+      "message": "ps \u003d commit of that patch-set\n\n\"commit\" is less specific for this case.\n\npatchSetCommit would maybe be more precise but is also quite long",
+      "parentUuid": "7f3e16ee_1de553b9",
+      "range": {
+        "startLine": 206,
+        "startChar": 16,
+        "endLine": 206,
+        "endChar": 18
+      },
+      "revId": "250bab05a83fd6c6f2ab83329a8ef77f5b50d608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffefa6f_32b970b9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-14T13:06:05Z",
       "side": 1,
       "message": "Is this TODO going to be resolved in a new patch set?  Or is this case not important enough to fix now and will be done later on master?",
+      "range": {
+        "startLine": 215,
+        "startChar": 11,
+        "endLine": 215,
+        "endChar": 23
+      },
+      "revId": "250bab05a83fd6c6f2ab83329a8ef77f5b50d608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_adacdd73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-10-14T13:40:00Z",
+      "side": 1,
+      "message": "The latter, it should be done in master because this patch set solves 99% of the cases and the additional complexity with handing multiple merge-bases would be harder to justify for the 2.11",
+      "parentUuid": "1ffefa6f_32b970b9",
       "range": {
         "startLine": 215,
         "startChar": 11,

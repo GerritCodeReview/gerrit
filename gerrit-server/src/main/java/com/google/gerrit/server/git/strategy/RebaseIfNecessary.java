@@ -104,7 +104,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 ObjectId.fromString(newPatchSet.getRevision().get()));
             mergeTip.moveTipTo(newTip, newTip);
             n.change().setCurrentPatchSet(
-                patchSetInfoFactory.get(mergeTip.getCurrentTip(),
+                patchSetInfoFactory.get(args.rw, mergeTip.getCurrentTip(),
                     newPatchSet.getId()));
             mergeTip.getCurrentTip().copyFrom(n);
             mergeTip.getCurrentTip().setControl(

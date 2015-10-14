@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -134,6 +135,7 @@ public class CherryPick extends SubmitStrategy {
 
     private PatchSet.Id psId;
     private CodeReviewCommit newCommit;
+    private PatchSetInfo patchSetInfo;
 
     private CherryPickOneOp(MergeTip mergeTip, CodeReviewCommit n) {
       this.mergeTip = mergeTip;
@@ -159,6 +161,8 @@ public class CherryPick extends SubmitStrategy {
             committer, cherryPickCmtMsg, args.rw);
         ctx.addRefUpdate(
             new ReceiveCommand(ObjectId.zeroId(), newCommit, psId.toRefName()));
+        patchSetInfo =
+            patchSetInfoFactory.get(ctx.getRevWalk(), newCommit, psId);
       } catch (MergeConflictException mce) {
         // Keep going in the case of a single merge failure; the goal is to
         // cherry-pick as many commits as possible.
@@ -184,7 +188,7 @@ public class CherryPick extends SubmitStrategy {
       ps.setGroups(GroupCollector.getCurrentGroups(args.db, c));
       args.db.patchSets().insert(Collections.singleton(ps));
       insertAncestors(args.db, ps.getId(), newCommit);
-      c.setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));
+      c.setCurrentPatchSet(patchSetInfo);
       args.db.changes().update(Collections.singletonList(c));
 
       List<PatchSetApproval> approvals = Lists.newArrayList();

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fec56ce_ad25fdbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-14T12:22:03Z",
+      "side": 1,
+      "message": "I know this was like this before, but I\u0027m wondering if it is really correct to use the account ID of the committer here.\n\nIf I understood the commit message correctly, this is about applying approvals that were specified on push. So I would expect that the approvals would be done in the name of the uploader and not in the name of the committer (which can be different in case you are allowed to forge the committer identity). I think it would be very wrong if I can add votes in the name of another user just because I\u0027m allowed to forge the committer on upload.\n\nAnd I believe that an uploader always must have an email address to be able to push successful.",
+      "range": {
+        "startLine": 247,
+        "startChar": 12,
+        "endLine": 247,
+        "endChar": 15
+      },
+      "revId": "6093f55933857effc11953d14e91931478139270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

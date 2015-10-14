@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f3e16ee_3d95af40",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.4.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T04:55:22Z",
+      "side": 1,
+      "message": "This issie linked here is actually about the previous item: \"the applied label was not mentioned in the change message\" and should be moved to line 105.",
+      "revId": "c672bc7080f310bc69dad8e910b7f3dcf5bbcac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_ed3b8501",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.4.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T04:55:22Z",
+      "side": 1,
+      "message": "This issue was merged into already existing one: Issue 3531, and should be replaced.",
+      "revId": "c672bc7080f310bc69dad8e910b7f3dcf5bbcac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

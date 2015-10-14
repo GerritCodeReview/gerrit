@@ -70,6 +70,30 @@
       "revId": "eb9b8a8c77aee564edbaa8fe690677a58bad829a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_6dc31521",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-10-14T13:25:15Z",
+      "side": 1,
+      "message": "This was also my idea... keep it minimal for 2.11.\n\nOn master we should then have is:merge",
+      "parentUuid": "1ffefa6f_f21fe871",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 106,
+        "endChar": 8
+      },
+      "revId": "eb9b8a8c77aee564edbaa8fe690677a58bad829a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

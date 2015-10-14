@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f3e16ee_ddb3ebcf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-14T12:33:39Z",
+      "side": 1,
+      "message": "Make this a top-level predicate so that we can have a \u0027is:merge\u0027 query operator that can be used by arbitrary queries?",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 106,
+        "endChar": 8
+      },
+      "revId": "eb9b8a8c77aee564edbaa8fe690677a58bad829a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

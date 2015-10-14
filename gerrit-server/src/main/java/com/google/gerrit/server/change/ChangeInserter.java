@@ -211,8 +211,8 @@ public class ChangeInserter {
       LabelTypes labelTypes = projectControl.getLabelTypes();
       approvalsUtil.addReviewers(db, update, labelTypes, change,
           patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
-      approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
-          ctl, approvals);
+      approvalsUtil.addApprovals(db, update, labelTypes, patchSet, ctl,
+          approvals);
       if (messageIsForChange()) {
         cmUtil.addChangeMessage(db, update, changeMessage);
       }

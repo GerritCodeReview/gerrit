@@ -1769,8 +1769,8 @@ public class ReceiveCommits {
       }
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
-      StringBuilder msgs = renderMessageWithApprovals(ps.getPatchSetId(),
-          approvals, Collections.<String, PatchSetApproval>emptyMap());
+      String msg = renderMessageWithApprovals(ps.getPatchSetId(), null,
+          approvals, Collections.<String, PatchSetApproval> emptyMap());
       try (ObjectInserter oi = repo.newObjectInserter();
           BatchUpdate bu = batchUpdateFactory.create(threadLocalDb,
             change.getProject(), currentUser, change.getCreatedOn())) {
@@ -1779,7 +1779,7 @@ public class ReceiveCommits {
             .setReviewers(recipients.getReviewers())
             .setExtraCC(recipients.getCcOnly())
             .setApprovals(approvals)
-            .setMessage(msgs.toString() + ".")
+            .setMessage(msg)
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
             .setUpdateRef(false));
@@ -1891,7 +1891,7 @@ public class ReceiveCommits {
     }
   }
 
-  private StringBuilder renderMessageWithApprovals(int patchSetId,
+  private String renderMessageWithApprovals(int patchSetId, String suffix,
       Map<String, Short> n, Map<String, PatchSetApproval> c) {
     StringBuilder msgs = new StringBuilder("Uploaded patch set " + patchSetId);
     if (!n.isEmpty()) {
@@ -1909,7 +1909,12 @@ public class ReceiveCommits {
             .append(LabelVote.create(e.getKey(), e.getValue()).format());
       }
     }
-    return msgs;
+
+    if (!Strings.isNullOrEmpty(suffix)) {
+      msgs.append(suffix);
+    }
+
+    return msgs.append('.').toString();
   }
 
   private class ReplaceRequest {
@@ -2156,22 +2161,24 @@ public class ReceiveCommits {
           new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
               .messageUUID(db)), currentUser.getAccountId(), newPatchSet.getCreatedOn(),
               newPatchSet.getId());
-      StringBuilder msgs = renderMessageWithApprovals(
-          newPatchSet.getPatchSetId(), approvals, scanLabels(db, approvals));
+
+      msg.setMessage(renderMessageWithApprovals(newPatchSet.getPatchSetId(),
+          changeKindMessage(changeKind), approvals, scanLabels(db, approvals)));
+
+      return msg;
+    }
+
+    private String changeKindMessage(ChangeKind changeKind) {
       switch (changeKind) {
         case TRIVIAL_REBASE:
         case NO_CHANGE:
-          msgs.append(": Patch Set " + priorPatchSet.get() + " was rebased");
-          break;
+          return ": Patch Set " + priorPatchSet.get() + " was rebased";
         case NO_CODE_CHANGE:
-          msgs.append(": Commit message was updated");
-          break;
+          return ": Commit message was updated";
         case REWORK:
         default:
-          break;
+          return null;
       }
-      msg.setMessage(msgs.toString() + ".");
-      return msg;
     }
 
     private Map<String, PatchSetApproval> scanLabels(ReviewDb db,

@@ -73,6 +73,23 @@
     },
     {
       "key": {
+        "uuid": "7cc544cc_85a6a2e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-14T17:32:33Z",
+      "side": 1,
+      "message": "Adding new fields to the PatchListEntry means you need to invalidate all existing entries in the persistent cache, right? I believe the way to do that is to bump the serialVersionUID in PatchListKey?",
+      "revId": "640f984b54a76947bf192529a17647648f54bdb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc544cc_a5a11ed1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 3

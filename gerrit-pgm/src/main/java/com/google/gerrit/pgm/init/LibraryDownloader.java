@@ -228,7 +228,7 @@ class LibraryDownloader {
         for (Path p : paths) {
           String old = p.getFileName().toString();
           String bak = "." + old + ".backup";
-          ui.message("Renaming %s to %s", old, bak);
+          ui.message("Renaming %s to %s\n", old, bak);
           try {
             Files.move(p, p.resolveSibling(bak));
           } catch (IOException e) {

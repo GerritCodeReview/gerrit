@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7fec56ce_4ddf39ef",
+        "filename": "Documentation/cmd-move-change.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-10-14T15:22:08Z",
+      "side": 1,
+      "message": "not really. it\u0027s something our contributors do all the time \"manually\" (currently by sending me a mail or irc message, because only me as an admin can hack the database).",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffefa6f_92e13cf3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2015-10-13T06:02:49Z",
       "side": 1,
       "message": "General comment: it might be better to implement this as a REST API endpoint instead?",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f3e16ee_1d7b9381",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-10-14T15:22:08Z",
+      "side": 1,
+      "message": "the ssh api has the advantage that the commands can be issued in an intuitive way, which is a good idea for such end-user oriented functionality. i for one wouldn\u0027t know how to do a REST call from the command line ...",
+      "parentUuid": "1ffefa6f_92e13cf3",
       "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +169,23 @@
     },
     {
       "key": {
+        "uuid": "7f3e16ee_9d8683dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-10-14T15:22:08Z",
+      "side": 1,
+      "message": "that seems arbitrary to me. suppose both the old and new target branch point to the same commit, as one of them got just created from the other. in this case, moving the change will be perfectly fine.\n\nwhat is a much bigger problem is moving from a more advanced branch to a lower branch if the submission type is not cherry-pick, as that would obviously \"downmerge\" the entire branch. but i think the submission itself verifies that condition already?",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffefa6f_12f6ecbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -151,6 +203,23 @@
         "endLine": 137,
         "endChar": 5
       },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_2d8f4d01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-10-14T15:22:08Z",
+      "side": 1,
+      "message": "the condition is wrong. you obviously shouldn\u0027t be able to move a merged change, but moving an abandoned one (or a draft) is perfectly fine.",
       "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

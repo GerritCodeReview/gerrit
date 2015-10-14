@@ -1099,6 +1099,10 @@ upper and lower case character for each position must be used.  For
 example, to match the string `bug` in a case insensitive way the match
 pattern `[bB][uU][gG]` needs to be used.
 +
+The commentlink patterns are applied to the HTML form of the message
+in question, which means it needs to assume the data has been escaped.
+So " needs to be matched as &quot; < as &lt;, and ' as &#39;.
++
 A common pattern to match is `bug\\s+(\\d+)`.
 
 [[commentlink.name.link]]commentlink.<name>.link::

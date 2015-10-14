@@ -2102,7 +2102,7 @@ public class ReceiveCommits {
               newPatchSet.getId()));
     }
 
-    private void newPatchSet() {
+    private void newPatchSet() throws IOException {
       PatchSet.Id id =
           ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
       newPatchSet = new PatchSet(id);
@@ -2117,7 +2117,8 @@ public class ReceiveCommits {
       if (magicBranch != null && magicBranch.draft) {
         newPatchSet.setDraft(true);
       }
-      info = patchSetInfoFactory.get(newCommit, newPatchSet.getId());
+      info = patchSetInfoFactory.get(
+          rp.getRevWalk(), newCommit, newPatchSet.getId());
       cmd = new ReceiveCommand(
           ObjectId.zeroId(),
           newCommit,
@@ -2698,7 +2699,7 @@ public class ReceiveCommits {
     result.change = change;
     result.changeCtl = projectControl.controlFor(change);
     result.newPatchSet = ps;
-    result.info = patchSetInfoFactory.get(commit, psi);
+    result.info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
     result.mergedIntoRef = refName;
     markChangeMergedByPush(db, result, result.changeCtl);
     hooks.doChangeMergedHook(

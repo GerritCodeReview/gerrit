@@ -84,11 +84,12 @@ public class PatchSetNotificationSender {
       throws OrmException, IOException {
     try (Repository git = repoManager.openRepository(updatedChange.getProject())) {
       final RevCommit commit;
-      try (RevWalk revWalk = new RevWalk(git)) {
-        commit = revWalk.parseCommit(ObjectId.fromString(
+      final PatchSetInfo info;
+      try (RevWalk rw = new RevWalk(git)) {
+        commit = rw.parseCommit(ObjectId.fromString(
             updatedPatchSet.getRevision().get()));
+        info = patchSetInfoFactory.get(rw, commit, updatedPatchSet.getId());
       }
-      final PatchSetInfo info = patchSetInfoFactory.get(commit, updatedPatchSet.getId());
       final List<FooterLine> footerLines = commit.getFooterLines();
       final Account.Id me = currentUser.getAccountId();
       final MailRecipients recipients =

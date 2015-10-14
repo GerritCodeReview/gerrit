@@ -56,7 +56,9 @@ public class PatchSetInfoFactory {
     this.byEmailCache = byEmailCache;
   }
 
-  public PatchSetInfo get(RevCommit src, PatchSet.Id psi) {
+  public PatchSetInfo get(RevWalk rw, RevCommit src, PatchSet.Id psi)
+      throws IOException {
+    rw.parseBody(src);
     PatchSetInfo info = new PatchSetInfo(psi);
     info.setSubject(src.getShortMessage());
     info.setMessage(src.getFullMessage());
@@ -83,7 +85,7 @@ public class PatchSetInfoFactory {
         RevWalk rw = new RevWalk(repo)) {
       final RevCommit src =
           rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
-      PatchSetInfo info = get(src, patchSet.getId());
+      PatchSetInfo info = get(rw, src, patchSet.getId());
       info.setParents(toParentInfos(src.getParents(), rw));
       return info;
     } catch (IOException e) {

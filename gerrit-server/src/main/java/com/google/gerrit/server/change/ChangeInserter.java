@@ -78,6 +78,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeInserter.class);
 
+  private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
@@ -92,7 +93,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private final Change change;
   private final PatchSet patchSet;
   private final RevCommit commit;
-  private final PatchSetInfo patchSetInfo;
 
   // Fields exposed as setters.
   private String message;
@@ -109,6 +109,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   // Fields set during the insertion process.
   private ChangeMessage changeMessage;
+  private PatchSetInfo patchSetInfo;
 
   @Inject
   ChangeInserter(PatchSetInfoFactory patchSetInfoFactory,
@@ -130,6 +131,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         "RefControl for %s,%s does not match change destination %s",
         projectName, refName, change.getDest());
 
+    this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
@@ -156,8 +158,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     patchSet.setCreatedOn(change.getCreatedOn());
     patchSet.setUploader(change.getOwner());
     patchSet.setRevision(new RevId(commit.name()));
-    patchSetInfo = patchSetInfoFactory.get(commit, patchSet.getId());
-    change.setCurrentPatchSet(patchSetInfo);
   }
 
   private static IdentifiedUser checkUser(RefControl ctl) {
@@ -240,10 +240,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     return this;
   }
 
-  public PatchSetInfo getPatchSetInfo() {
-    return patchSetInfo;
-  }
-
   public ChangeMessage getChangeMessage() {
     if (message == null) {
       return null;
@@ -257,6 +253,9 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   public void updateRepo(RepoContext ctx)
       throws InvalidChangeOperationException, IOException {
     validate(ctx);
+    patchSetInfo = patchSetInfoFactory.get(
+        ctx.getRevWalk(), commit, patchSet.getId());
+    change.setCurrentPatchSet(patchSetInfo);
     if (!updateRef) {
       return;
     }

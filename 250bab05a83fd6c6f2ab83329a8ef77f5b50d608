@@ -22,6 +22,29 @@
       "revId": "250bab05a83fd6c6f2ab83329a8ef77f5b50d608",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ffefa6f_32b970b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-14T13:06:05Z",
+      "side": 1,
+      "message": "Is this TODO going to be resolved in a new patch set?  Or is this case not important enough to fix now and will be done later on master?",
+      "range": {
+        "startLine": 215,
+        "startChar": 11,
+        "endLine": 215,
+        "endChar": 23
+      },
+      "revId": "250bab05a83fd6c6f2ab83329a8ef77f5b50d608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

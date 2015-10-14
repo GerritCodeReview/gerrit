@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7fec56ce_cd1cc980",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T12:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fec56ce_8d22c1b3",
+      "revId": "6093f55933857effc11953d14e91931478139270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fec56ce_ad25fdbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 3

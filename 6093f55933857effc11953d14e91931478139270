@@ -225,6 +225,30 @@
       "revId": "6093f55933857effc11953d14e91931478139270",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c9c64d8_ada1fdd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-14T16:34:25Z",
+      "side": 1,
+      "message": "I\u0027ve pushed a fix for this onto stable-2.11 [1].\n\nWe can still discuss whether it makes sense to cherry-pick it to 2.10.\n\nWhen I was writing a test for this I realized that forging a vote was only possible if at least two labels were defined. See commit message and test in [1] for details.\n\n[1] https://gerrit-review.googlesource.com/71521",
+      "parentUuid": "7fec56ce_edcd4542",
+      "range": {
+        "startLine": 247,
+        "startChar": 12,
+        "endLine": 247,
+        "endChar": 15
+      },
+      "revId": "6093f55933857effc11953d14e91931478139270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

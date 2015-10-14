@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ca66c28_aba1e9d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T16:51:08Z",
+      "side": 1,
+      "message": "not",
+      "range": {
+        "startLine": 7,
+        "startChar": 46,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "6d0de5ff6e5ebe33bb3e1d1759c418c28c91ea0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c9c64d8_cdb0c91c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T16:51:08Z",
+      "side": 1,
+      "message": "on behalf of",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "6d0de5ff6e5ebe33bb3e1d1759c418c28c91ea0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c9c64d8_2db6ad15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T16:51:08Z",
+      "side": 1,
+      "message": "It should also be explained in the commit message, that as a side effect, this change actually fixed another NullPointerException (and link to the issue), because it\u0027s not guaranteed, that the committer has registered email, and as the consequence, the lookup may fail and approval addition was failing.",
+      "revId": "6d0de5ff6e5ebe33bb3e1d1759c418c28c91ea0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ca66c28_8ba6ade4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T16:51:08Z",
+      "side": 1,
+      "message": "Bug: Issue 3602",
+      "revId": "6d0de5ff6e5ebe33bb3e1d1759c418c28c91ea0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c9c64d8_edab05ab",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T16:51:08Z",
+      "side": 1,
+      "message": "on behalf of",
+      "range": {
+        "startLine": 260,
+        "startChar": 45,
+        "endLine": 260,
+        "endChar": 59
+      },
+      "revId": "6d0de5ff6e5ebe33bb3e1d1759c418c28c91ea0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

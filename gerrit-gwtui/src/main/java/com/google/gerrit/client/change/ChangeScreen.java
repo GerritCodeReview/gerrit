@@ -1254,7 +1254,8 @@ public class ChangeScreen extends Screen {
 
   private void renderUploader(ChangeInfo info, String revision) {
     AccountInfo uploader = info.revision(revision).uploader();
-    if (uploader._accountId() == info.owner()._accountId()) {
+    if (uploader == null
+        || uploader._accountId() == info.owner()._accountId()) {
       uploaderRow.getStyle().setDisplay(Display.NONE);
       return;
     }

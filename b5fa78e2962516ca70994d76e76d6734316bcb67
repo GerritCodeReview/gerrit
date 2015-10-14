@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fec56ce_4da459ab",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditPreferencesBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T08:51:38Z",
+      "side": 1,
+      "message": "Add here the same setLeftMargin hack as for diff preferences? Why it as possible to just say:\n\n  apply.setVisible(false);\n\nand here we are using getStyle().setVisibility()? Can\u0027t this be done the same way in both places?",
+      "revId": "b5fa78e2962516ca70994d76e76d6734316bcb67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

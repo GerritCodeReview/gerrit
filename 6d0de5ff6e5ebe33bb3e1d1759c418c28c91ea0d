@@ -99,6 +99,23 @@
     },
     {
       "key": {
+        "uuid": "7c9c64d8_8dcfe18c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-10-14T17:38:43Z",
+      "side": 1,
+      "message": "speaking of forging ... :D",
+      "revId": "6d0de5ff6e5ebe33bb3e1d1759c418c28c91ea0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c9c64d8_edab05ab",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 1

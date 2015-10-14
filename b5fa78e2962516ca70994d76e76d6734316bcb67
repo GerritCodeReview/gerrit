@@ -16,6 +16,24 @@
       "revId": "b5fa78e2962516ca70994d76e76d6734316bcb67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f3e16ee_9dfb2374",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditPreferencesBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-14T09:06:23Z",
+      "side": 1,
+      "message": "Ups, bad rebase. It should be the same in both places (PreferencesBox and EditPreferencesBox). And it should be\n\n  apply.getElement().getStyle().setVisibility(Visibility.HIDDEN);\n\nThis sets the \u0027visibility\u0027 CSS property to \u0027hidden\u0027, which means the element is not shown, but the space that it would have taken is consumed.\n\nIt\u0027s different from apply.setVisible(false) which hides the element, but the space is not consumed.\n\nThis means setting the \u0027visibility\u0027 property to \u0027hidden\u0027 allows us to have the Save button at exactly the same position that it would have if the Apply button was there.\n\nSetting an explicit left-margin also works. This was my first try to fix the position of the Save button, but then I thought setting the \u0027visibility\u0027 property is better than messing around with an explicit number of pixels that will be wrong when anything else changes in the layout.\n\nWill upload a new patch set in a minute.",
+      "parentUuid": "7fec56ce_4da459ab",
+      "revId": "b5fa78e2962516ca70994d76e76d6734316bcb67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

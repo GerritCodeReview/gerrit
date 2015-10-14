@@ -50,6 +50,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,6 +76,8 @@ import java.util.Set;
  */
 @Singleton
 public class ApprovalsUtil {
+  private static final Logger log =
+      LoggerFactory.getLogger(ApprovalsUtil.class);
   private static Ordering<PatchSetApproval> SORT_APPROVALS = Ordering.natural()
       .onResultOf(new Function<PatchSetApproval, Timestamp>() {
         @Override
@@ -227,13 +232,19 @@ public class ApprovalsUtil {
       throws OrmException {
     if (!approvals.isEmpty()) {
       checkApprovals(approvals, changeCtl);
+      Account.Id id = info.getCommitter().getAccount();
+      if (id == null) {
+        log.warn(String.format("Cannot lookup account by email %s",
+            info.getCommitter().getEmail());
+        return;
+      }
       List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
       Timestamp ts = TimeUtil.nowTs();
       for (Map.Entry<String, Short> vote : approvals.entrySet()) {
         LabelType lt = labelTypes.byLabel(vote.getKey());
         cells.add(new PatchSetApproval(new PatchSetApproval.Key(
             ps.getId(),
-            info.getCommitter().getAccount(),
+            id,
             lt.getLabelId()),
             vote.getValue(),
             ts));

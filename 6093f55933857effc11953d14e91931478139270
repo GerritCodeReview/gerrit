@@ -129,6 +129,30 @@
       "revId": "6093f55933857effc11953d14e91931478139270",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fec56ce_cdb329d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-14T14:43:23Z",
+      "side": 1,
+      "message": "@davido: Are you making the fix or should I start with it. I think we should also cover this by a test.",
+      "parentUuid": "7f3e16ee_9d9fa32c",
+      "range": {
+        "startLine": 247,
+        "startChar": 12,
+        "endLine": 247,
+        "endChar": 15
+      },
+      "revId": "6093f55933857effc11953d14e91931478139270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

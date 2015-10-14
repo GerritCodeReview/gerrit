@@ -196,15 +196,16 @@ public class PatchListLoader implements Callable<PatchList> {
       entries.add(newCommitMessage(cmp, reader,
           againstParent ? null : aCommit, b));
       for (int i = 0; i < cnt; i++) {
-        DiffEntry diffEntry = diffEntries.get(i);
-        if (paths == null || paths.contains(diffEntry.getNewPath())
-            || paths.contains(diffEntry.getOldPath())) {
+        DiffEntry e = diffEntries.get(i);
+        if (paths == null || paths.contains(e.getNewPath())
+            || paths.contains(e.getOldPath())) {
 
-          FileHeader fh = toFileHeader(key, df, diffEntry);
-          long sizeDelta =
-              getFileSize(repo, reader, diffEntry.getNewPath(), bTree)
-                  - getFileSize(repo, reader, diffEntry.getOldPath(), aTree);
-          entries.add(newEntry(aTree, fh, sizeDelta));
+          FileHeader fh = toFileHeader(key, df, e);
+          long oldSize =
+              getFileSize(repo, reader, e.getOldMode(), e.getOldPath(), aTree);
+          long newSize =
+              getFileSize(repo, reader, e.getNewMode(), e.getNewPath(), bTree);
+          entries.add(newEntry(aTree, fh, newSize - oldSize));
         }
       }
       return new PatchList(a, b, againstParent,
@@ -213,12 +214,20 @@ public class PatchListLoader implements Callable<PatchList> {
   }
 
   private static long getFileSize(Repository repo, ObjectReader reader,
-      String path, RevTree t) throws IOException {
+      FileMode mode, String path, RevTree t) throws IOException {
+    if (!isBlob(mode)) {
+      return 0;
+    }
     try (TreeWalk tw = TreeWalk.forPath(reader, path, t)) {
       return tw != null
           ? repo.open(tw.getObjectId(0), OBJ_BLOB).getSize()
           : 0;
     }
+  }
+
+  private static boolean isBlob(FileMode mode) {
+    int t = mode.getBits() & FileMode.TYPE_MASK;
+    return t == FileMode.TYPE_FILE || t == FileMode.TYPE_SYMLINK;
   }
 
   private FileHeader toFileHeader(PatchListKey key,

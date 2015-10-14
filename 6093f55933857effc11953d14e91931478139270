@@ -57,6 +57,30 @@
       "revId": "6093f55933857effc11953d14e91931478139270",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f3e16ee_3d8f6f01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T14:00:43Z",
+      "side": 1,
+      "message": "Yes. I agree, it was always broken. Looking at PostReview code, the current user is used:\n\n c \u003d new PatchSetApproval(new PatchSetApproval.Key(\n                rsrc.getPatchSet().getId(),\n                rsrc.getAccountId(),\n                lt.getLabelId()),\n            ent.getValue(), TimeUtil.nowTs());\n\nso the fix would be to switch to using the uploader instead, like:\n\n  cells.add(new PatchSetApproval(new PatchSetApproval.Key(\n            ps.getId(),\n            ps.getUploader(),\n            lt.getLabelId()),\n            vote.getValue(),\n            ts));\n\nThis would solve both problems:\n\n* never ps.getUploader() null, as it\u0027s populated from currentUser.getAccountId()\n* uploader can not vote on behalf of another account\n\nright?",
+      "parentUuid": "7fec56ce_ad25fdbf",
+      "range": {
+        "startLine": 247,
+        "startChar": 12,
+        "endLine": 247,
+        "endChar": 15
+      },
+      "revId": "6093f55933857effc11953d14e91931478139270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

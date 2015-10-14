@@ -50,6 +50,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +61,8 @@ import java.util.Set;
 
 public class ChangeInserter {
   public static interface Factory {
-    ChangeInserter create(ProjectControl ctl, Change c, RevCommit rc);
+    ChangeInserter create(RevWalk rw, ProjectControl ctl, Change c,
+        RevCommit rc);
   }
 
   private static final Logger log =
@@ -106,9 +108,10 @@ public class ChangeInserter {
       HashtagsUtil hashtagsUtil,
       AccountCache accountCache,
       WorkQueue workQueue,
+      @Assisted RevWalk rw,
       @Assisted ProjectControl projectControl,
       @Assisted Change change,
-      @Assisted RevCommit commit) {
+      @Assisted RevCommit commit) throws IOException {
     this.dbProvider = dbProvider;
     this.updateFactory = updateFactory;
     this.gitRefUpdated = gitRefUpdated;
@@ -135,7 +138,7 @@ public class ChangeInserter {
     patchSet.setCreatedOn(change.getCreatedOn());
     patchSet.setUploader(change.getOwner());
     patchSet.setRevision(new RevId(commit.name()));
-    patchSetInfo = patchSetInfoFactory.get(commit, patchSet.getId());
+    patchSetInfo = patchSetInfoFactory.get(rw, commit, patchSet.getId());
     change.setCurrentPatchSet(patchSetInfo);
   }
 

@@ -50,6 +50,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.List;
@@ -120,9 +121,11 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
             config.getProject().getNameKey(),
             RefNames.REFS_CONFIG),
         TimeUtil.nowTs());
-    ChangeInserter ins =
-        changeInserterFactory.create(ctl, change, commit);
-    ins.insert();
+    try (RevWalk rw = new RevWalk(md.getRepository())) {
+      ChangeInserter ins =
+          changeInserterFactory.create(rw, ctl, change, commit);
+      ins.insert();
+    }
 
     ChangeResource rsrc;
     try {

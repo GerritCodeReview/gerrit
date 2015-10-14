@@ -1310,6 +1310,7 @@ public abstract class AbstractQueryChangesTest {
         new Branch.NameKey(project, branch), TimeUtil.nowTs());
     IdentifiedUser user = userFactory.create(Providers.of(db), ownerId);
     return changeFactory.create(
+        repo.getRevWalk(),
         projectControlFactory.controlFor(project, user),
         change,
         commit);

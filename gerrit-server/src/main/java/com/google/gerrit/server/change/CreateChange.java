@@ -204,9 +204,8 @@ public class CreateChange implements
           new Branch.NameKey(project, refName),
           now);
 
-      ChangeInserter ins =
-          changeInserterFactory.create(refControl.getProjectControl(),
-              change, c);
+      ChangeInserter ins = changeInserterFactory.create(
+          rw, refControl.getProjectControl(), change, c);
 
       ChangeMessage msg = new ChangeMessage(new ChangeMessage.Key(change.getId(),
           ChangeUtil.messageUUID(db.get())),

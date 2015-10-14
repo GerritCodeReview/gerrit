@@ -237,9 +237,8 @@ public class CherryPickChange {
             identifiedUser.getAccountId(), new Branch.NameKey(project,
                 destRef.getName()), TimeUtil.nowTs());
     change.setTopic(topic);
-    ChangeInserter ins =
-        changeInserterFactory.create(refControl.getProjectControl(), change,
-            cherryPickCommit);
+    ChangeInserter ins = changeInserterFactory.create(
+        revWalk, refControl.getProjectControl(), change, cherryPickCommit);
     PatchSet newPatchSet = ins.getPatchSet();
 
     CommitValidators commitValidators =

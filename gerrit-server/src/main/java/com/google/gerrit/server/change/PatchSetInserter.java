@@ -279,6 +279,9 @@ public class PatchSetInserter {
           ? approvalsUtil.getReviewers(db, ctl.getNotes())
           : null;
 
+      final PatchSetInfo info =
+          patchSetInfoFactory.get(revWalk, commit, patchSet.getId());
+
       updatedChange =
           db.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
             @Override
@@ -292,8 +295,7 @@ public class PatchSetInserter {
               if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
                 change.setStatus(Change.Status.NEW);
               }
-              change.setCurrentPatchSet(patchSetInfoFactory.get(commit,
-                  patchSet.getId()));
+              change.setCurrentPatchSet(info);
               ChangeUtil.updated(change);
               return change;
             }
@@ -319,7 +321,6 @@ public class PatchSetInserter {
 
       if (sendMail) {
         try {
-          PatchSetInfo info = patchSetInfoFactory.get(commit, patchSet.getId());
           ReplacePatchSetSender cm =
               replacePatchSetFactory.create(c.getId());
           cm.setFrom(user.getAccountId());

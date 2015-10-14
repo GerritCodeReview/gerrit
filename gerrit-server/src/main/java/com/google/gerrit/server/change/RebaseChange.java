@@ -271,7 +271,9 @@ public class RebaseChange {
 
     RevCommit rebasedCommit;
     ObjectId oldId = ObjectId.fromString(originalPatchSet.getRevision().get());
-    ObjectId newId = rebaseCommit(git, inserter, rw.parseCommit(oldId),
+    RevCommit original = rw.parseCommit(oldId);
+    rw.parseBody(original);
+    ObjectId newId = rebaseCommit(git, inserter, original,
         baseCommit, mergeUtil, committerIdent);
 
     rebasedCommit = rw.parseCommit(newId);

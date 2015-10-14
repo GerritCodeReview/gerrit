@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7fec56ce_cd66890f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T10:07:13Z",
+      "side": 1,
+      "message": "This is a very good question. Note, that I never tried to reproduce the problem myself. My problem was: corrupted site, one and the same mail was referencing two different accounts. I got exactly the same stack trace as Khai. So I wonder if we should extend the commit message with corrupted gerrit site use case? I think that even for corrupted site, we shouldn\u0027t fail with NPE.",
+      "parentUuid": "1ffefa6f_9222dcb3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "f5f1b15f39497a84035ab6ebf4dcae871f4b337c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_7c0c5951",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7fec56ce_2debcda8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T10:07:13Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "5f4dd2ad_7c0c5951",
+      "range": {
+        "startLine": 235,
+        "startChar": 10,
+        "endLine": 235,
+        "endChar": 42
+      },
+      "revId": "f5f1b15f39497a84035ab6ebf4dcae871f4b337c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffefa6f_b22560c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-10-14T09:56:51Z",
       "side": 1,
       "message": "Why are we trying to log the email?  According to the commit message, the problem is caused by the account not having an email.",
+      "range": {
+        "startLine": 237,
+        "startChar": 12,
+        "endLine": 237,
+        "endChar": 42
+      },
+      "revId": "f5f1b15f39497a84035ab6ebf4dcae871f4b337c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f3e16ee_fd1fc771",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T10:07:13Z",
+      "side": 1,
+      "message": "We are pushing a commit with approvals. The commit has always email. This email is used in PatchSetInfoFactory.toUserIdentity() to provide UserIdentity instance:\n\n  private UserIdentity toUserIdentity(final PersonIdent who) {\n    final UserIdentity u \u003d new UserIdentity();\n    u.setName(who.getName());\n    u.setEmail(who.getEmailAddress());\n    u.setDate(new Timestamp(who.getWhen().getTime()));\n    u.setTimeZone(who.getTimeZoneOffset());\n\n    // If only one account has access to this email address, select it\n    // as the identity of the user.\n    //\n    final Set\u003cAccount.Id\u003e a \u003d byEmailCache.get(u.getEmail());\n    if (a.size() \u003d\u003d 1) {\n      u.setAccount(a.iterator().next());\n    }\n  [...]\n\nSo when commit email (that is always provided) cannot be matched to any known Gerrit account (the case Khai reported) we would get null, but also i my corrupted Gerrit site case: 2 different Gerrt accounts match this emails address, the account attribute in UserIdentity would be null.",
+      "parentUuid": "1ffefa6f_b22560c0",
       "range": {
         "startLine": 237,
         "startChar": 12,

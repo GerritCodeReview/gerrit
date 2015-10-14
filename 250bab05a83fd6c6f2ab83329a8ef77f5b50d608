@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7f3e16ee_fdcd0742",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-14T13:49:48Z",
+      "side": 1,
+      "message": "OK, ps just made me expect that it\u0027s an instance of the PatchSet class.",
+      "parentUuid": "7fec56ce_4dc8d93b",
+      "range": {
+        "startLine": 206,
+        "startChar": 16,
+        "endLine": 206,
+        "endChar": 18
+      },
+      "revId": "250bab05a83fd6c6f2ab83329a8ef77f5b50d608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffefa6f_32b970b9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
         "patchSetId": 2

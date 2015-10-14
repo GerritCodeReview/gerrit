@@ -70,6 +70,23 @@
       "revId": "640f984b54a76947bf192529a17647648f54bdb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cc544cc_a5a11ed1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-14T17:14:00Z",
+      "side": 1,
+      "message": "This breaks on submodules, since the object at that path is not in the repo:\n\n Caused by: org.eclipse.jgit.errors.MissingObjectException: Missing blob 6f676d1e2831ba9c40f6b8e0209db77a038bba3d\n \t...\n \tat org.eclipse.jgit.lib.ObjectDatabase.open(ObjectDatabase.java:173)\n \tat org.eclipse.jgit.lib.Repository.open(Repository.java:277)\n \tat com.google.gerrit.server.patch.PatchListLoader.getFileSize(PatchListLoader.java:219)\n\nFix coming.",
+      "revId": "640f984b54a76947bf192529a17647648f54bdb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

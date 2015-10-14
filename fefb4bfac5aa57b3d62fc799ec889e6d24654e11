@@ -70,6 +70,24 @@
       "revId": "fefb4bfac5aa57b3d62fc799ec889e6d24654e11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc7e944f_c1a602e6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-14T17:27:02Z",
+      "side": 1,
+      "message": "I\u0027d rather omit the owner instead if owner and uploader are equal.",
+      "parentUuid": "bf0a4e5b_2f474990",
+      "revId": "fefb4bfac5aa57b3d62fc799ec889e6d24654e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

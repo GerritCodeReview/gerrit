@@ -49,7 +49,7 @@ public interface UploadValidationListener {
    *        These may be RevObject or RevCommit if the processor parsed them.
    *        Implementors should not rely on the values being parsed.
    * @throws ValidationException to block the upload and send a message
-   *         back to the end-used over the client's protocol connection.
+   *         back to the end-user over the client's protocol connection.
    */
   public void onPreUpload(Repository repository, Project project,
       String remoteHost, UploadPack up, Collection<? extends ObjectId> wants,

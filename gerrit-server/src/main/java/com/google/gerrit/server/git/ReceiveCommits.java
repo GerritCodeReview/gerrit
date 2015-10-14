@@ -2197,7 +2197,7 @@ public class ReceiveCommits {
         approvalCopier.copy(db, changeCtl, newPatchSet);
         approvalsUtil.addReviewers(db, update, labelTypes, change, newPatchSet,
             info, recipients.getReviewers(), oldRecipients.getAll());
-        approvalsUtil.addApprovals(db, update, labelTypes, newPatchSet, info,
+        approvalsUtil.addApprovals(db, update, labelTypes, newPatchSet,
             changeCtl, approvals);
         recipients.add(oldRecipients);
 

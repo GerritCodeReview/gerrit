@@ -23,6 +23,8 @@ import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -37,15 +39,16 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.UIObject;
 
 import net.codemirror.theme.ThemeLoader;
 
 /** Displays current edit preferences. */
-class EditPreferencesBox extends Composite {
+public class EditPreferencesBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, EditPreferencesBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  interface Style extends CssResource {
+  public interface Style extends CssResource {
     String dialog();
   }
 
@@ -53,6 +56,7 @@ class EditPreferencesBox extends Composite {
   private EditPreferences prefs;
 
   @UiField Style style;
+  @UiField Element header;
   @UiField Anchor close;
   @UiField NpIntTextBox tabWidth;
   @UiField NpIntTextBox lineLength;
@@ -69,14 +73,23 @@ class EditPreferencesBox extends Composite {
   @UiField Button apply;
   @UiField Button save;
 
-  EditPreferencesBox(EditScreen view) {
+  public EditPreferencesBox(EditScreen view) {
     this.view = view;
     initWidget(uiBinder.createAndBindUi(this));
     initTheme();
     initKeyMapType();
+
+    if (view == null) {
+      UIObject.setVisible(header, false);
+      apply.getElement().getStyle().setVisibility(Visibility.HIDDEN);
+    }
   }
 
-  void set(EditPreferences prefs) {
+  public Style getStyle() {
+    return style;
+  }
+
+  public void set(EditPreferences prefs) {
     this.prefs = prefs;
 
     tabWidth.setIntValue(prefs.tabSize());
@@ -98,7 +111,9 @@ class EditPreferencesBox extends Composite {
     String v = e.getValue();
     if (v != null && v.length() > 0) {
       prefs.tabSize(Math.max(1, Integer.parseInt(v)));
-      view.getEditor().setOption("tabSize", v);
+      if (view != null) {
+        view.getEditor().setOption("tabSize", v);
+      }
     }
   }
 
@@ -107,7 +122,9 @@ class EditPreferencesBox extends Composite {
     String v = e.getValue();
     if (v != null && v.length() > 0) {
       prefs.lineLength(Math.max(1, Integer.parseInt(v)));
-      view.setLineLength(prefs.lineLength());
+      if (view != null) {
+        view.setLineLength(prefs.lineLength());
+      }
     }
   }
 
@@ -118,69 +135,87 @@ class EditPreferencesBox extends Composite {
       // A negative value hides the cursor entirely:
       // don't let user shoot himself in the foot.
       prefs.cursorBlinkRate(Math.max(0, Integer.parseInt(v)));
-      view.getEditor().setOption("cursorBlinkRate", prefs.cursorBlinkRate());
+      if (view != null) {
+        view.getEditor().setOption("cursorBlinkRate", prefs.cursorBlinkRate());
+      }
     }
   }
 
   @UiHandler("topMenu")
   void onTopMenu(ValueChangeEvent<Boolean> e) {
     prefs.hideTopMenu(!e.getValue());
-    Gerrit.setHeaderVisible(!prefs.hideTopMenu());
-    view.resizeCodeMirror();
+    if (view != null) {
+      Gerrit.setHeaderVisible(!prefs.hideTopMenu());
+      view.resizeCodeMirror();
+    }
   }
 
   @UiHandler("showTabs")
   void onShowTabs(ValueChangeEvent<Boolean> e) {
     prefs.showTabs(e.getValue());
-    view.setShowTabs(prefs.showTabs());
+    if (view != null) {
+      view.setShowTabs(prefs.showTabs());
+    }
   }
 
   @UiHandler("whitespaceErrors")
   void onshowTrailingSpace(ValueChangeEvent<Boolean> e) {
     prefs.showWhitespaceErrors(e.getValue());
-    view.setShowWhitespaceErrors(prefs.showWhitespaceErrors());
+    if (view != null) {
+      view.setShowWhitespaceErrors(prefs.showWhitespaceErrors());
+    }
   }
 
   @UiHandler("lineNumbers")
   void onLineNumbers(ValueChangeEvent<Boolean> e) {
     prefs.hideLineNumbers(e.getValue());
-    view.setShowLineNumbers(prefs.hideLineNumbers());
+    if (view != null) {
+      view.setShowLineNumbers(prefs.hideLineNumbers());
+    }
   }
 
   @UiHandler("syntaxHighlighting")
   void onSyntaxHighlighting(ValueChangeEvent<Boolean> e) {
     prefs.syntaxHighlighting(e.getValue());
-    view.setSyntaxHighlighting(prefs.syntaxHighlighting());
+    if (view != null) {
+      view.setSyntaxHighlighting(prefs.syntaxHighlighting());
+    }
   }
 
   @UiHandler("matchBrackets")
   void onMatchBrackets(ValueChangeEvent<Boolean> e) {
     prefs.matchBrackets(e.getValue());
-    view.getEditor().setOption("matchBrackets", prefs.matchBrackets());
+    if (view != null) {
+      view.getEditor().setOption("matchBrackets", prefs.matchBrackets());
+    }
   }
 
   @UiHandler("autoCloseBrackets")
   void onCloseBrackets(ValueChangeEvent<Boolean> e) {
     prefs.autoCloseBrackets(e.getValue());
-    view.getEditor().setOption("autoCloseBrackets", prefs.autoCloseBrackets());
+    if (view != null) {
+      view.getEditor().setOption("autoCloseBrackets", prefs.autoCloseBrackets());
+    }
   }
 
   @UiHandler("theme")
   void onTheme(@SuppressWarnings("unused") ChangeEvent e) {
     final Theme newTheme = Theme.valueOf(theme.getValue(theme.getSelectedIndex()));
     prefs.theme(newTheme);
-    ThemeLoader.loadTheme(newTheme, new GerritCallback<Void>() {
-      @Override
-      public void onSuccess(Void result) {
-        view.getEditor().operation(new Runnable() {
-          @Override
-          public void run() {
-            String t = newTheme.name().toLowerCase();
-            view.getEditor().setOption("theme", t);
-          }
-        });
-      }
-    });
+    if (view != null) {
+      ThemeLoader.loadTheme(newTheme, new GerritCallback<Void>() {
+        @Override
+        public void onSuccess(Void result) {
+          view.getEditor().operation(new Runnable() {
+            @Override
+            public void run() {
+              String t = newTheme.name().toLowerCase();
+              view.getEditor().setOption("theme", t);
+            }
+          });
+        }
+      });
+    }
   }
 
   @UiHandler("keyMap")
@@ -188,7 +223,9 @@ class EditPreferencesBox extends Composite {
     KeyMapType keyMapType = KeyMapType.valueOf(
         keyMap.getValue(keyMap.getSelectedIndex()));
     prefs.keyMapType(keyMapType);
-    view.getEditor().setOption("keyMap", keyMapType.name().toLowerCase());
+    if (view != null) {
+      view.getEditor().setOption("keyMap", keyMapType.name().toLowerCase());
+    }
   }
 
   @UiHandler("apply")

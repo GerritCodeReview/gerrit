@@ -72,7 +72,8 @@ public class RestApi {
       }
       return sce.getStatusCode() == Response.SC_FORBIDDEN
           && (sce.getEncodedResponse().equals("Authentication required")
-              || sce.getEncodedResponse().startsWith("Must be signed-in"));
+              || sce.getEncodedResponse().startsWith("Must be signed-in")
+              || sce.getEncodedResponse().startsWith("Invalid authentication"));
     }
     return false;
   }

@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "7c9c64d8_4dbdf9eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-14T16:58:03Z",
+      "side": 1,
+      "message": "It may also worth noting, that REST handler allow users to specify on_behalf_of option. So once could expect, that similar functionality should be provided through magic branch option pn push. But, it should be asked explicitly, by say adding new option %on_behalf_of\u003dCode-Review+2.",
+      "revId": "6d0de5ff6e5ebe33bb3e1d1759c418c28c91ea0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c9c64d8_2db6ad15",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

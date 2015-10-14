@@ -222,9 +222,8 @@ public class ApprovalsUtil {
   }
 
   public void addApprovals(ReviewDb db, ChangeUpdate update,
-      LabelTypes labelTypes, PatchSet ps, PatchSetInfo info,
-      ChangeControl changeCtl, Map<String, Short> approvals)
-      throws OrmException {
+      LabelTypes labelTypes, PatchSet ps, ChangeControl changeCtl,
+      Map<String, Short> approvals) throws OrmException {
     if (!approvals.isEmpty()) {
       checkApprovals(approvals, changeCtl);
       List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
@@ -233,7 +232,7 @@ public class ApprovalsUtil {
         LabelType lt = labelTypes.byLabel(vote.getKey());
         cells.add(new PatchSetApproval(new PatchSetApproval.Key(
             ps.getId(),
-            info.getCommitter().getAccount(),
+            ps.getUploader(),
             lt.getLabelId()),
             vote.getValue(),
             ts));

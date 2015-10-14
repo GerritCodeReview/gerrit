@@ -17,6 +17,10 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createCommit;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.server.project.Util.category;
+import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -24,8 +28,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -34,6 +40,8 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtorm.server.OrmException;
@@ -245,6 +253,64 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     ci = get(r.getChangeId());
     assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
         "Uploaded patch set 3.");
+  }
+
+  /**
+   * There was a bug that allowed a user with Forge Committer Identity access
+   * right to upload a commit and put *votes on behalf of another user* on it.
+   * This test checks that this is not possible, but that the votes that are
+   * specified on push are applied only in the name of the uploader.
+   *
+   * This particular bug only occurred when there was more than one label
+   * defined. Hence the test defines a custom label.
+   *
+   * When on upload the committer is forged he is automatically added as
+   * reviewer to the change. This results in a dummy 0 vote. If there was only
+   * one label this dummy 0 vote collided with any vote for the same label that
+   * was specified in the push specification and hence the upload failed, which
+   * means in this case it was not possible to forge a vote.
+   */
+  @Test
+  public void testPushForMasterWithApprovalsForgeCommitterButNoForgeVote()
+      throws GitAPIException, IOException, RestApiException {
+    // add custom label because the bug only allowed to forge a vote when there
+    // were at least two labels
+    LabelType Q = category("CustomLabel",
+        value(1, "Positive"),
+        value(0, "No score"),
+        value(-1, "Negative"));
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    cfg.getLabelSections().put(Q.getName(), Q);
+    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
+    try {
+      cfg.commit(md);
+    } finally {
+      md.close();
+    }
+    projectCache.evict(allProjects);
+
+    // Create a commit with "User" as author and committer
+    Commit c = createCommit(git, user.getIdent(), PushOneCommit.SUBJECT);
+
+    // Push this commit as "Administrator" (requires Forge Committer Identity)
+    pushHead(git, "refs/for/master/%l=Code-Review+1", false);
+
+    // Expected Code-Review votes:
+    // 1. 0 from User (committer):
+    //    When the committer is forged, the committer is automatically added as
+    //    reviewer, hence we expect a dummy 0 vote for the committer.
+    // 2. +1 from Administrator (uploader):
+    //    On push Code-Review+1 was specified, hence we expect a +1 vote from
+    //    the uploader.
+    ChangeInfo ci = get(c.getChangeId());
+    LabelInfo cr = ci.labels.get("Code-Review");
+    assertThat(cr.all).hasSize(2);
+    assertThat(cr.all.get(0).name).isEqualTo("User");
+    assertThat(cr.all.get(0).value.intValue()).is(0);
+    assertThat(cr.all.get(1).name).isEqualTo("Administrator");
+    assertThat(cr.all.get(1).value.intValue()).is(1);
+    assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
+        "Uploaded patch set 1: Code-Review+1.");
   }
 
   @Test

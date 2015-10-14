@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7fec56ce_8d22c1b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-14T12:24:46Z",
+      "side": 1,
+      "message": "Add link to https://code.google.com/p/gerrit/issues/detail?id\u003d3602 ?",
+      "revId": "6093f55933857effc11953d14e91931478139270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fec56ce_ad25fdbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 3

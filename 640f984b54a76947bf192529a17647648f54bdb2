@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "7c9c64d8_adef3de1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-14T18:41:17Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/71523",
+      "parentUuid": "3ca66c28_0bdc7d45",
+      "revId": "640f984b54a76947bf192529a17647648f54bdb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7cc544cc_a5a11ed1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 3

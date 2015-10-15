@@ -133,8 +133,8 @@ public class InternalChangeQuery {
     Schema<ChangeData> schema = schema(indexes);
     int batchSize;
     if (schema != null && schema.hasField(ChangeField.EXACT_COMMIT)) {
-      // TODO(dborowitz): Move to IndexConfig and use in more places.
-      batchSize = 500;
+      // Account for all commit predicates plus ref, project, status.
+      batchSize = indexConfig.maxTerms() - 3;
     } else {
       batchSize = indexConfig.maxPrefixTerms();
     }
@@ -146,6 +146,11 @@ public class InternalChangeQuery {
       Branch.NameKey branch, List<String> hashes, int batchSize)
       throws OrmException {
     List<Predicate<ChangeData>> commits = commits(schema, hashes);
+    if (batchSize >= hashes.size()) {
+      return query(commitsOnBranchNotMerged(branch, commits));
+    }
+
+    batchSize = Math.min(batchSize, hashes.size());
     int numBatches = (hashes.size() / batchSize) + 1;
     List<Predicate<ChangeData>> queries = new ArrayList<>(numBatches);
     for (List<Predicate<ChangeData>> batch

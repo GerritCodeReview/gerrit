@@ -22,6 +22,30 @@
       "revId": "945c23c0892c375413100cdaaf26cd8dfe8799f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99520a22_a607265a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-15T07:40:03Z",
+      "side": 1,
+      "message": "Yes, this is a good idea, because with the other order it started to fail for me. Done in:\n   https://gerrit-review.googlesource.com/71555",
+      "parentUuid": "99520a22_c6b1021a",
+      "range": {
+        "startLine": 308,
+        "startChar": 4,
+        "endLine": 311,
+        "endChar": 53
+      },
+      "revId": "945c23c0892c375413100cdaaf26cd8dfe8799f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

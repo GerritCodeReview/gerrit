@@ -22,6 +22,30 @@
       "revId": "ef339eaa73c8a9039758f2e8871f257bfb1e486f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59a8925b_44a16ece",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/PatchSetNotificationSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-15T13:52:59Z",
+      "side": 1,
+      "message": "I was just being consistent with the surrounding code, there are enough unnecessary finals in this class that I didn\u0027t want to clean them up all here.",
+      "parentUuid": "9c8f58ad_5ed9f554",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 11
+      },
+      "revId": "ef339eaa73c8a9039758f2e8871f257bfb1e486f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

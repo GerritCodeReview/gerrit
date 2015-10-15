@@ -34,6 +34,24 @@
       "revId": "f377aa96debec109671efc07102e2850445be62f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99520a22_86bb0af8",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T02:52:22Z",
+      "side": 1,
+      "message": "Fixed in: [1].\n\n* [1] https://gerrit-review.googlesource.com/71550",
+      "parentUuid": "1911ba42_3aab41b1",
+      "revId": "f377aa96debec109671efc07102e2850445be62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

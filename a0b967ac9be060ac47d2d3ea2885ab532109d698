@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d92002e1_88b1171b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T19:29:44Z",
+      "side": 1,
+      "message": "I wonder it it would make sense to add Change.Id.toRefName() or Change.Id.toRefNamePart() that would return: refs/changes/01/1",
+      "parentUuid": "b90a6e5b_8fb1151b",
+      "range": {
+        "startLine": 173,
+        "startChar": 49,
+        "endLine": 173,
+        "endChar": 50
+      },
+      "revId": "a0b967ac9be060ac47d2d3ea2885ab532109d698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39a3de81_e3d89253",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 1

@@ -16,6 +16,24 @@
       "revId": "a3c20693fa78d018aeb941c5a575111c4f0c9e03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9234eeb_87b1061b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/CommentEditorPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-10-15T21:47:06Z",
+      "side": 1,
+      "message": "I agree.  Guava has a similar implementation, and GWT does as well -- for server side logic.  I tried both those before settling on this, but it\u0027s really just a hack for now. :)\n\nIf I ever get the unified diff table figured out... that\u0027d be four places... ;)",
+      "parentUuid": "b9234eeb_a7b40a0b",
+      "revId": "a3c20693fa78d018aeb941c5a575111c4f0c9e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

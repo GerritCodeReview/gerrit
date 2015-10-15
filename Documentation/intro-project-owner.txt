@@ -52,6 +52,7 @@ you may save any changes by clicking on the `Save Changes` button.
 Optionally you can provide a `Commit Message` to explain the reasons
 for changing the access rights.
 
+[[refs-meta-config]]
 The access rights are stored in the project's Git repository in a
 special branch called `refs/meta/config`. On this branch there is a
 `project.config` file which contains the access rights. More

@@ -63,6 +63,7 @@
 .. link:dev-eclipse.html[Eclipse Setup]
 .. link:dev-buck.html[Building with Buck]
 .. link:dev-contributing.html[Contributing to Gerrit]
+.. link:notedb.html[Notedb]
 . Plugin Development
 .. link:dev-plugins.html[Developing Plugins]
 .. link:dev-build-plugins.html[Building Gerrit plugins]

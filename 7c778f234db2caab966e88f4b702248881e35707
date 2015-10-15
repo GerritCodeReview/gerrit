@@ -33,6 +33,24 @@
       "revId": "7c778f234db2caab966e88f4b702248881e35707",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9234eeb_27a13ad0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-15T18:28:48Z",
+      "side": 1,
+      "message": "There is no RevWalk in updateChange (and the repo may even have been closed already).\n\nWorrying about the wasted initialization in the failure case is way premature optimization.",
+      "parentUuid": "d92002e1_28a10bd0",
+      "revId": "7c778f234db2caab966e88f4b702248881e35707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

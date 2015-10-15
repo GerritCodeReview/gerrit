@@ -16,6 +16,24 @@
       "revId": "ab16c46053e9ba89e72d58fdcec394606b007292",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_afb4d90a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-15T18:28:48Z",
+      "side": 0,
+      "message": "There is no such thing as stale data when using get([RevWalk, ]RevCommit, PatchSet.Id); all the fields in the resulting PatchSetInfo are populated directly from the inputs, which are immutable.",
+      "parentUuid": "f92946cb_29a10dd0",
+      "revId": "ab16c46053e9ba89e72d58fdcec394606b007292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

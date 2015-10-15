@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f92946cb_29a10dd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T18:24:22Z",
+      "side": 0,
+      "message": "Previously new instance was created in postUpdate(). Can it be that now we would have stale data? The equivalent change would be to still create new instance here:\n\n  patchSetInfo \u003d patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);\n  cm.setPatchSet(patchSet, patchSetInfo);\n\nIf this is always correct thing to do, mention this optimization in the commit message?",
+      "revId": "ab16c46053e9ba89e72d58fdcec394606b007292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

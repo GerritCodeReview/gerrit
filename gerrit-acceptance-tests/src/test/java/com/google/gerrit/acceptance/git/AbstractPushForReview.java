@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.acceptance.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
@@ -27,7 +26,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.LabelType;
@@ -43,6 +41,7 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
@@ -255,7 +254,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
    */
   @Test
   public void testPushForMasterWithApprovalsForgeCommitterButNoForgeVote()
-      throws GitAPIException, IOException, RestApiException {
+      throws Exception {
     // add custom label because the bug only allowed to forge a vote when there
     // were at least two labels
     LabelType Q = category("CustomLabel",
@@ -273,10 +272,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     projectCache.evict(allProjects);
 
     // Create a commit with "User" as author and committer
-    Commit c = createCommit(git, user.getIdent(), PushOneCommit.SUBJECT);
+    RevCommit c = commitBuilder()
+        .author(user.getIdent())
+        .committer(user.getIdent())
+        .add("a.txt", "some content")
+        .create();
 
     // Push this commit as "Administrator" (requires Forge Committer Identity)
-    pushHead(git, "refs/for/master/%l=Code-Review+1", false);
+    pushHead(testRepo, "refs/for/master/%l=Code-Review+1", false);
 
     // Expected Code-Review votes:
     // 1. 0 from User (committer):
@@ -285,13 +288,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // 2. +1 from Administrator (uploader):
     //    On push Code-Review+1 was specified, hence we expect a +1 vote from
     //    the uploader.
-    ChangeInfo ci = get(c.getChangeId());
+    ChangeInfo ci = get(GitUtil.getChangeId(testRepo, c).get());
     LabelInfo cr = ci.labels.get("Code-Review");
     assertThat(cr.all).hasSize(2);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
-    assertThat(cr.all.get(0).value.intValue()).is(1);
+    assertThat(cr.all.get(0).value.intValue()).isEqualTo(1);
     assertThat(cr.all.get(1).name).isEqualTo("User");
-    assertThat(cr.all.get(1).value.intValue()).is(0);
+    assertThat(cr.all.get(1).value.intValue()).isEqualTo(0);
     assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
         "Uploaded patch set 1: Code-Review+1.");
   }

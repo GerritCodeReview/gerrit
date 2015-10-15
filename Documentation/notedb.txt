@@ -1,0 +1,265 @@
+= Gerrit Code Review - Notedb
+
+Gerrit manages the server-side Git repositories and provides a code
+review workflow and ACL management on top of Git. For this Gerrit needs
+to store additional meta data besides the Git repository data. Partly
+the Gerrit meta data is already stored in the Git repositories. In each
+Git repository there are link:intro-user.html#change-ref[special refs
+for changes] and a `refs/meta/config` branch that contains
+link:intro-project-owner.html#refs-meta-config[the access rights and
+the project configuration]. In addition there is a special `All-Users`
+repository that contains a link:intro-user.html#user-refs[ref per user]
+ that is used to store user-specific data such as user preferences.
+However much of the Gerrit meta data is currently not stored in Git but
+in a separate database. Most notably the database contains information
+about changes, patch sets, review comments and approvals, but also data
+about accounts and groups. The idea of `Notedb` is to store all Gerrit
+meta data in Git so that Gerrit no longer needs a database. Some of
+this data will be stored in link:http://git-scm.com/docs/git-notes[Git
+notes] which is why this storage is called `Notedb`.
+
+[[motivation]]
+== Motivation
+
+Having all Gerrit meta data available in Git brings several benefits:
+
+* Inconsistencies between the Git data and the Gerrit meta data are
+  less likely. Since all data is stored in Git there is no need to
+  keep a database in sync with the Git repository data. In particular
+  this means that taking consistent backups gets much easier.
+* Simplified setup. Without a database there is one component less that
+  needs to be installed, configured and maintained.
+* Replication of all data can be easily implemented, e.g. by pushing
+  the data to remote repositories.
+* Enabling multi-master setups. Not needing to worry about database
+  replication between different masters makes multi-master setups
+  easier. Using the same database instance for all masters was also an
+  option but then the database would have been a single point of
+  failure.
+* Having a well-defined format for the Gerrit meta data in Git allows
+  third-party tools to operate on this data. E.g. users could fetch the
+  data into a local repository and then use a tool to do offline code
+  reviews and then push the new meta data back to the Gerrit server.
+
+[[challenges]]
+== Challenges
+
+There are several challenges that should be kept in mind:
+
+* The total number of refs in a repository should only be increased
+  with care. Already now there are repositories with a large number of
+  refs that are difficult to handle and which suffer from bad
+  performance due to the large number of refs.
+* The format of the meta data should be well-defined and stable so that
+  third-party tools can be based on it.
+* The meta data format should allow third-party tools to store
+  additional data in the Git repositories that is ignored by Gerrit,
+  but which doesn't collide with future Gerrit development.
+
+[[disclaimer]]
+== Disclaimer
+
+[WARNING]
+This document describes the current state of Notedb which is work in
+progress. By no means it is ready to be used in production or to serve
+as a base for third-party tool development.
+
+[[config]]
+== Enable Notedb
+
+Some parts of Notedb are already implemented, but the code is
+considered experimental. This is why Notedb must be explicitly enabled
+in the Gerrit configuration. Enabling Notedb is at one's own risk. To
+enable Notedb add the following configuration to your `gerrit.config`
+file:
+
+----
+[notedb "changes"]
+  write = true
+  read = true
+----
+
+[[notedb.changes.write]]notedb.changes.write::
++
+Enables writing change meta data into Notedb. The data is still stored
+and updated in the database but with this option set to `true` it is in
+addition stored and updated in Git.
++
+By default `false`.
+
+[[notedb.changes.read]]notedb.changes.read::
++
+Enables reading change meta data from Notedb.
++
+Setting this option to `true` requires link:#notedb.changes.write[
+notedb.changes.write] be set to `true` too.
++
+By default `false`.
+
+[[rebuild]]
+== (Re)Build Notedb
+
+When you want to enable Notedb for an existing site you must once
+import the existing data from the database into Notedb. This is done by
+using the `RebuildNotedb` site program:
+
+----
+$ java -jar gerrit.war RebuildNotedb -d $review_site
+----
+
+Known issues:
+
+* Rebuilding Notedb fails with an exception similar to the following:
++
+----
+test_project: done: 12% (10/78) (-)[2015-10-12 20:37:00,579] [RebuildChange-2] WARN  com.google.gerrit.server.account.AccountCacheImpl : Cannot load AccountState for 1000000
+java.util.concurrent.ExecutionException: com.google.gwtorm.server.OrmException: Cannot open database connection
+	at com.google.common.util.concurrent.AbstractFuture.getDoneValue(AbstractFuture.java:472)
+	at com.google.common.util.concurrent.AbstractFuture.get(AbstractFuture.java:451)
+	at com.google.common.util.concurrent.AbstractFuture$TrustedFuture.get(AbstractFuture.java:74)
+	at com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly(Uninterruptibles.java:143)
+	at com.google.common.cache.LocalCache$LoadingValueReference.waitForValue(LocalCache.java:3573)
+	at com.google.common.cache.LocalCache$Segment.waitForLoadingValue(LocalCache.java:2306)
+	at com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2293)
+	at com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2201)
+	at com.google.common.cache.LocalCache.get(LocalCache.java:3953)
+	at com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:3957)
+	at com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:4875)
+	at com.google.gerrit.server.account.AccountCacheImpl.get(AccountCacheImpl.java:85)
+	at com.google.gerrit.server.IdentifiedUser.state(IdentifiedUser.java:252)
+	at com.google.gerrit.server.IdentifiedUser.getAccount(IdentifiedUser.java:269)
+	at com.google.gerrit.server.notedb.ChangeUpdate.onSave(ChangeUpdate.java:394)
+	at com.google.gerrit.server.git.VersionedMetaData$1.doSave(VersionedMetaData.java:249)
+	at com.google.gerrit.server.git.VersionedMetaData$1.write(VersionedMetaData.java:262)
+	at com.google.gerrit.server.notedb.ChangeUpdate.writeCommit(ChangeUpdate.java:381)
+	at com.google.gerrit.server.notedb.ChangeRebuilder.writeToBatch(ChangeRebuilder.java:205)
+	at com.google.gerrit.server.notedb.ChangeRebuilder.rebuild(ChangeRebuilder.java:150)
+	at com.google.gerrit.server.notedb.ChangeRebuilder$1.call(ChangeRebuilder.java:91)
+	at com.google.gerrit.server.notedb.ChangeRebuilder$1.call(ChangeRebuilder.java:88)
+	at com.google.common.util.concurrent.TrustedListenableFutureTask$TrustedFutureInterruptibleTask.runInterruptibly(TrustedListenableFutureTask.java:108)
+	at com.google.common.util.concurrent.InterruptibleTask.run(InterruptibleTask.java:41)
+	at com.google.common.util.concurrent.TrustedListenableFutureTask.run(TrustedListenableFutureTask.java:77)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:262)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:178)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:292)
+	at com.google.gerrit.server.git.WorkQueue$Task.run(WorkQueue.java:377)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: com.google.gwtorm.server.OrmException: Cannot open database connection
+	at com.google.gwtorm.jdbc.Database.newConnection(Database.java:130)
+	at com.google.gwtorm.jdbc.JdbcSchema.<init>(JdbcSchema.java:40)
+	at com.google.gerrit.reviewdb.server.ReviewDb_Schema_GwtOrm$$22.<init>(Unknown Source)
+	at com.google.gerrit.reviewdb.server.ReviewDb_Schema_GwtOrm$$22_Factory_GwtOrm$$23.open(Unknown Source)
+	at com.google.gwtorm.jdbc.Database.open(Database.java:122)
+	at com.google.gerrit.server.account.AccountCacheImpl$ByIdLoader.load(AccountCacheImpl.java:145)
+	at com.google.gerrit.server.account.AccountCacheImpl$ByIdLoader.load(AccountCacheImpl.java:130)
+	at com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3542)
+	at com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2323)
+	at com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2286)
+	at com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2201)
+	at com.google.common.cache.LocalCache.get(LocalCache.java:3953)
+	at com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:3957)
+	at com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:4875)
+	at com.google.gerrit.server.account.AccountCacheImpl.get(AccountCacheImpl.java:85)
+	at com.google.gerrit.server.IdentifiedUser.state(IdentifiedUser.java:252)
+	at com.google.gerrit.server.IdentifiedUser.getAccount(IdentifiedUser.java:269)
+	at com.google.gerrit.server.notedb.ChangeUpdate.onSave(ChangeUpdate.java:394)
+	at com.google.gerrit.server.git.VersionedMetaData$1.doSave(VersionedMetaData.java:249)
+	at com.google.gerrit.server.git.VersionedMetaData$1.write(VersionedMetaData.java:262)
+	at com.google.gerrit.server.notedb.ChangeUpdate.writeCommit(ChangeUpdate.java:381)
+	at com.google.gerrit.server.notedb.ChangeRebuilder.writeToBatch(ChangeRebuilder.java:205)
+	at com.google.gerrit.server.notedb.ChangeRebuilder.rebuild(ChangeRebuilder.java:136)
+	... 13 more
+Caused by: org.apache.commons.dbcp.SQLNestedException: Cannot get a connection, pool error Timeout waiting for idle object
+	at org.apache.commons.dbcp.PoolingDataSource.getConnection(PoolingDataSource.java:114)
+	at org.apache.commons.dbcp.BasicDataSource.getConnection(BasicDataSource.java:1044)
+	at com.google.gwtorm.jdbc.Database.newConnection(Database.java:128)
+	... 35 more
+Caused by: java.util.NoSuchElementException: Timeout waiting for idle object
+	at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1144)
+	at org.apache.commons.dbcp.PoolingDataSource.getConnection(PoolingDataSource.java:106)
+	... 37 more
+----
++
+This is because due to a bug more threads that require a database
+connection run than database connections are available.
++
+To make the rebuilding of the Notedb succeed you must reduce the number
+of threads that are used by explicitly specifying a lower thread number:
++
+----
+$ java -jar gerrit.war RebuildNotedb --threads 6 -d $review_site
+----
+
+
+[[storage]]
+== Storage
+
+All Notedb data is stored in `$review_site/notedb`. For every Git
+repository for which Notedb data exits there will be a sibling
+repository in this folder which only contains the Notedb data. This
+sibling repository has the same name as the repository to which it
+belongs.
+
+Eventually in the final version the Notedb data will be stored in the
+original Git repositories which makes it easy for clients to fetch this
+data. However for now it is kept separated for the following reasons:
+
+* It reduces the risk that buggy Notedb code creates inconsistencies in
+  the original repositories.
+* All Notedb data can be easily dumped by dropping the
+  `$review_site/notedb` folder.
+* refs needed for the Notedb don't add up to the total ref count in the
+  original repository which could be bad for performance.
+
+=== Change Events
+
+For each change there is a special ref `refs/changes/XX/YYYY/meta` that
+tracks the events that happen on the change. In this ref `YYYY` is the
+numeric change number and `XX` is the last two digits of the numeric
+change number, e.g. `refs/changes/20/884120/meta`.
+
+Each change event results in a commit on this ref. The commit messages
+have a defined format and carry important information:
+
+* Subject: Contains a human-readable event name, such as
+  `Create Change` or `Update patch set 2`
+* Message: Describes details of the event
+* Footers: Used for parseable key-value pairs that are attributes of
+  the event
+
+Common Footers:
+
+* `Patch Set`: the numeric number of the patch set
+
+The commit timestamp reflects the time when the event occurred and the
+user that triggered the event is recorded as author. The author name is
+set to the full name of the user. The author email is set to
+`<account-id>@gerrit`, e.g. `1000000@gerrit`.
+
+==== Change creation event
+
+When a change is created by uploading a first patch set the
+`refs/changes/XX/YYYY/meta` ref is created with an initial commit that
+records the change creation, e.g.:
+
+----
+commit 478b758395d17a492ec220ab3117eaa0ff5b4ed4
+Author: Administrator <1000000@gerrit>
+Date:   Tue Oct 13 15:34:16 2015 +0200
+
+    Create change
+
+    Patch-set: 1
+----
+
+TODO: Describe further events
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

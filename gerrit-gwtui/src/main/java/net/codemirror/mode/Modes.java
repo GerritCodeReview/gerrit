@@ -61,6 +61,7 @@ public interface Modes extends ClientBundle {
   @Source("tcl.js") @DoNotEmbed DataResource tcl();
   @Source("velocity.js") @DoNotEmbed DataResource velocity();
   @Source("verilog.js") @DoNotEmbed DataResource verilog();
+  @Source("vhdl.js") @DoNotEmbed DataResource vhdl();
   @Source("xml.js") @DoNotEmbed DataResource xml();
   @Source("yaml.js") @DoNotEmbed DataResource yaml();
 

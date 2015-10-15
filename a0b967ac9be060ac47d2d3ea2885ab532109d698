@@ -22,6 +22,30 @@
       "revId": "a0b967ac9be060ac47d2d3ea2885ab532109d698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59a8925b_a4bb82f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-15T16:23:08Z",
+      "side": 1,
+      "message": "Yes, it\u0027s called db.changes().get(changeIds). ensureCurrentPatchSetLoaded calls db.patchSets().get(missingIds) which is the same thing.",
+      "parentUuid": "39a3de81_e3d89253",
+      "range": {
+        "startLine": 180,
+        "startChar": 8,
+        "endLine": 180,
+        "endChar": 49
+      },
+      "revId": "a0b967ac9be060ac47d2d3ea2885ab532109d698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

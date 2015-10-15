@@ -22,6 +22,30 @@
       "revId": "7af5ac5406b8367aa414cfeb7ca5a32f3d02f9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99520a22_26fd7699",
+        "filename": "tools/download_all.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T05:03:20Z",
+      "side": 1,
+      "message": "slice of __download_bin (actually the same as before 4).",
+      "parentUuid": "fc7e944f_a1457e88",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 16
+      },
+      "revId": "7af5ac5406b8367aa414cfeb7ca5a32f3d02f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

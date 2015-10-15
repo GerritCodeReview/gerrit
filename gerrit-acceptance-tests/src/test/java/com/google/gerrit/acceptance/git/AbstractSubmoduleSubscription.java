@@ -101,13 +101,14 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     ObjectId commitId = repo.git().fetch().setRemote("origin").call()
         .getAdvertisedRef("refs/heads/" + branch).getObjectId();
 
-    RevWalk rw = repo.getRevWalk();
-    RevCommit c = rw.parseCommit(commitId);
-    rw.parseBody(c.getTree());
+    try (RevWalk rw = repo.getRevWalk()) {
+      RevCommit c = rw.parseCommit(commitId);
+      rw.parseBody(c.getTree());
 
-    RevTree tree = c.getTree();
-    RevObject actualId = repo.get(tree, submodule);
+      RevTree tree = c.getTree();
+      RevObject actualId = repo.get(tree, submodule);
 
-    assertThat(actualId).isEqualTo(expectedId);
+      assertThat(actualId).isEqualTo(expectedId);
+    }
   }
 }

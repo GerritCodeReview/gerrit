@@ -34,13 +34,18 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 
 public class IndexRewriteTest {
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
   private FakeIndex index;
   private IndexCollection indexes;
   private ChangeQueryBuilder queryBuilder;
@@ -52,7 +57,8 @@ public class IndexRewriteTest {
     indexes = new IndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
-    rewrite = new IndexRewriteImpl(indexes);
+    rewrite = new IndexRewriteImpl(indexes,
+        IndexConfig.create(0, 0, 3, 100));
   }
 
   @Test
@@ -207,6 +213,17 @@ public class IndexRewriteTest {
           query(in.getChild(0)),
           in.getChild(1)),
         out.getChildren());
+  }
+
+  @Test
+  public void testTooManyTerms() throws Exception {
+    String q = "file:a OR file:b OR file:c";
+    Predicate<ChangeData> in = parse(q);
+    assertEquals(query(in), rewrite(in));
+
+    exception.expect(QueryParseException.class);
+    exception.expectMessage("too many terms in query");
+    rewrite(parse(q + " OR file:d"));
   }
 
   private Predicate<ChangeData> parse(String query) throws QueryParseException {

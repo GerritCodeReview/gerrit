@@ -133,8 +133,7 @@ public class InternalChangeQuery {
     Schema<ChangeData> schema = schema(indexes);
     int batchSize;
     if (schema != null && schema.hasField(ChangeField.EXACT_COMMIT)) {
-      // TODO(dborowitz): Move to IndexConfig and use in more places.
-      batchSize = 500;
+      batchSize = indexConfig.maxTerms() - 3;
     } else {
       batchSize = indexConfig.maxPrefixTerms();
     }

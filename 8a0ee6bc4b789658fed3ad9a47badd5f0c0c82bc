@@ -22,6 +22,30 @@
       "revId": "8a0ee6bc4b789658fed3ad9a47badd5f0c0c82bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59a8925b_24b0f215",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-15T15:37:03Z",
+      "side": 1,
+      "message": "Yup, we came up with the name before deciding how much to store in notes. I don\u0027t mind changing it but coming up with a new name is really low on my list of priorities.",
+      "parentUuid": "39a3de81_63cd8297",
+      "range": {
+        "startLine": 5,
+        "startChar": 63,
+        "endLine": 19,
+        "endChar": 52
+      },
+      "revId": "8a0ee6bc4b789658fed3ad9a47badd5f0c0c82bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

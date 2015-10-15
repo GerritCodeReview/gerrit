@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d98d62f4_c0d23e2f",
+        "filename": ".buckversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T15:25:53Z",
+      "side": 1,
+      "message": "Good idea.",
+      "parentUuid": "fc7e944f_21432e79",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 40
+      },
+      "revId": "20e0b34340b2aead44abd022b2000644ff81f450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc7e944f_e12866ba",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-15T07:26:13Z",
       "side": 1,
       "message": "Not necessary now that we have this in the documentation?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 62
+      },
+      "revId": "20e0b34340b2aead44abd022b2000644ff81f450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1930da11_02bfaae6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T15:25:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc7e944f_e12866ba",
       "range": {
         "startLine": 16,
         "startChar": 0,

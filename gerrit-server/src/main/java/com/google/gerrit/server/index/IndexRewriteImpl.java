@@ -33,6 +33,8 @@ import com.google.gerrit.server.query.change.LimitPredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.util.MutableInteger;
+
 import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.List;
@@ -117,10 +119,13 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   }
 
   private final IndexCollection indexes;
+  private final IndexConfig config;
 
   @Inject
-  IndexRewriteImpl(IndexCollection indexes) {
+  IndexRewriteImpl(IndexCollection indexes,
+      IndexConfig config) {
     this.indexes = indexes;
+    this.config = config;
   }
 
   @Override
@@ -132,7 +137,8 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     // skipped results would have been filtered out by the enclosing AndSource.
     limit += start;
 
-    Predicate<ChangeData> out = rewriteImpl(in, index, limit);
+    MutableInteger leafTerms = new MutableInteger();
+    Predicate<ChangeData> out = rewriteImpl(in, index, limit, leafTerms);
     if (in == out || out instanceof IndexPredicate) {
       return new IndexedChangeQuery(index, out, limit);
     } else if (out == null /* cannot rewrite */) {
@@ -148,6 +154,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
    * @param in predicate to rewrite.
    * @param index index whose schema determines which fields are indexed.
    * @param limit maximum number of results to return.
+   * @param leafTerms number of leaf index query terms encountered so far.
    * @return {@code null} if no part of this subtree can be queried in the
    *     index directly. {@code in} if this subtree and all its children can be
    *     queried directly in the index. Otherwise, a predicate that is
@@ -157,8 +164,12 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
    *     support this predicate.
    */
   private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in,
-      ChangeIndex index, int limit) throws QueryParseException {
+      ChangeIndex index, int limit, MutableInteger leafTerms)
+      throws QueryParseException {
     if (isIndexPredicate(in, index)) {
+      if (++leafTerms.value > config.maxTerms()) {
+        throw new QueryParseException("too many terms in query");
+      }
       return in;
     } else if (in instanceof LimitPredicate) {
       // Replace any limits with the limit provided by the caller.
@@ -174,7 +185,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     List<Predicate<ChangeData>> newChildren = Lists.newArrayListWithCapacity(n);
     for (int i = 0; i < n; i++) {
       Predicate<ChangeData> c = in.getChild(i);
-      Predicate<ChangeData> nc = rewriteImpl(c, index, limit);
+      Predicate<ChangeData> nc = rewriteImpl(c, index, limit, leafTerms);
       if (nc == c) {
         isIndexed.set(i);
         newChildren.add(c);

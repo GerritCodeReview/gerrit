@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99520a22_a6d5e619",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.4.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T03:17:44Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/71521 with link to Issue 3602 should be added.\n\n\"Conflicts With\" fixes with link to Issue 3052 should be added.",
+      "revId": "8b5cd66dfd4dda5354c179d1956ffbf4d62edf31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

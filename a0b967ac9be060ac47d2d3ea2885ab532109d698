@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f92946cb_c9bb11f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T19:21:16Z",
+      "side": 1,
+      "message": "Why 1? What if patch set number has 3 digits? Or is this because the result from getRefs() is sorted, so that first refs/changes/01/1/1 returned, and thus all refs up to refs/changes/01/1/100 are skipped, because first lastIndex would be refs/changes/01/1/? I would expect lastPrefix to be:\n\n  lastPrefix \u003d p.substring(0, p.lastIndexOf(\"/\"));",
+      "range": {
+        "startLine": 173,
+        "startChar": 49,
+        "endLine": 173,
+        "endChar": 50
+      },
+      "revId": "a0b967ac9be060ac47d2d3ea2885ab532109d698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39a3de81_e3d89253",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 1
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "Yes, it\u0027s called db.changes().get(changeIds). ensureCurrentPatchSetLoaded calls db.patchSets().get(missingIds) which is the same thing.",
       "parentUuid": "39a3de81_e3d89253",
+      "range": {
+        "startLine": 180,
+        "startChar": 8,
+        "endLine": 180,
+        "endChar": 49
+      },
+      "revId": "a0b967ac9be060ac47d2d3ea2885ab532109d698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_48b0bf16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T19:21:16Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "59a8925b_a4bb82f7",
       "range": {
         "startLine": 180,
         "startChar": 8,

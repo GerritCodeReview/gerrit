@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39a3de81_63cd8297",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-15T15:36:07Z",
+      "side": 1,
+      "message": "All this makes me think that \"Notedb\" is a really bad name. In the end it should be one term for all Gerrit meta data that is stored in git. In my opinion this includes those parts which we have in git for a long time (project config etc). So much of this data is not stored in Git notes which makes the name \"Notedb\" quite misleading.",
+      "range": {
+        "startLine": 5,
+        "startChar": 63,
+        "endLine": 19,
+        "endChar": 52
+      },
+      "revId": "8a0ee6bc4b789658fed3ad9a47badd5f0c0c82bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -278,7 +278,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
     approvalsUtil.addReviewers(db, update, labelTypes, change,
         patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
-    approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
+    approvalsUtil.addApprovals(db, update, labelTypes, patchSet,
         ctx.getChangeControl(), approvals);
     if (message != null) {
       changeMessage =

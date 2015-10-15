@@ -111,6 +111,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_HASHTAG = "hashtag";
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_MERGE = "merge";
   public static final String FIELD_MERGEABLE = "mergeable";
   public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_OWNER = "owner";

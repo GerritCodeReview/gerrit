@@ -31,6 +31,7 @@ import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
@@ -264,6 +265,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
         save.setEnabled(true);
         cancel.setEnabled(true);
         discard.setEnabled(true);
+        Cookies.setCookie("patchComment-" + psId.getParentKey().toString() + "-" + psId.getId() + "-" + btoa(comment.getKey().getParentKey().get()) + "-" + comment.getSide() + "-" + comment.getLine(), comment.getMessage());
         super.onFailure(caught);
         onSave.onFailure(caught);
       }
@@ -336,6 +338,8 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     }
     return null;
   }
+
+  private native String btoa(String a) /*-{ return btoa(a); }-*/;
 
   public static CommentInfo toInput(PatchLineComment c) {
     CommentInfo i = CommentInfo.createObject().cast();

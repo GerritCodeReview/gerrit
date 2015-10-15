@@ -25,6 +25,7 @@ import com.google.gerrit.client.change.ChangeScreen;
 import com.google.gerrit.client.change.FileTable;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeList;
+import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.FileMeta;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gerrit.client.info.ChangeInfo;
@@ -41,6 +42,7 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -60,6 +62,7 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -76,11 +79,13 @@ import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.Pos;
+import net.codemirror.lib.TextMarker.FromTo;
 import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
 import net.codemirror.theme.ThemeLoader;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -269,9 +274,61 @@ public class SideBySide extends Screen {
                 changeStatus.isOpen());
             setTheme(result.getTheme());
             display(comments);
+            if (Gerrit.isSignedIn()) {
+              Collection<String> cookies = Cookies.getCookieNames();
+              for (String key : cookies) {
+                boolean valid = false;
+                CommentRange range = null;
+                String side = null;
+                int line = 0;
+                if (key.startsWith(
+                    "patchCommentRange-" + revision.getParentKey().toString()
+                        + "-" + revision.getId() + "-" + btoa(path) + "-")) {
+                  // Remaining fields:
+                  // side-startLine,startCharacter-endLine,endCharacter
+                  String[] values = key.split("-");
+                  if (values.length == 7) {
+                    side = values[4];
+                    String[] start = values[5].split(",");
+                    String[] end = values[6].split(",");
+                    valid = true;
+                    range = CommentRange.create(FromTo.create(
+                        Pos.create(Integer.parseInt(start[0]) - 1,
+                            Integer.parseInt(start[1])),
+                        Pos.create(Integer.parseInt(end[0]) - 1,
+                            Integer.parseInt(end[1]))));
+                    line = Integer.parseInt(end[0]);
+                  }
+                } else if (key.startsWith(
+                    "patchComment-" + revision.getParentKey().toString() + "-"
+                        + revision.getId() + "-" + btoa(path) + "-")) {
+                  // Remaining fields: side-line
+                  String[] values = key.split("-");
+                  if (values.length == 6) {
+                    side = values[4];
+                    line = Integer.parseInt(values[5]);
+                    valid = true;
+                  }
+                }
+                if (valid) {
+                  CommentInfo info = CommentInfo.create(path,
+                      (side.equals(Side.PARENT.toString()) ? Side.PARENT
+                          : Side.REVISION),
+                      line, range);
+                  info.message(Cookies.getCookie(key));
+                  DraftBox box = commentManager
+                      .addDraftBox((side.equals(Side.PARENT.toString())
+                          ? DisplaySide.A : DisplaySide.B), info);
+                  box.setEdit(true);
+                  Cookies.removeCookie(key);
+                }
+              }
+            }
           }
         }));
   }
+
+  private native String btoa(String a) /*-{ return btoa(a); }-*/;
 
   @Override
   public void onShowView() {

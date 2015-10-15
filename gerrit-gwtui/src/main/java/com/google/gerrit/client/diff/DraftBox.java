@@ -19,6 +19,7 @@ import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -40,6 +41,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
@@ -189,6 +191,11 @@ class DraftBox extends CommentBox {
 
     setRangeHighlight(edit);
     if (edit) {
+      String replyMessage = Cookies.getCookie(getCookieName());
+      if (comment.inReplyTo() != null && replyMessage != null) {
+        comment.message(replyMessage);
+        Cookies.removeCookie(getCookieName());
+      }
       String msg = comment.message() != null
           ? comment.message().trim()
           : "";
@@ -306,6 +313,9 @@ class DraftBox extends CommentBox {
       public void onFailure(Throwable e) {
         enableEdit(true);
         pendingGroup = null;
+        if (RestApi.isNotSignedIn(e)) {
+          Cookies.setCookie(getCookieName(), editArea.getValue().trim());
+        }
         super.onFailure(e);
       }
     };
@@ -439,4 +449,26 @@ class DraftBox extends CommentBox {
         ? comment.message().trim()
         : "");
   }
+
+  private String getCookieName() {
+    if (comment.inReplyTo() != null) {
+      return "patchReply-" + psId.getParentKey().toString() + "-" + psId.getId()
+          + "-" + comment.inReplyTo();
+    } else if (comment.hasRange()) {
+      return "patchCommentRange-" + psId.getParentKey().toString() + "-"
+          + psId.getId() + "-"
+          + btoa(comment.path())
+          + "-" + comment.side().toString() + "-" + comment.range().startLine()
+          + "," + comment.range().startCharacter() + "-"
+          + comment.range().endLine() + "," + comment.range().endCharacter();
+    } else if (comment.hasLine()) {
+      return "patchComment-" + psId.getParentKey().toString() + "-"
+          + psId.getId() + "-"
+          + btoa(comment.path())
+          + "-" + comment.side().toString() + "-" + comment.line();
+    }
+    return "";
+  }
+
+  private native String btoa(String a) /*-{ return btoa(a); }-*/;
 }

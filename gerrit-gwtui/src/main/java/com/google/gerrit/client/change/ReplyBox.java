@@ -28,6 +28,7 @@ import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
@@ -54,6 +55,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -140,6 +142,11 @@ class ReplyBox extends Composite {
   protected void onLoad() {
     commentsPanel.setVisible(false);
     post.setEnabled(false);
+    String savedMessage = Cookies.getCookie(getCookieName());
+    if (savedMessage != null) {
+      message.setText(savedMessage);
+      Cookies.removeCookie(getCookieName());
+    }
     ChangeApi.drafts(psId.getParentKey().get())
         .get(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
           @Override
@@ -198,6 +205,13 @@ class ReplyBox extends Composite {
           Gerrit.display(PageLinks.toChange(
               psId.getParentKey(),
               String.valueOf(psId.get())));
+        }
+        @Override
+        public void onFailure(final Throwable caught) {
+          if (RestApi.isNotSignedIn(caught)) {
+            Cookies.setCookie(getCookieName(), message.getText().trim());
+          }
+          super.onFailure(caught);
         }
       });
     hide();
@@ -402,6 +416,10 @@ class ReplyBox extends Composite {
     }
 
     commentsPanel.setVisible(comments.getWidgetCount() > 0);
+  }
+
+  private String getCookieName() {
+    return "savedChangeComment-" + psId.getParentKey().toString();
   }
 
   private static List<CommentInfo> copyPath(String path, JsArray<CommentInfo> l) {

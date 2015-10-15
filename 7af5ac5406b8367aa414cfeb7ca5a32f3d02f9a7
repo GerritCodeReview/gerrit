@@ -46,6 +46,30 @@
       "revId": "7af5ac5406b8367aa414cfeb7ca5a32f3d02f9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c8f58ad_fe17218c",
+        "filename": "tools/download_all.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-15T05:14:45Z",
+      "side": 1,
+      "message": "OK, but it\u0027s not the same as before because now it\u0027s removing the \u0027__download\u0027 part.\n\n \u003e\u003e\u003e n \u003d \u0027foo__download_bin\u0027\n \u003e\u003e\u003e \n \u003e\u003e\u003e n[:-4] + \u0027_src\u0027\n \u0027foo__download_src\u0027\n \u003e\u003e\u003e \n \u003e\u003e\u003e n[:-13] + \u0027src\u0027\n \u0027foo_src\u0027\n \u003e\u003e\u003e \n\nIf this is what was intended, then OK.",
+      "parentUuid": "99520a22_26fd7699",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 16
+      },
+      "revId": "7af5ac5406b8367aa414cfeb7ca5a32f3d02f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

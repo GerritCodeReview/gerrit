@@ -32,7 +32,7 @@ for line in p.stdout:
   if m:
     n = m.group(1)
     if args.src and n.endswith('__download_bin'):
-      n = n[:-4] + '_src'
+      n = n[:-13] + 'src'
     targets.add(n)
 r = p.wait()
 if r != 0:

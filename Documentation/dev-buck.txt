@@ -645,6 +645,22 @@ option:
 buck test --no-results-cache
 ----
 
+== Upgrading Buck
+
+The following tests should be executed, when Buck version is upgraded:
+
+* buck build release
+* buck build api_install
+* buck test
+* install and verify new gerrit site
+* upgrade and verify existing gerrit site
+* reindex existing gerrit site
+* verify that tools/eclipse/project.py produces sane Eclipse project
+* verify that tools/eclipse/project.py --src generates sources as well
+* verify that unit test execution from Eclipse works
+* verify that daemon started from Eclipse works
+* verify that GWT SDM debug session started from Eclipe works
+
 == Known issues and bugs
 
 === Symbolic links and `watchman`

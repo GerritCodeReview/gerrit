@@ -15,10 +15,12 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.change.LocalComments;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -289,6 +291,7 @@ class DraftBox extends CommentBox {
     enableEdit(false);
 
     pendingGroup = group;
+    final LocalComments lc = new LocalComments(psId);
     GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
       @Override
       public void onSuccess(CommentInfo result) {
@@ -306,6 +309,11 @@ class DraftBox extends CommentBox {
       public void onFailure(Throwable e) {
         enableEdit(true);
         pendingGroup = null;
+        if (RestApi.isNotSignedIn(e)) {
+          CommentInfo saved = CommentInfo.copy(comment);
+          saved.message(editArea.getValue().trim());
+          lc.setInlineComment(saved);
+        }
         super.onFailure(e);
       }
     };

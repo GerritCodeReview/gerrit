@@ -146,6 +146,7 @@ public class ChangeScreen extends Screen {
   private boolean hasDraftComments;
   private CommentLinkProcessor commentLinkProcessor;
   private EditInfo edit;
+  private LocalComments lc;
 
   private List<HandlerRegistration> handlers = new ArrayList<>(4);
   private UpdateCheckTimer updateCheck;
@@ -232,6 +233,7 @@ public class ChangeScreen extends Screen {
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
     this.fileTableMode = mode;
+    this.lc = new LocalComments(changeId);
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -363,7 +365,7 @@ public class ChangeScreen extends Screen {
         .openDiv()
         .append(Gerrit.info().change().replyLabel())
         .closeDiv());
-      if (hasDraftComments) {
+      if (hasDraftComments || lc.hasReplyComment()) {
         reply.setStyleName(style.highlight());
       }
       reply.setVisible(true);

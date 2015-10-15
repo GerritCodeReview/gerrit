@@ -25,6 +25,7 @@ import com.google.gerrit.client.account.EditPreferences;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.api.PluginLoader;
+import com.google.gerrit.client.change.LocalComments;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.config.ConfigServerApi;
@@ -205,6 +206,7 @@ public class Gerrit implements EntryPoint {
       doSignIn(token);
     } else {
       view.setToken(token);
+      LocalComments.saveInlineComments();
       body.setView(view);
     }
   }

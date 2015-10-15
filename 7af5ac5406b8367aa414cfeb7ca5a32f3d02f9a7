@@ -70,6 +70,30 @@
       "revId": "7af5ac5406b8367aa414cfeb7ca5a32f3d02f9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d98d62f4_40c70e76",
+        "filename": "tools/download_all.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T05:21:19Z",
+      "side": 1,
+      "message": "Yes, that\u0027s correct. The eaisest way to understand that with a example, consider h2 library rules:\n\n  $ buck targets //lib/... | grep h2\n  //lib:LICENSE-h2\n  //lib:h2\n  //lib:h2__download_bin\n  //lib:h2__download_src\n  //lib:h2_src\n\nWe are still looking for //lib:h2__download_bin, but now, we are switching (see commit message reasoning why) from using //lib:h2__download_src, to //lib:h2_src to include sources. That\u0027s all. If you think it would be helpful, i could add a comment for that.",
+      "parentUuid": "9c8f58ad_fe17218c",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 16
+      },
+      "revId": "7af5ac5406b8367aa414cfeb7ca5a32f3d02f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

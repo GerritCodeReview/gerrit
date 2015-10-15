@@ -1232,7 +1232,7 @@ public abstract class AbstractQueryChangesTest {
 
     for (int i = 1; i <= 11; i++) {
       Iterable<ChangeData> cds = internalChangeQuery.byCommitsOnBranchNotMerged(
-          indexes.getSearchIndex().getSchema(), dest, shas, i);
+          repo.getRepository(), db, dest, shas, i);
       Iterable<Integer> ids = FluentIterable.from(cds).transform(
           new Function<ChangeData, Integer>() {
             @Override
@@ -1240,7 +1240,7 @@ public abstract class AbstractQueryChangesTest {
               return in.getId().get();
             }
           });
-      String name = "batch size " + i;
+      String name = "limit " + i;
       assertThat(ids).named(name).hasSize(n);
       assertThat(ids).named(name)
           .containsExactlyElementsIn(expectedIds);

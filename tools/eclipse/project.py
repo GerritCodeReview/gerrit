@@ -16,6 +16,7 @@
 # TODO(sop): Remove hack after Buck supports Eclipse
 
 from __future__ import print_function
+
 from optparse import OptionParser
 from os import path
 from subprocess import Popen, PIPE, CalledProcessError, check_call
@@ -152,7 +153,6 @@ def gen_classpath():
     if path.exists(p):
       classpathentry('src', p, out=out)
       continue
-
     for env in ['main', 'test']:
       o = None
       if out:
@@ -169,7 +169,7 @@ def gen_classpath():
     for j in sorted(libs):
       s = None
       if j.endswith('.jar'):
-        s = j[:-4] + '-src.jar'
+        s = j[:-4] + '_src.jar'
         if not path.exists(s):
           s = None
       if args.plugins:

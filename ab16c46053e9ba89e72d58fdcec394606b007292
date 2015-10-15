@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f92946cb_a9b4dd0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T18:45:14Z",
+      "side": 0,
+      "message": "This is not hashtags, but approvals and should stay.",
+      "range": {
+        "startLine": 345,
+        "startChar": 6,
+        "endLine": 349,
+        "endChar": 7
+      },
+      "revId": "ab16c46053e9ba89e72d58fdcec394606b007292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "ff1a3e49aea6cf755568cd6d123e716ad820b7ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c8f58ad_1e0dad79",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.4.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-15T05:17:24Z",
+      "side": 1,
+      "message": "No, not always.  According to Edwin\u0027s commit message it\u0027s when the uploader has the Forge Committer permission, and more than one label is defined.\n\nI didn\u0027t want to go into so much detail in the release note, but I can add it if you think it\u0027s better to.",
+      "parentUuid": "d98d62f4_80cd169a",
+      "range": {
+        "startLine": 113,
+        "startChar": 36,
+        "endLine": 113,
+        "endChar": 46
+      },
+      "revId": "ff1a3e49aea6cf755568cd6d123e716ad820b7ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

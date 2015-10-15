@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc7e944f_6107f659",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-15T04:29:54Z",
+      "side": 1,
+      "message": "Eclipse",
+      "range": {
+        "startLine": 662,
+        "startChar": 49,
+        "endLine": 662,
+        "endChar": 55
+      },
+      "revId": "d158d1da748f17cb0d4311c54862cca8f1f6731d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

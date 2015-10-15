@@ -16,6 +16,24 @@
       "revId": "f377aa96debec109671efc07102e2850445be62f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d98d62f4_60a1f2ce",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T00:58:50Z",
+      "side": 1,
+      "message": "Thanks for reporting. Investigating...",
+      "parentUuid": "1911ba42_3aab41b1",
+      "revId": "f377aa96debec109671efc07102e2850445be62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

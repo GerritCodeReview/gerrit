@@ -15,6 +15,7 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.change.LocalComments;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -243,6 +244,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     discard.setEnabled(false);
 
     final PatchSet.Id psId = comment.getKey().getParentKey().getParentKey();
+    final LocalComments lc = new LocalComments(psId);
     final boolean wasNew = isNew();
     GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
       @Override
@@ -264,6 +266,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
         save.setEnabled(true);
         cancel.setEnabled(true);
         discard.setEnabled(true);
+        lc.setInlineComment(toInput(comment));
         super.onFailure(caught);
         onSave.onFailure(caught);
       }

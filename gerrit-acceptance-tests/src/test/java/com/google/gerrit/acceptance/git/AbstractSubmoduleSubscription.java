@@ -62,14 +62,14 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     return pushChangeTo(repo, "refs/heads/" + branch, "some change", "");
   }
 
-  protected void createSubscription(TestRepository<?> repo, String branch,
+  protected void createSubmoduleSubscription(TestRepository<?> repo, String branch,
       String subscribeToRepo, String subscribeToBranch) throws Exception {
     Config config = new Config();
-    prepareSubscriptionConfigEntry(config, subscribeToRepo, subscribeToBranch);
-    pushSubscriptionConfig(repo, branch, config);
+    prepareSubmoduleConfigEntry(config, subscribeToRepo, subscribeToBranch);
+    pushSubmoduleConfig(repo, branch, config);
   }
 
-  protected void prepareSubscriptionConfigEntry(Config config,
+  protected void prepareSubmoduleConfigEntry(Config config,
       String subscribeToRepo, String subscribeToBranch) {
     subscribeToRepo = name(subscribeToRepo);
     // The submodule subscription module checks for gerrit.canonicalWebUrl to
@@ -79,10 +79,12 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
         + subscribeToRepo;
     config.setString("submodule", subscribeToRepo, "path", subscribeToRepo);
     config.setString("submodule", subscribeToRepo, "url", url);
-    config.setString("submodule", subscribeToRepo, "branch", subscribeToBranch);
+    if (subscribeToBranch != null) {
+      config.setString("submodule", subscribeToRepo, "branch", subscribeToBranch);
+    }
   }
 
-  protected void pushSubscriptionConfig(TestRepository<?> repo,
+  protected void pushSubmoduleConfig(TestRepository<?> repo,
       String branch, Config config) throws Exception {
 
     repo.branch("HEAD").commit().insertChangeId()

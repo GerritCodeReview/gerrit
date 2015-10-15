@@ -33,7 +33,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
-    createSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subHEAD);
@@ -45,7 +45,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
     pushChangeTo(subRepo, "master");
-    createSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subHEAD);
@@ -58,7 +58,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
     pushChangeTo(subRepo, "master");
-    createSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
 
     // The first update doesn't include any commit messages
     ObjectId subRepoId = pushChangeTo(subRepo, "master");
@@ -82,7 +82,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
     pushChangeTo(subRepo, "master");
-    createSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
 
     // The first update doesn't include the rev log
@@ -110,7 +110,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
     pushChangeTo(subRepo, "master");
-    createSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
 
     pushChangeTo(subRepo, "master");
     ObjectId subHEADbeforeUnsubscribing = pushChangeTo(subRepo, "master");
@@ -133,7 +133,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
     pushChangeTo(subRepo, "master");
-    createSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
 
     pushChangeTo(subRepo, "master");
     ObjectId subHEADbeforeUnsubscribing = pushChangeTo(subRepo, "master");
@@ -155,7 +155,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
-    createSubscription(superRepo, "master", "subscribed-to-project", "foo");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "foo");
     ObjectId subFoo = pushChangeTo(subRepo, "foo");
     pushChangeTo(subRepo, "master");
 
@@ -169,8 +169,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
     pushChangeTo(subRepo, "master");
-    createSubscription(superRepo, "master", "subscribed-to-project", "master");
-    createSubscription(subRepo, "master", "super-project", "master");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(subRepo, "master", "super-project", "master");
 
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
     pushChangeTo(superRepo, "master");

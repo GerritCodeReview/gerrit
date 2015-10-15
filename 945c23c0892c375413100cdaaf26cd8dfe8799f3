@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99520a22_c6b1021a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T01:11:10Z",
+      "side": 1,
+      "message": "The order of votes dosn\u0027t seem to be stable? In David and my case the order was swapped as in Edwin\u0027s case. Probably we may want to use another aproach for testing the wotes, that would ignore the order as it\u0027s unrelated here.",
+      "range": {
+        "startLine": 308,
+        "startChar": 4,
+        "endLine": 311,
+        "endChar": 53
+      },
+      "revId": "945c23c0892c375413100cdaaf26cd8dfe8799f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99520a22_c6d8e253",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T03:11:46Z",
+      "side": 0,
+      "message": "same here.",
+      "revId": "33b0679b9988718ea4d56d2ae1a810e9e739bb81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

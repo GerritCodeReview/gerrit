@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59fb3286_0ca6d7e7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-15T19:20:25Z",
+      "side": 1,
+      "message": "I assume these are automatically sorted.\n\n(optional) label_{may,need,ok,reject,user} might want their own paragraph to avoid the odd sorting that ignores underscores.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 24
+      },
+      "revId": "42ef1a6fa0f4668a88bc7a49ecfbcdfce87022cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ec76ce_6dab15b0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 11
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-15T19:20:25Z",
+      "side": 1,
+      "message": "Is this used?",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 11
+      },
+      "revId": "42ef1a6fa0f4668a88bc7a49ecfbcdfce87022cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

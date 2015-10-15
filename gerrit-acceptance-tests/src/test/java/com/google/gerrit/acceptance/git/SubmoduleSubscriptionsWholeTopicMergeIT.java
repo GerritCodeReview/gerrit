@@ -41,7 +41,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   public void testSubscriptionUpdateOfManyChanges() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    createSubscription(superRepo, "master", "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
 
     ObjectId subHEAD = subRepo.branch("HEAD").commit().insertChangeId()
         .message("some change")
@@ -97,10 +97,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     TestRepository<?> sub3 = createProjectWithPush("sub3");
 
     Config config = new Config();
-    prepareSubscriptionConfigEntry(config, "sub1", "master");
-    prepareSubscriptionConfigEntry(config, "sub2", "master");
-    prepareSubscriptionConfigEntry(config, "sub3", "master");
-    pushSubscriptionConfig(superRepo, "master", config);
+    prepareSubmoduleConfigEntry(config, "sub1", "master");
+    prepareSubmoduleConfigEntry(config, "sub2", "master");
+    prepareSubmoduleConfigEntry(config, "sub3", "master");
+    pushSubmoduleConfig(superRepo, "master", config);
 
     ObjectId superPreviousId = pushChangeTo(superRepo, "master");
 

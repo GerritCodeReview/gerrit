@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.assistedinject.Assisted;
@@ -131,6 +132,10 @@ public class BatchUpdate implements AutoCloseable {
 
     public ChangeUpdate getChangeUpdate() {
       return update;
+    }
+
+    public ChangeNotes getChangeNotes() {
+      return update.getChangeNotes();
     }
 
     public ChangeControl getChangeControl() {

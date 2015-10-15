@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f92946cb_09cd2998",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T19:25:19Z",
+      "side": 1,
+      "message": "Ah, of course, missed it.",
+      "parentUuid": "b90a6e5b_8fb1151b",
+      "range": {
+        "startLine": 173,
+        "startChar": 49,
+        "endLine": 173,
+        "endChar": 50
+      },
+      "revId": "a0b967ac9be060ac47d2d3ea2885ab532109d698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39a3de81_e3d89253",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 1

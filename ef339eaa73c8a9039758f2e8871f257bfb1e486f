@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c8f58ad_5ed9f554",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/PatchSetNotificationSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-15T00:39:27Z",
+      "side": 1,
+      "message": "Do we need final here?",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 11
+      },
+      "revId": "ef339eaa73c8a9039758f2e8871f257bfb1e486f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -81,6 +81,7 @@ CM_MODES = [
   'tcl',
   'velocity',
   'verilog',
+  'vhdl',
   'xml',
   'yaml',
 ]

@@ -123,7 +123,7 @@ def maven_jar(
   else:
     srcjar = None
     genrule(
-      name = '%s__download_src' % name,
+      name = '%s_src' % name,
       cmd = ':>$OUT',
       out = '__%s__no_src' % name,
     )

@@ -174,7 +174,7 @@ class RevisionApiImpl implements RevisionApi {
   public void publish() throws RestApiException {
     try {
       publish.apply(revision, new PublishDraftPatchSet.Input());
-    } catch (OrmException | IOException e) {
+    } catch (UpdateException e) {
       throw new RestApiException("Cannot publish draft patch set", e);
     }
   }

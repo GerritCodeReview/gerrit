@@ -14,110 +14,109 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.PublishDraftPatchSet.Input;
-import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.mail.PatchSetNotificationSender;
-import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gwtorm.server.AtomicUpdate;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
+import com.google.gerrit.server.git.BatchUpdate.RepoContext;
+import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.mail.CreateChangeSender;
+import com.google.gerrit.server.mail.MailUtil.MailRecipients;
+import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.FooterLine;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class PublishDraftPatchSet implements RestModifyView<RevisionResource, Input>,
     UiAction<RevisionResource> {
+  private static final Logger log =
+      LoggerFactory.getLogger(PublishDraftPatchSet.class);
+
   public static class Input {
   }
 
   private final Provider<ReviewDb> dbProvider;
-  private final ChangeUpdate.Factory updateFactory;
-  private final PatchSetNotificationSender sender;
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeHooks hooks;
-  private final ChangeIndexer indexer;
+  private final ApprovalsUtil approvalsUtil;
+  private final AccountResolver accountResolver;
+  private final PatchSetInfoFactory patchSetInfoFactory;
+  private final CreateChangeSender.Factory createChangeSenderFactory;
+  private final ReplacePatchSetSender.Factory replacePatchSetFactory;
 
   @Inject
-  public PublishDraftPatchSet(Provider<ReviewDb> dbProvider,
-      ChangeUpdate.Factory updateFactory,
-      PatchSetNotificationSender sender,
+  public PublishDraftPatchSet(
+      Provider<ReviewDb> dbProvider,
+      BatchUpdate.Factory updateFactory,
       ChangeHooks hooks,
-      ChangeIndexer indexer) {
+      ApprovalsUtil approvalsUtil,
+      AccountResolver accountResolver,
+      PatchSetInfoFactory patchSetInfoFactory,
+      CreateChangeSender.Factory createChangeSenderFactory,
+      ReplacePatchSetSender.Factory replacePatchSetFactory) {
     this.dbProvider = dbProvider;
     this.updateFactory = updateFactory;
-    this.sender = sender;
     this.hooks = hooks;
-    this.indexer = indexer;
+    this.approvalsUtil = approvalsUtil;
+    this.accountResolver = accountResolver;
+    this.patchSetInfoFactory = patchSetInfoFactory;
+    this.createChangeSenderFactory = createChangeSenderFactory;
+    this.replacePatchSetFactory = replacePatchSetFactory;
   }
 
   @Override
   public Response<?> apply(RevisionResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, OrmException, IOException {
-    if (!rsrc.getPatchSet().isDraft()) {
-      throw new ResourceConflictException("Patch set is not a draft");
+      throws RestApiException, UpdateException {
+    return apply(rsrc.getUser(), rsrc.getChange(), rsrc.getPatchSet().getId(),
+        rsrc.getPatchSet());
+  }
+
+  private Response<?> apply(CurrentUser u, Change c, PatchSet.Id psId,
+      PatchSet ps) throws RestApiException, UpdateException {
+    try (BatchUpdate bu = updateFactory.create(
+        dbProvider.get(), c.getProject(), u, TimeUtil.nowTs())) {
+      bu.addOp(c.getId(), new Op(psId, ps));
+      bu.execute();
     }
-
-    if (!rsrc.getControl().canPublish(dbProvider.get())) {
-      throw new AuthException("Cannot publish this draft patch set");
-    }
-
-    PatchSet updatedPatchSet = updateDraftPatchSet(rsrc);
-    Change updatedChange = updateDraftChange(rsrc);
-    ChangeUpdate update = updateFactory.create(rsrc.getControl(),
-        updatedChange.getLastUpdatedOn());
-
-    if (!updatedPatchSet.isDraft()
-        || updatedChange.getStatus() == Change.Status.NEW) {
-      indexer.index(dbProvider.get(), updatedChange);
-      sender.send(rsrc.getNotes(), update,
-          rsrc.getChange().getStatus() == Change.Status.DRAFT,
-          rsrc.getUser(), updatedChange, updatedPatchSet,
-          rsrc.getControl().getLabelTypes());
-      hooks.doDraftPublishedHook(updatedChange, updatedPatchSet,
-          dbProvider.get());
-    }
-
     return Response.none();
-  }
-
-  private Change updateDraftChange(RevisionResource rsrc) throws OrmException {
-    return dbProvider.get().changes()
-        .atomicUpdate(rsrc.getChange().getId(),
-        new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        if (change.getStatus() == Change.Status.DRAFT) {
-          change.setStatus(Change.Status.NEW);
-          ChangeUtil.updated(change);
-        }
-        return change;
-      }
-    });
-  }
-
-  private PatchSet updateDraftPatchSet(RevisionResource rsrc) throws OrmException {
-    return dbProvider.get().patchSets()
-        .atomicUpdate(rsrc.getPatchSet().getId(),
-        new AtomicUpdate<PatchSet>() {
-      @Override
-      public PatchSet update(PatchSet patchset) {
-        patchset.setDraft(false);
-        return patchset;
-      }
-    });
   }
 
   @Override
@@ -135,28 +134,143 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
   public static class CurrentRevision implements
       RestModifyView<ChangeResource, Input> {
-    private final Provider<ReviewDb> dbProvider;
     private final PublishDraftPatchSet publish;
 
     @Inject
-    CurrentRevision(Provider<ReviewDb> dbProvider,
-        PublishDraftPatchSet publish) {
-      this.dbProvider = dbProvider;
+    CurrentRevision(PublishDraftPatchSet publish) {
       this.publish = publish;
     }
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Input input)
-        throws AuthException, ResourceConflictException,
-        ResourceNotFoundException, IOException, OrmException {
-      PatchSet ps = dbProvider.get().patchSets()
-        .get(rsrc.getChange().currentPatchSetId());
+        throws RestApiException, UpdateException {
+      return publish.apply(rsrc.getControl().getUser(), rsrc.getChange(),
+          rsrc.getChange().currentPatchSetId(), null);
+    }
+  }
+
+  private class Op extends BatchUpdate.Op {
+    private PatchSet patchSet;
+    private PatchSet.Id psId;
+    private Change change;
+    private boolean wasDraftChange;
+
+    private RevCommit commit;
+    private PatchSetInfo patchSetInfo;
+    private MailRecipients recipients;
+
+    private Op(PatchSet.Id psId, @Nullable PatchSet patchSet) {
+      this.psId = psId;
+      this.patchSet = patchSet;
+    }
+
+    @Override
+    public void updateRepo(RepoContext ctx)
+        throws RestApiException, OrmException, IOException {
+      PatchSet ps = patchSet;
       if (ps == null) {
-        throw new ResourceConflictException("current revision is missing");
-      } else if (!rsrc.getControl().isPatchVisible(ps, dbProvider.get())) {
-        throw new AuthException("current revision not accessible");
+        // Don't save in patchSet, since we're not in a transaction. Here we
+        // just the revision, which is immutable.
+        ps = ctx.getDb().patchSets().get(psId);
+        if (ps == null) {
+          throw new ResourceNotFoundException(psId.toString());
+        }
       }
-      return publish.apply(new RevisionResource(rsrc, ps), input);
+      commit = ctx.getRevWalk().parseCommit(
+          ObjectId.fromString(ps.getRevision().get()));
+      patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
+    }
+
+    @Override
+    public void updateChange(ChangeContext ctx)
+        throws RestApiException, OrmException {
+      if (!ctx.getChangeControl().canPublish(ctx.getDb())) {
+        throw new AuthException("Cannot publish this draft patch set");
+      }
+      saveChange(ctx);
+      savePatchSet(ctx);
+      addReviewers(ctx);
+    }
+
+    private void saveChange(ChangeContext ctx) throws OrmException {
+      change = ctx.getChange();
+      wasDraftChange = change.getStatus() == Change.Status.DRAFT;
+      if (wasDraftChange) {
+        change.setStatus(Change.Status.NEW);
+        ChangeUtil.updated(change);
+        ctx.getDb().changes().update(Collections.singleton(change));
+      }
+    }
+
+    private void savePatchSet(ChangeContext ctx)
+        throws RestApiException, OrmException {
+      if (psId == null) {
+        psId = change.currentPatchSetId();
+      }
+      patchSet = ctx.getDb().patchSets().get(psId);
+      if (!patchSet.isDraft()) {
+        throw new ResourceConflictException("Patch set is not a draft");
+      }
+      patchSet.setDraft(false);
+    }
+
+    private void addReviewers(ChangeContext ctx) throws OrmException {
+      LabelTypes labelTypes = ctx.getChangeControl().getLabelTypes();
+      Collection<Account.Id> oldReviewers = approvalsUtil.getReviewers(
+          ctx.getDb(), ctx.getChangeNotes()).values();
+      List<FooterLine> footerLines = commit.getFooterLines();
+      recipients =
+          getRecipientsFromFooters(accountResolver, patchSet, footerLines);
+      recipients.remove(ctx.getUser().getAccountId());
+      approvalsUtil.addReviewers(ctx.getDb(), ctx.getChangeUpdate(), labelTypes,
+          change, patchSet, patchSetInfo, recipients.getReviewers(),
+          oldReviewers);
+    }
+
+    @Override
+    public void postUpdate(Context ctx) throws OrmException {
+      hooks.doDraftPublishedHook(change, patchSet, ctx.getDb());
+      if (patchSet.isDraft() && change.getStatus() == Change.Status.DRAFT) {
+        // Skip emails if the patch set is still a draft.
+        return;
+      }
+      try {
+        if (wasDraftChange) {
+          sendCreateChange(ctx);
+        } else {
+          sendReplacePatchSet(ctx);
+        }
+      } catch (EmailException | OrmException e) {
+        log.error("Cannot send email for publishing draft " + psId, e);
+      }
+    }
+
+    private void sendCreateChange(Context ctx) throws EmailException {
+      CreateChangeSender cm =
+          createChangeSenderFactory.create(change.getId());
+      cm.setFrom(ctx.getUser().getAccountId());
+      cm.setPatchSet(patchSet, patchSetInfo);
+      cm.addReviewers(recipients.getReviewers());
+      cm.addExtraCC(recipients.getCcOnly());
+      cm.send();
+    }
+
+    private void sendReplacePatchSet(Context ctx)
+        throws EmailException, OrmException {
+      Account.Id accountId = ctx.getUser().getAccountId();
+      ChangeMessage msg =
+          new ChangeMessage(new ChangeMessage.Key(change.getId(),
+              ChangeUtil.messageUUID(ctx.getDb())), accountId,
+              ctx.getWhen(), psId);
+      msg.setMessage("Uploaded patch set " + psId.get() + ".");
+      ReplacePatchSetSender cm =
+          replacePatchSetFactory.create(change.getId());
+      cm.setFrom(accountId);
+      cm.setPatchSet(patchSet, patchSetInfo);
+      cm.setChangeMessage(msg);
+      cm.addReviewers(recipients.getReviewers());
+      cm.addExtraCC(recipients.getCcOnly());
+      cm.send();
     }
   }
 }

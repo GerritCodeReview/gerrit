@@ -21,15 +21,14 @@ import static com.google.gerrit.server.query.Predicate.or;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.base.Strings;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
@@ -40,11 +39,15 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Execute a single query over changes, for use by Gerrit internals.
@@ -79,14 +82,17 @@ public class InternalChangeQuery {
   private final IndexConfig indexConfig;
   private final QueryProcessor qp;
   private final IndexCollection indexes;
+  private final ChangeData.Factory changeDataFactory;
 
   @Inject
   InternalChangeQuery(IndexConfig indexConfig,
       QueryProcessor queryProcessor,
-      IndexCollection indexes) {
+      IndexCollection indexes,
+      ChangeData.Factory changeDataFactory) {
     this.indexConfig = indexConfig;
     qp = queryProcessor.enforceVisibility(false);
     this.indexes = indexes;
+    this.changeDataFactory = changeDataFactory;
   }
 
   public InternalChangeQuery setLimit(int n) {
@@ -128,45 +134,62 @@ public class InternalChangeQuery {
         open()));
   }
 
-  public Iterable<ChangeData> byCommitsOnBranchNotMerged(Branch.NameKey branch,
-      List<String> hashes) throws OrmException {
-    Schema<ChangeData> schema = schema(indexes);
-    int batchSize;
-    if (schema != null && schema.hasField(ChangeField.EXACT_COMMIT)) {
-      // Account for all commit predicates plus ref, project, status.
-      batchSize = indexConfig.maxTerms() - 3;
-    } else {
-      batchSize = indexConfig.maxPrefixTerms();
-    }
-    return byCommitsOnBranchNotMerged(schema, branch, hashes, batchSize);
+  public Iterable<ChangeData> byCommitsOnBranchNotMerged(Repository repo,
+      ReviewDb db, Branch.NameKey branch, List<String> hashes)
+      throws OrmException, IOException {
+    return byCommitsOnBranchNotMerged(repo, db, branch, hashes,
+        // Account for all commit predicates plus ref, project, status.
+        indexConfig.maxTerms() - 3);
   }
 
   @VisibleForTesting
-  Iterable<ChangeData> byCommitsOnBranchNotMerged(Schema<ChangeData> schema,
-      Branch.NameKey branch, List<String> hashes, int batchSize)
-      throws OrmException {
-    List<Predicate<ChangeData>> commits = commits(schema, hashes);
-    if (batchSize >= hashes.size()) {
-      return query(commitsOnBranchNotMerged(branch, commits));
+  Iterable<ChangeData> byCommitsOnBranchNotMerged(Repository repo, ReviewDb db,
+      Branch.NameKey branch, List<String> hashes, int indexLimit)
+      throws OrmException, IOException {
+    if (hashes.size() > indexLimit) {
+      return byCommitsOnBranchNotMergedFromDatabase(repo, db, branch, hashes);
+    } else {
+      return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
+    }
+  }
+
+  private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
+      Repository repo, ReviewDb db, Branch.NameKey branch, List<String> hashes)
+      throws OrmException, IOException {
+    Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
+    String lastPrefix = null;
+    for (Ref ref :
+        repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values()) {
+      String r = ref.getName();
+      if ((lastPrefix != null && r.startsWith(lastPrefix))
+          || !hashes.contains(ref.getObjectId().name())) {
+        continue;
+      }
+      Change.Id id = Change.Id.fromRef(r);
+      if (id == null) {
+        continue;
+      }
+      if (changeIds.add(id)) {
+        lastPrefix = r.substring(0, r.lastIndexOf('/'));
+      }
     }
 
-    int numBatches = (hashes.size() / batchSize) + 1;
-    List<Predicate<ChangeData>> queries = new ArrayList<>(numBatches);
-    for (List<Predicate<ChangeData>> batch
-        : Iterables.partition(commits, batchSize)) {
-      queries.add(commitsOnBranchNotMerged(branch, batch));
+    List<ChangeData> cds = new ArrayList<>(hashes.size());
+    for (Change c : db.changes().get(changeIds)) {
+      if (c.getDest().equals(branch) && c.getStatus() != Change.Status.MERGED) {
+        cds.add(changeDataFactory.create(db, c));
+      }
     }
-    try {
-      return FluentIterable.from(qp.queryChanges(queries))
-        .transformAndConcat(new Function<QueryResult, List<ChangeData>>() {
-          @Override
-          public List<ChangeData> apply(QueryResult in) {
-            return in.changes();
-          }
-        });
-    } catch (QueryParseException e) {
-      throw new OrmException(e);
-    }
+    return cds;
+  }
+
+  private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(
+      Branch.NameKey branch, List<String> hashes) throws OrmException {
+    return query(and(
+        ref(branch),
+        project(branch.getParentKey()),
+        not(status(Change.Status.MERGED)),
+        or(commits(schema(indexes), hashes))));
   }
 
   private static List<Predicate<ChangeData>> commits(Schema<ChangeData> schema,
@@ -176,15 +199,6 @@ public class InternalChangeQuery {
       commits.add(commit(schema, s));
     }
     return commits;
-  }
-
-  private static Predicate<ChangeData> commitsOnBranchNotMerged(
-      Branch.NameKey branch, List<Predicate<ChangeData>> commits) {
-    return and(
-        ref(branch),
-        project(branch.getParentKey()),
-        not(status(Change.Status.MERGED)),
-        or(commits));
   }
 
   public List<ChangeData> byProjectOpen(Project.NameKey project)

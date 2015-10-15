@@ -169,7 +169,7 @@ def gen_classpath():
     for j in sorted(libs):
       s = None
       if j.endswith('.jar'):
-        s = j[:-4] + '-src.jar'
+        s = j[:-4] + '_src.jar'
         if not path.exists(s):
           s = None
       if args.plugins:

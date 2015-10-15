@@ -127,6 +127,11 @@ def maven_jar(
       cmd = ':>$OUT',
       out = '__%s__no_src' % name,
     )
+    genrule(
+      name = '%s_src' % name,
+      cmd = ':>$OUT',
+      out = '__%s__no_src' % name,
+    )
 
   if exported_deps:
     prebuilt_jar(

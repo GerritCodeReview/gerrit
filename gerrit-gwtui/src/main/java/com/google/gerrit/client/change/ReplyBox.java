@@ -28,6 +28,7 @@ import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
@@ -90,6 +91,7 @@ class ReplyBox extends Composite {
   private final String revision;
   private ReviewInput in = ReviewInput.create();
   private int labelHelpColumn;
+  private LocalComments lc;
 
   @UiField Styles style;
   @UiField TextArea message;
@@ -109,6 +111,7 @@ class ReplyBox extends Composite {
     this.clp = clp;
     this.psId = psId;
     this.revision = revision;
+    this.lc = new LocalComments(psId.getParentKey());
     initWidget(uiBinder.createAndBindUi(this));
 
     List<String> names = new ArrayList<>(permitted.keySet());
@@ -140,6 +143,10 @@ class ReplyBox extends Composite {
   protected void onLoad() {
     commentsPanel.setVisible(false);
     post.setEnabled(false);
+    if (lc.hasReplyComment()) {
+      message.setText(lc.getReplyComment());
+      lc.removeReplyComment();
+    }
     ChangeApi.drafts(psId.getParentKey().get())
         .get(new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
           @Override
@@ -200,6 +207,13 @@ class ReplyBox extends Composite {
           Gerrit.display(PageLinks.toChange(
               psId.getParentKey(),
               String.valueOf(psId.get())));
+        }
+        @Override
+        public void onFailure(final Throwable caught) {
+          if (RestApi.isNotSignedIn(caught)) {
+            lc.setReplyComment(message.getText());
+          }
+          super.onFailure(caught);
         }
       });
     hide();

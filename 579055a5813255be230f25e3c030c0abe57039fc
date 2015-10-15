@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d98d62f4_4002ae56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T07:45:32Z",
+      "side": 1,
+      "message": "Optional: Can this be formulated more clearly? This change works around non stable sorting order, and makes this change non flaky.",
+      "revId": "579055a5813255be230f25e3c030c0abe57039fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

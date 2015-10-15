@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d98d62f4_80cd169a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.4.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-15T05:00:42Z",
+      "side": 1,
+      "message": "always? Or dou you mean, when the both were the same?",
+      "range": {
+        "startLine": 113,
+        "startChar": 36,
+        "endLine": 113,
+        "endChar": 46
+      },
+      "revId": "ff1a3e49aea6cf755568cd6d123e716ad820b7ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

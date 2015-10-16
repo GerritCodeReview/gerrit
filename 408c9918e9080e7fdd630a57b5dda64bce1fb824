@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b90a6e5b_6f4f91a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T15:57:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f92946cb_09836904",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "408c9918e9080e7fdd630a57b5dda64bce1fb824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79ec76ce_0d31b124",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2015-10-16T14:28:54Z",
       "side": 1,
       "message": "\u003e only called from the method above\n\nNever mind, I see it\u0027s also called from other places.  The lack of modifier made me think it was a private method.",
+      "parentUuid": "79ec76ce_0d31b124",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 15
+      },
+      "revId": "408c9918e9080e7fdd630a57b5dda64bce1fb824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_af58596b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T15:57:30Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "79ec76ce_0d31b124",
       "range": {
         "startLine": 133,

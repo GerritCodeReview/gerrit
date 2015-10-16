@@ -663,6 +663,8 @@ The following tests should be executed, when Buck version is upgraded:
 * buck build release
 * buck build api_install
 * buck test
+* buck build gerrit, change some sources in gerrit-server project,
+  repeat buck build gerrit and verify that gerrit.war was updated
 * install and verify new gerrit site
 * upgrade and verify existing gerrit site
 * reindex existing gerrit site

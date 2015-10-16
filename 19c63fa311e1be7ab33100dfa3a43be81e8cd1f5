@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9234eeb_a7db6a4e",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T14:08:14Z",
+      "side": 1,
+      "message": "While you\u0027re doing cleanup, would it make sense to replace (where possible) all usages of Charset.name() with a method call that just takes a Charset? I notice that StringEntity does indeed have a (String, Charset) constructor.",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9234eeb_87d8e652",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/BinaryResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T14:08:14Z",
+      "side": 1,
+      "message": "Similarly, I think another worthwhile cleanup would be for get/setCharacterEncoding to use Charsets. This is passed down to BinaryResult#decode which makes a completely unnecessary Charset.forName call.\n\nMaybe this is an API compatibility issue with extensions but you can @Deprecate the old ones?",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9234eeb_e7d56219",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/Url.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T14:08:14Z",
+      "side": 1,
+      "message": "Ok so here I guess you have to pass a string, but that\u0027s because java.net sucks :)",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9234eeb_c7d2de2e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitwebCssServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T14:08:14Z",
+      "side": 1,
+      "message": "I would just kill this constant.\n\nIf you\u0027re for some reason interested in a global constant that\u0027s not StandardCharsets.UTF_8, there\u0027s always org.eclipse.jgit.lib.Constants.CHARSET ;)",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_afe6990a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T14:08:14Z",
+      "side": 1,
+      "message": "Curious about the choice of charset here, I wonder if this is actually a documented behavior of gitweb.",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_8fe3d5fa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T14:08:14Z",
+      "side": 1,
+      "message": "Like BinaryResult, another candidate to use Charsets in method signatures.",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_eff0a1bd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T14:08:14Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_cfeddde7",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/XrdsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T14:08:14Z",
+      "side": 1,
+      "message": "Drop the constant",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_2f1aa9b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Version.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T14:08:14Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

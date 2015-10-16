@@ -16,6 +16,24 @@
       "revId": "b12699b5f8febf85710b2e9b0fdc0133b82b3891",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fb3286_ecf0abbd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-16T08:21:06Z",
+      "side": 1,
+      "message": "It doesn\u0027t compile anyway, so there\u0027s no point fixing this here.  If it\u0027s still unused I\u0027ll fix it in the followup.",
+      "parentUuid": "f92946cb_4919e1be",
+      "revId": "b12699b5f8febf85710b2e9b0fdc0133b82b3891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

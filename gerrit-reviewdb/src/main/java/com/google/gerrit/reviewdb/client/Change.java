@@ -125,6 +125,24 @@ public final class Change {
       id = newValue;
     }
 
+    public String toRefPrefix() {
+      return refPrefixBuilder().toString();
+    }
+
+    StringBuilder refPrefixBuilder() {
+      StringBuilder r = new StringBuilder();
+      r.append(REFS_CHANGES);
+      int m = id % 100;
+      if (m < 10) {
+        r.append('0');
+      }
+      r.append(m);
+      r.append('/');
+      r.append(id);
+      r.append('/');
+      return r;
+    }
+
     /** Parse a Change.Id out of a string representation. */
     public static Id parse(final String str) {
       final Id r = new Id();

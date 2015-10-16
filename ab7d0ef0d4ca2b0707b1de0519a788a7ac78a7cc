@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b90a6e5b_6fc2f167",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T13:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f92946cb_094a4998",
+      "range": {
+        "startLine": 43,
+        "startChar": 35,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "ab7d0ef0d4ca2b0707b1de0519a788a7ac78a7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f92946cb_694f85a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 1
@@ -60,6 +84,54 @@
       "side": 1,
       "message": "I\u0027m actually having many test failures related to this change:\n\n  java.lang.OutOfMemoryError: Java heap space\n\nI guess this is because batchSize is set to (Integer.MAX_VALUE - 3) here.",
       "parentUuid": "f92946cb_694f85a8",
+      "range": {
+        "startLine": 136,
+        "startChar": 41,
+        "endLine": 136,
+        "endChar": 44
+      },
+      "revId": "ab7d0ef0d4ca2b0707b1de0519a788a7ac78a7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_0fcd2598",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T13:49:03Z",
+      "side": 1,
+      "message": "\u003e Why -3?\n\nThat\u0027s the number of other terms returned by commits()",
+      "parentUuid": "f92946cb_694f85a8",
+      "range": {
+        "startLine": 136,
+        "startChar": 41,
+        "endLine": 136,
+        "endChar": 44
+      },
+      "revId": "ab7d0ef0d4ca2b0707b1de0519a788a7ac78a7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9234eeb_c7bbfef6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T13:49:03Z",
+      "side": 1,
+      "message": "Ouch. I didn\u0027t realize Iterables.partition immediately allocated enough memory for the giant batch size. Fixed.",
+      "parentUuid": "f92946cb_a9585d6b",
       "range": {
         "startLine": 136,
         "startChar": 41,

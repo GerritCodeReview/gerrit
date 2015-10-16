@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f92946cb_697825b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-16T14:38:56Z",
+      "side": 1,
+      "message": "Bad rebase? The logic was erroneously reversed.",
+      "range": {
+        "startLine": 307,
+        "startChar": 8,
+        "endLine": 307,
+        "endChar": 9
+      },
+      "revId": "26738ec42b47cdc031e675afd35d2a830da1abac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

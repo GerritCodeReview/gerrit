@@ -45,6 +45,30 @@
       "revId": "ab7d0ef0d4ca2b0707b1de0519a788a7ac78a7cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f92946cb_a9585d6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-16T09:23:52Z",
+      "side": 1,
+      "message": "I\u0027m actually having many test failures related to this change:\n\n  java.lang.OutOfMemoryError: Java heap space\n\nI guess this is because batchSize is set to (Integer.MAX_VALUE - 3) here.",
+      "parentUuid": "f92946cb_694f85a8",
+      "range": {
+        "startLine": 136,
+        "startChar": 41,
+        "endLine": 136,
+        "endChar": 44
+      },
+      "revId": "ab7d0ef0d4ca2b0707b1de0519a788a7ac78a7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -130,7 +130,7 @@ public final class Change {
     }
 
     StringBuilder refPrefixBuilder() {
-      StringBuilder r = new StringBuilder();
+      StringBuilder r = new StringBuilder(32);
       r.append(REFS_CHANGES);
       int m = id % 100;
       if (m < 10) {

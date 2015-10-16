@@ -2,13 +2,18 @@ SRCS = glob(['src/test/java/com/google/gerrit/acceptance/*.java'])
 
 DEPS = [
   '//gerrit-gpg:gpg',
+  '//gerrit-launcher:launcher',
+  '//gerrit-openid:openid',
   '//gerrit-pgm:daemon',
+  '//gerrit-pgm:http-jetty',
   '//gerrit-pgm:util-nodep',
+  '//gerrit-server/src/main/prolog:common',
   '//gerrit-server:testutil',
   '//lib/auto:auto-value',
   '//lib/httpcomponents:fluent-hc',
   '//lib/httpcomponents:httpclient',
   '//lib/httpcomponents:httpcore',
+  '//lib/jetty:servlet',
   '//lib/jgit:junit',
   '//lib/log:impl_log4j',
   '//lib/log:log4j',

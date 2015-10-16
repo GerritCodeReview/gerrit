@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f92946cb_a9e69d0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-16T03:48:21Z",
+      "side": 1,
+      "message": "Opps, messed with the case in my comment examples, it should have been:\n\n  RebuildNotedb and RebuildNoteDb correspondingly.",
+      "parentUuid": "d92002e1_08f887a8",
+      "revId": "397636ae045eb73f6c86c569b9161b126a40d555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f92946cb_69fdc598",
         "filename": "gerrit-launcher/BUCK",
         "patchSetId": 1

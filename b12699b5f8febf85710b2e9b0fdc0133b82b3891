@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f92946cb_4919e1be",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-16T08:18:56Z",
+      "side": 1,
+      "message": "Unused import, or replace below\n  GitUtil.cloneProject\nwith\n  cloneProject",
+      "revId": "b12699b5f8febf85710b2e9b0fdc0133b82b3891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -12,3 +12,13 @@ GWT_PLUGIN_DEPS = [
   '//gerrit-plugin-gwtui:gwtui-api-lib',
   '//lib/gwt:user',
 ]
+
+GWT_TRANSITIVE_DEPS = [
+  '//lib/gwt:javax-validation',
+  '//lib/gwt:javax-validation_src',
+  '//lib/ow2:ow2-asm',
+  '//lib/ow2:ow2-asm-analysis',
+  '//lib/ow2:ow2-asm-commons',
+  '//lib/ow2:ow2-asm-tree',
+  '//lib/ow2:ow2-asm-util',
+]

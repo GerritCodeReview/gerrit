@@ -117,6 +117,30 @@
       "revId": "42ef1a6fa0f4668a88bc7a49ecfbcdfce87022cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9234eeb_674fb2a8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
+        "patchSetId": 11
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T16:06:12Z",
+      "side": 1,
+      "message": "No, obviously left over from an earlier patch set, and I\u0027m rather surprised the GWT compiler didn\u0027t complain about a missing ui:field field.",
+      "parentUuid": "79ec76ce_6dab15b0",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 11
+      },
+      "revId": "42ef1a6fa0f4668a88bc7a49ecfbcdfce87022cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

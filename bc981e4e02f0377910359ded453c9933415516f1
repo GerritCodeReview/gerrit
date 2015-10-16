@@ -52,6 +52,24 @@
       "revId": "bc981e4e02f0377910359ded453c9933415516f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9234eeb_87558633",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T18:24:26Z",
+      "side": 1,
+      "message": "Yes. Because I applied the part of his comment that I felt was appropriate.",
+      "parentUuid": "d92002e1_08836704",
+      "revId": "bc981e4e02f0377910359ded453c9933415516f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -43,13 +43,14 @@ def war(
   cmd = ['$(exe //tools:pack_war)', '-o', '$OUT', '--tmp', '$TMP']
   for l in libs:
     cmd.extend(['--lib', l])
+    cmd.extend(['--dep', '$(classpath %s)' % l])
   for l in pgmlibs:
     cmd.extend(['--pgmlib', l])
+    cmd.extend(['--dep', '$(classpath %s)' % l])
 
-  dep = []
   if docs:
     cmd.append('$(location %s)' % DOCS_HTML)
-    dep.append(DOCS_LIB)
+    cmd.append('--dep $(classpath %s)' % DOCS_LIB)
     cmd.extend(['--lib', DOCS_LIB])
   if context:
     for t in context:
@@ -58,7 +59,6 @@ def war(
   genrule(
     name = name,
     cmd = ' '.join(cmd),
-    deps = libs + pgmlibs + dep,
     out = name + '.war',
     visibility = visibility,
   )

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59fb3286_ccbb2ff7",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-16T03:29:58Z",
+      "side": 1,
+      "message": "Huh.  I didn\u0027t know you could do that.  I\u0027ve just been working on a change that makes the program names case insensitive, which I guess is not really needed now.  I\u0027ll upload it anyway.",
+      "range": {
+        "startLine": 70,
+        "startChar": 28,
+        "endLine": 70,
+        "endChar": 42
+      },
+      "revId": "50adb517fea2222414e6a490e905448af3ee0781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

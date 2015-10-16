@@ -16,8 +16,6 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -26,7 +24,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -39,6 +36,7 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
@@ -246,12 +244,17 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
    */
   @Test
   public void testPushForMasterWithApprovalsForgeCommitterButNoForgeVote()
-      throws GitAPIException, RestApiException {
+      throws Exception {
     // Create a commit with "User" as author and committer
-    Commit c = createCommit(git, user.getIdent(), PushOneCommit.SUBJECT);
+    RevCommit c = commitBuilder()
+        .author(user.getIdent())
+        .committer(user.getIdent())
+        .add("a.txt", "some content")
+        .message(PushOneCommit.SUBJECT)
+        .create();
 
     // Push this commit as "Administrator" (requires Forge Committer Identity)
-    pushHead(git, "refs/for/master/%l=Code-Review+1", false);
+    pushHead(testRepo, "refs/for/master/%l=Code-Review+1", false);
 
     // Expected Code-Review votes:
     // 1. 0 from User (committer):
@@ -260,15 +263,15 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // 2. +1 from Administrator (uploader):
     //    On push Code-Review+1 was specified, hence we expect a +1 vote from
     //    the uploader.
-    ChangeInfo ci = get(c.getChangeId());
+    ChangeInfo ci = get(GitUtil.getChangeId(testRepo, c).get());
     LabelInfo cr = ci.labels.get("Code-Review");
     assertThat(cr.all).hasSize(2);
     int indexAdmin = admin.fullName.equals(cr.all.get(0).name) ? 0 : 1;
     int indexUser = indexAdmin == 0 ? 1 : 0;
     assertThat(cr.all.get(indexAdmin).name).isEqualTo(admin.fullName);
-    assertThat(cr.all.get(indexAdmin).value.intValue()).is(1);
+    assertThat(cr.all.get(indexAdmin).value.intValue()).isEqualTo(1);
     assertThat(cr.all.get(indexUser).name).isEqualTo(user.fullName);
-    assertThat(cr.all.get(indexUser).value.intValue()).is(0);
+    assertThat(cr.all.get(indexUser).value.intValue()).isEqualTo(0);
     assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
         "Uploaded patch set 1: Code-Review+1.");
   }

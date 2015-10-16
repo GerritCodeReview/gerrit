@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "59fb3286_4c545f37",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-16T14:19:45Z",
+      "side": 1,
+      "message": "Yes, and that\u0027s what I have done in some other places in this commit.  I didn\u0027t notice this one would also work with a Charset.",
+      "parentUuid": "b9234eeb_a7db6a4e",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9234eeb_87d8e652",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/BinaryResult.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-16T14:08:14Z",
       "side": 1,
       "message": "Similarly, I think another worthwhile cleanup would be for get/setCharacterEncoding to use Charsets. This is passed down to BinaryResult#decode which makes a completely unnecessary Charset.forName call.\n\nMaybe this is an API compatibility issue with extensions but you can @Deprecate the old ones?",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fb3286_ac58636b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/BinaryResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-16T14:19:45Z",
+      "side": 1,
+      "message": "Good idea.  Will look into doing this.",
+      "parentUuid": "b9234eeb_87d8e652",
       "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "79ec76ce_ed626515",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitwebCssServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-16T14:19:45Z",
+      "side": 1,
+      "message": "I was trying to keep the diff to a minimum, but yes, it would be better to just remove this.",
+      "parentUuid": "b9234eeb_c7d2de2e",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b90a6e5b_afe6990a",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
         "patchSetId": 3
@@ -81,6 +135,24 @@
       "writtenOn": "2015-10-16T14:08:14Z",
       "side": 1,
       "message": "Curious about the choice of charset here, I wonder if this is actually a documented behavior of gitweb.",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ec76ce_cd5fa94f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-16T14:19:45Z",
+      "side": 1,
+      "message": "I don\u0027t know; I thought it better to leave it with the same encoding.",
+      "parentUuid": "b90a6e5b_afe6990a",
       "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -115,6 +187,24 @@
       "writtenOn": "2015-10-16T14:08:14Z",
       "side": 1,
       "message": "Long line.",
+      "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fb3286_8c55a733",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-16T14:19:45Z",
+      "side": 1,
+      "message": "I tend to leave them unless they\u0027re ridiculously long.  This one is only 4 columns beyond the margin.",
+      "parentUuid": "b90a6e5b_eff0a1bd",
       "revId": "19c63fa311e1be7ab33100dfa3a43be81e8cd1f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

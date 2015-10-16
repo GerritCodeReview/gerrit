@@ -16,6 +16,24 @@
       "revId": "bc981e4e02f0377910359ded453c9933415516f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9234eeb_47542e37",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T16:09:49Z",
+      "side": 1,
+      "message": "That was referring to the portion of his comment about chaining the calls. It should definitely not be inlined.",
+      "parentUuid": "d92002e1_287e2ba0",
+      "revId": "bc981e4e02f0377910359ded453c9933415516f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

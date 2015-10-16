@@ -22,6 +22,30 @@
       "revId": "9b9f6ba1d55437866d24b0728e11472130835450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_682663f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-16T11:17:56Z",
+      "side": 1,
+      "message": "No, actually not. I changed it now, thanks for saying!",
+      "parentUuid": "79ec76ce_4d545937",
+      "range": {
+        "startLine": 4,
+        "startChar": 25,
+        "endLine": 4,
+        "endChar": 49
+      },
+      "revId": "9b9f6ba1d55437866d24b0728e11472130835450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -3,23 +3,26 @@ RSRCS = 'src/main/resources/com/google/gerrit/pgm/'
 
 INIT_API_SRCS = glob([SRCS + 'init/api/*.java'])
 
-DEPS = [
-    '//gerrit-common:server',
-    '//gerrit-extension-api:api',
-    '//gerrit-gwtexpui:linker_server',
-    '//gerrit-gwtexpui:server',
-    '//gerrit-httpd:httpd',
-    '//gerrit-server:server',
-    '//gerrit-sshd:sshd',
-    '//gerrit-reviewdb:server',
-    '//lib:guava',
-    '//lib/guice:guice',
-    '//lib/guice:guice-assistedinject',
-    '//lib/guice:guice-servlet',
-    '//lib/jgit:jgit',
-    '//lib/log:api',
-    '//lib/log:jsonevent-layout',
-    '//lib/log:log4j'
+BASE_JETTY_DEPS = [
+  '//gerrit-common:server',
+  '//gerrit-extension-api:api',
+  '//gerrit-gwtexpui:linker_server',
+  '//gerrit-gwtexpui:server',
+  '//gerrit-httpd:httpd',
+  '//gerrit-server:server',
+  '//gerrit-sshd:sshd',
+  '//lib:guava',
+  '//lib/guice:guice',
+  '//lib/guice:guice-assistedinject',
+  '//lib/guice:guice-servlet',
+  '//lib/jgit:jgit',
+  '//lib/log:api',
+  '//lib/log:log4j',
+]
+
+DEPS = BASE_JETTY_DEPS + [
+  '//gerrit-reviewdb:server',
+  '//lib/log:jsonevent-layout',
 ]
 
 java_library(
@@ -83,24 +86,31 @@ java_library(
   name = 'util-nodep',
   srcs = glob([SRCS + 'util/*.java']),
   provided_deps = DEPS + REST_UTIL_DEPS,
-  visibility = [
-    '//gerrit-acceptance-framework/...',
-  ],
+  visibility = ['//gerrit-acceptance-framework/...'],
 )
+
+JETTY_DEPS = [
+  '//lib/jetty:jmx',
+  '//lib/jetty:server',
+  '//lib/jetty:servlet',
+]
 
 java_library(
   name = 'http',
-  srcs = glob([SRCS + 'http/**/*.java']),
-  deps = DEPS + [
-    '//lib/jetty:jmx',
-    '//lib/jetty:server',
-    '//lib/jetty:servlet',
-  ],
-  provided_deps = [
+  deps = DEPS + JETTY_DEPS,
+  exported_deps = [':http-jetty'],
+  visibility = ['//gerrit-war:'],
+)
+
+java_library(
+  name = 'http-jetty',
+  srcs = glob([SRCS + 'http/jetty/*.java']),
+  provided_deps = JETTY_DEPS + BASE_JETTY_DEPS + [
     '//gerrit-launcher:launcher',
+    '//gerrit-reviewdb:client',
     '//lib:servlet-api-3_1',
   ],
-  visibility = ['//gerrit-war:'],
+  visibility = ['//gerrit-acceptance-framework/...'],
 )
 
 REST_PGM_DEPS = [

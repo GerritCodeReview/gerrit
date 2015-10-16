@@ -71,6 +71,14 @@ public class ChangeTest {
     assertNotRef("refs/changes/01/1/1/meta");
   }
 
+  @Test
+  public void toRefPrefix() {
+    assertThat(new Change.Id(1).toRefPrefix())
+        .isEqualTo("refs/changes/01/1/");
+    assertThat(new Change.Id(1234).toRefPrefix())
+        .isEqualTo("refs/changes/34/1234/");
+  }
+
   private static void assertRef(int changeId, String refName) {
     assertThat(Change.Id.fromRef(refName)).isEqualTo(new Change.Id(changeId));
   }

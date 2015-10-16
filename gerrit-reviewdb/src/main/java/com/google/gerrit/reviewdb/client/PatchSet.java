@@ -14,8 +14,6 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
-
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 
@@ -109,19 +107,9 @@ public final class PatchSet {
     }
 
     public String toRefName() {
-      StringBuilder r = new StringBuilder();
-      r.append(REFS_CHANGES);
-      int change = changeId.get();
-      int m = change % 100;
-      if (m < 10) {
-        r.append('0');
-      }
-      r.append(m);
-      r.append('/');
-      r.append(change);
-      r.append('/');
-      r.append(patchSetId);
-      return r.toString();
+      return changeId.refPrefixBuilder()
+          .append(patchSetId)
+          .toString();
     }
 
     /** Parse a PatchSet.Id out of a string representation. */

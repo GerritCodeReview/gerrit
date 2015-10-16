@@ -247,7 +247,10 @@ public class CommentsInNotesUtil {
       return null;
     }
     if (note[ptr.value] == '-') {
-      range.setStartCharacter(startChar);
+      // startCharacter is a zero-based-index, but since '0' as return value is
+      // reserved to indicate an error, it was converted to one-base-index on
+      // write, this means we must no undo this conversion here
+      range.setStartCharacter(startChar - 1);
       ptr.value += 1;
     } else {
       return null;
@@ -478,9 +481,15 @@ public class CommentsInNotesUtil {
         // comment range itself.
         CommentRange range = c.getRange();
         if (range != null) {
+          // startLine, endLine, endCharacter are one-based-indexes
+          // but startCharacter is a zero-based-index
+          // on read '0' as return value is reserved to indicate an error, hence
+          // read fails when startCharacter == 0, to work around this problem we
+          // convert startCharacter to one-based-index and undo the conversion
+          // on read
           writer.print(range.getStartLine());
           writer.print(':');
-          writer.print(range.getStartCharacter());
+          writer.print(range.getStartCharacter() + 1);
           writer.print('-');
           writer.print(range.getEndLine());
           writer.print(':');

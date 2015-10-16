@@ -24,6 +24,7 @@ opts.add_option('-o', help='path to write WAR to')
 opts.add_option('--lib', action='append', help='target for WEB-INF/lib')
 opts.add_option('--pgmlib', action='append', help='target for WEB-INF/pgm-lib')
 opts.add_option('--tmp', help='temporary directory')
+opts.add_option('--dep', help='dependencies (not used, only needed to make Buck happy)')
 args, ctx = opts.parse_args()
 
 war = args.tmp

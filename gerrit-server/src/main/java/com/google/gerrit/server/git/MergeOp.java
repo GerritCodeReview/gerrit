@@ -498,6 +498,7 @@ public class MergeOp {
     rw = CodeReviewCommit.newRevWalk(repo);
     rw.sort(RevSort.TOPO);
     rw.sort(RevSort.COMMIT_TIME_DESC, true);
+    rw.setRetainBody(false);
     canMergeFlag = rw.newFlag("CAN_MERGE");
 
     inserter = repo.newObjectInserter();

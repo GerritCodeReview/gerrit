@@ -111,6 +111,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   // Fields set during some phase of BatchUpdate.Op.
   private Change change;
   private PatchSet patchSet;
+  private PatchSetInfo patchSetInfo;
   private ChangeMessage changeMessage;
   private SetMultimap<ReviewerState, Account.Id> oldReviewers;
 
@@ -213,6 +214,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       throws InvalidChangeOperationException, IOException {
     init();
     validate();
+    patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
     ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
         commit, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
   }
@@ -268,7 +270,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
         if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
           change.setStatus(Change.Status.NEW);
         }
-        change.setCurrentPatchSet(patchSetInfoFactory.get(commit, psId));
+        change.setCurrentPatchSet(patchSetInfo);
         ChangeUtil.updated(change);
         return change;
       }
@@ -288,11 +290,10 @@ public class PatchSetInserter extends BatchUpdate.Op {
   public void postUpdate(Context ctx) throws OrmException {
     if (sendMail) {
       try {
-        PatchSetInfo info = patchSetInfoFactory.get(commit, psId);
         ReplacePatchSetSender cm = replacePatchSetFactory.create(
             change.getId());
         cm.setFrom(user.getAccountId());
-        cm.setPatchSet(patchSet, info);
+        cm.setPatchSet(patchSet, patchSetInfo);
         cm.setChangeMessage(changeMessage);
         cm.addReviewers(oldReviewers.get(ReviewerState.REVIEWER));
         cm.addExtraCC(oldReviewers.get(ReviewerState.CC));

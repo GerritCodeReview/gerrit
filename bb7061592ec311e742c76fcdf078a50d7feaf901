@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f92946cb_a93fbdee",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-16T10:50:12Z",
+      "side": 1,
+      "message": "This documentation change was wrong. Filter applies to a single test and not to a test group, so that it should have been:\n\n  buck test -f \u0027com.google.gerrit.acceptance.rest.account.CapabilitiesIT\u0027\n\nI will upload a documentation fix next week, unless someone is faster than me.",
+      "range": {
+        "startLine": 630,
+        "startChar": 2,
+        "endLine": 630,
+        "endChar": 69
+      },
+      "revId": "bb7061592ec311e742c76fcdf078a50d7feaf901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

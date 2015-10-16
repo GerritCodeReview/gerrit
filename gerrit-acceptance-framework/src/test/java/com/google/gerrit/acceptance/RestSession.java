@@ -79,7 +79,7 @@ public class RestSession extends HttpSession {
       put.addHeader(new BasicHeader("Content-Type", "application/json"));
       put.body(new StringEntity(
           OutputFormat.JSON_COMPACT.newGson().toJson(content),
-          UTF_8.name()));
+          UTF_8));
     }
     return execute(put);
   }
@@ -105,7 +105,7 @@ public class RestSession extends HttpSession {
       post.addHeader(new BasicHeader("Content-Type", "application/json"));
       post.body(new StringEntity(
           OutputFormat.JSON_COMPACT.newGson().toJson(content),
-          UTF_8.name()));
+          UTF_8));
     }
     return execute(post);
   }

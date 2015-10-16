@@ -123,6 +123,30 @@
       "revId": "d5d17fd7acac1e4d9350886b01b2dada09d8b39f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f92946cb_497d619f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1794,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-16T14:38:56Z",
+      "side": 1,
+      "message": "Ack. I stopped checking after realising that default runHooks in ChangeInserter was true.",
+      "parentUuid": "b90a6e5b_4f19edbe",
+      "range": {
+        "startLine": 1794,
+        "startChar": 16,
+        "endLine": 1794,
+        "endChar": 36
+      },
+      "revId": "d5d17fd7acac1e4d9350886b01b2dada09d8b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

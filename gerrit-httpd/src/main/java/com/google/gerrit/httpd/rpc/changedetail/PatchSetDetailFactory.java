@@ -14,16 +14,11 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.PatchSetDetail;
-import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -38,12 +33,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
-import com.google.gerrit.server.change.ChangesCollection;
-import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -57,7 +48,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
@@ -86,8 +76,6 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final PatchListCache patchListCache;
   private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
-  private final ChangesCollection changes;
-  private final Revisions revisions;
   private final PatchLineCommentsUtil plcUtil;
   private final ChangeEditUtil editUtil;
 
@@ -107,8 +95,6 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       final PatchListCache patchListCache,
       final Provider<CurrentUser> userProvider,
       final ChangeControl.GenericFactory changeControlFactory,
-      final ChangesCollection changes,
-      final Revisions revisions,
       final PatchLineCommentsUtil plcUtil,
       ChangeEditUtil editUtil,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
@@ -119,8 +105,6 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.patchListCache = patchListCache;
     this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
-    this.changes = changes;
-    this.revisions = revisions;
     this.plcUtil = plcUtil;
     this.editUtil = editUtil;
 
@@ -216,23 +200,6 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       }
     }
 
-    detail.setCommands(Lists.newArrayList(Iterables.transform(
-        UiActions.sorted(UiActions.plugins(UiActions.from(
-          revisions,
-          new RevisionResource(changes.parse(control), patchSet),
-          Providers.of(user)))),
-        new Function<UiAction.Description, UiCommandDetail>() {
-          @Override
-          public UiCommandDetail apply(UiAction.Description in) {
-            UiCommandDetail r = new UiCommandDetail();
-            r.method = in.getMethod();
-            r.id = in.getId();
-            r.label = in.getLabel();
-            r.title = in.getTitle();
-            r.enabled = in.isEnabled();
-            return r;
-          }
-        })));
     return detail;
   }
 

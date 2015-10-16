@@ -43,8 +43,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -65,8 +69,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
     for (final Change c : changes) {
       final ChangeDataCache changeDataCache = new ChangeDataCache(
           c, db, args.changeDataFactory, args.projectCache);
-      List<String> files = args.changeDataFactory.create(db.get(), c)
-          .currentFilePaths();
+      List<String> files = listFiles(c, args, changeDataCache);
       List<Predicate<ChangeData>> filePredicates =
           Lists.newArrayListWithCapacity(files.size());
       for (String file : files) {
@@ -82,7 +85,32 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           new ProjectPredicate(c.getProject().get()));
       predicatesForOneChange.add(
           new RefPredicate(c.getDest().get()));
-      predicatesForOneChange.add(or(filePredicates));
+
+      OperatorPredicate<ChangeData> isMerge = new OperatorPredicate<ChangeData>(
+              ChangeQueryBuilder.FIELD_MERGE, value) {
+
+        @Override
+        public boolean match(ChangeData cd) throws OrmException {
+          ObjectId id = ObjectId.fromString(
+              cd.currentPatchSet().getRevision().get());
+          try (Repository repo =
+                args.repoManager.openRepository(cd.change().getProject());
+              RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+            RevCommit commit = rw.parseCommit(id);
+            return commit.getParentCount() > 1;
+          } catch (IOException e) {
+            throw new IllegalStateException(e);
+          }
+        }
+
+        @Override
+        public int getCost() {
+          return 2;
+        }
+      };
+
+      predicatesForOneChange.add(or(or(filePredicates), isMerge));
+
       predicatesForOneChange.add(new OperatorPredicate<ChangeData>(
           ChangeQueryBuilder.FIELD_CONFLICTS, value) {
 
@@ -168,6 +196,42 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       changePredicates.add(and(predicatesForOneChange));
     }
     return changePredicates;
+  }
+
+  private static List<String> listFiles(Change c, Arguments args,
+      ChangeDataCache changeDataCache) throws OrmException {
+    try (Repository repo = args.repoManager.openRepository(c.getProject());
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit ps = rw.parseCommit(changeDataCache.getTestAgainst());
+      if (ps.getParentCount() > 1) {
+        String dest = c.getDest().get();
+        Ref destBranch = repo.getRefDatabase().getRef(dest);
+        destBranch.getObjectId();
+        rw.setRevFilter(RevFilter.MERGE_BASE);
+        rw.markStart(rw.parseCommit(destBranch.getObjectId()));
+        rw.markStart(ps);
+        RevCommit base = rw.next();
+        // TODO(zivkov): handle the case with multiple merge bases
+
+        List<String> files = new ArrayList<>();
+        try (TreeWalk tw = new TreeWalk(repo)) {
+          if (base != null) {
+            tw.setFilter(TreeFilter.ANY_DIFF);
+            tw.addTree(base.getTree());
+          }
+          tw.addTree(ps.getTree());
+          tw.setRecursive(true);
+          while (tw.next()) {
+            files.add(tw.getPathString());
+          }
+        }
+        return files;
+      } else {
+        return args.changeDataFactory.create(args.db.get(), c).currentFilePaths();
+      }
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
   }
 
   @Override

@@ -16,6 +16,9 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createCommit;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -23,6 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -228,6 +232,45 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     ci = get(r.getChangeId());
     assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
         "Uploaded patch set 3.");
+  }
+
+  /**
+   * There was a bug that allowed a user with Forge Committer Identity access
+   * right to upload a commit and put *votes on behalf of another user* on it.
+   * This test checks that this is not possible, but that the votes that are
+   * specified on push are applied only on behalf of the uploader.
+   *
+   * This particular bug only occurred when there was more than one label
+   * defined. However to test that the votes that are specified on push are
+   * applied on behalf of the uploader a single label is sufficient.
+   */
+  @Test
+  public void testPushForMasterWithApprovalsForgeCommitterButNoForgeVote()
+      throws GitAPIException, RestApiException {
+    // Create a commit with "User" as author and committer
+    Commit c = createCommit(git, user.getIdent(), PushOneCommit.SUBJECT);
+
+    // Push this commit as "Administrator" (requires Forge Committer Identity)
+    pushHead(git, "refs/for/master/%l=Code-Review+1", false);
+
+    // Expected Code-Review votes:
+    // 1. 0 from User (committer):
+    //    When the committer is forged, the committer is automatically added as
+    //    reviewer, hence we expect a dummy 0 vote for the committer.
+    // 2. +1 from Administrator (uploader):
+    //    On push Code-Review+1 was specified, hence we expect a +1 vote from
+    //    the uploader.
+    ChangeInfo ci = get(c.getChangeId());
+    LabelInfo cr = ci.labels.get("Code-Review");
+    assertThat(cr.all).hasSize(2);
+    int indexAdmin = admin.fullName.equals(cr.all.get(0).name) ? 0 : 1;
+    int indexUser = indexAdmin == 0 ? 1 : 0;
+    assertThat(cr.all.get(indexAdmin).name).isEqualTo(admin.fullName);
+    assertThat(cr.all.get(indexAdmin).value.intValue()).is(1);
+    assertThat(cr.all.get(indexUser).name).isEqualTo(user.fullName);
+    assertThat(cr.all.get(indexUser).value.intValue()).is(0);
+    assertThat(Iterables.getLast(ci.messages).message).isEqualTo(
+        "Uploaded patch set 1: Code-Review+1.");
   }
 
   @Test

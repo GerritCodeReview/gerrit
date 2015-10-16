@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d92002e1_48543f37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetHashtagsOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-16T10:41:51Z",
+      "side": 1,
+      "message": "Misunderstanding. What i was trying to say, is that it was accidentally removed in ChangeInserter, but only doHashtagsChangedHook was copied here, and the\n\n  hooks.doCommentAddedHook()\n\ninvocation is now lost. It should be restored in ChangeInserter.",
+      "parentUuid": "f92946cb_e9625515",
+      "revId": "d5d17fd7acac1e4d9350886b01b2dada09d8b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f92946cb_89b1191b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

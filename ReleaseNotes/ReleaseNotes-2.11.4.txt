@@ -35,10 +35,10 @@ Note: This was previously fixed in Gerrit version 2.11.1, but was inadvertently
 reverted in 2.11.2 and 2.11.3.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2817[Issue 2817]:
-Insert Change-Id into access right changes.
+Insert `Change-Id` footer into access right changes.
 +
 When modifications of access rights were saved for review, the change
-did not have a Change-Id in the commit message.
+did not have a `Change-Id` footer in the commit message.
 
 * Fix duplicated log lines after reloading a plugin.
 +
@@ -72,22 +72,17 @@ reviewers were added.
 The tag name from the header was used, rather than the ref name. In some cases
 this resulted in the wrong tag ref being listed.
 
-* singleusergroup plugin: enable to add a user within a project's ACL using `user/username`.
-+
-A user could not be added to a project's ACL unless the user already had READ
-permission in the project's ACL.
-
-* Prevent user from bypassing ref-update hook through gerrit-created commits.
+* Prevent user from bypassing `ref-update` hook through gerrit-created commits.
 +
 If the user used the cherry-pick ability in the UI or via the REST API, they
-could put a commit on a branch that bypassed the requirements of the ref-update
+could put a commit on a branch that bypassed the requirements of the `ref-update`
 hook (such as that certain branches require QA-tickets to be referenced in the
 commit message).
 
-* Allow InternalUsers to see drafts.
+* Allow `InternalUsers` to see drafts.
 +
-According to the documentation, InternalUsers should have full read access.
-This was not true, since InternalUsers could not see drafts.
+According to the documentation, `InternalUsers` should have full read access.
+This was not true, since `InternalUsers` could not see drafts.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2683[Issue 2683]:
 Fix non-ASCII password authentication failure under tomcat (LDAP).
@@ -100,12 +95,52 @@ characters such as ä, ö, Ä, and Ö.
 The login URL token used to redirect from the login servlet to the target page
 is already decoded and should not be decoded again.
 
-* Include approvals from magic branch in change message.
+* link:https://code.google.com/p/gerrit/issues/detail?id=3020[Issue 3020]:
+Include approvals specified on push in change message.
 +
 When using the `%l` option to apply a review label on uploaded changes or
 patch sets, the applied label was not mentioned in the change message.
 
-* Fire the `comment-added` hook for approvals from the magic branch.
+* Fire the `comment-added` hook for approvals specified on push.
 +
 When using the `%l` option to apply a review label on uploaded changes or
 patch sets, the `comment-added` hook was not being fired.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3602[Issue 3602]:
+Use uploader for approvals specified on push, not the committer.
++
+When using the `%l` option to apply a review label on uploaded changes or
+patch sets, the review label was in some cases applied as the committer rather
+than the uploader.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3531[Issue 3531]:
+Fix internal server error on unified diff screen for anonymous users.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2414[Issue 2414]:
+Improve detection of requiring sign-in.
++
+Some queries, such as the `has:*` operators, require the user to be signed in.
++
+Also, when handling a REST API failure, detect 'Invalid authentication' responses
+as also requiring a new session.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3052[Issue 3052]:
+Fix 'Conflicts With' list for merge commits.
++
+The 'Conflicts List' was not being populated correctly if the change being viewed
+was a merge commit, or if the change being viewed conflicted with an open merge
+commit.
+
+Plugin Bugfixes
+---------------
+
+* singleusergroup: Allow to add a user to a project's ACL using `user/username`.
++
+A user could not be added to a project's ACL unless the user already had READ
+permission in the project's ACL.
+
+* replication: Add waiting time and number of retries to replication log.
++
+Only the replication execution time was printed in the 'replication completed'
+log statement. The waiting time and retry count is added, to help debug
+replication delays.

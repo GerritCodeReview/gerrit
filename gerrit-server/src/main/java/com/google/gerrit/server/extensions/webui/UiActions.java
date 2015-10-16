@@ -18,7 +18,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -34,10 +33,6 @@ import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 public class UiActions {
   private static final Logger log = LoggerFactory.getLogger(UiActions.class);
 
@@ -48,27 +43,6 @@ public class UiActions {
         return input.isEnabled();
       }
     };
-  }
-
-  public static List<UiAction.Description> sorted(Iterable<UiAction.Description> in) {
-    List<UiAction.Description> s = Lists.newArrayList(in);
-    Collections.sort(s, new Comparator<UiAction.Description>() {
-      @Override
-      public int compare(UiAction.Description a, UiAction.Description b) {
-        return a.getId().compareTo(b.getId());
-      }
-    });
-    return s;
-  }
-
-  public static Iterable<UiAction.Description> plugins(Iterable<UiAction.Description> in) {
-    return Iterables.filter(in,
-      new Predicate<UiAction.Description>() {
-        @Override
-        public boolean apply(UiAction.Description input) {
-          return input.getId().indexOf('~') > 0;
-        }
-      });
   }
 
   public static <R extends RestResource> Iterable<UiAction.Description> from(

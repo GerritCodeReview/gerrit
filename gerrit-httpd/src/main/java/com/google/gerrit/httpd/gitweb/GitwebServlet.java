@@ -29,6 +29,7 @@
 
 package com.google.gerrit.httpd.gitweb;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.PageLinks;
@@ -636,7 +637,7 @@ class GitwebServlet extends HttpServlet {
       @Override
       public void run() {
         try (BufferedReader br =
-            new BufferedReader(new InputStreamReader(in, "ISO-8859-1"))) {
+            new BufferedReader(new InputStreamReader(in, ISO_8859_1.name()))) {
           String line;
           while ((line = br.readLine()) != null) {
             log.error("CGI: " + line);

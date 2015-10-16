@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.documentation;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.pegdown.Extensions.ALL;
 import static org.pegdown.Extensions.HARDWRAPS;
 import static org.pegdown.Extensions.SUPPRESS_ALL_HTML;
@@ -159,7 +160,7 @@ public class MarkdownFormatter {
     try (InputStream in = url.openStream();
         TemporaryBuffer.Heap tmp = new TemporaryBuffer.Heap(128 * 1024)) {
       tmp.copy(in);
-      return new String(tmp.toByteArray(), "UTF-8");
+      return new String(tmp.toByteArray(), UTF_8);
     }
   }
 }

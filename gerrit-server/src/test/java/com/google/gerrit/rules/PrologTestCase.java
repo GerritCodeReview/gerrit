@@ -16,6 +16,7 @@ package com.google.gerrit.rules;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.inject.Guice;
@@ -106,7 +107,7 @@ public abstract class PrologTestCase {
       SymbolTerm pathTerm = SymbolTerm.create(prologResource);
       JavaObjectTerm inTerm =
           new JavaObjectTerm(new PushbackReader(new BufferedReader(
-              new InputStreamReader(in, "UTF-8")), Prolog.PUSHBACK_SIZE));
+              new InputStreamReader(in, UTF_8)), Prolog.PUSHBACK_SIZE));
       if (!env.execute(Prolog.BUILTIN, "consult_stream", pathTerm, inTerm)) {
         throw new CompileException("Cannot consult " + prologResource);
       }

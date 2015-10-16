@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
@@ -36,7 +37,6 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
@@ -189,25 +189,17 @@ class ProjectDigestFilter implements Filter {
   }
 
   private static String H(String data) {
-    try {
-      MessageDigest md = newMD5();
-      md.update(data.getBytes("UTF-8"));
-      return LHEX(md.digest());
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("UTF-8 encoding not available", e);
-    }
+    MessageDigest md = newMD5();
+    md.update(data.getBytes(UTF_8));
+    return LHEX(md.digest());
   }
 
   private static String KD(String secret, String data) {
-    try {
-      MessageDigest md = newMD5();
-      md.update(secret.getBytes("UTF-8"));
-      md.update((byte) ':');
-      md.update(data.getBytes("UTF-8"));
-      return LHEX(md.digest());
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("UTF-8 encoding not available", e);
-    }
+    MessageDigest md = newMD5();
+    md.update(secret.getBytes(UTF_8));
+    md.update((byte) ':');
+    md.update(data.getBytes(UTF_8));
+    return LHEX(md.digest());
   }
 
   private static MessageDigest newMD5() {

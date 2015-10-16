@@ -14,7 +14,8 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.common.base.Charsets;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Preconditions;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -30,7 +31,6 @@ import org.apache.http.message.BasicHeader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 public class RestSession extends HttpSession {
 
@@ -79,7 +79,7 @@ public class RestSession extends HttpSession {
       put.addHeader(new BasicHeader("Content-Type", "application/json"));
       put.body(new StringEntity(
           OutputFormat.JSON_COMPACT.newGson().toJson(content),
-          Charsets.UTF_8.name()));
+          UTF_8.name()));
     }
     return execute(put);
   }
@@ -105,7 +105,7 @@ public class RestSession extends HttpSession {
       post.addHeader(new BasicHeader("Content-Type", "application/json"));
       post.body(new StringEntity(
           OutputFormat.JSON_COMPACT.newGson().toJson(content),
-          Charsets.UTF_8.name()));
+          UTF_8.name()));
     }
     return execute(post);
   }
@@ -116,7 +116,7 @@ public class RestSession extends HttpSession {
 
 
   public static RawInput newRawInput(String content) {
-    return newRawInput(content.getBytes(StandardCharsets.UTF_8));
+    return newRawInput(content.getBytes(UTF_8));
   }
 
   public static RawInput newRawInput(final byte[] bytes) {

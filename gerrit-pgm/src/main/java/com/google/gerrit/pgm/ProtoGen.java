@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.pgm.util.AbstractProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.schema.java.JavaSchemaModel;
@@ -45,13 +47,13 @@ public class ProtoGen extends AbstractProgram {
       JavaSchemaModel jsm = new JavaSchemaModel(ReviewDb.class);
       try (OutputStream o = lock.getOutputStream();
           PrintWriter out = new PrintWriter(
-              new BufferedWriter(new OutputStreamWriter(o, "UTF-8")))) {
+              new BufferedWriter(new OutputStreamWriter(o, UTF_8)))) {
         String header;
         try (InputStream in = getClass().getResourceAsStream("ProtoGenHeader.txt")) {
           ByteBuffer buf = IO.readWholeStream(in, 1024);
           int ptr = buf.arrayOffset() + buf.position();
           int len = buf.remaining();
-          header = new String(buf.array(), ptr, len, "UTF-8");
+          header = new String(buf.array(), ptr, len, UTF_8);
         }
 
         String version = com.google.gerrit.common.Version.getVersion();

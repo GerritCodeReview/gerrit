@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
@@ -102,7 +104,7 @@ public final class SuExec extends BaseCommand {
       if (!msg.endsWith("\n")) {
         msg += "\n";
       }
-      err.write(msg.getBytes("UTF-8"));
+      err.write(msg.getBytes(UTF_8));
       err.flush();
       onExit(1);
     }

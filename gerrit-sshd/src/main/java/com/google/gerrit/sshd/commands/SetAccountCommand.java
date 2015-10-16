@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.EmailException;
@@ -226,7 +228,7 @@ final class SetAccountCommand extends SshCommand {
       in.raw = new RawInput() {
         @Override
         public InputStream getInputStream() throws IOException {
-          return new ByteArrayInputStream(sshKey.getBytes("UTF-8"));
+          return new ByteArrayInputStream(sshKey.getBytes(UTF_8));
         }
 
         @Override
@@ -312,7 +314,7 @@ final class SetAccountCommand extends SshCommand {
       if (idx >= 0) {
         StringBuilder sshKey = new StringBuilder();
         BufferedReader br =
-            new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            new BufferedReader(new InputStreamReader(in, UTF_8));
         String line;
         while ((line = br.readLine()) != null) {
           sshKey.append(line)

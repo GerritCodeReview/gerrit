@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -33,7 +35,6 @@ import org.kohsuke.args4j.Option;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,14 +83,14 @@ final class CreateAccountCommand extends SshCommand {
     }
   }
 
-  private String readSshKey() throws UnsupportedEncodingException, IOException {
+  private String readSshKey() throws IOException {
     if (sshKey == null) {
       return null;
     }
     if ("-".equals(sshKey)) {
       sshKey = "";
       BufferedReader br =
-          new BufferedReader(new InputStreamReader(in, "UTF-8"));
+          new BufferedReader(new InputStreamReader(in, UTF_8));
       String line;
       while ((line = br.readLine()) != null) {
         sshKey += line + "\n";

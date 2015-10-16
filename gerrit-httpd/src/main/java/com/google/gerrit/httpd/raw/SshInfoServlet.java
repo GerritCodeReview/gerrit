@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
@@ -88,7 +90,7 @@ public class SshInfoServlet extends HttpServlet {
     }
 
     CacheHeaders.setNotCacheable(rsp);
-    rsp.setCharacterEncoding("UTF-8");
+    rsp.setCharacterEncoding(UTF_8.name());
     rsp.setContentType("text/plain");
     try (PrintWriter w = rsp.getWriter()) {
       w.write(out);

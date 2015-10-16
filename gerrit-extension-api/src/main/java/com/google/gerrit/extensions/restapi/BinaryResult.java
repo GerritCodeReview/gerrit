@@ -59,7 +59,7 @@ public abstract class BinaryResult implements Closeable {
   }
 
   private String contentType = OCTET_STREAM;
-  private String characterEncoding;
+  private Charset characterEncoding;
   private long contentLength = -1;
   private boolean gzip = true;
   private boolean base64 = false;
@@ -67,9 +67,9 @@ public abstract class BinaryResult implements Closeable {
 
   /** @return the MIME type of the result, for HTTP clients. */
   public String getContentType() {
-    String enc = getCharacterEncoding();
+    Charset enc = getCharacterEncoding();
     if (enc != null) {
-      return contentType + "; charset=" + enc;
+      return contentType + "; charset=" + enc.name();
     }
     return contentType;
   }
@@ -81,12 +81,18 @@ public abstract class BinaryResult implements Closeable {
   }
 
   /** Get the character encoding; null if not known. */
-  public String getCharacterEncoding() {
+  public Charset getCharacterEncoding() {
     return characterEncoding;
   }
 
   /** Set the character set used to encode text data and return {@code this}. */
+  @Deprecated
   public BinaryResult setCharacterEncoding(String encoding) {
+    return setCharacterEncoding(Charset.forName(encoding));
+  }
+
+  /** Set the character set used to encode text data and return {@code this}. */
+  public BinaryResult setCharacterEncoding(Charset encoding) {
     characterEncoding = encoding;
     return this;
   }
@@ -184,10 +190,10 @@ public abstract class BinaryResult implements Closeable {
         getContentType());
   }
 
-  private static String decode(byte[] data, String enc) {
+  private static String decode(byte[] data, Charset enc) {
     try {
       Charset cs = enc != null
-          ? Charset.forName(enc)
+          ? enc
           : UTF_8;
       return cs.newDecoder()
         .onMalformedInput(CodingErrorAction.REPORT)

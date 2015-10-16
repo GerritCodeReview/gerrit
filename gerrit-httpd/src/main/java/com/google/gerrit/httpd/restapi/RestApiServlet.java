@@ -669,7 +669,7 @@ public class RestApiServlet extends HttpServlet {
     w.flush();
     replyBinaryResult(req, res, asBinaryResult(buf)
       .setContentType(JSON_TYPE)
-      .setCharacterEncoding(UTF_8.name()));
+      .setCharacterEncoding(UTF_8));
   }
 
   private static Gson newGson(Multimap<String, String> config,
@@ -791,7 +791,7 @@ public class RestApiServlet extends HttpServlet {
     res.setHeader("X-FYI-Content-Type", src.getContentType());
     return asBinaryResult(buf)
       .setContentType(JSON_TYPE)
-      .setCharacterEncoding(UTF_8.name());
+      .setCharacterEncoding(UTF_8);
   }
 
   private static BinaryResult stackBase64(HttpServletResponse res,
@@ -819,7 +819,7 @@ public class RestApiServlet extends HttpServlet {
     }
     res.setHeader("X-FYI-Content-Encoding", "base64");
     res.setHeader("X-FYI-Content-Type", src.getContentType());
-    return b64.setContentType("text/plain").setCharacterEncoding(ISO_8859_1.name());
+    return b64.setContentType("text/plain").setCharacterEncoding(ISO_8859_1);
   }
 
   private static BinaryResult stackGzip(HttpServletResponse res,

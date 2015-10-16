@@ -236,7 +236,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       display(buf);
       return BinaryResult.create(buf.toByteArray())
           .setContentType("text/plain")
-          .setCharacterEncoding(UTF_8.name());
+          .setCharacterEncoding(UTF_8);
     }
     return apply();
   }

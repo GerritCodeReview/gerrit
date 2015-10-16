@@ -78,7 +78,7 @@ public class ListCaches implements RestReadView<ConfigResource> {
         return BinaryResult.create(Joiner.on('\n').join(cacheNames))
             .base64()
             .setContentType("text/plain")
-            .setCharacterEncoding(UTF_8.name());
+            .setCharacterEncoding(UTF_8);
       } else {
         return cacheNames;
       }

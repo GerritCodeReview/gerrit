@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b90a6e5b_4fc72d76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T13:55:26Z",
+      "side": 1,
+      "message": "I would not describe this as a one-based index, I would describe it as an open endpoint.",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "57d5617e5bf11fbfb25632af9f9151c9c37d3a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9234eeb_67c21268",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T13:55:26Z",
+      "side": 1,
+      "message": "Or Java\u0027s (or JavaScript\u0027s) substring method.",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 40
+      },
+      "revId": "57d5617e5bf11fbfb25632af9f9151c9c37d3a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_afdb394e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T13:55:26Z",
+      "side": 1,
+      "message": "I think the choice of what index to use should not be driven by an internal technical detail like returning 0 as a sentinel for an error condition.\n\nInstead, we should consider what other tools (e.g. compiler output, vim\u0027s quickfix format, etc.) do and choose something that matches existing conventions.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 54
+      },
+      "revId": "57d5617e5bf11fbfb25632af9f9151c9c37d3a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

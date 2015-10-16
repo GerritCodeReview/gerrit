@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79ec76ce_0d31b124",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-16T14:26:58Z",
+      "side": 1,
+      "message": "This could be inlined.\n\n int m \u003d id % 100;\n return new StringBuilder()\n   .append(REF_CHANGES)\n   .append(m \u003c 10 ? \u00270\u0027 : \u0027\u0027)\n   .append(m)\n   .append(\u0027/\u0027)\n   .append(id)\n   .append(\u0027/\u0027);\n\nActually, is there any benefit to putting this in its own method, if it\u0027s only called from the method above?",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 15
+      },
+      "revId": "408c9918e9080e7fdd630a57b5dda64bce1fb824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

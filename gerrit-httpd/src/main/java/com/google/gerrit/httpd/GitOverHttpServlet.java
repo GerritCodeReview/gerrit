@@ -65,8 +65,6 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -160,13 +158,6 @@ public class GitOverHttpServlet extends GitServlet {
     public Repository open(HttpServletRequest req, String projectName)
         throws RepositoryNotFoundException, ServiceNotAuthorizedException,
         ServiceNotEnabledException {
-      try {
-        // TODO: remove this code when Guice fixes its issue 745
-        projectName = URLDecoder.decode(projectName, UTF_8.name());
-      } catch (UnsupportedEncodingException e) {
-        // leave it encoded
-      }
-
       while (projectName.endsWith("/")) {
         projectName = projectName.substring(0, projectName.length() - 1);
       }

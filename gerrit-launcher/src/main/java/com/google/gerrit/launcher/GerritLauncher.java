@@ -17,6 +17,10 @@ package com.google.gerrit.launcher;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import com.google.common.collect.Maps;
+import com.google.common.reflect.ClassPath;
+import com.google.common.reflect.ClassPath.ClassInfo;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,6 +39,7 @@ import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.jar.Attributes;
@@ -96,7 +101,7 @@ public final class GerritLauncher {
   }
 
   private static boolean isProlog(String cn) {
-    return "PrologShell".equals(cn) || "Rulec".equals(cn);
+    return "prologshell".equals(cn) || "rulec".equals(cn);
   }
 
   private static String getVersion(final File me) {
@@ -116,23 +121,28 @@ public final class GerritLauncher {
 
   private static int invokeProgram(final ClassLoader loader,
       final String[] origArgv) throws Exception {
-    String name = origArgv[0];
+    String name = origArgv[0].toLowerCase();
     final String[] argv = new String[origArgv.length - 1];
     System.arraycopy(origArgv, 1, argv, 0, argv.length);
 
-    Class<?> clazz;
-    try {
-      try {
-        String cn = programClassName(name);
-        clazz = Class.forName(pkg + "." + cn, true, loader);
-      } catch (ClassNotFoundException cnfe) {
-        if (name.equals(name.toLowerCase())) {
-          clazz = Class.forName(pkg + "." + name, true, loader);
-        } else {
-          throw cnfe;
+    Map<String, Class<?>> programClasses = Maps.newHashMap();
+    for (ClassInfo classInfo : ClassPath.from(loader).getTopLevelClasses(pkg)) {
+      String className = classInfo.getSimpleName().toLowerCase();
+      if (!className.startsWith("autovalue_")) {
+        try {
+          Class<?> clazz = Class.forName(classInfo.getName(), true, loader);
+          clazz.getMethod("main", argv.getClass());
+          programClasses.put(className, clazz);
+        } catch (ClassNotFoundException cnfe) {
+          // Should not happen; we know that the class does exist.
+        } catch (SecurityException | NoSuchMethodException e) {
+          // Raised by getClass if the "main" method was not accessible.
         }
       }
-    } catch (ClassNotFoundException cnfe) {
+    }
+
+    Class<?> clazz = programClasses.get(name);
+    if (clazz == null) {
       System.err.println("fatal: unknown command " + name);
       System.err.println("      (no " + pkg + "." + name + ")");
       return 1;
@@ -142,6 +152,8 @@ public final class GerritLauncher {
     try {
       main = clazz.getMethod("main", argv.getClass());
     } catch (SecurityException | NoSuchMethodException e) {
+      // We shouldn't ever get here; it should already have been caught
+      // when we were building programClasses above.
       System.err.println("fatal: unknown command " + name);
       return 1;
     }

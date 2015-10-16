@@ -8,4 +8,7 @@ java_library(
     '//gerrit-main:main_lib',
     '//gerrit-pgm:',
   ],
+  deps = [
+    '//lib:guava',
+  ],
 )

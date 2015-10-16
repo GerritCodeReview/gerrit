@@ -22,7 +22,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +31,6 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 class XrdsServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Charset ENC = UTF_8;
   static final String LOCATION = "OpenID.XRDS";
 
   private final Provider<String> url;
@@ -46,7 +44,8 @@ class XrdsServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     final StringBuilder r = new StringBuilder();
-    r.append("<?xml version=\"1.0\" encoding=\"").append(ENC.name()).append("\"?>");
+    r.append("<?xml version=\"1.0\" encoding=\"")
+     .append(UTF_8.name()).append("\"?>");
     r.append("<xrds:XRDS");
     r.append(" xmlns:xrds=\"xri://$xrds\"");
     r.append(" xmlns:openid=\"http://openid.net/xmlns/1.0\"");
@@ -61,10 +60,10 @@ class XrdsServlet extends HttpServlet {
     r.append("</xrds:XRDS>");
     r.append("\n");
 
-    final byte[] raw = r.toString().getBytes(ENC);
+    final byte[] raw = r.toString().getBytes(UTF_8);
     rsp.setContentLength(raw.length);
     rsp.setContentType("application/xrds+xml");
-    rsp.setCharacterEncoding(ENC.name());
+    rsp.setCharacterEncoding(UTF_8.name());
 
     try (ServletOutputStream out = rsp.getOutputStream()) {
       out.write(raw);

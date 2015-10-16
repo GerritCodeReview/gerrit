@@ -99,6 +99,30 @@
       "revId": "d5d17fd7acac1e4d9350886b01b2dada09d8b39f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_4f19edbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1794,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T14:28:44Z",
+      "side": 1,
+      "message": "I don\u0027t think so. Prior to this change there are two callers of HashtagsUtil.setHashtags.\n\nPostHashtags.java:48 passes runHooks\u003dtrue (the default in the new SetHashtagsOp):\n\n return Response.\u003cSet\u003cString\u003e\u003e ok(hashtagsUtil.setHashtags(\n   req.getControl(), input, true, true));\n\nChangeInserter.java:298 passes runHooks\u003dfalse:\n\n hashtagsUtil.setHashtags(ctl, input, false, false);",
+      "parentUuid": "d92002e1_684f83a8",
+      "range": {
+        "startLine": 1794,
+        "startChar": 16,
+        "endLine": 1794,
+        "endChar": 36
+      },
+      "revId": "d5d17fd7acac1e4d9350886b01b2dada09d8b39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

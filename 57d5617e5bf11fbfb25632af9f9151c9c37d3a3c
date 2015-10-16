@@ -68,6 +68,30 @@
       "revId": "57d5617e5bf11fbfb25632af9f9151c9c37d3a3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f92946cb_896e39eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-16T14:42:00Z",
+      "side": 1,
+      "message": "Yes, this is why I pushed this as RFC. Basically to showcase and explain the issue so that we can discuss what\u0027s best to do.",
+      "parentUuid": "b90a6e5b_afdb394e",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 54
+      },
+      "revId": "57d5617e5bf11fbfb25632af9f9151c9c37d3a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

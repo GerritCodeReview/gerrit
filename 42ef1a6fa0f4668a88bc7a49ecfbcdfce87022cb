@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "b9234eeb_2745ba88",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T16:05:01Z",
+      "side": 1,
+      "message": "I just did :sort instead, no idea why my fingers like :!sort so much.",
+      "parentUuid": "79ec76ce_adb4dd0a",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 24
+      },
+      "revId": "42ef1a6fa0f4668a88bc7a49ecfbcdfce87022cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79ec76ce_6dab15b0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.ui.xml",
         "patchSetId": 11

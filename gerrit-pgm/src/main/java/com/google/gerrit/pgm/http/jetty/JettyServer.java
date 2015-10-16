@@ -14,10 +14,10 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.escape.Escaper;
@@ -619,7 +619,7 @@ public class JettyServer {
           throws IOException {
         res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         res.setContentType("text/html");
-        res.setCharacterEncoding(Charsets.UTF_8.name());
+        res.setCharacterEncoding(UTF_8.name());
         CacheHeaders.setNotCacheable(res);
 
         Escaper html = HtmlEscapers.htmlEscaper();

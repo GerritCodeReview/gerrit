@@ -14,7 +14,8 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
-import com.google.common.base.Charsets;
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+
 import com.google.common.base.Strings;
 import com.google.gwtexpui.server.CacheHeaders;
 
@@ -68,7 +69,7 @@ class HiddenErrorHandler extends ErrorHandler {
       msg = HttpStatus.getMessage(conn.getHttpChannel()
           .getResponse().getStatus());
     }
-    return msg.getBytes(Charsets.ISO_8859_1);
+    return msg.getBytes(ISO_8859_1);
   }
 
   private static void log(HttpServletRequest req) {

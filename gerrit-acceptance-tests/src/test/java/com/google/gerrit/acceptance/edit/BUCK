@@ -1,10 +1,11 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
+  group = 'edit',
   srcs = ['ChangeEditIT.java'],
-  labels = ['edit'],
   deps = [
     '//lib/commons:codec',
     '//lib/joda:joda-time',
   ],
+  labels = ['edit'],
 )

@@ -5,10 +5,11 @@ SUBMIT_UTIL_SRCS = [
   'AbstractSubmitByMerge.java',
 ]
 
-SUBMIT_TESTS = glob(['Submit*IT.java'], excludes = SUBMIT_UTIL_SRCS)
-OTHER_TESTS = glob(['*IT.java'], excludes = SUBMIT_TESTS + SUBMIT_UTIL_SRCS)
+SUBMIT_TESTS = glob(['Submit*IT.java'])
+OTHER_TESTS = glob(['*IT.java'], excludes = SUBMIT_TESTS)
 
 acceptance_tests(
+  group = 'rest-change-other',
   srcs = OTHER_TESTS,
   deps = [
     ':submit_util',
@@ -16,8 +17,9 @@ acceptance_tests(
   ],
   labels = ['rest'],
 )
-
+ 
 acceptance_tests(
+  group = 'rest-change-submit',
   srcs = SUBMIT_TESTS,
   deps = [
     ':submit_util',

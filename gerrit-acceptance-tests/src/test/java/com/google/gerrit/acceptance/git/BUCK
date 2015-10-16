@@ -1,21 +1,12 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
-  srcs = [
-    'DraftChangeBlockedIT.java',
-    'ForcePushIT.java',
-    'SubmitOnPushIT.java',
-    'SubmoduleSubscriptionsWholeTopicMergeIT.java',
-    'SubmoduleSubscriptionsIT.java',
-    'VisibleRefFilterIT.java',
+  group = 'git',
+  srcs = glob(['*IT.java']),
+  deps = [
+    ':submodule_util',
+    ':push_for_review',
   ],
-  deps = [':submodule_util'],
-  labels = ['git'],
-)
-
-acceptance_tests(
-  srcs = ['HttpPushForReviewIT.java', 'SshPushForReviewIT.java'],
-  deps = [':push_for_review'],
   labels = ['git'],
 )
 

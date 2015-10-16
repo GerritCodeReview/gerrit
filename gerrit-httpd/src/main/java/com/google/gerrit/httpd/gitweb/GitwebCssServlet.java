@@ -26,7 +26,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
@@ -52,8 +51,6 @@ abstract class GitwebCssServlet extends HttpServlet {
       super(gwcc.getGitwebCss());
     }
   }
-
-  private static final Charset ENC = UTF_8;
 
   private final long modified;
   private final byte[] raw_css;
@@ -91,7 +88,7 @@ abstract class GitwebCssServlet extends HttpServlet {
       final HttpServletResponse rsp) throws IOException {
     if (raw_css != null) {
       rsp.setContentType("text/css");
-      rsp.setCharacterEncoding(ENC.name());
+      rsp.setCharacterEncoding(UTF_8.name());
       final byte[] toSend;
       if (RPCServletUtils.acceptsGzipEncoding(req)) {
         rsp.setHeader("Content-Encoding", "gzip");

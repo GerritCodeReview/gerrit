@@ -42,13 +42,14 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
   private static final String BUCKOUT = "buck-out";
 
   private Path gen;
-  private Path testSite;
   private Path pluginRoot;
   private Path pluginsSitePath;
   private Path pluginSubPath;
   private Path pluginSource;
   private String pluginName;
   private boolean standalone;
+
+  protected Path testSite;
 
   @Override
   protected void beforeTest(Description description) throws Exception {
@@ -57,7 +58,11 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     buildPluginJar();
     createTestSiteDirs();
     copyJarToTestSite();
+    beforeTestServerStarts();
     super.beforeTest(description);
+  }
+
+  protected void beforeTestServerStarts() throws Exception {
   }
 
   protected void setPluginConfigString(String name, String value)

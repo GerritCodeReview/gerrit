@@ -99,7 +99,10 @@ java_library(
     '//gerrit-launcher:launcher',
     '//lib:servlet-api-3_1',
   ],
-  visibility = ['//gerrit-war:'],
+  visibility = [
+    '//gerrit-acceptance-framework/...',
+    '//gerrit-war:',
+  ],
 )
 
 REST_PGM_DEPS = [

@@ -103,6 +103,38 @@ java_library(
   visibility = ['//gerrit-war:'],
 )
 
+# minimized transitive deps and srcs;
+# used for gerrit-acceptance-framework
+java_library(
+  name = 'http-min',
+  srcs = glob([SRCS + 'http/jetty/*.java']),
+  deps = [
+    '//gerrit-launcher:launcher',
+    '//lib/jetty:server',
+    '//lib/jetty:servlet',
+  ],
+  provided_deps = [
+    '//gerrit-common:server',
+    '//gerrit-extension-api:api',
+    '//gerrit-gwtexpui:linker_server',
+    '//gerrit-gwtexpui:server',
+    '//gerrit-httpd:httpd',
+    '//gerrit-reviewdb:client',
+    '//gerrit-server:server',
+    '//gerrit-sshd:sshd',
+    '//lib:guava',
+    '//lib:servlet-api-3_1',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/guice:guice-servlet',
+    '//lib/jetty:jmx',
+    '//lib/jgit:jgit',
+    '//lib/log:api',
+    '//lib/log:log4j',
+  ],
+  visibility = ['//gerrit-acceptance-framework/...'],
+)
+
 REST_PGM_DEPS = [
   ':http',
   ':init',

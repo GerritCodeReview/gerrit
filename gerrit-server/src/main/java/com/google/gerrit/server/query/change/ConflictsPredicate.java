@@ -86,30 +86,8 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       predicatesForOneChange.add(
           new RefPredicate(c.getDest().get()));
 
-      OperatorPredicate<ChangeData> isMerge = new OperatorPredicate<ChangeData>(
-              ChangeQueryBuilder.FIELD_MERGE, value) {
-
-        @Override
-        public boolean match(ChangeData cd) throws OrmException {
-          ObjectId id = ObjectId.fromString(
-              cd.currentPatchSet().getRevision().get());
-          try (Repository repo =
-                args.repoManager.openRepository(cd.change().getProject());
-              RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-            RevCommit commit = rw.parseCommit(id);
-            return commit.getParentCount() > 1;
-          } catch (IOException e) {
-            throw new IllegalStateException(e);
-          }
-        }
-
-        @Override
-        public int getCost() {
-          return 2;
-        }
-      };
-
-      predicatesForOneChange.add(or(or(filePredicates), isMerge));
+      predicatesForOneChange.add(or(or(filePredicates),
+          new IsMergePredicate(args, value)));
 
       predicatesForOneChange.add(new OperatorPredicate<ChangeData>(
           ChangeQueryBuilder.FIELD_CONFLICTS, value) {

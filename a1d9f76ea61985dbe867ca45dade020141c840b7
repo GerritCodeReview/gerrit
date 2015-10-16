@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9234eeb_87e3c6fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-16T15:53:11Z",
+      "side": 1,
+      "message": "Optional: mention that the old set method is @Deprecated but kept for extension compatibility.\n\n(Strictly speaking some extension might be depending on getCharacterEncoding, but it seems sufficiently unlikely that I\u0027m ok with breaking it. It\u0027s not like we have a super strict API compatibility policy.",
+      "revId": "a1d9f76ea61985dbe867ca45dade020141c840b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

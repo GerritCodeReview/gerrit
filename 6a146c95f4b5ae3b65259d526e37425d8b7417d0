@@ -70,6 +70,24 @@
       "revId": "6a146c95f4b5ae3b65259d526e37425d8b7417d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fb3286_cc04cf57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-16T10:09:05Z",
+      "side": 1,
+      "message": "Do you have any suggestion how to fix this?  I don\u0027t think it\u0027s easy to rearrange the order, because the log file setup relies on the configuration AFAICT.",
+      "parentUuid": "853e19eb_5d1d1ba7",
+      "revId": "6a146c95f4b5ae3b65259d526e37425d8b7417d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

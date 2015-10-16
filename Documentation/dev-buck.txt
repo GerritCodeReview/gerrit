@@ -625,14 +625,20 @@ After clearing the cache, the test can be run again:
 An alternative approach is to use Buck's `--filters` (`-f`) option:
 
 ----
-  buck test -f //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest-account
+  buck test -f 'com.google.gerrit.acceptance.rest.account.CapabilitiesIT'
+  Using buckd.
+  [-] PROCESSING BUCK FILES...FINISHED 1,0s [100%]
+  [-] BUILDING...FINISHED 2,8s [100%] (334/701 JOBS, 110 UPDATED, 5,1% CACHE MISS)
+  [-] TESTING...FINISHED 9,2s (6 PASS/0 FAIL)
   RESULTS FOR SELECTED TESTS
+  PASS      8,0s  2 Passed   0 Skipped   0 Failed   com.google.gerrit.acceptance.rest.account.CapabilitiesIT
   PASS    <100ms  4 Passed   0 Skipped   0 Failed   //tools:util_test
   TESTS PASSED
 ----
 
 When this option is used, the cache is disabled per design and doesn't need to
-be explicitly deleted.
+be explicitly deleted. Note, that this is a known issue, that python tests are
+always executed.
 
 Note that when this option is used, the whole unit test cache is dropped, so
 repeating the

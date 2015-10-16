@@ -1,6 +1,7 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
+  group = 'rest-group',
   srcs = glob(['*IT.java']),
   labels = ['rest']
 )

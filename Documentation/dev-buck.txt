@@ -318,11 +318,10 @@ The following groups of tests are currently supported:
 * ssh
 * slow
 
-To run a specific test, e.g. the acceptance test
-`com.google.gerrit.acceptance.git.HttpPushForReviewIT`:
+To run a specific test group, e.g. the rest-account test group:
 
 ----
-  buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:HttpPushForReviewIT
+  buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest-account
 ----
 
 To create test coverage report:
@@ -605,24 +604,30 @@ Test execution results are cached by Buck. If a test that was already run
 needs to be repeated, the unit test cache for that test must be removed first:
 
 ----
-  rm -rf buck-out/bin/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/.AddRemoveGroupMembersIT/
+  rm -rf buck-out/bin/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/.rest-account/
 ----
 
 After clearing the cache, the test can be run again:
 
 ----
-  buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group:AddRemoveGroupMembersIT
-  TESTING //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group:AddRemoveGroupMembersIT
-  PASS  14,9s  8 Passed   0 Failed   com.google.gerrit.acceptance.rest.group.AddRemoveGroupMembersIT
+  buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest-account
+  [-] TESTING...FINISHED 12,3s (12 PASS/0 FAIL)
+  RESULTS FOR //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest-account
+  PASS     970ms  2 Passed   0 Skipped   0 Failed   com.google.gerrit.acceptance.rest.account.CapabilitiesIT
+  PASS     999ms  1 Passed   0 Skipped   0 Failed   com.google.gerrit.acceptance.rest.account.EditPreferencesIT
+  PASS      1,2s  1 Passed   0 Skipped   0 Failed   com.google.gerrit.acceptance.rest.account.GetAccountDetailIT
+  PASS     951ms  2 Passed   0 Skipped   0 Failed   com.google.gerrit.acceptance.rest.account.GetAccountIT
+  PASS      6,4s  2 Passed   0 Skipped   0 Failed   com.google.gerrit.acceptance.rest.account.GetDiffPreferencesIT
+  PASS      1,2s  4 Passed   0 Skipped   0 Failed   com.google.gerrit.acceptance.rest.account.PutUsernameIT
   TESTS PASSED
 ----
 
 An alternative approach is to use Buck's `--filters` (`-f`) option:
 
 ----
-  buck test -f 'com.google.gerrit.acceptance.rest.change.SubmitByMergeAlwaysIT'
-  TESTING SELECTED TESTS
-  PASS  14,5s  6 Passed   0 Failed   com.google.gerrit.acceptance.rest.change.SubmitByMergeAlwaysIT
+  buck test -f //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest-account
+  RESULTS FOR SELECTED TESTS
+  PASS    <100ms  4 Passed   0 Skipped   0 Failed   //tools:util_test
   TESTS PASSED
 ----
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d92002e1_081fe7a7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-16T07:58:39Z",
+      "side": 1,
+      "message": "Without having the BouncyCastle lib site init is now failing for me:\n\nGenerating SSH host key ...ERROR org.apache.sshd.common.util.SecurityUtils : Failed to register BouncyCastle as the defaut JCE provider\nException in thread \"main\" java.lang.RuntimeException: Failed to register BouncyCastle as the defaut JCE provider\n\tat org.apache.sshd.common.util.SecurityUtils.register(SecurityUtils.java:102)\n\tat org.apache.sshd.common.util.SecurityUtils.isBouncyCastleRegistered(SecurityUtils.java:81)\n\tat com.google.gerrit.pgm.init.InitSshd.generateSshHostKeys(InitSshd.java:102)\n\tat com.google.gerrit.pgm.init.InitSshd.run(InitSshd.java:85)\n\tat com.google.gerrit.pgm.init.SitePathInitializer.run(SitePathInitializer.java:92)\n\tat com.google.gerrit.pgm.init.BaseInit.run(BaseInit.java:121)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:64)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:483)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:154)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:95)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:52)\n\tat Main.main(Main.java:25)\nCaused by: java.lang.NoClassDefFoundError: org/bouncycastle/jce/provider/BouncyCastleProvider\n\tat org.apache.sshd.common.util.SecurityUtils.register(SecurityUtils.java:96)\n\t... 14 more\nCaused by: java.lang.ClassNotFoundException: org.bouncycastle.jce.provider.BouncyCastleProvider\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:372)\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:361)\n\tat java.security.AccessController.doPrivileged(Native Method)\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:360)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:424)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:357)\n\t... 15 more",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 53
+      },
+      "revId": "014ebce3a0be7bb5c5d8f0a1a8a6fe96fda5ebe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

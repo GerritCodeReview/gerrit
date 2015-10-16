@@ -45,6 +45,54 @@
       "revId": "eb03e825e408011e6a57de1784ea138dd1f235d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f92946cb_c9d2f12e",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-16T03:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59fb3286_8cb1271b",
+      "range": {
+        "startLine": 71,
+        "startChar": 42,
+        "endLine": 71,
+        "endChar": 57
+      },
+      "revId": "eb03e825e408011e6a57de1784ea138dd1f235d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f92946cb_29f3cdcf",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-16T03:22:43Z",
+      "side": 1,
+      "message": "Done. \"-\" is dropped, and follow letter is uppercased.",
+      "parentUuid": "59fb3286_ecbeebe8",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 41
+      },
+      "revId": "eb03e825e408011e6a57de1784ea138dd1f235d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

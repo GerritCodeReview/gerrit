@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
@@ -158,6 +159,7 @@ public class AccountManager {
     }
 
     if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
+        && !Strings.isNullOrEmpty(who.getDisplayName())
         && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
       toUpdate = load(toUpdate, user.getAccountId(), db);
       toUpdate.setFullName(who.getDisplayName());

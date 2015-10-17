@@ -158,6 +158,7 @@ public class AccountManager {
     }
 
     if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
+        && who.getDisplayName() != null
         && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
       toUpdate = load(toUpdate, user.getAccountId(), db);
       toUpdate.setFullName(who.getDisplayName());

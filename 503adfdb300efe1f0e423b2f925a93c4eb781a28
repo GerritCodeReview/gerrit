@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "d9e9e22c_60bc32f0",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-10-18T11:19:08Z",
+      "side": 1,
+      "message": "Yes, I know. There is a comment about this issue in PS1. I would like to change the doctype to HTML5, I have not found a clean way to do so.\n\nOf course, we could stick with the label-field layout (without tables), but I think when some rework is done here, it would be worth to update it to some recent web-\"standards\".",
+      "parentUuid": "7342c131_ebdaf157",
+      "range": {
+        "startLine": 40,
+        "startChar": 17,
+        "endLine": 41,
+        "endChar": 28
+      },
+      "revId": "503adfdb300efe1f0e423b2f925a93c4eb781a28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "132d0577_48ea1fed",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
         "patchSetId": 2

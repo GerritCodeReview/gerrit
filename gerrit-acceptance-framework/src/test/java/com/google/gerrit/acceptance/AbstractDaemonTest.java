@@ -24,6 +24,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.common.data.AccessSection;
@@ -79,13 +80,15 @@ import org.eclipse.jgit.transport.Transport;
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
-import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
 import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -197,8 +200,7 @@ public abstract class AbstractDaemonTest {
     }
   };
 
-  @Rule
-  public TemporaryFolder tempSiteDir = new TemporaryFolder();
+  public Path tempSiteDir;
 
   @AfterClass
   public static void stopCommonServer() throws Exception {
@@ -235,8 +237,14 @@ public abstract class AbstractDaemonTest {
     GerritServer.Description methodDesc =
       GerritServer.Description.forTestMethod(description, configName);
 
+    resourcePrefix = UNSAFE_PROJECT_NAME.matcher(
+        description.getClassName() + "_"
+            + description.getMethodName() + "_").replaceAll("");
+    FileSystem fs = Jimfs.newFileSystem();
+    tempSiteDir = fs.getPath(resourcePrefix);
+    Files.createDirectory(tempSiteDir);
     baseConfig.setString("gerrit", null, "tempSiteDir",
-        tempSiteDir.getRoot().getPath());
+        resourcePrefix);
     if (classDesc.equals(methodDesc)) {
       if (commonServer == null) {
         commonServer = GerritServer.start(classDesc, baseConfig);
@@ -264,9 +272,6 @@ public abstract class AbstractDaemonTest {
     atrScope.set(ctx);
     sshSession = ctx.getSession();
     sshSession.open();
-    resourcePrefix = UNSAFE_PROJECT_NAME.matcher(
-        description.getClassName() + "_"
-        + description.getMethodName() + "_").replaceAll("");
 
     project = createProject(projectInput(description));
     testRepo = cloneProject(project, getCloneAsAccount(description));

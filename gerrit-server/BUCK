@@ -114,6 +114,7 @@ java_library(
   ],
   provided_deps = TESTUTIL_DEPS,
   exported_deps = [
+    '//lib:jimfs',
     '//lib/easymock:easymock',
     '//lib/powermock:powermock-api-easymock',
     '//lib/powermock:powermock-api-support',

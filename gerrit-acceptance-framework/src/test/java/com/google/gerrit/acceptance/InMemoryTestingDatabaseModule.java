@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.jimfs.Configuration;
+import com.google.common.jimfs.Jimfs;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -43,8 +45,8 @@ import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.eclipse.jgit.lib.Config;
 
+import java.nio.file.FileSystem;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 class InMemoryTestingDatabaseModule extends LifecycleModule {
   private final Config cfg;
@@ -59,10 +61,10 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
       .annotatedWith(GerritServerConfig.class)
       .toInstance(cfg);
 
-    // TODO(dborowitz): Use jimfs.
+    FileSystem fs = Jimfs.newFileSystem(Configuration.unix());
     bind(Path.class)
       .annotatedWith(SitePath.class)
-      .toInstance(Paths.get(cfg.getString("gerrit", null, "tempSiteDir")));
+      .toInstance(fs.getPath(cfg.getString("gerrit", null, "tempSiteDir")));
 
     bind(GitRepositoryManager.class)
       .toInstance(new InMemoryRepositoryManager());

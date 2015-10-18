@@ -35,7 +35,15 @@ public class DefaultSecureStore extends SecureStore {
 
   @Inject
   DefaultSecureStore(SitePaths site) {
-    sec = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
+    File f = null;
+    try {
+      f = site.secure_config.toFile();
+    } catch (UnsupportedOperationException e) {
+      // jimfs doesn't support it, can be safely ignored
+      sec = null;
+      return;
+    }
+    sec = new FileBasedConfig(f, FS.DETECTED);
     try {
       sec.load();
     } catch (Exception e) {

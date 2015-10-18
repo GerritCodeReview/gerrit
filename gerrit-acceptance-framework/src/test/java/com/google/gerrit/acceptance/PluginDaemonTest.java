@@ -171,7 +171,7 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     Files.deleteIfExists(forceJar);
 
     Files.createFile(forceJar);
-    testSite = tempSiteDir.getRoot().toPath();
+    testSite = tempSiteDir;
 
     // otherwise process often hangs:
     Path log = testSite.resolve("log");

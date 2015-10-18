@@ -13,7 +13,7 @@
 // limitations under the License.
 
 package com.google.gerrit.server.config;
-
+import com.google.common.base.Joiner;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -27,6 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 /** Provides {@link Config} annotated with {@link GerritServerConfig}. */
 class GerritServerConfigProvider implements Provider<Config> {
@@ -44,21 +46,33 @@ class GerritServerConfigProvider implements Provider<Config> {
 
   @Override
   public Config get() {
-    FileBasedConfig cfg =
-        new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
-
-    if (!cfg.getFile().exists()) {
-      log.info("No " + site.gerrit_config.toAbsolutePath()
-          + "; assuming defaults");
-      return new GerritConfig(cfg, secureStore);
-    }
-
+    Config config;
     try {
-      cfg.load();
-    } catch (IOException | ConfigInvalidException e) {
-      throw new ProvisionException(e.getMessage(), e);
+      FileBasedConfig cfg =
+          new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
+      if (!cfg.getFile().exists()) {
+        log.info("No " + site.gerrit_config.toAbsolutePath()
+            + "; assuming defaults");
+        return new GerritConfig(cfg, secureStore);
+      }
+
+      try {
+        cfg.load();
+      } catch (IOException | ConfigInvalidException e) {
+        throw new ProvisionException(e.getMessage(), e);
+      }
+      config = cfg;
+    } catch (UnsupportedOperationException e) {
+      // Jimfs
+      config = new Config();
+      try {
+        config.fromText(Joiner.on("\n").join(Files.readAllLines(site.gerrit_config, StandardCharsets.UTF_8)));
+      } catch (ConfigInvalidException | IOException ex) {
+        log.info("No " + site.gerrit_config.toAbsolutePath()
+        + "; assuming defaults");
+      }
     }
 
-    return new GerritConfig(cfg, secureStore);
+    return new GerritConfig(config, secureStore);
   }
 }

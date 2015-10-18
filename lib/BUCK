@@ -203,6 +203,13 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'jimfs',
+  id = 'com.google.jimfs:jimfs:1.0',
+  sha1 = 'edd65a2b792755f58f11134e76485a928aab4c97',
+  license = 'Apache2.0',
+)
+
+maven_jar(
   name = 'tukaani-xz',
   id = 'org.tukaani:xz:1.4',
   sha1 = '18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3',

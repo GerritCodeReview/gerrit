@@ -62,7 +62,13 @@ public class PluginConfigFactory implements ReloadPluginListener {
     this.projectStateFactory = projectStateFactory;
     this.pluginConfigs = Maps.newHashMap();
 
-    this.cfgSnapshot = FileSnapshot.save(site.gerrit_config.toFile());
+    File f = null;
+    try {
+      f = site.gerrit_config.toFile();
+      this.cfgSnapshot = FileSnapshot.save(f);
+    } catch (UnsupportedOperationException e) {
+      // jimfs doesn't support that, can be safely ignored
+    }
     this.cfg = cfgProvider.get();
   }
 

@@ -17,6 +17,7 @@ package com.google.gerrit.testutil;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.jimfs.Jimfs;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
@@ -72,8 +73,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.FileSystem;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
 
 public class InMemoryModule extends FactoryModule {
@@ -138,8 +139,11 @@ public class InMemoryModule extends FactoryModule {
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 
-    // TODO(dborowitz): Use jimfs.
-    bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
+    FileSystem fs = Jimfs.newFileSystem();
+    bind(Path.class)
+      .annotatedWith(SitePath.class)
+      .toInstance(fs.getPath("."));
+
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(PersonIdent.class)
         .annotatedWith(GerritPersonIdent.class)

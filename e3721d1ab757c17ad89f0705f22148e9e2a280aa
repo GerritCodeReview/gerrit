@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79ec76ce_4d7d799f",
+        "filename": "tools/pack_war.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-19T02:28:10Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me what this is doing.\n\nHow does\n\n for e in l for j in e.split(\u0027:\u0027)\n\nwork?  I\u0027ve never seen syntax like `for x in y for a in b` before.",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 65
+      },
+      "revId": "e3721d1ab757c17ad89f0705f22148e9e2a280aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

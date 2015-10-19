@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79ec76ce_ed6b85d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-19T02:32:10Z",
+      "side": 1,
+      "message": "Add some description of why we\u0027re doing this?",
+      "revId": "36f5fe5476dc7b610ee5ef13c72f38d3379279d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fb3286_4c7d7f9f",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-19T02:32:10Z",
+      "side": 1,
+      "message": "Looks like this is the only Jimfs method used.  Import it as static instead of importing the whole module?",
+      "range": {
+        "startLine": 243,
+        "startChar": 20,
+        "endLine": 243,
+        "endChar": 41
+      },
+      "revId": "36f5fe5476dc7b610ee5ef13c72f38d3379279d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ec76ce_8d6e41eb",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/InMemoryTestingDatabaseModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-19T02:32:10Z",
+      "side": 1,
+      "message": "Import these static?",
+      "range": {
+        "startLine": 64,
+        "startChar": 20,
+        "endLine": 64,
+        "endChar": 60
+      },
+      "revId": "36f5fe5476dc7b610ee5ef13c72f38d3379279d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fb3286_ac7183cb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-19T02:32:10Z",
+      "side": 1,
+      "message": "Import static",
+      "range": {
+        "startLine": 142,
+        "startChar": 26,
+        "endLine": 142,
+        "endChar": 39
+      },
+      "revId": "36f5fe5476dc7b610ee5ef13c72f38d3379279d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

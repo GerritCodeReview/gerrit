@@ -14,8 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
@@ -73,10 +72,10 @@ public class ChangeTest {
   }
 
   private static void assertRef(int changeId, String refName) {
-    assertEquals(new Change.Id(changeId), Change.Id.fromRef(refName));
+    assertThat(Change.Id.fromRef(refName)).isEqualTo(new Change.Id(changeId));
   }
 
   private static void assertNotRef(String refName) {
-    assertNull(Change.Id.fromRef(refName));
+    assertThat(Change.Id.fromRef(refName)).isNull();
   }
 }

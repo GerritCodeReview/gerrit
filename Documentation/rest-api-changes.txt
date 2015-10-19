@@ -4482,23 +4482,23 @@ revision.
 
 [options="header",cols="1,^1,5"]
 |============================
-|Field Name     ||Description
-|`message`      |optional|
+|Field Name               ||Description
+|`message`                |optional|
 The message to be added as review comment.
-|`labels`       |optional|
+|`labels`                 |optional|
 The votes that should be added to the revision as a map that maps the
 label names to the voting values.
-|`comments`     |optional|
+|`comments`               |optional|
 The comments that should be added as a map that maps a file path to a
 list of link:#comment-input[CommentInput] entities.
-|`strict_labels`|`true` if not set|
+|`strict_labels`          |`true` if not set|
 Whether all labels are required to be within the user's permitted ranges
 based on access controls. +
 If `true`, attempting to use a label not granted to the user will fail
 the entire modify operation early. +
 If `false`, the operation will execute anyway, but the proposed labels
 will be modified to be the "best" value allowed by the access controls.
-|`drafts`      |optional|
+|`drafts`                 |optional|
 Draft handling that defines how draft comments are handled that are
 already in the database but that were not also described in this
 input. +
@@ -4506,12 +4506,14 @@ Allowed values are `DELETE`, `PUBLISH`, `PUBLISH_ALL_REVISIONS` and
 `KEEP`. All values except `PUBLISH_ALL_REVISIONS` operate only on drafts
 for a single revision. +
 If not set, the default is `DELETE`.
-|`notify`      |optional|
+|`notify`                 |optional|
 Notify handling that defines to whom email notifications should be sent
 after the review is stored. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
-|`on_behalf_of`|optional|
+|`omit_duplicate_comments`|optional|
+If `true`, comments with the same content at the same place will be omitted.
+|`on_behalf_of`           |optional|
 link:rest-api-accounts.html#account-id[\{account-id\}] the review
 should be posted on behalf of. To use this option the caller must
 have been granted `labelAs-NAME` permission for all keys of labels.

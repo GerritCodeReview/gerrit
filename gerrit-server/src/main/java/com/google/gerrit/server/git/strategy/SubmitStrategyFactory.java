@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.RebaseChange;
+import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeException;
@@ -56,7 +56,7 @@ public class SubmitStrategyFactory {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final RebaseChange rebaseChange;
+  private final RebaseChangeOp.Factory rebaseFactory;
   private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -69,7 +69,7 @@ public class SubmitStrategyFactory {
       final BatchUpdate.Factory batchUpdateFactory,
       final ChangeControl.GenericFactory changeControlFactory,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final RebaseChange rebaseChange,
+      final RebaseChangeOp.Factory rebaseFactory,
       final ProjectCache projectCache,
       final ApprovalsUtil approvalsUtil,
       final MergeUtil.Factory mergeUtilFactory,
@@ -79,7 +79,7 @@ public class SubmitStrategyFactory {
     this.batchUpdateFactory = batchUpdateFactory;
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.rebaseChange = rebaseChange;
+    this.rebaseFactory = rebaseFactory;
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -107,7 +107,7 @@ public class SubmitStrategyFactory {
       case MERGE_IF_NECESSARY:
         return new MergeIfNecessary(args);
       case REBASE_IF_NECESSARY:
-        return new RebaseIfNecessary(args, patchSetInfoFactory, rebaseChange);
+        return new RebaseIfNecessary(args, patchSetInfoFactory, rebaseFactory);
       default:
         final String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);

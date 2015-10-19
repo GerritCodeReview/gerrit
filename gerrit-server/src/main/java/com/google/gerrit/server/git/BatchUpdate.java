@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -38,6 +39,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -49,6 +51,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Context for a set of updates that should be applied for a site.
@@ -123,6 +126,10 @@ public class BatchUpdate implements AutoCloseable {
     public void addRefUpdate(ReceiveCommand cmd) throws IOException {
       getBatchRefUpdate().addCommand(cmd);
     }
+
+    public TimeZone getTimeZone() {
+      return tz;
+    }
   }
 
   public class ChangeContext extends Context {
@@ -180,6 +187,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Project.NameKey project;
   private final CurrentUser user;
   private final Timestamp when;
+  private final TimeZone tz;
 
   private final ListMultimap<Change.Id, Op> ops = ArrayListMultimap.create();
   private final Map<Change.Id, Change> newChanges = new HashMap<>();
@@ -198,6 +206,7 @@ public class BatchUpdate implements AutoCloseable {
       ChangeControl.GenericFactory changeControlFactory,
       ChangeUpdate.Factory changeUpdateFactory,
       GitReferenceUpdated gitRefUpdated,
+      @GerritPersonIdent PersonIdent serverIdent,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
@@ -211,6 +220,7 @@ public class BatchUpdate implements AutoCloseable {
     this.project = project;
     this.user = user;
     this.when = when;
+    tz = serverIdent.getTimeZone();
   }
 
   @Override

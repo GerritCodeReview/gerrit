@@ -187,6 +187,11 @@ public class PatchSetInserter extends BatchUpdate.Op {
     return change;
   }
 
+  public PatchSet getPatchSet() {
+    checkState(patchSet != null, "getPatchSet() only valid after executing update");
+    return patchSet;
+  }
+
   @Override
   public void updateRepo(RepoContext ctx)
       throws InvalidChangeOperationException, IOException {

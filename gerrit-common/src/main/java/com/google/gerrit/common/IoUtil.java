@@ -86,7 +86,7 @@ public final class IoUtil {
     }
   }
 
-  public static void loadJARs(Path... jars) {
+  public static void loadJARs(Path jars) {
     loadJARs(Arrays.asList(jars));
   }
 

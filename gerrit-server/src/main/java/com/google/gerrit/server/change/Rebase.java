@@ -15,34 +15,34 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -60,18 +60,21 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT);
 
+  private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repoManager;
-  private final Provider<RebaseChange> rebaseChange;
+  private final RebaseChangeOp.Factory rebaseFactory;
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
 
   @Inject
-  public Rebase(GitRepositoryManager repoManager,
-      Provider<RebaseChange> rebaseChange,
+  public Rebase(BatchUpdate.Factory updateFactory,
+      GitRepositoryManager repoManager,
+      RebaseChangeOp.Factory rebaseFactory,
       ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider) {
+    this.updateFactory = updateFactory;
     this.repoManager = repoManager;
-    this.rebaseChange = rebaseChange;
+    this.rebaseFactory = rebaseFactory;
     this.json = json;
     this.dbProvider = dbProvider;
   }
@@ -83,7 +86,10 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     ChangeControl control = rsrc.getControl();
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
-        RevWalk rw = new RevWalk(repo)) {
+        RevWalk rw = new RevWalk(repo);
+        ObjectInserter oi = repo.newObjectInserter();
+        BatchUpdate bu = updateFactory.create(dbProvider.get(),
+          change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       if (!control.canRebase()) {
         throw new AuthException("rebase not permitted");
       } else if (!change.getStatus().isOpen()) {
@@ -93,13 +99,15 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
         throw new ResourceConflictException(
             "cannot rebase merge commits or commit with no ancestor");
       }
-      rebaseChange.get().rebase(repo, rw, rsrc, findBaseRev(rw, rsrc, input));
-    } catch (InvalidChangeOperationException e) {
-      throw new ResourceConflictException(e.getMessage());
-    } catch (NoSuchChangeException | NoSuchProjectException e) {
-      throw new ResourceNotFoundException(change.getId().toString());
+      bu.setRepository(repo, rw, oi);
+      bu.addOp(change.getId(), rebaseFactory.create(
+            control, rsrc.getPatchSet(),
+            findBaseRev(rw, rsrc, input))
+          .setForceContentMerge(true)
+          .setRunHooks(true)
+          .setValidatePolicy(CommitValidators.Policy.GERRIT));
+      bu.execute();
     }
-
     return json.create(OPTIONS).format(change.getId());
   }
 
@@ -199,29 +207,30 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
-    Project.NameKey project = resource.getChange().getProject();
+    PatchSet patchSet = resource.getPatchSet();
+    Branch.NameKey dest = resource.getChange().getDest();
     boolean visible = resource.getChange().getStatus().isOpen()
           && resource.isCurrent()
           && resource.getControl().canRebase();
+    boolean enabled = true;
+
     if (visible) {
-      try (Repository repo = repoManager.openRepository(project);
+      try (Repository repo = repoManager.openRepository(dest.getParentKey());
           RevWalk rw = new RevWalk(repo)) {
         visible = hasOneParent(rw, resource.getPatchSet());
+        enabled =
+            RebaseUtil.canRebase(patchSet, dest, repo, rw, dbProvider.get());
       } catch (IOException e) {
-        log.error("Failed to get ancestors of patch set "
-            + resource.getPatchSet().getId(), e);
+        log.error("Failed to check if patch set can be rebased: "
+            + resource.getPatchSet(), e);
         visible = false;
       }
     }
     UiAction.Description descr = new UiAction.Description()
       .setLabel("Rebase")
       .setTitle("Rebase onto tip of branch or parent change")
-      .setVisible(visible);
-    if (descr.isVisible()) {
-      // Disable the rebase button in the RebaseDialog if
-      // the change cannot be rebased.
-      descr.setEnabled(rebaseChange.get().canRebase(resource));
-    }
+      .setVisible(visible)
+      .setEnabled(enabled);
     return descr;
   }
 

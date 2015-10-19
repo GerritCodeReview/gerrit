@@ -36,6 +36,7 @@ import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
@@ -110,6 +111,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(BatchUpdate.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);
+    factory(RebaseChangeOp.Factory.class);
 
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
       .annotatedWith(GitUploadPackGroups.class)

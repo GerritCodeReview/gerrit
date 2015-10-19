@@ -50,7 +50,7 @@ import com.google.gerrit.server.change.Mergeable;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.Rebase;
-import com.google.gerrit.server.change.RebaseChange;
+import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.Reviewed;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
@@ -74,7 +74,7 @@ class RevisionApiImpl implements RevisionApi {
   private final CherryPick cherryPick;
   private final DeleteDraftPatchSet deleteDraft;
   private final Rebase rebase;
-  private final RebaseChange rebaseChange;
+  private final RebaseUtil rebaseUtil;
   private final Submit submit;
   private final PublishDraftPatchSet publish;
   private final Reviewed.PutReviewed putReviewed;
@@ -100,7 +100,7 @@ class RevisionApiImpl implements RevisionApi {
       CherryPick cherryPick,
       DeleteDraftPatchSet deleteDraft,
       Rebase rebase,
-      RebaseChange rebaseChange,
+      RebaseUtil rebaseUtil,
       Submit submit,
       PublishDraftPatchSet publish,
       Reviewed.PutReviewed putReviewed,
@@ -124,7 +124,7 @@ class RevisionApiImpl implements RevisionApi {
     this.cherryPick = cherryPick;
     this.deleteDraft = deleteDraft;
     this.rebase = rebase;
-    this.rebaseChange = rebaseChange;
+    this.rebaseUtil = rebaseUtil;
     this.review = review;
     this.submit = submit;
     this.publish = publish;
@@ -205,7 +205,7 @@ class RevisionApiImpl implements RevisionApi {
 
   @Override
   public boolean canRebase() {
-    return rebaseChange.canRebase(revision);
+    return rebaseUtil.canRebase(revision);
   }
 
   @Override

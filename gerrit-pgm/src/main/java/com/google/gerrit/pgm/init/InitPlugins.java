@@ -113,7 +113,7 @@ public class InitPlugins implements InitStep {
       try {
         final Path tmpPlugin = plugin.pluginPath;
 
-        if (!(initFlags.installPlugins.contains(pluginName) || ui.yesno(false,
+        if (!(initFlags.installPlugins.contains(pluginName) || ui.yesno(true,
             "Install plugin %s version %s", pluginName, plugin.version))) {
           Files.deleteIfExists(tmpPlugin);
           continue;
@@ -122,7 +122,7 @@ public class InitPlugins implements InitStep {
         final Path p = site.plugins_dir.resolve(plugin.name + ".jar");
         if (Files.exists(p)) {
           final String installedPluginVersion = getVersion(p);
-          if (!ui.yesno(false,
+          if (!ui.yesno(true,
               "version %s is already installed, overwrite it",
               installedPluginVersion)) {
             Files.deleteIfExists(tmpPlugin);

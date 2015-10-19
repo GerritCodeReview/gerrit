@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9e9e22c_c0f25eca",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T06:42:45Z",
+      "side": 1,
+      "message": "This term is not consistently quoted in this document.",
+      "range": {
+        "startLine": 19,
+        "startChar": 43,
+        "endLine": 19,
+        "endChar": 51
+      },
+      "revId": "1b3cebfa1ca3a9404d14fd3ef64b00fcf8a365fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_08152755",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T06:42:45Z",
+      "side": 1,
+      "message": "You missed here `gerrit.noteDbPath` configuration option:\n\n  $ git grep notedb | grep getString\n  gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java:\\\n  cfg.getString(\"gerrit\", null, \"noteDbPath\"), \"notedb\"));",
+      "revId": "1b3cebfa1ca3a9404d14fd3ef64b00fcf8a365fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_2810eb64",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T06:42:45Z",
+      "side": 1,
+      "message": "It was changed recently, so consistenly cased (and nice looking) from works as well:\n\n  java -jar gerrit.war rebuild-notedb --threads 6 -d $review_site",
+      "revId": "1b3cebfa1ca3a9404d14fd3ef64b00fcf8a365fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_c8030f24",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T06:42:45Z",
+      "side": 1,
+      "message": "Only one of these words is needed?",
+      "range": {
+        "startLine": 196,
+        "startChar": 8,
+        "endLine": 196,
+        "endChar": 19
+      },
+      "revId": "1b3cebfa1ca3a9404d14fd3ef64b00fcf8a365fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

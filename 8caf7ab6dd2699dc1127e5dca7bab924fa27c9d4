@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b90a6e5b_0f836504",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-19T21:12:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure you need this migrated bit.\n\nWhen reading:\n\n* If present in git, return value from git.\n* If not present in git, read from the db. Write to git. Return.\n\nWhen writing, write to both places.\n\nTo tell whether it\u0027s present in git, just look at getConfig().getSubsections() directly.",
+      "revId": "8caf7ab6dd2699dc1127e5dca7bab924fa27c9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

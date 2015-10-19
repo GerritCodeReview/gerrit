@@ -15,5 +15,16 @@
 package com.google.gerrit.extensions.client;
 
 public enum Side {
-  PARENT, REVISION
+  PARENT,
+  REVISION;
+
+  public static Side fromShort(short s) {
+    switch (s) {
+      case 0:
+        return PARENT;
+      case 1:
+        return REVISION;
+    }
+    return null;
+  }
 }

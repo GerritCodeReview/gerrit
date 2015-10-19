@@ -83,6 +83,14 @@ public class PatchSetTest {
     assertThat(joinGroups(ImmutableList.of("", "cd"))).isEqualTo(",cd");
   }
 
+  @Test
+  public void testToRefName() {
+    assertThat(new PatchSet.Id(new Change.Id(1), 23).toRefName())
+        .isEqualTo("refs/changes/01/1/23");
+    assertThat(new PatchSet.Id(new Change.Id(1234), 5).toRefName())
+        .isEqualTo("refs/changes/34/1234/5");
+  }
+
   private static void assertRef(int changeId, int psId, String refName) {
     assertThat(PatchSet.isChangeRef(refName)).isTrue();
     assertThat(PatchSet.Id.fromRef(refName))

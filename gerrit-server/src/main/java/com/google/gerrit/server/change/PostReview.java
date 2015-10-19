@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -44,6 +45,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -52,7 +54,10 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
@@ -61,18 +66,21 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Singleton
 public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
   private static final Logger log = LoggerFactory.getLogger(PostReview.class);
 
@@ -81,47 +89,37 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private final Provider<ReviewDb> db;
+  private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangesCollection changes;
   private final ChangeData.Factory changeDataFactory;
-  private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final PatchLineCommentsUtil plcUtil;
   private final PatchListCache patchListCache;
-  private final ChangeIndexer indexer;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
   private final ChangeHooks hooks;
 
-  private Change change;
-  private ChangeMessage message;
-  private Timestamp timestamp;
-  private List<PatchLineComment> comments = Lists.newArrayList();
-  private List<String> labelDelta = Lists.newArrayList();
-  private Map<String, Short> categories = Maps.newHashMap();
-
   @Inject
   PostReview(Provider<ReviewDb> db,
+      BatchUpdate.Factory batchUpdateFactory,
       ChangesCollection changes,
       ChangeData.Factory changeDataFactory,
-      ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache,
-      ChangeIndexer indexer,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
       ChangeHooks hooks) {
     this.db = db;
+    this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
     this.changeDataFactory = changeDataFactory;
-    this.updateFactory = updateFactory;
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.indexer = indexer;
     this.accounts = accounts;
     this.email = email;
     this.hooks = hooks;
@@ -129,16 +127,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   @Override
   public Output apply(RevisionResource revision, ReviewInput input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      UnprocessableEntityException, OrmException, IOException {
+      throws RestApiException, UpdateException, OrmException {
     return apply(revision, input, TimeUtil.nowTs());
   }
 
   public Output apply(RevisionResource revision, ReviewInput input,
-      Timestamp ts) throws AuthException, BadRequestException,
-      ResourceConflictException, UnprocessableEntityException, OrmException,
-      IOException {
-    timestamp = ts;
+      Timestamp ts) throws RestApiException, UpdateException, OrmException {
     if (revision.getEdit().isPresent()) {
       throw new ResourceConflictException("cannot post review on edit");
     }
@@ -156,46 +150,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       input.notify = NotifyHandling.NONE;
     }
 
-    db.get().changes().beginTransaction(revision.getChange().getId());
-    boolean dirty = false;
-    try {
-      change = db.get().changes().get(revision.getChange().getId());
-      if (change.getLastUpdatedOn().before(timestamp)) {
-        change.setLastUpdatedOn(timestamp);
-      }
-
-      ChangeUpdate update = updateFactory.create(revision.getControl(), timestamp);
-      update.setPatchSetId(revision.getPatchSet().getId());
-      dirty |= insertComments(revision, update, input.comments, input.drafts);
-      dirty |= updateLabels(revision, update, input.labels);
-      dirty |= insertMessage(revision, input.message, update);
-      if (dirty) {
-        db.get().changes().update(Collections.singleton(change));
-        db.get().commit();
-      }
-      update.commit();
-    } finally {
-      db.get().rollback();
+    try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
+          revision.getChange().getProject(), revision.getUser(), ts)) {
+      bu.addOp(
+          revision.getChange().getId(),
+          new Op(revision.getPatchSet().getId(), input));
+      bu.execute();
     }
-
-    if (dirty) {
-      indexer.index(db.get(), change);
-    }
-    if (message != null && input.notify.compareTo(NotifyHandling.NONE) > 0) {
-      email.create(
-          input.notify,
-          change,
-          revision.getPatchSet(),
-          revision.getAccountId(),
-          message,
-          comments).sendAsync();
-    }
-
     Output output = new Output();
     output.labels = input.labels;
-    if (message != null) {
-      fireCommentAddedHook(revision);
-    }
     return output;
   }
 
@@ -336,257 +299,302 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private boolean insertComments(RevisionResource rsrc,
-      ChangeUpdate update, Map<String, List<CommentInput>> in, DraftHandling draftsHandling)
-      throws OrmException {
-    if (in == null) {
-      in = Collections.emptyMap();
+  private class Op extends BatchUpdate.Op {
+    private final PatchSet.Id psId;
+    private final ReviewInput in;
+
+    private IdentifiedUser user;
+    private Change change;
+    private PatchSet ps;
+    private ChangeMessage message;
+    private List<PatchLineComment> comments = new ArrayList<>();
+    private List<String> labelDelta = new ArrayList<>();
+    private Map<String, Short> categories = new HashMap<>();
+
+    private Op(PatchSet.Id psId, ReviewInput in) {
+      this.psId = psId;
+      this.in = in;
     }
 
-    Map<String, PatchLineComment> drafts = Collections.emptyMap();
-    if (!in.isEmpty() || draftsHandling != DraftHandling.KEEP) {
-      if (draftsHandling == DraftHandling.PUBLISH_ALL_REVISIONS) {
-        drafts = changeDrafts(rsrc);
-      } else {
-        drafts = patchSetDrafts(rsrc);
+    @Override
+    public void updateChange(ChangeContext ctx) throws OrmException {
+      user = (IdentifiedUser) ctx.getUser();
+      change = ctx.getChange();
+      if (change.getLastUpdatedOn().before(ctx.getWhen())) {
+        change.setLastUpdatedOn(ctx.getWhen());
+      }
+      ps = ctx.getDb().patchSets().get(psId);
+      ctx.getChangeUpdate().setPatchSetId(psId);
+      boolean dirty = false;
+      dirty |= insertComments(ctx);
+      dirty |= updateLabels(ctx);
+      dirty |= insertMessage(ctx);
+      if (dirty) {
+        ctx.getDb().changes().update(Collections.singleton(change));
       }
     }
 
-    List<PatchLineComment> del = Lists.newArrayList();
-    List<PatchLineComment> ups = Lists.newArrayList();
-
-    for (Map.Entry<String, List<CommentInput>> ent : in.entrySet()) {
-      String path = ent.getKey();
-      for (CommentInput c : ent.getValue()) {
-        String parent = Url.decode(c.inReplyTo);
-        PatchLineComment e = drafts.remove(Url.decode(c.id));
-        if (e == null) {
-          e = new PatchLineComment(
-              new PatchLineComment.Key(
-                  new Patch.Key(rsrc.getPatchSet().getId(), path),
-                  ChangeUtil.messageUUID(db.get())),
-              c.line != null ? c.line : 0,
-              rsrc.getAccountId(),
-              parent, timestamp);
-        } else if (parent != null) {
-          e.setParentUuid(parent);
-        }
-        e.setStatus(PatchLineComment.Status.PUBLISHED);
-        e.setWrittenOn(timestamp);
-        e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
-        setCommentRevId(e, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
-        e.setMessage(c.message);
-        if (c.range != null) {
-          e.setRange(new CommentRange(
-              c.range.startLine,
-              c.range.startCharacter,
-              c.range.endLine,
-              c.range.endCharacter));
-          e.setLine(c.range.endLine);
-        }
-        ups.add(e);
+    @Override
+    public void postUpdate(Context ctx) {
+      if (message == null) {
+        return;
+      }
+      if (in.notify.compareTo(NotifyHandling.NONE) > 0) {
+        email.create(
+            in.notify,
+            change,
+            ps,
+            user.getAccountId(),
+            message,
+            comments).sendAsync();
+      }
+      try {
+        hooks.doCommentAddedHook(change, user.getAccount(), ps,
+            message.getMessage(), categories, ctx.getDb());
+      } catch (OrmException e) {
+        log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
       }
     }
 
-    switch (MoreObjects.firstNonNull(draftsHandling, DraftHandling.DELETE)) {
-      case KEEP:
-      default:
-        break;
-      case DELETE:
-        del.addAll(drafts.values());
-        break;
-      case PUBLISH:
-      case PUBLISH_ALL_REVISIONS:
-        for (PatchLineComment e : drafts.values()) {
+    private boolean insertComments(ChangeContext ctx) throws OrmException {
+      Map<String, List<CommentInput>> map = in.comments;
+      if (map == null) {
+        map = Collections.emptyMap();
+      }
+
+      Map<String, PatchLineComment> drafts = Collections.emptyMap();
+      if (!map.isEmpty() || in.drafts != DraftHandling.KEEP) {
+        if (in.drafts == DraftHandling.PUBLISH_ALL_REVISIONS) {
+          drafts = changeDrafts(ctx);
+        } else {
+          drafts = patchSetDrafts(ctx);
+        }
+      }
+
+      List<PatchLineComment> del = Lists.newArrayList();
+      List<PatchLineComment> ups = Lists.newArrayList();
+
+      for (Map.Entry<String, List<CommentInput>> ent : map.entrySet()) {
+        String path = ent.getKey();
+        for (CommentInput c : ent.getValue()) {
+          String parent = Url.decode(c.inReplyTo);
+          PatchLineComment e = drafts.remove(Url.decode(c.id));
+          if (e == null) {
+            e = new PatchLineComment(
+                new PatchLineComment.Key(
+                    new Patch.Key(psId, path),
+                    ChangeUtil.messageUUID(ctx.getDb())),
+                c.line != null ? c.line : 0,
+                user.getAccountId(),
+                parent, ctx.getWhen());
+          } else if (parent != null) {
+            e.setParentUuid(parent);
+          }
           e.setStatus(PatchLineComment.Status.PUBLISHED);
-          e.setWrittenOn(timestamp);
-          setCommentRevId(e, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
+          e.setWrittenOn(ctx.getWhen());
+          e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
+          setCommentRevId(e, patchListCache, ctx.getChange(), ps);
+          e.setMessage(c.message);
+          if (c.range != null) {
+            e.setRange(new CommentRange(
+                c.range.startLine,
+                c.range.startCharacter,
+                c.range.endLine,
+                c.range.endCharacter));
+            e.setLine(c.range.endLine);
+          }
           ups.add(e);
         }
-        break;
-    }
-    plcUtil.deleteComments(db.get(), update, del);
-    plcUtil.upsertComments(db.get(), update, ups);
-    comments.addAll(ups);
-    return !del.isEmpty() || !ups.isEmpty();
-  }
-
-  private Map<String, PatchLineComment> changeDrafts(RevisionResource rsrc)
-      throws OrmException {
-    Map<String, PatchLineComment> drafts = Maps.newHashMap();
-    for (PatchLineComment c : plcUtil.draftByChangeAuthor(
-        db.get(), rsrc.getNotes(), rsrc.getAccountId())) {
-      drafts.put(c.getKey().get(), c);
-    }
-    return drafts;
-  }
-
-  private Map<String, PatchLineComment> patchSetDrafts(RevisionResource rsrc)
-      throws OrmException {
-    Map<String, PatchLineComment> drafts = Maps.newHashMap();
-    for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(db.get(),
-        rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes())) {
-      drafts.put(c.getKey().get(), c);
-    }
-    return drafts;
-  }
-
-  private boolean updateLabels(RevisionResource rsrc, ChangeUpdate update,
-      Map<String, Short> labels) throws OrmException {
-    if (labels == null) {
-      labels = Collections.emptyMap();
-    }
-
-    List<PatchSetApproval> del = Lists.newArrayList();
-    List<PatchSetApproval> ups = Lists.newArrayList();
-    Map<String, PatchSetApproval> current = scanLabels(rsrc, del);
-
-    LabelTypes labelTypes = rsrc.getControl().getLabelTypes();
-    for (Map.Entry<String, Short> ent : labels.entrySet()) {
-      String name = ent.getKey();
-      LabelType lt = checkNotNull(labelTypes.byLabel(name), name);
-      if (change.getStatus().isClosed()) {
-        // TODO Allow updating some labels even when closed.
-        continue;
       }
 
-      PatchSetApproval c = current.remove(lt.getName());
-      String normName = lt.getName();
-      if (ent.getValue() == null || ent.getValue() == 0) {
-        // User requested delete of this label.
-        if (c != null) {
-          if (c.getValue() != 0) {
-            addLabelDelta(normName, (short) 0);
+      switch (firstNonNull(in.drafts, DraftHandling.DELETE)) {
+        case KEEP:
+        default:
+          break;
+        case DELETE:
+          del.addAll(drafts.values());
+          break;
+        case PUBLISH:
+        case PUBLISH_ALL_REVISIONS:
+          for (PatchLineComment e : drafts.values()) {
+            e.setStatus(PatchLineComment.Status.PUBLISHED);
+            e.setWrittenOn(ctx.getWhen());
+            setCommentRevId(e, patchListCache, ctx.getChange(), ps);
+            ups.add(e);
           }
-          del.add(c);
-          update.putApproval(ent.getKey(), (short) 0);
+          break;
+      }
+      plcUtil.deleteComments(ctx.getDb(), ctx.getChangeUpdate(), del);
+      plcUtil.upsertComments(ctx.getDb(), ctx.getChangeUpdate(), ups);
+      comments.addAll(ups);
+      return !del.isEmpty() || !ups.isEmpty();
+    }
+
+    private Map<String, PatchLineComment> changeDrafts(ChangeContext ctx)
+        throws OrmException {
+      Map<String, PatchLineComment> drafts = Maps.newHashMap();
+      for (PatchLineComment c : plcUtil.draftByChangeAuthor(
+          ctx.getDb(), ctx.getChangeNotes(), user.getAccountId())) {
+        drafts.put(c.getKey().get(), c);
+      }
+      return drafts;
+    }
+
+    private Map<String, PatchLineComment> patchSetDrafts(ChangeContext ctx)
+        throws OrmException {
+      Map<String, PatchLineComment> drafts = Maps.newHashMap();
+      for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(ctx.getDb(),
+          psId, user.getAccountId(), ctx.getChangeNotes())) {
+        drafts.put(c.getKey().get(), c);
+      }
+      return drafts;
+    }
+
+    private boolean updateLabels(ChangeContext ctx) throws OrmException {
+      Map<String, Short> labels = in.labels;
+      if (labels == null) {
+        labels = Collections.emptyMap();
+      }
+
+      List<PatchSetApproval> del = Lists.newArrayList();
+      List<PatchSetApproval> ups = Lists.newArrayList();
+      Map<String, PatchSetApproval> current = scanLabels(ctx, del);
+
+      ChangeUpdate update = ctx.getChangeUpdate();
+      LabelTypes labelTypes = ctx.getChangeControl().getLabelTypes();
+      for (Map.Entry<String, Short> ent : labels.entrySet()) {
+        String name = ent.getKey();
+        LabelType lt = checkNotNull(labelTypes.byLabel(name), name);
+        if (ctx.getChange().getStatus().isClosed()) {
+          // TODO Allow updating some labels even when closed.
+          continue;
         }
-      } else if (c != null && c.getValue() != ent.getValue()) {
-        c.setValue(ent.getValue());
-        c.setGranted(timestamp);
-        ups.add(c);
-        addLabelDelta(normName, c.getValue());
-        categories.put(normName, c.getValue());
-        update.putApproval(ent.getKey(), ent.getValue());
-      } else if (c != null && c.getValue() == ent.getValue()) {
-        current.put(normName, c);
-      } else if (c == null) {
-        c = new PatchSetApproval(new PatchSetApproval.Key(
-                rsrc.getPatchSet().getId(),
-                rsrc.getAccountId(),
-                lt.getLabelId()),
-            ent.getValue(), TimeUtil.nowTs());
-        c.setGranted(timestamp);
-        ups.add(c);
-        addLabelDelta(normName, c.getValue());
-        categories.put(normName, c.getValue());
-        update.putApproval(ent.getKey(), ent.getValue());
+
+        PatchSetApproval c = current.remove(lt.getName());
+        String normName = lt.getName();
+        if (ent.getValue() == null || ent.getValue() == 0) {
+          // User requested delete of this label.
+          if (c != null) {
+            if (c.getValue() != 0) {
+              addLabelDelta(normName, (short) 0);
+            }
+            del.add(c);
+            update.putApproval(ent.getKey(), (short) 0);
+          }
+        } else if (c != null && c.getValue() != ent.getValue()) {
+          c.setValue(ent.getValue());
+          c.setGranted(ctx.getWhen());
+          ups.add(c);
+          addLabelDelta(normName, c.getValue());
+          categories.put(normName, c.getValue());
+          update.putApproval(ent.getKey(), ent.getValue());
+        } else if (c != null && c.getValue() == ent.getValue()) {
+          current.put(normName, c);
+        } else if (c == null) {
+          c = new PatchSetApproval(new PatchSetApproval.Key(
+                  psId,
+                  user.getAccountId(),
+                  lt.getLabelId()),
+              ent.getValue(), TimeUtil.nowTs());
+          c.setGranted(ctx.getWhen());
+          ups.add(c);
+          addLabelDelta(normName, c.getValue());
+          categories.put(normName, c.getValue());
+          update.putApproval(ent.getKey(), ent.getValue());
+        }
+      }
+
+      forceCallerAsReviewer(ctx, current, ups, del);
+      ctx.getDb().patchSetApprovals().delete(del);
+      ctx.getDb().patchSetApprovals().upsert(ups);
+      return !del.isEmpty() || !ups.isEmpty();
+    }
+
+    private void forceCallerAsReviewer(ChangeContext ctx,
+        Map<String, PatchSetApproval> current, List<PatchSetApproval> ups,
+        List<PatchSetApproval> del) {
+      if (current.isEmpty() && ups.isEmpty()) {
+        // TODO Find another way to link reviewers to changes.
+        if (del.isEmpty()) {
+          // If no existing label is being set to 0, hack in the caller
+          // as a reviewer by picking the first server-wide LabelType.
+          PatchSetApproval c = new PatchSetApproval(new PatchSetApproval.Key(
+              psId,
+              user.getAccountId(),
+              ctx.getChangeControl().getLabelTypes().getLabelTypes().get(0)
+                  .getLabelId()),
+              (short) 0, TimeUtil.nowTs());
+          c.setGranted(ctx.getWhen());
+          ups.add(c);
+        } else {
+          // Pick a random label that is about to be deleted and keep it.
+          Iterator<PatchSetApproval> i = del.iterator();
+          PatchSetApproval c = i.next();
+          c.setValue((short) 0);
+          c.setGranted(ctx.getWhen());
+          i.remove();
+          ups.add(c);
+        }
       }
     }
 
-    forceCallerAsReviewer(rsrc, current, ups, del);
-    db.get().patchSetApprovals().delete(del);
-    db.get().patchSetApprovals().upsert(ups);
-    return !del.isEmpty() || !ups.isEmpty();
-  }
+    private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx,
+        List<PatchSetApproval> del) throws OrmException {
+      LabelTypes labelTypes = ctx.getChangeControl().getLabelTypes();
+      Map<String, PatchSetApproval> current = Maps.newHashMap();
 
-  private void forceCallerAsReviewer(RevisionResource rsrc,
-      Map<String, PatchSetApproval> current, List<PatchSetApproval> ups,
-      List<PatchSetApproval> del) {
-    if (current.isEmpty() && ups.isEmpty()) {
-      // TODO Find another way to link reviewers to changes.
-      if (del.isEmpty()) {
-        // If no existing label is being set to 0, hack in the caller
-        // as a reviewer by picking the first server-wide LabelType.
-        PatchSetApproval c = new PatchSetApproval(new PatchSetApproval.Key(
-            rsrc.getPatchSet().getId(),
-            rsrc.getAccountId(),
-            rsrc.getControl().getLabelTypes().getLabelTypes().get(0)
-                .getLabelId()),
-            (short) 0, TimeUtil.nowTs());
-        c.setGranted(timestamp);
-        ups.add(c);
-      } else {
-        // Pick a random label that is about to be deleted and keep it.
-        Iterator<PatchSetApproval> i = del.iterator();
-        PatchSetApproval c = i.next();
-        c.setValue((short) 0);
-        c.setGranted(timestamp);
-        i.remove();
-        ups.add(c);
+      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
+          ctx.getDb(), ctx.getChangeControl(), psId, user.getAccountId())) {
+        if (a.isSubmit()) {
+          continue;
+        }
+
+        LabelType lt = labelTypes.byLabel(a.getLabelId());
+        if (lt != null) {
+          current.put(lt.getName(), a);
+        } else {
+          del.add(a);
+        }
       }
+      return current;
     }
-  }
 
-  private Map<String, PatchSetApproval> scanLabels(RevisionResource rsrc,
-      List<PatchSetApproval> del) throws OrmException {
-    LabelTypes labelTypes = rsrc.getControl().getLabelTypes();
-    Map<String, PatchSetApproval> current = Maps.newHashMap();
+    private boolean insertMessage(ChangeContext ctx)
+        throws OrmException {
+      String msg = Strings.nullToEmpty(in.message).trim();
 
-    for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
-        db.get(), rsrc.getControl(), rsrc.getPatchSet().getId(),
-        rsrc.getAccountId())) {
-      if (a.isSubmit()) {
-        continue;
+      StringBuilder buf = new StringBuilder();
+      for (String d : labelDelta) {
+        buf.append(" ").append(d);
+      }
+      if (comments.size() == 1) {
+        buf.append("\n\n(1 comment)");
+      } else if (comments.size() > 1) {
+        buf.append(String.format("\n\n(%d comments)", comments.size()));
+      }
+      if (!msg.isEmpty()) {
+        buf.append("\n\n").append(msg);
+      }
+      if (buf.length() == 0) {
+        return false;
       }
 
-      LabelType lt = labelTypes.byLabel(a.getLabelId());
-      if (lt != null) {
-        current.put(lt.getName(), a);
-      } else {
-        del.add(a);
-      }
-    }
-    return current;
-  }
-
-  private void addLabelDelta(String name, short value) {
-    labelDelta.add(LabelVote.create(name, value).format());
-  }
-
-  private boolean insertMessage(RevisionResource rsrc, String msg,
-      ChangeUpdate update) throws OrmException {
-    msg = Strings.nullToEmpty(msg).trim();
-
-    StringBuilder buf = new StringBuilder();
-    for (String d : labelDelta) {
-      buf.append(" ").append(d);
-    }
-    if (comments.size() == 1) {
-      buf.append("\n\n(1 comment)");
-    } else if (comments.size() > 1) {
-      buf.append(String.format("\n\n(%d comments)", comments.size()));
-    }
-    if (!msg.isEmpty()) {
-      buf.append("\n\n").append(msg);
-    }
-    if (buf.length() == 0) {
-      return false;
+      message = new ChangeMessage(
+          new ChangeMessage.Key(
+            psId.getParentKey(), ChangeUtil.messageUUID(ctx.getDb())),
+          user.getAccountId(),
+          ctx.getWhen(),
+          psId);
+      message.setMessage(String.format(
+          "Patch Set %d:%s",
+          psId.get(),
+          buf.toString()));
+      cmUtil.addChangeMessage(ctx.getDb(), ctx.getChangeUpdate(), message);
+      return true;
     }
 
-    message = new ChangeMessage(
-        new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db.get())),
-        rsrc.getAccountId(),
-        timestamp,
-        rsrc.getPatchSet().getId());
-    message.setMessage(String.format(
-        "Patch Set %d:%s",
-        rsrc.getPatchSet().getPatchSetId(),
-        buf.toString()));
-    cmUtil.addChangeMessage(db.get(), update, message);
-    return true;
-  }
-
-  private void fireCommentAddedHook(RevisionResource rsrc) {
-    IdentifiedUser user = (IdentifiedUser) rsrc.getControl().getCurrentUser();
-    try {
-      hooks.doCommentAddedHook(change,
-          user.getAccount(),
-          rsrc.getPatchSet(),
-          message.getMessage(),
-          categories, db.get());
-    } catch (OrmException e) {
-      log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
+    private void addLabelDelta(String name, short value) {
+      labelDelta.add(LabelVote.create(name, value).format());
     }
   }
 }

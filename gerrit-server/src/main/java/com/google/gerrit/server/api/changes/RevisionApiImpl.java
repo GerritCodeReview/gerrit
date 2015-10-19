@@ -150,7 +150,7 @@ class RevisionApiImpl implements RevisionApi {
   public void review(ReviewInput in) throws RestApiException {
     try {
       review.get().apply(revision, in);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | UpdateException e) {
       throw new RestApiException("Cannot post review", e);
     }
   }

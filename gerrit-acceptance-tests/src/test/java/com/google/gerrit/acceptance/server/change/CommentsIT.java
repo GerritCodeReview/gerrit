@@ -197,11 +197,32 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addDuplicateComments() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    String changeId = r1.getChangeId();
+    String revId = r1.getCommit().getName();
+    addComment(r1, "nit: trailing whitespace");
+    addComment(r1, "nit: trailing whitespace");
+    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+    assertThat(result.get(FILE_NAME)).hasSize(2);
+    addComment(r1, "nit: trailing whitespace", true);
+    result = getPublishedComments(changeId, revId);
+    assertThat(result.get(FILE_NAME)).hasSize(2);
+
+    PushOneCommit.Result r2 = createChange();
+    changeId = r2.getChangeId();
+    revId = r2.getCommit().getName();
+    addComment(r2, "nit: trailing whitespace", true);
+    result = getPublishedComments(changeId, revId);
+    assertThat(result.get(FILE_NAME)).hasSize(1);
+  }
+
+  @Test
   public void listChangeDrafts() throws Exception {
     PushOneCommit.Result r1 = createChange();
 
     PushOneCommit.Result r2 = pushFactory.create(
-          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent",
+          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content",
           r1.getChangeId())
         .to("refs/for/master");
 
@@ -371,9 +392,13 @@ public class CommentsIT extends AbstractDaemonTest {
         + "-- \n");
   }
 
-
   private void addComment(PushOneCommit.Result r, String message)
       throws Exception {
+    addComment(r, message, false);
+  }
+
+  private void addComment(PushOneCommit.Result r, String message,
+      boolean omitDuplicateComments) throws Exception {
     CommentInput c = new CommentInput();
     c.line = 1;
     c.message = message;
@@ -381,6 +406,7 @@ public class CommentsIT extends AbstractDaemonTest {
     ReviewInput in = new ReviewInput();
     in.comments = ImmutableMap.<String, List<CommentInput>> of(
         FILE_NAME, ImmutableList.of(c));
+    in.omitDuplicateComments = omitDuplicateComments;
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())

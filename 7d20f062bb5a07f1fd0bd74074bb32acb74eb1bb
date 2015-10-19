@@ -153,6 +153,30 @@
       "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_c8a78f7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-10-19T12:05:07Z",
+      "side": 1,
+      "message": "\u003e Initial site installation -\u003e default Y for all plugins; site upgrade -\u003e default for installing new plugins is N, but existing plugins are always upgraded.\n\nAgreed. Just a small clarification:\n\n\u003e but existing plugins are always upgraded.\n\nThey are not unconditionally upgraded but the default answer for upgrading an existing plugin is Y.",
+      "parentUuid": "d9e9e22c_40592e6e",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 71
+      },
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

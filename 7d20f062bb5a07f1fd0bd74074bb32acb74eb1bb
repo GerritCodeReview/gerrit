@@ -129,6 +129,30 @@
       "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_40592e6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-19T09:37:13Z",
+      "side": 1,
+      "message": "\u003e and two different kinds of core plugins:\n \u003e * mandatory\n \u003e * optional\n\nI\u0027m not sure if we can make this decision for each plugin so that all users are happy. I would like it most if on the initial installation the default for installing would be Y for all plugins. On upgrade the default should be N (you didn\u0027t have the plugin before and it\u0027s likely that you still don\u0027t want it). \n\nA question could be what to do on upgrade when there is a new plugin which didn\u0027t exist before. I would be fine with either Y or N as default in this case. For simplicity I would go for N. Then it should be easy to implement: Initial site installation -\u003e default Y for all plugins; site upgrade -\u003e default for installing new plugins is N, but existing plugins are always upgraded.\n\n \u003e *But* in any events each and every plugin should be \n \u003e suggested to be upgraded by installer, when it\u0027s already \n \u003e installed on the Gerrit site.\n\n+1",
+      "parentUuid": "d9e9e22c_004f26a8",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 71
+      },
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

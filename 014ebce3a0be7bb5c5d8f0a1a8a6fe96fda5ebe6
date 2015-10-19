@@ -70,6 +70,30 @@
       "revId": "014ebce3a0be7bb5c5d8f0a1a8a6fe96fda5ebe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_e01842be",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T08:59:07Z",
+      "side": 1,
+      "message": "Failing for me as well: [1]. I selected to install BC library, it was downloaded, and then i see this failure. Note that i had the Buck build toolhacin fix in my tree: [2], so that all wa built correctly\n\n* [1] http://paste.openstack.org/show/476645/\n* [2] https://gerrit-review.googlesource.com/#/c/71650",
+      "parentUuid": "d92002e1_a8ae9b6b",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 53
+      },
+      "revId": "014ebce3a0be7bb5c5d8f0a1a8a6fe96fda5ebe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

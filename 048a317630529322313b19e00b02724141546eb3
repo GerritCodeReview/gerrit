@@ -68,6 +68,30 @@
       "revId": "048a317630529322313b19e00b02724141546eb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_2f974948",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishDraftPatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-19T12:56:09Z",
+      "side": 1,
+      "message": "It can\u0027t, but it took me a while to figure that out. I was originally thinking we want to read the currentPatchSet from the change in the transaction inside updateChange. But we need to read the commit from the repo in updateRepo which is before updateChange, which means we can\u0027t read it in the transaction. Better to just use the currentPatchSet from the ChangeResource, since that was already read earlier in RestApiServlet.\n\nYeah, doing this two-phase stuff is annoying sometimes, but that\u0027s the price I\u0027m paying for consistency.",
+      "parentUuid": "d92002e1_c81aef7f",
+      "range": {
+        "startLine": 208,
+        "startChar": 10,
+        "endLine": 208,
+        "endChar": 22
+      },
+      "revId": "048a317630529322313b19e00b02724141546eb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

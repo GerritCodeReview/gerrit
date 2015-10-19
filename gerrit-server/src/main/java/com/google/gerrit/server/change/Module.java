@@ -119,12 +119,13 @@ public class Module extends RestApiModule {
     get(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Get.class);
     get(CHANGE_EDIT_KIND, "meta").to(ChangeEdits.GetMeta.class);
 
-    factory(ReviewerResource.Factory.class);
     factory(AccountLoader.Factory.class);
-    factory(EmailReviewComments.Factory.class);
-    factory(ChangeInserter.Factory.class);
-    factory(PatchSetInserter.Factory.class);
     factory(ChangeEdits.Create.Factory.class);
     factory(ChangeEdits.DeleteFile.Factory.class);
+    factory(ChangeInserter.Factory.class);
+    factory(EmailReviewComments.Factory.class);
+    factory(PatchSetInserter.Factory.class);
+    factory(ReviewerResource.Factory.class);
+    factory(SetHashtagsOp.Factory.class);
   }
 }

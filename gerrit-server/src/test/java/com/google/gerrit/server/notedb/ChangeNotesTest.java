@@ -690,7 +690,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     update = newUpdate(c, otherUser);
-    CommentRange range3 = new CommentRange(3, 1, 4, 1);
+    CommentRange range3 = new CommentRange(3, 0, 4, 1);
     PatchLineComment comment3 = newPublishedComment(psId, "file2",
         uuid3, range3, range3.getEndLine(), otherUser, null, time3, message3,
         (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
@@ -729,7 +729,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           + "\n"
           + "File: file2\n"
           + "\n"
-          + "3:1-4:1\n"
+          + "3:0-4:1\n"
           + CommentsInNotesUtil.formatTime(serverIdent, time3) + "\n"
           + "Author: Other Account <2@gerrit>\n"
           + "UUID: uuid3\n"

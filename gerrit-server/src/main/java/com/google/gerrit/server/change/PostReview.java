@@ -17,12 +17,17 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.hash.HashCode;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -47,6 +52,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -75,9 +81,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Singleton
@@ -299,6 +307,32 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
+  /**
+   * Used to compare PatchLineComments with CommentInput comments.
+   */
+  @AutoValue
+  abstract static class CommentSetEntry {
+    private static CommentSetEntry create(PatchSet.Id id,
+        Integer line, Side side, HashCode message, CommentRange range) {
+      return new AutoValue_PostReview_CommentSetEntry(id, line, side, message,
+          range);
+    }
+
+    public static CommentSetEntry create(PatchLineComment comment) {
+      return create(comment.getKey().getParentKey().getParentKey(),
+          comment.getLine(),
+          Side.fromShort(comment.getSide()),
+          Hashing.sha1().hashString(comment.getMessage(), UTF_8)),
+          comment.getRange());
+    }
+
+    abstract PatchSet.Id id();
+    @Nullable abstract Integer line();
+    abstract Side side();
+    abstract HashCode message();
+    @Nullable abstract CommentRange range();
+  }
+
   private class Op extends BatchUpdate.Op {
     private final PatchSet.Id psId;
     private final ReviewInput in;
@@ -374,6 +408,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchLineComment> del = Lists.newArrayList();
       List<PatchLineComment> ups = Lists.newArrayList();
 
+      Set<CommentSetEntry> existingIds = in.omitDuplicateComments
+          ? readExistingComments(ctx)
+          : Collections.<CommentSetEntry>emptySet();
+
       for (Map.Entry<String, List<CommentInput>> ent : map.entrySet()) {
         String path = ent.getKey();
         for (CommentInput c : ent.getValue()) {
@@ -381,9 +419,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           PatchLineComment e = drafts.remove(Url.decode(c.id));
           if (e == null) {
             e = new PatchLineComment(
-                new PatchLineComment.Key(
-                    new Patch.Key(psId, path),
-                    ChangeUtil.messageUUID(ctx.getDb())),
+                new PatchLineComment.Key(new Patch.Key(psId, path), null),
                 c.line != null ? c.line : 0,
                 user.getAccountId(),
                 parent, ctx.getWhen());
@@ -402,6 +438,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                 c.range.endLine,
                 c.range.endCharacter));
             e.setLine(c.range.endLine);
+          }
+          if (existingIds.contains(CommentSetEntry.create(e))) {
+            continue;
+          }
+          if (e.getKey().get() == null) {
+            e.getKey().set(ChangeUtil.messageUUID(ctx.getDb()));
           }
           ups.add(e);
         }
@@ -428,6 +470,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       plcUtil.upsertComments(ctx.getDb(), ctx.getChangeUpdate(), ups);
       comments.addAll(ups);
       return !del.isEmpty() || !ups.isEmpty();
+    }
+
+    private Set<CommentSetEntry> readExistingComments(ChangeContext ctx)
+        throws OrmException {
+      Set<CommentSetEntry> r = new HashSet<>();
+      for (PatchLineComment c : plcUtil.publishedByChange(ctx.getDb(),
+            ctx.getChangeNotes())) {
+        CommentSetEntry cse = CommentSetEntry.create(c);
+        r.add(cse);
+      }
+      return r;
     }
 
     private Map<String, PatchLineComment> changeDrafts(ChangeContext ctx)

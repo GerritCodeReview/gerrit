@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -53,7 +54,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -429,7 +429,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .content();
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
-    String res = new String(os.toByteArray(), StandardCharsets.UTF_8);
+    String res = new String(os.toByteArray(), UTF_8);
     assertThat(res).isEqualTo(FILE_CONTENT);
   }
 
@@ -555,7 +555,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .patch();
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
-    String res = new String(os.toByteArray(), StandardCharsets.UTF_8);
+    String res = new String(os.toByteArray(), UTF_8);
     ChangeInfo change = changeApi.get();
     RevisionInfo rev = change.revisions.get(change.currentRevision);
     DateFormat df = new SimpleDateFormat(

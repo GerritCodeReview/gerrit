@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.io.CharStreams;
@@ -50,7 +52,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -249,8 +250,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   private ReviewInput reviewFromJson() throws UnloggedFailure {
-    try (InputStreamReader r =
-          new InputStreamReader(in, StandardCharsets.UTF_8)) {
+    try (InputStreamReader r = new InputStreamReader(in, UTF_8)) {
       return OutputFormat.JSON.newGson().
           fromJson(CharStreams.toString(r), ReviewInput.class);
     } catch (IOException | JsonSyntaxException e) {

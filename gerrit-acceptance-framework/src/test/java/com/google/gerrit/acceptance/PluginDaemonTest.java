@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.server.config.SitePaths;
@@ -27,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ProcessBuilder.Redirect;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -134,7 +135,7 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     Path buckFile = pluginSource.resolve("BUCK");
     byte[] bytes = Files.readAllBytes(buckFile);
     String buckContent =
-        new String(bytes, StandardCharsets.UTF_8).replaceAll("\\s+", "");
+        new String(bytes, UTF_8).replaceAll("\\s+", "");
     Matcher matcher =
         Pattern.compile("gerrit_plugin\\(name='(.*?)'").matcher(buckContent);
     if (matcher.find()) {

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.io.Files;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -26,7 +27,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 
 public class RebuildNotedbIT {
   private File sitePath;
@@ -48,7 +48,7 @@ public class RebuildNotedbIT {
     initSite();
     Files.append(NotesMigration.allEnabledConfig().toText(),
         new File(sitePath.toString(), "etc/gerrit.config"),
-        StandardCharsets.UTF_8);
+        UTF_8);
     runGerrit("RebuildNotedb", "-d", sitePath.toString(),
         "--show-stack-trace");
   }

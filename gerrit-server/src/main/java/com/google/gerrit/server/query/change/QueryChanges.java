@@ -127,7 +127,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     IdentifiedUser self = null;
     try {
       if (user.get().isIdentifiedUser()) {
-        self = (IdentifiedUser) user.get();
+        self = user.get().asIdentifiedUser();
         self.asyncStarredChanges();
       }
       return query0();

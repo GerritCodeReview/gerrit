@@ -190,7 +190,7 @@ public class ChangeUtil {
     return subject;
   }
 
-  private final Provider<CurrentUser> userProvider;
+  private final Provider<IdentifiedUser> user;
   private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
   private final RevertedSender.Factory revertedSenderFactory;
@@ -201,7 +201,7 @@ public class ChangeUtil {
   private final BatchUpdate.Factory updateFactory;
 
   @Inject
-  ChangeUtil(Provider<CurrentUser> userProvider,
+  ChangeUtil(Provider<IdentifiedUser> user,
       Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
       RevertedSender.Factory revertedSenderFactory,
@@ -210,7 +210,7 @@ public class ChangeUtil {
       GitReferenceUpdated gitRefUpdated,
       ChangeIndexer indexer,
       BatchUpdate.Factory updateFactory) {
-    this.userProvider = userProvider;
+    this.user = user;
     this.db = db;
     this.queryProvider = queryProvider;
     this.revertedSenderFactory = revertedSenderFactory;
@@ -239,8 +239,8 @@ public class ChangeUtil {
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
-      PersonIdent authorIdent =
-          user().newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+      PersonIdent authorIdent = user.get()
+          .newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
 
       RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
       revWalk.parseHeaders(parentToCommitToRevert);
@@ -274,7 +274,7 @@ public class ChangeUtil {
         Change change = new Change(
             new Change.Key("I" + computedChangeId.name()),
             new Change.Id(db.get().nextChangeId()),
-            user().getAccountId(),
+            user.get().getAccountId(),
             changeToRevert.getDest(),
             TimeUtil.nowTs());
         change.setTopic(changeToRevert.getTopic());
@@ -299,7 +299,7 @@ public class ChangeUtil {
       Change.Id id = ins.getChange().getId();
       try {
         RevertedSender cm = revertedSenderFactory.create(id);
-        cm.setFrom(user().getAccountId());
+        cm.setFrom(user.get().getAccountId());
         cm.setChangeMessage(ins.getChangeMessage());
         cm.send();
       } catch (Exception err) {
@@ -447,10 +447,6 @@ public class ChangeUtil {
     }
 
     throw new ResourceNotFoundException(id);
-  }
-
-  private IdentifiedUser user() {
-    return (IdentifiedUser) userProvider.get();
   }
 
   private static void deleteOnlyDraftPatchSetPreserveRef(ReviewDb db,

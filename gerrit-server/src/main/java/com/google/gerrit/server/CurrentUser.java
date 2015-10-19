@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -99,6 +100,18 @@ public abstract class CurrentUser {
   /** Check if user is the IdentifiedUser */
   public boolean isIdentifiedUser() {
     return false;
+  }
+
+  /** Cast to IdentifiedUser if possible. */
+  public IdentifiedUser asIdentifiedUser() {
+    throw new UnsupportedOperationException(
+        getClass().getSimpleName() + " is not an IdentifiedUser");
+  }
+
+  /** Return account ID if {@link #isIdentifiedUser} is true. */
+  public Account.Id getAccountId() {
+    throw new UnsupportedOperationException(
+        getClass().getSimpleName() + " is not an IdentifiedUser");
   }
 
   /** Check if the CurrentUser is an InternalUser. */

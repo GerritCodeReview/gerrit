@@ -141,7 +141,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
 
         AccountProjectWatch watch =
             new AccountProjectWatch(new AccountProjectWatch.Key(
-                ((IdentifiedUser) ctl.getUser()).getAccountId(),
+                ctl.getUser().getAccountId(),
                 nameKey, filter));
         try {
           db.accountProjectWatches().insert(Collections.singleton(watch));

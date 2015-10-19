@@ -72,7 +72,7 @@ public class GetUserFilter implements Filter {
       throws IOException, ServletException {
     CurrentUser user = userProvider.get();
     if (user != null && user.isIdentifiedUser()) {
-      IdentifiedUser who = (IdentifiedUser) user;
+      IdentifiedUser who = user.asIdentifiedUser();
       if (who.getUserName() != null && !who.getUserName().isEmpty()) {
         req.setAttribute(REQ_ATTR_KEY, who.getUserName());
       } else {

@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -118,9 +117,8 @@ public class SetHashtagsOp extends BatchUpdate.Op {
   @Override
   public void postUpdate(Context ctx) throws OrmException {
     if (updated() && runHooks) {
-      IdentifiedUser currentUser = (IdentifiedUser) ctx.getUser();
       hooks.doHashtagsChangedHook(
-          change, currentUser.getAccount(),
+          change, ctx.getUser().asIdentifiedUser().getAccount(),
           toAdd, toRemove, updatedHashtags,
           ctx.getDb());
     }

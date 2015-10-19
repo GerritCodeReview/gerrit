@@ -120,7 +120,7 @@ public class RebaseChange {
           UpdateException, RestApiException {
     Change change = rsrc.getChange();
     PatchSet patchSet = rsrc.getPatchSet();
-    IdentifiedUser uploader = (IdentifiedUser) rsrc.getControl().getUser();
+    IdentifiedUser uploader = rsrc.getControl().getUser().asIdentifiedUser();
 
     try (ObjectInserter inserter = git.newObjectInserter()) {
       String baseRev = newBaseRev;

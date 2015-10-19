@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.AddIncludedGroups.Input;
@@ -101,7 +100,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     GroupControl control = resource.getControl();
     Map<AccountGroup.UUID, AccountGroupById> newIncludedGroups = Maps.newHashMap();
     List<GroupInfo> result = Lists.newLinkedList();
-    Account.Id me = ((IdentifiedUser) control.getUser()).getAccountId();
+    Account.Id me = control.getUser().getAccountId();
 
     for (String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.parse(includedGroup);

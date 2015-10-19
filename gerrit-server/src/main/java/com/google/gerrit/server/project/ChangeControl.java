@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -253,8 +252,8 @@ public class ChangeControl {
   /** Is this user the owner of the change? */
   public boolean isOwner() {
     if (getUser().isIdentifiedUser()) {
-      final IdentifiedUser i = (IdentifiedUser) getUser();
-      return i.getAccountId().equals(getChange().getOwner());
+      Account.Id id = getUser().asIdentifiedUser().getAccountId();
+      return id.equals(getChange().getOwner());
     }
     return false;
   }
@@ -269,8 +268,7 @@ public class ChangeControl {
       throws OrmException {
     if (getUser().isIdentifiedUser()) {
       Collection<Account.Id> results = changeData(db, cd).reviewers().values();
-      IdentifiedUser user = (IdentifiedUser) getUser();
-      return results.contains(user.getAccountId());
+      return results.contains(getUser().getAccountId());
     }
     return false;
   }
@@ -285,8 +283,7 @@ public class ChangeControl {
       // A user can always remove themselves.
       //
       if (getUser().isIdentifiedUser()) {
-        final IdentifiedUser i = (IdentifiedUser) getUser();
-        if (i.getAccountId().equals(reviewer)) {
+        if (getUser().getAccountId().equals(reviewer)) {
           return true; // can remove self
         }
       }

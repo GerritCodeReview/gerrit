@@ -41,7 +41,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
@@ -473,7 +472,7 @@ public class ConsistencyChecker {
             .setRunHooks(false)
             .setSendMail(false)
             .setAllowClosed(true)
-            .setUploader(((IdentifiedUser) user.get()).getAccountId())
+            .setUploader(user.get().getAccountId())
             // TODO: fix setMessage to work without init()
             .setMessage(
                 "Patch set for merged commit inserted by consistency checker"));
@@ -603,7 +602,7 @@ public class ConsistencyChecker {
   private PersonIdent newRefLogIdent() {
     CurrentUser u = user.get();
     if (u.isIdentifiedUser()) {
-      return ((IdentifiedUser) u).newRefLogIdent();
+      return u.asIdentifiedUser().newRefLogIdent();
     } else {
       return serverIdent.get();
     }

@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.CreateChange;
 import com.google.gerrit.server.git.UpdateException;
@@ -131,7 +130,7 @@ class ChangesImpl implements Changes {
     try {
       CurrentUser u = user.get();
       if (u.isIdentifiedUser()) {
-        ((IdentifiedUser) u).clearStarredChanges();
+        u.asIdentifiedUser().clearStarredChanges();
       }
       List<?> result = qc.apply(TopLevelResource.INSTANCE);
       if (result.isEmpty()) {

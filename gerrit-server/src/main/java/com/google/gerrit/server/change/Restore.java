@@ -109,7 +109,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     @Override
     public void updateChange(ChangeContext ctx) throws OrmException,
         ResourceConflictException {
-      caller = (IdentifiedUser) ctx.getUser();
+      caller = ctx.getUser().asIdentifiedUser();
       change = ctx.getChange();
       if (change == null || change.getStatus() != Status.ABANDONED) {
         throw new ResourceConflictException("change is " + status(change));

@@ -77,7 +77,7 @@ public class CreateChange implements
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final TimeZone serverTimeZone;
-  private final Provider<CurrentUser> userProvider;
+  private final Provider<CurrentUser> user;
   private final ProjectsCollection projectsCollection;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson.Factory jsonFactory;
@@ -89,7 +89,7 @@ public class CreateChange implements
   CreateChange(Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       @GerritPersonIdent PersonIdent myIdent,
-      Provider<CurrentUser> userProvider,
+      Provider<CurrentUser> user,
       ProjectsCollection projectsCollection,
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson.Factory json,
@@ -99,7 +99,7 @@ public class CreateChange implements
     this.db = db;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
-    this.userProvider = userProvider;
+    this.user = user;
     this.projectsCollection = projectsCollection;
     this.changeInserterFactory = changeInserterFactory;
     this.jsonFactory = json;
@@ -182,7 +182,7 @@ public class CreateChange implements
       RevCommit mergeTip = rw.parseCommit(parentCommit);
 
       Timestamp now = TimeUtil.nowTs();
-      IdentifiedUser me = (IdentifiedUser) userProvider.get();
+      IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
 
       ObjectId id = ChangeIdUtil.computeChangeId(mergeTip.getTree(),

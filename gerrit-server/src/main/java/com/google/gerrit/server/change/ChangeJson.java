@@ -424,7 +424,7 @@ public class ChangeJson {
         ? true
         : null;
     if (in.getStatus().isOpen() && has(REVIEWED) && user.isIdentifiedUser()) {
-      Account.Id accountId = ((IdentifiedUser) user).getAccountId();
+      Account.Id accountId = user.getAccountId();
       out.reviewed = cd.reviewedBy().contains(accountId) ? true : null;
     }
 

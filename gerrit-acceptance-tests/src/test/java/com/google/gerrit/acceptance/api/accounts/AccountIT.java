@@ -41,7 +41,6 @@ import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.gpg.testutil.TestKeys;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
@@ -375,8 +374,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
 
     // Check raw external IDs.
-    Account.Id currAccountId =
-        ((IdentifiedUser) atrScope.get().getUser()).getAccountId();
+    Account.Id currAccountId = atrScope.get().getUser().getAccountId();
     assertThat(
         GpgKeys.getGpgExtIds(db, currAccountId)
           .transform(new Function<AccountExternalId, String>() {

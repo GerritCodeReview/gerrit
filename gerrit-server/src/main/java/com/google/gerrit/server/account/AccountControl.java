@@ -61,19 +61,19 @@ public class AccountControl {
 
   private final AccountsSection accountsSection;
   private final GroupControl.Factory groupControlFactory;
-  private final CurrentUser currentUser;
+  private final CurrentUser user;
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountVisibility accountVisibility;
 
   AccountControl(final ProjectCache projectCache,
         final GroupControl.Factory groupControlFactory,
-        final CurrentUser currentUser,
+        final CurrentUser user,
         final IdentifiedUser.GenericFactory userFactory,
         final AccountVisibility accountVisibility) {
     this.accountsSection =
         projectCache.getAllProjects().getConfig().getAccountsSection();
     this.groupControlFactory = groupControlFactory;
-    this.currentUser = currentUser;
+    this.user = user;
     this.userFactory = userFactory;
     this.accountVisibility = accountVisibility;
   }
@@ -100,11 +100,10 @@ public class AccountControl {
    */
   public boolean canSee(final Account.Id otherUser) {
     // Special case: I can always see myself.
-    if (currentUser.isIdentifiedUser()
-        && ((IdentifiedUser) currentUser).getAccountId().equals(otherUser)) {
+    if (user.isIdentifiedUser() && user.getAccountId().equals(otherUser)) {
       return true;
     }
-    if (currentUser.getCapabilities().canViewAllAccounts()) {
+    if (user.getCapabilities().canViewAllAccounts()) {
       return true;
     }
 
@@ -119,7 +118,7 @@ public class AccountControl {
           }
         }
 
-        if (currentUser.getEffectiveGroups().containsAnyOf(usersGroups)) {
+        if (user.getEffectiveGroups().containsAnyOf(usersGroups)) {
           return true;
         }
         break;

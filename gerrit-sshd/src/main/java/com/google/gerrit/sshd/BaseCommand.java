@@ -89,7 +89,7 @@ public abstract class BaseCommand implements Command {
   private WorkQueue.Executor executor;
 
   @Inject
-  private Provider<CurrentUser> userProvider;
+  private Provider<CurrentUser> user;
 
   @Inject
   private Provider<SshScope.Context> contextProvider;
@@ -278,7 +278,7 @@ public abstract class BaseCommand implements Command {
     final TaskThunk tt = new TaskThunk(thunk);
 
     if (isAdminHighPriorityCommand()
-        && userProvider.get().getCapabilities().canAdministrateServer()) {
+        && user.get().getCapabilities().canAdministrateServer()) {
       // Admin commands should not block the main work threads (there
       // might be an interactive shell there), nor should they wait
       // for the main work threads.
@@ -332,8 +332,8 @@ public abstract class BaseCommand implements Command {
     if (!(e instanceof UnloggedFailure)) {
       final StringBuilder m = new StringBuilder();
       m.append("Internal server error");
-      if (userProvider.get().isIdentifiedUser()) {
-        final IdentifiedUser u = (IdentifiedUser) userProvider.get();
+      if (user.get().isIdentifiedUser()) {
+        final IdentifiedUser u = user.get().asIdentifiedUser();
         m.append(" (user ");
         m.append(u.getAccount().getUserName());
         m.append(" account ");
@@ -398,8 +398,8 @@ public abstract class BaseCommand implements Command {
 
       StringBuilder m = new StringBuilder();
       m.append(context.getCommandLine());
-      if (userProvider.get().isIdentifiedUser()) {
-        IdentifiedUser u = (IdentifiedUser) userProvider.get();
+      if (user.get().isIdentifiedUser()) {
+        IdentifiedUser u = user.get().asIdentifiedUser();
         m.append(" (").append(u.getAccount().getUserName()).append(")");
       }
       this.taskName = m.toString();

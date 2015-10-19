@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 
@@ -57,6 +56,6 @@ public class DraftCommentResource implements RestResource {
   }
 
   Account.Id getAuthorId() {
-    return ((IdentifiedUser) getControl().getUser()).getAccountId();
+    return getControl().getUser().getAccountId();
   }
 }

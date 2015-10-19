@@ -97,7 +97,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
 
     public Op(ChangeControl ctl, Input input) {
       this.input = input;
-      this.caller = (IdentifiedUser) ctl.getUser();
+      this.caller = ctl.getUser().asIdentifiedUser();
     }
 
     @Override

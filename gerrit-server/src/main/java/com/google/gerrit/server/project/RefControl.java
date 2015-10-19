@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
 import dk.brics.automaton.RegExp;
@@ -303,9 +302,8 @@ public class RefControl {
       if (tagger != null) {
         boolean valid;
         if (getUser().isIdentifiedUser()) {
-          final IdentifiedUser user = (IdentifiedUser) getUser();
           final String addr = tagger.getEmailAddress();
-          valid = user.hasEmailAddress(addr);
+          valid = getUser().asIdentifiedUser().hasEmailAddress(addr);
         } else {
           valid = false;
         }

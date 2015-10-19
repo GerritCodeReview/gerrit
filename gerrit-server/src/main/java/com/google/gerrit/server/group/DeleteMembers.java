@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupControl;
@@ -97,7 +96,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   }
 
   private void writeAudits(final List<AccountGroupMember> toRemove) {
-    final Account.Id me = ((IdentifiedUser) self.get()).getAccountId();
+    final Account.Id me = self.get().getAccountId();
     auditService.dispatchDeleteAccountsFromGroup(me, toRemove);
   }
 

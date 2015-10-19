@@ -109,7 +109,7 @@ public class ChangeEditUtil {
     if (!currentUser.isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return byChange(change, (IdentifiedUser)currentUser);
+    return byChange(change, currentUser.asIdentifiedUser());
   }
 
   /**

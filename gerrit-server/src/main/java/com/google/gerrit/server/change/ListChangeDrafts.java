@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -54,10 +53,9 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     if (!rsrc.getControl().getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    IdentifiedUser user = (IdentifiedUser) rsrc.getControl().getUser();
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
-    List<PatchLineComment> drafts =
-        plcUtil.draftByChangeAuthor(db.get(), cd.notes(), user.getAccountId());
+    List<PatchLineComment> drafts = plcUtil.draftByChangeAuthor(
+        db.get(), cd.notes(), rsrc.getControl().getUser().getAccountId());
     return commentJson.get()
         .setFillAccounts(false)
         .setFillPatchSet(true)

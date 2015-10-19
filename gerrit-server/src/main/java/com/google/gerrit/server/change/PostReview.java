@@ -318,7 +318,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     @Override
     public void updateChange(ChangeContext ctx) throws OrmException {
-      user = (IdentifiedUser) ctx.getUser();
+      user = ctx.getUser().asIdentifiedUser();
       change = ctx.getChange();
       if (change.getLastUpdatedOn().before(ctx.getWhen())) {
         change.setLastUpdatedOn(ctx.getWhen());

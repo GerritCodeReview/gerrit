@@ -297,7 +297,7 @@ public class GitOverHttpServlet extends GitServlet {
         throw new ServiceNotAuthorizedException();
       }
 
-      final IdentifiedUser user = (IdentifiedUser) pc.getUser();
+      final IdentifiedUser user = pc.getUser().asIdentifiedUser();
       final ReceiveCommits rc = factory.create(pc, db).getReceiveCommits();
       ReceivePack rp = rc.getReceivePack();
       rp.setRefLogIdent(user.newRefLogIdent());
@@ -373,8 +373,7 @@ public class GitOverHttpServlet extends GitServlet {
       }
 
       AdvertisedObjectsCacheKey cacheKey = AdvertisedObjectsCacheKey.create(
-          ((IdentifiedUser) pc.getUser()).getAccountId(),
-          projectName);
+          pc.getUser().getAccountId(), projectName);
 
       if (isGet) {
         cache.invalidate(cacheKey);

@@ -72,9 +72,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -356,6 +358,39 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
     }
 
+    private class CommentSetEntry {
+      private String fileName;
+      private Integer line;
+      private String message;
+
+      public CommentSetEntry(String fileName, Integer line, String message) {
+        this.fileName = fileName;
+        this.line = line;
+        this.message = message;
+      }
+
+      @Override
+      public int hashCode() {
+        final int prime = 37;
+        int result = 1;
+        result = prime * result + line.hashCode();
+        result = prime * result + fileName.hashCode();
+        result = prime * result + message.hashCode();
+        return result;
+      }
+
+      @Override
+      public boolean equals(Object o) {
+        if (o instanceof CommentSetEntry) {
+          CommentSetEntry cse = (CommentSetEntry) o;
+          return cse.fileName.equals(fileName)
+              && cse.line.equals(line)
+              && cse.message.equals(message);
+        }
+        return false;
+      }
+    }
+
     private boolean insertComments(ChangeContext ctx) throws OrmException {
       Map<String, List<CommentInput>> map = in.comments;
       if (map == null) {
@@ -374,11 +409,20 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchLineComment> del = Lists.newArrayList();
       List<PatchLineComment> ups = Lists.newArrayList();
 
+      Set<CommentSetEntry> existingIds = in.omitDuplicateComments
+          ? readExistingComments(ctx)
+          : Collections.<CommentSetEntry>emptySet();
+
       for (Map.Entry<String, List<CommentInput>> ent : map.entrySet()) {
         String path = ent.getKey();
         for (CommentInput c : ent.getValue()) {
+          String cId = Url.decode(c.id);
+          CommentSetEntry cse = new CommentSetEntry(c.path, c.line, c.message);
+          if (existingIds.contains(cse)) {
+            continue;
+          }
           String parent = Url.decode(c.inReplyTo);
-          PatchLineComment e = drafts.remove(Url.decode(c.id));
+          PatchLineComment e = drafts.remove(cId);
           if (e == null) {
             e = new PatchLineComment(
                 new PatchLineComment.Key(
@@ -428,6 +472,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       plcUtil.upsertComments(ctx.getDb(), ctx.getChangeUpdate(), ups);
       comments.addAll(ups);
       return !del.isEmpty() || !ups.isEmpty();
+    }
+
+    private Set<CommentSetEntry> readExistingComments(ChangeContext ctx)
+        throws OrmException {
+      Set<CommentSetEntry> r = new HashSet<>();
+      for (PatchLineComment c : plcUtil.publishedByChange(ctx.getDb(),
+            ctx.getChangeNotes())) {
+        r.add(new CommentSetEntry(c.getKey().getParentKey().getFileName(),
+              c.getLine(), c.getMessage()));
+      }
+      return r;
     }
 
     private Map<String, PatchLineComment> changeDrafts(ChangeContext ctx)

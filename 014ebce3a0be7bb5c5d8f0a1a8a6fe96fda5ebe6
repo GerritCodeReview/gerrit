@@ -142,6 +142,30 @@
       "revId": "014ebce3a0be7bb5c5d8f0a1a8a6fe96fda5ebe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_a082bafd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T16:07:33Z",
+      "side": 1,
+      "message": "| Before David\u0027s fixes to buck, this seemed to work, but now the issue described is completely reproducible.\n\nLet me put it ths way, before you reported that our build toolchain was strongly broken (see the commit message of my fix how subtle the problem was, and how behavioral change to genrule() upstream introduced this breakage) gerrit.war was remained stale. The events were like this:\n\n* you changed InitSshd.java and added\n\n  SecurityUtils.setRegisterBouncyCastle(true);\n\n* you issued buck uild gerrit\n* unfortunately it didn\u0027t work\n* gerrit.war was still stale: buck-out/gen/gerrit/gerrit.war wasn\u0027t re-created\n\nBasically you was never able to verify this change (unless you wiped out the Buck caches)",
+      "parentUuid": "f90b06d5_99cc5b9d",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 53
+      },
+      "revId": "014ebce3a0be7bb5c5d8f0a1a8a6fe96fda5ebe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

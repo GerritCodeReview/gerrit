@@ -75,6 +75,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -374,11 +375,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchLineComment> del = Lists.newArrayList();
       List<PatchLineComment> ups = Lists.newArrayList();
 
+      Set<String> existingIds = in.omitDuplicateComments
+          ? readExistingComments(ctx)
+          : Collections.<String>emptySet();
+
       for (Map.Entry<String, List<CommentInput>> ent : map.entrySet()) {
         String path = ent.getKey();
         for (CommentInput c : ent.getValue()) {
+          String cId = Url.decode(c.id);
+          if (existingIds.contains(cId)) {
+            continue;
+          }
           String parent = Url.decode(c.inReplyTo);
-          PatchLineComment e = drafts.remove(Url.decode(c.id));
+          PatchLineComment e = drafts.remove(cId);
           if (e == null) {
             e = new PatchLineComment(
                 new PatchLineComment.Key(
@@ -428,6 +437,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       plcUtil.upsertComments(ctx.getDb(), ctx.getChangeUpdate(), ups);
       comments.addAll(ups);
       return !del.isEmpty() || !ups.isEmpty();
+    }
+
+    private Set<String> readExistingComments(ChangeContext ctx)
+        throws OrmException {
+      Set<String> r = new HashSet<>();
+      for (PatchLineComment c : plcUtil.publishedByChange(ctx.getDb(),
+            ctx.getChangeNotes())) {
+        r.add(c.getKey().get());
+      }
+      return r;
     }
 
     private Map<String, PatchLineComment> changeDrafts(ChangeContext ctx)

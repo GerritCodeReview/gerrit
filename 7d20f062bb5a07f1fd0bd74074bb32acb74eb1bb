@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d9e9e22c_60055250",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T09:04:50Z",
+      "side": 1,
+      "message": "lol",
+      "parentUuid": "d92002e1_88d2b7df",
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9e9e22c_400e4e7a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-10-19T09:00:35Z",
       "side": 1,
       "message": "I do agree that it\u0027s always right to upgrade the plugins, but I\u0027m not sure about installation.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 71
+      },
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_288d8b09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T09:04:50Z",
+      "side": 1,
+      "message": "How often, did we have complaints on dev ML, that the download-commands plugin, that is needed for core functionality of Gerrit site, was missing?",
+      "parentUuid": "d9e9e22c_400e4e7a",
       "range": {
         "startLine": 27,
         "startChar": 0,

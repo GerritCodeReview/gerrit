@@ -105,6 +105,30 @@
       "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_004f26a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T09:27:08Z",
+      "side": 1,
+      "message": "Agreed. So may be we should be smarter on that. And teach the installer to differentiate between two modes:\n\n* Install\n* Upgrade\n\nand two different kinds of core plugins:\n\n* mandatory\n* optional\n\nThis would allow us to always suggest to install mandatory plugin on first installation; so that replication plugin would be suggested with \"y/N\", but download-command plugin with \"Y/n\" for first site installations.\n\n*But* in any events each and every plugin should be suggested to be upgraded by installer, when it\u0027s already installed on the Gerrit site.",
+      "parentUuid": "d9e9e22c_a0491aa6",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 71
+      },
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

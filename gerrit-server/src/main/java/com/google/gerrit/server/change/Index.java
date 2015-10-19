@@ -47,7 +47,7 @@ public class Index implements RestModifyView<ChangeResource, Input> {
       throws IOException, AuthException {
     ChangeControl ctl = rsrc.getControl();
     if (!ctl.isOwner()
-        && !ctl.getCurrentUser().getCapabilities().canMaintainServer()) {
+        && !ctl.getUser().getCapabilities().canMaintainServer()) {
       throw new AuthException(
           "Only change owner or server maintainer can reindex");
     }

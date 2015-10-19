@@ -64,7 +64,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
     List<List<DashboardInfo>> all = Lists.newArrayList();
     boolean setDefault = true;
     for (ProjectState ps : ctl.getProjectState().tree()) {
-      ctl = ps.controlFor(ctl.getCurrentUser());
+      ctl = ps.controlFor(ctl.getUser());
       if (ctl.isVisible()) {
         List<DashboardInfo> list = scan(ctl, project, setDefault);
         for (DashboardInfo d : list) {

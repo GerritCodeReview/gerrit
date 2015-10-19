@@ -57,6 +57,6 @@ public class DraftCommentResource implements RestResource {
   }
 
   Account.Id getAuthorId() {
-    return ((IdentifiedUser) getControl().getCurrentUser()).getAccountId();
+    return ((IdentifiedUser) getControl().getUser()).getAccountId();
   }
 }

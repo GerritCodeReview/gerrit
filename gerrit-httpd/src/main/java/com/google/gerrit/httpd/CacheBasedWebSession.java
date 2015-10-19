@@ -136,7 +136,7 @@ public abstract class CacheBasedWebSession implements WebSession {
   }
 
   @Override
-  public CurrentUser getCurrentUser() {
+  public CurrentUser getUser() {
     if (user == null) {
       if (isSignedIn()) {
         user = identified.create(val.getAccountId());

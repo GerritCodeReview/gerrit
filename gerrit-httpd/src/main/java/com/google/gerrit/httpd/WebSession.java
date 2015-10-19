@@ -25,7 +25,7 @@ public interface WebSession {
   public String getXGerritAuth();
   public boolean isValidXGerritAuth(String keyIn);
   public AccountExternalId.Key getLastLoginExternalId();
-  public CurrentUser getCurrentUser();
+  public CurrentUser getUser();
   public void login(AuthResult res, boolean rememberMe);
 
   /** Set the user account for this current request only. */

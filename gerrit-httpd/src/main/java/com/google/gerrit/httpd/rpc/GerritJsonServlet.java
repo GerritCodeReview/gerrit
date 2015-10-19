@@ -134,7 +134,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       Audit note = method.getAnnotation(Audit.class);
       if (note != null) {
         final String sid = call.getWebSession().getSessionId();
-        final CurrentUser username = call.getWebSession().getCurrentUser();
+        final CurrentUser username = call.getWebSession().getUser();
         final Multimap<String, ?> args =
             extractParams(note, call);
         final String what = extractWhat(note, call);
@@ -275,7 +275,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       } else if (session.isSignedIn() && session.isValidXGerritAuth(keyIn)) {
         // The session must exist, and must be using this token.
         //
-        session.getCurrentUser().setAccessPath(AccessPath.JSON_RPC);
+        session.getUser().setAccessPath(AccessPath.JSON_RPC);
         return true;
       }
       return false;

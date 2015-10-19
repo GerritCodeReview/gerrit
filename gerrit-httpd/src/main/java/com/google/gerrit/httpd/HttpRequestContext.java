@@ -34,8 +34,8 @@ class HttpRequestContext implements RequestContext {
   }
 
   @Override
-  public CurrentUser getCurrentUser() {
-    return session.get().getCurrentUser();
+  public CurrentUser getUser() {
+    return session.get().getUser();
   }
 
   @Override

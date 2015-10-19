@@ -187,7 +187,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     }
 
     @Override
-    public CurrentUser getCurrentUser() {
+    public CurrentUser getUser() {
       return get(USER_KEY, null);
     }
 
@@ -326,7 +326,7 @@ class InProcessProtocol extends TestProtocol<Context> {
           throw new ServiceNotAuthorizedException();
         }
 
-        IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
+        IdentifiedUser user = (IdentifiedUser) ctl.getUser();
         rp.setRefLogIdent(user.newRefLogIdent());
         rp.setTimeout(config.getTimeout());
         rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());

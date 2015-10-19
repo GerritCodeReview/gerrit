@@ -68,7 +68,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
     input.id = Strings.emptyToNull(input.id);
 
     ProjectControl ctl = resource.getControl();
-    IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
+    IdentifiedUser user = (IdentifiedUser) ctl.getUser();
     if (!ctl.isOwner()) {
       throw new AuthException("not project owner");
     }

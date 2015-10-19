@@ -149,9 +149,9 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   private static IdentifiedUser checkUser(RefControl ctl) {
-    checkArgument(ctl.getCurrentUser().isIdentifiedUser(),
+    checkArgument(ctl.getUser().isIdentifiedUser(),
         "only IdentifiedUser may create change");
-    return (IdentifiedUser) ctl.getCurrentUser();
+    return (IdentifiedUser) ctl.getUser();
   }
 
   @Override
@@ -308,7 +308,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (approvals != null && !approvals.isEmpty()) {
         hooks.doCommentAddedHook(change,
-            ((IdentifiedUser) refControl.getCurrentUser()).getAccount(),
+            ((IdentifiedUser) refControl.getUser()).getAccount(),
             patchSet, null, approvals, db);
       }
     }

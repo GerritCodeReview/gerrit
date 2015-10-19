@@ -53,7 +53,7 @@ public class ThreadLocalRequestContext {
 
       @Provides
       CurrentUser provideCurrentUser(RequestContext ctx) {
-        return ctx.getCurrentUser();
+        return ctx.getUser();
       }
 
       @Provides

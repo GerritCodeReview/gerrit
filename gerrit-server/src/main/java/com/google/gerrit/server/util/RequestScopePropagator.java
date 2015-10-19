@@ -188,8 +188,8 @@ public abstract class RequestScopePropagator {
       public T call() throws Exception {
         RequestContext old = local.setContext(new RequestContext() {
           @Override
-          public CurrentUser getCurrentUser() {
-            return context.getCurrentUser();
+          public CurrentUser getUser() {
+            return context.getUser();
           }
 
           @Override

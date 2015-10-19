@@ -101,7 +101,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     GroupControl control = resource.getControl();
     Map<AccountGroup.UUID, AccountGroupById> newIncludedGroups = Maps.newHashMap();
     List<GroupInfo> result = Lists.newLinkedList();
-    Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
+    Account.Id me = ((IdentifiedUser) control.getUser()).getAccountId();
 
     for (String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.parse(includedGroup);

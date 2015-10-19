@@ -166,7 +166,7 @@ public abstract class AbstractQueryChangesTest {
         userFactory.create(Providers.of(db), requestUserId);
     return new RequestContext() {
       @Override
-      public CurrentUser getCurrentUser() {
+      public CurrentUser getUser() {
         return requestUser;
       }
 

@@ -58,7 +58,7 @@ public class CapabilityControl {
   }
 
   /** Identity of the user the control will compute for. */
-  public CurrentUser getCurrentUser() {
+  public CurrentUser getUser() {
     return user;
   }
 

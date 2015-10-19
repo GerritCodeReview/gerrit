@@ -84,7 +84,7 @@ class RunAsFilter implements Filter {
         return;
       }
 
-      CurrentUser self = session.get().getCurrentUser();
+      CurrentUser self = session.get().getUser();
       if (!self.getCapabilities().canRunAs()) {
         replyError(req, res,
             SC_FORBIDDEN,

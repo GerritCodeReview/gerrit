@@ -203,7 +203,7 @@ class SshLog implements LifecycleListener {
 
   private LoggingEvent log(final String msg) {
     final SshSession sd = session.get();
-    final CurrentUser user = sd.getCurrentUser();
+    final CurrentUser user = sd.getUser();
 
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
@@ -261,7 +261,7 @@ class SshLog implements LifecycleListener {
     } else {
       SshSession session = ctx.getSession();
       sessionId = IdGenerator.format(session.getSessionId());
-      currentUser = session.getCurrentUser();
+      currentUser = session.getUser();
       created = ctx.created;
     }
     auditService.dispatch(new SshAuditEvent(sessionId, currentUser,

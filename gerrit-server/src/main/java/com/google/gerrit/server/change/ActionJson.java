@@ -62,11 +62,11 @@ public class ActionJson {
 
   private Map<String, ActionInfo> toActionMap(ChangeControl ctl) {
     Map<String, ActionInfo> out = new LinkedHashMap<>();
-    if (!ctl.getCurrentUser().isIdentifiedUser()) {
+    if (!ctl.getUser().isIdentifiedUser()) {
       return out;
     }
 
-    Provider<CurrentUser> userProvider = Providers.of(ctl.getCurrentUser());
+    Provider<CurrentUser> userProvider = Providers.of(ctl.getUser());
     for (UiAction.Description d : UiActions.from(
         changeViews,
         new ChangeResource(ctl),
@@ -89,9 +89,9 @@ public class ActionJson {
 
   private Map<String, ActionInfo> toActionMap(RevisionResource rsrc) {
     Map<String, ActionInfo> out = new LinkedHashMap<>();
-    if (rsrc.getControl().getCurrentUser().isIdentifiedUser()) {
+    if (rsrc.getControl().getUser().isIdentifiedUser()) {
       Provider<CurrentUser> userProvider = Providers.of(
-          rsrc.getControl().getCurrentUser());
+          rsrc.getControl().getUser());
       for (UiAction.Description d : UiActions.from(
           revisions, rsrc, userProvider)) {
         out.put(d.getId(), new ActionInfo(d));

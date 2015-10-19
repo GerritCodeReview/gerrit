@@ -193,7 +193,7 @@ public class CommitValidators {
       this.canonicalWebUrl = canonicalWebUrl;
       this.installCommitMsgHookCommand = installCommitMsgHookCommand;
       this.sshInfo = sshInfo;
-      this.user = (IdentifiedUser) projectControl.getCurrentUser();
+      this.user = (IdentifiedUser) projectControl.getUser();
     }
 
     @Override
@@ -316,7 +316,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-      IdentifiedUser currentUser = (IdentifiedUser) refControl.getCurrentUser();
+      IdentifiedUser currentUser = (IdentifiedUser) refControl.getUser();
 
       if (REFS_CONFIG.equals(refControl.getRefName())) {
         List<CommitValidationMessage> messages = new LinkedList<>();
@@ -402,7 +402,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-      IdentifiedUser currentUser = (IdentifiedUser) refControl.getCurrentUser();
+      IdentifiedUser currentUser = (IdentifiedUser) refControl.getUser();
       final PersonIdent committer = receiveEvent.commit.getCommitterIdent();
       final PersonIdent author = receiveEvent.commit.getAuthorIdent();
       final ProjectControl projectControl = refControl.getProjectControl();
@@ -445,7 +445,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-      IdentifiedUser currentUser = (IdentifiedUser) refControl.getCurrentUser();
+      IdentifiedUser currentUser = (IdentifiedUser) refControl.getUser();
       final PersonIdent author = receiveEvent.commit.getAuthorIdent();
 
       if (!currentUser.hasEmailAddress(author.getEmailAddress())
@@ -475,7 +475,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-      IdentifiedUser currentUser = (IdentifiedUser) refControl.getCurrentUser();
+      IdentifiedUser currentUser = (IdentifiedUser) refControl.getUser();
       final PersonIdent committer = receiveEvent.commit.getCommitterIdent();
       if (!currentUser.hasEmailAddress(committer.getEmailAddress())
           && !refControl.canForgeCommitter()) {
@@ -560,8 +560,8 @@ public class CommitValidators {
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
 
-      if (refControl.getCurrentUser().isIdentifiedUser()) {
-        IdentifiedUser user = (IdentifiedUser) refControl.getCurrentUser();
+      if (refControl.getUser().isIdentifiedUser()) {
+        IdentifiedUser user = (IdentifiedUser) refControl.getUser();
 
         String refname = receiveEvent.refName;
         ObjectId old = receiveEvent.commit.getParent(0);

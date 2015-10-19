@@ -79,8 +79,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
 
     Account.Id currAccountId;
     boolean canViewMetadata;
-    if (projectCtl.getCurrentUser().isIdentifiedUser()) {
-      IdentifiedUser user = ((IdentifiedUser) projectCtl.getCurrentUser());
+    if (projectCtl.getUser().isIdentifiedUser()) {
+      IdentifiedUser user = ((IdentifiedUser) projectCtl.getUser());
       currAccountId = user.getAccountId();
       canViewMetadata = user.getCapabilities().canAccessDatabase();
     } else {

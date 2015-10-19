@@ -145,10 +145,10 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   private static IdentifiedUser checkUser(ChangeControl ctl) {
-    checkArgument(ctl.getCurrentUser().isIdentifiedUser(),
+    checkArgument(ctl.getUser().isIdentifiedUser(),
         "only IdentifiedUser may create patch set on change %s",
         ctl.getChange().getId());
-    return (IdentifiedUser) ctl.getCurrentUser();
+    return (IdentifiedUser) ctl.getUser();
   }
 
   public PatchSet.Id getPatchSetId() throws IOException {

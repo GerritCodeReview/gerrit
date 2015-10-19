@@ -48,7 +48,7 @@ public class BaseServiceImplementation {
     return null;
   }
 
-  protected CurrentUser getCurrentUser() {
+  protected CurrentUser getUser() {
     return currentUser.get();
   }
 

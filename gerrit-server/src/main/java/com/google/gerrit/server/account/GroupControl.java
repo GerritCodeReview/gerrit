@@ -121,7 +121,7 @@ public class GroupControl {
     return group;
   }
 
-  public CurrentUser getCurrentUser() {
+  public CurrentUser getUser() {
     return user;
   }
 
@@ -144,8 +144,8 @@ public class GroupControl {
       isOwner = false;
     } else if (isOwner == null) {
       AccountGroup.UUID ownerUUID = accountGroup.getOwnerGroupUUID();
-      isOwner = getCurrentUser().getEffectiveGroups().contains(ownerUUID)
-             || getCurrentUser().getCapabilities().canAdministrateServer();
+      isOwner = getUser().getEffectiveGroups().contains(ownerUUID)
+             || getUser().getCapabilities().canAdministrateServer();
     }
     return isOwner;
   }

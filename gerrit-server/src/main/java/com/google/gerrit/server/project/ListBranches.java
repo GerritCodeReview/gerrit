@@ -185,7 +185,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
     for (UiAction.Description d : UiActions.from(
         branchViews,
         new BranchResource(refControl.getProjectControl(), info),
-        Providers.of(refControl.getCurrentUser()))) {
+        Providers.of(refControl.getUser()))) {
       if (info.actions == null) {
         info.actions = new TreeMap<>();
       }

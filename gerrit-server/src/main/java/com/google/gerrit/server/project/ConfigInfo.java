@@ -138,7 +138,7 @@ public class ConfigInfo {
     actions = Maps.newTreeMap();
     for (UiAction.Description d : UiActions.from(
         views, new ProjectResource(control),
-        Providers.of(control.getCurrentUser()))) {
+        Providers.of(control.getUser()))) {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();

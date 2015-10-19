@@ -376,7 +376,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     // Check raw external IDs.
     Account.Id currAccountId =
-        ((IdentifiedUser) atrScope.get().getCurrentUser()).getAccountId();
+        ((IdentifiedUser) atrScope.get().getUser()).getAccountId();
     assertThat(
         GpgKeys.getGpgExtIds(db, currAccountId)
           .transform(new Function<AccountExternalId, String>() {

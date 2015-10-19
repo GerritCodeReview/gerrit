@@ -60,7 +60,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       public PatchScript call() throws Exception {
         ChangeControl control = changeControlFactory.validateFor(
             patchKey.getParentKey().getParentKey(),
-            getCurrentUser());
+            getUser());
         return patchScriptFactoryFactory.create(
             control, patchKey.getFileName(), psa, psb, dp).call();
       }

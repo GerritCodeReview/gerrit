@@ -71,7 +71,7 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
       ResourceNotFoundException, UnprocessableEntityException, IOException {
     ProjectControl ctl = rsrc.getControl();
     validateParentUpdate(ctl, input.parent, checkIfAdmin);
-    IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
+    IdentifiedUser user = (IdentifiedUser) ctl.getUser();
     try {
       MetaDataUpdate md = updateFactory.create(rsrc.getNameKey());
       try {
@@ -109,7 +109,7 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
   public void validateParentUpdate(final ProjectControl ctl, String newParent,
       boolean checkIfAdmin) throws AuthException, ResourceConflictException,
       UnprocessableEntityException {
-    IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
+    IdentifiedUser user = (IdentifiedUser) ctl.getUser();
     if (checkIfAdmin && !user.getCapabilities().canAdministrateServer()) {
       throw new AuthException("not administrator");
     }

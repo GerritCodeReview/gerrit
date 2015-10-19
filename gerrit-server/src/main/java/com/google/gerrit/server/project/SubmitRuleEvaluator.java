@@ -220,7 +220,7 @@ public class SubmitRuleEvaluator {
     try {
       results = evaluateImpl("locate_submit_rule", "can_submit",
           "locate_submit_filter", "filter_submit_results",
-          control.getCurrentUser());
+          control.getUser());
     } catch (RuleEvalException e) {
       return ruleError(e.getMessage(), e);
     }

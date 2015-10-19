@@ -40,7 +40,7 @@ public class ManualRequestContext implements RequestContext, AutoCloseable {
   }
 
   @Override
-  public CurrentUser getCurrentUser() {
+  public CurrentUser getUser() {
     return user;
   }
 

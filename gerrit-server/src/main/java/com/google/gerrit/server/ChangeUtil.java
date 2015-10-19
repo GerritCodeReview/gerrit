@@ -288,7 +288,7 @@ public class ChangeUtil {
               .append(change.getKey().get());
         ins.setMessage(msgBuf.toString());
         try (BatchUpdate bu = updateFactory.create(
-            db.get(), change.getProject(), refControl.getCurrentUser(),
+            db.get(), change.getProject(), refControl.getUser(),
             change.getCreatedOn())) {
           bu.setRepository(git, revWalk, oi);
           bu.insertChange(ins);

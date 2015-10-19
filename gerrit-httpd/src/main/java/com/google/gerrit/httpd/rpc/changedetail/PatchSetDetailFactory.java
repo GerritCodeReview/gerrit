@@ -177,7 +177,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     detail.setInfo(infoFactory.get(db, patchSet.getId()));
     detail.setPatches(patches);
 
-    final CurrentUser user = control.getCurrentUser();
+    final CurrentUser user = control.getUser();
     if (user.isIdentifiedUser() && edit == null) {
       // If we are signed in, compute the number of draft comments by the
       // current user on each of these patch files. This way they can more

@@ -16,6 +16,24 @@
       "revId": "c42c0cd81c221ea5f7067680eda1ccb17e98197f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_cf915d4c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/IoUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-10-19T19:17:49Z",
+      "side": 0,
+      "message": "Well, then you\u0027d lose the flexibility of the varargs overload here.  I did test, and we can do an overload of a single Path argument, and does appear to work.  But, when given the choice of the varargs version and the Iterable\u003cPath\u003e version, it seems like Java gets confused and guesses wrong sometimes?  Anyone more familiar with how Java is designed care to explain this behavior?",
+      "parentUuid": "d92002e1_6840231e",
+      "revId": "c42c0cd81c221ea5f7067680eda1ccb17e98197f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d92002e1_6840231e",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/IoUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T19:00:41Z",
+      "side": 0,
+      "message": "Would it also solve the problem, by fixing this overload:\n\n  public static void loadJARs(Path jars) {\n    loadJARs(Arrays.asList(jars));\n  }\n\nand letting all other places unchanged?",
+      "revId": "c42c0cd81c221ea5f7067680eda1ccb17e98197f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

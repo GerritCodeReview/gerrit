@@ -47,6 +47,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -374,9 +375,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchLineComment> del = Lists.newArrayList();
       List<PatchLineComment> ups = Lists.newArrayList();
 
+      PatchLineCommentAccess patchLineCommentAccess = db.get().patchComments();
+      List<PatchLineComment> patchLineComments =
+          patchLineCommentAccess.byChange(ctx.getChange().getId()).toList();
+
       for (Map.Entry<String, List<CommentInput>> ent : map.entrySet()) {
         String path = ent.getKey();
         for (CommentInput c : ent.getValue()) {
+          if (in.omitDuplicateComments && isDuplicateComment(ctx, c,
+                patchLineComments)) {
+            continue;
+          }
           String parent = Url.decode(c.inReplyTo);
           PatchLineComment e = drafts.remove(Url.decode(c.id));
           if (e == null) {
@@ -428,6 +437,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       plcUtil.upsertComments(ctx.getDb(), ctx.getChangeUpdate(), ups);
       comments.addAll(ups);
       return !del.isEmpty() || !ups.isEmpty();
+    }
+
+    private boolean isDuplicateComment(ChangeContext ctx, CommentInput c,
+        List<PatchLineComment> patchLineComments) throws OrmException {
+      for (PatchLineComment comment : patchLineComments) {
+        if (comment.getStatus() == PatchLineComment.Status.PUBLISHED
+            && c.id.equals(comment.getKey().get())) {
+          return true;
+        }
+      }
+      return false;
     }
 
     private Map<String, PatchLineComment> changeDrafts(ChangeContext ctx)

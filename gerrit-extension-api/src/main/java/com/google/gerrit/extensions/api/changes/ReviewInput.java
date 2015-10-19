@@ -49,6 +49,12 @@ public class ReviewInput {
   public NotifyHandling notify = NotifyHandling.ALL;
 
   /**
+   * If true check to make sure that the comments being posted aren't already
+   * present.
+   */
+  public boolean omitDuplicateComments = false;
+
+  /**
    * Account ID, name, email address or username of another user. The review
    * will be posted/updated on behalf of this named user instead of the
    * caller. Caller must have the labelAs-$NAME permission granted for each

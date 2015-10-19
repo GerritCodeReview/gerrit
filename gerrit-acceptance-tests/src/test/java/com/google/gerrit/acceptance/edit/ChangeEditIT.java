@@ -77,7 +77,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -749,21 +748,21 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private String newChange(PersonIdent ident) throws Exception {
     PushOneCommit push =
         pushFactory.create(db, ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME,
-            new String(CONTENT_OLD, StandardCharsets.UTF_8));
+            new String(CONTENT_OLD, UTF_8));
     return push.to("refs/for/master").getChangeId();
   }
 
   private String amendChange(PersonIdent ident, String changeId) throws Exception {
     PushOneCommit push =
         pushFactory.create(db, ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME2,
-            new String(CONTENT_NEW2, StandardCharsets.UTF_8), changeId);
+            new String(CONTENT_NEW2, UTF_8), changeId);
     return push.to("refs/for/master").getChangeId();
   }
 
   private String newChange2(PersonIdent ident) throws Exception {
     PushOneCommit push =
         pushFactory.create(db, ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME,
-            new String(CONTENT_OLD, StandardCharsets.UTF_8));
+            new String(CONTENT_OLD, UTF_8));
     return push.rm("refs/for/master").getChangeId();
   }
 

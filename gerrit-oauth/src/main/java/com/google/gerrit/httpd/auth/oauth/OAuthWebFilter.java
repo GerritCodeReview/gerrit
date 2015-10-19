@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.auth.oauth;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -32,7 +34,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -183,7 +184,7 @@ class OAuthWebFilter implements Filter {
     byte[] bin = HtmlDomUtil.toUTF8(doc);
     res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     res.setContentType("text/html");
-    res.setCharacterEncoding(StandardCharsets.UTF_8.name());
+    res.setCharacterEncoding(UTF_8.name());
     res.setContentLength(bin.length);
     try (ServletOutputStream out = res.getOutputStream()) {
       out.write(bin);

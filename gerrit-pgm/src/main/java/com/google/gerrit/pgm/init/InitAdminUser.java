@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm.init;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -32,7 +34,6 @@ import com.google.inject.Inject;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -153,7 +154,7 @@ public class InitAdminUser implements InitStep {
       throw new IOException(String.format(
           "Cannot add public SSH key: %s is not a file", keyFile));
     }
-    String content = new String(Files.readAllBytes(p), StandardCharsets.UTF_8);
+    String content = new String(Files.readAllBytes(p), UTF_8);
     return new AccountSshKey(new AccountSshKey.Id(id, 0), content);
   }
 }

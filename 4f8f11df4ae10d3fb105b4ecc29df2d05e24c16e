@@ -1,4 +1,91 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1445260395 +0200\nnonce AOBGQrii6vOSVQavjA53tHJglXE4HuK6bFeUo+ZfTXoh34LOJwVWbnuDUCY7IKD+jNOxjbAL1Bt8\n\n0000000000000000000000000000000000000000 4f8f11df4ae10d3fb105b4ecc29df2d05e24c16e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWJOxrAAoJEFG1/Zeg0O9RbnMIAKHRCd8ieAChDOu+xEQvHa/a\n1qKmsz7r7QkbQHuPIPIw57piwUGrSGeCpiE1x2JkD2lZdlexylDzG2GyqKeOMtxl\nzs9TzRBLwQizvMLQRbvleOg2X7Q/NjPZTchdwQ+RPjEwbkGV5F4CG5NsY5SznCMZ\nF72+zVhdy7tWhtS9tJWM9oagzCke2WRPrMujUYZZ3rxOy4M5qzlF5ZUMmEPOxl7H\n6Ilcu5TaDdHO1juD/tG1q50hPlCG4/h8+VRpQUV28y9GLPgiaE7uDS0MIiE0ClEr\n+MlvLCJrpejnEE33qGc6WVaq/nwvCURu444azzI5qX1aPwNVT0Fxjcd8tV2T3G4\u003d\n\u003dkYAw\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9e9e22c_206fcae9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T18:30:08Z",
+      "side": 1,
+      "message": "This comment is missing one use case, that is covered by this method: File comment. The comment is recognized as file comment, when startLine\u003d0, in which case, comment range with EndChar\u003d0 is created and returned.  I think I already said this to Yacob Yonas, and i say it here: I think all this code is convoluted and obfuscated. We have 3 diferent comment kinds:\n\n* file comments (endChar \u003d 0)\n* regular comment (endChar \u003d line number !\u003d 0)\n* range comment (startLine, startChar, endChar, endLine, startChar !\u003d -1)\n\nWe represent all these cases with one single class, and overload the meaning of attributes, with 0,-1 values.\n\nWhy don\u0027t we use OOA here? We could make at least two classes Comment with line number and RangeComment derived from Comment with rest attributes. This method would be renamed in Comment parseComment(), and would return either Comment or RangeComment instances. The caller would unconditionally use getLine(), as it would always be correct, for all three comment kinds, and could ask comment.isRangeComment() to check if this is a range comment instance, instead of obfuscated range.getStartChar() !\u003d -1.",
+      "revId": "4f8f11df4ae10d3fb105b4ecc29df2d05e24c16e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_0078c6af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T18:30:08Z",
+      "side": 1,
+      "message": "In which case this is not a comment range, but a normal comment.",
+      "range": {
+        "startLine": 218,
+        "startChar": 30,
+        "endLine": 220,
+        "endChar": 39
+      },
+      "revId": "4f8f11df4ae10d3fb105b4ecc29df2d05e24c16e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_e07cc2a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T18:30:08Z",
+      "side": 1,
+      "message": "Here we should explicitly mention the valid ranges of values for a range comment:\n\n* startLine: [1, n]\n* startChar: [0, n]\n* endChar:   [1, n]\n* endline:   [1, n]",
+      "range": {
+        "startLine": 220,
+        "startChar": 41,
+        "endLine": 222,
+        "endChar": 18
+      },
+      "revId": "4f8f11df4ae10d3fb105b4ecc29df2d05e24c16e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_4072cecf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T18:30:08Z",
+      "side": 1,
+      "message": "There is no any test, that would produce incorrectly formatted line/comment ranges. All else { return null; } code paths in this method aren\u0027t test covdred and could be removed?\n\nMoreover, this code is called from the method: parseComment() and after this method is invoked, this check is executed:\n\n  if (range \u003d\u003d null) {\n    throw parseException(changeId, \"could not parse %s\", COMMENT_RANGE);\n  }\n\nThis code is also not test covered. I wonder if it can be removed?",
+      "range": {
+        "startLine": 222,
+        "startChar": 20,
+        "endLine": 222,
+        "endChar": 72
+      },
+      "revId": "4f8f11df4ae10d3fb105b4ecc29df2d05e24c16e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

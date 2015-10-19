@@ -275,7 +275,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     IdentifiedUser getIdentifiedUser() throws QueryParseException {
       try {
-        CurrentUser u = getCurrentUser();
+        CurrentUser u = getUser();
         if (u.isIdentifiedUser()) {
           return (IdentifiedUser) u;
         }
@@ -285,7 +285,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     }
 
-    CurrentUser getCurrentUser() throws QueryParseException {
+    CurrentUser getUser() throws QueryParseException {
       try {
         return self.get();
       } catch (ProvisionException e) {
@@ -679,7 +679,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public Predicate<ChangeData> is_visible() throws QueryParseException {
-    return visibleto(args.getCurrentUser());
+    return visibleto(args.getUser());
   }
 
   @Operator

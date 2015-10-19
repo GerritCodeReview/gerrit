@@ -177,7 +177,7 @@ public class GitOverHttpServlet extends GitServlet {
         throw new RepositoryNotFoundException(projectName);
       }
 
-      CurrentUser user = pc.getCurrentUser();
+      CurrentUser user = pc.getUser();
       user.setAccessPath(AccessPath.GIT);
 
       if (!pc.isVisible()) {
@@ -292,12 +292,12 @@ public class GitOverHttpServlet extends GitServlet {
         throws ServiceNotAuthorizedException {
       final ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
 
-      if (!(pc.getCurrentUser().isIdentifiedUser())) {
+      if (!(pc.getUser().isIdentifiedUser())) {
         // Anonymous users are not permitted to push.
         throw new ServiceNotAuthorizedException();
       }
 
-      final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
+      final IdentifiedUser user = (IdentifiedUser) pc.getUser();
       final ReceiveCommits rc = factory.create(pc, db).getReceiveCommits();
       ReceivePack rp = rc.getReceivePack();
       rp.setRefLogIdent(user.newRefLogIdent());
@@ -367,13 +367,13 @@ public class GitOverHttpServlet extends GitServlet {
         return;
       }
 
-      if (!(pc.getCurrentUser().isIdentifiedUser())) {
+      if (!(pc.getUser().isIdentifiedUser())) {
         chain.doFilter(request, response);
         return;
       }
 
       AdvertisedObjectsCacheKey cacheKey = AdvertisedObjectsCacheKey.create(
-          ((IdentifiedUser) pc.getCurrentUser()).getAccountId(),
+          ((IdentifiedUser) pc.getUser()).getAccountId(),
           projectName);
 
       if (isGet) {

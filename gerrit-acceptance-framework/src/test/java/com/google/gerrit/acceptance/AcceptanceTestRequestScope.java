@@ -76,7 +76,7 @@ public class AcceptanceTestRequestScope {
     }
 
     @Override
-    public CurrentUser getCurrentUser() {
+    public CurrentUser getUser() {
       if (user == null) {
         throw new IllegalStateException("user == null, forgot to set it?");
       }
@@ -153,7 +153,7 @@ public class AcceptanceTestRequestScope {
   }
 
   private Context newContinuingContext(Context ctx) {
-    return new Context(ctx, ctx.getSession(), ctx.getCurrentUser());
+    return new Context(ctx, ctx.getSession(), ctx.getUser());
   }
 
   public Context set(Context ctx) {

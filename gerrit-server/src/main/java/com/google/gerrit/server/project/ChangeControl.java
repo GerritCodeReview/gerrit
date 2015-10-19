@@ -124,7 +124,7 @@ public class ChangeControl {
   }
 
   public ChangeControl forUser(final CurrentUser who) {
-    if (getCurrentUser().equals(who)) {
+    if (getUser().equals(who)) {
       return this;
     }
     return new ChangeControl(changeDataFactory,
@@ -135,8 +135,8 @@ public class ChangeControl {
     return refControl;
   }
 
-  public CurrentUser getCurrentUser() {
-    return getRefControl().getCurrentUser();
+  public CurrentUser getUser() {
+    return getRefControl().getUser();
   }
 
   public ProjectControl getProjectControl() {
@@ -182,7 +182,7 @@ public class ChangeControl {
     return isOwner() // owner (aka creator) of the change can abandon
         || getRefControl().isOwner() // branch owner can abandon
         || getProjectControl().isOwner() // project owner can abandon
-        || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
+        || getUser().getCapabilities().canAdministrateServer() // site administers are god
         || getRefControl().canAbandon() // user can abandon a specific ref
     ;
   }
@@ -252,8 +252,8 @@ public class ChangeControl {
 
   /** Is this user the owner of the change? */
   public boolean isOwner() {
-    if (getCurrentUser().isIdentifiedUser()) {
-      final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
+    if (getUser().isIdentifiedUser()) {
+      final IdentifiedUser i = (IdentifiedUser) getUser();
       return i.getAccountId().equals(getChange().getOwner());
     }
     return false;
@@ -267,9 +267,9 @@ public class ChangeControl {
   /** Is this user a reviewer for the change? */
   public boolean isReviewer(ReviewDb db, @Nullable ChangeData cd)
       throws OrmException {
-    if (getCurrentUser().isIdentifiedUser()) {
+    if (getUser().isIdentifiedUser()) {
       Collection<Account.Id> results = changeData(db, cd).reviewers().values();
-      IdentifiedUser user = (IdentifiedUser) getCurrentUser();
+      IdentifiedUser user = (IdentifiedUser) getUser();
       return results.contains(user.getAccountId());
     }
     return false;
@@ -284,8 +284,8 @@ public class ChangeControl {
     if (getChange().getStatus().isOpen()) {
       // A user can always remove themselves.
       //
-      if (getCurrentUser().isIdentifiedUser()) {
-        final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
+      if (getUser().isIdentifiedUser()) {
+        final IdentifiedUser i = (IdentifiedUser) getUser();
         if (i.getAccountId().equals(reviewer)) {
           return true; // can remove self
         }
@@ -302,7 +302,7 @@ public class ChangeControl {
       if (getRefControl().canRemoveReviewer() // has removal permissions
           || getRefControl().isOwner() // branch owner
           || getProjectControl().isOwner() // project owner
-          || getCurrentUser().getCapabilities().canAdministrateServer()) {
+          || getUser().getCapabilities().canAdministrateServer()) {
         return true;
       }
     }
@@ -316,7 +316,7 @@ public class ChangeControl {
       return isOwner() // owner (aka creator) of the change can edit topic
           || getRefControl().isOwner() // branch owner can edit topic
           || getProjectControl().isOwner() // project owner can edit topic
-          || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
+          || getUser().getCapabilities().canAdministrateServer() // site administers are god
           || getRefControl().canEditTopicName() // user can edit topic on a specific ref
       ;
     } else {
@@ -329,7 +329,7 @@ public class ChangeControl {
     return isOwner() // owner (aka creator) of the change can edit hashtags
           || getRefControl().isOwner() // branch owner can edit hashtags
           || getProjectControl().isOwner() // project owner can edit hashtags
-          || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
+          || getUser().getCapabilities().canAdministrateServer() // site administers are god
           || getRefControl().canEditHashtags(); // user can edit hashtag on a specific ref
   }
 
@@ -343,7 +343,7 @@ public class ChangeControl {
 
   private boolean match(String destBranch, String refPattern) {
     return RefPatternMatcher.getMatcher(refPattern).match(destBranch,
-        getCurrentUser().getUserName());
+        getUser().getUserName());
   }
 
   private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {
@@ -353,6 +353,6 @@ public class ChangeControl {
   public boolean isDraftVisible(ReviewDb db, ChangeData cd)
       throws OrmException {
     return isOwner() || isReviewer(db, cd) || getRefControl().canViewDrafts()
-        || getCurrentUser().isInternalUser();
+        || getUser().isInternalUser();
   }
 }

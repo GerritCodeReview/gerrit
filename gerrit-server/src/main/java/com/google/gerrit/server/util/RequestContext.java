@@ -23,6 +23,6 @@ import com.google.inject.Provider;
  * by the GerritGlobalModule scope.
  */
 public interface RequestContext {
-  CurrentUser getCurrentUser();
+  CurrentUser getUser();
   Provider<ReviewDb> getReviewDbProvider();
 }

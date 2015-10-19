@@ -126,7 +126,7 @@ public class GerritPublicKeyCheckerTest {
 
     requestContext.setContext(new RequestContext() {
       @Override
-      public CurrentUser getCurrentUser() {
+      public CurrentUser getUser() {
         return user;
       }
 

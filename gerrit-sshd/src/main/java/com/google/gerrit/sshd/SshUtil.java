@@ -121,7 +121,7 @@ public class SshUtil {
   public static boolean success(final String username, final ServerSession session,
       final SshScope sshScope, final SshLog sshLog,
       final SshSession sd, final CurrentUser user) {
-    if (sd.getCurrentUser() == null) {
+    if (sd.getUser() == null) {
       sd.authenticationSuccess(username, user);
 
       // If this is the first time we've authenticated this

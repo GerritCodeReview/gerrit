@@ -58,7 +58,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   public List<ProjectInfo> apply(ProjectResource rsrc) {
     if (recursive) {
       return getChildProjectsRecursively(rsrc.getNameKey(),
-          rsrc.getControl().getCurrentUser());
+          rsrc.getControl().getUser());
     } else {
       return getDirectChildProjects(rsrc.getNameKey());
     }

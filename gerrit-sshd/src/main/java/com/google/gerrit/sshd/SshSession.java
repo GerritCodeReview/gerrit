@@ -60,7 +60,7 @@ public class SshSession {
   }
 
   /** Identity of the authenticated user account on the socket. */
-  public CurrentUser getCurrentUser() {
+  public CurrentUser getUser() {
     return identity;
   }
 

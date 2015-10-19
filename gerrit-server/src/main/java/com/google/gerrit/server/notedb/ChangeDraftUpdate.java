@@ -93,9 +93,9 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         anonymousCowardName, when);
     this.draftsProject = allUsers;
     this.commentsUtil = commentsUtil;
-    checkState(ctl.getCurrentUser().isIdentifiedUser(),
+    checkState(ctl.getUser().isIdentifiedUser(),
         "Current user must be identified");
-    IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
+    IdentifiedUser user = (IdentifiedUser) ctl.getUser();
     this.accountId = user.getAccountId();
     this.changeNotes = getChangeNotes().load();
     this.draftNotes = draftNotesFactory.create(ctl.getChange().getId(),

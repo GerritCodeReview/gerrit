@@ -87,8 +87,8 @@ public class RefControl {
     return projectControl;
   }
 
-  public CurrentUser getCurrentUser() {
-    return projectControl.getCurrentUser();
+  public CurrentUser getUser() {
+    return projectControl.getUser();
   }
 
   public RefControl forUser(CurrentUser who) {
@@ -117,7 +117,7 @@ public class RefControl {
   public boolean isVisible() {
     if (isVisible == null) {
       isVisible =
-          (getCurrentUser().isInternalUser() || canPerform(Permission.READ))
+          (getUser().isInternalUser() || canPerform(Permission.READ))
               && canRead();
     }
     return isVisible;
@@ -206,7 +206,7 @@ public class RefControl {
       // this why for the AllProjects project we allow administrators to push
       // configuration changes if they have push without being project owner.
       if (!(projectControl.getProjectState().isAllProjects() &&
-          getCurrentUser().getCapabilities().canAdministrateServer())) {
+          getUser().getCapabilities().canAdministrateServer())) {
         return false;
       }
     }
@@ -257,12 +257,12 @@ public class RefControl {
     }
     boolean owner;
     boolean admin;
-    switch (getCurrentUser().getAccessPath()) {
+    switch (getUser().getAccessPath()) {
       case REST_API:
       case JSON_RPC:
       case UNKNOWN:
         owner = isOwner();
-        admin = getCurrentUser().getCapabilities().canAdministrateServer();
+        admin = getUser().getCapabilities().canAdministrateServer();
         break;
 
       default:
@@ -302,8 +302,8 @@ public class RefControl {
       final PersonIdent tagger = tag.getTaggerIdent();
       if (tagger != null) {
         boolean valid;
-        if (getCurrentUser().isIdentifiedUser()) {
-          final IdentifiedUser user = (IdentifiedUser) getCurrentUser();
+        if (getUser().isIdentifiedUser()) {
+          final IdentifiedUser user = (IdentifiedUser) getUser();
           final String addr = tagger.getEmailAddress();
           valid = user.hasEmailAddress(addr);
         } else {
@@ -360,12 +360,12 @@ public class RefControl {
       return false;
     }
 
-    switch (getCurrentUser().getAccessPath()) {
+    switch (getUser().getAccessPath()) {
       case GIT:
         return canPushWithForce();
 
       default:
-        return getCurrentUser().getCapabilities().canAdministrateServer()
+        return getUser().getCapabilities().canAdministrateServer()
             || (isOwner() && !isForceBlocked(Permission.PUSH))
             || canPushWithForce();
     }

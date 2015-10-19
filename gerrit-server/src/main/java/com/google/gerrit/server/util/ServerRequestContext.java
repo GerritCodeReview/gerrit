@@ -31,7 +31,7 @@ public class ServerRequestContext implements RequestContext {
   }
 
   @Override
-  public CurrentUser getCurrentUser() {
+  public CurrentUser getUser() {
     return user;
   }
 

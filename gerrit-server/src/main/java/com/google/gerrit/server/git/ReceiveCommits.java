@@ -390,7 +390,7 @@ public class ReceiveCommits {
       final ChangeEditUtil editUtil,
       final BatchUpdate.Factory batchUpdateFactory,
       final SetHashtagsOp.Factory hashtagsFactory) throws IOException {
-    this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
+    this.currentUser = (IdentifiedUser) projectControl.getUser();
     this.db = db;
     this.queryProvider = queryProvider;
     this.changeDataFactory = changeDataFactory;
@@ -1809,7 +1809,7 @@ public class ReceiveCommits {
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     try {
       mergeOpProvider.get().merge(db, rsrc.getChange(),
-          (IdentifiedUser) changeCtl.getCurrentUser(), false);
+          (IdentifiedUser) changeCtl.getUser(), false);
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);
     }

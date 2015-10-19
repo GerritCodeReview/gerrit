@@ -165,7 +165,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       rsrc = onBehalfOf(rsrc, input);
     }
     ChangeControl control = rsrc.getControl();
-    IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
+    IdentifiedUser caller = (IdentifiedUser) control.getUser();
     Change change = rsrc.getChange();
     if (input.onBehalfOf == null && !control.canSubmit()) {
       throw new AuthException("submit not permitted");

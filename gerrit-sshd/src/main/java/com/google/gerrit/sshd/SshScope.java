@@ -80,8 +80,8 @@ public class SshScope {
     }
 
     @Override
-    public CurrentUser getCurrentUser() {
-      final CurrentUser user = session.getCurrentUser();
+    public CurrentUser getUser() {
+      final CurrentUser user = session.getUser();
       if (user != null && user.isIdentifiedUser()) {
         IdentifiedUser identifiedUser = userFactory.create(((IdentifiedUser) user).getAccountId());
         identifiedUser.setAccessPath(user.getAccessPath());

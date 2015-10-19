@@ -104,7 +104,7 @@ public class TestChanges {
       IdentifiedUser user) throws OrmException {
     ChangeControl ctl = EasyMock.createNiceMock(ChangeControl.class);
     expect(ctl.getChange()).andStubReturn(c);
-    expect(ctl.getCurrentUser()).andStubReturn(user);
+    expect(ctl.getUser()).andStubReturn(user);
     ChangeNotes notes = new ChangeNotes(repoManager, migration, allUsers, c)
         .load();
     expect(ctl.getNotes()).andStubReturn(notes);

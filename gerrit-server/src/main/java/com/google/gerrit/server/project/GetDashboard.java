@@ -90,7 +90,7 @@ class GetDashboard implements RestReadView<DashboardResource> {
       if ("default".equals(id)) {
         throw new ResourceNotFoundException();
       } else if (!Strings.isNullOrEmpty(id)) {
-        ctl = ps.controlFor(ctl.getCurrentUser());
+        ctl = ps.controlFor(ctl.getUser());
         return parse(ctl, id);
       }
     }

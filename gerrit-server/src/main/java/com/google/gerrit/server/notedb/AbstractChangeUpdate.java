@@ -78,7 +78,7 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   }
 
   public IdentifiedUser getUser() {
-    return (IdentifiedUser) ctl.getCurrentUser();
+    return (IdentifiedUser) ctl.getUser();
   }
 
   public PatchSet.Id getPatchSetId() {

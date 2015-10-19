@@ -175,7 +175,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     ChangeControl control = rsrc.getControl();
     Set<Account> members;
     try {
-      members = groupMembersFactory.create(control.getCurrentUser()).listAccounts(
+      members = groupMembersFactory.create(control.getUser()).listAccounts(
               group.getGroupUUID(), control.getProject().getNameKey());
     } catch (NoSuchGroupException e) {
       throw new UnprocessableEntityException(e.getMessage());

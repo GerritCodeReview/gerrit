@@ -204,7 +204,7 @@ public class CommentsTest  {
 
       @Provides
       @Singleton
-      CurrentUser getCurrentUser(IdentifiedUser.GenericFactory userFactory) {
+      CurrentUser getUser(IdentifiedUser.GenericFactory userFactory) {
         return userFactory.create(ownerId);
       }
     };

@@ -91,7 +91,7 @@ public class ChangeResource implements RestResource, HasETag {
 
   @Override
   public String getETag() {
-    CurrentUser user = control.getCurrentUser();
+    CurrentUser user = control.getUser();
     Hasher h = Hashing.md5().newHasher()
         .putBoolean(user.getStarredChanges().contains(getChange().getId()));
     prepareETag(h, user);

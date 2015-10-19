@@ -78,7 +78,7 @@ public class HttpLogoutServlet extends HttpServlet {
       final HttpServletResponse rsp) throws IOException {
 
     final String sid = webSession.get().getSessionId();
-    final CurrentUser currentUser = webSession.get().getCurrentUser();
+    final CurrentUser currentUser = webSession.get().getUser();
     final String what = "sign out";
     final long when = TimeUtil.nowMs();
 

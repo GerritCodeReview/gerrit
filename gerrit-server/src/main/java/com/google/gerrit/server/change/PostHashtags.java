@@ -49,7 +49,7 @@ public class PostHashtags
   public Response<ImmutableSortedSet<String>> apply(ChangeResource req,
       HashtagsInput input) throws RestApiException, UpdateException {
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
-          req.getChange().getProject(), req.getControl().getCurrentUser(),
+          req.getChange().getProject(), req.getControl().getUser(),
           TimeUtil.nowTs())) {
       SetHashtagsOp op = hashtagsFactory.create(input);
       bu.addOp(req.getChange().getId(), op);

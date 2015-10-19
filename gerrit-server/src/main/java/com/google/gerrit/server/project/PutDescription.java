@@ -67,7 +67,7 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
     }
 
     ProjectControl ctl = resource.getControl();
-    IdentifiedUser user = (IdentifiedUser) ctl.getCurrentUser();
+    IdentifiedUser user = (IdentifiedUser) ctl.getUser();
     if (!ctl.isOwner()) {
       throw new AuthException("not project owner");
     }

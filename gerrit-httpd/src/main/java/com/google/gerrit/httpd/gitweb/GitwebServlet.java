@@ -551,8 +551,8 @@ class GitwebServlet extends HttpServlet {
     }
 
     String remoteUser = null;
-    if (project.getCurrentUser().isIdentifiedUser()) {
-      final IdentifiedUser u = (IdentifiedUser) project.getCurrentUser();
+    if (project.getUser().isIdentifiedUser()) {
+      final IdentifiedUser u = (IdentifiedUser) project.getUser();
       final String user = u.getUserName();
       env.set("GERRIT_USER_NAME", user);
       if (user != null && !user.isEmpty()) {

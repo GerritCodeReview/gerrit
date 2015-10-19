@@ -544,7 +544,7 @@ public class ChangeData {
   }
 
   void cacheVisibleTo(ChangeControl ctl) {
-    visibleTo = ctl.getCurrentUser();
+    visibleTo = ctl.getUser();
     changeControl = ctl;
   }
 

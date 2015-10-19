@@ -84,7 +84,7 @@ public class RevisionResource implements RestResource, HasETag {
   }
 
   IdentifiedUser getUser() {
-    return (IdentifiedUser) getControl().getCurrentUser();
+    return (IdentifiedUser) getControl().getUser();
   }
 
   RevisionResource doNotCache() {

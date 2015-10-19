@@ -100,7 +100,7 @@ class DashboardsCollection implements
       throw new ResourceNotFoundException(id);
     }
 
-    CurrentUser user = myCtl.getCurrentUser();
+    CurrentUser user = myCtl.getUser();
     String ref = parts.get(0);
     String path = parts.get(1);
     for (ProjectState ps : myCtl.getProjectState().tree()) {

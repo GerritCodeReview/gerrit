@@ -231,7 +231,7 @@ public class ChangeIndexer {
           }
 
           @Override
-          public CurrentUser getCurrentUser() {
+          public CurrentUser getUser() {
             throw new OutOfScopeException("No user during ChangeIndexer");
           }
         };

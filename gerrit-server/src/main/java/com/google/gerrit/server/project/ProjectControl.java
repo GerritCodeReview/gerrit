@@ -231,7 +231,7 @@ public class ProjectControl {
     return ctl;
   }
 
-  public CurrentUser getCurrentUser() {
+  public CurrentUser getUser() {
     return user;
   }
 

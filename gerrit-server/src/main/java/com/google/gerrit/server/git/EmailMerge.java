@@ -96,7 +96,7 @@ public class EmailMerge implements Runnable, RequestContext {
   }
 
   @Override
-  public CurrentUser getCurrentUser() {
+  public CurrentUser getUser() {
     throw new OutOfScopeException("No user on email thread");
   }
 

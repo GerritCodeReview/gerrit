@@ -111,17 +111,18 @@ public class InitPlugins implements InitStep {
       String pluginName = plugin.name;
       try {
         final File tmpPlugin = plugin.pluginFile;
+	File p = new File(site.plugins_dir, plugin.name + ".jar");
+        boolean upgrade = p.exists();
 
-        if (!(initFlags.installPlugins.contains(pluginName) || ui.yesno(false,
+        if (!(initFlags.installPlugins.contains(pluginName) || ui.yesno(upgrade,
             "Install plugin %s version %s", pluginName, plugin.version))) {
           tmpPlugin.delete();
           continue;
         }
 
-        final File p = new File(site.plugins_dir, plugin.name + ".jar");
-        if (p.exists()) {
+        if (upgrade) {
           final String installedPluginVersion = getVersion(p);
-          if (!ui.yesno(false,
+          if (!ui.yesno(upgrade,
               "version %s is already installed, overwrite it",
               installedPluginVersion)) {
             tmpPlugin.delete();

@@ -41,6 +41,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /** Get optional or required 3rd party library files into $site_path/lib. */
@@ -210,7 +211,7 @@ class LibraryDownloader {
 
     if (Files.exists(dst)) {
       exists = true;
-      IoUtil.loadJARs(dst);
+      IoUtil.loadJARs(Arrays.asList(dst));
     }
   }
 

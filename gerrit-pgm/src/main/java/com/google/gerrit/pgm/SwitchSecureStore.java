@@ -84,7 +84,7 @@ public class SwitchSecureStore extends SiteProgram {
       return -1;
     }
 
-    IoUtil.loadJARs(newSecureStorePath);
+    IoUtil.loadJARs(Arrays.asList(newSecureStorePath));
     SiteLibraryLoaderUtil.loadSiteLib(sitePaths.lib_dir);
 
     log.info("Current secureStoreClass property ({}) will be replaced with {}",

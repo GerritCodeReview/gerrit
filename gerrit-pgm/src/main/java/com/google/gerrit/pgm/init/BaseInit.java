@@ -65,6 +65,7 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -304,7 +305,7 @@ public class BaseInit extends SiteProgram {
             "%s has more that one implementation of %s interface",
             secureStore, SecureStore.class.getName()));
       }
-      IoUtil.loadJARs(secureStoreLib);
+      IoUtil.loadJARs(Arrays.asList(secureStoreLib));
       return new SecureStoreInitData(secureStoreLib, secureStores.get(0));
     } catch (IOException e) {
       throw new InvalidSecureStoreException(String.format("%s is not a valid jar",

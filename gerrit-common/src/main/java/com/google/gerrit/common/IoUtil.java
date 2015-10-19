@@ -86,10 +86,6 @@ public final class IoUtil {
     }
   }
 
-  public static void loadJARs(Path... jars) {
-    loadJARs(Arrays.asList(jars));
-  }
-
   private static UnsupportedOperationException noAddURL(String m, Throwable why) {
     String prefix = "Cannot extend classpath: ";
     return new UnsupportedOperationException(prefix + m, why);

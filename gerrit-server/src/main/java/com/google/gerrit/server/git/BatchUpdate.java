@@ -290,11 +290,9 @@ public class BatchUpdate implements AutoCloseable {
 
       executePostOps();
     } catch (UpdateException | RestApiException e) {
-      // Propagate REST API exceptions thrown by operations. Most operations
-      // should throw non-REST exceptions like NoSuchChangeException, under the
-      // assumption that validation is done by REST API handlers in advance of
-      // executing the batch. They commonly throw ResourceConflictException to
-      // indicate an atomic operation failure.
+      // Propagate REST API exceptions thrown by operations; they commonly throw
+      // exceptions like ResourceConflictException to indicate an atomic update
+      // failure.
       throw e;
     } catch (Exception e) {
       Throwables.propagateIfPossible(e);
@@ -302,14 +300,15 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void executeRefUpdates() throws IOException, UpdateException {
+  private void executeRefUpdates()
+      throws IOException, UpdateException, RestApiException {
     try {
       RepoContext ctx = new RepoContext();
       for (Op op : ops.values()) {
         op.updateRepo(ctx);
       }
     } catch (Exception e) {
-      Throwables.propagateIfPossible(e);
+      Throwables.propagateIfPossible(e, RestApiException.class);
       throw new UpdateException(e);
     }
 
@@ -331,7 +330,7 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void executeChangeOps() throws UpdateException {
+  private void executeChangeOps() throws UpdateException, RestApiException {
     try {
       for (Map.Entry<Change.Id, Collection<Op>> e : ops.asMap().entrySet()) {
         Change.Id id = e.getKey();
@@ -350,7 +349,7 @@ public class BatchUpdate implements AutoCloseable {
         indexFutures.add(indexer.indexAsync(id));
       }
     } catch (Exception e) {
-      Throwables.propagateIfPossible(e);
+      Throwables.propagateIfPossible(e, RestApiException.class);
       throw new UpdateException(e);
     }
   }

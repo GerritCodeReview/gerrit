@@ -47,6 +47,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -75,9 +76,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Singleton
@@ -356,6 +359,81 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
     }
 
+    /**
+     * Used to compare PatchLineComments with CommentInput comments.
+     */
+    private class CommentSetEntry {
+      private String inReplyTo;
+      private RevId revId;
+      private String fileName;
+      private Integer line;
+      private int author;
+      private String message;
+      private CommentRange range;
+
+      public CommentSetEntry(PatchLineComment comment) {
+        this.inReplyTo = comment.getParentUuid();
+        this.revId = checkNotNull(comment.getRevId());
+        this.fileName = checkNotNull(comment.getKey().getParentKey().getFileName());
+        this.line = comment.getLine();
+        this.author = comment.getAuthor().get();
+        this.message = checkNotNull(comment.getMessage());
+        this.range = comment.getRange();
+      }
+
+      public CommentSetEntry(CommentInput comment, RevId revId, int author) {
+        this.inReplyTo = comment.inReplyTo;
+        this.revId = checkNotNull(revId);
+        this.fileName = checkNotNull(comment.path);
+        this.line = comment.line;
+        this.author = author;
+        this.message = checkNotNull(comment.message);
+        if (comment.range != null) {
+          this.range = new CommentRange(comment.range.startLine,
+              comment.range.startCharacter, comment.range.endLine,
+              comment.range.endCharacter);
+        } else {
+          this.range = null;
+        }
+      }
+
+      @Override
+      public int hashCode() {
+        return Objects.hash(inReplyTo, revId, fileName, line, author, message,
+            range);
+      }
+
+      @Override
+      public boolean equals(Object o) {
+        if (o instanceof CommentSetEntry) {
+          CommentSetEntry cse = (CommentSetEntry) o;
+          return Objects.equals(cse.inReplyTo, inReplyTo)
+              && Objects.equals(cse.revId, revId)
+              && Objects.equals(cse.fileName, fileName)
+              && Objects.equals(cse.line, line)
+              && Objects.equals(cse.author, author)
+              && Objects.equals(cse.message, message)
+              && Objects.equals(cse.range, range);
+        }
+        return false;
+      }
+
+      @Override
+      public String toString() {
+        return new StringBuilder()
+            .append("CommentSetEntry{\n")
+            .append("\tinReplyTo: " + inReplyTo + "\n")
+            .append("\trevId: " + revId + "\n")
+            .append("\tfileName: " + fileName + "\n")
+            .append("\tline: " + line + "\n")
+            .append("\tauthor: " + author + "\n")
+            .append("\tmessage: \"" + message + "\"\n")
+            .append("\trange: " + range + "\n")
+            .append("}\n")
+            .toString();
+      }
+    }
+
     private boolean insertComments(ChangeContext ctx) throws OrmException {
       Map<String, List<CommentInput>> map = in.comments;
       if (map == null) {
@@ -374,9 +452,20 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchLineComment> del = Lists.newArrayList();
       List<PatchLineComment> ups = Lists.newArrayList();
 
+      Set<CommentSetEntry> existingIds = in.omitDuplicateComments
+          ? readExistingComments(ctx)
+          : Collections.<CommentSetEntry>emptySet();
+
       for (Map.Entry<String, List<CommentInput>> ent : map.entrySet()) {
         String path = ent.getKey();
         for (CommentInput c : ent.getValue()) {
+          CommentSetEntry cse =
+              new CommentSetEntry(c,
+                  ctx.getDb().patchSets().get(psId).getRevision(),
+                  user.getAccountId().get());
+          if (existingIds.contains(cse)) {
+            continue;
+          }
           String parent = Url.decode(c.inReplyTo);
           PatchLineComment e = drafts.remove(Url.decode(c.id));
           if (e == null) {
@@ -428,6 +517,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       plcUtil.upsertComments(ctx.getDb(), ctx.getChangeUpdate(), ups);
       comments.addAll(ups);
       return !del.isEmpty() || !ups.isEmpty();
+    }
+
+    private Set<CommentSetEntry> readExistingComments(ChangeContext ctx)
+        throws OrmException {
+      Set<CommentSetEntry> r = new HashSet<>();
+      for (PatchLineComment c : plcUtil.publishedByChange(ctx.getDb(),
+            ctx.getChangeNotes())) {
+        CommentSetEntry cse = new CommentSetEntry(c);
+        r.add(cse);
+      }
+      return r;
     }
 
     private Map<String, PatchLineComment> changeDrafts(ChangeContext ctx)

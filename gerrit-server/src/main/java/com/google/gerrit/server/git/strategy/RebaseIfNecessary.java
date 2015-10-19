@@ -31,6 +31,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -117,9 +118,9 @@ public class RebaseIfNecessary extends SubmitStrategy {
             setRefLogIdent();
           } catch (MergeConflictException e) {
             n.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
-          } catch (NoSuchChangeException | OrmException | IOException
-              | InvalidChangeOperationException | UpdateException
-              | RestApiException e) {
+          } catch (NoSuchChangeException | NoSuchProjectException
+              | OrmException | IOException | InvalidChangeOperationException
+              | UpdateException | RestApiException e) {
             // TODO(dborowitz): Allow Submit to unwrap ResourceConflictException
             // so it can turn into a 409.
             throw new MergeException("Cannot rebase " + n.name(), e);

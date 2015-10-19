@@ -36,6 +36,7 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -95,7 +96,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       rebaseChange.get().rebase(repo, rw, rsrc, findBaseRev(rw, rsrc, input));
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());
-    } catch (NoSuchChangeException e) {
+    } catch (NoSuchChangeException | NoSuchProjectException e) {
       throw new ResourceNotFoundException(change.getId().toString());
     }
 

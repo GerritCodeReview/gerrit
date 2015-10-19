@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -32,9 +33,11 @@ import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -59,7 +62,7 @@ import java.util.TimeZone;
 public class RebaseChange {
   private static final Logger log = LoggerFactory.getLogger(RebaseChange.class);
 
-  private final ChangeControl.GenericFactory changeControlFactory;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final TimeZone serverTimeZone;
@@ -68,14 +71,14 @@ public class RebaseChange {
   private final BatchUpdate.Factory updateFactory;
 
   @Inject
-  RebaseChange(ChangeControl.GenericFactory changeControlFactory,
+  RebaseChange(ProjectControl.GenericFactory projectControlFactory,
       Provider<ReviewDb> db,
       @GerritPersonIdent PersonIdent myIdent,
       GitRepositoryManager gitManager,
       MergeUtil.Factory mergeUtilFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       BatchUpdate.Factory updateFactory) {
-    this.changeControlFactory = changeControlFactory;
+    this.projectControlFactory = projectControlFactory;
     this.db = db;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
@@ -104,6 +107,8 @@ public class RebaseChange {
    * @param newBaseRev the commit that should be the new base.
    * @throws NoSuchChangeException if the change to which the patch set belongs
    *     does not exist or is not visible to the user.
+   * @throws NoSuchProjectException if the project to which the patch set
+   *     belongs does not exist or is not visible to the user.
    * @throws EmailException if sending the e-mail to notify about the new patch
    *     set fails.
    * @throws OrmException if accessing the database fails.
@@ -115,9 +120,9 @@ public class RebaseChange {
    * @throws UpdateException if updating the change fails.
    */
   public void rebase(Repository git, RevWalk rw, RevisionResource rsrc,
-      String newBaseRev) throws NoSuchChangeException, EmailException,
-          OrmException, IOException, InvalidChangeOperationException,
-          UpdateException, RestApiException {
+      String newBaseRev) throws NoSuchChangeException, NoSuchProjectException,
+      EmailException, OrmException, IOException, InvalidChangeOperationException,
+      UpdateException, RestApiException {
     Change change = rsrc.getChange();
     PatchSet patchSet = rsrc.getPatchSet();
     IdentifiedUser uploader = rsrc.getControl().getUser().asIdentifiedUser();
@@ -246,8 +251,8 @@ public class RebaseChange {
    * @param validate if commit validation should be run for the new patch set.
    * @param rw the RevWalk.
    * @return the new patch set, which is based on the given base commit.
-   * @throws NoSuchChangeException if the change to which the patch set belongs
-   *     does not exist or is not visible to the user.
+   * @throws NoSuchProjectException if the project to which the patch set
+   *     belongs does not exist or is not visible to the user.
    * @throws OrmException if accessing the database fails.
    * @throws IOException if rebase is not possible.
    * @throws InvalidChangeOperationException if rebase is not possible or not
@@ -261,7 +266,7 @@ public class RebaseChange {
       IdentifiedUser uploader, RevCommit baseCommit, MergeUtil mergeUtil,
       PersonIdent committerIdent, boolean runHooks,
       CommitValidators.Policy validate)
-      throws NoSuchChangeException, OrmException, IOException,
+      throws NoSuchProjectException, OrmException, IOException,
       InvalidChangeOperationException, MergeConflictException, UpdateException,
       RestApiException {
     if (!change.currentPatchSetId().equals(patchSetId)) {
@@ -278,11 +283,14 @@ public class RebaseChange {
 
     rebasedCommit = rw.parseCommit(newId);
 
-    ChangeControl changeControl =
-        changeControlFactory.validateFor(change, uploader);
+    RefControl ctl = projectControlFactory
+        .controlFor(change.getProject(), uploader)
+        .controlForRef(change.getDest());
 
+    PatchSet.Id psId =
+        ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
     PatchSetInserter patchSetInserter = patchSetInserterFactory
-        .create(git, rw, changeControl, rebasedCommit)
+        .create(ctl, psId, rebasedCommit)
         .setValidatePolicy(validate)
         .setDraft(originalPatchSet.isDraft())
         .setUploader(uploader.getAccountId())

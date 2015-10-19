@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -75,6 +76,7 @@ import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
@@ -1338,15 +1340,18 @@ public abstract class AbstractQueryChangesTest {
             .message("message")
             .add("file" + n, "contents " + n)
             .create());
-    ChangeControl ctl = changeControlFactory.controlFor(c.getId(), user);
+    RefControl ctl = projectControlFactory.controlFor(c.getProject(), user)
+        .controlForRef(c.getDest());
 
     PatchSetInserter inserter = patchSetFactory.create(
-          repo.getRepository(), repo.getRevWalk(), ctl, commit)
+          ctl, new PatchSet.Id(c.getId(), n), commit)
         .setSendMail(false)
         .setRunHooks(false)
         .setValidatePolicy(CommitValidators.Policy.NONE);
     try (BatchUpdate bu = updateFactory.create(
-        db, c.getDest().getParentKey(), user, TimeUtil.nowTs())) {
+        db, c.getProject(), user, TimeUtil.nowTs());
+        ObjectInserter oi = repo.getRepository().newObjectInserter()) {
+      bu.setRepository(repo.getRepository(), repo.getRevWalk(), oi);
       bu.addOp(c.getId(), inserter);
       bu.execute();
     }

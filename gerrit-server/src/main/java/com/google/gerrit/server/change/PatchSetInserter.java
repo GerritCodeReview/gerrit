@@ -31,7 +31,6 @@ import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -47,6 +46,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ChangeModifiedException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -55,10 +55,8 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +69,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       LoggerFactory.getLogger(PatchSetInserter.class);
 
   public static interface Factory {
-    PatchSetInserter create(Repository git, RevWalk revWalk, ChangeControl ctl,
+    PatchSetInserter create(RefControl refControl, PatchSet.Id psId,
         RevCommit commit);
   }
 
@@ -86,14 +84,9 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private final ChangeMessagesUtil cmUtil;
 
   // Assisted-injected fields.
+  private final PatchSet.Id psId;
   private final RevCommit commit;
-  private final ChangeControl ctl;
-  private final IdentifiedUser user;
-  private final Repository git;
-  private final RevWalk revWalk;
-
-  // Lazily initialized fields.
-  private PatchSet.Id psId;
+  private final RefControl refControl;
 
   // Fields exposed as setters.
   private SshInfo sshInfo;
@@ -123,9 +116,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
       PatchSetInfoFactory patchSetInfoFactory,
       CommitValidators.Factory commitValidatorsFactory,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
-      @Assisted Repository git,
-      @Assisted RevWalk revWalk,
-      @Assisted ChangeControl ctl,
+      @Assisted RefControl refControl,
+      @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
     this.hooks = hooks;
     this.db = db;
@@ -136,18 +128,12 @@ public class PatchSetInserter extends BatchUpdate.Op {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
 
-    this.git = git;
-    this.revWalk = revWalk;
+    this.refControl = refControl;
+    this.psId = psId;
     this.commit = commit;
-    this.ctl = ctl;
-    this.user = ctl.getUser().asIdentifiedUser();
   }
 
-  public PatchSet.Id getPatchSetId() throws IOException {
-    if (psId == null) {
-      psId =
-          ChangeUtil.nextPatchSetId(git, ctl.getChange().currentPatchSetId());
-    }
+  public PatchSet.Id getPatchSetId() {
     return psId;
   }
 
@@ -205,7 +191,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   public void updateRepo(RepoContext ctx)
       throws InvalidChangeOperationException, IOException {
     init();
-    validate();
+    validate(ctx);
     patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
     ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
         commit, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
@@ -214,6 +200,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
   @Override
   public void updateChange(ChangeContext ctx) throws OrmException,
       InvalidChangeOperationException {
+    ChangeControl ctl = ctx.getChangeControl();
+
     change = ctx.getChange();
     Change.Id id = change.getId();
     final PatchSet.Id currentPatchSetId = change.currentPatchSetId();
@@ -244,7 +232,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       changeMessage = new ChangeMessage(
           new ChangeMessage.Key(
               ctl.getChange().getId(), ChangeUtil.messageUUID(db)),
-          user.getAccountId(), ctx.getWhen(), patchSet.getId());
+          ctx.getUser().getAccountId(), ctx.getWhen(), patchSet.getId());
       changeMessage.setMessage(message);
     }
 
@@ -284,7 +272,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(
             change.getId());
-        cm.setFrom(user.getAccountId());
+        cm.setFrom(ctx.getUser().getAccountId());
         cm.setPatchSet(patchSet, patchSetInfo);
         cm.setChangeMessage(changeMessage);
         cm.addReviewers(oldReviewers.get(ReviewerState.REVIEWER));
@@ -307,9 +295,10 @@ public class PatchSetInserter extends BatchUpdate.Op {
     }
   }
 
-  private void validate() throws InvalidChangeOperationException, IOException {
-    CommitValidators cv =
-        commitValidatorsFactory.create(ctl.getRefControl(), sshInfo, git);
+  private void validate(RepoContext ctx)
+      throws InvalidChangeOperationException, IOException {
+    CommitValidators cv = commitValidatorsFactory.create(
+        refControl, sshInfo, ctx.getRepository());
 
     String refName = getPatchSetId().toRefName();
     CommitReceivedEvent event = new CommitReceivedEvent(
@@ -317,13 +306,14 @@ public class PatchSetInserter extends BatchUpdate.Op {
             ObjectId.zeroId(),
             commit.getId(),
             refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
-        ctl.getProjectControl().getProject(), ctl.getRefControl().getRefName(),
-        commit, user);
+        refControl.getProjectControl().getProject(), refControl.getRefName(),
+        commit, ctx.getUser().asIdentifiedUser());
 
     try {
       switch (validatePolicy) {
       case RECEIVE_COMMITS:
-        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(git, revWalk);
+        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(
+            ctx.getRepository(), ctx.getRevWalk());
         cv.validateForReceiveCommits(event, rejectCommits);
         break;
       case GERRIT:

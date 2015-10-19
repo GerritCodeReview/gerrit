@@ -47,8 +47,9 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -59,6 +60,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -108,7 +110,7 @@ public class ConsistencyChecker {
   private final GitRepositoryManager repoManager;
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
-  private final ChangeControl.GenericFactory changeControlFactory;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final BatchUpdate.Factory updateFactory;
@@ -130,7 +132,7 @@ public class ConsistencyChecker {
       GitRepositoryManager repoManager,
       Provider<CurrentUser> user,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
-      ChangeControl.GenericFactory changeControlFactory,
+      ProjectControl.GenericFactory projectControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       BatchUpdate.Factory updateFactory) {
@@ -138,7 +140,7 @@ public class ConsistencyChecker {
     this.repoManager = repoManager;
     this.user = user;
     this.serverIdent = serverIdent;
-    this.changeControlFactory = changeControlFactory;
+    this.projectControlFactory = projectControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.updateFactory = updateFactory;
@@ -461,12 +463,17 @@ public class ConsistencyChecker {
     }
 
     try {
-      ChangeControl ctl = changeControlFactory.controlFor(change, user.get());
+      RefControl ctl = projectControlFactory
+          .controlFor(change.getProject(), user.get())
+          .controlForRef(change.getDest());
+      PatchSet.Id psId =
+          ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
       PatchSetInserter inserter =
-          patchSetInserterFactory.create(repo, rw, ctl, commit);
+          patchSetInserterFactory.create(ctl, psId, commit);
       try (BatchUpdate bu = updateFactory.create(
-          db.get(), change.getDest().getParentKey(), user.get(),
-          TimeUtil.nowTs())) {
+            db.get(), change.getProject(), ctl.getUser(), TimeUtil.nowTs());
+          ObjectInserter oi = repo.newObjectInserter()) {
+        bu.setRepository(repo, rw, oi);
         bu.addOp(change.getId(), inserter
             .setValidatePolicy(CommitValidators.Policy.NONE)
             .setRunHooks(false)
@@ -478,12 +485,11 @@ public class ConsistencyChecker {
                 "Patch set for merged commit inserted by consistency checker"));
         bu.execute();
       }
-      change = inserter.getChange();
-      PatchSet.Id psId = change.currentPatchSetId();
       p.status = Status.FIXED;
       p.outcome = "Inserted as patch set " + psId.get();
       return psId;
-    } catch (NoSuchChangeException | UpdateException | RestApiException e) {
+    } catch (IOException | NoSuchProjectException | UpdateException
+        | RestApiException e) {
       warn(e);
       p.status = Status.FIX_FAILED;
       p.outcome = "Error inserting new patch set";

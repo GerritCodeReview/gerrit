@@ -176,7 +176,7 @@ public class CherryPickChange {
         } else if (destChanges.size() == 1) {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
-          return insertPatchSet(git, revWalk, destChanges.get(0).change(),
+          return insertPatchSet(git, revWalk, oi, destChanges.get(0).change(),
               cherryPickCommit, refControl, identifiedUser);
         } else {
           // Change key not found on destination branch. We can create a new
@@ -203,19 +203,20 @@ public class CherryPickChange {
   }
 
   private Change.Id insertPatchSet(Repository git, RevWalk revWalk,
-      Change change, CodeReviewCommit cherryPickCommit, RefControl refControl,
-      IdentifiedUser identifiedUser)
+      ObjectInserter oi, Change change, CodeReviewCommit cherryPickCommit,
+      RefControl refControl, IdentifiedUser identifiedUser)
       throws IOException, OrmException, UpdateException, RestApiException {
-    final ChangeControl changeControl =
-        refControl.getProjectControl().controlFor(change);
-    final PatchSetInserter inserter = patchSetInserterFactory
-        .create(git, revWalk, changeControl, cherryPickCommit);
-    final PatchSet.Id newPatchSetId = inserter.getPatchSetId();
+    PatchSet.Id psId =
+        ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
+    PatchSetInserter inserter = patchSetInserterFactory
+        .create(refControl, psId, cherryPickCommit);
+    PatchSet.Id newPatchSetId = inserter.getPatchSetId();
     PatchSet current = db.get().patchSets().get(change.currentPatchSetId());
 
     try (BatchUpdate bu = batchUpdateFactory.create(
         db.get(), change.getDest().getParentKey(), identifiedUser,
         TimeUtil.nowTs())) {
+      bu.setRepository(git, revWalk, oi);
       bu.addOp(change.getId(), inserter
           .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
           .setDraft(current.isDraft())

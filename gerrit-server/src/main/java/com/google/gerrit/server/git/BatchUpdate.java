@@ -79,6 +79,10 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public class Context {
+    public Project.NameKey getProject() {
+      return project;
+    }
+
     public Timestamp getWhen() {
       return when;
     }
@@ -235,6 +239,10 @@ public class BatchUpdate implements AutoCloseable {
       inserter = repo.newObjectInserter();
       revWalk = new RevWalk(inserter.newReader());
     }
+  }
+
+  public CurrentUser getUser() {
+    return user;
   }
 
   public Repository getRepository() throws IOException {

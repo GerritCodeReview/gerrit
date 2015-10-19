@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeKind;
@@ -35,10 +36,11 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -65,7 +67,7 @@ import java.io.IOException;
 public class ChangeEditUtil {
   private final GitRepositoryManager gitManager;
   private final PatchSetInserter.Factory patchSetInserterFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final ChangeIndexer indexer;
   private final ProjectCache projectCache;
   private final Provider<ReviewDb> db;
@@ -76,7 +78,7 @@ public class ChangeEditUtil {
   @Inject
   ChangeEditUtil(GitRepositoryManager gitManager,
       PatchSetInserter.Factory patchSetInserterFactory,
-      ChangeControl.GenericFactory changeControlFactory,
+      ProjectControl.GenericFactory projectControlFactory,
       ChangeIndexer indexer,
       ProjectCache projectCache,
       Provider<ReviewDb> db,
@@ -85,7 +87,7 @@ public class ChangeEditUtil {
       BatchUpdate.Factory updateFactory) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
-    this.changeControlFactory = changeControlFactory;
+    this.projectControlFactory = projectControlFactory;
     this.indexer = indexer;
     this.projectCache = projectCache;
     this.db = db;
@@ -147,13 +149,13 @@ public class ChangeEditUtil {
    * its parent.
    *
    * @param edit change edit to publish
-   * @throws NoSuchChangeException
+   * @throws NoSuchProjectException
    * @throws IOException
    * @throws OrmException
    * @throws UpdateException
    * @throws RestApiException
    */
-  public void publish(ChangeEdit edit) throws NoSuchChangeException,
+  public void publish(ChangeEdit edit) throws NoSuchProjectException,
       IOException, OrmException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
@@ -166,7 +168,7 @@ public class ChangeEditUtil {
       }
 
       Change updatedChange =
-          insertPatchSet(edit, change, repo, rw, basePatchSet,
+          insertPatchSet(edit, change, repo, rw, inserter, basePatchSet,
               squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
       // TODO(davido): This should happen in the same BatchRefUpdate.
       deleteRef(repo, edit);
@@ -215,12 +217,16 @@ public class ChangeEditUtil {
   }
 
   private Change insertPatchSet(ChangeEdit edit, Change change,
-      Repository repo, RevWalk rw, PatchSet basePatchSet, RevCommit squashed)
-      throws NoSuchChangeException, RestApiException, UpdateException,
-      IOException {
-    ChangeControl ctl = changeControlFactory.controlFor(change, edit.getUser());
+      Repository repo, RevWalk rw, ObjectInserter oi, PatchSet basePatchSet,
+      RevCommit squashed) throws NoSuchProjectException, RestApiException,
+      UpdateException, IOException {
+    RefControl ctl = projectControlFactory
+        .controlFor(change.getProject(), edit.getUser())
+        .controlForRef(change.getDest());
+    PatchSet.Id psId =
+        ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
     PatchSetInserter inserter =
-        patchSetInserterFactory.create(repo, rw, ctl, squashed);
+        patchSetInserterFactory.create(ctl, psId, squashed);
 
     StringBuilder message = new StringBuilder("Patch set ")
       .append(inserter.getPatchSetId().get())
@@ -241,6 +247,7 @@ public class ChangeEditUtil {
     try (BatchUpdate bu = updateFactory.create(
         db.get(), change.getProject(), ctl.getUser(),
         TimeUtil.nowTs())) {
+      bu.setRepository(repo, rw, oi);
       bu.addOp(change.getId(), inserter
         .setDraft(change.getStatus() == Status.DRAFT ||
             basePatchSet.isDraft())

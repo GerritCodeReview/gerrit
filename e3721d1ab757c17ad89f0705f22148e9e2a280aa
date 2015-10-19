@@ -22,6 +22,30 @@
       "revId": "e3721d1ab757c17ad89f0705f22148e9e2a280aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_88f9177c",
+        "filename": "tools/pack_war.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-19T04:08:25Z",
+      "side": 1,
+      "message": "This is nested list comprehension expression and is mentioned in Python Language Specification, in Expression section, 5.2.4. List displays: [1].\n\n  When a list comprehension is supplied, it consists of a single expression\n  followed by at least one for clause and zero or more for or if clauses.\n  In this case, the elements of the new list are those that would be produced\n  by considering each of the for or if clauses a block, nesting from left\n  to right, and evaluating the expression to produce a list element each time\n  the innermost block is reached.\n\nThere is also some explanations provided on SO page: [2]. To re-write this construct without nested list comprehension:\n\n  def prune(l):\n  t \u003d []\n  for e in l:\n    for j in e.split(\u0027:\u0027):\n      t.append(j[j.find(\u0027buck-out\u0027):])\n  return t\n\n* [1] https://docs.python.org/2/reference/expressions.html#list-displays\n* [2] http://stackoverflow.com/questions/8049798/understanding-nested-list-comprehension",
+      "parentUuid": "79ec76ce_4d7d799f",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 65
+      },
+      "revId": "e3721d1ab757c17ad89f0705f22148e9e2a280aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

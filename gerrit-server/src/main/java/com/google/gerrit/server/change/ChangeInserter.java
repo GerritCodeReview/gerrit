@@ -140,18 +140,12 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.sendMail = true;
     this.updateRef = true;
 
-    user = checkUser(refControl);
+    user = refControl.getUser().asIdentifiedUser();
     patchSet =
         new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
     patchSet.setCreatedOn(change.getCreatedOn());
     patchSet.setUploader(change.getOwner());
     patchSet.setRevision(new RevId(commit.name()));
-  }
-
-  private static IdentifiedUser checkUser(RefControl ctl) {
-    checkArgument(ctl.getUser().isIdentifiedUser(),
-        "only IdentifiedUser may create change");
-    return (IdentifiedUser) ctl.getUser();
   }
 
   @Override
@@ -307,9 +301,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (approvals != null && !approvals.isEmpty()) {
-        hooks.doCommentAddedHook(change,
-            ((IdentifiedUser) refControl.getUser()).getAccount(),
-            patchSet, null, approvals, db);
+        hooks.doCommentAddedHook(
+            change, user.getAccount(), patchSet, null, approvals, db);
       }
     }
   }

@@ -114,7 +114,7 @@ public class AccountsCollection implements
     if (id.equals("self")) {
       CurrentUser user = self.get();
       if (user.isIdentifiedUser()) {
-        return (IdentifiedUser) user;
+        return user.asIdentifiedUser();
       } else if (user instanceof AnonymousUser) {
         throw new AuthException("Authentication required");
       } else {

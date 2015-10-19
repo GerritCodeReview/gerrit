@@ -81,7 +81,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       final AbandonInput input)
       throws RestApiException, UpdateException, OrmException {
     ChangeControl control = req.getControl();
-    IdentifiedUser caller = (IdentifiedUser) control.getUser();
+    IdentifiedUser caller = control.getUser().asIdentifiedUser();
     if (!control.canAbandon()) {
       throw new AuthException("abandon not permitted");
     }

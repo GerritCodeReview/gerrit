@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.ConfirmEmail.Input;
@@ -69,7 +68,7 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
 
     try {
       EmailTokenVerifier.ParsedToken token = emailTokenVerifier.decode(input.token);
-      Account.Id accId = ((IdentifiedUser)user).getAccountId();
+      Account.Id accId = user.getAccountId();
       if (accId.equals(token.getAccountId())) {
         accountManager.link(accId, token.toAuthRequest());
         return Response.none();

@@ -36,7 +36,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
@@ -84,7 +83,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeUpdate.Factory updateFactory;
-  private final Provider<CurrentUser> currentUser;
+  private final Provider<IdentifiedUser> user;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
   private final ChangeHooks hooks;
@@ -102,7 +101,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       AccountLoader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
       ChangeUpdate.Factory updateFactory,
-      Provider<CurrentUser> currentUser,
+      Provider<IdentifiedUser> user,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config cfg,
       ChangeHooks hooks,
@@ -118,7 +117,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
     this.updateFactory = updateFactory;
-    this.currentUser = currentUser;
+    this.user = user;
     this.identifiedUserFactory = identifiedUserFactory;
     this.cfg = cfg;
     this.hooks = hooks;
@@ -275,16 +274,16 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     //
     // The user knows they added themselves, don't bother emailing them.
     List<Account.Id> toMail = Lists.newArrayListWithCapacity(added.size());
-    IdentifiedUser identifiedUser = (IdentifiedUser) currentUser.get();
+    Account.Id userId = user.get().getAccountId();
     for (PatchSetApproval psa : added) {
-      if (!psa.getAccountId().equals(identifiedUser.getAccountId())) {
+      if (!psa.getAccountId().equals(userId)) {
         toMail.add(psa.getAccountId());
       }
     }
     if (!toMail.isEmpty()) {
       try {
         AddReviewerSender cm = addReviewerSenderFactory.create(change.getId());
-        cm.setFrom(identifiedUser.getAccountId());
+        cm.setFrom(userId);
         cm.addReviewers(toMail);
         cm.send();
       } catch (Exception err) {

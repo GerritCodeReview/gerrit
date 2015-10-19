@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.EnableSignedPush;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
@@ -87,7 +86,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final PluginConfigFactory cfgFactory;
   private final AllProjectsNameProvider allProjects;
   private final DynamicMap<RestView<ProjectResource>> views;
-  private final Provider<CurrentUser> currentUser;
+  private final Provider<CurrentUser> user;
   private final ChangeHooks hooks;
 
   @Inject
@@ -102,7 +101,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views,
       ChangeHooks hooks,
-      Provider<CurrentUser> currentUser) {
+      Provider<CurrentUser> user) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
@@ -114,7 +113,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.allProjects = allProjects;
     this.views = views;
     this.hooks = hooks;
-    this.currentUser = currentUser;
+    this.user = user;
   }
 
   @Override
@@ -194,10 +193,9 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         ObjectId commitRev = projectConfig.commit(md);
         // Only fire hook if project was actually changed.
         if (!Objects.equals(baseRev, commitRev)) {
-          IdentifiedUser user = (IdentifiedUser) currentUser.get();
           hooks.doRefUpdatedHook(
             new Branch.NameKey(projectName, RefNames.REFS_CONFIG),
-            baseRev, commitRev, user.getAccount());
+            baseRev, commitRev, user.get().asIdentifiedUser().getAccount());
         }
         projectCache.evict(projectConfig.getProject());
         gitMgr.setProjectDescription(projectName, p.getDescription());
@@ -214,7 +212,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
 
       ProjectState state = projectStateFactory.create(projectConfig);
       return new ConfigInfo(serverEnableSignedPush,
-          state.controlFor(currentUser.get()), config, pluginConfigEntries,
+          state.controlFor(user.get()), config, pluginConfigEntries,
           cfgFactory, allProjects, views);
     } catch (ConfigInvalidException err) {
       throw new ResourceConflictException("Cannot read project " + projectName, err);

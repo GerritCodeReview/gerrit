@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -183,7 +182,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       // current user on each of these patch files. This way they can more
       // quickly locate where they have pending drafts, and review them.
       //
-      final Account.Id me = ((IdentifiedUser) user).getAccountId();
+      final Account.Id me = user.getAccountId();
       for (PatchLineComment c
           : plcUtil.draftByPatchSetAuthor(db, psIdNew, me, notes)) {
         final Patch p = byKey.get(c.getKey().getParentKey());

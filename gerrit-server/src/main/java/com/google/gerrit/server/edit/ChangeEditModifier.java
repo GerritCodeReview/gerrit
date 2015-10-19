@@ -123,7 +123,7 @@ public class ChangeEditModifier {
       throw new AuthException("Authentication required");
     }
 
-    IdentifiedUser me = (IdentifiedUser) currentUser.get();
+    IdentifiedUser me = currentUser.get().asIdentifiedUser();
     String refPrefix = RefNames.refsEditPrefix(me.getAccountId(), change.getId());
 
     try (Repository repo = gitManager.openRepository(change.getProject())) {
@@ -162,7 +162,7 @@ public class ChangeEditModifier {
     }
 
     Change change = edit.getChange();
-    IdentifiedUser me = (IdentifiedUser) currentUser.get();
+    IdentifiedUser me = currentUser.get().asIdentifiedUser();
     String refName = RefNames.refsEdit(me.getAccountId(), change.getId(),
         current.getId());
     try (Repository repo = gitManager.openRepository(change.getProject());
@@ -237,7 +237,7 @@ public class ChangeEditModifier {
       throw new UnchangedCommitMessageException();
     }
 
-    IdentifiedUser me = (IdentifiedUser) currentUser.get();
+    IdentifiedUser me = currentUser.get().asIdentifiedUser();
     Project.NameKey project = edit.getChange().getProject();
     try (Repository repo = gitManager.openRepository(project);
         RevWalk rw = new RevWalk(repo);
@@ -323,7 +323,7 @@ public class ChangeEditModifier {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    IdentifiedUser me = (IdentifiedUser) currentUser.get();
+    IdentifiedUser me = currentUser.get().asIdentifiedUser();
     Project.NameKey project = edit.getChange().getProject();
     try (Repository repo = gitManager.openRepository(project);
         RevWalk rw = new RevWalk(repo);

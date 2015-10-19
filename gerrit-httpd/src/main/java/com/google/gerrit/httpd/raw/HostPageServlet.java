@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -188,7 +187,7 @@ public class HostPageServlet extends HttpServlet {
       w.write(";");
 
       w.write(HPD_ID + ".accountDiffPref=");
-      json(((IdentifiedUser) user).getAccountDiffPreference(), w);
+      json(user.asIdentifiedUser().getAccountDiffPreference(), w);
       w.write(";");
 
       w.write(HPD_ID + ".theme=");

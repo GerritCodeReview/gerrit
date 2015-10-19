@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -207,7 +206,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         throw new AuthException("Authentication required");
       }
 
-      Account.Id userId = ((IdentifiedUser) user).getAccountId();
+      Account.Id userId = user.getAccountId();
       List<String> r = scan(userId, resource.getPatchSet().getId());
 
       if (r.isEmpty() && 1 < resource.getPatchSet().getPatchSetId()) {

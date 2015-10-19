@@ -254,7 +254,12 @@ public class IdentifiedUser extends CurrentUser {
     return state;
   }
 
-  /** The account identity for the user. */
+  @Override
+  public IdentifiedUser asIdentifiedUser() {
+    return this;
+  }
+
+  @Override
   public Account.Id getAccountId() {
     return accountId;
   }

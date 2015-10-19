@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeEdits;
 import com.google.gerrit.server.change.ChangeJson;
@@ -275,7 +274,7 @@ class ChangeApiImpl implements ChangeApi {
     try {
       CurrentUser u = user.get();
       if (u.isIdentifiedUser()) {
-        ((IdentifiedUser) u).clearStarredChanges();
+        u.asIdentifiedUser().clearStarredChanges();
       }
       return changeJson.create(s).format(change);
     } catch (OrmException e) {

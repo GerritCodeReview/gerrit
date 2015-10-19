@@ -20,7 +20,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
@@ -84,17 +83,17 @@ public class ProjectQoSFilter implements Filter {
     }
   }
 
-  private final Provider<CurrentUser> userProvider;
+  private final Provider<CurrentUser> user;
   private final QueueProvider queue;
 
   private final ServletContext context;
   private final long maxWait;
 
   @Inject
-  ProjectQoSFilter(final Provider<CurrentUser> userProvider,
+  ProjectQoSFilter(final Provider<CurrentUser> user,
       QueueProvider queue, final ServletContext context,
       @GerritServerConfig final Config cfg) {
-    this.userProvider = userProvider;
+    this.user = user;
     this.queue = queue;
     this.context = context;
     this.maxWait = MINUTES.toMillis(getTimeUnit(cfg, "httpd", null, "maxwait", 5, MINUTES));
@@ -142,7 +141,7 @@ public class ProjectQoSFilter implements Filter {
   }
 
   private WorkQueue.Executor getExecutor() {
-    return queue.getQueue(userProvider.get().getCapabilities().getQueueType());
+    return queue.getQueue(user.get().getCapabilities().getQueueType());
   }
 
   @Override
@@ -226,9 +225,9 @@ public class ProjectQoSFilter implements Filter {
     private String generateName(HttpServletRequest req) {
       String userName = "";
 
-      CurrentUser who = userProvider.get();
+      CurrentUser who = user.get();
       if (who.isIdentifiedUser()) {
-        String name = ((IdentifiedUser) who).getUserName();
+        String name = who.asIdentifiedUser().getUserName();
         if (name != null && !name.isEmpty()) {
           userName = " (" + name + ")";
         }

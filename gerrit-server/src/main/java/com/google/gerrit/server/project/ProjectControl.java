@@ -211,7 +211,7 @@ public class ProjectControl {
         public List<String> get() {
           List<String> r;
           if (user.isIdentifiedUser()) {
-            Set<String> emails = ((IdentifiedUser) user).getEmailAddresses();
+            Set<String> emails = user.asIdentifiedUser().getEmailAddresses();
             r = new ArrayList<>(emails.size() + 1);
             r.addAll(emails);
           } else {
@@ -349,7 +349,7 @@ public class ProjectControl {
     if (! (user.isIdentifiedUser())) {
       return new Capable("Must be logged in to verify Contributor Agreement");
     }
-    final IdentifiedUser iUser = (IdentifiedUser) user;
+    final IdentifiedUser iUser = user.asIdentifiedUser();
 
     List<AccountGroup.UUID> okGroupIds = Lists.newArrayList();
     for (ContributorAgreement ca : contributorAgreements) {

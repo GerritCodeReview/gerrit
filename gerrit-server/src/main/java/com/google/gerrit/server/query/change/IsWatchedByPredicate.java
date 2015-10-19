@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
@@ -29,7 +28,7 @@ import java.util.List;
 class IsWatchedByPredicate extends AndPredicate<ChangeData> {
   private static String describe(CurrentUser user) {
     if (user.isIdentifiedUser()) {
-      return ((IdentifiedUser) user).getAccountId().toString();
+      return user.getAccountId().toString();
     }
     return user.toString();
   }

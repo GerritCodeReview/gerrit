@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 
 import com.googlecode.prolog_cafe.exceptions.EvaluationException;
@@ -54,7 +53,7 @@ public class PRED_current_user_1 extends Predicate.P1 {
     Term resultTerm;
 
     if (curUser.isIdentifiedUser()) {
-      Account.Id id = ((IdentifiedUser)curUser).getAccountId();
+      Account.Id id = curUser.getAccountId();
       resultTerm = new IntegerTerm(id.get());
     } else if (curUser instanceof AnonymousUser) {
       resultTerm = anonymous;

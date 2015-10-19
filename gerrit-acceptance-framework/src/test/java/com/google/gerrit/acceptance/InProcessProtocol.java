@@ -326,8 +326,7 @@ class InProcessProtocol extends TestProtocol<Context> {
           throw new ServiceNotAuthorizedException();
         }
 
-        IdentifiedUser user = (IdentifiedUser) ctl.getUser();
-        rp.setRefLogIdent(user.newRefLogIdent());
+        rp.setRefLogIdent(ctl.getUser().asIdentifiedUser().newRefLogIdent());
         rp.setTimeout(config.getTimeout());
         rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
 

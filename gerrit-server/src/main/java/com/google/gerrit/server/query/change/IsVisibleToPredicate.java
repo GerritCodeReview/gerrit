@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.OperatorPredicate;
@@ -27,7 +26,7 @@ import com.google.inject.Provider;
 class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
   private static String describe(CurrentUser user) {
     if (user.isIdentifiedUser()) {
-      return ((IdentifiedUser) user).getAccountId().toString();
+      return user.getAccountId().toString();
     }
     if (user instanceof SingleGroupUser) {
       return "group:" + user.getEffectiveGroups().getKnownGroups() //

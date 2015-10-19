@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
@@ -68,7 +67,6 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
     input.id = Strings.emptyToNull(input.id);
 
     ProjectControl ctl = resource.getControl();
-    IdentifiedUser user = (IdentifiedUser) ctl.getUser();
     if (!ctl.isOwner()) {
       throw new AuthException("not project owner");
     }
@@ -105,7 +103,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
         if (!msg.endsWith("\n")) {
           msg += "\n";
         }
-        md.setAuthor(user);
+        md.setAuthor(ctl.getUser().asIdentifiedUser());
         md.setMessage(msg);
         config.commit(md);
         cache.evict(ctl.getProject());

@@ -181,7 +181,7 @@ final class ShowConnections extends SshCommand {
 
     final CurrentUser user = sd.getUser();
     if (user != null && user.isIdentifiedUser()) {
-      IdentifiedUser u = (IdentifiedUser) user;
+      IdentifiedUser u = user.asIdentifiedUser();
 
       if (!numeric) {
         String name = u.getAccount().getUserName();

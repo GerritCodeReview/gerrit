@@ -277,7 +277,7 @@ public class ReceiveCommits {
   private Set<Account.Id> reviewersFromCommandLine = Sets.newLinkedHashSet();
   private Set<Account.Id> ccFromCommandLine = Sets.newLinkedHashSet();
 
-  private final IdentifiedUser currentUser;
+  private final IdentifiedUser user;
   private final ReviewDb db;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeData.Factory changeDataFactory;
@@ -390,7 +390,7 @@ public class ReceiveCommits {
       final ChangeEditUtil editUtil,
       final BatchUpdate.Factory batchUpdateFactory,
       final SetHashtagsOp.Factory hashtagsFactory) throws IOException {
-    this.currentUser = (IdentifiedUser) projectControl.getUser();
+    this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.queryProvider = queryProvider;
     this.changeDataFactory = changeDataFactory;
@@ -606,7 +606,7 @@ public class ReceiveCommits {
       for (Error error : errors.keySet()) {
         rp.sendMessage(buildError(error, errors.get(error)));
       }
-      rp.sendMessage(String.format("User: %s", displayName(currentUser)));
+      rp.sendMessage(String.format("User: %s", displayName(user)));
       rp.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
     }
 
@@ -662,7 +662,7 @@ public class ReceiveCommits {
                 new Branch.NameKey(project.getNameKey(), c.getRefName()),
                 c.getOldId(),
                 c.getNewId(),
-                currentUser.getAccount());
+                user.getAccount());
           }
         }
     }
@@ -881,7 +881,7 @@ public class ReceiveCommits {
       }
 
       HookResult result = hooks.doRefUpdateHook(project, cmd.getRefName(),
-                              currentUser.getAccount(), cmd.getOldId(),
+                              user.getAccount(), cmd.getOldId(),
                               cmd.getNewId());
 
       if (result != null) {
@@ -952,7 +952,7 @@ public class ReceiveCommits {
                   addError("  " + err.getMessage());
                 }
                 reject(cmd, "invalid project configuration");
-                log.error("User " + currentUser.getUserName()
+                log.error("User " + user.getUserName()
                     + " tried to push invalid project configuration "
                     + cmd.getNewId().name() + " for " + project.getName());
                 continue;
@@ -967,7 +967,7 @@ public class ReceiveCommits {
                 }
               } else {
                 if (!oldParent.equals(newParent)
-                    && !currentUser.getCapabilities().canAdministrateServer()) {
+                    && !user.getCapabilities().canAdministrateServer()) {
                   reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
                   continue;
                 }
@@ -1013,7 +1013,7 @@ public class ReceiveCommits {
               }
             } catch (Exception e) {
               reject(cmd, "invalid project configuration");
-              log.error("User " + currentUser.getUserName()
+              log.error("User " + user.getUserName()
                   + " tried to push invalid project configuration "
                   + cmd.getNewId().name() + " for " + project.getName(), e);
               continue;
@@ -1529,7 +1529,7 @@ public class ReceiveCommits {
       List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<>();
       final int maxBatchChanges =
-          receiveConfig.getEffectiveMaxBatchChangesLimit(currentUser);
+          receiveConfig.getEffectiveMaxBatchChangesLimit(user);
       for (;;) {
         final RevCommit c = rp.getRevWalk().next();
         if (c == null) {
@@ -1723,7 +1723,7 @@ public class ReceiveCommits {
       commit = c;
       change = new Change(changeKey,
           new Change.Id(db.nextChangeId()),
-          currentUser.getAccountId(),
+          user.getAccountId(),
           magicBranch.dest,
           TimeUtil.nowTs());
       change.setTopic(magicBranch.topic);
@@ -1763,7 +1763,7 @@ public class ReceiveCommits {
     private void insertChange(ReviewDb threadLocalDb)
         throws OrmException, RestApiException, UpdateException {
       final PatchSet ps = ins.setGroups(groups).getPatchSet();
-      final Account.Id me = currentUser.getAccountId();
+      final Account.Id me = user.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
       Map<String, Short> approvals = new HashMap<>();
@@ -1777,7 +1777,7 @@ public class ReceiveCommits {
           approvals, Collections.<String, PatchSetApproval> emptyMap());
       try (ObjectInserter oi = repo.newObjectInserter();
           BatchUpdate bu = batchUpdateFactory.create(threadLocalDb,
-            change.getProject(), currentUser, change.getCreatedOn())) {
+            change.getProject(), user, change.getCreatedOn())) {
         bu.setRepository(repo, rp.getRevWalk(), oi);
         bu.insertChange(ins
             .setReviewers(recipients.getReviewers())
@@ -1809,7 +1809,7 @@ public class ReceiveCommits {
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     try {
       mergeOpProvider.get().merge(db, rsrc.getChange(),
-          (IdentifiedUser) changeCtl.getUser(), false);
+          changeCtl.getUser().asIdentifiedUser(), false);
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);
     }
@@ -2073,7 +2073,7 @@ public class ReceiveCommits {
       Optional<ChangeEdit> edit = null;
 
       try {
-        edit = editUtil.byChange(change, currentUser);
+        edit = editUtil.byChange(change, user);
       } catch (IOException e) {
         log.error("Cannt retrieve edit", e);
         return false;
@@ -2107,7 +2107,7 @@ public class ReceiveCommits {
           ObjectId.zeroId(),
           newCommit,
           RefNames.refsEdit(
-              currentUser.getAccountId(),
+              user.getAccountId(),
               change.getId(),
               newPatchSet.getId()));
     }
@@ -2117,7 +2117,7 @@ public class ReceiveCommits {
           ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
       newPatchSet = new PatchSet(id);
       newPatchSet.setCreatedOn(TimeUtil.nowTs());
-      newPatchSet.setUploader(currentUser.getAccountId());
+      newPatchSet.setUploader(user.getAccountId());
       newPatchSet.setRevision(toRevId(newCommit));
       newPatchSet.setGroups(groups);
       if (rp.getPushCertificate() != null) {
@@ -2170,7 +2170,7 @@ public class ReceiveCommits {
         throws OrmException {
       msg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-              .messageUUID(db)), currentUser.getAccountId(), newPatchSet.getCreatedOn(),
+              .messageUUID(db)), user.getAccountId(), newPatchSet.getCreatedOn(),
               newPatchSet.getId());
 
       msg.setMessage(renderMessageWithApprovals(newPatchSet.getPatchSetId(),
@@ -2199,7 +2199,7 @@ public class ReceiveCommits {
       // We optimize here and only retrieve current when approvals provided
       if (!approvals.isEmpty()) {
         for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
-            db, changeCtl, priorPatchSet, currentUser.getAccountId())) {
+            db, changeCtl, priorPatchSet, user.getAccountId())) {
           if (a.isSubmit()) {
             continue;
           }
@@ -2222,7 +2222,7 @@ public class ReceiveCommits {
 
     PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException,
         ResourceConflictException {
-      final Account.Id me = currentUser.getAccountId();
+      final Account.Id me = user.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
       Map<String, Short> approvals = new HashMap<>();
@@ -2374,11 +2374,11 @@ public class ReceiveCommits {
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {
         hooks.doChangeMergedHook(
-            change, currentUser.getAccount(), newPatchSet, db, newCommit.getName());
+            change, user.getAccount(), newPatchSet, db, newCommit.getName());
       }
 
       if (!approvals.isEmpty()) {
-        hooks.doCommentAddedHook(change, currentUser.getAccount(), newPatchSet,
+        hooks.doCommentAddedHook(change, user.getAccount(), newPatchSet,
             null, approvals, db);
       }
 
@@ -2555,7 +2555,7 @@ public class ReceiveCommits {
       return;
     }
 
-    boolean defaultName = Strings.isNullOrEmpty(currentUser.getAccount().getFullName());
+    boolean defaultName = Strings.isNullOrEmpty(user.getAccount().getFullName());
     final RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
@@ -2574,14 +2574,14 @@ public class ReceiveCommits {
           break;
         }
 
-        if (defaultName && currentUser.hasEmailAddress(
+        if (defaultName && user.hasEmailAddress(
               c.getCommitterIdent().getEmailAddress())) {
           try {
-            Account a = db.accounts().get(currentUser.getAccountId());
+            Account a = db.accounts().get(user.getAccountId());
             if (a != null && Strings.isNullOrEmpty(a.getFullName())) {
               a.setFullName(c.getCommitterIdent().getName());
               db.accounts().update(Collections.singleton(a));
-              currentUser.getAccount().setFullName(a.getFullName());
+              user.getAccount().setFullName(a.getFullName());
               accountCache.evict(a.getId());
             }
           } catch (OrmException e) {
@@ -2605,7 +2605,7 @@ public class ReceiveCommits {
     }
 
     CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, currentUser);
+        new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, user);
     CommitValidators commitValidators =
         commitValidatorsFactory.create(ctl, sshInfo, repo);
 
@@ -2713,7 +2713,7 @@ public class ReceiveCommits {
     result.mergedIntoRef = refName;
     markChangeMergedByPush(db, result, result.changeCtl);
     hooks.doChangeMergedHook(
-        change, currentUser.getAccount(), result.newPatchSet, db, commit.getName());
+        change, user.getAccount(), result.newPatchSet, db, commit.getName());
     sendMergedEmail(result);
     return change.getKey();
   }
@@ -2762,7 +2762,7 @@ public class ReceiveCommits {
       msgBuf.append(".");
       ChangeMessage msg = new ChangeMessage(
           new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)),
-          currentUser.getAccountId(), change.getLastUpdatedOn(),
+          user.getAccountId(), change.getLastUpdatedOn(),
           result.info.getKey());
       msg.setMessage(msgBuf.toString());
 
@@ -2785,7 +2785,7 @@ public class ReceiveCommits {
       public void run() {
         try {
           final MergedSender cm = mergedSenderFactory.create(id);
-          cm.setFrom(currentUser.getAccountId());
+          cm.setFrom(user.getAccountId());
           cm.setPatchSet(result.newPatchSet, result.info);
           cm.send();
         } catch (Exception e) {

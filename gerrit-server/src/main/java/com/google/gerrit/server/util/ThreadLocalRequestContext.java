@@ -59,7 +59,7 @@ public class ThreadLocalRequestContext {
       @Provides
       IdentifiedUser provideCurrentUser(CurrentUser user) {
         if (user.isIdentifiedUser()) {
-          return (IdentifiedUser) user;
+          return user.asIdentifiedUser();
         }
         throw new ProvisionException(NotSignedInException.MESSAGE,
             new NotSignedInException());

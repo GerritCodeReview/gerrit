@@ -263,8 +263,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Arguments asUser(Account.Id otherId) {
       try {
         CurrentUser u = self.get();
-        if (u.isIdentifiedUser()
-            && otherId.equals(((IdentifiedUser) u).getAccountId())) {
+        if (u.isIdentifiedUser() && otherId.equals(u.getAccountId())) {
           return this;
         }
       } catch (ProvisionException e) {
@@ -277,7 +276,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       try {
         CurrentUser u = getUser();
         if (u.isIdentifiedUser()) {
-          return (IdentifiedUser) u;
+          return u.asIdentifiedUser();
         }
         throw new QueryParseException(NotSignedInException.MESSAGE);
       } catch (ProvisionException e) {
@@ -612,11 +611,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Account.Id callerId;
     try {
       CurrentUser caller = args.self.get();
-      if (caller.isIdentifiedUser()) {
-        callerId = ((IdentifiedUser) caller).getAccountId();
-      } else {
-        callerId = null;
-      }
+      callerId = caller.isIdentifiedUser() ? caller.getAccountId() : null;
     } catch (ProvisionException e) {
       callerId = null;
     }

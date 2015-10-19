@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -75,7 +74,7 @@ public class CherryPickChange {
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager gitManager;
   private final TimeZone serverTimeZone;
-  private final Provider<CurrentUser> currentUser;
+  private final Provider<IdentifiedUser> user;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -88,7 +87,7 @@ public class CherryPickChange {
       Provider<InternalChangeQuery> queryProvider,
       @GerritPersonIdent PersonIdent myIdent,
       GitRepositoryManager gitManager,
-      Provider<CurrentUser> currentUser,
+      Provider<IdentifiedUser> user,
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
@@ -99,7 +98,7 @@ public class CherryPickChange {
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
-    this.currentUser = currentUser;
+    this.user = user;
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -123,7 +122,7 @@ public class CherryPickChange {
 
     Project.NameKey project = change.getProject();
     String destinationBranch = RefNames.shortName(ref);
-    IdentifiedUser identifiedUser = (IdentifiedUser) currentUser.get();
+    IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
         CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(git)) {
       Ref destRef = git.getRefDatabase().exactRef(ref);

@@ -21,7 +21,6 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -42,10 +41,7 @@ public class BaseServiceImplementation {
 
   protected Account.Id getAccountId() {
     CurrentUser u = currentUser.get();
-    if (u.isIdentifiedUser()) {
-      return ((IdentifiedUser) u).getAccountId();
-    }
-    return null;
+    return u.isIdentifiedUser() ? u.getAccountId() : null;
   }
 
   protected CurrentUser getUser() {

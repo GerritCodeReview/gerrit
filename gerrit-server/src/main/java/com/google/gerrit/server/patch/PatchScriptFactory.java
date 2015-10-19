@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.edit.ChangeEdit;
@@ -316,7 +315,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
       final CurrentUser user = control.getUser();
       if (user.isIdentifiedUser()) {
-        final Account.Id me = ((IdentifiedUser) user).getAccountId();
+        final Account.Id me = user.getAccountId();
         switch (changeType) {
           case ADDED:
           case MODIFIED:

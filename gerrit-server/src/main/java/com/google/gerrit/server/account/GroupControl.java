@@ -20,7 +20,6 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -159,8 +158,7 @@ public class GroupControl {
   }
 
   public boolean canSeeMember(Account.Id id) {
-    if (user.isIdentifiedUser()
-        && ((IdentifiedUser) user).getAccountId().equals(id)) {
+    if (user.isIdentifiedUser() && user.getAccountId().equals(id)) {
       return true;
     }
     return canSeeMembers();

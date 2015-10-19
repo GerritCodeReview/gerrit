@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
@@ -141,14 +140,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     this.revWalk = revWalk;
     this.commit = commit;
     this.ctl = ctl;
-    this.user = checkUser(ctl);
-  }
-
-  private static IdentifiedUser checkUser(ChangeControl ctl) {
-    checkArgument(ctl.getUser().isIdentifiedUser(),
-        "only IdentifiedUser may create patch set on change %s",
-        ctl.getChange().getId());
-    return (IdentifiedUser) ctl.getUser();
+    this.user = ctl.getUser().asIdentifiedUser();
   }
 
   public PatchSet.Id getPatchSetId() throws IOException {

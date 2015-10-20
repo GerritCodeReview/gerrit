@@ -163,7 +163,7 @@ public class GpgKeys implements
               found = true;
               GpgKeyInfo info = toJson(
                   keyRing.getPublicKey(),
-                  checkerFactory.create().setExpectedUser(rsrc.getUser()),
+                  checkerFactory.create(rsrc.getUser(), store),
                   store);
               keys.put(info.id, info);
               info.id = null;

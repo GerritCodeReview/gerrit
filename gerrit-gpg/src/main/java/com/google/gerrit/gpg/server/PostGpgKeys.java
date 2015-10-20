@@ -194,8 +194,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       for (PGPPublicKeyRing keyRing : keyRings) {
         PGPPublicKey key = keyRing.getPublicKey();
         // Don't check web of trust; admins can fill in certifications later.
-        CheckResult result = checkerFactory.create()
-            .setExpectedUser(rsrc.getUser())
+        CheckResult result = checkerFactory.create(rsrc.getUser(), store)
             .disableTrust()
             .check(key);
         if (!result.isOk()) {
@@ -249,9 +248,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       throws IOException {
     // Unlike when storing keys, include web-of-trust checks when producing
     // result JSON, so the user at least knows of any issues.
-    PublicKeyChecker checker = checkerFactory.create()
-        .setExpectedUser(user)
-        .setStore(store);
+    PublicKeyChecker checker = checkerFactory.create(user, store);
     Map<String, GpgKeyInfo> infos =
         Maps.newHashMapWithExpectedSize(keys.size() + deleted.size());
     for (PGPPublicKeyRing keyRing : keys) {

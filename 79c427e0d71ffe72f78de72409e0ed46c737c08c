@@ -22,6 +22,30 @@
       "revId": "79c427e0d71ffe72f78de72409e0ed46c737c08c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_ef6b81d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-10-20T17:45:02Z",
+      "side": 1,
+      "message": "That looks like it would be where it would have broken, but I didn\u0027t bisect to find the failure.  I just happened to observe the wrong behavior in the debugger.",
+      "parentUuid": "d9e9e22c_20850ad3",
+      "range": {
+        "startLine": 10,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "79c427e0d71ffe72f78de72409e0ed46c737c08c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

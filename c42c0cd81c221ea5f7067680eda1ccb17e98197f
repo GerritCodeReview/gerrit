@@ -52,6 +52,24 @@
       "revId": "c42c0cd81c221ea5f7067680eda1ccb17e98197f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f90b06d5_79f187bf",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/IoUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-10-20T17:45:02Z",
+      "side": 0,
+      "message": "I never said my approach was better; I didn\u0027t know if there was a reason for the varargs, and I was unclear about why this overload was lost in preference to the Iterable\u003cPath\u003e -- and the last thing I want to do is introduce the same issue again somewhere down the line. :)\n\nIf we\u0027re confident that overloading with a single Path argument will continue to work reliably, I agree -- that is much simpler than sprinkling the code with Arrays.asList().",
+      "parentUuid": "d9e9e22c_40880eed",
+      "revId": "c42c0cd81c221ea5f7067680eda1ccb17e98197f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

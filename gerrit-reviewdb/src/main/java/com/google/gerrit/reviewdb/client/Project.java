@@ -97,6 +97,7 @@ public final class Project {
   protected InheritableBoolean createNewChangeForAllNotInTarget;
 
   protected InheritableBoolean enableSignedPush;
+  protected InheritableBoolean requireSignedPush;
 
   protected Project() {
   }
@@ -111,6 +112,7 @@ public final class Project {
     useContentMerge = InheritableBoolean.INHERIT;
     createNewChangeForAllNotInTarget = InheritableBoolean.INHERIT;
     enableSignedPush = InheritableBoolean.INHERIT;
+    requireSignedPush = InheritableBoolean.INHERIT;
   }
 
   public Project.NameKey getNameKey() {
@@ -180,6 +182,14 @@ public final class Project {
 
   public void setEnableSignedPush(InheritableBoolean enable) {
     enableSignedPush = enable;
+  }
+
+  public InheritableBoolean getRequireSignedPush() {
+    return requireSignedPush;
+  }
+
+  public void setRequireSignedPush(InheritableBoolean require) {
+    requireSignedPush = require;
   }
 
   public void setMaxObjectSizeLimit(final String limit) {

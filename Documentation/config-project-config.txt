@@ -164,6 +164,17 @@ configuration] for details.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
+[[receive.enableSignedPush]]receive.enableSignedPush::
++
+Controls whether server-side signed push validation is required on the
+project. Only has an effect if signed push validation is enabled on the
+server, and link:#receive.enableSignedPush is set on the project. See
+the link:config-gerrit.html#receive.enableSignedPush[global
+configuration] for details.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
+
 [[submit-section]]
 === Submit section
 

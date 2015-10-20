@@ -732,6 +732,7 @@ link:#config-input[ConfigInput] entity.
     "use_signed_off_by": "INHERIT",
     "create_new_change_for_all_not_in_target": "INHERIT",
     "enable_signed_push": "INHERIT",
+    "require_signed_push": "INHERIT",
     "require_change_id": "TRUE",
     "max_object_size_limit": "10m",
     "submit_type": "REBASE_IF_NECESSARY",
@@ -777,6 +778,11 @@ ConfigInfo] entity.
     },
     "enable_signed_push": {
       "value": true,
+      "configured_value": "INHERIT",
+      "inherited_value": false
+    },
+    "require_signed_push": {
+      "value": false,
       "configured_value": "INHERIT",
       "inherited_value": false
     },
@@ -1985,6 +1991,9 @@ to a branch or tag.
 |`enable_signed_push`                      |optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 signed push validation is enabled on the project.
+|`require_signed_push`                     |optional|
+link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
+signed push validation is required on the project.
 |`max_object_size_limit`     ||
 The link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
 limit] of this project as a link:#max-object-size-limit-info[

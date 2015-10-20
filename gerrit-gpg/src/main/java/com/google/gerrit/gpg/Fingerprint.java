@@ -19,6 +19,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import org.eclipse.jgit.util.NB;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Fingerprint {
   private final byte[] fp;
@@ -31,6 +34,14 @@ public class Fingerprint {
         NB.decodeUInt16(fp, 6), NB.decodeUInt16(fp, 8), NB.decodeUInt16(fp, 10),
         NB.decodeUInt16(fp, 12), NB.decodeUInt16(fp, 14),
         NB.decodeUInt16(fp, 16), NB.decodeUInt16(fp, 18));
+  }
+
+  public static Map<Long, Fingerprint> byId(Iterable<Fingerprint> fps) {
+    Map<Long, Fingerprint> result = new HashMap<>();
+    for (Fingerprint fp : fps) {
+      result.put(fp.getId(), fp);
+    }
+    return Collections.unmodifiableMap(result);
   }
 
   private static byte[] checkLength(byte[] fp) {

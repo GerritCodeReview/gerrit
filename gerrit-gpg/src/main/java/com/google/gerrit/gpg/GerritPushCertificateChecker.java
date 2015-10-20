@@ -40,7 +40,7 @@ public class GerritPushCertificateChecker extends PushCertificateChecker {
       AllUsersName allUsers,
       @Assisted IdentifiedUser expectedUser,
       @Assisted boolean checkNonce) {
-    super(keyCheckerFactory.create(expectedUser), checkNonce);
+    super(keyCheckerFactory.create().setExpectedUser(expectedUser), checkNonce);
     this.repoManager = repoManager;
     this.allUsers = allUsers;
   }

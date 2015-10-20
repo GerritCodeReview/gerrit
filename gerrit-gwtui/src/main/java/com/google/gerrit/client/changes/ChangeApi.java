@@ -97,6 +97,14 @@ public class ChangeApi {
     return call(id, "detail");
   }
 
+  public static RestApi blame(PatchSet.Id id, String path, boolean base) {
+    return revision(id)
+        .view("files")
+        .id(path)
+        .view("blame")
+        .addParameter("base", base);
+  }
+
   public static RestApi actions(int id, String revision) {
     if (revision == null || revision.equals("")) {
       revision = "current";

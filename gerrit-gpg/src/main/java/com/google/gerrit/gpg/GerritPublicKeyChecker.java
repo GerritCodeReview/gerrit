@@ -96,6 +96,14 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     public GerritPublicKeyChecker create() {
       return new GerritPublicKeyChecker(this);
     }
+
+    public GerritPublicKeyChecker create(IdentifiedUser expectedUser,
+        PublicKeyStore store) {
+      GerritPublicKeyChecker checker = new GerritPublicKeyChecker(this);
+      checker.setExpectedUser(expectedUser);
+      checker.setStore(store);
+      return checker;
+    }
   }
 
   private final Provider<ReviewDb> db;

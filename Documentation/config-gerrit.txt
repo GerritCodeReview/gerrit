@@ -154,6 +154,13 @@ types of data, and can be revoked by users at any time.
 +
 Site owners have to register their application before getting started. Note
 that provider specific plugins must be used with this authentication scheme.
+
+In order to enable OAuth protocol for Git over HTTP communication
+the configuration option `auth.gitBasicAuth` must be set to `true`.
+If enabled, Git clients may send OAuth access tokens instead of passwords
+in the Basic authentication header. Note that some OAuth provider plugins
+may not support this kind of Git over HTTP communication.
+
 +
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
 +

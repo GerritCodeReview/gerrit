@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_EXTERNAL;
 
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 
@@ -34,6 +35,15 @@ public class AuthRequest {
     final AccountExternalId.Key i =
         new AccountExternalId.Key(SCHEME_GERRIT, username);
     final AuthRequest r = new AuthRequest(i.get());
+    r.setUserName(username);
+    return r;
+  }
+
+  /** Create a request for an external username. */
+  public static AuthRequest forExternalUser(String username) {
+    AccountExternalId.Key i =
+        new AccountExternalId.Key(SCHEME_EXTERNAL, username);
+    AuthRequest r = new AuthRequest(i.get());
     r.setUserName(username);
     return r;
   }

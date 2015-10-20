@@ -14,7 +14,6 @@
 
 package com.google.gerrit.gpg;
 
-import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static com.google.gerrit.gpg.testutil.TestKeys.expiredKey;
@@ -33,7 +32,9 @@ import org.bouncycastle.openpgp.PGPUtil;
 import org.bouncycastle.openpgp.operator.bc.BcPGPContentSignerBuilder;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.PushCertificateIdent;
@@ -49,7 +50,8 @@ import java.io.Reader;
 import java.util.Arrays;
 
 public class PushCertificateCheckerTest {
-  private TestRepository<?> tr;
+  private InMemoryRepository repo;
+  private PublicKeyStore store;
   private SignedPushConfig signedPushConfig;
   private PushCertificateChecker checker;
 
@@ -57,14 +59,17 @@ public class PushCertificateCheckerTest {
   public void setUp() throws Exception {
     TestKey key1 = validKeyWithoutExpiration();
     TestKey key3 = expiredKey();
-    tr = new TestRepository<>(new InMemoryRepository(
-        new DfsRepositoryDescription("repo")));
-    tr.branch(REFS_GPG_KEYS).commit()
-        .add(PublicKeyStore.keyObjectId(key1.getPublicKey().getKeyID()).name(),
-            key1.getPublicKeyArmored())
-        .add(PublicKeyStore.keyObjectId(key3.getPublicKey().getKeyID()).name(),
-            key3.getPublicKeyArmored())
-        .create();
+    repo = new InMemoryRepository(new DfsRepositoryDescription("repo"));
+    store = new PublicKeyStore(repo);
+    store.add(key1.getPublicKeyRing());
+    store.add(key3.getPublicKeyRing());
+
+    PersonIdent ident = new PersonIdent("A U Thor", "author@example.com");
+    CommitBuilder cb = new CommitBuilder();
+    cb.setAuthor(ident);
+    cb.setCommitter(ident);
+    assertEquals(RefUpdate.Result.NEW, store.save(cb));
+
     signedPushConfig = new SignedPushConfig();
     signedPushConfig.setCertNonceSeed("sekret");
     signedPushConfig.setCertNonceSlopLimit(60 * 24);
@@ -72,10 +77,11 @@ public class PushCertificateCheckerTest {
   }
 
   private PushCertificateChecker newChecker(boolean checkNonce) {
-    return new PushCertificateChecker(new PublicKeyChecker()) {
+    PublicKeyChecker keyChecker = new PublicKeyChecker().setStore(store);
+    return new PushCertificateChecker(keyChecker) {
       @Override
       protected Repository getRepository() {
-        return tr.getRepository();
+        return repo;
       }
 
       @Override
@@ -126,7 +132,7 @@ public class PushCertificateCheckerTest {
 
   private String validNonce() {
     return signedPushConfig.getNonceGenerator()
-        .createNonce(tr.getRepository(), System.currentTimeMillis() / 1000);
+        .createNonce(repo, System.currentTimeMillis() / 1000);
   }
 
   private PushCertificate newSignedCert(String nonce, TestKey signingKey)
@@ -158,7 +164,7 @@ public class PushCertificateCheckerTest {
     Reader reader =
         new InputStreamReader(new ByteArrayInputStream(cert.getBytes(UTF_8)));
     PushCertificateParser parser =
-        new PushCertificateParser(tr.getRepository(), signedPushConfig);
+        new PushCertificateParser(repo, signedPushConfig);
     return parser.parse(reader);
   }
 

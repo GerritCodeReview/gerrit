@@ -45,6 +45,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -62,6 +63,7 @@ class ProjectOAuthFilter implements Filter {
   private static final String REALM_NAME = "Gerrit Code Review";
   private static final String AUTHORIZATION = "Authorization";
   private static final String BASIC = "Basic ";
+  private static final String GIT_COOKIE_PREFIX = "oauth-";
 
   private final DynamicItem<WebSession> session;
   private final DynamicItem<OAuthLoginProvider> loginService;
@@ -108,24 +110,48 @@ class ProjectOAuthFilter implements Filter {
   private boolean verify(HttpServletRequest req, Response rsp)
       throws IOException {
 
-    String hdr = req.getHeader(AUTHORIZATION);
-    if (hdr == null || !hdr.startsWith(BASIC)) {
-      // Allow an anonymous connection through, or it might be using a
-      // session cookie instead of basic authentication.
-      return true;
+    String username = null;
+    String tokenOrPassword = null;
+
+    // first check if there is a cookie with a name starting
+    // with "oauth-"; if so, extract the username and token from
+    // that cookie.
+    // note: googlesource.com uses similar cookies, but starting
+    // with the prefix "git-";
+    if (req.getCookies() != null) {
+      for (Cookie cookie: req.getCookies()) {
+        String name = cookie.getName();
+        if (name.startsWith(GIT_COOKIE_PREFIX)) {
+          username = name.substring(GIT_COOKIE_PREFIX.length());
+          tokenOrPassword = cookie.getValue();
+        }
+      }
     }
 
-    byte[] decoded =
-        Base64.decodeBase64(hdr.substring(BASIC.length()));
-    String usernamePassword = new String(decoded, encoding(req));
-    int splitPos = usernamePassword.indexOf(':');
-    if (splitPos < 1) {
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
-    }
+    // if there is no "oauth" cookie fall back to the
+    // "Authorization" header; prefering cookies ensures
+    // that the user's password is not transmitted to the OAuth
+    // backend unnecessarily
+    if (username == null || tokenOrPassword == null) {
+      String hdr = req.getHeader(AUTHORIZATION);
+      if (hdr == null || !hdr.startsWith(BASIC)) {
+        // Allow an anonymous connection through, or it might be using a
+        // session cookie instead of basic authentication.
+        return true;
+      }
 
-    String username = usernamePassword.substring(0, splitPos);
-    String tokenOrPassword = usernamePassword.substring(splitPos + 1);
+      byte[] decoded =
+          Base64.decodeBase64(hdr.substring(BASIC.length()));
+      String usernamePassword = new String(decoded, encoding(req));
+      int splitPos = usernamePassword.indexOf(':');
+      if (splitPos < 1) {
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+
+      username = usernamePassword.substring(0, splitPos);
+      tokenOrPassword = usernamePassword.substring(splitPos + 1);
+    }
 
     if (Strings.isNullOrEmpty(tokenOrPassword)) {
       rsp.sendError(SC_UNAUTHORIZED);

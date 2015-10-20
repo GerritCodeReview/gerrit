@@ -42,6 +42,9 @@ public interface Resources extends ClientBundle {
   @Source("resultset_up_gray.png")
   ImageResource arrowUp();
 
+  @Source("lightbulb.png")
+  ImageResource blame();
+
   @Source("page_white_put.png")
   ImageResource downloadIcon();
 

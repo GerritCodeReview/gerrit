@@ -15,6 +15,8 @@
 package com.google.gerrit.gpg;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.gpg.testutil.TestKeys.revokedCompromisedKey;
+import static com.google.gerrit.gpg.testutil.TestKeys.revokedNoLongerUsedKey;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithExpiration;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyA;
@@ -27,11 +29,16 @@ import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyG;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyH;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyI;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyJ;
+import static org.bouncycastle.openpgp.PGPSignature.DIRECT_KEY;
+import static org.bouncycastle.bcpg.SignatureSubpacketTags.REVOCATION_KEY;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.gpg.testutil.TestKeys;
 
+import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.bouncycastle.openpgp.PGPSignature;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -45,6 +52,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class PublicKeyCheckerTest {
@@ -89,7 +97,8 @@ public class PublicKeyCheckerTest {
 
   @Test
   public void selfRevokedKey() throws Exception {
-    assertProblems(TestKeys.selfRevokedKey(), "Key is revoked");
+    assertProblems(TestKeys.selfRevokedKey(),
+        "Key is revoked (key material has been compromised)");
   }
 
   // Test keys specific to this test are at the bottom of this class. Each test
@@ -173,6 +182,55 @@ public class PublicKeyCheckerTest {
         "No path to a trusted key", notTrusted(ki));
   }
 
+  @Test
+  public void revokedKeyDueToCompromise() throws Exception {
+    TestKey k = add(revokedCompromisedKey());
+    add(validKeyWithoutExpiration());
+    save();
+
+    assertProblems(k,
+        "Key is revoked (key material has been compromised):"
+          + " test6 compromised");
+
+    PGPPublicKeyRing kr = removeRevokers(k.getPublicKeyRing());
+    store.add(kr);
+    save();
+
+    // Key no longer specified as revoker.
+    assertProblems(kr.getPublicKey());
+  }
+
+  @Test
+  public void revokedByKeyNotPresentInStore() throws Exception {
+    TestKey k = add(revokedCompromisedKey());
+    save();
+
+    assertProblems(k);
+  }
+
+  @Test
+  public void revokedKeyDueToNoLongerBeingUsed() throws Exception {
+    TestKey k = add(revokedNoLongerUsedKey());
+    add(validKeyWithoutExpiration());
+    save();
+
+    assertProblems(k,
+        "Key is revoked (retired and no longer valid): test7 not used");
+  }
+
+  private PGPPublicKeyRing removeRevokers(PGPPublicKeyRing kr) {
+    PGPPublicKey k = kr.getPublicKey();
+    @SuppressWarnings("unchecked")
+    Iterator<PGPSignature> sigs = k.getSignaturesOfType(DIRECT_KEY);
+    while (sigs.hasNext()) {
+      PGPSignature sig = sigs.next();
+      if (sig.getHashedSubPackets().hasSubpacket(REVOCATION_KEY)) {
+        k = PGPPublicKey.removeCertification(k, sig);
+      }
+    }
+    return PGPPublicKeyRing.insertPublicKey(kr, k);
+  }
+
   private PublicKeyChecker newChecker(int maxTrustDepth, TestKey... trusted) {
     Map<Long, Fingerprint> fps = new HashMap<>();
     for (TestKey k : trusted) {
@@ -207,12 +265,19 @@ public class PublicKeyCheckerTest {
 
   private void assertProblems(PublicKeyChecker checker, TestKey k,
       String... expected) {
-    CheckResult result = checker.check(k.getPublicKey());
+    CheckResult result = checker.setStore(store)
+        .check(k.getPublicKey());
     assertEquals(Arrays.asList(expected), result.getProblems());
   }
 
   private void assertProblems(TestKey tk, String... expected) throws Exception {
-    CheckResult result = new PublicKeyChecker().check(tk.getPublicKey());
+    assertProblems(tk.getPublicKey(), expected);
+  }
+
+  private void assertProblems(PGPPublicKey k, String... expected) throws Exception {
+    CheckResult result = new PublicKeyChecker()
+        .setStore(store)
+        .check(k);
     assertEquals(Arrays.asList(expected), result.getProblems());
   }
 

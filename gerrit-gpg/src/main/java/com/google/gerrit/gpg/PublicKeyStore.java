@@ -122,6 +122,28 @@ public class PublicKeyStore implements AutoCloseable {
     return null;
   }
 
+  /**
+   * Choose the public key that produced a signature directly on a key.
+   * <p>
+   * @param keyRings candidate keys.
+   * @param sig signature object.
+   * @param onKey key that was signed.
+   * @return the key chosen from {@code keyRings} that was able to verify the
+   *     signature, or null if none was found.
+   * @throws PGPException if an error occurred verifying the certification.
+   */
+  public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
+      PGPSignature sig, PGPPublicKey onKey) throws PGPException {
+    for (PGPPublicKeyRing kr : keyRings) {
+      PGPPublicKey k = kr.getPublicKey();
+      sig.init(new BcPGPContentVerifierBuilderProvider(), k);
+      if (sig.verifyCertification(onKey)) {
+        return k;
+      }
+    }
+    return null;
+  }
+
   private final Repository repo;
   private ObjectReader reader;
   private RevCommit tip;
@@ -206,6 +228,54 @@ public class PublicKeyStore implements AutoCloseable {
             "expected one PGP object per ArmoredInputStream");
       }
       return new PGPPublicKeyRingCollection(keys);
+    }
+  }
+
+  /**
+   * Read public key with the given fingerprint.
+   * <p>
+   * Keys should not be trusted unless checked with {@link PublicKeyChecker}.
+   * <p>
+   * Multiple calls to this method use the same state of the key ref; to reread
+   * the ref, call {@link #close()} first.
+   *
+   * @param fingerprint key fingerprint.
+   * @return the key if found, or null.
+   * @throws PGPException if an error occurred parsing the key data.
+   * @throws IOException if an error occurred reading the repository data.
+   */
+  public PGPPublicKeyRing get(byte[] fingerprint)
+      throws PGPException, IOException {
+    if (reader == null) {
+      load();
+    }
+    if (notes == null) {
+      return null;
+    }
+    Note note = notes.getNote(keyObjectId(Fingerprint.getId(fingerprint)));
+    if (note == null) {
+      return null;
+    }
+
+    try (InputStream in = reader.open(note.getData(), OBJ_BLOB).openStream()) {
+      while (true) {
+        @SuppressWarnings("unchecked")
+        Iterator<Object> it =
+            new BcPGPObjectFactory(new ArmoredInputStream(in)).iterator();
+        if (!it.hasNext()) {
+          break;
+        }
+        Object obj = it.next();
+        if (obj instanceof PGPPublicKeyRing) {
+          PGPPublicKeyRing kr = (PGPPublicKeyRing) obj;
+          if (Arrays.equals(kr.getPublicKey().getFingerprint(), fingerprint)) {
+            return kr;
+          }
+        }
+        checkState(!it.hasNext(),
+            "expected one PGP object per ArmoredInputStream");
+      }
+      return null;
     }
   }
 

@@ -43,6 +43,7 @@ public interface AdminConstants extends Constants {
   String useSignedOffBy();
   String createNewChangeForAllNotInTarget();
   String enableSignedPush();
+  String requireSignedPush();
   String requireChangeID();
   String headingMaxObjectSizeLimit();
   String headingGroupOptions();

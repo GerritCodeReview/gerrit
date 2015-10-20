@@ -84,6 +84,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox contentMerge;
   private ListBox newChangeForAllNotInTarget;
   private ListBox enableSignedPush;
+  private ListBox requireSignedPush;
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
   private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
@@ -247,6 +248,9 @@ public class ProjectInfoScreen extends ProjectScreen {
       enableSignedPush = newInheritedBooleanBox();
       saveEnabler.listenTo(enableSignedPush);
       grid.add(Util.C.enableSignedPush(), enableSignedPush);
+      requireSignedPush = newInheritedBooleanBox();
+      saveEnabler.listenTo(requireSignedPush);
+      grid.add(Util.C.requireSignedPush(), requireSignedPush);
     }
 
     maxObjectSizeLimit = new NpTextBox();
@@ -326,6 +330,9 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void setBool(ListBox box, InheritedBooleanInfo inheritedBoolean) {
+    if (box == null) {
+      return;
+    }
     int inheritedIndex = -1;
     for (int i = 0; i < box.getItemCount(); i++) {
       if (box.getValue(i).startsWith(InheritableBoolean.INHERIT.name())) {
@@ -372,8 +379,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     setBool(contentMerge, result.useContentMerge());
     setBool(newChangeForAllNotInTarget, result.createNewChangeForAllNotInTarget());
     setBool(requireChangeID, result.requireChangeId());
-    if (enableSignedPush != null) {
+    if (Gerrit.info().receive().enableSignedPush()) {
       setBool(enableSignedPush, result.enableSignedPush());
+      setBool(requireSignedPush, result.requireSignedPush());
     }
     setSubmitType(result.submitType());
     setState(result.state());
@@ -644,12 +652,14 @@ public class ProjectInfoScreen extends ProjectScreen {
   private void doSave() {
     enableForm(false);
     saveProject.setEnabled(false);
-    InheritableBoolean sp = enableSignedPush != null
+    InheritableBoolean esp = enableSignedPush != null
         ? getBool(enableSignedPush) : null;
+    InheritableBoolean rsp = requireSignedPush != null
+        ? getBool(requireSignedPush) : null;
     ProjectApi.setConfig(getProjectKey(), descTxt.getText().trim(),
         getBool(contributorAgreements), getBool(contentMerge),
         getBool(signedOffBy), getBool(newChangeForAllNotInTarget), getBool(requireChangeID),
-        sp,
+        esp, rsp,
         maxObjectSizeLimit.getText().trim(),
         SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         ProjectState.valueOf(state.getValue(state.getSelectedIndex())),

@@ -927,6 +927,8 @@ abstract class DiffScreen extends Screen {
     };
   }
 
+  abstract boolean isLineNumberGutter(String gutterClass);
+
   abstract FocusHandler getFocusHandler();
 
   abstract CodeMirror[] getCms();

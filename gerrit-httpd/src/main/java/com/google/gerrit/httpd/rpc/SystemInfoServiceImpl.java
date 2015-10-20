@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.data.SystemInfoService;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -28,6 +29,7 @@ import com.google.inject.Provider;
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSch;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,14 +48,17 @@ class SystemInfoServiceImpl implements SystemInfoService {
   private final List<HostKey> hostKeys;
   private final Provider<HttpServletRequest> httpRequest;
   private final ProjectCache projectCache;
+  private final Config config;
 
   @Inject
   SystemInfoServiceImpl(SshInfo daemon,
       Provider<HttpServletRequest> hsr,
-      ProjectCache pc) {
+      ProjectCache pc,
+      @GerritServerConfig Config c) {
     hostKeys = daemon.getHostKeys();
     httpRequest = hsr;
     projectCache = pc;
+    config = c;
   }
 
   @Override
@@ -91,5 +96,10 @@ class SystemInfoServiceImpl implements SystemInfoService {
     message = message.replaceAll("\n", "\n  ");
     log.error("Client UI JavaScript error: User-Agent=" + ua + ": " + message);
     callback.onSuccess(VoidResult.INSTANCE);
+  }
+
+  @Override
+  public void isBlameEnabled(AsyncCallback<Boolean> callback) {
+    callback.onSuccess(config.getBoolean("change", "allowBlame", true));
   }
 }

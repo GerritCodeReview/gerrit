@@ -20,9 +20,9 @@ import com.google.common.collect.ImmutableList;
 public class TestKeys {
   public static ImmutableList<TestKey> allValidKeys() {
     return ImmutableList.of(
-        TestKeys.key1(),
-        TestKeys.key2(),
-        TestKeys.key5());
+        validKeyWithoutExpiration(),
+        validKeyWithExpiration(),
+        validKeyWithSecondUserId());
   }
 
   /**
@@ -35,7 +35,7 @@ public class TestKeys {
    * sub   2048R/F0AF69C0 2015-07-08
    * </pre>
    */
-  public static TestKey key1() {
+  public static TestKey validKeyWithoutExpiration() {
     return new TestKey("-----BEGIN PGP PUBLIC KEY BLOCK-----\n"
         + "Version: GnuPG v1\n"
         + "\n"
@@ -135,7 +135,7 @@ public class TestKeys {
    * sub   2048R/46D4F204 2015-07-08 [expires: 2065-06-25]
    * </pre>
    */
-  public static final TestKey key2() {
+  public static final TestKey validKeyWithExpiration() {
     return new TestKey(
         "-----BEGIN PGP PUBLIC KEY BLOCK-----\n"
         + "Version: GnuPG v1\n"
@@ -236,7 +236,7 @@ public class TestKeys {
    * uid                  Testuser Three &lt;test3@example.com&gt;
    * </pre>
    */
-  public static final TestKey key3() {
+  public static final TestKey expiredKey() {
     return new TestKey(
         "-----BEGIN PGP PUBLIC KEY BLOCK-----\n"
         + "Version: GnuPG v1\n"
@@ -337,7 +337,7 @@ public class TestKeys {
    * uid                  Testuser Four &lt;test4@example.com&gt;
    * </pre>
    */
-  public static final TestKey key4() {
+  public static final TestKey selfRevokedKey() {
     return new TestKey(
         "-----BEGIN PGP PUBLIC KEY BLOCK-----\n"
         + "Version: GnuPG v1\n"
@@ -445,7 +445,7 @@ public class TestKeys {
    * sub   2048R/C781A9E3 2015-07-30
    * </pre>
    */
-  public static TestKey key5() {
+  public static TestKey validKeyWithSecondUserId() {
     return new TestKey("-----BEGIN PGP PUBLIC KEY BLOCK-----\n"
         + "Version: GnuPG v1\n"
         + "\n"

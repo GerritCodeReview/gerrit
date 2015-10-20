@@ -28,8 +28,18 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.change.Reviewed.PutReviewed;
+import com.google.gitiles.blame.BlameCache;
+import com.google.gitiles.blame.BlameCacheImpl;
+import org.eclipse.jgit.lib.Config;
 
 public class Module extends RestApiModule {
+
+  private final Config config;
+
+  public Module(Config config) {
+    this.config = config;
+  }
+
   @Override
   protected void configure() {
     bind(ChangesCollection.class);
@@ -39,6 +49,10 @@ public class Module extends RestApiModule {
     bind(Comments.class);
     bind(Files.class);
     bind(Votes.class);
+    if (config.getBoolean("change", "allowBlame", true)) {
+      bind(BlameCache.class).to(BlameCacheImpl.class);
+      get(FILE_KIND, "blame").to(GetBlame.class);
+    }
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), COMMENT_KIND);

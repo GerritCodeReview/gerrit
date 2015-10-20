@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -82,7 +83,8 @@ class PatchSetSelectBox extends Composite {
   }
 
   void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo.FileMeta meta,
-      boolean editExists, boolean current, boolean open, boolean binary) {
+      ClickHandler onBlame, boolean editExists, boolean current, boolean open,
+      boolean binary) {
     InlineHyperlink baseLink = null;
     InlineHyperlink selectedLink = null;
     if (sideA) {
@@ -116,6 +118,9 @@ class PatchSetSelectBox extends Composite {
         linkPanel.add(createEditIcon());
       }
     }
+    if (!Patch.COMMIT_MSG.equals(path) && Gerrit.isSignedIn()) {
+      linkPanel.add(createBlameIcon(onBlame));
+    }
     List<WebLinkInfo> webLinks = Natives.asList(meta.webLinks());
     if (webLinks != null) {
       for (WebLinkInfo webLink : webLinks) {
@@ -130,6 +135,14 @@ class PatchSetSelectBox extends Composite {
         new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()),
         "#" + Dispatcher.toEditScreen(id, path));
     anchor.setTitle(PatchUtil.C.edit());
+    return anchor;
+  }
+
+  private Widget createBlameIcon(final ClickHandler onClick) {
+    Anchor anchor = new Anchor(new ImageResourceRenderer()
+      .render(Gerrit.RESOURCES.blame()));
+    anchor.setTitle(PatchUtil.C.blame());
+    anchor.addClickHandler(onClick);
     return anchor;
   }
 

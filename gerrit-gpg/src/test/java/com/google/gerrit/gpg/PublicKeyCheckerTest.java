@@ -15,6 +15,10 @@
 package com.google.gerrit.gpg;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.gpg.testutil.TestKeys.expiredKey;
+import static com.google.gerrit.gpg.testutil.TestKeys.selfRevokedKey;
+import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithExpiration;
+import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyA;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyB;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyC;
@@ -28,7 +32,6 @@ import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyJ;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.gpg.testutil.TestKey;
-import com.google.gerrit.gpg.testutil.TestKeys;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -72,22 +75,22 @@ public class PublicKeyCheckerTest {
 
   @Test
   public void validKey() throws Exception {
-    assertProblems(TestKeys.key1());
+    assertProblems(validKeyWithoutExpiration());
   }
 
   @Test
   public void keyExpiringInFuture() throws Exception {
-    assertProblems(TestKeys.key2());
+    assertProblems(validKeyWithExpiration());
   }
 
   @Test
-  public void expiredKey() throws Exception {
-    assertProblems(TestKeys.key3(), "Key is expired");
+  public void expiredKeyIsExpired() throws Exception {
+    assertProblems(expiredKey(), "Key is expired");
   }
 
   @Test
-  public void selfRevokedKey() throws Exception {
-    assertProblems(TestKeys.key4(), "Key is revoked");
+  public void selfRevokedKeyIsRevoked() throws Exception {
+    assertProblems(selfRevokedKey(), "Key is revoked");
   }
 
   // Test keys specific to this test are at the bottom of this class. Each test

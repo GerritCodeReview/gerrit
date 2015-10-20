@@ -17,11 +17,13 @@ package com.google.gerrit.gpg;
 import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.gpg.testutil.TestKeys.expiredKey;
+import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithExpiration;
+import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.gpg.testutil.TestKey;
-import com.google.gerrit.gpg.testutil.TestKeys;
 
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.BCPGOutputStream;
@@ -53,8 +55,8 @@ public class PushCertificateCheckerTest {
 
   @Before
   public void setUp() throws Exception {
-    TestKey key1 = TestKeys.key1();
-    TestKey key3 = TestKeys.key3();
+    TestKey key1 = validKeyWithoutExpiration();
+    TestKey key3 = expiredKey();
     tr = new TestRepository<>(new InMemoryRepository(
         new DfsRepositoryDescription("repo")));
     tr.branch(REFS_GPG_KEYS).commit()
@@ -85,26 +87,29 @@ public class PushCertificateCheckerTest {
 
   @Test
   public void validCert() throws Exception {
-    PushCertificate cert = newSignedCert(validNonce(), TestKeys.key1());
+    PushCertificate cert =
+        newSignedCert(validNonce(), validKeyWithoutExpiration());
     assertProblems(cert);
   }
 
   @Test
   public void invalidNonce() throws Exception {
-    PushCertificate cert = newSignedCert("invalid-nonce", TestKeys.key1());
+    PushCertificate cert =
+        newSignedCert("invalid-nonce", validKeyWithoutExpiration());
     assertProblems(cert, "Invalid nonce");
   }
 
   @Test
   public void invalidNonceNotChecked() throws Exception {
     checker = newChecker(false);
-    PushCertificate cert = newSignedCert("invalid-nonce", TestKeys.key1());
+    PushCertificate cert =
+        newSignedCert("invalid-nonce", validKeyWithoutExpiration());
     assertProblems(cert);
   }
 
   @Test
   public void missingKey() throws Exception {
-    TestKey key2 = TestKeys.key2();
+    TestKey key2 = validKeyWithExpiration();
     PushCertificate cert = newSignedCert(validNonce(), key2);
     assertProblems(cert,
         "No public keys found for key ID " + keyIdToString(key2.getKeyId()));
@@ -112,7 +117,7 @@ public class PushCertificateCheckerTest {
 
   @Test
   public void invalidKey() throws Exception {
-    TestKey key3 = TestKeys.key3();
+    TestKey key3 = expiredKey();
     PushCertificate cert = newSignedCert(validNonce(), key3);
     assertProblems(cert,
         "Invalid public key " + keyToString(key3.getPublicKey())

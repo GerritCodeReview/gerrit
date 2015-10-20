@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.gpg.GerritPublicKeyChecker.toExtIdKey;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyA;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyB;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyC;
@@ -32,7 +33,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import com.google.gerrit.gpg.testutil.TestKey;
-import com.google.gerrit.gpg.testutil.TestKeys;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -171,7 +171,7 @@ public class GerritPublicKeyCheckerTest {
 
   @Test
   public void defaultGpgCertificationMatchesEmail() throws Exception {
-    TestKey key = TestKeys.key5();
+    TestKey key = validKeyWithSecondUserId();
     GerritPublicKeyChecker checker = checkerFactory.create(user);
     assertProblems(
         checker.check(key.getPublicKey()), Status.BAD,
@@ -190,7 +190,7 @@ public class GerritPublicKeyCheckerTest {
     addExternalId("test", "test", "nobody@example.com");
     GerritPublicKeyChecker checker = checkerFactory.create(user);
     assertProblems(
-        checker.check(TestKeys.key5().getPublicKey()), Status.BAD,
+        checker.check(validKeyWithSecondUserId().getPublicKey()), Status.BAD,
         "Key must contain a valid certification for one of the following "
           + "identities:\n"
           + "  gerrit:user\n"
@@ -203,7 +203,7 @@ public class GerritPublicKeyCheckerTest {
   public void manualCertificationMatchesExternalId() throws Exception {
     addExternalId("foo", "myId", null);
     GerritPublicKeyChecker checker = checkerFactory.create(user);
-    assertNoProblems(checker.check(TestKeys.key5().getPublicKey()));
+    assertNoProblems(checker.check(validKeyWithSecondUserId().getPublicKey()));
   }
 
   @Test
@@ -211,7 +211,7 @@ public class GerritPublicKeyCheckerTest {
     addExternalId("foo", "otherId", null);
     GerritPublicKeyChecker checker = checkerFactory.create(user);
     assertProblems(
-        checker.check(TestKeys.key5().getPublicKey()), Status.BAD,
+        checker.check(validKeyWithSecondUserId().getPublicKey()), Status.BAD,
         "Key must contain a valid certification for one of the following "
           + "identities:\n"
           + "  foo:otherId\n"
@@ -225,7 +225,7 @@ public class GerritPublicKeyCheckerTest {
         db.accountExternalIds().byAccount(user.getAccountId()));
     reloadUser();
 
-    TestKey key = TestKeys.key5();
+    TestKey key = validKeyWithSecondUserId();
     GerritPublicKeyChecker checker = checkerFactory.create(user);
     assertProblems(
         checker.check(key.getPublicKey()), Status.BAD,

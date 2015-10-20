@@ -128,6 +128,24 @@
       "revId": "8caf7ab6dd2699dc1127e5dca7bab924fa27c9d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_0069e6ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T21:31:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f90b06d5_d901b352",
+      "revId": "8caf7ab6dd2699dc1127e5dca7bab924fa27c9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d902c2ba_18b2051e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-20T16:01:04Z",
+      "side": 1,
+      "message": "* no MergeQueue any more (or is that its own bullet point?)\n* Submission may include ancestors (Submit this change and 5 ancestors)\n* Connection of changes via the same topic string, this connection is Patchset-agnostic (i.e. just takes the latest PS, it doesn\u0027t care about PS updates in other changes)\n\n[ * Maybe todo for v2.12: Do we want to have a suggestion box for topics? Some people expressed interest in a box similar to the Suggest Reviewer functionality.]",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 15
+      },
+      "revId": "420c2f64115a037bf5463410cad562f32265e633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9e9e22c_60a8b24e",
         "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
         "patchSetId": 1

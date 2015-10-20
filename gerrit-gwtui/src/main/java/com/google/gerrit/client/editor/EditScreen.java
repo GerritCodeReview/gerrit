@@ -453,6 +453,13 @@ public class EditScreen extends Screen {
         if (!cm.isClean(generation)) {
           close.setEnabled(false);
           String text = cm.getValue();
+          if (Patch.COMMIT_MSG.equals(path)) {
+            String newText = text.trim();
+            if (!newText.equals(text)) {
+              text = newText;
+              cm.setValue(text);
+            }
+          }
           final int g = cm.changeGeneration(false);
           ChangeEditApi.put(revision.getParentKey().get(), path, text,
               new GerritCallback<VoidResult>() {

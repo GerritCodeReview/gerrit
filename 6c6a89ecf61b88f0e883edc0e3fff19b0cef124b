@@ -16,6 +16,24 @@
       "revId": "6c6a89ecf61b88f0e883edc0e3fff19b0cef124b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_af7179cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-20T14:15:47Z",
+      "side": 0,
+      "message": "Good catch, thanks. I missed that it was a field and thought it was just used to populate p.",
+      "parentUuid": "d92002e1_08288752",
+      "revId": "6c6a89ecf61b88f0e883edc0e3fff19b0cef124b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

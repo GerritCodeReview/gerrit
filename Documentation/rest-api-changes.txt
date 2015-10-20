@@ -3753,6 +3753,56 @@ differences are reported in the result.  Valid values are `IGNORE_NONE`,
 The `context` parameter can be specified to control the number of lines of surrounding context
 in the diff.  Valid values are `ALL` or number of lines.
 
+[[get-blame]]
+=== Get Blame
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/blame'
+--
+
+Gets the blame of a file from a certain revision.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/blame HTTP/1.0
+----
+
+As response a link:#blame-info[BlameInfo] entity is returned that describes the
+blame.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]
+  {
+      "blames": [
+        {
+          "meta": {
+              "author": "Gabor Somossy",
+              "id": "7e3862cb30ec8aadc2788953d86ebd97af915cef",
+              "time": 1459466295,
+              "commit_msg": "test\n\nChange-Id: I00daa0b814cafedb0606d29e109af14e5a311e3d\n",
+              "change_id": 0,
+              "patch_set_id": 0
+          },
+          "from_to": [
+            {
+              "from": 1,
+              "to": 8
+            },
+            ...
+          ]
+        },
+        ...
+      ]
+  }
+----
+
+The `base` parameter can be specified to control the base patch set from which
+the blame should be generated.
+
 [[set-reviewed]]
 === Set Reviewed
 --
@@ -3976,6 +4026,22 @@ Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review.
 NOTE: To apply different tags on on different votes/comments multiple
 invocations of the REST call are required.
+|===========================
+
+[[blame-info]]
+=== BlameInfo
+The `BlameInfo` entity stores the commit metadata with the row coordinates where
+it applies.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name | Description
+|`author`     | The author of the commit.
+|`id`         | The id of the commit.
+|`time`       | Commit time.
+|`commitMsg`  | The commit message.
+|`ranges`     |
+The blame row coordinates as link:#range-info[RangeInfo] entities.
 |===========================
 
 [[change-edit-input]]
@@ -4635,6 +4701,17 @@ link:config-gerrit.html#receive.enableSignedPush[enabled] on the server.
 Information about the key that signed the push, along with any problems
 found while checking the signature or the key itself, as a
 link:rest-api-accounts.html#gpg-key-info[GpgKeyInfo] entity.
+|===========================
+
+[[range-info]]
+=== RangeInfo
+The `RangeInfo` entity stores the coordinates of a range.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name   | Description
+|`start`      | First index.
+|`end`        | Last index.
 |===========================
 
 [[rebase-input]]

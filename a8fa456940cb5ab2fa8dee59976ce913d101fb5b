@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9e9e22c_8007b631",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T05:57:34Z",
+      "side": 1,
+      "message": "Opional: renaming it to say trimmed wuold better expressed the intention here.",
+      "range": {
+        "startLine": 457,
+        "startChar": 19,
+        "endLine": 457,
+        "endChar": 26
+      },
+      "revId": "a8fa456940cb5ab2fa8dee59976ce913d101fb5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -145,7 +145,7 @@ request is the exact string supplied in the dialog by the user.
 The configured <<ldap.username,ldap.username>> identity is not used to obtain
 account information.
 +
-* OAUTH
+* `OAUTH`
 +
 OAuth is a protocol that lets external apps request authorization to private
 details in a user's account without getting their password. This is
@@ -437,9 +437,9 @@ By default this is set to false.
 [[auth.gitBasicAuth]]auth.gitBasicAuth::
 +
 If true then Git over HTTP and HTTP/S traffic is authenticated using
-standard BasicAuth and the credentials are validated against the randomly
-generated HTTP password or against LDAP when it is configured as Gerrit
-Web UI authentication method.
+standard BasicAuth. Depending on the configured `auth.type` credentials
+are validated against the randomly generated HTTP password, against LDAP
+(`auth.type = LDAP`) or against an OAuth 2 provider (`auth.type = OAUTH`).
 +
 This parameter affects git over HTTP traffic and access to the REST
 API. If set to false then Gerrit will authenticate through DIGEST
@@ -449,7 +449,29 @@ database.
 When `auth.type` is `LDAP`, service users that only exist in the Gerrit
 database are still authenticated by their HTTP passwords.
 +
+When `auth.type` is `OAUTH`, Git clients may send OAuth 2 access tokens
+instead of passwords in the Basic authentication header. Note that provider
+specific plugins must be installed to facilitate this authentication scheme.
+If multiple OAuth 2 provider plugins are installed one of them must be
+selected as default with the `auth.gitOAuthProvider` option.
++
 By default this is set to false.
+
+[[auth.gitOAuthProvider]]auth.gitOAuthProvider::
++
+Selects the OAuth 2 provider to authenticate git over HTTP traffic with.
++
+In general there is no way to determine from an access token alone, which
+OAuth 2 provider to address to verify that token, and the BasicAuth
+scheme does not support amending such details. If multiple OAuth provider
+plugins in a system offer support for git over HTTP authentication site
+administrators must configure, which one to use as default provider.
+In case the provider cannot be determined from a request the access token
+will be sent to the default provider for verification.
++
+The value of this parameter must be the identifier of an OAuth 2 provider
+in the form `plugin-name:provider-name`. Consult the respective plugin
+documentation for details.
 
 [[auth.userNameToLowerCase]]auth.userNameToLowerCase::
 +

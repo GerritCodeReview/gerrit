@@ -1,4 +1,108 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1445246776 +0200\nnonce AOBGQrhvLYZmTLtubbK1xodqgeOsWvshexyhLQLd9NSCnC3yGAkdlNmvrG1h1bAtKFpaNOVMdwmI\n\n0000000000000000000000000000000000000000 e9b9203a9b5083455994b7a684154dcd50f486cc refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWJLc4AAoJEFG1/Zeg0O9RTKQH/jzWEqHdGai2dR+f5knnY/T2\nPUn08R6YbDxoFVtfKgDqXYBcdQnViWQBjI1ReC319UQhZHFAo+xUMWv+xAlVhYRQ\np5TXjUVFmBdZ9CRs87iAnMc0eYWLSOX1OOzEnDy9fsKkBHN+dGL6QTku9do5N39M\nlDIEtbI3Yq4bRGIlq/lia3QbG5loIHbXH/xEyDRvWVrWFvu4ABuookXxxIh2BZ0W\nnnHOtjOBSVGvpEQJD3lAoonjY87qbzCEa/sWYRrJQFDO88j9D8MGF3lxQ0xXUlur\neHfqGH0aqmV+oJ11sRs0gSdyo7v2xwnDTjGFbtsHUKSRkcoSRzyX8orTOk/fuVo\u003d\n\u003dDP11\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9e9e22c_a0e63ac5",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-10-20T12:53:15Z",
+      "side": 1,
+      "message": "in which Git repository ? What are the criteria to choose the repository the metadata will be stored in ?",
+      "range": {
+        "startLine": 17,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_c81dcf31",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-10-20T12:53:15Z",
+      "side": 1,
+      "message": "s/exits/exists/",
+      "range": {
+        "startLine": 212,
+        "startChar": 33,
+        "endLine": 212,
+        "endChar": 38
+      },
+      "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_4849df28",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-10-20T12:53:15Z",
+      "side": 1,
+      "message": "What are the reasons for this design ?",
+      "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_6844a312",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-10-20T12:53:15Z",
+      "side": 1,
+      "message": "why a synthetic email-address here ?",
+      "range": {
+        "startLine": 262,
+        "startChar": 1,
+        "endLine": 262,
+        "endChar": 20
+      },
+      "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_e0e042ab",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-10-20T12:53:15Z",
+      "side": 1,
+      "message": "Which data is stored in git notes ?",
+      "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

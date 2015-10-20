@@ -144,6 +144,8 @@ import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
+import com.google.gitiles.blame.BlameCache;
+import com.google.gitiles.blame.BlameCacheImpl;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
@@ -171,6 +173,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(IdGenerator.class);
     bind(RulesCache.class);
+    bind(BlameCache.class).to(BlameCacheImpl.class);
     bind(Sequences.class);
     install(authModule);
     install(AccountByEmailCacheImpl.module());

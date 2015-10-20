@@ -80,6 +80,7 @@ public interface PatchConstants extends Constants {
   String next();
   String download();
   String edit();
+  String blame();
   String addFileCommentToolTip();
   String addFileCommentByDoubleClick();
 

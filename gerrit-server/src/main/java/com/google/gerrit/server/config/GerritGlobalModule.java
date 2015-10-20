@@ -69,6 +69,7 @@ import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
+import com.google.gerrit.server.auth.oauth.OAuthLoginService;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.ChangeJson;
@@ -293,6 +294,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), DiffWebLink.class);
     DynamicSet.setOf(binder(), ProjectWebLink.class);
     DynamicSet.setOf(binder(), BranchWebLink.class);
+    DynamicItem.itemOf(binder(), OAuthLoginService.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

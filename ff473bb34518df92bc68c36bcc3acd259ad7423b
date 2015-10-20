@@ -47,6 +47,30 @@
       "revId": "ff473bb34518df92bc68c36bcc3acd259ad7423b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_685663ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-20T15:07:39Z",
+      "side": 1,
+      "message": "Ah, that\u0027s nasty. Would be good to improve this somewhen later.",
+      "parentUuid": "f90b06d5_19e4cb01",
+      "range": {
+        "startLine": 159,
+        "startChar": 4,
+        "endLine": 161,
+        "endChar": 43
+      },
+      "revId": "ff473bb34518df92bc68c36bcc3acd259ad7423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

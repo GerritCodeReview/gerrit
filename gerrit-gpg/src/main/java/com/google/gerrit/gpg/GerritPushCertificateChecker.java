@@ -26,8 +26,7 @@ import java.io.IOException;
 
 public class GerritPushCertificateChecker extends PushCertificateChecker {
   public interface Factory {
-    GerritPushCertificateChecker create(IdentifiedUser expectedUser,
-        boolean checkNonce);
+    GerritPushCertificateChecker create(IdentifiedUser expectedUser);
   }
 
   private final GitRepositoryManager repoManager;
@@ -38,9 +37,8 @@ public class GerritPushCertificateChecker extends PushCertificateChecker {
       GerritPublicKeyChecker.Factory keyCheckerFactory,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      @Assisted IdentifiedUser expectedUser,
-      @Assisted boolean checkNonce) {
-    super(keyCheckerFactory.create().setExpectedUser(expectedUser), checkNonce);
+      @Assisted IdentifiedUser expectedUser) {
+    super(keyCheckerFactory.create().setExpectedUser(expectedUser));
     this.repoManager = repoManager;
     this.allUsers = allUsers;
   }

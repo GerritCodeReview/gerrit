@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d9e9e22c_e09b223f",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-20T13:23:41Z",
+      "side": 1,
+      "message": "Should get clear from the \u0027Storage\u0027 section below.",
+      "parentUuid": "d9e9e22c_a0e63ac5",
+      "range": {
+        "startLine": 17,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d92002e1_c81dcf31",
         "filename": "Documentation/notedb.txt",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2015-10-20T12:53:15Z",
       "side": 1,
       "message": "s/exits/exists/",
+      "range": {
+        "startLine": 212,
+        "startChar": 33,
+        "endLine": 212,
+        "endChar": 38
+      },
+      "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_28758b52",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-20T13:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d92002e1_c81dcf31",
       "range": {
         "startLine": 212,
         "startChar": 33,
@@ -66,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "d92002e1_087a4742",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-20T13:23:41Z",
+      "side": 1,
+      "message": "I believe after having change refs per patch sets\n\n  refs/changes/XX/YYYY/ZZ\n\nit just made sense to have a similar name pattern for the notes branches that each record the events on one change\n\n  refs/changes/XX/YYYY/meta",
+      "parentUuid": "d92002e1_4849df28",
+      "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d92002e1_6844a312",
         "filename": "Documentation/notedb.txt",
         "patchSetId": 3
@@ -89,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "d92002e1_687f8332",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-20T13:23:41Z",
+      "side": 1,
+      "message": "Don\u0027t know. Right now I\u0027m just documenting the status quo, but I want to have this documentation exactly for discussing such questions :-)\n\nMaybe Dave can comment on this.",
+      "parentUuid": "d92002e1_6844a312",
+      "range": {
+        "startLine": 262,
+        "startChar": 1,
+        "endLine": 262,
+        "endChar": 20
+      },
+      "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9e9e22c_e0e042ab",
         "filename": "Documentation/notedb.txt",
         "patchSetId": 3
@@ -100,6 +190,24 @@
       "writtenOn": "2015-10-20T12:53:15Z",
       "side": 1,
       "message": "Which data is stored in git notes ?",
+      "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_40a12e6b",
+        "filename": "Documentation/notedb.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-20T13:23:41Z",
+      "side": 1,
+      "message": "I hope this is answered by patch set 4 :-)",
+      "parentUuid": "d9e9e22c_e0e042ab",
       "revId": "e9b9203a9b5083455994b7a684154dcd50f486cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

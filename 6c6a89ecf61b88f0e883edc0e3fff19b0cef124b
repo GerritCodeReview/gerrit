@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d92002e1_08288752",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-20T09:18:16Z",
+      "side": 0,
+      "message": "Should this eventually be kept? \u0027change\u0027 is a global class member variable and it is used by other methods after insertPatchSet(RevCommit) was invoked. When we remove this line \u0027change\u0027 could be stale now, couldn\u0027t it?",
+      "revId": "6c6a89ecf61b88f0e883edc0e3fff19b0cef124b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

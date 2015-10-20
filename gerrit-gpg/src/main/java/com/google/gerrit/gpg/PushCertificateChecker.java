@@ -208,7 +208,10 @@ public abstract class PushCertificateChecker {
           CheckResult.bad("Signature by " + keyIdToString(sig.getKeyID())
               + " is not valid"));
     }
-    CheckResult result = publicKeyChecker.check(signer);
+    CheckResult result = publicKeyChecker
+        .setStore(store)
+        .setEffectiveTime(sig.getCreationTime())
+        .check(signer);
     if (!result.getProblems().isEmpty()) {
       StringBuilder err = new StringBuilder("Invalid public key ")
           .append(keyToString(signer))

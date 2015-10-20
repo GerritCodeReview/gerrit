@@ -14,7 +14,6 @@
 
 package com.google.gerrit.gpg;
 
-import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static com.google.gerrit.gpg.testutil.TestKeys.expiredKey;
@@ -29,11 +28,14 @@ import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.BCPGOutputStream;
 import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.PGPSignatureGenerator;
+import org.bouncycastle.openpgp.PGPSignatureSubpacketGenerator;
 import org.bouncycastle.openpgp.PGPUtil;
 import org.bouncycastle.openpgp.operator.bc.BcPGPContentSignerBuilder;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.PushCertificateIdent;
@@ -46,10 +48,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 public class PushCertificateCheckerTest {
-  private TestRepository<?> tr;
+  private InMemoryRepository repo;
+  private PublicKeyStore store;
   private SignedPushConfig signedPushConfig;
   private PushCertificateChecker checker;
 
@@ -57,14 +62,17 @@ public class PushCertificateCheckerTest {
   public void setUp() throws Exception {
     TestKey key1 = validKeyWithoutExpiration();
     TestKey key3 = expiredKey();
-    tr = new TestRepository<>(new InMemoryRepository(
-        new DfsRepositoryDescription("repo")));
-    tr.branch(REFS_GPG_KEYS).commit()
-        .add(PublicKeyStore.keyObjectId(key1.getPublicKey().getKeyID()).name(),
-            key1.getPublicKeyArmored())
-        .add(PublicKeyStore.keyObjectId(key3.getPublicKey().getKeyID()).name(),
-            key3.getPublicKeyArmored())
-        .create();
+    repo = new InMemoryRepository(new DfsRepositoryDescription("repo"));
+    store = new PublicKeyStore(repo);
+    store.add(key1.getPublicKeyRing());
+    store.add(key3.getPublicKeyRing());
+
+    PersonIdent ident = new PersonIdent("A U Thor", "author@example.com");
+    CommitBuilder cb = new CommitBuilder();
+    cb.setAuthor(ident);
+    cb.setCommitter(ident);
+    assertEquals(RefUpdate.Result.NEW, store.save(cb));
+
     signedPushConfig = new SignedPushConfig();
     signedPushConfig.setCertNonceSeed("sekret");
     signedPushConfig.setCertNonceSlopLimit(60 * 24);
@@ -72,10 +80,11 @@ public class PushCertificateCheckerTest {
   }
 
   private PushCertificateChecker newChecker(boolean checkNonce) {
-    return new PushCertificateChecker(new PublicKeyChecker()) {
+    PublicKeyChecker keyChecker = new PublicKeyChecker().setStore(store);
+    return new PushCertificateChecker(keyChecker) {
       @Override
       protected Repository getRepository() {
-        return tr.getRepository();
+        return repo;
       }
 
       @Override
@@ -124,13 +133,27 @@ public class PushCertificateCheckerTest {
           + ":\n  Key is expired");
   }
 
+  @Test
+  public void signatureByExpiredKeyBeforeExpiration() throws Exception {
+    TestKey key3 = expiredKey();
+    Date now = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss Z")
+        .parse("2005-07-10 12:00:00 -0400");
+    PushCertificate cert = newSignedCert(validNonce(), key3, now);
+    assertProblems(cert);
+  }
+
   private String validNonce() {
     return signedPushConfig.getNonceGenerator()
-        .createNonce(tr.getRepository(), System.currentTimeMillis() / 1000);
+        .createNonce(repo, System.currentTimeMillis() / 1000);
   }
 
   private PushCertificate newSignedCert(String nonce, TestKey signingKey)
       throws Exception {
+    return newSignedCert(nonce, signingKey, null);
+  }
+
+  private PushCertificate newSignedCert(String nonce, TestKey signingKey,
+      Date now) throws Exception {
     PushCertificateIdent ident = new PushCertificateIdent(
         signingKey.getFirstUserId(), System.currentTimeMillis(), -7 * 60);
     String payload = "certificate version 0.1\n"
@@ -144,6 +167,14 @@ public class PushCertificateCheckerTest {
     PGPSignatureGenerator gen = new PGPSignatureGenerator(
         new BcPGPContentSignerBuilder(
           signingKey.getPublicKey().getAlgorithm(), PGPUtil.SHA1));
+
+    if (now != null) {
+      PGPSignatureSubpacketGenerator subGen =
+          new PGPSignatureSubpacketGenerator();
+      subGen.setSignatureCreationTime(false, now);
+      gen.setHashedSubpackets(subGen.generate());
+    }
+
     gen.init(PGPSignature.BINARY_DOCUMENT, signingKey.getPrivateKey());
     gen.update(payload.getBytes(UTF_8));
     PGPSignature sig = gen.generate();
@@ -158,7 +189,7 @@ public class PushCertificateCheckerTest {
     Reader reader =
         new InputStreamReader(new ByteArrayInputStream(cert.getBytes(UTF_8)));
     PushCertificateParser parser =
-        new PushCertificateParser(tr.getRepository(), signedPushConfig);
+        new PushCertificateParser(repo, signedPushConfig);
     return parser.parse(reader);
   }
 

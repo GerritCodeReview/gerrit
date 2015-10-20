@@ -210,6 +210,54 @@ public class PublicKeyStore implements AutoCloseable {
   }
 
   /**
+   * Read public key with the given fingerprint.
+   * <p>
+   * Keys should not be trusted unless checked with {@link PublicKeyChecker}.
+   * <p>
+   * Multiple calls to this method use the same state of the key ref; to reread
+   * the ref, call {@link #close()} first.
+   *
+   * @param fingerprint key fingerprint.
+   * @return the key if found, or {@code null}.
+   * @throws PGPException if an error occurred parsing the key data.
+   * @throws IOException if an error occurred reading the repository data.
+   */
+  public PGPPublicKeyRing get(byte[] fingerprint)
+      throws PGPException, IOException {
+    if (reader == null) {
+      load();
+    }
+    if (notes == null) {
+      return null;
+    }
+    Note note = notes.getNote(keyObjectId(Fingerprint.getId(fingerprint)));
+    if (note == null) {
+      return null;
+    }
+
+    try (InputStream in = reader.open(note.getData(), OBJ_BLOB).openStream()) {
+      while (true) {
+        @SuppressWarnings("unchecked")
+        Iterator<Object> it =
+            new BcPGPObjectFactory(new ArmoredInputStream(in)).iterator();
+        if (!it.hasNext()) {
+          break;
+        }
+        Object obj = it.next();
+        if (obj instanceof PGPPublicKeyRing) {
+          PGPPublicKeyRing kr = (PGPPublicKeyRing) obj;
+          if (Arrays.equals(kr.getPublicKey().getFingerprint(), fingerprint)) {
+            return kr;
+          }
+        }
+        checkState(!it.hasNext(),
+            "expected one PGP object per ArmoredInputStream");
+      }
+      return null;
+    }
+  }
+
+  /**
    * Add a public key to the store.
    * <p>
    * Multiple calls may be made to buffer keys in memory, and they are not saved

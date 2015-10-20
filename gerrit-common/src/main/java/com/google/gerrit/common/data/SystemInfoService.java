@@ -33,4 +33,7 @@ public interface SystemInfoService extends RemoteJsonService {
   void contributorAgreements(AsyncCallback<List<ContributorAgreement>> callback);
 
   void clientError(String message, AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void isBlameEnabled(AsyncCallback<Boolean> callback);
 }

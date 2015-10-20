@@ -122,24 +122,47 @@ class ProjectOAuthFilter implements Filter {
 
   private boolean verify(HttpServletRequest req, Response rsp)
       throws IOException {
-    String hdr = req.getHeader(AUTHORIZATION);
-    if (hdr == null || !hdr.startsWith(BASIC)) {
-      // Allow an anonymous connection through, or it might be using a
-      // session cookie instead of basic authentication.
-      return true;
+    AuthInfo authInfo = null;
+
+    // first check if there is a Git cookie; such cookies are expected
+    // to have names of the form "git-providerId-username", where providerId
+    // matches one of the installed OAuth providers
+    if (req.getCookies() != null) {
+      for (Cookie cookie: req.getCookies()) {
+        if (cookie.getName().startsWith(GIT_COOKIE_PREFIX)) {
+          authInfo = extractAuthInfo(cookie);
+          if (authInfo == null) {
+            // Git cookie does not match installed provider
+            rsp.sendError(SC_UNAUTHORIZED);
+            return false;
+          }
+          break;
+        }
+      }
     }
 
-    byte[] decoded = Base64.decodeBase64(hdr.substring(BASIC.length()));
-    String usernamePassword = new String(decoded, encoding(req));
-    int splitPos = usernamePassword.indexOf(':');
-    if (splitPos < 1) {
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
-    }
+    // if there is no Git cookie fall back to the "Authorization" header
+    // and the default OAuth provider, if any
+    if (authInfo == null) {
+      String hdr = req.getHeader(AUTHORIZATION);
+      if (hdr == null || !hdr.startsWith(BASIC)) {
+        // Allow an anonymous connection through, or it might be using a
+        // session cookie instead of basic authentication.
+        return true;
+      }
 
-    AuthInfo authInfo = new AuthInfo(usernamePassword.substring(0, splitPos),
-        usernamePassword.substring(splitPos + 1),
-        defaultAuthPlugin, defaultAuthProvider);
+      byte[] decoded = Base64.decodeBase64(hdr.substring(BASIC.length()));
+      String usernamePassword = new String(decoded, encoding(req));
+      int splitPos = usernamePassword.indexOf(':');
+      if (splitPos < 1) {
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+
+      authInfo = new AuthInfo(usernamePassword.substring(0, splitPos),
+          usernamePassword.substring(splitPos + 1),
+          defaultAuthPlugin, defaultAuthProvider);
+    }
 
     if (Strings.isNullOrEmpty(authInfo.getTokenOrSecret())) {
       rsp.sendError(SC_UNAUTHORIZED);
@@ -217,6 +240,25 @@ class ProjectOAuthFilter implements Filter {
     for (Entry<OAuthLoginProvider> e: loginProviders) {
       if (providerId.equals(e.getProvider().get().getProviderId())) {
         return e;
+      }
+    }
+    return null;
+  }
+
+  private AuthInfo extractAuthInfo(Cookie cookie) {
+    String username = cookie.getName().substring(GIT_COOKIE_PREFIX.length());
+    int splitPos = username.indexOf('-');
+    if (splitPos < 0) {
+      // no providerId in the cookie name => assume default provider
+      return new AuthInfo(username, cookie.getValue(),
+          defaultAuthPlugin, defaultAuthProvider);
+    }
+    String providerId = username.substring(0, splitPos);
+    username = username.substring(splitPos + 1);
+    for (Entry<OAuthLoginProvider> e: loginProviders) {
+      if (providerId.equals((e.getProvider().get().getProviderId()))) {
+        return new AuthInfo(username, cookie.getValue(),
+            e.getPluginName(), e.getExportName());
       }
     }
     return null;

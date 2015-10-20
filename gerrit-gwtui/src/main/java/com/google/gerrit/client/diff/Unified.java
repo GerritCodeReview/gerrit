@@ -422,4 +422,10 @@ public class Unified extends DiffScreen {
   UnifiedSkipManager getSkipManager() {
     return skipManager;
   }
+
+  @Override
+  boolean isLineNumberGutter(String gutterClass) {
+    return gutterClass.equals(UnifiedTable.style.lineNumbersLeft())
+        || gutterClass.equals(UnifiedTable.style.lineNumbersRight());
+  }
 }

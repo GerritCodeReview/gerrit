@@ -857,7 +857,8 @@ abstract class DiffScreen extends Screen {
       @Override
       public void handle(CodeMirror instance, final int line, final String gutterClass,
           NativeEvent clickEvent) {
-        if (clickEvent.getButton() == NativeEvent.BUTTON_LEFT
+        if (isLineNumberGutter(gutterClass)
+            && clickEvent.getButton() == NativeEvent.BUTTON_LEFT
             && !clickEvent.getMetaKey()
             && !clickEvent.getAltKey()
             && !clickEvent.getCtrlKey()
@@ -873,6 +874,8 @@ abstract class DiffScreen extends Screen {
       }
     };
   }
+
+  abstract boolean isLineNumberGutter(String gutterClass);
 
   abstract FocusHandler getFocusHandler();
 

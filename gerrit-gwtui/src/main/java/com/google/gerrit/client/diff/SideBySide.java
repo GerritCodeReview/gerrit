@@ -191,6 +191,11 @@ public class SideBySide extends DiffScreen {
     cmA = newCm(diff.metaA(), diff.textA(), diffTable.cmA);
     cmB = newCm(diff.metaB(), diff.textB(), diffTable.cmB);
 
+    boolean isBase = base == null;
+    PatchSet.Id rev = isBase ? revision : base;
+    getDiffTable().setUpBlameIconA(cmA, isBase, rev, path);
+    getDiffTable().setUpBlameIconB(cmB, false, revision, path);
+
     cmA.extras().side(DisplaySide.A);
     cmB.extras().side(DisplaySide.B);
     setShowTabs(prefs.showTabs());
@@ -419,5 +424,10 @@ public class SideBySide extends DiffScreen {
   @Override
   SideBySideSkipManager getSkipManager() {
     return skipManager;
+  }
+
+  @Override
+  boolean isLineNumberGutter(String gutterClass) {
+    return "CodeMirror-linenumbers".equals(gutterClass);
   }
 }

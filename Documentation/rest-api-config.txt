@@ -1076,6 +1076,9 @@ section.
 [options="header",cols="1,^1,5"]
 |=============================
 |Field Name           ||Description
+|`allow_blame`        |not set if `false`|
+link:config-gerrit.html#change.allowBlame[Whether blame on side by side diff is
+allowed].
 |`allow_drafts`       |not set if `false`|
 link:config-gerrit.html#change.allowDrafts[Whether draft workflow is
 allowed].

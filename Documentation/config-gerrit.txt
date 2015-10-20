@@ -915,6 +915,12 @@ If 0 the update polling is disabled.
 +
 Default is 30 seconds.
 
+[[change.allowBlame]]change.allowBlame::
++
+Allow blame on side by side diff. If set to false, blame cannot be used.
++
+Default is true.
+
 [[change.allowDrafts]]change.allowDrafts::
 +
 Allow drafts workflow. If set to false, drafts cannot be created,

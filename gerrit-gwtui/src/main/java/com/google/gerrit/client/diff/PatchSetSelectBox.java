@@ -16,9 +16,12 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.blame.BlameInfo;
+import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.patches.PatchUtil;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
@@ -28,6 +31,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -39,6 +43,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtorm.client.KeyUtil;
+import net.codemirror.lib.CodeMirror;
 
 import java.util.List;
 
@@ -125,12 +130,45 @@ class PatchSetSelectBox extends Composite {
     }
   }
 
+  void setUpBlame(final CodeMirror cm, final boolean isBase,
+      final PatchSet.Id rev, final String path) {
+    if (!Patch.COMMIT_MSG.equals(path) && Gerrit.isSignedIn()
+        && Gerrit.info().change().allowBlame()) {
+      Anchor blameIcon = createBlameIcon();
+      blameIcon.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent clickEvent) {
+          if (cm.extras().getBlameInfo() != null) {
+            cm.extras().toggleAnnotation();
+          } else {
+            ChangeApi.blame(rev, path, isBase)
+              .get(new GerritCallback<BlameInfo>() {
+
+                @Override
+                public void onSuccess(BlameInfo result) {
+                  cm.extras().toggleAnnotation(result);
+                }
+              });
+          }
+        }
+      });
+      linkPanel.add(blameIcon);
+    }
+  }
+
   private Widget createEditIcon() {
     PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
     Anchor anchor = new Anchor(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()),
         "#" + Dispatcher.toEditScreen(id, path));
     anchor.setTitle(PatchUtil.C.edit());
+    return anchor;
+  }
+
+  private Anchor createBlameIcon() {
+    Anchor anchor = new Anchor(
+        new ImageResourceRenderer().render(Gerrit.RESOURCES.blame()));
+    anchor.setTitle(PatchUtil.C.blame());
     return anchor;
   }
 

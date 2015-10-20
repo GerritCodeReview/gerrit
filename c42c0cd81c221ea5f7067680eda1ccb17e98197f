@@ -88,6 +88,24 @@
       "revId": "c42c0cd81c221ea5f7067680eda1ccb17e98197f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b90a6e5b_0feec5b8",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/IoUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-10-20T19:08:17Z",
+      "side": 0,
+      "message": "Thanks! You rock -- I never would\u0027ve known where to look in the language spec.  I\u0027ll be happy to rewrite this to use a specific single Path overload. :)",
+      "parentUuid": "19ae1afa_b2a040cd",
+      "revId": "c42c0cd81c221ea5f7067680eda1ccb17e98197f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

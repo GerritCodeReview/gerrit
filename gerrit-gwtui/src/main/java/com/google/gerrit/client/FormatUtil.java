@@ -109,17 +109,28 @@ public class FormatUtil {
     return new AccountFormatter(Gerrit.info().user().anonymousCowardName());
   }
 
+  /** The returned format string doesn't contain any +/- sign. */
+  public static String formatAbsBytes(long bytes) {
+    return formatBytes(bytes, true);
+  }
+
   public static String formatBytes(long bytes) {
+    return formatBytes(bytes, false);
+  }
+
+  private static String formatBytes(long bytes, boolean abs) {
+    bytes = abs ? Math.abs(bytes) : bytes;
+
     if (bytes == 0) {
-      return "+/- 0 B";
+      return abs ? "0 B" : "+/- 0 B";
     }
 
     if (Math.abs(bytes) < 1024) {
-      return (bytes > 0 ? "+" : "") + bytes + " B";
+      return (bytes > 0 && !abs ? "+" : "") + bytes + " B";
     }
 
     int exp = (int) (Math.log(Math.abs(bytes)) / Math.log(1024));
-    return (bytes > 0 ? "+" : "")
+    return (bytes > 0 && !abs ? "+" : "")
         + NumberFormat.getFormat("#.0").format(bytes / Math.pow(1024, exp))
         + " " + "KMGTPE".charAt(exp - 1) + "iB";
   }

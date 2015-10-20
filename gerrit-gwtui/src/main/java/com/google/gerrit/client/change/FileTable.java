@@ -14,8 +14,10 @@
 
 package com.google.gerrit.client.change;
 
+import static com.google.gerrit.client.FormatUtil.formatAbsBytes;
+import static com.google.gerrit.client.FormatUtil.formatBytes;
+
 import com.google.gerrit.client.Dispatcher;
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.changes.ChangeApi;
@@ -458,8 +460,12 @@ public class FileTable extends FlowPanel {
     private ProgressBar meter;
     private String lastPath = "";
 
+    private boolean hasBinaryFile;
+    private boolean hasNonBinaryFile;
     private int inserted;
     private int deleted;
+    private long bytesInserted;
+    private long bytesDeleted;
 
     private DisplayCommand(NativeMap<FileInfo> map,
         JsArray<FileInfo> list,
@@ -514,11 +520,23 @@ public class FileTable extends FlowPanel {
     private void computeInsertedDeleted() {
       inserted = 0;
       deleted = 0;
+      bytesInserted = 0;
+      bytesDeleted = 0;
       for (int i = 0; i < list.length(); i++) {
         FileInfo info = list.get(i);
-        if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()) {
-          inserted += info.linesInserted();
-          deleted += info.linesDeleted();
+        if (!Patch.COMMIT_MSG.equals(info.path())) {
+          if (!info.binary()) {
+            hasNonBinaryFile = true;
+            inserted += info.linesInserted();
+            deleted += info.linesDeleted();
+          } else {
+            hasBinaryFile = true;
+            if (info.sizeDelta() >= 0) {
+              bytesInserted += info.sizeDelta();
+            } else {
+              bytesDeleted += info.sizeDelta();
+            }
+          }
         }
       }
     }
@@ -752,7 +770,7 @@ public class FileTable extends FlowPanel {
           }
         }
       } else if (info.binary()) {
-        sb.append(FormatUtil.formatBytes(info.sizeDelta()));
+        sb.append(formatBytes(info.sizeDelta()));
       }
       sb.closeTd();
     }
@@ -801,9 +819,18 @@ public class FileTable extends FlowPanel {
       sb.openTd().setAttribute("colspan", 3).closeTd(); // comments
 
       // delta1
-      sb.openTh().setStyleName(R.css().deltaColumn1())
-        .append(Util.M.patchTableSize_Modify(inserted, deleted))
-        .closeTh();
+      sb.openTh().setStyleName(R.css().deltaColumn1());
+      if (hasNonBinaryFile) {
+        sb.append(Util.M.patchTableSize_Modify(inserted, deleted));
+      }
+      if (hasBinaryFile) {
+        if (hasNonBinaryFile) {
+          sb.br();
+        }
+        sb.append(Util.M.patchTableSize_ModifyBinaryFiles(
+            formatAbsBytes(bytesInserted), formatAbsBytes(bytesDeleted)));
+      }
+      sb.closeTh();
 
       // delta2
       sb.openTh().setStyleName(R.css().deltaColumn2());

@@ -30,6 +30,9 @@ public interface Resources extends ClientBundle {
   @Source("arrowUp.png")
   ImageResource arrowUp();
 
+  @Source("info.png")
+  public ImageResource blame();
+
   @Source("deleteHover.png")
   ImageResource deleteHover();
 

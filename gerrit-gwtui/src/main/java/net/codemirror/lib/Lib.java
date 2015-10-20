@@ -30,6 +30,13 @@ interface Lib extends ClientBundle {
   @DoNotEmbed
   DataResource js();
 
+  @Source("annotation.css")
+  ExternalTextResource annotationCss();
+
+  @Source("lint.js")
+  @DoNotEmbed
+  DataResource lint();
+
   @Source("style.css")
   CodeMirror.Style style();
 }

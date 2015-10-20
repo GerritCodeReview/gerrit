@@ -37,6 +37,7 @@ java_library(
 
 java_library(
   name = 'api',
+  deps = ['//lib:guava'],
   srcs = glob([SRC + '**/*.java']),
   provided_deps = [
     '//lib/guice:guice',

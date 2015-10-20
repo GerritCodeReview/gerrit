@@ -14,17 +14,26 @@
 
 package net.codemirror.lib;
 
+import com.google.gerrit.client.DateFormatter;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.blame.BlameInfo;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.rpc.CallbackGroup;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import net.codemirror.lib.TextMarker.FromTo;
+
+import java.util.Date;
 
 /**
  * Glue to connect CodeMirror to be callable from GWT.
@@ -32,6 +41,8 @@ import net.codemirror.lib.TextMarker.FromTo;
  * @see <a href="http://codemirror.net/doc/manual.html#api">CodeMirror API</a>
  */
 public class CodeMirror extends JavaScriptObject {
+  public static final String ANNOTATION_GUTTER_ID = "CodeMirror-lint-markers";
+
   public static void preload() {
     initLibrary(CallbackGroup.<Void> emptyCallback());
   }
@@ -59,6 +70,41 @@ public class CodeMirror extends JavaScriptObject {
   private static native CodeMirror newCM(Element p, Configuration cfg) /*-{
     return $wnd.CodeMirror(p, cfg);
   }-*/;
+
+  public final native BlameInfo getBlameInfo()/*-{
+    return this.blameInfo;
+  }-*/;
+
+  public final native void setBlameInfo(BlameInfo blame)/*-{
+    this['blameInfo'] = blame;
+  }-*/;
+
+  public final BlameInfo.BlameLine getBlame(int lineNum) {
+    BlameInfo blameInfo = getBlameInfo();
+    if (blameInfo != null) {
+      JsArray<BlameInfo.BlameLine> blames = blameInfo.blames();
+      for (BlameInfo.BlameLine line : Natives.asList(blames)) {
+        for (BlameInfo.BlameLine.FromTo fromTo : Natives.asList(line.fromTo())) {
+          if (lineNum >= fromTo.from() && lineNum <= fromTo.to()) {
+            return line;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  public final void toggleAnnotation() {
+    toggleAnnotation(getBlameInfo());
+  }
+
+  public final void toggleAnnotation(BlameInfo blameInfo) {
+    if (isAnnotated()) {
+      clearAnnotations();
+    } else {
+      setAnnotations(blameInfo);
+    }
+  }
 
   public final native void setOption(String option, boolean value) /*-{
     this.setOption(option, value)
@@ -366,6 +412,94 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native Vim vim() /*-{
     return this;
+  }-*/;
+
+  public final native boolean isAnnotated()/*-{
+    var gutters = this.getOption("gutters"), hasLintGutter = false;
+    for (var i = 0; i < gutters.length; ++i) {
+      if (gutters[i] == @net.codemirror.lib.CodeMirror::ANNOTATION_GUTTER_ID) {
+        return true;
+      }
+    }
+    return false;
+  }-*/;
+
+  public final void clearAnnotations() {
+    JsArrayString gutters = ((JsArrayString) JsArrayString.createArray());
+    setOption("gutters", gutters);
+  }
+
+  public final void setAnnotations(BlameInfo blameInfo) {
+    setBlameInfo(blameInfo);
+    JsArrayString gutters = ((JsArrayString) JsArrayString.createArray());
+    gutters.push(ANNOTATION_GUTTER_ID);
+    setOption("gutters", gutters);
+    JsArray<LintLine> annotations = JsArray.createArray().cast();
+    for (BlameInfo.BlameLine line : Natives.asList(blameInfo.blames())) {
+      for (BlameInfo.BlameLine.FromTo fromTo : Natives.asList(line.fromTo())) {
+        Date commitTime = new Date(line.time() * 1000L);
+        String commitDate =
+          DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_SHORT)
+            .format(commitTime);
+        String[] author = line.author().split(" ");
+        String authorLastName = author[author.length - 1];
+        String shortBlame =
+          line.id().substring(0, 8) + " " + commitDate + " " + authorLastName;
+        String detailedBlame =
+          "commit " + line.id() + "\n" +
+            "Author: " + line.author() + "\n" +
+            "Date: " + FormatUtil.mediumFormat(commitTime) + "\n\n" +
+            line.commitMsg();
+
+        if (shortBlame.length() > 30) {
+          shortBlame = shortBlame.substring(0, 30) + "...";
+        }
+        for (int l = fromTo.from() - 1; l < fromTo.to(); ++l) {
+          annotations
+            .push(LintLine.create(shortBlame, detailedBlame, "annotation"
+              , Pos.create(l)));
+        }
+      }
+    }
+    setOption("lint", getAnnotation(annotations));
+  }
+
+  private static class LintLine extends JavaScriptObject {
+    public static LintLine create(String msg, String details, String sev
+      , Pos line) {
+      return create(msg, details, sev, line, null);
+    }
+
+    public static native LintLine create(String msg, String details, String sev
+      , Pos f, Pos t)/*-{
+      return {
+        message : msg,
+        detailedMessage : details,
+        severity : sev,
+        from : f,
+        to : t
+      };
+    }-*/;
+
+    public final native String message()/*-{ return this.message; }-*/;
+    public final native String detailedMessage()/*-{ return this.message; }-*/;
+    public final native String severity()/*-{ return this.severity; }-*/;
+    public final native Pos from()/*-{ return this.from; }-*/;
+    public final native Pos to()/*-{ return this.to; }-*/;
+
+    protected LintLine() {
+    }
+  }
+
+  private native JavaScriptObject getAnnotation(JsArray<LintLine> annotations)
+  /*-{
+     return {
+        getAnnotations: function(text, options, cm) { return annotations; }
+     };
+  }-*/;
+
+  public final native void performLint() /*-{
+    this.performLint()
   }-*/;
 
   public final DisplaySide side() {

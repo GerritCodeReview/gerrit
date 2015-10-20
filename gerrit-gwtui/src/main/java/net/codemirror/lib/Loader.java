@@ -38,10 +38,20 @@ public class Loader {
 
     CallbackGroup group = new CallbackGroup();
     injectCss(Lib.I.css(), group.<Void> addEmpty());
+    injectCss(Lib.I.annotationCss(), group.<Void> addEmpty());
     injectScript(Lib.I.js().getSafeUri(), group.add(new AsyncCallback<Void>() {
       @Override
       public void onSuccess(Void result) {
         Vim.initKeyMap();
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+      }
+    }));
+    injectScript(Lib.I.lint().getSafeUri(), group.add(new AsyncCallback<Void>() {
+      @Override
+      public void onSuccess(Void result) {
       }
 
       @Override

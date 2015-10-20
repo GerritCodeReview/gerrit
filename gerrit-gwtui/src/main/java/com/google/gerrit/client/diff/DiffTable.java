@@ -23,6 +23,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -149,12 +150,12 @@ class DiffTable extends Composite {
     return changeType;
   }
 
-  void set(DiffPreferences prefs, JsArray<RevisionInfo> list, DiffInfo info,
+  void set(DiffPreferences prefs, JsArray<RevisionInfo> list, DiffInfo info, ClickHandler onBlameA, ClickHandler onBlameB,
       boolean editExists, boolean current, boolean open, boolean binary) {
     this.changeType = info.changeType();
-    patchSetSelectBoxA.setUpPatchSetNav(list, info.metaA(), editExists,
+    patchSetSelectBoxA.setUpPatchSetNav(list, info.metaA(), onBlameA, editExists,
         current, open, binary);
-    patchSetSelectBoxB.setUpPatchSetNav(list, info.metaB(), editExists,
+    patchSetSelectBoxB.setUpPatchSetNav(list, info.metaB(), onBlameB, editExists,
         current, open, binary);
 
     JsArrayString hdr = info.diffHeader();

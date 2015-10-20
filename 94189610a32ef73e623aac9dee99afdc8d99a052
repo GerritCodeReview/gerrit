@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9e9e22c_a063dace",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/IoUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T21:01:25Z",
+      "side": 1,
+      "message": "Optional: Use jar as variable name, and use Collection.singleton instad of Arrays.asList:\n\n  public static void loadJARs(Path jar) {\n    loadJARs(Collections.singleton(jar));\n  }",
+      "revId": "94189610a32ef73e623aac9dee99afdc8d99a052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

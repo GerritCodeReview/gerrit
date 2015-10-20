@@ -112,6 +112,7 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "content").to(GetContent.class);
     get(FILE_KIND, "download").to(DownloadContent.class);
     get(FILE_KIND, "diff").to(GetDiff.class);
+    get(FILE_KIND, "blame").to(GetBlame.class);
 
     child(CHANGE_KIND, "edit").to(ChangeEdits.class);
     delete(CHANGE_KIND, "edit").to(DeleteChangeEdit.class);

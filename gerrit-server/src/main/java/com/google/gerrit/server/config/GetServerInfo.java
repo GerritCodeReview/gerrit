@@ -162,6 +162,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   private ChangeConfigInfo getChangeInfo(Config cfg) {
     ChangeConfigInfo info = new ChangeConfigInfo();
+    info.allowBlame = toBoolean(cfg.getBoolean("change", "allowBlame", true));
     info.allowDrafts = toBoolean(cfg.getBoolean("change", "allowDrafts", true));
     info.largeChange = cfg.getInt("change", "largeChange", 500);
     info.replyTooltip =
@@ -347,6 +348,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   }
 
   public static class ChangeConfigInfo {
+    public Boolean allowBlame;
     public Boolean allowDrafts;
     public int largeChange;
     public String replyLabel;

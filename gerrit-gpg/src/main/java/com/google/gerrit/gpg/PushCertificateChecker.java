@@ -67,12 +67,22 @@ public abstract class PushCertificateChecker {
   }
 
   private final PublicKeyChecker publicKeyChecker;
-  private final boolean checkNonce;
 
-  protected PushCertificateChecker(PublicKeyChecker publicKeyChecker,
-      boolean checkNonce) {
+  private boolean checkNonce;
+
+  protected PushCertificateChecker(PublicKeyChecker publicKeyChecker) {
     this.publicKeyChecker = publicKeyChecker;
+    checkNonce = true;
+  }
+
+  /**
+   * @param checkNonce whether to check the status of the nonce; defaults to
+   *     true.
+   * @return this.
+   */
+  public PushCertificateChecker setCheckNonce(boolean checkNonce) {
     this.checkNonce = checkNonce;
+    return this;
   }
 
   /**

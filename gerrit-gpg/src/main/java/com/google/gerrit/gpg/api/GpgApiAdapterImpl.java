@@ -95,8 +95,10 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
       IdentifiedUser expectedUser) throws GpgException {
     try {
       PushCertificate cert = PushCertificateParser.fromString(certStr);
-      PushCertificateChecker.Result result =
-          pushCertCheckerFactory.create(expectedUser, false).check(cert);
+      PushCertificateChecker.Result result = pushCertCheckerFactory
+          .create(expectedUser)
+          .setCheckNonce(false)
+          .check(cert);
       PushCertificateInfo info = new PushCertificateInfo();
       info.certificate = certStr;
       info.key = GpgKeys.toJson(result.getPublicKey(), result.getCheckResult());

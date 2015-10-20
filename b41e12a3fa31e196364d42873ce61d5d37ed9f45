@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d92002e1_e80533e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T08:38:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09115b42_9ac80d8c",
+      "range": {
+        "startLine": 19,
+        "startChar": 46,
+        "endLine": 19,
+        "endChar": 52
+      },
+      "revId": "b41e12a3fa31e196364d42873ce61d5d37ed9f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9e9e22c_e00e8249",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-20T06:55:38Z",
       "side": 1,
       "message": "s/povide/provide/",
+      "range": {
+        "startLine": 22,
+        "startChar": 5,
+        "endLine": 22,
+        "endChar": 11
+      },
+      "revId": "b41e12a3fa31e196364d42873ce61d5d37ed9f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_801e9673",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T08:38:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9e9e22c_e00e8249",
       "range": {
         "startLine": 22,
         "startChar": 5,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d9e9e22c_601b9285",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T08:38:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9e9e22c_40248ec3",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 36
+      },
+      "revId": "b41e12a3fa31e196364d42873ce61d5d37ed9f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d92002e1_48f71f40",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "2015-10-20T06:55:38Z",
       "side": 1,
       "message": "s/susbtantially/substantially/",
+      "range": {
+        "startLine": 917,
+        "startChar": 30,
+        "endLine": 917,
+        "endChar": 43
+      },
+      "revId": "b41e12a3fa31e196364d42873ce61d5d37ed9f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92002e1_c802efd8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T08:38:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d92002e1_48f71f40",
       "range": {
         "startLine": 917,
         "startChar": 30,

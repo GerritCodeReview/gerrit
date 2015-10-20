@@ -22,6 +22,30 @@
       "revId": "c0a431e2f53002319afcb034548e444d1fae9319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fb3286_ac2343bb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-20T08:49:28Z",
+      "side": 1,
+      "message": "I actually did intend to make it private.  Looks like I didn\u0027t commit it :/",
+      "parentUuid": "d9e9e22c_c0ba5eab",
+      "range": {
+        "startLine": 307,
+        "startChar": 2,
+        "endLine": 307,
+        "endChar": 79
+      },
+      "revId": "c0a431e2f53002319afcb034548e444d1fae9319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

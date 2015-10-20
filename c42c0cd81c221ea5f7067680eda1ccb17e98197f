@@ -70,6 +70,24 @@
       "revId": "c42c0cd81c221ea5f7067680eda1ccb17e98197f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19ae1afa_b2a040cd",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/IoUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T18:21:34Z",
+      "side": 0,
+      "message": "Overloading method resolution is covered by JLS section 15.12.2.5: [1]. What it\u0027s basically saying that varargs methods are considered less specific. That\u0027s why they are the last chosen. So, in our case, given these two methods, and given that Path is derived from Iterable\u003cPath\u003e,  \n\n* a) loadJARs(Iterable\u003cPath\u003e)\n* b) loadJARs(Path...)\n\nThen obviously method a) is choosen, because it receives exact one parameter and thus is more specific. The bug is, that in this case, method a) iterates over the single path, and tries to call addUrl() with parts of the same path.\n\nHowever, when we change the signature of b) to be:\n\n* c) loadJARs(Iterable\u003cPath\u003e)\n* d) loadJARs(Path)\n\nthen in this case the situation is completely different: d) is more specifc, because both methods have the same arity, but d) receives exact type match, when Path is passed, and thus considered to be more specific.\n\nSo the solution to all our problems is to change the method  above to be:\n\n  public static void loadJARs(Path jar) {\n    loadJARs(Arrays.asList(jar));\n  }\n\n* [1] http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.12.2.5",
+      "parentUuid": "f90b06d5_79f187bf",
+      "revId": "c42c0cd81c221ea5f7067680eda1ccb17e98197f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

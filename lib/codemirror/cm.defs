@@ -3,6 +3,7 @@ CM_CSS = [
   'addon/dialog/dialog.css',
   'addon/scroll/simplescrollbars.css',
   'addon/search/matchesonscrollbar.css',
+  'addon/lint/lint.css',
 ]
 
 CM_JS = [
@@ -28,6 +29,7 @@ CM_ADDONS = [
   'mode/multiplex.js',
   'mode/overlay.js',
   'mode/simple.js',
+  'lint/lint.js',
 ]
 
 # Available themes must be enumerated here,

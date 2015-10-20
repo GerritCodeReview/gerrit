@@ -28,6 +28,8 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.change.Reviewed.PutReviewed;
+import com.google.gitiles.blame.BlameCache;
+import com.google.gitiles.blame.BlameCacheImpl;
 
 public class Module extends RestApiModule {
   @Override
@@ -39,6 +41,7 @@ public class Module extends RestApiModule {
     bind(Comments.class);
     bind(Files.class);
     bind(Votes.class);
+    bind(BlameCache.class).to(BlameCacheImpl.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), COMMENT_KIND);
@@ -112,6 +115,7 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "content").to(GetContent.class);
     get(FILE_KIND, "download").to(DownloadContent.class);
     get(FILE_KIND, "diff").to(GetDiff.class);
+    get(FILE_KIND, "blame").to(GetBlame.class);
 
     child(CHANGE_KIND, "edit").to(ChangeEdits.class);
     delete(CHANGE_KIND, "edit").to(DeleteChangeEdit.class);

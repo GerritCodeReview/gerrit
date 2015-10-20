@@ -261,3 +261,11 @@ maven_jar(
   sha1 = 'd9a09f7732226af26bf99f19e2cffe0ae219db5b',
   license = 'DO_NOT_DISTRIBUTE',
 )
+
+maven_jar(
+  name = 'blame-cache',
+  id = 'com/google/gitiles:blame-cache:0.1-9',
+  sha1 = '51d35e6f8bbc2412265066cea9653dd758c95826',
+  license = 'Apache2.0',
+  repository = GERRIT,
+)

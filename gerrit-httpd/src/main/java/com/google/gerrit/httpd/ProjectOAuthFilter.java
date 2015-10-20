@@ -41,6 +41,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
@@ -50,6 +52,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -68,6 +71,7 @@ class ProjectOAuthFilter implements Filter {
   private static final String REALM_NAME = "Gerrit Code Review";
   private static final String AUTHORIZATION = "Authorization";
   private static final String BASIC = "Basic ";
+  private static final String GIT_COOKIE_PREFIX = "git-";
 
   private final DynamicItem<WebSession> session;
   private final DynamicMap<OAuthLoginProvider> loginProviders;
@@ -120,24 +124,42 @@ class ProjectOAuthFilter implements Filter {
 
   private boolean verify(HttpServletRequest req, Response rsp)
       throws IOException {
-    String hdr = req.getHeader(AUTHORIZATION);
-    if (hdr == null || !hdr.startsWith(BASIC)) {
-      // Allow an anonymous connection through, or it might be using a
-      // session cookie instead of basic authentication.
-      return true;
+    AuthInfo authInfo = null;
+
+    // first check if there is a suitable git cookie; such cookies are
+    // expected to have names starting with the prefix git-
+    if (req.getCookies() != null) {
+      for (Cookie cookie: req.getCookies()) {
+        if (cookie.getName().startsWith(GIT_COOKIE_PREFIX)) {
+          authInfo = extractAuthInfo(cookie);
+          if (authInfo != null) {
+            break;
+          }
+        }
+      }
     }
 
-    byte[] decoded = Base64.decodeBase64(hdr.substring(BASIC.length()));
-    String usernamePassword = new String(decoded, encoding(req));
-    int splitPos = usernamePassword.indexOf(':');
-    if (splitPos < 1) {
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
-    }
+    // if there is no suitable git cookie fall back to Basic authentication
+    if (authInfo == null) {
+      String hdr = req.getHeader(AUTHORIZATION);
+      if (hdr == null || !hdr.startsWith(BASIC)) {
+        // Allow an anonymous connection through, or it might be using a
+        // session cookie instead of basic authentication.
+        return true;
+      }
 
-    AuthInfo authInfo = new AuthInfo(usernamePassword.substring(0, splitPos),
-        usernamePassword.substring(splitPos + 1),
-        defaultAuthPlugin, defaultAuthProvider);
+      byte[] decoded = Base64.decodeBase64(hdr.substring(BASIC.length()));
+      String usernamePassword = new String(decoded, encoding(req));
+      int splitPos = usernamePassword.indexOf(':');
+      if (splitPos < 1) {
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+
+      authInfo = new AuthInfo(usernamePassword.substring(0, splitPos),
+          usernamePassword.substring(splitPos + 1),
+          defaultAuthPlugin, defaultAuthProvider);
+    }
 
     if (Strings.isNullOrEmpty(authInfo.tokenOrSecret)) {
       rsp.sendError(SC_UNAUTHORIZED);
@@ -216,6 +238,35 @@ class ProjectOAuthFilter implements Filter {
       throw new ServletException("Configured OAuth login provider "
           + gitOAuthProvider + " wasn't installed");
     }
+  }
+
+  private AuthInfo extractAuthInfo(Cookie cookie)
+      throws UnsupportedEncodingException {
+    String username = URLDecoder.decode(cookie.getName()
+        .substring(GIT_COOKIE_PREFIX.length()), UTF_8.name());
+    String value = cookie.getValue();
+    int splitPos = value.lastIndexOf('@');
+    if (splitPos < 1 || splitPos == value.length() - 1) {
+      // no providerId in the cookie value => assume default provider
+      // note: a leading/trailing at sign is considered to belong to
+      // the access token rather than being a separator
+      return new AuthInfo(username, cookie.getValue(),
+          defaultAuthPlugin, defaultAuthProvider);
+    }
+    String token = value.substring(0, splitPos);
+    String providerId = value.substring(splitPos + 1);
+    splitPos = providerId.lastIndexOf(':');
+    if (splitPos < 1 || splitPos == providerId.length() - 1) {
+      // no colon at all or leading/trailing colon: malformed providerId
+      return null;
+    }
+    String pluginName = providerId.substring(0, splitPos);
+    String exportName = providerId.substring(splitPos + 1);
+    OAuthLoginProvider provider = loginProviders.get(pluginName, exportName);
+    if (provider == null) {
+      return null;
+    }
+    return new AuthInfo(username, token, pluginName, exportName);
   }
 
   private static String encoding(HttpServletRequest req) {

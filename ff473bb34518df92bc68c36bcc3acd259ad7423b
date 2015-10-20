@@ -23,6 +23,30 @@
       "revId": "ff473bb34518df92bc68c36bcc3acd259ad7423b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f90b06d5_19e4cb01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-20T15:01:12Z",
+      "side": 1,
+      "message": "Sadly they are not equivalent.\n\ncreate(project, true) means always content merge\n\ncreate(project, false) means never content merge\n\ncreate(project) means respect useContentMerge in the project config\n\nMaybe we should change MergeUtil.Factory to have a single factory method that takes a 3-state enum, but I didn\u0027t want to tackle that now.",
+      "parentUuid": "d92002e1_e89253df",
+      "range": {
+        "startLine": 159,
+        "startChar": 4,
+        "endLine": 161,
+        "endChar": 43
+      },
+      "revId": "ff473bb34518df92bc68c36bcc3acd259ad7423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

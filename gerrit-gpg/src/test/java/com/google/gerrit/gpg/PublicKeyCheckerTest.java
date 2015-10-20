@@ -15,6 +15,8 @@
 package com.google.gerrit.gpg;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithExpiration;
+import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyA;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyB;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyC;
@@ -72,22 +74,22 @@ public class PublicKeyCheckerTest {
 
   @Test
   public void validKey() throws Exception {
-    assertProblems(TestKeys.key1());
+    assertProblems(validKeyWithoutExpiration());
   }
 
   @Test
   public void keyExpiringInFuture() throws Exception {
-    assertProblems(TestKeys.key2());
+    assertProblems(validKeyWithExpiration());
   }
 
   @Test
   public void expiredKey() throws Exception {
-    assertProblems(TestKeys.key3(), "Key is expired");
+    assertProblems(TestKeys.expiredKey(), "Key is expired");
   }
 
   @Test
   public void selfRevokedKey() throws Exception {
-    assertProblems(TestKeys.key4(), "Key is revoked");
+    assertProblems(TestKeys.selfRevokedKey(), "Key is revoked");
   }
 
   // Test keys specific to this test are at the bottom of this class. Each test

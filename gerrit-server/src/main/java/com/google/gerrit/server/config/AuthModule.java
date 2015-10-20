@@ -21,6 +21,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.InternalAuthBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
+import com.google.gerrit.server.auth.oauth.OAuthRealm;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 
@@ -40,6 +41,10 @@ public class AuthModule extends AbstractModule {
       case LDAP_BIND:
       case CLIENT_SSL_CERT_LDAP:
         install(new LdapModule());
+        break;
+
+      case OAUTH:
+        bind(Realm.class).to(OAuthRealm.class);
         break;
 
       case CUSTOM_EXTENSION:

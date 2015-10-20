@@ -21,6 +21,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.account.DiffPreferences;
+import com.google.gerrit.client.blame.BlameInfo;
 import com.google.gerrit.client.change.ChangeScreen;
 import com.google.gerrit.client.change.FileTable;
 import com.google.gerrit.client.changes.ChangeApi;
@@ -51,6 +52,8 @@ import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -74,6 +77,7 @@ import net.codemirror.lib.CodeMirror.BeforeSelectionChangeHandler;
 import net.codemirror.lib.CodeMirror.GutterClickHandler;
 import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
+import net.codemirror.lib.Extras;
 import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.Pos;
 import net.codemirror.mode.ModeInfo;
@@ -248,8 +252,44 @@ public class SideBySide extends Screen {
             revision.get() == info.revision(currentRevision)._number();
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
-        diffTable.set(prefs, list, diff, edit != null, current,
-            changeStatus.isOpen(), diff.binary());
+        diffTable.set(prefs, list, diff,
+            new ClickHandler() {
+              @Override
+              public void onClick(ClickEvent event) {
+                if (cmA.extras().getBlameInfo() != null) {
+                  cmA.extras().toggleAnnotation();
+                } else {
+                  boolean isBase = base == null;
+                  PatchSet.Id rev = isBase ? revision : base;
+                  ChangeApi.blame(rev, path, isBase)
+                      .get(new GerritCallback<BlameInfo>() {
+
+                        @Override
+                        public void onSuccess(BlameInfo result) {
+                          cmA.extras().toggleAnnotation(result);
+                        }
+                      });
+                }
+              }
+            },
+            new ClickHandler() {
+              @Override
+              public void onClick(ClickEvent event) {
+                if (cmB.extras().getBlameInfo() != null) {
+                  cmB.extras().toggleAnnotation();
+                } else {
+                  ChangeApi.blame(revision, path, false)
+                      .get(new GerritCallback<BlameInfo>() {
+
+                        @Override
+                        public void onSuccess(BlameInfo result) {
+                          cmB.extras().toggleAnnotation(result);
+                        }
+                      });
+                }
+              }
+            }, edit != null, current, changeStatus.isOpen(), diff.binary());
+
         header.setChangeInfo(info);
       }
 
@@ -817,12 +857,21 @@ public class SideBySide extends Screen {
             && !clickEvent.getCtrlKey()
             && !clickEvent.getShiftKey()) {
           cm.setCursor(Pos.create(line));
-          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            @Override
-            public void execute() {
-              commentManager.newDraft(cm, line + 1);
+          if (Extras.ANNOTATION_GUTTER_ID.equals(gutter)) {
+            BlameInfo.BlameLine blame = cm.extras().getBlame(line);
+            if (blame != null) {
+              Gerrit.display(
+                PageLinks.toChange(new Change.Id(blame.changeId()),
+                    String.valueOf(blame.patchSetId())) + "/" + path);
             }
-          });
+          } else {
+            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+              @Override
+              public void execute() {
+                commentManager.newDraft(cm, line + 1);
+              }
+            });
+          }
         }
       }
     };

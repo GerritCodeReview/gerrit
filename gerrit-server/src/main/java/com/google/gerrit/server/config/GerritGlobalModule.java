@@ -146,6 +146,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreUploadHook;
 
@@ -156,9 +157,13 @@ import java.util.List;
 public class GerritGlobalModule extends FactoryModule {
   private final AuthModule authModule;
 
+  private final Config config;
+
   @Inject
-  GerritGlobalModule(AuthModule authModule) {
+  GerritGlobalModule(AuthModule authModule,
+    @GerritServerConfig Config config) {
     this.authModule = authModule;
+    this.config = config;
   }
 
   @Override
@@ -258,7 +263,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new com.google.gerrit.server.access.Module());
     install(new com.google.gerrit.server.account.Module());
     install(new com.google.gerrit.server.api.Module());
-    install(new com.google.gerrit.server.change.Module());
+    install(new com.google.gerrit.server.change.Module(config));
     install(new com.google.gerrit.server.config.Module());
     install(new com.google.gerrit.server.group.Module());
     install(new com.google.gerrit.server.project.Module());

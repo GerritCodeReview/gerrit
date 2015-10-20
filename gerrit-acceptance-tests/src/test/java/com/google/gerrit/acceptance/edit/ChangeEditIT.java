@@ -296,12 +296,25 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getParentCount()).isEqualTo(0);
 
-    String msg = String.format("New commit message\n\nChange-Id: %s",
+    String msg = String.format("New commit message\n\nChange-Id: %s\n",
         change.getKey());
     assertThat(modifier.modifyMessage(edit.get(), msg))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage()).isEqualTo(msg);
+  }
+
+  public void assertUnchangedMessage(Optional<ChangeEdit> edit, String message)
+      throws Exception {
+    try {
+      modifier.modifyMessage(
+          edit.get(),
+          message);
+      fail("UnchangedCommitMessageException expected");
+    } catch (UnchangedCommitMessageException ex) {
+      assertThat(ex.getMessage()).isEqualTo(
+          "New commit message cannot be same as existing commit message");
+    }
   }
 
   @Test
@@ -310,17 +323,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
 
-    try {
-      modifier.modifyMessage(
-          edit.get(),
-          edit.get().getEditCommit().getFullMessage());
-      fail("UnchangedCommitMessageException expected");
-    } catch (UnchangedCommitMessageException ex) {
-      assertThat(ex.getMessage()).isEqualTo(
-          "New commit message cannot be same as existing commit message");
-    }
+    assertUnchangedMessage(edit, edit.get().getEditCommit().getFullMessage());
+    assertUnchangedMessage(edit, edit.get().getEditCommit().getFullMessage() + "\n\n");
 
-    String msg = String.format("New commit message\n\nChange-Id: %s",
+    String msg = String.format("New commit message\n\nChange-Id: %s\n",
         change.getKey());
     assertThat(modifier.modifyMessage(edit.get(), msg)).isEqualTo(
         RefUpdate.Result.FORCED);
@@ -342,7 +348,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(SC_NOT_FOUND);
     EditMessage.Input in = new EditMessage.Input();
     in.message = String.format("New commit message\n\n" +
-        CONTENT_NEW2_STR + "\n\nChange-Id: %s",
+        CONTENT_NEW2_STR + "\n\nChange-Id: %s\n",
         change.getKey());
     assertThat(adminSession.put(urlEditMessage(), in).getStatusCode())
         .isEqualTo(SC_NO_CONTENT);
@@ -352,7 +358,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage())
         .isEqualTo(in.message);
-    in.message = String.format("New commit message2\n\nChange-Id: %s",
+    in.message = String.format("New commit message2\n\nChange-Id: %s\n",
         change.getKey());
     assertThat(adminSession.put(urlEditMessage(), in).getStatusCode())
         .isEqualTo(SC_NO_CONTENT);

@@ -43,9 +43,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PublicKeyCheckerTest {
   @Rule
@@ -174,11 +174,14 @@ public class PublicKeyCheckerTest {
   }
 
   private PublicKeyChecker newChecker(int maxTrustDepth, TestKey... trusted) {
-    List<Fingerprint> fps = new ArrayList<>(trusted.length);
+    Map<Long, Fingerprint> fps = new HashMap<>();
     for (TestKey k : trusted) {
-      fps.add(new Fingerprint(k.getPublicKey().getFingerprint()));
+      Fingerprint fp = new Fingerprint(k.getPublicKey().getFingerprint());
+      fps.put(fp.getId(), fp);
     }
-    return new PublicKeyChecker(maxTrustDepth, fps);
+    return new PublicKeyChecker()
+        .enableTrust(maxTrustDepth, fps)
+        .setStore(store);
   }
 
   private TestKey add(TestKey k) {
@@ -204,12 +207,12 @@ public class PublicKeyCheckerTest {
 
   private void assertProblems(PublicKeyChecker checker, TestKey k,
       String... expected) {
-    CheckResult result = checker.check(k.getPublicKey(), store);
+    CheckResult result = checker.check(k.getPublicKey());
     assertEquals(Arrays.asList(expected), result.getProblems());
   }
 
   private void assertProblems(TestKey tk, String... expected) throws Exception {
-    CheckResult result = new PublicKeyChecker().check(tk.getPublicKey(), store);
+    CheckResult result = new PublicKeyChecker().check(tk.getPublicKey());
     assertEquals(Arrays.asList(expected), result.getProblems());
   }
 

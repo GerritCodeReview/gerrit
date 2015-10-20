@@ -172,7 +172,9 @@ public class GerritPublicKeyCheckerTest {
   @Test
   public void defaultGpgCertificationMatchesEmail() throws Exception {
     TestKey key = validKeyWithSecondUserId();
-    GerritPublicKeyChecker checker = checkerFactory.create(user);
+    PublicKeyChecker checker = checkerFactory.create()
+        .setExpectedUser(user)
+        .disableTrust();
     assertProblems(
         checker.check(key.getPublicKey()), Status.BAD,
         "Key must contain a valid certification for one of the following "
@@ -181,14 +183,18 @@ public class GerritPublicKeyCheckerTest {
           + "  username:user");
 
     addExternalId("test", "test", "test5@example.com");
-    checker = checkerFactory.create(user);
+    checker = checkerFactory.create()
+        .setExpectedUser(user)
+        .disableTrust();
     assertNoProblems(checker.check(key.getPublicKey()));
   }
 
   @Test
   public void defaultGpgCertificationDoesNotMatchEmail() throws Exception {
     addExternalId("test", "test", "nobody@example.com");
-    GerritPublicKeyChecker checker = checkerFactory.create(user);
+    PublicKeyChecker checker = checkerFactory.create()
+        .setExpectedUser(user)
+        .disableTrust();
     assertProblems(
         checker.check(validKeyWithSecondUserId().getPublicKey()), Status.BAD,
         "Key must contain a valid certification for one of the following "
@@ -202,14 +208,18 @@ public class GerritPublicKeyCheckerTest {
   @Test
   public void manualCertificationMatchesExternalId() throws Exception {
     addExternalId("foo", "myId", null);
-    GerritPublicKeyChecker checker = checkerFactory.create(user);
+    PublicKeyChecker checker = checkerFactory.create()
+        .setExpectedUser(user)
+        .disableTrust();
     assertNoProblems(checker.check(validKeyWithSecondUserId().getPublicKey()));
   }
 
   @Test
   public void manualCertificationDoesNotMatchExternalId() throws Exception {
     addExternalId("foo", "otherId", null);
-    GerritPublicKeyChecker checker = checkerFactory.create(user);
+    PublicKeyChecker checker = checkerFactory.create()
+        .setExpectedUser(user)
+        .disableTrust();
     assertProblems(
         checker.check(validKeyWithSecondUserId().getPublicKey()), Status.BAD,
         "Key must contain a valid certification for one of the following "
@@ -226,13 +236,16 @@ public class GerritPublicKeyCheckerTest {
     reloadUser();
 
     TestKey key = validKeyWithSecondUserId();
-    GerritPublicKeyChecker checker = checkerFactory.create(user);
+    PublicKeyChecker checker = checkerFactory.create()
+        .setExpectedUser(user)
+        .disableTrust();
     assertProblems(
         checker.check(key.getPublicKey()), Status.BAD,
         "No identities found for user; check"
           + " http://test/#/settings/web-identities");
 
-    checker = checkerFactory.create();
+    checker = checkerFactory.create()
+        .disableTrust();
     assertProblems(
         checker.check(key.getPublicKey()), Status.BAD,
         "Key is not associated with any users");
@@ -264,14 +277,18 @@ public class GerritPublicKeyCheckerTest {
     add(keyE(), addUser("userE"));
 
     // Checker for A, checking A.
-    GerritPublicKeyChecker checkerA = checkerFactory.create(user);
-    assertNoProblems(checkerA.check(keyA.getPublicKey(), store));
+    PublicKeyChecker checkerA = checkerFactory.create()
+        .setExpectedUser(user)
+        .setStore(store);
+    assertNoProblems(checkerA.check(keyA.getPublicKey()));
 
     // Checker for B, checking B. Trust chain and IDs are correct, so the only
     // problem is with the key itself.
-    GerritPublicKeyChecker checkerB = checkerFactory.create(userB);
+    PublicKeyChecker checkerB = checkerFactory.create()
+        .setExpectedUser(userB)
+        .setStore(store);
     assertProblems(
-        checkerB.check(keyB.getPublicKey(), store), Status.BAD,
+        checkerB.check(keyB.getPublicKey()), Status.BAD,
         "Key is expired");
   }
 
@@ -294,9 +311,11 @@ public class GerritPublicKeyCheckerTest {
     add(keyE(), addUser("userE"));
 
     // Checker for A, checking B.
-    GerritPublicKeyChecker checkerA = checkerFactory.create(user);
+    PublicKeyChecker checkerA = checkerFactory.create()
+        .setExpectedUser(user)
+        .setStore(store);
     assertProblems(
-        checkerA.check(keyB.getPublicKey(), store), Status.BAD,
+        checkerA.check(keyB.getPublicKey()), Status.BAD,
         "Key is expired",
         "Key must contain a valid certification for one of the following"
             + " identities:\n"
@@ -306,9 +325,11 @@ public class GerritPublicKeyCheckerTest {
             + "  username:user");
 
     // Checker for B, checking A.
-    GerritPublicKeyChecker checkerB = checkerFactory.create(userB);
+    PublicKeyChecker checkerB = checkerFactory.create()
+        .setExpectedUser(userB)
+        .setStore(store);
     assertProblems(
-        checkerB.check(keyA.getPublicKey(), store), Status.BAD,
+        checkerB.check(keyA.getPublicKey()), Status.BAD,
         "Key must contain a valid certification for one of the following"
             + " identities:\n"
             + "  gerrit:userB\n"
@@ -325,9 +346,11 @@ public class GerritPublicKeyCheckerTest {
     TestKey keyA = add(keyA(), user);
     TestKey keyB = add(keyB(), addUser("userB"));
 
-    GerritPublicKeyChecker checker = checkerFactory.create(user);
+    PublicKeyChecker checker = checkerFactory.create()
+        .setExpectedUser(user)
+        .setStore(store);
     assertProblems(
-        checker.check(keyA.getPublicKey(), store), Status.OK,
+        checker.check(keyA.getPublicKey()), Status.OK,
         "No path to a trusted key",
         "Certification by " + keyToString(keyB.getPublicKey())
             + " is valid, but key is not trusted",
@@ -352,15 +375,16 @@ public class GerritPublicKeyCheckerTest {
 
     // This checker can check any key, so the only problems come from issues
     // with the keys themselves, not having invalid user IDs.
-    GerritPublicKeyChecker checker = checkerFactory.create();
-    assertNoProblems(checker.check(keyA.getPublicKey(), store));
+    PublicKeyChecker checker = checkerFactory.create()
+        .setStore(store);
+    assertNoProblems(checker.check(keyA.getPublicKey()));
     assertProblems(
-        checker.check(keyB.getPublicKey(), store), Status.BAD,
+        checker.check(keyB.getPublicKey()), Status.BAD,
         "Key is expired");
-    assertNoProblems(checker.check(keyC.getPublicKey(), store));
-    assertNoProblems(checker.check(keyD.getPublicKey(), store));
+    assertNoProblems(checker.check(keyC.getPublicKey()));
+    assertNoProblems(checker.check(keyD.getPublicKey()));
     assertProblems(
-        checker.check(keyE.getPublicKey(), store), Status.BAD,
+        checker.check(keyE.getPublicKey()), Status.BAD,
         "Key is expired",
         "No path to a trusted key");
   }
@@ -382,8 +406,10 @@ public class GerritPublicKeyCheckerTest {
     keyRingB = PGPPublicKeyRing.insertPublicKey(keyRingB, keyB);
     add(keyRingB, addUser("userB"));
 
-    GerritPublicKeyChecker checkerA = checkerFactory.create(user);
-    assertProblems(checkerA.check(keyA.getPublicKey(), store), Status.OK,
+    PublicKeyChecker checkerA = checkerFactory.create()
+        .setExpectedUser(user)
+        .setStore(store);
+    assertProblems(checkerA.check(keyA.getPublicKey()), Status.OK,
         "No path to a trusted key",
         "Certification by " + keyToString(keyB)
             + " is valid, but key is not trusted",

@@ -32,8 +32,6 @@ import org.bouncycastle.openpgp.PGPSignature;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -45,66 +43,76 @@ public class PublicKeyChecker {
   // https://tools.ietf.org/html/rfc4880#section-5.2.3.13
   private static final int COMPLETE_TRUST = 120;
 
-  private final Map<Long, Fingerprint> trusted;
-  private final int maxTrustDepth;
-
-  /** Create a new checker that does not check the web of trust. */
-  public PublicKeyChecker() {
-    this(0, null);
-  }
+  private PublicKeyStore store;
+  private Map<Long, Fingerprint> trusted;
+  private int maxTrustDepth;
 
   /**
+   * Enable web-of-trust checks.
+   * <p>
+   * If enabled, a store must be set with {@link #setStore(PublicKeyStore)}.
+   * (These methods are separate since the store is a closeable resource that
+   * may not be available when reading trusted keys from a config.)
+   *
    * @param maxTrustDepth maximum depth to search while looking for a trusted
    *     key.
-   * @param trusted ultimately trusted key fingerprints; may not be empty. If
-   *     null, disable web-of-trust checks.
+   * @param trusted ultimately trusted key fingerprints, keyed by fingerprint;
+   *     may not be empty. To construct a map, see {@link
+   *     Fingerprint#byId(Iterable)}.
+   * @return this
    */
-  public PublicKeyChecker(int maxTrustDepth, Collection<Fingerprint> trusted) {
-    if (trusted != null) {
-      if (maxTrustDepth <= 0) {
+  public PublicKeyChecker enableTrust(int maxTrustDepth,
+      Map<Long, Fingerprint> trusted) {
+    if (maxTrustDepth <= 0) {
+      throw new IllegalArgumentException(
+          "maxTrustDepth must be positive, got: " + maxTrustDepth);
+    }
+    if (trusted == null || trusted.isEmpty()) {
         throw new IllegalArgumentException(
-            "maxTrustDepth must be positive, got: " + maxTrustDepth);
-      }
-      if (trusted.isEmpty()) {
-        throw new IllegalArgumentException("at least one trusted key required");
-      }
-      this.trusted = new HashMap<>();
-      for (Fingerprint fp : trusted) {
-        this.trusted.put(fp.getId(), fp);
-      }
-    } else {
-      this.trusted = null;
+            "at least one trusted key is required");
     }
     this.maxTrustDepth = maxTrustDepth;
+    this.trusted = trusted;
+    return this;
+  }
+
+  /** Disable web-of-trust checks. */
+  public PublicKeyChecker disableTrust() {
+    store = null;
+    trusted = null;
+    return this;
   }
 
   /**
-   * Check a public key, including its web of trust.
+   * Set the public key store for web-of-trust checks.
+   * <p>
+   * If set, {@link #enableTrust(int, Map)} must also be called.
    *
-   * @param key the public key.
-   * @param store a store to read public keys from for trust checks. If this
-   *     store is not configured for web-of-trust checks, this argument is
-   *     ignored.
-   * @return the result of the check.
+   * @param store a store to read public keys from for trust checks.
+   * @return this
    */
-  public final CheckResult check(PGPPublicKey key, PublicKeyStore store) {
-    if (trusted == null) {
-      return check(key);
-    } else if (store == null) {
-      throw new IllegalArgumentException(
-          "PublicKeyStore required for web of trust checks");
+  public PublicKeyChecker setStore(PublicKeyStore store) {
+    if (store == null) {
+      throw new IllegalArgumentException("PublicKeyStore is required");
     }
-    return check(key, store, 0, true, new HashSet<Fingerprint>());
+    this.store = store;
+    return this;
   }
 
   /**
-   * Check only a public key, not including its web of trust.
+   * Check a public key.
    *
    * @param key the public key.
    * @return the result of the check.
    */
   public final CheckResult check(PGPPublicKey key) {
-    return check(key, null, 0, false, null);
+    if (store == null && trusted != null) {
+      throw new IllegalStateException("PublicKeyStore is required");
+    } else if (store != null && trusted == null) {
+      throw new IllegalStateException("at least one trusted key is required");
+    }
+    return check(key, 0, true,
+        store != null ? new HashSet<Fingerprint>() : null);
   }
 
   /**
@@ -115,16 +123,16 @@ public class PublicKeyChecker {
    *
    * @param key the public key.
    * @param depth the depth from the initial key passed to {@link #check(
-   *     PGPPublicKey, PublicKeyStore)}: 0 if this was the initial key, up to a
-   *     maximum of {@code maxTrustDepth}.
+   *     PGPPublicKey)}: 0 if this was the initial key, up to a maximum of
+   *     {@code maxTrustDepth}.
    * @return the result of the custom check.
    */
   public CheckResult checkCustom(PGPPublicKey key, int depth) {
     return CheckResult.ok();
   }
 
-  private CheckResult check(PGPPublicKey key, PublicKeyStore store, int depth,
-      boolean expand, Set<Fingerprint> seen) {
+  private CheckResult check(PGPPublicKey key, int depth, boolean expand,
+      Set<Fingerprint> seen) {
     CheckResult basicResult = checkBasic(key);
     CheckResult customResult = checkCustom(key, depth);
     CheckResult trustResult = checkWebOfTrust(key, store, depth, seen);
@@ -181,7 +189,7 @@ public class PublicKeyChecker {
 
   private CheckResult checkWebOfTrust(PGPPublicKey key, PublicKeyStore store,
       int depth, Set<Fingerprint> seen) {
-    if (trusted == null || store == null) {
+    if (store == null) {
       // Trust checking not configured, server trusts all OK keys.
       return CheckResult.trusted();
     }
@@ -222,8 +230,7 @@ public class PublicKeyChecker {
         }
         String subpacketProblem = checkTrustSubpacket(sig, depth);
         if (subpacketProblem == null) {
-          CheckResult signerResult =
-              check(signer, store, depth + 1, false, seen);
+          CheckResult signerResult = check(signer, depth + 1, false, seen);
           if (signerResult.isTrusted()) {
             return CheckResult.trusted();
           }

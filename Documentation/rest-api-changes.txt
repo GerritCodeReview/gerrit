@@ -3753,6 +3753,66 @@ differences are reported in the result.  Valid values are `IGNORE_NONE`,
 The `context` parameter can be specified to control the number of lines of surrounding context
 in the diff.  Valid values are `ALL` or number of lines.
 
+[[get-blame]]
+=== Get Blame
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/blame'
+--
+
+Gets the blame of a file from a certain revision.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/blame HTTP/1.0
+----
+
+As response a link:#blame-info[BlameInfo] entity is returned that describes the
+blame.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]
+  {
+      [
+         {
+            "author":"Joe Daw",
+            "id":"64e140b4de5883a4dd74d06c2b62ccd7ffd224a7",
+            "time":1421441349,
+            "commit_msg":"RST test\n\nChange-Id: I11e9e24bd122253f4bb10c36dce825ac2410d646\n",
+            "ranges":[
+               {
+                  "start":1,
+                  "end":10
+               },
+               {
+                  "start":16,
+                  "end":296
+               }
+            ]
+         },
+         {
+            "author":"Jane Daw",
+            "id":"8d52621a0e2ac6adec73bd3a49f2371cd53137a7",
+            "time":1421825421,
+            "commit_msg":"add banner\n\nChange-Id: I2eced9b2691015ae3c5138f4d0c4ca2b8fb15be9\n",
+            "ranges":[
+               {
+                  "start":13,
+                  "end":13
+               }
+            ]
+         }
+      ]
+  }
+----
+
+The `base` parameter can be specified to control the base patch set from which
+the blame should be generated.
+
 [[set-reviewed]]
 === Set Reviewed
 --
@@ -3976,6 +4036,22 @@ Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review.
 NOTE: To apply different tags on on different votes/comments multiple
 invocations of the REST call are required.
+|===========================
+
+[[blame-info]]
+=== BlameInfo
+The `BlameInfo` entity stores the commit metadata with the row coordinates where
+it applies.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name | Description
+|`author`     | The author of the commit.
+|`id`         | The id of the commit.
+|`time`       | Commit time.
+|`commit_msg` | The commit message.
+|`ranges`     |
+The blame row coordinates as link:#range-info[RangeInfo] entities.
 |===========================
 
 [[change-edit-input]]
@@ -4635,6 +4711,17 @@ link:config-gerrit.html#receive.enableSignedPush[enabled] on the server.
 Information about the key that signed the push, along with any problems
 found while checking the signature or the key itself, as a
 link:rest-api-accounts.html#gpg-key-info[GpgKeyInfo] entity.
+|===========================
+
+[[range-info]]
+=== RangeInfo
+The `RangeInfo` entity stores the coordinates of a range.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name   | Description
+|`start`      | First index.
+|`end`        | Last index.
 |===========================
 
 [[rebase-input]]

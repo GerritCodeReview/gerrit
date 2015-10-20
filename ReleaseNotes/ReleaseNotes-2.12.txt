@@ -10,6 +10,10 @@ https://www.gerritcodereview.com/download/gerrit-2.12.war]
 Important Notes
 ---------------
 
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
 
 *WARNING:* Upgrading to 2.12.x requires the server be first upgraded to 2.8 (or
 2.9) and then to 2.12.x. If you are upgrading from 2.8.x or later, you may ignore
@@ -21,15 +25,220 @@ libraries should be manually removed from site's `lib` folder to prevent the
 startup failure described in
 link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
 
+*WARNING:* The Solr secondary index is no longer supported. With this release
+the only supported secondary index is Lucene.
+
 
 Release Highlights
 ------------------
 
-* TODO
+This release includes the following new features. See the sections below for
+further details.
+
+* New "Submit Whole Topic" / "Submitted Together" workflow.
+
+* Support for GPG Keys and signed pushes.
 
 
 New Features
 ------------
+
+New Change Submission Workflow
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* New "Submit Whole Topic" setting.
++
+When the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#change.submitWholeTopic[
+`change.submitWholeTopic`] setting is enabled, all changes belonging to the same
+topic will be submitted at the same time.
++
+This setting is disabled by default.
+
+* Submission of changes may include ancestors.
++
+If a change is submitted that has submittable ancestor changes, those changes
+will also be submitted.
+
+* The merge queue is removed.
++
+Changes that cannot be submitted due to missing dependencies will no longer
+enter the "Submitted, Merge Pending" state.
+
+
+GPG Keys and Signed Pushes
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* TODO: Details
+
+
+Secondary Index
+~~~~~~~~~~~~~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3333[Issue 3333]:
+Support searching for changes by author and committer.
++
+Changes are indexed by the git author and committer of the latest patch set,
+and can be searched with the `author:` and `committer:` operators.
++
+Changes are matched on either the exact whole email address, or on parts of the
+name or email address.
+
+* Add `from:` search operator to match by owner of change or author of comments.
+
+* Add `commentby:` search operator to search byt author of comments.
+
+* Change the `topic:` search operator to search by the exact topic name.
+
+* Add `intopic:` search operator to search by topics containing the search term.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3291[Issue 3291]:
+Add `has:edit` search operator to match changes that have change edits on them.
+
+* Allow configuration of maximum query size.
++
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#index.maxTerms[
+`index.maxTerms`] can be set to limit the number of leaf index terms.
+
+* Expose Lucene index writers for plugins.
++
+Plugins can now be written to allow runtime reconfiguration of various Lucene
+performance related parameters.
+
+* Make Lucene index writers auto-commit writers.
++
+Plugins can now temporarily turn on auto-committing in situations where it makes
+sense to enforce all changes to be written to disk ASAP.
+
+
+UI
+~~
+
+General
+^^^^^^^
+
+* Edit and diff preferences can be modified from the user preferences screen.
++
+Previously it was only possible to edit these preferences from the actual
+diff and edit screens.
+
+* Add "Edits" to My dashboard menu.
+
+Project Screen
+^^^^^^^^^^^^^^
+
+* New tab to list the project's tags, similar to the branch list.
+
+
+Inline Editor
+^^^^^^^^^^^^^
+
+* Store and load edit preferences in git.
++
+Edit preferences are stored and loaded to/from the `All-Users` repository.
+
+* Add 'auto close brackets' feature.
+
+* Add 'match brackets' feature.
+
+* Make the cursor blink rate customizable.
+
+* Add support for Emacs and Vim key maps.
+
+
+Change Screen
+^^^^^^^^^^^^^
+
+* Show file size increase/decrease for binary files.
+
+* Show uploader if different from change owner.
+
+* Show push certificate status.
+
+
+Side-By-Side Diff
+^^^^^^^^^^^^^^^^^
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3293[Issue 3293]:
+Add syntax highlighting for Puppet.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3447[Issue 3447]:
+Add syntax highlighting for VHDL.
+
+
+API
+~~~
+
+Several new APIs are added.
+
+Accounts
+^^^^^^^^
+
+* Suggest accounts.
+
+Tags
+^^^^
+
+* List tags.
+
+* Get tag.
+
+
+REST API
+~~~~~~~~
+
+New REST API endpoints and new options on existing endpoints.
+
+Tags
+^^^^
+
+* Support filtering by substring and regex in the list tags endpoint.
+
+* Support pagination with `--start` and `--end` in the list tags endpoint.
+
+
+Other
+~~~~~
+
+* Add support for SSH ZLib Compression.
++
+To enable compression use the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#sshd.enableCompression[
+`sshd.enableCompression` setting].
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2061[Issue 2061]
+Add Support for `git-upload-archive`.
++
+This allows use the standard `git archive` command to create an archive
+of the content of a repository.
+
+* Add a background job to automatically abandon inactive changes.
++
+The
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#changeCleanup[
+changeCleanup] configuration can be set to periodically check for inactive
+changes and automatically abandon them.
+
+* Add support for the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/database-setup.html#createdb_db2[
+DB2 database].
+
+* Add support for the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/database-setup.html#createdb_derby[
+Apache Derby database].
+
+* Download commands plugin: Use commit IDs for download commands when change refs are hidden.
++
+Git has a configuration option to hide refs from the initial advertisement
+(`uploadpack.hideRefs`). This option can be used to hide the change refs from
+the client. As consequence this prevented fetching changes by change ref from
+working.
++
+Setting `download.checkForHiddenChangeRefs` in the `gerrit.config` to true
+allows the download commands plugin to check for hidden change refs.
+
+Bug Fixes
+---------
 
 * TODO
 
@@ -37,5 +246,41 @@ New Features
 Upgrades
 --------
 
+* Upgrade Asciidoctor to 1.5.2
+
+* Upgrade AutoValue to 1.1
+
+* Upgrade Bouncy Castle to 1.52
+
+* Upgrade CodeMirror to 5.7
+
 * Upgrade gson to 2.3.1
+
+* Upgrade guava to 19.0-RC2
+
+* Upgrade gwtorm to 1.14-20-gec13fdc
+
+* Upgrade H2 to 1.3.176
+
+* Upgrade httpcomponents to 4.4.1
+
+* Upgrade jetty to 9.2.12.v20150709
+
+* Upgrade JGit to 4.0.1.201506240215-r.94-g39dc898
+
+* Upgrade joda-time to 2.8
+
+* Upgrade JRuby to 1.7.18
+
+* Upgrade jsch to 0.1.53
+
+* Upgrade JUnit to 4.11
+
+* Upgrade Lucene to 5.3.0
+
+* Upgrade Prolog Cafe 1.4.1
+
+* Upgrade servlet API to 8.0.24
+
+* Upgrade Truth to version 0.27
 

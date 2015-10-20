@@ -14,7 +14,10 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /* This entity contains information about the diff of a file in a revision. */
 public class DiffInfo {
@@ -34,6 +37,10 @@ public class DiffInfo {
   public List<DiffWebLinkInfo> webLinks;
   // Binary file
   public Boolean binary;
+
+  public Iterable<String> getDiffLines() {
+    return new ContentIterable(content);
+  }
 
   public static enum IntraLineStatus {
     OK,
@@ -74,5 +81,66 @@ public class DiffInfo {
 
     // Number of lines to skip on both sides.
     public Integer skip;
+  }
+
+  private static class ContentIterable implements Iterable<String> {
+
+    private static class ContentIterator implements Iterator<String> {
+
+      private final Iterator<DiffInfo.ContentEntry> entryIterator;
+
+      private Iterator<String> lineIterator;
+
+      private ContentIterator(List<DiffInfo.ContentEntry> contents) {
+        if (contents != null) {
+          entryIterator = contents.iterator();
+        } else {
+          entryIterator = Collections.emptyIterator();
+        }
+      }
+
+      @Override
+      public boolean hasNext() {
+        return lineIterator != null && lineIterator.hasNext() || entryIterator.hasNext();
+      }
+
+      @Override
+      public String next() {
+        if (!hasNext()) {
+          throw new NoSuchElementException();
+        }
+        if (lineIterator == null || !lineIterator.hasNext() && entryIterator.hasNext()) {
+          lineIterator = nextEntry();
+        }
+        return lineIterator.next();
+      }
+
+      @Override
+      public void remove() {
+        throw new UnsupportedOperationException("remove");
+      }
+
+      private Iterator<String> nextEntry() {
+        DiffInfo.ContentEntry next = entryIterator.next();
+        if (next.a != null) {
+          return next.a.iterator();
+        } else if (next.b != null) {
+          return next.b.iterator();
+        } else {
+          return next.ab.iterator();
+        }
+      }
+    }
+
+    private final List<DiffInfo.ContentEntry> content;
+
+    private ContentIterable(List<DiffInfo.ContentEntry> content) {
+      this.content = content;
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+      return new ContentIterator(content);
+    }
   }
 }

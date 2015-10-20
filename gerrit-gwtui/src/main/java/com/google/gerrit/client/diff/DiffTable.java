@@ -98,6 +98,16 @@ abstract class DiffTable extends Composite {
     return changeType;
   }
 
+  void setUpBlameIconA(CodeMirror cm, boolean isBase, PatchSet.Id rev,
+      String path) {
+    patchSetSelectBoxA.setUpBlame(cm, isBase, rev, path);
+  }
+
+  void setUpBlameIconB(CodeMirror cm, PatchSet.Id rev,
+      String path) {
+    patchSetSelectBoxB.setUpBlame(cm, false, rev, path);
+  }
+
   void set(DiffPreferences prefs, JsArray<RevisionInfo> list, DiffInfo info,
       boolean editExists, boolean current, boolean open, boolean binary) {
     this.changeType = info.changeType();

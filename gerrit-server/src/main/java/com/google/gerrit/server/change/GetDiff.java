@@ -300,7 +300,7 @@ public class GetDiff implements RestReadView<FileResource> {
         }
 
         ContentEntry e = null;
-        for (int i = nextA;
+          for (int i = nextA;
             i == nextA && i < end;
             i = fileA.next(i), nextA++, nextB++) {
           if (ignoreWS && fileB.contains(nextB)) {

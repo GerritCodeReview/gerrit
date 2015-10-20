@@ -21,7 +21,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 
 public class FakeQueryBuilder extends ChangeQueryBuilder {
-  FakeQueryBuilder(IndexCollection indexes) {
+  public FakeQueryBuilder(IndexCollection indexes) {
     super(
         new FakeQueryBuilder.Definition<>(
           FakeQueryBuilder.class),

@@ -72,7 +72,7 @@ public class PushCertificateCheckerTest {
   }
 
   private PushCertificateChecker newChecker(boolean checkNonce) {
-    return new PushCertificateChecker(new PublicKeyChecker(), checkNonce) {
+    return new PushCertificateChecker(new PublicKeyChecker()) {
       @Override
       protected Repository getRepository() {
         return tr.getRepository();
@@ -82,7 +82,7 @@ public class PushCertificateCheckerTest {
       protected boolean shouldClose(Repository repo) {
         return false;
       }
-    };
+    }.setCheckNonce(checkNonce);
   }
 
   @Test

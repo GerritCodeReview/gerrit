@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "d92002e1_08fd2722",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T06:27:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f90b06d5_99f73bb9",
+      "revId": "8caf7ab6dd2699dc1127e5dca7bab924fa27c9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_a0147a59",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T06:27:13Z",
+      "side": 1,
+      "message": "Remove commented out code.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 5
+      },
+      "revId": "8caf7ab6dd2699dc1127e5dca7bab924fa27c9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b90a6e5b_0f836504",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
         "patchSetId": 26
@@ -48,6 +89,24 @@
       "side": 1,
       "message": "I shouldn\u0027t write stuff like this before running out the door to catch the bus.\n\nHere is a saner upgrade path:\n\n* Always write to both git and db.\n* Have a flag to indicate whether to read from git or db, initially set to read from db.\n* First binary update: some servers are reading/writing just the db; some servers are additionally writing to git.\n* After first update: all servers are reading from the db, writing to both.\n* Batch copy data from db to git (you don\u0027t have to write this part).\n* Update all servers to read from git. During the update, some will still be reading from the db; that\u0027s ok, because everybody is writing to git.\n* Delete the table (and the flag) from the code and update the servers.\n* Delete the old data from the database.",
       "parentUuid": "b90a6e5b_0f836504",
+      "revId": "8caf7ab6dd2699dc1127e5dca7bab924fa27c9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e9e22c_000a8637",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-20T06:27:13Z",
+      "side": 1,
+      "message": "Thanks Dave for the clarification. I will try to re-implement it that way. It\u0027s still early here, and I still trinking coffee, but i alreay have question marks, about at what points in the algorithm above we need schema migration(s) and how your comment on \"Batch copy data from db to git\" and \"you don\u0027t have to write this part\" is conform to open source Gerrit version? More or less the schema migration i wrote in the follow-up change. The data copy implemented there, is optimized: it evaluates migrated flag and only write the records that weren\u0027t migrated yet. Without this flag, I would have to always copy the data, even if it was already written before (but we probably don\u0027t care).",
+      "parentUuid": "b90a6e5b_6f7831b1",
       "revId": "8caf7ab6dd2699dc1127e5dca7bab924fa27c9d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

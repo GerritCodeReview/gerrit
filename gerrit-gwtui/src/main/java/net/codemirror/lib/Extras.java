@@ -19,16 +19,30 @@ import static com.google.gwt.dom.client.Style.Unit.PX;
 import static net.codemirror.lib.CodeMirror.style;
 import static net.codemirror.lib.CodeMirror.LineClassWhere.WRAP;
 
+import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.RangeInfo;
+import com.google.gerrit.client.blame.BlameInfo;
 import com.google.gerrit.client.diff.DisplaySide;
+import com.google.gerrit.client.rpc.Natives;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 
 import net.codemirror.lib.CodeMirror.LineHandle;
 
+import java.util.Date;
 import java.util.Objects;
 
 /** Additional features added to CodeMirror by Gerrit Code Review. */
 public class Extras {
+  public static final String ANNOTATION_GUTTER_ID = "CodeMirror-lint-markers";
+
+  static final BlameConfig C = GWT.create(BlameConfig.class);
+
   static final native Extras get(CodeMirror c) /*-{ return c.gerritExtras }-*/;
   private static final native void set(CodeMirror c, Extras e)
   /*-{ c.gerritExtras = e }-*/;
@@ -43,6 +57,7 @@ public class Extras {
   private double charWidthPx;
   private double lineHeightPx;
   private LineHandle activeLine;
+  private boolean annotated;
 
   private Extras(CodeMirror cm) {
     this.cm = cm;
@@ -138,6 +153,70 @@ public class Extras {
     if (activeLine != null) {
       cm.removeLineClass(activeLine, WRAP, style().activeLine());
       activeLine = null;
+    }
+  }
+
+  public boolean isAnnotated() {
+    return annotated;
+  }
+
+  public final void clearAnnotations() {
+    JsArrayString gutters = ((JsArrayString) JsArrayString.createArray());
+    cm.setOption("gutters", gutters);
+    annotated = false;
+  }
+
+  public final void setAnnotations(JsArray<BlameInfo> blameInfos) {
+    if (blameInfos.length() > 0) {
+      setBlameInfo(blameInfos);
+      JsArrayString gutters = ((JsArrayString) JsArrayString.createArray());
+      gutters.push(ANNOTATION_GUTTER_ID);
+      cm.setOption("gutters", gutters);
+      annotated = true;
+      DateTimeFormat format = DateTimeFormat.getFormat(
+          DateTimeFormat.PredefinedFormat.DATE_SHORT);
+      JsArray<LintLine> annotations = JsArray.createArray().cast();
+      for (BlameInfo blameInfo : Natives.asList(blameInfos)) {
+        for (RangeInfo range : Natives.asList(blameInfo.ranges())) {
+          Date commitTime = new Date(blameInfo.time() * 1000L);
+          String shortId = blameInfo.id().substring(0, 8);
+          String shortBlame = C.shortBlameMsg(
+              shortId, format.format(commitTime), blameInfo.author());
+          String detailedBlame = C.detailedBlameMsg(blameInfo.id(),
+              blameInfo.author(), FormatUtil.mediumFormat(commitTime),
+              blameInfo.commitMsg());
+
+          annotations.push(LintLine.create(shortBlame, detailedBlame, shortId,
+              Pos.create(range.start() - 1)));
+        }
+      }
+      cm.setOption("lint", getAnnotation(annotations));
+    }
+  }
+
+  private native JavaScriptObject getAnnotation(JsArray<LintLine> annotations) /*-{
+     return {
+        getAnnotations: function(text, options, cm) { return annotations; }
+     };
+  }-*/;
+
+  public final native JsArray<BlameInfo> getBlameInfo() /*-{
+    return this.blameInfos;
+  }-*/;
+
+  public final native void setBlameInfo(JsArray<BlameInfo> blameInfos) /*-{
+    this['blameInfos'] = blameInfos;
+  }-*/;
+
+  public final void toggleAnnotation() {
+    toggleAnnotation(getBlameInfo());
+  }
+
+  public final void toggleAnnotation(JsArray<BlameInfo> blameInfos) {
+    if (isAnnotated()) {
+      clearAnnotations();
+    } else {
+      setAnnotations(blameInfos);
     }
   }
 }

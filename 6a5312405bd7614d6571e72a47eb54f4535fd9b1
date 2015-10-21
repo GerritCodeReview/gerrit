@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79c556cc_85a502dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-21T05:51:06Z",
+      "side": 1,
+      "message": "Derby.java wasn\u0027t added to Git and uploaded.",
+      "range": {
+        "startLine": 25,
+        "startChar": 70,
+        "endLine": 25,
+        "endChar": 81
+      },
+      "revId": "6a5312405bd7614d6571e72a47eb54f4535fd9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

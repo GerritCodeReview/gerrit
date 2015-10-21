@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "79c556cc_6563a61b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-21T12:34:03Z",
+      "side": 1,
+      "message": "Maybe nothing we need to care about right now, but in decentralized setups where each team owns the own projects, administrators still like to enforce certain global rules, which they can e.g. by defining block rules which cannot be overwritten. I wonder whether administrators may want to enforce signed push globally or for certain project hierarchies, without allowing project owners to opt out. In this case you may want to set this setting to \u0027ENFORCED\u0027 or something like this.",
+      "range": {
+        "startLine": 14,
+        "startChar": 65,
+        "endLine": 15,
+        "endChar": 65
+      },
+      "revId": "560d90ddc1239524359bf766122f401b6cf9c04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59fb3286_6cdcbbf9",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 1
@@ -64,6 +87,76 @@
         "startChar": 66,
         "endLine": 173,
         "endChar": 27
+      },
+      "revId": "560d90ddc1239524359bf766122f401b6cf9c04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79c556cc_0556323d",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-21T12:34:03Z",
+      "side": 1,
+      "message": "I think they are different. The one in the line above links to the project-specific description in this file and the one here goes to the global setting in config-gerrit.html.",
+      "parentUuid": "d902c2ba_78d6a125",
+      "range": {
+        "startLine": 171,
+        "startChar": 66,
+        "endLine": 173,
+        "endChar": 27
+      },
+      "revId": "560d90ddc1239524359bf766122f401b6cf9c04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79c556cc_45602a0d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1994,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-21T12:34:03Z",
+      "side": 1,
+      "message": "Mention when it is not set? Is it when signed push is disabled globally?",
+      "range": {
+        "startLine": 1994,
+        "startChar": 44,
+        "endLine": 1994,
+        "endChar": 52
+      },
+      "revId": "560d90ddc1239524359bf766122f401b6cf9c04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99ca0add_a61926c5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-21T12:34:03Z",
+      "side": 1,
+      "message": "I would find this clearer (to match the condition in line 247):\n\n  if (Gerrit.info().receive().enableSignedPush()) {\n    setBool(enableSignedPush, result.enableSignedPush());\n    setBool(requireSignedPush, result.requireSignedPush());\n  }",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 384,
+        "endChar": 5
       },
       "revId": "560d90ddc1239524359bf766122f401b6cf9c04c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

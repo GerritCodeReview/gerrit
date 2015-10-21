@@ -283,7 +283,7 @@ public class PatchLineCommentsUtil {
       if (!author.equals(id)) {
         continue;
       }
-      Change.Id changeId = Change.Id.parse(refName);
+      Change.Id changeId = Change.Id.fromDraftCommentsRefPart(refName);
       comments.addAll(
           draftFactory.create(changeId, author).load().getComments().values());
     }

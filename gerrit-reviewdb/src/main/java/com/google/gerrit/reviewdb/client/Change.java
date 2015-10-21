@@ -170,6 +170,11 @@ public final class Change {
       return new Change.Id(Integer.parseInt(id));
     }
 
+    public static Id fromDraftCommentsRefPart(String ref) {
+      return new Change.Id(
+          Integer.parseInt(ref.substring(ref.indexOf('-') + 1)));
+    }
+
     static int startIndex(String ref) {
       if (ref == null || !ref.startsWith(REFS_CHANGES)) {
         return -1;

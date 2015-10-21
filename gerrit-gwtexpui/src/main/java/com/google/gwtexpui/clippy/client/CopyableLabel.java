@@ -16,7 +16,6 @@ package com.google.gwtexpui.clippy.client;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -25,12 +24,9 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
@@ -39,7 +35,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtexpui.user.client.Tooltip;
 import com.google.gwtexpui.user.client.UserAgent;
 
 /**
@@ -76,7 +71,6 @@ public class CopyableLabel extends Composite implements HasText {
   private int visibleLen;
   private Label textLabel;
   private TextBox textBox;
-  private Button copier;
   private Element swf;
 
   public CopyableLabel() {
@@ -117,32 +111,7 @@ public class CopyableLabel extends Composite implements HasText {
       });
       content.add(textLabel);
     }
-
-    if (UserAgent.hasJavaScriptClipboard()) {
-      copier = new Button("&#x1f4cb;"); // CLIPBOARD
-      copier.setStyleName(ClippyResources.I.css().copier());
-      Tooltip.addStyle(copier);
-      Tooltip.setLabel(copier, CopyableLabelText.I.tooltip());
-      copier.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          copy();
-        }
-      });
-      copier.addMouseOutHandler(new MouseOutHandler() {
-        @Override
-        public void onMouseOut(MouseOutEvent event) {
-          Tooltip.setLabel(copier, CopyableLabelText.I.tooltip());
-        }
-      });
-
-      FlowPanel p = new FlowPanel();
-      p.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
-      p.add(copier);
-      content.add(p);
-    } else {
-      embedMovie();
-    }
+    embedMovie();
   }
 
   /**
@@ -158,13 +127,12 @@ public class CopyableLabel extends Composite implements HasText {
   }
 
   private void embedMovie() {
-    if (copier == null && flashEnabled && !text.isEmpty()
-        && UserAgent.Flash.isInstalled()) {
+    if (flashEnabled && !text.isEmpty() && UserAgent.Flash.isInstalled()) {
       final String flashVars = "text=" + URL.encodeQueryString(getText());
       final SafeHtmlBuilder h = new SafeHtmlBuilder();
 
       h.openElement("div");
-      h.setStyleName(ClippyResources.I.css().swf());
+      h.setStyleName(ClippyResources.I.css().control());
 
       h.openElement("object");
       h.setWidth(SWF_WIDTH);
@@ -268,35 +236,4 @@ public class CopyableLabel extends Composite implements HasText {
     }
     textLabel.setVisible(true);
   }
-
-  private void copy() {
-    TextBox t = new TextBox();
-    try {
-      t.setText(getText());
-      content.add(t);
-      t.selectAll();
-
-      boolean ok = execCommand("copy");
-      Tooltip.setLabel(copier, ok
-          ? CopyableLabelText.I.copied()
-          : CopyableLabelText.I.failed());
-      if (!ok) {
-        // Disable JavaScript clipboard and try flash movie in another instance.
-        UserAgent.disableJavaScriptClipboard();
-      }
-    } finally {
-      t.removeFromParent();
-    }
-  }
-
-  private static boolean execCommand(String command) {
-    try {
-      return nativeExec(command);
-    } catch (Exception e) {
-      return false;
-    }
-  }
-
-  private static native boolean nativeExec(String c)
-  /*-{ return !! $doc.execCommand(c) }-*/;
 }

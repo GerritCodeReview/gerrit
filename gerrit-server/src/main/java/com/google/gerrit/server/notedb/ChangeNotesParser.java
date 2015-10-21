@@ -18,6 +18,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
@@ -77,6 +78,7 @@ class ChangeNotesParser implements AutoCloseable {
   final Multimap<RevId, PatchLineComment> comments;
   NoteMap commentNoteMap;
   Change.Status status;
+  String topic;
   Set<String> hashtags;
 
   private final Change.Id changeId;
@@ -155,6 +157,9 @@ class ChangeNotesParser implements AutoCloseable {
     PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
     parseChangeMessage(psId, accountId, commit);
+    if (topic == null) {
+      topic = parseTopic(commit);
+    }
     parseHashtags(commit);
 
 
@@ -174,6 +179,18 @@ class ChangeNotesParser implements AutoCloseable {
       }
     }
   }
+
+  private String parseTopic(RevCommit commit)
+      throws ConfigInvalidException {
+    List<String> topicLines = commit.getFooterLines(FOOTER_TOPIC);
+    if (topicLines.isEmpty()) {
+      return null;
+    } else if (topicLines.size() > 1) {
+      throw expectedOneFooter(FOOTER_TOPIC, topicLines);
+    }
+    return topicLines.get(0);
+  }
+
 
   private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
     // Commits are parsed in reverse order and only the last set of hashtags should be used.

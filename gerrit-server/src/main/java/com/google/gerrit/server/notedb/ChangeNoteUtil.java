@@ -33,6 +33,7 @@ public class ChangeNoteUtil {
   static final FooterKey FOOTER_STATUS = new FooterKey("Status");
   static final FooterKey FOOTER_SUBMITTED_WITH =
       new FooterKey("Submitted-with");
+  static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
 
   public static String changeRefName(Change.Id id) {
     StringBuilder r = new StringBuilder();

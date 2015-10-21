@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "59c412d2_24e7f209",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T15:53:38Z",
+      "side": 1,
+      "message": "Gah, I even looked at the filenames to make sure it was not a different file, but missed that it is in fact a different file.",
+      "parentUuid": "764d6585_45a50adb",
+      "range": {
+        "startLine": 171,
+        "startChar": 66,
+        "endLine": 173,
+        "endChar": 27
+      },
+      "revId": "560d90ddc1239524359bf766122f401b6cf9c04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79c556cc_45602a0d",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 1

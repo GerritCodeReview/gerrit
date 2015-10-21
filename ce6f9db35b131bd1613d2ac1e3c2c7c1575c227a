@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "762485ad_6df235cd",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T16:05:36Z",
+      "side": 0,
+      "message": "This method was just added in a commit in the same series.\n\nCan these changes be rebased such that the method doesn\u0027t need to be added at all?",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 5
+      },
+      "revId": "ce6f9db35b131bd1613d2ac1e3c2c7c1575c227a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

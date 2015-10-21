@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9652d921_66a00ecd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-10-21T12:44:02Z",
+      "side": 1,
+      "message": "Name this thread to allow to know what the running thread is doing without taking a dump.? \n\nnew Thread(\"someName\") {",
+      "range": {
+        "startLine": 177,
+        "startChar": 5,
+        "endLine": 177,
+        "endChar": 16
+      },
+      "revId": "d45987994045a27b44bf851bdcbf3c50d99bb225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -23,6 +23,7 @@ import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
 /** Dynamic pointers to the index versions used for searching and writing. */
@@ -30,21 +31,29 @@ import java.util.concurrent.atomic.AtomicReference;
 public class IndexCollection implements LifecycleListener {
   private final CopyOnWriteArrayList<ChangeIndex> writeIndexes;
   private final AtomicReference<ChangeIndex> searchIndex;
+  private final CountDownLatch initLatch;
 
   @Inject
   @VisibleForTesting
   public IndexCollection() {
     this.writeIndexes = Lists.newCopyOnWriteArrayList();
     this.searchIndex = new AtomicReference<>();
+    this.initLatch = new CountDownLatch(1);
   }
 
   /** @return the current search index version. */
   public ChangeIndex getSearchIndex() {
+    try {
+      initLatch.await();
+    } catch (InterruptedException e) {
+      // ignore
+    }
     return searchIndex.get();
   }
 
   public void setSearchIndex(ChangeIndex index) {
     ChangeIndex old = searchIndex.getAndSet(index);
+    initLatch.countDown();
     if (old != null && old != index && !writeIndexes.contains(old)) {
       old.close();
     }

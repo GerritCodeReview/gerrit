@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "762485ad_4df779bb",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T16:06:17Z",
+      "side": 1,
+      "message": "This gets removed in one of the following commits.",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 5
+      },
+      "revId": "9d3e2bbc45166559e63d47e73ec83e3885f39ab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

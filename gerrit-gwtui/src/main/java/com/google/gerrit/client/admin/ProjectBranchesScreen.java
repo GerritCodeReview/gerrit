@@ -37,6 +37,7 @@ import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.OnEditEnabler;
+import com.google.gerrit.client.ui.PagingHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -121,10 +122,10 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     super.onInitUI();
     initPageHeader();
 
-    prev = new Hyperlink(Util.C.pagedListPrev(), true, "");
+    prev = PagingHyperlink.createPrev();
     prev.setVisible(false);
 
-    next = new Hyperlink(Util.C.pagedListNext(), true, "");
+    next = PagingHyperlink.createNext();
     next.setVisible(false);
 
     addPanel = new FlowPanel();
@@ -174,6 +175,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     branchTable = new BranchesTable();
 
     delBranch = new Button(Util.C.buttonDeleteBranch());
+    delBranch.setStyleName(Gerrit.RESOURCES.css().branchTableDeleteButton());
     delBranch.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {

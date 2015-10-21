@@ -23,6 +23,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gerrit.client.ui.PagingHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
@@ -56,10 +57,10 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
   protected void onInitUI() {
     super.onInitUI();
     initPageHeader();
-    prev = new Hyperlink(Util.C.pagedListPrev(), true, "");
+    prev = PagingHyperlink.createPrev();
     prev.setVisible(false);
 
-    next = new Hyperlink(Util.C.pagedListNext(), true, "");
+    next = PagingHyperlink.createNext();
     next.setVisible(false);
 
     tagsTable = new TagsTable();

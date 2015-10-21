@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "762485ad_eddce547",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1005956
+      },
+      "writtenOn": "2015-10-21T11:17:17Z",
+      "side": 1,
+      "message": "David/Martin, any thoughts on Oswald\u0027s comment?",
+      "parentUuid": "7f3e16ee_1d7b9381",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_3c477190",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -220,6 +238,24 @@
       "writtenOn": "2015-10-14T15:22:08Z",
       "side": 1,
       "message": "the condition is wrong. you obviously shouldn\u0027t be able to move a merged change, but moving an abandoned one (or a draft) is perfectly fine.",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c412d2_e4fcba9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1005956
+      },
+      "writtenOn": "2015-10-21T11:17:17Z",
+      "side": 1,
+      "message": "Agree for the draft change but I am not sure why would anyone move an abandoned change.",
+      "parentUuid": "7fec56ce_2d8f4d01",
       "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

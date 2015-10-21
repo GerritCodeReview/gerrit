@@ -201,7 +201,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryCaseMismatchException {
     Repository repo = createRepository(basePath, name);
-    if (noteDbPath != null) {
+    if (noteDbPath != null && !noteDbPath.equals(basePath)) {
       createRepository(noteDbPath, name);
     }
     return repo;

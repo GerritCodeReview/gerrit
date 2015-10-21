@@ -18,7 +18,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -98,5 +101,22 @@ public class ProjectIT extends AbstractDaemonTest  {
             .name(project.get())
             .description())
         .isEqualTo(in.description);
+  }
+
+  @Test
+  @GerritConfigs({
+      @GerritConfig(name="gerrit.noteDbPath", value="git"),
+      @GerritConfig(name="gerrit.basePath", value="git"),
+      @GerritConfig(name="notedb.changes.write", value="true")
+  })
+  @UseLocalDisk
+  public void createProjectWhenNoteDbPathIsTheSameAsBasePath()
+      throws Exception {
+    String name = name("foo");
+    assertThat(name).isEqualTo(
+        gApi.projects()
+            .create(name)
+            .get()
+            .name);
   }
 }

@@ -125,24 +125,7 @@ public class PerformCreateProject {
           createEmptyCommits(repo, nameKey, createProjectArgs.branch);
         }
 
-        NewProjectCreatedListener.Event event = new NewProjectCreatedListener.Event() {
-          @Override
-          public String getProjectName() {
-            return nameKey.get();
-          }
-
-          @Override
-          public String getHeadName() {
-            return head;
-          }
-        };
-        for (NewProjectCreatedListener l : createdListener) {
-          try {
-            l.onNewProjectCreated(event);
-          } catch (RuntimeException e) {
-            log.warn("Failure in NewProjectCreatedListener", e);
-          }
-        }
+        notifyListeners(head, nameKey);
 
         return projectCache.get(nameKey).getProject();
       } finally {
@@ -176,6 +159,33 @@ public class PerformCreateProject {
       log.error(msg, e);
       throw new ProjectCreationFailedException(msg, e);
     }
+  }
+
+  private void notifyListeners(final String head, final Project.NameKey nameKey) {
+    final NewProjectCreatedListener.Event event =
+        new NewProjectCreatedListener.Event() {
+      @Override
+      public String getProjectName() {
+        return nameKey.get();
+      }
+
+      @Override
+      public String getHeadName() {
+        return head;
+      }
+    };
+    new Thread() {
+      @Override
+      public void run() {
+        for (NewProjectCreatedListener l : createdListener) {
+          try {
+            l.onNewProjectCreated(event);
+          } catch (RuntimeException e) {
+            log.warn("Failure in NewProjectCreatedListener", e);
+          }
+        }
+      }
+    }.start();
   }
 
   private void createProjectConfig() throws IOException, ConfigInvalidException {

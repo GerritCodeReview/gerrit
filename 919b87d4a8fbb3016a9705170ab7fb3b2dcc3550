@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99ca0add_a62be6b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-21T17:30:54Z",
+      "side": 1,
+      "message": "Add unit test for that then? You could easily do that with @GerritConfigs:\n\n  @Test\n  @GerritConfigs({\n      @GerritConfig(name\u003d\"gerrit.noteDbPath\", value\u003d\"git\"),\n      @GerritConfig(name\u003d\"gerrit.basePath\", value\u003d\"git\")\n  })\n  public void basePathIsTheSameAsNoteDbPath() {\n  [...]",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "919b87d4a8fbb3016a9705170ab7fb3b2dcc3550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

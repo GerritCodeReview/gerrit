@@ -1258,6 +1258,10 @@ a:hover.downloadLink {
   cursor: pointer;
 }
 
+.branchTableDeleteButton {
+  margin-top: 5px;
+}
+
 .branchTablePrevNextLinks {
   position: relative;
 }
@@ -1309,4 +1313,11 @@ a:hover.downloadLink {
   margin-right: 2em;
   font-size: 7pt;
   padding: 1px;
+}
+
+/* List Screens */
+.pagingLink {
+  font-size: 18px;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }

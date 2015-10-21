@@ -210,6 +210,7 @@ public abstract class PushCertificateChecker {
     }
     CheckResult result = publicKeyChecker
         .setStore(store)
+        .setEffectiveTime(sig.getCreationTime())
         .check(signer);
     if (!result.getProblems().isEmpty()) {
       StringBuilder err = new StringBuilder("Invalid public key ")

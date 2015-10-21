@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -64,6 +65,7 @@ public class PublicKeyChecker {
   private PublicKeyStore store;
   private Map<Long, Fingerprint> trusted;
   private int maxTrustDepth;
+  private Date effectiveTime = new Date();
 
   /**
    * Enable web-of-trust checks.
@@ -110,6 +112,24 @@ public class PublicKeyChecker {
   }
 
   /**
+   * Set the effective time for checking the key.
+   * <p>
+   * If set, check whether the key should be considered valid (e.g. unexpired)
+   * as of this time.
+   *
+   * @param effectiveTime effective time.
+   * @return a reference to this object.
+   */
+  public PublicKeyChecker setEffectiveTime(Date effectiveTime) {
+    this.effectiveTime = effectiveTime;
+    return this;
+  }
+
+  protected Date getEffectiveTime() {
+    return effectiveTime;
+  }
+
+  /**
    * Check a public key.
    *
    * @param key the public key.
@@ -141,7 +161,7 @@ public class PublicKeyChecker {
 
   private CheckResult check(PGPPublicKey key, int depth, boolean expand,
       Set<Fingerprint> seen) {
-    CheckResult basicResult = checkBasic(key);
+    CheckResult basicResult = checkBasic(key, effectiveTime);
     CheckResult customResult = checkCustom(key, depth);
     CheckResult trustResult = checkWebOfTrust(key, store, depth, seen);
     if (!expand && !trustResult.isTrusted()) {
@@ -176,28 +196,32 @@ public class PublicKeyChecker {
     return CheckResult.create(status, problems);
   }
 
-  private CheckResult checkBasic(PGPPublicKey key) {
+  private CheckResult checkBasic(PGPPublicKey key, Date now) {
     List<String> problems = new ArrayList<>(2);
-    gatherRevocationProblems(key, problems);
+    gatherRevocationProblems(key, now, problems);
 
-    long validSecs = key.getValidSeconds();
-    if (validSecs != 0) {
-      long createdSecs = key.getCreationTime().getTime() / 1000;
-      long nowSecs = System.currentTimeMillis() / 1000;
-      if (nowSecs - createdSecs > validSecs) {
+    long validMs = key.getValidSeconds() * 1000;
+    if (validMs != 0) {
+      long msSinceCreation = now.getTime() - key.getCreationTime().getTime();
+      if (msSinceCreation > validMs) {
         problems.add("Key is expired");
       }
     }
     return CheckResult.create(problems);
   }
 
-  private void gatherRevocationProblems(PGPPublicKey key, List<String> problems) {
+  private void gatherRevocationProblems(PGPPublicKey key, Date now,
+      List<String> problems) {
     try {
       List<PGPSignature> revocations = new ArrayList<>();
       Map<Long, RevocationKey> revokers = new HashMap<>();
-      PGPSignature selfRevocation = scanRevocations(key, revocations, revokers);
+      PGPSignature selfRevocation =
+          scanRevocations(key, now, revocations, revokers);
       if (selfRevocation != null) {
-        problems.add(reasonToString(getRevocationReason(selfRevocation)));
+        RevocationReason reason = getRevocationReason(selfRevocation);
+        if (isRevocationValid(selfRevocation, reason, now)) {
+          problems.add(reasonToString(reason));
+        }
       } else {
         checkRevocations(key, revocations, revokers, problems);
       }
@@ -206,7 +230,21 @@ public class PublicKeyChecker {
     }
   }
 
-  private PGPSignature scanRevocations(PGPPublicKey key,
+  private static boolean isRevocationValid(PGPSignature revocation,
+      RevocationReason reason, Date now) {
+    // RFC4880 states:
+    // "If a key has been revoked because of a compromise, all signatures
+    // created by that key are suspect. However, if it was merely superseded or
+    // retired, old signatures are still valid."
+    //
+    // Note that GnuPG does not implement this correctly, as it does not
+    // consider the revocation reason and timestamp when checking whether a
+    // signature (data or certification) is valid.
+    return reason.getRevocationReason() == KEY_COMPROMISED
+        || revocation.getCreationTime().before(now);
+  }
+
+  private PGPSignature scanRevocations(PGPPublicKey key, Date now,
       List<PGPSignature> revocations, Map<Long, RevocationKey> revokers)
       throws PGPException {
     @SuppressWarnings("unchecked")
@@ -221,7 +259,10 @@ public class PublicKeyChecker {
               return sig;
             }
           } else {
-            revocations.add(sig);
+            RevocationReason reason = getRevocationReason(sig);
+            if (reason != null && isRevocationValid(sig, reason, now)) {
+              revocations.add(sig);
+            }
           }
           break;
         case DIRECT_KEY:
@@ -263,9 +304,8 @@ public class PublicKeyChecker {
         continue; // Not a designated revoker.
       }
       byte[] rfp = revoker.getFingerprint();
-      PGPPublicKeyRing rkr = store.get(rfp);
-      if (rkr == null
-          || rkr.getPublicKey().getAlgorithm() != revoker.getAlgorithm()) {
+      PGPPublicKeyRing revokerKeyRing = store.get(rfp);
+      if (revokerKeyRing == null) {
         // Revoker is authorized and there is a revocation signature by this
         // revoker, but the key is not in the store so we can't verify the
         // signature.
@@ -275,8 +315,16 @@ public class PublicKeyChecker {
         problems.add(reasonToString(getRevocationReason(revocation)));
         continue;
       }
-      revocation.init(
-          new BcPGPContentVerifierBuilderProvider(), rkr.getPublicKey());
+      PGPPublicKey rk = revokerKeyRing.getPublicKey();
+      if (rk.getAlgorithm() != revoker.getAlgorithm()) {
+        continue;
+      }
+      if (!checkBasic(rk, revocation.getCreationTime()).isOk()) {
+        // Revoker's key was expired or revoked at time of revocation, so the
+        // revocation is invalid.
+        continue;
+      }
+      revocation.init(new BcPGPContentVerifierBuilderProvider(), rk);
       if (revocation.verifyCertification(key)) {
         problems.add(reasonToString(getRevocationReason(revocation)));
       }
@@ -353,8 +401,13 @@ public class PublicKeyChecker {
     Iterator<String> userIds = key.getUserIDs();
     while (userIds.hasNext()) {
       String userId = userIds.next();
+
+      // Don't check the timestamp of these certifications. This allows admins
+      // to correct untrusted keys by signing them with a trusted key, such that
+      // older signatures created by those keys retroactively appear valid.
       @SuppressWarnings("unchecked")
       Iterator<PGPSignature> sigs = key.getSignaturesForID(userId);
+
       while (sigs.hasNext()) {
         PGPSignature sig = sigs.next();
         // TODO(dborowitz): Handle CERTIFICATION_REVOCATION.

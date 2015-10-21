@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "762485ad_cde249f8",
+        "filename": "Documentation/cmd-move-change.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T16:16:03Z",
+      "side": 1,
+      "message": "This is stated in most, if not all, the existing commands.  It doesn\u0027t mean that it\u0027s *only* intended to be used in scripts; I guess a better wording would be \"suitable to be used in scripts\" or something like that.",
+      "parentUuid": "7fec56ce_4ddf39ef",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffefa6f_92e13cf3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "David/Martin, any thoughts on Oswald\u0027s comment?",
       "parentUuid": "7f3e16ee_1d7b9381",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762485ad_adeffddd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T16:16:03Z",
+      "side": 1,
+      "message": "I an ssh command is really wanted, OK.  But I would prefer that the core functionality is implemented as a REST API and then the ssh command invokes that.\n\nThere are already examples of this pattern in the existing commands.",
+      "parentUuid": "762485ad_eddce547",
       "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -204,6 +240,24 @@
     },
     {
       "key": {
+        "uuid": "762485ad_8dec41ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T16:16:03Z",
+      "side": 1,
+      "message": "I think it\u0027s reasonable to reject moving merge commits, at least in the initial implementation.  If we want to support that, it can be added in a separate commit later with better handling of the potential edge cases.",
+      "parentUuid": "7f3e16ee_9d8683dc",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffefa6f_12f6ecbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -274,6 +328,24 @@
       "side": 1,
       "message": "they might want to restore it only at a later point.\nthe thing is that there is no logical reason to impose a limitation here.",
       "parentUuid": "59c412d2_e4fcba9e",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c412d2_e4131a9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T16:16:03Z",
+      "side": 1,
+      "message": "AFAIK this is consistent with how we treat abandoned changes in other cases.",
+      "parentUuid": "79c556cc_c5537a4e",
       "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

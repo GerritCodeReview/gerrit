@@ -16,6 +16,24 @@
       "revId": "0bcac9b5327b30cf55c377c2d76acfbc73dd2b7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79c556cc_a52bdeb8",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-21T12:45:08Z",
+      "side": 1,
+      "message": "IIRC this update path is only required when you rely on online reindexing for the Lucene index (which probably most people want).",
+      "parentUuid": "79c556cc_45bcaaef",
+      "revId": "0bcac9b5327b30cf55c377c2d76acfbc73dd2b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2234,10 +2234,14 @@ public class ReceiveCommits {
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.labels;
         Set<String> hashtags = magicBranch.hashtags;
+        ChangeNotes notes = changeCtl.getNotes().load();
         if (!hashtags.isEmpty()) {
-          ChangeNotes notes = changeCtl.getNotes().load();
           hashtags.addAll(notes.getHashtags());
           update.setHashtags(hashtags);
+        }
+        if (magicBranch.topic != null
+            && !magicBranch.topic.equals(notes.getTopic())) {
+          update.setTopic(Strings.nullToEmpty(magicBranch.topic));
         }
       }
       recipients.add(getRecipientsFromFooters(accountResolver, newPatchSet, footerLines));

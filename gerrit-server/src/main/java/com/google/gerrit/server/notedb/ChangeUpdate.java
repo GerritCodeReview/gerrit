@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMap;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -92,6 +93,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private List<SubmitRecord> submitRecords;
   private final CommentsInNotesUtil commentsUtil;
   private List<PatchLineComment> comments;
+  private String topic;
   private Set<String> hashtags;
   private String changeMessage;
   private ChangeNotes notes;
@@ -312,6 +314,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   }
 
+  public void setTopic(String topic) {
+    this.topic = topic;
+  }
+
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
   }
@@ -412,6 +418,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     addFooter(msg, FOOTER_PATCH_SET, ps);
     if (status != null) {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
+    }
+
+    if (topic != null) {
+      addFooter(msg, FOOTER_TOPIC, topic);
     }
 
     if (hashtags != null) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d902c2ba_f8fc719e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T01:33:23Z",
+      "side": 1,
+      "message": "Thanks for the details :)\n\nSuggestion box for topics would be nice; do you have time to do it before we cut stable-2.12?",
+      "parentUuid": "d902c2ba_18b2051e",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 15
+      },
+      "revId": "420c2f64115a037bf5463410cad562f32265e633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9e9e22c_60a8b24e",
         "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-20T15:05:30Z",
       "side": 1,
       "message": "unmatched quote",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 7
+      },
+      "revId": "420c2f64115a037bf5463410cad562f32265e633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d902c2ba_58d3dd33",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T01:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9e9e22c_60a8b24e",
       "range": {
         "startLine": 56,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d902c2ba_b8f2f9c8",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T01:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d92002e1_285c6bda",
+      "range": {
+        "startLine": 75,
+        "startChar": 26,
+        "endLine": 75,
+        "endChar": 48
+      },
+      "revId": "420c2f64115a037bf5463410cad562f32265e633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9e9e22c_c0737ea5",
         "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-10-20T15:05:30Z",
       "side": 1,
       "message": "Just \u00278.0.24\u0027?",
+      "range": {
+        "startLine": 116,
+        "startChar": 25,
+        "endLine": 116,
+        "endChar": 38
+      },
+      "revId": "420c2f64115a037bf5463410cad562f32265e633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d902c2ba_98f735b9",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T01:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9e9e22c_c0737ea5",
       "range": {
         "startLine": 116,
         "startChar": 25,

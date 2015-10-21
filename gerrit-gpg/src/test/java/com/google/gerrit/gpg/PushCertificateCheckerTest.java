@@ -28,6 +28,7 @@ import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.BCPGOutputStream;
 import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.PGPSignatureGenerator;
+import org.bouncycastle.openpgp.PGPSignatureSubpacketGenerator;
 import org.bouncycastle.openpgp.PGPUtil;
 import org.bouncycastle.openpgp.operator.bc.BcPGPContentSignerBuilder;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -47,7 +48,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 public class PushCertificateCheckerTest {
   private InMemoryRepository repo;
@@ -130,6 +133,15 @@ public class PushCertificateCheckerTest {
           + ":\n  Key is expired");
   }
 
+  @Test
+  public void signatureByExpiredKeyBeforeExpiration() throws Exception {
+    TestKey key3 = expiredKey();
+    Date now = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss Z")
+        .parse("2005-07-10 12:00:00 -0400");
+    PushCertificate cert = newSignedCert(validNonce(), key3, now);
+    assertProblems(cert);
+  }
+
   private String validNonce() {
     return signedPushConfig.getNonceGenerator()
         .createNonce(repo, System.currentTimeMillis() / 1000);
@@ -137,6 +149,11 @@ public class PushCertificateCheckerTest {
 
   private PushCertificate newSignedCert(String nonce, TestKey signingKey)
       throws Exception {
+    return newSignedCert(nonce, signingKey, null);
+  }
+
+  private PushCertificate newSignedCert(String nonce, TestKey signingKey,
+      Date now) throws Exception {
     PushCertificateIdent ident = new PushCertificateIdent(
         signingKey.getFirstUserId(), System.currentTimeMillis(), -7 * 60);
     String payload = "certificate version 0.1\n"
@@ -150,6 +167,14 @@ public class PushCertificateCheckerTest {
     PGPSignatureGenerator gen = new PGPSignatureGenerator(
         new BcPGPContentSignerBuilder(
           signingKey.getPublicKey().getAlgorithm(), PGPUtil.SHA1));
+
+    if (now != null) {
+      PGPSignatureSubpacketGenerator subGen =
+          new PGPSignatureSubpacketGenerator();
+      subGen.setSignatureCreationTime(false, now);
+      gen.setHashedSubpackets(subGen.generate());
+    }
+
     gen.init(PGPSignature.BINARY_DOCUMENT, signingKey.getPrivateKey());
     gen.update(payload.getBytes(UTF_8));
     PGPSignature sig = gen.generate();

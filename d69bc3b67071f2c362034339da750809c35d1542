@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79c556cc_65bf26e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-21T07:59:28Z",
+      "side": 1,
+      "message": "Can we document this behavior in user documentation about inline edit?\nThis is a bit of magic that is done behind the scene, and should be documented.",
+      "revId": "d69bc3b67071f2c362034339da750809c35d1542",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

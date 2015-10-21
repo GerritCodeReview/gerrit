@@ -275,14 +275,10 @@ public class PatchLineCommentsUtil {
       return sort(db.patchComments().draftByAuthor(author).toList());
     }
 
-    // TODO(dborowitz): Just scan author space.
-    Set<String> refNames = getRefNamesAllUsers(RefNames.REFS_DRAFT_COMMENTS);
+    Set<String> refNames =
+        getRefNamesAllUsers(RefNames.refsDraftCommentsPrefix(author));
     List<PatchLineComment> comments = Lists.newArrayList();
     for (String refName : refNames) {
-      Account.Id id = Account.Id.fromRefPart(refName);
-      if (!author.equals(id)) {
-        continue;
-      }
       Change.Id changeId = Change.Id.parse(refName);
       comments.addAll(
           draftFactory.create(changeId, author).load().getComments().values());

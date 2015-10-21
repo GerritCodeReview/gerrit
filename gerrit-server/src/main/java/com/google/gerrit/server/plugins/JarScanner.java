@@ -102,7 +102,7 @@ public class JarScanner implements PluginContentScanner {
         throw new InvalidPluginException("Cannot auto-register", err);
       } catch (RuntimeException err) {
         PluginLoader.log.warn(String.format(
-            "Plugin %s has invaild class file %s inside of %s", pluginName,
+            "Plugin %s has invalid class file %s inside of %s", pluginName,
             entry.getName(), jarFile.getName()), err);
         continue;
       }

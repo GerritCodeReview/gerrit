@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "764d6585_25c32e6d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-10-21T16:37:30Z",
+      "side": 1,
+      "message": "I am not sure if BeforeClass works well with RunWith.  I got test initialization error if I change to BeforeClass",
+      "parentUuid": "59fb3286_eccf0b3a",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 9
+      },
+      "revId": "e5482d4e7a6424d7b6858c8d51fea307e1533986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59fb3286_cccccf48",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
         "patchSetId": 6
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "9652d921_86baeaf1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-10-21T16:37:30Z",
+      "side": 1,
+      "message": "I have to use final to pass it into the AbstractModule.configure()",
+      "parentUuid": "59fb3286_cccccf48",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 9
+      },
+      "revId": "e5482d4e7a6424d7b6858c8d51fea307e1533986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59fb3286_2c8d9309",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
         "patchSetId": 6
@@ -82,6 +130,30 @@
       "writtenOn": "2015-10-21T02:45:59Z",
       "side": 1,
       "message": "Using google truth, this would be:\n\n assertThat(identifiedUser.hasEmailAddress(\"\")).isTrue();",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 51
+      },
+      "revId": "e5482d4e7a6424d7b6858c8d51fea307e1533986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9652d921_46ce3295",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-10-21T16:37:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59fb3286_2c8d9309",
       "range": {
         "startLine": 112,
         "startChar": 4,
@@ -128,6 +200,30 @@
       "writtenOn": "2015-10-21T02:45:59Z",
       "side": 1,
       "message": "I would define this as a constant.  Use it directly here, and with .toLower() on the following line.",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 90
+      },
+      "revId": "e5482d4e7a6424d7b6858c8d51fea307e1533986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9652d921_26c3366d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-10-21T16:37:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d902c2ba_38e7090a",
       "range": {
         "startLine": 119,
         "startChar": 23,

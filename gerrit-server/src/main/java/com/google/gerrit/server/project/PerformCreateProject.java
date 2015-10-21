@@ -71,6 +71,37 @@ public class PerformCreateProject {
     PerformCreateProject create(CreateProjectArgs createProjectArgs);
   }
 
+  private class NewProjectListenerThread extends Thread {
+    private final NewProjectCreatedListener.Event event;
+
+    public NewProjectListenerThread(final String head,
+        final Project.NameKey nameKey) {
+      setName("NewProjectCreatedListener " + nameKey.get());
+      this.event = new NewProjectCreatedListener.Event() {
+        @Override
+        public String getProjectName() {
+          return nameKey.get();
+        }
+
+        @Override
+        public String getHeadName() {
+          return head;
+        }
+      };
+    }
+
+    @Override
+    public void run() {
+      for (NewProjectCreatedListener l : createdListener) {
+        try {
+          l.onNewProjectCreated(event);
+        } catch (RuntimeException e) {
+          log.warn("Failure in NewProjectCreatedListener", e);
+        }
+      }
+    }
+  }
+
   private final Config cfg;
   private final Set<AccountGroup.UUID> projectOwnerGroups;
   private final IdentifiedUser currentUser;
@@ -125,24 +156,7 @@ public class PerformCreateProject {
           createEmptyCommits(repo, nameKey, createProjectArgs.branch);
         }
 
-        NewProjectCreatedListener.Event event = new NewProjectCreatedListener.Event() {
-          @Override
-          public String getProjectName() {
-            return nameKey.get();
-          }
-
-          @Override
-          public String getHeadName() {
-            return head;
-          }
-        };
-        for (NewProjectCreatedListener l : createdListener) {
-          try {
-            l.onNewProjectCreated(event);
-          } catch (RuntimeException e) {
-            log.warn("Failure in NewProjectCreatedListener", e);
-          }
-        }
+        new NewProjectListenerThread(head, nameKey).start();
 
         return projectCache.get(nameKey).getProject();
       } finally {

@@ -18,6 +18,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -253,6 +254,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       changeMessages = parser.buildMessages();
       comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
+      change.setTopic(Strings.emptyToNull(parser.topic));
 
       if (parser.hashtags != null) {
         hashtags = ImmutableSet.copyOf(parser.hashtags);

@@ -15,6 +15,8 @@
 package com.google.gerrit.gpg;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.gpg.testutil.TestKeys.keyRevokedByExpiredKeyAfterExpiration;
+import static com.google.gerrit.gpg.testutil.TestKeys.keyRevokedByExpiredKeyBeforeExpiration;
 import static com.google.gerrit.gpg.testutil.TestKeys.revokedCompromisedKey;
 import static com.google.gerrit.gpg.testutil.TestKeys.revokedNoLongerUsedKey;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithExpiration;
@@ -50,7 +52,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -87,7 +91,17 @@ public class PublicKeyCheckerTest {
 
   @Test
   public void keyExpiringInFuture() throws Exception {
-    assertProblems(validKeyWithExpiration());
+    TestKey k = validKeyWithExpiration();
+
+    PublicKeyChecker checker = new PublicKeyChecker()
+        .setStore(store);
+    assertProblems(checker, k);
+
+    checker.setEffectiveTime(parseDate("2015-07-10 12:00:00 -0400"));
+    assertProblems(checker, k);
+
+    checker.setEffectiveTime(parseDate("2075-07-10 12:00:00 -0400"));
+    assertProblems(checker, k, "Key is expired");
   }
 
   @Test
@@ -201,6 +215,24 @@ public class PublicKeyCheckerTest {
   }
 
   @Test
+  public void revokedKeyDueToCompromiseRevokesKeyRetroactively()
+      throws Exception {
+    TestKey k = add(revokedCompromisedKey());
+    add(validKeyWithoutExpiration());
+    save();
+
+    String problem =
+        "Key is revoked (key material has been compromised): test6 compromised";
+    assertProblems(k, problem);
+
+    SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+    PublicKeyChecker checker = new PublicKeyChecker()
+        .setStore(store)
+        .setEffectiveTime(df.parse("2010-01-01 12:00:00"));
+    assertProblems(checker, k, problem);
+  }
+
+  @Test
   public void revokedByKeyNotPresentInStore() throws Exception {
     TestKey k = add(revokedCompromisedKey());
     save();
@@ -216,6 +248,49 @@ public class PublicKeyCheckerTest {
 
     assertProblems(k,
         "Key is revoked (retired and no longer valid): test7 not used");
+  }
+
+  @Test
+  public void revokedKeyDueToNoLongerBeingUsedDoesNotRevokeKeyRetroactively()
+      throws Exception {
+    TestKey k = add(revokedNoLongerUsedKey());
+    add(validKeyWithoutExpiration());
+    save();
+
+    assertProblems(k,
+        "Key is revoked (retired and no longer valid): test7 not used");
+
+    PublicKeyChecker checker = new PublicKeyChecker()
+        .setStore(store)
+        .setEffectiveTime(parseDate("2010-01-01 12:00:00 -0400"));
+    assertProblems(checker, k);
+  }
+
+  @Test
+  public void keyRevokedByExpiredKeyAfterExpirationIsNotRevoked()
+      throws Exception {
+    TestKey k = add(keyRevokedByExpiredKeyAfterExpiration());
+    add(TestKeys.expiredKey());
+    save();
+
+    PublicKeyChecker checker = new PublicKeyChecker().setStore(store);
+    assertProblems(checker, k);
+  }
+
+  @Test
+  public void keyRevokedByExpiredKeyBeforeExpirationIsRevoked()
+      throws Exception {
+    TestKey k = add(keyRevokedByExpiredKeyBeforeExpiration());
+    add(TestKeys.expiredKey());
+    save();
+
+    PublicKeyChecker checker = new PublicKeyChecker().setStore(store);
+    assertProblems(checker, k,
+        "Key is revoked (retired and no longer valid): test9 not used");
+
+    // Set time between key creation and revocation.
+    checker.setEffectiveTime(parseDate("2005-08-01 13:00:00 -0400"));
+    assertProblems(checker, k);
   }
 
   private PGPPublicKeyRing removeRevokers(PGPPublicKeyRing kr) {
@@ -284,5 +359,9 @@ public class PublicKeyCheckerTest {
   private static String notTrusted(TestKey k) {
     return "Certification by " + keyToString(k.getPublicKey())
         + " is valid, but key is not trusted";
+  }
+
+  private static Date parseDate(String str) throws Exception {
+    return new SimpleDateFormat("YYYY-MM-dd HH:mm:ss Z").parse(str);
   }
 }

@@ -54,10 +54,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class PublicKeyCheckerTest {
@@ -87,7 +90,7 @@ public class PublicKeyCheckerTest {
 
   @Test
   public void validKey() throws Exception {
-    assertProblems(validKeyWithoutExpiration());
+    assertNoProblems(validKeyWithoutExpiration());
   }
 
   @Test
@@ -96,10 +99,10 @@ public class PublicKeyCheckerTest {
 
     PublicKeyChecker checker = new PublicKeyChecker()
         .setStore(store);
-    assertProblems(checker, k);
+    assertNoProblems(checker, k);
 
     checker.setEffectiveTime(parseDate("2015-07-10 12:00:00 -0400"));
-    assertProblems(checker, k);
+    assertNoProblems(checker, k);
 
     checker.setEffectiveTime(parseDate("2075-07-10 12:00:00 -0400"));
     assertProblems(checker, k, "Key is expired");
@@ -138,10 +141,10 @@ public class PublicKeyCheckerTest {
     save();
 
     PublicKeyChecker checker = newChecker(2, kb, kd);
-    assertProblems(checker, ka);
+    assertNoProblems(checker, ka);
     assertProblems(checker, kb, "Key is expired");
-    assertProblems(checker, kc);
-    assertProblems(checker, kd);
+    assertNoProblems(checker, kc);
+    assertNoProblems(checker, kd);
     assertProblems(checker, ke, "Key is expired", "No path to a trusted key");
   }
 
@@ -192,7 +195,7 @@ public class PublicKeyCheckerTest {
 
     // J trusts I to a depth of 1, so I itself is valid, but I's certification
     // of K is not valid.
-    assertProblems(checker, ki);
+    assertNoProblems(checker, ki);
     assertProblems(checker, kh,
         "No path to a trusted key", notTrusted(ki));
   }
@@ -212,7 +215,7 @@ public class PublicKeyCheckerTest {
     save();
 
     // Key no longer specified as revoker.
-    assertProblems(kr.getPublicKey());
+    assertNoProblems(kr.getPublicKey());
   }
 
   @Test
@@ -238,7 +241,7 @@ public class PublicKeyCheckerTest {
     TestKey k = add(revokedCompromisedKey());
     save();
 
-    assertProblems(k);
+    assertNoProblems(k);
   }
 
   @Test
@@ -264,7 +267,7 @@ public class PublicKeyCheckerTest {
     PublicKeyChecker checker = new PublicKeyChecker()
         .setStore(store)
         .setEffectiveTime(parseDate("2010-01-01 12:00:00 -0400"));
-    assertProblems(checker, k);
+    assertNoProblems(checker, k);
   }
 
   @Test
@@ -275,7 +278,7 @@ public class PublicKeyCheckerTest {
     save();
 
     PublicKeyChecker checker = new PublicKeyChecker().setStore(store);
-    assertProblems(checker, k);
+    assertNoProblems(checker, k);
   }
 
   @Test
@@ -291,7 +294,7 @@ public class PublicKeyCheckerTest {
 
     // Set time between key creation and revocation.
     checker.setEffectiveTime(parseDate("2005-08-01 13:00:00 -0400"));
-    assertProblems(checker, k);
+    assertNoProblems(checker, k);
   }
 
   private PGPPublicKeyRing removeRevokers(PGPPublicKeyRing kr) {
@@ -340,30 +343,38 @@ public class PublicKeyCheckerTest {
   }
 
   private void assertProblems(PublicKeyChecker checker, TestKey k,
-      String... expected) {
-    if (expected.length == 0) {
-      throw new IllegalArgumentException("Use assertNoProblems");
-    }
+      String first, String... rest) {
     CheckResult result = checker.setStore(store)
         .check(k.getPublicKey());
-    assertEquals(Arrays.asList(expected), result.getProblems());
+    assertEquals(list(first, rest), result.getProblems());
   }
 
-  private void assertProblems(TestKey tk, String... expected) throws Exception {
-    if (expected.length == 0) {
-      throw new IllegalArgumentException("Use assertNoProblems");
-    }
-    assertProblems(tk.getPublicKey(), expected);
+  private void assertNoProblems(PublicKeyChecker checker, TestKey k) {
+    CheckResult result = checker.setStore(store)
+        .check(k.getPublicKey());
+    assertEquals(Collections.emptyList(), result.getProblems());
   }
 
-  private void assertProblems(PGPPublicKey k, String... expected) throws Exception {
-    if (expected.length == 0) {
-      throw new IllegalArgumentException("Use assertNoProblems");
-    }
+  private void assertProblems(TestKey tk, String first, String... rest) {
+    assertProblems(tk.getPublicKey(), first, rest);
+  }
+
+  private void assertNoProblems(TestKey tk) {
+    assertNoProblems(tk.getPublicKey());
+  }
+
+  private void assertProblems(PGPPublicKey k, String first, String... rest) {
     CheckResult result = new PublicKeyChecker()
         .setStore(store)
         .check(k);
-    assertEquals(Arrays.asList(expected), result.getProblems());
+    assertEquals(list(first, rest), result.getProblems());
+  }
+
+  private void assertNoProblems(PGPPublicKey k) {
+    CheckResult result = new PublicKeyChecker()
+        .setStore(store)
+        .check(k);
+    assertEquals(Collections.emptyList(), result.getProblems());
   }
 
   private static String notTrusted(TestKey k) {
@@ -373,5 +384,12 @@ public class PublicKeyCheckerTest {
 
   private static Date parseDate(String str) throws Exception {
     return new SimpleDateFormat("YYYY-MM-dd HH:mm:ss Z").parse(str);
+  }
+
+  private static List<String> list(String first, String[] rest) {
+    List<String> all = new ArrayList<>();
+    all.add(first);
+    all.addAll(Arrays.asList(rest));
+    return all;
   }
 }

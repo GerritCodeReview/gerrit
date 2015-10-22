@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "76a9e55d_25af8ebb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/DiffPreferencesIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T22:18:38Z",
+      "side": 1,
+      "message": "Is this worth the effort to switch between database and Git for this one single change? I mean, it was tested from the database before this change and it woked (removed test in GetDiffPreferencesIT.java). AccountDiffPreference table will be removed in the next change. That why I thought it would be sufficient to restrict this test to future and not the past?",
+      "parentUuid": "567a21ab_54f26ccc",
+      "revId": "7614807e69b57639a3b2d4b514a836c7aa6e8368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567a21ab_74f768bb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
         "patchSetId": 30
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-22T20:44:08Z",
       "side": 1,
       "message": "Delete.",
+      "revId": "7614807e69b57639a3b2d4b514a836c7aa6e8368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_64a58adb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T22:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "567a21ab_74f768bb",
       "revId": "7614807e69b57639a3b2d4b514a836c7aa6e8368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "76a9e55d_c5b31a22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T22:18:38Z",
+      "side": 1,
+      "message": "Done. I didn\u0027t replaced the hard coded values in AccountDiffPreference, because this file will be removed in the follow-up change.",
+      "parentUuid": "767ba5ad_f5d93855",
+      "revId": "7614807e69b57639a3b2d4b514a836c7aa6e8368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567a21ab_14fcf49a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 30
@@ -64,6 +118,24 @@
       "writtenOn": "2015-10-22T20:44:08Z",
       "side": 1,
       "message": "I don\u0027t think this actually changes the serialization format. The old values remain valid, it\u0027s just a slightly different implementation of writeObject/readObject",
+      "revId": "7614807e69b57639a3b2d4b514a836c7aa6e8368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_04aa96aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T22:18:38Z",
+      "side": 1,
+      "message": "Done. Updated the commit message as well.",
+      "parentUuid": "567a21ab_14fcf49a",
       "revId": "7614807e69b57639a3b2d4b514a836c7aa6e8368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

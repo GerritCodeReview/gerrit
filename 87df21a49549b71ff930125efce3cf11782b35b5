@@ -406,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "b690bd0a_5f2dabca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-22T10:29:24Z",
+      "side": 1,
+      "message": "No, I meant that there are many other operations that we only allow when the change is open.  Edit topic, add reviewer, remove reviewer, etc.\n\nI don\u0027t think it\u0027s unreasonable to expect that a change is open before it can be \u0027moved\u0027.",
+      "parentUuid": "168429cb_8220bae4",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_fc050951",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1

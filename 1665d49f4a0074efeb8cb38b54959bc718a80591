@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "96973902_1ea08d99",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T18:17:54Z",
+      "side": 1,
+      "message": "Done.\n\n(I was thinking of this as a method that takes a List\u003cString\u003e as an output parameter, but I realize that is not a very Java way of thinking.)",
+      "parentUuid": "96973902_1ec3ad6c",
+      "range": {
+        "startLine": 194,
+        "startChar": 15,
+        "endLine": 194,
+        "endChar": 30
+      },
+      "revId": "1665d49f4a0074efeb8cb38b54959bc718a80591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b690bd0a_bfd39733",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2015-10-22T02:19:59Z",
       "side": 1,
       "message": "Why +52? Is this in the critical path? This value is likely to be overlooked and get out-of-date if changes/additions are made below.",
+      "range": {
+        "startLine": 292,
+        "startChar": 40,
+        "endLine": 292,
+        "endChar": 58
+      },
+      "revId": "1665d49f4a0074efeb8cb38b54959bc718a80591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96973902_3ea549aa",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T18:17:54Z",
+      "side": 1,
+      "message": "Done. (Part of me still chafes that I know it will blow the default of 16 chars, but nothing I could put here seems particularly justifiable.)",
+      "parentUuid": "b690bd0a_bfd39733",
       "range": {
         "startLine": 292,
         "startChar": 40,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "96973902_de89c528",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T18:17:54Z",
+      "side": 1,
+      "message": "Actually this method ends up being unused, just removed it.",
+      "parentUuid": "96973902_3ec8e983",
+      "range": {
+        "startLine": 132,
+        "startChar": 23,
+        "endLine": 132,
+        "endChar": 27
+      },
+      "revId": "1665d49f4a0074efeb8cb38b54959bc718a80591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96973902_dedc6548",
         "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
         "patchSetId": 2
@@ -83,6 +155,30 @@
       "writtenOn": "2015-10-22T02:19:59Z",
       "side": 1,
       "message": "assertProblems with a single argument means no problems? Much more readable to change to assertNoProblems(key).",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 38
+      },
+      "revId": "1665d49f4a0074efeb8cb38b54959bc718a80591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96973902_fe860118",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T18:17:54Z",
+      "side": 1,
+      "message": "You mentioned this before and I promised a cleanup, which I didn\u0027t deliver on, but will do presently.",
+      "parentUuid": "96973902_dedc6548",
       "range": {
         "startLine": 200,
         "startChar": 0,

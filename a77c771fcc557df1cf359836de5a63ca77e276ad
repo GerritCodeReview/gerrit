@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d68d31f4_00b10619",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T01:37:11Z",
+      "side": 1,
+      "message": "Same name as the test method. Maybe I just rename the test method expiredKeyIsExpired?",
+      "parentUuid": "b690bd0a_1fc3a36c",
+      "range": {
+        "startLine": 87,
+        "startChar": 19,
+        "endLine": 87,
+        "endChar": 40
+      },
+      "revId": "a77c771fcc557df1cf359836de5a63ca77e276ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b690bd0a_bfbab7f1",
         "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
         "patchSetId": 1

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "96973902_5e96154d",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T18:17:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b690bd0a_5fa04bcc",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 46
+      },
+      "revId": "0059846c7ca9c73c1d37e9de13c7a831778f6f22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b690bd0a_7fa50fdb",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-22T01:25:47Z",
       "side": 1,
       "message": "Most Builders don\u0027t bother with @params \u0026 @returns. Those that do often \"@return a reference to this object\"",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 20
+      },
+      "revId": "0059846c7ca9c73c1d37e9de13c7a831778f6f22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96973902_7e9bd171",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T18:17:44Z",
+      "side": 1,
+      "message": "Done, except for one case (PublicKeyChecker#enableTrust) where I thought @params needed explanation. On that method I left @return for completeness.",
+      "parentUuid": "b690bd0a_7fa50fdb",
       "range": {
         "startLine": 123,
         "startChar": 0,

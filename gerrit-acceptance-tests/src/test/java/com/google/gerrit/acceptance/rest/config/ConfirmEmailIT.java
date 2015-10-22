@@ -20,23 +20,12 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ConfirmEmail;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
-import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class ConfirmEmailIT extends AbstractDaemonTest {
-  @ConfigSuite.Default
-  public static Config defaultConfig() {
-    Config cfg = new Config();
-    cfg.setString("auth", null, "registerEmailPrivateKey",
-        SignedToken.generateRandomKey());
-    return cfg;
-  }
-
   @Inject
   private EmailTokenVerifier emailTokenVerifier;
 

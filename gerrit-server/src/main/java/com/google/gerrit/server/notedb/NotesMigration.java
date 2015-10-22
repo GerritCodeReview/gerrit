@@ -84,11 +84,15 @@ public class NotesMigration {
 
   public static Config allEnabledConfig() {
     Config cfg = new Config();
+    setAllEnabledConfig(cfg);
+    return cfg;
+  }
+
+  public static void setAllEnabledConfig(Config cfg) {
     for (Table t : Table.values()) {
       cfg.setBoolean(NOTEDB, t.key(), WRITE, true);
       cfg.setBoolean(NOTEDB, t.key(), READ, true);
     }
-    return cfg;
   }
 
   private final boolean writeChanges;

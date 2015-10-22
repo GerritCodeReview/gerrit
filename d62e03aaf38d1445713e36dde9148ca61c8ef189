@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "7692c515_1dc3b36c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-10-22T15:39:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96973902_5e1b75ba",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 49
+      },
+      "revId": "d62e03aaf38d1445713e36dde9148ca61c8ef189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96973902_7e20b1e3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
         "patchSetId": 7
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "d68d31f4_20c3ea6c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-10-22T15:39:17Z",
+      "side": 1,
+      "message": "Probably not.  I was using another test as reference and I think I copied too much :P",
+      "parentUuid": "96973902_7e20b1e3",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "d62e03aaf38d1445713e36dde9148ca61c8ef189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b690bd0a_5f1b6bba",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
         "patchSetId": 7
@@ -82,6 +130,30 @@
       "writtenOn": "2015-10-22T06:44:20Z",
       "side": 1,
       "message": "Type arguments are not necessary in Java 7.",
+      "range": {
+        "startLine": 67,
+        "startChar": 43,
+        "endLine": 67,
+        "endChar": 49
+      },
+      "revId": "d62e03aaf38d1445713e36dde9148ca61c8ef189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7692c515_7dce7795",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-10-22T15:39:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b690bd0a_5f1b6bba",
       "range": {
         "startLine": 67,
         "startChar": 43,

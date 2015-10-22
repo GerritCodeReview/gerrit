@@ -14,7 +14,6 @@
 
 package com.google.gerrit.gpg;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.gpg.GerritPublicKeyChecker.toExtIdKey;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
@@ -67,6 +66,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -433,11 +433,13 @@ public class GerritPublicKeyCheckerTest {
   }
 
   private void assertProblems(CheckResult result, Status expectedStatus,
-      String... expectedProblems) throws Exception {
-    checkArgument(expectedProblems.length > 0);
+      String first, String... rest) throws Exception {
+    List<String> expectedProblems = new ArrayList<>();
+    expectedProblems.add(first);
+    expectedProblems.addAll(Arrays.asList(rest));
     assertThat(result.getStatus()).isEqualTo(expectedStatus);
     assertThat(result.getProblems())
-        .containsExactly((Object[]) expectedProblems)
+        .containsExactlyElementsIn(expectedProblems)
         .inOrder();
   }
 

@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "36476d69_434986a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-10-22T10:22:42Z",
+      "side": 1,
+      "message": "well, the right approach would be of course an ssh transport for the REST api, plus an associated front-end script for commands that make sense on the command line. then the old api could be actually deprecated, and there would be no need to separately \"bridge\" each new functionality server-side.",
+      "parentUuid": "762485ad_adeffddd",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_3c477190",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -258,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "168429cb_621b36bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-10-22T10:22:42Z",
+      "side": 1,
+      "message": "well, my point was that merges don\u0027t seem all that special when you consider the other \"edge cases\" - which you really should.",
+      "parentUuid": "762485ad_8dec41ea",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffefa6f_12f6ecbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -346,6 +382,24 @@
       "side": 1,
       "message": "AFAIK this is consistent with how we treat abandoned changes in other cases.",
       "parentUuid": "79c556cc_c5537a4e",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "168429cb_8220bae4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-10-22T10:22:42Z",
+      "side": 1,
+      "message": "i\u0027ll assume that you mean mostly pushing new changesets here, as that seems the most pertinent case i can think of. i guess one can argue that way, though the push behavior can be questioned as well - it would make more sense if there was also a \"deferred\" state which is considered non-final (we patched that into our gerrit on qt-project), while \"abandoned\" would be really terminal. anyway...",
+      "parentUuid": "59c412d2_e4131a9f",
       "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

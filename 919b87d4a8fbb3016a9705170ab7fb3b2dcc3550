@@ -22,6 +22,30 @@
       "revId": "919b87d4a8fbb3016a9705170ab7fb3b2dcc3550",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36476d69_63f242cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-22T07:10:53Z",
+      "side": 1,
+      "message": "Good idea, I added a test that covers the issue fixed by this change.",
+      "parentUuid": "99ca0add_a62be6b8",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "919b87d4a8fbb3016a9705170ab7fb3b2dcc3550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

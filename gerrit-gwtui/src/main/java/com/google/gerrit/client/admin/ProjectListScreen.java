@@ -26,6 +26,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.PagingHyperlink;
 import com.google.gerrit.client.ui.ProjectSearchLink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.common.PageLinks;
@@ -76,10 +77,10 @@ public class ProjectListScreen extends PaginatedProjectScreen {
     setPageTitle(Util.C.projectListTitle());
     initPageHeader();
 
-    prev = new Hyperlink(Util.C.pagedListPrev(), true, "");
+    prev = PagingHyperlink.createPrev();
     prev.setVisible(false);
 
-    next = new Hyperlink(Util.C.pagedListNext(), true, "");
+    next = PagingHyperlink.createNext();
     next.setVisible(false);
 
     projects = new ProjectsTable() {

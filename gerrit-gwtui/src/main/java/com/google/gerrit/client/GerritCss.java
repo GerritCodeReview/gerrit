@@ -29,6 +29,7 @@ public interface GerritCss extends CssResource {
   String addWatchPanel();
   String avatarInfoPanel();
   String bottomheader();
+  String branchTableDeleteButton();
   String branchTablePrevNextLinks();
   String cAPPROVAL();
   String cLastUpdate();
@@ -141,6 +142,7 @@ public interface GerritCss extends CssResource {
   String needsReview();
   String negscore();
   String noborder();
+  String pagingLink();
   String patchBrowserPopup();
   String patchBrowserPopupBody();
   String patchCellReverseDiff();

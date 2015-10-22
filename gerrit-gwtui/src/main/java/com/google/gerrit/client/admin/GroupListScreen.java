@@ -20,6 +20,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.PagingHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -97,10 +98,10 @@ public class GroupListScreen extends Screen {
     setPageTitle(Util.C.groupListTitle());
     initPageHeader();
 
-    prev = new Hyperlink(Util.C.pagedListPrev(), true, "");
+    prev = PagingHyperlink.createPrev();
     prev.setVisible(false);
 
-    next = new Hyperlink(Util.C.pagedListNext(), true, "");
+    next = PagingHyperlink.createNext();
     next.setVisible(false);
 
     groups = new GroupTable(PageLinks.ADMIN_GROUPS);

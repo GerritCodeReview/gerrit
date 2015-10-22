@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36476d69_23aa0aab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T03:52:52Z",
+      "side": 1,
+      "message": "Why would plugin do something like that?",
+      "revId": "3fa98060cfa53ae913964c3faf5abff01bded2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "168429cb_22aa0eab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T03:52:52Z",
+      "side": 1,
+      "message": "Provide stack trace? You could paste it in paste.openstack.org and add a link to the commit message.",
+      "revId": "3fa98060cfa53ae913964c3faf5abff01bded2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

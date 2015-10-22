@@ -73,6 +73,11 @@ import java.util.Map;
  * @param <T> type of object the predicates can evaluate in memory.
  */
 public abstract class QueryBuilder<T> {
+  /** Converts a value string passed to an operator into a {@link Predicate}. */
+  public interface OperatorFactory<T, Q extends QueryBuilder<T>> {
+    Predicate<T> create(Q builder, String value) throws QueryParseException;
+  }
+
   /**
    * Defines the operators known by a QueryBuilder.
    *
@@ -162,7 +167,7 @@ public abstract class QueryBuilder<T> {
   protected final Definition<T, ? extends QueryBuilder<T>> builderDef;
 
   @SuppressWarnings("rawtypes")
-  private final Map<String, OperatorFactory> opFactories;
+  protected final Map<String, OperatorFactory> opFactories;
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   protected QueryBuilder(Definition<T, ? extends QueryBuilder<T>> def) {
@@ -321,11 +326,6 @@ public abstract class QueryBuilder<T> {
 
   protected static QueryParseException error(String msg, Throwable why) {
     return new QueryParseException(msg, why);
-  }
-
-  /** Converts a value string passed to an operator into a {@link Predicate}. */
-  protected interface OperatorFactory<T, Q extends QueryBuilder<T>> {
-    Predicate<T> create(Q builder, String value) throws QueryParseException;
   }
 
   /** Denotes a method which is a query operator. */

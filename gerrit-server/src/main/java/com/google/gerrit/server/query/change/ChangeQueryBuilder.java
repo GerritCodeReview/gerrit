@@ -21,6 +21,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -55,6 +56,7 @@ import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
+import com.google.gerrit.server.query.QueryBuilder.OperatorFactory;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -70,6 +72,7 @@ import org.eclipse.jgit.lib.Repository;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +83,10 @@ import java.util.regex.Pattern;
  * Parses a query string meant to be applied to change objects.
  */
 public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
+  public interface ChangeOperatorFactory
+      extends OperatorFactory<ChangeData, ChangeQueryBuilder> {
+  }
+
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID =
       Pattern.compile("^[iI][0-9a-f]{4,}.*$");
@@ -145,6 +152,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ReviewDb> db;
     final Provider<InternalChangeQuery> queryProvider;
     final IndexRewriter rewriter;
+    final DynamicMap<ChangeOperatorFactory> opFactories;
     final IdentifiedUser.GenericFactory userFactory;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
@@ -172,6 +180,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     public Arguments(Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
         IndexRewriter rewriter,
+        DynamicMap<ChangeOperatorFactory> opFactories,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
@@ -192,7 +201,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
         @GerritServerConfig Config cfg) {
-      this(db, queryProvider, rewriter, userFactory, self,
+      this(db, queryProvider, rewriter, opFactories, userFactory, self,
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
@@ -206,6 +215,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
         IndexRewriter rewriter,
+        DynamicMap<ChangeOperatorFactory> opFactories,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
@@ -229,6 +239,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.db = db;
      this.queryProvider = queryProvider;
      this.rewriter = rewriter;
+     this.opFactories = opFactories;
      this.userFactory = userFactory;
      this.self = self;
      this.capabilityControlFactory = capabilityControlFactory;
@@ -252,7 +263,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     Arguments asUser(CurrentUser otherUser) {
-      return new Arguments(db, queryProvider, rewriter, userFactory,
+      return new Arguments(db, queryProvider, rewriter, opFactories, userFactory,
           Providers.of(otherUser),
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
@@ -304,6 +315,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   ChangeQueryBuilder(Arguments args) {
     super(mydef);
     this.args = args;
+    setupDynamicOperators();
   }
 
   @VisibleForTesting
@@ -312,6 +324,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       Arguments args) {
     super(def);
     this.args = args;
+  }
+
+  private void setupDynamicOperators() {
+    for (DynamicMap.Entry<ChangeOperatorFactory> e : args.opFactories) {
+      String name = e.getExportName() + "_" + e.getPluginName();
+      opFactories.put(name, e.getProvider().get());
+    }
   }
 
   public ChangeQueryBuilder asUser(CurrentUser user) {

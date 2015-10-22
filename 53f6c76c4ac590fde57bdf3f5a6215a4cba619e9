@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "567a21ab_34c81084",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-22T20:05:25Z",
+      "side": 1,
+      "message": "If strs is expected to be pretty small, using ImmutableMap.builder() might be simpler here. Too bad there is no ImmutableMap.builder().size(strs.length) method.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 57
+      },
+      "revId": "53f6c76c4ac590fde57bdf3f5a6215a4cba619e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "36476d69_03014e51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T14:13:21Z",
+      "side": 1,
+      "message": "LifecycleListener\u0027s start event predated secondary index and of course online reindexing. So you cannot rely now that all is up and running. That means that we should reconsider when LifecycleListener start event is triggered and postpone it to be fired when all sub-system were actually initialized.",
+      "parentUuid": "168429cb_82ce7a92",
+      "revId": "3fa98060cfa53ae913964c3faf5abff01bded2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "168429cb_22aa0eab",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "here is the stacktrace http://paste.openstack.org/show/477095/",
       "parentUuid": "168429cb_22aa0eab",
+      "revId": "3fa98060cfa53ae913964c3faf5abff01bded2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36476d69_83d3fe33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T14:13:21Z",
+      "side": 1,
+      "message": "NPE? Error in commit message or wrong stack trace?",
+      "parentUuid": "168429cb_42c87284",
       "revId": "3fa98060cfa53ae913964c3faf5abff01bded2b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "567a21ab_542d8cca",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-10-22T22:03:51Z",
+      "side": 1,
+      "message": "I\u0027m a bit confused by this thrashing between using the factory pattern and not, but this was a long patch set so there is room to get confused :-/\n\nThe intent was to move to builders everywhere, wasn\u0027t it?",
+      "range": {
+        "startLine": 197,
+        "startChar": 72,
+        "endLine": 197,
+        "endChar": 73
+      },
+      "revId": "fc7d396b80f7091b755cc06503b7e389a6999f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

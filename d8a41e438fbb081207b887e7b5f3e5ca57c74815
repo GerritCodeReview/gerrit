@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "767ba5ad_75ce8895",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/SignedPushPreReceiveHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-22T20:11:24Z",
+      "side": 1,
+      "message": "(optional, mostly curious) Is this setting needed, or is it for documentation? IIUC the default is true.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "d8a41e438fbb081207b887e7b5f3e5ca57c74815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

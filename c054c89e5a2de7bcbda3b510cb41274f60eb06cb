@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "767ba5ad_5544ac8c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-22T22:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b690bd0a_ff0b5f65",
+      "range": {
+        "startLine": 55,
+        "startChar": 38,
+        "endLine": 55,
+        "endChar": 46
+      },
+      "revId": "c054c89e5a2de7bcbda3b510cb41274f60eb06cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96973902_fe0b6165",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2015-10-22T07:18:52Z",
       "side": 1,
       "message": "If omitDuplicateComments is false we should avoid this database query and just the list to null.\n\nBut to avoid the O(N^2) duplicate check we should build a map with a helper method:\n\n  Set\u003cString\u003e existingIds \u003d in.omitDuplicateComments\n      ? readExistingComments(ctx.getChange().getId())\n      : Collections.\u003cString\u003eemptySet();\n  \n  private Set\u003cString\u003e readExistingComments(Change.Id id) {\n    Set\u003cString\u003e r \u003d new HashSet\u003c\u003e();\n    for (PatchLineComment c : plcUtil.publishedByChange(\n        ctx.getDb(), ctx.getChangeNotes())) {\n      r.add(c.getKey().get());\n    }\n    return r;\n  }\n\nThen in our loop just below we can say:\n\n  String cId \u003d Url.decode(c.id);\n  if (existingIds.contains(cId)) {\n    continue;\n  }",
+      "revId": "c054c89e5a2de7bcbda3b510cb41274f60eb06cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_342c90cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-22T22:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96973902_fe0b6165",
       "revId": "c054c89e5a2de7bcbda3b510cb41274f60eb06cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_d440bc6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-22T22:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96973902_9e081d6b",
+      "revId": "c054c89e5a2de7bcbda3b510cb41274f60eb06cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b690bd0a_9f08136b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 2
@@ -70,6 +130,30 @@
       "writtenOn": "2015-10-22T07:18:52Z",
       "side": 1,
       "message": "Needs a Url.decode(c.id) here to match what is in the database, e.g. see line 390 above.",
+      "range": {
+        "startLine": 446,
+        "startChar": 15,
+        "endLine": 446,
+        "endChar": 19
+      },
+      "revId": "c054c89e5a2de7bcbda3b510cb41274f60eb06cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_7549a8a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-22T22:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b690bd0a_9f08136b",
       "range": {
         "startLine": 446,
         "startChar": 15,

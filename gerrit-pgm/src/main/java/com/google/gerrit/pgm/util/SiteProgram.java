@@ -145,7 +145,8 @@ public abstract class SiteProgram extends AbstractProgram {
       @Override
       protected void configure() {
         bind(DataSourceType.class).toInstance(dst);
-      }});
+      }
+    });
     modules.add(new DatabaseModule());
     modules.add(new SchemaModule());
     modules.add(new LocalDiskRepositoryManager.Module());

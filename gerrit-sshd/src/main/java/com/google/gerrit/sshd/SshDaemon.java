@@ -712,7 +712,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           @Override
           public FileSystemView getNormalizedView() {
             return this;
-          }};
+          }
+        };
       }
     });
   }

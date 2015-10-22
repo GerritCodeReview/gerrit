@@ -401,7 +401,8 @@ public class CommentsTest  {
       @Override
       public ResultSet<PatchLineComment> answer() throws Throwable {
         return new ListResultSet<>(Lists.newArrayList(comments));
-      }};
+      }
+    };
   }
 
   private void assertListComments(RevisionResource res,

@@ -94,9 +94,12 @@ public class GetSummary implements RestReadView<ConfigResource> {
     int tasksSleeping = 0;
     for (Task<?> task : pending) {
       switch (task.getState()) {
-        case RUNNING: tasksRunning++; break;
-        case READY: tasksReady++; break;
-        case SLEEPING: tasksSleeping++; break;
+        case RUNNING: tasksRunning++;
+          break;
+        case READY: tasksReady++;
+          break;
+        case SLEEPING: tasksSleeping++;
+          break;
         case CANCELLED:
         case DONE:
         case OTHER:

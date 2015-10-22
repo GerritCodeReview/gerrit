@@ -158,7 +158,8 @@ class ReplyBox extends Composite {
       @Override
       public void execute() {
         message.setFocus(true);
-      }});
+      }
+    });
     Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
       @Override
       public boolean execute() {
@@ -167,7 +168,8 @@ class ReplyBox extends Composite {
           message.setCursorPos(t.length());
         }
         return false;
-      }}, 0);
+      }
+    }, 0);
   }
 
   @UiHandler("post")

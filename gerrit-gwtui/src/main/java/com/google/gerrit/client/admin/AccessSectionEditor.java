@@ -163,7 +163,8 @@ public class AccessSectionEditor extends Composite implements
       @Override
       public void execute() {
         name.setFocus(true);
-      }});
+      }
+    });
   }
 
   void enableEditing() {

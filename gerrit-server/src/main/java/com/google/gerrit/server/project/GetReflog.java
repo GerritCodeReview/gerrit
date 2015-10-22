@@ -106,7 +106,8 @@ public class GetReflog implements RestReadView<BranchResource> {
         @Override
         public ReflogEntryInfo apply(ReflogEntry e) {
           return new ReflogEntryInfo(e);
-        }});
+        }
+      });
     }
   }
 

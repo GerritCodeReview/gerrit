@@ -47,6 +47,30 @@
       "revId": "9e0e003c344bd62b29b88b5c3cfca1b30918b10d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b690bd0a_7f498fa1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-22T07:30:11Z",
+      "side": 1,
+      "message": "IMHO it would be useful to do that first, and then add all the bug fix commits on top of it. For example I have a change up for review that adds notedb config in the submit tests, and exposes a bug in change-merged dispatching [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/63660/",
+      "parentUuid": "36476d69_a3ef1ade",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 4
+      },
+      "revId": "9e0e003c344bd62b29b88b5c3cfca1b30918b10d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

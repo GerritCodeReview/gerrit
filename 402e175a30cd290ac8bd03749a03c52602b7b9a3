@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36476d69_e3dcf247",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyGroupsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T06:26:38Z",
+      "side": 1,
+      "message": "Is this controversial change? I personally liked base version more, and would format it that way, when I would write similar code.",
+      "revId": "402e175a30cd290ac8bd03749a03c52602b7b9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

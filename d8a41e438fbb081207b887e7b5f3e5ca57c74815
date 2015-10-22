@@ -22,6 +22,30 @@
       "revId": "d8a41e438fbb081207b887e7b5f3e5ca57c74815",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_b4d3c033",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/SignedPushPreReceiveHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T20:12:20Z",
+      "side": 1,
+      "message": "For documentation.",
+      "parentUuid": "767ba5ad_75ce8895",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "d8a41e438fbb081207b887e7b5f3e5ca57c74815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

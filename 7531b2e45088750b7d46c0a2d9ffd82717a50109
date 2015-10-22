@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "76a9e55d_e5b09617",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_114.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T22:21:49Z",
+      "side": 1,
+      "message": "I did ;-)",
+      "parentUuid": "567a21ab_d4e51c02",
+      "revId": "7531b2e45088750b7d46c0a2d9ffd82717a50109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "767ba5ad_b5d3c033",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_114.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-22T20:48:09Z",
       "side": 1,
       "message": "I think it should be possible to do these all in a single batch update using MetaDataUpdate.Server#create(..., BatchRefUpdate).\n\nBut don\u0027t spend too much time on it. Not going to be a performance difference in a traditional on-disk repo.",
+      "revId": "7531b2e45088750b7d46c0a2d9ffd82717a50109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_c4b31e22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_114.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T22:21:49Z",
+      "side": 1,
+      "message": "Som even on very bis sites we are talking about \u003c10k records, right? So if you would agree, I would prefer to let it as is.",
+      "parentUuid": "767ba5ad_b5d3c033",
       "revId": "7531b2e45088750b7d46c0a2d9ffd82717a50109",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

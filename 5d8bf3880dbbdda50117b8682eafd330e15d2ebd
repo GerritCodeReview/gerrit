@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6bdd594_29af6dbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-22T22:14:21Z",
+      "side": 1,
+      "message": "Okay then the cause is not the FireFox nor the api, but rather the implementation of them in gerrit?",
+      "parentUuid": "76a9e55d_45a08acc",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "5d8bf3880dbbdda50117b8682eafd330e15d2ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56a8615b_44a08ecc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "16bb49a1_2aaf5fbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-22T22:14:21Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "56a8615b_44a08ecc",
+      "range": {
+        "startLine": 10,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "5d8bf3880dbbdda50117b8682eafd330e15d2ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76a9e55d_65a586db",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-10-22T21:59:03Z",
       "side": 1,
       "message": "This bug description doesn\u0027t reflect out problem at all and thus wrong. We don\u0027t care to paste in rich editor. What we do care is to copy from the editor and paste in the terminal (to issue `git clone foo` command, for example). Copy form rich editor works for me as expected in FF 41 on Linux.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "5d8bf3880dbbdda50117b8682eafd330e15d2ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16bb49a1_0aaa9baa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-10-22T22:14:21Z",
+      "side": 1,
+      "message": "Yes I am also confirming that the copy works from the rich editor and pasting back to the editor does not work. Thus I will drop the bug report or re-edit one. Thanks.",
+      "parentUuid": "76a9e55d_65a586db",
       "range": {
         "startLine": 15,
         "startChar": 0,

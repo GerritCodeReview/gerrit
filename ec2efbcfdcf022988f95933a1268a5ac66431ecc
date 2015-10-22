@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "567a21ab_b4374014",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-10-22T23:25:26Z",
+      "side": 1,
+      "message": "This should be documented in ReviewInput part of Documentation/rest-api-changes.txt.",
+      "revId": "ec2efbcfdcf022988f95933a1268a5ac66431ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_f43db8f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-10-22T23:25:26Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "ec2efbcfdcf022988f95933a1268a5ac66431ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_943a44fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-10-22T23:25:26Z",
+      "side": 1,
+      "message": "cId",
+      "range": {
+        "startLine": 390,
+        "startChar": 45,
+        "endLine": 390,
+        "endChar": 61
+      },
+      "revId": "ec2efbcfdcf022988f95933a1268a5ac66431ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

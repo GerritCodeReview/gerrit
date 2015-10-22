@@ -12,12 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// The above license applies to this file, whereas the below license applies to
+// clipboard-16.png as used herein.
+
+// The MIT License (MIT)
+//
+// Copyright (c) 2014 Drifty (http://drifty.com/)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 package com.google.gwtexpui.clippy.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.client.DataResource.DoNotEmbed;
+import com.google.gwt.resources.client.ImageResource;
 
 public interface ClippyResources extends ClientBundle {
   public static final ClippyResources I = GWT.create(ClippyResources.class);
@@ -28,4 +54,7 @@ public interface ClippyResources extends ClientBundle {
   @Source("clippy.swf")
   @DoNotEmbed
   DataResource swf();
+
+  @Source("clipboard-16.png")
+  ImageResource clipboard();
 }

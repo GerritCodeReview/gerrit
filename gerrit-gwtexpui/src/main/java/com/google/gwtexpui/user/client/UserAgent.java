@@ -49,7 +49,8 @@ public class UserAgent {
 
     int ff = major(ua, "Firefox/");
     if (ff > 0) {
-      return 41 <= ff;
+      //TODO: We will wait until a compatible version of FF is available.
+      return false;//41 <= ff;
     }
 
     int opera = major(ua, "OPR/");

@@ -49,8 +49,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class PushCertificateCheckerTest {
   private InMemoryRepository repo;
@@ -98,7 +101,7 @@ public class PushCertificateCheckerTest {
   public void validCert() throws Exception {
     PushCertificate cert =
         newSignedCert(validNonce(), validKeyWithoutExpiration());
-    assertProblems(cert);
+    assertNoProblems(cert);
   }
 
   @Test
@@ -113,7 +116,7 @@ public class PushCertificateCheckerTest {
     checker = newChecker(false);
     PushCertificate cert =
         newSignedCert("invalid-nonce", validKeyWithoutExpiration());
-    assertProblems(cert);
+    assertNoProblems(cert);
   }
 
   @Test
@@ -139,7 +142,7 @@ public class PushCertificateCheckerTest {
     Date now = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss Z")
         .parse("2005-07-10 12:00:00 -0400");
     PushCertificate cert = newSignedCert(validNonce(), key3, now);
-    assertProblems(cert);
+    assertNoProblems(cert);
   }
 
   private String validNonce() {
@@ -193,9 +196,17 @@ public class PushCertificateCheckerTest {
     return parser.parse(reader);
   }
 
-  private void assertProblems(PushCertificate cert, String... expected)
-      throws Exception {
+  private void assertProblems(PushCertificate cert, String first,
+      String... rest) throws Exception {
+    List<String> expected = new ArrayList<>();
+    expected.add(first);
+    expected.addAll(Arrays.asList(rest));
     CheckResult result = checker.check(cert).getCheckResult();
-    assertEquals(Arrays.asList(expected), result.getProblems());
+    assertEquals(expected, result.getProblems());
+  }
+
+  private void assertNoProblems(PushCertificate cert) {
+    CheckResult result = checker.check(cert).getCheckResult();
+    assertEquals(Collections.emptyList(), result.getProblems());
   }
 }

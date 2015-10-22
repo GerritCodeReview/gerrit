@@ -47,7 +47,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -388,7 +387,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             continue;
           }
           String parent = Url.decode(c.inReplyTo);
-          PatchLineComment e = drafts.remove(Url.decode(c.id));
+          PatchLineComment e = drafts.remove(cId);
           if (e == null) {
             e = new PatchLineComment(
                 new PatchLineComment.Key(

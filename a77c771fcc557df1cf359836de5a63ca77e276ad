@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "96973902_9ebd7dee",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-10-22T01:41:33Z",
+      "side": 1,
+      "message": "Ah. Renaming the test SGTM.",
+      "parentUuid": "d68d31f4_00b10619",
+      "range": {
+        "startLine": 87,
+        "startChar": 19,
+        "endLine": 87,
+        "endChar": 40
+      },
+      "revId": "a77c771fcc557df1cf359836de5a63ca77e276ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b690bd0a_bfbab7f1",
         "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
         "patchSetId": 1

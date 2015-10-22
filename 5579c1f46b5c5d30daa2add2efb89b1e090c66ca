@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "567a21ab_f4e298f7",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-22T20:59:51Z",
+      "side": 1,
+      "message": "Should this condition log?",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 21
+      },
+      "revId": "5579c1f46b5c5d30daa2add2efb89b1e090c66ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_75f768bb",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-22T20:59:51Z",
+      "side": 1,
+      "message": "Can reason be null? If not, what should happen if getRevocationReason returns null?",
+      "range": {
+        "startLine": 285,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 65
+      },
+      "revId": "5579c1f46b5c5d30daa2add2efb89b1e090c66ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_541b4cba",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-22T20:59:51Z",
+      "side": 1,
+      "message": "Could this share code with get(long keyId)?\n\nE.g. if there were a private function get(long keyId, byte[] fingerprint) that checks the fingerprint if it is non-null then this could be\n\n return get(Fingerprint.getId(fingerprint), fingerprint);\n\nand the other could be\n\n return get(keyId, null);",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 49
+      },
+      "revId": "5579c1f46b5c5d30daa2add2efb89b1e090c66ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

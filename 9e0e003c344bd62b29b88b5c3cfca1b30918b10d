@@ -71,6 +71,30 @@
       "revId": "9e0e003c344bd62b29b88b5c3cfca1b30918b10d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "168429cb_42015250",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-22T08:04:40Z",
+      "side": 1,
+      "message": "Ok, but I can only start looking into this next week.",
+      "parentUuid": "b690bd0a_7f498fa1",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 4
+      },
+      "revId": "9e0e003c344bd62b29b88b5c3cfca1b30918b10d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

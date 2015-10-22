@@ -83,7 +83,7 @@ public class PublicKeyStore implements AutoCloseable {
    * @param sig signature object.
    * @param data signed payload.
    * @return the key chosen from {@code keyRings} that was able to verify the
-   *     signature, or null if none was found.
+   *     signature, or {@code null} if none was found.
    * @throws PGPException if an error occurred verifying the signature.
    */
   public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
@@ -107,7 +107,7 @@ public class PublicKeyStore implements AutoCloseable {
    * @param userId user ID being certified.
    * @param key key being certified.
    * @return the key chosen from {@code keyRings} that was able to verify the
-   *     certification, or null if none was found.
+   *     certification, or {@code null} if none was found.
    * @throws PGPException if an error occurred verifying the certification.
    */
   public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
@@ -190,7 +190,7 @@ public class PublicKeyStore implements AutoCloseable {
    * the ref, call {@link #close()} first.
    *
    * @param fingerprint key fingerprint.
-   * @return the key if found, or {@code null}.
+   * @return the key if found, or {@code null}}.
    * @throws PGPException if an error occurred parsing the key data.
    * @throws IOException if an error occurred reading the repository data.
    */

@@ -35,30 +35,19 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
-import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(ConfigSuite.class)
 @NoHttpd
 public class VisibleRefFilterIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config noteDbWriteEnabled() {
-    Config cfg = new Config();
-    cfg.setBoolean("notedb", "changes", "write", true);
-    return cfg;
-  }
-
   @Inject
   private ChangeEditModifier editModifier;
 

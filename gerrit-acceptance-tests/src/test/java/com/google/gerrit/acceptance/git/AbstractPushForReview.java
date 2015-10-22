@@ -31,10 +31,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.testutil.ConfigSuite;
 
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
@@ -48,11 +45,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config noteDbEnabled() {
-    return NotesMigration.allEnabledConfig();
-  }
-
   protected enum Protocol {
     // TODO(dborowitz): TEST.
     SSH, HTTP

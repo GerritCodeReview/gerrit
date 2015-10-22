@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.change.ChangeKind.NO_CHANGE;
 import static com.google.gerrit.server.change.ChangeKind.NO_CODE_CHANGE;
 import static com.google.gerrit.server.change.ChangeKind.TRIVIAL_REBASE;
@@ -91,11 +92,13 @@ public class ApprovalCopier {
 
   private Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
       ChangeControl ctl, PatchSet ps) throws OrmException {
+    checkNotNull(ps, "ps should not be null");
     ChangeData cd = changeDataFactory.create(db, ctl);
     try {
       ProjectState project =
           projectCache.checkedGet(cd.change().getDest().getParentKey());
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
+      checkNotNull(all, "all should not be null");
 
       Table<String, Account.Id, PatchSetApproval> byUser =
           HashBasedTable.create();

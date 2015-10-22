@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1445445027 +0200\nnonce AOBGQrhaEA/oJNRPGRdUq8YA5z5oBbA4xPAIup8ignfzEwDmhWqCGUXCjVqVVszkyCqLudJ3tVym\n\n0000000000000000000000000000000000000000 5237d190f3cc0ca822a369609f3bcf9dc676fd8b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWJ72jAAoJEFG1/Zeg0O9R0CAIAMGasW6Tu/HNxpZqxe6SAwtz\n3gSvlDWMy8CkiWWJvx5WZPQBrNFrmgWZ9GIK2X8rXA7dLYt/z/OVcvq9WMJm4HmM\nf7rXtDtYY2zzD12qe1JJ48QHah6J5wsJk1sdapiASs2WbMmX2xi9CkxXvDZdLn6C\nuX02kLXROunKhIA1UOM2m6d3P2o0tJ8rcn4JG33NEU7OJ2HjVvBiv/xwbw7itgTa\naAykbTb27cDWASdoBh/jIIjfmN0P0s760hU2UDZmxtj32RB5QrZ5HZwd1t5qxx+e\nyqyL90AtA2WIFj1ZXcqEN4/OX53tAR5DHeNczkBQsfRaJVE/Zj8gfdakaD87aC8\u003d\n\u003d+Tss\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d68d31f4_20aa0aab",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T01:32:11Z",
+      "side": 1,
+      "message": "Minor nit: I would rather see a private method that returns a StringBuilder to avoid double-allocating here.",
+      "revId": "76046fb53394bff035d05d7e9a8c78537c9ac65c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

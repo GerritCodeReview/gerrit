@@ -201,6 +201,11 @@ public abstract class AbstractDaemonTest {
     }
   };
 
+  @ConfigSuite.Config
+  public static Config noteDbEnabled() {
+    return NotesMigration.allEnabledConfig();
+  }
+
   @Rule
   public TemporaryFolder tempSiteDir = new TemporaryFolder();
 

@@ -22,10 +22,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 
-import org.eclipse.jgit.lib.Config;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
@@ -41,11 +39,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ChangeMessagesIT extends AbstractDaemonTest {
   private String systemTimeZone;
   private volatile long clockStepMs;
-
-  @ConfigSuite.Config
-  public static Config noteDbEnabled() {
-    return NotesMigration.allEnabledConfig();
-  }
 
   @Before
   public void setTimeForTesting() {

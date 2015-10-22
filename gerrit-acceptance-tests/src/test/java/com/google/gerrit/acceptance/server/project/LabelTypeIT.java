@@ -26,22 +26,14 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.Util;
-import com.google.gerrit.testutil.ConfigSuite;
 
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class LabelTypeIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config noteDbEnabled() {
-    return NotesMigration.allEnabledConfig();
-  }
-
   private LabelType codeReview;
 
   @Before

@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_34afb0bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-10-22T19:50:53Z",
+      "side": 1,
+      "message": "I consider it normal policy to require a REST-API for this, and to make the ssh command use the REST-API.  It is not what we implemented because we implemented this on our internal release which didn\u0027t have a stable REST-API.  We uploaded this rebased on master without porting to REST because people were asking about it, and I figured it was a starting place.  We use the non rebased version of this code in production.",
+      "parentUuid": "36476d69_434986a1",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_3c477190",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -294,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_94bd64ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-10-22T19:50:53Z",
+      "side": 1,
+      "message": "I don\u0027t think moving merges make sense.  Merges tend to be about merging some other branch to the current branch.  Such a merge likely does not make a lot of sense destined for another branch.  But I suspect we want to follow whatever policy we use for cherry-picks.  Does master allow cherry-picks of merges (we don\u0027t allow our internal \"copy\" command on merges), if so, does it make sense?",
+      "parentUuid": "168429cb_621b36bb",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ffefa6f_12f6ecbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -424,6 +460,24 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_b4bae0f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-10-22T19:50:53Z",
+      "side": 1,
+      "message": "If you want to move a change, I think you should have to restore it first.  As for drafts, I would like to pretend they just don\u0027t exist. :)   But I guess moving a draft is fine.",
+      "parentUuid": "b690bd0a_5f2dabca",
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4dd2ad_fc050951",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -458,6 +512,30 @@
       "writtenOn": "2015-10-13T06:02:49Z",
       "side": 1,
       "message": "Why use a StringBuilder but initialise it with a concatenation? :)\n\nIt would be neater to add multiple .append calls for these.",
+      "range": {
+        "startLine": 178,
+        "startChar": 38,
+        "endLine": 180,
+        "endChar": 77
+      },
+      "revId": "87df21a49549b71ff930125efce3cf11782b35b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_54c90c8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-10-22T19:50:53Z",
+      "side": 1,
+      "message": "I am not sure I agree with the neater part (I think appends are wordy and harder to read), and I suspect this is just as efficient as a StringBuilder, but changing it is fine.",
+      "parentUuid": "1ffefa6f_72fbf8a7",
       "range": {
         "startLine": 178,
         "startChar": 38,

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.Sets;
 import com.google.common.truth.IterableSubject;
@@ -22,17 +23,15 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
-import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.testutil.ConfigSuite;
 
-import org.eclipse.jgit.lib.Config;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class HashtagsIT extends AbstractDaemonTest {
-  @ConfigSuite.Default
-  public static Config defaultConfig() {
-    return NotesMigration.allEnabledConfig();
+  @Before
+  public void before() {
+    assume().that(notesMigration.enabled()).isTrue();
   }
 
   @Test

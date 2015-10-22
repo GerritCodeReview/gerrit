@@ -20,7 +20,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -172,7 +171,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       AddReviewerInput input = new AddReviewerInput();
       input.reviewer = projectOwners;
       reviewersProvider.get().apply(rsrc, input);
-    } catch (IOException | OrmException | RestApiException | EmailException e) {
+    } catch (IOException | OrmException | RestApiException e) {
       // one of the owner groups is not visible to the user and this it why it
       // can't be added as reviewer
     }
@@ -188,7 +187,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         AddReviewerInput input = new AddReviewerInput();
         input.reviewer = r.getGroup().getUUID().get();
         reviewersProvider.get().apply(rsrc, input);
-      } catch (IOException | OrmException | RestApiException | EmailException e) {
+      } catch (IOException | OrmException | RestApiException e) {
         // ignore
       }
     }

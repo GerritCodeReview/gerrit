@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -85,8 +84,7 @@ public class PublishChangeEdit implements
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Publish.Input in)
-        throws NoSuchProjectException,
-        IOException, InvalidChangeOperationException, OrmException,
+        throws NoSuchProjectException, IOException, OrmException,
         RestApiException, UpdateException {
       Capable r =
           rsrc.getControl().getProjectControl().canPushToAtLeastOneRef();

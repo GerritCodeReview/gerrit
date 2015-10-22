@@ -60,7 +60,7 @@ public class BanCommit implements RestModifyView<ProjectResource, Input> {
   @Override
   public BanResultInfo apply(ProjectResource rsrc, Input input)
       throws UnprocessableEntityException, AuthException,
-      ResourceConflictException, IOException, InterruptedException {
+      ResourceConflictException, IOException {
     BanResultInfo r = new BanResultInfo();
     if (input != null && input.commits != null && !input.commits.isEmpty()) {
       List<ObjectId> commitsToBan = new ArrayList<>(input.commits.size());

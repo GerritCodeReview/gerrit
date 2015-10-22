@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -96,7 +95,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
 
   @Override
   public GroupInfo apply(TopLevelResource resource, GroupInput input)
-      throws AuthException, BadRequestException, UnprocessableEntityException,
+      throws BadRequestException, UnprocessableEntityException,
       ResourceConflictException, OrmException {
     if (input == null) {
       input = new GroupInput();

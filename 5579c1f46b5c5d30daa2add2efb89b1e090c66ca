@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "767ba5ad_f5e298f7",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T21:11:18Z",
+      "side": 1,
+      "message": "I really didn\u0027t know what to do about this case; I couldn\u0027t decide whether it is more likely that such a signature is valid or not. I went with the stricter interpretation: can\u0027t prove it\u0027s valid, so it must be invalid.\n\nI don\u0027t know what good a log would do. Signal to an admin that they should recv-keys into the store?\n\nMaybe it would be nice if we included warnings in the CheckResult that didn\u0027t make it not-OK. I didn\u0027t want to tackle that here.\n\nAll that said I\u0027m still open to suggestions.",
+      "parentUuid": "567a21ab_f4e298f7",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 21
+      },
+      "revId": "5579c1f46b5c5d30daa2add2efb89b1e090c66ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "767ba5ad_75f768bb",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_1415d484",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T21:11:18Z",
+      "side": 1,
+      "message": "getRevocationReason is only ever called on KEY_REVOCATION signatures (should probably actually enforce that for clarity), so it can only be null if that signature does not contain a reason subpacket.\n\nI went back to the RFC and it says \"An implementation SHOULD implement [the revocation reason] subpacket\", which I suppose means I need to handle the case where it doesn\u0027t. Good catch.",
+      "parentUuid": "767ba5ad_75f768bb",
+      "range": {
+        "startLine": 285,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 65
+      },
+      "revId": "5579c1f46b5c5d30daa2add2efb89b1e090c66ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567a21ab_541b4cba",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2015-10-22T20:59:51Z",
       "side": 1,
       "message": "Could this share code with get(long keyId)?\n\nE.g. if there were a private function get(long keyId, byte[] fingerprint) that checks the fingerprint if it is non-null then this could be\n\n return get(Fingerprint.getId(fingerprint), fingerprint);\n\nand the other could be\n\n return get(keyId, null);",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 49
+      },
+      "revId": "5579c1f46b5c5d30daa2add2efb89b1e090c66ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_95efa4de",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T21:11:18Z",
+      "side": 1,
+      "message": "The bigger difference is that one returns a collection and one returns a single keyring. But this is a lot of code and a premature optimization, so yeah I\u0027ll merge them.",
+      "parentUuid": "567a21ab_541b4cba",
       "range": {
         "startLine": 225,
         "startChar": 0,

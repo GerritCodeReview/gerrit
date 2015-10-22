@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1445446400 -0400\nnonce AOBGQrgZso1RMLYJZot63IsDem3hufG8VptklSMLDozCvBiS2DxVoRYW1AjPPxJcH4qCvTBU2Tv6\n\n0000000000000000000000000000000000000000 1665d49f4a0074efeb8cb38b54959bc718a80591 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWJ8MAAAoJEF/XxZqaEoiMgToP/A2agrGLF/a7IXTIHNH+m86C\nbCWOjyouWE7JepF6OPZJ1mqzeOWRLKtrGqskrmzMa29x94p8YLQzE2oClrPf9wh4\nrw2FbbkCo4crEHsl1RSbCnOWk8plJ+7EUlS2bbMC1NwQto9Uf0H+Pz7SFdUz5e4C\nVzGmZ3QX7MSLw8+9Gk5xf2xNc2vpK7szMh78hVSMBu21xSOlkE3xWd3D6KVFXahh\n6+P+e/hg5uI5KLU7yab9uj3Sg2nLCDXelFNUgPyEo0Q3JJ8AqCkY2jH0U4CnQ78i\nF0jzFdOH/1BxDUADS1h0vRSGmzDWCzY1dc5X/GGm0Ir6RYBq+P/Bt6adYFc2iYHd\nKpmuyyjcNKhomYswKSM/6onei+Xi6k1rPqrLO+nIPhEtxVbNZE/CcHbc7x0EtP8M\nChYjuSAN3D9SxJ7iz4FF2b7vOIMcU+3wPqqK7HmMaRyrKsYJ0vLIzwqwdskJGQVK\nKUUgcVh8VcWzsQaIst8Te21IVWDIM/aByVPUtk6JQZcXgEWpn0AvfuUVpK/Rdbz7\nLRImgw+vwPb8Nblezxf68ewm/s/gPIKcBzpYB1j91K9TiCW7gVnYwmiucrmowJ+9\nMYPtP0zUr9IQch27ef5rOgU6KVFCUKBdLBH7y43IW9HSHfAfvOonG+QWJG4RqQef\njbMXbSWQRa9fY8iQE3wg\n\u003dHeKh\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "96973902_1ec3ad6c",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-10-22T02:19:59Z",
+      "side": 1,
+      "message": "Slightly odd to see a \"check\" method that returns void rather than an enum or boolean. Is this using BouncyCastle idioms? This appears to be \"gatherProblemsWithRevocationKeys\".",
+      "range": {
+        "startLine": 194,
+        "startChar": 15,
+        "endLine": 194,
+        "endChar": 30
+      },
+      "revId": "1665d49f4a0074efeb8cb38b54959bc718a80591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b690bd0a_bfd39733",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-10-22T02:19:59Z",
+      "side": 1,
+      "message": "Why +52? Is this in the critical path? This value is likely to be overlooked and get out-of-date if changes/additions are made below.",
+      "range": {
+        "startLine": 292,
+        "startChar": 40,
+        "endLine": 292,
+        "endChar": 58
+      },
+      "revId": "1665d49f4a0074efeb8cb38b54959bc718a80591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96973902_3ec8e983",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-10-22T02:19:59Z",
+      "side": 1,
+      "message": "{@code null}",
+      "range": {
+        "startLine": 132,
+        "startChar": 23,
+        "endLine": 132,
+        "endChar": 27
+      },
+      "revId": "1665d49f4a0074efeb8cb38b54959bc718a80591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96973902_dedc6548",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2015-10-22T02:19:59Z",
+      "side": 1,
+      "message": "assertProblems with a single argument means no problems? Much more readable to change to assertNoProblems(key).",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 38
+      },
+      "revId": "1665d49f4a0074efeb8cb38b54959bc718a80591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

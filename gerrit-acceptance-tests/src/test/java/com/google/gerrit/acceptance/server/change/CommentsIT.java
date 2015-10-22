@@ -39,14 +39,11 @@ import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
-import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,11 +54,6 @@ import java.util.Map;
 
 @NoHttpd
 public class CommentsIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config noteDbEnabled() {
-    return NotesMigration.allEnabledConfig();
-  }
-
   @Inject
   private Provider<ChangesCollection> changes;
 

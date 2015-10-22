@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "767ba5ad_d50e7c78",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-22T21:57:56Z",
+      "side": 1,
+      "message": "*nod* A log (especially if accompanied by a monitoring metric, though I don\u0027t think we have those today in jgit) would tell an admin that something is possibly awry. It\u0027s even tempting to consider it a valid revocation until an admin intervenes --- the alternative is possibly trusting a revoked key.",
+      "parentUuid": "767ba5ad_f5e298f7",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 21
+      },
+      "revId": "5579c1f46b5c5d30daa2add2efb89b1e090c66ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "767ba5ad_75f768bb",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
         "patchSetId": 4

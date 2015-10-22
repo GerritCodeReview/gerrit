@@ -586,6 +586,42 @@ $ ssh -p 29418 review.example.com sh ls
 $ ssh -p 29418 review.example.com sh ps
 ----
 
+[[search_operators]]
+=== Search Operators ===
+
+Plugins can define new search operators to extend change searching.
+
+Plugin methods implementing search operators (returning a
+`Predicate<ChangeData>`), must be defined on a class implementing
+the `ChangeQueryBuilder.DynamicBuilder` interface, and annotated
+with the `@Operator` annotation (similar to the way methods are
+added to the `ChangeQueryBuilder` class).  This `DynamicBuilder`
+class must also be bound to the `DynamicSet` from a module's
+`configure()` method in the plugin.
+
+A sample `DynamicBuilder` class implementing, and registering, a
+new `sample` operator which creates a `MyPredicate`:
+
+[source,java]
+----
+  @Singleton
+  public class SampleOperator implements DynamicBuilder {
+    public static class Module extends AbstractModule {
+      @Override
+      protected void configure() {
+        DynamicSet.bind(binder(), DynamicBuilder.class)
+            .to(SampleOperator.class);
+      }
+    }
+
+    @Operator
+    public Predicate<ChangeData> sample(String value) throws
+        QueryParseException {
+      return new MyPredicate(value);
+    }
+  }
+----
+
 [[simple-configuration]]
 == Simple Configuration in `gerrit.config`
 

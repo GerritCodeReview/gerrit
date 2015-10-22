@@ -73,6 +73,29 @@ import java.util.Map;
  * @param <T> type of object the predicates can evaluate in memory.
  */
 public abstract class QueryBuilder<T> {
+  /** Denotes a method which is a query operator. */
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target(ElementType.METHOD)
+  public @interface Operator {
+  }
+
+  /** Converts a value string passed to an operator into a {@link Predicate}. */
+  public interface OperatorFactory<T, Q extends QueryBuilder<T>> {
+    Predicate<T> create(Q builder, String value) throws QueryParseException;
+  }
+
+  /**
+   * Denotes a builder for dynamic operators.
+   *
+   * To use dynamic operators, override the getDynamicBuilders() method
+   * to return an Iterable of DynamicBuilders which define dynamic
+   * operators.  Unlike the static list of operators, the DynamicBuilders
+   * will be consulted on every operator lookup during query building to
+   * find out if, and how, an operator is defined.
+   */
+  public interface DynamicBuilder<T> {
+  }
+
   /**
    * Defines the operators known by a QueryBuilder.
    *
@@ -85,26 +108,52 @@ public abstract class QueryBuilder<T> {
     private final Map<String, OperatorFactory<T, Q>> opFactories =
         new HashMap<>();
 
+    //** Define the static operators */
     public Definition(Class<Q> clazz) {
+      if (clazz != null) {
+        Class<?> c = clazz;
+        while (c != QueryBuilder.class) {
+          registerOperatorFactories(c, null);
+          c = c.getSuperclass();
+        }
+      }
+    }
+
+    //** Define the dynamic operators */
+    public Definition(Iterable<? extends DynamicBuilder<T>> builders) {
+      if (builders != null) {
+        for (DynamicBuilder<T> builder : builders) {
+          registerOperatorFactories(builder);
+        }
+      }
+    }
+
+    public void registerOperatorFactories(DynamicBuilder<T> instance) {
+      Class<?> c = instance.getClass();
+      registerOperatorFactories(c, instance);
+    }
+
+    public void registerOperatorFactories(Class<?> c, DynamicBuilder<T> instance) {
       // Guess at the supported operators by scanning methods.
       //
-      Class<?> c = clazz;
-      while (c != QueryBuilder.class) {
-        for (final Method method : c.getDeclaredMethods()) {
-          if (method.getAnnotation(Operator.class) != null
-              && Predicate.class.isAssignableFrom(method.getReturnType())
-              && method.getParameterTypes().length == 1
-              && method.getParameterTypes()[0] == String.class
-              && (method.getModifiers() & Modifier.ABSTRACT) == 0
-              && (method.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC) {
-            final String name = method.getName().toLowerCase();
-            if (!opFactories.containsKey(name)) {
-              opFactories.put(name, new ReflectionFactory<T, Q>(name, method));
-            }
+      for (final Method method : c.getDeclaredMethods()) {
+        if (method.getAnnotation(Operator.class) != null
+            && Predicate.class.isAssignableFrom(method.getReturnType())
+            && method.getParameterTypes().length == 1
+            && method.getParameterTypes()[0] == String.class
+            && (method.getModifiers() & Modifier.ABSTRACT) == 0
+            && (method.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC) {
+          final String name = method.getName().toLowerCase();
+          if (!opFactories.containsKey(name)) {
+            opFactories.put(name,
+                new ReflectionFactory<T, Q>(name, instance, method));
           }
         }
-        c = c.getSuperclass();
       }
+    }
+
+    public OperatorFactory<T, Q> getOperatorFactory(String name) {
+      return opFactories.get(name);
     }
   }
 
@@ -258,14 +307,19 @@ public abstract class QueryBuilder<T> {
   }
 
   @SuppressWarnings("unchecked")
-  private Predicate<T> operator(final String name, final String value)
+  protected Predicate<T> operator(final String name, final String value)
       throws QueryParseException {
     @SuppressWarnings("rawtypes")
     OperatorFactory f = opFactories.get(name);
     if (f == null) {
-      throw error("Unsupported operator " + name + ":" + value);
+      f = getDynamicDefinition().getOperatorFactory(name);
     }
-    return f.create(this, value);
+
+    if (f != null) {
+      return f.create(this, value);
+    }
+
+    throw error("Unsupported operator " + name + ":" + value);
   }
 
   private Predicate<T> defaultField(final Tree r) throws QueryParseException {
@@ -298,6 +352,14 @@ public abstract class QueryBuilder<T> {
     throw error("Unsupported query:" + value);
   }
 
+  public Definition<T, ? extends QueryBuilder<T>> getDynamicDefinition() {
+    return new Definition<T, QueryBuilder<T>>(getDynamicBuilders());
+  }
+
+  protected Iterable<? extends DynamicBuilder<T>> getDynamicBuilders() {
+    return null;
+  }
+
   @SuppressWarnings("unchecked")
   private Predicate<T>[] children(final Tree r) throws QueryParseException,
       IllegalArgumentException {
@@ -323,21 +385,17 @@ public abstract class QueryBuilder<T> {
     return new QueryParseException(msg, why);
   }
 
-  /** Converts a value string passed to an operator into a {@link Predicate}. */
-  protected interface OperatorFactory<T, Q extends QueryBuilder<T>> {
-    Predicate<T> create(Q builder, String value) throws QueryParseException;
-  }
-
-  /** Denotes a method which is a query operator. */
-  @Retention(RetentionPolicy.RUNTIME)
-  @Target(ElementType.METHOD)
-  protected @interface Operator {
-  }
-
-  private static class ReflectionFactory<T, Q extends QueryBuilder<T>>
+  protected static class ReflectionFactory<T, Q extends QueryBuilder<T>>
       implements OperatorFactory<T, Q> {
     private final String name;
+    private DynamicBuilder<T> dBuilder;
     private final Method method;
+
+    ReflectionFactory(String name, DynamicBuilder<T> dBuilder, Method method) {
+      this.name = name;
+      this.dBuilder = dBuilder;
+      this.method = method;
+    }
 
     ReflectionFactory(final String name, final Method method) {
       this.name = name;
@@ -349,7 +407,8 @@ public abstract class QueryBuilder<T> {
     public Predicate<T> create(Q builder, String value)
         throws QueryParseException {
       try {
-        return (Predicate<T>) method.invoke(builder, value);
+        return (Predicate<T>) method.invoke(
+            (dBuilder == null) ? builder : dBuilder, value);
       } catch (RuntimeException | IllegalAccessException e) {
         throw error("Error in operator " + name + ":" + value, e);
       } catch (InvocationTargetException e) {

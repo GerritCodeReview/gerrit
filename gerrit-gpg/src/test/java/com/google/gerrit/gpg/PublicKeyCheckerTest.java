@@ -341,16 +341,25 @@ public class PublicKeyCheckerTest {
 
   private void assertProblems(PublicKeyChecker checker, TestKey k,
       String... expected) {
+    if (expected.length == 0) {
+      throw new IllegalArgumentException("Use assertNoProblems");
+    }
     CheckResult result = checker.setStore(store)
         .check(k.getPublicKey());
     assertEquals(Arrays.asList(expected), result.getProblems());
   }
 
   private void assertProblems(TestKey tk, String... expected) throws Exception {
+    if (expected.length == 0) {
+      throw new IllegalArgumentException("Use assertNoProblems");
+    }
     assertProblems(tk.getPublicKey(), expected);
   }
 
   private void assertProblems(PGPPublicKey k, String... expected) throws Exception {
+    if (expected.length == 0) {
+      throw new IllegalArgumentException("Use assertNoProblems");
+    }
     CheckResult result = new PublicKeyChecker()
         .setStore(store)
         .check(k);

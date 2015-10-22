@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "567a21ab_54f26ccc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/DiffPreferencesIT.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T20:44:08Z",
+      "side": 1,
+      "message": "I think you want a @ConfigSuite.Config here varying where the data is read from.",
+      "revId": "7614807e69b57639a3b2d4b514a836c7aa6e8368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_74f768bb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T20:44:08Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "7614807e69b57639a3b2d4b514a836c7aa6e8368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_f5d93855",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T20:44:08Z",
+      "side": 1,
+      "message": "Maybe 100 and 8 would make sense as constants in AccountDiffPreference? I see that they\u0027re also hard coded in AccountDiffPreference.defaults()",
+      "revId": "7614807e69b57639a3b2d4b514a836c7aa6e8368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_14fcf49a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T20:44:08Z",
+      "side": 1,
+      "message": "I don\u0027t think this actually changes the serialization format. The old values remain valid, it\u0027s just a slightly different implementation of writeObject/readObject",
+      "revId": "7614807e69b57639a3b2d4b514a836c7aa6e8368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

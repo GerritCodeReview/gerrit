@@ -75,7 +75,8 @@ final class CreateAccountCommand extends SshCommand {
       @Override
       public String apply(AccountGroup.Id id) {
         return id.toString();
-      }});
+      }
+    });
     try {
       createAccountFactory.create(username).apply(TopLevelResource.INSTANCE, input);
     } catch (RestApiException e) {

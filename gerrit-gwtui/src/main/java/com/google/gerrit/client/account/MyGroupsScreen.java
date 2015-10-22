@@ -36,6 +36,7 @@ public class MyGroupsScreen extends SettingsScreen {
       protected void preDisplay(GroupList result) {
         groups.display(result);
         groups.finishDisplay();
-      }});
+      }
+    });
   }
 }

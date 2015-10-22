@@ -119,7 +119,10 @@ public class CopyableLabel extends Composite implements HasText {
     }
 
     if (UserAgent.hasJavaScriptClipboard()) {
-      copier = new Button("&#x1f4cb;"); // CLIPBOARD
+      copier = new Button(new SafeHtmlBuilder().openElement("img")
+          .setAttribute("src",
+              ClippyResources.I.clipboard().getSafeUri().asString())
+          .setWidth(14).setHeight(14).closeSelf());
       copier.setStyleName(ClippyResources.I.css().copier());
       Tooltip.addStyle(copier);
       Tooltip.setLabel(copier, CopyableLabelText.I.tooltip());

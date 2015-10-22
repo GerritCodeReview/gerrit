@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36476d69_83053e54",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-22T09:13:31Z",
+      "side": 1,
+      "message": "This would mean, that we duplicate test execution time, right? Given that this is experimental feature and is still under heavy development, I\u0027m skeptical to unconditionally enable it for\n\n  buck test\n\nAt very least, there should be a way to disable those tests, like:\n\n  $ buck test --exclude notedb\n\nor\n\n  $ NONOTEDB\u003d1 buck test",
+      "revId": "a23e156f9911de495049a8631a36e39948426b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1445432966 -0400\nnonce AOBGQrjIZcFQv5+uFko+u6oT0bBItL49NsHCqvXN7pmWvmbjtDZIiRXcQs11ZS9nkRFJO5iBR8e8\n\n0000000000000000000000000000000000000000 0543c735eb1f2a5fe682bacc7741ea9cde57493c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWJ46GAAoJEF/XxZqaEoiMvckQAJuLYBhoUWKPARSrJIU2SiF2\nO5TnlQ02vTwD1kFNRvjXbiw1I/fa+k6i50HWqf8YHIWGdVcROI9hLh7NdMUlzZoo\nt5gnoMAFOWqygtgVo//g5kJepRvuXyl/liZYSI3PCCnzByVxxko4iqzam1kGE3LQ\nfZVVaYD1tKd6GtgAdz6U13JHuvNEzpMHYf9VYCo4BczoApOmU/+tbhY/obM34FLW\nj/q7P16PHo/IFIo2c22mo3N7BFqt59+x1LbKBdkJdQ88PwLZvL+1xJSgoUjd9Hgp\nOhAermn0pkk6hOko7gv/2ndfnitCtn82U7uz5Y1dcxrNM336d4SATZGAXKjbNGch\nzmbNRfK24MzUJ/L79fhGRO00aQO3NrhNsPDhfPQkjzNhLekr7op9jusmfhFQo2IH\nwwPFb34kHkuQdlLi8htGJDkuj2bc1iuPfs0oZzQep5g0UmLVWywhtOO/7dGWrXfK\neOBtUlg6vOmy0amUxHP2mAGIyspKkq2SFBpfwZGE9dpEezqKLEwHvw4yoCrFLXYw\nxh45ecdw8sr80WFQmvLVoW9SQ6bQrTHKMSdUNNnUX4Hhva8YLTf6r6PJmN0bNuLZ\n5GpY8CnWn0v9kLrM/BJmAcIlXXIGoyz/qP5a8zS1TKaN/tRRFOU3Ho3iqjUOQu4Z\ngZIbdHKD2jXzQz2IE7Ux\n\u003dLMWM\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "567a21ab_7432082c",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/SignedPushPreReceiveHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-22T22:05:56Z",
+      "side": 1,
+      "message": "(optional) Would there be some way to link to a list of step-by-step instructions here? (E.g., by making the message configurable)",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 57
+      },
+      "revId": "0543c735eb1f2a5fe682bacc7741ea9cde57493c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

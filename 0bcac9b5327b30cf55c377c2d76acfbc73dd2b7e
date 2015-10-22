@@ -52,6 +52,24 @@
       "revId": "0bcac9b5327b30cf55c377c2d76acfbc73dd2b7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96973902_3e1a29b4",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-22T06:52:59Z",
+      "side": 1,
+      "message": "So the path is first to 2.8 or 2.9, and then 2.10, 2.11. 2.12 with the online reindex for each?",
+      "parentUuid": "168429cb_62c9f68a",
+      "revId": "0bcac9b5327b30cf55c377c2d76acfbc73dd2b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

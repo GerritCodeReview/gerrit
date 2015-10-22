@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_d40e7c78",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-22T21:34:32Z",
+      "side": 1,
+      "message": "Done. Also had to handle null in the following change, where I assume null means compromised.",
+      "parentUuid": "567a21ab_1415d484",
+      "range": {
+        "startLine": 285,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 65
+      },
+      "revId": "5579c1f46b5c5d30daa2add2efb89b1e090c66ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567a21ab_541b4cba",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyStore.java",
         "patchSetId": 4

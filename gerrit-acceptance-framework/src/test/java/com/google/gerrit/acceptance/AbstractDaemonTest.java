@@ -55,6 +55,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -172,6 +173,9 @@ public abstract class AbstractDaemonTest {
   protected SshSession sshSession;
   protected ReviewDb db;
   protected Project.NameKey project;
+
+  @Inject
+  protected NotesMigration notesMigration;
 
   @Rule
   public ExpectedException exception = ExpectedException.none();

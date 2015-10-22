@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
@@ -59,9 +58,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     cfg.setBoolean("notedb", "changes", "write", true);
     return cfg;
   }
-
-  @Inject
-  private NotesMigration notesMigration;
 
   @Inject
   private ChangeEditModifier editModifier;

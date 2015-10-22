@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -53,9 +52,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public static Config noteDbEnabled() {
     return NotesMigration.allEnabledConfig();
   }
-
-  @Inject
-  private NotesMigration notesMigration;
 
   protected enum Protocol {
     // TODO(dborowitz): TEST.

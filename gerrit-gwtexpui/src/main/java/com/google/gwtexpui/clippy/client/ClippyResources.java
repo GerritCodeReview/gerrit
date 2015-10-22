@@ -17,6 +17,8 @@ package com.google.gwtexpui.clippy.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.DataResource;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ClientBundle.Source;
 import com.google.gwt.resources.client.DataResource.DoNotEmbed;
 
 public interface ClippyResources extends ClientBundle {
@@ -28,4 +30,7 @@ public interface ClippyResources extends ClientBundle {
   @Source("clippy.swf")
   @DoNotEmbed
   DataResource swf();
+
+  @Source("clipboard-16.png")
+  ImageResource clipboard();
 }

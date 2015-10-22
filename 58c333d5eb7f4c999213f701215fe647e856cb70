@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "567a21ab_f454d837",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-22T22:00:36Z",
+      "side": 1,
+      "message": "odd whitespace",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 5
+      },
+      "revId": "58c333d5eb7f4c999213f701215fe647e856cb70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

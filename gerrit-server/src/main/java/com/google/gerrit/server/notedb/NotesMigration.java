@@ -91,6 +91,13 @@ public class NotesMigration {
     return cfg;
   }
 
+  public static void setAllEnabledConfig(Config cfg) {
+    for (Table t : Table.values()) {
+      cfg.setBoolean(NOTEDB, t.key(), WRITE, true);
+      cfg.setBoolean(NOTEDB, t.key(), READ, true);
+    }
+  }
+
   private final boolean writeChanges;
   private final boolean readChanges;
 

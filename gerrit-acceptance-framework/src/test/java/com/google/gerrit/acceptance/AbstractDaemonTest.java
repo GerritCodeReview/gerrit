@@ -233,12 +233,22 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
 
+  private static boolean isNoteDbTestEnabled() {
+    final String[] RUN_FLAGS = {"yes", "y", "true"};
+    String value = System.getenv("GERRIT_ENABLE_NOTEDB");
+    return value != null &&
+        Arrays.asList(RUN_FLAGS).contains(value.toLowerCase());
+  }
+
   protected void beforeTest(Description description) throws Exception {
     GerritServer.Description classDesc =
       GerritServer.Description.forTestClass(description, configName);
     GerritServer.Description methodDesc =
       GerritServer.Description.forTestMethod(description, configName);
 
+    if (isNoteDbTestEnabled()) {
+      NotesMigration.setAllEnabledConfig(baseConfig);
+    }
     baseConfig.setString("gerrit", null, "tempSiteDir",
         tempSiteDir.getRoot().getPath());
     if (classDesc.equals(methodDesc)) {

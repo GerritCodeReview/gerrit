@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96973902_9e3a5dfb",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-22T17:43:31Z",
+      "side": 1,
+      "message": "* Add `topic:` (Not sure if this was there before) search for the exact topic match.\n\n* Add `intopic:` search operator to search for changes which contain the search term in the topic.",
+      "revId": "99cfe21c70c9b3b232bb38339a84bd039471aa06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

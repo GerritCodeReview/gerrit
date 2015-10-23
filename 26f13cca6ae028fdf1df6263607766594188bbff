@@ -45,6 +45,54 @@
       "revId": "26f13cca6ae028fdf1df6263607766594188bbff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_d472fcce",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4515,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-23T06:52:15Z",
+      "side": 1,
+      "message": "I changed it to something that should be a bit clearer.",
+      "parentUuid": "567a21ab_b490a048",
+      "range": {
+        "startLine": 4515,
+        "startChar": 0,
+        "endLine": 4515,
+        "endChar": 45
+      },
+      "revId": "26f13cca6ae028fdf1df6263607766594188bbff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_f5861818",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4515,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-23T06:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "567a21ab_94932455",
+      "range": {
+        "startLine": 4515,
+        "startChar": 46,
+        "endLine": 4515,
+        "endChar": 48
+      },
+      "revId": "26f13cca6ae028fdf1df6263607766594188bbff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

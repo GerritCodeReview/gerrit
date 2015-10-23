@@ -70,6 +70,29 @@
       "revId": "53f6c76c4ac590fde57bdf3f5a6215a4cba619e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_d4899c28",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-23T04:54:21Z",
+      "side": 1,
+      "message": "nit: \"the top-level key\"",
+      "range": {
+        "startLine": 119,
+        "startChar": 14,
+        "endLine": 119,
+        "endChar": 27
+      },
+      "revId": "53f6c76c4ac590fde57bdf3f5a6215a4cba619e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

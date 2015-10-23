@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "767ba5ad_7532082c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-23T04:50:05Z",
+      "side": 1,
+      "message": "OK, let\u0027s leave it like this.",
+      "parentUuid": "d68d31f4_40c86e84",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 9
+      },
+      "revId": "e5482d4e7a6424d7b6858c8d51fea307e1533986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59fb3286_cccccf48",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/IdentifiedUserTest.java",
         "patchSetId": 6

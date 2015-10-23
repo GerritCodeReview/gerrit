@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "767ba5ad_b56980e2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/DiffPreferencesIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-23T10:43:00Z",
+      "side": 1,
+      "message": "2015 (or 2014 if it should be by the date of the author line in the commit message).\n\nOr did you rename this file from DiffPreferencesIT?\n\nIn that case it should probably be the same as the original, but I just wonder why Gerrit isn\u0027t showing it as a rename with diff.  Maybe too much change to be considered a rename?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "910456a6c4835ebc47c52bc0a436dd487dbaac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_54110c69",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-23T10:43:00Z",
+      "side": 1,
+      "message": "Rename these to be more similar to the descriptions in the setting?\n\n IGNORE_AT_LINE_END\n IGNORE_LEADING_AND_END\n IGNORE_ALL",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "910456a6c4835ebc47c52bc0a436dd487dbaac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

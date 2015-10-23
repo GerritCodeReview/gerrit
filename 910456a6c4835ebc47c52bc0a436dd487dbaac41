@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "56a8615b_c4dc7e48",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/DiffPreferencesIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-23T10:56:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "767ba5ad_b56980e2",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "910456a6c4835ebc47c52bc0a436dd487dbaac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567a21ab_54110c69",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
         "patchSetId": 32
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-23T10:43:00Z",
       "side": 1,
       "message": "Rename these to be more similar to the descriptions in the setting?\n\n IGNORE_AT_LINE_END\n IGNORE_LEADING_AND_END\n IGNORE_ALL",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "910456a6c4835ebc47c52bc0a436dd487dbaac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_e4d97a55",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-23T10:56:57Z",
+      "side": 1,
+      "message": "Note, that thus is moved from AccountDiffPreferences, where they called like this from the beginning. Even though they are used in PatchListKey, the are reduced to only one char for persistence. So I think it would be possible to rename.\n\nIf we want rename them, then it should be done in this change, before they are saved in Git. I would like to hear other opinions, if we want really to rename them. Another option would be to rename them in previous change and rebase this change on top of rename change.",
+      "parentUuid": "567a21ab_54110c69",
       "range": {
         "startLine": 37,
         "startChar": 4,

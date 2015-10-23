@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_f42138b4",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-23T19:42:43Z",
+      "side": 1,
+      "message": "After sleeping on it, I think accepting the revocation is the right thing to do. If a user is in the awkward situation where they have a revocation permanently attached to their key on public keyservers, but they know that that revocation is invalid because it was by a revoked key, then I\u0027m guessing they are not going to be *too* surprised if some random system thinks their key is actually revoked. (I\u0027ll also point out again that gpg still thinks a revocation by a revoked key is valid, which is completely nuts, but in this case it would serve to decrease the level of surprise there.)\n\nStill added the log for informational purposes.",
+      "parentUuid": "767ba5ad_d50e7c78",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 21
+      },
+      "revId": "5579c1f46b5c5d30daa2add2efb89b1e090c66ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "767ba5ad_75f768bb",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
         "patchSetId": 4

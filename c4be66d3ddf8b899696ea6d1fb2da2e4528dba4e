@@ -22,6 +22,30 @@
       "revId": "c4be66d3ddf8b899696ea6d1fb2da2e4528dba4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_74bf689a",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-23T19:42:46Z",
+      "side": 1,
+      "message": "Good catch. Thanks.",
+      "parentUuid": "767ba5ad_953a44fb",
+      "range": {
+        "startLine": 193,
+        "startChar": 46,
+        "endLine": 193,
+        "endChar": 47
+      },
+      "revId": "c4be66d3ddf8b899696ea6d1fb2da2e4528dba4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_548cac0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-23T22:48:22Z",
+      "side": 1,
+      "message": "This might be nullable. if the comment is a file-level comment what line number does it have?",
+      "parentUuid": "567a21ab_d4d67cd7",
+      "range": {
+        "startLine": 363,
+        "startChar": 14,
+        "endLine": 363,
+        "endChar": 21
+      },
+      "revId": "3e32e7f168b1ddb19e474a33d7ed0938aad23928",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567a21ab_f4d378e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-23T22:39:25Z",
       "side": 1,
       "message": "(optional) can use checkNotNull to make it clearer whether these are nullable",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 31
+      },
+      "revId": "3e32e7f168b1ddb19e474a33d7ed0938aad23928",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_359b3041",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-23T22:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "567a21ab_f4d378e4",
       "range": {
         "startLine": 367,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "767ba5ad_1596341a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-23T22:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "767ba5ad_95d004da",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 22
+      },
+      "revId": "3e32e7f168b1ddb19e474a33d7ed0938aad23928",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "767ba5ad_558cac0b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2015-10-23T22:39:25Z",
       "side": 1,
       "message": "If these are nullable, should use Objects.equals",
+      "range": {
+        "startLine": 386,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 45
+      },
+      "revId": "3e32e7f168b1ddb19e474a33d7ed0938aad23928",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_7591a820",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-23T22:48:22Z",
+      "side": 1,
+      "message": "I converted them all for consistency, even though \"line\" may be the only one that\u0027s nullable.",
+      "parentUuid": "767ba5ad_558cac0b",
       "range": {
         "startLine": 386,
         "startChar": 0,

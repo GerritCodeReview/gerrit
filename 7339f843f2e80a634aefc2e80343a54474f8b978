@@ -22,6 +22,29 @@
       "revId": "7339f843f2e80a634aefc2e80343a54474f8b978",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_d5ad1c71",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-23T20:03:52Z",
+      "side": 1,
+      "message": "Could this be simplified to:\n\n  in.omitDuplicateComments \u003d omitDuplicateComments",
+      "range": {
+        "startLine": 404,
+        "startChar": 4,
+        "endLine": 404,
+        "endChar": 5
+      },
+      "revId": "7339f843f2e80a634aefc2e80343a54474f8b978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

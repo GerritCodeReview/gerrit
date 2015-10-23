@@ -22,6 +22,30 @@
       "revId": "fc7d396b80f7091b755cc06503b7e389a6999f30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_b502e020",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-23T17:38:16Z",
+      "side": 1,
+      "message": "Just as new StringBuilder(\"foo\") is a convenience shortcut for new StringBuilder().add(\"foo\"), checkerFactory.create(user, store) is a convenience shortcut for chekcerFactory.create().setExpectedUser(user).setStore(store)\n\nI tried to cover this in the last sentence of the commit message: \"Also add a convenience method to GerritPublicKeyChecker.Factory for the very common case (particularly in tests) where we do have both an expected user and a store.\"\n\nTo add a little bit more context, what happened in this change is that because we need to look up any revocation keys during checkBasic, we _always_ need a PublicKeyStore on a PublicKeyChecker. So places like the base of this change where we used to just be able to say setExpectedUser (which IMO does not warrant a convenience method), we now have to say both setExpectedUser and setStore. I noticed this was happening enough to save a few lines by adding the convenience method.",
+      "parentUuid": "567a21ab_542d8cca",
+      "range": {
+        "startLine": 197,
+        "startChar": 72,
+        "endLine": 197,
+        "endChar": 73
+      },
+      "revId": "fc7d396b80f7091b755cc06503b7e389a6999f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

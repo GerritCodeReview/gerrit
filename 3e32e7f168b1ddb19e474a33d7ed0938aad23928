@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_1496341a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-23T23:11:23Z",
+      "side": 1,
+      "message": "Line 0.\n\nThat reminded me to compare this to PatchLineComment \u003chttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info\u003e and see how they differ.\n\n* a comment is attached to a particular file in a particular revision of the change. What should happen if I try to publish a comment with the same content at the same line but in the context of a later patchset?\n* there is a special case: when a comment is attached to the PARENT side (\"Base\" in the web UI), that same commit can be the parent of multiple patchsets. I\u0027m not sure whether the web UI shows the same comment in all of them in that case (will check and report back)\n* comments can be attached to arbitrary ranges within the file in addition to single lines\n* comments can be in reply to other comments\n* comments have an author",
+      "parentUuid": "567a21ab_548cac0b",
+      "range": {
+        "startLine": 363,
+        "startChar": 14,
+        "endLine": 363,
+        "endChar": 21
+      },
+      "revId": "3e32e7f168b1ddb19e474a33d7ed0938aad23928",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567a21ab_f4d378e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 7

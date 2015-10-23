@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "567a21ab_94932455",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4515,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-23T05:22:16Z",
+      "side": 1,
+      "message": "This is not needed if there is only one paragraph.",
+      "range": {
+        "startLine": 4515,
+        "startChar": 46,
+        "endLine": 4515,
+        "endChar": 48
+      },
+      "revId": "26f13cca6ae028fdf1df6263607766594188bbff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_b490a048",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4515,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-23T05:22:16Z",
+      "side": 1,
+      "message": "It would be better to follow the same style as the documentation for existing boolean flags.  Something like:\n\n If `true`, duplicate comments will be omitted.\n\nI\u0027m not sure if we also need to explicitly state what is meant by \"duplicate comments\".  I mean it\u0027s quite common to write \"Done\" in several places and that\u0027s obviously (to us, anyway) not what is meant here, but it might not be obvious to other readers.",
+      "range": {
+        "startLine": 4515,
+        "startChar": 0,
+        "endLine": 4515,
+        "endChar": 45
+      },
+      "revId": "26f13cca6ae028fdf1df6263607766594188bbff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -70,6 +70,24 @@
       "revId": "0bcac9b5327b30cf55c377c2d76acfbc73dd2b7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76a9e55d_652026e4",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-23T14:58:20Z",
+      "side": 1,
+      "message": "Yes, I think so, see [1,2].\n\n[1] https://gerrit-review.googlesource.com/#/c/68221/1//COMMIT_MSG@11\n[2] https://gerrit-review.googlesource.com/#/c/66983/2/ReleaseNotes/ReleaseNotes-2.11.txt",
+      "parentUuid": "96973902_3e1a29b4",
+      "revId": "0bcac9b5327b30cf55c377c2d76acfbc73dd2b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

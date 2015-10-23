@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_7484480c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-23T05:54:32Z",
+      "side": 1,
+      "message": "Confirmed this works for me too in:\n\n- Firefox 4.1 (Ubuntu)\n- Chromium 37.0.2062.120 Ubuntu 12.04 (281580) (64-bit)\n- Chrome 45.0.2454.93 (64-bit) (Ubuntu)\n- Chrome 46.0.2490.71 m (Windows)\n- Chrome 46.0.2490.80 m (Windows)\n\nRather unsurprisingly, it doesn\u0027t work in Internet Explorer 8 :)",
+      "parentUuid": "f6bdd594_29af6dbb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "5d8bf3880dbbdda50117b8682eafd330e15d2ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56a8615b_44a08ecc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

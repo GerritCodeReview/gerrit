@@ -93,6 +93,30 @@
       "revId": "910456a6c4835ebc47c52bc0a436dd487dbaac41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_140b943b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-23T11:00:20Z",
+      "side": 1,
+      "message": "Do I understand correctly that they\u0027ll be referred by the full name when persisted in git in the git config format?  I.e. like we have for enums in gerrit.config?\n\nIf that\u0027s the case, I would prefer to rename them to make them a bit more user friendly.  The same for other enums, I guess.\n\nAnd if so, yes, it would probably better to do it in a separate change before this one.",
+      "parentUuid": "56a8615b_e4d97a55",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "910456a6c4835ebc47c52bc0a436dd487dbaac41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

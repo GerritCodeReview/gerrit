@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "767ba5ad_d5243cc7",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-23T19:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "567a21ab_b46980e2",
+      "range": {
+        "startLine": 116,
+        "startChar": 13,
+        "endLine": 116,
+        "endChar": 17
+      },
+      "revId": "58c333d5eb7f4c999213f701215fe647e856cb70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567a21ab_f454d837",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "767ba5ad_f52138b4",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-23T19:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "567a21ab_f454d837",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 5
+      },
+      "revId": "58c333d5eb7f4c999213f701215fe647e856cb70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567a21ab_54e82cab",
         "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
         "patchSetId": 4
@@ -59,6 +107,24 @@
       "writtenOn": "2015-10-23T07:43:44Z",
       "side": 1,
       "message": "Is this line wrap necessary?",
+      "revId": "58c333d5eb7f4c999213f701215fe647e856cb70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_951ec473",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-23T19:42:47Z",
+      "side": 1,
+      "message": "To keep it under 80 columns, yes.",
+      "parentUuid": "567a21ab_54e82cab",
       "revId": "58c333d5eb7f4c999213f701215fe647e856cb70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

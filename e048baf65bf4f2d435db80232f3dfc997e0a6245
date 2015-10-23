@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "567a21ab_34e250b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-10-23T22:37:24Z",
+      "side": 1,
+      "message": "You could omit the condition here?\n\n  in.omitDuplicateComments \u003d omitDuplicateComments;",
+      "range": {
+        "startLine": 402,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 5
+      },
+      "revId": "e048baf65bf4f2d435db80232f3dfc997e0a6245",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

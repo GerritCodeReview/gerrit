@@ -129,13 +129,13 @@ public class PatchListLoader implements Callable<PatchList> {
 
   private static RawTextComparator comparatorFor(Whitespace ws) {
     switch (ws) {
-      case IGNORE_ALL_SPACE:
+      case IGNORE_ALL:
         return RawTextComparator.WS_IGNORE_ALL;
 
-      case IGNORE_SPACE_AT_EOL:
+      case IGNORE_AT_LINE_END:
         return RawTextComparator.WS_IGNORE_TRAILING;
 
-      case IGNORE_SPACE_CHANGE:
+      case IGNORE_LEADING_AND_END:
         return RawTextComparator.WS_IGNORE_CHANGE;
 
       case IGNORE_NONE:

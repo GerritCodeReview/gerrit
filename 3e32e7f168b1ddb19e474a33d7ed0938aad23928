@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "567a21ab_d49f5c29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-24T11:01:23Z",
+      "side": 1,
+      "message": "Good point. I\u0027ll make sure to take that into account. Thanks!",
+      "parentUuid": "767ba5ad_b5a66081",
+      "range": {
+        "startLine": 363,
+        "startChar": 14,
+        "endLine": 363,
+        "endChar": 21
+      },
+      "revId": "3e32e7f168b1ddb19e474a33d7ed0938aad23928",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "567a21ab_f4d378e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 7

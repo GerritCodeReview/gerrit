@@ -290,11 +290,11 @@ public class PatchScriptSettingsPanel extends Composite {
     ws.addItem(PatchUtil.C.whitespaceIGNORE_NONE(), //
         Whitespace.IGNORE_NONE.name());
     ws.addItem(PatchUtil.C.whitespaceIGNORE_SPACE_AT_EOL(), //
-        Whitespace.IGNORE_SPACE_AT_EOL.name());
+        Whitespace.IGNORE_AT_LINE_END.name());
     ws.addItem(PatchUtil.C.whitespaceIGNORE_SPACE_CHANGE(), //
-        Whitespace.IGNORE_SPACE_CHANGE.name());
+        Whitespace.IGNORE_LEADING_AND_END.name());
     ws.addItem(PatchUtil.C.whitespaceIGNORE_ALL_SPACE(), //
-        Whitespace.IGNORE_ALL_SPACE.name());
+        Whitespace.IGNORE_ALL.name());
   }
 
   private void initContext(ListBox context) {

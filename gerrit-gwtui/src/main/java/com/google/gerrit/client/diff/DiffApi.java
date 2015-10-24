@@ -74,11 +74,11 @@ public class DiffApi {
       default:
       case IGNORE_NONE:
         return ignoreWhitespace(IgnoreWhitespace.NONE);
-      case IGNORE_SPACE_AT_EOL:
+      case IGNORE_AT_LINE_END:
         return ignoreWhitespace(IgnoreWhitespace.TRAILING);
-      case IGNORE_SPACE_CHANGE:
+      case IGNORE_LEADING_AND_END:
         return ignoreWhitespace(IgnoreWhitespace.CHANGED);
-      case IGNORE_ALL_SPACE:
+      case IGNORE_ALL:
         return ignoreWhitespace(IgnoreWhitespace.ALL);
     }
   }

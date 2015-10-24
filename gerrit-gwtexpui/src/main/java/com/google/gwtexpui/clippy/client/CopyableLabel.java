@@ -274,6 +274,7 @@ public class CopyableLabel extends Composite implements HasText {
     try {
       t.setText(getText());
       content.add(t);
+      t.setFocus(true);
       t.selectAll();
 
       boolean ok = execCommand("copy");

@@ -16,10 +16,10 @@ package com.google.gerrit.client.diff;
 
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.DEFAULT_CONTEXT;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_ALL_SPACE;
+import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_TRAILING;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_NONE;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_SPACE_AT_EOL;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_SPACE_CHANGE;
+import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_LEADING_AND_TRAILING;
+import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_ALL;
 import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
 
 import com.google.gerrit.client.Gerrit;
@@ -546,14 +546,14 @@ public class PreferencesBox extends Composite {
         PatchUtil.C.whitespaceIGNORE_NONE(),
         IGNORE_NONE.name());
     ignoreWhitespace.addItem(
-        PatchUtil.C.whitespaceIGNORE_SPACE_AT_EOL(),
-        IGNORE_SPACE_AT_EOL.name());
+        PatchUtil.C.whitespaceIGNORE_TRAILING(),
+        IGNORE_TRAILING.name());
     ignoreWhitespace.addItem(
-        PatchUtil.C.whitespaceIGNORE_SPACE_CHANGE(),
-        IGNORE_SPACE_CHANGE.name());
+        PatchUtil.C.whitespaceIGNORE_LEADING_AND_TRAILING(),
+        IGNORE_LEADING_AND_TRAILING.name());
     ignoreWhitespace.addItem(
-        PatchUtil.C.whitespaceIGNORE_ALL_SPACE(),
-        IGNORE_ALL_SPACE.name());
+        PatchUtil.C.whitespaceIGNORE_ALL(),
+        IGNORE_ALL.name());
   }
 
   private void initMode() {

@@ -32,9 +32,9 @@ public class AccountDiffPreference {
 
   public static enum Whitespace implements CodedEnum {
     IGNORE_NONE('N'), //
-    IGNORE_SPACE_AT_EOL('E'), //
-    IGNORE_SPACE_CHANGE('S'), //
-    IGNORE_ALL_SPACE('A');
+    IGNORE_TRAILING('E'), //
+    IGNORE_LEADING_AND_TRAILING('S'), //
+    IGNORE_ALL('A');
 
     private final char code;
 

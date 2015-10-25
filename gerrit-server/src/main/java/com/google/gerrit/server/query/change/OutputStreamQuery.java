@@ -245,7 +245,7 @@ public class OutputStreamQuery {
           }
 
           if (includeDependencies) {
-            eventFactory.addDependencies(c, d.change());
+            eventFactory.addDependencies(c, d);
           }
 
           show(c);

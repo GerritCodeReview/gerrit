@@ -39,8 +39,7 @@ public class ChangeAttribute {
     public PatchSetAttribute currentPatchSet;
     public List<PatchSetAttribute> patchSets;
 
-    public List<DependencyAttribute> dependsOn;
-    public List<DependencyAttribute> neededBy;
+    public List<DependencyAttribute> related;
     public List<SubmitRecordAttribute> submitRecords;
     public List<AccountAttribute> allReviewers;
 }

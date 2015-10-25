@@ -87,13 +87,6 @@ ON patch_comments (status, author_id);
 CREATE INDEX patch_sets_byRevision
 ON patch_sets (revision);
 
--- *********************************************************************
--- PatchSetAncestorAccess
---    @PrimaryKey covers: ancestorsOf
---    covers:             descendantsOf
-CREATE INDEX patch_set_ancestors_desc
-ON patch_set_ancestors (ancestor_revision);
-
 
 -- *********************************************************************
 -- StarredChangeAccess

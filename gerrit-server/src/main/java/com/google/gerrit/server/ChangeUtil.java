@@ -25,9 +25,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
@@ -72,7 +70,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -147,19 +144,6 @@ public class ChangeUtil {
 
   public static void updated(Change c) {
     c.setLastUpdatedOn(TimeUtil.nowTs());
-  }
-
-  public static void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
-      throws OrmException {
-    int cnt = src.getParentCount();
-    List<PatchSetAncestor> toInsert = new ArrayList<>(cnt);
-    for (int p = 0; p < cnt; p++) {
-      PatchSetAncestor a =
-          new PatchSetAncestor(new PatchSetAncestor.Id(id, p + 1));
-      a.setAncestorRevision(new RevId(src.getParent(p).getId().getName()));
-      toInsert.add(a);
-    }
-    db.patchSetAncestors().insert(toInsert);
   }
 
   public static PatchSet.Id nextPatchSetId(Map<String, Ref> allRefs,
@@ -354,7 +338,6 @@ public class ChangeUtil {
       db.patchComments().delete(db.patchComments().byChange(changeId));
 
       db.patchSetApprovals().delete(db.patchSetApprovals().byChange(changeId));
-      db.patchSetAncestors().delete(db.patchSetAncestors().byChange(changeId));
       db.patchSets().delete(patchSets);
       db.changeMessages().delete(db.changeMessages().byChange(changeId));
       db.starredChanges().delete(db.starredChanges().byChange(changeId));
@@ -461,7 +444,6 @@ public class ChangeUtil {
     // No need to delete from notedb; draft patch sets will be filtered out.
     db.patchComments().delete(db.patchComments().byPatchSet(patchSetId));
     db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(patchSetId));
-    db.patchSetAncestors().delete(db.patchSetAncestors().byPatchSet(patchSetId));
 
     db.patchSets().delete(Collections.singleton(patch));
   }

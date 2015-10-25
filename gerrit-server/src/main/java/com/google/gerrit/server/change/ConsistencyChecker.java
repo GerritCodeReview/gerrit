@@ -583,8 +583,6 @@ public class ConsistencyChecker {
         // historical information.
         db.accountPatchReviews().delete(
             db.accountPatchReviews().byPatchSet(psId));
-        db.patchSetAncestors().delete(
-            db.patchSetAncestors().byPatchSet(psId));
         db.patchSetApprovals().delete(
             db.patchSetApprovals().byPatchSet(psId));
         db.patchComments().delete(

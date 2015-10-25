@@ -39,8 +39,6 @@ import java.util.Arrays;
  *          |
  *          +- {@link PatchSetApproval}: a +/- vote on the change's current state.
  *          |
- *          +- {@link PatchSetAncestor}: parents of this change's commit.
- *          |
  *          +- {@link PatchLineComment}: comment about a specific line
  * </pre>
  * <p>
@@ -50,11 +48,6 @@ import java.util.Arrays;
  * PatchSet, the initial proposal put forth by the change owner. This
  * {@link Account} is usually also listed as the author and committer in the
  * PatchSetInfo.
- * <p>
- * The {@link PatchSetAncestor} entities are a mirror of the Git commit
- * metadata, providing access to the information without needing direct
- * accessing Git. These entities are actually legacy artifacts from Gerrit 1.x
- * and could be removed, replaced by direct RevCommit access.
  * <p>
  * Each PatchSet contains zero or more Patch records, detailing the file paths
  * impacted by the change (otherwise known as, the file paths the author

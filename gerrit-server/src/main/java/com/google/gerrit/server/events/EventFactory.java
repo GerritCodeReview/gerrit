@@ -27,15 +27,17 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.GetRelated;
+import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
+import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
@@ -68,6 +70,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -86,6 +89,7 @@ public class EventFactory {
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeKindCache changeKindCache;
+  private final GetRelated getRelated;
 
   @Inject
   EventFactory(AccountCache accountCache,
@@ -96,7 +100,8 @@ public class EventFactory {
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
-      ChangeKindCache changeKindCache) {
+      ChangeKindCache changeKindCache,
+      GetRelated getRelated) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
@@ -107,6 +112,7 @@ public class EventFactory {
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeKindCache = changeKindCache;
+    this.getRelated = getRelated;
   }
 
   /**
@@ -226,78 +232,33 @@ public class EventFactory {
     }
   }
 
-  public void addDependencies(ChangeAttribute ca, Change change) {
-    ca.dependsOn = new ArrayList<>();
-    ca.neededBy = new ArrayList<>();
-    try (ReviewDb db = schema.open()) {
-      final PatchSet.Id psId = change.currentPatchSetId();
-      for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
-        for (PatchSet p :
-            db.patchSets().byRevision(a.getAncestorRevision())) {
-          Change c = db.changes().get(p.getId().getParentKey());
-          if (c == null) {
-            log.error("Error while generating the ancestor change for"
-                + " revision " + a.getAncestorRevision() + ": Cannot find"
-                + " Change entry in database for " + p.getId().getParentKey());
-            continue;
-          }
-          ca.dependsOn.add(newDependsOn(c, p));
-        }
+  public void addDependencies(ChangeAttribute ca, ChangeData cd) {
+    ca.related = new ArrayList<>();
+    try {
+      RevisionResource rsrc = new RevisionResource(
+          new ChangeResource(cd.changeControl()), cd.currentPatchSet());
+      GetRelated.RelatedInfo info = getRelated.apply(rsrc);
+      for (ChangeAndCommit c : info.changes) {
+        ca.related.add(newRelated(c));
       }
-
-      final PatchSet ps = db.patchSets().get(psId);
-      if (ps == null) {
-        log.error("Error while generating the list of descendants for"
-            + " PatchSet " + psId + ": Cannot find PatchSet entry in"
-            + " database.");
-      } else {
-        final RevId revId = ps.getRevision();
-        for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(revId)) {
-          final PatchSet p = db.patchSets().get(a.getPatchSet());
-          if (p == null) {
-            log.error("Error while generating the list of descendants for"
-                + " revision " + revId.get() + ": Cannot find PatchSet entry in"
-                + " database for " + a.getPatchSet());
-            continue;
-          }
-          final Change c = db.changes().get(p.getId().getParentKey());
-          if (c == null) {
-            log.error("Error while generating the list of descendants for"
-                + " revision " + revId.get() + ": Cannot find Change entry in"
-                + " database for " + p.getId().getParentKey());
-            continue;
-          }
-          ca.neededBy.add(newNeededBy(c, p));
-        }
-      }
-    } catch (OrmException e) {
-      // Squash DB exceptions and leave dependency lists partially filled.
-    }
-    // Remove empty lists so a confusing label won't be displayed in the output.
-    if (ca.dependsOn.isEmpty()) {
-      ca.dependsOn = null;
-    }
-    if (ca.neededBy.isEmpty()) {
-      ca.neededBy = null;
+    } catch (OrmException | IOException e) {
     }
   }
 
-  private DependencyAttribute newDependsOn(Change c, PatchSet ps) {
-    DependencyAttribute d = newDependencyAttribute(c, ps);
-    d.isCurrentPatchSet = ps.getId().equals(c.currentPatchSetId());
-    return d;
-  }
-
-  private DependencyAttribute newNeededBy(Change c, PatchSet ps) {
-    return newDependencyAttribute(c, ps);
-  }
-
-  private DependencyAttribute newDependencyAttribute(Change c, PatchSet ps) {
+  private DependencyAttribute newRelated(ChangeAndCommit c) {
     DependencyAttribute d = new DependencyAttribute();
-    d.number = c.getId().toString();
-    d.id = c.getKey().toString();
-    d.revision = ps.getRevision().get();
-    d.ref = ps.getRefName();
+    if (c._changeNumber != null) {
+      d.number = c._changeNumber.toString();
+      if (c._revisionNumber != null) {
+        d.ref = new PatchSet.Id(
+            new Change.Id(c._changeNumber), c._revisionNumber).toRefName();
+      }
+    }
+    d.id = c.changeId;
+    d.revision = c.commit.commit;
+    // TODO(davido): Find out a way to set isCurrentPatchSet or document that
+    // its removal
+    //d.isCurrentPatchSet
     return d;
   }
 
@@ -410,11 +371,14 @@ public class EventFactory {
     p.isDraft = patchSet.isDraft();
     final PatchSet.Id pId = patchSet.getId();
     try (ReviewDb db = schema.open()) {
+      // TODO(davido): Retrieve only parents from GetRelated Rest handler
       p.parents = new ArrayList<>();
+      /*
       for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
           patchSet.getId())) {
         p.parents.add(a.getAncestorRevision().get());
       }
+      */
 
       UserIdentity author = psInfoFactory.get(db, pId).getAuthor();
       if (author.getAccount() == null) {

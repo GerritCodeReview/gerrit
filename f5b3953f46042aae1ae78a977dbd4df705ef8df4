@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "767ba5ad_555eec0b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-25T13:41:56Z",
+      "side": 1,
+      "message": "This should be expanded to cover the case where a comment with the same text is added on the same line in a newer patch set.",
+      "revId": "f5b3953f46042aae1ae78a977dbd4df705ef8df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

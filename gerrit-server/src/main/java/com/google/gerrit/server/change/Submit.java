@@ -182,29 +182,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    try {
-      ReviewDb db = dbProvider.get();
+    try (ReviewDb db = dbProvider.get()) {
       mergeOpProvider.get().merge(db, change, caller, true);
-      change = db.changes().get(change.getId());
     } catch (NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);
     }
-
-    if (change == null) {
-      throw new ResourceConflictException("change is deleted");
-    }
-    switch (change.getStatus()) {
-      case MERGED:
-        return new Output(change);
-      case NEW:
-        ChangeMessage msg = getConflictMessage(rsrc);
-        if (msg != null) {
-          throw new ResourceConflictException(msg.getMessage());
-        }
-        //$FALL-THROUGH$
-      default:
-        throw new ResourceConflictException("change is " + status(change));
-    }
+    return new Output(change);
   }
 
   /**

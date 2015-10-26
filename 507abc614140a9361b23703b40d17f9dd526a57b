@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56a8615b_64ed8aba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-26T09:02:51Z",
+      "side": 1,
+      "message": "failures",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "507abc614140a9361b23703b40d17f9dd526a57b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_c4fb1e71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-26T09:02:51Z",
+      "side": 1,
+      "message": "For me it\u0027s only 91, but I guess at this point it really doesn\u0027t matter if there a few more or less failures.",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 16
+      },
+      "revId": "507abc614140a9361b23703b40d17f9dd526a57b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_e4f89a76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-26T09:02:51Z",
+      "side": 1,
+      "message": "setAllEnabledConfig(cfg);",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "507abc614140a9361b23703b40d17f9dd526a57b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

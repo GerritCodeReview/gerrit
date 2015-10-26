@@ -141,6 +141,24 @@
       "revId": "3fa98060cfa53ae913964c3faf5abff01bded2b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "767ba5ad_f537f8c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-26T08:17:17Z",
+      "side": 1,
+      "message": "Please update the commit message with correct description.",
+      "parentUuid": "36476d69_c33d76f6",
+      "revId": "3fa98060cfa53ae913964c3faf5abff01bded2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

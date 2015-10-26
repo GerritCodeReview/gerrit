@@ -16,6 +16,40 @@
       "revId": "39d1a499a74ce3586be1571e7bf9d5ac5269d5ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76a9e55d_25e22eb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetAncestorSorter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-26T12:15:28Z",
+      "side": 1,
+      "message": "Optional: For EventFactory use case, we need to support neededBy and dependsOn lists. There could be another method that renders the related changes as ancestors and descendants lists. See also follow-up change I upload to remove PatchSetAncestor entity.",
+      "revId": "39d1a499a74ce3586be1571e7bf9d5ac5269d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76a9e55d_c5d6bad7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetAncestorSorter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-26T12:15:28Z",
+      "side": 1,
+      "message": "Add toString() here?",
+      "revId": "39d1a499a74ce3586be1571e7bf9d5ac5269d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

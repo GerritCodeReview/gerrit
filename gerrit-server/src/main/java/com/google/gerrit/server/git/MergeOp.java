@@ -821,7 +821,7 @@ public class MergeOp {
   private void updateChangeStatus(List<ChangeData> submitted,
       Branch.NameKey destBranch, boolean dryRun, IdentifiedUser caller)
       throws NoSuchChangeException, MergeException, ResourceConflictException,
-      OrmException {
+      OrmException, IOException {
     if (!dryRun) {
       logDebug("Updating change status for {} changes", submitted.size());
     } else {
@@ -834,11 +834,17 @@ public class MergeOp {
       CodeReviewCommit commit = commits.get(c.getId());
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
       if (s == null) {
-        // Shouldn't ever happen, but leave the change alone. We'll pick
-        // it up on the next pass.
+        // This may happen, when we have exactly that commit already.
+        // i.e. there is another branch which contains the exact same commit
         //
         logDebug("Submitted change {} did not appear in set of new commits"
             + " produced by merge strategy", c.getId());
+
+        ChangeData chd = changeDataFactory.create(db, cd.getId());
+        if (chd.change().getStatus().isOpen()) {
+          setMerged(c, message(c, "Change " + c.getId() +
+              " was integrated without a new commit object being generated"), null);
+        }
         continue;
       }
 

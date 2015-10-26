@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6bdd594_a9d35d33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-26T13:48:30Z",
+      "side": 1,
+      "message": "The way to do this is to use PatchSetAncestorSorter directly so you have the PatchSetData object available, which gives you the full ChangeData.",
+      "revId": "99d13c86e39e0f61b4b94e4e48132124a0e59d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

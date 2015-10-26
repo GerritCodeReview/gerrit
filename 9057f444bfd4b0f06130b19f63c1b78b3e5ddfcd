@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76a9e55d_8505222d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-26T08:47:08Z",
+      "side": 1,
+      "message": "Under which license is it available? Do we need to list it somewhere?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 45
+      },
+      "revId": "9057f444bfd4b0f06130b19f63c1b78b3e5ddfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

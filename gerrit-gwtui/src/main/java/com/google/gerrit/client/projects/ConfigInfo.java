@@ -53,6 +53,9 @@ public class ConfigInfo extends JavaScriptObject {
   public final native InheritedBooleanInfo enableSignedPush()
   /*-{ return this.enable_signed_push; }-*/;
 
+  public final native InheritedBooleanInfo requireSignedPush()
+  /*-{ return this.require_signed_push; }-*/;
+
   public final SubmitType submitType() {
     return SubmitType.valueOf(submitTypeRaw());
   }

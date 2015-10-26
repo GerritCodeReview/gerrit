@@ -15,7 +15,6 @@
 package com.google.gerrit.gpg;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.EnableSignedPush;
@@ -33,6 +32,7 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.SignedPushConfig;
@@ -42,6 +42,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 class SignedPushModule extends AbstractModule {
@@ -92,15 +94,22 @@ class SignedPushModule extends AbstractModule {
       if (!ps.isEnableSignedPush()) {
         rp.setSignedPushConfig(null);
         return;
-      }
-      if (signedPushConfig == null) {
+      } else if (signedPushConfig == null) {
         log.error("receive.enableSignedPush is true for project {} but"
             + " false in gerrit.config, so signed push verification is"
             + " disabled", project.get());
+        rp.setSignedPushConfig(null);
+        return;
       }
       rp.setSignedPushConfig(signedPushConfig);
-      rp.setPreReceiveHook(PreReceiveHookChain.newChain(Lists.newArrayList(
-          hook, rp.getPreReceiveHook())));
+
+      List<PreReceiveHook> hooks = new ArrayList<>(3);
+      if (ps.isRequireSignedPush()) {
+        hooks.add(SignedPushPreReceiveHook.Required.INSTANCE);
+      }
+      hooks.add(hook);
+      hooks.add(rp.getPreReceiveHook());
+      rp.setPreReceiveHook(PreReceiveHookChain.newChain(hooks));
     }
   }
 

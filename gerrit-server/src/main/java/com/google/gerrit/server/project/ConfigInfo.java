@@ -46,6 +46,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo createNewChangeForAllNotInTarget;
   public InheritedBooleanInfo requireChangeId;
   public InheritedBooleanInfo enableSignedPush;
+  public InheritedBooleanInfo requireSignedPush;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
   public com.google.gerrit.extensions.client.ProjectState state;
@@ -74,6 +75,7 @@ public class ConfigInfo {
     InheritedBooleanInfo createNewChangeForAllNotInTarget =
         new InheritedBooleanInfo();
     InheritedBooleanInfo enableSignedPush = new InheritedBooleanInfo();
+    InheritedBooleanInfo requireSignedPush = new InheritedBooleanInfo();
 
     useContributorAgreements.value = projectState.isUseContributorAgreements();
     useSignedOffBy.value = projectState.isUseSignedOffBy();
@@ -90,6 +92,7 @@ public class ConfigInfo {
     createNewChangeForAllNotInTarget.configuredValue =
         p.getCreateNewChangeForAllNotInTarget();
     enableSignedPush.configuredValue = p.getEnableSignedPush();
+    requireSignedPush.configuredValue = p.getRequireSignedPush();
 
     ProjectState parentState = Iterables.getFirst(projectState
         .parents(), null);
@@ -102,6 +105,7 @@ public class ConfigInfo {
       createNewChangeForAllNotInTarget.inheritedValue =
           parentState.isCreateNewChangeForAllNotInTarget();
       enableSignedPush.inheritedValue = projectState.isEnableSignedPush();
+      requireSignedPush.inheritedValue = projectState.isRequireSignedPush();
     }
 
     this.useContributorAgreements = useContributorAgreements;
@@ -111,6 +115,7 @@ public class ConfigInfo {
     this.createNewChangeForAllNotInTarget = createNewChangeForAllNotInTarget;
     if (serverEnableSignedPush) {
       this.enableSignedPush = enableSignedPush;
+      this.requireSignedPush = requireSignedPush;
     }
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();

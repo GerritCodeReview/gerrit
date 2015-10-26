@@ -36,6 +36,21 @@ import java.util.Collection;
  */
 @Singleton
 public class SignedPushPreReceiveHook implements PreReceiveHook {
+  public static class Required implements PreReceiveHook {
+    public static final Required INSTANCE = new Required();
+
+    @Override
+    public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
+      if (rp.getPushCertificate() == null) {
+        rp.sendMessage("ERROR: Signed push is required");
+        reject(commands, "push cert error");
+      }
+    }
+
+    private Required() {
+    }
+  }
+
   private final Provider<IdentifiedUser> user;
   private final GerritPushCertificateChecker.Factory checkerFactory;
 

@@ -108,8 +108,8 @@ public class MergeSuperSet {
           if (r.status != SubmitTypeRecord.Status.OK) {
             logErrorAndThrow("Failed to get submit type for " + cd.getId());
           }
+          ret.add(cd);
           if (r.type == SubmitType.CHERRY_PICK) {
-            ret.add(cd);
             continue;
           }
 

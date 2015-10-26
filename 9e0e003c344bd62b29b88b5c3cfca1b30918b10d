@@ -95,6 +95,30 @@
       "revId": "9e0e003c344bd62b29b88b5c3cfca1b30918b10d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_64bfca9a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-26T09:51:16Z",
+      "side": 1,
+      "message": "I think I will just drop this test. It\u0027s the same as createProjectFoo() which can now be executed with notedb enabled as well. This particular bug only occurred when gerrit.notedbpath \u003d\u003d gerrit.basepath, but at this stage I would not add another global switch for the notedbpath. Once all tests with notedb enabled are fixed we can try setting the gerrit.notedbpath \u003d\u003d gerrit.basepath and see if there are further failures.",
+      "parentUuid": "168429cb_42015250",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 4
+      },
+      "revId": "9e0e003c344bd62b29b88b5c3cfca1b30918b10d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

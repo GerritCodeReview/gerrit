@@ -102,19 +102,19 @@ public class JarScanner implements PluginContentScanner {
         throw new InvalidPluginException("Cannot auto-register", err);
       } catch (RuntimeException err) {
         PluginLoader.log.warn(String.format(
-            "Plugin %s has invaild class file %s inside of %s", pluginName,
+            "Plugin %s has invalid class file %s inside of %s", pluginName,
             entry.getName(), jarFile.getName()), err);
         continue;
       }
 
-      if (def.isConcrete()) {
-        if (!Strings.isNullOrEmpty(def.annotationName)) {
-          rawMap.put(def.annotationName, def);
+      if (!Strings.isNullOrEmpty(def.annotationName)) {
+        if (def.isConcrete()) {
+            rawMap.put(def.annotationName, def);
+        } else {
+          PluginLoader.log.warn(String.format(
+              "Plugin %s tries to @%s(\"%s\") abstract class %s", pluginName,
+              def.annotationName, def.annotationValue, def.className));
         }
-      } else {
-        PluginLoader.log.warn(String.format(
-            "Plugin %s tries to @%s(\"%s\") abstract class %s", pluginName,
-            def.annotationName, def.annotationValue, def.className));
       }
     }
 

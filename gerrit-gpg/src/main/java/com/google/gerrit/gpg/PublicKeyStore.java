@@ -83,7 +83,7 @@ public class PublicKeyStore implements AutoCloseable {
    * @param sig signature object.
    * @param data signed payload.
    * @return the key chosen from {@code keyRings} that was able to verify the
-   *     signature, or null if none was found.
+   *     signature, or {@code null} if none was found.
    * @throws PGPException if an error occurred verifying the signature.
    */
   public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
@@ -107,7 +107,7 @@ public class PublicKeyStore implements AutoCloseable {
    * @param userId user ID being certified.
    * @param key key being certified.
    * @return the key chosen from {@code keyRings} that was able to verify the
-   *     certification, or null if none was found.
+   *     certification, or {@code null} if none was found.
    * @throws PGPException if an error occurred verifying the certification.
    */
   public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
@@ -178,15 +178,39 @@ public class PublicKeyStore implements AutoCloseable {
    */
   public PGPPublicKeyRingCollection get(long keyId)
       throws PGPException, IOException {
+    return new PGPPublicKeyRingCollection(get(keyId, null));
+  }
+
+  /**
+   * Read public key with the given fingerprint.
+   * <p>
+   * Keys should not be trusted unless checked with {@link PublicKeyChecker}.
+   * <p>
+   * Multiple calls to this method use the same state of the key ref; to reread
+   * the ref, call {@link #close()} first.
+   *
+   * @param fingerprint key fingerprint.
+   * @return the key if found, or {@code null}.
+   * @throws PGPException if an error occurred parsing the key data.
+   * @throws IOException if an error occurred reading the repository data.
+   */
+  public PGPPublicKeyRing get(byte[] fingerprint)
+      throws PGPException, IOException {
+    List<PGPPublicKeyRing> keyRings =
+        get(Fingerprint.getId(fingerprint), fingerprint);
+    return !keyRings.isEmpty() ? keyRings.get(0) : null;
+  }
+
+  private List<PGPPublicKeyRing> get(long keyId, byte[] fp) throws IOException {
     if (reader == null) {
       load();
     }
     if (notes == null) {
-      return empty();
+      return Collections.emptyList();
     }
     Note note = notes.getNote(keyObjectId(keyId));
     if (note == null) {
-      return empty();
+      return Collections.emptyList();
     }
 
     List<PGPPublicKeyRing> keys = new ArrayList<>();
@@ -200,12 +224,16 @@ public class PublicKeyStore implements AutoCloseable {
         }
         Object obj = it.next();
         if (obj instanceof PGPPublicKeyRing) {
-          keys.add((PGPPublicKeyRing) obj);
+          PGPPublicKeyRing kr = (PGPPublicKeyRing) obj;
+          if (fp == null
+              || Arrays.equals(fp, kr.getPublicKey().getFingerprint())) {
+            keys.add(kr);
+          }
         }
         checkState(!it.hasNext(),
             "expected one PGP object per ArmoredInputStream");
       }
-      return new PGPPublicKeyRingCollection(keys);
+      return keys;
     }
   }
 
@@ -373,12 +401,6 @@ public class PublicKeyStore implements AutoCloseable {
       }
     }
     return out.toByteArray();
-  }
-
-  private static PGPPublicKeyRingCollection empty()
-      throws PGPException, IOException {
-    return new PGPPublicKeyRingCollection(
-        Collections.<PGPPublicKeyRing> emptyList());
   }
 
   public static String keyToString(PGPPublicKey key) {

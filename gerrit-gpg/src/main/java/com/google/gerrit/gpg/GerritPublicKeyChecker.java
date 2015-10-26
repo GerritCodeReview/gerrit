@@ -14,14 +14,14 @@
 
 package com.google.gerrit.gpg;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.PageLinks;
@@ -44,11 +44,10 @@ import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -61,18 +60,13 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private static final Logger log =
       LoggerFactory.getLogger(GerritPublicKeyChecker.class);
 
-  private final Provider<ReviewDb> db;
-  private final String webUrl;
-  private final IdentifiedUser.GenericFactory userFactory;
-  private final IdentifiedUser expectedUser;
-
   @Singleton
   public static class Factory {
     private final Provider<ReviewDb> db;
     private final String webUrl;
     private final IdentifiedUser.GenericFactory userFactory;
     private final int maxTrustDepth;
-    private final ImmutableList<Fingerprint> trusted;
+    private final ImmutableMap<Long, Fingerprint> trusted;
 
     @Inject
     Factory(@GerritServerConfig Config cfg,
@@ -86,52 +80,58 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
 
       String[] strs = cfg.getStringList("receive", null, "trustedKey");
       if (strs.length != 0) {
-        List<Fingerprint> fps = new ArrayList<>(strs.length);
+        Map<Long, Fingerprint> fps =
+            Maps.newHashMapWithExpectedSize(strs.length);
         for (String str : strs) {
           str = CharMatcher.WHITESPACE.removeFrom(str).toUpperCase();
-          fps.add(new Fingerprint(BaseEncoding.base16().decode(str)));
+          Fingerprint fp = new Fingerprint(BaseEncoding.base16().decode(str));
+          fps.put(fp.getId(), fp);
         }
-        trusted = ImmutableList.copyOf(fps);
+        trusted = ImmutableMap.copyOf(fps);
       } else {
         trusted = null;
       }
     }
 
-    /**
-     * Create a checker that can check arbitrary public keys.
-     * <p>
-     * Each key is checked against the set of identities in the database
-     * belonging to the same user as the key.
-     *
-     * @return a new checker.
-     */
     public GerritPublicKeyChecker create() {
-      return new GerritPublicKeyChecker(this, null);
+      return new GerritPublicKeyChecker(this);
     }
 
-    /**
-     * Create a checker for checking a single public key against a known user.
-     * <p>
-     * The top-level key passed to {@link #check(PGPPublicKey, PublicKeyStore)}
-     * must belong to the given user. (Other keys checked in the course of
-     * verifying the web of trust are checked against the set of identities in
-     * the database belonging to the same user as the key.)
-     *
-     * @param expectedUser the user
-     * @return a new checker.
-     */
-    public GerritPublicKeyChecker create(IdentifiedUser expectedUser) {
-      checkNotNull(expectedUser);
-      return new GerritPublicKeyChecker(this, expectedUser);
+    public GerritPublicKeyChecker create(IdentifiedUser expectedUser,
+        PublicKeyStore store) {
+      GerritPublicKeyChecker checker = new GerritPublicKeyChecker(this);
+      checker.setExpectedUser(expectedUser);
+      checker.setStore(store);
+      return checker;
     }
   }
 
-  private GerritPublicKeyChecker(Factory factory, IdentifiedUser expectedUser) {
-    super(factory.maxTrustDepth, factory.trusted);
+  private final Provider<ReviewDb> db;
+  private final String webUrl;
+  private final IdentifiedUser.GenericFactory userFactory;
+
+  private IdentifiedUser expectedUser;
+
+  private GerritPublicKeyChecker(Factory factory) {
     this.db = factory.db;
     this.webUrl = factory.webUrl;
     this.userFactory = factory.userFactory;
+    if (factory.trusted != null) {
+      enableTrust(factory.maxTrustDepth, factory.trusted);
+    }
+  }
+
+   /**
+    * Set the expected user for this checker.
+    * <p>
+    * If set, the top-level key passed to {@link #check(PGPPublicKey)} must
+    * belong to the given user. (Other keys checked in the course of verifying
+    * the web of trust are checked against the set of identities in the database
+    * belonging to the same user as the key.)
+    */
+  public GerritPublicKeyChecker setExpectedUser(IdentifiedUser expectedUser) {
     this.expectedUser = expectedUser;
+    return this;
   }
 
   @Override

@@ -19,6 +19,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import org.eclipse.jgit.util.NB;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Fingerprint {
   private final byte[] fp;
@@ -31,6 +34,18 @@ public class Fingerprint {
         NB.decodeUInt16(fp, 6), NB.decodeUInt16(fp, 8), NB.decodeUInt16(fp, 10),
         NB.decodeUInt16(fp, 12), NB.decodeUInt16(fp, 14),
         NB.decodeUInt16(fp, 16), NB.decodeUInt16(fp, 18));
+  }
+
+  public static long getId(byte[] fp) {
+    return NB.decodeInt64(fp, 12);
+  }
+
+  public static Map<Long, Fingerprint> byId(Iterable<Fingerprint> fps) {
+    Map<Long, Fingerprint> result = new HashMap<>();
+    for (Fingerprint fp : fps) {
+      result.put(fp.getId(), fp);
+    }
+    return Collections.unmodifiableMap(result);
   }
 
   private static byte[] checkLength(byte[] fp) {
@@ -52,6 +67,23 @@ public class Fingerprint {
    */
   public Fingerprint(byte[] fp) {
     this.fp = checkLength(fp);
+  }
+
+  /**
+   * Wrap a portion of a fingerprint byte array.
+   * <p>
+   * Unlike {@link #Fingerprint(byte[])}, creates a new copy of the byte array.
+   *
+   * @param buf byte array to wrap; must have at least {@code off + 20} bytes.
+   * @param off offset in buf.
+   */
+  public Fingerprint(byte[] buf, int off) {
+    int expected = 20 + off;
+    checkArgument(buf.length >= expected,
+        "fingerprint buffer must have at least %s bytes, got %s",
+        expected, buf.length);
+    this.fp = new byte[20];
+    System.arraycopy(buf, off, fp, 0, 20);
   }
 
   public byte[] get() {
@@ -79,6 +111,6 @@ public class Fingerprint {
   }
 
   public long getId() {
-    return NB.decodeInt64(fp, 12);
+    return getId(fp);
   }
 }

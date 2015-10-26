@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.CheckResult;
 import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
+import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.PostGpgKeys.Input;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -193,7 +194,9 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       for (PGPPublicKeyRing keyRing : keyRings) {
         PGPPublicKey key = keyRing.getPublicKey();
         // Don't check web of trust; admins can fill in certifications later.
-        CheckResult result = checkerFactory.create(rsrc.getUser()).check(key);
+        CheckResult result = checkerFactory.create(rsrc.getUser(), store)
+            .disableTrust()
+            .check(key);
         if (!result.isOk()) {
           throw new BadRequestException(String.format(
               "Problems with public key %s:\n%s",
@@ -245,12 +248,12 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       throws IOException {
     // Unlike when storing keys, include web-of-trust checks when producing
     // result JSON, so the user at least knows of any issues.
-    GerritPublicKeyChecker checker = checkerFactory.create(user);
+    PublicKeyChecker checker = checkerFactory.create(user, store);
     Map<String, GpgKeyInfo> infos =
         Maps.newHashMapWithExpectedSize(keys.size() + deleted.size());
     for (PGPPublicKeyRing keyRing : keys) {
       PGPPublicKey key = keyRing.getPublicKey();
-      CheckResult result = checker.check(key, store);
+      CheckResult result = checker.check(key);
       GpgKeyInfo info = GpgKeys.toJson(key, result);
       infos.put(info.id, info);
       info.id = null;

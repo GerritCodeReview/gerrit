@@ -54,7 +54,8 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
     if (cert == null) {
       return;
     }
-    CheckResult result = checkerFactory.create(user.get(), true)
+    CheckResult result = checkerFactory.create(user.get())
+        .setCheckNonce(true)
         .check(cert)
         .getCheckResult();
     if (!isAllowed(result, commands)) {

@@ -163,7 +163,7 @@ public class GpgKeys implements
               found = true;
               GpgKeyInfo info = toJson(
                   keyRing.getPublicKey(),
-                  checkerFactory.create(rsrc.getUser()),
+                  checkerFactory.create(rsrc.getUser(), store),
                   store);
               keys.put(info.id, info);
               info.id = null;
@@ -197,7 +197,7 @@ public class GpgKeys implements
       try (PublicKeyStore store = storeProvider.get()) {
         return toJson(
             rsrc.getKeyRing().getPublicKey(),
-            checkerFactory.create(rsrc.getUser()),
+            checkerFactory.create().setExpectedUser(rsrc.getUser()),
             store);
       }
     }
@@ -261,7 +261,7 @@ public class GpgKeys implements
 
   static GpgKeyInfo toJson(PGPPublicKey key, PublicKeyChecker checker,
       PublicKeyStore store) throws IOException {
-    return toJson(key, checker.check(key, store));
+    return toJson(key, checker.setStore(store).check(key));
   }
 
   public static void toJson(GpgKeyInfo info, CheckResult checkResult) {

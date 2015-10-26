@@ -19,20 +19,34 @@ import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.OK;
 import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.TRUSTED;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static org.bouncycastle.bcpg.SignatureSubpacketTags.REVOCATION_KEY;
+import static org.bouncycastle.bcpg.SignatureSubpacketTags.REVOCATION_REASON;
+import static org.bouncycastle.bcpg.sig.RevocationReasonTags.KEY_COMPROMISED;
+import static org.bouncycastle.bcpg.sig.RevocationReasonTags.KEY_RETIRED;
+import static org.bouncycastle.bcpg.sig.RevocationReasonTags.KEY_SUPERSEDED;
+import static org.bouncycastle.bcpg.sig.RevocationReasonTags.NO_REASON;
+import static org.bouncycastle.openpgp.PGPSignature.DIRECT_KEY;
+import static org.bouncycastle.openpgp.PGPSignature.KEY_REVOCATION;
 
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 
 import org.bouncycastle.bcpg.SignatureSubpacket;
 import org.bouncycastle.bcpg.SignatureSubpacketTags;
+import org.bouncycastle.bcpg.sig.RevocationKey;
+import org.bouncycastle.bcpg.sig.RevocationReason;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSignature;
+import org.bouncycastle.openpgp.operator.bc.BcPGPContentVerifierBuilderProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -42,69 +56,91 @@ import java.util.Set;
 
 /** Checker for GPG public keys for use in a push certificate. */
 public class PublicKeyChecker {
+  private static final Logger log =
+      LoggerFactory.getLogger(PublicKeyChecker.class);
+
   // https://tools.ietf.org/html/rfc4880#section-5.2.3.13
   private static final int COMPLETE_TRUST = 120;
 
-  private final Map<Long, Fingerprint> trusted;
-  private final int maxTrustDepth;
-
-  /** Create a new checker that does not check the web of trust. */
-  public PublicKeyChecker() {
-    this(0, null);
-  }
+  private PublicKeyStore store;
+  private Map<Long, Fingerprint> trusted;
+  private int maxTrustDepth;
+  private Date effectiveTime = new Date();
 
   /**
+   * Enable web-of-trust checks.
+   * <p>
+   * If enabled, a store must be set with {@link #setStore(PublicKeyStore)}.
+   * (These methods are separate since the store is a closeable resource that
+   * may not be available when reading trusted keys from a config.)
+   *
    * @param maxTrustDepth maximum depth to search while looking for a trusted
    *     key.
-   * @param trusted ultimately trusted key fingerprints; may not be empty. If
-   *     null, disable web-of-trust checks.
+   * @param trusted ultimately trusted key fingerprints, keyed by fingerprint;
+   *     may not be empty. To construct a map, see {@link
+   *     Fingerprint#byId(Iterable)}.
+   * @return a reference to this object.
    */
-  public PublicKeyChecker(int maxTrustDepth, Collection<Fingerprint> trusted) {
-    if (trusted != null) {
-      if (maxTrustDepth <= 0) {
+  public PublicKeyChecker enableTrust(int maxTrustDepth,
+      Map<Long, Fingerprint> trusted) {
+    if (maxTrustDepth <= 0) {
+      throw new IllegalArgumentException(
+          "maxTrustDepth must be positive, got: " + maxTrustDepth);
+    }
+    if (trusted == null || trusted.isEmpty()) {
         throw new IllegalArgumentException(
-            "maxTrustDepth must be positive, got: " + maxTrustDepth);
-      }
-      if (trusted.isEmpty()) {
-        throw new IllegalArgumentException("at least one trusted key required");
-      }
-      this.trusted = new HashMap<>();
-      for (Fingerprint fp : trusted) {
-        this.trusted.put(fp.getId(), fp);
-      }
-    } else {
-      this.trusted = null;
+            "at least one trusted key is required");
     }
     this.maxTrustDepth = maxTrustDepth;
+    this.trusted = trusted;
+    return this;
   }
 
-  /**
-   * Check a public key, including its web of trust.
-   *
-   * @param key the public key.
-   * @param store a store to read public keys from for trust checks. If this
-   *     store is not configured for web-of-trust checks, this argument is
-   *     ignored.
-   * @return the result of the check.
-   */
-  public final CheckResult check(PGPPublicKey key, PublicKeyStore store) {
-    if (trusted == null) {
-      return check(key);
-    } else if (store == null) {
-      throw new IllegalArgumentException(
-          "PublicKeyStore required for web of trust checks");
+  /** Disable web-of-trust checks. */
+  public PublicKeyChecker disableTrust() {
+    trusted = null;
+    return this;
+  }
+
+  /** Set the public key store for reading keys referenced in signatures. */
+  public PublicKeyChecker setStore(PublicKeyStore store) {
+    if (store == null) {
+      throw new IllegalArgumentException("PublicKeyStore is required");
     }
-    return check(key, store, 0, true, new HashSet<Fingerprint>());
+    this.store = store;
+    return this;
   }
 
   /**
-   * Check only a public key, not including its web of trust.
+   * Set the effective time for checking the key.
+   * <p>
+   * If set, check whether the key should be considered valid (e.g. unexpired)
+   * as of this time.
+   *
+   * @param effectiveTime effective time.
+   * @return a reference to this object.
+   */
+  public PublicKeyChecker setEffectiveTime(Date effectiveTime) {
+    this.effectiveTime = effectiveTime;
+    return this;
+  }
+
+  protected Date getEffectiveTime() {
+    return effectiveTime;
+  }
+
+  /**
+   * Check a public key.
    *
    * @param key the public key.
    * @return the result of the check.
    */
   public final CheckResult check(PGPPublicKey key) {
-    return check(key, null, 0, false, null);
+    if (store == null) {
+      throw new IllegalStateException("PublicKeyStore is required");
+    }
+    return check(key, 0, true,
+        trusted != null ? new HashSet<Fingerprint>() : null);
   }
 
   /**
@@ -115,17 +151,17 @@ public class PublicKeyChecker {
    *
    * @param key the public key.
    * @param depth the depth from the initial key passed to {@link #check(
-   *     PGPPublicKey, PublicKeyStore)}: 0 if this was the initial key, up to a
-   *     maximum of {@code maxTrustDepth}.
+   *     PGPPublicKey)}: 0 if this was the initial key, up to a maximum of
+   *     {@code maxTrustDepth}.
    * @return the result of the custom check.
    */
   public CheckResult checkCustom(PGPPublicKey key, int depth) {
     return CheckResult.ok();
   }
 
-  private CheckResult check(PGPPublicKey key, PublicKeyStore store, int depth,
-      boolean expand, Set<Fingerprint> seen) {
-    CheckResult basicResult = checkBasic(key);
+  private CheckResult check(PGPPublicKey key, int depth, boolean expand,
+      Set<Fingerprint> seen) {
+    CheckResult basicResult = checkBasic(key, effectiveTime);
     CheckResult customResult = checkCustom(key, depth);
     CheckResult trustResult = checkWebOfTrust(key, store, depth, seen);
     if (!expand && !trustResult.isTrusted()) {
@@ -160,28 +196,189 @@ public class PublicKeyChecker {
     return CheckResult.create(status, problems);
   }
 
-  private CheckResult checkBasic(PGPPublicKey key) {
+  private CheckResult checkBasic(PGPPublicKey key, Date now) {
     List<String> problems = new ArrayList<>(2);
-    if (key.isRevoked()) {
-      // TODO(dborowitz): isRevoked is overeager:
-      // http://www.bouncycastle.org/jira/browse/BJB-45
-      problems.add("Key is revoked");
-    }
+    gatherRevocationProblems(key, now, problems);
 
-    long validSecs = key.getValidSeconds();
-    if (validSecs != 0) {
-      long createdSecs = key.getCreationTime().getTime() / 1000;
-      long nowSecs = System.currentTimeMillis() / 1000;
-      if (nowSecs - createdSecs > validSecs) {
+    long validMs = key.getValidSeconds() * 1000;
+    if (validMs != 0) {
+      long msSinceCreation = now.getTime() - key.getCreationTime().getTime();
+      if (msSinceCreation > validMs) {
         problems.add("Key is expired");
       }
     }
     return CheckResult.create(problems);
   }
 
+  private void gatherRevocationProblems(PGPPublicKey key, Date now,
+      List<String> problems) {
+    try {
+      List<PGPSignature> revocations = new ArrayList<>();
+      Map<Long, RevocationKey> revokers = new HashMap<>();
+      PGPSignature selfRevocation =
+          scanRevocations(key, now, revocations, revokers);
+      if (selfRevocation != null) {
+        RevocationReason reason = getRevocationReason(selfRevocation);
+        if (isRevocationValid(selfRevocation, reason, now)) {
+          problems.add(reasonToString(reason));
+        }
+      } else {
+        checkRevocations(key, revocations, revokers, problems);
+      }
+    } catch (PGPException | IOException e) {
+      problems.add("Error checking key revocation");
+    }
+  }
+
+  private static boolean isRevocationValid(PGPSignature revocation,
+      RevocationReason reason, Date now) {
+    // RFC4880 states:
+    // "If a key has been revoked because of a compromise, all signatures
+    // created by that key are suspect. However, if it was merely superseded or
+    // retired, old signatures are still valid."
+    //
+    // Note that GnuPG does not implement this correctly, as it does not
+    // consider the revocation reason and timestamp when checking whether a
+    // signature (data or certification) is valid.
+    return reason.getRevocationReason() == KEY_COMPROMISED
+        || revocation.getCreationTime().before(now);
+  }
+
+  private PGPSignature scanRevocations(PGPPublicKey key, Date now,
+      List<PGPSignature> revocations, Map<Long, RevocationKey> revokers)
+      throws PGPException {
+    @SuppressWarnings("unchecked")
+    Iterator<PGPSignature> allSigs = key.getSignatures();
+    while (allSigs.hasNext()) {
+      PGPSignature sig = allSigs.next();
+      switch (sig.getSignatureType()) {
+        case KEY_REVOCATION:
+          if (sig.getKeyID() == key.getKeyID()) {
+            sig.init(new BcPGPContentVerifierBuilderProvider(), key);
+            if (sig.verifyCertification(key)) {
+              return sig;
+            }
+          } else {
+            RevocationReason reason = getRevocationReason(sig);
+            if (reason != null && isRevocationValid(sig, reason, now)) {
+              revocations.add(sig);
+            }
+          }
+          break;
+        case DIRECT_KEY:
+          RevocationKey r = getRevocationKey(key, sig);
+          if (r != null) {
+            revokers.put(Fingerprint.getId(r.getFingerprint()), r);
+          }
+          break;
+      }
+    }
+    return null;
+  }
+
+  private RevocationKey getRevocationKey(PGPPublicKey key, PGPSignature sig)
+      throws PGPException {
+    if (sig.getKeyID() != key.getKeyID()) {
+      return null;
+    }
+    SignatureSubpacket sub =
+        sig.getHashedSubPackets().getSubpacket(REVOCATION_KEY);
+    if (sub == null) {
+      return null;
+    }
+    sig.init(new BcPGPContentVerifierBuilderProvider(), key);
+    if (!sig.verifyCertification(key)) {
+      return null;
+    }
+
+    return new RevocationKey(sub.isCritical(), sub.getData());
+  }
+
+  private void checkRevocations(PGPPublicKey key,
+      List<PGPSignature> revocations, Map<Long, RevocationKey> revokers,
+      List<String> problems)
+      throws PGPException, IOException {
+    for (PGPSignature revocation : revocations) {
+      RevocationKey revoker = revokers.get(revocation.getKeyID());
+      if (revoker == null) {
+        continue; // Not a designated revoker.
+      }
+      byte[] rfp = revoker.getFingerprint();
+      PGPPublicKeyRing revokerKeyRing = store.get(rfp);
+      if (revokerKeyRing == null) {
+        // Revoker is authorized and there is a revocation signature by this
+        // revoker, but the key is not in the store so we can't verify the
+        // signature.
+        log.info("Key " + Fingerprint.toString(key.getFingerprint())
+            + " is revoked by " + Fingerprint.toString(rfp)
+            + ", which is not in the store. Assuming revocation is valid.");
+        problems.add(reasonToString(getRevocationReason(revocation)));
+        continue;
+      }
+      PGPPublicKey rk = revokerKeyRing.getPublicKey();
+      if (rk.getAlgorithm() != revoker.getAlgorithm()) {
+        continue;
+      }
+      if (!checkBasic(rk, revocation.getCreationTime()).isOk()) {
+        // Revoker's key was expired or revoked at time of revocation, so the
+        // revocation is invalid.
+        continue;
+      }
+      revocation.init(new BcPGPContentVerifierBuilderProvider(), rk);
+      if (revocation.verifyCertification(key)) {
+        problems.add(reasonToString(getRevocationReason(revocation)));
+      }
+    }
+  }
+
+  private static RevocationReason getRevocationReason(PGPSignature sig) {
+    if (sig.getSignatureType() != KEY_REVOCATION) {
+      throw new IllegalArgumentException(
+          "Expected KEY_REVOCATION signature, got " + sig.getSignatureType());
+    }
+    SignatureSubpacket sub =
+        sig.getHashedSubPackets().getSubpacket(REVOCATION_REASON);
+    if (sub == null) {
+      return null;
+    }
+    return new RevocationReason(sub.isCritical(), sub.getData());
+  }
+
+  private static String reasonToString(RevocationReason reason) {
+    StringBuilder r = new StringBuilder("Key is revoked (");
+    if (reason == null) {
+      return r.append("no reason provided)").toString();
+    }
+    switch (reason.getRevocationReason()) {
+      case NO_REASON:
+        r.append("no reason code specified");
+        break;
+      case KEY_SUPERSEDED:
+        r.append("superseded");
+        break;
+      case KEY_COMPROMISED:
+        r.append("key material has been compromised");
+        break;
+      case KEY_RETIRED:
+        r.append("retired and no longer valid");
+        break;
+      default:
+        r.append("reason code ")
+            .append(Integer.toString(reason.getRevocationReason()))
+            .append(')');
+        break;
+    }
+    r.append(')');
+    String desc = reason.getRevocationDescription();
+    if (!desc.isEmpty()) {
+      r.append(": ").append(desc);
+    }
+    return r.toString();
+  }
+
   private CheckResult checkWebOfTrust(PGPPublicKey key, PublicKeyStore store,
       int depth, Set<Fingerprint> seen) {
-    if (trusted == null || store == null) {
+    if (trusted == null) {
       // Trust checking not configured, server trusts all OK keys.
       return CheckResult.trusted();
     }
@@ -204,8 +401,13 @@ public class PublicKeyChecker {
     Iterator<String> userIds = key.getUserIDs();
     while (userIds.hasNext()) {
       String userId = userIds.next();
+
+      // Don't check the timestamp of these certifications. This allows admins
+      // to correct untrusted keys by signing them with a trusted key, such that
+      // older signatures created by those keys retroactively appear valid.
       @SuppressWarnings("unchecked")
       Iterator<PGPSignature> sigs = key.getSignaturesForID(userId);
+
       while (sigs.hasNext()) {
         PGPSignature sig = sigs.next();
         // TODO(dborowitz): Handle CERTIFICATION_REVOCATION.
@@ -222,8 +424,7 @@ public class PublicKeyChecker {
         }
         String subpacketProblem = checkTrustSubpacket(sig, depth);
         if (subpacketProblem == null) {
-          CheckResult signerResult =
-              check(signer, store, depth + 1, false, seen);
+          CheckResult signerResult = check(signer, depth + 1, false, seen);
           if (signerResult.isTrusted()) {
             return CheckResult.trusted();
           }

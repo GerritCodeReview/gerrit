@@ -16,6 +16,24 @@
       "revId": "99d13c86e39e0f61b4b94e4e48132124a0e59d3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_84b766bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-26T14:02:39Z",
+      "side": 1,
+      "message": "Right. We may want to extract some code from GetRelated.apply() to some utility class, to reuse PatchSetAncestorSorter invocation code from both places.",
+      "parentUuid": "f6bdd594_a9d35d33",
+      "revId": "99d13c86e39e0f61b4b94e4e48132124a0e59d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

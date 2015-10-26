@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "16bb49a1_8ad68b24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetAncestorSorter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-26T13:45:37Z",
+      "side": 1,
+      "message": "I know, that\u0027s the reason I hadn\u0027t killed the table entirely yet.",
+      "parentUuid": "76a9e55d_25e22eb3",
+      "revId": "39d1a499a74ce3586be1571e7bf9d5ac5269d5ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76a9e55d_c5d6bad7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetAncestorSorter.java",
         "patchSetId": 2

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76a9e55d_65910621",
+        "filename": "gerrit-acceptance-framework/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-26T23:05:34Z",
+      "side": 1,
+      "message": "You can\u0027t do that. This would pull tons of transitive dependencies. Just check the size of the jar before and after this change:\n\n* before 11195572 Oct 27 00:03 buck-out/gen/gerrit-acceptance-framework/acceptance-framework.jar\n* after 33852896 Oct 27 00:03 buck-out/gen/gerrit-acceptance-framework/acceptance-framework.jar\n\nI think you want break the transitive dependency chain and do something similar what I did with util-nodep:",
+      "range": {
+        "startLine": 8,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 22
+      },
+      "revId": "72fdcc98b4f5e8dced89a3c685da0c4df2e70996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

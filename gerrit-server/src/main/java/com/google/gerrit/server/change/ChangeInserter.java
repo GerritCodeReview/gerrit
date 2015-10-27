@@ -245,7 +245,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getChangeControl();
     ChangeUpdate update = ctx.getChangeUpdate();
-    ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
     if (patchSet.getGroups() == null) {
       patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));
     }

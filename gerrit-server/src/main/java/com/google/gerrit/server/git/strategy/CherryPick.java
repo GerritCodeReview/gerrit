@@ -19,11 +19,9 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -42,11 +40,9 @@ import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -187,7 +183,6 @@ public class CherryPick extends SubmitStrategy {
       Change c = toMerge.change();
       ps.setGroups(GroupCollector.getCurrentGroups(args.db, c));
       args.db.patchSets().insert(Collections.singleton(ps));
-      insertAncestors(args.db, ps.getId(), newCommit);
       c.setCurrentPatchSet(patchSetInfo);
       args.db.changes().update(Collections.singletonList(c));
 
@@ -245,20 +240,6 @@ public class CherryPick extends SubmitStrategy {
           mergeTip.getCurrentTip(), args.alreadyAccepted);
       setRefLogIdent();
     }
-  }
-
-  private static void insertAncestors(ReviewDb db, PatchSet.Id id,
-      RevCommit src) throws OrmException {
-    int cnt = src.getParentCount();
-    List<PatchSetAncestor> toInsert = new ArrayList<>(cnt);
-    for (int p = 0; p < cnt; p++) {
-      PatchSetAncestor a;
-
-      a = new PatchSetAncestor(new PatchSetAncestor.Id(id, p + 1));
-      a.setAncestorRevision(new RevId(src.getParent(p).getId().name()));
-      toInsert.add(a);
-    }
-    db.patchSetAncestors().insert(toInsert);
   }
 
   @Override

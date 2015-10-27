@@ -26,6 +26,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedListMultimap;
@@ -84,7 +85,8 @@ class ChangeNotesParser implements AutoCloseable {
   private final Repository repo;
   private final Map<PatchSet.Id,
       Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
-  private final Multimap<PatchSet.Id, ChangeMessage> changeMessages;
+  private final List<ChangeMessage> allChangeMessages;
+  private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
   ChangeNotesParser(Change change, ObjectId tip, RevWalk walk,
       GitRepositoryManager repoManager) throws RepositoryNotFoundException,
@@ -98,7 +100,8 @@ class ChangeNotesParser implements AutoCloseable {
     reviewers = Maps.newLinkedHashMap();
     allPastReviewers = Lists.newArrayList();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
-    changeMessages = LinkedListMultimap.create();
+    allChangeMessages = Lists.newArrayList();
+    changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = ArrayListMultimap.create();
   }
 
@@ -133,11 +136,16 @@ class ChangeNotesParser implements AutoCloseable {
     return ImmutableListMultimap.copyOf(result);
   }
 
-  ImmutableListMultimap<PatchSet.Id, ChangeMessage> buildMessages() {
-    for (Collection<ChangeMessage> v : changeMessages.asMap().values()) {
+  ImmutableList<ChangeMessage> buildAllMessages() {
+    return ImmutableList.copyOf(Lists.reverse(allChangeMessages));
+  }
+
+  ImmutableListMultimap<PatchSet.Id, ChangeMessage> buildMessagesByPatchSet() {
+    for (Collection<ChangeMessage> v :
+        changeMessagesByPatchSet.asMap().values()) {
       Collections.reverse((List<ChangeMessage>) v);
     }
-    return ImmutableListMultimap.copyOf(changeMessages);
+    return ImmutableListMultimap.copyOf(changeMessagesByPatchSet);
   }
 
   private void parse(RevCommit commit) throws ConfigInvalidException {
@@ -267,7 +275,8 @@ class ChangeNotesParser implements AutoCloseable {
         new Timestamp(commit.getCommitterIdent().getWhen().getTime()),
         psId);
     changeMessage.setMessage(changeMsgString);
-    changeMessages.put(psId, changeMessage);
+    changeMessagesByPatchSet.put(psId, changeMessage);
+    allChangeMessages.add(changeMessage);
   }
 
   private void parseComments()

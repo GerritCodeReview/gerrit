@@ -526,7 +526,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
-        notes.getChangeMessages();
+        notes.getChangeMessagesByPatchSet();
     assertThat(changeMessages.keySet()).containsExactly(ps1);
 
     ChangeMessage cm = Iterables.getOnlyElement(changeMessages.get(ps1));
@@ -557,7 +557,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
-        notes.getChangeMessages();
+        notes.getChangeMessagesByPatchSet();
     assertThat(changeMessages).hasSize(1);
 
     ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
@@ -579,7 +579,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
-        notes.getChangeMessages();
+        notes.getChangeMessagesByPatchSet();
     assertThat(changeMessages).hasSize(1);
 
     ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
@@ -609,7 +609,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
-        notes.getChangeMessages();
+        notes.getChangeMessagesByPatchSet();
     assertThat(changeMessages).hasSize(2);
 
     ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
@@ -642,7 +642,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
-        notes.getChangeMessages();
+        notes.getChangeMessagesByPatchSet();
     assertThat(changeMessages.keySet()).hasSize(1);
 
     List<ChangeMessage> cm = changeMessages.get(ps1);

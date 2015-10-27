@@ -76,6 +76,7 @@ import java.util.Map;
 @Singleton
 public class EventFactory {
   private static final Logger log = LoggerFactory.getLogger(EventFactory.class);
+
   private final AccountCache accountCache;
   private final Provider<String> urlProvider;
   private final PatchListCache patchListCache;
@@ -116,7 +117,7 @@ public class EventFactory {
    * @param change
    * @return object suitable for serialization to JSON
    */
-  public ChangeAttribute asChangeAttribute(final Change change) {
+  public ChangeAttribute asChangeAttribute(Change change) {
     ChangeAttribute a = new ChangeAttribute();
     a.project = change.getProject().get();
     a.branch = change.getDest().getShortName();
@@ -146,7 +147,8 @@ public class EventFactory {
    * @param refName
    * @return object suitable for serialization to JSON
    */
-  public RefUpdateAttribute asRefUpdateAttribute(final ObjectId oldId, final ObjectId newId, final Branch.NameKey refName) {
+  public RefUpdateAttribute asRefUpdateAttribute(ObjectId oldId, ObjectId newId,
+      Branch.NameKey refName) {
     RefUpdateAttribute ru = new RefUpdateAttribute();
     ru.newRev = newId != null ? newId.getName() : ObjectId.zeroId().getName();
     ru.oldRev = oldId != null ? oldId.getName() : ObjectId.zeroId().getName();
@@ -230,7 +232,7 @@ public class EventFactory {
     ca.dependsOn = new ArrayList<>();
     ca.neededBy = new ArrayList<>();
     try (ReviewDb db = schema.open()) {
-      final PatchSet.Id psId = change.currentPatchSetId();
+      PatchSet.Id psId = change.currentPatchSetId();
       for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
         for (PatchSet p :
             db.patchSets().byRevision(a.getAncestorRevision())) {
@@ -245,22 +247,22 @@ public class EventFactory {
         }
       }
 
-      final PatchSet ps = db.patchSets().get(psId);
+      PatchSet ps = db.patchSets().get(psId);
       if (ps == null) {
         log.error("Error while generating the list of descendants for"
             + " PatchSet " + psId + ": Cannot find PatchSet entry in"
             + " database.");
       } else {
-        final RevId revId = ps.getRevision();
+        RevId revId = ps.getRevision();
         for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(revId)) {
-          final PatchSet p = db.patchSets().get(a.getPatchSet());
+          PatchSet p = db.patchSets().get(a.getPatchSet());
           if (p == null) {
             log.error("Error while generating the list of descendants for"
                 + " revision " + revId.get() + ": Cannot find PatchSet entry in"
                 + " database for " + a.getPatchSet());
             continue;
           }
-          final Change c = db.changes().get(p.getId().getParentKey());
+          Change c = db.changes().get(p.getId().getParentKey());
           if (c == null) {
             log.error("Error while generating the list of descendants for"
                 + " revision " + revId.get() + ": Cannot find Change entry in"
@@ -400,7 +402,7 @@ public class EventFactory {
    * @param patchSet
    * @return object suitable for serialization to JSON
    */
-  public PatchSetAttribute asPatchSetAttribute(final PatchSet patchSet) {
+  public PatchSetAttribute asPatchSetAttribute(PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.getRevision().get();
     p.number = Integer.toString(patchSet.getPatchSetId());
@@ -408,7 +410,7 @@ public class EventFactory {
     p.uploader = asAccountAttribute(patchSet.getUploader());
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
     p.isDraft = patchSet.isDraft();
-    final PatchSet.Id pId = patchSet.getId();
+    PatchSet.Id pId = patchSet.getId();
     try (ReviewDb db = schema.open()) {
       p.parents = new ArrayList<>();
       for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
@@ -491,7 +493,7 @@ public class EventFactory {
    * @param account
    * @return object suitable for serialization to JSON
    */
-  public AccountAttribute asAccountAttribute(final Account account) {
+  public AccountAttribute asAccountAttribute(Account account) {
     if (account == null) {
       return null;
     }
@@ -560,9 +562,9 @@ public class EventFactory {
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
-  private String getChangeUrl(final Change change) {
+  private String getChangeUrl(Change change) {
     if (change != null && urlProvider.get() != null) {
-      final StringBuilder r = new StringBuilder();
+      StringBuilder r = new StringBuilder();
       r.append(urlProvider.get());
       r.append(change.getChangeId());
       return r.toString();

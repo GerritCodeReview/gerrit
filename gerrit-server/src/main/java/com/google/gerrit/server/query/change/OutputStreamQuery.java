@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -26,6 +28,7 @@ import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.QueryParseException;
@@ -34,6 +37,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -49,7 +54,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Change query implementation that outputs to a stream in the style of an SSH
@@ -67,6 +74,7 @@ public class OutputStreamQuery {
   }
 
   private final Provider<ReviewDb> db;
+  private final GitRepositoryManager repoManager;
   private final ChangeQueryBuilder queryBuilder;
   private final QueryProcessor queryProcessor;
   private final EventFactory eventFactory;
@@ -90,12 +98,14 @@ public class OutputStreamQuery {
   @Inject
   OutputStreamQuery(
       Provider<ReviewDb> db,
+      GitRepositoryManager repoManager,
       ChangeQueryBuilder queryBuilder,
       QueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
       CurrentUser user) {
     this.db = db;
+    this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
     this.eventFactory = eventFactory;
@@ -184,78 +194,20 @@ public class OutputStreamQuery {
         final QueryStatsAttribute stats = new QueryStatsAttribute();
         stats.runTimeMilliseconds = TimeUtil.nowMs();
 
+        Map<Project.NameKey, Repository> repos = null;
+        Map<Project.NameKey, RevWalk> revWalks = null;
+        if (includeDependencies) {
+          repos = new HashMap<>();
+          revWalks = new HashMap<>();
+        }
         QueryResult results =
             queryProcessor.queryChanges(queryBuilder.parse(queryString));
-        ChangeAttribute c = null;
-        for (ChangeData d : results.changes()) {
-          ChangeControl cc = d.changeControl().forUser(user);
-
-          LabelTypes labelTypes = cc.getLabelTypes();
-          c = eventFactory.asChangeAttribute(db.get(), d.change());
-          eventFactory.extend(c, d.change());
-
-          if (!trackingFooters.isEmpty()) {
-            eventFactory.addTrackingIds(c,
-                trackingFooters.extract(d.commitFooters()));
+        try {
+          for (ChangeData d : results.changes()) {
+            show(buildChangeAttribute(d, repos, revWalks));
           }
-
-          if (includeAllReviewers) {
-            eventFactory.addAllReviewers(db.get(), c, d.notes());
-          }
-
-          if (includeSubmitRecords) {
-            eventFactory.addSubmitRecords(c, new SubmitRuleEvaluator(d)
-                .setAllowClosed(true)
-                .setAllowDraft(true)
-                .evaluate());
-          }
-
-          if (includeCommitMessage) {
-            eventFactory.addCommitMessage(c, d.commitMessage());
-          }
-
-          if (includePatchSets) {
-            if (includeFiles) {
-              eventFactory.addPatchSets(db.get(), c, d.patchSets(),
-                includeApprovals ? d.approvals().asMap() : null,
-                includeFiles, d.change(), labelTypes);
-            } else {
-              eventFactory.addPatchSets(db.get(), c, d.patchSets(),
-                  includeApprovals ? d.approvals().asMap() : null,
-                  labelTypes);
-            }
-          }
-
-          if (includeCurrentPatchSet) {
-            PatchSet current = d.currentPatchSet();
-            if (current != null) {
-              c.currentPatchSet =
-                  eventFactory.asPatchSetAttribute(db.get(), current);
-              eventFactory.addApprovals(c.currentPatchSet,
-                  d.currentApprovals(), labelTypes);
-
-              if (includeFiles) {
-                eventFactory.addPatchSetFileNames(c.currentPatchSet,
-                    d.change(), d.currentPatchSet());
-              }
-            }
-          }
-
-          if (includeComments) {
-            eventFactory.addComments(c, d.messages());
-            if (includePatchSets) {
-              for (PatchSetAttribute attribute : c.patchSets) {
-                eventFactory.addPatchSetComments(
-                    attribute, d.publishedComments());
-              }
-            }
-          }
-
-          if (includeDependencies) {
-            eventFactory.addDependencies(db.get(), c, d.change());
-          }
-
-          show(c);
+        } finally {
+          closeAll(revWalks.values(), repos.values());
         }
 
         stats.rowCount = results.changes().size();
@@ -280,6 +232,103 @@ public class OutputStreamQuery {
         out.flush();
       } finally {
         out = null;
+      }
+    }
+  }
+
+  private ChangeAttribute buildChangeAttribute(ChangeData d,
+      Map<Project.NameKey, Repository> repos,
+      Map<Project.NameKey, RevWalk> revWalks)
+      throws OrmException, IOException {
+    ChangeControl cc = d.changeControl().forUser(user);
+
+    LabelTypes labelTypes = cc.getLabelTypes();
+    ChangeAttribute c = eventFactory.asChangeAttribute(db.get(), d.change());
+    eventFactory.extend(c, d.change());
+
+    if (!trackingFooters.isEmpty()) {
+      eventFactory.addTrackingIds(c,
+          trackingFooters.extract(d.commitFooters()));
+    }
+
+    if (includeAllReviewers) {
+      eventFactory.addAllReviewers(db.get(), c, d.notes());
+    }
+
+    if (includeSubmitRecords) {
+      eventFactory.addSubmitRecords(c, new SubmitRuleEvaluator(d)
+          .setAllowClosed(true)
+          .setAllowDraft(true)
+          .evaluate());
+    }
+
+    if (includeCommitMessage) {
+      eventFactory.addCommitMessage(c, d.commitMessage());
+    }
+
+    if (includePatchSets) {
+      if (includeFiles) {
+        eventFactory.addPatchSets(db.get(), c, d.patchSets(),
+          includeApprovals ? d.approvals().asMap() : null,
+          includeFiles, d.change(), labelTypes);
+      } else {
+        eventFactory.addPatchSets(db.get(), c, d.patchSets(),
+            includeApprovals ? d.approvals().asMap() : null,
+            labelTypes);
+      }
+    }
+
+    if (includeCurrentPatchSet) {
+      PatchSet current = d.currentPatchSet();
+      if (current != null) {
+        c.currentPatchSet =
+            eventFactory.asPatchSetAttribute(db.get(), current);
+        eventFactory.addApprovals(c.currentPatchSet,
+            d.currentApprovals(), labelTypes);
+
+        if (includeFiles) {
+          eventFactory.addPatchSetFileNames(c.currentPatchSet,
+              d.change(), d.currentPatchSet());
+        }
+      }
+    }
+
+    if (includeComments) {
+      eventFactory.addComments(c, d.messages());
+      if (includePatchSets) {
+        for (PatchSetAttribute attribute : c.patchSets) {
+          eventFactory.addPatchSetComments(
+              attribute, d.publishedComments());
+        }
+      }
+    }
+
+    if (includeDependencies) {
+      Project.NameKey p = d.change().getProject();
+      RevWalk rw = revWalks.get(p);
+      // Cache and reuse repos and revwalks.
+      if (rw == null) {
+        Repository repo = repoManager.openRepository(p);
+        checkState(repos.put(p, repo) == null);
+        rw = new RevWalk(repo);
+        revWalks.put(p, rw);
+      }
+      eventFactory.addDependencies(rw, c, d.change(), d.currentPatchSet());
+    }
+
+    return c;
+  }
+
+  private static void closeAll(Iterable<RevWalk> revWalks,
+      Iterable<Repository> repos) {
+    if (repos != null) {
+      for (Repository repo : repos) {
+        repo.close();
+      }
+    }
+    if (revWalks != null) {
+      for (RevWalk revWalk : revWalks) {
+        revWalk.close();
       }
     }
   }

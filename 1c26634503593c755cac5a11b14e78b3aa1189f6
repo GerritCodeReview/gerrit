@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6bdd594_291a0db4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-27T13:06:07Z",
+      "side": 1,
+      "message": "Finish this sentence? I\u0027m very much interested in your explanation of why this happens and why it\u0027s ok to just ignore.",
+      "revId": "1c26634503593c755cac5a11b14e78b3aa1189f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16bb49a1_2a53df51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-27T13:06:07Z",
+      "side": 1,
+      "message": "Don\u0027t close the db you got from the provider (only if it came from a SchemaFactory)",
+      "revId": "1c26634503593c755cac5a11b14e78b3aa1189f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.joda.time.format.DateTimeFormat;
@@ -64,6 +66,7 @@ public class OutputStreamQuery {
     TEXT, JSON
   }
 
+  private final Provider<ReviewDb> db;
   private final ChangeQueryBuilder queryBuilder;
   private final QueryProcessor queryProcessor;
   private final EventFactory eventFactory;
@@ -86,11 +89,13 @@ public class OutputStreamQuery {
 
   @Inject
   OutputStreamQuery(
+      Provider<ReviewDb> db,
       ChangeQueryBuilder queryBuilder,
       QueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
       CurrentUser user) {
+    this.db = db;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
     this.eventFactory = eventFactory;
@@ -186,7 +191,7 @@ public class OutputStreamQuery {
           ChangeControl cc = d.changeControl().forUser(user);
 
           LabelTypes labelTypes = cc.getLabelTypes();
-          c = eventFactory.asChangeAttribute(d.change());
+          c = eventFactory.asChangeAttribute(db.get(), d.change());
           eventFactory.extend(c, d.change());
 
           if (!trackingFooters.isEmpty()) {
@@ -195,7 +200,7 @@ public class OutputStreamQuery {
           }
 
           if (includeAllReviewers) {
-            eventFactory.addAllReviewers(c, d.notes());
+            eventFactory.addAllReviewers(db.get(), c, d.notes());
           }
 
           if (includeSubmitRecords) {
@@ -211,11 +216,11 @@ public class OutputStreamQuery {
 
           if (includePatchSets) {
             if (includeFiles) {
-              eventFactory.addPatchSets(c, d.patchSets(),
+              eventFactory.addPatchSets(db.get(), c, d.patchSets(),
                 includeApprovals ? d.approvals().asMap() : null,
                 includeFiles, d.change(), labelTypes);
             } else {
-              eventFactory.addPatchSets(c, d.patchSets(),
+              eventFactory.addPatchSets(db.get(), c, d.patchSets(),
                   includeApprovals ? d.approvals().asMap() : null,
                   labelTypes);
             }
@@ -224,7 +229,8 @@ public class OutputStreamQuery {
           if (includeCurrentPatchSet) {
             PatchSet current = d.currentPatchSet();
             if (current != null) {
-              c.currentPatchSet = eventFactory.asPatchSetAttribute(current);
+              c.currentPatchSet =
+                  eventFactory.asPatchSetAttribute(db.get(), current);
               eventFactory.addApprovals(c.currentPatchSet,
                   d.currentApprovals(), labelTypes);
 
@@ -239,13 +245,14 @@ public class OutputStreamQuery {
             eventFactory.addComments(c, d.messages());
             if (includePatchSets) {
               for (PatchSetAttribute attribute : c.patchSets) {
-                eventFactory.addPatchSetComments(attribute,  d.publishedComments());
+                eventFactory.addPatchSetComments(
+                    attribute, d.publishedComments());
               }
             }
           }
 
           if (includeDependencies) {
-            eventFactory.addDependencies(c, d.change());
+            eventFactory.addDependencies(db.get(), c, d.change());
           }
 
           show(c);

@@ -380,8 +380,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       AccountState uploader = accountCache.get(patchSet.getUploader());
       AccountState owner = accountCache.get(change.getOwner());
 
-      event.change = eventFactory.asChangeAttribute(change);
-      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.change = eventFactory.asChangeAttribute(db, change);
+      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
       event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
       fireEvent(change, event, db);
 
@@ -408,8 +408,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       AccountState uploader = accountCache.get(patchSet.getUploader());
       AccountState owner = accountCache.get(change.getOwner());
 
-      event.change = eventFactory.asChangeAttribute(change);
-      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.change = eventFactory.asChangeAttribute(db, change);
+      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
       event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
       fireEvent(change, event, db);
 
@@ -434,9 +434,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       CommentAddedEvent event = new CommentAddedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
-      event.change = eventFactory.asChangeAttribute(change);
+      event.change = eventFactory.asChangeAttribute(db, change);
       event.author =  eventFactory.asAccountAttribute(account);
-      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
       event.comment = comment;
 
       LabelTypes labelTypes = projectCache.get(change.getProject()).getLabelTypes();
@@ -478,9 +478,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       ChangeMergedEvent event = new ChangeMergedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
-      event.change = eventFactory.asChangeAttribute(change);
+      event.change = eventFactory.asChangeAttribute(db, change);
       event.submitter = eventFactory.asAccountAttribute(account);
-      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
       event.newRev = mergeResultRev;
       fireEvent(change, event, db);
 
@@ -505,9 +505,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       MergeFailedEvent event = new MergeFailedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
-      event.change = eventFactory.asChangeAttribute(change);
+      event.change = eventFactory.asChangeAttribute(db, change);
       event.submitter = eventFactory.asAccountAttribute(account);
-      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
       event.reason = reason;
       fireEvent(change, event, db);
 
@@ -532,9 +532,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       ChangeAbandonedEvent event = new ChangeAbandonedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
-      event.change = eventFactory.asChangeAttribute(change);
+      event.change = eventFactory.asChangeAttribute(db, change);
       event.abandoner = eventFactory.asAccountAttribute(account);
-      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
       event.reason = reason;
       fireEvent(change, event, db);
 
@@ -559,9 +559,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       ChangeRestoredEvent event = new ChangeRestoredEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
-      event.change = eventFactory.asChangeAttribute(change);
+      event.change = eventFactory.asChangeAttribute(db, change);
       event.restorer = eventFactory.asAccountAttribute(account);
-      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
       event.reason = reason;
       fireEvent(change, event, db);
 
@@ -615,8 +615,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       ReviewerAddedEvent event = new ReviewerAddedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
-      event.change = eventFactory.asChangeAttribute(change);
-      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.change = eventFactory.asChangeAttribute(db, change);
+      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
       event.reviewer = eventFactory.asAccountAttribute(account);
       fireEvent(change, event, db);
 
@@ -638,7 +638,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       TopicChangedEvent event = new TopicChangedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
-      event.change = eventFactory.asChangeAttribute(change);
+      event.change = eventFactory.asChangeAttribute(db, change);
       event.changer = eventFactory.asAccountAttribute(account);
       event.oldTopic = oldTopic;
       fireEvent(change, event, db);
@@ -670,7 +670,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       HashtagsChangedEvent event = new HashtagsChangedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
-      event.change = eventFactory.asChangeAttribute(change);
+      event.change = eventFactory.asChangeAttribute(db, change);
       event.editor = eventFactory.asAccountAttribute(account);
       event.hashtags = hashtagArray(hashtags);
       event.added = hashtagArray(added);

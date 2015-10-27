@@ -58,7 +58,6 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -80,10 +79,8 @@ public class EventFactory {
   private final AccountCache accountCache;
   private final Provider<String> urlProvider;
   private final PatchListCache patchListCache;
-  private final SchemaFactory<ReviewDb> schema;
   private final PatchSetInfoFactory psInfoFactory;
   private final PersonIdent myIdent;
-  private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeKindCache changeKindCache;
@@ -92,19 +89,16 @@ public class EventFactory {
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       PatchSetInfoFactory psif,
-      PatchListCache patchListCache, SchemaFactory<ReviewDb> schema,
+      PatchListCache patchListCache,
       @GerritPersonIdent PersonIdent myIdent,
-      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       ChangeKindCache changeKindCache) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
-    this.schema = schema;
     this.psInfoFactory = psif;
     this.myIdent = myIdent;
-    this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeKindCache = changeKindCache;
@@ -117,7 +111,7 @@ public class EventFactory {
    * @param change
    * @return object suitable for serialization to JSON
    */
-  public ChangeAttribute asChangeAttribute(Change change) {
+  public ChangeAttribute asChangeAttribute(ReviewDb db, Change change) {
     ChangeAttribute a = new ChangeAttribute();
     a.project = change.getProject().get();
     a.branch = change.getDest().getShortName();
@@ -126,8 +120,7 @@ public class EventFactory {
     a.number = change.getId().toString();
     a.subject = change.getSubject();
     try {
-      a.commitMessage =
-          changeDataFactory.create(db.get(), change).commitMessage();
+      a.commitMessage = changeDataFactory.create(db, change).commitMessage();
     } catch (Exception e) {
       log.error("Error while getting full commit message for"
           + " change " + a.number);
@@ -175,10 +168,10 @@ public class EventFactory {
    * @param a
    * @param notes
    */
-  public void addAllReviewers(ChangeAttribute a, ChangeNotes notes)
+  public void addAllReviewers(ReviewDb db, ChangeAttribute a, ChangeNotes notes)
       throws OrmException {
     Collection<Account.Id> reviewers =
-        approvalsUtil.getReviewers(db.get(), notes).values();
+        approvalsUtil.getReviewers(db, notes).values();
     if (!reviewers.isEmpty()) {
       a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
       for (Account.Id id : reviewers) {
@@ -228,10 +221,10 @@ public class EventFactory {
     }
   }
 
-  public void addDependencies(ChangeAttribute ca, Change change) {
+  public void addDependencies(ReviewDb db, ChangeAttribute ca, Change change) {
     ca.dependsOn = new ArrayList<>();
     ca.neededBy = new ArrayList<>();
-    try (ReviewDb db = schema.open()) {
+    try {
       PatchSet.Id psId = change.currentPatchSetId();
       for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
         for (PatchSet p :
@@ -321,24 +314,26 @@ public class EventFactory {
     a.commitMessage = commitMessage;
   }
 
-  public void addPatchSets(ChangeAttribute a, Collection<PatchSet> ps,
-      LabelTypes labelTypes) {
-    addPatchSets(a, ps, null, false, null, labelTypes);
+  public void addPatchSets(ReviewDb db, ChangeAttribute a,
+      Collection<PatchSet> ps, LabelTypes labelTypes) {
+    addPatchSets(db, a, ps, null, false, null, labelTypes);
   }
 
-  public void addPatchSets(ChangeAttribute ca, Collection<PatchSet> ps,
+  public void addPatchSets(ReviewDb db, ChangeAttribute ca,
+      Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       LabelTypes labelTypes) {
-    addPatchSets(ca, ps, approvals, false, null, labelTypes);
+    addPatchSets(db, ca, ps, approvals, false, null, labelTypes);
   }
 
-  public void addPatchSets(ChangeAttribute ca, Collection<PatchSet> ps,
+  public void addPatchSets(ReviewDb db, ChangeAttribute ca,
+      Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       boolean includeFiles, Change change, LabelTypes labelTypes) {
     if (!ps.isEmpty()) {
       ca.patchSets = new ArrayList<>(ps.size());
       for (PatchSet p : ps) {
-        PatchSetAttribute psa = asPatchSetAttribute(p);
+        PatchSetAttribute psa = asPatchSetAttribute(db, p);
         if (approvals != null) {
           addApprovals(psa, p.getId(), approvals, labelTypes);
         }
@@ -402,7 +397,7 @@ public class EventFactory {
    * @param patchSet
    * @return object suitable for serialization to JSON
    */
-  public PatchSetAttribute asPatchSetAttribute(PatchSet patchSet) {
+  public PatchSetAttribute asPatchSetAttribute(ReviewDb db, PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.getRevision().get();
     p.number = Integer.toString(patchSet.getPatchSetId());
@@ -411,7 +406,7 @@ public class EventFactory {
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
     p.isDraft = patchSet.isDraft();
     PatchSet.Id pId = patchSet.getId();
-    try (ReviewDb db = schema.open()) {
+    try {
       p.parents = new ArrayList<>();
       for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
           patchSet.getId())) {

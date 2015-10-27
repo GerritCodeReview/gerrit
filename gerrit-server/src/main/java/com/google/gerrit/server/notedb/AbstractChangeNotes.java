@@ -47,7 +47,7 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
   }
 
   public T load() throws OrmException {
-    if (loaded) {
+    if (loaded && !stale()) {
       return self();
     }
     if (!migration.enabled()) {
@@ -61,6 +61,20 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
       throw new OrmException(e);
     }
     return self();
+  }
+
+  private boolean stale() throws OrmException {
+    if (!migration.enabled()) {
+      return false;
+    }
+
+    try (Repository repo =
+        repoManager.openMetadataRepository(getProjectName())) {
+      Ref ref = repo.getRefDatabase().exactRef(getRefName());
+      return ref == null || !ref.getObjectId().equals(getRevision());
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
   }
 
   public ObjectId loadRevision() throws OrmException {

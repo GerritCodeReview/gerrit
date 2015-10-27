@@ -194,12 +194,8 @@ public class OutputStreamQuery {
         final QueryStatsAttribute stats = new QueryStatsAttribute();
         stats.runTimeMilliseconds = TimeUtil.nowMs();
 
-        Map<Project.NameKey, Repository> repos = null;
-        Map<Project.NameKey, RevWalk> revWalks = null;
-        if (includeDependencies) {
-          repos = new HashMap<>();
-          revWalks = new HashMap<>();
-        }
+        Map<Project.NameKey, Repository> repos = new HashMap<>();
+        Map<Project.NameKey, RevWalk> revWalks = new HashMap<>();
         QueryResult results =
             queryProcessor.queryChanges(queryBuilder.parse(queryString));
         try {
@@ -266,13 +262,26 @@ public class OutputStreamQuery {
       eventFactory.addCommitMessage(c, d.commitMessage());
     }
 
+    RevWalk rw = null;
+    if (includePatchSets || includeCurrentPatchSet || includeDependencies) {
+      Project.NameKey p = d.change().getProject();
+      rw = revWalks.get(p);
+      // Cache and reuse repos and revwalks.
+      if (rw == null) {
+        Repository repo = repoManager.openRepository(p);
+        checkState(repos.put(p, repo) == null);
+        rw = new RevWalk(repo);
+        revWalks.put(p, rw);
+      }
+    }
+
     if (includePatchSets) {
       if (includeFiles) {
-        eventFactory.addPatchSets(db.get(), c, d.patchSets(),
+        eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
           includeApprovals ? d.approvals().asMap() : null,
           includeFiles, d.change(), labelTypes);
       } else {
-        eventFactory.addPatchSets(db.get(), c, d.patchSets(),
+        eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
             includeApprovals ? d.approvals().asMap() : null,
             labelTypes);
       }
@@ -282,7 +291,7 @@ public class OutputStreamQuery {
       PatchSet current = d.currentPatchSet();
       if (current != null) {
         c.currentPatchSet =
-            eventFactory.asPatchSetAttribute(db.get(), current);
+            eventFactory.asPatchSetAttribute(db.get(), rw, current);
         eventFactory.addApprovals(c.currentPatchSet,
             d.currentApprovals(), labelTypes);
 
@@ -304,15 +313,6 @@ public class OutputStreamQuery {
     }
 
     if (includeDependencies) {
-      Project.NameKey p = d.change().getProject();
-      RevWalk rw = revWalks.get(p);
-      // Cache and reuse repos and revwalks.
-      if (rw == null) {
-        Repository repo = repoManager.openRepository(p);
-        checkState(repos.put(p, repo) == null);
-        rw = new RevWalk(repo);
-        revWalks.put(p, rw);
-      }
       eventFactory.addDependencies(rw, c, d.change(), d.currentPatchSet());
     }
 

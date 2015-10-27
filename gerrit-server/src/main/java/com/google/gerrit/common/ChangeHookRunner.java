@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.data.ApprovalAttribute;
+import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.ChangeRestoredEvent;
@@ -62,6 +63,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -334,6 +336,16 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       }
     }
 
+    private PatchSetAttribute asPatchSetAttribute(Change change,
+        PatchSet patchSet, ReviewDb db) throws OrmException {
+      try (Repository repo = repoManager.openRepository(change.getProject());
+          RevWalk revWalk = new RevWalk(repo)) {
+        return eventFactory.asPatchSetAttribute(db, revWalk, patchSet);
+      } catch (IOException e) {
+        throw new OrmException(e);
+      }
+    }
+
     /**
      * Fire the update hook
      *
@@ -381,7 +393,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       AccountState owner = accountCache.get(change.getOwner());
 
       event.change = eventFactory.asChangeAttribute(db, change);
-      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
+      event.patchSet = asPatchSetAttribute(change, patchSet, db);
       event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
       fireEvent(change, event, db);
 
@@ -409,7 +421,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       AccountState owner = accountCache.get(change.getOwner());
 
       event.change = eventFactory.asChangeAttribute(db, change);
-      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
+      event.patchSet = asPatchSetAttribute(change, patchSet, db);
       event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
       fireEvent(change, event, db);
 
@@ -436,7 +448,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
       event.change = eventFactory.asChangeAttribute(db, change);
       event.author =  eventFactory.asAccountAttribute(account);
-      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
+      event.patchSet = asPatchSetAttribute(change, patchSet, db);
       event.comment = comment;
 
       LabelTypes labelTypes = projectCache.get(change.getProject()).getLabelTypes();
@@ -480,7 +492,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
       event.change = eventFactory.asChangeAttribute(db, change);
       event.submitter = eventFactory.asAccountAttribute(account);
-      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
+      event.patchSet = asPatchSetAttribute(change, patchSet, db);
       event.newRev = mergeResultRev;
       fireEvent(change, event, db);
 
@@ -507,7 +519,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
       event.change = eventFactory.asChangeAttribute(db, change);
       event.submitter = eventFactory.asAccountAttribute(account);
-      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
+      event.patchSet = asPatchSetAttribute(change, patchSet, db);
       event.reason = reason;
       fireEvent(change, event, db);
 
@@ -534,7 +546,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
       event.change = eventFactory.asChangeAttribute(db, change);
       event.abandoner = eventFactory.asAccountAttribute(account);
-      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
+      event.patchSet = asPatchSetAttribute(change, patchSet, db);
       event.reason = reason;
       fireEvent(change, event, db);
 
@@ -561,7 +573,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
       event.change = eventFactory.asChangeAttribute(db, change);
       event.restorer = eventFactory.asAccountAttribute(account);
-      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
+      event.patchSet = asPatchSetAttribute(change, patchSet, db);
       event.reason = reason;
       fireEvent(change, event, db);
 
@@ -616,7 +628,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       AccountState owner = accountCache.get(change.getOwner());
 
       event.change = eventFactory.asChangeAttribute(db, change);
-      event.patchSet = eventFactory.asPatchSetAttribute(db, patchSet);
+      event.patchSet = asPatchSetAttribute(change, patchSet, db);
       event.reviewer = eventFactory.asAccountAttribute(account);
       fireEvent(change, event, db);
 

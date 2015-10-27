@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -352,21 +351,21 @@ public class EventFactory {
     a.commitMessage = commitMessage;
   }
 
-  public void addPatchSets(ReviewDb db, ChangeAttribute ca,
+  public void addPatchSets(ReviewDb db, RevWalk revWalk, ChangeAttribute ca,
       Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       LabelTypes labelTypes) {
-    addPatchSets(db, ca, ps, approvals, false, null, labelTypes);
+    addPatchSets(db, revWalk, ca, ps, approvals, false, null, labelTypes);
   }
 
-  public void addPatchSets(ReviewDb db, ChangeAttribute ca,
+  public void addPatchSets(ReviewDb db, RevWalk revWalk, ChangeAttribute ca,
       Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       boolean includeFiles, Change change, LabelTypes labelTypes) {
     if (!ps.isEmpty()) {
       ca.patchSets = new ArrayList<>(ps.size());
       for (PatchSet p : ps) {
-        PatchSetAttribute psa = asPatchSetAttribute(db, p);
+        PatchSetAttribute psa = asPatchSetAttribute(db, revWalk, p);
         if (approvals != null) {
           addApprovals(psa, p.getId(), approvals, labelTypes);
         }
@@ -430,7 +429,8 @@ public class EventFactory {
    * @param patchSet
    * @return object suitable for serialization to JSON
    */
-  public PatchSetAttribute asPatchSetAttribute(ReviewDb db, PatchSet patchSet) {
+  public PatchSetAttribute asPatchSetAttribute(ReviewDb db, RevWalk revWalk,
+      PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.getRevision().get();
     p.number = Integer.toString(patchSet.getPatchSetId());
@@ -441,9 +441,9 @@ public class EventFactory {
     PatchSet.Id pId = patchSet.getId();
     try {
       p.parents = new ArrayList<>();
-      for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
-          patchSet.getId())) {
-        p.parents.add(a.getAncestorRevision().get());
+      RevCommit c = revWalk.parseCommit(ObjectId.fromString(p.revision));
+      for (RevCommit parent : c.getParents()) {
+        p.parents.add(parent.name());
       }
 
       UserIdentity author = psInfoFactory.get(db, pId).getAuthor();
@@ -466,7 +466,7 @@ public class EventFactory {
         }
       }
       p.kind = changeKindCache.getChangeKind(db, change, patchSet);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);
     } catch (PatchSetInfoNotAvailableException e) {
       log.error(String.format("Cannot get authorEmail for %s.", pId), e);

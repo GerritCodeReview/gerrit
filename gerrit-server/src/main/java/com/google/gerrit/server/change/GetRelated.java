@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.index.ChangeField.GROUP;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
@@ -26,9 +24,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.change.PatchSetAncestorSorter.PatchSetData;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GroupCollector;
-import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -37,7 +33,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
@@ -50,45 +45,29 @@ import java.util.Set;
 @Singleton
 public class GetRelated implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
-  private final GetRelatedByAncestors byAncestors;
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetAncestorSorter sorter;
-  private final IndexCollection indexes;
-  private final boolean byAncestorsOnly;
 
   @Inject
   GetRelated(Provider<ReviewDb> db,
-      @GerritServerConfig Config cfg,
-      GetRelatedByAncestors byAncestors,
       Provider<InternalChangeQuery> queryProvider,
-      PatchSetAncestorSorter sorter,
-      IndexCollection indexes) {
+      PatchSetAncestorSorter sorter) {
     this.db = db;
-    this.byAncestors = byAncestors;
     this.queryProvider = queryProvider;
     this.sorter = sorter;
-    this.indexes = indexes;
-    byAncestorsOnly =
-        cfg.getBoolean("change", null, "getRelatedByAncestors", false);
   }
 
   @Override
   public RelatedInfo apply(RevisionResource rsrc)
       throws RepositoryNotFoundException, IOException, OrmException {
-    List<String> thisPatchSetGroups = GroupCollector.getGroups(rsrc);
-    if (byAncestorsOnly
-        || thisPatchSetGroups == null
-        || !indexes.getSearchIndex().getSchema().hasField(GROUP)) {
-      return byAncestors.getRelated(rsrc);
-    }
     RelatedInfo relatedInfo = new RelatedInfo();
-    relatedInfo.changes = getRelated(rsrc, thisPatchSetGroups);
+    relatedInfo.changes = getRelated(rsrc);
     return relatedInfo;
   }
 
-  private List<ChangeAndCommit> getRelated(RevisionResource rsrc,
-      List<String> thisPatchSetGroups) throws OrmException, IOException {
-    if (thisPatchSetGroups.isEmpty()) {
+  private List<ChangeAndCommit> getRelated(RevisionResource rsrc)
+      throws OrmException, IOException {
+    if (GroupCollector.getGroups(rsrc).isEmpty()) {
       return Collections.emptyList();
     }
 

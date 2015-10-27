@@ -59,6 +59,8 @@ screen editor for that file.
 To save edits, click the 'Save' button or press `CTRL-S`.  To return to the
 change screen, click the 'Close' button.
 
+Note that when editing the commit message, trailing blank lines will be stripped.
+
 image::images/inline-edit-full-screen-editor.png[width=800, link="images/inline-edit-full-screen-editor.png"]
 
 If there are unsaved edits when the 'Close' button is pressed, a dialog will

@@ -227,6 +227,7 @@ public class ChangeEditModifier {
   public RefUpdate.Result modifyMessage(ChangeEdit edit, String msg)
       throws AuthException, InvalidChangeOperationException, IOException,
       UnchangedCommitMessageException {
+    msg = msg.trim() + "\n";
     checkState(!Strings.isNullOrEmpty(msg), "message cannot be null");
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");

@@ -28,6 +28,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -222,6 +223,7 @@ public class BaseInit extends SiteProgram {
       throw die(err);
     }
 
+    m.add(new GerritServerConfigModule());
     m.add(new InitModule(standalone, initDb));
     m.add(new AbstractModule() {
       @Override

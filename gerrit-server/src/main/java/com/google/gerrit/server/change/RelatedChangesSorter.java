@@ -199,10 +199,10 @@ class RelatedChangesSorter {
         }
         allPatchSets.add(psd);
       }
-      // Breadth-first search with oldest children first.
-      // TODO(dborowitz): After killing PatchSetAncestors, consider DFS to keep
-      // parallel history together.
-      pending.addAll(Lists.reverse(children.get(psd)));
+      // Depth-first search with newest children first.
+      for (PatchSetData child : children.get(psd)) {
+        pending.addFirst(child);
+      }
     }
 
     // If we saw the same change multiple times, prefer the latest patch set.

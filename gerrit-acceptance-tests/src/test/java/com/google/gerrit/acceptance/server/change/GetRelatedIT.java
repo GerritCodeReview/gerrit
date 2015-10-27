@@ -331,8 +331,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     // 1,2 is related directly to 4,1, and the 2-3 parallel branch stays intact.
     assertRelated(ps1_2,
-        changeAndCommit(ps3_2, c3_2, 2),
         changeAndCommit(ps4_1, c4_1, 1),
+        changeAndCommit(ps3_2, c3_2, 2),
         changeAndCommit(ps2_2, c2_2, 2),
         changeAndCommit(ps1_2, c1_2, 2));
 
@@ -413,6 +413,91 @@ public class GetRelatedIT extends AbstractDaemonTest {
           changeAndCommit(ps3_1, c3_1, 2),
           changeAndCommit(ps2_2, c2_2, 2),
           changeAndCommit(ps1_2, c1_2, 2));
+    }
+  }
+
+  @Test
+  public void getRelatedParallelDescendentBranches() throws Exception {
+    // 1,1---2,1---3,1
+    //   \---4,1---5,1
+    //    \--6,1---7,1
+
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    RevCommit c3_1 = commitBuilder()
+        .add("c.txt", "3")
+        .message("subject: 3")
+        .create();
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id ps1_1 = getPatchSetId(c1_1);
+    PatchSet.Id ps2_1 = getPatchSetId(c2_1);
+    PatchSet.Id ps3_1 = getPatchSetId(c3_1);
+
+    testRepo.reset(c1_1);
+    RevCommit c4_1 = commitBuilder()
+        .add("d.txt", "4")
+        .message("subject: 4")
+        .create();
+    RevCommit c5_1 = commitBuilder()
+        .add("e.txt", "5")
+        .message("subject: 5")
+        .create();
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id ps4_1 = getPatchSetId(c4_1);
+    PatchSet.Id ps5_1 = getPatchSetId(c5_1);
+
+    testRepo.reset(c1_1);
+    RevCommit c6_1 = commitBuilder()
+        .add("f.txt", "6")
+        .message("subject: 6")
+        .create();
+    RevCommit c7_1 = commitBuilder()
+        .add("g.txt", "7")
+        .message("subject: 7")
+        .create();
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id ps6_1 = getPatchSetId(c6_1);
+    PatchSet.Id ps7_1 = getPatchSetId(c7_1);
+
+    // All changes are related to 1,1, keeping each of the parallel branches
+    // intact.
+    assertRelated(ps1_1,
+        changeAndCommit(ps7_1, c7_1, 1),
+        changeAndCommit(ps6_1, c6_1, 1),
+        changeAndCommit(ps5_1, c5_1, 1),
+        changeAndCommit(ps4_1, c4_1, 1),
+        changeAndCommit(ps3_1, c3_1, 1),
+        changeAndCommit(ps2_1, c2_1, 1),
+        changeAndCommit(ps1_1, c1_1, 1));
+
+    // The 2-3 branch is only related back to 1, not the other branches.
+    for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps3_1)) {
+      assertRelated(ps,
+          changeAndCommit(ps3_1, c3_1, 1),
+          changeAndCommit(ps2_1, c2_1, 1),
+          changeAndCommit(ps1_1, c1_1, 1));
+    }
+
+    // The 4-5 branch is only related back to 1, not the other branches.
+    for (PatchSet.Id ps : ImmutableList.of(ps4_1, ps5_1)) {
+      assertRelated(ps,
+          changeAndCommit(ps5_1, c5_1, 1),
+          changeAndCommit(ps4_1, c4_1, 1),
+          changeAndCommit(ps1_1, c1_1, 1));
+    }
+
+    // The 6-7 branch is only related back to 1, not the other branches.
+    for (PatchSet.Id ps : ImmutableList.of(ps6_1, ps7_1)) {
+      assertRelated(ps,
+          changeAndCommit(ps7_1, c7_1, 1),
+          changeAndCommit(ps6_1, c6_1, 1),
+          changeAndCommit(ps1_1, c1_1, 1));
     }
   }
 

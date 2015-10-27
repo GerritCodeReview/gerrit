@@ -47,14 +47,22 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
   }
 
   public T load() throws OrmException {
-    if (loaded) {
-      return self();
-    }
     if (!migration.enabled()) {
-      loadDefaults();
+      if (!loaded) {
+        loadDefaults();
+      }
       return self();
     }
+
     try (Repository repo = repoManager.openMetadataRepository(getProjectName())) {
+      if (loaded) {
+        // check if stale
+        Ref ref = repo.getRefDatabase().exactRef(getRefName());
+        if (ref != null && ref.getObjectId().equals(getRevision())) {
+          return self();
+        }
+      }
+
       load(repo);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {

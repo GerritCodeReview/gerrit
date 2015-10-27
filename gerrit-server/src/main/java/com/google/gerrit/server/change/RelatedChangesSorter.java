@@ -52,11 +52,11 @@ import java.util.Objects;
 import java.util.Set;
 
 @Singleton
-class PatchSetAncestorSorter {
+class RelatedChangesSorter {
   private final GitRepositoryManager repoManager;
 
   @Inject
-  PatchSetAncestorSorter(GitRepositoryManager repoManager) {
+  RelatedChangesSorter(GitRepositoryManager repoManager) {
     this.repoManager = repoManager;
   }
 
@@ -227,7 +227,7 @@ class PatchSetAncestorSorter {
   abstract static class PatchSetData {
     @VisibleForTesting
     static PatchSetData create(ChangeData cd, PatchSet ps, RevCommit commit) {
-      return new AutoValue_PatchSetAncestorSorter_PatchSetData(cd, ps, commit);
+      return new AutoValue_RelatedChangesSorter_PatchSetData(cd, ps, commit);
     }
 
     abstract ChangeData data();

@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
-import com.google.gerrit.server.change.PatchSetAncestorSorter.PatchSetData;
+import com.google.gerrit.server.change.RelatedChangesSorter.PatchSetData;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -46,12 +46,12 @@ import java.util.Set;
 public class GetRelated implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final PatchSetAncestorSorter sorter;
+  private final RelatedChangesSorter sorter;
 
   @Inject
   GetRelated(Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
-      PatchSetAncestorSorter sorter) {
+      RelatedChangesSorter sorter) {
     this.db = db;
     this.queryProvider = queryProvider;
     this.sorter = sorter;

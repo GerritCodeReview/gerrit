@@ -26,6 +26,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 
 public final class IoUtil {
@@ -86,8 +87,8 @@ public final class IoUtil {
     }
   }
 
-  public static void loadJARs(Path... jars) {
-    loadJARs(Arrays.asList(jars));
+  public static void loadJARs(Path jar) {
+    loadJARs(Collections.singleton(jar));
   }
 
   private static UnsupportedOperationException noAddURL(String m, Throwable why) {

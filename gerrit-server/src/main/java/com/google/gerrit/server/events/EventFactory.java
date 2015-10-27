@@ -352,11 +352,6 @@ public class EventFactory {
     a.commitMessage = commitMessage;
   }
 
-  public void addPatchSets(ReviewDb db, ChangeAttribute a,
-      Collection<PatchSet> ps, LabelTypes labelTypes) {
-    addPatchSets(db, a, ps, null, false, null, labelTypes);
-  }
-
   public void addPatchSets(ReviewDb db, ChangeAttribute ca,
       Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,

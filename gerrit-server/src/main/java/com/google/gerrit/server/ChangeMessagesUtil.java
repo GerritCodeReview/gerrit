@@ -54,7 +54,7 @@ public class ChangeMessagesUtil {
       return
           sortChangeMessages(db.changeMessages().byChange(notes.getChangeId()));
     } else {
-      return sortChangeMessages(notes.load().getChangeMessages().values());
+      return notes.load().getChangeMessages();
     }
   }
 
@@ -63,7 +63,7 @@ public class ChangeMessagesUtil {
     if (!migration.readChanges()) {
       return db.changeMessages().byPatchSet(psId);
     }
-    return notes.load().getChangeMessages().get(psId);
+    return notes.load().getChangeMessagesByPatchSet().get(psId);
   }
 
   public void addChangeMessage(ReviewDb db, ChangeUpdate update,

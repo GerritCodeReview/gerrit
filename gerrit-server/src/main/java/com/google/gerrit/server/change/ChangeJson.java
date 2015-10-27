@@ -118,7 +118,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -784,14 +783,6 @@ public class ChangeJson {
     if (messages.isEmpty()) {
       return Collections.emptyList();
     }
-
-    // chronological order
-    Collections.sort(messages, new Comparator<ChangeMessage>() {
-      @Override
-      public int compare(ChangeMessage a, ChangeMessage b) {
-        return a.getWrittenOn().compareTo(b.getWrittenOn());
-      }
-    });
 
     List<ChangeMessageInfo> result =
         Lists.newArrayListWithCapacity(messages.size());

@@ -46,6 +46,7 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.NavigableSet;
 import java.util.Objects;
@@ -87,7 +88,11 @@ public class ApprovalCopier {
 
   Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
       ChangeControl ctl, PatchSet.Id psId) throws OrmException {
-    return getForPatchSet(db, ctl, db.patchSets().get(psId));
+    PatchSet ps = db.patchSets().get(psId);
+    if (ps == null) {
+      return Collections.emptyList();
+    }
+    return getForPatchSet(db, ctl, ps);
   }
 
   private Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,

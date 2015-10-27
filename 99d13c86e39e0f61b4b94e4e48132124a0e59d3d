@@ -34,6 +34,24 @@
       "revId": "99d13c86e39e0f61b4b94e4e48132124a0e59d3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "160fc9b2_ea9fa78c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-27T13:55:58Z",
+      "side": 1,
+      "message": "This is actually a totally different algorithm, neither GetRelated nor PatchSetAncestorSorter is needed. ancestorsOf/descendentsOf are misnamed, they only get direct children.\n\nI have a series in progress to slightly clean up this mess.",
+      "parentUuid": "56a8615b_84b766bd",
+      "revId": "99d13c86e39e0f61b4b94e4e48132124a0e59d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

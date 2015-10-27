@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.events;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -29,7 +33,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -57,6 +60,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -64,11 +68,15 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +92,7 @@ public class EventFactory {
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeKindCache changeKindCache;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   EventFactory(AccountCache accountCache,
@@ -93,7 +102,8 @@ public class EventFactory {
       @GerritPersonIdent PersonIdent myIdent,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
-      ChangeKindCache changeKindCache) {
+      ChangeKindCache changeKindCache,
+      Provider<InternalChangeQuery> queryProvider) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
@@ -102,6 +112,7 @@ public class EventFactory {
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeKindCache = changeKindCache;
+    this.queryProvider = queryProvider;
   }
 
   /**
@@ -221,51 +232,17 @@ public class EventFactory {
     }
   }
 
-  public void addDependencies(ReviewDb db, ChangeAttribute ca, Change change) {
+  public void addDependencies(RevWalk rw, ChangeAttribute ca, Change change,
+      PatchSet currentPs) {
+    if (change == null || currentPs == null) {
+      return;
+    }
     ca.dependsOn = new ArrayList<>();
     ca.neededBy = new ArrayList<>();
     try {
-      PatchSet.Id psId = change.currentPatchSetId();
-      for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
-        for (PatchSet p :
-            db.patchSets().byRevision(a.getAncestorRevision())) {
-          Change c = db.changes().get(p.getId().getParentKey());
-          if (c == null) {
-            log.error("Error while generating the ancestor change for"
-                + " revision " + a.getAncestorRevision() + ": Cannot find"
-                + " Change entry in database for " + p.getId().getParentKey());
-            continue;
-          }
-          ca.dependsOn.add(newDependsOn(c, p));
-        }
-      }
-
-      PatchSet ps = db.patchSets().get(psId);
-      if (ps == null) {
-        log.error("Error while generating the list of descendants for"
-            + " PatchSet " + psId + ": Cannot find PatchSet entry in"
-            + " database.");
-      } else {
-        RevId revId = ps.getRevision();
-        for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(revId)) {
-          PatchSet p = db.patchSets().get(a.getPatchSet());
-          if (p == null) {
-            log.error("Error while generating the list of descendants for"
-                + " revision " + revId.get() + ": Cannot find PatchSet entry in"
-                + " database for " + a.getPatchSet());
-            continue;
-          }
-          Change c = db.changes().get(p.getId().getParentKey());
-          if (c == null) {
-            log.error("Error while generating the list of descendants for"
-                + " revision " + revId.get() + ": Cannot find Change entry in"
-                + " database for " + p.getId().getParentKey());
-            continue;
-          }
-          ca.neededBy.add(newNeededBy(c, p));
-        }
-      }
-    } catch (OrmException e) {
+      addDependsOn(rw, ca, change, currentPs);
+      addNeededBy(rw, ca, change, currentPs);
+    } catch (OrmException | IOException e) {
       // Squash DB exceptions and leave dependency lists partially filled.
     }
     // Remove empty lists so a confusing label won't be displayed in the output.
@@ -274,6 +251,67 @@ public class EventFactory {
     }
     if (ca.neededBy.isEmpty()) {
       ca.neededBy = null;
+    }
+  }
+
+  private void addDependsOn(RevWalk rw, ChangeAttribute ca, Change change,
+      PatchSet currentPs) throws OrmException, IOException {
+    RevCommit commit =
+        rw.parseCommit(ObjectId.fromString(currentPs.getRevision().get()));
+    final List<String> parentNames = new ArrayList<>(commit.getParentCount());
+    for (RevCommit p : commit.getParents()) {
+      parentNames.add(p.name());
+    }
+
+    // Find changes in this project having a patch set matching any parent of
+    // this patch set's revision.
+    for (ChangeData cd : queryProvider.get().byProjectCommits(
+        change.getProject(), parentNames)) {
+      for (PatchSet ps : cd.patchSets()) {
+        for (String p : parentNames) {
+          if (!ps.getRevision().get().equals(p)) {
+            continue;
+          }
+          ca.dependsOn.add(newDependsOn(checkNotNull(cd.change()), ps));
+        }
+      }
+    }
+    // Sort by original parent order.
+    Collections.sort(ca.dependsOn, Ordering.natural().onResultOf(
+        new Function<DependencyAttribute, Integer>() {
+          @Override
+          public Integer apply(DependencyAttribute d) {
+            for (int i = 0; i < parentNames.size(); i++) {
+              if (parentNames.get(i).equals(d.revision)) {
+                return i;
+              }
+            }
+            return parentNames.size() + 1;
+          }
+        }));
+  }
+
+  private void addNeededBy(RevWalk rw, ChangeAttribute ca, Change change,
+      PatchSet currentPs) throws OrmException, IOException {
+    if (currentPs.getGroups() == null || currentPs.getGroups().isEmpty()) {
+      return;
+    }
+    String rev = currentPs.getRevision().get();
+    // Find changes in the same related group as this patch set, having a patch
+    // set whose parent matches this patch set's revision.
+    for (ChangeData cd : queryProvider.get().byProjectGroups(
+        change.getProject(), currentPs.getGroups())) {
+      patchSets: for (PatchSet ps : cd.patchSets()) {
+        RevCommit commit =
+            rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+        for (RevCommit p : commit.getParents()) {
+          if (!p.name().equals(rev)) {
+            continue;
+          }
+          ca.neededBy.add(newNeededBy(checkNotNull(cd.change()), ps));
+          continue patchSets;
+        }
+      }
     }
   }
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.index.ChangeField.SUBMISSIONID;
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.not;
@@ -213,6 +214,13 @@ public class InternalChangeQuery {
 
   public List<ChangeData> byCommit(ObjectId id) throws OrmException {
     return query(commit(schema(indexes), id.name()));
+  }
+
+  public List<ChangeData> byProjectCommits(Project.NameKey project,
+      List<String> hashes) throws OrmException {
+    int n = indexConfig.maxTerms() - 1;
+    checkArgument(hashes.size() <= n, "cannot exceed %s commits", n);
+    return query(and(project(project), or(commits(schema(indexes), hashes))));
   }
 
   public List<ChangeData> bySubmissionId(String cs) throws OrmException {

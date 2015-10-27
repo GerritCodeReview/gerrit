@@ -52,6 +52,24 @@
       "revId": "99d13c86e39e0f61b4b94e4e48132124a0e59d3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d608d1ad_e89fb38c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-27T14:00:23Z",
+      "side": 1,
+      "message": "I see. Waiting for it to be uploaded and rebase and adjust this change on top of it.",
+      "parentUuid": "160fc9b2_ea9fa78c",
+      "revId": "99d13c86e39e0f61b4b94e4e48132124a0e59d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

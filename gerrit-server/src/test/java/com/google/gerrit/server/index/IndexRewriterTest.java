@@ -44,7 +44,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 
-public class IndexRewriteTest {
+public class IndexRewriterTest {
   private static final IndexConfig CONFIG = IndexConfig.createDefault();
 
   @Rule
@@ -53,7 +53,7 @@ public class IndexRewriteTest {
   private FakeIndex index;
   private IndexCollection indexes;
   private ChangeQueryBuilder queryBuilder;
-  private IndexRewriteImpl rewrite;
+  private IndexRewriter rewrite;
 
   @Before
   public void setUp() throws Exception {
@@ -61,7 +61,7 @@ public class IndexRewriteTest {
     indexes = new IndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
-    rewrite = new IndexRewriteImpl(indexes,
+    rewrite = new IndexRewriter(indexes,
         IndexConfig.create(0, 0, 3, 100));
   }
 
@@ -293,6 +293,6 @@ public class IndexRewriteTest {
   }
 
   private Set<Change.Status> status(String query) throws QueryParseException {
-    return IndexRewriteImpl.getPossibleStatus(parse(query));
+    return IndexRewriter.getPossibleStatus(parse(query));
   }
 }

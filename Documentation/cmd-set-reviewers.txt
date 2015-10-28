@@ -10,17 +10,16 @@ gerrit set-reviewers - Add or remove reviewers to a change
   [--add <REVIEWER> ... | -a <REVIEWER> ...]
   [--remove <REVIEWER> ... | -r <REVIEWER> ...]
   [--]
-  {COMMIT | CHANGE-ID}...
+  {CHANGE-ID}...
 --
 
 == DESCRIPTION
 Adds or removes reviewers to the specified change, sending email
 notifications when changes are made.
 
-Changes should be specified as complete or abbreviated Change-Ids
-such as 'Iac6b2ac2'.  They may also be specified by numeric change
-identifiers, such as '8242' or by complete or abbreviated commit
-SHA-1s.
+Changes can be specified in the
+link:rest-api-changes.html#change-id[same format] supported by the REST
+API.
 
 == OPTIONS
 

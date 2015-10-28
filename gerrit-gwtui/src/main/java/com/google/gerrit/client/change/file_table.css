@@ -75,7 +75,7 @@
 
 .deltaColumn1 {
   white-space: nowrap;
-  text-align: right;
+  text-align: right !important;
 }
 
 .deltaColumn2 {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "161d09f7_5ae6950e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-28T07:32:32Z",
+      "side": 1,
+      "message": "If this method returns false, the repo will get opened again at line 57.  Can this code be restructured such that we only open the repo once?\n\nIt looks like we only reach this part anyway when migration.enabled() returns true.",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 60
+      },
+      "revId": "1d2b5921feceaecf0207b690f0ec4190a4bb03a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

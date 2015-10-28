@@ -16,7 +16,7 @@ package com.google.gerrit.client.change;
 
 import com.google.gwt.i18n.client.Constants;
 
-interface ChangeConstants extends Constants {
+public interface ChangeConstants extends Constants {
   String previousChange();
   String nextChange();
   String openChange();

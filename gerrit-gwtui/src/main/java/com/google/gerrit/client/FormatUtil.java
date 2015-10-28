@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -133,5 +134,20 @@ public class FormatUtil {
     return (bytes > 0 && !abs ? "+" : "")
         + NumberFormat.getFormat("#.0").format(bytes / Math.pow(1024, exp))
         + " " + "KMGTPE".charAt(exp - 1) + "iB";
+  }
+
+  public static String formatPercentage(long size, long delta) {
+    if (size == 0) {
+      return Resources.C.notAvailable();
+    }
+    return (delta > 0 ? "+" : "-") + formatAbsPercentage(size, delta);
+  }
+
+  public static String formatAbsPercentage(long size, long delta) {
+    if (size == 0) {
+      return Resources.C.notAvailable();
+    }
+    int p = Math.abs(Math.round(delta * 100 / size));
+    return p + "%";
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.client.FormatUtil.formatBytes;
+import static com.google.gerrit.client.FormatUtil.formatPercentage;
 import static org.junit.Assert.assertEquals;
 
 import com.googlecode.gwt.test.GwtModule;
@@ -44,5 +45,18 @@ public class FormatUtilTest extends GwtTest {
 
     assertEquals("-27 B", formatBytes(-27));
     assertEquals("-1.7 MiB", formatBytes(-1728));
+  }
+
+  @Test
+  public void testFormatPercentage() {
+    assertEquals("N/A", formatPercentage(0, 10));
+    assertEquals("0%", formatPercentage(100, 0));
+    assertEquals("+25%", formatPercentage(100, 25));
+    assertEquals("-25%", formatPercentage(100, -25));
+    assertEquals("+50%", formatPercentage(100, 50));
+    assertEquals("-50%", formatPercentage(100, -50));
+    assertEquals("+100%", formatPercentage(100, 100));
+    assertEquals("-100%", formatPercentage(100, -100));
+    assertEquals("+500%", formatPercentage(100, 500));
   }
 }

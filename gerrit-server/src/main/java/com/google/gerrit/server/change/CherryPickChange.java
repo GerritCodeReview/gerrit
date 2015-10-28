@@ -254,7 +254,8 @@ public class CherryPickChange {
 
   private void addMessageToSourceChange(Change change, PatchSet.Id patchSetId,
       String destinationBranch, CodeReviewCommit cherryPickCommit,
-      IdentifiedUser identifiedUser, RefControl refControl) throws OrmException {
+      IdentifiedUser identifiedUser, RefControl refControl)
+          throws OrmException, IOException {
     ChangeMessage changeMessage = new ChangeMessage(
         new ChangeMessage.Key(
             patchSetId.getParentKey(), ChangeUtil.messageUUID(db.get())),
@@ -272,6 +273,7 @@ public class CherryPickChange {
     ChangeControl ctl = refControl.getProjectControl().controlFor(change);
     ChangeUpdate update = updateFactory.create(ctl, change.getCreatedOn());
     changeMessagesUtil.addChangeMessage(db.get(), update, changeMessage);
+    update.commit();
   }
 
   private String messageForDestinationChange(PatchSet.Id patchSetId,

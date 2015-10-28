@@ -23,6 +23,30 @@
       "revId": "ba8f71b4634e4f29d60faca8b6dbf93d14e9c629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b07555_5106345f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T18:43:11Z",
+      "side": 1,
+      "message": "Ok then it\u0027s because the order from the RevWalk is wrong, because we walk starting from the tip and we find newest messages first. This would mean if we just reverse this list, the sorting by timestamp shouldn\u0027t do any harm?",
+      "parentUuid": "16d7c97f_4abb13f8",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 15,
+        "endChar": 65
+      },
+      "revId": "ba8f71b4634e4f29d60faca8b6dbf93d14e9c629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

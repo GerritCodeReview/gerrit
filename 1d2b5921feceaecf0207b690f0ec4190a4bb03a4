@@ -22,6 +22,29 @@
       "revId": "1d2b5921feceaecf0207b690f0ec4190a4bb03a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "161d09f7_7ae359fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-28T07:35:51Z",
+      "side": 1,
+      "message": "At line 60 we also catch ConfigInvalidException.  Is it not needed to be caught here too?",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 24
+      },
+      "revId": "1d2b5921feceaecf0207b690f0ec4190a4bb03a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9602d98b_e69fde8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T15:13:07Z",
+      "side": 1,
+      "message": "related",
+      "range": {
+        "startLine": 33,
+        "startChar": 41,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ba7d35_8f1fd5a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T15:13:07Z",
+      "side": 1,
+      "message": "It also does the data migration from db to git, doesn\u0027t it? At least for the open source Gerrit version.",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ba7d35_6f09d16d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T15:13:07Z",
+      "side": 1,
+      "message": "This must be Provider\u003cMetaDataUpdate.User\u003e.\nOtherwise if an instance of MetaDataUpdate.User is kept in a singleton this will lead to wrong timestamps for the commits done by this instance (see [1] for details).\n\n[1] https://gerrit-review.googlesource.com/69265",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ba7d35_4f068d5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T15:13:07Z",
+      "side": 1,
+      "message": "This looks wrong to me.\n\nFields should only be set if they are non-null in the input (like it was in the old code).\n\nE.g. if I send the following DiffPreferencesInfo:\n\n  {\n    \"show_line_endings\": true\n  }\n\nit means only this one setting should be updated and all other settings should stay unmodified. If I understand the new code correctly it would e.g. set all other booleans to false, what it is not intended.",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 63
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ba7d35_0f0c857d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T15:13:07Z",
+      "side": 1,
+      "message": "Do we need to update this when we modify the way how Whitespace is persisted in writeObject below?",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ba7d35_cf19ddc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T15:13:07Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6b07555_91cd3c99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T08:27:52Z",
+      "side": 1,
+      "message": "Why \u0027or\u0027? Shouldn\u0027t this be \u0027and\u0027?",
+      "range": {
+        "startLine": 223,
+        "startChar": 17,
+        "endLine": 223,
+        "endChar": 19
+      },
+      "revId": "95d96218f884306c2dd12ea1c751ed2325cb1cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

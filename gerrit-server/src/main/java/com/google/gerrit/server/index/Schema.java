@@ -61,6 +61,8 @@ public class Schema<T> {
   }
 
   private final ImmutableMap<String, FieldDef<T, ?>> fields;
+  private final ImmutableMap<String, FieldDef<T, ?>> storedFields;
+
   private int version;
 
   protected Schema(Iterable<FieldDef<T, ?>> fields) {
@@ -71,10 +73,15 @@ public class Schema<T> {
   public Schema(int version, Iterable<FieldDef<T, ?>> fields) {
     this.version = version;
     ImmutableMap.Builder<String, FieldDef<T, ?>> b = ImmutableMap.builder();
+    ImmutableMap.Builder<String, FieldDef<T, ?>> sb = ImmutableMap.builder();
     for (FieldDef<T, ?> f : fields) {
       b.put(f.getName(), f);
+      if (f.isStored()) {
+        sb.put(f.getName(), f);
+      }
     }
     this.fields = b.build();
+    this.storedFields = sb.build();
   }
 
   public final int getVersion() {
@@ -92,6 +99,14 @@ public class Schema<T> {
    */
   public final ImmutableMap<String, FieldDef<T, ?>> getFields() {
     return fields;
+  }
+
+  /**
+   * @return all fields in this schema where {@link FieldDef#isStored()} is
+   *     true.
+   */
+  public final ImmutableMap<String, FieldDef<T, ?>> getStoredFields() {
+    return storedFields;
   }
 
   /**

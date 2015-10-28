@@ -18,10 +18,13 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.IndexRewriter;
@@ -35,27 +38,32 @@ import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class QueryProcessor {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final IndexCollection indexes;
   private final IndexRewriter rewriter;
   private final IndexConfig indexConfig;
 
   private int limitFromCaller;
   private int start;
   private boolean enforceVisibility = true;
+  private Set<String> requestedFields;
 
   @Inject
   QueryProcessor(Provider<ReviewDb> db,
       Provider<CurrentUser> userProvider,
       ChangeControl.GenericFactory changeControlFactory,
+      IndexCollection indexes,
       IndexRewriter rewriter,
       IndexConfig indexConfig) {
     this.db = db;
     this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
+    this.indexes = indexes;
     this.rewriter = rewriter;
     this.indexConfig = indexConfig;
   }
@@ -72,6 +80,11 @@ public class QueryProcessor {
 
   public QueryProcessor setStart(int n) {
     start = n;
+    return this;
+  }
+
+  public QueryProcessor setRequestedFields(Set<String> fields) {
+    requestedFields = fields;
     return this;
   }
 
@@ -140,7 +153,8 @@ public class QueryProcessor {
             "Cannot go beyond page " + indexConfig.maxPages() + "of results");
       }
 
-      QueryOptions opts = QueryOptions.create(indexConfig, start, limit + 1);
+      QueryOptions opts = QueryOptions.create(
+          indexConfig, start, limit + 1, getRequestedFields());
       Predicate<ChangeData> s = rewriter.rewrite(q, opts);
       if (!(s instanceof ChangeDataSource)) {
         q = Predicate.and(open(), q);
@@ -171,6 +185,16 @@ public class QueryProcessor {
           matches.get(i).toList()));
     }
     return out;
+  }
+
+  private Set<String> getRequestedFields() {
+    if (requestedFields != null) {
+      return requestedFields;
+    }
+    ChangeIndex index = indexes.getSearchIndex();
+    return index != null
+        ? index.getSchema().getStoredFields().keySet()
+        : ImmutableSet.<String> of();
   }
 
   boolean isDisabled() {

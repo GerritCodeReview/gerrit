@@ -25,6 +25,7 @@ import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.or;
 import static org.junit.Assert.assertEquals;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -289,7 +290,8 @@ public class IndexRewriterTest {
   }
 
   private static QueryOptions options(int start, int limit) {
-    return QueryOptions.create(CONFIG, start, limit);
+    return QueryOptions.create(CONFIG, start, limit,
+        ImmutableSet.<String> of());
   }
 
   private Set<Change.Status> status(String query) throws QueryParseException {

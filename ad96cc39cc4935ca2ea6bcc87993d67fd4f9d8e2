@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1446018749 +0100\nnonce AFd3BxsTyOhZMXzQIZHzzN1YYg35BtE4gVsVoDZ1CY9vqQM0vqHYzhjYU22mNIhpNPV+ZldhealF\n\n0000000000000000000000000000000000000000 ad96cc39cc4935ca2ea6bcc87993d67fd4f9d8e2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWMH69AAoJEFG1/Zeg0O9RZ6EIAMNVJOFLEu60Rcynv76dKOM0\n76LMirIk/k3KUr9/rBZrffMDD1U90a48OeGFN4/usLoJju6RLWQGvqvMyZlu1YEf\nwoKJ5Nb5C+2qo94dfiU1JbOJCxG8TdiItz//RZFRZDIB3x1Ltst7KRtD7vb5TJoh\nv5iCtt0oEW69FNFA4stzsoTbKWZ1s6QqncNwc9Uk65s5jYlBBBM4ipEiqiHvHmUt\naizdDZhkMumyNWt6aNP5eYiGbXnTTOyF1TPYtGyPxaZXPduzIZB5xai9RrpXbHHB\nLZ/C8f1FEAemnsTxiNyRe35AUJR4WpgtLmHuKRzVqK0tDMHb0+YzY8NkvRlzrdQ\u003d\n\u003dmTnt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "96a1f90e_eefbffa2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-28T17:41:25Z",
+      "side": 1,
+      "message": "Can you specify in the javadoc whether this means newest first or oldest first?",
+      "revId": "ad96cc39cc4935ca2ea6bcc87993d67fd4f9d8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96a1f90e_8ef6bbbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-28T17:41:25Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "ad96cc39cc4935ca2ea6bcc87993d67fd4f9d8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96a1f90e_ce00c350",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-28T17:41:25Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "ad96cc39cc4935ca2ea6bcc87993d67fd4f9d8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

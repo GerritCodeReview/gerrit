@@ -54,6 +54,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -286,7 +287,26 @@ public class ApprovalsUtil {
     if (!migration.readChanges()) {
       return sortApprovals(db.patchSetApprovals().byPatchSet(psId));
     }
-    return copier.getForPatchSet(db, ctl, psId);
+    Iterable<PatchSetApproval> approvals = copier.getForPatchSet(db, ctl, psId);
+
+    // add dummy approvals for reviewers that have not voted
+    List<LabelType> labelTypes = ctl.getLabelTypes().getLabelTypes();
+    if (labelTypes.size() > 0) {
+      Set<Account.Id> reviewers = new HashSet<>(
+          ctl.getNotes().load().getReviewers().get(ReviewerState.REVIEWER));
+      for (PatchSetApproval a : approvals) {
+        reviewers.remove(a.getAccountId());
+      }
+      Set<PatchSetApproval> dummyApprovals = new HashSet<>();
+      LabelId l = labelTypes.get(0).getLabelId();
+      for (Account.Id r : reviewers) {
+        dummyApprovals.add(new PatchSetApproval(
+            new PatchSetApproval.Key(psId, r, l), (short) 0, TimeUtil.nowTs()));
+      }
+      approvals = Iterables.concat(approvals, dummyApprovals);
+    }
+
+    return approvals;
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(ReviewDb db,

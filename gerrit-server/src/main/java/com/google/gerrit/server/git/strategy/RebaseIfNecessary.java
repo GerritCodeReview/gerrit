@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
-import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.RebaseSorter;
@@ -111,13 +111,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
             newCommits.put(newPatchSet.getId().getParentKey(),
                 mergeTip.getCurrentTip());
             setRefLogIdent();
-          } catch (UpdateException e) {
-            if (e.getCause() instanceof MergeConflictException) {
-              n.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
-            }
+          } catch (MergeConflictException e) {
+            n.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
             throw new MergeException("Cannot rebase " + n.name(), e);
           } catch (NoSuchChangeException | OrmException | IOException
-              | RestApiException e) {
+              | RestApiException | UpdateException e) {
             // TODO(dborowitz): Allow Submit to unwrap ResourceConflictException
             // so it can turn into a 409.
             throw new MergeException("Cannot rebase " + n.name(), e);

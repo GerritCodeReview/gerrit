@@ -41,7 +41,13 @@ import com.google.gwtorm.server.StatementExecutor;
 
 /** ReviewDb that is disabled for testing. */
 public class DisabledReviewDb implements ReviewDb {
-  public static final String MESSAGE = "ReviewDb is disabled for this test";
+  public static class Disabled extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+
+    private Disabled() {
+      super("ReviewDb is disabled for this test");
+    }
+  }
 
   @Override
   public void close() {
@@ -50,151 +56,151 @@ public class DisabledReviewDb implements ReviewDb {
 
   @Override
   public void commit() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public void rollback() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public void updateSchema(StatementExecutor e) {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public void pruneSchema(StatementExecutor e) {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public Access<?, ?>[] allRelations() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public SchemaVersionAccess schemaVersion() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public SystemConfigAccess systemConfig() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountAccess accounts() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountExternalIdAccess accountExternalIds() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountSshKeyAccess accountSshKeys() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountGroupAccess accountGroups() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountGroupNameAccess accountGroupNames() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountGroupMemberAccess accountGroupMembers() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountGroupMemberAuditAccess accountGroupMembersAudit() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountDiffPreferenceAccess accountDiffPreferences() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public StarredChangeAccess starredChanges() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountProjectWatchAccess accountProjectWatches() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountPatchReviewAccess accountPatchReviews() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public ChangeAccess changes() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public PatchSetApprovalAccess patchSetApprovals() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public ChangeMessageAccess changeMessages() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public PatchSetAccess patchSets() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public PatchLineCommentAccess patchComments() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public SubmoduleSubscriptionAccess submoduleSubscriptions() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountGroupByIdAccess accountGroupById() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public AccountGroupByIdAudAccess accountGroupByIdAud() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public int nextAccountId() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public int nextAccountGroupId() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public int nextChangeId() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 
   @Override
   public int nextChangeMessageId() {
-    throw new AssertionError(MESSAGE);
+    throw new Disabled();
   }
 }

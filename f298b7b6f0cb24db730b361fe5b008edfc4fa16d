@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "364ccd13_1bbedbe8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-10-28T04:35:18Z",
+      "side": 1,
+      "message": "This line does a database query for every comment being processed. We can\u0027t put that kind of load on the database, if the client generated 50 comments on the same snapshot of code we are doing 50 database queries for the same row to get the same RevId object.",
+      "revId": "f298b7b6f0cb24db730b361fe5b008edfc4fa16d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -444,15 +445,20 @@ public class ChangeUtil {
       }
     }
 
+    // Use the index to search for changes, but don't return any stored fields,
+    // to force rereading in case the index is stale.
+    InternalChangeQuery query = queryProvider.get()
+        .setRequestedFields(ImmutableSet.<String> of());
+
     // Try isolated changeId
     if (!id.contains("~")) {
-      return asChangeControls(queryProvider.get().byKeyPrefix(id));
+      return asChangeControls(query.byKeyPrefix(id));
     }
 
     // Try change triplet
     Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id);
     if (triplet.isPresent()) {
-      return asChangeControls(queryProvider.get().byBranchKey(
+      return asChangeControls(query.byBranchKey(
           triplet.get().branch(),
           triplet.get().id()));
     }

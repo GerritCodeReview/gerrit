@@ -69,6 +69,24 @@
       "revId": "f298b7b6f0cb24db730b361fe5b008edfc4fa16d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "364ccd13_9b142b8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-28T21:51:41Z",
+      "side": 1,
+      "message": "The patch set id changes each time someone uploads a new version of their change. Comments don\u0027t change the patch set number.\n\nThe patch set id for a PatchLineComment can be retried using c.getKey().getParentKey().getParentKey() without hitting the database. The patch set id for the CommentInput here is this.psId.",
+      "parentUuid": "364ccd13_fb1f6fa3",
+      "revId": "f298b7b6f0cb24db730b361fe5b008edfc4fa16d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

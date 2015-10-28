@@ -12,11 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.extensions.restapi;
 
-/** Indicates that the commit cannot be merged without conflicts. */
-public class MergeConflictException extends Exception {
+/**
+ * Indicates that a commit cannot be merged without conflicts.
+ * <p>
+ * Messages should be viewable by end users.
+ */
+public class MergeConflictException extends ResourceConflictException {
   private static final long serialVersionUID = 1L;
+
   public MergeConflictException(String msg) {
     super(msg, null);
   }

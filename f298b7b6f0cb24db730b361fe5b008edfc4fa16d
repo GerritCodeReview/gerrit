@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "161d09f7_1a09fd6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-28T21:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96a1f90e_eea93fb7",
+      "revId": "f298b7b6f0cb24db730b361fe5b008edfc4fa16d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "364ccd13_1bbedbe8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-28T04:35:18Z",
       "side": 1,
       "message": "This line does a database query for every comment being processed. We can\u0027t put that kind of load on the database, if the client generated 50 comments on the same snapshot of code we are doing 50 database queries for the same row to get the same RevId object.",
+      "revId": "f298b7b6f0cb24db730b361fe5b008edfc4fa16d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "364ccd13_fb1f6fa3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-28T21:43:35Z",
+      "side": 1,
+      "message": "Question then. Several processes are going to be blasting Gerrit with findings at the same time. Many of those findings are going to be identical. If processes A and B send the same comment, will they have the same RevId? Or is it a different PatchSet and thus different RevIds?",
+      "parentUuid": "364ccd13_1bbedbe8",
       "revId": "f298b7b6f0cb24db730b361fe5b008edfc4fa16d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6b07555_b1432085",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2015-10-28T20:21:41Z",
+      "side": 1,
+      "message": "Just wondering, being a non-native English speaker, shouldn\u0027t this better be \"IntegrationException\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "7c1014f28aed6c16a41baf344523cfd3de846375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

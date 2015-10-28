@@ -34,7 +34,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class PatchListKey implements Serializable {
-  static final long serialVersionUID = 18L;
+  static final long serialVersionUID = 19L;
 
   public static final BiMap<Whitespace, Character> WHITESPACE_TYPES = ImmutableBiMap.of(
       Whitespace.IGNORE_NONE, 'N',

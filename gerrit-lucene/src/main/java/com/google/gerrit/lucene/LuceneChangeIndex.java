@@ -131,17 +131,12 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
   private static final String DELETED_FIELD = ChangeField.DELETED.getName();
-  private static final String ID_FIELD = ChangeField.LEGACY_ID2.getName();
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String REVIEWEDBY_FIELD =
       ChangeField.REVIEWEDBY.getName();
   private static final String UPDATED_SORT_FIELD =
       sortFieldName(ChangeField.UPDATED);
-
-  private static final ImmutableSet<String> FIELDS = ImmutableSet.of(
-      ADDED_FIELD, APPROVAL_FIELD, CHANGE_FIELD, DELETED_FIELD, ID_FIELD,
-      MERGEABLE_FIELD, PATCH_SET_FIELD, REVIEWEDBY_FIELD);
 
   private static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
       "_", " ", ".", " ");
@@ -438,10 +433,12 @@ public class LuceneChangeIndex implements ChangeIndex {
 
         List<ChangeData> result =
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);
+        Set<String> fields = fields(opts);
+        String idFieldName = idFieldName();
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
-          Document doc = searchers[sd.shardIndex].doc(sd.doc, FIELDS);
-          result.add(toChangeData(doc));
+          Document doc = searchers[sd.shardIndex].doc(sd.doc, fields);
+          result.add(toChangeData(doc, fields, idFieldName));
         }
 
         final List<ChangeData> r = Collections.unmodifiableList(result);
@@ -477,19 +474,62 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private ChangeData toChangeData(Document doc) {
+  @SuppressWarnings("deprecation")
+  private Set<String> fields(QueryOptions opts) {
+    if (schemaHasRequestedField(ChangeField.LEGACY_ID2, opts.fields())
+        || schemaHasRequestedField(ChangeField.CHANGE, opts.fields())
+        || schemaHasRequestedField(ChangeField.LEGACY_ID, opts.fields())) {
+      return opts.fields();
+    }
+    // Request the numeric ID field even if the caller did not request it,
+    // otherwise we can't actually construct a ChangeData.
+    return Sets.union(opts.fields(), ImmutableSet.of(idFieldName()));
+  }
+
+  private boolean schemaHasRequestedField(FieldDef<ChangeData, ?> field,
+      Set<String> requested) {
+    return schema.hasField(field) && requested.contains(field.getName());
+  }
+
+  @SuppressWarnings("deprecation")
+  private String idFieldName() {
+    return schema.getField(ChangeField.LEGACY_ID2, ChangeField.LEGACY_ID).get()
+        .getName();
+  }
+
+  private ChangeData toChangeData(Document doc, Set<String> fields,
+      String idFieldName) {
+    ChangeData cd;
+    // Either change or the ID field was guaranteed to be included in the call
+    // to fields() above.
     BytesRef cb = doc.getBinaryValue(CHANGE_FIELD);
-    if (cb == null) {
-      int id = doc.getField(ID_FIELD).numericValue().intValue();
-      return changeDataFactory.create(db.get(), new Change.Id(id));
+    if (cb != null) {
+      cd = changeDataFactory.create(db.get(),
+          ChangeProtoField.CODEC.decode(cb.bytes, cb.offset, cb.length));
+    } else {
+      int id = doc.getField(idFieldName).numericValue().intValue();
+      cd = changeDataFactory.create(db.get(), new Change.Id(id));
     }
 
-    // Change proto.
-    Change change = ChangeProtoField.CODEC.decode(
-        cb.bytes, cb.offset, cb.length);
-    ChangeData cd = changeDataFactory.create(db.get(), change);
+    if (fields.contains(PATCH_SET_FIELD)) {
+      decodePatchSets(doc, cd);
+    }
+    if (fields.contains(APPROVAL_FIELD)) {
+      decodeApprovals(doc, cd);
+    }
+    if (fields.contains(ADDED_FIELD) && fields.contains(DELETED_FIELD)) {
+      decodeChangedLines(doc, cd);
+    }
+    if (fields.contains(MERGEABLE_FIELD)) {
+      decodeMergeable(doc, cd);
+    }
+    if (fields.contains(REVIEWEDBY_FIELD)) {
+      decodeReviewedBy(doc, cd);
+    }
+    return cd;
+  }
 
-    // Patch sets.
+  private void decodePatchSets(Document doc, ChangeData cd) {
     List<PatchSet> patchSets =
         decodeProtos(doc, PATCH_SET_FIELD, PatchSetProtoField.CODEC);
     if (!patchSets.isEmpty()) {
@@ -497,12 +537,14 @@ public class LuceneChangeIndex implements ChangeIndex {
       // this cannot be valid since a change needs at least one patch set.
       cd.setPatchSets(patchSets);
     }
+  }
 
-    // Approvals.
+  private void decodeApprovals(Document doc, ChangeData cd) {
     cd.setCurrentApprovals(
         decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoField.CODEC));
+  }
 
-    // Changed lines.
+  private void decodeChangedLines(Document doc, ChangeData cd) {
     IndexableField added = doc.getField(ADDED_FIELD);
     IndexableField deleted = doc.getField(DELETED_FIELD);
     if (added != null && deleted != null) {
@@ -510,16 +552,18 @@ public class LuceneChangeIndex implements ChangeIndex {
           added.numericValue().intValue(),
           deleted.numericValue().intValue());
     }
+  }
 
-    // Mergeable.
+  private void decodeMergeable(Document doc, ChangeData cd) {
     String mergeable = doc.get(MERGEABLE_FIELD);
     if ("1".equals(mergeable)) {
       cd.setMergeable(true);
     } else if ("0".equals(mergeable)) {
       cd.setMergeable(false);
     }
+  }
 
-    // Reviewed-by.
+  private void decodeReviewedBy(Document doc, ChangeData cd) {
     IndexableField[] reviewedBy = doc.getFields(REVIEWEDBY_FIELD);
     if (reviewedBy.length > 0) {
       Set<Account.Id> accounts =
@@ -533,8 +577,6 @@ public class LuceneChangeIndex implements ChangeIndex {
       }
       cd.setReviewedBy(accounts);
     }
-
-    return cd;
   }
 
   private static <T> List<T> decodeProtos(Document doc, String fieldName,

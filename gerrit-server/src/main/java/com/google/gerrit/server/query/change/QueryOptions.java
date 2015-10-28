@@ -17,29 +17,36 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.index.IndexConfig;
+
+import java.util.Set;
 
 @AutoValue
 public abstract class QueryOptions {
-  public static QueryOptions create(IndexConfig config, int start, int limit) {
+  public static QueryOptions create(IndexConfig config, int start, int limit,
+      Set<String> fields) {
     checkArgument(start >= 0, "start must be nonnegative: %s", start);
     checkArgument(limit > 0, "limit must be positive: %s", limit);
-    return new AutoValue_QueryOptions(config, start, limit);
+    return new AutoValue_QueryOptions(config, start, limit,
+        ImmutableSet.copyOf(fields));
   }
 
   public static QueryOptions oneResult() {
-    return create(IndexConfig.createDefault(), 0, 1);
+    return create(IndexConfig.createDefault(), 0, 1,
+        ImmutableSet.<String> of());
   }
 
   public abstract IndexConfig config();
   public abstract int start();
   public abstract int limit();
+  public abstract ImmutableSet<String> fields();
 
   public QueryOptions withLimit(int newLimit) {
-    return create(config(), start(), newLimit);
+    return create(config(), start(), newLimit, fields());
   }
 
   public QueryOptions withStart(int newStart) {
-    return create(config(), newStart, limit());
+    return create(config(), newStart, limit(), fields());
   }
 }

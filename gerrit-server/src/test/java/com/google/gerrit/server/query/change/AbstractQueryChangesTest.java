@@ -56,6 +56,7 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
@@ -1263,6 +1264,30 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     cd.messages();
   }
 
+  @Test
+  public void prepopulateOnlyRequestedFields() throws Exception {
+    assume().that(notesMigration.enabled()).isFalse();
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(newChange(repo, null, null, null, null));
+
+    db = new DisabledReviewDb();
+    requestContext.setContext(newRequestContext(userId));
+    // Use QueryProcessor directly instead of API so we get ChangeDatas back.
+    List<ChangeData> cds = queryProcessor
+        .setRequestedFields(ImmutableSet.of(
+            ChangeField.PATCH_SET.getName(),
+            ChangeField.CHANGE.getName()))
+        .queryChanges(queryBuilder.parse(change.getId().toString()))
+        .changes();
+    assertThat(cds).hasSize(1);
+
+    ChangeData cd = cds.get(0);
+    cd.change();
+    cd.patchSets();
+
+    exception.expect(DisabledReviewDb.Disabled.class);
+    cd.currentApprovals();
+  }
 
   protected ChangeInserter newChange(
       TestRepository<Repo> repo,

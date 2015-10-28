@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "96a1f90e_eea93fb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-28T13:05:17Z",
+      "side": 1,
+      "message": "This is a perfect candidate for writing as an @AutoValue.",
+      "revId": "f298b7b6f0cb24db730b361fe5b008edfc4fa16d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "364ccd13_1bbedbe8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 13

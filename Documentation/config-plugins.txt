@@ -413,6 +413,14 @@ Two different OAuth providers are supported:
 https://github.com/davido/gerrit-oauth-provider[Project] |
 https://github.com/davido/gerrit-oauth-provider/wiki/Getting-Started[Configuration]
 
+[[owners]]
+=== owners
+This plugin provides a Prolog predicate `add_owner_approval/3` that
+appends `label('Owner-Approval', need(_))` to a provided list.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/owners[Project] |
+link:https://gerrit.googlesource.com/plugins/owners/+/refs/heads/master/README.md[Documentation]
+
 [[project-download-commands]]
 === project-download-commands
 

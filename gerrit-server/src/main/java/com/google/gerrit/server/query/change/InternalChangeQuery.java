@@ -106,6 +106,11 @@ public class InternalChangeQuery {
     return this;
   }
 
+  public InternalChangeQuery setRequestedFields(Set<String> fields) {
+    qp.setRequestedFields(fields);
+    return this;
+  }
+
   public List<ChangeData> byKey(Change.Key key) throws OrmException {
     return byKeyPrefix(key.get());
   }

@@ -18,9 +18,8 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -28,14 +27,10 @@ import com.google.gerrit.server.change.DeleteReviewer;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -47,7 +42,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @CommandMetaData(name = "set-reviewers", description = "Add or remove reviewers on a change")
@@ -69,7 +66,7 @@ public class SetReviewersCommand extends SshCommand {
   @Argument(index = 0, required = true, multiValued = true, metaVar = "COMMIT", usage = "changes to modify")
   void addChange(String token) {
     try {
-      changes.addAll(parseChangeId(token));
+      addChangeImpl(token);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
     } catch (OrmException e) {
@@ -79,9 +76,6 @@ public class SetReviewersCommand extends SshCommand {
 
   @Inject
   private ReviewDb db;
-
-  @Inject
-  private Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   private ReviewerResource.Factory reviewerFactory;
@@ -96,22 +90,24 @@ public class SetReviewersCommand extends SshCommand {
   private Provider<CurrentUser> userProvider;
 
   @Inject
-  private ChangeControl.GenericFactory changeControlFactory;
-
-  @Inject
   private ChangesCollection changesCollection;
 
+  @Inject
+  private ChangeUtil changeUtil;
+
   private Set<Account.Id> toRemove = new HashSet<>();
-  private Set<Change.Id> changes = new HashSet<>();
+
+  private Map<Change.Id, ChangeResource> changes = new LinkedHashMap<>();
 
   @Override
   protected void run() throws UnloggedFailure {
     boolean ok = true;
-    for (Change.Id changeId : changes) {
+    for (ChangeResource rsrc : changes.values()) {
       try {
-        ok &= modifyOne(changeId);
+        ok &= modifyOne(rsrc);
       } catch (Exception err) {
         ok = false;
+        Change.Id changeId = rsrc.getChange().getId();
         log.error("Error updating reviewers on change " + changeId, err);
         writeError("fatal", "internal error while updating " + changeId);
       }
@@ -122,8 +118,7 @@ public class SetReviewersCommand extends SshCommand {
     }
   }
 
-  private boolean modifyOne(Change.Id changeId) throws Exception {
-    ChangeResource changeRsrc = changesCollection.parse(changeId);
+  private boolean modifyOne(ChangeResource changeRsrc) throws Exception {
     boolean ok = true;
 
     // Remove reviewers
@@ -168,92 +163,28 @@ public class SetReviewersCommand extends SshCommand {
     return ok;
   }
 
-  private Set<Change.Id> parseChangeId(String idstr)
-      throws UnloggedFailure, OrmException {
-    Set<Change.Id> matched = new HashSet<>(4);
-    boolean isCommit = idstr.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$");
-
-    // By newer style changeKey?
-    //
-    boolean changeKeyParses = idstr.matches("^I[0-9a-f]*$");
-    if (changeKeyParses) {
-      for (ChangeData cd : queryProvider.get().byKeyPrefix(idstr)) {
-        matchChange(matched, cd.change());
+  private void addChangeImpl(String id) throws UnloggedFailure, OrmException {
+    List<ChangeControl> matched =
+        changeUtil.findChanges(id, userProvider.get());
+    List<ChangeControl> toAdd = new ArrayList<>(changes.size());
+    for (ChangeControl ctl : matched) {
+      Change c = ctl.getChange();
+      if (!changes.containsKey(c.getId()) && inProject(c)
+          && ctl.isVisible(db)) {
+        toAdd.add(ctl);
       }
     }
-
-    // By commit?
-    //
-    if (isCommit) {
-      RevId id = new RevId(idstr);
-      ResultSet<PatchSet> patches;
-      if (id.isComplete()) {
-        patches = db.patchSets().byRevision(id);
-      } else {
-        patches = db.patchSets().byRevisionRange(id, id.max());
-      }
-
-      for (PatchSet ps : patches) {
-        matchChange(matched, ps.getId().getParentKey());
-      }
-    }
-
-    // By older style changeId?
-    //
-    boolean changeIdParses = false;
-    if (idstr.matches("^[1-9][0-9]*$")) {
-      Change.Id id;
-      try {
-        id = Change.Id.parse(idstr);
-        changeIdParses = true;
-      } catch (IllegalArgumentException e) {
-        id = null;
-        changeIdParses = false;
-      }
-
-      if (changeIdParses) {
-        matchChange(matched, id);
-      }
-    }
-
-    if (!changeKeyParses && !isCommit && !changeIdParses) {
-      throw error("\"" + idstr + "\" is not a valid change");
-    }
-
-    switch (matched.size()) {
+    switch (toAdd.size()) {
       case 0:
-        throw error("\"" + idstr + "\" no such change");
+        throw error("\"" + id + "\" no such change");
 
       case 1:
-        return matched;
+        ChangeControl ctl = toAdd.get(0);
+        changes.put(ctl.getChange().getId(), changesCollection.parse(ctl));
+        break;
 
       default:
-        throw error("\"" + idstr + "\" matches multiple changes");
-    }
-  }
-
-  private void matchChange(Set<Change.Id> matched, Change.Id changeId) {
-    if (changeId != null && !matched.contains(changeId)) {
-      try {
-        matchChange(matched, db.changes().get(changeId));
-      } catch (OrmException e) {
-        log.warn("Error reading change " + changeId, e);
-      }
-    }
-  }
-
-  private void matchChange(Set<Change.Id> matched, Change change) {
-    try {
-      if (change != null
-          && inProject(change)
-          && changeControlFactory.controlFor(change,
-                userProvider.get()).isVisible(db)) {
-        matched.add(change.getId());
-      }
-    } catch (NoSuchChangeException e) {
-      // Ignore this change.
-    } catch (OrmException e) {
-      log.warn("Error reading change " + change.getId(), e);
+        throw error("\"" + id + "\" matches multiple changes");
     }
   }
 

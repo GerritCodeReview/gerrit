@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "b6ba7d35_afc8d988",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T07:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "161d09f7_5ae6950e",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 60
+      },
+      "revId": "1d2b5921feceaecf0207b690f0ec4190a4bb03a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba7d35_2fb4e909",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
         "patchSetId": 1
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "f6b07555_b1c84089",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T07:54:32Z",
+      "side": 1,
+      "message": "Yes, if ref \u003d\u003d null it must have been deleted. Under normal conditions this shouldn\u0027t happen.",
+      "parentUuid": "b6ba7d35_2fb4e909",
+      "range": {
+        "startLine": 74,
+        "startChar": 13,
+        "endLine": 74,
+        "endChar": 24
+      },
+      "revId": "1d2b5921feceaecf0207b690f0ec4190a4bb03a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "161d09f7_7ae359fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
         "patchSetId": 1
@@ -107,6 +155,30 @@
       "writtenOn": "2015-10-28T07:35:51Z",
       "side": 1,
       "message": "At line 60 we also catch ConfigInvalidException.  Is it not needed to be caught here too?",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 24
+      },
+      "revId": "1d2b5921feceaecf0207b690f0ec4190a4bb03a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ba7d35_8fcd1599",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-28T07:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "161d09f7_7ae359fd",
       "range": {
         "startLine": 75,
         "startChar": 13,

@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
@@ -107,6 +108,10 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
           .setRunHooks(true)
           .setValidatePolicy(CommitValidators.Policy.GERRIT));
       bu.execute();
+    } catch (UpdateException e) {
+      if (e.getCause() instanceof MergeConflictException) {
+        throw new ResourceConflictException(e.getCause().getMessage());
+      }
     }
     return json.create(OPTIONS).format(change.getId());
   }

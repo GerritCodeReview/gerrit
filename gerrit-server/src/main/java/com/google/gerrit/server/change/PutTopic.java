@@ -77,7 +77,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     Op op = new Op(ctl, input != null ? input : new Input());
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
         req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
-      u.addOp(req.getChange().getId(), op);
+      u.addOp(req.getId(), op);
       u.execute();
     }
     return Strings.isNullOrEmpty(op.newTopicName)

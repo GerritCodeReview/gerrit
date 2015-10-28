@@ -416,7 +416,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
-    legacyId = c.getChange().getId();
+    legacyId = c.getId();
     change = c.getChange();
     changeControl = c;
     notes = c.getNotes();

@@ -98,7 +98,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     IdentifiedUser user = ctl.getUser().asIdentifiedUser();
     this.accountId = user.getAccountId();
     this.changeNotes = getChangeNotes().load();
-    this.draftNotes = draftNotesFactory.create(ctl.getChange().getId(),
+    this.draftNotes = draftNotesFactory.create(ctl.getId(),
         user.getAccountId());
 
     this.upsertComments = Lists.newArrayList();
@@ -273,7 +273,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @Override
   protected String getRefName() {
-    return RefNames.refsDraftComments(accountId, getChange().getId());
+    return RefNames.refsDraftComments(accountId, ctl.getId());
   }
 
   @Override

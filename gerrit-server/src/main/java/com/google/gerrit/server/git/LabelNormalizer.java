@@ -116,7 +116,7 @@ public class LabelNormalizer {
     LabelTypes labelTypes = ctl.getLabelTypes();
     for (PatchSetApproval psa : approvals) {
       Change.Id changeId = psa.getKey().getParentKey().getParentKey();
-      checkArgument(changeId.equals(ctl.getChange().getId()),
+      checkArgument(changeId.equals(ctl.getId()),
           "Approval %s does not match change %s",
           psa.getKey(), ctl.getChange().getKey());
       if (psa.isSubmit()) {

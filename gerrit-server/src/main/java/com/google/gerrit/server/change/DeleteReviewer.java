@@ -75,7 +75,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       throws AuthException, ResourceNotFoundException, OrmException,
       IOException {
     ChangeControl control = rsrc.getControl();
-    Change.Id changeId = rsrc.getChange().getId();
+    Change.Id changeId = rsrc.getId();
     ReviewDb db = dbProvider.get();
     ChangeUpdate update = updateFactory.create(rsrc.getControl());
 
@@ -103,13 +103,13 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       if (del.isEmpty()) {
         throw new ResourceNotFoundException();
       }
-      ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChange().getId(), db);
+      ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getId(), db);
       db.patchSetApprovals().delete(del);
       update.removeReviewer(rsrc.getUser().getAccountId());
 
       if (msg.length() > 0) {
         ChangeMessage changeMessage =
-            new ChangeMessage(new ChangeMessage.Key(rsrc.getChange().getId(),
+            new ChangeMessage(new ChangeMessage.Key(rsrc.getId(),
                 ChangeUtil.messageUUID(db)),
                 control.getUser().getAccountId(),
                 TimeUtil.nowTs(), rsrc.getChange().currentPatchSetId());

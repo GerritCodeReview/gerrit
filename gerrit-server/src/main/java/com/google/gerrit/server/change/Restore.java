@@ -87,7 +87,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     Op op = new Op(input);
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
         req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
-      u.addOp(req.getChange().getId(), op).execute();
+      u.addOp(req.getId(), op).execute();
     }
     return json.create(ChangeJson.NO_OPTIONS).format(op.change);
   }

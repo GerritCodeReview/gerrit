@@ -23,7 +23,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.IntegrateException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -90,7 +90,7 @@ public class SubmitStrategyFactory {
       Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
       Branch.NameKey destBranch, IdentifiedUser caller)
-      throws MergeException, NoSuchProjectException {
+      throws IntegrateException, NoSuchProjectException {
     ProjectState project = getProject(destBranch);
     SubmitStrategy.Arguments args = new SubmitStrategy.Arguments(
         identifiedUserFactory, myIdent, db, batchUpdateFactory,
@@ -111,7 +111,7 @@ public class SubmitStrategyFactory {
       default:
         final String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);
-        throw new MergeException(errorMsg);
+        throw new IntegrateException(errorMsg);
     }
   }
 

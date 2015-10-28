@@ -14,19 +14,19 @@
 
 package com.google.gerrit.server.git;
 
-/** Indicates the current branch's queue cannot be processed at this time. */
-public class MergeException extends Exception {
+/** Indicates an integration operation (see {@link MergeOp}) failed. */
+public class IntegrateException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public MergeException(String msg) {
+  public IntegrateException(String msg) {
     super(msg);
   }
 
-  public MergeException(Throwable why) {
+  public IntegrateException(Throwable why) {
     super(why);
   }
 
-  public MergeException(String msg, Throwable why) {
+  public IntegrateException(String msg, Throwable why) {
     super(msg, why);
   }
 }

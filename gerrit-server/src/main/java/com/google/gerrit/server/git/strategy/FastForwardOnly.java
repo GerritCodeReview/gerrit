@@ -16,7 +16,7 @@ package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.IntegrateException;
 import com.google.gerrit.server.git.MergeTip;
 
 import java.util.Collection;
@@ -29,7 +29,7 @@ public class FastForwardOnly extends SubmitStrategy {
 
   @Override
   protected MergeTip _run(final CodeReviewCommit branchTip,
-      final Collection<CodeReviewCommit> toMerge) throws MergeException {
+      final Collection<CodeReviewCommit> toMerge) throws IntegrateException {
     MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(
         args.mergeSorter, toMerge);
@@ -56,7 +56,7 @@ public class FastForwardOnly extends SubmitStrategy {
 
   @Override
   public boolean dryRun(CodeReviewCommit mergeTip,
-      CodeReviewCommit toMerge) throws MergeException {
+      CodeReviewCommit toMerge) throws IntegrateException {
     return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw,
         toMerge);
   }

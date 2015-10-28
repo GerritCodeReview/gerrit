@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.IntegrateException;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -129,7 +129,8 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
             conflicts = !strategy.dryRun(commit, otherCommit);
             args.conflictsCache.put(conflictsKey, conflicts);
             return conflicts;
-          } catch (MergeException | NoSuchProjectException | IOException e) {
+          } catch (IntegrateException | NoSuchProjectException
+              | IOException e) {
             throw new IllegalStateException(e);
           }
         }
@@ -148,7 +149,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
         }
 
         private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw,
-            CodeReviewCommit tip) throws MergeException {
+            CodeReviewCommit tip) throws IntegrateException {
           Set<RevCommit> alreadyAccepted = Sets.newHashSet();
 
           if (tip != null) {
@@ -164,7 +165,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
               }
             }
           } catch (IOException e) {
-            throw new MergeException(
+            throw new IntegrateException(
                 "Failed to determine already accepted commits.", e);
           }
 

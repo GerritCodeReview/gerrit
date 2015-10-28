@@ -766,6 +766,17 @@ By overwriting the `onUpdate` method of `ProjectConfigEntry` plugins
 can be notified when this configuration parameter is updated on a
 project.
 
+[[configuring-groups]]
+=== Referencing groups in `project.config`
+
+Plugins can refer to groups so that when they are renamed, the project
+config will also be updated in this section. The proper format to use is
+the string representation of a GroupReference, as shown below.
+
+----
+Group[group_name / group_uuid]
+----
+
 [[project-specific-configuration]]
 == Project Specific Configuration in own config file
 

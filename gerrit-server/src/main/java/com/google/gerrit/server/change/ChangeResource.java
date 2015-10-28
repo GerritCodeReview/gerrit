@@ -49,6 +49,10 @@ public class ChangeResource implements RestResource, HasETag {
     return control;
   }
 
+  public Change.Id getId() {
+    return getControl().getId();
+  }
+
   public Change getChange() {
     return getControl().getChange();
   }
@@ -90,7 +94,7 @@ public class ChangeResource implements RestResource, HasETag {
   public String getETag() {
     CurrentUser user = control.getUser();
     Hasher h = Hashing.md5().newHasher()
-        .putBoolean(user.getStarredChanges().contains(getChange().getId()));
+        .putBoolean(user.getStarredChanges().contains(getId()));
     prepareETag(h, user);
     return h.hash().toString();
   }

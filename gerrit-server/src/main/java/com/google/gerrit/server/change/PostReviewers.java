@@ -230,9 +230,9 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     ReviewDb db = dbProvider.get();
     ChangeUpdate update = updateFactory.create(rsrc.getControl());
     List<PatchSetApproval> added;
-    db.changes().beginTransaction(rsrc.getChange().getId());
+    db.changes().beginTransaction(rsrc.getId());
     try {
-      ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChange().getId(), db);
+      ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getId(), db);
       added = approvalsUtil.addReviewers(db, rsrc.getNotes(), update,
           rsrc.getControl().getLabelTypes(), rsrc.getChange(),
           reviewers.keySet());
@@ -243,7 +243,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
     update.commit();
     CheckedFuture<?, IOException> indexFuture =
-        indexer.indexAsync(rsrc.getChange().getId());
+        indexer.indexAsync(rsrc.getId());
     result.reviewers = Lists.newArrayListWithCapacity(added.size());
     for (PatchSetApproval psa : added) {
       // New reviewers have value 0, don't bother normalizing.

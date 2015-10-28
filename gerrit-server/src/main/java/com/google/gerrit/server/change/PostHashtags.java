@@ -52,7 +52,7 @@ public class PostHashtags
           req.getChange().getProject(), req.getControl().getUser(),
           TimeUtil.nowTs())) {
       SetHashtagsOp op = hashtagsFactory.create(input);
-      bu.addOp(req.getChange().getId(), op);
+      bu.addOp(req.getId(), op);
       bu.execute();
       return Response.<ImmutableSortedSet<String>> ok(op.getUpdatedHashtags());
     }

@@ -107,9 +107,8 @@ public class SetReviewersCommand extends SshCommand {
         ok &= modifyOne(rsrc);
       } catch (Exception err) {
         ok = false;
-        Change.Id changeId = rsrc.getChange().getId();
-        log.error("Error updating reviewers on change " + changeId, err);
-        writeError("fatal", "internal error while updating " + changeId);
+        log.error("Error updating reviewers on change " + rsrc.getId(), err);
+        writeError("fatal", "internal error while updating " + rsrc.getId());
       }
     }
 
@@ -180,7 +179,7 @@ public class SetReviewersCommand extends SshCommand {
 
       case 1:
         ChangeControl ctl = toAdd.get(0);
-        changes.put(ctl.getChange().getId(), changesCollection.parse(ctl));
+        changes.put(ctl.getId(), changesCollection.parse(ctl));
         break;
 
       default:

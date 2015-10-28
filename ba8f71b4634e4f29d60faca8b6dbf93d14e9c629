@@ -47,6 +47,30 @@
       "revId": "ba8f71b4634e4f29d60faca8b6dbf93d14e9c629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16d7c97f_cac70375",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-28T18:58:20Z",
+      "side": 1,
+      "message": "That\u0027s what I would have thought, but you say here there are test failures. Maybe it\u0027s an issue because we\u0027re both sorting and reversing?\n\nI still completely agree with avoiding double-sorting where possible.",
+      "parentUuid": "f6b07555_5106345f",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 15,
+        "endChar": 65
+      },
+      "revId": "ba8f71b4634e4f29d60faca8b6dbf93d14e9c629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

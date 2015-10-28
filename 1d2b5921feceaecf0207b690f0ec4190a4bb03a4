@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "b6ba7d35_0fb1251a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-28T07:41:00Z",
+      "side": 1,
+      "message": "If this method is called, then loaded \u003d\u003d true, and when this method returns false, then the condition on line 50 evaluates to true, and load() method is exited on line 51, so that line 57 is not reached in this case.",
+      "parentUuid": "161d09f7_5ae6950e",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 60
+      },
+      "revId": "1d2b5921feceaecf0207b690f0ec4190a4bb03a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ba7d35_2fb4e909",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-28T07:41:00Z",
+      "side": 1,
+      "message": "How can ref be null? We loaded this revision previously and loaded was true. Would it be the case when draft was deleted?",
+      "range": {
+        "startLine": 74,
+        "startChar": 13,
+        "endLine": 74,
+        "endChar": 24
+      },
+      "revId": "1d2b5921feceaecf0207b690f0ec4190a4bb03a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "161d09f7_7ae359fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
         "patchSetId": 1

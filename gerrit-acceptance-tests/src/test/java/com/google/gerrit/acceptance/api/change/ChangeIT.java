@@ -53,6 +53,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -448,16 +449,23 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(actual.revisions.get(r1.getCommit().getName()).commitWithFooters)
         .isNull();
 
-    String expected = SUBJECT + "\n"
-        + "\n"
-        + "Change-Id: " + r2.getChangeId() + "\n"
-        + "Reviewed-on: "
-            + canonicalWebUrl.get() + r2.getChange().getId() + "\n"
-        + "Reviewed-by: Administrator <admin@example.com>\n"
-        + "Custom2: Administrator <admin@example.com>\n"
-        + "Tested-by: Administrator <admin@example.com>\n";
-    assertThat(actual.revisions.get(r2.getCommit().getName()).commitWithFooters)
-        .isEqualTo(expected);
+    List<String> footers =
+        new ArrayList<>(Arrays.asList(
+            actual.revisions.get(r2.getCommit().getName())
+            .commitWithFooters.split("\\n")));
+    // remove subject + blank line
+    footers.remove(0);
+    footers.remove(0);
+
+    List<String> expectedFooters = Arrays.asList(
+        "Change-Id: " + r2.getChangeId(),
+        "Reviewed-on: "
+            + canonicalWebUrl.get() + r2.getChange().getId(),
+        "Reviewed-by: Administrator <admin@example.com>",
+        "Custom2: Administrator <admin@example.com>",
+        "Tested-by: Administrator <admin@example.com>");
+
+    assertThat(footers).containsExactlyElementsIn(expectedFooters);
   }
 
   @Test

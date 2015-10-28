@@ -34,7 +34,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
@@ -199,7 +199,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
     @Override
     public Boolean call()
-        throws NoSuchProjectException, MergeException, IOException {
+        throws NoSuchProjectException, IntegrationException, IOException {
       if (key.into.equals(ObjectId.zeroId())) {
         return true; // Assume yes on new branch.
       }

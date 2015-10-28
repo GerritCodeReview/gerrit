@@ -25,7 +25,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeSorter;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
@@ -124,10 +124,10 @@ public abstract class SubmitStrategy {
    *        this submit strategy. Implementations are responsible for ordering
    *        of commits, and should not modify the input in place.
    * @return the new merge tip.
-   * @throws MergeException
+   * @throws IntegrationException
    */
   public final MergeTip run(final CodeReviewCommit currentTip,
-      final Collection<CodeReviewCommit> toMerge) throws MergeException {
+      final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     refLogIdent = null;
     checkState(args.caller != null);
     return _run(currentTip, toMerge);
@@ -135,7 +135,7 @@ public abstract class SubmitStrategy {
 
   /** @see #run(CodeReviewCommit, Collection) */
   protected abstract MergeTip _run(CodeReviewCommit currentTip,
-      Collection<CodeReviewCommit> toMerge) throws MergeException;
+      Collection<CodeReviewCommit> toMerge) throws IntegrationException;
 
   /**
    * Checks whether the given commit can be merged.
@@ -147,10 +147,10 @@ public abstract class SubmitStrategy {
    * @param toMerge the commit that should be checked.
    * @return {@code true} if the given commit can be merged, otherwise
    *         {@code false}
-   * @throws MergeException
+   * @throws IntegrationException
    */
   public abstract boolean dryRun(CodeReviewCommit mergeTip,
-      CodeReviewCommit toMerge) throws MergeException;
+      CodeReviewCommit toMerge) throws IntegrationException;
 
   /**
    * Returns the identity that should be used for reflog entries when updating

@@ -24,11 +24,11 @@ import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -42,8 +42,8 @@ import java.util.List;
 public class ChangesCollection implements
     RestCollection<TopLevelResource, ChangeResource>,
     AcceptsPost<TopLevelResource> {
+  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
   private final ChangeUtil changeUtil;
@@ -52,15 +52,15 @@ public class ChangesCollection implements
 
   @Inject
   ChangesCollection(
+      Provider<ReviewDb> db,
       Provider<CurrentUser> user,
-      ChangeControl.GenericFactory changeControlFactory,
       Provider<QueryChanges> queryFactory,
       DynamicMap<RestView<ChangeResource>> views,
       ChangeUtil changeUtil,
       CreateChange createChange,
       ChangeIndexer changeIndexer) {
+    this.db = db;
     this.user = user;
-    this.changeControlFactory = changeControlFactory;
     this.queryFactory = queryFactory;
     this.views = views;
     this.changeUtil = changeUtil;
@@ -81,8 +81,8 @@ public class ChangesCollection implements
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, OrmException {
-    List<Change> changes = changeUtil.findChanges(id.encoded());
-    if (changes.isEmpty()) {
+    List<ChangeControl> ctls = changeUtil.findChanges(id.encoded(), user.get());
+    if (ctls.isEmpty()) {
       Integer changeId = Ints.tryParse(id.get());
       if (changeId != null) {
         try {
@@ -92,17 +92,15 @@ public class ChangesCollection implements
         }
       }
     }
-    if (changes.size() != 1) {
+    if (ctls.size() != 1) {
       throw new ResourceNotFoundException(id);
     }
 
-    ChangeControl control;
-    try {
-      control = changeControlFactory.validateFor(changes.get(0), user.get());
-    } catch (NoSuchChangeException e) {
+    ChangeControl ctl = ctls.get(0);
+    if (!ctl.isVisible(db.get())) {
       throw new ResourceNotFoundException(id);
     }
-    return new ChangeResource(control);
+    return new ChangeResource(ctl);
   }
 
   public ChangeResource parse(Change.Id id)

@@ -544,6 +544,23 @@ public class ChangeData {
     return changeControl;
   }
 
+  public ChangeControl changeControl(CurrentUser user) throws OrmException {
+    if (changeControl != null) {
+      throw new IllegalStateException(
+          "user already specified: " + changeControl.getUser());
+    }
+    try {
+      if (change != null) {
+        changeControl = changeControlFactory.controlFor(change, user);
+      } else {
+        changeControl = changeControlFactory.controlFor(legacyId, user);
+      }
+    } catch (NoSuchChangeException e) {
+      throw new OrmException(e);
+    }
+    return changeControl;
+  }
+
   void cacheVisibleTo(ChangeControl ctl) {
     visibleTo = ctl.getUser();
     changeControl = ctl;

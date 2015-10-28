@@ -21,4 +21,5 @@ public class FileInfo {
   public Integer linesInserted;
   public Integer linesDeleted;
   public long sizeDelta;
+  public long size;
 }

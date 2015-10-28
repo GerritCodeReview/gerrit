@@ -92,8 +92,7 @@ public interface ReviewDb extends Schema {
   @Relation(id = 24)
   PatchSetAccess patchSets();
 
-  @Relation(id = 25)
-  PatchSetAncestorAccess patchSetAncestors();
+  // Deleted @Relation(id = 25)
 
   @Relation(id = 26)
   PatchLineCommentAccess patchComments();

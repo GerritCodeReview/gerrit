@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ChangeMessageAccess;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.PatchSetAccess;
-import com.google.gerrit.reviewdb.server.PatchSetAncestorAccess;
 import com.google.gerrit.reviewdb.server.PatchSetApprovalAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.SchemaVersionAccess;
@@ -156,11 +155,6 @@ public class DisabledReviewDb implements ReviewDb {
 
   @Override
   public PatchSetAccess patchSets() {
-    throw new AssertionError(MESSAGE);
-  }
-
-  @Override
-  public PatchSetAncestorAccess patchSetAncestors() {
     throw new AssertionError(MESSAGE);
   }
 

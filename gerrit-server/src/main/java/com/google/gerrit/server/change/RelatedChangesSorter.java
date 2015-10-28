@@ -52,11 +52,11 @@ import java.util.Objects;
 import java.util.Set;
 
 @Singleton
-class PatchSetAncestorSorter {
+class RelatedChangesSorter {
   private final GitRepositoryManager repoManager;
 
   @Inject
-  PatchSetAncestorSorter(GitRepositoryManager repoManager) {
+  RelatedChangesSorter(GitRepositoryManager repoManager) {
     this.repoManager = repoManager;
   }
 
@@ -199,10 +199,10 @@ class PatchSetAncestorSorter {
         }
         allPatchSets.add(psd);
       }
-      // Breadth-first search with oldest children first.
-      // TODO(dborowitz): After killing PatchSetAncestors, consider DFS to keep
-      // parallel history together.
-      pending.addAll(Lists.reverse(children.get(psd)));
+      // Depth-first search with newest children first.
+      for (PatchSetData child : children.get(psd)) {
+        pending.addFirst(child);
+      }
     }
 
     // If we saw the same change multiple times, prefer the latest patch set.
@@ -227,7 +227,7 @@ class PatchSetAncestorSorter {
   abstract static class PatchSetData {
     @VisibleForTesting
     static PatchSetData create(ChangeData cd, PatchSet ps, RevCommit commit) {
-      return new AutoValue_PatchSetAncestorSorter_PatchSetData(cd, ps, commit);
+      return new AutoValue_RelatedChangesSorter_PatchSetData(cd, ps, commit);
     }
 
     abstract ChangeData data();

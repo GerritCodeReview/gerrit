@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.events;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -27,9 +31,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -57,56 +59,59 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @Singleton
 public class EventFactory {
   private static final Logger log = LoggerFactory.getLogger(EventFactory.class);
+
   private final AccountCache accountCache;
   private final Provider<String> urlProvider;
   private final PatchListCache patchListCache;
-  private final SchemaFactory<ReviewDb> schema;
   private final PatchSetInfoFactory psInfoFactory;
   private final PersonIdent myIdent;
-  private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeKindCache changeKindCache;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       PatchSetInfoFactory psif,
-      PatchListCache patchListCache, SchemaFactory<ReviewDb> schema,
+      PatchListCache patchListCache,
       @GerritPersonIdent PersonIdent myIdent,
-      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
-      ChangeKindCache changeKindCache) {
+      ChangeKindCache changeKindCache,
+      Provider<InternalChangeQuery> queryProvider) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
-    this.schema = schema;
     this.psInfoFactory = psif;
     this.myIdent = myIdent;
-    this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeKindCache = changeKindCache;
+    this.queryProvider = queryProvider;
   }
 
   /**
@@ -116,7 +121,7 @@ public class EventFactory {
    * @param change
    * @return object suitable for serialization to JSON
    */
-  public ChangeAttribute asChangeAttribute(final Change change) {
+  public ChangeAttribute asChangeAttribute(ReviewDb db, Change change) {
     ChangeAttribute a = new ChangeAttribute();
     a.project = change.getProject().get();
     a.branch = change.getDest().getShortName();
@@ -125,8 +130,7 @@ public class EventFactory {
     a.number = change.getId().toString();
     a.subject = change.getSubject();
     try {
-      a.commitMessage =
-          changeDataFactory.create(db.get(), change).commitMessage();
+      a.commitMessage = changeDataFactory.create(db, change).commitMessage();
     } catch (Exception e) {
       log.error("Error while getting full commit message for"
           + " change " + a.number);
@@ -146,7 +150,8 @@ public class EventFactory {
    * @param refName
    * @return object suitable for serialization to JSON
    */
-  public RefUpdateAttribute asRefUpdateAttribute(final ObjectId oldId, final ObjectId newId, final Branch.NameKey refName) {
+  public RefUpdateAttribute asRefUpdateAttribute(ObjectId oldId, ObjectId newId,
+      Branch.NameKey refName) {
     RefUpdateAttribute ru = new RefUpdateAttribute();
     ru.newRev = newId != null ? newId.getName() : ObjectId.zeroId().getName();
     ru.oldRev = oldId != null ? oldId.getName() : ObjectId.zeroId().getName();
@@ -173,10 +178,10 @@ public class EventFactory {
    * @param a
    * @param notes
    */
-  public void addAllReviewers(ChangeAttribute a, ChangeNotes notes)
+  public void addAllReviewers(ReviewDb db, ChangeAttribute a, ChangeNotes notes)
       throws OrmException {
     Collection<Account.Id> reviewers =
-        approvalsUtil.getReviewers(db.get(), notes).values();
+        approvalsUtil.getReviewers(db, notes).values();
     if (!reviewers.isEmpty()) {
       a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
       for (Account.Id id : reviewers) {
@@ -226,51 +231,17 @@ public class EventFactory {
     }
   }
 
-  public void addDependencies(ChangeAttribute ca, Change change) {
+  public void addDependencies(RevWalk rw, ChangeAttribute ca, Change change,
+      PatchSet currentPs) {
+    if (change == null || currentPs == null) {
+      return;
+    }
     ca.dependsOn = new ArrayList<>();
     ca.neededBy = new ArrayList<>();
-    try (ReviewDb db = schema.open()) {
-      final PatchSet.Id psId = change.currentPatchSetId();
-      for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
-        for (PatchSet p :
-            db.patchSets().byRevision(a.getAncestorRevision())) {
-          Change c = db.changes().get(p.getId().getParentKey());
-          if (c == null) {
-            log.error("Error while generating the ancestor change for"
-                + " revision " + a.getAncestorRevision() + ": Cannot find"
-                + " Change entry in database for " + p.getId().getParentKey());
-            continue;
-          }
-          ca.dependsOn.add(newDependsOn(c, p));
-        }
-      }
-
-      final PatchSet ps = db.patchSets().get(psId);
-      if (ps == null) {
-        log.error("Error while generating the list of descendants for"
-            + " PatchSet " + psId + ": Cannot find PatchSet entry in"
-            + " database.");
-      } else {
-        final RevId revId = ps.getRevision();
-        for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(revId)) {
-          final PatchSet p = db.patchSets().get(a.getPatchSet());
-          if (p == null) {
-            log.error("Error while generating the list of descendants for"
-                + " revision " + revId.get() + ": Cannot find PatchSet entry in"
-                + " database for " + a.getPatchSet());
-            continue;
-          }
-          final Change c = db.changes().get(p.getId().getParentKey());
-          if (c == null) {
-            log.error("Error while generating the list of descendants for"
-                + " revision " + revId.get() + ": Cannot find Change entry in"
-                + " database for " + p.getId().getParentKey());
-            continue;
-          }
-          ca.neededBy.add(newNeededBy(c, p));
-        }
-      }
-    } catch (OrmException e) {
+    try {
+      addDependsOn(rw, ca, change, currentPs);
+      addNeededBy(rw, ca, change, currentPs);
+    } catch (OrmException | IOException e) {
       // Squash DB exceptions and leave dependency lists partially filled.
     }
     // Remove empty lists so a confusing label won't be displayed in the output.
@@ -279,6 +250,67 @@ public class EventFactory {
     }
     if (ca.neededBy.isEmpty()) {
       ca.neededBy = null;
+    }
+  }
+
+  private void addDependsOn(RevWalk rw, ChangeAttribute ca, Change change,
+      PatchSet currentPs) throws OrmException, IOException {
+    RevCommit commit =
+        rw.parseCommit(ObjectId.fromString(currentPs.getRevision().get()));
+    final List<String> parentNames = new ArrayList<>(commit.getParentCount());
+    for (RevCommit p : commit.getParents()) {
+      parentNames.add(p.name());
+    }
+
+    // Find changes in this project having a patch set matching any parent of
+    // this patch set's revision.
+    for (ChangeData cd : queryProvider.get().byProjectCommits(
+        change.getProject(), parentNames)) {
+      for (PatchSet ps : cd.patchSets()) {
+        for (String p : parentNames) {
+          if (!ps.getRevision().get().equals(p)) {
+            continue;
+          }
+          ca.dependsOn.add(newDependsOn(checkNotNull(cd.change()), ps));
+        }
+      }
+    }
+    // Sort by original parent order.
+    Collections.sort(ca.dependsOn, Ordering.natural().onResultOf(
+        new Function<DependencyAttribute, Integer>() {
+          @Override
+          public Integer apply(DependencyAttribute d) {
+            for (int i = 0; i < parentNames.size(); i++) {
+              if (parentNames.get(i).equals(d.revision)) {
+                return i;
+              }
+            }
+            return parentNames.size() + 1;
+          }
+        }));
+  }
+
+  private void addNeededBy(RevWalk rw, ChangeAttribute ca, Change change,
+      PatchSet currentPs) throws OrmException, IOException {
+    if (currentPs.getGroups() == null || currentPs.getGroups().isEmpty()) {
+      return;
+    }
+    String rev = currentPs.getRevision().get();
+    // Find changes in the same related group as this patch set, having a patch
+    // set whose parent matches this patch set's revision.
+    for (ChangeData cd : queryProvider.get().byProjectGroups(
+        change.getProject(), currentPs.getGroups())) {
+      patchSets: for (PatchSet ps : cd.patchSets()) {
+        RevCommit commit =
+            rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+        for (RevCommit p : commit.getParents()) {
+          if (!p.name().equals(rev)) {
+            continue;
+          }
+          ca.neededBy.add(newNeededBy(checkNotNull(cd.change()), ps));
+          continue patchSets;
+        }
+      }
     }
   }
 
@@ -319,24 +351,21 @@ public class EventFactory {
     a.commitMessage = commitMessage;
   }
 
-  public void addPatchSets(ChangeAttribute a, Collection<PatchSet> ps,
-      LabelTypes labelTypes) {
-    addPatchSets(a, ps, null, false, null, labelTypes);
-  }
-
-  public void addPatchSets(ChangeAttribute ca, Collection<PatchSet> ps,
+  public void addPatchSets(ReviewDb db, RevWalk revWalk, ChangeAttribute ca,
+      Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       LabelTypes labelTypes) {
-    addPatchSets(ca, ps, approvals, false, null, labelTypes);
+    addPatchSets(db, revWalk, ca, ps, approvals, false, null, labelTypes);
   }
 
-  public void addPatchSets(ChangeAttribute ca, Collection<PatchSet> ps,
+  public void addPatchSets(ReviewDb db, RevWalk revWalk, ChangeAttribute ca,
+      Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       boolean includeFiles, Change change, LabelTypes labelTypes) {
     if (!ps.isEmpty()) {
       ca.patchSets = new ArrayList<>(ps.size());
       for (PatchSet p : ps) {
-        PatchSetAttribute psa = asPatchSetAttribute(p);
+        PatchSetAttribute psa = asPatchSetAttribute(db, revWalk, p);
         if (approvals != null) {
           addApprovals(psa, p.getId(), approvals, labelTypes);
         }
@@ -400,7 +429,8 @@ public class EventFactory {
    * @param patchSet
    * @return object suitable for serialization to JSON
    */
-  public PatchSetAttribute asPatchSetAttribute(final PatchSet patchSet) {
+  public PatchSetAttribute asPatchSetAttribute(ReviewDb db, RevWalk revWalk,
+      PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.getRevision().get();
     p.number = Integer.toString(patchSet.getPatchSetId());
@@ -408,12 +438,12 @@ public class EventFactory {
     p.uploader = asAccountAttribute(patchSet.getUploader());
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
     p.isDraft = patchSet.isDraft();
-    final PatchSet.Id pId = patchSet.getId();
-    try (ReviewDb db = schema.open()) {
+    PatchSet.Id pId = patchSet.getId();
+    try {
       p.parents = new ArrayList<>();
-      for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
-          patchSet.getId())) {
-        p.parents.add(a.getAncestorRevision().get());
+      RevCommit c = revWalk.parseCommit(ObjectId.fromString(p.revision));
+      for (RevCommit parent : c.getParents()) {
+        p.parents.add(parent.name());
       }
 
       UserIdentity author = psInfoFactory.get(db, pId).getAuthor();
@@ -436,7 +466,7 @@ public class EventFactory {
         }
       }
       p.kind = changeKindCache.getChangeKind(db, change, patchSet);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);
     } catch (PatchSetInfoNotAvailableException e) {
       log.error(String.format("Cannot get authorEmail for %s.", pId), e);
@@ -491,7 +521,7 @@ public class EventFactory {
    * @param account
    * @return object suitable for serialization to JSON
    */
-  public AccountAttribute asAccountAttribute(final Account account) {
+  public AccountAttribute asAccountAttribute(Account account) {
     if (account == null) {
       return null;
     }
@@ -560,9 +590,9 @@ public class EventFactory {
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
-  private String getChangeUrl(final Change change) {
+  private String getChangeUrl(Change change) {
     if (change != null && urlProvider.get() != null) {
-      final StringBuilder r = new StringBuilder();
+      StringBuilder r = new StringBuilder();
       r.append(urlProvider.get());
       r.append(change.getChangeId());
       return r.toString();

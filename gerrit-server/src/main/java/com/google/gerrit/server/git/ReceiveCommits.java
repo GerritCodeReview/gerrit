@@ -2252,7 +2252,6 @@ public class ReceiveCommits {
           return null;
         }
 
-        ChangeUtil.insertAncestors(db, newPatchSet.getId(), newCommit);
         if (newPatchSet.getGroups() == null) {
           newPatchSet.setGroups(GroupCollector.getCurrentGroups(db, change));
         }

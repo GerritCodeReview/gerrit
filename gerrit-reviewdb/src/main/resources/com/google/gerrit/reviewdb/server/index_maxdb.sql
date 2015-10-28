@@ -97,15 +97,6 @@ ON patch_sets (revision)
 #
 
 -- *********************************************************************
--- PatchSetAncestorAccess
---    @PrimaryKey covers: ancestorsOf
---    covers:             descendantsOf
-CREATE INDEX patch_set_ancestors_desc
-ON patch_set_ancestors (ancestor_revision)
-#
-
-
--- *********************************************************************
 -- StarredChangeAccess
 --    @PrimaryKey covers: byAccount
 

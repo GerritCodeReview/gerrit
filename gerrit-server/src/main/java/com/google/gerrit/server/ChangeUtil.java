@@ -14,15 +14,12 @@
 
 package com.google.gerrit.server;
 
-import static com.google.gerrit.server.query.change.ChangeData.asChanges;
-
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -43,6 +40,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gwtorm.server.OrmConcurrencyException;
@@ -73,6 +71,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -180,6 +179,7 @@ public class ChangeUtil {
   private final Provider<IdentifiedUser> user;
   private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final GitRepositoryManager gitManager;
@@ -193,6 +193,7 @@ public class ChangeUtil {
   ChangeUtil(Provider<IdentifiedUser> user,
       Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
+      ChangeControl.GenericFactory changeControlFactory,
       RevertedSender.Factory revertedSenderFactory,
       ChangeInserter.Factory changeInserterFactory,
       GitRepositoryManager gitManager,
@@ -204,6 +205,7 @@ public class ChangeUtil {
     this.user = user;
     this.db = db;
     this.queryProvider = queryProvider;
+    this.changeControlFactory = changeControlFactory;
     this.revertedSenderFactory = revertedSenderFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.gitManager = gitManager;
@@ -425,34 +427,46 @@ public class ChangeUtil {
    *
    * @param id change identifier, either a numeric ID, a Change-Id, or
    *     project~branch~id triplet.
-   * @return all matching changes, even if they are not visible to the current
-   *     user.
+   * @param user user to wrap in controls.
+   * @return possibly-empty list of controls for all matching changes,
+   *     corresponding to the given user; may or may not be visible.
+   * @throws OrmException if an error occurred querying the database.
    */
-  public List<Change> findChanges(String id)
-      throws OrmException, ResourceNotFoundException {
+  public List<ChangeControl> findChanges(String id, CurrentUser user)
+      throws OrmException {
     // Try legacy id
     if (id.matches("^[1-9][0-9]*$")) {
-      Change c = db.get().changes().get(Change.Id.parse(id));
-      if (c != null) {
-        return ImmutableList.of(c);
+      try {
+        return ImmutableList.of(
+            changeControlFactory.controlFor(Change.Id.parse(id), user));
+      } catch (NoSuchChangeException e) {
+        return Collections.emptyList();
       }
-      return Collections.emptyList();
     }
 
     // Try isolated changeId
     if (!id.contains("~")) {
-      return asChanges(queryProvider.get().byKeyPrefix(id));
+      return asChangeControls(queryProvider.get().byKeyPrefix(id));
     }
 
     // Try change triplet
     Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id);
     if (triplet.isPresent()) {
-      return asChanges(queryProvider.get().byBranchKey(
+      return asChangeControls(queryProvider.get().byBranchKey(
           triplet.get().branch(),
           triplet.get().id()));
     }
 
-    throw new ResourceNotFoundException(id);
+    return Collections.emptyList();
+  }
+
+  private List<ChangeControl> asChangeControls(List<ChangeData> cds)
+      throws OrmException {
+    List<ChangeControl> ctls = new ArrayList<>(cds.size());
+    for (ChangeData cd : cds) {
+      ctls.add(cd.changeControl(user.get()));
+    }
+    return ctls;
   }
 
   private static void deleteOnlyDraftPatchSetPreserveRef(ReviewDb db,

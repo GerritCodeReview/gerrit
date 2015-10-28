@@ -44,6 +44,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
@@ -154,19 +155,19 @@ public class CreateChange implements
       ObjectId parentCommit;
       List<String> groups;
       if (input.baseChange != null) {
-        List<Change> changes = changeUtil.findChanges(input.baseChange);
-        if (changes.size() != 1) {
+        List<ChangeControl> ctls = changeUtil.findChanges(
+            input.baseChange, rsrc.getControl().getUser());
+        if (ctls.size() != 1) {
           throw new InvalidChangeOperationException(
               "Base change not found: " + input.baseChange);
         }
-        Change change = Iterables.getOnlyElement(changes);
-        if (!rsrc.getControl().controlFor(change).isVisible(db.get())) {
+        ChangeControl ctl = Iterables.getOnlyElement(ctls);
+        if (!ctl.isVisible(db.get())) {
           throw new InvalidChangeOperationException(
               "Base change not found: " + input.baseChange);
         }
-        PatchSet ps = db.get().patchSets().get(
-            new PatchSet.Id(change.getId(),
-            change.currentPatchSetId().get()));
+        PatchSet ps =
+            db.get().patchSets().get(ctl.getChange().currentPatchSetId());
         parentCommit = ObjectId.fromString(ps.getRevision().get());
         groups = ps.getGroups();
       } else {

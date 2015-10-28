@@ -50,7 +50,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
     int backendLimit = opts.config().maxLimit();
     int limit = Ints.saturatedCast((long) opts.limit() + opts.start());
     limit = Math.min(limit, backendLimit);
-    return QueryOptions.create(opts.config(), 0, limit);
+    return QueryOptions.create(opts.config(), 0, limit, opts.fields());
   }
 
   private final ChangeIndex index;

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "161d09f7_9a266dee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-29T07:45:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6b07555_f14da8ae",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 10
+      },
+      "revId": "314e19e66cb3108ac1c0eac90c57c783b431b005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6b07555_d152244c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Confirmed. This was broken on master again: [1], [2].\n\n* [1] http://paste.openstack.org/show/477596\n* [2] http://imgur.com/v5fnuvX",
       "parentUuid": "f6b07555_d152244c",
+      "range": {
+        "startLine": 157,
+        "startChar": 6,
+        "endLine": 159,
+        "endChar": 7
+      },
+      "revId": "314e19e66cb3108ac1c0eac90c57c783b431b005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "364ccd13_9b4d0bb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-29T07:45:58Z",
+      "side": 1,
+      "message": "Good catch.  I hadn\u0027t tested this on master.  We should have had a test case for this, which would have caught the regression.",
+      "parentUuid": "f6b07555_3141f071",
       "range": {
         "startLine": 157,
         "startChar": 6,

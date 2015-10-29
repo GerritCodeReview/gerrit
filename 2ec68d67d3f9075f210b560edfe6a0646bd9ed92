@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d65ff225_aad36f29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-29T22:25:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d65ff225_cad6a31b",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 56
+      },
+      "revId": "2ec68d67d3f9075f210b560edfe6a0646bd9ed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_edd9854d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 19
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3625aea9_8dd0c11d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-29T22:25:13Z",
+      "side": 1,
+      "message": "It shouldn\u0027t be...",
+      "parentUuid": "3625aea9_edd9854d",
+      "range": {
+        "startLine": 325,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 23
+      },
+      "revId": "2ec68d67d3f9075f210b560edfe6a0646bd9ed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_cdd6c91b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 19
@@ -59,6 +107,30 @@
       "writtenOn": "2015-10-29T22:21:26Z",
       "side": 1,
       "message": "is never null now",
+      "range": {
+        "startLine": 333,
+        "startChar": 0,
+        "endLine": 333,
+        "endChar": 35
+      },
+      "revId": "2ec68d67d3f9075f210b560edfe6a0646bd9ed92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_8ad0ab1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-29T22:25:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3625aea9_cdd6c91b",
       "range": {
         "startLine": 333,
         "startChar": 0,

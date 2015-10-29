@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6ba7d35_0f7005c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-29T09:53:37Z",
+      "side": 1,
+      "message": "\u0027i.ignoreWhitespace\u0027 may be null when it is not set in the input by the caller and then this fail with an NPE here and the user gets an Internal Server Error.",
+      "range": {
+        "startLine": 128,
+        "startChar": 26,
+        "endLine": 129,
+        "endChar": 62
+      },
+      "revId": "a03c6d01510ca2a95dbaab8b43444eaf010382bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ba7d35_6f6d51ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-29T09:53:37Z",
+      "side": 1,
+      "message": "must be \u0027b(i.manualReview)\u0027 otherwise we get an NPE when i.manualReview is null",
+      "range": {
+        "startLine": 134,
+        "startChar": 22,
+        "endLine": 134,
+        "endChar": 36
+      },
+      "revId": "a03c6d01510ca2a95dbaab8b43444eaf010382bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

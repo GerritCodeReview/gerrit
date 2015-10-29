@@ -14,15 +14,18 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.Paginated;
+import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
@@ -40,19 +43,28 @@ import java.util.List;
  */
 public class IndexedChangeQuery extends Predicate<ChangeData>
     implements ChangeDataSource, Paginated {
+  @VisibleForTesting
+  static QueryOptions convertOptions(QueryOptions opts) {
+    // Increase the limit rather than skipping, since we don't know how many
+    // skipped results would have been filtered out by the enclosing AndSource.
+    int backendLimit = opts.config().maxLimit();
+    int limit = Ints.saturatedCast((long) opts.limit() + opts.start());
+    limit = Math.min(limit, backendLimit);
+    return QueryOptions.create(opts.config(), 0, limit);
+  }
 
   private final ChangeIndex index;
-  private final int limit;
 
+  private QueryOptions opts;
   private Predicate<ChangeData> pred;
   private ChangeDataSource source;
 
   public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred,
-      int limit) throws QueryParseException {
+      QueryOptions opts) throws QueryParseException {
     this.index = index;
-    this.limit = limit;
+    this.opts = convertOptions(opts);
     this.pred = pred;
-    this.source = index.getSource(pred, 0, limit);
+    this.source = index.getSource(pred, this.opts);
   }
 
   @Override
@@ -74,13 +86,13 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
   }
 
   @Override
-  public int limit() {
-    return limit;
+  public QueryOptions getOptions() {
+    return opts;
   }
 
   @Override
   public int getCardinality() {
-    return source != null ? source.getCardinality() : limit();
+    return source != null ? source.getCardinality() : opts.limit();
   }
 
   @Override
@@ -126,14 +138,17 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public ResultSet<ChangeData> restart(int start) throws OrmException {
+    opts = opts.withStart(start);
     try {
-      source = index.getSource(pred, start, limit);
+      source = index.getSource(pred, opts);
     } catch (QueryParseException e) {
       // Don't need to show this exception to the user; the only thing that
       // changed about pred was its start, and any other QPEs that might happen
       // should have already thrown from the constructor.
       throw new OrmException(e);
     }
+    // Don't convert start to a limit, since the caller of this method (see
+    // AndSource) has calculated the actual number to skip.
     return read();
   }
 
@@ -168,14 +183,14 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
     }
     IndexedChangeQuery o = (IndexedChangeQuery) other;
     return pred.equals(o.pred)
-        && limit == o.limit;
+        && opts.equals(o.opts);
   }
 
   @Override
   public String toString() {
     return MoreObjects.toStringHelper("index")
         .add("p", pred)
-        .add("limit", limit)
+        .add("opts", opts)
         .toString();
   }
 }

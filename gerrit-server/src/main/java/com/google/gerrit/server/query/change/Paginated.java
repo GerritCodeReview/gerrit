@@ -18,7 +18,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
 public interface Paginated {
-  int limit();
+  QueryOptions getOptions();
 
   ResultSet<ChangeData> restart(int start) throws OrmException;
 }

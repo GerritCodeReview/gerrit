@@ -36,9 +36,11 @@ class MessagePredicate extends IndexPredicate<ChangeData> {
   @Override
   public boolean match(ChangeData object) throws OrmException {
     try {
-      for (ChangeData cData : index.getSource(
-          Predicate.and(new LegacyChangeIdPredicate(
-              index.getSchema(), object.getId()), this), 0, 1).read()) {
+      Predicate<ChangeData> p = Predicate.and(
+          new LegacyChangeIdPredicate(index.getSchema(), object.getId()),
+          this);
+      for (ChangeData cData
+          : index.getSource(p, QueryOptions.oneResult()).read()) {
         if (cData.getId().equals(object.getId())) {
           return true;
         }

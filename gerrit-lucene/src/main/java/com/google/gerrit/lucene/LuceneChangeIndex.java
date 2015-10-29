@@ -55,6 +55,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.LegacyChangeIdPredicate;
+import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -352,8 +353,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public ChangeDataSource getSource(Predicate<ChangeData> p, int start,
-      int limit) throws QueryParseException {
+  public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
+      throws QueryParseException {
     Set<Change.Status> statuses = IndexRewriteImpl.getPossibleStatus(p);
     List<SubIndex> indexes = Lists.newArrayListWithCapacity(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
@@ -362,7 +363,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, queryBuilder.toQuery(p), start, limit,
+    return new QuerySource(indexes, queryBuilder.toQuery(p), opts,
         getSort());
   }
 
@@ -397,16 +398,14 @@ public class LuceneChangeIndex implements ChangeIndex {
   private class QuerySource implements ChangeDataSource {
     private final List<SubIndex> indexes;
     private final Query query;
-    private final int start;
-    private final int limit;
+    private final QueryOptions opts;
     private final Sort sort;
 
-    private QuerySource(List<SubIndex> indexes, Query query, int start,
-        int limit, Sort sort) {
+    private QuerySource(List<SubIndex> indexes, Query query, QueryOptions opts,
+        Sort sort) {
       this.indexes = indexes;
       this.query = checkNotNull(query, "null query from Lucene");
-      this.start = start;
-      this.limit = limit;
+      this.opts = opts;
       this.sort = sort;
     }
 
@@ -429,7 +428,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     public ResultSet<ChangeData> read() throws OrmException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       try {
-        int realLimit = start + limit;
+        int realLimit = opts.start() + opts.limit();
         TopFieldDocs[] hits = new TopFieldDocs[indexes.size()];
         for (int i = 0; i < indexes.size(); i++) {
           searchers[i] = indexes.get(i).acquire();
@@ -439,7 +438,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
         List<ChangeData> result =
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);
-        for (int i = start; i < docs.scoreDocs.length; i++) {
+        for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searchers[sd.shardIndex].doc(sd.doc, FIELDS);
           result.add(toChangeData(doc));

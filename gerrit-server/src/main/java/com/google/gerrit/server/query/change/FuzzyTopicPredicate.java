@@ -58,7 +58,7 @@ class FuzzyTopicPredicate extends IndexPredicate<ChangeData> {
         Predicate<ChangeData> thisId =
             new LegacyChangeIdPredicate(index.getSchema(), cd.getId());
         Iterable<ChangeData> results =
-            index.getSource(and(thisId, this), 0, 1).read();
+            index.getSource(and(thisId, this), QueryOptions.oneResult()).read();
         return !Iterables.isEmpty(results);
       } catch (QueryParseException e) {
         throw new OrmException(e);

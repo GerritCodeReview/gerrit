@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6ba7d35_2f2509c1",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-29T13:12:38Z",
+      "side": 1,
+      "message": "The first argument is the preferred field to look up. Why is the deprecated LEGACY_ID field preferred over the LEGACY_ID2 field? Should it be the other way around?",
+      "range": {
+        "startLine": 496,
+        "startChar": 27,
+        "endLine": 496,
+        "endChar": 72
+      },
+      "revId": "8f72e0bdd8901044e7f8025c910e0cc574217455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

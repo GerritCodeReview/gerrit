@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "b6ba7d35_8f151558",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-29T10:44:04Z",
+      "side": 1,
+      "message": "I didn\u0027t look on this level, but I did a simple integration test.\n\nTest Plan:\n1. Set all diff preferences to \u0027Hide\u0027 as shown in this screenshot [1].\n2. Set only \"show_tabs\" to true, done by curl [2]\n\nResult with old code:\nOnly the \"show_tabs\" setting is updated (see screenshot [3]):\n\n  $ curl --user admin:secret --digest -X PUT -d \u0027{\"show_tabs\": true}\u0027 --header \"Content-Type: application/json\" http://localhost:8080/a/accounts/self/preferences.diff\n  )]}\u0027\n  {\n    \"context\": 10,\n    \"ignore_whitespace\": \"IGNORE_NONE\",\n    \"line_length\": 100,\n    \"show_tabs\": true,\n    \"hide_top_menu\": true,\n    \"auto_hide_diff_table_header\": true,\n    \"hide_line_numbers\": true,\n    \"hide_empty_pane\": true,\n    \"tab_size\": 8,\n    \"theme\": \"DEFAULT\"\n  }\n\nResult with new code (this change):\nAlso other settings are updated (see screenshot [4]):\n\n  $ curl --user admin:secret --digest -X PUT -d \u0027{\"show_tabs\": true}\u0027 --header \"Content-Type: application/json\" http://localhost:8080/a/accounts/self/preferences.diff\n  )]}\u0027\n  {\n    \"context\": 10,\n    \"tab_size\": 8,\n    \"line_length\": 100,\n    \"intraline_difference\": true,\n    \"show_line_endings\": true,\n    \"show_tabs\": true,\n    \"show_whitespace_errors\": true,\n    \"syntax_highlighting\": true,\n    \"auto_hide_diff_table_header\": true,\n    \"theme\": \"DEFAULT\",\n    \"ignore_whitespace\": \"IGNORE_NONE\"\n  }\n\n\n[1] http://i.imgur.com/T7NN71A.png\n\n[2] curl --user admin:secret --digest -X PUT -d \u0027{\"show_tabs\": true}\u0027 --header \"Content-Type: application/json\" http://localhost:8080/a/accounts/self/preferences.diff\n\n[3] http://i.imgur.com/MmvBUTf.png\n\n[4] http://i.imgur.com/uazRHu2.png",
+      "parentUuid": "b6ba7d35_eff14196",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 63
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba7d35_0f0c857d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 34

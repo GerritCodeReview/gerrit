@@ -16,6 +16,24 @@
       "revId": "8e2a4f754555b6cdb482db3c8708ad4e1dada756",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b07555_f19f685a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-29T08:52:09Z",
+      "side": 1,
+      "message": "Thanks for reminding. I still wanted to change this, but then forgot about it...\n\nDone",
+      "parentUuid": "f6b07555_919a5c6c",
+      "revId": "8e2a4f754555b6cdb482db3c8708ad4e1dada756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

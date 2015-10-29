@@ -98,7 +98,7 @@ public class ConfigUtilTest {
     assertThat(cfg.getString(SECT, SUB, "sd")).isNull();
 
     SectionInfo out = new SectionInfo();
-    ConfigUtil.loadSection(cfg, SECT, SUB, out, d);
+    ConfigUtil.loadSection(cfg, SECT, SUB, out, d, true);
     assertThat(out.i).isEqualTo(in.i);
     assertThat(out.ii).isEqualTo(in.ii);
     assertThat(out.id).isEqualTo(d.id);

@@ -314,19 +314,19 @@ public class ConfigUtil {
    * The loading is performed eagerly: all values are set.
    * <p>
    * Fields marked with final or transient modifiers are skipped.
-   * <p>
-   * Boolean fields are only set when their values are true.
    *
    * @param cfg config from which the values are loaded
    * @param section section
    * @param sub subsection
    * @param s instance of class in which the values are set
    * @param defaults instance of class with default values
+   * @param nullify when true, set boolean fields to null when their
+   * values are false
    * @return loaded instance
    * @throws ConfigInvalidException
    */
   public static <T> T loadSection(Config cfg, String section, String sub,
-      T s, T defaults) throws ConfigInvalidException {
+      T s, T defaults, boolean nullify) throws ConfigInvalidException {
     try {
       for (Field f : s.getClass().getDeclaredFields()) {
         if (skipField(f)) {
@@ -345,7 +345,7 @@ public class ConfigUtil {
           f.set(s, cfg.getLong(section, sub, n, (Long) d));
         } else if (isBoolean(t)) {
           boolean b = cfg.getBoolean(section, sub, n, (Boolean) d);
-          if (b) {
+          if (b || !nullify) {
             f.set(s, b);
           }
         } else if (t.isEnum()) {

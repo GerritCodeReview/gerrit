@@ -69,6 +69,18 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     EditPreferencesInfo info = getEditPrefInfo(r);
     assertEditPreferences(info, out);
+
+    // Partially filled input record
+    EditPreferencesInfo in = new EditPreferencesInfo();
+    in.tabSize = 42;
+    r = adminSession.put(endPoint, in);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+
+    r = adminSession.get(endPoint);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    info = getEditPrefInfo(r);
+    out.tabSize = in.tabSize;
+    assertEditPreferences(info, out);
   }
 
   private EditPreferencesInfo getEditPrefInfo(RestResponse r)

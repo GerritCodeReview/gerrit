@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.GetEditPreferences.readFromGit;
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
 
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
@@ -41,14 +43,17 @@ public class SetEditPreferences implements
 
   private final Provider<CurrentUser> self;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
+  private final GitRepositoryManager gitMgr;
   private final AllUsersName allUsersName;
 
   @Inject
   SetEditPreferences(Provider<CurrentUser> self,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
+      GitRepositoryManager gitMgr,
       AllUsersName allUsersName) {
     this.self = self;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.gitMgr = gitMgr;
     this.allUsersName = allUsersName;
   }
 
@@ -72,7 +77,8 @@ public class SetEditPreferences implements
     try {
       prefs = VersionedAccountPreferences.forUser(accountId);
       prefs.load(md);
-      storeSection(prefs.getConfig(), UserConfigSections.EDIT, null, in,
+      storeSection(prefs.getConfig(), UserConfigSections.EDIT, null,
+          merge(readFromGit(accountId, gitMgr, allUsersName, false), in),
           EditPreferencesInfo.defaults());
       prefs.commit(md);
     } finally {
@@ -80,5 +86,46 @@ public class SetEditPreferences implements
     }
 
     return Response.none();
+  }
+
+  private EditPreferencesInfo merge(EditPreferencesInfo n,
+      EditPreferencesInfo i) {
+    if (i.tabSize != null) {
+      n.tabSize = i.tabSize;
+    }
+    if (i.lineLength != null) {
+      n.lineLength = i.lineLength;
+    }
+    if (i.cursorBlinkRate != null) {
+      n.cursorBlinkRate = i.cursorBlinkRate;
+    }
+    if (i.hideTopMenu != null) {
+      n.hideTopMenu = i.hideTopMenu;
+    }
+    if (i.showTabs != null) {
+      n.showTabs = i.showTabs;
+    }
+    if (i.showWhitespaceErrors != null) {
+      n.showWhitespaceErrors = i.showWhitespaceErrors;
+    }
+    if (i.syntaxHighlighting != null) {
+      n.syntaxHighlighting = i.syntaxHighlighting;
+    }
+    if (i.hideLineNumbers != null) {
+      n.hideLineNumbers = i.hideLineNumbers;
+    }
+    if (i.matchBrackets != null) {
+      n.matchBrackets = i.matchBrackets;
+    }
+    if (i.autoCloseBrackets != null) {
+      n.autoCloseBrackets = i.autoCloseBrackets;
+    }
+    if (i.theme != null) {
+      n.theme = i.theme;
+    }
+    if (i.keyMapType != null) {
+      n.keyMapType = i.keyMapType;
+    }
+    return n;
   }
 }

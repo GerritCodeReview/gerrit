@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "f6b07555_31fc5069",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-29T10:49:22Z",
+      "side": 1,
+      "message": "\u003e Also bear in mind, that this code is removed in follow-up \n \u003e change, so we shouldn\u0027t care.\n\nBut the behavior is also wrong when writing/reading the diff preferences from git.",
+      "parentUuid": "b6ba7d35_4f032d27",
+      "range": {
+        "startLine": 128,
+        "startChar": 26,
+        "endLine": 129,
+        "endChar": 62
+      },
+      "revId": "a03c6d01510ca2a95dbaab8b43444eaf010382bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba7d35_6f6d51ed",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
         "patchSetId": 36

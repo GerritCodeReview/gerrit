@@ -314,19 +314,19 @@ public class ConfigUtil {
    * The loading is performed eagerly: all values are set.
    * <p>
    * Fields marked with final or transient modifiers are skipped.
-   * <p>
-   * Boolean fields are only set when their values are true.
    *
    * @param cfg config from which the values are loaded
    * @param section section
    * @param sub subsection
    * @param s instance of class in which the values are set
    * @param defaults instance of class with default values
+   * @param i instance to merge during the load. When present, the
+   * boolean fields are not nullified when their values are false
    * @return loaded instance
    * @throws ConfigInvalidException
    */
   public static <T> T loadSection(Config cfg, String section, String sub,
-      T s, T defaults) throws ConfigInvalidException {
+      T s, T defaults, T i) throws ConfigInvalidException {
     try {
       for (Field f : s.getClass().getDeclaredFields()) {
         if (skipField(f)) {
@@ -345,13 +345,19 @@ public class ConfigUtil {
           f.set(s, cfg.getLong(section, sub, n, (Long) d));
         } else if (isBoolean(t)) {
           boolean b = cfg.getBoolean(section, sub, n, (Boolean) d);
-          if (b) {
+          if (b || i != null) {
             f.set(s, b);
           }
         } else if (t.isEnum()) {
           f.set(s, cfg.getEnum(section, sub, n, (Enum<?>) d));
         } else {
           throw new ConfigInvalidException("type is unknown: " + t.getName());
+        }
+        if (i != null) {
+          Object o = f.get(i);
+          if (o != null) {
+            f.set(s, o);
+          }
         }
       }
     } catch (SecurityException | IllegalArgumentException

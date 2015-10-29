@@ -1,0 +1,37 @@
+Release notes for Gerrit 2.11.5
+===============================
+
+Gerrit 2.11.5 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.5.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.11.5.war]
+
+There are no schema changes from link:ReleaseNotes-2.11.4.html[2.11.4].
+
+
+Bug Fixes
+---------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3442[Issue 3442]:
+Handle commit validation errors when creating/editing changes via REST.
++
+When an exception was thrown by a commit validator during creation of
+a new change, or during publish of an inline edit, this resulted in an
+internal server error message which did not include the actual reason
+for the error.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3616[Issue 3616]:
+Strip trailing blank lines from commit messages when modified in the inline
+editor.
++
+Blank lines were not trimmed from the end of commit messages, when caused
+problems when the commit was merged and then cherry-picked with the `-x`
+option (from the command line).
+
+* Tweak JS clipboard API integration to work on Firefox.
++
+The JS 'copy' functionality was working on Chrome, but not on Firefox.
+
+* Include server config module in init step.
++
+This allows SecureStore to be used during plugins' init step.

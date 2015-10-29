@@ -46,6 +46,30 @@
       "revId": "86e0289371057724c771eeb58f7820b9b79757c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_0ac5db5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-29T22:04:43Z",
+      "side": 1,
+      "message": "The PatchLineComment constructor does very little. Making a database call would be unfortunate (hence the suggestion of deferring generation of a UUID). All that\u0027s left after removing that is generating and populating three small Java objects.\n\nThe corresponding benefit is not having to have a separate CommentSetEntry.create(CommentInput) code path. That seems worth it to me.",
+      "parentUuid": "3625aea9_6dc6b570",
+      "range": {
+        "startLine": 436,
+        "startChar": 0,
+        "endLine": 452,
+        "endChar": 11
+      },
+      "revId": "86e0289371057724c771eeb58f7820b9b79757c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

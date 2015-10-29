@@ -22,6 +22,30 @@
       "revId": "8f72e0bdd8901044e7f8025c910e0cc574217455",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96a1f90e_ee149f8a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-29T14:27:20Z",
+      "side": 1,
+      "message": "In practice it doesn\u0027t matter because every schema has exactly one of these, but agreed that swapping the order probably improves readability.",
+      "parentUuid": "b6ba7d35_2f2509c1",
+      "range": {
+        "startLine": 496,
+        "startChar": 27,
+        "endLine": 496,
+        "endChar": 72
+      },
+      "revId": "8f72e0bdd8901044e7f8025c910e0cc574217455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

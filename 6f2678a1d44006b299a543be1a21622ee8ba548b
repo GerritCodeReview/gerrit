@@ -262,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "16342adb_6c9fdb76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T20:49:32Z",
+      "side": 1,
+      "message": "Thanks for the detailed test case description. I missed the fact, that we support that only one single attribute can be passed. This code is broken in this case. The same is valid for GET/PUT EditPreferencesInfo REST handlers. Before write to git/db, first the record should be read from the backend, merged with nullable input record, and only then written back. The merge step was omitted, as I erroneously assumed, that the complete input is always passed, with only false values set to null.",
+      "parentUuid": "b6ba7d35_8f151558",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 63
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba7d35_0f0c857d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 34

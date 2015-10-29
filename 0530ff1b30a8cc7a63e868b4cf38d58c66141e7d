@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "161d09f7_1a625d18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-29T06:44:45Z",
+      "side": 1,
+      "message": "It looks like this method is called in a few other places now, so it will be necessary to update those calls due to the signature change.",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 26
+      },
+      "revId": "0530ff1b30a8cc7a63e868b4cf38d58c66141e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "161d09f7_7a559930",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-29T06:44:45Z",
+      "side": 1,
+      "message": "This method has been removed in latest head of master.",
+      "range": {
+        "startLine": 592,
+        "startChar": 2,
+        "endLine": 604,
+        "endChar": 3
+      },
+      "revId": "0530ff1b30a8cc7a63e868b4cf38d58c66141e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

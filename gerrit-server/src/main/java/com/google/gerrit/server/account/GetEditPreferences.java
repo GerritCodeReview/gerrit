@@ -19,6 +19,7 @@ import static com.google.gerrit.server.config.ConfigUtil.loadSection;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -28,6 +29,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
@@ -55,13 +57,21 @@ public class GetEditPreferences implements RestReadView<AccountResource> {
       throw new AuthException("restricted to members of Modify Accounts");
     }
 
+    return readFromGit(
+        rsrc.getUser().getAccountId(), gitMgr, allUsersName, null);
+  }
+
+  static EditPreferencesInfo readFromGit(Account.Id id,
+      GitRepositoryManager gitMgr, AllUsersName allUsersName,
+      EditPreferencesInfo in) throws IOException, ConfigInvalidException,
+          RepositoryNotFoundException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
       VersionedAccountPreferences p =
-          VersionedAccountPreferences.forUser(rsrc.getUser().getAccountId());
+          VersionedAccountPreferences.forUser(id);
       p.load(git);
 
       return loadSection(p.getConfig(), UserConfigSections.EDIT, null,
-          new EditPreferencesInfo(), EditPreferencesInfo.defaults());
+          new EditPreferencesInfo(), EditPreferencesInfo.defaults(), in);
     }
   }
 }

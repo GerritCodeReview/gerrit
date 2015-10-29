@@ -22,6 +22,30 @@
       "revId": "86e0289371057724c771eeb58f7820b9b79757c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3625aea9_6dc6b570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-29T21:58:09Z",
+      "side": 1,
+      "message": "But doesn\u0027t that waste time building a whole PatchLineComment just to throw it away in the duplicate case?",
+      "parentUuid": "d65ff225_4acbd376",
+      "range": {
+        "startLine": 436,
+        "startChar": 0,
+        "endLine": 452,
+        "endChar": 11
+      },
+      "revId": "86e0289371057724c771eeb58f7820b9b79757c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

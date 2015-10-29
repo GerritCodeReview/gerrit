@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -133,6 +134,31 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test(expected = ResourceConflictException.class)
   public void rebase() throws Exception {
     PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .rebase();
+  }
+
+  @Test
+  public void rebaseConflict() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .submit();
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, PushOneCommit.FILE_NAME, "other content",
+        "If09d8782c1e59dd0b33de2b1ec3595d69cc10ad5");
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    exception.expect(ResourceConflictException.class);
     gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())

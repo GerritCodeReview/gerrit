@@ -121,6 +121,54 @@
     },
     {
       "key": {
+        "uuid": "16342adb_0cae17a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T23:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6b07555_11702cc5",
+      "range": {
+        "startLine": 128,
+        "startChar": 26,
+        "endLine": 129,
+        "endChar": 62
+      },
+      "revId": "a03c6d01510ca2a95dbaab8b43444eaf010382bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_4ba405c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T23:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6b07555_31fc5069",
+      "range": {
+        "startLine": 128,
+        "startChar": 26,
+        "endLine": 129,
+        "endChar": 62
+      },
+      "revId": "a03c6d01510ca2a95dbaab8b43444eaf010382bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba7d35_6f6d51ed",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
         "patchSetId": 36
@@ -132,6 +180,30 @@
       "writtenOn": "2015-10-29T09:53:37Z",
       "side": 1,
       "message": "must be \u0027b(i.manualReview)\u0027 otherwise we get an NPE when i.manualReview is null",
+      "range": {
+        "startLine": 134,
+        "startChar": 22,
+        "endLine": 134,
+        "endChar": 36
+      },
+      "revId": "a03c6d01510ca2a95dbaab8b43444eaf010382bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_2ca9d3a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T23:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6ba7d35_6f6d51ed",
       "range": {
         "startLine": 134,
         "startChar": 22,

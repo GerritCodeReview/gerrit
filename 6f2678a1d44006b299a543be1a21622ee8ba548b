@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "f6b07555_5191144b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-29T09:53:37Z",
+      "side": 1,
+      "message": "You almost made me believe it :D \nI just tried it out and with the example above the old code just updates this one setting, but with the new code other settings may be modified too.",
+      "parentUuid": "f6b07555_9131bc28",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 63
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba7d35_0f0c857d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 34
@@ -225,6 +249,30 @@
       "side": 1,
       "message": "I updated serialVersionUID in previous patch set, but reverted the update. See Dave\u0027s comment why: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/61604/30/gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java@37",
       "parentUuid": "b6ba7d35_0f0c857d",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b07555_b17e809c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-29T09:53:37Z",
+      "side": 1,
+      "message": "Thanks for the pointer :-) I trust in Dave then.",
+      "parentUuid": "b6ba7d35_8f9a356c",
       "range": {
         "startLine": 37,
         "startChar": 20,

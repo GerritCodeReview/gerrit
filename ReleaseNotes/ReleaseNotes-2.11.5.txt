@@ -1,0 +1,89 @@
+Release notes for Gerrit 2.11.5
+===============================
+
+Gerrit 2.11.5 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.5.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.11.5.war]
+
+There are no schema changes from link:ReleaseNotes-2.11.4.html[2.11.4].
+
+
+Bug Fixes
+---------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3442[Issue 3442]:
+Handle commit validation errors when creating/editing changes via REST.
++
+When an exception was thrown by a commit validator during creation of
+a new change, or during publish of an inline edit, this resulted in an
+internal server error message which did not include the actual reason
+for the error.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3616[Issue 3616]:
+Strip trailing blank lines from commit messages when modified in the inline
+editor.
++
+Blank lines were not trimmed from the end of commit messages, which caused
+problems when the commit was merged and then cherry-picked with the `-x`
+option (from the command line).
+
+* Tweak JS clipboard API integration to work on Firefox.
++
+The JS 'copy' functionality was working on Chrome, but not on Firefox.
+
+* Use image instead of unicode character for copy button.
++
+Some browsers were unable to render the unicode character.
+
+* Include server config module in init step.
++
+This allows SecureStore to be used during plugins' init step.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3659[Issue 3659]:
+Show inline comments in change screen history when inline edit is active.
++
+It was not possible to see the inline comments in the history on the
+change screen when in edit mode.
+
+* Improve rendering of `stream-events` tasks in the `show-queue` output.
++
+Entries for `stream-events` are now rendered as 'Stream Events (username)'.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3655[Issue 3655]:
+Fix incorrect owner group matching behaviour.
++
+When the given group did not match any group, the group was matched
+on a group whose name starts with the argument, instead of throwing an
+error to notify the user.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3664[Issue 3664]:
+Fix double slash on URL when switching account.
++
+One too many slashes on the URL caused redirection back to the root
+page instead of the intended location.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3666[Issue 3666]:
+Fix server error when commit validator is invoked on initial commit.
++
+If a commit was uploaded for review as the first commit in a repository
+that was created with no initial empty commit, invoking a commit validator
+on the new commit would cause an internal error.
+
+* Replication plugin.
+
+** Parse replication delay and retry times as time units.
++
+The replication delay and retry values were interpreted as seconds and
+minutes respectively, but were being parsed as integers.
++
+This is inconsistent with how time units are handled in other Gerrit
+configuration settings, and can cause confusion when the user configures
+them using the time unit syntax such as '15s' and it causes the plugin
+to fail with 'invalid value'.
++
+The delay and retry now are parsed as time units. The value can be given
+in any recognized time unit, and the defaults remain the same as before;
+15 seconds and 1 minute respectively.
+
+** Remove documentation of obsolete `remote.NAME.timeout` setting.

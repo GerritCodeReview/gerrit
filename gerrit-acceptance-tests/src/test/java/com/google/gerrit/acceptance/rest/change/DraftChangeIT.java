@@ -86,6 +86,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
     c = get(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(c.revisions.get(c.currentRevision).draft).isNull();
   }
 
   @Test

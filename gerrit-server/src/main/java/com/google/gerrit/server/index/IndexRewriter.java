@@ -25,12 +25,12 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.LimitPredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.util.MutableInteger;
 
@@ -40,7 +40,8 @@ import java.util.List;
 import java.util.Set;
 
 /** Rewriter that pushes boolean logic into the secondary index. */
-public class IndexRewriteImpl implements ChangeQueryRewriter {
+@Singleton
+public class IndexRewriter {
   /** Set of all open change statuses. */
   public static final Set<Change.Status> OPEN_STATUSES;
 
@@ -121,13 +122,12 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   private final IndexConfig config;
 
   @Inject
-  IndexRewriteImpl(IndexCollection indexes,
+  IndexRewriter(IndexCollection indexes,
       IndexConfig config) {
     this.indexes = indexes;
     this.config = config;
   }
 
-  @Override
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in,
       QueryOptions opts) throws QueryParseException {
     ChangeIndex index = indexes.getSearchIndex();

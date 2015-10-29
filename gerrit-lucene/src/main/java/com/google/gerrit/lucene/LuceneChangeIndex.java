@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
-import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
-import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
+import static com.google.gerrit.server.index.IndexRewriter.CLOSED_STATUSES;
+import static com.google.gerrit.server.index.IndexRewriter.OPEN_STATUSES;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -47,7 +47,7 @@ import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexExecutor;
-import com.google.gerrit.server.index.IndexRewriteImpl;
+import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.Schema.Values;
 import com.google.gerrit.server.query.Predicate;
@@ -355,7 +355,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
-    Set<Change.Status> statuses = IndexRewriteImpl.getPossibleStatus(p);
+    Set<Change.Status> statuses = IndexRewriter.getPossibleStatus(p);
     List<SubIndex> indexes = Lists.newArrayListWithCapacity(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
       indexes.add(openIndex);

@@ -47,6 +47,7 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
@@ -143,7 +144,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static class Arguments {
     final Provider<ReviewDb> db;
     final Provider<InternalChangeQuery> queryProvider;
-    final Provider<ChangeQueryRewriter> rewriter;
+    final IndexRewriter rewriter;
     final IdentifiedUser.GenericFactory userFactory;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
@@ -170,7 +171,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     @VisibleForTesting
     public Arguments(Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
-        Provider<ChangeQueryRewriter> rewriter,
+        IndexRewriter rewriter,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
@@ -204,7 +205,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     private Arguments(
         Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
-        Provider<ChangeQueryRewriter> rewriter,
+        IndexRewriter rewriter,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,

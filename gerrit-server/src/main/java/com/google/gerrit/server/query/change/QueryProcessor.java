@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -39,7 +40,7 @@ public class QueryProcessor {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
-  private final ChangeQueryRewriter queryRewriter;
+  private final IndexRewriter rewriter;
   private final IndexConfig indexConfig;
 
   private int limitFromCaller;
@@ -50,12 +51,12 @@ public class QueryProcessor {
   QueryProcessor(Provider<ReviewDb> db,
       Provider<CurrentUser> userProvider,
       ChangeControl.GenericFactory changeControlFactory,
-      ChangeQueryRewriter queryRewriter,
+      IndexRewriter rewriter,
       IndexConfig indexConfig) {
     this.db = db;
     this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
-    this.queryRewriter = queryRewriter;
+    this.rewriter = rewriter;
     this.indexConfig = indexConfig;
   }
 
@@ -140,10 +141,10 @@ public class QueryProcessor {
       }
 
       QueryOptions opts = QueryOptions.create(indexConfig, start, limit + 1);
-      Predicate<ChangeData> s = queryRewriter.rewrite(q, opts);
+      Predicate<ChangeData> s = rewriter.rewrite(q, opts);
       if (!(s instanceof ChangeDataSource)) {
         q = Predicate.and(open(), q);
-        s = queryRewriter.rewrite(q, opts);
+        s = rewriter.rewrite(q, opts);
       }
       if (!(s instanceof ChangeDataSource)) {
         throw new QueryParseException("invalid query: " + s);

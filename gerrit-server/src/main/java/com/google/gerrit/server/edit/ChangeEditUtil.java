@@ -152,11 +152,10 @@ public class ChangeEditUtil {
    * @throws NoSuchProjectException
    * @throws IOException
    * @throws OrmException
-   * @throws UpdateException
    * @throws RestApiException
    */
   public void publish(ChangeEdit edit) throws NoSuchProjectException,
-      IOException, OrmException, RestApiException, UpdateException {
+      IOException, OrmException, RestApiException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);
@@ -166,13 +165,16 @@ public class ChangeEditUtil {
         throw new ResourceConflictException(
             "only edit for current patch set can be published");
       }
-
-      Change updatedChange =
-          insertPatchSet(edit, change, repo, rw, inserter, basePatchSet,
-              squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
-      // TODO(davido): This should happen in the same BatchRefUpdate.
-      deleteRef(repo, edit);
-      indexer.index(db.get(), updatedChange);
+      try {
+        Change updatedChange =
+            insertPatchSet(edit, change, repo, rw, inserter, basePatchSet,
+                squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
+        // TODO(davido): This should happen in the same BatchRefUpdate.
+        deleteRef(repo, edit);
+        indexer.index(db.get(), updatedChange);
+      } catch (UpdateException e) {
+        throw new ResourceConflictException(e.getMessage());
+      }
     }
   }
 

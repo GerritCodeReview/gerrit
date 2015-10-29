@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6b07555_f14da8ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T06:01:41Z",
+      "side": 1,
+      "message": "Nit: wrong indentation.",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 10
+      },
+      "revId": "314e19e66cb3108ac1c0eac90c57c783b431b005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b07555_d152244c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T06:01:41Z",
+      "side": 1,
+      "message": "This code was restructured on master. Now ChangeInserter extends BatchUpdate.InsertChangeOp and InvalidChangeOperationException gets translated to UpdateException. Have you verified that this problem wasn\u0027t reintroduced on master? Is UpdateChange exception translated to internal server error?",
+      "range": {
+        "startLine": 157,
+        "startChar": 6,
+        "endLine": 159,
+        "endChar": 7
+      },
+      "revId": "314e19e66cb3108ac1c0eac90c57c783b431b005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

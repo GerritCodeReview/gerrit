@@ -1273,13 +1273,8 @@ public abstract class AbstractQueryChangesTest {
     // necessary for notedb anyway.
     cd.isMergeable();
 
-    // Don't use ExpectedException since that wouldn't distinguish between
-    // failures here and on the previous calls.
-    try {
-      cd.messages();
-    } catch (AssertionError e) {
-      assertThat(e.getMessage()).isEqualTo(DisabledReviewDb.MESSAGE);
-    }
+    exception.expect(DisabledReviewDb.Disabled.class);
+    cd.messages();
   }
 
 

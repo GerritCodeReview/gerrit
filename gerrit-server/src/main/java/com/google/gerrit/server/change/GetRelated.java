@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.change.RelatedChangesSorter.PatchSetData;
-import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -67,15 +66,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   private List<ChangeAndCommit> getRelated(RevisionResource rsrc)
       throws OrmException, IOException {
-    if (GroupCollector.getGroups(rsrc).isEmpty()) {
+    Set<String> groups = getAllGroups(rsrc.getChange().getId());
+    if (groups.isEmpty()) {
       return Collections.emptyList();
     }
 
     List<ChangeData> cds = queryProvider.get()
         .enforceVisibility(true)
-        .byProjectGroups(
-            rsrc.getChange().getProject(),
-            getAllGroups(rsrc.getChange().getId()));
+        .byProjectGroups(rsrc.getChange().getProject(), groups);
     if (cds.isEmpty()) {
       return Collections.emptyList();
     } if (cds.size() == 1

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d65ff225_4acbd376",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-10-29T21:55:19Z",
+      "side": 1,
+      "message": "could simplify by using the PatchLineComment to generate the CommentSetEntry:\n\n String parent \u003d Url.decode(...);\n PatchLineComment e \u003d drafts.remove(...);\n if (e \u003d\u003d null) {\n   ... (but without the messageUUID) ...\n } else if (parent !\u003d null) {\n   ...\n }\n CommentSetEntry cse\u003d CommentSetEntry.create(e);\n if (existingIds.contains(cse)) {\n   continue;\n }\n if (e.getKey().get() \u003d\u003d null) {\n   e.getKey().set(ChangeUtil.messageUUID(ctx.getDb());\n }\n\nThat way the comment is removed from drafts even if it does not need to be published because an equivalent comment was already published.",
+      "range": {
+        "startLine": 436,
+        "startChar": 0,
+        "endLine": 452,
+        "endChar": 11
+      },
+      "revId": "86e0289371057724c771eeb58f7820b9b79757c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

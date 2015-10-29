@@ -140,6 +140,31 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseConflict() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .submit();
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, PushOneCommit.FILE_NAME, "other content",
+        "If09d8782c1e59dd0b33de2b1ec3595d69cc10ad5");
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    exception.expect(ResourceConflictException.class);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .rebase();
+  }
+
+  @Test
   public void rebaseChangeBase() throws Exception {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();

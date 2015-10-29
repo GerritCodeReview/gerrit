@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "b6ba7d35_eff14196",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T10:19:45Z",
+      "side": 1,
+      "message": "| I just tried it out and with the example above the old code just updates this one setting\n\nJust to make sure we aren\u0027t talking past each other (i haven\u0027t tested gwtorm code myself): do you mean setting the values in AccountDiffPreference instance or actually SQL update statement, issued by gwtorm? Have you put a breakpoint in upsert() method in gwtorm code and verified that one single column was updated:\n\n  UPDATE account_diff_preferences set show_line_endings \u003d true where ...\n\n?",
+      "parentUuid": "f6b07555_5191144b",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 63
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba7d35_0f0c857d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 34

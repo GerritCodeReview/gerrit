@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -125,9 +126,28 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .revision(r.getCommit().name())
         .submit();
-    gApi.changes()
-        .id(r.getChangeId())
-        .revert();
+    ChangeInfo revertChange =
+        gApi.changes()
+            .id(r.getChangeId())
+            .revert().get();
+
+    // expected messages on source change:
+    // 1. Uploaded patch set 1.
+    // 2. Patch Set 1: Code-Review+2
+    // 3. Change has been successfully merged by Administrator
+    // 4. Patch Set 1: Reverted
+    List<ChangeMessageInfo> sourceMessages = new ArrayList<>(
+        gApi.changes().id(r.getChangeId()).get().messages);
+    assertThat(sourceMessages).hasSize(4);
+    String expectedMessage = String.format(
+        "Patch Set 1: Reverted\n\n" +
+        "This patchset was reverted in change: %s",
+        revertChange.changeId);
+    assertThat(sourceMessages.get(3).message).isEqualTo(expectedMessage);
+
+    assertThat(revertChange.messages).hasSize(1);
+    assertThat(revertChange.messages.iterator().next().message)
+        .isEqualTo("Uploaded patch set 1.");
   }
 
   // Change is already up to date

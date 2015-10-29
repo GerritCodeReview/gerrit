@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6b07555_515f544f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T06:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9602d98b_e69fde8c",
+      "range": {
+        "startLine": 33,
+        "startChar": 41,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba7d35_8f1fd5a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 34
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-28T15:13:07Z",
       "side": 1,
       "message": "It also does the data migration from db to git, doesn\u0027t it? At least for the open source Gerrit version.",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ba7d35_af957940",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T06:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6ba7d35_8f1fd5a4",
       "range": {
         "startLine": 38,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f6b07555_b12cc0d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T06:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6ba7d35_6f09d16d",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba7d35_4f068d5f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
         "patchSetId": 34
@@ -82,6 +154,30 @@
       "writtenOn": "2015-10-28T15:13:07Z",
       "side": 1,
       "message": "This looks wrong to me.\n\nFields should only be set if they are non-null in the input (like it was in the old code).\n\nE.g. if I send the following DiffPreferencesInfo:\n\n  {\n    \"show_line_endings\": true\n  }\n\nit means only this one setting should be updated and all other settings should stay unmodified. If I understand the new code correctly it would e.g. set all other booleans to false, what it is not intended.",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 63
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b07555_9131bc28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T06:28:41Z",
+      "side": 1,
+      "message": "| it means only this one setting should be updated and all other settings should stay unmodified\n\nI don\u0027t think this is how old code worked. I havn\u0027t checked, but my understanding of gwtorm code is that the update statement isn\u0027t optimized. And always all columns are updated. So in your example above even when only one field was changed:\n\n  {\n      \"show_line_endings\": true\n  }\n\nand passed in input, the AccountDiffPreference is filled  (as it has non nullable types: boolean and not Boolean, int and not Interger), so that full database update is executed.",
+      "parentUuid": "b6ba7d35_4f068d5f",
       "range": {
         "startLine": 124,
         "startChar": 4,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "b6ba7d35_8f9a356c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T06:28:41Z",
+      "side": 1,
+      "message": "I updated serialVersionUID in previous patch set, but reverted the update. See Dave\u0027s comment why: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/61604/30/gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java@37",
+      "parentUuid": "b6ba7d35_0f0c857d",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba7d35_cf19ddc0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 34
@@ -128,6 +248,24 @@
       "writtenOn": "2015-10-28T15:13:07Z",
       "side": 1,
       "message": "unused import",
+      "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b07555_f12648ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T06:28:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6ba7d35_cf19ddc0",
       "revId": "6f2678a1d44006b299a543be1a21622ee8ba548b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

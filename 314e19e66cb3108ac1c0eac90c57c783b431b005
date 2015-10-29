@@ -45,6 +45,30 @@
       "revId": "314e19e66cb3108ac1c0eac90c57c783b431b005",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b07555_3141f071",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T07:19:28Z",
+      "side": 1,
+      "message": "Confirmed. This was broken on master again: [1], [2].\n\n* [1] http://paste.openstack.org/show/477596\n* [2] http://imgur.com/v5fnuvX",
+      "parentUuid": "f6b07555_d152244c",
+      "range": {
+        "startLine": 157,
+        "startChar": 6,
+        "endLine": 159,
+        "endChar": 7
+      },
+      "revId": "314e19e66cb3108ac1c0eac90c57c783b431b005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

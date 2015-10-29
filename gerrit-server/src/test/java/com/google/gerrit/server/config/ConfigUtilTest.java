@@ -98,7 +98,7 @@ public class ConfigUtilTest {
     assertThat(cfg.getString(SECT, SUB, "sd")).isNull();
 
     SectionInfo out = new SectionInfo();
-    ConfigUtil.loadSection(cfg, SECT, SUB, out, d);
+    ConfigUtil.loadSection(cfg, SECT, SUB, out, d, null);
     assertThat(out.i).isEqualTo(in.i);
     assertThat(out.ii).isEqualTo(in.ii);
     assertThat(out.id).isEqualTo(d.id);
@@ -112,6 +112,26 @@ public class ConfigUtilTest {
     assertThat(out.sd).isEqualTo(d.sd);
     assertThat(out.t).isEqualTo(in.t);
     assertThat(out.td).isEqualTo(d.td);
+  }
+
+  @Test
+  public void mergeSection() throws Exception {
+    SectionInfo d = SectionInfo.defaults();
+    Config cfg = new Config();
+    ConfigUtil.storeSection(cfg, SECT, SUB, d, d);
+
+    SectionInfo in = new SectionInfo();
+    in.i = 42;
+
+    SectionInfo out = new SectionInfo();
+    ConfigUtil.loadSection(cfg, SECT, SUB, out, d, in);
+    // Check original values oreserved
+    assertThat(out.id).isEqualTo(d.id);
+    // Check merged values
+    assertThat(out.i).isEqualTo(42);
+    // Check that boolean attribute not nullified
+    assertThat(out.bb).isFalse();
+
   }
 
   @Test

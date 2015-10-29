@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.GetEditPreferences.readFromGit;
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
 
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
@@ -41,14 +43,17 @@ public class SetEditPreferences implements
 
   private final Provider<CurrentUser> self;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
+  private final GitRepositoryManager gitMgr;
   private final AllUsersName allUsersName;
 
   @Inject
   SetEditPreferences(Provider<CurrentUser> self,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
+      GitRepositoryManager gitMgr,
       AllUsersName allUsersName) {
     this.self = self;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.gitMgr = gitMgr;
     this.allUsersName = allUsersName;
   }
 
@@ -72,7 +77,8 @@ public class SetEditPreferences implements
     try {
       prefs = VersionedAccountPreferences.forUser(accountId);
       prefs.load(md);
-      storeSection(prefs.getConfig(), UserConfigSections.EDIT, null, in,
+      storeSection(prefs.getConfig(), UserConfigSections.EDIT, null,
+          readFromGit(accountId, gitMgr, allUsersName, in),
           EditPreferencesInfo.defaults());
       prefs.commit(md);
     } finally {

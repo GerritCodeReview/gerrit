@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d65ff225_caafc3a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-29T21:45:00Z",
+      "side": 1,
+      "message": "Oops. Done.",
+      "parentUuid": "d65ff225_2aa9bfa0",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 69
+      },
+      "revId": "827e89253ca0db63719dab36c9f376676228a740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_4da419c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-29T21:11:12Z",
       "side": 1,
       "message": "(optional) style: I think this would be easier to read with one argument per line",
+      "range": {
+        "startLine": 323,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 46
+      },
+      "revId": "827e89253ca0db63719dab36c9f376676228a740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3625aea9_adbc9ddf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-29T21:45:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3625aea9_4da419c9",
       "range": {
         "startLine": 323,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3625aea9_edb2a50b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-29T21:45:00Z",
+      "side": 1,
+      "message": "I don\u0027t think so. It\u0027s \"null\" sometimes, so it doesn\u0027t compare correctly with the existing PatchLineComments.",
+      "parentUuid": "d65ff225_0aaefba8",
+      "range": {
+        "startLine": 329,
+        "startChar": 18,
+        "endLine": 329,
+        "endChar": 75
+      },
+      "revId": "827e89253ca0db63719dab36c9f376676228a740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_2da9cda0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 16
@@ -82,6 +154,30 @@
       "writtenOn": "2015-10-29T21:11:12Z",
       "side": 1,
       "message": "I know sop@ mentioned that line should be enough to disambiguate, but I think he was thinking of the state of things before range comments were introduced. Could this have a range field, too? (That way, it is possible to produce multiple comments with the same content attached to different parts of the same line.)",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 334,
+        "endChar": 38
+      },
+      "revId": "827e89253ca0db63719dab36c9f376676228a740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_aabc8fdf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-29T21:45:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3625aea9_2da9cda0",
       "range": {
         "startLine": 334,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "3625aea9_cdafe9a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-29T21:45:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d65ff225_4aa4f3c8",
+      "range": {
+        "startLine": 336,
+        "startChar": 20,
+        "endLine": 336,
+        "endChar": 27
+      },
+      "revId": "827e89253ca0db63719dab36c9f376676228a740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_0dae11a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 16
@@ -128,6 +248,30 @@
       "writtenOn": "2015-10-29T21:11:12Z",
       "side": 1,
       "message": "(curious) why ps.getId and not psId?",
+      "range": {
+        "startLine": 421,
+        "startChar": 58,
+        "endLine": 421,
+        "endChar": 66
+      },
+      "revId": "827e89253ca0db63719dab36c9f376676228a740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_8ab9cbef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1021057
+      },
+      "writtenOn": "2015-10-29T21:45:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3625aea9_0dae11a9",
       "range": {
         "startLine": 421,
         "startChar": 58,

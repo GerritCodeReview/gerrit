@@ -1755,9 +1755,7 @@ public class ReceiveCommits {
               insertChange(threadLocalDb);
             }
           }
-          synchronized (newProgress) {
-            newProgress.update(1);
-          }
+          synchronizedIncrement(newProgress);
           return null;
         }
       }));
@@ -2174,9 +2172,7 @@ public class ReceiveCommits {
               }
             }
           } finally {
-            synchronized (replaceProgress) {
-              replaceProgress.update(1);
-            }
+            synchronizedIncrement(replaceProgress);
           }
         }
       }));
@@ -2845,5 +2841,11 @@ public class ReceiveCommits {
 
   private static boolean isConfig(final ReceiveCommand cmd) {
     return cmd.getRefName().equals(RefNames.REFS_CONFIG);
+  }
+
+  private static void synchronizedIncrement(Task p) {
+    synchronized (p) {
+      p.update(1);
+    }
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6b07555_919a5c6c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-29T08:44:11Z",
+      "side": 1,
+      "message": "We started recently to use ExpectedException JUnit Rule, see\n\n  @Rule\n  public ExpectedException exception\n\nin AbstractDaemonTest.",
+      "revId": "8e2a4f754555b6cdb482db3c8708ad4e1dada756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -152,7 +152,6 @@ public class ChangeEditUtil {
    * @throws NoSuchProjectException
    * @throws IOException
    * @throws OrmException
-   * @throws UpdateException
    * @throws RestApiException
    */
   public void publish(ChangeEdit edit) throws NoSuchProjectException,
@@ -166,7 +165,6 @@ public class ChangeEditUtil {
         throw new ResourceConflictException(
             "only edit for current patch set can be published");
       }
-
       Change updatedChange =
           insertPatchSet(edit, change, repo, rw, inserter, basePatchSet,
               squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));

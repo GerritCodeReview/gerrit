@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d65ff225_6a70d7e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-10-30T23:06:00Z",
+      "side": 1,
+      "message": "We are still keyed on patch set (aka revision) and not patch set + file.",
+      "revId": "698712daebbad74cb5186c719fd6b81f74a07f17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_4a7513d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-10-30T23:06:00Z",
+      "side": 1,
+      "message": "This could still be inlined as r.add(CommentSetEntry.create(c))",
+      "revId": "698712daebbad74cb5186c719fd6b81f74a07f17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

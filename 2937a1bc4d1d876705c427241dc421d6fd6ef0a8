@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3625aea9_ed07455d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetEditPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-30T00:04:34Z",
+      "side": 1,
+      "message": "Are we going to have to add an if-block for every setting that we will introduce in the future?",
+      "revId": "2937a1bc4d1d876705c427241dc421d6fd6ef0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3625aea9_cd04895b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-30T00:04:34Z",
+      "side": 1,
+      "message": "nit: no comma after \u0027null\u0027",
+      "range": {
+        "startLine": 323,
+        "startChar": 52,
+        "endLine": 323,
+        "endChar": 56
+      },
+      "revId": "2937a1bc4d1d876705c427241dc421d6fd6ef0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_4a1993c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-30T00:04:34Z",
+      "side": 1,
+      "message": "nit: comma after \u0027true\u0027.",
+      "range": {
+        "startLine": 323,
+        "startChar": 25,
+        "endLine": 323,
+        "endChar": 29
+      },
+      "revId": "2937a1bc4d1d876705c427241dc421d6fd6ef0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

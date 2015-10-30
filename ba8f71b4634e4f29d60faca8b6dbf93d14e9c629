@@ -71,6 +71,30 @@
       "revId": "ba8f71b4634e4f29d60faca8b6dbf93d14e9c629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_8c556747",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-30T13:32:27Z",
+      "side": 1,
+      "message": "I\u0027ve fixed the commit message.",
+      "parentUuid": "16d7c97f_cac70375",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 15,
+        "endChar": 65
+      },
+      "revId": "ba8f71b4634e4f29d60faca8b6dbf93d14e9c629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

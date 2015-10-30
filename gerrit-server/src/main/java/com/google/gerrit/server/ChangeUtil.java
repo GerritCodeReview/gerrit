@@ -21,6 +21,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -233,6 +234,10 @@ public class ChangeUtil {
 
       PersonIdent authorIdent = user.get()
           .newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+
+      if (commitToRevert.getParentCount() == 0) {
+        throw new ResourceConflictException("Cannot revert initial commit");
+      }
 
       RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
       revWalk.parseHeaders(parentToCommitToRevert);

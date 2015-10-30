@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "16342adb_ccd6cf1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetEditPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-30T07:10:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3625aea9_0d4a91a8",
+      "revId": "2937a1bc4d1d876705c427241dc421d6fd6ef0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_cd04895b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
         "patchSetId": 2

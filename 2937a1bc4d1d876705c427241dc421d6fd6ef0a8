@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3625aea9_0d4a91a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetEditPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-30T05:58:55Z",
+      "side": 1,
+      "message": "Might be better to do it with reflection if it means we don\u0027t need to write more code (and risk missing one) later.",
+      "parentUuid": "f62eb68f_cbafd5a1",
+      "revId": "2937a1bc4d1d876705c427241dc421d6fd6ef0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_cd04895b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
         "patchSetId": 2

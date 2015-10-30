@@ -24,6 +24,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -37,6 +38,7 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.RevertedSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
@@ -183,6 +185,8 @@ public class ChangeUtil {
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeIndexer indexer;
   private final BatchUpdate.Factory updateFactory;
+  private final ChangeMessagesUtil changeMessagesUtil;
+  private final ChangeUpdate.Factory changeUpdateFactory;
 
   @Inject
   ChangeUtil(Provider<IdentifiedUser> user,
@@ -193,7 +197,9 @@ public class ChangeUtil {
       GitRepositoryManager gitManager,
       GitReferenceUpdated gitRefUpdated,
       ChangeIndexer indexer,
-      BatchUpdate.Factory updateFactory) {
+      BatchUpdate.Factory updateFactory,
+      ChangeMessagesUtil changeMessagesUtil,
+      ChangeUpdate.Factory changeUpdateFactory) {
     this.user = user;
     this.db = db;
     this.queryProvider = queryProvider;
@@ -203,6 +209,8 @@ public class ChangeUtil {
     this.gitRefUpdated = gitRefUpdated;
     this.indexer = indexer;
     this.updateFactory = updateFactory;
+    this.changeMessagesUtil = changeMessagesUtil;
+    this.changeUpdateFactory = changeUpdateFactory;
   }
 
   public Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
@@ -265,12 +273,22 @@ public class ChangeUtil {
         ins = changeInserterFactory.create(
               refControl, change, revertCommit)
             .setValidatePolicy(CommitValidators.Policy.GERRIT);
+
+        ChangeMessage changeMessage = new ChangeMessage(
+            new ChangeMessage.Key(
+                patchSetId.getParentKey(), ChangeUtil.messageUUID(db.get())),
+                user.get().getAccountId(), TimeUtil.nowTs(), patchSetId);
         StringBuilder msgBuf = new StringBuilder();
         msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
         msgBuf.append("\n\n");
         msgBuf.append("This patchset was reverted in change: ")
               .append(change.getKey().get());
-        ins.setMessage(msgBuf.toString());
+        changeMessage.setMessage(msgBuf.toString());
+        ChangeUpdate update = changeUpdateFactory.create(ctl, TimeUtil.nowTs());
+        changeMessagesUtil.addChangeMessage(db.get(), update, changeMessage);
+        update.commit();
+
+        ins.setMessage("Uploaded patch set 1.");
         try (BatchUpdate bu = updateFactory.create(
             db.get(), change.getProject(), refControl.getUser(),
             change.getCreatedOn())) {

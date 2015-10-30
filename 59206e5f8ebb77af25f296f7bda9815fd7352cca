@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_0b4a7da8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-30T13:53:14Z",
+      "side": 1,
+      "message": "Actually not, we don\u0027t fail when you\u0027re trying to do the same via SSH, so why should we in the REST API?",
+      "parentUuid": "d65ff225_8a554b47",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "59206e5f8ebb77af25f296f7bda9815fd7352cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d65ff225_6a2217e8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-10-30T13:48:31Z",
       "side": 1,
       "message": "\"was\"?",
+      "range": {
+        "startLine": 19,
+        "startChar": 40,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "59206e5f8ebb77af25f296f7bda9815fd7352cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_eb4e11bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-30T13:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d65ff225_6a2217e8",
       "range": {
         "startLine": 19,
         "startChar": 40,

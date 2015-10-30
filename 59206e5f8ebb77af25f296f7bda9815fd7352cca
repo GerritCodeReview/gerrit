@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_8b2c2dd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-30T16:20:47Z",
+      "side": 1,
+      "message": "I would add: one change one purpose one thing :-)\nThe purpose of this change is to fix a NPE and not to change the interface of existing REST API, even if that interface isn\u0027t exactly \"right\" as you mentioned.\n\nPossibly another change would evolve this REST API and make it more compliant with the rest of Gerrit.",
+      "parentUuid": "16342adb_6c891b0e",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "59206e5f8ebb77af25f296f7bda9815fd7352cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d65ff225_6a2217e8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

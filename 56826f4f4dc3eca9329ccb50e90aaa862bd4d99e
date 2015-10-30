@@ -52,6 +52,24 @@
       "revId": "56826f4f4dc3eca9329ccb50e90aaa862bd4d99e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_8be78dff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 39
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-10-30T12:48:52Z",
+      "side": 1,
+      "message": "Yes, I saw this issue, but so far nobody is looking into this, because everyone is busy with something else... :-(",
+      "parentUuid": "d65ff225_ea4e07bb",
+      "revId": "56826f4f4dc3eca9329ccb50e90aaa862bd4d99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

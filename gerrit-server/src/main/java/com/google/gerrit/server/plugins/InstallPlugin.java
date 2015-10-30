@@ -60,7 +60,9 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     }
     try {
       try (InputStream in = openStream(input)) {
-        loader.installPluginFromStream(name, in);
+        String pluginName = loader.installPluginFromStream(name, in);
+        ListPlugins.PluginInfo info = new ListPlugins.PluginInfo(loader.get(pluginName));
+        return created ? Response.created(info) : Response.ok(info);
       }
     } catch (PluginInstallException e) {
       StringWriter buf = new StringWriter();
@@ -76,9 +78,6 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
       }
       throw new BadRequestException(buf.toString());
     }
-
-    ListPlugins.PluginInfo info = new ListPlugins.PluginInfo(loader.get(name));
-    return created ? Response.created(info) : Response.ok(info);
   }
 
   private InputStream openStream(Input input)

@@ -34,6 +34,24 @@
       "revId": "56826f4f4dc3eca9329ccb50e90aaa862bd4d99e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_ea4e07bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 39
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-30T12:44:44Z",
+      "side": 1,
+      "message": "I reported this in the tracker as issue 3631.  Is anyone looking into it?\n\n(I assumed it was a problem on Google side, and haven\u0027t tried to reproduce it locally).",
+      "parentUuid": "16342adb_6c3b5b1e",
+      "revId": "56826f4f4dc3eca9329ccb50e90aaa862bd4d99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

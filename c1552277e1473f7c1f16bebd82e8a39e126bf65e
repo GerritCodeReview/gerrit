@@ -22,6 +22,30 @@
       "revId": "c1552277e1473f7c1f16bebd82e8a39e126bf65e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9659fa47_08ae07a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-30T15:44:32Z",
+      "side": 1,
+      "message": "Actually it\u0027s been obsolete for a while. MergeOp#merge, which is called by Submit, translates MergeException into ResourceConflictException. So there is still the layer of wrapping in MergeException, but we get the intended outcome in here.\n\nWhile I was cleaning up this block, I also added the MergeConflictException\u0027s message to the MergeException, since we have now documented that that message may be visible to end users.",
+      "parentUuid": "f62eb68f_4b408588",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 120,
+        "endChar": 41
+      },
+      "revId": "c1552277e1473f7c1f16bebd82e8a39e126bf65e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d65ff225_8a554b47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-30T13:48:31Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be expected to fail?  In other REST APIs we do return error when the input value differs from the URL value.",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "59206e5f8ebb77af25f296f7bda9815fd7352cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_6a2217e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-30T13:48:31Z",
+      "side": 1,
+      "message": "\"was\"?",
+      "range": {
+        "startLine": 19,
+        "startChar": 40,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "59206e5f8ebb77af25f296f7bda9815fd7352cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_4a2753f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InstallPlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-30T13:48:31Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "59206e5f8ebb77af25f296f7bda9815fd7352cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_2a1c1fa6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InstallPlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-30T13:48:31Z",
+      "side": 1,
+      "message": "nit: we usually split ternary statements across lines:\n\n return condition\n   ? x\n   : y;",
+      "revId": "59206e5f8ebb77af25f296f7bda9815fd7352cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -370,9 +370,9 @@ public class GetDiff implements RestReadView<FileResource> {
 
   enum IgnoreWhitespace {
     NONE(AccountDiffPreference.Whitespace.IGNORE_NONE),
-    TRAILING(AccountDiffPreference.Whitespace.IGNORE_SPACE_AT_EOL),
-    CHANGED(AccountDiffPreference.Whitespace.IGNORE_SPACE_CHANGE),
-    ALL(AccountDiffPreference.Whitespace.IGNORE_ALL_SPACE);
+    TRAILING(AccountDiffPreference.Whitespace.IGNORE_TRAILING),
+    CHANGED(AccountDiffPreference.Whitespace.IGNORE_LEADING_AND_TRAILING),
+    ALL(AccountDiffPreference.Whitespace.IGNORE_ALL);
 
     private final AccountDiffPreference.Whitespace whitespace;
 

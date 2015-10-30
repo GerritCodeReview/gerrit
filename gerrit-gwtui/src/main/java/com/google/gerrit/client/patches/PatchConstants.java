@@ -69,9 +69,9 @@ public interface PatchConstants extends Constants {
   String commentCancelEdit();
 
   String whitespaceIGNORE_NONE();
-  String whitespaceIGNORE_SPACE_AT_EOL();
-  String whitespaceIGNORE_SPACE_CHANGE();
-  String whitespaceIGNORE_ALL_SPACE();
+  String whitespaceIGNORE_TRAILING();
+  String whitespaceIGNORE_LEADING_AND_TRAILING();
+  String whitespaceIGNORE_ALL();
 
   String previousFileHelp();
   String nextFileHelp();

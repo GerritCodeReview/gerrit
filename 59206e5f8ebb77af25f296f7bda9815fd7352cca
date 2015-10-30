@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "16342adb_6c891b0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-30T15:24:18Z",
+      "side": 1,
+      "message": "Yes I know, but this is not the \"typical\" REST API I guess ;-)",
+      "parentUuid": "3625aea9_cd324933",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "59206e5f8ebb77af25f296f7bda9815fd7352cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d65ff225_6a2217e8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

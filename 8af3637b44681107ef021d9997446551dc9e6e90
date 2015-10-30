@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16342adb_ac86e3f6",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-30T17:31:27Z",
+      "side": 1,
+      "message": "Here \"http/jetty/*.java\" sources compiled once.",
+      "range": {
+        "startLine": 93,
+        "startChar": 23,
+        "endLine": 93,
+        "endChar": 37
+      },
+      "revId": "8af3637b44681107ef021d9997446551dc9e6e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_6b89010e",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-30T17:31:27Z",
+      "side": 1,
+      "message": "This considered to be a very bad practice in build toolchains: compiling the same sources more than once and including them in two different artifacts:\n\n  $ buck audit owner gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java \n  //gerrit-pgm:http\n  //gerrit-pgm:http-min\n\nI think what you want is to compile the sources only once, include them in one library, say pgm-jetty and include it as transitive dependency from pgm and gerrit-acceptance-framework. Have a look, how i did it with util-nodep lib.",
+      "range": {
+        "startLine": 110,
+        "startChar": 23,
+        "endLine": 110,
+        "endChar": 40
+      },
+      "revId": "8af3637b44681107ef021d9997446551dc9e6e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_4b8e4518",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-10-30T17:31:27Z",
+      "side": 1,
+      "message": "Can this list be reused from DEPS, at least partially?",
+      "revId": "8af3637b44681107ef021d9997446551dc9e6e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

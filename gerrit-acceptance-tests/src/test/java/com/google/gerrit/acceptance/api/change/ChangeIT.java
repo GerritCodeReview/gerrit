@@ -29,6 +29,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -125,6 +126,25 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .revision(r.getCommit().name())
         .submit();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revert();
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void revertInitialCommit() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .submit();
+
+    exception.expect(ResourceConflictException.class);
     gApi.changes()
         .id(r.getChangeId())
         .revert();

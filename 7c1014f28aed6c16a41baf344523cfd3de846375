@@ -22,6 +22,30 @@
       "revId": "7c1014f28aed6c16a41baf344523cfd3de846375",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96f2da53_20ae6aa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-10-30T15:46:15Z",
+      "side": 1,
+      "message": "Good point. As a native speaker, I don\u0027t think one necessarily makes more sense than the other, but it is definitely true that Java exceptions[1] tend to be named NounException, not VerbException. It happens that \"merge\" is both a noun and a verb, and for whatever reason I misread it as a verb when changing to \"integrate\". Done.\n\n[1] http://docs.oracle.com/javase/7/docs/api/java/lang/package-tree.html",
+      "parentUuid": "f6b07555_b1432085",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "7c1014f28aed6c16a41baf344523cfd3de846375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

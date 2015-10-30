@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9659fa47_28a9cba0",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.5.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021077
+      },
+      "writtenOn": "2015-10-30T13:55:52Z",
+      "side": 1,
+      "message": "nit: \u0027when caused\u0027 should be \u0027which caused\u0027",
+      "range": {
+        "startLine": 27,
+        "startChar": 66,
+        "endLine": 27,
+        "endChar": 67
+      },
+      "revId": "cafa5be9b19db99ee7f3e7d7cebe9b99de12d2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

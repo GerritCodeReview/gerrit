@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d65ff225_aa2fefc8",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-30T15:43:02Z",
+      "side": 1,
+      "message": "I guess the plugin update was unintentional.",
+      "revId": "432ab566db8d8899053433ec2a82c6db9387ea4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

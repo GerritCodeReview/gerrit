@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.account;
 
-import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DEFAULT_PAGESIZE;
-import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESIZE_CHOICES;
+import static com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.DEFAULT_PAGESIZE;
+import static com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.PAGESIZE_CHOICES;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GerritUiExtensionPoint;
@@ -28,8 +28,8 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -71,39 +71,39 @@ public class MyPreferencesScreen extends SettingsScreen {
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
     maximumPageSize = new ListBox();
-    for (final short v : PAGESIZE_CHOICES) {
+    for (final int v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
     }
 
     reviewCategoryStrategy = new ListBox();
     reviewCategoryStrategy.addItem(
         Util.C.messageShowInReviewCategoryNone(),
-        AccountGeneralPreferences.ReviewCategoryStrategy.NONE.name());
+        AccountGeneralPreferencesInfo.ReviewCategoryStrategy.NONE.name());
     reviewCategoryStrategy.addItem(
         Util.C.messageShowInReviewCategoryName(),
-        AccountGeneralPreferences.ReviewCategoryStrategy.NAME.name());
+        AccountGeneralPreferencesInfo.ReviewCategoryStrategy.NAME.name());
     reviewCategoryStrategy.addItem(
         Util.C.messageShowInReviewCategoryEmail(),
-        AccountGeneralPreferences.ReviewCategoryStrategy.EMAIL.name());
+        AccountGeneralPreferencesInfo.ReviewCategoryStrategy.EMAIL.name());
     reviewCategoryStrategy.addItem(
         Util.C.messageShowInReviewCategoryUsername(),
-        AccountGeneralPreferences.ReviewCategoryStrategy.USERNAME.name());
+        AccountGeneralPreferencesInfo.ReviewCategoryStrategy.USERNAME.name());
     reviewCategoryStrategy.addItem(
         Util.C.messageShowInReviewCategoryAbbrev(),
-        AccountGeneralPreferences.ReviewCategoryStrategy.ABBREV.name());
+        AccountGeneralPreferencesInfo.ReviewCategoryStrategy.ABBREV.name());
 
     diffView = new ListBox();
     diffView.addItem(
         com.google.gerrit.client.changes.Util.C.sideBySide(),
-        AccountGeneralPreferences.DiffView.SIDE_BY_SIDE.name());
+        AccountGeneralPreferencesInfo.DiffView.SIDE_BY_SIDE.name());
     diffView.addItem(
         com.google.gerrit.client.changes.Util.C.unifiedDiff(),
-        AccountGeneralPreferences.DiffView.UNIFIED_DIFF.name());
+        AccountGeneralPreferencesInfo.DiffView.UNIFIED_DIFF.name());
 
     Date now = new Date();
     dateFormat = new ListBox();
-    for (AccountGeneralPreferences.DateFormat fmt : AccountGeneralPreferences.DateFormat
-        .values()) {
+    for (AccountGeneralPreferencesInfo.DateFormat fmt
+        : AccountGeneralPreferencesInfo.DateFormat.values()) {
       StringBuilder r = new StringBuilder();
       r.append(DateTimeFormat.getFormat(fmt.getShortFormat()).format(now));
       r.append(" ; ");
@@ -112,8 +112,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     }
 
     timeFormat = new ListBox();
-    for (AccountGeneralPreferences.TimeFormat fmt : AccountGeneralPreferences.TimeFormat
-        .values()) {
+    for (AccountGeneralPreferencesInfo.TimeFormat fmt
+        : AccountGeneralPreferencesInfo.TimeFormat.values()) {
       StringBuilder r = new StringBuilder();
       r.append(DateTimeFormat.getFormat(fmt.getFormat()).format(now));
       timeFormat.addItem(r.toString(), fmt.name());
@@ -257,19 +257,19 @@ public class MyPreferencesScreen extends SettingsScreen {
     useFlashClipboard.setValue(p.useFlashClipboard());
     copySelfOnEmails.setValue(p.copySelfOnEmail());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
-    setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
+    setListBox(dateFormat, AccountGeneralPreferencesInfo.DateFormat.STD, //
         p.dateFormat());
-    setListBox(timeFormat, AccountGeneralPreferences.TimeFormat.HHMM_12, //
+    setListBox(timeFormat, AccountGeneralPreferencesInfo.TimeFormat.HHMM_12, //
         p.timeFormat());
     relativeDateInChangeTable.setValue(p.relativeDateInChangeTable());
     sizeBarInChangeTable.setValue(p.sizeBarInChangeTable());
     legacycidInChangeTable.setValue(p.legacycidInChangeTable());
     muteCommonPathPrefixes.setValue(p.muteCommonPathPrefixes());
     setListBox(reviewCategoryStrategy,
-        AccountGeneralPreferences.ReviewCategoryStrategy.NONE,
+        AccountGeneralPreferencesInfo.ReviewCategoryStrategy.NONE,
         p.reviewCategoryStrategy());
     setListBox(diffView,
-        AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
+        AccountGeneralPreferencesInfo.DiffView.SIDE_BY_SIDE,
         p.diffView());
     display(p.my());
   }
@@ -282,8 +282,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     myMenus.display(values);
   }
 
-  private void setListBox(final ListBox f, final short defaultValue,
-      final short currentValue) {
+  private void setListBox(final ListBox f, final int defaultValue,
+      final int currentValue) {
     setListBox(f, String.valueOf(defaultValue), String.valueOf(currentValue));
   }
 
@@ -308,7 +308,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     }
   }
 
-  private short getListBox(final ListBox f, final short defaultValue) {
+  private int getListBox(final ListBox f, final int defaultValue) {
     final int idx = f.getSelectedIndex();
     if (0 <= idx) {
       return Short.parseShort(f.getValue(idx));
@@ -340,11 +340,11 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.copySelfOnEmail(copySelfOnEmails.getValue());
     p.changesPerPage(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.dateFormat(getListBox(dateFormat,
-        AccountGeneralPreferences.DateFormat.STD,
-        AccountGeneralPreferences.DateFormat.values()));
+        AccountGeneralPreferencesInfo.DateFormat.STD,
+        AccountGeneralPreferencesInfo.DateFormat.values()));
     p.timeFormat(getListBox(timeFormat,
-        AccountGeneralPreferences.TimeFormat.HHMM_12,
-        AccountGeneralPreferences.TimeFormat.values()));
+        AccountGeneralPreferencesInfo.TimeFormat.HHMM_12,
+        AccountGeneralPreferencesInfo.TimeFormat.values()));
     p.relativeDateInChangeTable(relativeDateInChangeTable.getValue());
     p.sizeBarInChangeTable(sizeBarInChangeTable.getValue());
     p.legacycidInChangeTable(legacycidInChangeTable.getValue());
@@ -353,8 +353,8 @@ public class MyPreferencesScreen extends SettingsScreen {
         ReviewCategoryStrategy.NONE,
         ReviewCategoryStrategy.values()));
     p.diffView(getListBox(diffView,
-        AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
-        AccountGeneralPreferences.DiffView.values()));
+        AccountGeneralPreferencesInfo.DiffView.SIDE_BY_SIDE,
+        AccountGeneralPreferencesInfo.DiffView.values()));
 
     List<TopMenuItem> items = new ArrayList<>();
     for (List<String> v : myMenus.getValues()) {

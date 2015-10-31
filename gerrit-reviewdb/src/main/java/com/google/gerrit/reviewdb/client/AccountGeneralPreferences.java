@@ -183,22 +183,6 @@ public final class AccountGeneralPreferences {
   }
 
   public String getDownloadUrl() {
-    // TODO(davido): Bump schema version, migrate the data
-    // and drop this translation.
-    if (downloadUrl != null) {
-      switch (downloadUrl) {
-        case "ANON_GIT":
-          return CoreDownloadSchemes.ANON_GIT;
-        case "ANON_HTTP":
-          return CoreDownloadSchemes.ANON_HTTP;
-        case "HTTP":
-          return CoreDownloadSchemes.HTTP;
-        case "SSH":
-          return CoreDownloadSchemes.SSH;
-        case "REPO_DOWNLOAD":
-          return CoreDownloadSchemes.REPO_DOWNLOAD;
-      }
-    }
     return downloadUrl;
   }
 

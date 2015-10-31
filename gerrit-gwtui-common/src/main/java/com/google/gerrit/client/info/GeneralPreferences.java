@@ -17,13 +17,13 @@ package com.google.gerrit.client.info;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailStrategy;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
@@ -37,32 +37,32 @@ public class GeneralPreferences extends JavaScriptObject {
   }
 
   public static GeneralPreferences createDefault() {
-    AccountGeneralPreferences defaultPrefs =
-        AccountGeneralPreferences.createDefault();
+    GeneralPreferencesInfo d =
+        GeneralPreferencesInfo.defaults();
     GeneralPreferences p = createObject().cast();
-    p.changesPerPage(defaultPrefs.getMaximumPageSize());
-    p.showSiteHeader(defaultPrefs.isShowSiteHeader());
-    p.useFlashClipboard(defaultPrefs.isUseFlashClipboard());
-    p.downloadScheme(defaultPrefs.getDownloadUrl());
-    p.downloadCommand(defaultPrefs.getDownloadCommand());
-    p.dateFormat(defaultPrefs.getDateFormat());
-    p.timeFormat(defaultPrefs.getTimeFormat());
-    p.relativeDateInChangeTable(defaultPrefs.isRelativeDateInChangeTable());
-    p.sizeBarInChangeTable(defaultPrefs.isSizeBarInChangeTable());
-    p.legacycidInChangeTable(defaultPrefs.isLegacycidInChangeTable());
-    p.muteCommonPathPrefixes(defaultPrefs.isMuteCommonPathPrefixes());
-    p.reviewCategoryStrategy(defaultPrefs.getReviewCategoryStrategy());
-    p.diffView(defaultPrefs.getDiffView());
-    p.emailStrategy(defaultPrefs.getEmailStrategy());
+    p.changesPerPage(d.changesPerPage);
+    p.showSiteHeader(d.showSiteHeader);
+    p.useFlashClipboard(d.useFlashClipboard);
+    p.downloadScheme(d.downloadScheme);
+    p.downloadCommand(d.downloadCommand);
+    p.dateFormat(d.getDateFormat());
+    p.timeFormat(d.getTimeFormat());
+    p.relativeDateInChangeTable(d.relativeDateInChangeTable);
+    p.sizeBarInChangeTable(d.sizeBarInChangeTable);
+    p.legacycidInChangeTable(d.legacycidInChangeTable);
+    p.muteCommonPathPrefixes(d.muteCommonPathPrefixes);
+    p.reviewCategoryStrategy(d.getReviewCategoryStrategy());
+    p.diffView(d.getDiffView());
+    p.emailStrategy(d.emailStrategy);
     return p;
   }
 
-  public final short changesPerPage() {
-    short changesPerPage =
-        get("changes_per_page", AccountGeneralPreferences.DEFAULT_PAGESIZE);
+  public final int changesPerPage() {
+    int changesPerPage =
+        get("changes_per_page", GeneralPreferencesInfo.DEFAULT_PAGESIZE);
     return 0 < changesPerPage
         ? changesPerPage
-        : AccountGeneralPreferences.DEFAULT_PAGESIZE;
+        : GeneralPreferencesInfo.DEFAULT_PAGESIZE;
   }
   private final native short get(String n, int d)
   /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
@@ -134,7 +134,7 @@ public class GeneralPreferences extends JavaScriptObject {
   public final native JsArray<TopMenuItem> my()
   /*-{ return this.my; }-*/;
 
-  public final native void changesPerPage(short n)
+  public final native void changesPerPage(int n)
   /*-{ this.changes_per_page = n }-*/;
 
   public final native void showSiteHeader(boolean s)

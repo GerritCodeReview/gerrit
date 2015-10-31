@@ -14,21 +14,26 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.config.ConfigUtil.loadSection;
+
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.DateFormat;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.DiffView;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.DownloadCommand;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.ReviewCategoryStrategy;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gwtorm.server.OrmException;
@@ -37,6 +42,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -63,133 +69,169 @@ public class GetPreferences implements RestReadView<AccountResource> {
   private final Provider<ReviewDb> db;
   private final AllUsersName allUsersName;
   private final GitRepositoryManager gitMgr;
+  private final boolean readFromGit;
 
   @Inject
-  GetPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db,
+  GetPreferences(Provider<CurrentUser> self,
+      @GerritServerConfig Config cfg,
+      Provider<ReviewDb> db,
       AllUsersName allUsersName,
       GitRepositoryManager gitMgr) {
     this.self = self;
     this.db = db;
     this.allUsersName = allUsersName;
     this.gitMgr = gitMgr;
+    readFromGit = cfg.getBoolean("user", null, "readPrefsFromGit", false);
   }
 
   @Override
-  public PreferenceInfo apply(AccountResource rsrc)
-      throws AuthException,
-      ResourceNotFoundException,
-      OrmException,
-      IOException,
-      ConfigInvalidException {
+  public AccountGeneralPreferencesInfo apply(AccountResource rsrc)
+      throws AuthException, ResourceNotFoundException, OrmException,
+      IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }
-    Account a = db.get().accounts().get(rsrc.getUser().getAccountId());
-    if (a == null) {
-      throw new ResourceNotFoundException();
-    }
 
-    try (Repository git = gitMgr.openRepository(allUsersName)) {
+    Account.Id accountId = rsrc.getUser().getAccountId();
+    return readFromGit
+        ? readFromGit(accountId, gitMgr, allUsersName, null)
+        : readFromDb(accountId);
+  }
+
+  private AccountGeneralPreferencesInfo readFromDb(Id accountId)
+      throws IOException, ConfigInvalidException, RepositoryNotFoundException,
+      OrmException {
+    Account a = db.get().accounts().get(accountId);
+    AccountGeneralPreferencesInfo r = nullify(initFromDb(
+        a.getGeneralPreferences()));
+
+    try (Repository allUsers = gitMgr.openRepository(allUsersName)) {
       VersionedAccountPreferences p =
-          VersionedAccountPreferences.forUser(rsrc.getUser().getAccountId());
-      p.load(git);
-      return new PreferenceInfo(a.getGeneralPreferences(), p, git);
+          VersionedAccountPreferences.forUser(accountId);
+      p.load(allUsers);
+
+      return loadFromAllUsers(r, p, allUsers);
     }
   }
 
-  public static class PreferenceInfo {
-    Short changesPerPage;
-    Boolean showSiteHeader;
-    Boolean useFlashClipboard;
-    String downloadScheme;
-    DownloadCommand downloadCommand;
-    Boolean copySelfOnEmail;
-    DateFormat dateFormat;
-    TimeFormat timeFormat;
-    Boolean relativeDateInChangeTable;
-    Boolean sizeBarInChangeTable;
-    Boolean legacycidInChangeTable;
-    Boolean muteCommonPathPrefixes;
-    ReviewCategoryStrategy reviewCategoryStrategy;
-    DiffView diffView;
-    List<MenuItem> my;
-    Map<String, String> urlAliases;
+  public static AccountGeneralPreferencesInfo readFromGit(Account.Id id,
+      GitRepositoryManager gitMgr, AllUsersName allUsersName,
+      AccountGeneralPreferencesInfo in) throws IOException,
+          ConfigInvalidException, RepositoryNotFoundException {
+    try (Repository allUsers = gitMgr.openRepository(allUsersName)) {
+      VersionedAccountPreferences p =
+          VersionedAccountPreferences.forUser(id);
+      p.load(allUsers);
 
-    public PreferenceInfo(AccountGeneralPreferences p,
-        VersionedAccountPreferences v, Repository allUsers) {
-      if (p != null) {
-        changesPerPage = p.getMaximumPageSize();
-        showSiteHeader = p.isShowSiteHeader() ? true : null;
-        useFlashClipboard = p.isUseFlashClipboard() ? true : null;
-        downloadScheme = p.getDownloadUrl();
-        downloadCommand = p.getDownloadCommand();
-        copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;
-        dateFormat = p.getDateFormat();
-        timeFormat = p.getTimeFormat();
-        relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;
-        sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
-        legacycidInChangeTable = p.isLegacycidInChangeTable() ? true : null;
-        muteCommonPathPrefixes = p.isMuteCommonPathPrefixes() ? true : null;
-        reviewCategoryStrategy = p.getReviewCategoryStrategy();
-        diffView = p.getDiffView();
+      AccountGeneralPreferencesInfo r =
+          loadSection(p.getConfig(), UserConfigSections.GENERAL, null,
+          new AccountGeneralPreferencesInfo(),
+          AccountGeneralPreferencesInfo.defaults(), in);
+
+      return loadFromAllUsers(r, p, allUsers);
+    }
+  }
+
+  public static AccountGeneralPreferencesInfo loadFromAllUsers(
+      AccountGeneralPreferencesInfo r, VersionedAccountPreferences v,
+      Repository allUsers) {
+    r.my = my(v);
+    if (r.my.isEmpty() && !v.isDefaults()) {
+      try {
+        VersionedAccountPreferences d = VersionedAccountPreferences.forDefault();
+        d.load(allUsers);
+        r.my = my(d);
+      } catch (ConfigInvalidException | IOException e) {
+        log.warn("cannot read default preferences", e);
       }
-      loadFromAllUsers(v, allUsers);
+    }
+    if (r.my.isEmpty()) {
+      r.my.add(new MenuItem("Changes", "#/dashboard/self", null));
+      r.my.add(new MenuItem("Drafts", "#/q/owner:self+is:draft", null));
+      r.my.add(new MenuItem("Draft Comments", "#/q/has:draft", null));
+      r.my.add(new MenuItem("Edits", "#/q/has:edit", null));
+      r.my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open",
+          null));
+      r.my.add(new MenuItem("Starred Changes", "#/q/is:starred", null));
+      r.my.add(new MenuItem("Groups", "#/groups/self", null));
     }
 
-    private void loadFromAllUsers(VersionedAccountPreferences v,
-        Repository allUsers) {
-      my = my(v);
-      if (my.isEmpty() && !v.isDefaults()) {
-        try {
-          VersionedAccountPreferences d = VersionedAccountPreferences.forDefault();
-          d.load(allUsers);
-          my = my(d);
-        } catch (ConfigInvalidException | IOException e) {
-          log.warn("cannot read default preferences", e);
-        }
-      }
-      if (my.isEmpty()) {
-        my.add(new MenuItem("Changes", "#/dashboard/self", null));
-        my.add(new MenuItem("Drafts", "#/q/owner:self+is:draft", null));
-        my.add(new MenuItem("Draft Comments", "#/q/has:draft", null));
-        my.add(new MenuItem("Edits", "#/q/has:edit", null));
-        my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
-        my.add(new MenuItem("Starred Changes", "#/q/is:starred", null));
-        my.add(new MenuItem("Groups", "#/groups/self", null));
-      }
+    r.urlAliases = urlAliases(v);
+    return r;
+  }
 
-      urlAliases = urlAliases(v);
+  private static List<MenuItem> my(VersionedAccountPreferences v) {
+    List<MenuItem> my = new ArrayList<>();
+    Config cfg = v.getConfig();
+    for (String subsection : cfg.getSubsections(UserConfigSections.MY)) {
+      String url = my(cfg, subsection, KEY_URL, "#/");
+      String target = my(cfg, subsection, KEY_TARGET,
+          url.startsWith("#") ? null : "_blank");
+      my.add(new MenuItem(
+          subsection, url, target,
+          my(cfg, subsection, KEY_ID, null)));
+    }
+    return my;
+  }
+
+  private static String my(Config cfg, String subsection, String key,
+      String defaultValue) {
+    String val = cfg.getString(UserConfigSections.MY, subsection, key);
+    return !Strings.isNullOrEmpty(val) ? val : defaultValue;
+  }
+
+  private static Map<String, String> urlAliases(VersionedAccountPreferences v) {
+    HashMap<String, String> urlAliases = new HashMap<>();
+    Config cfg = v.getConfig();
+    for (String subsection : cfg.getSubsections(URL_ALIAS)) {
+      urlAliases.put(cfg.getString(URL_ALIAS, subsection, KEY_MATCH),
+         cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
+    }
+    return !urlAliases.isEmpty() ? urlAliases : null;
+  }
+
+  static AccountGeneralPreferencesInfo initFromDb(AccountGeneralPreferences a) {
+    AccountGeneralPreferencesInfo p = AccountGeneralPreferencesInfo.defaults();
+    if (a != null) {
+      p.changesPerPage = (int)a.getMaximumPageSize();
+      p.showSiteHeader = a.isShowSiteHeader();
+      p.useFlashClipboard = a.isUseFlashClipboard();
+      p.downloadScheme = a.getDownloadUrl();
+      if (a.getDownloadCommand() != null) {
+        p.downloadCommand = DownloadCommand.valueOf(
+            a.getDownloadCommand().name());
+      }
+      p.copySelfOnEmail = a.isCopySelfOnEmails();
+      p.dateFormat = DateFormat.valueOf(a.getDateFormat().name());
+      p.timeFormat = TimeFormat.valueOf(a.getTimeFormat().name());
+      p.relativeDateInChangeTable = a.isRelativeDateInChangeTable();
+      p.sizeBarInChangeTable = a.isSizeBarInChangeTable();
+      p.legacycidInChangeTable = a.isLegacycidInChangeTable();
+      p.muteCommonPathPrefixes = a.isMuteCommonPathPrefixes();
+      p.reviewCategoryStrategy = ReviewCategoryStrategy.valueOf(
+          a.getReviewCategoryStrategy().name());
+      p.diffView = DiffView.valueOf(a.getDiffView().name());
     }
 
-    private List<MenuItem> my(VersionedAccountPreferences v) {
-      List<MenuItem> my = new ArrayList<>();
-      Config cfg = v.getConfig();
-      for (String subsection : cfg.getSubsections(UserConfigSections.MY)) {
-        String url = my(cfg, subsection, KEY_URL, "#/");
-        String target = my(cfg, subsection, KEY_TARGET,
-            url.startsWith("#") ? null : "_blank");
-        my.add(new MenuItem(
-            subsection, url, target,
-            my(cfg, subsection, KEY_ID, null)));
-      }
-      return my;
-    }
+    return p;
+  }
 
-    private static String my(Config cfg, String subsection, String key,
-        String defaultValue) {
-      String val = cfg.getString(UserConfigSections.MY, subsection, key);
-      return !Strings.isNullOrEmpty(val) ? val : defaultValue;
-    }
+  private static AccountGeneralPreferencesInfo nullify(
+      AccountGeneralPreferencesInfo p) {
+    p.showSiteHeader = b(p.showSiteHeader);
+    p.useFlashClipboard = b(p.useFlashClipboard);
+    p.copySelfOnEmail = b(p.copySelfOnEmail);
+    p.relativeDateInChangeTable = b(p.relativeDateInChangeTable);
+    p.legacycidInChangeTable = b(p.legacycidInChangeTable);
+    p.muteCommonPathPrefixes = b(p.muteCommonPathPrefixes);
+    return p;
+  }
 
-    private static Map<String, String> urlAliases(VersionedAccountPreferences v) {
-      HashMap<String, String> urlAliases = new HashMap<>();
-      Config cfg = v.getConfig();
-      for (String subsection : cfg.getSubsections(URL_ALIAS)) {
-        urlAliases.put(cfg.getString(URL_ALIAS, subsection, KEY_MATCH),
-           cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
-      }
-      return !urlAliases.isEmpty() ? urlAliases : null;
+  private static Boolean b(Boolean b) {
+    if (b == null) {
+      return null;
     }
+    return b ? Boolean.TRUE : null;
   }
 }

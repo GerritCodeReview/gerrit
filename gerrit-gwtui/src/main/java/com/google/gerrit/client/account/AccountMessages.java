@@ -18,7 +18,7 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface AccountMessages extends Messages {
   String lines(short cnt);
-  String rowsPerPage(short cnt);
+  String rowsPerPage(int cnt);
   String changeScreenServerDefault(String d);
   String enterIAGREE(String iagree);
 }

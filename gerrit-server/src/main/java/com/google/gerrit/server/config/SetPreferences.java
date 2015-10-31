@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.gerrit.server.account.GetPreferences.loadFromAllUsers;
+
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.account.GetPreferences.PreferenceInfo;
-import com.google.gerrit.server.account.SetPreferences.Input;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.inject.Inject;
@@ -31,7 +32,8 @@ import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
-public class SetPreferences implements RestModifyView<ConfigResource, Input> {
+public class SetPreferences implements
+    RestModifyView<ConfigResource, AccountGeneralPreferencesInfo> {
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllUsersName allUsersName;
 
@@ -43,8 +45,9 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
   }
 
   @Override
-  public Object apply(ConfigResource rsrc, Input i) throws BadRequestException,
-      IOException, ConfigInvalidException {
+  public AccountGeneralPreferencesInfo apply(ConfigResource rsrc,
+      AccountGeneralPreferencesInfo i)
+          throws BadRequestException, IOException, ConfigInvalidException {
     if (i.changesPerPage != null || i.showSiteHeader != null
         || i.useFlashClipboard != null || i.downloadScheme != null
         || i.downloadCommand != null || i.copySelfOnEmail != null
@@ -64,7 +67,9 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
       p.load(md);
       com.google.gerrit.server.account.SetPreferences.storeMyMenus(p, i.my);
       p.commit(md);
-      return new PreferenceInfo(null, p, md.getRepository());
+
+      AccountGeneralPreferencesInfo a = new AccountGeneralPreferencesInfo();
+      return loadFromAllUsers(a, p, md.getRepository());
     } finally {
       md.close();
     }

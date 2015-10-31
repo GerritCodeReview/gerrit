@@ -15,7 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.inject.Inject;

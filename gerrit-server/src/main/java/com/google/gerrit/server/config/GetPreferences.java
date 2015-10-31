@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.gerrit.server.account.GetPreferences.loadFromAllUsers;
+
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.account.GetPreferences.PreferenceInfo;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
@@ -39,13 +41,15 @@ public class GetPreferences implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public PreferenceInfo apply(ConfigResource rsrc)
+  public AccountGeneralPreferencesInfo apply(ConfigResource rsrc)
       throws IOException, ConfigInvalidException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
       VersionedAccountPreferences p =
           VersionedAccountPreferences.forDefault();
       p.load(git);
-      return new PreferenceInfo(null, p, git);
+
+      AccountGeneralPreferencesInfo a = new AccountGeneralPreferencesInfo();
+      return loadFromAllUsers(a, p, git);
     }
   }
 }

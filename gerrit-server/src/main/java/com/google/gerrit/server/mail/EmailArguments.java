@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -65,6 +66,7 @@ public class EmailArguments {
   final PersonIdent gerritPersonIdent;
   final Provider<String> urlProvider;
   final AllProjectsName allProjectsName;
+  final AllUsersName allusersName;
   final List<String> sshAddresses;
 
   final ChangeQueryBuilder queryBuilder;
@@ -90,6 +92,7 @@ public class EmailArguments {
       GerritPersonIdentProvider gerritPersonIdentProvider,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AllProjectsName allProjectsName,
+      AllUsersName allusersName,
       ChangeQueryBuilder queryBuilder,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
@@ -115,6 +118,7 @@ public class EmailArguments {
     this.gerritPersonIdent = gerritPersonIdentProvider.get();
     this.urlProvider = urlProvider;
     this.allProjectsName = allProjectsName;
+    this.allusersName = allusersName;
     this.queryBuilder = queryBuilder;
     this.db = db;
     this.changeDataFactory = changeDataFactory;

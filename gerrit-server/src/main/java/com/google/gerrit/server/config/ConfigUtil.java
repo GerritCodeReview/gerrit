@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -24,7 +23,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -282,7 +283,9 @@ public class ConfigUtil {
         f.setAccessible(true);
         Object c = f.get(s);
         Object d = f.get(defaults);
-        Preconditions.checkNotNull(d, "Default cannot be null");
+        if (!isString(t) && !isCollectionOrMap(t)) {
+          Preconditions.checkNotNull(d, "Default cannot be null for: " + n);
+        }
         if (c == null || c.equals(d)) {
           cfg.unset(section, sub, n);
         } else {
@@ -296,6 +299,9 @@ public class ConfigUtil {
             cfg.setBoolean(section, sub, n, (Boolean) c);
           } else if (t.isEnum()) {
             cfg.setEnum(section, sub, n, (Enum<?>) c);
+          } else if (isCollectionOrMap(t)) {
+            // shoud be stored manually
+            continue;
           } else {
             throw new ConfigInvalidException("type is unknown: " + t.getName());
           }
@@ -336,9 +342,15 @@ public class ConfigUtil {
         String n = f.getName();
         f.setAccessible(true);
         Object d = f.get(defaults);
-        Preconditions.checkNotNull(d, "Default cannot be null");
+        if (!isString(t) && !isCollectionOrMap(t)) {
+          Preconditions.checkNotNull(d, "Default cannot be null");
+        }
         if (isString(t)) {
-          f.set(s, MoreObjects.firstNonNull(cfg.getString(section, sub, n), d));
+          String v = cfg.getString(section, sub, n);
+          if (v == null) {
+            v = (String)d;
+          }
+          f.set(s, v);
         } else if (isInteger(t)) {
           f.set(s, cfg.getInt(section, sub, n, (Integer) d));
         } else if (isLong(t)) {
@@ -350,6 +362,9 @@ public class ConfigUtil {
           }
         } else if (t.isEnum()) {
           f.set(s, cfg.getEnum(section, sub, n, (Enum<?>) d));
+        } else if (isCollectionOrMap(t)) {
+          // shoud be loaded manually
+          continue;
         } else {
           throw new ConfigInvalidException("type is unknown: " + t.getName());
         }
@@ -365,6 +380,11 @@ public class ConfigUtil {
       throw new ConfigInvalidException("cannot load values", e);
     }
     return s;
+  }
+
+  private static boolean isCollectionOrMap(Class<?> t) {
+    return Collection.class.isAssignableFrom(t)
+        || Map.class.isAssignableFrom(t);
   }
 
   private static boolean skipField(Field field) {

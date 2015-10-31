@@ -122,6 +122,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         changesPerPage = p.getMaximumPageSize();
         showSiteHeader = p.isShowSiteHeader() ? true : null;
         useFlashClipboard = p.isUseFlashClipboard() ? true : null;
+        // Translate
         downloadScheme = p.getDownloadUrl();
         downloadCommand = p.getDownloadCommand();
         copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;

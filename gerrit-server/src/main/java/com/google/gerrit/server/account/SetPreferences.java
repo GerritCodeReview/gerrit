@@ -238,6 +238,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
       if (e.getExportName().equals(scheme)
           && e.getProvider().get().isEnabled()) {
+        // Translate
         p.setDownloadUrl(scheme);
         return;
       }

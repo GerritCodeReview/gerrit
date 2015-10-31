@@ -183,8 +183,8 @@ public final class AccountGeneralPreferences {
   }
 
   public String getDownloadUrl() {
-    // Translate from legacy enum names to modern display names. (May be removed
-    // if accompanied by a 2-phase schema upgrade.)
+    // TODO(davido): Bump schema version, migrate the data
+    // and drop this translation.
     if (downloadUrl != null) {
       switch (downloadUrl) {
         case "ANON_GIT":
@@ -203,27 +203,6 @@ public final class AccountGeneralPreferences {
   }
 
   public void setDownloadUrl(String url) {
-    // Translate from modern display names to legacy enum names. (May be removed
-    // if accompanied by a 2-phase schema upgrade.)
-    if (downloadUrl != null) {
-      switch (url) {
-        case CoreDownloadSchemes.ANON_GIT:
-          url = "ANON_GIT";
-          break;
-        case CoreDownloadSchemes.ANON_HTTP:
-          url = "ANON_HTTP";
-          break;
-        case CoreDownloadSchemes.HTTP:
-          url = "HTTP";
-          break;
-        case CoreDownloadSchemes.SSH:
-          url = "SSH";
-          break;
-        case CoreDownloadSchemes.REPO_DOWNLOAD:
-          url = "REPO_DOWNLOAD";
-          break;
-      }
-    }
     downloadUrl = url;
   }
 

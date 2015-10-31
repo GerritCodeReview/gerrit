@@ -52,7 +52,7 @@ public final class PatchLineComment {
     }
 
     @Override
-    protected void set(String newValue) {
+    public void set(String newValue) {
       uuid = newValue;
     }
 

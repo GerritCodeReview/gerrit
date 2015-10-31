@@ -16,6 +16,9 @@ package com.google.gerrit.server.git;
 
 public class UserConfigSections {
 
+  /** The general user preferences. */
+  public static final String GENERAL = "general";
+
   /** The my menu user preferences. */
   public static final String MY = "my";
 

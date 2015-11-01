@@ -16,6 +16,7 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
@@ -185,9 +186,7 @@ public final class Account {
 
   // DELETED: id = 5 (contactFiledOn)
 
-  /** This user's preferences */
-  @Column(id = 6, name = Column.NONE)
-  protected AccountGeneralPreferences generalPreferences;
+  // DELETED: id = 6 (generalPreferences)
 
   /** Is this user active */
   @Column(id = 7)
@@ -195,6 +194,9 @@ public final class Account {
 
   /** <i>computed</i> the username selected from the identities. */
   protected String userName;
+
+  /** <i>stored in git, used for caching</i> the user's preferences. */
+  private AccountGeneralPreferencesInfo generalPreferences;
 
   protected Account() {
   }
@@ -209,9 +211,6 @@ public final class Account {
   public Account(Account.Id newId, Timestamp registeredOn) {
     this.accountId = newId;
     this.registeredOn = registeredOn;
-
-    generalPreferences = new AccountGeneralPreferences();
-    generalPreferences.resetToDefaults();
   }
 
   /** Get local id of this account, to link with in other entities */
@@ -248,11 +247,11 @@ public final class Account {
     return registeredOn;
   }
 
-  public AccountGeneralPreferences getGeneralPreferences() {
+  public AccountGeneralPreferencesInfo getGeneralPreferencesInfo() {
     return generalPreferences;
   }
 
-  public void setGeneralPreferences(final AccountGeneralPreferences p) {
+  public void setGeneralPreferences(AccountGeneralPreferencesInfo p) {
     generalPreferences = p;
   }
 

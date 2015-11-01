@@ -18,8 +18,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailStrategy;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
@@ -97,7 +97,7 @@ public abstract class OutgoingEmail {
       if (fromId != null) {
         final Account fromUser = args.accountCache.get(fromId).getAccount();
         EmailStrategy strategy =
-            fromUser.getGeneralPreferences().getEmailStrategy();
+            fromUser.getGeneralPreferencesInfo().getEmailStrategy();
 
         if (strategy == EmailStrategy.CC_ON_OWN_COMMENTS) {
           // If we are impersonating a user, make sure they receive a CC of
@@ -116,7 +116,7 @@ public abstract class OutgoingEmail {
         // his email notifications then drop him from recipients' list
         for (Account.Id id : rcptTo) {
           Account thisUser = args.accountCache.get(id).getAccount();
-          if (thisUser.getGeneralPreferences().getEmailStrategy()
+          if (thisUser.getGeneralPreferencesInfo().getEmailStrategy()
                   == EmailStrategy.DISABLED) {
             removeUser(thisUser);
           }

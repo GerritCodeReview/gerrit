@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -39,6 +42,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -78,6 +82,7 @@ public class CreateChange implements
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
+  private final AccountCache cache;
   private final Sequences seq;
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> user;
@@ -92,6 +97,7 @@ public class CreateChange implements
   @Inject
   CreateChange(Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
+      AccountCache cache,
       Sequences seq,
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> user,
@@ -104,6 +110,7 @@ public class CreateChange implements
       @GerritServerConfig Config config) {
     this.db = db;
     this.gitManager = gitManager;
+    this.cache = cache;
     this.seq = seq;
     this.serverTimeZone = myIdent.getTimeZone();
     this.user = user;
@@ -190,10 +197,18 @@ public class CreateChange implements
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+      GeneralPreferencesInfo info =
+          cache.get(me.getAccountId()).getAccount().getGeneralPreferencesInfo();
 
       ObjectId id = ChangeIdUtil.computeChangeId(mergeTip.getTree(),
           mergeTip, author, author, input.subject);
       String commitMessage = ChangeIdUtil.insertId(input.subject, id);
+      if (info.signedOffBy != null && info.signedOffBy) {
+        commitMessage += String.format("%s%s <%s>",
+            SIGNED_OFF_BY_TAG,
+            author.getName().trim(),
+            author.getEmailAddress().trim());
+      }
 
       try (ObjectInserter oi = git.newObjectInserter()) {
         RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);

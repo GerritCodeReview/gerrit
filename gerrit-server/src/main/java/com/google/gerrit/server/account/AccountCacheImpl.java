@@ -19,6 +19,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -33,9 +34,11 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -130,13 +133,18 @@ public class AccountCacheImpl implements AccountCache {
   static class ByIdLoader extends CacheLoader<Account.Id, AccountState> {
     private final SchemaFactory<ReviewDb> schema;
     private final GroupCache groupCache;
+    private final GeneralPreferencesLoader loader;
     private final LoadingCache<String, Optional<Account.Id>> byName;
 
     @Inject
-    ByIdLoader(SchemaFactory<ReviewDb> sf, GroupCache groupCache,
-        @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername) {
+    ByIdLoader(SchemaFactory<ReviewDb> sf,
+        GroupCache groupCache,
+        GeneralPreferencesLoader loader,
+        @Named(BYUSER_NAME) LoadingCache<String,
+        Optional<Account.Id>> byUsername) {
       this.schema = sf;
       this.groupCache = groupCache;
+      this.loader = loader;
       this.byName = byUsername;
     }
 
@@ -174,6 +182,14 @@ public class AccountCacheImpl implements AccountCache {
         }
       }
       internalGroups = Collections.unmodifiableSet(internalGroups);
+
+      try {
+        account.setGeneralPreferences(loader.load(who));
+      } catch (IOException | ConfigInvalidException e) {
+        log.warn("Cannot load GeneralPreferences for " + who +
+            " (using default)", e);
+        account.setGeneralPreferences(GeneralPreferencesInfo.defaults());
+      }
 
       return new AccountState(account, internalGroups, externalIds);
     }

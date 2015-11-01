@@ -28,10 +28,8 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
-import com.google.gerrit.testutil.ConfigSuite;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,13 +37,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GeneralPreferencesIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config readFromGitConfig() {
-    Config cfg = new Config();
-    cfg.setBoolean("user", null, "readPrefsFromGit", true);
-    return cfg;
-  }
-
   private TestAccount user42;
 
   @Before

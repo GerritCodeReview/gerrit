@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3625aea9_edeaa59a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-01T13:47:10Z",
+      "side": 1,
+      "message": "Add a bit more detail? I know it\u0027s described in detail in the previous commit, but ideally each commit is independent so it should also be mentioned here.",
+      "revId": "63b72c3edcb313053a4a4ec83e343605731a941c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

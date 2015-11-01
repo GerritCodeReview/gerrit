@@ -47,6 +47,7 @@ public class ConfigUtilTest {
     public Boolean bd;
     public String s;
     public String sd;
+    public String nd;
     public Theme t;
     public Theme td;
     static SectionInfo defaults() {
@@ -62,6 +63,9 @@ public class ConfigUtilTest {
       i.bd = true;
       i.s = "foo";
       i.sd = "bar";
+      // This line is not needed, as it's null per default.
+      // Put it here to be explicit.
+      i.nd = null;
       i.t = Theme.DEFAULT;
       i.td = Theme.DEFAULT;
       return i;
@@ -96,6 +100,7 @@ public class ConfigUtilTest {
     assertThat(cfg.getLong(SECT, SUB, "ll", 0L)).isEqualTo(in.ll);
     assertThat(cfg.getString(SECT, SUB, "s")).isEqualTo(in.s);
     assertThat(cfg.getString(SECT, SUB, "sd")).isNull();
+    assertThat(cfg.getString(SECT, SUB, "nd")).isNull();
 
     SectionInfo out = new SectionInfo();
     ConfigUtil.loadSection(cfg, SECT, SUB, out, d, null);
@@ -110,6 +115,7 @@ public class ConfigUtilTest {
     assertThat(out.bd).isNull();
     assertThat(out.s).isEqualTo(in.s);
     assertThat(out.sd).isEqualTo(d.sd);
+    assertThat(out.nd).isNull();
     assertThat(out.t).isEqualTo(in.t);
     assertThat(out.td).isEqualTo(d.td);
   }

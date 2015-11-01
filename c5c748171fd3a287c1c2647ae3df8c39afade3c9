@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d65ff225_4a03d325",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-01T11:36:37Z",
+      "side": 1,
+      "message": "This also splits out AccountGeneralPreferencesInfo.\n\nExpand the commit message a bit?",
+      "revId": "c5c748171fd3a287c1c2647ae3df8c39afade3c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

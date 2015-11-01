@@ -16,6 +16,24 @@
       "revId": "c5c748171fd3a287c1c2647ae3df8c39afade3c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_6c70fbe7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-01T12:10:46Z",
+      "side": 1,
+      "message": "This was bad rebase. AccountGeneralPreferencesInfo belongs to: I218d924656.",
+      "parentUuid": "d65ff225_4a03d325",
+      "revId": "c5c748171fd3a287c1c2647ae3df8c39afade3c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

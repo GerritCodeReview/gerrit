@@ -14,10 +14,9 @@
 
 package com.google.gerrit.server.config;
 
-import static com.google.gerrit.server.account.GetPreferences.loadFromAllUsers;
-
 import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.account.AccountGeneralPreferencesLoader;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
@@ -30,14 +29,17 @@ import java.io.IOException;
 
 @Singleton
 public class GetPreferences implements RestReadView<ConfigResource> {
-  private final AllUsersName allUsersName;
+  private AccountGeneralPreferencesLoader loader;
   private final GitRepositoryManager gitMgr;
+  private final AllUsersName allUsersName;
 
   @Inject
-  public GetPreferences(AllUsersName allUsersName,
-      GitRepositoryManager gitMgr) {
-    this.allUsersName = allUsersName;
+  public GetPreferences(AccountGeneralPreferencesLoader loader,
+      GitRepositoryManager gitMgr,
+      AllUsersName allUsersName) {
+    this.loader = loader;
     this.gitMgr = gitMgr;
+    this.allUsersName = allUsersName;
   }
 
   @Override
@@ -49,7 +51,8 @@ public class GetPreferences implements RestReadView<ConfigResource> {
       p.load(git);
 
       AccountGeneralPreferencesInfo a = new AccountGeneralPreferencesInfo();
-      return loadFromAllUsers(a, p, git);
+      // TODO(davido): Maintain cache of default values in AllUsers repository
+      return loader.loadFromAllUsers(a, p, git);
     }
   }
 }

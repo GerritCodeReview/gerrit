@@ -33,9 +33,11 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -130,13 +132,18 @@ public class AccountCacheImpl implements AccountCache {
   static class ByIdLoader extends CacheLoader<Account.Id, AccountState> {
     private final SchemaFactory<ReviewDb> schema;
     private final GroupCache groupCache;
+    private final AccountGeneralPreferencesLoader loader;
     private final LoadingCache<String, Optional<Account.Id>> byName;
 
     @Inject
-    ByIdLoader(SchemaFactory<ReviewDb> sf, GroupCache groupCache,
-        @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername) {
+    ByIdLoader(SchemaFactory<ReviewDb> sf,
+        GroupCache groupCache,
+        AccountGeneralPreferencesLoader loader,
+        @Named(BYUSER_NAME) LoadingCache<String,
+        Optional<Account.Id>> byUsername) {
       this.schema = sf;
       this.groupCache = groupCache;
+      this.loader = loader;
       this.byName = byUsername;
     }
 
@@ -174,6 +181,12 @@ public class AccountCacheImpl implements AccountCache {
         }
       }
       internalGroups = Collections.unmodifiableSet(internalGroups);
+
+      try {
+        account.setGeneralPreferences(loader.load(who));
+      } catch (IOException | ConfigInvalidException e) {
+        throw new OrmException("Cannot load user preferences", e);
+      }
 
       return new AccountState(account, internalGroups, externalIds);
     }

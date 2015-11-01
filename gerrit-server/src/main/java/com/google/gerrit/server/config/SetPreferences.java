@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server.config;
 
-import static com.google.gerrit.server.account.GetPreferences.loadFromAllUsers;
-
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.account.AccountGeneralPreferencesLoader;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.inject.Inject;
@@ -34,12 +33,15 @@ import java.io.IOException;
 @Singleton
 public class SetPreferences implements
     RestModifyView<ConfigResource, AccountGeneralPreferencesInfo> {
+  private final AccountGeneralPreferencesLoader loader;
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllUsersName allUsersName;
 
   @Inject
-  SetPreferences(MetaDataUpdate.User metaDataUpdateFactory,
+  SetPreferences(AccountGeneralPreferencesLoader loader,
+      MetaDataUpdate.User metaDataUpdateFactory,
       AllUsersName allUsersName) {
+    this.loader = loader;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
   }
@@ -69,7 +71,7 @@ public class SetPreferences implements
       p.commit(md);
 
       AccountGeneralPreferencesInfo a = new AccountGeneralPreferencesInfo();
-      return loadFromAllUsers(a, p, md.getRepository());
+      return loader.loadFromAllUsers(a, p, md.getRepository());
     } finally {
       md.close();
     }

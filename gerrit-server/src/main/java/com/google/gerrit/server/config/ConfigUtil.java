@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -282,7 +281,9 @@ public class ConfigUtil {
         f.setAccessible(true);
         Object c = f.get(s);
         Object d = f.get(defaults);
-        Preconditions.checkNotNull(d, "Default cannot be null");
+        if (!isString(t)) {
+          Preconditions.checkNotNull(d, "Default cannot be null for: " + n);
+        }
         if (c == null || c.equals(d)) {
           cfg.unset(section, sub, n);
         } else {
@@ -336,9 +337,15 @@ public class ConfigUtil {
         String n = f.getName();
         f.setAccessible(true);
         Object d = f.get(defaults);
-        Preconditions.checkNotNull(d, "Default cannot be null");
+        if (!isString(t)) {
+          Preconditions.checkNotNull(d, "Default cannot be null for: " + n);
+        }
         if (isString(t)) {
-          f.set(s, MoreObjects.firstNonNull(cfg.getString(section, sub, n), d));
+          String v = cfg.getString(section, sub, n);
+          if (v == null) {
+            v = (String)d;
+          }
+          f.set(s, v);
         } else if (isInteger(t)) {
           f.set(s, cfg.getInt(section, sub, n, (Integer) d));
         } else if (isLong(t)) {

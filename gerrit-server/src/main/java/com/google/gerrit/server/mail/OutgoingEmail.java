@@ -95,8 +95,10 @@ public abstract class OutgoingEmail {
     if (shouldSendMessage()) {
       if (fromId != null) {
         final Account fromUser = args.accountCache.get(fromId).getAccount();
+        Boolean copySelfOnEmail =
+            fromUser.getGeneralPreferencesInfo().copySelfOnEmail;
 
-        if (fromUser.getGeneralPreferences().isCopySelfOnEmails()) {
+        if (copySelfOnEmail != null && copySelfOnEmail) {
           // If we are impersonating a user, make sure they receive a CC of
           // this message so they can always review and audit what we sent
           // on their behalf to others.

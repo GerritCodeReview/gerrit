@@ -14,19 +14,18 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.GetPreferences.KEY_ID;
-import static com.google.gerrit.server.account.GetPreferences.KEY_MATCH;
-import static com.google.gerrit.server.account.GetPreferences.KEY_TARGET;
-import static com.google.gerrit.server.account.GetPreferences.KEY_TOKEN;
-import static com.google.gerrit.server.account.GetPreferences.KEY_URL;
-import static com.google.gerrit.server.account.GetPreferences.URL_ALIAS;
-import static com.google.gerrit.server.account.GetPreferences.initFromDb;
-import static com.google.gerrit.server.account.GetPreferences.readFromGit;
+import static com.google.gerrit.server.git.UserConfigSections.KEY_ID;
+import static com.google.gerrit.server.git.UserConfigSections.KEY_MATCH;
+import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
+import static com.google.gerrit.server.git.UserConfigSections.KEY_TOKEN;
+import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
+import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
+
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -34,17 +33,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gwtorm.server.OrmException;
@@ -57,7 +47,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -67,30 +56,24 @@ public class SetPreferences implements
     RestModifyView<AccountResource, AccountGeneralPreferencesInfo> {
   private final Provider<CurrentUser> self;
   private final AccountCache cache;
-  private final GitRepositoryManager gitMgr;
-  private final Provider<ReviewDb> db;
+  private final AccountGeneralPreferencesLoader loader;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
   private final DynamicMap<DownloadScheme> downloadSchemes;
-  private final boolean readFromGit;
 
   @Inject
   SetPreferences(Provider<CurrentUser> self,
       AccountCache cache,
-      @GerritServerConfig Config cfg,
-      GitRepositoryManager gitMgr,
-      Provider<ReviewDb> db,
+      AccountGeneralPreferencesLoader loader,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllUsersName allUsersName,
       DynamicMap<DownloadScheme> downloadSchemes) {
     this.self = self;
+    this.loader = loader;
     this.cache = cache;
-    this.gitMgr = gitMgr;
-    this.db = db;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
     this.downloadSchemes = downloadSchemes;
-    readFromGit = cfg.getBoolean("user", null, "readPrefsFromGit", false);
   }
 
   @Override
@@ -105,18 +88,14 @@ public class SetPreferences implements
 
     checkDownloadScheme(i);
     Account.Id id = rsrc.getUser().getAccountId();
-    AccountGeneralPreferencesInfo n = readFromGit
-        ? readFromGit(id, gitMgr, allUsersName, i)
-        : merge(initFromDb(
-            db.get().accounts().get(id).getGeneralPreferences()), i);
+    AccountGeneralPreferencesInfo n = loader.merge(id, i);
 
     n.my = i.my;
     n.urlAliases = i.urlAliases;
 
     writeToGit(id, n);
-    writeToDb(id, n);
 
-    return GetPreferences.readFromGit(id, gitMgr, allUsersName, null);
+    return cache.get(id).getAccount().getGeneralPreferencesInfo();
   }
 
   private void writeToGit(Account.Id id, AccountGeneralPreferencesInfo i)
@@ -136,38 +115,6 @@ public class SetPreferences implements
       cache.evict(id);
     } finally {
       md.close();
-    }
-  }
-
-  private void writeToDb(Account.Id id, AccountGeneralPreferencesInfo i)
-      throws RepositoryNotFoundException, IOException, OrmException,
-      ConfigInvalidException {
-    VersionedAccountPreferences versionedPrefs;
-    MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName);
-    db.get().accounts().beginTransaction(id);
-    try {
-      Account a = db.get().accounts().get(id);
-
-      versionedPrefs = VersionedAccountPreferences.forUser(id);
-      versionedPrefs.load(md);
-
-      AccountGeneralPreferences p = a.getGeneralPreferences();
-      if (p == null) {
-        p = new AccountGeneralPreferences();
-        a.setGeneralPreferences(p);
-      }
-
-      p = initAccountGeneralPreferences(p, i);
-
-      db.get().accounts().update(Collections.singleton(a));
-      db.get().commit();
-      storeMyMenus(versionedPrefs, i.my);
-      storeUrlAliases(versionedPrefs, i.urlAliases);
-      versionedPrefs.commit(md);
-      cache.evict(id);
-    } finally {
-      md.close();
-      db.get().rollback();
     }
   }
 
@@ -230,82 +177,5 @@ public class SetPreferences implements
     }
     throw new BadRequestException(
         "Unsupported download scheme: " + p.downloadScheme);
-  }
-
-  private AccountGeneralPreferencesInfo merge(AccountGeneralPreferencesInfo p,
-      AccountGeneralPreferencesInfo i) {
-    if (i.changesPerPage != null) {
-      p.changesPerPage = i.changesPerPage;
-    }
-    if (i.showSiteHeader != null) {
-      p.showSiteHeader = i.showSiteHeader;
-    }
-    if (i.useFlashClipboard != null) {
-      p.useFlashClipboard = i.useFlashClipboard;
-    }
-    if (i.downloadScheme != null) {
-      p.downloadScheme = i.downloadScheme;
-    }
-    if (i.downloadCommand != null) {
-      p.downloadCommand = i.downloadCommand;
-    }
-    if (i.copySelfOnEmail != null) {
-      p.copySelfOnEmail = i.copySelfOnEmail;
-    }
-    if (i.dateFormat != null) {
-      p.dateFormat = i.dateFormat;
-    }
-    if (i.timeFormat != null) {
-      p.timeFormat = i.timeFormat;
-    }
-    if (i.relativeDateInChangeTable != null) {
-      p.relativeDateInChangeTable = i.relativeDateInChangeTable;
-    }
-    if (i.sizeBarInChangeTable != null) {
-      p.sizeBarInChangeTable = i.sizeBarInChangeTable;
-    }
-    if (i.legacycidInChangeTable != null) {
-      p.legacycidInChangeTable = i.legacycidInChangeTable;
-    }
-    if (i.muteCommonPathPrefixes != null) {
-      p.muteCommonPathPrefixes = i.muteCommonPathPrefixes;
-    }
-    if (i.reviewCategoryStrategy != null) {
-      p.reviewCategoryStrategy = i.reviewCategoryStrategy;
-    }
-    if (i.diffView != null) {
-      p.diffView = i.diffView;
-    }
-    return p;
-  }
-
-  private static AccountGeneralPreferences initAccountGeneralPreferences(
-      AccountGeneralPreferences a, AccountGeneralPreferencesInfo i) {
-    if (a == null) {
-      a = AccountGeneralPreferences.createDefault();
-    }
-
-    a.setMaximumPageSize((short)(int)i.changesPerPage);
-    a.setShowSiteHeader(b(i.showSiteHeader));
-    a.setUseFlashClipboard(i.useFlashClipboard);
-    a.setDownloadUrl(i.downloadScheme);
-    if (i.downloadCommand != null) {
-      a.setDownloadCommand(DownloadCommand.valueOf(i.downloadCommand.name()));
-    }
-    a.setCopySelfOnEmails(b(i.copySelfOnEmail));
-    a.setDateFormat(DateFormat.valueOf(i.getDateFormat().name()));
-    a.setTimeFormat(TimeFormat.valueOf(i.getTimeFormat().name()));
-    a.setRelativeDateInChangeTable(b(i.relativeDateInChangeTable));
-    a.setSizeBarInChangeTable(b(i.sizeBarInChangeTable));
-    a.setLegacycidInChangeTable(b(i.legacycidInChangeTable));
-    a.setMuteCommonPathPrefixes(b(i.muteCommonPathPrefixes));
-    a.setReviewCategoryStrategy(ReviewCategoryStrategy.valueOf(
-        i.getReviewCategoryStrategy().name()));
-    a.setDiffView(DiffView.valueOf(i.getDiffView().name()));
-    return a;
-  }
-
-  private static boolean b(Boolean b) {
-    return b == null ? false : b;
   }
 }

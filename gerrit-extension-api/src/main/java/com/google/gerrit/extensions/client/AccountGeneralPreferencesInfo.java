@@ -115,6 +115,7 @@ public class AccountGeneralPreferencesInfo {
   public Boolean legacycidInChangeTable;
   public ReviewCategoryStrategy reviewCategoryStrategy;
   public Boolean muteCommonPathPrefixes;
+  public Boolean signedOffBy;
   public List<MenuItem> my;
   public Map<String, String> urlAliases;
 
@@ -166,6 +167,7 @@ public class AccountGeneralPreferencesInfo {
     p.sizeBarInChangeTable = true;
     p.legacycidInChangeTable = false;
     p.muteCommonPathPrefixes = true;
+    p.signedOffBy = false;
     return p;
   }
 }

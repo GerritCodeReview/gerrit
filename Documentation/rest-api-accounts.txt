@@ -1931,6 +1931,9 @@ Whether to show the change sizes as colored bars in the change table.
 Whether to show change number in the change table.
 |`mute_common_path_prefixes`    |not set if `false`|
 Whether to mute common path prefixes in file names in the file table.
+|`signed_off_by`                |not set if `false`|
+Whether to insert Signed-off-by footer in changes created with the
+inline edit feature.
 |`review_category_strategy`     ||
 The strategy used to displayed info in the review category column.
 Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
@@ -1980,6 +1983,9 @@ Whether to show the change sizes as colored bars in the change table.
 Whether to show change number in the change table.
 |`mute_common_path_prefixes`    |optional|
 Whether to mute common path prefixes in file names in the file table.
+|`signed_off_by`                |optional|
+Whether to insert Signed-off-by footer in changes created with the
+inline edit feature.
 |`review_category_strategy`     |optional|
 The strategy used to displayed info in the review category column.
 Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.

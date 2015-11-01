@@ -15,10 +15,10 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
@@ -113,7 +113,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean muteCommonPathPrefixes;
     ReviewCategoryStrategy reviewCategoryStrategy;
     DiffView diffView;
-    List<TopMenu.MenuItem> my;
+    List<MenuItem> my;
     Map<String, String> urlAliases;
 
     public PreferenceInfo(AccountGeneralPreferences p,
@@ -150,26 +150,26 @@ public class GetPreferences implements RestReadView<AccountResource> {
         }
       }
       if (my.isEmpty()) {
-        my.add(new TopMenu.MenuItem("Changes", "#/dashboard/self", null));
-        my.add(new TopMenu.MenuItem("Drafts", "#/q/owner:self+is:draft", null));
-        my.add(new TopMenu.MenuItem("Draft Comments", "#/q/has:draft", null));
-        my.add(new TopMenu.MenuItem("Edits", "#/q/has:edit", null));
-        my.add(new TopMenu.MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
-        my.add(new TopMenu.MenuItem("Starred Changes", "#/q/is:starred", null));
-        my.add(new TopMenu.MenuItem("Groups", "#/groups/self", null));
+        my.add(new MenuItem("Changes", "#/dashboard/self", null));
+        my.add(new MenuItem("Drafts", "#/q/owner:self+is:draft", null));
+        my.add(new MenuItem("Draft Comments", "#/q/has:draft", null));
+        my.add(new MenuItem("Edits", "#/q/has:edit", null));
+        my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
+        my.add(new MenuItem("Starred Changes", "#/q/is:starred", null));
+        my.add(new MenuItem("Groups", "#/groups/self", null));
       }
 
       urlAliases = urlAliases(v);
     }
 
-    private List<TopMenu.MenuItem> my(VersionedAccountPreferences v) {
-      List<TopMenu.MenuItem> my = new ArrayList<>();
+    private List<MenuItem> my(VersionedAccountPreferences v) {
+      List<MenuItem> my = new ArrayList<>();
       Config cfg = v.getConfig();
       for (String subsection : cfg.getSubsections(UserConfigSections.MY)) {
         String url = my(cfg, subsection, KEY_URL, "#/");
         String target = my(cfg, subsection, KEY_TARGET,
             url.startsWith("#") ? null : "_blank");
-        my.add(new TopMenu.MenuItem(
+        my.add(new MenuItem(
             subsection, url, target,
             my(cfg, subsection, KEY_ID, null)));
       }

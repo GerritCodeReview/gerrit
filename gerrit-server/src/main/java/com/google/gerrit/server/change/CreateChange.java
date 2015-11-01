@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -29,6 +32,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -39,6 +43,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -76,6 +81,7 @@ public class CreateChange implements
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
+  private final AccountCache cache;
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> user;
   private final ProjectsCollection projectsCollection;
@@ -88,6 +94,7 @@ public class CreateChange implements
   @Inject
   CreateChange(Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
+      AccountCache cache,
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> user,
       ProjectsCollection projectsCollection,
@@ -98,6 +105,7 @@ public class CreateChange implements
       @GerritServerConfig Config config) {
     this.db = db;
     this.gitManager = gitManager;
+    this.cache = cache;
     this.serverTimeZone = myIdent.getTimeZone();
     this.user = user;
     this.projectsCollection = projectsCollection;
@@ -182,11 +190,20 @@ public class CreateChange implements
 
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
+      Account.Id userId = me.getAccountId();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+      AccountGeneralPreferencesInfo info =
+          cache.get(userId).getAccount().getGeneralPreferencesInfo();
 
       ObjectId id = ChangeIdUtil.computeChangeId(mergeTip.getTree(),
           mergeTip, author, author, input.subject);
       String commitMessage = ChangeIdUtil.insertId(input.subject, id);
+      if (info.signedOffBy != null && info.signedOffBy) {
+        commitMessage += String.format("%s%s <%s>",
+            SIGNED_OFF_BY_TAG,
+            author.getName().trim(),
+            author.getEmailAddress().trim());
+      }
 
       try (ObjectInserter oi = git.newObjectInserter()) {
         RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);
@@ -194,7 +211,7 @@ public class CreateChange implements
         Change change = new Change(
             getChangeId(id, c),
             new Change.Id(db.get().nextChangeId()),
-            me.getAccountId(),
+            userId,
             new Branch.NameKey(project, refName),
             now);
 

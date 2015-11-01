@@ -17,11 +17,13 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -42,7 +44,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-@NoHttpd
 public class CreateChangeIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config allowDraftsDisabled() {
@@ -58,7 +59,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
   public static void restoreTime() {
     TestTimeUtil.useSystemTime();
   }
-
 
   @Test
   public void createEmptyChange_MissingBranch() throws Exception {
@@ -87,6 +87,17 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void createNewChange() throws Exception {
     assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+  }
+
+  @Test
+  public void createNewChangeSignedOffByFooter() throws Exception {
+    assume().that(isAllowDrafts()).isTrue();
+    setSignedOffByFooter();
+    ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+    String message = info.revisions.get(info.currentRevision).commit.message;
+    assertThat(message.contains(
+        String.format("%s Adminitrstaor %s", SIGNED_OFF_BY_TAG,
+            admin.getIdent().getEmailAddress())));
   }
 
   @Test
@@ -163,5 +174,22 @@ public class CreateChangeIT extends AbstractDaemonTest {
       return ChangeStatus.NEW;
     }
     return draft ? ChangeStatus.DRAFT : ChangeStatus.NEW;
+  }
+
+  // TODO(davido): Expose setting of account preferences in the API
+  private void setSignedOffByFooter() throws Exception {
+    RestResponse r = adminSession.get("/accounts/" + admin.email
+        + "/preferences");
+    r.assertOK();
+    GeneralPreferencesInfo i =
+        newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
+    i.signedOffBy = true;
+
+    r = adminSession.put("/accounts/" + admin.email + "/preferences", i);
+    r.assertOK();
+    GeneralPreferencesInfo o = newGson().fromJson(r.getReader(),
+        GeneralPreferencesInfo.class);
+
+    assertThat(o.signedOffBy).isTrue();
   }
 }

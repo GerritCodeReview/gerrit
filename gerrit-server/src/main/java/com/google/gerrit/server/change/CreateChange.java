@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -41,6 +44,9 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -79,8 +85,10 @@ import java.util.TimeZone;
 public class CreateChange implements
     RestModifyView<TopLevelResource, ChangeInput> {
 
+  private final String anonymousCowardName;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
+  private final AccountCache accountCache;
   private final Sequences seq;
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> user;
@@ -93,8 +101,10 @@ public class CreateChange implements
   private final boolean allowDrafts;
 
   @Inject
-  CreateChange(Provider<ReviewDb> db,
+  CreateChange(@AnonymousCowardName String anonymousCowardName,
+      Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
+      AccountCache accountCache,
       Sequences seq,
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> user,
@@ -105,8 +115,10 @@ public class CreateChange implements
       BatchUpdate.Factory updateFactory,
       PatchSetUtil psUtil,
       @GerritServerConfig Config config) {
+    this.anonymousCowardName = anonymousCowardName;
     this.db = db;
     this.gitManager = gitManager;
+    this.accountCache = accountCache;
     this.seq = seq;
     this.serverTimeZone = myIdent.getTimeZone();
     this.user = user;
@@ -204,6 +216,9 @@ public class CreateChange implements
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+      AccountState account = accountCache.get(me.getAccountId());
+      GeneralPreferencesInfo info =
+          account.getAccount().getGeneralPreferencesInfo();
 
       try (ObjectInserter oi = git.newObjectInserter()) {
         ObjectId treeId =
@@ -211,6 +226,11 @@ public class CreateChange implements
         ObjectId id = ChangeIdUtil.computeChangeId(treeId,
             mergeTip, author, author, input.subject);
         String commitMessage = ChangeIdUtil.insertId(input.subject, id);
+        if (Boolean.TRUE.equals(info.signedOffBy)) {
+          commitMessage += String.format("%s%s",
+              SIGNED_OFF_BY_TAG,
+              account.getAccount().getNameEmail(anonymousCowardName));
+        }
 
         RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);
 

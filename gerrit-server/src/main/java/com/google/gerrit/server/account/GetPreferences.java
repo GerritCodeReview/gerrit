@@ -18,22 +18,13 @@ import static com.google.gerrit.server.config.ConfigUtil.loadSection;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
-import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.DateFormat;
-import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.DiffView;
-import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.DownloadCommand;
-import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.ReviewCategoryStrategy;
-import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.Id;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gwtorm.server.OrmException;
@@ -66,22 +57,16 @@ public class GetPreferences implements RestReadView<AccountResource> {
   public static final String KEY_TOKEN = "token";
 
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> db;
   private final AllUsersName allUsersName;
   private final GitRepositoryManager gitMgr;
-  private final boolean readFromGit;
 
   @Inject
   GetPreferences(Provider<CurrentUser> self,
-      @GerritServerConfig Config cfg,
-      Provider<ReviewDb> db,
       AllUsersName allUsersName,
       GitRepositoryManager gitMgr) {
     this.self = self;
-    this.db = db;
     this.allUsersName = allUsersName;
     this.gitMgr = gitMgr;
-    readFromGit = cfg.getBoolean("user", null, "readPrefsFromGit", false);
   }
 
   @Override
@@ -94,25 +79,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     }
 
     Account.Id accountId = rsrc.getUser().getAccountId();
-    return readFromGit
-        ? readFromGit(accountId, gitMgr, allUsersName, null)
-        : readFromDb(accountId);
-  }
-
-  private AccountGeneralPreferencesInfo readFromDb(Id accountId)
-      throws IOException, ConfigInvalidException, RepositoryNotFoundException,
-      OrmException {
-    Account a = db.get().accounts().get(accountId);
-    AccountGeneralPreferencesInfo r = nullify(initFromDb(
-        a.getGeneralPreferences()));
-
-    try (Repository allUsers = gitMgr.openRepository(allUsersName)) {
-      VersionedAccountPreferences p =
-          VersionedAccountPreferences.forUser(accountId);
-      p.load(allUsers);
-
-      return loadFromAllUsers(r, p, allUsers);
-    }
+    return readFromGit(accountId, gitMgr, allUsersName, null);
   }
 
   public static AccountGeneralPreferencesInfo readFromGit(Account.Id id,
@@ -189,49 +156,5 @@ public class GetPreferences implements RestReadView<AccountResource> {
          cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
     }
     return !urlAliases.isEmpty() ? urlAliases : null;
-  }
-
-  static AccountGeneralPreferencesInfo initFromDb(AccountGeneralPreferences a) {
-    AccountGeneralPreferencesInfo p = AccountGeneralPreferencesInfo.defaults();
-    if (a != null) {
-      p.changesPerPage = (int)a.getMaximumPageSize();
-      p.showSiteHeader = a.isShowSiteHeader();
-      p.useFlashClipboard = a.isUseFlashClipboard();
-      p.downloadScheme = a.getDownloadUrl();
-      if (a.getDownloadCommand() != null) {
-        p.downloadCommand = DownloadCommand.valueOf(
-            a.getDownloadCommand().name());
-      }
-      p.copySelfOnEmail = a.isCopySelfOnEmails();
-      p.dateFormat = DateFormat.valueOf(a.getDateFormat().name());
-      p.timeFormat = TimeFormat.valueOf(a.getTimeFormat().name());
-      p.relativeDateInChangeTable = a.isRelativeDateInChangeTable();
-      p.sizeBarInChangeTable = a.isSizeBarInChangeTable();
-      p.legacycidInChangeTable = a.isLegacycidInChangeTable();
-      p.muteCommonPathPrefixes = a.isMuteCommonPathPrefixes();
-      p.reviewCategoryStrategy = ReviewCategoryStrategy.valueOf(
-          a.getReviewCategoryStrategy().name());
-      p.diffView = DiffView.valueOf(a.getDiffView().name());
-    }
-
-    return p;
-  }
-
-  private static AccountGeneralPreferencesInfo nullify(
-      AccountGeneralPreferencesInfo p) {
-    p.showSiteHeader = b(p.showSiteHeader);
-    p.useFlashClipboard = b(p.useFlashClipboard);
-    p.copySelfOnEmail = b(p.copySelfOnEmail);
-    p.relativeDateInChangeTable = b(p.relativeDateInChangeTable);
-    p.legacycidInChangeTable = b(p.legacycidInChangeTable);
-    p.muteCommonPathPrefixes = b(p.muteCommonPathPrefixes);
-    return p;
-  }
-
-  private static Boolean b(Boolean b) {
-    if (b == null) {
-      return null;
-    }
-    return b ? Boolean.TRUE : null;
   }
 }

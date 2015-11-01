@@ -18,9 +18,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -32,10 +34,12 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
@@ -94,9 +98,19 @@ public abstract class OutgoingEmail {
     appendText(velocifyFile("Footer.vm"));
     if (shouldSendMessage()) {
       if (fromId != null) {
-        final Account fromUser = args.accountCache.get(fromId).getAccount();
+        Account fromUser = args.accountCache.get(fromId).getAccount();
+        boolean copySelfOnEmail = false;
+        try {
+          // TODO(davido): Cache AccountGeneralPreferencesInfo
+          AccountGeneralPreferencesInfo prefs = GetPreferences.readFromGit(
+              fromId, args.server, args.allUsersName, null);
+          copySelfOnEmail = prefs.copySelfOnEmail !=  null
+              && prefs.copySelfOnEmail;
+        } catch (IOException | ConfigInvalidException e) {
+          throw new EmailException(e.getMessage());
+        }
 
-        if (fromUser.getGeneralPreferences().isCopySelfOnEmails()) {
+        if (copySelfOnEmail) {
           // If we are impersonating a user, make sure they receive a CC of
           // this message so they can always review and audit what we sent
           // on their behalf to others.

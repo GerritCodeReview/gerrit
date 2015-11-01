@@ -27,6 +27,8 @@ import com.google.gerrit.extensions.client.Theme;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class ConfigUtilTest {
@@ -50,6 +52,8 @@ public class ConfigUtilTest {
     public String nd;
     public Theme t;
     public Theme td;
+    public List<String> list;
+    public Map<String, String> map;
     static SectionInfo defaults() {
       SectionInfo i = new SectionInfo();
       i.i = 1;

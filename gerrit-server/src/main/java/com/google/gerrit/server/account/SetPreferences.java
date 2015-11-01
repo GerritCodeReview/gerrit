@@ -22,13 +22,13 @@ import static com.google.gerrit.server.account.GetPreferences.KEY_URL;
 import static com.google.gerrit.server.account.GetPreferences.URL_ALIAS;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
@@ -74,7 +74,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public ReviewCategoryStrategy reviewCategoryStrategy;
     public DiffView diffView;
     public EmailStrategy emailStrategy;
-    public List<TopMenu.MenuItem> my;
+    public List<MenuItem> my;
     public Map<String, String> urlAliases;
   }
 
@@ -188,11 +188,11 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
   }
 
   public static void storeMyMenus(VersionedAccountPreferences prefs,
-      List<TopMenu.MenuItem> my) {
+      List<MenuItem> my) {
     Config cfg = prefs.getConfig();
     if (my != null) {
       unsetSection(cfg, UserConfigSections.MY);
-      for (TopMenu.MenuItem item : my) {
+      for (MenuItem item : my) {
         set(cfg, item.name, KEY_URL, item.url);
         set(cfg, item.name, KEY_TARGET, item.target);
         set(cfg, item.name, KEY_ID, item.id);

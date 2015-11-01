@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.webui;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.client.GerritTopMenu;
+import com.google.gerrit.extensions.client.MenuItem;
 
 import java.util.List;
 
@@ -32,28 +33,6 @@ public interface TopMenu {
     public MenuEntry(String name, List<MenuItem> items) {
       this.name = name;
       this.items = items;
-    }
-  }
-
-  public class MenuItem {
-    public final String url;
-    public final String name;
-    public final String target;
-    public final String id;
-
-    public MenuItem(String name, String url) {
-      this(name, url, "_blank");
-    }
-
-    public MenuItem(String name, String url, String target) {
-      this(name, url, target, null);
-    }
-
-    public MenuItem(String name, String url, String target, String id) {
-      this.url = url;
-      this.name = name;
-      this.target = target;
-      this.id = id;
     }
   }
 

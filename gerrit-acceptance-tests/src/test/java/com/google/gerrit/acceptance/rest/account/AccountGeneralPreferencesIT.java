@@ -26,23 +26,14 @@ import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.Downloa
 import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.AccountGeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
-import com.google.gerrit.testutil.ConfigSuite;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AccountGeneralPreferencesIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config readFromGitConfig() {
-    Config cfg = new Config();
-    cfg.setBoolean("user", null, "readPrefsFromGit", true);
-    return cfg;
-  }
-
   @Test
   public void getDiffPreferencesOfNonExistingAccount_NotFound()
       throws Exception {
@@ -77,10 +68,8 @@ public class AccountGeneralPreferencesIT extends AbstractDaemonTest {
         d.getReviewCategoryStrategy());
     assertThat(o.diffView).isEqualTo(d.getDiffView());
 
-    // TODO(davido): setPreferences test below writes 1 element for each value
-    //assertThat(o.my).hasSize(7);
-    assertThat(o.my).hasSize(1);
-    //assertThat(o.urlAliases).isNull();
+    assertThat(o.my).hasSize(7);
+    // TODO(davido): URL aliases cannot be currently deleted
     assertThat(o.urlAliases).hasSize(1);
   }
 
@@ -132,8 +121,15 @@ public class AccountGeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.my).hasSize(1);
     assertThat(o.urlAliases).hasSize(1);
 
-    // reset default values to make other tests succeed
+    // get default preferences
+    r = adminSession.get("/config/server/preferences");
+    o = newGson().fromJson(r.getReader(),
+        AccountGeneralPreferencesInfo.class);
+    assertThat(o.my).hasSize(7);
+
+    // reset user preferences
     i = AccountGeneralPreferencesInfo.defaults();
+    i.my = o.my;
     adminSession.put("/accounts/" + admin.email
         + "/preferences", i);
   }

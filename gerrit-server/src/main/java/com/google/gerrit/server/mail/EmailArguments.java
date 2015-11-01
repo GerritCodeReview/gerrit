@@ -66,7 +66,7 @@ public class EmailArguments {
   final PersonIdent gerritPersonIdent;
   final Provider<String> urlProvider;
   final AllProjectsName allProjectsName;
-  final AllUsersName allusersName;
+  final AllUsersName allUsersName;
   final List<String> sshAddresses;
 
   final ChangeQueryBuilder queryBuilder;
@@ -118,7 +118,7 @@ public class EmailArguments {
     this.gerritPersonIdent = gerritPersonIdentProvider.get();
     this.urlProvider = urlProvider;
     this.allProjectsName = allProjectsName;
-    this.allusersName = allusersName;
+    this.allUsersName = allusersName;
     this.queryBuilder = queryBuilder;
     this.db = db;
     this.changeDataFactory = changeDataFactory;

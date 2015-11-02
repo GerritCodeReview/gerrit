@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_cb7915d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T05:45:48Z",
+      "side": 1,
+      "message": "The footer is only optionally inserted when new changes are created with inline edit feature (\"Create Change\", \"Edit Config\", \"Follow-Up\").",
+      "parentUuid": "3625aea9_8df1e18e",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "9338c7f76eda2365426a0ea07dfcc01628d42f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_2df8ad6d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

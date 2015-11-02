@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f62eb68f_4b7525d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-02T07:56:56Z",
+      "side": 0,
+      "message": "In this block InvalidChangeOperationException was changed to ResourceConflictException when commit validation fails. The new code let ChangeInserter do the commit validation, but ChangeInserter still throws InvalidChangeOperationException. I wonder if that needs to be changed to ResourceConflictException now, so that we do not lose the improved error handling.",
+      "range": {
+        "startLine": 277,
+        "startChar": 16,
+        "endLine": 277,
+        "endChar": 41
+      },
+      "revId": "4e2bd837554fa464d800fdd23c631a5df22b4271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_acf4a37e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-02T07:56:56Z",
+      "side": 0,
+      "message": "Same here: InvalidChangeOperationException which is thrown when commit validation fails was converted to ResourceConflictException, but in the new code PatchSetInserter still throws InvalidChangeOperationException in this case which is then wrapped into an UpdateException in BatchUpdate. Should the validate method in PatchSetInserter rather throw ResourceConflictException if commit validation fails so that we do not lose the improved error handling?",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 194,
+        "endChar": 7
+      },
+      "revId": "4e2bd837554fa464d800fdd23c631a5df22b4271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3625aea9_2daf8d57",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1935,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-02T10:56:43Z",
+      "side": 1,
+      "message": "with the",
+      "range": {
+        "startLine": 1935,
+        "startChar": 58,
+        "endLine": 1935,
+        "endChar": 62
+      },
+      "revId": "731898188de65aedb3b99d569094e16b23de63f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65ff225_4ad193d5",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1987,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-02T10:56:43Z",
+      "side": 1,
+      "message": "with the",
+      "range": {
+        "startLine": 1987,
+        "startChar": 58,
+        "endLine": 1987,
+        "endChar": 62
+      },
+      "revId": "731898188de65aedb3b99d569094e16b23de63f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

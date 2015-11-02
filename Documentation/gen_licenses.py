@@ -28,6 +28,7 @@ from sys import stdout, stderr
 parser = argparse.ArgumentParser()
 parser.add_argument('--asciidoc', action='store_true')
 parser.add_argument('--partial', action='store_true')
+parser.add_argument('--classpath', action='append')
 parser.add_argument('targets', nargs='+')
 args = parser.parse_args()
 
@@ -41,6 +42,7 @@ def parse_graph():
   graph = defaultdict(list)
   while not path.isfile('.buckconfig'):
     chdir('..')
+  # TODO(davido): use passed in classpath from Buck instead
   p = Popen(
     ['buck', 'audit', 'classpath', '--dot'] + args.targets,
     stdout = PIPE)

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1446488252 -0500\nnonce AFd3BxvYsW4/uy0MBxQk3vAeHKGaulQTpKKE8Q+urhaBEV9E1NrOD0dKQyH06f4dNBfx9RvGS8P6\n\n0000000000000000000000000000000000000000 74b78bd46665ddbd4b6090d1bf300fac65662bb0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWN6i8AAoJEF/XxZqaEoiMy4AP/ixgeuf6qBflwo34NBEJ5bIs\nrX79s08T4usHchb8U+tIN+vlJozoDS5QmT6rR1Z0DZE5HKaXTja80TgEZdchd9ie\nfrlZKWRRoWaEo/0KDeWJgFDTyRvA79U3R4YOsqJFO6xiFYhjVTn2EftzEm98G0Ti\nRWhc4tvfk30pLSEm2C/kyKwRa6lyGOGC3x1KXZNPwn6NWbAESn+64Be09vYOQ3AT\neQ7Jh0QnY74dYpgSSx+Jy/VX7wDg5+OIgfxN8ehWPjW5iLxAsdIPQTDjMkk3EUU1\nlenJKVqqttwMd+FONgYk5yakPWdWXqSF8qKMEMpQhGJfI5nHOb6rK6XZvps5tpmF\nl5T9vAuDMfCbYh8FIxQMshkgY1ZZO4ukosJiheqki+oW0pJ3DF/3O9TMi9IJrDZ3\nRJx7dohVMlPGdSkwJ2UgKcHJ3pGoP+2V1bTPOUo0tzjYF5upirfiihxI/3H9ffnv\noqCnYoU0TT814qctVYd+1WplS7cm6mJE808/0s+15NmNuCBptgGovtynym8JpJA3\nLUyxD+6HZfjh1uTMUUdtnPu+MwWj3ySf/UIBih2hhll5sKbX4oWRvFzQjxO3IYQY\nNn6V6LJDN/Ym3mnUf04F4/5iHfu6JVUvpVtzu7KtPGoFJGH85pQoHGA83w9XCvsx\nKzwkOkAlbbKA+IkfGGE+\n\u003dYhYh\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "96f2da53_20fc2a99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-02T19:19:58Z",
+      "side": 1,
+      "message": "Maybe this is arguably also defense-in-depth: if your cookies are stolen through some other vector, at least it won\u0027t get this one.\n\nOTOH I\u0027m having trouble thinking of a scenario where your cookies could get stolen but the contents of JS globals couldn\u0027t.",
+      "range": {
+        "startLine": 21,
+        "startChar": 21,
+        "endLine": 21,
+        "endChar": 44
+      },
+      "revId": "74b78bd46665ddbd4b6090d1bf300fac65662bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

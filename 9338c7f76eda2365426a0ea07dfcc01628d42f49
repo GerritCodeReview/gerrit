@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_6b70e1e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T06:40:26Z",
+      "side": 1,
+      "message": "Extended the commit message, and replaced online canges with inline edit feature in the documentation. Done.",
+      "parentUuid": "f62eb68f_cb7915d9",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "9338c7f76eda2365426a0ea07dfcc01628d42f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_2df8ad6d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2015-11-02T01:58:47Z",
       "side": 1,
       "message": "nit: unnecessary comma",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "9338c7f76eda2365426a0ea07dfcc01628d42f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_6cd7dbe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T06:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3625aea9_2df8ad6d",
       "range": {
         "startLine": 9,
         "startChar": 3,
@@ -118,6 +166,54 @@
     },
     {
       "key": {
+        "uuid": "16342adb_2ce1d3bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T06:40:26Z",
+      "side": 1,
+      "message": "Not applicable any more.",
+      "parentUuid": "d65ff225_ca0ea34a",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "9338c7f76eda2365426a0ea07dfcc01628d42f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_4cdc1f08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T06:40:26Z",
+      "side": 1,
+      "message": "Removed. Done.",
+      "parentUuid": "3625aea9_6dfeb55f",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "9338c7f76eda2365426a0ea07dfcc01628d42f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_4d03f925",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -129,6 +225,30 @@
       "writtenOn": "2015-11-02T01:58:47Z",
       "side": 1,
       "message": "nit: Signed-off-by",
+      "range": {
+        "startLine": 10,
+        "startChar": 62,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "9338c7f76eda2365426a0ea07dfcc01628d42f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_8b830de7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T06:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3625aea9_4d03f925",
       "range": {
         "startLine": 10,
         "startChar": 62,

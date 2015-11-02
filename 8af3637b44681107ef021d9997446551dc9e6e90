@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "96f2da53_e0dd2231",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-02T20:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_ac86e3f6",
+      "range": {
+        "startLine": 93,
+        "startChar": 23,
+        "endLine": 93,
+        "endChar": 37
+      },
+      "revId": "8af3637b44681107ef021d9997446551dc9e6e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f62eb68f_6b89010e",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "96f2da53_c0ea1ec9",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-02T20:34:05Z",
+      "side": 1,
+      "message": "Totally right indeed; done.",
+      "parentUuid": "f62eb68f_6b89010e",
+      "range": {
+        "startLine": 110,
+        "startChar": 23,
+        "endLine": 110,
+        "endChar": 40
+      },
+      "revId": "8af3637b44681107ef021d9997446551dc9e6e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f62eb68f_4b8e4518",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2015-10-30T17:31:27Z",
       "side": 1,
       "message": "Can this list be reused from DEPS, at least partially?",
+      "revId": "8af3637b44681107ef021d9997446551dc9e6e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96f2da53_a0e71aff",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-02T20:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62eb68f_4b8e4518",
       "revId": "8af3637b44681107ef021d9997446551dc9e6e90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

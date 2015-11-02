@@ -30,7 +30,7 @@ import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.GroupCollector;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.UpdateException;
@@ -62,7 +62,7 @@ public class CherryPick extends SubmitStrategy {
 
   @Override
   protected MergeTip _run(CodeReviewCommit branchTip,
-      Collection<CodeReviewCommit> toMerge) throws MergeException {
+      Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
     boolean first = true;
@@ -83,7 +83,8 @@ public class CherryPick extends SubmitStrategy {
       }
       u.execute();
     } catch (UpdateException | RestApiException e) {
-      throw new MergeException("Cannot cherry-pick onto " + args.destBranch);
+      throw new IntegrationException(
+          "Cannot cherry-pick onto " + args.destBranch);
     }
     // TODO(dborowitz): When BatchUpdate is hoisted out of CherryPick,
     // SubmitStrategy should probably no longer return MergeTip, instead just
@@ -214,7 +215,8 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    public void updateRepo(RepoContext ctx) throws MergeException, IOException {
+    public void updateRepo(RepoContext ctx)
+        throws IntegrationException, IOException {
       if (args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)) {
         // One or more dependencies were not met. The status was already marked
         // on the commit so we have nothing further to perform at this time.
@@ -249,7 +251,7 @@ public class CherryPick extends SubmitStrategy {
 
   @Override
   public boolean dryRun(CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
-      throws MergeException {
+      throws IntegrationException {
     return args.mergeUtil.canCherryPick(args.mergeSorter, args.repo,
         mergeTip, args.rw, toMerge);
   }

@@ -34,7 +34,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.UpdateException;
@@ -112,7 +112,7 @@ public class CherryPickChange {
       final RefControl refControl) throws NoSuchChangeException,
       OrmException, MissingObjectException,
       IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, MergeException, UpdateException,
+      InvalidChangeOperationException, IntegrationException, UpdateException,
       RestApiException {
 
     if (Strings.isNullOrEmpty(ref)) {
@@ -195,7 +195,7 @@ public class CherryPickChange {
           return newChange.getId();
         }
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
-        throw new MergeException("Cherry pick failed: " + e.getMessage());
+        throw new IntegrationException("Cherry pick failed: " + e.getMessage());
       }
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(change.getId(), e);

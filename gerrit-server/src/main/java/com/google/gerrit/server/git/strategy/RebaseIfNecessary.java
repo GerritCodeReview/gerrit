@@ -25,7 +25,7 @@ import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.git.UpdateException;
@@ -60,7 +60,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
   @Override
   protected MergeTip _run(final CodeReviewCommit branchTip,
-      final Collection<CodeReviewCommit> toMerge) throws MergeException {
+      final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     List<CodeReviewCommit> sorted = sort(toMerge);
     while (!sorted.isEmpty()) {
@@ -113,11 +113,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
             setRefLogIdent();
           } catch (MergeConflictException e) {
             n.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
-            throw new MergeException(
+            throw new IntegrationException(
                 "Cannot rebase " + n.name() + ": " + e.getMessage(), e);
           } catch (NoSuchChangeException | OrmException | IOException
               | RestApiException | UpdateException e) {
-            throw new MergeException("Cannot rebase " + n.name(), e);
+            throw new IntegrationException("Cannot rebase " + n.name(), e);
           }
         }
 
@@ -142,7 +142,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
               mergeTip.getCurrentTip(), args.alreadyAccepted);
           setRefLogIdent();
         } catch (IOException e) {
-          throw new MergeException("Cannot merge " + n.name(), e);
+          throw new IntegrationException("Cannot merge " + n.name(), e);
         }
       }
 
@@ -153,14 +153,14 @@ public class RebaseIfNecessary extends SubmitStrategy {
   }
 
   private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
-      throws MergeException {
+      throws IntegrationException {
     try {
       List<CodeReviewCommit> result = new RebaseSorter(
           args.rw, args.alreadyAccepted, args.canMergeFlag).sort(toSort);
       Collections.sort(result, CodeReviewCommit.ORDER);
       return result;
     } catch (IOException e) {
-      throw new MergeException("Commit sorting failed", e);
+      throw new IntegrationException("Commit sorting failed", e);
     }
   }
 
@@ -187,7 +187,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
   @Override
   public boolean dryRun(CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
-      throws MergeException {
+      throws IntegrationException {
     return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
         && args.mergeUtil.canCherryPick(args.mergeSorter, args.repo, mergeTip,
             args.rw, toMerge);

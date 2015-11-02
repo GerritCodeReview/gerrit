@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
 
 import org.eclipse.jgit.lib.PersonIdent;
@@ -30,7 +30,7 @@ public class MergeIfNecessary extends SubmitStrategy {
 
   @Override
   protected MergeTip _run(CodeReviewCommit branchTip,
-      Collection<CodeReviewCommit> toMerge) throws MergeException {
+      Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     List<CodeReviewCommit> sorted =
         args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     MergeTip mergeTip;
@@ -67,7 +67,7 @@ public class MergeIfNecessary extends SubmitStrategy {
 
   @Override
   public boolean dryRun(CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
-      throws MergeException {
+      throws IntegrationException {
     return args.mergeUtil.canFastForward(
           args.mergeSorter, mergeTip, args.rw, toMerge)
         || args.mergeUtil.canMerge(

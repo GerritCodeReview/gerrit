@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_2be1b9bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T08:59:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d65ff225_0ab4bba7",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "d6da9097c55e9697f0ade0a478370d46ce1cb5bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3625aea9_8d08c13c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-02T07:56:56Z",
       "side": 1,
       "message": "alternative",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "d6da9097c55e9697f0ade0a478370d46ce1cb5bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_0be6fdd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T08:59:16Z",
+      "side": 1,
+      "message": "Not applicable any more.",
+      "parentUuid": "3625aea9_8d08c13c",
       "range": {
         "startLine": 11,
         "startChar": 45,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "16342adb_8c08c73c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T08:59:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d65ff225_ea98473a",
+      "range": {
+        "startLine": 18,
+        "startChar": 15,
+        "endLine": 18,
+        "endChar": 22
+      },
+      "revId": "d6da9097c55e9697f0ade0a478370d46ce1cb5bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d65ff225_ca958300",
         "filename": "plugins/cookbook-plugin",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2015-11-02T07:56:56Z",
       "side": 1,
       "message": "What is this?",
+      "revId": "d6da9097c55e9697f0ade0a478370d46ce1cb5bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_cc0ecf4a",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T08:59:16Z",
+      "side": 1,
+      "message": "Opps, that wasn\u0027t supposed to be uploaded. I cloned gerrrit without submodules, and linked the plugin from another location.",
+      "parentUuid": "d65ff225_ca958300",
       "revId": "d6da9097c55e9697f0ade0a478370d46ce1cb5bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

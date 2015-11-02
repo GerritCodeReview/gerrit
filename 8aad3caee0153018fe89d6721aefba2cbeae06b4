@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f62eb68f_6bd7c1e5",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T08:59:16Z",
+      "side": 0,
+      "message": "Instead of removing it, switch to using zip_file:\n\n  zip_file(\n    name \u003d \u0027api\u0027,\n    srcs \u003d API_DEPS,\n  )",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 1
+      },
+      "revId": "8aad3caee0153018fe89d6721aefba2cbeae06b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_4bdc0508",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T08:59:16Z",
+      "side": 0,
+      "message": "Same here.",
+      "revId": "8aad3caee0153018fe89d6721aefba2cbeae06b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

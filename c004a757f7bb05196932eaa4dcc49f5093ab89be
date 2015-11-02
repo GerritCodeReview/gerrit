@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16342adb_eceaab9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T06:42:41Z",
+      "side": 1,
+      "message": "This change should update download-commands submodue with: I492d58adbc.",
+      "revId": "c004a757f7bb05196932eaa4dcc49f5093ab89be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

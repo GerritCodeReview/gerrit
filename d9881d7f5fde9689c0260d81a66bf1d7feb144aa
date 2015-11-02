@@ -22,6 +22,30 @@
       "revId": "d9881d7f5fde9689c0260d81a66bf1d7feb144aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_ac5dc358",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T05:40:20Z",
+      "side": 1,
+      "message": "Yes. The follow-up change extended this condition, though.",
+      "parentUuid": "3625aea9_ed11856c",
+      "range": {
+        "startLine": 343,
+        "startChar": 8,
+        "endLine": 343,
+        "endChar": 25
+      },
+      "revId": "d9881d7f5fde9689c0260d81a66bf1d7feb144aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

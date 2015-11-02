@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16342adb_ecbf4b7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-02T15:14:20Z",
+      "side": 1,
+      "message": "move the url to the end of the commit message and reference with [1]",
+      "revId": "989efd2f07d5c246c667aeca2c8dcc54f30104bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

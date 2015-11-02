@@ -157,7 +157,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  public void installPluginFromStream(String originalName, InputStream in)
+  public String installPluginFromStream(String originalName, InputStream in)
       throws IOException, PluginInstallException {
     checkRemoteInstall();
 
@@ -197,6 +197,8 @@ public class PluginLoader implements LifecycleListener {
 
       cleanInBackground();
     }
+
+    return name;
   }
 
   static Path asTemp(InputStream in, String prefix, String suffix, Path dir)

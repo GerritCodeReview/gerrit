@@ -17,6 +17,7 @@ package com.google.gerrit.client;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_PLUGINS;
+import static com.google.gerrit.common.data.HostPageData.XSRF_COOKIE_NAME;
 
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.AccountCapabilities;
@@ -477,8 +478,7 @@ public class Gerrit implements EntryPoint {
         if (result.accountDiffPref != null) {
           myAccountDiffPref = result.accountDiffPref;
         }
-        if (result.xGerritAuth != null) {
-          xGerritAuth = result.xGerritAuth;
+        if (result.accountDiffPref != null) {
           // TODO: Support options on the GetDetail REST endpoint so that it can
           // also return the preferences. Then we can fetch everything with a
           // single request and we don't need the callback group anymore.
@@ -513,6 +513,8 @@ public class Gerrit implements EntryPoint {
           editPrefs = null;
           onModuleLoad2(result);
         }
+        xGerritAuth = Cookies.getCookie(XSRF_COOKIE_NAME);
+        Cookies.removeCookie(XSRF_COOKIE_NAME);
       }
     }));
   }

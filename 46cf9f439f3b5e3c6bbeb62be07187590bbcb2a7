@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "96f2da53_00da4641",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/HostPageData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1021863
+      },
+      "writtenOn": "2015-11-02T18:10:12Z",
+      "side": 1,
+      "message": "Ewwwww. OK. Worth filing a cleanup bug for?",
+      "parentUuid": "96f2da53_20c54a5f",
+      "revId": "46cf9f439f3b5e3c6bbeb62be07187590bbcb2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9659fa47_28c0ab4e",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
         "patchSetId": 3

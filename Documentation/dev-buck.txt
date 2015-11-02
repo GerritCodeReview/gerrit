@@ -275,15 +275,6 @@ The output release WAR will be placed in:
   buck-out/gen/release/release.war
 ----
 
-[[all]]
-=== Combined build target
-
-To build release and api targets, a combined build target is provided:
-
-----
-  buck build all
-----
-
 [[tests]]
 == Running Unit Tests
 

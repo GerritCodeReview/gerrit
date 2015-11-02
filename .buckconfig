@@ -1,5 +1,4 @@
 [alias]
-  all = //:all
   api = //:api
   api_deploy = //tools/maven:api_deploy
   api_install = //tools/maven:api_install

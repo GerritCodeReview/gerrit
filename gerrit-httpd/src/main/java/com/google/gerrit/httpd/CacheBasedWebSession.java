@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
+import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.reviewdb.client.Account;
@@ -80,7 +81,7 @@ public abstract class CacheBasedWebSession implements WebSession {
           val = manager.createVal(key, val);
         }
 
-        String token = request.getHeader("X-Gerrit-Auth");
+        String token = request.getHeader(HostPageData.XSRF_HEADER_NAME);
         if (val != null && token != null && token.equals(val.getAuth())) {
           okPaths.add(AccessPath.REST_API);
         }

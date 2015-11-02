@@ -68,6 +68,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -193,10 +194,7 @@ public class HostPageServlet extends HttpServlet {
     StringWriter w = new StringWriter();
     CurrentUser user = currentUser.get();
     if (user.isIdentifiedUser()) {
-      w.write(HPD_ID + ".xGerritAuth=");
-      json(session.get().getXGerritAuth(), w);
-      w.write(";");
-
+      setXGerritAuthCookie(req, rsp, session.get());
       w.write(HPD_ID + ".accountDiffPref=");
       json(getDiffPreferences(user.asIdentifiedUser()), w);
       w.write(";");
@@ -205,6 +203,7 @@ public class HostPageServlet extends HttpServlet {
       json(signedInTheme, w);
       w.write(";");
     } else {
+      setXGerritAuthCookie(req, rsp, null);
       w.write(HPD_ID + ".theme=");
       json(signedOutTheme, w);
       w.write(";");
@@ -229,6 +228,23 @@ public class HostPageServlet extends HttpServlet {
     try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
     }
+  }
+
+  private static void setXGerritAuthCookie(HttpServletRequest req,
+      HttpServletResponse rsp, WebSession session) {
+    String v = session != null ? session.getXGerritAuth() : "";
+    Cookie c = new Cookie(HostPageData.XSRF_COOKIE_NAME, v);
+    c.setPath("/");
+    c.setHttpOnly(false);
+    c.setSecure(isSecure(req));
+    c.setMaxAge(session != null
+        ? -1 // Set the cookie for this browser session.
+        : 0); // Remove the cookie (expire immediately).
+    rsp.addCookie(c);
+  }
+
+  private static boolean isSecure(HttpServletRequest req) {
+    return req.isSecure() || "https".equals(req.getScheme());
   }
 
   private DiffPreferencesInfo getDiffPreferences(IdentifiedUser user) {

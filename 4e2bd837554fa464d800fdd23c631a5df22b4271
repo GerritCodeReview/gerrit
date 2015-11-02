@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3625aea9_6da59575",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-02T08:00:54Z",
+      "side": 0,
+      "message": "The fix on stable-2.11 was cherry-picked from master, but on master the code had been restructured so merging it back up caused conflicts.\n\nNote that David Ostrovsky already found that the implementation on master was broken, and has uploaded patches to fix it.\n\nSo with this merge I\u0027ve tried to leave the master implementation as it was, and then David\u0027s fixes can be applied on top.",
+      "parentUuid": "f62eb68f_4b7525d6",
+      "range": {
+        "startLine": 277,
+        "startChar": 16,
+        "endLine": 277,
+        "endChar": 41
+      },
+      "revId": "4e2bd837554fa464d800fdd23c631a5df22b4271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16342adb_acf4a37e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 1

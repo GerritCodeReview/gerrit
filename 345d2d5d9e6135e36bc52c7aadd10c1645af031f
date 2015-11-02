@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f62eb68f_4baac547",
+        "filename": "gerrit-acceptance-framework/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T22:06:13Z",
+      "side": 1,
+      "message": "You cannot do that, without adjusting this rule. This pulls tons of transitive dependencies for virtual all, in which case you would ship everything twice: in extension-api.jar and in acceptance-framework.jar. This is why ths size of the acceptance-framework.jar was increased from 10MB to 30 MB. I think what you want, is to swap the transitive deps to provided deps in //gerrit-openid:openid target, except //lib/openid:consumer jar. Untested, but this should fix it?\n\n  java_library(\n    name \u003d \u0027openid\u0027,\n    srcs \u003d glob([\u0027src/main/java/**/*.java\u0027]),\n    resources \u003d glob([\u0027src/main/resources/**/*\u0027]),\n    deps \u003d [\n      \u0027//lib/openid:consumer\u0027\n    ],\n    provided_deps \u003d [\n      \u0027//gerrit-common:annotations\u0027,\n      \u0027//gerrit-common:server\u0027,\n      \u0027//gerrit-extension-api:api\u0027,\n      \u0027//gerrit-gwtexpui:server\u0027,\n      \u0027//gerrit-httpd:httpd\u0027,\n      \u0027//gerrit-reviewdb:server\u0027,\n      \u0027//gerrit-server:server\u0027,\n      \u0027//lib:guava\u0027,\n      \u0027//lib:gwtorm\u0027,\n      \u0027//lib:servlet-api-3_1\u0027,\n      \u0027//lib/guice:guice-servlet\u0027,\n      \u0027//lib/jgit:jgit\u0027,\n      \u0027//lib/log:api\u0027,\n    ],\n    visibility \u003d [\u0027PUBLIC\u0027],\n  )\n\nAlso I think it would make sense to do this change in extra commit.",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 25
+      },
+      "revId": "345d2d5d9e6135e36bc52c7aadd10c1645af031f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_ec862bca",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-02T22:06:13Z",
+      "side": 1,
+      "message": "This should be named http-jetty. Check:\n\n  $ jar -tf buck-out/gen/headless/headless.war | grep --regex \u0027.*pgm.*\u0027\n  WEB-INF/lib/gerrit-pgm-init-api.jar\n  WEB-INF/lib/gerrit-pgm-util-nodep.jar\n  WEB-INF/lib/gerrit-pgm-init.jar\n  WEB-INF/lib/gerrit-pgm-pgm-jetty.jar\n\nSo that we get gerrit-pgm-http-jetty.jar instead of gerrit-pgm-pgm-jetty.jar. Commit message and other places sould be adapted as well.",
+      "range": {
+        "startLine": 106,
+        "startChar": 10,
+        "endLine": 106,
+        "endChar": 19
+      },
+      "revId": "345d2d5d9e6135e36bc52c7aadd10c1645af031f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

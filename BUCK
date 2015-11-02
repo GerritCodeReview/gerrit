@@ -22,20 +22,3 @@ API_DEPS = [
   '//gerrit-plugin-gwtui:gwtui-api-src',
   '//gerrit-plugin-gwtui:gwtui-api-javadoc',
 ]
-
-genrule(
-  name = 'api',
-  cmd = 'echo done >$OUT',
-  deps = API_DEPS,
-  out = '__fake.api__',
-)
-
-genrule(
-  name = 'all',
-  cmd = 'echo done >$OUT',
-  deps = [
-    ':api',
-    ':release',
-  ],
-  out = '__fake.all__',
-)

@@ -28,6 +28,8 @@ from sys import stdout, stderr
 parser = argparse.ArgumentParser()
 parser.add_argument('--asciidoc', action='store_true')
 parser.add_argument('--partial', action='store_true')
+# TODO(davido): path classpath from Buck
+parser.add_argument('--location', action='append')
 parser.add_argument('targets', nargs='+')
 args = parser.parse_args()
 

@@ -78,6 +78,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HostPageServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(HostPageServlet.class);
+
   private static final String HPD_ID = "gerrit_hostpagedata";
   private static final int DEFAULT_JS_LOAD_TIMEOUT = 5000;
 
@@ -124,7 +125,7 @@ public class HostPageServlet extends HttpServlet {
     pluginsLoadTimeout = getPluginsLoadTimeout(cfg);
     getDiff = diffPref;
 
-    final String pageName = "HostPage.html";
+    String pageName = "HostPage.html";
     template = HtmlDomUtil.parseFile(getClass(), pageName);
     if (template == null) {
       throw new FileNotFoundException("No " + pageName + " in webapp");
@@ -141,7 +142,7 @@ public class HostPageServlet extends HttpServlet {
     try (InputStream in = servletContext.getResourceAsStream("/" + src)) {
       if (in != null) {
         Hasher md = Hashing.md5().newHasher();
-        final byte[] buf = new byte[1024];
+        byte[] buf = new byte[1024];
         int n;
         while ((n = in.read(buf)) > 0) {
           md.putBytes(buf, 0, n);
@@ -158,7 +159,7 @@ public class HostPageServlet extends HttpServlet {
     page = new Page();
   }
 
-  private static int getPluginsLoadTimeout(final Config cfg) {
+  private static int getPluginsLoadTimeout(Config cfg) {
     long cfgValue =
         ConfigUtil.getTimeUnit(cfg, "plugins", null, "jsLoadTimeout",
             DEFAULT_JS_LOAD_TIMEOUT, TimeUnit.MILLISECONDS);
@@ -168,7 +169,7 @@ public class HostPageServlet extends HttpServlet {
     return (int) cfgValue;
   }
 
-  private void json(final Object data, final StringWriter w) {
+  private void json(Object data, StringWriter w) {
     JsonServlet.defaultGsonBuilder().create().toJson(data, w);
   }
 
@@ -186,11 +187,11 @@ public class HostPageServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
-    final Page.Content page = select(req);
-    final StringWriter w = new StringWriter();
-    final CurrentUser user = currentUser.get();
+  protected void doGet(HttpServletRequest req,
+      HttpServletResponse rsp) throws IOException {
+    Page.Content page = select(req);
+    StringWriter w = new StringWriter();
+    CurrentUser user = currentUser.get();
     if (user.isIdentifiedUser()) {
       w.write(HPD_ID + ".xGerritAuth=");
       json(session.get().getXGerritAuth(), w);
@@ -211,9 +212,9 @@ public class HostPageServlet extends HttpServlet {
     plugins(w);
     messages(w);
 
-    final byte[] hpd = w.toString().getBytes(UTF_8);
-    final byte[] raw = Bytes.concat(page.part1, hpd, page.part2);
-    final byte[] tosend;
+    byte[] hpd = w.toString().getBytes(UTF_8);
+    byte[] raw = Bytes.concat(page.part1, hpd, page.part2);
+    byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");
       tosend = HtmlDomUtil.compress(raw);
@@ -329,17 +330,17 @@ public class HostPageServlet extends HttpServlet {
       header = injectXmlFile(hostDoc, "gerrit_header", site.site_header);
       footer = injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
 
-      final HostPageData pageData = new HostPageData();
+      HostPageData pageData = new HostPageData();
       pageData.version = Version.getVersion();
       pageData.isNoteDbEnabled = isNoteDbEnabled;
       pageData.pluginsLoadTimeout = pluginsLoadTimeout;
 
-      final StringWriter w = new StringWriter();
+      StringWriter w = new StringWriter();
       w.write("var " + HPD_ID + "=");
       json(pageData, w);
       w.write(";");
 
-      final Element data = HtmlDomUtil.find(hostDoc, HPD_ID);
+      Element data = HtmlDomUtil.find(hostDoc, HPD_ID);
       asScript(data);
       data.appendChild(hostDoc.createTextNode(w.toString()));
       data.appendChild(hostDoc.createComment(HPD_ID));
@@ -358,7 +359,7 @@ public class HostPageServlet extends HttpServlet {
       return css.isStale() || header.isStale() || footer.isStale();
     }
 
-    private void asScript(final Element scriptNode) {
+    private void asScript(Element scriptNode) {
       scriptNode.setAttribute("type", "text/javascript");
       scriptNode.setAttribute("language", "javascript");
     }
@@ -368,8 +369,8 @@ public class HostPageServlet extends HttpServlet {
       final byte[] part2;
 
       Content(Document hostDoc) throws IOException {
-        final String raw = HtmlDomUtil.toString(hostDoc);
-        final int p = raw.indexOf("<!--" + HPD_ID);
+        String raw = HtmlDomUtil.toString(hostDoc);
+        int p = raw.indexOf("<!--" + HPD_ID);
         if (p < 0) {
           throw new IOException("No tag in transformed host page HTML");
         }
@@ -380,8 +381,8 @@ public class HostPageServlet extends HttpServlet {
 
     private FileInfo injectCssFile(Document hostDoc, String id, Path src)
         throws IOException {
-      final FileInfo info = new FileInfo(src);
-      final Element banner = HtmlDomUtil.find(hostDoc, id);
+      FileInfo info = new FileInfo(src);
+      Element banner = HtmlDomUtil.find(hostDoc, id);
       if (banner == null) {
         return info;
       }
@@ -402,8 +403,8 @@ public class HostPageServlet extends HttpServlet {
 
     private FileInfo injectXmlFile(Document hostDoc, String id, Path src)
         throws IOException {
-      final FileInfo info = new FileInfo(src);
-      final Element banner = HtmlDomUtil.find(hostDoc, id);
+      FileInfo info = new FileInfo(src);
+      Element banner = HtmlDomUtil.find(hostDoc, id);
       if (banner == null) {
         return info;
       }

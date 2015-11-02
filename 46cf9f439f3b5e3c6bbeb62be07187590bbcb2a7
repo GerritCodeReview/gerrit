@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "9659fa47_e8d9734d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/HostPageData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-02T18:07:00Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "9659fa47_48cbdf76",
+      "revId": "46cf9f439f3b5e3c6bbeb62be07187590bbcb2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96f2da53_40c04e4f",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/HostPageData.java",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2015-11-02T18:02:10Z",
       "side": 1,
       "message": "same here",
+      "revId": "46cf9f439f3b5e3c6bbeb62be07187590bbcb2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96f2da53_20c54a5f",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/HostPageData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-02T18:07:00Z",
+      "side": 1,
+      "message": "I see your point, but this one might be more trouble than it\u0027s worth. With googlesource.com since we do rolling updates of servers, we would have to do this in several stages, first to teach the servers to accept both headers while the clients are all sending the old one, then to switch over clients to the new one, and finally removing support for the old one from the servers.",
+      "parentUuid": "96f2da53_40c04e4f",
       "revId": "46cf9f439f3b5e3c6bbeb62be07187590bbcb2a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

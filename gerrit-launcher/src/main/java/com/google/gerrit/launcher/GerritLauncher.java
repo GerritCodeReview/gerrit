@@ -27,12 +27,16 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.CodeSource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.SortedMap;
@@ -296,6 +300,7 @@ public final class GerritLauncher {
   }
 
   private static volatile File myArchive;
+  private static volatile FileSystem myArchiveFs;
   private static volatile File myHome;
 
   /**
@@ -304,11 +309,28 @@ public final class GerritLauncher {
    * @return local path of the Gerrit WAR file.
    * @throws FileNotFoundException if the code cannot guess the location.
    */
-  public static File getDistributionArchive() throws FileNotFoundException {
-    if (myArchive == null) {
-      myArchive = locateMyArchive();
+  public static File getDistributionArchive()
+      throws FileNotFoundException, IOException {
+    File result = myArchive;
+    if (result == null) {
+      synchronized (GerritLauncher.class) {
+        result = myArchive;
+        if (result == null) {
+          result = locateMyArchive();
+          myArchiveFs = FileSystems.newFileSystem(
+              URI.create("jar:" + result.toPath().toUri()),
+              Collections.<String, String> emptyMap());
+          myArchive = result;
+        }
+      }
     }
-    return myArchive;
+    return result;
+  }
+
+  public static FileSystem getDistributionArchiveFileSystem()
+      throws FileNotFoundException, IOException {
+    getDistributionArchive();
+    return myArchiveFs;
   }
 
   private static File locateMyArchive() throws FileNotFoundException {

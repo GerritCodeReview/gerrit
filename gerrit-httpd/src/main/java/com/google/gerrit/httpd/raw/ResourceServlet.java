@@ -111,6 +111,14 @@ public abstract class ResourceServlet extends HttpServlet {
    */
   protected abstract Path getResourcePath(String pathInfo);
 
+  protected FileTime getLastModifiedTime(Path p) {
+    try {
+      return Files.getLastModifiedTime(p);
+    } catch (IOException e) {
+      return FileTime.fromMillis(0);
+    }
+  }
+
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
@@ -134,7 +142,7 @@ public abstract class ResourceServlet extends HttpServlet {
       Callable<Resource> loader = newLoader(p);
       try {
         r = cache.get(p, loader);
-        if (refresh && r.isStale(p)) {
+        if (refresh && r.isStale(p, this)) {
           cache.invalidate(p);
           r = cache.get(p, loader);
         }
@@ -256,7 +264,7 @@ public abstract class ResourceServlet extends HttpServlet {
       public Resource call() throws IOException {
         try {
           return new Resource(
-              Files.getLastModifiedTime(p),
+              getLastModifiedTime(p),
               contentType(p.toString()),
               Files.readAllBytes(p));
         } catch (FileNotFoundException e) {
@@ -282,12 +290,11 @@ public abstract class ResourceServlet extends HttpServlet {
       this.raw = raw;
     }
 
-    boolean isStale(Path p) {
-      try {
-        return !lastModified.equals(Files.getLastModifiedTime(p));
-      } catch (IOException e) {
-        return true;
-      }
+    boolean isStale(Path p, ResourceServlet rs) {
+      FileTime t = rs.getLastModifiedTime(p);
+      return t.toMillis() == 0
+          || lastModified.toMillis() == 0
+          || !lastModified.equals(t);
     }
   }
 

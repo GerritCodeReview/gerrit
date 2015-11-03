@@ -128,6 +128,12 @@ public class CacheHeaders {
     cache(res, "private", age, unit, mustRevalidate);
   }
 
+  public static boolean hasCacheHeader(HttpServletResponse res) {
+    return res.getHeader("Cache-Control") != null
+        || res.getHeader("Expires") != null
+        || "no-cache".equals(res.getHeader("Pragma"));
+  }
+
   private static void cache(HttpServletResponse res,
       String type, long age, TimeUnit unit, boolean revalidate) {
     res.setHeader("Cache-Control", String.format(

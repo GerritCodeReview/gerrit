@@ -28,7 +28,6 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 
-import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -316,15 +315,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
       cfg.commit(md);
     } finally {
       md.close();
-    }
-  }
-
-  private void merge(PushOneCommit.Result r) throws Exception {
-    revision(r).review(ReviewInput.approve());
-    revision(r).submit();
-    try (Repository repo = repoManager.openRepository(project)) {
-      assertThat(repo.getRef("refs/heads/master").getObjectId()).isEqualTo(
-          r.getCommitId());
     }
   }
 

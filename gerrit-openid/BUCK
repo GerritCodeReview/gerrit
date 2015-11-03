@@ -3,6 +3,9 @@ java_library(
   srcs = glob(['src/main/java/**/*.java']),
   resources = glob(['src/main/resources/**/*']),
   deps = [
+    '//lib/openid:consumer',
+  ],
+  provided_deps = [
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
@@ -12,13 +15,12 @@ java_library(
     '//gerrit-server:server',
     '//lib:guava',
     '//lib:gwtorm',
+    '//lib:servlet-api-3_1',
     '//lib/commons:codec',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
     '//lib/log:api',
-    '//lib/openid:consumer',
   ],
-  provided_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],
 )

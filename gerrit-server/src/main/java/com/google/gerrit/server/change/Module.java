@@ -70,6 +70,7 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "submitted_together").to(SubmittedTogether.class);
     post(CHANGE_KIND, "rebase").to(Rebase.CurrentRevision.class);
     post(CHANGE_KIND, "index").to(Index.class);
+    post(CHANGE_KIND, "move").to(Move.class);
 
     post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestReviewers.class);

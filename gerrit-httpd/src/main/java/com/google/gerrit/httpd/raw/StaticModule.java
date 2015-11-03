@@ -25,7 +25,7 @@ public class StaticModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
-    serve("/static/*").with(StaticServlet.class);
+    serve("/static/*").with(SiteStaticDirectoryServlet.class);
     install(new CacheModule() {
       @Override
       protected void configure() {

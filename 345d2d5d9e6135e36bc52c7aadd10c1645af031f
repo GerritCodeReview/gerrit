@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_eb6df1db",
+        "filename": "gerrit-acceptance-framework/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-03T16:17:17Z",
+      "side": 1,
+      "message": "| 1. When making deps as provided_deps such as above, I often wonder about the potential negative side effects this can have on libs depending on such \"nodep\u0027ed\" libs.\n\nThat\u0027s very good question. In the end the deps should be included in gerrit.war. That why war depends on openid:\n\n  $ git grep gerrit-openid:openid\n  gerrit-pgm/BUCK:  \u0027//gerrit-openid:openid\u0027,\n  gerrit-war/BUCK:    \u0027//gerrit-openid:openid\u0027,\n\nSo if you would move all the transitive deps from //gerrit-openid:openid rule to provided_deps, gerrit.war would be broken, because //lib/openid:consumer would be lost. So the question is how do you know, that all other deps can be moved to provided_deps, because they already would be pull in gerrit.war by other deps but the //lib/openid:consumer is really needed and must stay as a transitive dependency? The answer is experience. I\u0027m also not sure if it would be enough to just load a test site, or even tat even `buck test` would trigger the code in question so that the missing runtime dependency would be noticed. One thing that work for sure, is `buck build gerrit` before your change and `buck build gerrit` after your change should list the same libraries in WEB-INF/lib of gerrit.war.\n\n| 2. I\u0027m asking that for the above openid fix, but also for the other dep I added, gerrit-server/src/main/prolog:common.\n\ngerrit-acceptance-framework must not depend on gerrit-server transitively as you have noticed.",
+      "parentUuid": "96f2da53_4045ee96",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 25
+      },
+      "revId": "345d2d5d9e6135e36bc52c7aadd10c1645af031f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16342adb_ec862bca",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 3

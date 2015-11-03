@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "96f2da53_4045ee96",
+        "filename": "gerrit-acceptance-framework/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-03T14:30:26Z",
+      "side": 1,
+      "message": "Thx David. Two questions then please:\n\n1. When making deps as provided_deps such as above, I often wonder about the potential negative side effects this can have on libs depending on such \"nodep\u0027ed\" libs. In order to properly test a change such as above with openid, is it enough to rebuild all from clean, init then load a test-site (incl. buck test --all)? -I\u0027d basically worry about potentially missing some deps in some run-time contexts.\n\n2. I\u0027m asking that for the above openid fix, but also for the other dep I added, gerrit-server/src/main/prolog:common. The latter \"deps\" on gerrit-server:server, which in turn deps on many dependencies that can also grow e.g. the acceptance lib inappropriately. There is even a TODO above the latter java_library about having to split that one too... Your thoughts on adding that (needful) prolog dep then? -Thx again! \u003d)",
+      "parentUuid": "f62eb68f_4baac547",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 25
+      },
+      "revId": "345d2d5d9e6135e36bc52c7aadd10c1645af031f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16342adb_ec862bca",
         "filename": "gerrit-pgm/BUCK",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-02T22:06:13Z",
       "side": 1,
       "message": "This should be named http-jetty. Check:\n\n  $ jar -tf buck-out/gen/headless/headless.war | grep --regex \u0027.*pgm.*\u0027\n  WEB-INF/lib/gerrit-pgm-init-api.jar\n  WEB-INF/lib/gerrit-pgm-util-nodep.jar\n  WEB-INF/lib/gerrit-pgm-init.jar\n  WEB-INF/lib/gerrit-pgm-pgm-jetty.jar\n\nSo that we get gerrit-pgm-http-jetty.jar instead of gerrit-pgm-pgm-jetty.jar. Commit message and other places sould be adapted as well.",
+      "range": {
+        "startLine": 106,
+        "startChar": 10,
+        "endLine": 106,
+        "endChar": 19
+      },
+      "revId": "345d2d5d9e6135e36bc52c7aadd10c1645af031f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96f2da53_204aeaa8",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-03T14:30:26Z",
+      "side": 1,
+      "message": "Agreed; will be done asap.",
+      "parentUuid": "16342adb_ec862bca",
       "range": {
         "startLine": 106,
         "startChar": 10,

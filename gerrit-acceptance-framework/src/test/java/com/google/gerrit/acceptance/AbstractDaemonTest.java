@@ -32,6 +32,8 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.projects.BranchApi;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -40,6 +42,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -62,6 +65,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gson.Gson;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -417,6 +421,13 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
+  protected BranchApi createBranch(Branch.NameKey branch) throws Exception {
+    return gApi.projects()
+        .name(branch.getParentKey().get())
+        .branch(branch.get())
+        .create(new BranchInput());
+  }
+
   private static final List<Character> RANDOM =
       Chars.asList(new char[]{'a','b','c','d','e','f','g','h'});
   protected PushOneCommit.Result amendChange(String changeId)
@@ -431,6 +442,11 @@ public abstract class AbstractDaemonTest {
         pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
             PushOneCommit.FILE_NAME, new String(Chars.toArray(RANDOM)), changeId);
     return push.to(ref);
+  }
+
+  protected void merge(PushOneCommit.Result r) throws Exception {
+    revision(r).review(ReviewInput.approve());
+    revision(r).submit();
   }
 
   protected ChangeInfo info(String id)

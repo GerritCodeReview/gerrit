@@ -208,6 +208,12 @@ public class ChangeControl {
         ) && !isPatchSetLocked(db);
   }
 
+  /** Can this user change the destination branch of this change
+      to the new ref? */
+  public boolean canMoveTo(String ref, ReviewDb db) throws OrmException {
+    return getProjectControl().controlForRef(ref).canUpload() && canAbandon(db);
+  }
+
   /** Can this user publish this draft change or any draft patch set of this change? */
   public boolean canPublish(final ReviewDb db) throws OrmException {
     return (isOwner() || getRefControl().canPublishDrafts())

@@ -716,11 +716,6 @@ public class RevisionIT extends AbstractDaemonTest {
     oldETag = checkETag(getRevisionActions, r2, oldETag);
   }
 
-  private void merge(PushOneCommit.Result r) throws Exception {
-    revision(r).review(ReviewInput.approve());
-    revision(r).submit();
-  }
-
   private PushOneCommit.Result updateChange(PushOneCommit.Result r,
       String content) throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,

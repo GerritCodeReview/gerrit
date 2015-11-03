@@ -147,6 +147,16 @@ public class RefControl {
   }
 
   /**
+   * Determines whether the user can move a change to the ref controlled by this
+   * object.
+   *
+   * @return {@code true} if the user specified can move a change to the Git ref
+   */
+  public boolean canMoveTo() {
+    return canUpload();
+  }
+
+  /**
    * Determines whether the user can upload a change to the ref controlled by
    * this object.
    *

@@ -287,7 +287,7 @@ public class HostPageServlet extends HttpServlet {
       String src = e.getAttribute("src");
       if (src != null && src.startsWith("static/")) {
         String name = src.substring("static/".length());
-        StaticServlet.Resource r = staticServlet.getResource(name);
+        ResourceServlet.Resource r = staticServlet.getResource(name);
         if (r != null) {
           e.setAttribute("src", src + "?e=" + r.etag);
         }

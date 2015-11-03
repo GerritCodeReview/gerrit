@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_4b7885a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_6ccc7b3f",
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f62eb68f_8b9f8d1e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-11-02T23:30:45Z",
       "side": 1,
       "message": "We support multiple OAuth plugins. I think we should consider to support multiple OAuthLoginService implementations.",
+      "range": {
+        "startLine": 20,
+        "startChar": 33,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_ec1bcb5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "I would like to, but in contrast to the UI where a user can interactively select which OAuth provider to use, that is not possible for Git over HTTP. Any idea how to do that?",
+      "parentUuid": "f62eb68f_8b9f8d1e",
       "range": {
         "startLine": 20,
         "startChar": 33,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "16342adb_ac15c327",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Added a note to the OAUTH section in config-gerrit.txt",
+      "parentUuid": "16342adb_4cd1bfd5",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16342adb_2cc6731d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2015-11-02T15:07:41Z",
       "side": 1,
       "message": "indent these two lines by 2 spaces",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_cc180f62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_2cc6731d",
       "range": {
         "startLine": 28,
         "startChar": 0,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "16342adb_8c12073c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_cc6a4fc2",
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "168429cb_42af12ba",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
         "patchSetId": 1
@@ -116,6 +224,30 @@
       "writtenOn": "2015-11-02T23:30:45Z",
       "side": 1,
       "message": "Just BASIC?",
+      "range": {
+        "startLine": 63,
+        "startChar": 30,
+        "endLine": 63,
+        "endChar": 39
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_6cefdb70",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done. Was copied from ProjectBasicAuthFilter.",
+      "parentUuid": "168429cb_42af12ba",
       "range": {
         "startLine": 63,
         "startChar": 30,
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_2b7d3997",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_cc836fb8",
+      "range": {
+        "startLine": 72,
+        "startChar": 33,
+        "endLine": 72,
+        "endChar": 62
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36476d69_e3b3d221",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
         "patchSetId": 1
@@ -162,6 +318,30 @@
       "writtenOn": "2015-11-02T23:30:45Z",
       "side": 1,
       "message": "0\n\nSo that we reject something like \":foo\"?",
+      "range": {
+        "startLine": 113,
+        "startChar": 19,
+        "endLine": 113,
+        "endChar": 20
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_4cf41f43",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "it is:  \":foo\".indexOf(\":\") \u003d\u003d 0",
+      "parentUuid": "36476d69_e3b3d221",
       "range": {
         "startLine": 113,
         "startChar": 19,
@@ -191,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "16342adb_2cf9d33a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_ac9023fe",
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16342adb_ec6d0bdc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
         "patchSetId": 1
@@ -202,6 +400,30 @@
       "writtenOn": "2015-11-02T23:30:45Z",
       "side": 1,
       "message": "java.nio.charset.StandardCharsets.UTF_8.name()",
+      "range": {
+        "startLine": 157,
+        "startChar": 64,
+        "endLine": 157,
+        "endChar": 71
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_0cfe1723",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_ec6d0bdc",
       "range": {
         "startLine": 157,
         "startChar": 64,
@@ -231,6 +453,24 @@
     },
     {
       "key": {
+        "uuid": "16342adb_ec02abe5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthLoginService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62eb68f_aba24966",
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16342adb_8c8d67e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthLoginService.java",
         "patchSetId": 1
@@ -242,6 +482,30 @@
       "writtenOn": "2015-11-02T23:30:45Z",
       "side": 1,
       "message": "The only reason this interface isn\u0027t put in gerrit-extension package (where other OAuth specific stuff is currently located) is this exception? Can\u0027t we use IOException and translate between it and AccountException in implementation, e.g.:\n\n  OAuthUserInfo userInfo;\n  try {\n    userInfo \u003d loginService.get().login(who.getUserName(), who.getPassword());\n  } catch (IOException e) {\n    throw new AccountException(\"Cannot authenticate\", e);\n  }",
+      "range": {
+        "startLine": 38,
+        "startChar": 61,
+        "endLine": 38,
+        "endChar": 77
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_6c3d9ba0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthLoginService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done and renamed it to OAuthLoginProvider",
+      "parentUuid": "16342adb_8c8d67e6",
       "range": {
         "startLine": 38,
         "startChar": 61,
@@ -277,6 +541,30 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_ab9009fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62eb68f_6bcc613f",
+      "range": {
+        "startLine": 21,
+        "startChar": 41,
+        "endLine": 21,
+        "endChar": 51
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16342adb_ac6703f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
         "patchSetId": 1
@@ -294,6 +582,24 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_cb8355b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_ac6703f8",
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f62eb68f_2bc6591d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
         "patchSetId": 1
@@ -305,6 +611,24 @@
       "writtenOn": "2015-11-02T23:30:45Z",
       "side": 1,
       "message": "What is the oauth-provider plugins don\u0027t provide OAuthLoginService service implementation?",
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_2b541905",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "You mean a plugin only implements OAuthServiceProvider but not OAuthLoginService?\n\nSuch a plugin still can be used for authentication in the UI and Git over HTTP can still be performed with Gerrit\u0027s internal users. Only if one switches to gitBasicAuth\u003dtrue this realm will be enabled and Git over HTTP will require OAuth tokens and a plugin that implements OAuthLoginService.",
+      "parentUuid": "f62eb68f_2bc6591d",
       "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -357,6 +681,54 @@
     },
     {
       "key": {
+        "uuid": "16342adb_ec298b67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_0c59773d",
+      "range": {
+        "startLine": 69,
+        "startChar": 37,
+        "endLine": 69,
+        "endChar": 58
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16342adb_0c15f718",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_2c543305",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16342adb_8c6447f4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
         "patchSetId": 1
@@ -368,6 +740,30 @@
       "writtenOn": "2015-11-02T23:30:45Z",
       "side": 1,
       "message": "Would this end up with NPE when no loginService was provided? When no OAuthServiceProvider were configured, but auth type was OAUTH, Gerit wouldn\u0027t start: [1]. So my suggestion for plan B here would be to check if no OAuthLoginService wre provided and always return false. But I think, that even better approach would be to refuse to start, when the following conditions are met:\n\n* auth.type \u003d OAUTH\n* auth.gitBasicAuth \u003d true\n* no OAuthLoginService were provided\n\n* [1] http://paste.openstack.org/show/477822",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 47
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_4b5f6525",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "NPE: injected DynamicItems should never be null, only DynamicItem.get() will be null if no login service is bound\n\nPlan B: Done, see ProjectOAuthFilter#init()",
+      "parentUuid": "16342adb_8c6447f4",
       "range": {
         "startLine": 78,
         "startChar": 29,
@@ -403,6 +799,30 @@
     },
     {
       "key": {
+        "uuid": "f62eb68f_8b8d4de6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62eb68f_cb959500",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 42
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16342adb_6c5a3b37",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
         "patchSetId": 1
@@ -414,6 +834,24 @@
       "writtenOn": "2015-11-02T23:30:45Z",
       "side": 1,
       "message": "same here.",
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_6b5a2137",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16342adb_6c5a3b37",
       "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -443,6 +881,30 @@
     },
     {
       "key": {
+        "uuid": "16342adb_2c10b328",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/oauth/OAuthRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62eb68f_4bd1a5d5",
+      "range": {
+        "startLine": 90,
+        "startChar": 39,
+        "endLine": 90,
+        "endChar": 41
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16342adb_4c5f7f25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1
@@ -454,6 +916,30 @@
       "writtenOn": "2015-11-02T23:30:45Z",
       "side": 1,
       "message": "Defining it in OAuthModule, where other OAuth related stuff is bound? Moreover, what is when different OAuth providers (from different or the same plugins) are deployed on Gerrit site, say:\n\n* GitHub\n* Google\n* Bitbucket\n* CloadFoundry\n\nSo that one user is using one provider and another is using another provider. Shouldn\u0027t multiple OAuthLoginService implementation be bound in this case? Use Map instead, like it\u0027s already the case with the providers?\n\n  DynamicMap.mapOf(binder(), OAuthServiceProvider.class);\n\nOAuth realm implementation would need to provide some means to dispatch to different OAuthLoginService implementations, when more then one was bound.",
+      "range": {
+        "startLine": 297,
+        "startChar": 4,
+        "endLine": 297,
+        "endChar": 58
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62eb68f_eb8611ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-03T16:21:03Z",
+      "side": 1,
+      "message": "Unfortunately, this line does not work when moved to OAuthModule. I debugged that together with Sasa and found that bindings declared in the UI/HTTP layer are not visible in the core layer where the Git/HTTP stuff lives.\n\nRegarding using a multiude of OAuth login providers: Agree, but I have no idea on which basis the OAuthRealm should dispatch. In the UI you can have the user choose an OAuth provider, but how would you do that with a native Git client? I could only imagine adding a preference in the user\u0027s settings.",
+      "parentUuid": "16342adb_4c5f7f25",
       "range": {
         "startLine": 297,
         "startChar": 4,

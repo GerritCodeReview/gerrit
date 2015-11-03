@@ -329,9 +329,9 @@ public class LabelTypeIT extends AbstractDaemonTest {
     }
   }
 
-  private void merge(PushOneCommit.Result r) throws Exception {
-    revision(r).review(ReviewInput.approve());
-    revision(r).submit();
+  @Override
+  protected void merge(PushOneCommit.Result r) throws Exception {
+    super.merge(r);
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.getRef("refs/heads/master").getObjectId()).isEqualTo(
           r.getCommitId());

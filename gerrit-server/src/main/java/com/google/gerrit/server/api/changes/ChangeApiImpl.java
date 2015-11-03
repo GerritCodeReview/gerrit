@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
+import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetTopic;
 import com.google.gerrit.server.change.ListChangeComments;
 import com.google.gerrit.server.change.ListChangeDrafts;
+import com.google.gerrit.server.change.Move;
 import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PutTopic;
@@ -86,6 +88,7 @@ class ChangeApiImpl implements ChangeApi {
   private final ListChangeDrafts listDrafts;
   private final Check check;
   private final ChangeEdits.Detail editDetail;
+  private final Move move;
 
   @Inject
   ChangeApiImpl(Provider<CurrentUser> user,
@@ -107,6 +110,7 @@ class ChangeApiImpl implements ChangeApi {
       ListChangeDrafts listDrafts,
       Check check,
       ChangeEdits.Detail editDetail,
+      Move move,
       @Assisted ChangeResource change) {
     this.user = user;
     this.changeApi = changeApi;
@@ -127,6 +131,7 @@ class ChangeApiImpl implements ChangeApi {
     this.listDrafts = listDrafts;
     this.check = check;
     this.editDetail = editDetail;
+    this.move = move;
     this.change = change;
   }
 
@@ -180,6 +185,22 @@ class ChangeApiImpl implements ChangeApi {
       restore.apply(change, in);
     } catch (OrmException | UpdateException e) {
       throw new RestApiException("Cannot restore change", e);
+    }
+  }
+
+  @Override
+  public void move(String destination) throws RestApiException {
+    MoveInput input = new MoveInput();
+    input.destination = destination;
+    move(input);
+  }
+
+  @Override
+  public void move(MoveInput in) throws RestApiException {
+    try {
+      move.apply(change, in);
+    } catch (OrmException | UpdateException e) {
+      throw new RestApiException("Cannot move change", e);
     }
   }
 

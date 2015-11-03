@@ -64,6 +64,9 @@ public interface ChangeApi {
   void restore() throws RestApiException;
   void restore(RestoreInput in) throws RestApiException;
 
+  void move(String destination) throws RestApiException;
+  void move(MoveInput in) throws RestApiException;
+
   /**
    * Create a new change that reverts this change.
    *
@@ -198,6 +201,16 @@ public interface ChangeApi {
 
     @Override
     public void restore(RestoreInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void move(String destination) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void move(MoveInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -29,13 +29,13 @@ import java.nio.file.Path;
 
 /** Sends static content from the site 's {@code static/} subdirectory. */
 @Singleton
-public class StaticServlet extends ResourceServlet {
+public class SiteStaticDirectoryServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;
 
   private final Path staticBase;
 
   @Inject
-  StaticServlet(
+  SiteStaticDirectoryServlet(
       SitePaths site,
       @GerritServerConfig Config cfg,
       @Named(StaticModule.CACHE) Cache<Path, Resource> cache) {

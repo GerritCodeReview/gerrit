@@ -199,7 +199,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
       cb.setCommitter(committerIdent);
     } else {
       cb.setCommitter(ctx.getUser().asIdentifiedUser()
-          .newRefLogIdent(ctx.getWhen(), ctx.getTimeZone()));
+          .newCommitterIdent(ctx.getWhen(), ctx.getTimeZone()));
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
     ctx.getInserter().flush();

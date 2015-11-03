@@ -110,6 +110,14 @@ public abstract class ResourceServlet extends HttpServlet {
    */
   protected abstract Path getResourcePath(String pathInfo);
 
+  protected FileTime getLastModifiedTime(Path p) {
+    try {
+      return Files.getLastModifiedTime(p);
+    } catch (IOException e) {
+      return FileTime.fromMillis(0);
+    }
+  }
+
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
@@ -211,11 +219,16 @@ public abstract class ResourceServlet extends HttpServlet {
     rsp.setContentType(contentType(p.toString()));
 
     OutputStream out = rsp.getOutputStream();
+    GZIPOutputStream gz = null;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader(CONTENT_ENCODING, "gzip");
-      out = new GZIPOutputStream(out);
+      gz = new GZIPOutputStream(out);
+      out = gz;
     }
     Files.copy(p, out);
+    if (gz != null) {
+      gz.finish();
+    }
   }
 
 
@@ -233,17 +246,14 @@ public abstract class ResourceServlet extends HttpServlet {
       @Override
       public Resource call() throws IOException {
         return new Resource(
-            Files.getLastModifiedTime(p),
+            getLastModifiedTime(p),
             contentType(p.toString()),
             Files.readAllBytes(p));
       }
     };
   }
 
-  static class Resource {
-    static final Resource NOT_FOUND =
-        new Resource(FileTime.fromMillis(0), "", new byte[] {});
-
+  class Resource {
     final FileTime lastModified;
     final String contentType;
     final String etag;
@@ -257,11 +267,10 @@ public abstract class ResourceServlet extends HttpServlet {
     }
 
     boolean isStale(Path p) {
-      try {
-        return !lastModified.equals(Files.getLastModifiedTime(p));
-      } catch (IOException e) {
-        return true;
-      }
+      FileTime t = getLastModifiedTime(p);
+      return t.toMillis() == 0
+          || lastModified.toMillis() == 0
+          || !lastModified.equals(t);
     }
   }
 

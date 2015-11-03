@@ -93,7 +93,7 @@ public class HostPageServlet extends HttpServlet {
   private final Document template;
   private final String noCacheName;
   private final boolean refreshHeaderFooter;
-  private final StaticServlet staticServlet;
+  private final SiteStaticDirectoryServlet staticServlet;
   private final boolean isNoteDbEnabled;
   private final Integer pluginsLoadTimeout;
   private final GetDiffPreferences getDiff;
@@ -109,7 +109,7 @@ public class HostPageServlet extends HttpServlet {
       DynamicSet<WebUiPlugin> webUiPlugins,
       DynamicSet<MessageOfTheDay> motd,
       @GerritServerConfig Config cfg,
-      StaticServlet ss,
+      SiteStaticDirectoryServlet ss,
       NotesMigration migration,
       GetDiffPreferences diffPref)
       throws IOException, ServletException {

@@ -75,6 +75,12 @@ public class PushOneCommit {
         ReviewDb db,
         PersonIdent i,
         TestRepository<?> testRepo,
+        @Assisted("changeId") String changeId);
+
+    PushOneCommit create(
+        ReviewDb db,
+        PersonIdent i,
+        TestRepository<?> testRepo,
         @Assisted("subject") String subject,
         @Assisted("fileName") String fileName,
         @Assisted("content") String content);
@@ -132,6 +138,18 @@ public class PushOneCommit {
       @Assisted TestRepository<?> testRepo) throws Exception {
     this(notesFactory, approvalsUtil, queryProvider,
         db, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT);
+  }
+
+  @AssistedInject
+  PushOneCommit(ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider,
+      @Assisted ReviewDb db,
+      @Assisted PersonIdent i,
+      @Assisted TestRepository<?> testRepo,
+      @Assisted("changeId") String changeId) throws Exception {
+    this(notesFactory, approvalsUtil, queryProvider,
+        db, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT, changeId);
   }
 
   @AssistedInject

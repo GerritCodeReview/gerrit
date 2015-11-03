@@ -5,6 +5,7 @@ java_library(
   srcs = ['src/main/java/com/google/gerrit/launcher/GerritLauncher.java'],
   visibility = [
     '//gerrit-acceptance-tests/...',
+    '//gerrit-httpd:',
     '//gerrit-main:main_lib',
     '//gerrit-pgm:',
   ],

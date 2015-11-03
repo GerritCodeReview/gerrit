@@ -86,6 +86,24 @@ public class FileUtil {
     }
   }
 
+  /**
+   * Get the last modified time of a path.
+   * <p>
+   * Equivalent to {@code Files#size(Path)}, except returning -1 on errors,
+   * including file not found. Callers that prefer exceptions can use {@link
+   * Files#size(Path)}.
+   *
+   * @param p path.
+   * @return file size, or -1 for error.
+   */
+  public static long size(Path p) {
+    try {
+      return Files.size(p);
+    } catch (IOException e) {
+      return -1;
+    }
+  }
+
   public static Path mkdirsOrDie(Path p, String errMsg) {
     try {
       Files.createDirectories(p);

@@ -16,7 +16,9 @@ package com.google.gerrit.httpd.raw;
 
 import static com.google.common.net.HttpHeaders.CONTENT_ENCODING;
 import static com.google.common.net.HttpHeaders.ETAG;
+import static com.google.common.net.HttpHeaders.IF_MODIFIED_SINCE;
 import static com.google.common.net.HttpHeaders.IF_NONE_MATCH;
+import static com.google.common.net.HttpHeaders.LAST_MODIFIED;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -27,6 +29,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.hash.Hashing;
+import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -43,6 +46,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -59,6 +63,8 @@ public abstract class ResourceServlet extends HttpServlet {
 
   private static final Logger log =
       LoggerFactory.getLogger(ResourceServlet.class);
+
+  private static final int CACHE_FILE_SIZE_LIMIT_BYTES = 100 << 10;
 
   private static final String JS = "application/x-javascript";
   private static final ImmutableMap<String, String> MIME_TYPES =
@@ -90,7 +96,8 @@ public abstract class ResourceServlet extends HttpServlet {
   private final Cache<Path, Resource> cache;
   private boolean refresh;
 
-  protected ResourceServlet(Cache<Path, Resource> cache, boolean refresh) {
+  protected ResourceServlet(Cache<Path, Resource> cache,
+      boolean refresh) {
     this.cache = cache;
     this.refresh = refresh;
   }
@@ -107,20 +114,45 @@ public abstract class ResourceServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
-    Resource r;
-    try {
-      r = getResource(req);
-    } catch (ExecutionException e) {
-      log.warn(String.format(
-          "Cannot load static resource %s",
-          req.getPathInfo()), e);
-      CacheHeaders.setNotCacheable(rsp);
-      rsp.setStatus(SC_INTERNAL_SERVER_ERROR);
+    String name = CharMatcher.is('/').trimFrom(req.getPathInfo());
+    if (isUnreasonableName(name)) {
+      notFound(rsp);
+      return;
+    }
+    Path p = getResourcePath(name);
+    if (p == null) {
+      notFound(rsp);
+      return;
+    }
+
+    Resource r = cache.getIfPresent(p);
+    if (r == null && maybeStream(p, req, rsp)) {
+      return;
+    }
+
+    if (r == null) {
+      Callable<Resource> loader = newLoader(p);
+      try {
+        r = cache.get(p, loader);
+        if (refresh && r.isStale(p)) {
+          cache.invalidate(p);
+          r = cache.get(p, loader);
+        }
+      } catch (ExecutionException e) {
+        log.warn("Cannot load static resource " + req.getPathInfo(), e);
+        CacheHeaders.setNotCacheable(rsp);
+        rsp.setStatus(SC_INTERNAL_SERVER_ERROR);
+        return;
+      }
+    }
+
+    if (r == Resource.NOT_FOUND) {
+      notFound(rsp);
       return;
     }
 
     String e = req.getParameter("e");
-    if (r == Resource.NOT_FOUND || (e != null && !r.etag.equals(e))) {
+    if (e != null && !r.etag.equals(e)) {
       CacheHeaders.setNotCacheable(rsp);
       rsp.setStatus(SC_NOT_FOUND);
       return;
@@ -156,36 +188,68 @@ public abstract class ResourceServlet extends HttpServlet {
   Resource getResource(String name) {
     try {
       Path p = getResourcePath(name);
-      return cache.get(p, newLoader(name, p));
+      return cache.get(p, newLoader(p));
     } catch (ExecutionException e) {
       log.warn(String.format("Cannot load static resource %s", name), e);
       return null;
     }
   }
 
-  private Resource getResource(HttpServletRequest req)
-      throws ExecutionException {
-    String name = CharMatcher.is('/').trimFrom(req.getPathInfo());
-    if (isUnreasonableName(name)) {
-      return Resource.NOT_FOUND;
-    }
-    Path p = getResourcePath(name);
-    if (p == null) {
-      return Resource.NOT_FOUND;
-    }
-
-    Callable<Resource> loader = newLoader(name, p);
-    Resource r = cache.get(p, loader);
-    if (r == Resource.NOT_FOUND) {
-      return Resource.NOT_FOUND;
-    }
-
-    if (refresh && r.isStale(p)) {
-      cache.invalidate(p);
-      r = cache.get(p, loader);
-    }
-    return r;
+  private static void notFound(HttpServletResponse rsp) {
+    rsp.setStatus(SC_NOT_FOUND);
+    CacheHeaders.setNotCacheable(rsp);
   }
+
+  /**
+   * Maybe stream a path to the response, depending on the properties of the
+   * file and cache headers in the request.
+   *
+   * @param p path to stream
+   * @param req HTTP request.
+   * @param rsp HTTP response.
+   * @return true if the response was written (either the file contents or an
+   *     error); false if the path is too small to stream and should be cached.
+   */
+  private boolean maybeStream(Path p, HttpServletRequest req,
+      HttpServletResponse rsp) throws IOException {
+    try {
+      if (Files.size(p) < CACHE_FILE_SIZE_LIMIT_BYTES) {
+        return false;
+      }
+    } catch (FileNotFoundException e) {
+      cache.put(p, Resource.NOT_FOUND);
+      notFound(rsp);
+      return true;
+    }
+
+    long lastModified = FileUtil.lastModified(p);
+    if (req.getDateHeader(IF_MODIFIED_SINCE) >= lastModified) {
+      rsp.setStatus(SC_NOT_MODIFIED);
+      return true;
+    }
+
+    if (lastModified > 0) {
+      rsp.setDateHeader(LAST_MODIFIED, lastModified);
+    }
+    if (!CacheHeaders.hasCacheHeader(rsp)) {
+      CacheHeaders.setCacheable(req, rsp, 15, MINUTES, refresh);
+    }
+    rsp.setContentType(contentType(p.toString()));
+
+    OutputStream out = rsp.getOutputStream();
+    GZIPOutputStream gz = null;
+    if (RPCServletUtils.acceptsGzipEncoding(req)) {
+      rsp.setHeader(CONTENT_ENCODING, "gzip");
+      gz = new GZIPOutputStream(out);
+      out = gz;
+    }
+    Files.copy(p, out);
+    if (gz != null) {
+      gz.finish();
+    }
+    return true;
+  }
+
 
   private static boolean isUnreasonableName(String name) {
     return name.length() < 1
@@ -196,7 +260,7 @@ public abstract class ResourceServlet extends HttpServlet {
       || name.contains("//"); // windows UNC path can be "//..."
   }
 
-  private Callable<Resource> newLoader(final String name, final Path p) {
+  private Callable<Resource> newLoader(final Path p) {
     return new Callable<Resource>() {
       @Override
       public Resource call() throws IOException {

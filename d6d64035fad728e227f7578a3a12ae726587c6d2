@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9659fa47_281c2ba6",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-03T19:39:04Z",
+      "side": 1,
+      "message": "long lines",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 91
+      },
+      "revId": "d6d64035fad728e227f7578a3a12ae726587c6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9659fa47_e835f31c",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-03T19:39:04Z",
+      "side": 1,
+      "message": "Eclipse is complaining about the missing serialVersionUID.",
+      "range": {
+        "startLine": 134,
+        "startChar": 44,
+        "endLine": 134,
+        "endChar": 63
+      },
+      "revId": "d6d64035fad728e227f7578a3a12ae726587c6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9659fa47_082167de",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-03T19:39:04Z",
+      "side": 1,
+      "message": "Remove type argument otherwise Eclipse is complaining about \"Redundant specification of type argument \u003cString, String\u003e\"",
+      "range": {
+        "startLine": 559,
+        "startChar": 45,
+        "endLine": 559,
+        "endChar": 59
+      },
+      "revId": "d6d64035fad728e227f7578a3a12ae726587c6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

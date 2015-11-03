@@ -138,10 +138,12 @@ public abstract class ResourceServlet extends HttpServlet {
         tosend = gz;
       }
     }
-    if (e != null && r.etag.equals(e)) {
-      CacheHeaders.setCacheable(req, rsp, 360, DAYS, false);
-    } else {
-      CacheHeaders.setCacheable(req, rsp, 15, MINUTES, refresh);
+    if (!CacheHeaders.hasCacheHeader(rsp)) {
+      if (e != null && r.etag.equals(e)) {
+        CacheHeaders.setCacheable(req, rsp, 360, DAYS, false);
+      } else {
+        CacheHeaders.setCacheable(req, rsp, 15, MINUTES, refresh);
+      }
     }
     rsp.setHeader(ETAG, r.etag);
     rsp.setContentType(r.contentType);

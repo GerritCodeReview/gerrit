@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5677820e_86b2ca0a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-04T21:05:13Z",
+      "side": 1,
+      "message": "Thanks fo fixing it, you were faster than me: [1] ;-)\n\n* [1] https://gerrit-review.googlesource.com/72047",
+      "revId": "42861a8a47d1e3c6fd157210d96e664020bf83eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

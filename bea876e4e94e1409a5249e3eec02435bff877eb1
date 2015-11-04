@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d698d291_c2a8629f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-04T21:05:13Z",
+      "side": 0,
+      "message": "This cannot be null, because user must be logged in to change diff preferences. During the login, diff prefs are fetched. OTOH it doesn\u0027t hurt to create a new instance here, as in copyTo() all values are copied anyway.",
+      "range": {
+        "startLine": 506,
+        "startChar": 32,
+        "endLine": 506,
+        "endChar": 60
+      },
+      "revId": "bea876e4e94e1409a5249e3eec02435bff877eb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

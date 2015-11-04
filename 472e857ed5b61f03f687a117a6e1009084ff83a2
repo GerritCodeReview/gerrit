@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56e062e0_5ea9759f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-04T06:55:40Z",
+      "side": 1,
+      "message": "* link:http://code.google.com/p/gerrit/issues/detail?id\u003d3291[Issue 3291]:\nAdd `has:edit` search operator to match changes that have change edits on them.",
+      "revId": "472e857ed5b61f03f687a117a6e1009084ff83a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56e062e0_7eae31aa",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-04T06:55:40Z",
+      "side": 1,
+      "message": "Add \"Edits\" to My dashboard menu: [1].\n\n* https://gerrit-review.googlesource.com/67581",
+      "revId": "472e857ed5b61f03f687a117a6e1009084ff83a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

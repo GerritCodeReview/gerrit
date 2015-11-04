@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "56e062e0_feb961ee",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-04T07:17:05Z",
+      "side": 1,
+      "message": "Ah, yes, we have get(changeId) and info(changeId), I always forget what method do what, but one only retrieve minimal information, but allow you to pass in additiona options (liek REVISIONS) and another method would always fill everything by passing ALL options. Then you can check the revision.",
+      "parentUuid": "d627f2f2_2aed7fe7",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 18
+      },
+      "revId": "4a9905c919161dce52b698990bc925499b5c20fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b62a7ebd_69c02550",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1

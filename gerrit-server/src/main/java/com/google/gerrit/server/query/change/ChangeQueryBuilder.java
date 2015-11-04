@@ -426,6 +426,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new IsMergeablePredicate(args.fillArgs);
     }
 
+    if ("merge".equalsIgnoreCase(value)) {
+      return new IsMergePredicate(args.fillArgs);
+    }
+
     try {
       return status(value);
     } catch (IllegalArgumentException e) {

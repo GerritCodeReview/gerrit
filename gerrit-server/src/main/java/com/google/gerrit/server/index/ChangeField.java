@@ -581,6 +581,21 @@ public class ChangeField {
         }
       };
 
+  /** Whether the change is a merge commit. */
+  public static final FieldDef<ChangeData, String> MERGE =
+      new FieldDef.Single<ChangeData, String>(
+          "merge", FieldType.EXACT, true) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Boolean m = input.isMerge();
+          if (m == null) {
+            return null;
+          }
+          return m ? "1" : "0";
+        }
+      };
+
   /** The number of inserted lines in this change. */
   public static final FieldDef<ChangeData, Integer> ADDED =
       new FieldDef.Single<ChangeData, Integer>(

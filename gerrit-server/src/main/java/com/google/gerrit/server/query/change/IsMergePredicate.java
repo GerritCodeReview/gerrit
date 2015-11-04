@@ -14,42 +14,26 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.query.OperatorPredicate;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
+public class IsMergePredicate extends IndexPredicate<ChangeData> {
+  private final FillArgs args;
 
-import java.io.IOException;
-
-public class IsMergePredicate extends OperatorPredicate<ChangeData> {
-  private final Arguments args;
-
-  public IsMergePredicate(Arguments args, String value) {
-    super(ChangeQueryBuilder.FIELD_MERGE, value);
+  public IsMergePredicate(FillArgs args) {
+    super(ChangeField.MERGE, "1");
     this.args = args;
   }
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    ObjectId id = ObjectId.fromString(
-        cd.currentPatchSet().getRevision().get());
-    try (Repository repo =
-          args.repoManager.openRepository(cd.change().getProject());
-        RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-      RevCommit commit = rw.parseCommit(id);
-      return commit.getParentCount() > 1;
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
+    return getValue().equals(getField().get(cd, args));
   }
 
   @Override
   public int getCost() {
-    return 2;
+    return 1;
   }
 }

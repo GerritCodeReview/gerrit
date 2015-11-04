@@ -16,6 +16,24 @@
       "revId": "2ef8bac2b7fbd7715ed7b1d8f4ffe962a111c487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_24a4b2c8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-04T20:41:21Z",
+      "side": 1,
+      "message": "Line 132...I couldn\u0027t tell you why, though.",
+      "parentUuid": "96a49abb_f35a6a5d",
+      "revId": "2ef8bac2b7fbd7715ed7b1d8f4ffe962a111c487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

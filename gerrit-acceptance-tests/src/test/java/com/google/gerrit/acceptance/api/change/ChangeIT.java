@@ -52,6 +52,8 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -171,9 +173,55 @@ public class ChangeIT extends AbstractDaemonTest {
         .revert();
   }
 
+  @Test
+  public void rebase() throws Exception {
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Approve and submit the first change
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(ReviewInput.approve());
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .submit();
+
+    // Rebase the second change
+    String rev = r2.getCommit().name();
+    gApi.changes()
+        .id(r2.getChangeId())
+        .revision(rev)
+        .rebase();
+
+    // Approve and submit the second change
+    gApi.changes()
+        .id(r2.getChangeId())
+        .current()
+        .review(ReviewInput.approve());
+
+    gApi.changes()
+        .id(r2.getChangeId())
+        .current()
+        .submit();
+
+    // Second change should have 2 patch sets
+    assertThat(r2.getPatchSetId().get()).isEqualTo(2);
+
+    // ...and the committer should be correct
+    RevCommit tip = getRemoteLog().get(0);
+    PersonIdent committer = tip.getCommitterIdent();
+    assertThat(committer.getName()).isEqualTo(admin.fullName);
+    assertThat(committer.getEmailAddress()).isEqualTo(admin.email);
+  }
+
   // Change is already up to date
   @Test(expected = ResourceConflictException.class)
-  public void rebase() throws Exception {
+  public void rebaseUpToDateChange() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(r.getChangeId())

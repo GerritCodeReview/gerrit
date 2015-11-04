@@ -1,0 +1,129 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="gr-file-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .tableContainer {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      table a {
+        display: block;
+      }
+      td {
+        padding: 2px 0;
+        white-space: nowrap;
+      }
+      th {
+        text-align: left;
+      }
+      .status {
+        width: 20px;
+      }
+    </style>
+    <iron-ajax id="xhr"
+        url="[[_computeFilesURL(changeNum, revision)]]"
+        json-prefix=")]}'"
+        on-response="_handleResponse"
+        debounce-duration="300"></iron-ajax>
+    <div class="tableContainer">
+      <table>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>Path</th>
+          <th>Stats</th>
+        </tr>
+        <template is="dom-repeat" items="{{files}}" as="file">
+          <tr>
+            <td></td>
+            <td class="status">[[file.status]]</td>
+            <td class="path">
+              <a class="file"
+                 href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">[[file.__path]]</a>
+            </td>
+            <td>
+              +<span>[[file.lines_inserted]]</span> lines,
+              -<span>[[file.lines_deleted]]</span> lines
+            </td>
+          </tr>
+        </template>
+      </table>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-file-list',
+
+      properties: {
+        patchNum: Number,
+        changeNum: {
+          type: Number,
+          observer: '_changeNumOrRevisionChanged',
+        },
+        revision: {
+          type: String,
+          observer: '_changeNumOrRevisionChanged',
+        },
+        comments: {
+          type: Array,
+          value: [],
+        },
+      },
+
+      _changeNumOrRevisionChanged: function() {
+        if (!!this.changeNum && !!this.revision) {
+          this.$.xhr.generateRequest();
+        }
+      },
+
+      _computeFilesURL: function(changeNum, revision) {
+        return '/changes/' + changeNum + '/revisions/' + revision + '/files';
+      },
+
+      _handleResponse: function(e, req) {
+        var result = e.detail.response;
+        var paths = Object.keys(result).sort();
+        var files = [];
+        for (var i = 0; i < paths.length; i++) {
+          var info = result[paths[i]];
+          info.__path = paths[i];
+          info.lines_inserted = info.lines_inserted || 0;
+          info.lines_deleted = info.lines_deleted || 0;
+          files.push(info)
+        }
+        this.files = files;
+      },
+
+      _computeDiffURL: function(changeNum, patchNum, path) {
+        return '/c/' + changeNum + '/' + patchNum + '/' + path;
+      },
+    });
+  })();
+  </script>
+</dom-module>

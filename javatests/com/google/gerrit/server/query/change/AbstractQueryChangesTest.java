@@ -2125,6 +2125,29 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void merge() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.MERGE)).isTrue();
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().add("file1", "contents1").create());
+    RevCommit commit2 = repo.parseBody(repo.commit().add("file1", "contents2").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    RevCommit mergeCommit =
+        repo.branch("master")
+            .commit()
+            .message("Merge commit")
+            .parent(commit1)
+            .parent(commit2)
+            .insertChangeId()
+            .create();
+    Change mergeChange = insert(repo, newChangeForCommit(repo, mergeCommit));
+
+    assertQuery("status:open is:merge", mergeChange);
+    assertQuery("status:open -is:merge", change2, change1);
+    assertQuery("status:open", mergeChange, change2, change1);
+  }
+
+  @Test
   public void reviewedBy() throws Exception {
     resetTimeWithClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");

@@ -1,0 +1,208 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="./gr-date-formatter.html">
+
+<dom-module id="gr-message">
+  <template>
+    <style>
+      :host {
+        border-top: 1px solid #ddd;
+        display: block;
+        position: relative;
+      }
+      :host:not([expanded]) {
+        cursor: pointer;
+      }
+      .avatar {
+        border-radius: 50%;
+      }
+      .collapsed .contentContainer {
+        padding: 10px;
+        padding-right: 60px;
+        white-space: nowrap;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+      }
+      .expanded .contentContainer {
+        padding: 7px 0 10px;
+      }
+      .expanded .contentContainer {
+        margin-left: 45px;
+      }
+      .collapsed .contentContainer {
+        color: #777;
+        margin-left: 35px;
+      }
+      .avatar {
+        position: absolute;
+        left: 0;
+      }
+      .collapsed .avatar {
+        top: 8px;
+      }
+      .expanded .avatar {
+        top: 10px;
+      }
+      .collapsed .avatar {
+        height: 25px;
+        width: 25px;
+      }
+      .expanded .avatar {
+        height: 35px;
+        width: 35px;
+      }
+      .name {
+        font-weight: bold;
+      }
+      .collapsed .name,
+      .collapsed .content,
+      .collapsed .message {
+        display: inline;
+      }
+      .collapsed .comments {
+        display: none;
+      }
+      .collapsed .name,
+      .collapsed gr-date-formatter {
+        color: #000;
+      }
+      .expanded .name {
+        cursor: pointer;
+      }
+      .expanded .message,
+      .expanded .commentMessage {
+        white-space: pre-wrap;
+      }
+      gr-date-formatter {
+        position: absolute;
+        right: 0;
+        top: 10px;
+      }
+      .file {
+        border-top: 1px solid #ddd;
+        font-weight: bold;
+        margin: 10px 0 3px;
+        padding: 10px 0 5px;
+      }
+      .commentContainer {
+        display: flex;
+        margin: 5px 0;
+      }
+      .lineNum {
+        margin-right: 10px;
+        min-width: 75px;
+      }
+      .commentMessage {
+        flex: 1;
+      }
+    </style>
+    <div class$="[[_computeClass(expanded)]]">
+      <img class="avatar" src$="[[_computeAvatarURL(message.author)]]">
+      <div class="contentContainer">
+        <div class="name" id="name">[[message.author.name]]</div>
+        <div class="content">
+          <div class="message">[[message.message]]</div>
+          <div class="comments">
+            <template is="dom-repeat" items="{{files}}" as="file">
+              <div class="file">
+                <a href$="[[_computeFileDiffURL(file, changeNum, message._revision_number)]]">[[file]]</a>:
+              </div>
+              <template is="dom-repeat"
+                        items="[[_computeCommentsForFile(file)]]" as="comment">
+                <div class="commentContainer">
+                  <a class="lineNum"
+                     href$="[[_computeDiffLineURL(file, changeNum, message._revision_number, comment.line)]]">
+                       Line <span>[[comment.line]]</span>:
+                  </a>
+                  <div class="commentMessage">[[comment.message]]</div>
+                </div>
+              </template>
+            </template>
+          </div>
+        </div>
+        <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
+      </div>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-message',
+
+      listeners: {
+        'tap': '_tapHandler',
+        'name.tap': '_collapseHandler',
+      },
+
+      properties: {
+        changeNum: Number,
+        message: Object,
+        comments: {
+          type: Object,
+          observer: '_commentsChanged',
+        },
+        expanded: {
+          type: Boolean,
+          value: true,
+          reflectToAttribute: true,
+        },
+      },
+
+      _commentsChanged: function(value) {
+        this.files = Object.keys(value || {}).sort();
+        this.expanded = this.files.length > 0;
+      },
+
+      _computeFileDiffURL: function(file, changeNum, patchNum) {
+        return '/c/' + changeNum + '/' + patchNum + '/' + file;
+      },
+
+      _computeDiffLineURL: function(file, changeNum, patchNum, line) {
+        return this._computeFileDiffURL(file, changeNum, patchNum) + '@' + line;
+      },
+
+      _computeCommentsForFile: function(file) {
+        return this.comments[file];
+      },
+
+      _tapHandler: function(e) {
+        if (this.expanded) { return; }
+        this.expanded = true;
+      },
+
+      _collapseHandler: function(e) {
+        if (!this.expanded) { return; }
+        e.stopPropagation();
+        this.expanded = false;
+      },
+
+      _computeClass: function(expanded) {
+        return expanded ? 'expanded' : 'collapsed';
+      },
+
+      _computeAvatarURL: function(author) {
+        if (!author) { return '' }
+        return '/accounts/' + author.email + '/avatar?s=100';
+      },
+
+    });
+  })();
+  </script>
+</dom-module>

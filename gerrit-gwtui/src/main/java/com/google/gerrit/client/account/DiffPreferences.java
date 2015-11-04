@@ -22,6 +22,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class DiffPreferences extends JavaScriptObject {
   public static DiffPreferences create(DiffPreferencesInfo in) {
     DiffPreferences p = createObject().cast();
+    if (in == null) {
+      in = DiffPreferencesInfo.defaults();
+    }
     p.ignoreWhitespace(in.ignoreWhitespace);
     p.tabSize(in.tabSize);
     p.lineLength(in.lineLength);

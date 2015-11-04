@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.httpd.GerritOptions;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.cache.CacheModule;
@@ -36,13 +37,16 @@ import javax.servlet.http.HttpServlet;
 
 public class StaticModule extends ServletModule {
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
+  private static final String BOWER_SERVLET = "BowerServlet";
   static final String CACHE = "static_content";
 
+  private final GerritOptions options;
   private final FileSystem warFs;
   private final Path buckOut;
   private final Path unpackedWar;
 
-  public StaticModule() {
+  public StaticModule(GerritOptions options) {
+    this.options = options;
     warFs = getDistributionArchive();
     if (warFs == null) {
       buckOut = getDeveloperBuckOut();
@@ -56,7 +60,6 @@ public class StaticModule extends ServletModule {
   @Override
   protected void configureServlets() {
     serve("/static/*").with(SiteStaticDirectoryServlet.class);
-    serveGwtUi();
     install(new CacheModule() {
       @Override
       protected void configure() {
@@ -65,6 +68,11 @@ public class StaticModule extends ServletModule {
             .weigher(ResourceServlet.Weigher.class);
       }
     });
+    if (options.enablePolyGerrit()) {
+      servePolyGerritUi();
+    } else if (options.enableDefaultUi()) {
+      serveGwtUi();
+    }
   }
 
   private void serveGwtUi() {
@@ -73,6 +81,26 @@ public class StaticModule extends ServletModule {
     if (warFs == null && buckOut != null) {
       filter("/").through(new RecompileGwtUiFilter(buckOut, unpackedWar));
     }
+  }
+
+  private void servePolyGerritUi() {
+    serve("/").with(PolyGerritUiIndexServlet.class);
+    serve("/c/*").with(PolyGerritUiIndexServlet.class);
+    serve("/q/*").with(PolyGerritUiIndexServlet.class);
+    serve("/x/*").with(PolyGerritUiIndexServlet.class);
+    serve("/admin/*").with(PolyGerritUiIndexServlet.class);
+    serve("/dashboard/*").with(PolyGerritUiIndexServlet.class);
+    serve("/groups/*").with(PolyGerritUiIndexServlet.class);
+    // TODO(dborowitz): These fragments conflict with the REST API namespace, so
+    // they will need to use a different path.
+    //serve("/groups/*").with(PolyGerritUiIndexServlet.class);
+    //serve("/projects/*").with(PolyGerritUiIndexServlet.class);
+
+    if (warFs == null) {
+      serve("/bower_components/*")
+          .with(Key.get(PolyGerritUiServlet.class, Names.named(BOWER_SERVLET)));
+    }
+    serve("/*").with(PolyGerritUiServlet.class);
   }
 
   @Provides
@@ -85,6 +113,35 @@ public class StaticModule extends ServletModule {
     } else {
       return new DeveloperGwtUiServlet(cache, unpackedWar);
     }
+  }
+
+  @Provides
+  @Singleton
+  PolyGerritUiIndexServlet getPolyGerritUiIndexServlet(
+      @Named(CACHE) Cache<Path, Resource> cache) {
+    return new PolyGerritUiIndexServlet(cache, polyGerritBasePath());
+  }
+
+  @Provides
+  @Singleton
+  PolyGerritUiServlet getPolyGerritUiServlet(
+      @Named(CACHE) Cache<Path, Resource> cache) {
+    return new PolyGerritUiServlet(cache, polyGerritBasePath());
+  }
+
+  @Provides
+  @Singleton
+  @Named(BOWER_SERVLET)
+  PolyGerritUiServlet getPolyGerritUiBowerServlet(
+      @Named(CACHE) Cache<Path, Resource> cache) {
+    return new PolyGerritUiServlet(cache,
+        polyGerritBasePath().resolveSibling("bower_components"));
+  }
+
+  private Path polyGerritBasePath() {
+    return warFs != null
+        ? warFs.getPath("/polygerrit_ui")
+        : buckOut.getParent().resolve("polygerrit-ui").resolve("app");
   }
 
   private static FileSystem getDistributionArchive() {

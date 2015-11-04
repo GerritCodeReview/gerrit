@@ -1,0 +1,116 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="./gr-change-list-view.html">
+<link rel="import" href="./gr-change-view.html">
+<link rel="import" href="./gr-diff-view.html">
+<link rel="import" href="./gr-search-bar.html">
+
+<dom-module id="gr-app">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+      :host[constrained] main {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 980px;
+      }
+      header,
+      footer {
+        background-color: #eee;
+        padding: 20px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+      }
+      main {
+        flex: 1;
+        padding: 20px 0;
+      }
+      .bigTitle {
+        color: #000;
+        font-size: 24px;
+        text-decoration: none;
+      }
+      .bigTitle:hover {
+        text-decoration: underline;
+      }
+      .searchContainer {
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+      }
+      gr-search-bar {
+        width: 500px;
+      }
+    </style>
+    <header role="banner">
+      <a href="/" class="bigTitle">PolyGerrit</a>
+      <div class="searchContainer">
+        <gr-search-bar value="[[params.query]]" role="search"></gr-search-bar>
+      </div>
+    </header>
+    <main>
+      <template is="dom-if" if="{{_showChangeList}}">
+        <gr-change-list-view params="[[params]]"></gr-change-list-view>
+      </template>
+      <template is="dom-if" if="{{_showChangeView}}" restamp="true">
+        <gr-change-view params="[[params]]"></gr-change-view>
+      </template>
+      <template is="dom-if" if="{{_showDiffView}}" restamp="true">
+        <gr-diff-view params="[[params]]"></gr-diff-view>
+      </template>
+    </main>
+    <footer role="contentinfo">Powered by PolyGerrit</footer>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-app',
+
+      properties: {
+        constrained: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        params: Object,
+        route: {
+          type: Object,
+          value: {},
+          observer: '_routeChanged',
+        }
+      },
+
+      _routeChanged: function(route) {
+        this.set('_showChangeList', route == 'gr-change-list');
+        this.set('_showChangeView', route == 'gr-change-view');
+        this.set('_showDiffView', route == 'gr-diff-view');
+        this.constrained = route == 'gr-change-view';
+      },
+
+    });
+  })();
+  </script>
+</dom-module>

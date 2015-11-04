@@ -15,8 +15,8 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.Theme;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.extensions.client.Theme;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class DiffPreferences extends JavaScriptObject {

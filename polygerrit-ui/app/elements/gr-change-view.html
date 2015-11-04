@@ -1,0 +1,195 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="./gr-date-formatter.html">
+<link rel="import" href="./gr-file-list.html">
+<link rel="import" href="./gr-messages-list.html">
+
+<dom-module id="gr-change-view">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .container {
+        margin: 0 20px;
+      }
+      .changeInfo,
+      .summary {
+        margin: 10px 0;
+        padding: 10px 0;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      td {
+        padding: 2px 5px;
+        vertical-align: top;
+      }
+      .changeInfo-label {
+        font-weight: bold;
+        text-align: right;
+      }
+      .summary {
+        font-family: 'Source Code Pro', Menlo, 'Lucida Console', Monaco, monospace;
+        margin: 10px 0;
+        overflow-x: auto;
+        padding: 10px 0;
+        white-space: pre-wrap;
+      }
+      .summary {
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+      }
+    </style>
+    <iron-ajax id="detailXHR"
+        url="[[_computeDetailPath(changeNum)]]"
+        params="[[_computeDetailQueryParams()]]"
+        json-prefix=")]}'"
+        last-response="{{change}}"
+        debounce-duration="300"></iron-ajax>
+    <iron-ajax id="commentsXHR"
+        url="[[_computeCommentsPath(changeNum)]]"
+        json-prefix=")]}'"
+        last-response="{{comments}}"
+        debounce-duration="300"></iron-ajax>
+
+    <div class="container">
+      <h2>[[change.subject]]</h2>
+      <div class="changeInfo">
+        <table>
+          <tr>
+            <td class="changeInfo-label">Owner</td>
+            <td>[[change.owner.name]]</td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Reviewers</td>
+            <td>
+              <template is="dom-repeat"
+                        items="[[_computeReviewers(change.labels.Code-Review.all, change.owner)]]"
+                        as="reviewer">
+                <div>[[reviewer.name]]</div>
+              </template>
+            </td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Project</td>
+            <td>[[change.project]]</td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Branch</td>
+            <td>[[change.branch]]</td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Topic</td>
+            <td>[[change.topic]]</td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Strategy</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Updated</td>
+            <td>
+              <gr-date-formatter
+                  date-str="[[change.updated]]"></gr-date-formatter>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="summary">[[_computeCurrentRevisionMessage(change)]]</div>
+      <gr-file-list change-num="[[changeNum]]"
+                    patch-num="[[_computePatchNum(change.current_revision)]]"
+                    revision="[[change.current_revision]]"
+                    comments="[[comments]]"></gr-file-list>
+      <gr-messages-list change-num="[[changeNum]]"
+                        messages="[[change.messages]]"
+                        comments="[[comments]]"></gr-messages-list>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-change-view',
+
+      properties: {
+        /**
+         * URL params passed from the router.
+         */
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
+
+        changeNum: Number,
+      },
+
+      _paramsChanged: function(value) {
+        this.changeNum = value.changeNum;
+        if (!this.changeNum) {
+          this.change = null;
+          this.comments = null;
+          return;
+        }
+        this.$.detailXHR.generateRequest();
+        this.$.commentsXHR.generateRequest();
+      },
+
+      _computeDetailPath: function(changeNum) {
+        return '/changes/' + changeNum + '/detail';
+      },
+
+      _computeCommitInfoPath: function(changeNum, commitHash) {
+        return '/changes/' + changeNum + '/revisions/' + commitHash + '/commit';
+      },
+
+      _computeCommentsPath: function(changeNum) {
+        return '/changes/' + changeNum + '/comments';
+      },
+
+      _computePatchNum: function(revision) {
+        return this.change && this.change.revisions[revision]._number;
+      },
+
+      _computeDetailQueryParams: function() {
+        var options = Changes.listChangesOptionsToHex(
+            Changes.ListChangesOption.CURRENT_REVISION,
+            Changes.ListChangesOption.CURRENT_COMMIT,
+            Changes.ListChangesOption.CHANGE_ACTIONS
+        );
+        return { O: options };
+      },
+
+      _computeCurrentRevisionMessage: function(change) {
+        return change &&
+            change.revisions[change.current_revision].commit.message;
+      },
+
+      _computeReviewers: function(reviewers, owner) {
+        if (reviewers.length == 1) { return reviewers; }
+        return reviewers.filter(function(reviewer) {
+          return reviewer._account_id != owner._account_id;
+        });
+      },
+
+    });
+  })();
+  </script>
+</dom-module>

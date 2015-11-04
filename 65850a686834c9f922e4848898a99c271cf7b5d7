@@ -949,6 +949,30 @@
       "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6019e3f_71c01850",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-04T08:56:53Z",
+      "side": 1,
+      "message": "| Regarding using a multiude of OAuth login providers: Agree, but I have no idea on which basis the OAuthRealm should dispatch.\n\nIf we don\u0027t have any basis to dispatch on, then we have to dispatch in arbitrary order of OauthLogin providers. So the way to go would be:\n\n* 1 bind DynamicSet:\n\n  DynamicSet.setOf(binder(), OAuthLoginService.class);\n\n* 2 check that at least one was provided, when gitBasicAuth\u003dtrue.\n\n* 3 iterate over all providers in OAuthRealm in arbitrary order and try to authenticate the user. When all providers were tried, and all returned error: then authentication is failed:\n\n  DynamicSet\u003cOAuthLoginService\u003e gitOverHttpLoginProvider;\n  for (OuthLoginProvider p : gitOverHttpLoginProvider) {\n    try {\n      if (p.login(usr, pwd)) {\n        return true;\n      }\n    } catch (IOException e) {\n      // ignore, we may have more luck with another provider...\n    }\n  }\n  throw new AccountException(\"cannot authenticate\");",
+      "parentUuid": "f62eb68f_eb8611ca",
+      "range": {
+        "startLine": 297,
+        "startChar": 4,
+        "endLine": 297,
+        "endChar": 58
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

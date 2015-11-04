@@ -1,0 +1,273 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="gr-diff-view">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .diffContainer {
+        display: flex;
+        font-family: 'Source Code Pro', monospace;
+        white-space: pre;
+      }
+      .diffNumbers {
+        border-right: 1px solid #eee;
+        color: #aaa;
+        padding: 0 10px;
+        text-align: right;
+      }
+      .diffContent {
+        padding-left: 2px;
+      }
+      .lineNum {
+        cursor: pointer;
+      }
+      .lineNum:hover {
+        text-decoration: underline;
+      }
+      .lightRed {
+        background-color: #fee;
+      }
+      .darkRed,
+      .delete span {
+        background-color: #faa;
+      }
+      .lightGreen {
+        background-color: #efe;
+      }
+      .darkGreen,
+      .insert span {
+        background-color: #9f9;
+      }
+    </style>
+    <iron-ajax id="changeDetailXHR"
+        auto
+        url="[[_computeChangeDetailPath(_changeNum)]]"
+        params="[[_computeChangeDetailQueryParams()]]"
+        json-prefix=")]}'"
+        last-response="{{_change}}"
+        debounce-duration="300"></iron-ajax>
+    <iron-ajax
+        id="diffXHR"
+        url="[[_computeDiffPath(_changeNum, _patchNum, _path)]]"
+        json-prefix=")]}'"
+        on-response="_handleDiffResponse"
+        debounce-duration="300"></iron-ajax>
+    <div class="diffContainer" id="diffContainer">
+      <div class="diffNumbers" id="leftDiffNumbers"></div>
+      <div class="diffContent" id="leftDiffContent"></div>
+      <div class="diffNumbers" id="rightDiffNumbers"></div>
+      <div class="diffContent" id="rightDiffContent"></div>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-diff-view',
+
+      properties: {
+        /**
+         * URL params passed from the router.
+         */
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
+        _change: Object,
+        _changeNum: String,
+        _basePatchNum: String,
+        _patchNum: String,
+        _path: String,
+      },
+
+      _paramsChanged: function(value) {
+        console.log(value)
+        this._changeNum = value.changeNum;
+        this._patchNum = value.patchNum;
+        this._basePatchNum = value.basePatchNum;
+        this._path = value.path;
+        console.log(this._basePatchNum);
+        if (!this._changeNum) {
+          this._change = null;
+          this._basePatchNum = null;
+          this._patchNum = null;
+          this._path = null;
+          return;
+        }
+        // Assign the params here since a computed binding relying on
+        // `_basePatchNum` won’t fire in the case where it’s not defined.
+        this.$.diffXHR.params = this._diffQueryParams();
+        this.$.diffXHR.generateRequest();
+      },
+
+      _computeChangeDetailPath: function(changeNum) {
+        return '/changes/' + changeNum + '/detail';
+      },
+
+      _computeChangeDetailQueryParams: function() {
+        var options = Changes.listChangesOptionsToHex(
+            Changes.ListChangesOption.ALL_REVISIONS
+        );
+        return { O: options };
+      },
+
+      _computeDiffPath: function(changeNum, patchNum, path) {
+        return '/changes/' + changeNum + '/revisions/' + patchNum + '/files/' +
+            encodeURIComponent(path) + '/diff';
+      },
+
+      _diffQueryParams: function(basePatchNum) {
+        var params =  {
+          context: 'ALL',
+          intraline: null
+        };
+        if (!!basePatchNum) {
+          params.base = basePatchNum;
+        }
+        return params;
+      },
+
+      _handleDiffResponse: function(e, req) {
+        var diff = e.detail.response;
+        this._constructDOM(diff);
+      },
+
+      _constructDOM: function(diff) {
+        if (!diff.content) { return; }
+
+        var leftLineNum = 0 + (diff.content.skip || 0);
+        var rightLineNum = leftLineNum;
+        for (var i = 0; i < diff.content.length; i++) {
+          var diffChunk = diff.content[i];
+          if (diffChunk.ab) {
+            for (var j = 0; j < diffChunk.ab.length; j++) {
+              this._addRow(++leftLineNum, ++rightLineNum, diffChunk.ab[j],
+                  diffChunk.ab[j]);
+            }
+            continue;
+          }
+          if (diffChunk.a || diffChunk.b) {
+            var aLen = (diffChunk.a && diffChunk.a.length) || 0;
+            var bLen = (diffChunk.b && diffChunk.b.length) || 0;
+            var maxLen = Math.max(aLen, bLen);
+            for (var j = 0; j < maxLen; j++) {
+              var leftContent;
+              if (diffChunk.a && j < diffChunk.a.length) {
+                leftContent = diffChunk.a[j];
+                leftLineNum++;
+              }
+              var rightContent;
+              if (diffChunk.b && j < diffChunk.b.length) {
+                rightContent = diffChunk.b[j];
+                rightLineNum++;
+              }
+              var leftHighlight;
+              if (diffChunk.edit_a && j < diffChunk.edit_a.length) {
+                leftHighlight = diffChunk.edit_a[j];
+              }
+              var rightHighlight;
+              if (diffChunk.edit_b && j < diffChunk.edit_b.length) {
+                rightHighlight = diffChunk.edit_b[j];
+              }
+              this._addRow(leftLineNum,
+                           rightLineNum,
+                           leftContent,
+                           rightContent,
+                           leftHighlight,
+                           rightHighlight);
+            }
+          }
+        }
+      },
+
+      _addRow: function(leftLineNum,
+                        rightLineNum,
+                        leftContent,
+                        rightContent,
+                        leftHighlight,
+                        rightHighlight) {
+        var leftLineNumEl = document.createElement('div');
+        var rightLineNumEl = document.createElement('div');
+        var leftColEl = document.createElement('div');
+        // These classes are added to account for Polymer’s polyfill behavior.
+        // In order to guarantee sufficient specificity within the CSS rules,
+        // these are added to every element. Since the Polymer DOM utility
+        // functions (which would do this automatically) are not being used for
+        // performance reasons, this is done manually.
+        leftColEl.className = 'style-scope gr-diff-view';
+        var rightColEl = document.createElement('div');
+        rightColEl.className = 'style-scope gr-diff-view';
+        leftLineNumEl.className = 'style-scope gr-diff-view lineNum';
+        rightLineNumEl.className = 'style-scope gr-diff-view lineNum';
+
+        // Ensure that all elements have content so they render at the correct
+        // height.
+        leftLineNumEl.textContent =
+            leftContent != undefined ? leftLineNum : '\n';
+        rightLineNumEl.textContent =
+            rightContent != undefined ? rightLineNum : '\n';
+        leftContent = leftContent || '\n';
+        rightContent = rightContent || '\n';
+
+        var leftHTML;
+        var rightHTML;
+        if (leftContent == rightContent) {
+          leftHTML = leftContent;
+          rightHTML = rightContent;
+        } else {
+          leftHTML = this._highlightedHTML(leftContent, leftHighlight);
+          rightHTML = this._highlightedHTML(rightContent, rightHighlight);
+        }
+
+        // If the html is just the text then it didn't get highlighted.
+        // Use textContent which is faster than innerHTML.
+        if (leftContent == leftHTML) {
+          leftColEl.textContent = leftContent;
+        } else {
+          leftColEl.innerHTML = leftHTML;
+        }
+        if (rightContent == rightHTML) {
+          rightColEl.textContent = rightContent;
+        } else {
+          rightColEl.innerHTML = rightHTML;
+        }
+
+        if (leftContent != rightContent) {
+          leftColEl.classList.add('delete');
+          rightColEl.classList.add('insert');
+          leftColEl.classList.add(leftHighlight ? 'lightRed' : 'darkRed');
+          rightColEl.classList.add(rightHighlight ? 'lightGreen' : 'darkGreen');
+        }
+        this.$.leftDiffNumbers.appendChild(leftLineNumEl);
+        this.$.leftDiffContent.appendChild(leftColEl);
+        this.$.rightDiffNumbers.appendChild(rightLineNumEl);
+        this.$.rightDiffContent.appendChild(rightColEl);
+      },
+
+      _highlightedHTML: function(content, range) {
+        return content;
+      },
+
+    });
+  })();
+  </script>
+</dom-module>

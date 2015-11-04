@@ -370,7 +370,8 @@ public class Daemon extends SiteProgram {
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(GerritOptions.class).toInstance(new GerritOptions(headless, slave));
+        bind(GerritOptions.class)
+            .toInstance(new GerritOptions(config, headless, slave));
         if (test) {
           bind(String.class).annotatedWith(SecureStoreClassName.class)
               .toInstance(DefaultSecureStore.class.getName());

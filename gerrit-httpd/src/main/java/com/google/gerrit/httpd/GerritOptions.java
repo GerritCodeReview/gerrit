@@ -14,20 +14,28 @@
 
 package com.google.gerrit.httpd;
 
+import org.eclipse.jgit.lib.Config;
+
 public class GerritOptions {
   private final boolean headless;
   private final boolean slave;
+  private final boolean polyGerrit;
 
-  public GerritOptions(boolean headless, boolean slave) {
+  public GerritOptions(Config cfg, boolean headless, boolean slave) {
     this.headless = headless;
     this.slave = slave;
+    this.polyGerrit = cfg.getBoolean("gerrit", null, "enablePolyGerrit", false);
   }
 
   public boolean enableDefaultUi() {
-    return !headless;
+    return !headless && !polyGerrit;
   }
 
   public boolean enableMasterFeatures() {
     return !slave;
+  }
+
+  public boolean enablePolyGerrit() {
+    return !headless && polyGerrit;
   }
 }

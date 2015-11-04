@@ -503,7 +503,7 @@ public class PreferencesBox extends Composite {
     AccountApi.putDiffPreferences(prefs, new GerritCallback<DiffPreferences>() {
       @Override
       public void onSuccess(DiffPreferences result) {
-        DiffPreferencesInfo p = Gerrit.getDiffPreferences();
+        DiffPreferencesInfo p = new DiffPreferencesInfo();
         result.copyTo(p);
         Gerrit.setDiffPreferences(p);
       }

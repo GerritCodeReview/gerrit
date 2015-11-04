@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d627f2f2_2aed7fe7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-04T07:11:22Z",
+      "side": 1,
+      "message": "I don\u0027t think this step is strictly necessary.  It should be possible, somehow, to get the revision of the latest patch set while the change is still open...",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 18
+      },
+      "revId": "4a9905c919161dce52b698990bc925499b5c20fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b62a7ebd_69c02550",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-04T07:11:22Z",
+      "side": 1,
+      "message": "...and if the change isn\u0027t merged, we don\u0027t need to do this any more.",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 42
+      },
+      "revId": "4a9905c919161dce52b698990bc925499b5c20fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

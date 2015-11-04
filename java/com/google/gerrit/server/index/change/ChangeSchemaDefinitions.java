@@ -121,11 +121,21 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
    * Added new fields {@link ChangeField#ATTENTION_SET_USERS} and {@link
    * ChangeField#ATTENTION_SET_FULL}.
    */
+  @Deprecated
   static final Schema<ChangeData> V59 =
       new Schema.Builder<ChangeData>()
           .add(V58)
           .add(ChangeField.ATTENTION_SET_USERS)
           .add(ChangeField.ATTENTION_SET_FULL)
+          .build();
+
+  /**
+   * Added new fields {@link ChangeField#MERGE}
+   */
+  static final Schema<ChangeData> V60 =
+      new Schema.Builder<ChangeData>()
+          .add(V59)
+          .add(ChangeField.MERGE)
           .build();
 
   /**

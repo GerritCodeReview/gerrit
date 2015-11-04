@@ -24,7 +24,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -73,7 +72,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
@@ -339,21 +337,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   protected RevCommit getRemoteHead()
       throws IOException {
     return getRemoteHead(project, "master");
-  }
-
-
-  protected List<RevCommit> getRemoteLog(Project.NameKey project, String branch)
-      throws IOException {
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
-      rw.markStart(rw.parseCommit(
-          repo.getRef("refs/heads/" + branch).getObjectId()));
-      return Lists.newArrayList(rw);
-    }
-  }
-
-  protected List<RevCommit> getRemoteLog() throws IOException {
-    return getRemoteLog(project, "master");
   }
 
   private RevCommit getHead(Repository repo, String name) throws IOException {

@@ -23,6 +23,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
@@ -76,6 +77,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.Transport;
 import org.junit.AfterClass;
 import org.junit.Rule;
@@ -623,5 +626,19 @@ public abstract class AbstractDaemonTest {
         return input.changeId;
       }
     })).containsExactly((Object[])expected).inOrder();
+  }
+
+  protected List<RevCommit> getRemoteLog(Project.NameKey project, String branch)
+      throws IOException {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      rw.markStart(rw.parseCommit(
+          repo.getRef("refs/heads/" + branch).getObjectId()));
+      return Lists.newArrayList(rw);
+    }
+  }
+
+  protected List<RevCommit> getRemoteLog() throws IOException {
+    return getRemoteLog(project, "master");
   }
 }

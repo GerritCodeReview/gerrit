@@ -118,7 +118,12 @@ public abstract class ResourceServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
-    String name = CharMatcher.is('/').trimFrom(req.getPathInfo());
+    String name;
+    if (req.getPathInfo() == null) {
+      name = "/";
+    } else {
+      name = CharMatcher.is('/').trimFrom(req.getPathInfo());
+    }
     if (isUnreasonableName(name)) {
       notFound(rsp);
       return;

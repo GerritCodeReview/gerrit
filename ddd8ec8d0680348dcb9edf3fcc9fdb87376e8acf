@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5677820e_26a4b6c8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferences.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-04T20:38:56Z",
+      "side": 0,
+      "message": "Why was this removed? This broke side-by-side screen for anonymous user.",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 5
+      },
+      "revId": "ddd8ec8d0680348dcb9edf3fcc9fdb87376e8acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

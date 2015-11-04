@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d627f2f2_aad96f4e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-04T06:10:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96973902_9e3a5dfb",
+      "revId": "99cfe21c70c9b3b232bb38339a84bd039471aa06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f62eb68f_0bcb9d25",
         "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b62a7ebd_89af59a2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-04T06:10:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62eb68f_0bcb9d25",
+      "revId": "99cfe21c70c9b3b232bb38339a84bd039471aa06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f6b69c_2b9f3977",
         "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
         "patchSetId": 4
@@ -47,6 +83,30 @@
       "writtenOn": "2015-11-03T20:31:19Z",
       "side": 1,
       "message": "Add background job to abandon inactive changes automatically\n\nhttps://gerrit-review.googlesource.com/#/c/68307/\n\nI am not sure if this topic fits in this section, or there is another more appropriate section for this new feature in 2.12.",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 0
+      },
+      "revId": "99cfe21c70c9b3b232bb38339a84bd039471aa06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d627f2f2_8ad62b1a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-04T06:10:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f6b69c_2b9f3977",
       "range": {
         "startLine": 207,
         "startChar": 0,

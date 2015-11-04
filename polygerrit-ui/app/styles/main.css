@@ -1,0 +1,18 @@
+@import "//fonts.googleapis.com/css?family=Open+Sans:400,700";
+@import "//fonts.googleapis.com/css?family=Source+Code+Pro";
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+  transition: none; /* Override the default Polymer fade-in. */
+}
+body {
+  font: 14px 'Open Sans', sans-serif;
+}

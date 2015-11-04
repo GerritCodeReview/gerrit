@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-change-list</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../bower_components/test-fixture/test-fixture-mocha.js"></script>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
+<link rel="import" href="../elements/gr-change-list.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-change-list></gr-change-list>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-change-list tests', function() {
+    var changeList;
+
+    setup(function() {
+      changeList = fixture('basic');
+    });
+
+    test('keyboard shortcuts', function() {
+      changeList.changes = [
+        {_number: 0},
+        {_number: 1},
+        {_number: 2},
+      ];
+      flushAsynchronousOperations();
+      var changeListItems =
+          changeList.querySelectorAll('gr-change-list-item:not([header])');
+      assert.equal(changeListItems.length, 3);
+      assert.equal(changeList.selectedIndex, 0);
+
+      MockInteractions.pressAndReleaseKeyOn(changeList, 74);  // 'j'
+      flushAsynchronousOperations();
+      assert.equal(changeList.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(changeList, 74);  // 'j'
+      flushAsynchronousOperations();
+      assert.equal(changeList.selectedIndex, 2);
+      MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
+      flushAsynchronousOperations();
+      assert.equal(changeList.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
+      flushAsynchronousOperations();
+      MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
+      flushAsynchronousOperations();
+      MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
+      flushAsynchronousOperations();
+      assert.equal(changeList.selectedIndex, 0);
+    });
+
+  });
+</script>

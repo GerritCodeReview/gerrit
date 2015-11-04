@@ -1,0 +1,21 @@
+{
+  "name": "polygerrit",
+  "version": "0.0.0",
+  "authors": [
+    "Andrew Bonventre <andybons@google.com>"
+  ],
+  "description": "Gerrit UI in Polymer",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0",
+    "page": "visionmedia/page.js#~1.6.3",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.5",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#~1.0.2",
+    "iron-input": "PolymerElements/iron-input#~1.0.6",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#~1.0.6"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+  }
+}

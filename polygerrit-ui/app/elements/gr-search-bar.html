@@ -1,0 +1,68 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
+
+<dom-module id="gr-search-bar">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      form {
+        display: flex;
+      }
+      input,
+      button {
+        border: 1px solid #aaa;
+        font-family: inherit;
+        font-size: 14px;
+        padding: 2px 5px;
+      }
+      input {
+        flex: 1;
+        border-radius: 2px 0 0 2px;
+      }
+      button {
+        background-color: #f1f2f3;
+        border-radius: 0 2px 2px 0;
+        border-left-width: 0;
+      }
+    </style>
+    <form>
+      <input is="iron-input" bind-value="{{inputVal}}">
+      <button type="submit" id="searchButton">Search</button>
+    </form>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-search-bar',
+
+      listeners: {
+        'searchButton.tap': '_searchButtonTapHandler',
+        'value-changed': '_valueChangedHandler',
+      },
+
+      properties: {
+        value: {
+          type: String,
+          value: '',
+          notify: true
+        }
+      },
+
+      _valueChangedHandler: function(e) {
+        this.inputVal = e.detail.value;
+      },
+
+      _searchButtonTapHandler: function(e) {
+        e.preventDefault();
+        page.show('/q/' + this.inputVal);
+      },
+
+    });
+
+  })();
+  </script>
+</dom-module>

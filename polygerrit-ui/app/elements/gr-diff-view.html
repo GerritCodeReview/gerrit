@@ -1,0 +1,203 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="gr-diff-view">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table {
+        border-collapse: collapse;
+        font-family: 'Source Code Pro', monospace;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      td {
+        vertical-align: top;
+      }
+      .lineNum {
+        border-right: 1px solid #ddd;
+        color: #aaa;
+        cursor: pointer;
+        padding-right: 10px;
+        text-align: right;
+      }
+      .lineNum:hover {
+        text-decoration: underline;
+      }
+      td:not(.lineNum) {
+        padding-left: 5px;
+      }
+      .removedLine {
+        background-color: #fee;
+      }
+      .addedLine {
+        background-color: #efe;
+      }
+    </style>
+    <iron-ajax id="changeDetailXHR"
+        url="[[_computeChangeDetailPath(changeNum)]]"
+        params="[[_computeChangeDetailQueryParams()]]"
+        handle-as="text"
+        on-response="_handleChangeDetailResponse"
+        debounce-duration="300"></iron-ajax>
+    <iron-ajax
+        id="diffXHR"
+        url="[[_computeDiffPath(changeNum, revision, path)]]"
+        params='{"context": "ALL", "intraline": null}'
+        handle-as="text"
+        on-response="_handleDiffResponse"
+        debounce-duration="300"></iron-ajax>
+    <table id="diffTable"></table>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-diff-view',
+
+      properties: {
+        /**
+         * URL params passed from the router.
+         */
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
+        revision: {
+          type: String,
+          observer: '_revisionChanged',
+        },
+      },
+
+      _paramsChanged: function(value) {
+        this.changeNum = value.changeNum;
+        this.patchNum = value.patchNum;
+        this.path = value.path;
+        if (!this.changeNum) {
+          this.change = null;
+          this.patchNum = null;
+          this.path = null;
+          return;
+        }
+        this.$.changeDetailXHR.generateRequest();
+        // this.$.diffXHR.generateRequest();
+        // this.$.commentsXHR.generateRequest();
+      },
+
+      _revisionChanged: function(value) {
+        console.log('revision: ', value);
+        if (!value) { return; }
+        this.$.diffXHR.generateRequest();
+      },
+
+      _computeChangeDetailPath: function(changeNum) {
+        return '/changes/' + changeNum + '/detail';
+      },
+
+      _computeChangeDetailQueryParams: function() {
+        var options = Changes.listChangesOptionsToHex(
+            Changes.ListChangesOption.ALL_REVISIONS
+        );
+        return { O: options };
+      },
+
+      _handleChangeDetailResponse: function(e, req) {
+        this.change = JSON.parse(req.response.substring(')]}\''.length));
+        console.log(this.change)
+        this.revision = this.change.current_revision;
+      },
+
+      _computeDiffPath: function(changeNum, patchNum, path) {
+        console.log('compute diff path!');
+        return '/changes/' + changeNum + '/revisions/' + patchNum + '/files/' + encodeURIComponent(path) + '/diff';
+      },
+
+      _handleDiffResponse: function(e, req) {
+        var diff = JSON.parse(req.response.substring(')]}\''.length));
+        this._constructDOM(diff);
+      },
+
+      _constructDOM: function(diff) {
+        if (!diff.content) { return; }
+
+        var lineNum = 0 + (diff.content.skip || 0);
+        for (var i = 0; i < diff.content.length; i++) {
+          var diffChunk = diff.content[i];
+          if (diffChunk.ab) {
+            for (var j = 0; j < diffChunk.ab.length; j++) {
+              this._addRow(++lineNum, diffChunk.ab[j], diffChunk.ab[j], false);
+            }
+            continue;
+          }
+          if (diffChunk.a || diffChunk.b) {
+            var maxLen = Math.max(diffChunk.a && diffChunk.a.length,
+                diffChunk.b && diffChunk.b.length);
+            for (var j = 0; j < maxLen; j++) {
+              var leftContent;
+              if (diffChunk.a && j < diffChunk.a.length) {
+                leftContent = diffChunk.a[j];
+              }
+              var rightContent;
+              if (diffChunk.b && j < diffChunk.b.length) {
+                rightContent = diffChunk.b[j];
+              }
+              this._addRow(++lineNum, leftContent, rightContent, true);
+            }
+          }
+        }
+      },
+
+      _addRow: function(lineNum, leftContent, rightContent, highlight) {
+        var rowEl = document.createElement('tr');
+        var leftLineNumEl = document.createElement('td');
+        var rightLineNumEl = document.createElement('td');
+        var leftColEl = document.createElement('td');
+        leftColEl.className = 'style-scope gr-diff';
+        var rightColEl = document.createElement('td');
+        rightColEl.className = 'style-scope gr-diff';
+        leftLineNumEl.className = 'style-scope gr-diff lineNum';
+        rightLineNumEl.className = 'style-scope gr-diff lineNum';
+        leftLineNumEl.textContent = lineNum;
+        rightLineNumEl.textContent = lineNum;
+
+        var leftHTML = this._highlightedHTML(leftContent);
+        var rightHTML;
+        if (leftContent == rightContent) {
+          rightHTML = leftHTML;
+        } else {
+          rightHTML = this._highlightedHTML(rightContent);
+        }
+        // If the html is just the text then it didn't get highlighted.
+        // Use textContent which is faster than innerHTML.
+        if (leftContent == leftHTML) {
+          leftColEl.textContent = leftContent;
+        } else {
+          leftColEl.innerHTML = leftHTML;
+        }
+        if (rightContent == rightHTML) {
+          rightColEl.textContent = rightContent;
+        } else {
+          rightColEl.innerHTML = rightHTML;
+        }
+
+        if (highlight) {
+          leftColEl.classList.add('removedLine');
+          rightColEl.classList.add('addedLine');
+        }
+        rowEl.appendChild(leftLineNumEl);
+        rowEl.appendChild(leftColEl);
+        rowEl.appendChild(rightLineNumEl);
+        rowEl.appendChild(rightColEl);
+        this.$.diffTable.appendChild(rowEl);
+      },
+
+      _highlightedHTML: function(html) {
+        return html;
+      },
+
+    });
+  })();
+  </script>
+</dom-module>

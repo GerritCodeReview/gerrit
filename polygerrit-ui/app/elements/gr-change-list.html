@@ -1,0 +1,105 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="./gr-change-list-item.html">
+
+<dom-module id="gr-change-list">
+  <template>
+    <style>
+      :host {
+        display: table;
+        border: 1px solid #eee;
+        border-collapse: collapse;
+      }
+      :host:focus gr-change-list-item[selected]::shadow {
+        background-color: #d8EdF9;
+      }
+      :host gr-change-list-item[selected]::shadow .positionIndicator {
+        visibility: visible;
+      }
+      :host:focus gr-change-list-item[selected]::shadow .positionIndicator {
+        opacity: 1;
+      }
+    </style>
+
+    <iron-a11y-keys
+        target="[[keyTarget]]"
+        keys="j k enter"
+        on-keys-pressed="_handleKey"></iron-a11y-keys>
+
+    <gr-change-list-item header></gr-change-list-item>
+    <template is="dom-repeat" items="{{changes}}" as="change">
+      <gr-change-list-item change="[[change]]" selected="[[_isSelected(index)]]"></gr-change-list-item>
+    </template>
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-change-list',
+
+      hostAttributes: {
+        tabindex: 0,
+      },
+
+      properties: {
+        /**
+         * An array of ChangeInfo objects to render.
+         * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info
+         */
+        changes: Array,
+        keyTarget: {
+          type: Object,
+          value: function() {
+            return document.body;
+          }
+        },
+        selectedIndex: {
+          type: Number,
+          value: 0,
+          observer: '_selectedIndexChanged',
+        },
+      },
+
+      _isSelected: function(index) {
+        return index == this.selectedIndex;
+      },
+
+      _selectedIndexChanged: function(value) {
+        // Don’t re-render the entire list.
+        var changeEls = this.querySelectorAll('gr-change-list-item:not([header])');
+        for (var i = 0; i < changeEls.length; i++) {
+          changeEls[i].toggleAttribute('selected', i == value);
+        }
+      },
+
+      _handleKey: function(e) {
+        var len = (this.changes && this.changes.length) || 0;
+        switch(e.detail.combo) {
+          case 'j':
+            if (this.selectedIndex == len - 1) { return; }
+            this.selectedIndex += 1;
+            break;
+          case 'k':
+            if (this.selectedIndex == 0) { return; }
+            this.selectedIndex -= 1;
+            break;
+          case 'enter':
+            page(this._changeURLForIndex(this.selectedIndex));
+            break;
+        }
+      },
+
+      _changeURLForIndex: function(index) {
+        var changeEls = this.querySelectorAll('gr-change-list-item:not([header])');
+        if (index < changeEls.length && changeEls[index]) {
+          return changeEls[index].changeURL();
+        }
+        return '';
+      },
+
+    });
+  })();
+  </script>
+</dom-module>

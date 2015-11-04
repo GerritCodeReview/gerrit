@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6019e3f_91d65c1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-04T11:24:08Z",
+      "side": 1,
+      "message": "It worth noting, that this bug was already fixed in follow-up change: [1]. So another option, would be to abandon this change and merged [1] instead.\n\n* [1] https://gerrit-review.googlesource.com/#/c/71042/20/gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+      "revId": "19b56dc62e42082061e7a06639b933a5e7d8e9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

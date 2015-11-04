@@ -997,6 +997,30 @@
       "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6019e3f_31edf0e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-04T13:26:18Z",
+      "side": 1,
+      "message": "Isn\u0027t that is exactly what the current code is doing? It\u0027s sending OAuth access token to foreign servers. Consider the following scenario:\n\n* two oauth-provider plugins are deployed and thus two oauth providers are deployed: foo and bar\n* only foo plugin exposes GitOverHttpLogin provider\n* all users authenticated with bar provider would try to use Git over HTTP\n* current code will send their OAuth access tokens to foo server\n* foo server will abuse their credential\n\nIOW, it\u0027s indispensable to solve the dispatching issue. One workaround (until the dispatching problem is solved) would be to check that exactly one oauth-provider and one single GitOverHttpLogin provider is deployed, when gitBasicAuth\u003dtrue and reject to start Gerrit otherwise.",
+      "parentUuid": "f6bdd6ca_73ae60aa",
+      "range": {
+        "startLine": 297,
+        "startChar": 4,
+        "endLine": 297,
+        "endChar": 58
+      },
+      "revId": "65850a686834c9f922e4848898a99c271cf7b5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

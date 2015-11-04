@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-change-list-item</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../bower_components/test-fixture/test-fixture-mocha.js"></script>
+<link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
+
+<link rel="import" href="../elements/gr-change-list-item.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-change-list-item></gr-change-list-item>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-change-list-item tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('computed fields', function() {
+      assert.equal(element._computeChangeStatusString({mergeable: true}), '');
+      assert.equal(element._computeChangeStatusString({mergeable: false}),
+          'Merge Conflict');
+
+      assert.equal(element._computeCodeReviewClass(), '');
+      assert.equal(element._computeCodeReviewClass({}), '');
+      assert.equal(element._computeCodeReviewClass({approved: true, value: 1}),
+          'u-green');
+      assert.equal(element._computeCodeReviewClass({value: 1}),
+          'u-monospace u-green');
+      assert.equal(element._computeCodeReviewClass({value: -1}),
+          'u-monospace u-red');
+
+      assert.equal(element._computeCodeReviewLabel(), '');
+      assert.equal(element._computeCodeReviewLabel({}), '');
+      assert.equal(element._computeCodeReviewLabel({approved: true, value: 1}),
+          '✓');
+      assert.equal(element._computeCodeReviewLabel({value: 1}), '+1');
+      assert.equal(element._computeCodeReviewLabel({value: -1}), '-1');
+
+      assert.equal(element._computeVerifiedLabel(), '');
+      assert.equal(element._computeVerifiedLabel({}), '');
+      assert.equal(element._computeVerifiedLabel({approved: true}), '✓');
+
+
+      assert.equal(element._computeOwnerLink('andybons+gerrit@gmail.com'),
+          '/q/owner:andybons%2Bgerrit%40gmail.com+status:open');
+
+      assert.equal(element._computeOwnerTitle(
+          {
+            name: 'Andrew Bonventre',
+            email: 'andybons+gerrit@gmail.com'
+          }),
+          'Andrew Bonventre <andybons+gerrit@gmail.com>');
+
+      // TODO(andybons): _computeProjectURL once it's not a constant.
+
+      assert.equal(element._computeProjectBranchURL(
+          'combustible-stuff', 'lemons'),
+          '/q/status:open+project:combustible-stuff+branch:lemons');
+
+      element.change = { _number: 42 };
+      assert.equal(element.changeURL(), '/c/42/');
+    });
+
+  });
+</script>

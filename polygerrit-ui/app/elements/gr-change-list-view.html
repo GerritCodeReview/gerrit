@@ -47,14 +47,14 @@ limitations under the License.
         url="/changes/"
         params="[[_computeQueryParams(query, offset)]]"
         json-prefix=")]}'"
-        last-response="{{changes}}"
+        last-response="{{_changes}}"
         debounce-duration="300"></iron-ajax>
-    <gr-change-list changes="{{changes}}"></gr-change-list>
+    <gr-change-list changes="{{_changes}}"></gr-change-list>
     <nav>
       <a href$="[[_computeNavLink(query, offset, -1)]]"
          hidden$="[[_hidePrevArrow(offset)]]">&larr; Prev</a>
       <a href$="[[_computeNavLink(query, offset, 1)]]"
-         hidden$="[[_hideNextArrow(changes.length)]]">Next &rarr;</a>
+         hidden$="[[_hideNextArrow(_changes.length)]]">Next &rarr;</a>
     </nav>
   </template>
   <script>
@@ -74,6 +74,11 @@ limitations under the License.
           type: Object,
           observer: '_paramsChanged',
         },
+
+        /**
+         * Change objects loaded from the server.
+         */
+        _changes: Array,
       },
 
       _paramsChanged: function(value) {

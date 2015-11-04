@@ -45,13 +45,18 @@
       app.params = data.params;
     });
 
-    page(/^\/c\/(\d+)\/(\d+)\/(.+)/, scrollToTop, function(ctx) {
+    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, scrollToTop, function(ctx) {
       app.route = 'gr-diff-view';
       var params = {
         changeNum: ctx.params[0],
-        patchNum: ctx.params[1],
-        path: ctx.params[2]
+        basePatchNum: ctx.params[2],
+        patchNum: ctx.params[4],
+        path: ctx.params[5]
       };
+      if (!params.patchNum) {
+        params.patchNum = params.basePatchNum;
+        delete(params.basePatchNum);
+      }
       app.params = params;
     });
 

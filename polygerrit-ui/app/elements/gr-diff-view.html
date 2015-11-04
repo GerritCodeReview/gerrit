@@ -58,15 +58,15 @@ limitations under the License.
       }
     </style>
     <iron-ajax id="changeDetailXHR"
-        url="[[_computeChangeDetailPath(changeNum)]]"
+        auto
+        url="[[_computeChangeDetailPath(_changeNum)]]"
         params="[[_computeChangeDetailQueryParams()]]"
         json-prefix=")]}'"
-        on-response="_handleChangeDetailResponse"
+        last-response="{{_change}}"
         debounce-duration="300"></iron-ajax>
     <iron-ajax
         id="diffXHR"
-        url="[[_computeDiffPath(changeNum, revision, path)]]"
-        params='{"context": "ALL", "intraline": null}'
+        url="[[_computeDiffPath(_changeNum, _patchNum, _path)]]"
         json-prefix=")]}'"
         on-response="_handleDiffResponse"
         debounce-duration="300"></iron-ajax>
@@ -92,27 +92,30 @@ limitations under the License.
           type: Object,
           observer: '_paramsChanged',
         },
-        revision: {
-          type: String,
-          observer: '_revisionChanged',
-        },
+        _change: Object,
+        _changeNum: String,
+        _basePatchNum: String,
+        _patchNum: String,
+        _path: String,
       },
 
       _paramsChanged: function(value) {
-        this.changeNum = value.changeNum;
-        this.patchNum = value.patchNum;
-        this.path = value.path;
-        if (!this.changeNum) {
-          this.change = null;
-          this.patchNum = null;
-          this.path = null;
+        console.log(value)
+        this._changeNum = value.changeNum;
+        this._patchNum = value.patchNum;
+        this._basePatchNum = value.basePatchNum;
+        this._path = value.path;
+        console.log(this._basePatchNum);
+        if (!this._changeNum) {
+          this._change = null;
+          this._basePatchNum = null;
+          this._patchNum = null;
+          this._path = null;
           return;
         }
-        this.$.changeDetailXHR.generateRequest();
-      },
-
-      _revisionChanged: function(value) {
-        if (!value) { return; }
+        // Assign the params here since a computed binding relying on
+        // `_basePatchNum` won’t fire in the case where it’s not defined.
+        this.$.diffXHR.params = this._diffQueryParams();
         this.$.diffXHR.generateRequest();
       },
 
@@ -127,14 +130,20 @@ limitations under the License.
         return { O: options };
       },
 
-      _handleChangeDetailResponse: function(e, req) {
-        this.change = e.detail.response;
-        this.revision = this.change.current_revision;
-      },
-
       _computeDiffPath: function(changeNum, patchNum, path) {
         return '/changes/' + changeNum + '/revisions/' + patchNum + '/files/' +
             encodeURIComponent(path) + '/diff';
+      },
+
+      _diffQueryParams: function(basePatchNum) {
+        var params =  {
+          context: 'ALL',
+          intraline: null
+        };
+        if (!!basePatchNum) {
+          params.base = basePatchNum;
+        }
+        return params;
       },
 
       _handleDiffResponse: function(e, req) {

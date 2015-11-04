@@ -44,7 +44,7 @@ limitations under the License.
       }
     </style>
     <form>
-      <input is="iron-input" bind-value="{{inputVal}}">
+      <input is="iron-input" id="searchInput" bind-value="{{inputVal}}">
       <button type="submit" id="searchButton">Search</button>
     </form>
   </template>
@@ -56,15 +56,16 @@ limitations under the License.
       is: 'gr-search-bar',
 
       listeners: {
-        'searchButton.tap': '_searchButtonTapHandler',
         'value-changed': '_valueChangedHandler',
+        'searchInput.keydown': '_inputKeyDownHandler',
+        'searchButton.tap': '_preventDefaultAndNavigateToInputVal',
       },
 
       properties: {
         value: {
           type: String,
           value: '',
-          notify: true
+          notify: true,
         }
       },
 
@@ -72,7 +73,14 @@ limitations under the License.
         this.inputVal = e.detail.value;
       },
 
-      _searchButtonTapHandler: function(e) {
+      _inputKeyDownHandler: function(e) {
+        if (e.keyCode == 13) {
+          // Enter was pressed.
+          this._preventDefaultAndNavigateToInputVal(e);
+        }
+      },
+
+      _preventDefaultAndNavigateToInputVal: function(e) {
         e.preventDefault();
         page.show('/q/' + this.inputVal);
       },

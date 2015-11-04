@@ -126,8 +126,13 @@ limitations under the License.
                         items="[[_computeCommentsForFile(file)]]" as="comment">
                 <div class="commentContainer">
                   <a class="lineNum"
-                     href$="[[_computeDiffLineURL(file, changeNum, message._revision_number, comment.line)]]">
+                     href$="[[_computeDiffLineURL(file, changeNum, message._revision_number, comment)]]">
+                     <template is="dom-if" if="[[comment.line]]">
                        Line <span>[[comment.line]]</span>:
+                     </template>
+                     <template is="dom-if" if="[[!comment.line]]">
+                       File comment:
+                     </template>
                   </a>
                   <div class="commentMessage">[[comment.message]]</div>
                 </div>
@@ -174,8 +179,12 @@ limitations under the License.
         return '/c/' + changeNum + '/' + patchNum + '/' + file;
       },
 
-      _computeDiffLineURL: function(file, changeNum, patchNum, line) {
-        return this._computeFileDiffURL(file, changeNum, patchNum) + '@' + line;
+      _computeDiffLineURL: function(file, changeNum, patchNum, comment) {
+        var diffURL = this._computeFileDiffURL(file, changeNum, patchNum);
+        if (comment.line) {
+          diffURL += '#' + comment.line;
+        }
+        return diffURL;
       },
 
       _computeCommentsForFile: function(file) {

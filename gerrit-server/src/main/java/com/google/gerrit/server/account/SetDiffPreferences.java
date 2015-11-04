@@ -107,14 +107,14 @@ public class SetDiffPreferences implements
   }
 
   private DiffPreferencesInfo writeToGit(DiffPreferencesInfo in,
-      Account.Id useId) throws RepositoryNotFoundException, IOException,
+      Account.Id userId) throws RepositoryNotFoundException, IOException,
           ConfigInvalidException {
     MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName);
 
     VersionedAccountPreferences prefs;
     DiffPreferencesInfo out = new DiffPreferencesInfo();
     try {
-      prefs = VersionedAccountPreferences.forUser(useId);
+      prefs = VersionedAccountPreferences.forUser(userId);
       prefs.load(md);
       storeSection(prefs.getConfig(), UserConfigSections.DIFF, null, in,
           DiffPreferencesInfo.defaults());

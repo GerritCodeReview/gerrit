@@ -107,7 +107,8 @@ class UrlModule extends ServletModule {
 
     serve("/robots.txt").with(RobotsServlet.class);
 
-    install(new StaticModule());
+    // Static paths are bound last, since they may include a wildcard for /*.
+    install(new StaticModule(options));
   }
 
   private Key<HttpServlet> notFound() {

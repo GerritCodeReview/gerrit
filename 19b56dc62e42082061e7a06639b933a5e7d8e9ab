@@ -16,6 +16,24 @@
       "revId": "19b56dc62e42082061e7a06639b933a5e7d8e9ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d627f2f2_4afc339a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-04T11:27:47Z",
+      "side": 1,
+      "message": "Is merging this one likely to cause the other one to need rebase?  If so I think I\u0027d prefer to leave it as it is and let it get fixed in the other change.",
+      "parentUuid": "b6019e3f_91d65c1a",
+      "revId": "19b56dc62e42082061e7a06639b933a5e7d8e9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

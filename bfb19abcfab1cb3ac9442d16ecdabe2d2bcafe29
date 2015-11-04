@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96a49abb_d38646f8",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-04T20:35:28Z",
+      "side": 1,
+      "message": "in what unit?",
+      "revId": "bfb19abcfab1cb3ac9442d16ecdabe2d2bcafe29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96a49abb_937cbeca",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-04T20:35:28Z",
+      "side": 1,
+      "message": "what units?\n\nCACHE_FILE_SIZE_LIMIT_BYTES?",
+      "revId": "bfb19abcfab1cb3ac9442d16ecdabe2d2bcafe29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

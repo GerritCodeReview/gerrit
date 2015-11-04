@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96a49abb_93075e5e",
+        "filename": "polygerrit-ui/.editorconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021863
+      },
+      "writtenOn": "2015-11-04T20:24:42Z",
+      "side": 1,
+      "message": "let\u0027s lose this.",
+      "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

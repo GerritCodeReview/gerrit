@@ -87,7 +87,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           new RefPredicate(c.getDest().get()));
 
       predicatesForOneChange.add(or(or(filePredicates),
-          new IsMergePredicate(args, value)));
+          new IsMergePredicate(args.fillArgs)));
 
       predicatesForOneChange.add(new OperatorPredicate<ChangeData>(
           ChangeQueryBuilder.FIELD_CONFLICTS, value) {

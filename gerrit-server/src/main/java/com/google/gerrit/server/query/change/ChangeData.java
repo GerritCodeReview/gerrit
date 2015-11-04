@@ -316,6 +316,7 @@ public class ChangeData {
   private List<SubmitRecord> submitRecords;
   private ChangedLines changedLines;
   private Boolean mergeable;
+  private Boolean merge;
   private Set<Account.Id> editsByUser;
   private Set<Account.Id> reviewedBy;
   private PersonIdent author;
@@ -656,6 +657,7 @@ public class ChangeData {
       commitFooters = c.getFooterLines();
       author = c.getAuthorIdent();
       committer = c.getCommitterIdent();
+      merge = c.getParentCount() > 1;
     }
     return true;
   }
@@ -772,6 +774,19 @@ public class ChangeData {
       }
     }
     return mergeable;
+  }
+
+  public Boolean isMerge() throws OrmException {
+    if (merge == null) {
+      try {
+        if (!loadCommitData()) {
+          return null;
+        }
+      } catch (IOException e) {
+        throw new OrmException(e);
+      }
+    }
+    return merge;
   }
 
   public Set<Account.Id> editsByUser() throws OrmException {

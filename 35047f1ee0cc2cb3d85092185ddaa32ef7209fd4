@@ -34,6 +34,24 @@
       "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d698d291_62051654",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-05T21:05:03Z",
+      "side": 1,
+      "message": "The weird thing about \"very early\"side-by-side diff prototype is, that for my  Buck change it was rendred correctly: [1]. That woke my expectation that this is done. Then i tried other changes and side-by-side diff was more or less broken. I think the known issues should be mentioned in the commit message (empty commit message issues).\n\nOne thing we should also clarify: how to run PolyGerrit against developers local Jetty Server and not gerrit-review? We need initial version of Documentation/dev-polygerrit.txt. To start with it should mention three major modes:\n\n* dev mode against production data\n* dev mode against local server\n* production mode (TODO)\n\n* [1] http://imgur.com/hENdTc2",
+      "parentUuid": "f66b162f_c3583681",
+      "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "16718a1c_24403288",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1021863
+      },
+      "writtenOn": "2015-11-05T20:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_440e0e7f",
+      "revId": "629eaa12915651e566d0e790b978f36f7dd6eb7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f66b162f_033b2e1e",
         "filename": "polygerrit-ui/app/test/gr-change-list-test.html",
         "patchSetId": 2
@@ -141,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "16718a1c_44452e97",
+        "filename": "polygerrit-ui/app/test/gr-change-list-view-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1021863
+      },
+      "writtenOn": "2015-11-05T20:06:28Z",
+      "side": 1,
+      "message": "Yes. To be followed up in future changes.",
+      "parentUuid": "f66b162f_e3fe1286",
+      "revId": "629eaa12915651e566d0e790b978f36f7dd6eb7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16718a1c_64130aa6",
         "filename": "polygerrit-ui/gulpfile.js",
         "patchSetId": 2
@@ -152,6 +188,24 @@
       "writtenOn": "2015-11-05T19:56:36Z",
       "side": 1,
       "message": "Copyright header?",
+      "revId": "629eaa12915651e566d0e790b978f36f7dd6eb7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_834e3eba",
+        "filename": "polygerrit-ui/gulpfile.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1021863
+      },
+      "writtenOn": "2015-11-05T20:06:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_64130aa6",
       "revId": "629eaa12915651e566d0e790b978f36f7dd6eb7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

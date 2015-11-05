@@ -249,6 +249,30 @@
       "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_83d9de4e",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-05T14:57:55Z",
+      "side": 1,
+      "message": "Then let\u0027s get clarification from Dave about whether this is what will be merged because I should be making fixes if so. The previous change was a proof of concept. Sorry that wasn’t more clear :(",
+      "parentUuid": "d698d291_62de362e",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 59
+      },
+      "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

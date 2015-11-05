@@ -22,6 +22,30 @@
       "revId": "629eaa12915651e566d0e790b978f36f7dd6eb7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_e3e7f2fd",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1021863
+      },
+      "writtenOn": "2015-11-05T19:03:15Z",
+      "side": 1,
+      "message": "I moved it from the .gitignore in the polymer-ui .gitignore file. So it’s semi-related ;)\n\nTrust me. You NEVER want a .DS_Store in your tree. It’s a metadata file used by the Mac finder to hold info like where icons are located.",
+      "parentUuid": "76800614_87d9e64e",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "629eaa12915651e566d0e790b978f36f7dd6eb7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -209,6 +209,11 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
         throw new ResourceConflictException("Patch set is not a draft");
       }
       patchSet.setDraft(false);
+      // Force ETag invalidation if not done already
+      if (!wasDraftChange) {
+        ChangeUtil.updated(change);
+        ctx.getDb().changes().update(Collections.singleton(change));
+      }
       ctx.getDb().patchSets().update(Collections.singleton(patchSet));
     }
 

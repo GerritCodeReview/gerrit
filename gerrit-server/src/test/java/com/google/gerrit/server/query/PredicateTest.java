@@ -17,4 +17,23 @@ package com.google.gerrit.server.query;
 import com.google.gerrit.testutil.GerritBaseTests;
 
 public class PredicateTest extends GerritBaseTests {
+  protected static final class TestPredicate extends OperatorPredicate<String> {
+    protected TestPredicate(String name, String value) {
+      super(name, value);
+    }
+
+    @Override
+    public boolean match(String object) {
+      return false;
+    }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
+  }
+
+  protected static TestPredicate f(final String name, final String value) {
+    return new TestPredicate(name, value);
+  }
 }

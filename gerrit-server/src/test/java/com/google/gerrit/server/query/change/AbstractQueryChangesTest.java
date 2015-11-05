@@ -63,8 +63,8 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.DisabledReviewDb;
+import com.google.gerrit.testutil.GerritServerTests;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
@@ -74,7 +74,6 @@ import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.joda.time.DateTime;
@@ -86,7 +85,6 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -94,27 +92,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Ignore
-@RunWith(ConfigSuite.class)
-public abstract class AbstractQueryChangesTest {
-  @ConfigSuite.Default
-  public static Config defaultConfig() {
-    return updateConfig(new Config());
-  }
-
-  @ConfigSuite.Config
-  public static Config noteDbEnabled() {
-    return updateConfig(NotesMigration.allEnabledConfig());
-  }
-
+public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Rule
   public ExpectedException exception = ExpectedException.none();
 
-  private static Config updateConfig(Config cfg) {
-    cfg.setInt("index", null, "maxPages", 10);
-    return cfg;
-  }
-
-  @ConfigSuite.Parameter public Config config;
   @Inject protected AccountManager accountManager;
   @Inject protected BatchUpdate.Factory updateFactory;
   @Inject protected ChangeInserter.Factory changeFactory;
@@ -142,6 +123,11 @@ public abstract class AbstractQueryChangesTest {
   private String systemTimeZone;
 
   protected abstract Injector createInjector();
+
+  @Before
+  public void setUpConfig() throws Exception {
+    config.setInt("index", null, "maxPages", 10);
+  }
 
   @Before
   public void setUpInjector() throws Exception {

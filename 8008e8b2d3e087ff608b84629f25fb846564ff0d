@@ -201,6 +201,30 @@
       "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_63c5c25e",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-05T14:54:11Z",
+      "side": 1,
+      "message": "The new README.md has a simpler set of steps. Are you still unable to reproduce them?",
+      "parentUuid": "5677820e_46f7f2b6",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 59
+      },
+      "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

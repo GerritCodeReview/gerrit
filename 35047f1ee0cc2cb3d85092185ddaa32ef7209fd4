@@ -88,6 +88,24 @@
       "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d698d291_22ff0e84",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-05T22:22:31Z",
+      "side": 1,
+      "message": "Missed to mention the command that was used to run PolyGerrit against local server:\n\n $ go run server.go -scheme http -host localhost:8080",
+      "parentUuid": "5677820e_06141a8f",
+      "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

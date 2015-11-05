@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query;
+package com.google.gerrit.testutil;
 
-import com.google.gerrit.testutil.GerritBaseTests;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 
-public class PredicateTest extends GerritBaseTests {
+public class GerritBaseTests {
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 }

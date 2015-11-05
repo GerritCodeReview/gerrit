@@ -291,6 +291,24 @@
       "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_c4d3de28",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-05T15:02:19Z",
+      "side": 1,
+      "message": "I think that’s a good option.\n\nLet’s hold off on further review until I’ve clearly communicated \"This is what we want to land, please review.\" and we’ll polish up.",
+      "parentUuid": "d698d291_22e82ecf",
+      "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

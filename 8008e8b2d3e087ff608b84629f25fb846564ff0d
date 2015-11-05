@@ -81,6 +81,30 @@
       "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d698d291_22d14e21",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-05T14:15:43Z",
+      "side": 1,
+      "message": "So the plan is not to polish this first commit and remove unused stuff but clean it up in follow-up commits?",
+      "parentUuid": "16718a1c_a4afc2a1",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 59
+      },
+      "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

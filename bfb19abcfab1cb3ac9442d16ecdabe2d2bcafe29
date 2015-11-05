@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d698d291_a2fb1ea2",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-11-05T14:48:28Z",
+      "side": 1,
+      "message": "doesn\u0027t seem too true ...",
+      "revId": "bfb19abcfab1cb3ac9442d16ecdabe2d2bcafe29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96a49abb_d38646f8",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/FileUtil.java",
         "patchSetId": 1

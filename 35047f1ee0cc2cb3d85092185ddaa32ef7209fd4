@@ -70,6 +70,24 @@
       "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5677820e_06141a8f",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-05T22:17:48Z",
+      "side": 1,
+      "message": "| If we start listing known issues the commit message will be longer than the code.\n\nMisunderstanding? I havn\u0027t suggested to start telling that project admin screen (and friends) isn\u0027t supported. My suggestion was to mention two things:\n\n* 1. commit message is never rendered\n* 2. side-by-side screen rendering is unreliable\n\n| Only one is supported in this commit. It is documented in this file.\n\nYou are wrong. Both modes that I have mentioned in my comment are supported by this commit. Have you tried to issue this command?\n\n $ go run server.go --help\n Usage of /tmp/go-build300948185/command-line-arguments/_obj/exe/server:\n  -host string\n    \tHost to proxy requests to (default \"gerrit-review.googlesource.com\")\n  -port string\n    \tPort to serve HTTP requests on (default \":8081\")\n  -prod\n    \tServe production assets\n  -scheme string\n    \tScheme to proxy requests to (default \"https\")\n\nOK, I\u0027m exaggarating, i just added -scheme option, because my local Jetty is only running on http. Here is the line that i added to server.go: [1]. Now starting gerrit_daemon.launch in Eclipse, and Voila! PolyGerrit is up and running against my local data and I can debug in Eclipse as usual: [2]. But the point is, it\u0027s not a reviewer or a developer duty to find it out, but change owner should document the modes that supported by this commit.\n\n* [1] server.go patch: http://paste.openstack.org/show/478131\n* [2] PolyGerrit up and runing against local data in eclipse: http://imgur.com/jHn2bEo",
+      "parentUuid": "f66b162f_c32f56c8",
+      "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

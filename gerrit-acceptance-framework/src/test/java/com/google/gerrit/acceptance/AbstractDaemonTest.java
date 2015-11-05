@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
+import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
@@ -231,13 +232,6 @@ public abstract class AbstractDaemonTest {
 
   protected boolean isSubmitWholeTopicEnabled() {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
-  }
-
-  private static boolean isNoteDbTestEnabled() {
-    final String[] RUN_FLAGS = {"yes", "y", "true"};
-    String value = System.getenv("GERRIT_ENABLE_NOTEDB");
-    return value != null &&
-        Arrays.asList(RUN_FLAGS).contains(value.toLowerCase());
   }
 
   protected void beforeTest(Description description) throws Exception {

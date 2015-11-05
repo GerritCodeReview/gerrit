@@ -316,6 +316,30 @@
       "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_83355e1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/AccountGroupUUIDHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-05T21:14:05Z",
+      "side": 1,
+      "message": "Currently skimming through the documentation to verify if the original behavior was required by any ssh command.\n\nBTW: I do not see why we started using findBestSuggestion() in the commit that started using it:\nhttps://gerrit-review.googlesource.com/#/c/34953/",
+      "parentUuid": "16718a1c_043b361e",
+      "range": {
+        "startLine": 46,
+        "startChar": 51,
+        "endLine": 46,
+        "endChar": 55
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

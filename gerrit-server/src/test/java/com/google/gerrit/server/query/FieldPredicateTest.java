@@ -23,27 +23,7 @@ import org.junit.Test;
 
 import java.util.Collections;
 
-public class FieldPredicateTest {
-  private static final class TestPredicate extends OperatorPredicate<String> {
-    private TestPredicate(String name, String value) {
-      super(name, value);
-    }
-
-    @Override
-    public boolean match(String object) {
-      return false;
-    }
-
-    @Override
-    public int getCost() {
-      return 0;
-    }
-  }
-
-  private static TestPredicate f(final String name, final String value) {
-    return new TestPredicate(name, value);
-  }
-
+public class FieldPredicateTest extends PredicateTest {
   @Test
   public void testToString() {
     assertEquals("author:bob", f("author", "bob").toString());

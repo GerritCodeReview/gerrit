@@ -28,26 +28,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class OrPredicateTest extends PredicateTest {
-  private static final class TestPredicate extends OperatorPredicate<String> {
-    private TestPredicate(String name, String value) {
-      super(name, value);
-    }
-
-    @Override
-    public boolean match(String object) {
-      return false;
-    }
-
-    @Override
-    public int getCost() {
-      return 0;
-    }
-  }
-
-  private static TestPredicate f(final String name, final String value) {
-    return new TestPredicate(name, value);
-  }
-
   @Test
   public void testChildren() {
     final TestPredicate a = f("author", "alice");

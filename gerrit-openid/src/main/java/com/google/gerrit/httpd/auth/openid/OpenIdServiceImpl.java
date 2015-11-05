@@ -475,7 +475,6 @@ class OpenIdServiceImpl {
     if (isNew && !token.startsWith(PageLinks.REGISTER + "/")) {
       rdr.append('#' + PageLinks.REGISTER);
     }
-    rdr.append(Url.decode(token));
     rsp.sendRedirect(rdr.toString());
   }
 

@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f66b162f_83071e5e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-05T20:00:52Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_e4e7fafd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-05T20:00:52Z",
+      "side": 1,
+      "message": "remove final, see dev guide for more info on final usage: https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_0414168f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-05T20:00:52Z",
+      "side": 1,
+      "message": "remove final",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_a3041a5a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-05T20:00:52Z",
+      "side": 1,
+      "message": "remove final",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_c3011649",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-05T20:00:52Z",
+      "side": 1,
+      "message": "remove final",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 9
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_241912c8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-05T20:00:52Z",
+      "side": 1,
+      "message": "remove final",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 9
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_043b361e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/AccountGroupUUIDHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-05T20:00:52Z",
+      "side": 1,
+      "message": "Will the other ssh commands accepting AccountGroup.UUID as argument will suffer from this behavior change, i.e. finding the exact group instead of the the best match?\n\nDid you check them one by one to make sure this change is ok?",
+      "range": {
+        "startLine": 46,
+        "startChar": 51,
+        "endLine": 46,
+        "endChar": 55
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

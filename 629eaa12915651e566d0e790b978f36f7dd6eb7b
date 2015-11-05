@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76800614_87d9e64e",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-05T19:00:46Z",
+      "side": 1,
+      "message": "Unrelated change? I don\u0027t mind it, but it would be less controversial to add in a separate change (so that if someone does mind it for some reason it is easier to review and improve).",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "629eaa12915651e566d0e790b978f36f7dd6eb7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f66b162f_03224ee6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-05T20:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f66b162f_83071e5e",
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16718a1c_e4e7fafd",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2015-11-05T20:00:52Z",
       "side": 1,
       "message": "remove final, see dev guide for more info on final usage: https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_e3553246",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-05T20:57:09Z",
+      "side": 1,
+      "message": "Okay. I copied those portions of the code from other IT classes though.\nI will remove them.",
+      "parentUuid": "16718a1c_e4e7fafd",
       "range": {
         "startLine": 16,
         "startChar": 4,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "16718a1c_e4553a46",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-05T20:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_0414168f",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f66b162f_a3041a5a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2015-11-05T20:00:52Z",
       "side": 1,
       "message": "remove final",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_042256e6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-05T20:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f66b162f_a3041a5a",
       "range": {
         "startLine": 30,
         "startChar": 4,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "16718a1c_242752f7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-05T20:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f66b162f_c3011649",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 9
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16718a1c_241912c8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
         "patchSetId": 2
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "16718a1c_441c4ea7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-05T20:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_241912c8",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 9
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16718a1c_043b361e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/AccountGroupUUIDHandler.java",
         "patchSetId": 2
@@ -145,6 +283,30 @@
       "writtenOn": "2015-11-05T20:00:52Z",
       "side": 1,
       "message": "Will the other ssh commands accepting AccountGroup.UUID as argument will suffer from this behavior change, i.e. finding the exact group instead of the the best match?\n\nDid you check them one by one to make sure this change is ok?",
+      "range": {
+        "startLine": 46,
+        "startChar": 51,
+        "endLine": 46,
+        "endChar": 55
+      },
+      "revId": "0c8d8f542b4d55cd64d899daca233737cb13c8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_23274af7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/AccountGroupUUIDHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-05T20:57:09Z",
+      "side": 1,
+      "message": "Nope I only checked it with create-project command.\nI will try to make sure why we were using findBestSuggestion() instead of findExactSuggestion() for accountGroup query.",
+      "parentUuid": "16718a1c_043b361e",
       "range": {
         "startLine": 46,
         "startChar": 51,

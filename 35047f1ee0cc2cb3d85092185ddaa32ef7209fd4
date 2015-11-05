@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5677820e_a6dd0632",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-05T20:50:12Z",
+      "side": 1,
+      "message": "Works as expected now. It\u0027s running againg production data  on gerrit-review. This is awesome! I\u0027m seeing some problems, though, like commit message is always empty and other files are not fully rendered in side-by-side view? Are these known issues, or some problems on my side? Should the knwon issue be mentioned in the commit message?",
+      "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

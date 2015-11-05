@@ -137,6 +137,7 @@ java_library(
   srcs = PROLOG_TEST_CASE,
   deps = [
     ':server',
+    ':testutil',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//lib:guava',

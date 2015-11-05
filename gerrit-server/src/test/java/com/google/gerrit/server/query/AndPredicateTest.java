@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.List;
 
 public class AndPredicateTest extends PredicateTest {
@@ -109,11 +108,5 @@ public class AndPredicateTest extends PredicateTest {
     assertNotSame(n2, n2.copy(s2));
     assertEquals(s2, n2.copy(s2).getChildren());
     assertEquals(s3, n2.copy(s3).getChildren());
-
-    try {
-      n2.copy(Collections.<Predicate<String>> emptyList());
-    } catch (IllegalArgumentException e) {
-      assertEquals("Need at least two predicates", e.getMessage());
-    }
   }
 }

@@ -49,6 +49,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.testutil.FakeAccountCache;
+import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.client.KeyUtil;
@@ -72,7 +73,7 @@ import java.sql.Timestamp;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class AbstractChangeNotesTest {
+public class AbstractChangeNotesTest extends GerritBaseTests {
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
 

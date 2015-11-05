@@ -273,6 +273,24 @@
       "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d698d291_22e82ecf",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-11-05T14:59:12Z",
+      "side": 1,
+      "message": "i\u0027m just a bystander, but i\u0027d definitely vote for upfront polishing. it doesn\u0027t need to be complete, but it shouldn\u0027t contain things that are obviously suboptimal and easy to fix or even just plain wrong.",
+      "parentUuid": "5677820e_46f7f2b6",
+      "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

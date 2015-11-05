@@ -103,16 +103,12 @@ public class NotPredicateTest extends PredicateTest {
     assertNotSame(n, n.copy(sb));
     assertEquals(sb, n.copy(sb).getChildren());
 
-    try {
-      n.copy(Collections.<Predicate> emptyList());
-    } catch (IllegalArgumentException e) {
-      assertEquals("Expected exactly one child", e.getMessage());
-    }
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("Expected exactly one child");
+    n.copy(Collections.<Predicate> emptyList());
 
-    try {
-      n.copy(and(a, b).getChildren());
-    } catch (IllegalArgumentException e) {
-      assertEquals("Expected exactly one child", e.getMessage());
-    }
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("Expected exactly one child");
+    n.copy(and(a, b).getChildren());
   }
 }

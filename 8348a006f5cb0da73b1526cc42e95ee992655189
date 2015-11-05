@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5677820e_86d9ea4e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/GerritServerTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-05T08:22:21Z",
+      "side": 1,
+      "message": "Why this var is not static outside of this method?",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 52
+      },
+      "revId": "8348a006f5cb0da73b1526cc42e95ee992655189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d698d291_c2bf42ce",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/GerritServerTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-05T08:22:21Z",
+      "side": 1,
+      "message": "In [1] the same method is used in AbstractDaemonTest. We should be easily reuse this one from it, right? gerrit-acceptance-framwork depends on server-test-util:\n\n  DEPS \u003d [\n    \u0027//gerrit-gpg:gpg\u0027,\n    \u0027//gerrit-pgm:daemon\u0027,\n    \u0027//gerrit-pgm:util-nodep\u0027,\n    \u0027//gerrit-server:testutil\u0027,\n  [...]\n\n* [1] https://gerrit-review.googlesource.com/#/c/71771/7/gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java@236",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 3
+      },
+      "revId": "8348a006f5cb0da73b1526cc42e95ee992655189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

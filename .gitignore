@@ -19,6 +19,7 @@
 /local.properties
 *.pyc
 /gwt-unitCache
+.DS_Store
 *.swp
 *.asc
 /bin/

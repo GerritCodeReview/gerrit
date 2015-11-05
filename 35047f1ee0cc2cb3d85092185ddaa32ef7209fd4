@@ -52,6 +52,24 @@
       "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_c32f56c8",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-05T21:33:59Z",
+      "side": 1,
+      "message": "\u003e I think the known issues should be mentioned in the commit message\n\nIf we start listing known issues the commit message will be longer than the code.\n\n\u003e To start with it should mention three major modes\n\nOnly one is supported in this commit. It is documented in this file.",
+      "parentUuid": "d698d291_62051654",
+      "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

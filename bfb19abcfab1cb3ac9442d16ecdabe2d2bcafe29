@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "16718a1c_c4011e49",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/FileUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-05T19:58:33Z",
+      "side": 1,
+      "message": "Rewritten, this is no longer necessary, since we actually use the FNFE.",
+      "parentUuid": "d698d291_a2fb1ea2",
+      "revId": "bfb19abcfab1cb3ac9442d16ecdabe2d2bcafe29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96a49abb_d38646f8",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/FileUtil.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2015-11-04T20:35:28Z",
       "side": 1,
       "message": "what units?\n\nCACHE_FILE_SIZE_LIMIT_BYTES?",
+      "revId": "bfb19abcfab1cb3ac9442d16ecdabe2d2bcafe29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_43452697",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-05T19:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96a49abb_937cbeca",
       "revId": "bfb19abcfab1cb3ac9442d16ecdabe2d2bcafe29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

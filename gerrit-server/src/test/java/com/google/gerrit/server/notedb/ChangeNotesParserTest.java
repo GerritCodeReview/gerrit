@@ -27,16 +27,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private TestRepository<InMemoryRepository> testRepo;
   private RevWalk walk;
-
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
 
   @Before
   public void setUpTestRepo() throws Exception {

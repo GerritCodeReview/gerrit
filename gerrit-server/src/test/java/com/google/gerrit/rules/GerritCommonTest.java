@@ -40,9 +40,7 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.io.PushbackReader;
 import java.io.StringReader;
@@ -61,9 +59,6 @@ public class GerritCommonTest extends PrologTestCase {
   private final Project.NameKey localKey = new Project.NameKey("local");
   private ProjectConfig local;
   private Util util;
-
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
 
   @Before
   public void setUp() throws Exception {

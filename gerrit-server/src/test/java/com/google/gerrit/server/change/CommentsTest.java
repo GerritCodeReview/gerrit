@@ -87,9 +87,7 @@ import org.easymock.IAnswer;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.sql.Timestamp;
 import java.util.Collections;
@@ -100,9 +98,6 @@ import java.util.TimeZone;
 public class CommentsTest extends GerritServerTests {
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
-
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
 
   private Injector injector;
   private ReviewDb db;

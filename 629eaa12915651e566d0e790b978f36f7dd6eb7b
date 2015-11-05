@@ -46,6 +46,30 @@
       "revId": "629eaa12915651e566d0e790b978f36f7dd6eb7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_28f2cbc7",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-05T19:08:55Z",
+      "side": 1,
+      "message": "Pushed for review at https://gerrit-review.googlesource.com/72120",
+      "parentUuid": "f66b162f_e3e7f2fd",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "629eaa12915651e566d0e790b978f36f7dd6eb7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

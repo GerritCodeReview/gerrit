@@ -1,6 +1,6 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '5.3.0'
+VERSION = '5.3.1'
 
 # core and backward-codecs both provide
 # META-INF/services/org.apache.lucene.codecs.Codec, so they must be merged.
@@ -16,7 +16,7 @@ merge_maven_jars(
 maven_jar(
   name = 'core_jar',
   id = 'org.apache.lucene:lucene-core:' + VERSION,
-  sha1 = '9e12bb7c39e964a544e3a23b9c8ffa9599d38f10',
+  sha1 = '36860653d7e09790ada96aeb1970b4ca396ac5d7',
   license = 'Apache2.0',
   exclude = [
     'META-INF/LICENSE.txt',
@@ -28,7 +28,7 @@ maven_jar(
 maven_jar(
   name = 'analyzers-common',
   id = 'org.apache.lucene:lucene-analyzers-common:' + VERSION,
-  sha1 = '1502beac94cf437baff848ffbbb8f76172befa6b',
+  sha1 = 'bd804dbc1b8f7941018926e940d20d1016b36c4c',
   license = 'Apache2.0',
   deps = [':core-and-backward-codecs'],
   exclude = [
@@ -40,7 +40,7 @@ maven_jar(
 maven_jar(
   name = 'backward-codecs_jar',
   id = 'org.apache.lucene:lucene-backward-codecs:' + VERSION,
-  sha1 = 'f654901e55fe56bdbe4be202767296929c2f8d9e',
+  sha1 = '380603f537317a78f9d9b7421bc2ac87586cb9a1',
   license = 'Apache2.0',
   deps = [':core_jar'],
   exclude = [
@@ -53,7 +53,7 @@ maven_jar(
 maven_jar(
   name = 'misc',
   id = 'org.apache.lucene:lucene-misc:' + VERSION,
-  sha1 = 'd03ce6d1bb8ab3926b3acc717418c474a49ade69',
+  sha1 = '7891bbc18b372135c2a52b471075b0bdf5f110ec',
   license = 'Apache2.0',
   deps = [':core-and-backward-codecs'],
   exclude = [
@@ -65,7 +65,7 @@ maven_jar(
 maven_jar(
   name = 'queryparser',
   id = 'org.apache.lucene:lucene-queryparser:' + VERSION,
-  sha1 = '2c5e08580316c90b56a52e3cb686e1cf69db3f9e',
+  sha1 = 'bef0e2ac5b196dbab9d0b7c8cc8196b7ef5dd056',
   license = 'Apache2.0',
   deps = [':core-and-backward-codecs'],
   exclude = [

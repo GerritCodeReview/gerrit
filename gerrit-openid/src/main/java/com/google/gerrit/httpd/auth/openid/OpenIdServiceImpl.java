@@ -466,7 +466,9 @@ class OpenIdServiceImpl {
   private void callback(final boolean isNew, final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     String token = req.getParameter(P_TOKEN);
-    if (token == null || token.isEmpty() || token.startsWith("/SignInFailure,")) {
+    if (token == null || token.isEmpty()) {
+      token = "";
+    } else if (token.startsWith("/SignInFailure,")) {
       token = PageLinks.MINE;
     }
 

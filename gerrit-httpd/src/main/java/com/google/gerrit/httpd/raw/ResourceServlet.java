@@ -35,6 +35,7 @@ import com.google.gwtjsonrpc.server.RPCServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -197,10 +198,14 @@ public abstract class ResourceServlet extends HttpServlet {
     return new Callable<Resource>() {
       @Override
       public Resource call() throws IOException {
-        return new Resource(
-            Files.getLastModifiedTime(p),
-            contentType(name),
-            Files.readAllBytes(p));
+        try {
+          return new Resource(
+              Files.getLastModifiedTime(p),
+              contentType(p.toString()),
+              Files.readAllBytes(p));
+        } catch (FileNotFoundException e) {
+          return Resource.NOT_FOUND;
+        }
       }
     };
   }

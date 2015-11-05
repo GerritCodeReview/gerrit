@@ -82,9 +82,7 @@ import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,9 +91,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Ignore
 public abstract class AbstractQueryChangesTest extends GerritServerTests {
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
-
   @Inject protected AccountManager accountManager;
   @Inject protected BatchUpdate.Factory updateFactory;
   @Inject protected ChangeInserter.Factory changeFactory;

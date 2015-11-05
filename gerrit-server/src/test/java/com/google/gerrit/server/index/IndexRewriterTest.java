@@ -34,21 +34,17 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.gerrit.server.query.change.QueryOptions;
+import com.google.gerrit.testutil.GerritBaseTests;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 
-public class IndexRewriterTest {
+public class IndexRewriterTest extends GerritBaseTests {
   private static final IndexConfig CONFIG = IndexConfig.createDefault();
-
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
 
   private FakeIndex index;
   private IndexCollection indexes;

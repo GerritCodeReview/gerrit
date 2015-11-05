@@ -21,10 +21,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.server.util.HostPlatform;
+import com.google.gerrit.testutil.GerritBaseTests;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,10 +31,7 @@ import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class SitePathsTest {
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
-
+public class SitePathsTest extends GerritBaseTests {
   @Test
   public void testCreate_NotExisting() throws IOException {
     final Path root = random();

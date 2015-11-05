@@ -16,14 +16,11 @@ package com.google.gerrit.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import org.junit.Rule;
+import com.google.gerrit.testutil.GerritBaseTests;
+
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-public class AddressTest {
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
-
+public class AddressTest extends GerritBaseTests {
   @Test
   public void testParse_NameEmail1() {
     final Address a = Address.parse("A U Thor <author@example.com>");

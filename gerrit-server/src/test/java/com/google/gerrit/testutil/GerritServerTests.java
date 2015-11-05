@@ -26,7 +26,7 @@ import org.junit.runners.model.Statement;
 import java.util.Arrays;
 
 @RunWith(ConfigSuite.class)
-public class GerritServerTests {
+public class GerritServerTests extends GerritBaseTests {
   @ConfigSuite.Parameter
   public Config config;
 

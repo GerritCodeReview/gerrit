@@ -129,6 +129,30 @@
       "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d698d291_e2f126c4",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-05T14:31:55Z",
+      "side": 1,
+      "message": "It worth noting that this was done differently in the past. Big changes were always polished in Gerrit: [1], [2] before they were submitted:\n\n* [1] Buck driven build: https://gerrit-review.googlesource.com/45110\n* [2] New change screen: https://gerrit-review.googlesource.com/46600\n\nWhy should this be changed?",
+      "parentUuid": "f66b162f_c3bcb6e1",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 59
+      },
+      "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_c3583681",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021863
+      },
+      "writtenOn": "2015-11-05T20:52:07Z",
+      "side": 1,
+      "message": "Yes the diff view is still a VERY early prototype and doesn\u0027t fully work :). The commit message is always empty because of the weird way Go is forwarding the request for the data.",
+      "parentUuid": "5677820e_a6dd0632",
+      "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

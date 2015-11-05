@@ -61,10 +61,8 @@ public class FieldPredicateTest extends PredicateTest {
     assertSame(f, f.copy(Collections.<Predicate<String>> emptyList()));
     assertSame(f, f.copy(f.getChildren()));
 
-    try {
-      f.copy(Collections.singleton(f("owner", "bob")));
-    } catch (IllegalArgumentException e) {
-      assertEquals("Expected 0 children", e.getMessage());
-    }
+    exception.expect(IllegalArgumentException.class);
+    exception.expectMessage("Expected 0 children");
+    f.copy(Collections.singleton(f("owner", "bob")));
   }
 }

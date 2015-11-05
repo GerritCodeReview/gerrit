@@ -67,8 +67,8 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeAccountCache;
+import com.google.gerrit.testutil.GerritServerTests;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.server.ListResultSet;
@@ -90,7 +90,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
 
 import java.sql.Timestamp;
 import java.util.Collections;
@@ -98,19 +97,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-@RunWith(ConfigSuite.class)
-public class CommentsTest  {
+public class CommentsTest extends GerritServerTests {
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
-
-  @ConfigSuite.Parameter
-  public Config config;
-
-  @ConfigSuite.Config
-  @GerritServerConfig
-  public static Config noteDbEnabled() {
-    return NotesMigration.allEnabledConfig();
-  }
 
   @Rule
   public ExpectedException exception = ExpectedException.none();

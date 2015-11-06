@@ -106,6 +106,23 @@
       "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_44936e3e",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-06T20:09:40Z",
+      "side": 1,
+      "message": "Just curious, so it seems that the diff view will not use CodeMirror any more?",
+      "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

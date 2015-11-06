@@ -24,7 +24,6 @@ import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.ListCaches.CacheType;
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.util.Base64;
 import org.junit.Test;
 
@@ -37,7 +36,7 @@ public class ListCachesIT extends AbstractDaemonTest {
   @Test
   public void listCaches() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     Map<String, CacheInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<Map<String, CacheInfo>>() {}.getType());
@@ -56,7 +55,7 @@ public class ListCachesIT extends AbstractDaemonTest {
 
     userSession.get("/config/server/version").consume();
     r = adminSession.get("/config/server/caches/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     result = newGson().fromJson(r.getReader(),
         new TypeToken<Map<String, CacheInfo>>() {}.getType());
     assertThat(result.get("accounts").entries.mem).isEqualTo(2);
@@ -64,14 +63,15 @@ public class ListCachesIT extends AbstractDaemonTest {
 
   @Test
   public void listCaches_Forbidden() throws Exception {
-    RestResponse r = userSession.get("/config/server/caches/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+    userSession
+        .get("/config/server/caches/")
+        .assertForbidden();
   }
 
   @Test
   public void listCacheNames() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/?format=LIST");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     List<String> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<List<String>>() {}.getType());
@@ -83,7 +83,7 @@ public class ListCachesIT extends AbstractDaemonTest {
   @Test
   public void listCacheNamesTextList() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/?format=TEXT_LIST");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     String result = new String(Base64.decode(r.getEntityContent()), UTF_8.name());
     List<String> list = Arrays.asList(result.split("\n"));
     assertThat(list).contains("accounts");
@@ -93,7 +93,8 @@ public class ListCachesIT extends AbstractDaemonTest {
 
   @Test
   public void listCaches_BadRequest() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/?format=NONSENSE");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    adminSession
+        .get("/config/server/caches/?format=NONSENSE")
+        .assertBadRequest();
   }
 }

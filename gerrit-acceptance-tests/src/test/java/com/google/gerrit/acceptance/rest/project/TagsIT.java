@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.PushResult;
@@ -42,8 +41,9 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void listTagsOfNonExistingProject() throws Exception {
-    assertThat(adminSession.get("/projects/non-existing/tags").getStatusCode())
-        .isEqualTo(HttpStatus.SC_NOT_FOUND);
+    adminSession
+        .get("/projects/non-existing/tags")
+        .assertNotFound();
   }
 
   @Test
@@ -57,9 +57,9 @@ public class TagsIT extends AbstractDaemonTest {
   @Test
   public void listTagsOfNonVisibleProject() throws Exception {
     blockRead(project, "refs/*");
-    assertThat(
-        userSession.get("/projects/" + project.get() + "/tags").getStatusCode())
-        .isEqualTo(HttpStatus.SC_NOT_FOUND);
+    userSession
+        .get("/projects/" + project.get() + "/tags")
+        .assertNotFound();
   }
 
   @Test

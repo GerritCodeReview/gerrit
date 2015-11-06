@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.KeyMapType;
 import com.google.gerrit.extensions.client.Theme;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
   public void getSetEditPreferences() throws Exception {
     String endPoint = "/accounts/" + admin.email + "/preferences.edit";
     RestResponse r = adminSession.get(endPoint);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     EditPreferencesInfo out = getEditPrefInfo(r);
 
     assertThat(out.lineLength).isEqualTo(100);
@@ -62,22 +61,20 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     out.theme = Theme.TWILIGHT;
     out.keyMapType = KeyMapType.EMACS;
 
-    r = adminSession.put(endPoint, out);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    adminSession.put(endPoint, out).assertNoContent();
 
     r = adminSession.get(endPoint);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     EditPreferencesInfo info = getEditPrefInfo(r);
     assertEditPreferences(info, out);
 
     // Partially filled input record
     EditPreferencesInfo in = new EditPreferencesInfo();
     in.tabSize = 42;
-    r = adminSession.put(endPoint, in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    adminSession.put(endPoint, in).assertNoContent();
 
     r = adminSession.get(endPoint);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     info = getEditPrefInfo(r);
     out.tabSize = in.tabSize;
     assertEditPreferences(info, out);

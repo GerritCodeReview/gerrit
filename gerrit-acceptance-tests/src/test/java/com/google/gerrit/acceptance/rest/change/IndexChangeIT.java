@@ -14,27 +14,25 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 public class IndexChangeIT extends AbstractDaemonTest {
   @Test
   public void indexChange() throws Exception {
     String changeId = createChange().getChangeId();
-    RestResponse r = adminSession.post("/changes/" + changeId + "/index/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    adminSession
+        .post("/changes/" + changeId + "/index/")
+        .assertNoContent();
   }
 
   @Test
   public void indexChangeOnNonVisibleBranch() throws Exception {
     String changeId = createChange().getChangeId();
     blockRead(project, "refs/heads/master");
-    RestResponse r = userSession.post("/changes/" + changeId + "/index/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    userSession
+        .post("/changes/" + changeId + "/index/")
+        .assertNotFound();
   }
 }

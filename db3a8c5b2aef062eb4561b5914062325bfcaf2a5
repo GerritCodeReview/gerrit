@@ -157,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "76800614_674a32aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-06T21:04:19Z",
+      "side": 1,
+      "message": "Mars.1 Release (4.5.1)\n\nBut I see that we had this annotation already before this change, so I guess for this change we should not bother.",
+      "parentUuid": "16718a1c_a47982d9",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_684a03aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
         "patchSetId": 1

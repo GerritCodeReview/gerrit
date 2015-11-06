@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -29,11 +28,9 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listChildrenOfNonExistingProject_NotFound() throws Exception {
-    try {
-      gApi.projects().name(name("non-existing")).child("children");
-    } catch (ResourceNotFoundException e) {
-      assertThat(e.getMessage()).contains("non-existing");
-    }
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage("non-existing");
+    gApi.projects().name(name("non-existing")).child("children");
   }
 
   @Test

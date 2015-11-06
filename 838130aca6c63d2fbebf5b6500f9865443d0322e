@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76800614_672152de",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/RestResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-06T22:37:23Z",
+      "side": 1,
+      "message": "SC_UNPROCESSABLE_ENTITY",
+      "range": {
+        "startLine": 75,
+        "startChar": 28,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "838130aca6c63d2fbebf5b6500f9865443d0322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

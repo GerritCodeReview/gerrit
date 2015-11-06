@@ -14,19 +14,15 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 public class AddMemberIT extends AbstractDaemonTest {
   @Test
   public void addNonExistingMember_NotFound() throws Exception {
-    int status =
-        adminSession.put("/groups/Administrators/members/non-existing")
-            .getStatusCode();
-    assertThat(status).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    adminSession
+      .put("/groups/Administrators/members/non-existing")
+      .assertNotFound();
   }
 }

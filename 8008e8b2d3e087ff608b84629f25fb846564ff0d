@@ -309,6 +309,30 @@
       "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_c8ea0fc9",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-06T03:52:37Z",
+      "side": 1,
+      "message": "\u003e It worth noting that this was done differently in the past. Big changes \n\u003e were always polished in Gerrit: [1], [2] before they were submitted:\n\nand wasn\u0027t it generally agreed that it would have been better to submit in smaller increments so that others can also contribute?",
+      "parentUuid": "d698d291_e2f126c4",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 59
+      },
+      "revId": "8008e8b2d3e087ff608b84629f25fb846564ff0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

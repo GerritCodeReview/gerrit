@@ -118,6 +118,30 @@
       "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_68fcc39a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-06T02:19:49Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "16718a1c_a44b42a9",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

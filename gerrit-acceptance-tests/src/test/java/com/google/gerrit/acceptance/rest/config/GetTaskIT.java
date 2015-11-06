@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class GetTaskIT extends AbstractDaemonTest {
   public void getTask() throws Exception {
     RestResponse r =
         adminSession.get("/config/server/tasks/" + getLogFileCompressorTaskId());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     TaskInfo info =
         newGson().fromJson(r.getReader(),
             new TypeToken<TaskInfo>() {}.getType());
@@ -44,9 +43,9 @@ public class GetTaskIT extends AbstractDaemonTest {
 
   @Test
   public void getTask_NotFound() throws Exception {
-    RestResponse r =
-        userSession.get("/config/server/tasks/" + getLogFileCompressorTaskId());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    userSession
+        .get("/config/server/tasks/" + getLogFileCompressorTaskId())
+        .assertNotFound();
   }
 
   private String getLogFileCompressorTaskId() throws Exception {

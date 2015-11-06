@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -45,7 +44,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     RestResponse r = deletePatchSet(changeId, ps, adminSession);
     assertThat(r.getEntityContent()).isEqualTo("Patch set is not a draft");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
+    r.assertConflict();
   }
 
   @Test
@@ -58,7 +57,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
     RestResponse r = deletePatchSet(changeId, ps, userSession);
     assertThat(r.getEntityContent()).isEqualTo("Not found: " + changeId);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    r.assertNotFound();
   }
 
   @Test
@@ -69,12 +68,10 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
-    RestResponse r = deletePatchSet(changeId, ps, adminSession);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    deletePatchSet(changeId, ps, adminSession).assertNoContent();
     assertThat(getChange(changeId).patchSets()).hasSize(1);
     ps = getCurrentPatchSet(changeId);
-    r = deletePatchSet(changeId, ps, adminSession);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    deletePatchSet(changeId, ps, adminSession).assertNoContent();
     assertThat(queryProvider.get().byKeyPrefix(changeId)).isEmpty();
   }
 

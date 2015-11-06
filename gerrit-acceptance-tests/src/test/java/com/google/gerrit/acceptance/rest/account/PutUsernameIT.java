@@ -26,7 +26,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -41,7 +40,7 @@ public class PutUsernameIT extends AbstractDaemonTest {
     in.username = "myUsername";
     RestResponse r =
         adminSession.put("/accounts/" + createUser().get() + "/username", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     assertThat(newGson().fromJson(r.getReader(), String.class)).isEqualTo(
         in.username);
   }
@@ -50,25 +49,25 @@ public class PutUsernameIT extends AbstractDaemonTest {
   public void setExisting_Conflict() throws Exception {
     PutUsername.Input in = new PutUsername.Input();
     in.username = admin.username;
-    RestResponse r =
-        adminSession.put("/accounts/" + createUser().get() + "/username", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
+    adminSession
+        .put("/accounts/" + createUser().get() + "/username", in)
+        .assertConflict();
   }
 
   @Test
   public void setNew_MethodNotAllowed() throws Exception {
     PutUsername.Input in = new PutUsername.Input();
     in.username = "newUsername";
-    RestResponse r =
-        adminSession.put("/accounts/" + admin.username + "/username", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_METHOD_NOT_ALLOWED);
+    adminSession
+        .put("/accounts/" + admin.username + "/username", in)
+        .assertMethodNotAllowed();
   }
 
   @Test
   public void delete_MethodNotAllowed() throws Exception {
-    RestResponse r =
-        adminSession.put("/accounts/" + admin.username + "/username");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_METHOD_NOT_ALLOWED);
+    adminSession
+        .put("/accounts/" + admin.username + "/username")
+        .assertMethodNotAllowed();
   }
 
   private Account.Id createUser() throws OrmException {

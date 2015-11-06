@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class ListTasksIT extends AbstractDaemonTest {
   @Test
   public void listTasks() throws Exception {
     RestResponse r = adminSession.get("/config/server/tasks/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     List<TaskInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<List<TaskInfo>>() {}.getType());
@@ -52,7 +51,7 @@ public class ListTasksIT extends AbstractDaemonTest {
   @Test
   public void listTasksWithoutViewQueueCapability() throws Exception {
     RestResponse r = userSession.get("/config/server/tasks/");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     List<TaskInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<List<TaskInfo>>() {}.getType());

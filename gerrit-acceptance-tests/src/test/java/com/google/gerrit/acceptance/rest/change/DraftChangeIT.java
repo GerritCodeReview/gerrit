@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtorm.server.OrmException;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -52,7 +51,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     RestResponse response = deleteChange(changeId, adminSession);
     assertThat(response.getEntityContent()).isEqualTo("Change is not a draft");
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
+    response.assertConflict();
   }
 
   @Test
@@ -65,8 +64,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
-    RestResponse response = deleteChange(changeId, adminSession);
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    deleteChange(changeId, adminSession).assertNoContent();
 
     exception.expect(ResourceNotFoundException.class);
     get(triplet);
@@ -83,8 +81,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
     assertThat(c.revisions.get(c.currentRevision).draft).isTrue();
-    RestResponse response = publishChange(changeId);
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    publishChange(changeId).assertNoContent();
     c = get(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     assertThat(c.revisions.get(c.currentRevision).draft).isNull();
@@ -100,8 +97,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     ChangeInfo c = get(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
-    RestResponse response = publishPatchSet(changeId);
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    publishPatchSet(changeId).assertNoContent();
     assertThat(get(triplet).status).isEqualTo(ChangeStatus.NEW);
   }
 

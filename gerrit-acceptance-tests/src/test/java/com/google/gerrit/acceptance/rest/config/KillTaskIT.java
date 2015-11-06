@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.util.List;
@@ -37,7 +36,7 @@ public class KillTaskIT extends AbstractDaemonTest {
     assertThat(taskCount).isGreaterThan(0);
 
     r = adminSession.delete("/config/server/tasks/" + result.get(0).id);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    r.assertNoContent();
     r.consume();
 
     r = adminSession.get("/config/server/tasks/");
@@ -54,8 +53,9 @@ public class KillTaskIT extends AbstractDaemonTest {
     r.consume();
     assertThat(result.size()).isGreaterThan(0);
 
-    r = userSession.delete("/config/server/tasks/" + result.get(0).id);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    userSession
+        .delete("/config/server/tasks/" + result.get(0).id)
+        .assertNotFound();
   }
 
   @Test

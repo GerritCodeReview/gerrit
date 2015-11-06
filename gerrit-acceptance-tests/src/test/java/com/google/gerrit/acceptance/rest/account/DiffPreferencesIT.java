@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -23,23 +22,21 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 public class DiffPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getDiffPreferencesOfNonExistingAccount_NotFound()
       throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        adminSession.get("/accounts/non-existing/preferences.diff")
-        .getStatusCode());
+    adminSession.get("/accounts/non-existing/preferences.diff")
+        .assertNotFound();
   }
 
   @Test
   public void getDiffPreferences() throws Exception {
     RestResponse r = adminSession.get("/accounts/" + admin.email
         + "/preferences.diff");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    r.assertOK();
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
     DiffPreferencesInfo o =
         newGson().fromJson(r.getReader(), DiffPreferencesInfo.class);
@@ -98,7 +95,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
 
     RestResponse r = adminSession.put("/accounts/" + admin.email
         + "/preferences.diff", i);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    r.assertOK();
     DiffPreferencesInfo o = newGson().fromJson(r.getReader(),
         DiffPreferencesInfo.class);
 

@@ -25,7 +25,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.server.git.ProjectConfig;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -130,15 +129,15 @@ public class GetCommitIT extends AbstractDaemonTest {
   }
 
   private void assertNotFound(ObjectId id) throws Exception {
-    RestResponse r = userSession.get(
-        "/projects/" + project.get() + "/commits/" + id.name());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    userSession
+        .get("/projects/" + project.get() + "/commits/" + id.name())
+        .assertNotFound();
   }
 
   private CommitInfo getCommit(ObjectId id) throws Exception {
     RestResponse r = userSession.get(
         "/projects/" + project.get() + "/commits/" + id.name());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     CommitInfo result = newGson().fromJson(r.getReader(), CommitInfo.class);
     r.consume();
     return result;

@@ -22,7 +22,6 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 public class FlushCacheIT extends AbstractDaemonTest {
@@ -34,7 +33,7 @@ public class FlushCacheIT extends AbstractDaemonTest {
     assertThat(result.entries.mem).isGreaterThan((long)0);
 
     r = adminSession.post("/config/server/caches/groups/flush");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     r.consume();
 
     r = adminSession.get("/config/server/caches/groups");
@@ -44,26 +43,30 @@ public class FlushCacheIT extends AbstractDaemonTest {
 
   @Test
   public void flushCache_Forbidden() throws Exception {
-    RestResponse r = userSession.post("/config/server/caches/accounts/flush");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+    userSession
+        .post("/config/server/caches/accounts/flush")
+        .assertForbidden();
   }
 
   @Test
   public void flushCache_NotFound() throws Exception {
-    RestResponse r = adminSession.post("/config/server/caches/nonExisting/flush");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    adminSession
+        .post("/config/server/caches/nonExisting/flush")
+        .assertNotFound();
   }
 
   @Test
   public void flushCacheWithGerritPrefix() throws Exception {
-    RestResponse r = adminSession.post("/config/server/caches/gerrit-accounts/flush");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    adminSession
+        .post("/config/server/caches/gerrit-accounts/flush")
+        .assertOK();
   }
 
   @Test
   public void flushWebSessionsCache() throws Exception {
-    RestResponse r = adminSession.post("/config/server/caches/web_sessions/flush");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    adminSession
+        .post("/config/server/caches/web_sessions/flush")
+        .assertOK();
   }
 
   @Test
@@ -72,11 +75,12 @@ public class FlushCacheIT extends AbstractDaemonTest {
         GlobalCapability.VIEW_CACHES, GlobalCapability.FLUSH_CACHES);
     try {
       RestResponse r = userSession.post("/config/server/caches/accounts/flush");
-      assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+      r.assertOK();
       r.consume();
 
-      r = userSession.post("/config/server/caches/web_sessions/flush");
-      assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+      userSession
+          .post("/config/server/caches/web_sessions/flush")
+          .assertForbidden();
     } finally {
       removeGlobalCapabilities(REGISTERED_USERS,
           GlobalCapability.VIEW_CACHES, GlobalCapability.FLUSH_CACHES);

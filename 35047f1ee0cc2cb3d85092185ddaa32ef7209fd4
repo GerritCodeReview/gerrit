@@ -141,6 +141,24 @@
       "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_64986a5a",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-06T20:17:03Z",
+      "side": 1,
+      "message": "SGTM :)",
+      "parentUuid": "96a49abb_cd6a1ec2",
+      "revId": "35047f1ee0cc2cb3d85092185ddaa32ef7209fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

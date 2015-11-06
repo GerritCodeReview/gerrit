@@ -197,12 +197,9 @@ public class ListProjectsIT extends AbstractDaemonTest {
         .containsExactly(allProjects, allUsers, project).inOrder();
   }
 
-  private static void assertBadRequest(ListRequest req) throws Exception {
-    try {
-      req.get();
-    } catch (BadRequestException expected) {
-      // Expected.
-    }
+  private void assertBadRequest(ListRequest req) throws Exception {
+    exception.expect(BadRequestException.class);
+    req.get();
   }
 
   private Iterable<ProjectInfo> filter(Iterable<ProjectInfo> infos) {

@@ -22,6 +22,29 @@
       "revId": "81de6fcbe0b37272612127e35f45f9a4407f14e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d698d291_e23fe606",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-06T07:50:38Z",
+      "side": 0,
+      "message": "OK, Thanks for the steps to reproduce. I tracked it down in SDM debug session and was able to identify where etra \u0027/\u0027 is coming from. Here is the fix for \"Switch Account\" problem: [1]. But, I think this is completely different issue what you are seeing on review.o.o and entirely unrelated. In any event, as pointed out by Hugo in previous comment, you can\u0027t just remove this line. To see why, log out, go to side-by-side screen, try to add a draft comment and say save: you are redirecting to Launchpad, afer login the token here would be something like: \"#/c/2219/3/test.js\". Before this change, the user was reidrected to the same side-by-side screen and file, after this change this redirection is lost!\n\nIOW, what we need is to better understand why extra char \u0027/\u0027 is only affected review.o.o before applying any blind fixes. Can you remote debug two installations:\n\n* working 2.8.4\n* broken 2.11.4\n\n(by that I mean reall use case, where user logged in and double // is added) and try to understand why it worked before and got broken now? And why only reverse proxy configuration and only review.o.o is affected?\n\n* [1] http://paste.openstack.org/show/478157",
+      "range": {
+        "startLine": 478,
+        "startChar": 4,
+        "endLine": 478,
+        "endChar": 34
+      },
+      "revId": "81de6fcbe0b37272612127e35f45f9a4407f14e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

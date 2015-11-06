@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.ListCaches.CacheType;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 public class GetCacheIT extends AbstractDaemonTest {
@@ -29,7 +28,7 @@ public class GetCacheIT extends AbstractDaemonTest {
   @Test
   public void getCache() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/accounts");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
 
     assertThat(result.name).isEqualTo("accounts");
@@ -45,26 +44,29 @@ public class GetCacheIT extends AbstractDaemonTest {
 
     userSession.get("/config/server/version").consume();
     r = adminSession.get("/config/server/caches/accounts");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     result = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(result.entries.mem).isEqualTo(2);
   }
 
   @Test
   public void getCache_Forbidden() throws Exception {
-    RestResponse r = userSession.get("/config/server/caches/accounts");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+    userSession
+        .get("/config/server/caches/accounts")
+        .assertForbidden();
   }
 
   @Test
   public void getCache_NotFound() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/nonExisting");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    adminSession
+        .get("/config/server/caches/nonExisting")
+        .assertNotFound();
   }
 
   @Test
   public void getCacheWithGerritPrefix() throws Exception {
-    RestResponse r = adminSession.get("/config/server/caches/gerrit-accounts");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    adminSession
+        .get("/config/server/caches/gerrit-accounts")
+        .assertOK();
   }
 }

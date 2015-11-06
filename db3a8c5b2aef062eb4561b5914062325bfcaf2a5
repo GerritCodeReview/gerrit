@@ -45,6 +45,114 @@
       "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_083b471e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-06T18:25:38Z",
+      "side": 1,
+      "message": "for better code readability, align this column with the columns above",
+      "range": {
+        "startLine": 2243,
+        "startChar": 12,
+        "endLine": 2243,
+        "endChar": 32
+      },
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_48453f97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-06T18:25:38Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76800614_c7011e49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-06T18:25:38Z",
+      "side": 1,
+      "message": "Why is this not final?",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_28400b88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-06T18:25:38Z",
+      "side": 1,
+      "message": "nit: missing space after \u0027if\u0027",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_884e57ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-06T18:25:38Z",
+      "side": 1,
+      "message": "My Eclipse says: \u0027Unnecessary @SuppressWarnings(\"resource\")\u0027",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_684a03aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-06T18:25:38Z",
+      "side": 1,
+      "message": "nit: wrap line",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

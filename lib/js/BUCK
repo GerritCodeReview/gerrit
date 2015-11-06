@@ -1,0 +1,111 @@
+include_defs('//lib/js.defs')
+
+npm_binary(
+  name = 'bower',
+  version = '1.6.5',
+)
+
+bower_components(
+  name = 'polygerrit_components',
+  deps = [
+      ':iron-a11y-keys',
+      ':iron-a11y-keys-behavior',
+      ':iron-ajax',
+      ':iron-input',
+      ':iron-meta',
+      ':iron-test-helpers',
+      ':iron-validatable-behavior',
+      ':page',
+      ':polymer',
+      ':promise-polyfill',
+      ':webcomponentsjs',
+  ],
+)
+
+bower_component(
+  name = 'iron-a11y-keys',
+  package = 'PolymerElements/iron-a11y-keys',
+  version = '1.0.3',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-a11y-keys-behavior',
+  package = 'PolymerElements/iron-a11y-keys-behavior',
+  version = '1.0.8',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-ajax',
+  package = 'PolymerElements/iron-ajax',
+  version = '1.0.8',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-input',
+  package = 'PolymerElements/iron-input',
+  version = '1.0.6',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-meta',
+  package = 'PolymerElements/iron-meta',
+  version = '1.1.1',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-test-helpers',
+  package = 'PolymerElements/iron-test-helpers',
+  version = '1.0.6',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-validatable-behavior',
+  package = 'PolymerElements/iron-validatable-behavior',
+  version = '1.0.5',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'page',
+  package = 'visionmedia/page.js',
+  version = '1.6.4',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'polymer',
+  package = 'Polymer/polymer',
+  version = '1.2.1',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'promise-polyfill',
+  package = 'polymerlabs/promise-polyfill',
+  version = '1.0.0',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'webcomponentsjs',
+  package = 'webcomponentsjs',
+  version = '0.7.16',
+  license = 'TODO',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)

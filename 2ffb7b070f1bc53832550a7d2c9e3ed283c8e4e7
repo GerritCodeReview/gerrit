@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d698d291_023bea1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-06T05:42:28Z",
+      "side": 1,
+      "message": "Are you able to repoduce the problem? Quite some sites are running on 2.10.x and 2.11.x using reverse proxy and do not see this problem. Can you provide exact steps how to reproduce it in local environment? Neither Hugo, nor me were able to reproduce this problem yet (without reverse proxy).",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "2ffb7b070f1bc53832550a7d2c9e3ed283c8e4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5677820e_66130ea6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-06T05:42:28Z",
+      "side": 1,
+      "message": "canonical",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "2ffb7b070f1bc53832550a7d2c9e3ed283c8e4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

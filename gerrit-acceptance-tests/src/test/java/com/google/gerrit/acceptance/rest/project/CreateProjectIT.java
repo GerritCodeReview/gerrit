@@ -39,7 +39,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
 
-import org.apache.http.HttpStatus;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -58,7 +57,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProjectHttp() throws Exception {
     String newProjectName = name("newProject");
     RestResponse r = adminSession.put("/projects/" + newProjectName);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
+    r.assertCreated();
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertThat(p.name).isEqualTo(newProjectName);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
@@ -70,32 +69,36 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectHttpWhenProjectAlreadyExists_Conflict()
       throws Exception {
-    RestResponse r = adminSession.put("/projects/" + allProjects.get());
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
+    adminSession
+      .put("/projects/" + allProjects.get())
+      .assertConflict();
   }
 
   @Test
   public void testCreateProjectHttpWhenProjectAlreadyExists_PreconditionFailed()
       throws Exception {
-    RestResponse r = adminSession.putWithHeader("/projects/" + allProjects.get(),
-        new BasicHeader(HttpHeaders.IF_NONE_MATCH, "*"));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_PRECONDITION_FAILED);
+    adminSession
+      .putWithHeader("/projects/" + allProjects.get(),
+          new BasicHeader(HttpHeaders.IF_NONE_MATCH, "*"))
+      .assertPreconditionFailed();
   }
 
   @Test
   @UseLocalDisk
   public void testCreateProjectHttpWithUnreasonableName_BadRequest()
       throws Exception {
-    RestResponse r = adminSession.put("/projects/" + Url.encode(name("invalid/../name")));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    adminSession
+      .put("/projects/" + Url.encode(name("invalid/../name")))
+      .assertBadRequest();
   }
 
   @Test
   public void testCreateProjectHttpWithNameMismatch_BadRequest() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("otherName");
-    RestResponse r = adminSession.put("/projects/" + name("someName"), in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    adminSession
+      .put("/projects/" + name("someName"), in)
+      .assertBadRequest();
   }
 
   @Test
@@ -103,8 +106,9 @@ public class CreateProjectIT extends AbstractDaemonTest {
       throws Exception {
     ProjectInput in = new ProjectInput();
     in.branches = Collections.singletonList(name("invalid ref name"));
-    RestResponse r = adminSession.put("/projects/" + name("newProject"), in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    adminSession
+      .put("/projects/" + name("newProject"), in)
+      .assertBadRequest();
   }
 
   @Test

@@ -1,10 +1,7 @@
 {
   "name": "polygerrit",
   "version": "0.0.0",
-  "authors": [
-    "Andrew Bonventre <andybons@google.com>"
-  ],
-  "description": "Gerrit UI in Polymer",
+  "description": "Gerrit UI in Polymer; DO NOT PUBLISH, used only for dependency management",
   "private": true,
   "dependencies": {
     "polymer": "Polymer/polymer#^1.1",

@@ -76,11 +76,8 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   }
 
   private void assertApproveFails(TestAccount a, String changeId) throws Exception {
-    try {
-      approve(a, changeId);
-    } catch (AuthException expected) {
-      // Expected.
-    }
+    exception.expect(AuthException.class);
+    approve(a, changeId);
   }
 
   private void grantApproveToChangeOwner() throws IOException,

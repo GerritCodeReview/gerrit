@@ -14,17 +14,13 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.config.ConfirmEmail;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -44,23 +40,26 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
   public void confirm() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = emailTokenVerifier.encode(admin.getId(), "new.mail@example.com");
-    RestResponse r = adminSession.put("/config/server/email.confirm", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    adminSession
+      .put("/config/server/email.confirm", in)
+      .assertNoContent();
   }
 
   @Test
   public void confirmForOtherUser_UnprocessableEntity() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = emailTokenVerifier.encode(user.getId(), "new.mail@example.com");
-    RestResponse r = adminSession.put("/config/server/email.confirm", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
+    adminSession
+      .put("/config/server/email.confirm", in)
+      .assertUnprocessableEntity();
   }
 
   @Test
   public void confirmInvalidToken_UnprocessableEntity() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = "invalidToken";
-    RestResponse r = adminSession.put("/config/server/email.confirm", in);
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
+    adminSession
+      .put("/config/server/email.confirm", in)
+      .assertUnprocessableEntity();
   }
 }

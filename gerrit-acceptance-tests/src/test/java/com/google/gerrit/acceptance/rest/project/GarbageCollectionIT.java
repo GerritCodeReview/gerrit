@@ -14,8 +14,6 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.RestResponse;
@@ -23,7 +21,6 @@ import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 
-import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,29 +40,27 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Test
   public void testGcNonExistingProject_NotFound() throws Exception {
-    assertThat(POST("/projects/non-existing/gc")).isEqualTo(
-        HttpStatus.SC_NOT_FOUND);
+    POST("/projects/non-existing/gc").assertNotFound();
   }
 
   @Test
   public void testGcNotAllowed_Forbidden() throws Exception {
-    assertThat(
-        userSession.post("/projects/" + allProjects.get() + "/gc")
-            .getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+    userSession
+      .post("/projects/" + allProjects.get() + "/gc")
+      .assertForbidden();
   }
 
   @Test
   @UseLocalDisk
   public void testGcOneProject() throws Exception {
-    assertThat(POST("/projects/" + allProjects.get() + "/gc")).isEqualTo(
-        HttpStatus.SC_OK);
+    POST("/projects/" + allProjects.get() + "/gc").assertOK();
     gcAssert.assertHasPackFile(allProjects);
     gcAssert.assertHasNoPackFile(project, project2);
   }
 
-  private int POST(String endPoint) throws IOException {
+  private RestResponse POST(String endPoint) throws IOException {
     RestResponse r = adminSession.post(endPoint);
     r.consume();
-    return r.getStatusCode();
+    return r;
   }
 }

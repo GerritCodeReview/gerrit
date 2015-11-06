@@ -34,7 +34,6 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 public class CapabilitiesIT extends AbstractDaemonTest {
@@ -53,7 +52,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     try {
       RestResponse r =
           userSession.get("/accounts/self/capabilities");
-      assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+      r.assertOK();
       CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
           new TypeToken<CapabilityInfo>() {}.getType());
       for (String c : GlobalCapability.getAllNames()) {
@@ -81,7 +80,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
   public void testCapabilitiesAdmin() throws Exception {
     RestResponse r =
         adminSession.get("/accounts/self/capabilities");
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
         new TypeToken<CapabilityInfo>() {}.getType());
     for (String c : GlobalCapability.getAllNames()) {

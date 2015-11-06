@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76800614_a7042a5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-06T17:52:57Z",
+      "side": 1,
+      "message": "If we are going to chagne the index, would it be better to store the parent count?  That would give us a bit more info than just whether it is a merge commit or not.  It might also be valuable to store info about the parents, for example their commits?  If so, should we maybe even just store the parents in this change instead of the count?",
+      "range": {
+        "startLine": 660,
+        "startChar": 13,
+        "endLine": 660,
+        "endChar": 34
+      },
+      "revId": "03fe5ffe02db95c99219d93bb8de4b1722b4c5f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

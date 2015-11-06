@@ -14,8 +14,11 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.JSON_MAGIC;
 import static java.nio.charset.StandardCharsets.UTF_8;
+
+import org.apache.http.HttpStatus;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,5 +38,52 @@ public class RestResponse extends HttpResponse {
       reader.skip(JSON_MAGIC.length);
     }
     return reader;
+  }
+
+  public void assertStatus(int status) throws Exception {
+    assert_()
+      .withFailureMessage(String.format("Expected status code %d", status))
+      .that(getStatusCode())
+      .isEqualTo(status);
+  }
+
+  public void assertOK() throws Exception {
+    assertStatus(HttpStatus.SC_OK);
+  }
+
+  public void assertNotFound() throws Exception {
+    assertStatus(HttpStatus.SC_NOT_FOUND);
+  }
+
+  public void assertConflict() throws Exception {
+    assertStatus(HttpStatus.SC_CONFLICT);
+  }
+
+  public void assertForbidden() throws Exception {
+    assertStatus(HttpStatus.SC_FORBIDDEN);
+  }
+
+  public void assertNoContent() throws Exception {
+    assertStatus(HttpStatus.SC_NO_CONTENT);
+  }
+
+  public void assertBadRequest() throws Exception {
+    assertStatus(HttpStatus.SC_BAD_REQUEST);
+  }
+
+  public void assertUnprocessableEntity() throws Exception {
+    assertStatus(HttpStatus.SC_UNPROCESSABLE_ENTITY);
+  }
+
+  public void assertMethodNotAllowed() throws Exception {
+    assertStatus(HttpStatus.SC_METHOD_NOT_ALLOWED);
+  }
+
+  public void assertCreated() throws Exception {
+    assertStatus(HttpStatus.SC_CREATED);
+  }
+
+  public void assertPreconditionFailed() throws Exception {
+    assertStatus(HttpStatus.SC_PRECONDITION_FAILED);
   }
 }

@@ -25,7 +25,6 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.PostCaches;
 
-import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -39,7 +38,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
     assertThat(cacheInfo.entries.mem).isGreaterThan((long) 0);
 
     r = adminSession.post("/config/server/caches/", new PostCaches.Input(FLUSH_ALL));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     r.consume();
 
     r = adminSession.get("/config/server/caches/project_list");
@@ -49,16 +48,14 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
   public void flushAll_Forbidden() throws Exception {
-    RestResponse r = userSession.post("/config/server/caches/",
-        new PostCaches.Input(FLUSH_ALL));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+    userSession.post("/config/server/caches/",
+        new PostCaches.Input(FLUSH_ALL)).assertForbidden();
   }
 
   @Test
   public void flushAll_BadRequest() throws Exception {
-    RestResponse r = adminSession.post("/config/server/caches/",
-        new PostCaches.Input(FLUSH_ALL, Arrays.asList("projects")));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    adminSession.post("/config/server/caches/",
+        new PostCaches.Input(FLUSH_ALL, Arrays.asList("projects"))).assertBadRequest();
   }
 
   @Test
@@ -73,7 +70,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
     r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("accounts", "project_list")));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+    r.assertOK();
     r.consume();
 
     r = adminSession.get("/config/server/caches/project_list");
@@ -87,16 +84,14 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
   public void flush_Forbidden() throws Exception {
-    RestResponse r = userSession.post("/config/server/caches/",
-        new PostCaches.Input(FLUSH, Arrays.asList("projects")));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+    userSession.post("/config/server/caches/",
+        new PostCaches.Input(FLUSH, Arrays.asList("projects"))).assertForbidden();
   }
 
   @Test
   public void flush_BadRequest() throws Exception {
-    RestResponse r = adminSession.post("/config/server/caches/",
-        new PostCaches.Input(FLUSH));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    adminSession.post("/config/server/caches/",
+        new PostCaches.Input(FLUSH)).assertBadRequest();
   }
 
   @Test
@@ -107,7 +102,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
     r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("projects", "unprocessable")));
-    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
+    r.assertUnprocessableEntity();
     r.consume();
 
     r = adminSession.get("/config/server/caches/projects");
@@ -122,12 +117,11 @@ public class CacheOperationsIT extends AbstractDaemonTest {
     try {
       RestResponse r = userSession.post("/config/server/caches/",
           new PostCaches.Input(FLUSH, Arrays.asList("projects")));
-      assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+      r.assertOK();
       r.consume();
 
-      r = userSession.post("/config/server/caches/",
-          new PostCaches.Input(FLUSH, Arrays.asList("web_sessions")));
-      assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
+      userSession.post("/config/server/caches/",
+          new PostCaches.Input(FLUSH, Arrays.asList("web_sessions"))).assertForbidden();
     } finally {
       removeGlobalCapabilities(REGISTERED_USERS,
           GlobalCapability.FLUSH_CACHES, GlobalCapability.VIEW_CACHES);

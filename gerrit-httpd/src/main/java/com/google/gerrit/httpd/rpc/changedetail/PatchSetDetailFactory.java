@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -147,7 +148,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
         list = listFor(keyFor(diffPrefs.ignoreWhitespace));
       } else { // OK, means use base to compare
-        list = patchListCache.get(control.getChange(), patchSet);
+        list = patchListCache.get(control.getChange(), patchSet, DiffType.AUTO_MERGE);
       }
     } catch (PatchListNotAvailableException e) {
       throw new NoSuchEntityException();

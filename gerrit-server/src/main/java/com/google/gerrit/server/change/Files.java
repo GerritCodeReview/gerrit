@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -96,6 +97,9 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     @Option(name = "--base", metaVar = "revision-id")
     String base;
 
+    @Option(name = "--diff-type")
+    DiffType  diffType;
+
     @Option(name = "--reviewed")
     boolean reviewed;
 
@@ -150,7 +154,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(
             resource.getChange(),
             resource.getPatchSet().getRevision(),
-            basePatchSet));
+            basePatchSet,
+            diffType));
         if (resource.isCacheable()) {
           r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
         }
@@ -262,11 +267,13 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           TreeWalk tw = new TreeWalk(reader)) {
         PatchList oldList = patchListCache.get(
             resource.getChange(),
-            db.get().patchSets().get(old));
+            db.get().patchSets().get(old),
+            diffType);
 
         PatchList curList = patchListCache.get(
             resource.getChange(),
-            resource.getPatchSet());
+            resource.getPatchSet(),
+            diffType);
 
         int sz = paths.size();
         List<AccountPatchReview> inserts = Lists.newArrayListWithCapacity(sz);

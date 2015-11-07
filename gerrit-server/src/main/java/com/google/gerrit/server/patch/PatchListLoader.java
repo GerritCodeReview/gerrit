@@ -38,6 +38,7 @@ import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -163,11 +164,11 @@ public class PatchListLoader implements Callable<PatchList> {
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
       Set<String> paths = null;
-      if (key.getOldId() != null) {
+      if (key.getOldId() != null && b.getParentCount() == 1) {
         PatchListKey newKey =
-            new PatchListKey(null, key.getNewId(), key.getWhitespace());
+            new PatchListKey((AnyObjectId) null, key.getNewId(), key.getWhitespace());
         PatchListKey oldKey =
-            new PatchListKey(null, key.getOldId(), key.getWhitespace());
+            new PatchListKey((AnyObjectId) null, key.getOldId(), key.getWhitespace());
         paths = FluentIterable
             .from(patchListCache.get(newKey, project).getPatches())
             .append(patchListCache.get(oldKey, project).getPatches())
@@ -331,6 +332,11 @@ public class PatchListLoader implements Callable<PatchList> {
         return r;
       }
       case 2:
+        if (key.getParentNum() != null) {
+          RevCommit r = b.getParent(key.getParentNum() - 1);
+          rw.parseBody(r);
+          return r;
+        }
         return autoMerger.merge(repo, rw, ins, b, mergeStrategy);
       default:
         // TODO(sop) handle an octopus merge.

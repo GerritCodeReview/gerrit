@@ -95,6 +95,9 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     @Option(name = "--base", metaVar = "revision-id")
     String base;
 
+    @Option(name = "--parent", metaVar = "parent-number")
+    int parentNum;
+
     @Option(name = "--reviewed")
     boolean reviewed;
 
@@ -145,29 +148,41 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         return Response.ok(query(resource));
       }
 
-      PatchSet basePatchSet = null;
-      if (base != null) {
-        RevisionResource baseResource = revisions.parse(
-            resource.getChangeResource(), IdString.fromDecoded(base));
-        basePatchSet = baseResource.getPatchSet();
-      }
+      Response<Map<String, FileInfo>> r;
       try {
-        Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(
-            resource.getChange(),
-            resource.getPatchSet().getRevision(),
-            basePatchSet));
-        if (resource.isCacheable()) {
-          r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+        if (base != null) {
+          RevisionResource baseResource = revisions.parse(
+              resource.getChangeResource(), IdString.fromDecoded(base));
+          r = Response.ok(fileInfoJson.toFileInfoMap(
+              resource.getChange(),
+              resource.getPatchSet().getRevision(),
+              baseResource.getPatchSet()));
+        } else if (parentNum > 0) {
+          r = Response.ok(fileInfoJson.toFileInfoMap(
+              resource.getChange(),
+              resource.getPatchSet().getRevision(),
+              parentNum - 1));
+        } else {
+          r = Response.ok(fileInfoJson.toFileInfoMap(
+              resource.getChange(),
+              resource.getPatchSet()));
         }
-        return r;
       } catch (PatchListNotAvailableException e) {
         throw new ResourceNotFoundException(e.getMessage());
       }
+
+      if (resource.isCacheable()) {
+        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+      }
+      return r;
     }
 
     private void checkOptions() throws BadRequestException {
       int supplied = 0;
       if (base != null) {
+        supplied++;
+      }
+      if (parentNum > 0) {
         supplied++;
       }
       if (reviewed) {
@@ -177,7 +192,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         supplied++;
       }
       if (supplied > 1) {
-        throw new BadRequestException("cannot combine base, reviewed, query");
+        throw new BadRequestException(
+            "cannot combine base, parent, reviewed, query");
       }
     }
 
@@ -304,6 +320,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     public ListFiles setBase(String base) {
       this.base = base;
+      return this;
+    }
+
+    public ListFiles setParent(int parentNum) {
+      this.parentNum = parentNum;
       return this;
     }
   }

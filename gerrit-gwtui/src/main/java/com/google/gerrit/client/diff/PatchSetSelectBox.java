@@ -18,6 +18,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.blame.BlameInfo;
 import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.patches.PatchUtil;
@@ -87,13 +88,29 @@ class PatchSetSelectBox extends Composite {
     this.path = path;
   }
 
-  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo.FileMeta meta,
+  void setUpPatchSetNav(JsArray<RevisionInfo> list, int parents, DiffInfo.FileMeta meta,
       boolean editExists, boolean current, boolean open, boolean binary) {
-    InlineHyperlink baseLink = null;
     InlineHyperlink selectedLink = null;
     if (sideA) {
-      baseLink = createLink(PatchUtil.C.patchBase(), null);
-      linkPanel.add(baseLink);
+      if (parents <= 1) {
+        InlineHyperlink link = createLink(PatchUtil.C.patchBase(), null);
+        linkPanel.add(link);
+        selectedLink = link;
+      } else {
+        for (int i = parents; i > 0; i--) {
+          PatchSet.Id id = new PatchSet.Id(changeId, -i);
+          InlineHyperlink link = createLink(Util.M.diffBaseParent(i), id);
+          linkPanel.add(link);
+          if (revision != null && id.equals(revision)) {
+            selectedLink = link;
+          }
+        }
+        InlineHyperlink link = createLink(Util.C.autoMerge(), null);
+        linkPanel.add(link);
+        if (selectedLink == null) {
+          selectedLink = link;
+        }
+      }
     }
     for (int i = 0; i < list.length(); i++) {
       RevisionInfo r = list.get(i);
@@ -106,8 +123,6 @@ class PatchSetSelectBox extends Composite {
     }
     if (selectedLink != null) {
       selectedLink.setStyleName(style.selected());
-    } else if (sideA) {
-      baseLink.setStyleName(style.selected());
     }
 
     if (meta == null) {

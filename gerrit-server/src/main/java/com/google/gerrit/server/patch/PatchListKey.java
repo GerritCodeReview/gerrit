@@ -32,9 +32,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class PatchListKey implements Serializable {
-  static final long serialVersionUID = 20L;
+  static final long serialVersionUID = 21L;
 
   public static final BiMap<Whitespace, Character> WHITESPACE_TYPES = ImmutableBiMap.of(
       Whitespace.IGNORE_NONE, 'N',
@@ -47,6 +48,7 @@ public class PatchListKey implements Serializable {
   }
 
   private transient ObjectId oldId;
+  private transient Integer parentNum;
   private transient ObjectId newId;
   private transient Whitespace whitespace;
 
@@ -56,10 +58,22 @@ public class PatchListKey implements Serializable {
     whitespace = ws;
   }
 
+  public PatchListKey(Integer parentNum, AnyObjectId b, Whitespace ws) {
+    this.parentNum = parentNum;
+    newId = b.copy();
+    whitespace = ws;
+  }
+
   /** Old side commit, or null to assume ancestor or combined merge. */
   @Nullable
   public ObjectId getOldId() {
     return oldId;
+  }
+
+  /** Parent number (old side) of the new side (merge) commit */
+  @Nullable
+  public Integer getParentNum() {
+    return parentNum;
   }
 
   /** New side commit name. */
@@ -79,6 +93,10 @@ public class PatchListKey implements Serializable {
       h = h * 31 + oldId.hashCode();
     }
 
+    if (parentNum != null) {
+      h = h * 31 + parentNum;
+    }
+
     h = h * 31 + newId.hashCode();
     h = h * 31 + whitespace.name().hashCode();
 
@@ -89,8 +107,9 @@ public class PatchListKey implements Serializable {
   public boolean equals(final Object o) {
     if (o instanceof PatchListKey) {
       final PatchListKey k = (PatchListKey) o;
-      return eq(oldId, k.oldId) //
-          && eq(newId, k.newId) //
+      return eq(oldId, k.oldId)
+          && eq(parentNum, k.parentNum)
+          && eq(newId, k.newId)
           && whitespace == k.whitespace;
     }
     return false;
@@ -116,8 +135,13 @@ public class PatchListKey implements Serializable {
     return a != null && b != null && AnyObjectId.equals(a, b);
   }
 
+  private static boolean eq(Integer i, Integer j) {
+    return Objects.equals(i, j);
+  }
+
   private void writeObject(final ObjectOutputStream out) throws IOException {
     writeCanBeNull(out, oldId);
+    out.writeInt(parentNum == null ? 0 : parentNum);
     writeNotNull(out, newId);
     Character c = WHITESPACE_TYPES.get(whitespace);
     if (c == null) {
@@ -128,6 +152,8 @@ public class PatchListKey implements Serializable {
 
   private void readObject(final ObjectInputStream in) throws IOException {
     oldId = readCanBeNull(in);
+    int n = in.readInt();
+    parentNum = n == 0 ? null : Integer.valueOf(n);
     newId = readNotNull(in);
     char t = in.readChar();
     whitespace = WHITESPACE_TYPES.inverse().get(t);

@@ -126,8 +126,11 @@ class CommentJson {
     }
     r.id = Url.encode(c.getKey().get());
     r.path = c.getKey().getParentKey().getFileName();
-    if (c.getSide() == 0) {
+    if (c.getSide() <= 0) {
       r.side = Side.PARENT;
+      if (c.getSide() < 0) {
+        r.parent = -c.getSide();
+      }
     }
     if (c.getLine() > 0) {
       r.line = c.getLine();

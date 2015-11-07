@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Account;
@@ -270,7 +271,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Get the patch list corresponding to this patch set. */
   protected PatchList getPatchList() throws PatchListNotAvailableException {
     if (patchSet != null) {
-      return args.patchListCache.get(change, patchSet);
+      return args.patchListCache.get(change, patchSet, DiffType.AUTO_MERGE);
     }
     throw new PatchListNotAvailableException("no patchSet specified");
   }

@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -106,6 +107,9 @@ public class GetDiff implements RestReadView<FileResource> {
   @Option(name = "--weblinks-only")
   boolean webLinksOnly;
 
+  @Option(name = "--type")
+  DiffType diffType;
+
   @Inject
   GetDiff(ProjectCache projectCache,
       PatchScriptFactory.Factory patchScriptFactoryFactory,
@@ -147,6 +151,7 @@ public class GetDiff implements RestReadView<FileResource> {
           prefs);
       psf.setLoadHistory(false);
       psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
+      psf.setDiffType(diffType);
       PatchScript ps = psf.call();
       Content content = new Content(ps);
       for (Edit edit : ps.getEdits()) {

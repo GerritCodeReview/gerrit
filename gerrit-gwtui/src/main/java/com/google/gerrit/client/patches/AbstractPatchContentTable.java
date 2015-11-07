@@ -26,6 +26,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.CommentDetail;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -84,6 +85,7 @@ abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected PatchSetSelectBox headerSideB;
   protected Image iconA;
   protected Image iconB;
+  protected DiffType diffType;
 
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
@@ -127,7 +129,7 @@ abstract class AbstractPatchContentTable extends NavigationTable<Object>
   abstract void createFileCommentEditorOnSideB();
 
   protected void initHeaders(PatchScript script, PatchSetDetail detail) {
-    headerSideA = new PatchSetSelectBox(PatchSetSelectBox.Side.A);
+    headerSideA = new PatchSetSelectBox(PatchSetSelectBox.Side.A, diffType);
     headerSideA.display(detail, script, patchKey, idSideA, idSideB);
     headerSideA.addDoubleClickHandler(new DoubleClickHandler() {
       @Override
@@ -137,7 +139,7 @@ abstract class AbstractPatchContentTable extends NavigationTable<Object>
         }
       }
     });
-    headerSideB = new PatchSetSelectBox(PatchSetSelectBox.Side.B);
+    headerSideB = new PatchSetSelectBox(PatchSetSelectBox.Side.B, diffType);
     headerSideB.display(detail, script, patchKey, idSideA, idSideB);
     headerSideB.addDoubleClickHandler(new DoubleClickHandler() {
       @Override

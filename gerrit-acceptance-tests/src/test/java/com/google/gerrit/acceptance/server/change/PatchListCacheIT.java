@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -248,7 +249,8 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   }
 
   private PatchListKey getKey(ObjectId revisionIdA, ObjectId revisionIdB) {
-    return new PatchListKey(revisionIdA, revisionIdB, Whitespace.IGNORE_NONE);
+    return new PatchListKey(revisionIdA, revisionIdB, Whitespace.IGNORE_NONE,
+        DiffType.AUTO_MERGE);
   }
 
   private ObjectId getCurrentRevisionId(String changeId) throws RestApiException {

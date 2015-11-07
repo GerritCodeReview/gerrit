@@ -19,6 +19,7 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Composite;
@@ -57,7 +58,7 @@ class NavLinks extends Composite {
 
   private KeyCommand[] cmds = new KeyCommand[2];
 
-  NavLinks(KeyCommandSet kcs, PatchSet.Id forPatch) {
+  NavLinks(KeyCommandSet kcs, PatchSet.Id forPatch, DiffType diffType) {
     patchSetId = forPatch;
     keys = kcs;
     table = new Grid(1, 5);
@@ -71,23 +72,23 @@ class NavLinks extends Composite {
     fmt.setHorizontalAlignment(0, 3, HasHorizontalAlignment.ALIGN_RIGHT);
     fmt.setHorizontalAlignment(0, 4, HasHorizontalAlignment.ALIGN_RIGHT);
 
-    final ChangeLink up = new ChangeLink("", patchSetId);
+    final ChangeLink up = new ChangeLink("", patchSetId, diffType);
     SafeHtml.set(up, SafeHtml.asis(Util.C.upToChangeIconLink()));
     table.setWidget(0, 1, up);
   }
 
-  void display(int patchIndex, PatchTable fileList,
+  void display(int patchIndex, PatchTable fileList, DiffType diffType,
       List<InlineHyperlink> links, List<WebLinkInfo> webLinks) {
     if (fileList != null) {
       Label fileCountLabel =
           new Label(Gerrit.M.fileCount(patchIndex + 1, fileList.size()));
       fileCountLabel.setStyleName(Gerrit.RESOURCES.css().nowrap());
       table.setWidget(0, 3, fileCountLabel);
-      setupNav(Nav.PREV, fileList.getPreviousPatchLink(patchIndex));
-      setupNav(Nav.NEXT, fileList.getNextPatchLink(patchIndex));
+      setupNav(Nav.PREV, fileList.getPreviousPatchLink(patchIndex, diffType), diffType);
+      setupNav(Nav.NEXT, fileList.getNextPatchLink(patchIndex, diffType), diffType);
     } else {
-      setupNav(Nav.PREV, null);
-      setupNav(Nav.NEXT, null);
+      setupNav(Nav.PREV, null, diffType);
+      setupNav(Nav.NEXT, null, diffType);
     }
 
     FlowPanel linkPanel = new FlowPanel();
@@ -101,7 +102,7 @@ class NavLinks extends Composite {
     table.setWidget(0, 2, linkPanel);
   }
 
-  protected void setupNav(final Nav nav, final InlineHyperlink link) {
+  protected void setupNav(final Nav nav, final InlineHyperlink link, DiffType diffType) {
 
     /* setup the cells */
     if (link != null) {
@@ -126,7 +127,7 @@ class NavLinks extends Composite {
           }
         };
       } else {
-        cmds[nav.cmd] = new UpToChangeCommand(patchSetId, 0, nav.key);
+        cmds[nav.cmd] = new UpToChangeCommand(patchSetId, 0, nav.key, diffType);
       }
 
       keys.add(cmds[nav.cmd]);

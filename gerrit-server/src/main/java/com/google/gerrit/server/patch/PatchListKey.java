@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -33,6 +34,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import autovalue.shaded.com.google.common.common.base.MoreObjects;
+
 public class PatchListKey implements Serializable {
   static final long serialVersionUID = 19L;
 
@@ -42,18 +45,26 @@ public class PatchListKey implements Serializable {
       Whitespace.IGNORE_LEADING_AND_TRAILING, 'S',
       Whitespace.IGNORE_ALL, 'A');
 
+  public static final BiMap<DiffType, Character> DIFF_TYPES = ImmutableBiMap.of(
+      DiffType.AUTO_MERGE, 'A',
+      DiffType.FIRST_PARENT, 'F');
+
   static {
     checkState(WHITESPACE_TYPES.size() == Whitespace.values().length);
+    checkState(DIFF_TYPES.size() == DiffType.values().length);
   }
 
   private transient ObjectId oldId;
   private transient ObjectId newId;
+  private transient DiffType difftype;
   private transient Whitespace whitespace;
 
-  public PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws) {
+  public PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws,
+      DiffType dt) {
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
     whitespace = ws;
+    difftype = MoreObjects.firstNonNull(dt, DiffType.AUTO_MERGE);
   }
 
   /** Old side commit, or null to assume ancestor or combined merge. */
@@ -71,6 +82,10 @@ public class PatchListKey implements Serializable {
     return whitespace;
   }
 
+  public DiffType getDiffType(){
+    return difftype;
+  }
+
   @Override
   public int hashCode() {
     int h = 0;
@@ -80,6 +95,7 @@ public class PatchListKey implements Serializable {
     }
 
     h = h * 31 + newId.hashCode();
+    h = h * 31 + difftype.name().hashCode();
     h = h * 31 + whitespace.name().hashCode();
 
     return h;
@@ -91,7 +107,8 @@ public class PatchListKey implements Serializable {
       final PatchListKey k = (PatchListKey) o;
       return eq(oldId, k.oldId) //
           && eq(newId, k.newId) //
-          && whitespace == k.whitespace;
+          && whitespace == k.whitespace
+          && difftype == k.difftype;
     }
     return false;
   }
@@ -103,6 +120,8 @@ public class PatchListKey implements Serializable {
     n.append(oldId != null ? oldId.name() : "BASE");
     n.append("..");
     n.append(newId.name());
+    n.append(" ");
+    n.append(difftype.name());
     n.append(" ");
     n.append(whitespace.name());
     n.append("]");
@@ -124,6 +143,11 @@ public class PatchListKey implements Serializable {
       throw new IOException("Invalid whitespace type: " + whitespace);
     }
     out.writeChar(c);
+    Character dt = DIFF_TYPES.get(difftype);
+    if (dt == null) {
+      throw new IOException("Invalid diff type: " + difftype);
+    }
+    out.writeChar(dt);
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
@@ -133,6 +157,11 @@ public class PatchListKey implements Serializable {
     whitespace = WHITESPACE_TYPES.inverse().get(t);
     if (whitespace == null) {
       throw new IOException("Invalid whitespace type code: " + t);
+    }
+    char dt = in.readChar();
+    difftype = DIFF_TYPES.inverse().get(dt);
+    if (difftype == null) {
+      throw new IOException("Invalid diff type code: " + dt);
     }
   }
 }

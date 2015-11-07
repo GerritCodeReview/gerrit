@@ -981,24 +981,25 @@ public class ChangeScreen extends Screen {
       final List<NativeMap<JsArray<CommentInfo>>> comments,
       final List<NativeMap<JsArray<CommentInfo>>> drafts) {
     DiffApi.list(changeId.get(),
-      base != null ? base.name() : null,
-      rev.name(),
-      group.add(new AsyncCallback<NativeMap<FileInfo>>() {
-        @Override
-        public void onSuccess(NativeMap<FileInfo> m) {
-          files.set(
-              base != null ? new PatchSet.Id(changeId, base._number()) : null,
-              new PatchSet.Id(changeId, rev._number()),
-              style, reply, fileTableMode, edit != null);
-          files.setValue(m, myLastReply,
-              comments != null ? comments.get(0) : null,
-              drafts != null ? drafts.get(0) : null);
-        }
+        rev.name(),
+        base,
+        group.add(
+            new AsyncCallback<NativeMap<FileInfo>>() {
+              @Override
+              public void onSuccess(NativeMap<FileInfo> m) {
+                files.set(
+                    base != null ? new PatchSet.Id(changeId, base._number()) : null,
+                    new PatchSet.Id(changeId, rev._number()),
+                    style, reply, fileTableMode, edit != null);
+                files.setValue(m, myLastReply,
+                    comments != null ? comments.get(0) : null,
+                    drafts != null ? drafts.get(0) : null);
+              }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      }));
+              @Override
+              public void onFailure(Throwable caught) {
+              }
+            }));
   }
 
   private List<NativeMap<JsArray<CommentInfo>>> loadComments(
@@ -1118,7 +1119,6 @@ public class ChangeScreen extends Screen {
   }
 
   /**
-   *
    * Resolve a revision or patch set id string to RevisionInfo.
    * When this view is created from the changes table, revision
    * is passed as a real revision.
@@ -1132,8 +1132,17 @@ public class ChangeScreen extends Screen {
    */
   private RevisionInfo resolveRevisionOrPatchSetId(ChangeInfo info,
       String revOrId, String defaultValue) {
+    int parentNo;
     if (revOrId == null) {
       revOrId = defaultValue;
+    } else if ((parentNo = toParentNo(revOrId)) > 0) {
+      CommitInfo commitInfo = info.revision(revision).commit();
+      if (commitInfo != null) {
+        JsArray<CommitInfo> parents = commitInfo.parents();
+        if (parents.length() >= parentNo) {
+          return RevisionInfo.forParent(-parentNo, parents.get(parentNo - 1));
+        }
+      }
     } else if (!info.revisions().containsKey(revOrId)) {
       JsArray<RevisionInfo> list = info.revisions().values();
       for (int i = 0; i < list.length(); i++) {
@@ -1390,9 +1399,20 @@ public class ChangeScreen extends Screen {
 
     RevisionInfo rev = info.revisions().get(revision);
     JsArray<CommitInfo> parents = rev.commit().parents();
-    diffBase.addItem(
-      parents.length() > 1 ? Util.C.autoMerge() : Util.C.baseDiffItem(),
-      "");
+    if (parents.length() > 1) {
+      diffBase.addItem(Util.C.autoMerge(), "");
+      for (int i = 0; i < parents.length(); i++) {
+        int parentNo = i + 1;
+        diffBase.addItem(Util.M.diffBaseParent(parentNo),
+            String.valueOf(-parentNo));
+      }
+      int parentNo = toParentNo(base);
+      if (parentNo > 0) {
+        selectedIdx = list.length() + parentNo;
+      }
+    } else {
+      diffBase.addItem(Util.C.baseDiffItem(), "");
+    }
 
     diffBase.setSelectedIndex(selectedIdx);
   }
@@ -1443,5 +1463,23 @@ public class ChangeScreen extends Screen {
 
   private static String normalize(String r) {
     return r != null && !r.isEmpty() ? r : null;
+  }
+
+  /**
+   * @param parentToken
+   * @return 1-based parentNo if parentToken is a String which can be parsed as
+   *     a negative integer i.e. "-1", "-2", etc. If parentToken cannot be
+   *     parsed as a negative integer, return zero.
+   */
+  private static int toParentNo(String parentToken) {
+    try {
+      int n = Integer.parseInt(parentToken);
+      if (n < 0) {
+        return -n;
+      }
+      return 0;
+    } catch (NumberFormatException e) {
+      return 0;
+    }
   }
 }

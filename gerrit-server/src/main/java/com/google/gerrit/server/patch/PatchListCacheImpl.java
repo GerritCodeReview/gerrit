@@ -22,15 +22,21 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 /** Provides a cached list of {@link PatchListEntry}. */
@@ -63,6 +69,7 @@ public class PatchListCacheImpl implements PatchListCache {
   private final Cache<IntraLineDiffKey, IntraLineDiff> intraCache;
   private final PatchListLoader.Factory fileLoaderFactory;
   private final IntraLineLoader.Factory intraLoaderFactory;
+  private final GitRepositoryManager repoManager;
   private final boolean computeIntraline;
 
   @Inject
@@ -71,11 +78,13 @@ public class PatchListCacheImpl implements PatchListCache {
       @Named(INTRA_NAME) Cache<IntraLineDiffKey, IntraLineDiff> intraCache,
       PatchListLoader.Factory fileLoaderFactory,
       IntraLineLoader.Factory intraLoaderFactory,
+      GitRepositoryManager repoManager,
       @GerritServerConfig Config cfg) {
     this.fileCache = fileCache;
     this.intraCache = intraCache;
     this.fileLoaderFactory = fileLoaderFactory;
     this.intraLoaderFactory = intraLoaderFactory;
+    this.repoManager = repoManager;
 
     this.computeIntraline =
         cfg.getBoolean("cache", INTRA_NAME, "enabled",
@@ -96,6 +105,17 @@ public class PatchListCacheImpl implements PatchListCache {
   @Override
   public PatchList get(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException {
+    return get(change, patchSet, null);
+  }
+
+  @Override
+  public ObjectId getOldId(Change change, PatchSet patchSet, Integer parentNo)
+      throws PatchListNotAvailableException {
+    return get(change, patchSet, parentNo).getOldId();
+  }
+
+  private PatchList get(Change change, PatchSet patchSet, Integer parentNo)
+      throws PatchListNotAvailableException {
     Project.NameKey project = change.getProject();
     if (patchSet.getRevision() == null) {
       throw new PatchListNotAvailableException(
@@ -103,13 +123,24 @@ public class PatchListCacheImpl implements PatchListCache {
     }
     ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
     Whitespace ws = Whitespace.IGNORE_NONE;
-    return get(new PatchListKey(null, b, ws), project);
+    ObjectId a = null;
+    if (parentNo != null) {
+      try {
+        a = getParent(change.getProject(), b, parentNo);
+      } catch (IOException e) {
+        throw new PatchListNotAvailableException(e);
+      }
+    }
+    return get(new PatchListKey(a, b, ws), project);
   }
 
-  @Override
-  public ObjectId getOldId(Change change, PatchSet patchSet)
-      throws PatchListNotAvailableException {
-    return get(change, patchSet).getOldId();
+  private ObjectId getParent(Project.NameKey p, ObjectId commit, Integer parentNo)
+      throws RepositoryNotFoundException, IOException {
+    try (Repository repo = repoManager.openRepository(p);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit c = rw.parseCommit(commit);
+      return c.getParent(parentNo - 1);
+    }
   }
 
   @Override

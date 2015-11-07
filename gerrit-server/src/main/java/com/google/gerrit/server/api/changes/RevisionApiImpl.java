@@ -309,6 +309,17 @@ class RevisionApiImpl implements RevisionApi {
     }
   }
 
+  @SuppressWarnings("unchecked")
+  @Override
+  public Map<String, FileInfo> files(int parentNo) throws RestApiException {
+    try {
+      return (Map<String, FileInfo>) listFiles.setParent(parentNo)
+          .apply(revision).value();
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot retrieve files", e);
+    }
+  }
+
   @Override
   public FileApi file(String path) {
     return fileApi.create(files.parse(revision,

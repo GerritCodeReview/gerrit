@@ -82,6 +82,7 @@ public class ChangeNoteUtil {
   private static final String FILE = "File";
   private static final String LENGTH = "Bytes";
   private static final String PARENT = "Parent";
+  private static final String PARENT_NUMBER = "Parent-number";
   private static final String PATCH_SET = "Patch-set";
   private static final String REVISION = "Revision";
   private static final String UUID = "UUID";
@@ -151,11 +152,13 @@ public class ChangeNoteUtil {
     int sizeOfNote = note.length;
     byte[] psb = PATCH_SET.getBytes(UTF_8);
     byte[] bpsb = BASE_PATCH_SET.getBytes(UTF_8);
+    byte[] bpn = PARENT_NUMBER.getBytes(UTF_8);
 
     RevId revId = new RevId(parseStringField(note, p, changeId, REVISION));
     String fileName = null;
     PatchSet.Id psId = null;
     boolean isForBase = false;
+    Integer parentNumber = null;
 
     while (p.value < sizeOfNote) {
       boolean matchPs = match(note, p, psb);
@@ -168,13 +171,16 @@ public class ChangeNoteUtil {
         fileName = null;
         psId = parsePsId(note, p, changeId, BASE_PATCH_SET);
         isForBase = true;
+        if (match(note, p, bpn)) {
+          parentNumber = parseParentNumber(note, p, changeId);
+        }
       } else if (psId == null) {
         throw parseException(changeId, "missing %s or %s header",
             PATCH_SET, BASE_PATCH_SET);
       }
 
-      PatchLineComment c =
-          parseComment(note, p, fileName, psId, revId, isForBase, status);
+      PatchLineComment c = parseComment(
+          note, p, fileName, psId, revId, isForBase, parentNumber, status);
       fileName = c.getKey().getParentKey().getFileName();
       if (!seen.add(c.getKey())) {
         throw parseException(
@@ -187,7 +193,7 @@ public class ChangeNoteUtil {
 
   private PatchLineComment parseComment(byte[] note, MutableInteger curr,
       String currentFileName, PatchSet.Id psId, RevId revId, boolean isForBase,
-      Status status) throws ConfigInvalidException {
+      Integer parentNumber, Status status) throws ConfigInvalidException {
     Change.Id changeId = psId.getParentKey();
 
     // Check if there is a new file.
@@ -235,7 +241,13 @@ public class ChangeNoteUtil {
         range.getEndLine(), aId, parentUUID, commentTime);
     plc.setMessage(message);
     plc.setTag(tag);
-    plc.setSide((short) (isForBase ? 0 : 1));
+
+    if (isForBase) {
+      plc.setSide((short) (parentNumber == null ? 0 : -parentNumber));
+    } else {
+      plc.setSide((short) 1);
+    }
+
     if (range.getStartCharacter() != -1) {
       plc.setRange(range);
     }
@@ -337,6 +349,23 @@ public class ChangeNoteUtil {
     checkResult(patchSetId, "patchset id", changeId);
     curr.value = endOfLine;
     return new PatchSet.Id(changeId, patchSetId);
+  }
+
+  private static Integer parseParentNumber(byte[] note, MutableInteger curr,
+      Change.Id changeId) throws ConfigInvalidException {
+    checkHeaderLineFormat(note, curr, PARENT_NUMBER, changeId);
+
+    int start = RawParseUtils.endOfFooterLineKey(note, curr.value) + 1;
+    MutableInteger i = new MutableInteger();
+    int parentNumber = RawParseUtils.parseBase10(note, start, i);
+    int endOfLine = RawParseUtils.nextLF(note, curr.value);
+    if (i.value != endOfLine - 1) {
+      throw parseException(changeId, "could not parse %s", PARENT_NUMBER);
+    }
+    checkResult(parentNumber, "parent number", changeId);
+    curr.value = endOfLine;
+    return Integer.valueOf(parentNumber);
+
   }
 
   private static String parseFilename(byte[] note, MutableInteger curr,
@@ -467,10 +496,13 @@ public class ChangeNoteUtil {
         PatchLineComment first = psComments.get(0);
 
         short side = first.getSide();
-        appendHeaderField(writer, side == 0
+        appendHeaderField(writer, side <= 0
             ? BASE_PATCH_SET
             : PATCH_SET,
             Integer.toString(psId.get()));
+        if (side < 0) {
+          appendHeaderField(writer, PARENT_NUMBER, Integer.toString(-side));
+        }
 
         String currentFilename = null;
 

@@ -3470,6 +3470,11 @@ of all files (modified or unmodified) that contain that substring
 in the path name. This is useful to implement suggestion services
 finding a file by partial name.
 
+The integer-valued request parameter `parent` changes the response to return a
+list of the files which are different in this commit compared to the given
+parent commit. This is useful for supporting review of merge commits.  The value
+is the 1-based index of the parent's position in the commit object.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/?reviewed HTTP/1.0
@@ -3714,6 +3719,11 @@ If the `intraline` parameter is specified, intraline differences are included in
 
 The `base` parameter can be specified to control the base patch set from which the diff should
 be generated.
+
+The integer-valued request parameter `parent` can be specified to control the
+parent commit number against which the diff should be generated.  This is useful
+for supporting review of merge commits.  The value is the 1-based index of the
+parent's position in the commit object.
 
 [[weblinks-only]]
 If the `weblinks-only` parameter is specified, only the diff web links are returned.
@@ -4259,6 +4269,9 @@ Not set if returned in a map where the key is the file path.
 The side on which the comment was added. +
 Allowed values are `REVISION` and `PARENT`. +
 If not set, the default is `REVISION`.
+|`parent`      |optional|
+The 1-based parent number. Used only for merge commits when `side == PARENT`.
+When not set the comment is for the auto-merge tree.
 |`line`        |optional|
 The number of the line for which the comment was done. +
 If range is set, this equals the end line of the range. +

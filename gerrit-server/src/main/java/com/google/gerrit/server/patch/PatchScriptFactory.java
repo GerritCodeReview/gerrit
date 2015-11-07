@@ -15,6 +15,8 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.common.RevisionUtil.toParentNumber;
+import static com.google.gerrit.server.util.GitUtil.getParent;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
@@ -163,15 +165,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         ? new PatchSet(psb)
         : psUtil.get(db, control.getNotes(), psb);
 
-    aId = psEntityA != null ? toObjectId(psEntityA) : null;
-    bId = toObjectId(psEntityB);
-
     if ((psEntityA != null && !control.isPatchVisible(psEntityA, db)) ||
         (psEntityB != null && !control.isPatchVisible(psEntityB, db))) {
       throw new NoSuchChangeException(changeId);
     }
 
     try (Repository git = repoManager.openRepository(project)) {
+      bId = toObjectId(psEntityB);
+      aId = toObjectIdA(psEntityA, git);
+
       try {
         final PatchList list = listFor(keyFor(diffPrefs.ignoreWhitespace));
         final PatchScriptBuilder b = newBuilder(list, git);
@@ -233,6 +235,17 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       log.error("Patch set " + ps.getId() + " has invalid revision");
       throw new NoSuchChangeException(changeId, e);
     }
+  }
+
+  private ObjectId toObjectIdA(PatchSet psEntityA, Repository git)
+      throws AuthException, NoSuchChangeException, IOException, OrmException {
+    if (psa != null && psa.patchSetId < 0) {
+      return getParent(git, bId, toParentNumber(psa.patchSetId));
+    }
+    if (psEntityA != null) {
+      return toObjectId(psEntityA);
+    }
+    return null;
   }
 
   private ObjectId getEditRev() throws AuthException,

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.client.change;
 
+import static com.google.gerrit.common.RevisionUtil.isParentCommitRevision;
+import static com.google.gerrit.common.RevisionUtil.toParentNumber;
+
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
@@ -310,6 +313,7 @@ public class ChangeScreen extends Screen {
   void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
     RestApi call = ChangeApi.detail(changeId.get());
     EnumSet<ListChangesOption> opts = EnumSet.of(
+      ListChangesOption.ALL_COMMITS,
       ListChangesOption.ALL_REVISIONS,
       ListChangesOption.CHANGE_ACTIONS);
     if (enableSignedPush()) {
@@ -1125,6 +1129,16 @@ public class ChangeScreen extends Screen {
       String revOrId, String defaultValue) {
     if (revOrId == null) {
       revOrId = defaultValue;
+    } else if (isParentCommitRevision(revOrId)) {
+      int number = Integer.parseInt(revOrId);
+      int parentNo = toParentNumber(number);
+      CommitInfo commitInfo = info.revision(revision).commit();
+      if (commitInfo != null) {
+        JsArray<CommitInfo> parents = commitInfo.parents();
+        if (parents.length() > parentNo) {
+          return RevisionInfo.forParent(number, parents.get(parentNo));
+        }
+      }
     } else if (!info.revisions().containsKey(revOrId)) {
       JsArray<RevisionInfo> list = info.revisions().values();
       for (int i = 0; i < list.length(); i++) {
@@ -1381,9 +1395,20 @@ public class ChangeScreen extends Screen {
 
     RevisionInfo rev = info.revisions().get(revision);
     JsArray<CommitInfo> parents = rev.commit().parents();
-    diffBase.addItem(
-      parents.length() > 1 ? Util.C.autoMerge() : Util.C.baseDiffItem(),
-      "");
+    if (parents.length() > 1) {
+      diffBase.addItem(Util.C.autoMerge(), "");
+      for (int i = 0; i < parents.length(); i++) {
+        int parentNo = i + 1;
+        diffBase.addItem(Util.M.diffBaseParent(parentNo),
+            String.valueOf(parentNo * -1));
+      }
+      if (isParentCommitRevision(base)) {
+        int parentNo = Integer.parseInt(base);
+        selectedIdx = list.length() + parentNo * -1;
+      }
+    } else {
+      diffBase.addItem(Util.C.baseDiffItem(), "");
+    }
 
     diffBase.setSelectedIndex(selectedIdx);
   }

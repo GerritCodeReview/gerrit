@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.common.RevisionUtil.isParentCommitRevision;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
@@ -123,9 +124,15 @@ public class GetDiff implements RestReadView<FileResource> {
       OrmException, AuthException, InvalidChangeOperationException, IOException {
     PatchSet basePatchSet = null;
     if (base != null) {
-      RevisionResource baseResource = revisions.parse(
-          resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
-      basePatchSet = baseResource.getPatchSet();
+      if (!isParentCommitRevision(base)) {
+        RevisionResource baseResource = revisions.parse(
+            resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
+        basePatchSet = baseResource.getPatchSet();
+      } else {
+        int parentId = Integer.parseInt(base);
+        basePatchSet = new PatchSet(new PatchSet.Id(
+            resource.getRevision().getChangeResource().getId(), parentId));
+      }
     }
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {

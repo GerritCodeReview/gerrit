@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.common.RevisionUtil.isParentCommitRevision;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -145,9 +147,15 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
       PatchSet basePatchSet = null;
       if (base != null) {
-        RevisionResource baseResource = revisions.parse(
-            resource.getChangeResource(), IdString.fromDecoded(base));
-        basePatchSet = baseResource.getPatchSet();
+        if (!isParentCommitRevision(base)) {
+          RevisionResource baseResource = revisions.parse(
+              resource.getChangeResource(), IdString.fromDecoded(base));
+          basePatchSet = baseResource.getPatchSet();
+        } else {
+          int parentId = Integer.parseInt(base);
+          basePatchSet = new PatchSet(
+              new PatchSet.Id(resource.getChange().getId(), parentId));
+        }
       }
       try {
         Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(

@@ -67,4 +67,6 @@ public interface ChangeMessages extends Messages {
   String groupManyMembersConfirmation(String group, int memberCount);
 
   String insertionsAndDeletions(int insertions, int deletions);
+
+  String diffBaseParent(int parentNo);
 }

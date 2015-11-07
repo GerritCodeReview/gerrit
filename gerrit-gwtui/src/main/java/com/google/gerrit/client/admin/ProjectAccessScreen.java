@@ -231,19 +231,20 @@ public class ProjectAccessScreen extends ProjectScreen {
 
           private Set<String> getDiffs(ProjectAccess wantedAccess,
               ProjectAccess newAccess) {
-            final List<AccessSection> wantedSections =
+            List<AccessSection> wantedSections =
                 mergeSections(removeEmptyPermissionsAndSections(wantedAccess.getLocal()));
-            final HashSet<AccessSection> same = new HashSet<>(wantedSections);
-            final HashSet<AccessSection> different =
-                new HashSet<>(wantedSections.size()
-                    + newAccess.getLocal().size());
+            List<AccessSection> newSections =
+                removeEmptyPermissionsAndSections(newAccess.getLocal());
+            HashSet<AccessSection> same = new HashSet<>(wantedSections);
+            HashSet<AccessSection> different =
+                new HashSet<>(wantedSections.size() + newSections.size());
             different.addAll(wantedSections);
-            different.addAll(newAccess.getLocal());
-            same.retainAll(newAccess.getLocal());
+            different.addAll(newSections);
+            same.retainAll(newSections);
             different.removeAll(same);
 
-            final Set<String> differentNames = new HashSet<>();
-            for (final AccessSection s : different) {
+            Set<String> differentNames = new HashSet<>();
+            for (AccessSection s : different) {
               differentNames.add(s.getName());
             }
             return differentNames;

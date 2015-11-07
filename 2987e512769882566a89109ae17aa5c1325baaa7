@@ -71,6 +71,78 @@
     },
     {
       "key": {
+        "uuid": "76800614_a7326a31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-07T00:58:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_04edf6e6",
+      "range": {
+        "startLine": 9,
+        "startChar": 60,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "2987e512769882566a89109ae17aa5c1325baaa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_887c97ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-07T00:58:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f66b162f_23f2eac7",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "2987e512769882566a89109ae17aa5c1325baaa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76800614_c72f5ec8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-07T00:58:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_e4d0da1e",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "2987e512769882566a89109ae17aa5c1325baaa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16718a1c_24f2f2c7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3
@@ -82,6 +154,24 @@
       "writtenOn": "2015-11-05T15:45:39Z",
       "side": 1,
       "message": "Would then remove this comment (redundant info now with proper method name below).",
+      "revId": "2987e512769882566a89109ae17aa5c1325baaa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_a8795bd9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-07T00:58:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_24f2f2c7",
       "revId": "2987e512769882566a89109ae17aa5c1325baaa7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

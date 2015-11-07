@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.util.GitUtil.getParent;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
@@ -44,9 +45,9 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -70,6 +71,13 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         @Assisted("patchSetA") PatchSet.Id patchSetA,
         @Assisted("patchSetB") PatchSet.Id patchSetB,
         DiffPreferencesInfo diffPrefs);
+
+    PatchScriptFactory create(
+        ChangeControl control,
+        String fileName,
+        int parentNo,
+        PatchSet.Id patchSetB,
+        DiffPreferencesInfo diffPrefs);
   }
 
   private static final Logger log =
@@ -86,6 +94,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final String fileName;
   @Nullable
   private final PatchSet.Id psa;
+  @Nullable
+  private final int parentNo;
   private final PatchSet.Id psb;
   private final DiffPreferencesInfo diffPrefs;
   private final ChangeEditUtil editReader;
@@ -103,7 +113,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private List<Patch> history;
   private CommentDetail comments;
 
-  @Inject
+  @AssistedInject
   PatchScriptFactory(GitRepositoryManager grm,
       PatchSetUtil psUtil,
       Provider<PatchScriptBuilder> builderFactory,
@@ -129,14 +139,45 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
     this.fileName = fileName;
     this.psa = patchSetA;
+    this.parentNo = -1;
     this.psb = patchSetB;
     this.diffPrefs = diffPrefs;
 
     changeId = patchSetB.getParentKey();
-    checkArgument(
-        patchSetA == null || patchSetA.getParentKey().equals(changeId),
-        "cannot compare PatchSets from different changes: %s and %s",
-        patchSetA, patchSetB);
+  }
+
+  @AssistedInject
+  PatchScriptFactory(GitRepositoryManager grm,
+      PatchSetUtil psUtil,
+      Provider<PatchScriptBuilder> builderFactory,
+      PatchListCache patchListCache,
+      ReviewDb db,
+      AccountInfoCacheFactory.Factory aicFactory,
+      PatchLineCommentsUtil plcUtil,
+      ChangeEditUtil editReader,
+      @Assisted ChangeControl control,
+      @Assisted String fileName,
+      @Assisted int parentNo,
+      @Assisted PatchSet.Id patchSetB,
+      @Assisted DiffPreferencesInfo diffPrefs) {
+    this.repoManager = grm;
+    this.psUtil = psUtil;
+    this.builderFactory = builderFactory;
+    this.patchListCache = patchListCache;
+    this.db = db;
+    this.control = control;
+    this.aicFactory = aicFactory;
+    this.plcUtil = plcUtil;
+    this.editReader = editReader;
+
+    this.fileName = fileName;
+    this.psa = null;
+    this.parentNo = parentNo;
+    this.psb = patchSetB;
+    this.diffPrefs = diffPrefs;
+
+    changeId = patchSetB.getParentKey();
+    checkArgument(parentNo >= 0, "parentNo must be >= 0");
   }
 
   public void setLoadHistory(boolean load) {
@@ -151,7 +192,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   public PatchScript call() throws OrmException, NoSuchChangeException,
       LargeObjectException, AuthException,
       InvalidChangeOperationException, IOException {
-    validatePatchSetId(psa);
+    if (parentNo < 0) {
+      validatePatchSetId(psa);
+    }
     validatePatchSetId(psb);
 
     change = control.getChange();
@@ -163,15 +206,19 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         ? new PatchSet(psb)
         : psUtil.get(db, control.getNotes(), psb);
 
-    aId = psEntityA != null ? toObjectId(psEntityA) : null;
-    bId = toObjectId(psEntityB);
-
     if ((psEntityA != null && !control.isPatchVisible(psEntityA, db)) ||
         (psEntityB != null && !control.isPatchVisible(psEntityB, db))) {
       throw new NoSuchChangeException(changeId);
     }
 
     try (Repository git = repoManager.openRepository(project)) {
+      bId = toObjectId(psEntityB);
+      if (parentNo < 0) {
+        aId = psEntityA != null ? toObjectId(psEntityA) : null;
+      } else {
+        aId = getParent(git, bId, parentNo);
+      }
+
       try {
         final PatchList list = listFor(keyFor(diffPrefs.ignoreWhitespace));
         final PatchScriptBuilder b = newBuilder(list, git);

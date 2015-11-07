@@ -182,7 +182,7 @@ public class EditScreen extends Screen {
     } else {
       // TODO(davido): We probably want to create dedicated GET EditScreenMeta
       // REST endpoint. Abuse GET diff for now, as it retrieves links we need.
-      DiffApi.diff(revision, path)
+      DiffApi.diff(revision, null, path)
         .base(base)
         .webLinksOnly()
         .get(group1.add(new AsyncCallback<DiffInfo>() {

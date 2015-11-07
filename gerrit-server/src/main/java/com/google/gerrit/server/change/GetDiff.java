@@ -90,6 +90,9 @@ public class GetDiff implements RestReadView<FileResource> {
   @Option(name = "--base", metaVar = "REVISION")
   String base;
 
+  @Option(name = "--parent", metaVar = "parent-number")
+  int parentNo;
+
   @Deprecated
   @Option(name = "--ignore-whitespace")
   IgnoreWhitespace ignoreWhitespace;
@@ -121,12 +124,6 @@ public class GetDiff implements RestReadView<FileResource> {
   public Response<DiffInfo> apply(FileResource resource)
       throws ResourceConflictException, ResourceNotFoundException,
       OrmException, AuthException, InvalidChangeOperationException, IOException {
-    PatchSet basePatchSet = null;
-    if (base != null) {
-      RevisionResource baseResource = revisions.parse(
-          resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
-      basePatchSet = baseResource.getPatchSet();
-    }
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {
       prefs.ignoreWhitespace = whitespace;
@@ -138,13 +135,35 @@ public class GetDiff implements RestReadView<FileResource> {
     prefs.context = context;
     prefs.intralineDifference = intraline;
 
-    try {
-      PatchScriptFactory psf = patchScriptFactoryFactory.create(
+    PatchScriptFactory psf;
+    PatchSet basePatchSet = null;
+    if (base != null) {
+      RevisionResource baseResource = revisions.parse(
+          resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
+      basePatchSet = baseResource.getPatchSet();
+      psf = patchScriptFactoryFactory.create(
           resource.getRevision().getControl(),
           resource.getPatchKey().getFileName(),
-          basePatchSet != null ? basePatchSet.getId() : null,
+          basePatchSet.getId(),
           resource.getPatchKey().getParentKey(),
           prefs);
+    } else if (parentNo > 0) {
+      psf = patchScriptFactoryFactory.create(
+          resource.getRevision().getControl(),
+          resource.getPatchKey().getFileName(),
+          parentNo - 1,
+          resource.getPatchKey().getParentKey(),
+          prefs);
+    } else {
+      psf = patchScriptFactoryFactory.create(
+          resource.getRevision().getControl(),
+          resource.getPatchKey().getFileName(),
+          null,
+          resource.getPatchKey().getParentKey(),
+          prefs);
+    }
+
+    try {
       psf.setLoadHistory(false);
       psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
@@ -269,6 +288,11 @@ public class GetDiff implements RestReadView<FileResource> {
 
   public GetDiff setBase(String base) {
     this.base = base;
+    return this;
+  }
+
+  public GetDiff setParent(int parentNo) {
+    this.parentNo = parentNo;
     return this;
   }
 

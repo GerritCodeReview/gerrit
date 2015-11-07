@@ -334,11 +334,21 @@ public class ChangeInfo extends JavaScriptObject {
       revisionInfo.takeFromEdit(edit);
       return revisionInfo;
     }
+    public static RevisionInfo forParent(int number, CommitInfo commit) {
+      RevisionInfo revisionInfo = createObject().cast();
+      revisionInfo.takeFromParent(number, commit);
+      return revisionInfo;
+    }
     private native void takeFromEdit(EditInfo edit) /*-{
       this._number = 0;
       this.name = edit.name;
       this.commit = edit.commit;
       this.edit_base = edit.base_revision;
+    }-*/;
+    private native void takeFromParent(int number, CommitInfo commit) /*-{
+      this._number = number;
+      this.commit = commit;
+      this.name = this._number;
     }-*/;
     public final native int _number() /*-{ return this._number; }-*/;
     public final native String name() /*-{ return this.name; }-*/;

@@ -18,9 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import static org.eclipse.jgit.lib.Constants.HEAD;
+
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Chars;
@@ -464,6 +468,29 @@ public abstract class AbstractDaemonTest {
   protected PushOneCommit.Result createChange(String ref) throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result result = push.to(ref);
+    result.assertOkStatus();
+    return result;
+  }
+
+  protected PushOneCommit.Result createMergeCommitChange(String ref)
+      throws Exception {
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+
+    PushOneCommit.Result p1 = pushFactory.create(db, admin.getIdent(),
+        testRepo, "parent 1", ImmutableMap.of("foo", "foo-1", "bar", "bar-1"))
+        .to(ref);
+
+    // reset HEAD in order to create a sibling of the first change
+    testRepo.reset(initial);
+
+    PushOneCommit.Result p2 = pushFactory.create(db, admin.getIdent(),
+        testRepo, "parent 2", ImmutableMap.of("foo", "foo-2", "bar", "bar-2"))
+        .to(ref);
+
+    PushOneCommit m = pushFactory.create(db, admin.getIdent(), testRepo, "merge",
+        ImmutableMap.of("foo", "foo-1", "bar", "bar-2"));
+    m.setParents(ImmutableList.of(p1.getCommit(), p2.getCommit()));
+    PushOneCommit.Result result = m.to(ref);
     result.assertOkStatus();
     return result;
   }

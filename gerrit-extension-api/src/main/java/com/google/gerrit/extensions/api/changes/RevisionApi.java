@@ -46,6 +46,7 @@ public interface RevisionApi {
 
   Map<String, FileInfo> files() throws RestApiException;
   Map<String, FileInfo> files(String base) throws RestApiException;
+  Map<String, FileInfo> files(int parentNo) throws RestApiException;
   FileApi file(String path);
   MergeableInfo mergeable() throws RestApiException;
   MergeableInfo mergeableOtherBranches() throws RestApiException;
@@ -143,6 +144,11 @@ public interface RevisionApi {
 
     @Override
     public Map<String, FileInfo> files(String base) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, FileInfo> files(int parentNo) throws RestApiException {
       throw new NotImplementedException();
     }
 

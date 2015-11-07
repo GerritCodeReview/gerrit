@@ -17,6 +17,7 @@ package com.google.gerrit.rules;
 import static com.google.gerrit.rules.StoredValue.create;
 
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -103,7 +104,7 @@ public final class StoredValues {
       ObjectId a = null;
       ObjectId b = ObjectId.fromString(ps.getRevision().get());
       Whitespace ws = Whitespace.IGNORE_NONE;
-      PatchListKey plKey = new PatchListKey(a, b, ws);
+      PatchListKey plKey = new PatchListKey(a, b, ws, DiffType.AUTO_MERGE);
       PatchList patchList;
       try {
         patchList = plCache.get(plKey, project);

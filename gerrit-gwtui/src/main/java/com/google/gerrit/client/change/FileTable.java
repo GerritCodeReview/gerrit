@@ -36,6 +36,7 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -189,6 +190,7 @@ public class FileTable extends FlowPanel {
   private Widget replyButton;
   private boolean editExists;
   private Mode mode;
+  private DiffType diffType;
 
   @Override
   protected void onLoad() {
@@ -197,12 +199,13 @@ public class FileTable extends FlowPanel {
   }
 
   public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen.Style style,
-      Widget replyButton, Mode mode, boolean editExists) {
+      Widget replyButton, Mode mode, DiffType diffType, boolean editExists) {
     this.base = base;
     this.curr = curr;
     this.style = style;
     this.replyButton = replyButton;
     this.mode = mode;
+    this.diffType = diffType;
     this.editExists = editExists;
   }
 
@@ -282,9 +285,9 @@ public class FileTable extends FlowPanel {
 
   private String url(FileInfo info) {
     return info.binary()
-      ? Dispatcher.toUnified(base, curr, info.path())
+      ? Dispatcher.toUnified(base, curr, diffType, info.path())
       : mode == Mode.REVIEW
-            ? Dispatcher.toSideBySide(base, curr, info.path())
+            ? Dispatcher.toSideBySide(base, curr, diffType, info.path())
             : Dispatcher.toEditScreen(curr, info.path());
   }
 

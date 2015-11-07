@@ -16,6 +16,7 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -63,6 +64,7 @@ public class PatchSetSelectBox extends Composite {
   Side side;
   Map<Integer, Anchor> links;
   private Label patchSet;
+  private DiffType diffType;
 
   @UiField
   HTMLPanel linkPanel;
@@ -70,9 +72,9 @@ public class PatchSetSelectBox extends Composite {
   @UiField
   BoxStyle style;
 
-  public PatchSetSelectBox(Side side) {
+  public PatchSetSelectBox(Side side, DiffType diffType) {
     this.side = side;
-
+    this.diffType = diffType;
     initWidget(uiBinder.createAndBindUi(this));
   }
 
@@ -101,7 +103,15 @@ public class PatchSetSelectBox extends Composite {
 
     Anchor baseLink;
     if (detail.getInfo().getParents().size() > 1) {
-      baseLink = createLink(PatchUtil.C.patchBaseAutoMerge(), null);
+      switch (diffType) {
+        case FIRST_PARENT:
+          baseLink = createLink(PatchUtil.C.patchBaseFirstParent(), null);
+          break;
+        //$CASES-OMITTED$ AUTO_MERGE - default
+        default:
+          baseLink = createLink(PatchUtil.C.patchBaseAutoMerge(), null);
+          break;
+      }
     } else {
       baseLink = createLink(PatchUtil.C.patchBase(), null);
     }
@@ -150,7 +160,7 @@ public class PatchSetSelectBox extends Composite {
         }
 
         Patch.Key keySideB = new Patch.Key(idSideB, patchKey.get());
-        Gerrit.display(Dispatcher.toUnified(idSideA, keySideB));
+        Gerrit.display(Dispatcher.toUnified(idSideA, keySideB, diffType));
       }
     });
     return anchor;

@@ -31,6 +31,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -89,6 +90,7 @@ public class ReplyBox extends Composite {
   private final CommentLinkProcessor clp;
   private final PatchSet.Id psId;
   private final String revision;
+  private DiffType diffType;
   private ReviewInput in = ReviewInput.create();
   private int labelHelpColumn;
   private LocalComments lc;
@@ -137,6 +139,10 @@ public class ReplyBox extends Composite {
         }
       },
       KeyPressEvent.getType());
+  }
+
+  void setDiffType(DiffType diffType) {
+    this.diffType = diffType;
   }
 
   @Override
@@ -204,7 +210,7 @@ public class ReplyBox extends Composite {
       .post(in, new GerritCallback<ReviewInput>() {
         @Override
         public void onSuccess(ReviewInput result) {
-          Gerrit.display(PageLinks.toChange(psId));
+          Gerrit.display(PageLinks.toChange(psId, diffType));
         }
         @Override
         public void onFailure(final Throwable caught) {

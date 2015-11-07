@@ -19,6 +19,7 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Composite;
@@ -53,14 +54,16 @@ class NavLinks extends Composite {
 
   private final PatchSet.Id patchSetId;
   private final KeyCommandSet keys;
+  private final DiffType diffType;
   private final Grid table;
 
   private KeyCommand[] cmds = new KeyCommand[2];
 
-  NavLinks(KeyCommandSet kcs, PatchSet.Id forPatch) {
+  NavLinks(KeyCommandSet kcs, PatchSet.Id forPatch, DiffType diffType) {
     patchSetId = forPatch;
     keys = kcs;
     table = new Grid(1, 5);
+    this.diffType = diffType;
     initWidget(table);
 
     final CellFormatter fmt = table.getCellFormatter();
@@ -71,13 +74,13 @@ class NavLinks extends Composite {
     fmt.setHorizontalAlignment(0, 3, HasHorizontalAlignment.ALIGN_RIGHT);
     fmt.setHorizontalAlignment(0, 4, HasHorizontalAlignment.ALIGN_RIGHT);
 
-    final ChangeLink up = new ChangeLink("", patchSetId);
+    final ChangeLink up = new ChangeLink("", patchSetId, diffType);
     SafeHtml.set(up, SafeHtml.asis(Util.C.upToChangeIconLink()));
     table.setWidget(0, 1, up);
   }
 
-  void display(int patchIndex, PatchTable fileList,
-      List<InlineHyperlink> links, List<WebLinkInfo> webLinks) {
+  void display(int patchIndex, PatchTable fileList, List<InlineHyperlink> links,
+      List<WebLinkInfo> webLinks) {
     if (fileList != null) {
       Label fileCountLabel =
           new Label(Gerrit.M.fileCount(patchIndex + 1, fileList.size()));
@@ -126,7 +129,7 @@ class NavLinks extends Composite {
           }
         };
       } else {
-        cmds[nav.cmd] = new UpToChangeCommand(patchSetId, 0, nav.key);
+        cmds[nav.cmd] = new UpToChangeCommand(patchSetId, 0, nav.key, diffType);
       }
 
       keys.add(cmds[nav.cmd]);

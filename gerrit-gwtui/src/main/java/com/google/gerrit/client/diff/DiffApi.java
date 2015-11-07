@@ -18,6 +18,7 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.FileInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -29,27 +30,45 @@ public class DiffApi {
   }
 
   public static void list(int id, String base, String revision,
-      AsyncCallback<NativeMap<FileInfo>> cb) {
+      DiffType diffType, AsyncCallback<NativeMap<FileInfo>> cb) {
     RestApi api = ChangeApi.revision(id, revision).view("files");
     if (base != null) {
       api.addParameter("base", base);
+    }
+    if (diffType != null) {
+      api.addParameter("diff-type", diffType);
     }
     api.get(NativeMap.copyKeysIntoChildren("path", cb));
   }
 
   public static void list(PatchSet.Id id, PatchSet.Id base,
-      AsyncCallback<NativeMap<FileInfo>> cb) {
+      DiffType diffType, AsyncCallback<NativeMap<FileInfo>> cb) {
     RestApi api = ChangeApi.revision(id).view("files");
     if (base != null) {
       api.addParameter("base", base.get());
+    }
+    if (diffType != null) {
+      api.addParameter("diff-type", diffType);
     }
     api.get(NativeMap.copyKeysIntoChildren("path", cb));
   }
 
   public static DiffApi diff(PatchSet.Id id, String path) {
-    return new DiffApi(ChangeApi.revision(id)
+    return diff(id, null, path);
+  }
+
+  public static DiffApi diff(PatchSet.Id id, String path, DiffType diffType) {
+    return diff(id, diffType, path);
+  }
+
+  public static DiffApi diff(PatchSet.Id id, DiffType diffType, String path) {
+    RestApi call = ChangeApi.revision(id)
         .view("files").id(path)
-        .view("diff"));
+        .view("diff");
+    if (diffType != null) {
+      call.addParameter("type", diffType);
+    }
+    return new DiffApi(call);
   }
 
   private final RestApi call;

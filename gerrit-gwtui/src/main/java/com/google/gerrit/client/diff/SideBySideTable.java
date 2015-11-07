@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -48,8 +49,8 @@ class SideBySideTable extends DiffTable {
   private boolean visibleA;
 
   SideBySideTable(SideBySide parent, PatchSet.Id base, PatchSet.Id revision,
-      String path) {
-    super(parent, base, revision, path);
+      DiffType diffType, String path) {
+    super(parent, base, revision, diffType, path);
 
     initWidget(uiBinder.createAndBindUi(this));
     this.visibleA = true;

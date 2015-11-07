@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.CommentDetail;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -98,6 +99,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private ObjectId bId;
   private List<Patch> history;
   private CommentDetail comments;
+  private DiffType diffType;
 
   @Inject
   PatchScriptFactory(final GitRepositoryManager grm,
@@ -134,6 +136,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   public void setLoadComments(boolean load) {
     loadComments = load;
+  }
+
+  public void setDiffType(DiffType diffType) {
+    this.diffType = diffType;
   }
 
   @Override
@@ -183,7 +189,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private PatchListKey keyFor(final Whitespace whitespace) {
-    return new PatchListKey(aId, bId, whitespace);
+    return new PatchListKey(aId, bId, whitespace, diffType);
   }
 
   private PatchList listFor(final PatchListKey key)

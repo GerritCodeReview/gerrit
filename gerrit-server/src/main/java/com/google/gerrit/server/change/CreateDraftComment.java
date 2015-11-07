@@ -119,7 +119,13 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
               ChangeUtil.messageUUID(ctx.getDb())),
           line, ctx.getUser().getAccountId(), Url.decode(in.inReplyTo),
           ctx.getWhen());
-      comment.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
+      short side;
+      if (in.side == Side.PARENT) {
+        side = in.parent == null ? 0 : (short) -in.parent.shortValue();
+      } else  {
+        side = 1;
+      }
+      comment.setSide(side);
       comment.setMessage(in.message.trim());
       comment.setRange(in.range);
       comment.setTag(in.tag);

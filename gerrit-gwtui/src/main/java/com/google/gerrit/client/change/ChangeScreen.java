@@ -879,6 +879,13 @@ public class ChangeScreen extends Screen {
     }
     final RevisionInfo rev = resolveRevisionToDisplay(info);
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
+    DiffApi.MergeDiffType difftype = null;
+    if (base != null) {
+      try {
+        difftype = DiffApi.MergeDiffType.valueOf(base);
+      } catch (IllegalArgumentException e) {
+      }
+    }
 
     CallbackGroup group = new CallbackGroup();
     Timestamp lastReply = myLastReply(info);
@@ -888,9 +895,9 @@ public class ChangeScreen extends Screen {
       RevisionInfo p = RevisionInfo.findEditParentRevision(
           info.revisions().values());
       List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(p, group);
-      loadFileList(b, rev, lastReply, group, comments, null);
+      loadFileList(b, rev, lastReply, group, comments, null, difftype);
     } else {
-      loadDiff(b, rev, lastReply, group);
+      loadDiff(b, rev, lastReply, group, difftype);
     }
     loadCommit(rev, group);
 
@@ -928,10 +935,10 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadDiff(final RevisionInfo base, final RevisionInfo rev,
-      final Timestamp myLastReply, CallbackGroup group) {
+      final Timestamp myLastReply, CallbackGroup group, DiffApi.MergeDiffType difftype) {
     final List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
     final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
-    loadFileList(base, rev, myLastReply, group, comments, drafts);
+    loadFileList(base, rev, myLastReply, group, comments, drafts, difftype);
 
     if (Gerrit.isSignedIn() && fileTableMode == FileTable.Mode.REVIEW) {
       ChangeApi.revision(changeId.get(), rev.name())
@@ -953,7 +960,8 @@ public class ChangeScreen extends Screen {
   private void loadFileList(final RevisionInfo base, final RevisionInfo rev,
       final Timestamp myLastReply, CallbackGroup group,
       final List<NativeMap<JsArray<CommentInfo>>> comments,
-      final List<NativeMap<JsArray<CommentInfo>>> drafts) {
+      final List<NativeMap<JsArray<CommentInfo>>> drafts,
+      DiffApi.MergeDiffType difftype) {
     DiffApi.list(changeId.get(),
       base != null ? base.name() : null,
       rev.name(),
@@ -972,7 +980,8 @@ public class ChangeScreen extends Screen {
         @Override
         public void onFailure(Throwable caught) {
         }
-      }));
+      }),
+      difftype);
   }
 
   private List<NativeMap<JsArray<CommentInfo>>> loadComments(
@@ -1389,9 +1398,12 @@ public class ChangeScreen extends Screen {
 
     RevisionInfo rev = info.revisions().get(revision);
     JsArray<CommitInfo> parents = rev.commit().parents();
-    diffBase.addItem(
-      parents.length() > 1 ? Util.C.autoMerge() : Util.C.baseDiffItem(),
-      "");
+    if (parents.length() > 1) {
+      diffBase.addItem(Util.C.firstParent(), DiffApi.MergeDiffType.FIRST_PARENT.name());
+      diffBase.addItem(Util.C.autoMerge(), DiffApi.MergeDiffType.AUTO_MERGE.name());
+    } else {
+      diffBase.addItem(Util.C.baseDiffItem(), "");
+    }
 
     diffBase.setSelectedIndex(selectedIdx);
   }

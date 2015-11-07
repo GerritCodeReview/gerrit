@@ -95,6 +95,7 @@ import com.google.gerrit.server.api.accounts.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -924,7 +925,7 @@ public class ChangeJson {
     }
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
-      out.files = fileInfoJson.toFileInfoMap(c, in);
+      out.files = fileInfoJson.toFileInfoMap(c, in, PatchListKey.MergeDiffType.FIRST_PARENT.name());
       out.files.remove(Patch.COMMIT_MSG);
     }
 

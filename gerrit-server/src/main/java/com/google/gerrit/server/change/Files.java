@@ -96,6 +96,9 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     @Option(name = "--base", metaVar = "revision-id")
     String base;
 
+    @Option(name = "--merge-diff-type")
+    String difftype;
+
     @Option(name = "--reviewed")
     boolean reviewed;
 
@@ -150,7 +153,9 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(
             resource.getChange(),
             resource.getPatchSet().getRevision(),
-            basePatchSet));
+            basePatchSet,
+            difftype
+            ));
         if (resource.isCacheable()) {
           r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
         }

@@ -162,7 +162,7 @@ public class Header extends Composite {
         }
         nextPath = nextInfo != null ? nextInfo.path() : null;
       }
-    });
+    }, DiffApi.MergeDiffType.FIRST_PARENT);
 
     if (Gerrit.isSignedIn()) {
       ChangeApi.revision(patchSetId).view("files")

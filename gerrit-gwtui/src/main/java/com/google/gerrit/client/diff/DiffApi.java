@@ -27,20 +27,30 @@ public class DiffApi {
     NONE, TRAILING, CHANGED, ALL
   }
 
+  public enum MergeDiffType {
+    AUTO_MERGE, FIRST_PARENT
+  }
+
   public static void list(int id, String base, String revision,
-      AsyncCallback<NativeMap<FileInfo>> cb) {
+      AsyncCallback<NativeMap<FileInfo>> cb, MergeDiffType difftype) {
     RestApi api = ChangeApi.revision(id, revision).view("files");
     if (base != null) {
       api.addParameter("base", base);
+    }
+    if (difftype != null) {
+      api.addParameter("merge-diff-type", difftype);
     }
     api.get(NativeMap.copyKeysIntoChildren("path", cb));
   }
 
   public static void list(PatchSet.Id id, PatchSet.Id base,
-      AsyncCallback<NativeMap<FileInfo>> cb) {
+      AsyncCallback<NativeMap<FileInfo>> cb, MergeDiffType difftype) {
     RestApi api = ChangeApi.revision(id).view("files");
     if (base != null) {
       api.addParameter("base", base.get());
+    }
+    if (difftype != null) {
+      api.addParameter("merge-diff-type", difftype);
     }
     api.get(NativeMap.copyKeysIntoChildren("path", cb));
   }

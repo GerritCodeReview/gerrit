@@ -47,6 +47,7 @@ import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.edit.UnchangedCommitMessageException;
+import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
@@ -291,7 +292,7 @@ public class ChangeEdits implements
               fileInfoJson.toFileInfoMap(
                   rsrc.getChange(),
                   edit.get().getRevision(),
-                  basePatchSet);
+                  basePatchSet, PatchListKey.MergeDiffType.FIRST_PARENT.name());
         } catch (PatchListNotAvailableException e) {
           throw new ResourceNotFoundException(e.getMessage());
         }

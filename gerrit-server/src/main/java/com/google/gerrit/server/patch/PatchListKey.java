@@ -42,18 +42,47 @@ public class PatchListKey implements Serializable {
       Whitespace.IGNORE_LEADING_AND_TRAILING, 'S',
       Whitespace.IGNORE_ALL, 'A');
 
+  public enum MergeDiffType {
+    AUTO_MERGE, FIRST_PARENT
+  }
+
+  public static final BiMap<MergeDiffType, Character> DIFF_TYPES = ImmutableBiMap.of(
+      MergeDiffType.AUTO_MERGE, 'A',
+      MergeDiffType.FIRST_PARENT, 'F');
+
   static {
     checkState(WHITESPACE_TYPES.size() == Whitespace.values().length);
+    checkState(DIFF_TYPES.size() == MergeDiffType.values().length);
   }
 
   private transient ObjectId oldId;
   private transient ObjectId newId;
   private transient Whitespace whitespace;
+  private transient MergeDiffType difftype;
 
   public PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws) {
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
     whitespace = ws;
+    difftype = MergeDiffType.FIRST_PARENT;
+  }
+
+  public PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws,@Nullable String difftype) {
+    oldId = a != null ? a.copy() : null;
+    newId = b.copy();
+    whitespace = ws;
+    if (difftype != null) {
+      this.difftype = MergeDiffType.valueOf(difftype);
+    } else {
+      this.difftype = MergeDiffType.FIRST_PARENT;
+    }
+  }
+
+  public PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws, MergeDiffType difftype) {
+    oldId = a != null ? a.copy() : null;
+    newId = b.copy();
+    whitespace = ws;
+    this.difftype = difftype;
   }
 
   /** Old side commit, or null to assume ancestor or combined merge. */
@@ -69,6 +98,10 @@ public class PatchListKey implements Serializable {
 
   public Whitespace getWhitespace() {
     return whitespace;
+  }
+
+  public MergeDiffType getDiffType(){
+    return difftype;
   }
 
   @Override
@@ -91,7 +124,8 @@ public class PatchListKey implements Serializable {
       final PatchListKey k = (PatchListKey) o;
       return eq(oldId, k.oldId) //
           && eq(newId, k.newId) //
-          && whitespace == k.whitespace;
+          && whitespace == k.whitespace
+          && difftype == k.difftype;
     }
     return false;
   }
@@ -103,6 +137,8 @@ public class PatchListKey implements Serializable {
     n.append(oldId != null ? oldId.name() : "BASE");
     n.append("..");
     n.append(newId.name());
+    n.append(" ");
+    n.append(difftype.name());
     n.append(" ");
     n.append(whitespace.name());
     n.append("]");
@@ -124,6 +160,11 @@ public class PatchListKey implements Serializable {
       throw new IOException("Invalid whitespace type: " + whitespace);
     }
     out.writeChar(c);
+    Character dt = DIFF_TYPES.get(difftype);
+    if (dt == null) {
+      throw new IOException("Invalid diff type: " + difftype);
+    }
+    out.writeChar(dt);
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
@@ -133,6 +174,11 @@ public class PatchListKey implements Serializable {
     whitespace = WHITESPACE_TYPES.inverse().get(t);
     if (whitespace == null) {
       throw new IOException("Invalid whitespace type code: " + t);
+    }
+    char dt = in.readChar();
+    difftype = DIFF_TYPES.inverse().get(dt);
+    if (difftype == null) {
+      throw new IOException("Invalid diff type code: " + dt);
     }
   }
 }

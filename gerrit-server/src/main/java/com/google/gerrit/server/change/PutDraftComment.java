@@ -19,6 +19,7 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -163,7 +164,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private static PatchLineComment update(PatchLineComment e, DraftInput in,
       Timestamp when) {
     if (in.side != null) {
-      e.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
+      e.setSide(side(in));
     }
     if (in.inReplyTo != null) {
       e.setParentUuid(Url.decode(in.inReplyTo));
@@ -179,5 +180,13 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       e.setTag(in.tag);
     }
     return e;
+  }
+
+  static short side(Comment c) {
+    if (c.side == Side.PARENT) {
+      return (short) (c.parent == null ? 0 : -c.parent.shortValue());
+    } else  {
+      return 1;
+    }
   }
 }

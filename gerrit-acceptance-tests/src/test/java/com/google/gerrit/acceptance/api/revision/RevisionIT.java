@@ -526,6 +526,35 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void filesOnMergeCommitChange() throws Exception {
+    PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+
+    // list files against auto-merge
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .files()
+        .keySet()
+      ).containsExactly("/COMMIT_MSG", "foo", "bar");
+
+    // list files against parent 1
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .files(1)
+        .keySet()
+      ).containsExactly("/COMMIT_MSG", "bar");
+
+    // list files against parent 2
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .files(2)
+        .keySet()
+      ).containsExactly("/COMMIT_MSG", "foo");
+  }
+
+  @Test
   public void diff() throws Exception {
     PushOneCommit.Result r = createChange();
     DiffInfo diff = gApi.changes()
@@ -534,6 +563,48 @@ public class RevisionIT extends AbstractDaemonTest {
         .file(FILE_NAME)
         .diff();
     assertThat(diff.metaA).isNull();
+    assertThat(diff.metaB.lines).isEqualTo(1);
+  }
+
+  @Test
+  public void diffOnMergeCommitChange() throws Exception {
+    PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+
+    DiffInfo diff;
+
+    // automerge
+    diff = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .file("foo")
+        .diff();
+    assertThat(diff.metaA.lines).isEqualTo(5);
+    assertThat(diff.metaB.lines).isEqualTo(1);
+
+    diff = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .file("bar")
+        .diff();
+    assertThat(diff.metaA.lines).isEqualTo(5);
+    assertThat(diff.metaB.lines).isEqualTo(1);
+
+    // parent 1
+    diff = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .file("bar")
+        .diff(1);
+    assertThat(diff.metaA.lines).isEqualTo(1);
+    assertThat(diff.metaB.lines).isEqualTo(1);
+
+    // parent 2
+    diff = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .file("foo")
+        .diff(2);
+    assertThat(diff.metaA.lines).isEqualTo(1);
     assertThat(diff.metaB.lines).isEqualTo(1);
   }
 

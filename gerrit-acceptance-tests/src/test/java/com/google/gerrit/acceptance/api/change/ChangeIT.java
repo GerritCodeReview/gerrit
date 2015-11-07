@@ -35,11 +35,13 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -171,9 +173,42 @@ public class ChangeIT extends AbstractDaemonTest {
         .revert();
   }
 
-  // Change is already up to date
-  @Test(expected = ResourceConflictException.class)
+  @Test
   public void rebase() throws Exception {
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Approve and submit the first change
+    RevisionApi revision = gApi.changes()
+        .id(r.getChangeId())
+        .current();
+    revision.review(ReviewInput.approve());
+    revision.submit();
+
+    // Rebase the second change
+    gApi.changes()
+        .id(r2.getChangeId())
+        .current()
+        .rebase();
+
+    // Second change should have 2 patch sets
+    assertThat(r2.getPatchSetId().get()).isEqualTo(2);
+
+    // ...and the committer should be correct
+    ChangeInfo info = gApi.changes()
+        .id(r2.getChangeId()).get(EnumSet.of(
+            ListChangesOption.CURRENT_REVISION,
+            ListChangesOption.CURRENT_COMMIT));
+    GitPerson committer = info.revisions.get(
+        info.currentRevision).commit.committer;
+    assertThat(committer.name).isEqualTo(admin.fullName);
+    assertThat(committer.email).isEqualTo(admin.email);
+  }
+
+  @Test(expected = ResourceConflictException.class)
+  public void rebaseUpToDateChange() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(r.getChangeId())

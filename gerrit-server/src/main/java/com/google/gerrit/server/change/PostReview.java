@@ -431,7 +431,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           }
           e.setStatus(PatchLineComment.Status.PUBLISHED);
           e.setWrittenOn(ctx.getWhen());
-          e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
+          e.setSide(c.side == Side.PARENT ? (short) -c.parent.shortValue() : 1);
           setCommentRevId(e, patchListCache, ctx.getChange(), ps);
           e.setMessage(c.message);
           e.setTag(in.tag);

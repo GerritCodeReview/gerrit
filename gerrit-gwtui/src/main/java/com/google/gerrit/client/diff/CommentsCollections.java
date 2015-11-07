@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -46,13 +47,13 @@ class CommentsCollections {
   }
 
   void load(CallbackGroup group) {
-    if (base != null) {
+    if (base != null && base.get() > 0) {
       CommentApi.comments(base, group.add(publishedBase()));
     }
     CommentApi.comments(revision, group.add(publishedRevision()));
 
     if (Gerrit.isSignedIn()) {
-      if (base != null) {
+      if (base != null && base.get() > 0) {
         CommentApi.drafts(base, group.add(draftsBase()));
       }
       CommentApi.drafts(revision, group.add(draftsRevision()));
@@ -60,7 +61,7 @@ class CommentsCollections {
   }
 
   boolean hasCommentForPath(String filePath) {
-    if (base != null) {
+    if (base != null && base.get() > 0) {
       JsArray<CommentInfo> forBase = publishedBaseAll.get(filePath);
       if (forBase != null && forBase.length() > 0) {
         return true;
@@ -91,6 +92,9 @@ class CommentsCollections {
     return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+        for (String k : result.keySet()) {
+          result.put(k, filterForParent(result.get(k)));
+        }
         publishedRevisionAll = result;
         publishedRevision = sort(result.get(path));
       }
@@ -100,6 +104,20 @@ class CommentsCollections {
       }
     };
   }
+
+    private JsArray<CommentInfo> filterForParent(JsArray<CommentInfo> list) {
+      JsArray<CommentInfo> result = JsArray.createArray().cast();
+      for (CommentInfo c : Natives.asList(list)) {
+        if (c.side() == Side.REVISION) {
+          result.push(c);
+        } else if (base == null && !c.hasParent()) {
+          result.push(c);
+        } else if (base != null && c.parent() == -base.get()) {
+          result.push(c);
+        }
+      }
+      return result;
+    }
 
   private AsyncCallback<NativeMap<JsArray<CommentInfo>>> draftsBase() {
     return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
@@ -118,6 +136,9 @@ class CommentsCollections {
     return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+        for (String k : result.keySet()) {
+          result.put(k, filterForParent(result.get(k)));
+        }
         draftsRevision = sort(result.get(path));
       }
 

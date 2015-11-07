@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.common.RevisionUtil.isParentCommitRevision;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
@@ -76,6 +78,12 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
         return new RevisionResource(change, ps).doNotCache();
       }
       throw new ResourceNotFoundException(id);
+    }
+
+    if (isParentCommitRevision(id.get())) {
+      int parentNo = Integer.parseInt(id.get());
+      return new RevisionResource(change,
+          new PatchSet(new PatchSet.Id(change.getId(), parentNo)));
     }
 
     List<RevisionResource> match = Lists.newArrayListWithExpectedSize(2);

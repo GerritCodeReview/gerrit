@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.common.RevisionUtil.isParentCommitRevision;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -143,24 +145,34 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         return Response.ok(query(resource));
       }
 
-      PatchSet basePatchSet = null;
-      if (base != null) {
-        RevisionResource baseResource = revisions.parse(
-            resource.getChangeResource(), IdString.fromDecoded(base));
-        basePatchSet = baseResource.getPatchSet();
-      }
+      Response<Map<String, FileInfo>> r;
       try {
-        Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(
-            resource.getChange(),
-            resource.getPatchSet().getRevision(),
-            basePatchSet));
-        if (resource.isCacheable()) {
-          r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+        if (base == null) {
+          r = Response.ok(fileInfoJson.toFileInfoMap(
+              resource.getChange(),
+              resource.getPatchSet()));
+        } else if (!isParentCommitRevision(base)) {
+          RevisionResource baseResource = revisions.parse(
+              resource.getChangeResource(), IdString.fromDecoded(base));
+          r = Response.ok(fileInfoJson.toFileInfoMap(
+              resource.getChange(),
+              resource.getPatchSet().getRevision(),
+              baseResource.getPatchSet()));
+        } else {
+          int parentNo = -Integer.parseInt(base) - 1;
+          r = Response.ok(fileInfoJson.toFileInfoMap(
+              resource.getChange(),
+              resource.getPatchSet().getRevision(),
+              parentNo));
         }
-        return r;
       } catch (PatchListNotAvailableException e) {
         throw new ResourceNotFoundException(e.getMessage());
       }
+
+      if (resource.isCacheable()) {
+        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+      }
+      return r;
     }
 
     private void checkOptions() throws BadRequestException {

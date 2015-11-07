@@ -21,6 +21,7 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -74,6 +75,7 @@ class PatchTable extends Composite {
       };
 
   private final FlowPanel myBody;
+  private final DiffType diffType;
   private PatchSetDetail detail;
   private Command onLoadCommand;
   private MyTable myTable;
@@ -87,14 +89,15 @@ class PatchTable extends Composite {
   private boolean active;
   private boolean registerKeys;
 
-  PatchTable(ListenableAccountDiffPreference prefs) {
+  PatchTable(ListenableAccountDiffPreference prefs, DiffType diffType) {
     listenablePrefs = prefs;
+    this.diffType = diffType;
     myBody = new FlowPanel();
     initWidget(myBody);
   }
 
   PatchTable() {
-    this(new ListenableAccountDiffPreference());
+    this(new ListenableAccountDiffPreference(), DiffType.AUTO_MERGE);
   }
 
   int indexOf(Patch.Key patch) {
@@ -222,8 +225,8 @@ class PatchTable extends Composite {
     if (previousPatchIndex < 0) {
       return null;
     }
-    return createLink(previousPatchIndex,
-        SafeHtml.asis(Util.C.prevPatchLinkIcon()), null);
+    return createLink(previousPatchIndex, SafeHtml.asis(Util.C.prevPatchLinkIcon()),
+        null);
   }
 
   /**
@@ -234,8 +237,7 @@ class PatchTable extends Composite {
     if (nextPatchIndex < 0) {
       return null;
     }
-    return createLink(nextPatchIndex, null,
-        SafeHtml.asis(Util.C.nextPatchLinkIcon()));
+    return createLink(nextPatchIndex, null, SafeHtml.asis(Util.C.nextPatchLinkIcon()));
   }
 
   /**
@@ -250,9 +252,9 @@ class PatchTable extends Composite {
     PatchLink link;
 
     if (isUnifiedPatchLink(patch)) {
-      link = new PatchLink.Unified("", base, thisKey);
+      link = new PatchLink.Unified("", base, thisKey, diffType);
     } else {
-      link = new PatchLink.SideBySide("", base, thisKey);
+      link = new PatchLink.SideBySide("", base, thisKey, diffType);
     }
 
     SafeHtmlBuilder text = new SafeHtmlBuilder();
@@ -400,7 +402,7 @@ class PatchTable extends Composite {
       setRowItem(row, patch);
 
       Widget nameCol = new PatchLink.SideBySide(getDisplayFileName(patch), base,
-          patch.getKey());
+          patch.getKey(), diffType);
 
       if (patch.getSourceFileName() != null) {
         final String text;
@@ -423,11 +425,11 @@ class PatchTable extends Composite {
       int C_UNIFIED = C_SIDEBYSIDE + 1;
 
       PatchLink sideBySide = new PatchLink.SideBySide(
-          Util.C.patchTableDiffSideBySide(), base, patch.getKey());
+          Util.C.patchTableDiffSideBySide(), base, patch.getKey(), diffType);
       sideBySide.setStyleName("gwt-Anchor");
 
       PatchLink unified = new PatchLink.Unified(Util.C.patchTableDiffUnified(),
-          base, patch.getKey());
+          base, patch.getKey(), diffType);
       unified.setStyleName("gwt-Anchor");
 
       table.setWidget(row, C_SIDEBYSIDE, sideBySide);
@@ -452,7 +454,7 @@ class PatchTable extends Composite {
         @Override
         public void onClick(ClickEvent event) {
           for (Patch p : detail.getPatches()) {
-            openWindow(Dispatcher.toUnified(base, p.getKey()));
+            openWindow(Dispatcher.toUnified(base, p.getKey(), diffType));
           }
         }
       });

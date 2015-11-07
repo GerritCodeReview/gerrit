@@ -16,6 +16,7 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -27,18 +28,25 @@ public class ChangeLink extends InlineHyperlink {
 
   protected Change.Id cid;
   protected PatchSet.Id psid;
+  protected DiffType diffType;
 
   public ChangeLink(final String text, final Change.Id c) {
     super(text, PageLinks.toChange(c));
     getElement().setPropertyString("href", permalink(c));
     cid = c;
     psid = null;
+    this.diffType = DiffType.AUTO_MERGE;
   }
 
   public ChangeLink(final String text, final PatchSet.Id ps) {
-    super(text, PageLinks.toChange(ps));
+    this(text, ps, DiffType.AUTO_MERGE);
+  }
+
+  public ChangeLink(final String text, final PatchSet.Id ps, DiffType diffType) {
+    super(text, PageLinks.toChange(ps, diffType));
     cid = ps.getParentKey();
     psid = ps;
+    this.diffType = diffType;
   }
 
   @Override

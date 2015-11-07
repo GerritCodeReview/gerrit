@@ -24,6 +24,7 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -69,6 +70,7 @@ public class Unified extends DiffScreen {
   private UnifiedChunkManager chunkManager;
   private UnifiedCommentManager commentManager;
   private UnifiedSkipManager skipManager;
+  private DiffType diffType;
 
   private boolean autoHideDiffTableHeader;
 
@@ -77,10 +79,13 @@ public class Unified extends DiffScreen {
       PatchSet.Id revision,
       String path,
       DisplaySide startSide,
+      DiffType diffType,
       int startLine) {
-    super(base, revision, path, startSide, startLine, DiffScreenType.UNIFIED);
+    super(base, revision, path, startSide, startLine, diffType,
+        DiffScreenType.UNIFIED);
 
-    diffTable = new UnifiedTable(this, base, revision, path);
+    this.diffType = diffType;
+    diffTable = new UnifiedTable(this, base, revision, diffType, path);
     add(uiBinder.createAndBindUi(this));
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
@@ -218,7 +223,7 @@ public class Unified extends DiffScreen {
     toSideBySideDiffLink.setHTML(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.sideBySideDiff()));
     toSideBySideDiffLink.setTargetHistoryToken(
-        Dispatcher.toSideBySide(getBase(), getRevision(), getPath()));
+        Dispatcher.toSideBySide(getBase(), getRevision(), diffType, getPath()));
     toSideBySideDiffLink.setTitle(PatchUtil.C.sideBySideDiff());
     return Collections.singletonList(toSideBySideDiffLink);
   }

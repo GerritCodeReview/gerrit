@@ -129,16 +129,29 @@ abstract class CommentManager {
   }
 
   Side getStoredSideFromDisplaySide(DisplaySide side) {
-    return side == DisplaySide.A && base == null ? Side.PARENT : Side.REVISION;
+    if (side == DisplaySide.A && (base == null || base.get() < 0)) {
+      return Side.PARENT;
+    }
+    return Side.REVISION;
+  }
+
+  int getParentNoFromDisplaySide(DisplaySide side) {
+    if (side == DisplaySide.A && base != null && base.get() < 0) {
+      return -base.get();
+    }
+    return 0;
   }
 
   PatchSet.Id getPatchSetIdFromSide(DisplaySide side) {
-    return side == DisplaySide.A && base != null ? base : revision;
+    if (side == DisplaySide.A && base != null && base.get() >= 0) {
+      return base;
+    }
+    return revision;
   }
 
   DisplaySide displaySide(CommentInfo info, DisplaySide forSide) {
     if (info.side() == Side.PARENT) {
-      return base == null ? DisplaySide.A : null;
+      return (base == null || base.get() < 0) ? DisplaySide.A : null;
     }
     return forSide;
   }

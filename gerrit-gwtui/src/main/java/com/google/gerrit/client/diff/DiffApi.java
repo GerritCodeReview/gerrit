@@ -34,11 +34,22 @@ public class DiffApi {
     api.get(NativeMap.copyKeysIntoChildren("path", cb));
   }
 
+  public static void list(int id, int parent, String revision,
+      AsyncCallback<NativeMap<FileInfo>> cb) {
+    RestApi api = ChangeApi.revision(id, revision).view("files");
+    api.addParameter("parent", parent);
+    api.get(NativeMap.copyKeysIntoChildren("path", cb));
+  }
+
   public static void list(PatchSet.Id id, PatchSet.Id base,
       AsyncCallback<NativeMap<FileInfo>> cb) {
     RestApi api = ChangeApi.revision(id).view("files");
     if (base != null) {
-      api.addParameter("base", base.get());
+      if (base.get() < 0) {
+        api.addParameter("parent", -base.get());
+      } else {
+        api.addParameter("base", base.get());
+      }
     }
     api.get(NativeMap.copyKeysIntoChildren("path", cb));
   }
@@ -57,7 +68,11 @@ public class DiffApi {
 
   public DiffApi base(PatchSet.Id id) {
     if (id != null) {
-      call.addParameter("base", id.get());
+      if (id.get() < 0) {
+        call.addParameter("parent", -id.get());
+      } else {
+        call.addParameter("base", id.get());
+      }
     }
     return this;
   }

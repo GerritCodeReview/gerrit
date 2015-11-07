@@ -25,9 +25,15 @@ import java.sql.Timestamp;
 public class CommentInfo extends JavaScriptObject {
   public static CommentInfo create(String path, Side side,
       int line, CommentRange range) {
+    return create(path, side, 0, line, range);
+  }
+
+  public static CommentInfo create(String path, Side side, int parent,
+      int line, CommentRange range) {
     CommentInfo n = createObject().cast();
     n.path(path);
     n.side(side);
+    n.parent(parent);
     if (range != null) {
       n.line(range.endLine());
       n.range(range);
@@ -41,6 +47,7 @@ public class CommentInfo extends JavaScriptObject {
     CommentInfo n = createObject().cast();
     n.path(r.path());
     n.side(r.side());
+    n.parent(r.parent());
     n.inReplyTo(r.id());
     if (r.hasRange()) {
       n.line(r.range().endLine());
@@ -55,6 +62,7 @@ public class CommentInfo extends JavaScriptObject {
     CommentInfo n = createObject().cast();
     n.path(s.path());
     n.side(s.side());
+    n.parent(s.parent());
     n.id(s.id());
     n.inReplyTo(s.inReplyTo());
     n.message(s.message());
@@ -78,6 +86,8 @@ public class CommentInfo extends JavaScriptObject {
     sideRaw(side.toString());
   }
   private native void sideRaw(String s) /*-{ this.side = s }-*/;
+  public final native void parent(int n) /*-{ this.parent = n }-*/;
+  public final native boolean hasParent() /*-{ return this.hasOwnProperty('parent') }-*/;
 
   public final native String path() /*-{ return this.path }-*/;
   public final native String id() /*-{ return this.id }-*/;
@@ -91,6 +101,7 @@ public class CommentInfo extends JavaScriptObject {
         : Side.REVISION;
   }
   private native String sideRaw() /*-{ return this.side }-*/;
+  public final native int parent() /*-{ return this.parent }-*/;
 
   public final Timestamp updated() {
     Timestamp r = updatedTimestamp();

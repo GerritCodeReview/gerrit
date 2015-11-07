@@ -163,7 +163,13 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private static PatchLineComment update(PatchLineComment e, DraftInput in,
       Timestamp when) {
     if (in.side != null) {
-      e.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
+      short side;
+      if (in.side == Side.PARENT) {
+        side = (short) (in.parent == null ? 0 : -in.parent.shortValue());
+      } else  {
+        side = 1;
+      }
+      e.setSide(side);
     }
     if (in.inReplyTo != null) {
       e.setParentUuid(Url.decode(in.inReplyTo));

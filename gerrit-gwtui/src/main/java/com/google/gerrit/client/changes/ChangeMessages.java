@@ -42,4 +42,6 @@ public interface ChangeMessages extends Messages {
   String changeQueryPageTitle(String query);
 
   String insertionsAndDeletions(int insertions, int deletions);
+
+  String diffBaseParent(int parentNo);
 }

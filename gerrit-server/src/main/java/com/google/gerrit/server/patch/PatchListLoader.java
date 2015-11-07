@@ -165,7 +165,7 @@ public class PatchListLoader implements Callable<PatchList> {
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
       Set<String> paths = null;
-      if (key.getOldId() != null) {
+      if (key.getOldId() != null && b.getParentCount() == 1) {
         PatchListKey newKey =
             new PatchListKey(null, key.getNewId(), key.getWhitespace());
         PatchListKey oldKey =

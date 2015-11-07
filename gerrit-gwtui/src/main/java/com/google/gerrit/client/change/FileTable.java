@@ -36,6 +36,7 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -712,8 +713,8 @@ public class FileTable extends FlowPanel {
     }
 
     private void columnComments(SafeHtmlBuilder sb, FileInfo info) {
-      JsArray<CommentInfo> cList = get(info.path(), comments);
-      JsArray<CommentInfo> dList = get(info.path(), drafts);
+      JsArray<CommentInfo> cList = filterForParent(get(info.path(), comments));
+      JsArray<CommentInfo> dList = filterForParent(get(info.path(), drafts));
 
       sb.openTd().setStyleName(R.css().draftColumn());
       if (dList.length() > 0) {
@@ -745,6 +746,20 @@ public class FileTable extends FlowPanel {
         sb.append("comments: ").append(cntAll - cntNew);
       }
       sb.closeTd();
+    }
+
+    private JsArray<CommentInfo> filterForParent(JsArray<CommentInfo> list) {
+      JsArray<CommentInfo> result = JsArray.createArray().cast();
+      for (CommentInfo c : Natives.asList(list)) {
+        if (c.side() == Side.REVISION) {
+          result.push(c);
+        } else if (base == null && !c.hasParent()) {
+          result.push(c);
+        } else if (base != null && c.parent() == -base.get()) {
+          result.push(c);
+        }
+      }
+      return result;
     }
 
     private JsArray<CommentInfo> get(String p, NativeMap<JsArray<CommentInfo>> m) {

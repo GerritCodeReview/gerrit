@@ -27,6 +27,7 @@ public abstract class Comment {
   public String id;
   public String path;
   public Side side;
+  public Integer parent;
   public Integer line;
   public Range range;
   public String inReplyTo;

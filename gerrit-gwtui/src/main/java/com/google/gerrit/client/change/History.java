@@ -83,7 +83,7 @@ class History extends FlowPanel {
   }
 
   void replyTo(MessageInfo info) {
-    replyAction.onReply(info);
+    replyAction.onReply(info, null);
   }
 
   void addComments(NativeMap<JsArray<CommentInfo>> map) {

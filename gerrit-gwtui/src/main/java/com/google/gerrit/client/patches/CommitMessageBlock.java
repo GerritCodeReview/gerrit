@@ -19,6 +19,7 @@ import com.google.gerrit.client.changes.StarredChanges;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -82,7 +83,7 @@ class CommitMessageBlock extends Composite {
     permalinkPanel.clear();
     if (patchSetId != null && revision != null) {
       final Change.Id changeId = patchSetId.getParentKey();
-      permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId));
+      permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId, DiffType.AUTO_MERGE));
       permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId),
           false));
     }

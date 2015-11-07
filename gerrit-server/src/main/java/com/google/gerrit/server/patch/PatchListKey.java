@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -42,8 +43,13 @@ public class PatchListKey implements Serializable {
       Whitespace.IGNORE_LEADING_AND_TRAILING, 'S',
       Whitespace.IGNORE_ALL, 'A');
 
+  public static final BiMap<DiffType, Character> DIFF_TYPES = ImmutableBiMap.of(
+      DiffType.AUTO_MERGE, 'A',
+      DiffType.FIRST_PARENT, 'F');
+
   static {
     checkState(WHITESPACE_TYPES.size() == Whitespace.values().length);
+    checkState(DIFF_TYPES.size() == DiffType.values().length);
   }
 
   private transient ObjectId oldId;

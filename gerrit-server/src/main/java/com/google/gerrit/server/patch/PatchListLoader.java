@@ -150,7 +150,10 @@ public class PatchListLoader implements Callable<PatchList> {
     try (ObjectReader reader = repo.newObjectReader();
         RevWalk rw = new RevWalk(reader);
         DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
+      // b - current commit object (not a hash commit)
       final RevCommit b = rw.parseCommit(key.getNewId());
+
+      // a - ancestor object
       final RevObject a = aFor(key, repo, rw, b);
 
       if (a == null) {
@@ -372,7 +375,13 @@ public class PatchListLoader implements Callable<PatchList> {
         + hash.substring(2);
     Ref ref = repo.getRefDatabase().exactRef(refName);
     if (ref != null && ref.getObjectId() != null) {
-      return rw.parseTree(ref.getObjectId());
+      RevCommit firstParent = b.getParent(0);
+      if (firstParent != null){
+        firstParent = rw.parseCommit(firstParent);
+        return firstParent.getTree();
+      }
+      else
+        return rw.parseTree(ref.getObjectId());
     }
 
     ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);

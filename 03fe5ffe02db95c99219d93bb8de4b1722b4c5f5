@@ -22,6 +22,30 @@
       "revId": "03fe5ffe02db95c99219d93bb8de4b1722b4c5f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_8863b71d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-07T01:26:13Z",
+      "side": 1,
+      "message": "I don\u0027t think it adds much value to store only the count.  It\u0027s only ever going to be 0, 1 or 2, and with that we can only determine if it\u0027s the initial commit (which I\u0027m not sure we will need) or if it\u0027s a merge.\n\nIt might be useful to add the actual parent commits though.",
+      "parentUuid": "76800614_a7042a5a",
+      "range": {
+        "startLine": 660,
+        "startChar": 13,
+        "endLine": 660,
+        "endChar": 34
+      },
+      "revId": "03fe5ffe02db95c99219d93bb8de4b1722b4c5f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

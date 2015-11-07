@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.reviewdb.client.Change;
@@ -43,19 +45,21 @@ public class FileInfoJson {
     this.patchListCache = patchListCache;
   }
 
-  Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
-      throws PatchListNotAvailableException {
-    return toFileInfoMap(change, patchSet.getRevision(), null);
+  Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet,
+      DiffType difftype) throws PatchListNotAvailableException {
+    return toFileInfoMap(change, patchSet.getRevision(), null, difftype);
   }
 
-  Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, @Nullable PatchSet base)
-      throws PatchListNotAvailableException {
+  Map<String, FileInfo> toFileInfoMap(Change change, RevId revision,
+      @Nullable PatchSet base, @Nullable DiffType diffType)
+          throws PatchListNotAvailableException {
     ObjectId a = (base == null)
         ? null
         : ObjectId.fromString(base.getRevision().get());
+    DiffType dt = MoreObjects.firstNonNull(diffType, DiffType.AUTO_MERGE);
     ObjectId b = ObjectId.fromString(revision.get());
     PatchList list = patchListCache.get(
-        new PatchListKey(a, b, Whitespace.IGNORE_NONE), change.getProject());
+        new PatchListKey(a, b, Whitespace.IGNORE_NONE, dt), change.getProject());
 
     Map<String, FileInfo> files = Maps.newTreeMap();
     for (PatchListEntry e : list.getPatches()) {

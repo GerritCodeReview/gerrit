@@ -28,6 +28,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
@@ -219,10 +220,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           c.legacyId(),
           c.starred()));
     }
-    table.setWidget(row, C_ID, new TableChangeLink(String.valueOf(c.legacyId()), c));
+    table.setWidget(row, C_ID, new TableChangeLink(String.valueOf(c.legacyId()), c, DiffType.AUTO_MERGE));
 
     String subject = Util.cropSubject(c.subject());
-    table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
+    table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c, DiffType.AUTO_MERGE));
 
     Change.Status status = c.status();
     if (status != Change.Status.NEW) {
@@ -449,8 +450,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   private final class TableChangeLink extends ChangeLink {
-    private TableChangeLink(final String text, final ChangeInfo c) {
-      super(text, c.legacyId());
+    private TableChangeLink(final String text, final ChangeInfo c, DiffType diffType) {
+      super(text, c.legacyId(), diffType);
     }
 
     @Override

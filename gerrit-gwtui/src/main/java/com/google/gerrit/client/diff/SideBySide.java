@@ -40,6 +40,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -113,6 +114,7 @@ public class SideBySide extends Screen {
   private final Change.Id changeId;
   private final PatchSet.Id base;
   private final PatchSet.Id revision;
+  private final DiffType diffType;
   private final String path;
   private DisplaySide startSide;
   private int startLine;
@@ -143,9 +145,11 @@ public class SideBySide extends Screen {
       PatchSet.Id revision,
       String path,
       DisplaySide startSide,
+      DiffType diffType,
       int startLine) {
     this.base = base;
     this.revision = revision;
+    this.diffType = diffType;
     this.changeId = revision.getParentKey();
     this.path = path;
     this.startSide = startSide;
@@ -154,8 +158,8 @@ public class SideBySide extends Screen {
     prefs = DiffPreferences.create(Gerrit.getDiffPreferences());
     handlers = new ArrayList<>(6);
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    header = new Header(keysNavigation, base, revision, path);
-    diffTable = new DiffTable(this, base, revision, path);
+    header = new Header(keysNavigation, base, revision, diffType, path);
+    diffTable = new DiffTable(this, base, revision, diffType, path);
     add(uiBinder.createAndBindUi(this));
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
@@ -188,7 +192,7 @@ public class SideBySide extends Screen {
       }
     }));
 
-    DiffApi.diff(revision, path)
+    DiffApi.diff(revision, diffType, path)
       .base(base)
       .wholeFile()
       .intraline(prefs.intralineDifference())
@@ -627,7 +631,7 @@ public class SideBySide extends Screen {
     toUnifiedDiffLink.setHTML(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
     toUnifiedDiffLink.setTargetHistoryToken(
-        Dispatcher.toUnified(base, revision, path));
+        Dispatcher.toUnified(base, revision, diffType, path));
     toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
     return Collections.singletonList(toUnifiedDiffLink);
   }
@@ -841,9 +845,9 @@ public class SideBySide extends Screen {
             String b = base != null ? base.getId() : null;
             String rev = revision.getId();
             Gerrit.display(
-              PageLinks.toChange(changeId, b, rev),
+              PageLinks.toChange(changeId, b, rev, diffType),
               new ChangeScreen(changeId, b, rev, openReplyBox,
-                  FileTable.Mode.REVIEW));
+                  diffType, FileTable.Mode.REVIEW));
           }
         });
       }
@@ -1041,7 +1045,7 @@ public class SideBySide extends Screen {
   private void prefetchNextFile() {
     String nextPath = header.getNextPath();
     if (nextPath != null) {
-      DiffApi.diff(revision, nextPath)
+      DiffApi.diff(revision, diffType, nextPath)
         .base(base)
         .wholeFile()
         .intraline(prefs.intralineDifference())
@@ -1064,7 +1068,7 @@ public class SideBySide extends Screen {
 
   void reloadDiffInfo() {
     final int id = ++reloadVersionId;
-    DiffApi.diff(revision, path)
+    DiffApi.diff(revision, diffType, path)
       .base(base)
       .wholeFile()
       .intraline(prefs.intralineDifference())

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76800614_278e7a17",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-07T01:23:17Z",
+      "side": 1,
+      "message": "nit: is the project actually invalid?  IIUC we\u0027re only testing for the case where the group name is invalid.",
+      "range": {
+        "startLine": 47,
+        "startChar": 29,
+        "endLine": 47,
+        "endChar": 43
+      },
+      "revId": "68e73716692829104a261a5190cec08cec7deaa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76800614_47936e3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/AccountGroupUUIDHandler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-07T01:23:17Z",
+      "side": 1,
+      "message": "nit: wrap this line, or remove the unnecessary \u0027final\u0027?",
+      "revId": "68e73716692829104a261a5190cec08cec7deaa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

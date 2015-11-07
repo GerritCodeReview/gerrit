@@ -52,6 +52,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
@@ -937,7 +938,7 @@ public class ChangeJson {
     }
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
-      out.files = fileInfoJson.toFileInfoMap(c, in);
+      out.files = fileInfoJson.toFileInfoMap(c, in, DiffType.AUTO_MERGE);
       out.files.remove(Patch.COMMIT_MSG);
     }
 

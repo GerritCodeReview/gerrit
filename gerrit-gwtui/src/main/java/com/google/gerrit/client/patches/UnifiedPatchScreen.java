@@ -29,6 +29,7 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -64,6 +65,7 @@ public class UnifiedPatchScreen extends Screen implements
     MAIN, COMMIT, PREFERENCES, PATCH_SETS, FILES
   }
 
+  protected final DiffType diffType;
   protected final Patch.Key patchKey;
   protected PatchSetDetail patchSetDetail;
   protected PatchTable fileList;
@@ -98,9 +100,11 @@ public class UnifiedPatchScreen extends Screen implements
   private boolean intralineFailure;
   private boolean intralineTimeout;
 
-  public UnifiedPatchScreen(Patch.Key id, TopView top, PatchSet.Id baseId) {
+  public UnifiedPatchScreen(Patch.Key id, TopView top, PatchSet.Id baseId,
+      DiffType diffType) {
     patchKey = id;
     topView = top;
+    this.diffType = diffType;
 
     idSideA = baseId; // null here means we're diff'ing from the Base
     idSideB = id.getParentKey();
@@ -187,7 +191,7 @@ public class UnifiedPatchScreen extends Screen implements
     }
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    keysNavigation.add(new UpToChangeCommand(patchKey.getParentKey(), 0, 'u'));
+    keysNavigation.add(new UpToChangeCommand(patchKey.getParentKey(), 0, 'u', diffType));
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
     if (Gerrit.isSignedIn()) {
@@ -205,11 +209,11 @@ public class UnifiedPatchScreen extends Screen implements
     topPanel = new FlowPanel();
     add(topPanel);
 
-    contentTable = new UnifiedDiffTable();
+    contentTable = new UnifiedDiffTable(diffType);
     contentTable.fileList = fileList;
 
-    topNav = new NavLinks(keysNavigation, patchKey.getParentKey());
-    bottomNav = new NavLinks(null, patchKey.getParentKey());
+    topNav = new NavLinks(keysNavigation, patchKey.getParentKey(), diffType);
+    bottomNav = new NavLinks(null, patchKey.getParentKey(), diffType);
 
     add(topNav);
     contentPanel = new FlowPanel();
@@ -228,15 +232,15 @@ public class UnifiedPatchScreen extends Screen implements
   }
 
   private void displayNav() {
-    DiffApi.diff(idSideB, patchKey.getFileName())
+    DiffApi.diff(idSideB, diffType, patchKey.getFileName())
       .base(idSideA)
       .webLinksOnly()
       .get(new GerritCallback<DiffInfo>() {
         @Override
         public void onSuccess(DiffInfo diffInfo) {
-          topNav.display(patchIndex, fileList,
+          topNav.display(patchIndex, fileList, diffType,
               getLinks(), getWebLinks(diffInfo));
-          bottomNav.display(patchIndex, fileList,
+          bottomNav.display(patchIndex, fileList, diffType,
               getLinks(), getWebLinks(diffInfo));
         }
       });
@@ -255,7 +259,7 @@ public class UnifiedPatchScreen extends Screen implements
   }
 
   private String getSideBySideDiffUrl() {
-    return Dispatcher.toPatch("sidebyside", idSideA,
+    return Dispatcher.toPatch("sidebyside", idSideA, diffType,
         new Patch.Key(idSideB, patchKey.getFileName()));
   }
 
@@ -264,13 +268,13 @@ public class UnifiedPatchScreen extends Screen implements
     super.onLoad();
 
     if (patchSetDetail == null) {
-      PatchUtil.CHANGE_SVC.patchSetDetail(idSideB,
+      PatchUtil.CHANGE_SVC.patchSetDetail(idSideB, diffType,
           new GerritCallback<PatchSetDetail>() {
             @Override
             public void onSuccess(PatchSetDetail result) {
               patchSetDetail = result;
               if (fileList == null) {
-                fileList = new PatchTable(prefs);
+                fileList = new PatchTable(prefs, diffType);
                 fileList.display(idSideA, result);
                 patchIndex = fileList.indexOf(patchKey);
               }
@@ -345,7 +349,7 @@ public class UnifiedPatchScreen extends Screen implements
     final int rpcseq = ++rpcSequence;
     lastScript = null;
     settingsPanel.setEnabled(false);
-    reviewedPanels.populate(patchKey, fileList, patchIndex);
+    reviewedPanels.populate(patchKey, fileList, patchIndex, diffType);
     if (isFirst && fileList != null && fileList.isLoaded()) {
       fileList.movePointerTo(patchKey);
     }
@@ -365,8 +369,9 @@ public class UnifiedPatchScreen extends Screen implements
             // Handled by ScreenLoadCallback.onFailure.
           }
         }));
-    PatchUtil.PATCH_SVC.patchScript(patchKey, idSideA, idSideB,
-        settingsPanel.getValue(), cb.addFinal(
+    PatchUtil.PATCH_SVC.patchScript(patchKey, diffType, idSideA, idSideB,
+        settingsPanel.getValue(),
+        cb.addFinal(
             new ScreenLoadCallback<PatchScript>(this) {
               @Override
               protected void preDisplay(final PatchScript result) {
@@ -402,7 +407,7 @@ public class UnifiedPatchScreen extends Screen implements
           commentLinkProcessor);
     } else {
       commitMessageBlock.setVisible(false);
-      PatchUtil.CHANGE_SVC.patchSetDetail(idSideB,
+      PatchUtil.CHANGE_SVC.patchSetDetail(idSideB, diffType,
           new GerritCallback<PatchSetDetail>() {
             @Override
             public void onSuccess(PatchSetDetail result) {
@@ -522,9 +527,9 @@ public class UnifiedPatchScreen extends Screen implements
     public void onKeyPress(final KeyPressEvent event) {
       if (fileList == null || fileList.isAttached()) {
         final PatchSet.Id psid = patchKey.getParentKey();
-        fileList = new PatchTable(prefs);
+        fileList = new PatchTable(prefs, diffType);
         fileList.setSavePointerId("PatchTable " + psid);
-        PatchUtil.CHANGE_SVC.patchSetDetail(psid,
+        PatchUtil.CHANGE_SVC.patchSetDetail(psid, diffType,
             new GerritCallback<PatchSetDetail>() {
               @Override
               public void onSuccess(final PatchSetDetail result) {

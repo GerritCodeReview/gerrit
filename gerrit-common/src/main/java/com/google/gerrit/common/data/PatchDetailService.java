@@ -26,6 +26,7 @@ import com.google.gwtjsonrpc.common.RpcImpl.Version;
 @RpcImpl(version = Version.V2_0)
 public interface PatchDetailService extends RemoteJsonService {
   @Audit
-  void patchScript(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
-      DiffPreferencesInfo diffPrefs, AsyncCallback<PatchScript> callback);
+  void patchScript(Patch.Key key, DiffType diffType, PatchSet.Id a,
+      PatchSet.Id b, DiffPreferencesInfo diffPrefs,
+      AsyncCallback<PatchScript> callback);
 }

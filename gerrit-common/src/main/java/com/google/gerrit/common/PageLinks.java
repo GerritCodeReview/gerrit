@@ -15,6 +15,7 @@
 package com.google.gerrit.common;
 
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -67,12 +68,20 @@ public class PageLinks {
     return "/c/" + c + "/" + p;
   }
 
-  public static String toChange(Change.Id c, String b, String p) {
+  public static String toChange(PatchSet.Id psId, DiffType diffType) {
+    return toChange(psId.changeId, null, psId.getId(), diffType);
+  }
+
+  public static String toChange(Change.Id c, String b, String p,
+      DiffType diffType) {
     String u = "/c/" + c + "/";
     if (b != null) {
       u += b + "..";
     }
     u += p;
+    if (diffType != null) {
+      u += ":" + diffType.encoded;
+    }
     return u;
   }
 

@@ -24,6 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -373,7 +374,7 @@ public class PatchLineCommentsUtil {
     if (c.getRevId() == null) {
       try {
         // TODO(dborowitz): Bypass cache if side is REVISION.
-        PatchList patchList = cache.get(change, ps);
+        PatchList patchList = cache.get(change, ps, DiffType.AUTO_MERGE);
         c.setRevId((c.getSide() == (short) 0)
           ? new RevId(ObjectId.toString(patchList.getOldId()))
           : new RevId(ObjectId.toString(patchList.getNewId())));

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -23,7 +24,7 @@ public interface PatchListCache {
   PatchList get(PatchListKey key, Project.NameKey project)
       throws PatchListNotAvailableException;
 
-  PatchList get(Change change, PatchSet patchSet)
+  PatchList get(Change change, PatchSet patchSet, DiffType diffType)
       throws PatchListNotAvailableException;
 
   IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,

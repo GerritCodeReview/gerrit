@@ -148,7 +148,7 @@ class ReviewedPanels {
       if (nextUnreviewedPatchIndex > -1) {
         // Create invisible patch link to change page
         reviewedLink =
-            fileList.createLink(nextUnreviewedPatchIndex, null, null);
+            fileList.createLink(nextUnreviewedPatchIndex, null, null, null);
         reviewedLink.setText("");
       }
     }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.patch;
 
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchDetailService;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.errors.NoSuchEntityException;
@@ -47,9 +48,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
-      final PatchSet.Id psb, final DiffPreferencesInfo dp,
-      final AsyncCallback<PatchScript> callback) {
+  public void patchScript(final Patch.Key patchKey, final DiffType diffType,
+      final PatchSet.Id psa, final PatchSet.Id psb,
+      final DiffPreferencesInfo dp, final AsyncCallback<PatchScript> callback) {
     if (psb == null) {
       callback.onFailure(new NoSuchEntityException());
       return;
@@ -61,8 +62,10 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         ChangeControl control = changeControlFactory.validateFor(
             getDb(), patchKey.getParentKey().getParentKey(),
             getUser());
-        return patchScriptFactoryFactory.create(
-            control, patchKey.getFileName(), psa, psb, dp).call();
+        PatchScriptFactory factory = patchScriptFactoryFactory.create(
+            control, patchKey.getFileName(), psa, psb, dp);
+        factory.setDiffType(diffType);
+        return factory.call();
       }
     }.to(callback);
   }

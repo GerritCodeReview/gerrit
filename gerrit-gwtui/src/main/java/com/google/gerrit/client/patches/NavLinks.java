@@ -19,6 +19,7 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Composite;
@@ -76,15 +77,15 @@ class NavLinks extends Composite {
     table.setWidget(0, 1, up);
   }
 
-  void display(int patchIndex, PatchTable fileList,
+  void display(int patchIndex, PatchTable fileList, DiffType diffType,
       List<InlineHyperlink> links, List<WebLinkInfo> webLinks) {
     if (fileList != null) {
       Label fileCountLabel =
           new Label(Gerrit.M.fileCount(patchIndex + 1, fileList.size()));
       fileCountLabel.setStyleName(Gerrit.RESOURCES.css().nowrap());
       table.setWidget(0, 3, fileCountLabel);
-      setupNav(Nav.PREV, fileList.getPreviousPatchLink(patchIndex));
-      setupNav(Nav.NEXT, fileList.getNextPatchLink(patchIndex));
+      setupNav(Nav.PREV, fileList.getPreviousPatchLink(patchIndex, diffType));
+      setupNav(Nav.NEXT, fileList.getNextPatchLink(patchIndex, diffType));
     } else {
       setupNav(Nav.PREV, null);
       setupNav(Nav.NEXT, null);

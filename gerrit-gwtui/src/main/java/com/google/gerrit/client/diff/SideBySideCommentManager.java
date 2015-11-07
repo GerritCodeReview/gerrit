@@ -83,6 +83,7 @@ class SideBySideCommentManager extends CommentManager {
       addDraftBox(cm.side(), CommentInfo.create(
               getPath(),
               getStoredSideFromDisplaySide(cm.side()),
+              getParentNoFromDisplaySide(cm.side()),
               line,
               CommentRange.create(fromTo))).setEdit(true);
       cm.setCursor(fromTo.to());

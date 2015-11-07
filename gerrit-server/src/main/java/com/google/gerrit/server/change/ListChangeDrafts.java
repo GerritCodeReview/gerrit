@@ -26,6 +26,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.kohsuke.args4j.Option;
+
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +37,9 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final PatchLineCommentsUtil plcUtil;
+
+  @Option(name = "parent")
+  int parent;
 
   @Inject
   ListChangeDrafts(Provider<ReviewDb> db,

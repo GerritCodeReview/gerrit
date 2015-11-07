@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.common.RevisionUtil.isParentCommitRevision;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
@@ -121,12 +122,6 @@ public class GetDiff implements RestReadView<FileResource> {
   public Response<DiffInfo> apply(FileResource resource)
       throws ResourceConflictException, ResourceNotFoundException,
       OrmException, AuthException, InvalidChangeOperationException, IOException {
-    PatchSet basePatchSet = null;
-    if (base != null) {
-      RevisionResource baseResource = revisions.parse(
-          resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
-      basePatchSet = baseResource.getPatchSet();
-    }
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {
       prefs.ignoreWhitespace = whitespace;
@@ -138,13 +133,36 @@ public class GetDiff implements RestReadView<FileResource> {
     prefs.context = context;
     prefs.intralineDifference = intraline;
 
-    try {
-      PatchScriptFactory psf = patchScriptFactoryFactory.create(
+    PatchScriptFactory psf;
+    PatchSet basePatchSet = null;
+    if (base == null) {
+      psf = patchScriptFactoryFactory.create(
           resource.getRevision().getControl(),
           resource.getPatchKey().getFileName(),
-          basePatchSet != null ? basePatchSet.getId() : null,
+          null,
           resource.getPatchKey().getParentKey(),
           prefs);
+    } else if (!isParentCommitRevision(base)) {
+      RevisionResource baseResource = revisions.parse(
+          resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
+      basePatchSet = baseResource.getPatchSet();
+      psf = patchScriptFactoryFactory.create(
+          resource.getRevision().getControl(),
+          resource.getPatchKey().getFileName(),
+          basePatchSet.getId(),
+          resource.getPatchKey().getParentKey(),
+          prefs);
+    } else {
+      int parentNo = -Integer.parseInt(base) - 1;
+      psf = patchScriptFactoryFactory.create(
+          resource.getRevision().getControl(),
+          resource.getPatchKey().getFileName(),
+          parentNo,
+          resource.getPatchKey().getParentKey(),
+          prefs);
+    }
+
+    try {
       psf.setLoadHistory(false);
       psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();

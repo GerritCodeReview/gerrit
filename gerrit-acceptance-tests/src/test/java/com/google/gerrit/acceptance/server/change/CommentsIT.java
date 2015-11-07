@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -56,6 +57,7 @@ import java.util.regex.Pattern;
 
 @NoHttpd
 public class CommentsIT extends AbstractDaemonTest {
+
   @Inject
   private Provider<ChangesCollection> changes;
 
@@ -87,12 +89,35 @@ public class CommentsIT extends AbstractDaemonTest {
       PushOneCommit.Result r = createChange();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
-      DraftInput comment = newDraft("file1", Side.REVISION, line, "comment 1");
+      String path = "file1";
+      DraftInput comment = newDraft(path, Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
       Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
       assertThat(result).hasSize(1);
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
-      assertCommentInfo(comment, actual);
+      assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+    }
+  }
+
+  @Test
+  public void createDraftOnMergeCommitChange() throws Exception {
+    for (Integer line : lines) {
+      PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      String path = "file1";
+      DraftInput c1 = newDraft(path, Side.REVISION, line, "ps-1");
+      DraftInput c2 = newDraft(path, Side.PARENT, line, "auto-merge of ps-1");
+      DraftInput c3 = newDraftOnParent(path, 1, line, "parent-1 of ps-1");
+      DraftInput c4 = newDraftOnParent(path, 2, line, "parent-2 of ps-1");
+      addDraft(changeId, revId, c1);
+      addDraft(changeId, revId, c2);
+      addDraft(changeId, revId, c3);
+      addDraft(changeId, revId, c4);
+      Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
+      assertThat(result).hasSize(1);
+      assertThat(Lists.transform(result.get(path), infoToDraft(path)))
+          .containsExactly(c1, c2, c3, c4);
     }
   }
 
@@ -114,8 +139,31 @@ public class CommentsIT extends AbstractDaemonTest {
       Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
-      assertCommentInfo(comment, actual);
-      assertCommentInfo(actual, getPublishedComment(changeId, revId, actual.id));
+      assertThat(comment).isEqualTo(infoToInput(file).apply(actual));
+      assertThat(comment).isEqualTo(infoToInput(file).apply(
+          getPublishedComment(changeId, revId, actual.id)));
+    }
+  }
+
+  @Test
+  public void postCommentOnMergeCommitChange() throws Exception {
+    for (Integer line : lines) {
+      final String file = "/COMMIT_MSG";
+      PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      ReviewInput input = new ReviewInput();
+      CommentInput c1 = newComment(file, Side.REVISION, line, "ps-1");
+      CommentInput c2 = newComment(file, Side.PARENT, line, "auto-merge of ps-1");
+      CommentInput c3 = newCommentOnParent(file, 1, line, "parent-1 of ps-1");
+      CommentInput c4 = newCommentOnParent(file, 2, line, "parent-2 of ps-1");
+      input.comments = new HashMap<>();
+      input.comments.put(file, ImmutableList.of(c1, c2, c3, c4));
+      revision(r).review(input);
+      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      assertThat(result).isNotEmpty();
+      assertThat(Lists.transform(result.get(file), infoToInput(file)))
+          .containsExactly(c1, c2, c3, c4);
     }
   }
 
@@ -129,7 +177,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String revId = r.getCommit().getName();
     assertThat(getPublishedComments(changeId, revId)).isEmpty();
 
-    List<Comment> expectedComments = new ArrayList<>();
+    List<CommentInput> expectedComments = new ArrayList<>();
     for (Integer line : lines) {
       ReviewInput input = new ReviewInput();
       CommentInput comment = newComment(file, Side.REVISION, line, "comment " + line);
@@ -142,10 +190,8 @@ public class CommentsIT extends AbstractDaemonTest {
     Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
     assertThat(result).isNotEmpty();
     List<CommentInfo> actualComments = result.get(file);
-    assertThat(actualComments).hasSize(expectedComments.size());
-    for (int i = 0; i < actualComments.size(); i++) {
-      assertCommentInfo(expectedComments.get(i), actualComments.get(i));
-    }
+    assertThat(Lists.transform(actualComments, infoToInput(file)))
+        .containsExactlyElementsIn(expectedComments);
   }
 
   @Test
@@ -155,17 +201,18 @@ public class CommentsIT extends AbstractDaemonTest {
       Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
-      DraftInput comment = newDraft("file1", Side.REVISION, line, "comment 1");
+      String path = "file1";
+      DraftInput comment = newDraft(path, Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
       Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
-      assertCommentInfo(comment, actual);
+      assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
       String uuid = actual.id;
       comment.message = "updated comment 1";
       updateDraft(changeId, revId, comment, uuid);
       result = getDraftComments(changeId, revId);
       actual = Iterables.getOnlyElement(result.get(comment.path));
-      assertCommentInfo(comment, actual);
+      assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
 
       // Posting a draft comment doesn't cause lastUpdatedOn to change.
       assertThat(r.getChange().change().getLastUpdatedOn())
@@ -181,7 +228,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String revId = r.getCommit().getName();
     assertThat(getDraftComments(changeId, revId)).isEmpty();
 
-    List<Comment> expectedDrafts = new ArrayList<>();
+    List<DraftInput> expectedDrafts = new ArrayList<>();
     for (Integer line : lines) {
       DraftInput comment = newDraft(file, Side.REVISION, line, "comment " + line);
       expectedDrafts.add(comment);
@@ -191,10 +238,8 @@ public class CommentsIT extends AbstractDaemonTest {
     Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
     assertThat(result).isNotEmpty();
     List<CommentInfo> actualComments = result.get(file);
-    assertThat(actualComments).hasSize(expectedDrafts.size());
-    for (int i = 0; i < actualComments.size(); i++) {
-      assertCommentInfo(expectedDrafts.get(i), actualComments.get(i));
-    }
+    assertThat(Lists.transform(actualComments, infoToDraft(file)))
+        .containsExactlyElementsIn(expectedDrafts);
   }
 
   @Test
@@ -203,11 +248,12 @@ public class CommentsIT extends AbstractDaemonTest {
       PushOneCommit.Result r = createChange();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
+      String path = "file1";
       DraftInput comment = newDraft(
-          "file1", Side.REVISION, line, "comment 1");
+          path, Side.REVISION, line, "comment 1");
       CommentInfo returned = addDraft(changeId, revId, comment);
       CommentInfo actual = getDraftComment(changeId, revId, returned.id);
-      assertCommentInfo(comment, actual);
+      assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
     }
   }
 
@@ -257,7 +303,9 @@ public class CommentsIT extends AbstractDaemonTest {
       Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
-      assertCommentInfo(comment, actual);
+      CommentInput ci = infoToInput(file).apply(actual);
+      ci.updated = comment.updated;
+      assertThat(comment).isEqualTo(ci);
       assertThat(actual.updated)
           .isEqualTo(gApi.changes().id(r.getChangeId()).info().created);
 
@@ -597,45 +645,35 @@ public class CommentsIT extends AbstractDaemonTest {
     return gApi.changes().id(changeId).revision(revId).draft(uuid).get();
   }
 
-  private static void assertCommentInfo(Comment expected, CommentInfo actual) {
-    assertThat(actual.line).isEqualTo(expected.line);
-    assertThat(actual.message).isEqualTo(expected.message);
-    assertThat(actual.inReplyTo).isEqualTo(expected.inReplyTo);
-    assertCommentRange(expected.range, actual.range);
-    if (actual.side == null && expected.side != null) {
-      assertThat(Side.REVISION).isEqualTo(expected.side);
-    }
-  }
-
-  private static void assertCommentRange(Comment.Range expected,
-      Comment.Range actual) {
-    if (expected == null) {
-      assertThat(actual).isNull();
-    } else {
-      assertThat(actual).isNotNull();
-      assertThat(actual.startLine).isEqualTo(expected.startLine);
-      assertThat(actual.startCharacter).isEqualTo(expected.startCharacter);
-      assertThat(actual.endLine).isEqualTo(expected.endLine);
-      assertThat(actual.endCharacter).isEqualTo(expected.endCharacter);
-    }
-  }
-
   private static CommentInput newComment(String path, Side side, int line,
       String message) {
     CommentInput c = new CommentInput();
-    return populate(c, path, side, line, message);
+    return populate(c, path, side, null, line, message);
+  }
+
+  private static CommentInput newCommentOnParent(String path, int parent,
+      int line, String message) {
+    CommentInput c = new CommentInput();
+    return populate(c, path, Side.PARENT, Integer.valueOf(parent), line, message);
   }
 
   private DraftInput newDraft(String path, Side side, int line,
       String message) {
     DraftInput d = new DraftInput();
-    return populate(d, path, side, line, message);
+    return populate(d, path, side, null, line, message);
+  }
+
+  private DraftInput newDraftOnParent(String path, int parent, int line,
+      String message) {
+    DraftInput d = new DraftInput();
+    return populate(d, path, Side.PARENT, Integer.valueOf(parent), line, message);
   }
 
   private static <C extends Comment> C populate(C c, String path, Side side,
-      int line, String message) {
+      Integer parent, int line, String message) {
     c.path = path;
     c.side = side;
+    c.parent = parent;
     c.line = line != 0 ? line : null;
     c.message = message;
     if (line != 0) {
@@ -647,5 +685,39 @@ public class CommentsIT extends AbstractDaemonTest {
       c.range = range;
     }
     return c;
+  }
+
+  private static Function<CommentInfo, CommentInput> infoToInput(
+      final String path) {
+    return new Function<CommentInfo, CommentInput>() {
+      @Override
+      public CommentInput apply(CommentInfo info) {
+        CommentInput ci = new CommentInput();
+        ci.path = path;
+        copy(info, ci);
+        return ci;
+      }
+    };
+  }
+
+  private static Function<CommentInfo, DraftInput> infoToDraft(
+      final String path) {
+    return new Function<CommentInfo, DraftInput>() {
+      @Override
+      public DraftInput apply(CommentInfo info) {
+        DraftInput di = new DraftInput();
+        di.path = path;
+        copy(info, di);
+        return di;
+      }
+    };
+  }
+
+  private static void copy(Comment from, Comment to) {
+    to.side = from.side == null ? Side.REVISION : from.side;
+    to.parent = from.parent;
+    to.line = from.line;
+    to.message = from.message;
+    to.range = from.range;
   }
 }

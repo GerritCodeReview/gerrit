@@ -16,7 +16,25 @@ package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.Comment;
 
+import java.util.Objects;
+
 public class CommentInfo extends Comment {
   public AccountInfo author;
   public String tag;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof CommentInfo) {
+      CommentInfo ci = (CommentInfo) o;
+      return super.equals(o)
+          && Objects.equals(author, ci.author)
+          && Objects.equals(tag, ci.tag);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), author, tag);
+  }
 }

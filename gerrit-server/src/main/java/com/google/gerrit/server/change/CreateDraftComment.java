@@ -15,11 +15,11 @@
 package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.change.PutDraftComment.side;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
-import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -119,7 +119,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
               ChangeUtil.messageUUID(ctx.getDb())),
           line, ctx.getUser().getAccountId(), Url.decode(in.inReplyTo),
           ctx.getWhen());
-      comment.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
+      comment.setSide(side(in));
       comment.setMessage(in.message.trim());
       comment.setRange(in.range);
       comment.setTag(in.tag);

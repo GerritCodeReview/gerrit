@@ -27,6 +27,7 @@ import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.diff.DiffInfo.FileMeta;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gerrit.client.info.ChangeInfo;
+import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.info.ChangeInfo.EditInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.info.FileInfo;
@@ -116,6 +117,7 @@ abstract class DiffScreen extends Screen {
   private List<HandlerRegistration> handlers;
   private PreferencesAction prefsAction;
   private int reloadVersionId;
+  private int parents;
 
   @UiField(provided = true)
   Header header;
@@ -213,6 +215,8 @@ abstract class DiffScreen extends Screen {
         new CommentsCollections(base, revision, path);
     comments.load(group2);
 
+    countParents(group2);
+
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
         ListChangesOption.ALL_REVISIONS));
@@ -231,7 +235,7 @@ abstract class DiffScreen extends Screen {
             revision.get() == info.revision(currentRevision)._number();
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
-        getDiffTable().set(prefs, list, diff, edit != null, current,
+        getDiffTable().set(prefs, list, parents, diff, edit != null, current,
             changeStatus.isOpen(), diff.binary());
         header.setChangeInfo(info);
       }
@@ -243,6 +247,22 @@ abstract class DiffScreen extends Screen {
 
     ConfigInfoCache.get(changeId, group2.addFinal(
         getScreenLoadCallback(comments)));
+  }
+
+  private void countParents(CallbackGroup cbg) {
+    ChangeApi.revision(changeId.get(), revision.getId())
+        .view("commit")
+        .get(cbg.add(new AsyncCallback<CommitInfo>() {
+          @Override
+          public void onSuccess(CommitInfo info) {
+            parents = info.parents().length();
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            parents = 0;
+          }
+        }));
   }
 
   @Override

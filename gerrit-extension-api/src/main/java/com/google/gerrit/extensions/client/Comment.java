@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.client;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public abstract class Comment {
   /**
@@ -27,6 +28,7 @@ public abstract class Comment {
   public String id;
   public String path;
   public Side side;
+  public Integer parent;
   public Integer line;
   public Range range;
   public String inReplyTo;
@@ -38,5 +40,46 @@ public abstract class Comment {
     public int startCharacter;
     public int endLine;
     public int endCharacter;
+
+    @Override
+    public boolean equals(Object o) {
+      if (o instanceof Range) {
+        Range r = (Range) o;
+        return Objects.equals(startLine, r.startLine)
+            && Objects.equals(startCharacter, r.startCharacter)
+            && Objects.equals(endLine, r.endLine)
+            && Objects.equals(endCharacter, r.endCharacter);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(startLine, startCharacter, endLine, endCharacter);
+    }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Comment) {
+      Comment c = (Comment) o;
+      return Objects.equals(patchSet, c.patchSet)
+          && Objects.equals(id, c.id)
+          && Objects.equals(path, c.path)
+          && Objects.equals(side, c.side)
+          && Objects.equals(parent, c.parent)
+          && Objects.equals(line, c.line)
+          && Objects.equals(range, c.range)
+          && Objects.equals(inReplyTo, c.inReplyTo)
+          && Objects.equals(updated, c.updated)
+          && Objects.equals(message, c.message);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(patchSet, id, path, side, parent, line, range,
+        inReplyTo, updated, message);
   }
 }

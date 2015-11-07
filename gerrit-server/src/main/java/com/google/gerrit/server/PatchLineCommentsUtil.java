@@ -365,9 +365,17 @@ public class PatchLineCommentsUtil {
         "cannot set RevId for patch set %s on comment %s", ps.getId(), c);
     if (c.getRevId() == null) {
       try {
-        c.setRevId(Side.fromShort(c.getSide()) == Side.PARENT
-            ? new RevId(ObjectId.toString(cache.getOldId(change, ps)))
-            : ps.getRevision());
+        if (Side.fromShort(c.getSide()) == Side.PARENT) {
+          if (c.getSide() < 0) {
+            c.setRevId(new RevId(ObjectId.toString(
+                cache.getOldId(change, ps, -c.getSide()))));
+          } else {
+            c.setRevId(new RevId(ObjectId.toString(
+                cache.getOldId(change, ps, null))));
+          }
+        } else {
+          c.setRevId(ps.getRevision());
+        }
       } catch (PatchListNotAvailableException e) {
         throw new OrmException(e);
       }

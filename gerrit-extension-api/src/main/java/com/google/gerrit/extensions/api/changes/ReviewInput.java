@@ -87,6 +87,13 @@ public class ReviewInput {
   }
 
   public static class CommentInput extends Comment {
+    @Override
+    public boolean equals(Object o) {
+      if (o instanceof CommentInput) {
+        return super.equals(o);
+      }
+      return false;
+    }
   }
 
   public ReviewInput message(String msg) {

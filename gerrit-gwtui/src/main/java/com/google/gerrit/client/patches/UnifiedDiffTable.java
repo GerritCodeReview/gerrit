@@ -20,6 +20,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -56,6 +57,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   // Cursors.
   protected int rowOfTableHeaderB;
   protected int borderRowOfFileComment;
+
+  UnifiedDiffTable(DiffType diffType) {
+    this.diffType = diffType;
+  }
 
   @Override
   protected void onCellDoubleClick(final int row, final int column) {

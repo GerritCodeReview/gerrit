@@ -3675,6 +3675,63 @@ differences are reported in the result.  Valid values are `IGNORE_NONE`,
 The `context` parameter can be specified to control the number of lines of surrounding context
 in the diff.  Valid values are `ALL` or number of lines.
 
+[[type]]
+For merge commits the `type` parameter can be specified. The `auto_merge` value returns merge
+conflict resolutions. The `first_parent` option will return list of changes merged into the
+first parent of the merge commit. Default is `auto_merge`.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/b6b9c10649b9041884046119ab794374470a1b45/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/diff?intraline&type=first_parent HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]
+  {
+    "meta_a": {
+      "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "content_type": "text/x-java-source",
+      "lines": 372
+    },
+    "meta_b": {
+      "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "content_type": "text/x-java-source",
+      "lines": 578
+    },
+    "change_type": "MODIFIED",
+    "diff_header": [
+      "diff --git a/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java b/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "index 59b7670..9faf81c 100644",
+      "--- a/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "+++ b/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java"
+    ],
+    "content": [
+      ...
+      {
+        "a": [
+          "/** Manages access control for Git references (aka branches, tags). */"
+        ],
+        "b": [
+          "/** Manages access control for the Git references (aka branches, tags). */"
+        ],
+        "edit_a": [],
+        "edit_b": [
+          [
+            31,
+            4
+          ]
+        ]
+      }
+      ]
+    }
+----
+
+
 [[set-reviewed]]
 === Set Reviewed
 --

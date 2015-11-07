@@ -33,6 +33,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -88,6 +89,7 @@ public class Header extends Composite {
   private final KeyCommandSet keys;
   private final PatchSet.Id base;
   private final PatchSet.Id patchSetId;
+  private final DiffType diffType;
   private final String path;
   private boolean hasPrev;
   private boolean hasNext;
@@ -95,12 +97,16 @@ public class Header extends Composite {
   private PreferencesAction prefsAction;
   private ReviewedState reviewedState;
 
-  Header(KeyCommandSet keys, PatchSet.Id base, PatchSet.Id patchSetId,
+  Header(KeyCommandSet keys,
+      PatchSet.Id base,
+      PatchSet.Id patchSetId,
+      DiffType diffType,
       String path) {
     initWidget(uiBinder.createAndBindUi(this));
     this.keys = keys;
     this.base = base;
     this.patchSetId = patchSetId;
+    this.diffType = diffType;
     this.path = path;
 
     if (!Gerrit.isSignedIn()) {
@@ -109,7 +115,7 @@ public class Header extends Composite {
     SafeHtml.setInnerHTML(filePath, formatPath(path, null, null));
     up.setTargetHistoryToken(PageLinks.toChange(
         patchSetId.getParentKey(),
-        base != null ? base.getId() : null, patchSetId.getId()));
+        base != null ? base.getId() : null, patchSetId.getId(), diffType));
   }
 
   public static SafeHtml formatPath(String path, String project, String commit) {
@@ -140,7 +146,8 @@ public class Header extends Composite {
 
   @Override
   protected void onLoad() {
-    DiffApi.list(patchSetId, base, new GerritCallback<NativeMap<FileInfo>>() {
+    DiffApi.list(patchSetId, base, diffType,
+        new GerritCallback<NativeMap<FileInfo>>() {
       @Override
       public void onSuccess(NativeMap<FileInfo> result) {
         JsArray<FileInfo> files = result.values();
@@ -268,8 +275,8 @@ public class Header extends Composite {
 
   private String url(FileInfo info) {
     return info.binary()
-      ? Dispatcher.toUnified(base, patchSetId, info.path())
-      : Dispatcher.toSideBySide(base, patchSetId, info.path());
+      ? Dispatcher.toUnified(base, patchSetId, diffType, info.path())
+      : Dispatcher.toSideBySide(base, patchSetId, diffType, info.path());
   }
 
   private KeyCommand setupNav(InlineHyperlink link, char key, String help, FileInfo info) {

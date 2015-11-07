@@ -21,6 +21,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -415,7 +416,8 @@ public class EventFactory {
   public void addPatchSetFileNames(PatchSetAttribute patchSetAttribute,
       Change change, PatchSet patchSet) {
     try {
-      PatchList patchList = patchListCache.get(change, patchSet);
+      PatchList patchList =
+          patchListCache.get(change, patchSet, DiffType.AUTO_MERGE);
       for (PatchListEntry patch : patchList.getPatches()) {
         if (patchSetAttribute.files == null) {
           patchSetAttribute.files = new ArrayList<>();
@@ -497,8 +499,8 @@ public class EventFactory {
         p.author = asAccountAttribute(author.getAccount());
       }
 
-      List<Patch> list =
-          patchListCache.get(change, patchSet).toPatchList(pId);
+      List<Patch> list = patchListCache
+          .get(change, patchSet, DiffType.AUTO_MERGE).toPatchList(pId);
       for (Patch pe : list) {
         if (!Patch.COMMIT_MSG.equals(pe.getFileName())) {
           p.sizeDeletions -= pe.getDeletions();

@@ -20,6 +20,7 @@ import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -84,7 +85,7 @@ class ReplyAction {
     return;
   }
 
-  void onReply(MessageInfo msg) {
+  void onReply(MessageInfo msg, DiffType diffType) {
     if (popup != null) {
       popup.hide();
       return;
@@ -103,6 +104,7 @@ class ReplyAction {
     if (msg != null) {
       replyBox.replyTo(msg);
     }
+    replyBox.setDiffType(diffType);
 
     final PopupPanel p = new PopupPanel(true, false);
     p.setStyleName(style.replyBox());

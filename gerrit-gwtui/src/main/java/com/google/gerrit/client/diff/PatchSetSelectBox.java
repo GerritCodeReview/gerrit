@@ -21,6 +21,7 @@ import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -62,11 +63,13 @@ class PatchSetSelectBox extends Composite {
   private PatchSet.Id revision;
   private PatchSet.Id idActive;
   private PatchSetSelectBox other;
+  private DiffType diffType;
 
   PatchSetSelectBox(SideBySide parent,
       DisplaySide side,
       Change.Id changeId,
       PatchSet.Id revision,
+      DiffType diffType,
       String path) {
     initWidget(uiBinder.createAndBindUi(this));
     icon.setTitle(PatchUtil.C.addFileCommentToolTip());
@@ -77,6 +80,7 @@ class PatchSetSelectBox extends Composite {
     this.sideA = side == DisplaySide.A;
     this.changeId = changeId;
     this.revision = revision;
+    this.diffType = diffType;
     this.idActive = (sideA && revision == null) ? null : revision;
     this.path = path;
   }
@@ -86,13 +90,13 @@ class PatchSetSelectBox extends Composite {
     InlineHyperlink baseLink = null;
     InlineHyperlink selectedLink = null;
     if (sideA) {
-      baseLink = createLink(PatchUtil.C.patchBase(), null);
+      baseLink = createLink(PatchUtil.C.patchBase(), null, diffType);
       linkPanel.add(baseLink);
     }
     for (int i = 0; i < list.length(); i++) {
       RevisionInfo r = list.get(i);
       InlineHyperlink link = createLink(r.id(),
-          new PatchSet.Id(changeId, r._number()));
+          new PatchSet.Id(changeId, r._number()), diffType);
       linkPanel.add(link);
       if (revision != null && r.id().equals(revision.getId())) {
         selectedLink = link;
@@ -138,7 +142,8 @@ class PatchSetSelectBox extends Composite {
     b.other = a;
   }
 
-  private InlineHyperlink createLink(String label, PatchSet.Id id) {
+  private InlineHyperlink createLink(String label, PatchSet.Id id,
+      DiffType diffType) {
     assert other != null;
     if (sideA) {
       assert other.idActive != null;
@@ -146,6 +151,7 @@ class PatchSetSelectBox extends Composite {
     return new InlineHyperlink(label, Dispatcher.toSideBySide(
         sideA ? id : other.idActive,
         sideA ? other.idActive : id,
+        diffType,
         path));
   }
 

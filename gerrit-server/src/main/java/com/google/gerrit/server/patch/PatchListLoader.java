@@ -176,10 +176,10 @@ public class PatchListLoader implements Callable<PatchList> {
 
       Set<String> paths = null;
       if (key.getOldId() != null) {
-        PatchListKey newKey =
-            new PatchListKey(null, key.getNewId(), key.getWhitespace());
-        PatchListKey oldKey =
-            new PatchListKey(null, key.getOldId(), key.getWhitespace());
+        PatchListKey newKey = new PatchListKey(null, key.getNewId(),
+            key.getWhitespace(), key.getDiffType());
+        PatchListKey oldKey = new PatchListKey(null, key.getOldId(),
+            key.getWhitespace(), key.getDiffType());
         paths = FluentIterable
             .from(patchListCache.get(newKey, project).getPatches())
             .append(patchListCache.get(oldKey, project).getPatches())
@@ -352,11 +352,22 @@ public class PatchListLoader implements Callable<PatchList> {
         return r;
       }
       case 2:
-        return automerge(repo, rw, b, mergeStrategy);
+        switch (key.getDiffType()){
+          case FIRST_PARENT:
+            return rw.parseCommit(firstparent(rw, b));
+          case AUTO_MERGE:
+          default:
+            return automerge(repo, rw, b, mergeStrategy);
+        }
       default:
         // TODO(sop) handle an octopus merge.
         return null;
     }
+  }
+
+  public static RevTree firstparent(RevWalk rw, RevCommit b)
+      throws IOException {
+    return rw.parseCommit(b.getParent(0)).getTree();
   }
 
   public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
@@ -410,7 +421,6 @@ public class PatchListLoader implements Callable<PatchList> {
       ObjectId treeId;
       if (couldMerge) {
         treeId = m.getResultTreeId();
-
       } else {
         RevCommit ours = b.getParent(0);
         RevCommit theirs = b.getParent(1);

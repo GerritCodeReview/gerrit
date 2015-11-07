@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -69,7 +70,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     PatchSetDetailFactory create(
         @Assisted("psIdBase") @Nullable PatchSet.Id psIdBase,
         @Assisted("psIdNew") PatchSet.Id psIdNew,
-        @Nullable DiffPreferencesInfo diffPrefs);
+        @Nullable DiffPreferencesInfo diffPrefs,
+        @Nullable DiffType difType);
   }
 
   private final PatchSetInfoFactory infoFactory;
@@ -84,6 +86,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private Project.NameKey project;
   private final PatchSet.Id psIdBase;
   private final PatchSet.Id psIdNew;
+  private final DiffType diffType;
   private final DiffPreferencesInfo diffPrefs;
   private ObjectId oldId;
   private ObjectId newId;
@@ -102,7 +105,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       ChangeEditUtil editUtil,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
-      @Assisted @Nullable final DiffPreferencesInfo diffPrefs) {
+      @Assisted @Nullable final DiffPreferencesInfo diffPrefs,
+      @Assisted @Nullable DiffType diffType) {
     this.infoFactory = psif;
     this.db = db;
     this.patchListCache = patchListCache;
@@ -114,6 +118,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
     this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
+    this.diffType = diffType;
     if (psIdBase != null && psIdNew != null) {
       checkArgument(psIdBase.getParentKey().equals(psIdNew.getParentKey()),
           "cannot compare PatchSets from different changes: %s and %s",
@@ -160,7 +165,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
         list = listFor(keyFor(diffPrefs.ignoreWhitespace));
       } else { // OK, means use base to compare
-        list = patchListCache.get(control.getChange(), patchSet);
+        list = patchListCache.get(control.getChange(), patchSet,
+            diffType == null ? DiffType.AUTO_MERGE : diffType);
       }
     } catch (PatchListNotAvailableException e) {
       throw new NoSuchEntityException();

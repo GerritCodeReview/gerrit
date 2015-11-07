@@ -58,7 +58,7 @@ class HistoryTable extends FancyFlexTable<Patch> {
     }
     enableAll(false);
     Patch.Key k = new Patch.Key(sideB, screen.getPatchKey().get());
-    Gerrit.display(Dispatcher.toUnified(sideA, k));
+    Gerrit.display(Dispatcher.toUnified(sideA, k, screen.diffType));
   }
 
   void enableAll(final boolean on) {

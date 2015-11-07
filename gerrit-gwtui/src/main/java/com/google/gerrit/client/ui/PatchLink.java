@@ -15,6 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 
@@ -24,14 +25,16 @@ public class PatchLink extends InlineHyperlink {
   }
 
   public static class SideBySide extends PatchLink {
-    public SideBySide(String text, PatchSet.Id base, Patch.Key id) {
-      super(text, Dispatcher.toSideBySide(base, id));
+    public SideBySide(String text, PatchSet.Id base, Patch.Key id,
+        DiffType diffType) {
+      super(text, Dispatcher.toSideBySide(base, id, diffType));
     }
   }
 
   public static class Unified extends PatchLink {
-    public Unified(String text, PatchSet.Id base, Patch.Key id) {
-      super(text, Dispatcher.toUnified(base, id));
+    public Unified(String text, PatchSet.Id base, Patch.Key id,
+        DiffType diffType) {
+      super(text, Dispatcher.toUnified(base, id, diffType));
     }
   }
 }

@@ -21,6 +21,7 @@ import com.google.gerrit.client.patches.PatchTable.PatchValidator;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -39,6 +40,7 @@ class ReviewedPanels {
   final FlowPanel bottom;
 
   private Patch.Key patchKey;
+  private DiffType diffType;
   private PatchTable fileList;
   private InlineHyperlink reviewedLink;
   private CheckBox checkBoxTop;
@@ -50,8 +52,9 @@ class ReviewedPanels {
     this.bottom.setStyleName(Gerrit.RESOURCES.css().reviewedPanelBottom());
   }
 
-  void populate(Patch.Key pk, PatchTable pt, int patchIndex) {
+  void populate(Patch.Key pk, PatchTable pt, int patchIndex, DiffType diffType) {
     patchKey = pk;
+    this.diffType = diffType;
     fileList = pt;
     reviewedLink = createReviewedLink(patchIndex);
 
@@ -139,7 +142,7 @@ class ReviewedPanels {
       }
     };
 
-    InlineHyperlink reviewedLink = new ChangeLink("", patchKey.getParentKey());
+    InlineHyperlink reviewedLink = new ChangeLink("", patchKey.getParentKey(), diffType);
     if (fileList != null) {
       int nextUnreviewedPatchIndex =
           fileList.getNextPatch(patchIndex, true, unreviewedValidator,
@@ -148,7 +151,7 @@ class ReviewedPanels {
       if (nextUnreviewedPatchIndex > -1) {
         // Create invisible patch link to change page
         reviewedLink =
-            fileList.createLink(nextUnreviewedPatchIndex, null, null);
+            fileList.createLink(nextUnreviewedPatchIndex, null, null, null);
         reviewedLink.setText("");
       }
     }

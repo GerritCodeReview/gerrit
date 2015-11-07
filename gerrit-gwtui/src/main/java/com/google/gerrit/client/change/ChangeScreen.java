@@ -56,6 +56,7 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -155,6 +156,7 @@ public class ChangeScreen extends Screen {
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
   private boolean loaded;
+  private DiffType diffType;
   private FileTable.Mode fileTableMode;
 
   @UiField HTMLPanel headerLine;
@@ -228,12 +230,13 @@ public class ChangeScreen extends Screen {
   private RenameFileAction renameFileAction;
 
   public ChangeScreen(Change.Id changeId, String base, String revision,
-      boolean openReplyBox, FileTable.Mode mode) {
+      boolean openReplyBox, DiffType diffType, FileTable.Mode mode) {
     this.changeId = changeId;
     this.base = normalize(base);
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
     this.fileTableMode = mode;
+    this.diffType = diffType;
     this.lc = new LocalComments(changeId);
     add(uiBinder.createAndBindUi(this));
   }
@@ -391,7 +394,8 @@ public class ChangeScreen extends Screen {
         if (0 <= i + offset && i + offset < revisions.length()) {
           Gerrit.display(PageLinks.toChange(
               new PatchSet.Id(changeInfo.legacyId(),
-              revisions.get(i + offset)._number())));
+              revisions.get(i + offset)._number()),
+              diffType));
           return;
         }
         return;
@@ -773,7 +777,7 @@ public class ChangeScreen extends Screen {
 
   private void onReply() {
     if (Gerrit.isSignedIn()) {
-      replyAction.onReply(null);
+      replyAction.onReply(null, diffType);
     } else {
       Gerrit.doSignIn(getToken());
     }
@@ -896,6 +900,7 @@ public class ChangeScreen extends Screen {
     }
     final RevisionInfo rev = resolveRevisionToDisplay(info);
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
+    diffType = getDiffType(base);
 
     CallbackGroup group = new CallbackGroup();
     Timestamp lastReply = myLastReply(info);
@@ -905,9 +910,9 @@ public class ChangeScreen extends Screen {
       RevisionInfo p = RevisionInfo.findEditParentRevision(
           info.revisions().values());
       List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(p, group);
-      loadFileList(b, rev, lastReply, group, comments, null);
+      loadFileList(b, rev, lastReply, group, comments, null, diffType);
     } else {
-      loadDiff(b, rev, lastReply, group);
+      loadDiff(b, rev, lastReply, group, diffType);
     }
     loadCommit(rev, group);
 
@@ -931,6 +936,19 @@ public class ChangeScreen extends Screen {
       }));
   }
 
+  public DiffType getDiffType(String base) {
+    if (base != null) {
+      try {
+        return DiffType.valueOf(base);
+      } catch (IllegalArgumentException e) {
+      }
+    }
+    if (diffType != null) {
+      return diffType;
+    }
+    return null;
+  }
+
   static Timestamp myLastReply(ChangeInfo info) {
     if (Gerrit.isSignedIn() && info.messages() != null) {
       int self = Gerrit.getUserAccount()._accountId();
@@ -945,10 +963,10 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadDiff(final RevisionInfo base, final RevisionInfo rev,
-      final Timestamp myLastReply, CallbackGroup group) {
+      final Timestamp myLastReply, CallbackGroup group, DiffType difftype) {
     final List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
     final List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
-    loadFileList(base, rev, myLastReply, group, comments, drafts);
+    loadFileList(base, rev, myLastReply, group, comments, drafts, difftype);
 
     if (Gerrit.isSignedIn() && fileTableMode == FileTable.Mode.REVIEW) {
       ChangeApi.revision(changeId.get(), rev.name())
@@ -970,26 +988,25 @@ public class ChangeScreen extends Screen {
   private void loadFileList(final RevisionInfo base, final RevisionInfo rev,
       final Timestamp myLastReply, CallbackGroup group,
       final List<NativeMap<JsArray<CommentInfo>>> comments,
-      final List<NativeMap<JsArray<CommentInfo>>> drafts) {
-    DiffApi.list(changeId.get(),
-      base != null ? base.name() : null,
-      rev.name(),
-      group.add(new AsyncCallback<NativeMap<FileInfo>>() {
-        @Override
-        public void onSuccess(NativeMap<FileInfo> m) {
-          files.set(
-              base != null ? new PatchSet.Id(changeId, base._number()) : null,
-              new PatchSet.Id(changeId, rev._number()),
-              style, reply, fileTableMode, edit != null);
-          files.setValue(m, myLastReply,
-              comments != null ? comments.get(0) : null,
-              drafts != null ? drafts.get(0) : null);
-        }
+      final List<NativeMap<JsArray<CommentInfo>>> drafts,
+      final DiffType diffType) {
+    DiffApi.list(changeId.get(), base != null ? base.name() : null, rev.name(),
+        diffType, group.add(new AsyncCallback<NativeMap<FileInfo>>() {
+          @Override
+          public void onSuccess(NativeMap<FileInfo> m) {
+            files.set(
+                base != null ? new PatchSet.Id(changeId, base._number()) : null,
+                new PatchSet.Id(changeId, rev._number()), style, reply,
+                fileTableMode, diffType, edit != null);
+            files.setValue(m, myLastReply,
+                comments != null ? comments.get(0) : null,
+                drafts != null ? drafts.get(0) : null);
+          }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      }));
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        }));
   }
 
   private List<NativeMap<JsArray<CommentInfo>>> loadComments(
@@ -1381,9 +1398,16 @@ public class ChangeScreen extends Screen {
 
     RevisionInfo rev = info.revisions().get(revision);
     JsArray<CommitInfo> parents = rev.commit().parents();
-    diffBase.addItem(
-      parents.length() > 1 ? Util.C.autoMerge() : Util.C.baseDiffItem(),
-      "");
+    if (parents.length() > 1) {
+      diffBase.addItem(Util.C.autoMerge(), DiffType.AUTO_MERGE.name());
+      diffBase.addItem(Util.C.firstParent(), DiffType.FIRST_PARENT.name());
+      if (diffType != null) {
+        selectedIdx =
+            diffBase.getItemCount() - (diffType == DiffType.AUTO_MERGE ? 2 : 1);
+      }
+    } else {
+      diffBase.addItem(Util.C.baseDiffItem(), "");
+    }
 
     diffBase.setSelectedIndex(selectedIdx);
   }

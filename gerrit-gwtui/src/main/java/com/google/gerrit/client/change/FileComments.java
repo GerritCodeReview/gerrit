@@ -49,6 +49,6 @@ class FileComments extends Composite {
   }
 
   private static String url(PatchSet.Id ps, CommentInfo info) {
-    return Dispatcher.toSideBySide(null, ps, info.path());
+    return Dispatcher.toSideBySide(null, ps, null, info.path());
   }
 }

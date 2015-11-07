@@ -16,6 +16,7 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -94,7 +95,7 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   @Override
-  public PatchList get(Change change, PatchSet patchSet)
+  public PatchList get(Change change, PatchSet patchSet, DiffType dt)
       throws PatchListNotAvailableException {
     Project.NameKey project = change.getProject();
     ObjectId a = null;
@@ -104,7 +105,7 @@ public class PatchListCacheImpl implements PatchListCache {
     }
     ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
     Whitespace ws = Whitespace.IGNORE_NONE;
-    return get(new PatchListKey(a, b, ws), project);
+    return get(new PatchListKey(a, b, ws, dt), project);
   }
 
   @Override

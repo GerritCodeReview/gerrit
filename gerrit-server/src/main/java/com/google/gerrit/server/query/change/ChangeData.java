@@ -26,6 +26,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -560,7 +561,7 @@ public class ChangeData {
 
       PatchList p;
       try {
-        p = patchListCache.get(c, ps);
+        p = patchListCache.get(c, ps, DiffType.AUTO_MERGE);
       } catch (PatchListNotAvailableException e) {
         List<String> emptyFileList = Collections.emptyList();
         files.put(ps.getPatchSetId(), emptyFileList);
@@ -607,7 +608,7 @@ public class ChangeData {
 
       PatchList p;
       try {
-        p = patchListCache.get(c, ps);
+        p = patchListCache.get(c, ps, DiffType.AUTO_MERGE);
       } catch (PatchListNotAvailableException e) {
         return null;
       }

@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.CommentDetail;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -51,6 +52,8 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +73,17 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         @Assisted("patchSetA") PatchSet.Id patchSetA,
         @Assisted("patchSetB") PatchSet.Id patchSetB,
         DiffPreferencesInfo diffPrefs);
+  }
+
+  public static ObjectId getFirstparent(Repository git, ObjectId commitId)
+      throws IOException {
+    try (RevWalk walk = new RevWalk(git)) {
+      RevCommit bCommit = walk.parseCommit(commitId);
+      if (bCommit.getParentCount() > 1) {
+        return bCommit.getParent(0);
+      }
+    }
+    return null;
   }
 
   private static final Logger log =
@@ -102,6 +116,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private ObjectId bId;
   private List<Patch> history;
   private CommentDetail comments;
+  private DiffType diffType;
 
   @Inject
   PatchScriptFactory(GitRepositoryManager grm,
@@ -147,6 +162,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     loadComments = load;
   }
 
+  public void setDiffType(DiffType diffType) {
+    this.diffType = diffType;
+  }
+
   @Override
   public PatchScript call() throws OrmException, NoSuchChangeException,
       LargeObjectException, AuthException,
@@ -163,15 +182,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         ? new PatchSet(psb)
         : psUtil.get(db, control.getNotes(), psb);
 
-    aId = psEntityA != null ? toObjectId(psEntityA) : null;
-    bId = toObjectId(psEntityB);
-
-    if ((psEntityA != null && !control.isPatchVisible(psEntityA, db)) ||
-        (psEntityB != null && !control.isPatchVisible(psEntityB, db))) {
-      throw new NoSuchChangeException(changeId);
-    }
-
     try (Repository git = repoManager.openRepository(project)) {
+      bId = toObjectId(psEntityB);
+      aId = toObjectIdA(psEntityA, git);
+
+      if ((psEntityA != null && !control.isPatchVisible(psEntityA, db)) ||
+          (psEntityB != null && !control.isPatchVisible(psEntityB, db))) {
+        throw new NoSuchChangeException(changeId);
+      }
+
       try {
         final PatchList list = listFor(keyFor(diffPrefs.ignoreWhitespace));
         final PatchScriptBuilder b = newBuilder(list, git);
@@ -233,6 +252,17 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       log.error("Patch set " + ps.getId() + " has invalid revision");
       throw new NoSuchChangeException(changeId, e);
     }
+  }
+
+  private ObjectId toObjectIdA(PatchSet psEntityA, Repository git)
+      throws AuthException, NoSuchChangeException, IOException, OrmException {
+    if (psEntityA != null) {
+      return toObjectId(psEntityA);
+    }
+    if (diffType == DiffType.FIRST_PARENT) {
+      return getFirstparent(git, bId);
+    }
+    return null;
   }
 
   private ObjectId getEditRev() throws AuthException,

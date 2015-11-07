@@ -18,6 +18,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -299,7 +300,7 @@ public class ChangeEdits implements
               fileInfoJson.toFileInfoMap(
                   rsrc.getChange(),
                   edit.get().getRevision(),
-                  basePatchSet);
+                  basePatchSet, DiffType.AUTO_MERGE);
         } catch (PatchListNotAvailableException e) {
           throw new ResourceNotFoundException(e.getMessage());
         }

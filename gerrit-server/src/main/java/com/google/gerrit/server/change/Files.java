@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -96,6 +97,9 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     @Option(name = "--base", metaVar = "revision-id")
     String base;
 
+    @Option(name = "--diff-type")
+    DiffType  diffType;
+
     @Option(name = "--reviewed")
     boolean reviewed;
 
@@ -153,7 +157,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(
             resource.getChange(),
             resource.getPatchSet().getRevision(),
-            basePatchSet));
+            basePatchSet,
+            diffType));
         if (resource.isCacheable()) {
           r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
         }

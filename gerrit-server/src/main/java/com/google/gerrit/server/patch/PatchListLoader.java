@@ -163,11 +163,11 @@ public class PatchListLoader implements Callable<PatchList> {
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
       Set<String> paths = null;
-      if (key.getOldId() != null) {
-        PatchListKey newKey =
-            new PatchListKey(null, key.getNewId(), key.getWhitespace());
-        PatchListKey oldKey =
-            new PatchListKey(null, key.getOldId(), key.getWhitespace());
+      if (key.getOldId() != null && b.getParentCount() == 1) {
+        PatchListKey newKey = PatchListKey.againstDefaultBase(
+            key.getNewId(), key.getWhitespace());
+        PatchListKey oldKey = PatchListKey.againstDefaultBase(
+            key.getOldId(), key.getWhitespace());
         paths = FluentIterable
             .from(patchListCache.get(newKey, project).getPatches())
             .append(patchListCache.get(oldKey, project).getPatches())
@@ -331,6 +331,11 @@ public class PatchListLoader implements Callable<PatchList> {
         return r;
       }
       case 2:
+        if (key.getParentNum() != null) {
+          RevCommit r = b.getParent(key.getParentNum() - 1);
+          rw.parseBody(r);
+          return r;
+        }
         return autoMerger.merge(repo, rw, ins, b, mergeStrategy);
       default:
         // TODO(sop) handle an octopus merge.

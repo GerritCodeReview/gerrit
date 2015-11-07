@@ -32,9 +32,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class PatchListKey implements Serializable {
-  static final long serialVersionUID = 20L;
+  static final long serialVersionUID = 21L;
 
   public static final BiMap<Whitespace, Character> WHITESPACE_TYPES = ImmutableBiMap.of(
       Whitespace.IGNORE_NONE, 'N',
@@ -46,7 +47,36 @@ public class PatchListKey implements Serializable {
     checkState(WHITESPACE_TYPES.size() == Whitespace.values().length);
   }
 
+  public static PatchListKey againstDefaultBase(AnyObjectId newId,
+      Whitespace ws) {
+    return new PatchListKey(null, newId, ws);
+  }
+
+  public static PatchListKey againstParentNum(int parentNum, AnyObjectId newId,
+      Whitespace ws) {
+    return new PatchListKey(parentNum, newId, ws);
+  }
+
+  /**
+   * Old patch-set ID
+   * <p>
+   * When null, it represents the Base of the newId for a non-merge commit.
+   * <p>
+   * When newId is a merge commit, null value of the oldId represents either
+   * the auto-merge commit of the newId or a parent commit of the newId.
+   * These two cases are distinguished by the parentNum.
+   */
   private transient ObjectId oldId;
+
+  /**
+   * 1-based parent number when newId is a merge commit
+   * <p>
+   * For the auto-merge case this field is null.
+   * <p>
+   * Used only when oldId is null and newId is a merge commit
+   */
+  private transient Integer parentNum;
+
   private transient ObjectId newId;
   private transient Whitespace whitespace;
 
@@ -56,10 +86,22 @@ public class PatchListKey implements Serializable {
     whitespace = ws;
   }
 
+  private PatchListKey(int parentNum, AnyObjectId b, Whitespace ws) {
+    this.parentNum = Integer.valueOf(parentNum);
+    newId = b.copy();
+    whitespace = ws;
+  }
+
   /** Old side commit, or null to assume ancestor or combined merge. */
   @Nullable
   public ObjectId getOldId() {
     return oldId;
+  }
+
+  /** Parent number (old side) of the new side (merge) commit */
+  @Nullable
+  public Integer getParentNum() {
+    return parentNum;
   }
 
   /** New side commit name. */
@@ -73,24 +115,16 @@ public class PatchListKey implements Serializable {
 
   @Override
   public int hashCode() {
-    int h = 0;
-
-    if (oldId != null) {
-      h = h * 31 + oldId.hashCode();
-    }
-
-    h = h * 31 + newId.hashCode();
-    h = h * 31 + whitespace.name().hashCode();
-
-    return h;
+    return Objects.hash(oldId, parentNum, newId, whitespace);
   }
 
   @Override
   public boolean equals(final Object o) {
     if (o instanceof PatchListKey) {
-      final PatchListKey k = (PatchListKey) o;
-      return eq(oldId, k.oldId) //
-          && eq(newId, k.newId) //
+      PatchListKey k = (PatchListKey) o;
+      return Objects.equals(oldId, k.oldId)
+          && Objects.equals(parentNum, k.parentNum)
+          && Objects.equals(newId, k.newId)
           && whitespace == k.whitespace;
     }
     return false;
@@ -109,15 +143,9 @@ public class PatchListKey implements Serializable {
     return n.toString();
   }
 
-  private static boolean eq(final ObjectId a, final ObjectId b) {
-    if (a == null && b == null) {
-      return true;
-    }
-    return a != null && b != null && AnyObjectId.equals(a, b);
-  }
-
   private void writeObject(final ObjectOutputStream out) throws IOException {
     writeCanBeNull(out, oldId);
+    out.writeInt(parentNum == null ? 0 : parentNum);
     writeNotNull(out, newId);
     Character c = WHITESPACE_TYPES.get(whitespace);
     if (c == null) {
@@ -128,6 +156,8 @@ public class PatchListKey implements Serializable {
 
   private void readObject(final ObjectInputStream in) throws IOException {
     oldId = readCanBeNull(in);
+    int n = in.readInt();
+    parentNum = n == 0 ? null : Integer.valueOf(n);
     newId = readNotNull(in);
     char t = in.readChar();
     whitespace = WHITESPACE_TYPES.inverse().get(t);

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -44,6 +45,7 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
 import java.util.List;
+import java.util.Map;
 
 public class PushOneCommit {
   public static final String SUBJECT = "test commit";
@@ -91,6 +93,13 @@ public class PushOneCommit {
         ReviewDb db,
         PersonIdent i,
         TestRepository<?> testRepo,
+        @Assisted String subject,
+        @Assisted Map<String, String> files);
+
+    PushOneCommit create(
+        ReviewDb db,
+        PersonIdent i,
+        TestRepository<?> testRepo,
         @Assisted("subject") String subject,
         @Assisted("fileName") String fileName,
         @Assisted("content") String content,
@@ -123,8 +132,7 @@ public class PushOneCommit {
   private final TestRepository<?> testRepo;
 
   private final String subject;
-  private final String fileName;
-  private final String content;
+  private final Map<String, String> files;
   private String changeId;
   private Tag tag;
   private boolean force;
@@ -175,18 +183,43 @@ public class PushOneCommit {
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
+      @Assisted String subject,
+      @Assisted Map<String, String> files) throws Exception {
+    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo,
+        subject, files, null);
+  }
+
+  @AssistedInject
+  PushOneCommit(ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider,
+      @Assisted ReviewDb db,
+      @Assisted PersonIdent i,
+      @Assisted TestRepository<?> testRepo,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content,
       @Nullable @Assisted("changeId") String changeId) throws Exception {
+    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo,
+        subject, ImmutableMap.of(fileName, content), changeId);
+  }
+
+  private PushOneCommit(ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider,
+      ReviewDb db,
+      PersonIdent i,
+      TestRepository<?> testRepo,
+      String subject,
+      Map<String, String> files,
+      String changeId) throws Exception {
     this.db = db;
     this.testRepo = testRepo;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.queryProvider = queryProvider;
     this.subject = subject;
-    this.fileName = fileName;
-    this.content = content;
+    this.files = files;
     this.changeId = changeId;
     if (changeId != null) {
       commitBuilder = testRepo.amendRef("HEAD")
@@ -207,12 +240,16 @@ public class PushOneCommit {
   }
 
   public Result to(String ref) throws Exception {
-    commitBuilder.add(fileName, content);
+    for (Map.Entry<String, String> e : files.entrySet()) {
+      commitBuilder.add(e.getKey(), e.getValue());
+    }
     return execute(ref);
   }
 
   public Result rm(String ref) throws Exception {
-    commitBuilder.rm(fileName);
+    for (String fileName : files.keySet()) {
+      commitBuilder.rm(fileName);
+    }
     return execute(ref);
   }
 

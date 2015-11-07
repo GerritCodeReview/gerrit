@@ -75,6 +75,15 @@ class FileApiImpl implements FileApi {
   }
 
   @Override
+  public DiffInfo diff(int parent) throws RestApiException {
+    try {
+      return getDiff.setParent(parent).apply(file).value();
+    } catch (OrmException | InvalidChangeOperationException | IOException e) {
+      throw new RestApiException("Cannot retrieve diff", e);
+    }
+  }
+
+  @Override
   public DiffRequest diffRequest() {
     return new DiffRequest() {
       @Override

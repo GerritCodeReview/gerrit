@@ -19,11 +19,10 @@ public enum Side {
   REVISION;
 
   public static Side fromShort(short s) {
-    switch (s) {
-      case 0:
-        return PARENT;
-      case 1:
-        return REVISION;
+    if (s <= 0) {
+      return PARENT;
+    } else if (s == 1) {
+      return REVISION;
     }
     return null;
   }

@@ -94,6 +94,7 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -110,9 +111,14 @@ public class Dispatcher {
     return toPatch("", diffBase, id);
   }
 
+  public static String toSideBySide(PatchSet.Id diffBase, Patch.Key id,
+      DiffType diffType) {
+    return toPatch("", diffBase, diffType, id);
+  }
+
   public static String toSideBySide(PatchSet.Id diffBase,
-      PatchSet.Id revision, String fileName) {
-    return toPatch("", diffBase, revision, fileName, null, 0);
+      PatchSet.Id revision, DiffType diffType, String fileName) {
+    return toPatch("", diffBase, revision, fileName, null, diffType, 0);
   }
 
   public static String toSideBySide(PatchSet.Id diffBase,
@@ -120,17 +126,24 @@ public class Dispatcher {
     return toPatch("", diffBase, revision, fileName, side, line);
   }
 
-  public static String toUnified(PatchSet.Id diffBase,
-      PatchSet.Id revision, String fileName) {
-    return toPatch("unified", diffBase, revision, fileName, null, 0);
+  public static String toUnified(PatchSet.Id diffBase, PatchSet.Id revision,
+      DiffType diffType, String fileName) {
+    return toPatch("unified", diffBase, revision, fileName, null, diffType, 0);
   }
 
-  public static String toUnified(PatchSet.Id diffBase, Patch.Key id) {
-    return toPatch("unified", diffBase, id);
+  public static String toUnified(PatchSet.Id diffBase, Patch.Key id,
+      DiffType diffType) {
+    return toPatch("unified", diffBase, diffType, id);
   }
 
   public static String toPatch(String type, PatchSet.Id diffBase, Patch.Key id) {
     return toPatch(type, diffBase, id.getParentKey(), id.get(), null, 0);
+  }
+
+  public static String toPatch(String type, PatchSet.Id diffBase,
+      DiffType diffType, Patch.Key id) {
+    return toPatch(type, diffBase, id.getParentKey(), id.get(), null, diffType,
+        0);
   }
 
   public static String toEditScreen(PatchSet.Id revision, String fileName) {
@@ -143,13 +156,23 @@ public class Dispatcher {
 
   private static String toPatch(String type, PatchSet.Id diffBase,
       PatchSet.Id revision, String fileName, DisplaySide side, int line) {
+    return toPatch(type, diffBase, revision, fileName, side, null, line);
+  }
+
+  private static String toPatch(String type, PatchSet.Id diffBase,
+      PatchSet.Id revision, String fileName, DisplaySide side,
+      DiffType diffType, int line) {
     Change.Id c = revision.getParentKey();
     StringBuilder p = new StringBuilder();
     p.append("/c/").append(c).append("/");
     if (diffBase != null) {
       p.append(diffBase.get()).append("..");
     }
-    p.append(revision.getId()).append("/").append(KeyUtil.encode(fileName));
+    p.append(revision.getId());
+    if (diffType != null && !diffType.encoded.isEmpty()) {
+      p.append(":").append(diffType.encoded);
+    }
+    p.append("/").append(KeyUtil.encode(fileName));
     if (type != null && !type.isEmpty()
         && (!"sidebyside".equals(type) || preferUnified())) {
       p.append(",").append(type);
@@ -390,7 +413,7 @@ public class Dispatcher {
         panel = null;
       }
       Gerrit.display(token, panel == null
-          ? new ChangeScreen(id, null, null, false, mode)
+          ? new ChangeScreen(id, null, null, false, null, mode)
           : new NotFoundScreen());
       return;
     }
@@ -412,6 +435,15 @@ public class Dispatcher {
       base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
       psIdStr = psIdStr.substring(dotdot + 2);
     }
+    DiffType diffType = DiffType.AUTO_MERGE;
+    int colon = psIdStr.lastIndexOf(":");
+    if (colon > 0) {
+      String diffTypeStr = psIdStr.substring(colon + 1, psIdStr.length());
+      if (DiffType.FIRST_PARENT.encoded.equals(diffTypeStr)) {
+        diffType = DiffType.FIRST_PARENT;
+      }
+      psIdStr = psIdStr.substring(0, colon);
+    }
     ps = toPsId(id, psIdStr);
 
     if (!rest.isEmpty()) {
@@ -428,7 +460,7 @@ public class Dispatcher {
         rest = rest.substring(0, at);
       }
       Patch.Key p = new Patch.Key(ps, KeyUtil.decode(rest));
-      patch(token, base, p, side, line, panel);
+      patch(token, base, p, side, line, diffType, panel);
     } else {
       if (panel == null) {
         Gerrit.display(token,
@@ -436,7 +468,7 @@ public class Dispatcher {
                 base != null
                     ? String.valueOf(base.get())
                     : null,
-                String.valueOf(ps.get()), false, FileTable.Mode.REVIEW));
+                String.valueOf(ps.get()), false, diffType, FileTable.Mode.REVIEW));
       } else {
         Gerrit.display(token, new NotFoundScreen());
       }
@@ -463,6 +495,7 @@ public class Dispatcher {
       Patch.Key id,
       DisplaySide side,
       int line,
+      DiffType diffType,
       String panelType) {
     String panel = panelType;
     if (panel == null) {
@@ -472,18 +505,18 @@ public class Dispatcher {
 
     if ("".equals(panel) || /* DEPRECATED URL */"cm".equals(panel)) {
       if (preferUnified()) {
-        unified(token, baseId, id, side, line);
+        unified(token, baseId, id, side, diffType, line);
       } else {
-        codemirror(token, baseId, id, side, line, false);
+        codemirror(token, baseId, id, side, line, diffType, false);
       }
     } else if ("sidebyside".equals(panel)) {
-      codemirror(token, null, id, side, line, false);
+      codemirror(token, null, id, side, line, diffType, false);
     } else if ("unified".equals(panel)) {
-      unified(token, baseId, id, side, line);
+      unified(token, baseId, id, side, diffType, line);
     } else if ("unified1".equals(panel)) {
-      unified1(token, baseId, id);
+      unified1(token, baseId, id, diffType);
     } else if ("edit".equals(panel)) {
-      codemirror(token, null, id, side, line, true);
+      codemirror(token, null, id, side, line, diffType, true);
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
@@ -494,37 +527,39 @@ public class Dispatcher {
   }
 
   private static void unified(final String token, final PatchSet.Id baseId,
-      final Patch.Key id, final DisplaySide side, final int line) {
+      final Patch.Key id, final DisplaySide side, final DiffType diffType,
+      final int line) {
     GWT.runAsync(new AsyncSplit(token) {
       @Override
       public void onSuccess() {
-        Gerrit.display(token,
-            new Unified(baseId, id.getParentKey(), id.get(), side, line));
+        Gerrit.display(token, new Unified(baseId, id.getParentKey(), id.get(),
+            side, diffType, line));
       }
     });
   }
 
   private static void unified1(final String token,
       final PatchSet.Id baseId,
-      final Patch.Key id) {
+      final Patch.Key id,
+      final DiffType diffType) {
     GWT.runAsync(new AsyncSplit(token) {
       @Override
       public void onSuccess() {
         UnifiedPatchScreen.TopView top = Gerrit.getPatchScreenTopView();
-        Gerrit.display(token, new UnifiedPatchScreen(id, top, baseId));
+        Gerrit.display(token, new UnifiedPatchScreen(id, top, baseId, diffType));
       }
     });
   }
 
   private static void codemirror(final String token, final PatchSet.Id baseId,
       final Patch.Key id, final DisplaySide side, final int line,
-      final boolean edit) {
+      final DiffType diffType, final boolean edit) {
     GWT.runAsync(new AsyncSplit(token) {
       @Override
       public void onSuccess() {
         Gerrit.display(token, edit
             ? new EditScreen(baseId, id, line)
-            : new SideBySide(baseId, id.getParentKey(), id.get(), side, line));
+            : new SideBySide(baseId, id.getParentKey(), id.get(), side, diffType, line));
       }
     });
   }

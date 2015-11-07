@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
@@ -65,11 +66,12 @@ abstract class DiffTable extends Composite {
   private ChangeType changeType;
   Scrollbar scrollbar;
 
-  DiffTable(DiffScreen parent, PatchSet.Id base, PatchSet.Id revision, String path) {
+  DiffTable(DiffScreen parent, PatchSet.Id base, PatchSet.Id revision,
+      DiffType diffType, String path) {
     patchSetSelectBoxA = new PatchSetSelectBox(
-        parent, DisplaySide.A, revision.getParentKey(), base, path);
+        parent, DisplaySide.A, revision.getParentKey(), base, diffType, path);
     patchSetSelectBoxB = new PatchSetSelectBox(
-        parent, DisplaySide.B, revision.getParentKey(), revision, path);
+        parent, DisplaySide.B, revision.getParentKey(), revision, diffType, path);
     PatchSetSelectBox.link(patchSetSelectBoxA, patchSetSelectBoxB);
 
     this.scrollbar = new Scrollbar(this);

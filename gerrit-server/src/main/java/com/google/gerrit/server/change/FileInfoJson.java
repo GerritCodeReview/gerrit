@@ -14,14 +14,18 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.util.GitUtil.getNthParentOfCommit;
+
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.DiffType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -31,29 +35,39 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Singleton
 public class FileInfoJson {
   private final PatchListCache patchListCache;
+  private final GitRepositoryManager repoManager;
 
   @Inject
-  FileInfoJson(PatchListCache patchListCache) {
+  FileInfoJson(
+      PatchListCache patchListCache,
+      GitRepositoryManager repoManager) {
     this.patchListCache = patchListCache;
+    this.repoManager = repoManager;
   }
 
   Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException {
-    return toFileInfoMap(change, patchSet.getRevision(), null);
+    return toFileInfoMap(change, patchSet.getRevision(), null, null);
   }
 
-  Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, @Nullable PatchSet base)
-      throws PatchListNotAvailableException {
-    ObjectId a = (base == null)
-        ? null
-        : ObjectId.fromString(base.getRevision().get());
+  Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet,
+      DiffType difftype) throws PatchListNotAvailableException {
+    return toFileInfoMap(change, patchSet.getRevision(), null, difftype);
+  }
+
+  Map<String, FileInfo> toFileInfoMap(Change change, RevId revision,
+      @Nullable PatchSet base, @Nullable DiffType diffType)
+          throws PatchListNotAvailableException {
     ObjectId b = ObjectId.fromString(revision.get());
+    ObjectId a = getObjectIdA(base, b, change, diffType);
     PatchList list = patchListCache.get(
         new PatchListKey(a, b, Whitespace.IGNORE_NONE), change.getProject());
 
@@ -92,5 +106,22 @@ public class FileInfoJson {
       }
     }
     return files;
+  }
+
+  private ObjectId getObjectIdA(PatchSet base, ObjectId b, Change change,
+      DiffType diffType) throws PatchListNotAvailableException {
+    if (base != null) {
+      return ObjectId.fromString(base.getRevision().get());
+    }
+    if (diffType == DiffType.FIRST_PARENT) {
+      try (Repository git =
+          repoManager.openMetadataRepository(change.getProject())) {
+        return getNthParentOfCommit(git, b, 0).orNull();
+      } catch (IOException e) {
+        throw new PatchListNotAvailableException(
+            String.format("Cannot parse commit: ", b));
+      }
+    }
+    return null;
   }
 }

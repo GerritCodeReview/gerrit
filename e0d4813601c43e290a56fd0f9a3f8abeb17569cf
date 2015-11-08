@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76800614_47afee55",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/GetChildProjectIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-08T05:02:22Z",
+      "side": 1,
+      "message": "This is broken.  If the exception is not raised, the test still passes.\n\nSee https://gerrit-review.googlesource.com/#/c/72107/",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 5
+      },
+      "revId": "e0d4813601c43e290a56fd0f9a3f8abeb17569cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

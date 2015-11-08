@@ -553,8 +553,20 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       if (!del.isEmpty() || !ups.isEmpty()) {
-        if (ctx.getChange().getStatus().isClosed()) {
+        if (ctx.getChange().getStatus().isClosed()
+            && in.strictLabels == true) {
           throw new ResourceConflictException("change is closed");
+        }
+        if (!update.getPatchSetId().equals(change.currentPatchSetId())
+            && in.strictLabels == true) {
+          throw new ResourceConflictException(
+              "revision not current");
+        }
+        if (ctx.getChange().getStatus().isClosed()
+            || !update.getPatchSetId().equals(change.currentPatchSetId())) {
+          // Labels can't be updated, but user requested non-strict labels.
+          ups.clear();
+          del.clear();
         }
       }
       forceCallerAsReviewer(ctx, current, ups, del);

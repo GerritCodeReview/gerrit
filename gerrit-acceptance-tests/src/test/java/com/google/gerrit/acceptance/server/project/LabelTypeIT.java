@@ -15,16 +15,23 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
@@ -32,6 +39,9 @@ import com.google.gerrit.server.project.Util;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Collections;
+import java.util.EnumSet;
 
 @NoHttpd
 public class LabelTypeIT extends AbstractDaemonTest {
@@ -53,6 +63,105 @@ public class LabelTypeIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("change is closed");
     revision(r).review(ReviewInput.reject());
+  }
+
+  @Test
+  public void forceMessageOnClosedChange() throws Exception {
+    final String MESSAGE = "Forced message";
+    PushOneCommit.Result r = createChange();
+    merge(r);
+
+    ReviewInput ri = ReviewInput.approve().message(MESSAGE);
+    ri.strictLabels = false;
+    gApi.changes().id(r.getChangeId()).revision(1)
+        .review(ri);
+
+    ApprovalsUtil approvalsUtil = new ApprovalsUtil(notesMigration, null);
+    for (PatchSetApproval approval : approvalsUtil.byPatchSet(db,
+        r.getChange().changeControl(), r.getPatchSetId())) {
+      assertThat(approval.getLabelId().equals(codeReview));
+      assertThat(approval.getValue() == 0);
+    }
+
+    EnumSet<ListChangesOption> options =
+        Sets.newEnumSet(Collections.singletonList(ListChangesOption.MESSAGES),
+            ListChangesOption.class);
+    ChangeInfo output = gApi.changes().id(r.getChangeId()).get(options);
+    boolean messageFound = false;
+    for (ChangeMessageInfo msg : output.messages) {
+      if (msg.message.equals(MESSAGE)) {
+        messageFound = true;
+        break;
+      }
+    }
+    assertThat(messageFound);
+  }
+
+  @Test
+  public void failChangedLabelValueOnOutdatedPatchSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    revision(r).review(ReviewInput.reject());
+    PatchSet.Id first = r.getPatchSetId();
+
+    amendChange(r.getChangeId());
+    try {
+      gApi.changes().id(r.getChangeId()).revision(1)
+          .review(ReviewInput.approve());
+      fail("Expected ResourceConflictException");
+    } catch (ResourceConflictException e) {
+      // Expected
+      assertThat(e.getMessage().equals("revision not current"));
+    }
+
+    ApprovalsUtil approvalsUtil = new ApprovalsUtil(notesMigration, null);
+    for (PatchSetApproval approval : approvalsUtil.byPatchSet(db,
+        r.getChange().changeControl(), first)) {
+      assertThat(approval.getLabelId().equals(codeReview));
+      assertThat(approval.getValue() == -2);
+    }
+    for (PatchSetApproval approval : approvalsUtil.byPatchSet(db,
+        r.getChange().changeControl(), r.getPatchSetId())) {
+      assertThat(approval.getLabelId().equals(codeReview));
+      assertThat(approval.getValue() == -2);
+    }
+  }
+
+  @Test
+  public void forceMessageOnOutdatedPatchSet() throws Exception {
+    final String MESSAGE = "Forced message";
+    PushOneCommit.Result r = createChange();
+    revision(r).review(ReviewInput.reject());
+    PatchSet.Id first = r.getPatchSetId();
+
+    amendChange(r.getChangeId());
+    ReviewInput ri = ReviewInput.approve().message(MESSAGE);
+    ri.strictLabels = false;
+    gApi.changes().id(r.getChangeId()).revision(1)
+        .review(ri);
+
+    ApprovalsUtil approvalsUtil = new ApprovalsUtil(notesMigration, null);
+    for (PatchSetApproval approval : approvalsUtil.byPatchSet(db,
+        r.getChange().changeControl(), first)) {
+      assertThat(approval.getLabelId().equals(codeReview));
+      assertThat(approval.getValue() == -2);
+    }
+    for (PatchSetApproval approval : approvalsUtil.byPatchSet(db,
+        r.getChange().changeControl(), r.getPatchSetId())) {
+      assertThat(approval.getLabelId().equals(codeReview));
+      assertThat(approval.getValue() == -2);
+    }
+    EnumSet<ListChangesOption> options =
+        Sets.newEnumSet(Collections.singletonList(ListChangesOption.MESSAGES),
+            ListChangesOption.class);
+    ChangeInfo output = gApi.changes().id(r.getChangeId()).get(options);
+    boolean messageFound = false;
+    for (ChangeMessageInfo msg : output.messages) {
+      if (msg.message.equals(MESSAGE)) {
+        messageFound = true;
+        break;
+      }
+    }
+    assertThat(messageFound);
   }
 
   @Test

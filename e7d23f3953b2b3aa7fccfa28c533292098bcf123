@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96657a98_08bd47da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2015-11-08T16:28:51Z",
+      "side": 1,
+      "message": "Note that issue 106 asks to \"[...] allow a way for the user to see [...]\", i.e. this should be optional. I can totally see the value in only seeing the conflicts (and their resolution) as that\u0027s usually the tricky part that has not been reviewed yet. Other changes on the merged branch probably also were reviewed, so you would not want to review them again.",
+      "revId": "e7d23f3953b2b3aa7fccfa28c533292098bcf123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96657a98_68b08303",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2015-11-08T16:28:51Z",
+      "side": 1,
+      "message": "Why not simply give variables a and b more meaningful names instead of adding these comments?",
+      "revId": "e7d23f3953b2b3aa7fccfa28c533292098bcf123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d698d291_4230d229",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2015-11-08T16:28:51Z",
+      "side": 1,
+      "message": "I\u0027m not sure about the Gerrit style guides here, but to me the flow would be clearer if the second \"return\" was not wrapped in \"else\". Otherwise the flow creates the impression that code after the if/else block is reachable.",
+      "revId": "e7d23f3953b2b3aa7fccfa28c533292098bcf123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UploadPackMetricsHook;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
@@ -58,6 +59,9 @@ final class Upload extends AbstractGitCommand {
   @Inject
   private SshSession session;
 
+  @Inject
+  private UploadPackMetricsHook uploadMetrics;
+
   @Override
   protected void runImpl() throws IOException, Failure {
     if (!projectControl.canRunUploadPack()) {
@@ -71,6 +75,7 @@ final class Upload extends AbstractGitCommand {
     }
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
+    up.setPostUploadHook(uploadMetrics);
 
     List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
     allPreUploadHooks.add(uploadValidatorsFactory.create(project, repo,

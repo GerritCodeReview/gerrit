@@ -16,8 +16,10 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -112,10 +114,15 @@ public class LuceneQueryChangesV14Test extends LuceneQueryChangesTest {
     change3 = newPatchSet(repo, change3);
     assertThat(change3.currentPatchSetId()).isNotEqualTo(ps3_1);
     // Nonzero score on previous patch set does not count.
-    gApi.changes()
-        .id(change3.getId().get())
-        .revision(ps3_1.get())
-        .review(ReviewInput.recommend());
+    try {
+      gApi.changes()
+          .id(change3.getId().get())
+          .revision(ps3_1.get())
+          .review(ReviewInput.recommend());
+      fail("Expected ResourceConflictException");
+    } catch (ResourceConflictException e) {
+      // Expected
+    }
 
     assertQuery("is:reviewed", change2);
     assertQuery("-is:reviewed", change3, change1);

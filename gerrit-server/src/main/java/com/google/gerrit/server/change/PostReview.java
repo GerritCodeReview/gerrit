@@ -564,6 +564,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             del.clear();
           }
         }
+        if (!update.getPatchSetId().equals(change.currentPatchSetId())) {
+          if (in.strictLabels == true) {
+            throw new ResourceConflictException(
+                "revision not current");
+          } else {
+            // Labels can't be updated, but user requested non-strict labels.
+            ups.clear();
+            del.clear();
+          }
+        }
       }
       forceCallerAsReviewer(ctx, current, ups, del);
       ctx.getDb().patchSetApprovals().delete(del);

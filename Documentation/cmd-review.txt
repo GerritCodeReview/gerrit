@@ -121,13 +121,13 @@ branch.
 	for further details.  These options are only available for the
 	labels that are defined in the 'All-Projects' root project and
 	that are valid for all projects; for other labels, see --label.
-	Votes that are not permitted for the user or votes on closed patches
-        are silently ignored.
+	Votes that are not permitted for the user or votes on outdated
+	and closed patches are silently ignored.
 
 --label::
 	Set a label by name to the value 'N'.  Invalid votes (invalid label
 	or invalid value), votes that are not permitted for the user,
-	and votes on closed patches are silently ignored.
+	and votes on outdated or closed patches are silently ignored.
 
 == ACCESS
 Any user who has configured an SSH key.

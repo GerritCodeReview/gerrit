@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "76800614_27d11ad7",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/RestResponse.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-08T18:24:29Z",
+      "side": 1,
+      "message": "Not necessarily, but I left it public for potential use when we don\u0027t provide a specific assertion method for a status code.",
+      "parentUuid": "d698d291_0222cae6",
+      "revId": "ac277ad73eeed10a995df47e61d62a493e7da0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96657a98_c89e4f79",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagsIT.java",
         "patchSetId": 5

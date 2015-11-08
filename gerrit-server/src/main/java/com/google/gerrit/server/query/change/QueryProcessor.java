@@ -20,6 +20,9 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexConfig;
@@ -32,6 +35,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +46,7 @@ public class QueryProcessor {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final IndexRewriter rewriter;
   private final IndexConfig indexConfig;
+  private final Metrics metrics;
 
   private int limitFromCaller;
   private int start;
@@ -52,12 +57,14 @@ public class QueryProcessor {
       Provider<CurrentUser> userProvider,
       ChangeControl.GenericFactory changeControlFactory,
       IndexRewriter rewriter,
-      IndexConfig indexConfig) {
+      IndexConfig indexConfig,
+      Metrics metrics) {
     this.db = db;
     this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
     this.rewriter = rewriter;
     this.indexConfig = indexConfig;
+    this.metrics = metrics;
   }
 
   public QueryProcessor enforceVisibility(boolean enforce) {
@@ -114,6 +121,9 @@ public class QueryProcessor {
   private List<QueryResult> queryChanges(List<String> queryStrings,
       List<Predicate<ChangeData>> queries)
       throws OrmException, QueryParseException {
+    @SuppressWarnings("resource")
+    Timer.Context context = metrics.executionTime.start();
+
     Predicate<ChangeData> visibleToMe = enforceVisibility
         ? new IsVisibleToPredicate(db, changeControlFactory, userProvider.get())
         : null;
@@ -170,6 +180,7 @@ public class QueryProcessor {
           limits.get(i),
           matches.get(i).toList()));
     }
+    context.close(); // only measure successful queries
     return out;
   }
 
@@ -202,5 +213,20 @@ public class QueryProcessor {
       possibleLimits.add(limitFromPredicate);
     }
     return Ordering.natural().min(possibleLimits);
+  }
+
+  @Singleton
+  static class Metrics {
+    final Timer executionTime;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      executionTime = metricMaker.newTimer(
+          "change/query/query_latency",
+          new Description("Successful change query latency,"
+              + " accumulated over the life of the process")
+            .setCumulative()
+            .setUnit(Description.Units.MILLISECONDS));
+    }
   }
 }

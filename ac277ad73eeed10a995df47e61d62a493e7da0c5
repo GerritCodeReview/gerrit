@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d698d291_0222cae6",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/RestResponse.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-08T07:55:54Z",
+      "side": 1,
+      "message": "Does this need to be public?",
+      "revId": "ac277ad73eeed10a995df47e61d62a493e7da0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96657a98_c89e4f79",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-08T07:55:54Z",
+      "side": 1,
+      "message": "The whole patch erroneously decreased (or introduced) two blanks indentation level on line wraps. Continuation line indentation level must be (at least) be 4 spaces, see also  Google Java Style Guide: [1].\n\n* [1]\nhttps://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "ac277ad73eeed10a995df47e61d62a493e7da0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

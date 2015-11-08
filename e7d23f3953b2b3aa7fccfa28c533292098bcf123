@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d698d291_222dcecf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1015537
+      },
+      "writtenOn": "2015-11-08T21:59:47Z",
+      "side": 1,
+      "message": "\"Other changes on the merged branch\" may be in the user dev branch which may not be reviewed. This branch may be used as repository for storing developer daily work and whole change may be reviewed on merge. But there is no possibility to view the changes when merging dev branch with master.",
+      "parentUuid": "96657a98_08bd47da",
+      "revId": "e7d23f3953b2b3aa7fccfa28c533292098bcf123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96657a98_68b08303",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4

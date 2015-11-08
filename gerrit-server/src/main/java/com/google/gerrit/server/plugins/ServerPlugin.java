@@ -236,7 +236,7 @@ public class ServerPlugin extends Plugin {
     if (getApiType() == ApiType.PLUGIN) {
       modules.add(env.getSysModule());
     }
-    modules.add(new ServerPluginInfoModule(this));
+    modules.add(new ServerPluginInfoModule(this, env.getServerMetrics()));
     return Guice.createInjector(modules);
   }
 

@@ -142,6 +142,214 @@
       "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_e86433f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-08T23:26:55Z",
+      "side": 1,
+      "message": "EventBroker is fine.",
+      "parentUuid": "967d7aef_68fcc39a",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76800614_873486d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-08T23:26:55Z",
+      "side": 1,
+      "message": "Formatting nit:\n\n  /**\n   * Listeners ....\n   */",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 27
+      },
+      "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_0841873d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-08T23:26:55Z",
+      "side": 1,
+      "message": "can we start with these fields private?",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 11
+      },
+      "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_c83e8fb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-08T23:26:55Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 11
+      },
+      "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_a8315be8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-08T23:26:55Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_883497d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-08T23:26:55Z",
+      "side": 1,
+      "message": "final not necessary",
+      "range": {
+        "startLine": 106,
+        "startChar": 51,
+        "endLine": 106,
+        "endChar": 56
+      },
+      "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_0828a775",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-08T23:26:55Z",
+      "side": 1,
+      "message": "nit: (event)",
+      "range": {
+        "startLine": 120,
+        "startChar": 37,
+        "endLine": 120,
+        "endChar": 46
+      },
+      "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_e83b53c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-08T23:26:55Z",
+      "side": 1,
+      "message": "nit: (event)",
+      "range": {
+        "startLine": 130,
+        "startChar": 37,
+        "endLine": 130,
+        "endChar": 46
+      },
+      "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76800614_272d9a86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-08T23:26:55Z",
+      "side": 1,
+      "message": "nit: space after cast",
+      "range": {
+        "startLine": 168,
+        "startChar": 28,
+        "endLine": 168,
+        "endChar": 55
+      },
+      "revId": "814486ffb2053ceb21a9d1bf901742ee5d6a0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

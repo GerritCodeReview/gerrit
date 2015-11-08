@@ -22,6 +22,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.gpg.GpgModule;
+import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -132,6 +133,7 @@ public class InMemoryModule extends FactoryModule {
             .toInstance(cfg);
       }
     });
+    install(new DropWizardMetricMaker.Module());
     install(cfgInjector.getInstance(GerritGlobalModule.class));
     install(new ChangeCacheImplModule(false));
     factory(GarbageCollection.Factory.class);

@@ -32,6 +32,7 @@ import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UploadPackMetricsHook;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -200,11 +201,15 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class UploadFactory implements UploadPackFactory<HttpServletRequest> {
     private final TransferConfig config;
+    private final UploadPackMetricsHook uploadMetrics;
     private final DynamicSet<PreUploadHook> preUploadHooks;
 
     @Inject
-    UploadFactory(TransferConfig tc, DynamicSet<PreUploadHook> preUploadHooks) {
+    UploadFactory(TransferConfig tc,
+        UploadPackMetricsHook uploadMetrics,
+        DynamicSet<PreUploadHook> preUploadHooks) {
       this.config = tc;
+      this.uploadMetrics = uploadMetrics;
       this.preUploadHooks = preUploadHooks;
     }
 
@@ -215,6 +220,7 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(
           Lists.newArrayList(preUploadHooks)));
+      up.setPostUploadHook(uploadMetrics);
       return up;
     }
   }

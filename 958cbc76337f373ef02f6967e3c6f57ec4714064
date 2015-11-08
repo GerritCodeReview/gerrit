@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1446753470 -0500\nnonce AFd3Bxv9ynT5RabgcjCESuRWK07zrCem2qUm0vWkgxMLFBH7UFpIaP3YUKdd10uekgJHZPjvNWAH\n\n0000000000000000000000000000000000000000 958cbc76337f373ef02f6967e3c6f57ec4714064 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWO7S+AAoJEF/XxZqaEoiM0tkP/1lPYNa2SrE3etP+4sm+8aCY\nUi9Z6ZnwNakM525B54zxG8r1tQn9u1165flLH403IVdu+a46iU+vDXVQuBbuBtKy\nt3pOPf/ET1DrW/jg+gzOYwsX6elH6d3t2SP9POynvTxM21VIb3NI4fVPFKjKPeBM\nYMs49iYCF/6fQzA9htmxdngswYZkOUpYC1MYYXnkuLmKBPb11zGNzv6w9bNe2hAs\nrYI0R7PlgOj6pnBxAkfyCGvaPCCJ3yLGUGdpffOLPEirj1/MBLsSR2C7T9/z+MRC\ngJ4j1NXrnkzbJCU/ymKUBuZdG7bBk0E5TvQaXvyqBNuvQwW8J3wGypjnRATo/Oim\nI4CYPIux3JX+jfR7oxQzwZVR2fmxSr62nK2KRyjFfmRTzAWo7Qc0ERltomVubey3\nqTyTDUcLLjCWeQs8dOkWwtMDsauuMujoXFBHOrZuVeLCFnWY/pkJhbK6q9Up9vd3\nTRcAmX1DEatJe7ykTKZfTPB1QcelnPcX9xGiZQWAxJgomtE4znXtRzx3pzpK+s+z\naIM3IOgCfE1NN2ApJn68h/s5ARZnmY3g2TDDpPUs4SPoCKmCbX3ZUeJbWnRYfvu+\n9Okeg/rIcZ1yRvWzscw/LNps6Yw+SfV0OYlhOQpp2uNQvjC+v8s2KLjPeVf9Q61Z\n5N4o3BJ0J5q5h8Xja7si\n\u003dBGHv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "967d7aef_285f2b26",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/DeveloperGwtUiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-08T22:08:54Z",
+      "side": 1,
+      "message": "The constructor is only called once in a singleton context so it should work okay. Is there a way to futureproof to ensure that remains true? E.g., if the timestamp were passed in (or if it were static), that would make the meaning more obvious.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 48
+      },
+      "revId": "958cbc76337f373ef02f6967e3c6f57ec4714064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_085a6735",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/DeveloperGwtUiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-08T22:08:54Z",
+      "side": 1,
+      "message": "Could this use Files.createTempDirectory?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "958cbc76337f373ef02f6967e3c6f57ec4714064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76800614_876d66dd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/WarGwtUiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-08T22:08:54Z",
+      "side": 1,
+      "message": "Likewise.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "958cbc76337f373ef02f6967e3c6f57ec4714064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

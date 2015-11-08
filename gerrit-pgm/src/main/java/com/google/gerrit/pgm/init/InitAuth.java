@@ -25,27 +25,25 @@ import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.lib.Config;
-
 /** Initialize the {@code auth} configuration section. */
 @Singleton
 class InitAuth implements InitStep {
   private static final String RECEIVE = "receive";
   private static final String ENABLE_SIGNED_PUSH = "enableSignedPush";
 
-  private final Config cfg;
   private final ConsoleUI ui;
   private final Section auth;
   private final Section ldap;
   private final Section receive;
   private final Libraries libraries;
+  private final InitFlags flags;
 
   @Inject
   InitAuth(InitFlags flags,
       ConsoleUI ui,
       Libraries libraries,
       Section.Factory sections) {
-    this.cfg = flags.cfg;
+    this.flags = flags;
     this.ui = ui;
     this.auth = sections.get("auth", null);
     this.ldap = sections.get("ldap", null);
@@ -66,8 +64,8 @@ class InitAuth implements InitStep {
   }
 
   private void initAuthType() {
-    AuthType authType =
-        auth.select("Authentication method", "type", AuthType.OPENID);
+    AuthType authType = auth.select("Authentication method", "type",
+        flags.dev ? AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT : AuthType.OPENID);
     switch (authType) {
       case HTTP:
       case HTTP_LDAP: {
@@ -129,7 +127,7 @@ class InitAuth implements InitStep {
   }
 
   private void initSignedPush() {
-    boolean def = cfg.getBoolean(RECEIVE, ENABLE_SIGNED_PUSH, false);
+    boolean def = flags.cfg.getBoolean(RECEIVE, ENABLE_SIGNED_PUSH, false);
     boolean enable = ui.yesno(def, "Enable signed push support");
     receive.set("enableSignedPush", Boolean.toString(enable));
     if (enable) {

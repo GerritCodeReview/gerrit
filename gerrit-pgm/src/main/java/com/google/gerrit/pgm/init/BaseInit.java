@@ -115,6 +115,7 @@ public class BaseInit extends SiteProgram {
     }
 
     init.flags.autoStart = getAutoStart() && init.site.isNew;
+    init.flags.dev = isDev() && init.site.isNew;
     init.flags.skipPlugins = skipPlugins();
 
     final SiteRun run;
@@ -445,5 +446,9 @@ public class BaseInit extends SiteProgram {
     } catch (IOException e) {
       System.err.println(msg + path);
     }
+  }
+
+  protected boolean isDev() {
+    return false;
   }
 }

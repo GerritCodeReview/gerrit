@@ -63,6 +63,10 @@ public class Init extends BaseInit {
       usage = "Path to jar providing SecureStore implementation class")
   private String secureStoreLib;
 
+  @Option(name = "--dev",
+      usage = "Setup site with default options suitable for developers")
+  private boolean dev;
+
   @Inject
   Browser browser;
 
@@ -135,6 +139,11 @@ public class Init extends BaseInit {
   @Override
   protected boolean skipPlugins() {
     return skipPlugins;
+  }
+
+  @Override
+  protected boolean isDev() {
+    return dev;
   }
 
   @Override

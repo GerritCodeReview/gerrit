@@ -39,6 +39,9 @@ public class InitFlags {
   /** Skip plugins */
   public boolean skipPlugins;
 
+  /** Dev mode */
+  public boolean dev;
+
   public final FileBasedConfig cfg;
   public final SecureStore sec;
   public final List<String> installPlugins;

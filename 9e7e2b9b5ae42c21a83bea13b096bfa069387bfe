@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "967d7aef_88bf377d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-08T18:20:47Z",
+      "side": 1,
+      "message": "This revision is currently only available on my fork at github:\n\nhttps://github.com/dpursehouse/buck/tree/gerrit-stable-2.11-fix",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "9e7e2b9b5ae42c21a83bea13b096bfa069387bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

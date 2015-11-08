@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76800614_a7950a01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-08T16:02:08Z",
+      "side": 1,
+      "message": "This capability is kind of dangerous since it allows those users to escape globally enforced rules that are defined on parent projects (e.g. blocked access rights).\n\nHave you considered using the reparent plugin [1] instead?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-plugins.html#reparent",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "bee8dd823f0177b7f863596249f8b18931711cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

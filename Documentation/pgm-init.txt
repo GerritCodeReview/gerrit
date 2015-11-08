@@ -11,6 +11,7 @@ init - Initialize a new Gerrit server installation
 	[--no-auto-start]
 	[--list-plugins]
 	[--install-plugin=<PLUGIN_NAME>]
+        [--dev]
 --
 
 == DESCRIPTION
@@ -50,6 +51,10 @@ objects these SQL statements have to be executed manually.
 	Automatically install plugin with given name without asking.
 	This option may be supplied more than once to install multiple
 	plugins.
+
+--dev::
+	Install in developer mode. Default configuration settings are
+	chosen to run the Gerrit server as a developer.
 
 == CONTEXT
 This command can only be run on a server which has direct

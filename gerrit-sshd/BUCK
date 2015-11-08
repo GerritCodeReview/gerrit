@@ -21,6 +21,7 @@ java_library(
     '//lib/auto:auto-value',
     '//lib/commons:codec',
     '//lib/commons:collections',
+    '//lib/dropwizard:dropwizard-core',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',  # SSH should not depend on servlet

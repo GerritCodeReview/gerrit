@@ -17,6 +17,8 @@ package com.google.gerrit.server.plugins;
 import com.google.gerrit.extensions.annotations.PluginCanonicalWebUrl;
 import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.PluginUser;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -32,10 +34,12 @@ class ServerPluginInfoModule extends AbstractModule {
   private final Path dataDir;
 
   private volatile boolean ready;
+  private final MetricMaker serverMetrics;
 
-  ServerPluginInfoModule(ServerPlugin plugin) {
+  ServerPluginInfoModule(ServerPlugin plugin, MetricMaker serverMetrics) {
     this.plugin = plugin;
     this.dataDir = plugin.getDataDir();
+    this.serverMetrics = serverMetrics;
   }
 
   @Override
@@ -47,6 +51,17 @@ class ServerPluginInfoModule extends AbstractModule {
     bind(String.class)
       .annotatedWith(PluginCanonicalWebUrl.class)
       .toInstance(plugin.getPluginCanonicalWebUrl());
+
+    install(new LifecycleModule() {
+      @Override
+      public void configure() {
+        PluginMetricMaker metrics = new PluginMetricMaker(
+            serverMetrics,
+            plugin.getName());
+        bind(MetricMaker.class).toInstance(metrics);
+        listener().toInstance(metrics);
+      }
+    });
   }
 
   @Provides

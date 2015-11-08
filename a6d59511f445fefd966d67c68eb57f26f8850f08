@@ -26,6 +26,29 @@
     },
     {
       "key": {
+        "uuid": "967d7aef_c8b92f98",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-08T18:45:10Z",
+      "side": 1,
+      "message": "What does the return value represent?",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 51
+      },
+      "revId": "a6d59511f445fefd966d67c68eb57f26f8850f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_c8584f81",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
         "patchSetId": 3

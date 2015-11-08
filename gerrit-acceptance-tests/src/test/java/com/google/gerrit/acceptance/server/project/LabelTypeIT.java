@@ -25,6 +25,9 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
@@ -53,6 +56,31 @@ public class LabelTypeIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("change is closed");
     revision(r).review(ReviewInput.reject());
+  }
+
+  @Test
+  public void failChangedLabelValueOnOutdatedPatchSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    revision(r).review(ReviewInput.reject());
+    PatchSet.Id first = r.getPatchSetId();
+
+    amendChange(r.getChangeId());
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("review is not for current patch set");
+    gApi.changes().id(r.getChangeId()).revision(1)
+        .review(ReviewInput.approve());
+
+    ApprovalsUtil approvalsUtil = new ApprovalsUtil(null, null);
+    for (PatchSetApproval approval : approvalsUtil.byPatchSet(db,
+        r.getChange().changeControl(), first)) {
+      assertThat(approval.getLabelId().equals(codeReview));
+      assertThat(approval.getValue() == -2);
+    }
+    for (PatchSetApproval approval : approvalsUtil.byPatchSet(db,
+        r.getChange().changeControl(), r.getPatchSetId())) {
+      assertThat(approval.getLabelId().equals(codeReview));
+      assertThat(approval.getValue() == -2);
+    }
   }
 
   @Test

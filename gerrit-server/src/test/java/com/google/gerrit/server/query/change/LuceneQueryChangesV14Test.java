@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -105,6 +106,8 @@ public class LuceneQueryChangesV14Test extends LuceneQueryChangesTest {
     change3 = newPatchSet(repo, change3);
     assertThat(change3.currentPatchSetId()).isNotEqualTo(ps3_1);
     // Nonzero score on previous patch set does not count.
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("review is not for current patch set");
     gApi.changes()
         .id(change3.getId().get())
         .revision(ps3_1.get())

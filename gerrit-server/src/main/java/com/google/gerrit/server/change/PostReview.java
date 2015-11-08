@@ -556,6 +556,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         if (ctx.getChange().getStatus().isClosed()) {
           throw new ResourceConflictException("change is closed");
         }
+        if (!update.getPatchSetId().equals(change.currentPatchSetId())) {
+          throw new ResourceConflictException(
+              "review is not for current patch set");
+        }
       }
       forceCallerAsReviewer(ctx, current, ups, del);
       ctx.getDb().patchSetApprovals().delete(del);

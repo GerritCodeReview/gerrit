@@ -49,6 +49,8 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 
+import com.codahale.metrics.MetricRegistry;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Iterator;
@@ -77,6 +79,7 @@ public class PluginGuiceEnvironment {
   private final List<StartPluginListener> onStart;
   private final List<StopPluginListener> onStop;
   private final List<ReloadPluginListener> onReload;
+  private final MetricRegistry metricRegistry;
 
   private Module sysModule;
   private Module sshModule;
@@ -102,12 +105,14 @@ public class PluginGuiceEnvironment {
       Injector sysInjector,
       ThreadLocalRequestContext local,
       ServerInformation srvInfo,
-      CopyConfigModule ccm) {
+      CopyConfigModule ccm,
+      MetricRegistry metricRegistry) {
     this.sysInjector = sysInjector;
     this.srvInfo = srvInfo;
     this.local = local;
     this.copyConfigModule = ccm;
     this.copyConfigKeys = Guice.createInjector(ccm).getAllBindings().keySet();
+    this.metricRegistry = metricRegistry;
 
     onStart = new CopyOnWriteArrayList<>();
     onStart.addAll(listeners(sysInjector, StartPluginListener.class));
@@ -125,6 +130,10 @@ public class PluginGuiceEnvironment {
 
   ServerInformation getServerInformation() {
     return srvInfo;
+  }
+
+  MetricRegistry getMetricsRegistry() {
+    return metricRegistry;
   }
 
   boolean hasDynamicItem(TypeLiteral<?> type) {
@@ -424,6 +433,7 @@ public class PluginGuiceEnvironment {
       }
     }
   }
+
   private void reattachItem(
       ListMultimap<TypeLiteral<?>, ReloadableRegistrationHandle<?>> oldHandles,
       Map<TypeLiteral<?>, DynamicItem<?>> items,
@@ -604,6 +614,9 @@ public class PluginGuiceEnvironment {
       return false;
     }
     if (type.getName().startsWith("com.google.gerrit.httpd.GitOverHttpServlet$")) {
+      return false;
+    }
+    if (is("com.codahale.metrics.MetricRegistry", type)) {
       return false;
     }
     return true;

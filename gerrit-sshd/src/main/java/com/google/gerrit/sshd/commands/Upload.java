@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.codahale.metrics.MetricRegistry.name;
+
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -28,6 +30,10 @@ import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import com.codahale.metrics.MetricRegistry;
+
+import org.eclipse.jgit.storage.pack.PackStatistics;
+import org.eclipse.jgit.transport.PostUploadHook;
 import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.UploadPack;
@@ -58,6 +64,9 @@ final class Upload extends AbstractGitCommand {
   @Inject
   private SshSession session;
 
+  @Inject
+  private MetricRegistry registry;
+
   @Override
   protected void runImpl() throws IOException, Failure {
     if (!projectControl.canRunUploadPack()) {
@@ -69,8 +78,16 @@ final class Upload extends AbstractGitCommand {
       up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo,
           projectControl, db.get(), true));
     }
+
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
+    up.setPostUploadHook(new PostUploadHook() {
+
+      @Override
+      public void onPostUpload(PackStatistics stats) {
+        registry.meter(name("upload", "upload-pack")).mark();
+      }
+    });
 
     List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
     allPreUploadHooks.add(uploadValidatorsFactory.create(project, repo,

@@ -1,0 +1,15 @@
+include_defs('//lib/maven.defs')
+
+maven_jar(
+  name = 'dropwizard-core',
+  id = 'io.dropwizard.metrics:metrics-core:3.1.2',
+  sha1 = '224f03afd2521c6c94632f566beb1bb5ee32cf07',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'metrics-graphite',
+  id = 'io.dropwizard.metrics:metrics-graphite:3.1.2',
+  sha1 = '15a68399652c6123fe6e4c82ac4f0749e2eb6583',
+  license = 'Apache2.0',
+)

@@ -138,6 +138,8 @@ import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 
+import com.codahale.metrics.MetricRegistry;
+
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreUploadHook;
@@ -230,6 +232,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ChangeCleanupConfig.class);
 
     bind(ApprovalsUtil.class);
+
+    bind(MetricRegistry.class);
 
     bind(RuntimeInstance.class)
         .toProvider(VelocityRuntimeProvider.class)

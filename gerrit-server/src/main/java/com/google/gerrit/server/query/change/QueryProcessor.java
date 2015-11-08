@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.codahale.metrics.MetricRegistry.name;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.collect.ImmutableList;
@@ -25,6 +26,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.IndexRewriter;
+import com.google.gerrit.server.metrics.GerritMetrics;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -32,6 +34,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import com.codahale.metrics.Timer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,17 +51,21 @@ public class QueryProcessor {
   private int start;
   private boolean enforceVisibility = true;
 
+  private final Timer executionTime;
+
   @Inject
   QueryProcessor(Provider<ReviewDb> db,
       Provider<CurrentUser> userProvider,
       ChangeControl.GenericFactory changeControlFactory,
       IndexRewriter rewriter,
-      IndexConfig indexConfig) {
+      IndexConfig indexConfig,
+      GerritMetrics metrics) {
     this.db = db;
     this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
     this.rewriter = rewriter;
     this.indexConfig = indexConfig;
+    this.executionTime = metrics.getRegistry().timer(name("queries", "executiontime"));
   }
 
   public QueryProcessor enforceVisibility(boolean enforce) {
@@ -114,6 +122,7 @@ public class QueryProcessor {
   private List<QueryResult> queryChanges(List<String> queryStrings,
       List<Predicate<ChangeData>> queries)
       throws OrmException, QueryParseException {
+    Timer.Context context = executionTime.time();
     Predicate<ChangeData> visibleToMe = enforceVisibility
         ? new IsVisibleToPredicate(db, changeControlFactory, userProvider.get())
         : null;
@@ -170,6 +179,8 @@ public class QueryProcessor {
           limits.get(i),
           matches.get(i).toList()));
     }
+    // We only want to measure successful queries
+    context.stop();
     return out;
   }
 

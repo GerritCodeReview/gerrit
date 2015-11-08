@@ -1189,6 +1189,13 @@ When applying a batch changes limit to a user the largest value
 granted by any of their groups is used. 0 means no limit.
 
 
+[[capability_changeParent]]
+=== Change Project Parent
+
+Allows changing the parent of a project. By default, only administrators
+are allowed to change the parent of a project.
+
+
 [[capability_createAccount]]
 === Create Account
 

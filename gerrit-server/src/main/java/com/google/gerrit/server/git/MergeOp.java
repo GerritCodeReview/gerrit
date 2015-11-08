@@ -892,7 +892,7 @@ public class MergeOp {
           case INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_EDITABLE:
           case INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND:
           case INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT:
-          case SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN:
+          case SETTING_PARENT_PROJECT_NOT_ALLOWED:
             setNew(commit.notes(), message(c, txt));
             throw new ResourceConflictException("Cannot merge " + commit.name()
                 + "\n" + s.getMessage());

@@ -18,6 +18,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -109,8 +110,8 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
       boolean checkIfAdmin) throws AuthException, ResourceConflictException,
       UnprocessableEntityException {
     IdentifiedUser user = ctl.getUser().asIdentifiedUser();
-    if (checkIfAdmin && !user.getCapabilities().canAdministrateServer()) {
-      throw new AuthException("not administrator");
+    if (checkIfAdmin && !user.getCapabilities().canChangeParent()) {
+      throw new AuthException("not administrator or has capability " + GlobalCapability.CHANGE_PARENT);
     }
 
     if (ctl.getProject().getNameKey().equals(allProjects)) {

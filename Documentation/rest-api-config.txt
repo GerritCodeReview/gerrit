@@ -700,6 +700,10 @@ The entries in the map are sorted by capability ID.
       "id": "administrateServer",
       "name": "Administrate Server"
     },
+    "changeParent": {
+      "id": "changeParent",
+      "name": "Change Project Parent"
+    },
     "createAccount": {
       "id": "createAccount",
       "name": "Create Account"

@@ -71,6 +71,9 @@ public class GlobalCapability {
   /** Can terminate any task using the kill command. */
   public static final String KILL_TASK = "killTask";
 
+  /** Can change the parent of a project. */
+  public static final String CHANGE_PARENT = "changeParent";
+
   /**
    * Can perform limited server maintenance.
    * <p>
@@ -125,6 +128,7 @@ public class GlobalCapability {
     NAMES_ALL.add(ACCESS_DATABASE);
     NAMES_ALL.add(ADMINISTRATE_SERVER);
     NAMES_ALL.add(BATCH_CHANGES_LIMIT);
+    NAMES_ALL.add(CHANGE_PARENT);
     NAMES_ALL.add(CREATE_ACCOUNT);
     NAMES_ALL.add(CREATE_GROUP);
     NAMES_ALL.add(CREATE_PROJECT);

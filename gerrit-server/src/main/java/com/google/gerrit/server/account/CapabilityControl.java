@@ -75,6 +75,12 @@ public class CapabilityControl {
     return canAdministrateServer;
   }
 
+  /** @return true if the user can change the parent of a project. */
+  public boolean canChangeParent() {
+    return canPerform(GlobalCapability.CHANGE_PARENT)
+      || canAdministrateServer();
+  }
+
   /** @return true if the user can create an account for another user. */
   public boolean canCreateAccount() {
     return canPerform(GlobalCapability.CREATE_ACCOUNT)

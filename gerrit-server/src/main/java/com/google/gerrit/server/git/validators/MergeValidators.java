@@ -127,14 +127,12 @@ public class MergeValidators {
               PatchSetApproval psa =
                   approvalsUtil.getSubmitter(db, commit.notes(), patchSetId);
               if (psa == null) {
-                throw new MergeValidationException(CommitMergeStatus.
-                    SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN);
+                throw new MergeValidationException(CommitMergeStatus.SETTING_PARENT_PROJECT_NOT_ALLOWED);
               }
               final IdentifiedUser submitter =
                   identifiedUserFactory.create(psa.getAccountId());
-              if (!submitter.getCapabilities().canAdministrateServer()) {
-                throw new MergeValidationException(CommitMergeStatus.
-                    SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN);
+              if (!submitter.getCapabilities().canChangeParent()) {
+                throw new MergeValidationException(CommitMergeStatus.SETTING_PARENT_PROJECT_NOT_ALLOWED);
               }
 
               if (projectCache.get(newParent) == null) {

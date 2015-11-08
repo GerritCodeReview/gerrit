@@ -94,9 +94,9 @@ public enum CommitMergeStatus {
           + "The root project cannot have a parent."),
 
   /** */
-  SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN(
+  SETTING_PARENT_PROJECT_NOT_ALLOWED(
       "Change contains a project configuration that changes the parent project.\n"
-          + "The change must be submitted by a Gerrit administrator.");
+          + "The change must be submitted by a Gerrit administrator or someone with the \"Change Project Parent\"-capability.");
 
 
   private String message;

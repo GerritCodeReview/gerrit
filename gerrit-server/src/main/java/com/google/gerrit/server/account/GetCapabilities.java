@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.common.data.GlobalCapability.ACCESS_DATABASE;
+import static com.google.gerrit.common.data.GlobalCapability.CHANGE_PARENT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_ACCOUNT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
@@ -106,6 +107,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
     }
 
     have.put(ACCESS_DATABASE, cc.canAccessDatabase());
+    have.put(CHANGE_PARENT, cc.canChangeParent());
     have.put(CREATE_ACCOUNT, cc.canCreateAccount());
     have.put(CREATE_GROUP, cc.canCreateGroup());
     have.put(CREATE_PROJECT, cc.canCreateProject());

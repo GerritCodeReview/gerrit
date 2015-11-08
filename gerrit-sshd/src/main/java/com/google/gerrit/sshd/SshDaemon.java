@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import static com.codahale.metrics.MetricRegistry.name;
 import static com.google.gerrit.server.ssh.SshAddressesModule.IANA_SSH_PORT;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -25,6 +26,7 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.metrics.GerritMetrics;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.ssh.SshListenAddresses;
@@ -33,6 +35,7 @@ import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import com.codahale.metrics.MetricRegistry;
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSchException;
 
@@ -170,7 +173,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       final KeyPairProvider hostKeyProvider, final IdGenerator idGenerator,
       @GerritServerConfig final Config cfg, final SshLog sshLog,
       @SshListenAddresses final List<SocketAddress> listen,
-      @SshAdvertisedAddresses final List<String> advertised) {
+      @SshAdvertisedAddresses final List<String> advertised,
+      final GerritMetrics metrics) {
     setPort(IANA_SSH_PORT /* never used */);
 
     this.cfg = cfg;
@@ -249,6 +253,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       @Override
       protected AbstractSession createSession(final IoSession io)
           throws Exception {
+        metrics.getRegistry().meter(name("sshd", "sessions", "created")).mark();
         if (io instanceof MinaSession) {
           if (((MinaSession) io).getSession()
               .getConfig() instanceof SocketSessionConfig) {

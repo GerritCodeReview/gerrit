@@ -106,6 +106,7 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.VelocityRuntimeProvider;
+import com.google.gerrit.server.metrics.GerritMetrics;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.notedb.NoteDbModule;
@@ -137,6 +138,8 @@ import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
+
+import com.codahale.metrics.MetricRegistry;
 
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.transport.PostReceiveHook;
@@ -230,6 +233,9 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ChangeCleanupConfig.class);
 
     bind(ApprovalsUtil.class);
+
+    bind(MetricRegistry.class);
+    bind(GerritMetrics.class);
 
     bind(RuntimeInstance.class)
         .toProvider(VelocityRuntimeProvider.class)

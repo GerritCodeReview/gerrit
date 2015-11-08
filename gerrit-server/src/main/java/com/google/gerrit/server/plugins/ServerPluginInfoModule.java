@@ -16,11 +16,18 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.annotations.PluginCanonicalWebUrl;
 import com.google.gerrit.extensions.annotations.PluginData;
+import com.google.gerrit.extensions.annotations.PluginMetrics;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.metrics.GerritMetrics;
 import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
+
+import com.codahale.metrics.MetricRegistry;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,10 +39,12 @@ class ServerPluginInfoModule extends AbstractModule {
   private final Path dataDir;
 
   private volatile boolean ready;
+  private final PluginGuiceEnvironment env;
 
-  ServerPluginInfoModule(ServerPlugin plugin) {
+  ServerPluginInfoModule(ServerPlugin plugin, PluginGuiceEnvironment env) {
     this.plugin = plugin;
     this.dataDir = plugin.getDataDir();
+    this.env = env;
   }
 
   @Override
@@ -47,6 +56,10 @@ class ServerPluginInfoModule extends AbstractModule {
     bind(String.class)
       .annotatedWith(PluginCanonicalWebUrl.class)
       .toInstance(plugin.getPluginCanonicalWebUrl());
+    bind(MetricRegistry.class)
+      .annotatedWith(PluginMetrics.class)
+      .toInstance(env.getGerritMetrics()
+      .getNewPluginMetricRegistry(plugin));
   }
 
   @Provides

@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.gerrit.server.metrics.GerritMetrics;
 import com.google.gerrit.server.util.PluginRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -97,17 +98,21 @@ public class PluginGuiceEnvironment {
   private Map<TypeLiteral<?>, DynamicMap<?>> sshMaps;
   private Map<TypeLiteral<?>, DynamicMap<?>> httpMaps;
 
+  private GerritMetrics gerritMetrics;
+
   @Inject
   PluginGuiceEnvironment(
       Injector sysInjector,
       ThreadLocalRequestContext local,
       ServerInformation srvInfo,
-      CopyConfigModule ccm) {
+      CopyConfigModule ccm,
+      GerritMetrics gerritMetrics) {
     this.sysInjector = sysInjector;
     this.srvInfo = srvInfo;
     this.local = local;
     this.copyConfigModule = ccm;
     this.copyConfigKeys = Guice.createInjector(ccm).getAllBindings().keySet();
+    this.gerritMetrics = gerritMetrics;
 
     onStart = new CopyOnWriteArrayList<>();
     onStart.addAll(listeners(sysInjector, StartPluginListener.class));
@@ -125,6 +130,10 @@ public class PluginGuiceEnvironment {
 
   ServerInformation getServerInformation() {
     return srvInfo;
+  }
+
+  public GerritMetrics getGerritMetrics() {
+    return gerritMetrics;
   }
 
   boolean hasDynamicItem(TypeLiteral<?> type) {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.codahale.metrics.MetricRegistry.name;
+
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -24,10 +26,15 @@ import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.sshd.AbstractGitCommand;
+import com.google.gerrit.server.metrics.GerritMetrics;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import com.codahale.metrics.MetricRegistry;
+
+import org.eclipse.jgit.storage.pack.PackStatistics;
+import org.eclipse.jgit.transport.PostUploadHook;
 import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.UploadPack;
@@ -58,6 +65,9 @@ final class Upload extends AbstractGitCommand {
   @Inject
   private SshSession session;
 
+  @Inject
+  private GerritMetrics metrics;
+
   @Override
   protected void runImpl() throws IOException, Failure {
     if (!projectControl.canRunUploadPack()) {
@@ -69,8 +79,23 @@ final class Upload extends AbstractGitCommand {
       up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo,
           projectControl, db.get(), true));
     }
+
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
+    up.setPostUploadHook(new PostUploadHook() {
+
+      @Override
+      public void onPostUpload(PackStatistics stats) {
+        String prefix = name("sshd", projectControl.getProject().getName(), "upload");
+        MetricRegistry registry = metrics.getRegistry();
+        registry.histogram(name(prefix, "timecounting")).update(stats.getTimeCounting());
+        registry.histogram(name(prefix, "timecompressing")).update(stats.getTimeCompressing());
+        registry.histogram(name(prefix, "bitmapindexmisses")).update(stats.getBitmapIndexMisses());
+        registry.histogram(name(prefix, "timewriting")).update(stats.getTimeWriting());
+        registry.histogram(name(prefix, "transferrate")).update((int)stats.getTransferRate());
+        registry.meter(name(prefix, "upload-pack")).mark();
+      }
+    });
 
     List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
     allPreUploadHooks.add(uploadValidatorsFactory.create(project, repo,

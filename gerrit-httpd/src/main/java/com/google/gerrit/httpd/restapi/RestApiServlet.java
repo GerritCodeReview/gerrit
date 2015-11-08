@@ -1073,7 +1073,6 @@ public class RestApiServlet extends HttpServlet {
     return asBinaryResult(buf).setContentType(bin.getContentType());
   }
 
-  @SuppressWarnings("resource")
   private static BinaryResult asBinaryResult(final TemporaryBuffer.Heap buf) {
     return new BinaryResult() {
       @Override

@@ -54,7 +54,6 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
     this.garbageCollectionFactory = garbageCollectionFactory;
   }
 
-  @SuppressWarnings("resource")
   @Override
   public BinaryResult apply(final ProjectResource rsrc, final Input input) {
     return new BinaryResult() {

@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.util.PluginRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -77,6 +78,7 @@ public class PluginGuiceEnvironment {
   private final List<StartPluginListener> onStart;
   private final List<StopPluginListener> onStop;
   private final List<ReloadPluginListener> onReload;
+  private final MetricMaker serverMetrics;
 
   private Module sysModule;
   private Module sshModule;
@@ -102,12 +104,14 @@ public class PluginGuiceEnvironment {
       Injector sysInjector,
       ThreadLocalRequestContext local,
       ServerInformation srvInfo,
-      CopyConfigModule ccm) {
+      CopyConfigModule ccm,
+      MetricMaker serverMetrics) {
     this.sysInjector = sysInjector;
     this.srvInfo = srvInfo;
     this.local = local;
     this.copyConfigModule = ccm;
     this.copyConfigKeys = Guice.createInjector(ccm).getAllBindings().keySet();
+    this.serverMetrics = serverMetrics;
 
     onStart = new CopyOnWriteArrayList<>();
     onStart.addAll(listeners(sysInjector, StartPluginListener.class));
@@ -125,6 +129,10 @@ public class PluginGuiceEnvironment {
 
   ServerInformation getServerInformation() {
     return srvInfo;
+  }
+
+  MetricMaker getServerMetrics() {
+    return serverMetrics;
   }
 
   boolean hasDynamicItem(TypeLiteral<?> type) {
@@ -424,6 +432,7 @@ public class PluginGuiceEnvironment {
       }
     }
   }
+
   private void reattachItem(
       ListMultimap<TypeLiteral<?>, ReloadableRegistrationHandle<?>> oldHandles,
       Map<TypeLiteral<?>, DynamicItem<?>> items,
@@ -562,6 +571,12 @@ public class PluginGuiceEnvironment {
       return false;
     }
     if (StopPluginListener.class.isAssignableFrom(type)) {
+      return false;
+    }
+    if (MetricMaker.class.isAssignableFrom(type)) {
+      return false;
+    }
+    if (com.codahale.metrics.MetricRegistry.class.isAssignableFrom(type)) {
       return false;
     }
 

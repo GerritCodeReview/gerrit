@@ -32,6 +32,7 @@ import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UploadPackMetricsHook;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -224,14 +225,18 @@ public class GitOverHttpServlet extends GitServlet {
     private final TagCache tagCache;
     private final ChangeCache changeCache;
     private final UploadValidators.Factory uploadValidatorsFactory;
+    private final UploadPackMetricsHook uploadMetrics;
 
     @Inject
-    UploadFilter(Provider<ReviewDb> db, TagCache tagCache, ChangeCache changeCache,
-        UploadValidators.Factory uploadValidatorsFactory) {
+    UploadFilter(Provider<ReviewDb> db, TagCache tagCache,
+        ChangeCache changeCache,
+        UploadValidators.Factory uploadValidatorsFactory,
+        UploadPackMetricsHook uploadMetrics) {
       this.db = db;
       this.tagCache = tagCache;
       this.changeCache = changeCache;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
+      this.uploadMetrics = uploadMetrics;
     }
 
     @Override
@@ -248,6 +253,7 @@ public class GitOverHttpServlet extends GitServlet {
             "upload-pack not permitted on this server");
         return;
       }
+
       // We use getRemoteHost() here instead of getRemoteAddr() because REMOTE_ADDR
       // may have been overridden by a proxy server -- we'll try to avoid this.
       UploadValidators uploadValidators =
@@ -258,7 +264,7 @@ public class GitOverHttpServlet extends GitServlet {
         up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache,
             repo, pc, db.get(), true));
       }
-
+      up.setPostUploadHook(uploadMetrics);
       next.doFilter(request, response);
     }
 

@@ -106,6 +106,7 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.VelocityRuntimeProvider;
+import com.google.gerrit.server.metrics.GerritMetrics;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.notedb.NoteDbModule;
@@ -156,6 +157,7 @@ public class GerritGlobalModule extends FactoryModule {
 
   @Override
   protected void configure() {
+    DynamicSet.bind(binder(), LifecycleListener.class).to(GerritMetrics.class);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
 

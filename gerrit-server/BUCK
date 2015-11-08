@@ -53,6 +53,8 @@ java_library(
     '//lib/commons:lang',
     '//lib/commons:net',
     '//lib/commons:validator',
+    '//lib/dropwizard:dropwizard-core',
+    '//lib/dropwizard:metrics-graphite',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',

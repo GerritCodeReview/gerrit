@@ -51,7 +51,7 @@ Gerrit is provided under the Apache License 2.0.
 Install [Buck](http://facebook.github.io/buck/setup/install.html) and run the following:
 
         git clone --recursive https://gerrit.googlesource.com/gerrit
-        cd gerrit && buck build all
+        cd gerrit && buck build release
 
 ## Install binary packages (Deb/Rpm)
 

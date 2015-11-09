@@ -3,8 +3,8 @@ include_defs('//Documentation/config.defs')
 include_defs('//tools/git.defs')
 
 DOC_DIR = 'Documentation'
-JSUI = ['//gerrit-gwtui:ui_module']
-MAIN = ['//gerrit-pgm:pgm'] + JSUI
+JSUI = '//gerrit-gwtui:ui_module'
+MAIN = '//gerrit-pgm:pgm'
 SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
 
 genasciidoc(
@@ -30,16 +30,19 @@ genasciidoc(
 
 genrule(
   name = 'licenses.txt',
-  cmd = '$(exe :gen_licenses) --asciidoc ' + ' '.join(MAIN) + ' >$OUT',
-  deps = MAIN,
+  cmd = '$(exe :gen_licenses) --asciidoc '
+    + '--classpath $(classpath %s) ' % MAIN
+    + '--classpath $(classpath %s) ' % JSUI
+    + MAIN + ' ' + JSUI + ' >$OUT',
   out = 'licenses.txt',
 )
 
 # Required by Google for gerrit-review.
 genrule(
   name = 'js_licenses.txt',
-  cmd = '$(exe :gen_licenses) --partial ' + ' '.join(JSUI) + ' >$OUT',
-  deps = JSUI,
+  cmd = '$(exe :gen_licenses) --partial '
+    + '--classpath $(classpath %s) ' % JSUI
+    + JSUI + ' >$OUT',
   out = 'js_licenses.txt',
 )
 

@@ -38,7 +38,6 @@ genrule(
   name = 'webapp_assets',
   cmd = 'cd src/main/webapp; zip -qr $OUT .',
   srcs = glob(['src/main/webapp/**/*']),
-  deps = [],
   out = 'webapp_assets.zip',
   visibility = ['//:'],
 )

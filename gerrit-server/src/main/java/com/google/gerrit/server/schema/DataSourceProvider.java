@@ -27,6 +27,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,21 +48,22 @@ import javax.sql.DataSource;
 @Singleton
 public class DataSourceProvider implements Provider<DataSource>,
     LifecycleListener {
-  public static final int DEFAULT_POOL_LIMIT = 8;
-
   private final Config cfg;
   private final MetricMaker metrics;
   private final Context ctx;
   private final DataSourceType dst;
+  private final ThreadSettingsConfig threadSettingsConfig;
   private DataSource ds;
 
   @Inject
   protected DataSourceProvider(@GerritServerConfig Config cfg,
       MetricMaker metrics,
+      ThreadSettingsConfig threadSettingsConfig,
       Context ctx,
       DataSourceType dst) {
     this.cfg = cfg;
     this.metrics = metrics;
+    this.threadSettingsConfig = threadSettingsConfig;
     this.ctx = ctx;
     this.dst = dst;
   }
@@ -127,7 +129,7 @@ public class DataSourceProvider implements Provider<DataSource>,
       if (password != null && !password.isEmpty()) {
         ds.setPassword(password);
       }
-      ds.setMaxActive(cfg.getInt("database", "poollimit", DEFAULT_POOL_LIMIT));
+      ds.setMaxActive(threadSettingsConfig.getDatabasePoolLimit());
       ds.setMinIdle(cfg.getInt("database", "poolminidle", 4));
       ds.setMaxIdle(cfg.getInt("database", "poolmaxidle", 4));
       ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,

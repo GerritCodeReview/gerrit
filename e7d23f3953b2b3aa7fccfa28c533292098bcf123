@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "96657a98_c8c5ef62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2015-11-09T07:49:12Z",
+      "side": 1,
+      "message": "I\u0027m aware of the use-case and usefulness of this feature. But there simply are too many \"mays\" in your sentence, i.e. that new feature should not always be turned on. In the best case it would be a per-user setting, as different users might have different preferences on how they review code, independently of the project\u0027s common review workflow.",
+      "parentUuid": "d698d291_222dcecf",
+      "revId": "e7d23f3953b2b3aa7fccfa28c533292098bcf123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96657a98_68b08303",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4

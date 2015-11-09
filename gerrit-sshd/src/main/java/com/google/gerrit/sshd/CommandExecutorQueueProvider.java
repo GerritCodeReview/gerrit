@@ -35,7 +35,7 @@ public class CommandExecutorQueueProvider implements QueueProvider {
       final WorkQueue queues) {
     final int cores = Runtime.getRuntime().availableProcessors();
     poolSize = config.getInt("sshd", "threads", 3 * cores / 2);
-    batchThreads = config.getInt("sshd", "batchThreads", 0);
+    batchThreads = config.getInt("sshd", "batchThreads", cores == 1 ? 1 : 2);
     if (batchThreads > poolSize) {
       poolSize += batchThreads;
     }

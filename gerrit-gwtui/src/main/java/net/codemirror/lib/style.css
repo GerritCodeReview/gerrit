@@ -34,9 +34,11 @@
 /* Minimum scrollbar bubble size even on large files. */
 .CodeMirror-overlayscroll-horizontal div {
   min-width: 25px;
+  min-height: 16px;
 }
 .CodeMirror-overlayscroll-vertical div {
   min-height: 25px;
+  min-width: 16px;
 }
 
 /* Stack the scrollbar so annotations can receive clicks. */

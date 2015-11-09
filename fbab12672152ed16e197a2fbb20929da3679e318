@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56f4e201_1e05cd54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-09T18:24:47Z",
+      "side": 0,
+      "message": "because we\u0027re missing the projectCache here",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 119,
+        "endChar": 55
+      },
+      "revId": "fbab12672152ed16e197a2fbb20929da3679e318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

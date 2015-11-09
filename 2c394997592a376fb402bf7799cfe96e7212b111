@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_9ca3a5c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Is there a way to teach eclipse that we want that formatting? Eclipse auto-formatted it this way.",
+      "parentUuid": "56f4e201_1ede6d2c",
+      "range": {
+        "startLine": 219,
+        "startChar": 31,
+        "endLine": 219,
+        "endChar": 35
+      },
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_282c8b41",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Restore.java",
         "patchSetId": 1
@@ -71,6 +95,24 @@
       "writtenOn": "2015-11-09T18:26:28Z",
       "side": 1,
       "message": "line wrap as in old version",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_3b08976e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Restore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_282c8b41",
       "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -94,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_fca8e99e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Right. I\u0027ll fix that in a separate change.",
+      "parentUuid": "56f4e201_9e18bdc5",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56f4e201_fe0d8181",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -105,6 +165,24 @@
       "writtenOn": "2015-11-09T18:26:28Z",
       "side": 1,
       "message": "These @throws are pointless to document like this. Just revert that hunk.",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9cca8571",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Yeah, eclipse again. I\u0027ll fix.",
+      "parentUuid": "56f4e201_fe0d8181",
       "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_9b18cbc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_883ad773",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56f4e201_de1245a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -139,6 +235,24 @@
       "writtenOn": "2015-11-09T18:26:28Z",
       "side": 1,
       "message": "as above",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_1c05d554",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56f4e201_de1245a1",
       "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -162,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_bb1307a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_68368393",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_a8379b8a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -179,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_7beb3fce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_a8379b8a",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_c844cffa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -190,6 +340,30 @@
       "writtenOn": "2015-11-09T18:26:28Z",
       "side": 1,
       "message": "We need to use the NoteDb APIs here.\n\nAbove there is a ChangeNotes notes field. You\u0027ll need to use that here to get the approval information.",
+      "range": {
+        "startLine": 277,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 62
+      },
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_1bde7b2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_c844cffa",
       "range": {
         "startLine": 277,
         "startChar": 4,
@@ -225,6 +399,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_5ce8fdcf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_084ee717",
+      "range": {
+        "startLine": 279,
+        "startChar": 9,
+        "endLine": 279,
+        "endChar": 14
+      },
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_4848df08",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -236,6 +434,30 @@
       "writtenOn": "2015-11-09T18:26:28Z",
       "side": 1,
       "message": "combine these conditionals together and test the value first as its faster to compare against then the string.",
+      "range": {
+        "startLine": 281,
+        "startChar": 6,
+        "endLine": 283,
+        "endChar": 36
+      },
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_fc0d8981",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_4848df08",
       "range": {
         "startLine": 281,
         "startChar": 6,

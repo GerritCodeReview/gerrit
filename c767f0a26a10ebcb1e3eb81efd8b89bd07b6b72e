@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_bcfdc162",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T20:59:19Z",
+      "side": 1,
+      "message": "Change revert() to take a RefControl instead. It really just needs the Project off the ProjectControl if I read the code right.",
+      "revId": "c767f0a26a10ebcb1e3eb81efd8b89bd07b6b72e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

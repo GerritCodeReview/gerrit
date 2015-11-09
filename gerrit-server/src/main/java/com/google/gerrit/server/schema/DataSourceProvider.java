@@ -124,7 +124,7 @@ public class DataSourceProvider implements Provider<DataSource>,
       }
       ds.setMaxActive(threadSettingsConfig.getDatabasePoolLimit());
       ds.setMinIdle(cfg.getInt("database", "poolminidle", 4));
-      ds.setMaxIdle(cfg.getInt("database", "poolmaxidle", 4));
+      ds.setMaxIdle(cfg.getInt("database", "poolmaxidle", 16));
       ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,
           "poolmaxwait", MILLISECONDS.convert(30, SECONDS), MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());

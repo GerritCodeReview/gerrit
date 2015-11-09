@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56f4e201_9eca7d71",
+        "filename": "contrib/convertkey/src/main/java/com/googlesource/gerrit/convertkey/ConvertKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-09T17:58:37Z",
+      "side": 1,
+      "message": "Do you want to put a licence/copyright header on this?",
+      "revId": "9310556875f6e896a3fa5c4fca2c6ae29799e8e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

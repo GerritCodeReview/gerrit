@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,15 +15,19 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.AccountInfo;
 
+import java.util.Collection;
 
-/** Notified whenever a project is created on the master. */
+/** Notified whenever a Change's Hashtags are edited. */
 @ExtensionPoint
-public interface NewProjectCreatedListener {
-  interface Event {
-    String getProjectName();
-    String getHeadName();
+public interface HashtagsEditedListener {
+  interface Event extends ChangeEvent {
+    AccountInfo getEditor();
+    Collection<String> getHashtags();
+    Collection<String> getAddedHashtags();
+    Collection<String> getRemovedHashtags();
   }
 
-  void onNewProjectCreated(Event event);
+  void onHashtagsEdited(Event event);
 }

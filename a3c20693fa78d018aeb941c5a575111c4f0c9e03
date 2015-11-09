@@ -2,6 +2,86 @@
   "comments": [
     {
       "key": {
+        "uuid": "967d7aef_e87c3350",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T18:45:25Z",
+      "side": 1,
+      "message": "On the ChangeScreen we do highlight the \u0027Reply\u0027 button (blue color) when there is an unpublished message or when they are draft comments. When the message is loaded from the cookie this highlighting is not done, but it should.",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 36
+      },
+      "revId": "a3c20693fa78d018aeb941c5a575111c4f0c9e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76800614_e74e2240",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T18:45:25Z",
+      "side": 1,
+      "message": "Drop \u0027final\u0027 here, we are no longer using final for method arguments if not required.",
+      "range": {
+        "startLine": 210,
+        "startChar": 30,
+        "endLine": 210,
+        "endChar": 35
+      },
+      "revId": "a3c20693fa78d018aeb941c5a575111c4f0c9e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_fba8ef9e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T18:45:25Z",
+      "side": 1,
+      "message": "Maybe we should have an own class that cares about constructing the cookie names so that we have it only a single place.",
+      "revId": "a3c20693fa78d018aeb941c5a575111c4f0c9e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_bb9e6777",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/CommentEditorPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T18:45:25Z",
+      "side": 1,
+      "message": "line too long",
+      "revId": "a3c20693fa78d018aeb941c5a575111c4f0c9e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9234eeb_a7b40a0b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/CommentEditorPanel.java",
         "patchSetId": 1

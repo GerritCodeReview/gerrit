@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f6f876fc_1bb03b02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:49:15Z",
+      "side": 1,
+      "message": "I would prefer local database storage instead of cookie storage so they aren\u0027t sent over the network to the server.",
+      "revId": "a3c20693fa78d018aeb941c5a575111c4f0c9e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_e87c3350",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.java",
         "patchSetId": 1

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -103,23 +104,27 @@ public class ChangeControl {
   private final ChangeData.Factory changeDataFactory;
   private final RefControl refControl;
   private final ChangeNotes notes;
+  private final ApprovalsUtil approvalsUtil;
 
   @AssistedInject
   ChangeControl(
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory notesFactory,
+      ApprovalsUtil approvalsUtil,
       @Assisted RefControl refControl,
       @Assisted Change change) {
-    this(changeDataFactory, refControl,
+    this(changeDataFactory, approvalsUtil, refControl,
         notesFactory.create(change));
   }
 
   @AssistedInject
   ChangeControl(
       ChangeData.Factory changeDataFactory,
+      ApprovalsUtil approvalsUtil,
       @Assisted RefControl refControl,
       @Assisted ChangeNotes notes) {
     this.changeDataFactory = changeDataFactory;
+    this.approvalsUtil = approvalsUtil;
     this.refControl = refControl;
     this.notes = notes;
   }
@@ -128,7 +133,7 @@ public class ChangeControl {
     if (getUser().equals(who)) {
       return this;
     }
-    return new ChangeControl(changeDataFactory,
+    return new ChangeControl(changeDataFactory, approvalsUtil,
         getRefControl().forUser(who), notes);
   }
 
@@ -190,13 +195,13 @@ public class ChangeControl {
   }
 
   /** Can this user abandon this change? */
-  public boolean canAbandon() {
-    return isOwner() // owner (aka creator) of the change can abandon
+  public boolean canAbandon(ReviewDb db) throws OrmException {
+    return (isOwner() // owner (aka creator) of the change can abandon
         || getRefControl().isOwner() // branch owner can abandon
         || getProjectControl().isOwner() // project owner can abandon
         || getUser().getCapabilities().canAdministrateServer() // site administers are god
         || getRefControl().canAbandon() // user can abandon a specific ref
-    ;
+        ) && !isPatchSetLocked(db);
   }
 
   /** Can this user publish this draft change or any draft patch set of this change? */
@@ -212,14 +217,14 @@ public class ChangeControl {
   }
 
   /** Can this user rebase this change? */
-  public boolean canRebase() {
-    return isOwner() || getRefControl().canSubmit()
-        || getRefControl().canRebase();
+  public boolean canRebase(ReviewDb db) throws OrmException {
+    return (isOwner() || getRefControl().canSubmit()
+        || getRefControl().canRebase()) && !isPatchSetLocked(db);
   }
 
   /** Can this user restore this change? */
-  public boolean canRestore() {
-    return canAbandon() // Anyone who can abandon the change can restore it back
+  public boolean canRestore(ReviewDb db) throws OrmException {
+    return canAbandon(db) // Anyone who can abandon the change can restore it back
         && getRefControl().canUpload(); // as long as you can upload too
   }
 
@@ -258,8 +263,25 @@ public class ChangeControl {
   }
 
   /** Can this user add a patch set to this change? */
-  public boolean canAddPatchSet() {
-    return getRefControl().canUpload();
+  public boolean canAddPatchSet(ReviewDb db) throws OrmException {
+    return getRefControl().canUpload() && !isPatchSetLocked(db);
+  }
+
+  /** Is the current patch set locked against state changes? */
+  public boolean isPatchSetLocked(ReviewDb db) throws OrmException {
+    if (getChange().getStatus() == Change.Status.MERGED) {
+      return false;
+    }
+
+    for (PatchSetApproval ap : approvalsUtil.byPatchSet(db, this,
+        getChange().currentPatchSetId())) {
+      LabelType type = getLabelTypes().byLabel(ap.getLabel());
+      if (type != null && ap.getValue() == 1
+          && type.getFunctionName().equalsIgnoreCase("PatchSetLock")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /** Is this user the owner of the change? */

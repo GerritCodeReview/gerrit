@@ -1966,7 +1966,7 @@ public class ReceiveCommits {
       }
     }
 
-    boolean validate(boolean autoClose) throws IOException {
+    boolean validate(boolean autoClose) throws IOException, OrmException {
       if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
         return false;
       } else if (change == null) {
@@ -1989,8 +1989,12 @@ public class ReceiveCommits {
       }
 
       changeCtl = projectControl.controlFor(change);
-      if (!changeCtl.canAddPatchSet()) {
-        reject(inputCommand, "cannot replace " + ontoChange);
+      if (!changeCtl.canAddPatchSet(db)) {
+        String locked = ".";
+        if (changeCtl.isPatchSetLocked(db)) {
+          locked = ". Change is patch set locked.";
+        }
+        reject(inputCommand, "cannot replace " + ontoChange + locked);
         return false;
       } else if (change.getStatus().isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "967d7aef_0827c75f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-09T18:21:00Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

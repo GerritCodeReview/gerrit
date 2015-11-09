@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
@@ -31,11 +32,13 @@ public class CommandExecutorQueueProvider implements QueueProvider {
   private final WorkQueue.Executor batchExecutor;
 
   @Inject
-  public CommandExecutorQueueProvider(@GerritServerConfig final Config config,
-      final WorkQueue queues) {
-    final int cores = Runtime.getRuntime().availableProcessors();
-    poolSize = config.getInt("sshd", "threads", 3 * cores / 2);
-    batchThreads = config.getInt("sshd", "batchThreads", cores == 1 ? 1 : 2);
+  public CommandExecutorQueueProvider(
+      @GerritServerConfig Config config,
+      ThreadSettingsConfig threadsSettingsConfig,
+      WorkQueue queues) {
+    poolSize = threadsSettingsConfig.getSshdThreads();
+    batchThreads = config.getInt("sshd", "batchThreads",
+        threadsSettingsConfig.getSshdBatchTreads());
     if (batchThreads > poolSize) {
       poolSize += batchThreads;
     }

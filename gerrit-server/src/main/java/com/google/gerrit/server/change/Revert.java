@@ -29,8 +29,8 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -59,9 +59,9 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   public ChangeInfo apply(ChangeResource req, RevertInput input)
       throws IOException, OrmException, RestApiException,
       UpdateException {
-    ChangeControl control = req.getControl();
+    RefControl refControl = req.getControl().getRefControl();
     Change change = req.getChange();
-    if (!control.canAddPatchSet()) {
+    if (!refControl.canUpload()) {
       throw new AuthException("revert not permitted");
     } else if (change.getStatus() != Status.MERGED) {
       throw new ResourceConflictException("change is " + status(change));
@@ -69,7 +69,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
     Change.Id revertedChangeId;
     try {
-      revertedChangeId = changeUtil.revert(control,
+      revertedChangeId = changeUtil.revert(req.getControl(),
             change.currentPatchSetId(),
             Strings.emptyToNull(input.message),
             new PersonIdent(myIdent, TimeUtil.nowTs()));

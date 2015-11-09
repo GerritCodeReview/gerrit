@@ -22,6 +22,30 @@
       "revId": "254584152a1953d04be0b4e5c5bb0008b9e2569c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_1b6b1bc8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T22:05:58Z",
+      "side": 1,
+      "message": "Poorly, I\u0027m sure.",
+      "parentUuid": "16feeae5_fc53c91c",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 62
+      },
+      "revId": "254584152a1953d04be0b4e5c5bb0008b9e2569c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

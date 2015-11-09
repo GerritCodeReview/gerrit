@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f66b162f_03d7aee5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T15:10:58Z",
+      "side": 1,
+      "message": "Would insert a space between \u0027of\u0027 and \u0027[1]\u0027.",
+      "revId": "ba8a676f6d175594ebb6df630773ef20edf955a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_44f8ce6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T15:10:58Z",
+      "side": 1,
+      "message": "Why 50 (from 0)? -Maybe this default should be documented as well, accordingly versus its needed value (i.e., in gerrit doc per se).",
+      "range": {
+        "startLine": 46,
+        "startChar": 47,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "ba8a676f6d175594ebb6df630773ef20edf955a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

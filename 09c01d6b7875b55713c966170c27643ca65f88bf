@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_bc3ae117",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedSkipBar.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T19:14:28Z",
+      "side": 1,
+      "message": "dead code",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 49
+      },
+      "revId": "09c01d6b7875b55713c966170c27643ca65f88bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_5cff5d82",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedTable.ui.xml",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T19:14:28Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "09c01d6b7875b55713c966170c27643ca65f88bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_fb0d8f81",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedTable.ui.xml",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T19:14:28Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "09c01d6b7875b55713c966170c27643ca65f88bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

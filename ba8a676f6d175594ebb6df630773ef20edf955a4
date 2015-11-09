@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "76800614_676312c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-09T17:02:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f66b162f_03d7aee5",
+      "revId": "ba8a676f6d175594ebb6df630773ef20edf955a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16718a1c_44f8ce6e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
         "patchSetId": 1
@@ -53,6 +71,30 @@
       "writtenOn": "2015-11-09T15:13:50Z",
       "side": 1,
       "message": "Please read \u00278\u0027 in above comment, rather than 0; missed a pixel or two ;)",
+      "parentUuid": "16718a1c_44f8ce6e",
+      "range": {
+        "startLine": 46,
+        "startChar": 47,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "ba8a676f6d175594ebb6df630773ef20edf955a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_c8512fe3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-09T17:02:16Z",
+      "side": 1,
+      "message": "Sorry, forgot to update documentation for this change.\n\nRegarding \u002750\u0027, this is an arbitrary picked number greater then 16 (see database.poolmaxidle) that was proven to work well in our performance lab",
       "parentUuid": "16718a1c_44f8ce6e",
       "range": {
         "startLine": 46,

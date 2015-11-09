@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56f4e201_1eb02d02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T17:52:46Z",
+      "side": 1,
+      "message": "Isn\u0027t the recommended default like httpd.maxThreads + sshd.threads + 2 or something?  Shoudl we do that here?",
+      "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

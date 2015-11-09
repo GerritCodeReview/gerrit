@@ -105,6 +105,30 @@
       "revId": "ba8a676f6d175594ebb6df630773ef20edf955a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_8311de6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T17:27:04Z",
+      "side": 1,
+      "message": "Not sure if I feel comfortable with raising that default as much as to 50 (from 8, or \u003e16). I mean, default could be set to 24, or 32, even though I understand your specific need for 50 or around. I find the latter a quite-high default value compared to before, that is, to accommodate for a specific (albeit important!) deployment. I\u0027d basically worry about the level of arbitrary that support choosing 50 in particular. I\u0027d be interested to hear from other reviewers then on this; thx.",
+      "parentUuid": "967d7aef_c8512fe3",
+      "range": {
+        "startLine": 46,
+        "startChar": 47,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "ba8a676f6d175594ebb6df630773ef20edf955a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

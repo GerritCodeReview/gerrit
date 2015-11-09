@@ -196,6 +196,12 @@ limitations under the License.
           or <g:CheckBox ui:field='contextEntireFile'>entire file</g:CheckBox></ui:msg></td>
       </tr>
       <tr>
+        <th><ui:msg>Cursor Blink Rate</ui:msg></th>
+        <td><x:NpIntTextBox ui:field='cursorBlinkRate'
+            visibleLength='4'
+            alignment='RIGHT'/></td>
+      </tr>
+      <tr>
         <th><ui:msg>Intraline Difference</ui:msg></th>
         <td><g:ToggleButton ui:field='intralineDifference'>
           <g:upFace><ui:msg>Hide</ui:msg></g:upFace>
@@ -281,6 +287,13 @@ limitations under the License.
         <td><g:ToggleButton ui:field='renderEntireFile'>
           <g:upFace><ui:msg>Fast</ui:msg></g:upFace>
           <g:downFace><ui:msg>Slow</ui:msg></g:downFace>
+        </g:ToggleButton></td>
+      </tr>
+      <tr>
+        <th><ui:msg>Match Brackets</ui:msg></th>
+        <td><g:ToggleButton ui:field='matchBrackets'>
+          <g:upFace><ui:msg>Off</ui:msg></g:upFace>
+          <g:downFace><ui:msg>On</ui:msg></g:downFace>
         </g:ToggleButton></td>
       </tr>
       <tr>

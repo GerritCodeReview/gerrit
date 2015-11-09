@@ -1259,6 +1259,7 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
+    "cursor_blink_rate": 500,
     "show_tabs": true,
     "show_whitespace_errors": true,
     "syntax_highlighting": true,
@@ -1288,6 +1289,7 @@ link:#diff-preferences-input[DiffPreferencesInput] entity.
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
+    "cursor_blink_rate": 500,
     "show_line_endings": true,
     "show_tabs": true,
     "show_whitespace_errors": true,
@@ -1672,6 +1674,9 @@ Allowed values are `IGNORE_NONE`, `IGNORE_TRAILING`,
 Whether intraline differences should be highlighted.
 |`line_length`                 ||
 Number of characters that should be displayed in one line.
+|`cursor_blink_rate`           ||
+Half-period in milliseconds used for cursor blinking.
+Setting it to 0 disables cursor blinking.
 |`manual_review`               |not set if `false`|
 Whether the 'Reviewed' flag should not be set automatically on a patch
 when it is viewed.
@@ -1704,6 +1709,8 @@ Number of spaces that should be used to display one tab.
 |'hide_empty_pane'             |not set if `false`|
 Whether empty panes should be hidden. The left pane is empty when a
 file was added; the right pane is empty when a file was deleted.
+|`match_brackets`              |not set if `false`|
+Whether matching brackets should be highlighted.
 |===========================================
 
 [[diff-preferences-input]]

@@ -28,6 +28,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.ignoreWhitespace(in.ignoreWhitespace);
     p.tabSize(in.tabSize);
     p.lineLength(in.lineLength);
+    p.cursorBlinkRate(in.cursorBlinkRate);
     p.context(in.context);
     p.intralineDifference(in.intralineDifference);
     p.showLineEndings(in.showLineEndings);
@@ -45,6 +46,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.retainHeader(in.retainHeader);
     p.skipUncommented(in.skipUncommented);
     p.skipDeleted(in.skipDeleted);
+    p.matchBrackets(in.matchBrackets);
     return p;
   }
 
@@ -52,6 +54,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.context = context();
     p.tabSize = tabSize();
     p.lineLength = lineLength();
+    p.cursorBlinkRate = cursorBlinkRate();
     p.expandAllComments = expandAllComments();
     p.intralineDifference = intralineDifference();
     p.manualReview = manualReview();
@@ -67,6 +70,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.hideLineNumbers = hideLineNumbers();
     p.renderEntireFile = renderEntireFile();
     p.hideEmptyPane = hideEmptyPane();
+    p.matchBrackets = matchBrackets();
     p.theme = theme();
     p.ignoreWhitespace = ignoreWhitespace();
   }
@@ -105,6 +109,10 @@ public class DiffPreferences extends JavaScriptObject {
     return get("line_length", 100);
   }
 
+  public final int cursorBlinkRate() {
+    return get("cursor_blink_rate", 0);
+  }
+
   public final boolean showLineNumbers() {
     return !hideLineNumbers();
   }
@@ -116,6 +124,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
   public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
   public final native void context(int c) /*-{ this.context = c }-*/;
+  public final native void cursorBlinkRate(int r) /*-{ this.cursor_blink_rate = r }-*/;
   public final native void intralineDifference(boolean i) /*-{ this.intraline_difference = i }-*/;
   public final native void showLineEndings(boolean s) /*-{ this.show_line_endings = s }-*/;
   public final native void showTabs(boolean s) /*-{ this.show_tabs = s }-*/;
@@ -127,10 +136,11 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void expandAllComments(boolean e) /*-{ this.expand_all_comments = e }-*/;
   public final native void manualReview(boolean r) /*-{ this.manual_review = r }-*/;
   public final native void renderEntireFile(boolean r) /*-{ this.render_entire_file = r }-*/;
-  public final native void hideEmptyPane(boolean s) /*-{ this.hide_empty_pane = s }-*/;
   public final native void retainHeader(boolean r) /*-{ this.retain_header = r }-*/;
+  public final native void hideEmptyPane(boolean s) /*-{ this.hide_empty_pane = s }-*/;
   public final native void skipUncommented(boolean s) /*-{ this.skip_uncommented = s }-*/;
   public final native void skipDeleted(boolean s) /*-{ this.skip_deleted = s }-*/;
+  public final native void matchBrackets(boolean m) /*-{ this.match_brackets = m }-*/;
   public final native boolean intralineDifference() /*-{ return this.intraline_difference || false }-*/;
   public final native boolean showLineEndings() /*-{ return this.show_line_endings || false }-*/;
   public final native boolean showTabs() /*-{ return this.show_tabs || false }-*/;
@@ -146,6 +156,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean retainHeader() /*-{ return this.retain_header || false }-*/;
   public final native boolean skipUncommented() /*-{ return this.skip_uncommented || false }-*/;
   public final native boolean skipDeleted() /*-{ return this.skip_deleted || false }-*/;
+  public final native boolean matchBrackets() /*-{ return this.match_brackets || false }-*/;
 
   private final native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
   private final native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;

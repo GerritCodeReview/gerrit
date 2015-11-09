@@ -42,6 +42,7 @@ public class DiffPreferencesInfo {
   public Integer context;
   public Integer tabSize;
   public Integer lineLength;
+  public Integer cursorBlinkRate;
   public Boolean expandAllComments;
   public Boolean intralineDifference;
   public Boolean manualReview;
@@ -54,6 +55,7 @@ public class DiffPreferencesInfo {
   public Boolean hideLineNumbers;
   public Boolean renderEntireFile;
   public Boolean hideEmptyPane;
+  public Boolean matchBrackets;
   public Theme theme;
   public Whitespace ignoreWhitespace;
   public Boolean retainHeader;
@@ -65,6 +67,7 @@ public class DiffPreferencesInfo {
     i.context = DEFAULT_CONTEXT;
     i.tabSize = DEFAULT_TAB_SIZE;
     i.lineLength = DEFAULT_LINE_LENGTH;
+    i.cursorBlinkRate = 0;
     i.ignoreWhitespace = Whitespace.IGNORE_NONE;
     i.theme = Theme.DEFAULT;
     i.expandAllComments = false;
@@ -82,6 +85,7 @@ public class DiffPreferencesInfo {
     i.hideLineNumbers = false;
     i.renderEntireFile = false;
     i.hideEmptyPane = false;
+    i.matchBrackets = false;
     return i;
   }
 }

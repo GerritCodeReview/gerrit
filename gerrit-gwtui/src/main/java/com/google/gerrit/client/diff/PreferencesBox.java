@@ -14,12 +14,13 @@
 
 package com.google.gerrit.client.diff;
 
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.DEFAULT_CONTEXT;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_ALL;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_LEADING_AND_TRAILING;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_NONE;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_TRAILING;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.DEFAULT_CONTEXT;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.WHOLE_FILE_CONTEXT;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_ALL;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_LEADING_AND_TRAILING;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_NONE;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_TRAILING;
+
 import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
 
 import com.google.gerrit.client.Gerrit;
@@ -85,6 +86,7 @@ public class PreferencesBox extends Composite {
   @UiField NpIntTextBox tabWidth;
   @UiField NpIntTextBox lineLength;
   @UiField NpIntTextBox context;
+  @UiField NpIntTextBox cursorBlinkRate;
   @UiField CheckBox contextEntireFile;
   @UiField ToggleButton intralineDifference;
   @UiField ToggleButton syntaxHighlighting;
@@ -99,6 +101,7 @@ public class PreferencesBox extends Composite {
   @UiField ToggleButton manualReview;
   @UiField ToggleButton expandAllComments;
   @UiField ToggleButton renderEntireFile;
+  @UiField ToggleButton matchBrackets;
   @UiField ListBox theme;
   @UiField Element modeLabel;
   @UiField ListBox mode;
@@ -172,6 +175,7 @@ public class PreferencesBox extends Composite {
       lineLength.setEnabled(true);
       lineLength.setIntValue(prefs.lineLength());
     }
+    cursorBlinkRate.setIntValue(prefs.cursorBlinkRate());
     syntaxHighlighting.setValue(prefs.syntaxHighlighting());
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     showTabs.setValue(prefs.showTabs());
@@ -189,6 +193,7 @@ public class PreferencesBox extends Composite {
     autoHideDiffTableHeader.setValue(!prefs.autoHideDiffTableHeader());
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
+    matchBrackets.setValue(prefs.matchBrackets());
     setTheme(prefs.theme());
 
     if (view == null || view.canRenderEntireFile(prefs)) {
@@ -342,6 +347,20 @@ public class PreferencesBox extends Composite {
     }
   }
 
+  @UiHandler("cursorBlinkRate")
+  void onCursoBlinkRate(ValueChangeEvent<String> e) {
+    String v = e.getValue();
+    if (v != null && v.length() > 0) {
+      // A negative value hides the cursor entirely:
+      // don't let user shoot himself in the foot.
+      prefs.cursorBlinkRate(Math.max(0, Integer.parseInt(v)));
+      view.getCmFromSide(DisplaySide.A).setOption("cursorBlinkRate",
+          prefs.cursorBlinkRate());
+      view.getCmFromSide(DisplaySide.B).setOption("cursorBlinkRate",
+          prefs.cursorBlinkRate());
+    }
+  }
+
   @UiHandler("showTabs")
   void onShowTabs(ValueChangeEvent<Boolean> e) {
     prefs.showTabs(e.getValue());
@@ -463,6 +482,15 @@ public class PreferencesBox extends Composite {
     if (view != null) {
       view.updateRenderEntireFile();
     }
+  }
+
+  @UiHandler("matchBrackets")
+  void onMatchBrackets(ValueChangeEvent<Boolean> e) {
+    prefs.matchBrackets(e.getValue());
+    view.getCmFromSide(DisplaySide.A).setOption("matchBrackets",
+        prefs.matchBrackets());
+    view.getCmFromSide(DisplaySide.B).setOption("matchBrackets",
+        prefs.matchBrackets());
   }
 
   @UiHandler("theme")

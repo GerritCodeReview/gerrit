@@ -22,20 +22,11 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
-import com.google.gerrit.testutil.ConfigSuite;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class DiffPreferencesIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config readFromGitConfig() {
-    Config cfg = new Config();
-    cfg.setBoolean("user", null, "readPrefsFromGit", true);
-    return cfg;
-  }
-
   @Test
   public void getDiffPreferencesOfNonExistingAccount_NotFound()
       throws Exception {
@@ -56,6 +47,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(o.context).isEqualTo(d.context);
     assertThat(o.tabSize).isEqualTo(d.tabSize);
     assertThat(o.lineLength).isEqualTo(d.lineLength);
+    assertThat(o.cursorBlinkRate).isEqualTo(d.cursorBlinkRate);
     assertThat(o.expandAllComments).isNull();
     assertThat(o.intralineDifference).isEqualTo(d.intralineDifference);
     assertThat(o.manualReview).isNull();
@@ -71,6 +63,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(o.hideLineNumbers).isNull();
     assertThat(o.renderEntireFile).isNull();
     assertThat(o.hideEmptyPane).isNull();
+    assertThat(o.matchBrackets).isNull();
     assertThat(o.ignoreWhitespace).isEqualTo(d.ignoreWhitespace);
     assertThat(o.theme).isEqualTo(d.theme);
   }
@@ -83,6 +76,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.context *= -1;
     i.tabSize *= -1;
     i.lineLength *= -1;
+    i.cursorBlinkRate = 500;
     i.theme = Theme.MIDNIGHT;
     i.ignoreWhitespace = Whitespace.IGNORE_ALL;
     i.expandAllComments ^= true;
@@ -100,6 +94,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.hideLineNumbers ^= true;
     i.renderEntireFile ^= true;
     i.hideEmptyPane ^= true;
+    i.matchBrackets ^= true;
 
     RestResponse r = adminSession.put("/accounts/" + admin.email
         + "/preferences.diff", i);
@@ -110,6 +105,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(o.context).isEqualTo(i.context);
     assertThat(o.tabSize).isEqualTo(i.tabSize);
     assertThat(o.lineLength).isEqualTo(i.lineLength);
+    assertThat(o.cursorBlinkRate).isEqualTo(i.cursorBlinkRate);
     assertThat(o.expandAllComments).isEqualTo(i.expandAllComments);
     assertThat(o.intralineDifference).isNull();
     assertThat(o.manualReview).isEqualTo(i.manualReview);
@@ -125,6 +121,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(o.hideLineNumbers).isEqualTo(i.hideLineNumbers);
     assertThat(o.renderEntireFile).isEqualTo(i.renderEntireFile);
     assertThat(o.hideEmptyPane).isEqualTo(i.hideEmptyPane);
+    assertThat(o.matchBrackets).isEqualTo(i.matchBrackets);
     assertThat(o.ignoreWhitespace).isEqualTo(i.ignoreWhitespace);
     assertThat(o.theme).isEqualTo(i.theme);
 

@@ -35,6 +35,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
@@ -399,14 +400,14 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
       List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
-      addArg(args, "--is-draft", String.valueOf(patchSet.isDraft()));
+      addArg(args, "--is-draft", String.valueOf(event.patchSet.isDraft));
       addArg(args, "--kind", String.valueOf(event.patchSet.kind));
       addArg(args, "--change-url", event.change.url);
-      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--change-owner", getDisplayName(event.change.owner));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--topic", event.change.topic);
-      addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
+      addArg(args, "--uploader", getDisplayName(event.uploader));
       addArg(args, "--commit", event.patchSet.revision);
       addArg(args, "--patchset", event.patchSet.number);
 
@@ -428,11 +429,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-url", event.change.url);
-      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--change-owner", getDisplayName(event.change.owner));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--topic", event.change.topic);
-      addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
+      addArg(args, "--uploader", getDisplayName(event.uploader));
       addArg(args, "--commit", event.patchSet.revision);
       addArg(args, "--patchset", event.patchSet.number);
 
@@ -466,11 +467,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       addArg(args, "--change", event.change.id);
       addArg(args, "--is-draft", patchSet.isDraft() ? "true" : "false");
       addArg(args, "--change-url", event.change.url);
-      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--change-owner", getDisplayName(event.change.owner));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--topic", event.change.topic);
-      addArg(args, "--author", getDisplayName(account));
+      addArg(args, "--author", getDisplayName(event.author));
       addArg(args, "--commit", event.patchSet.revision);
       addArg(args, "--comment", comment == null ? "" : comment);
       for (Map.Entry<String, Short> approval : approvals.entrySet()) {
@@ -499,11 +500,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-url", event.change.url);
-      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--change-owner", getDisplayName(event.change.owner));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--topic", event.change.topic);
-      addArg(args, "--submitter", getDisplayName(account));
+      addArg(args, "--submitter", getDisplayName(event.submitter));
       addArg(args, "--commit", event.patchSet.revision);
       addArg(args, "--newrev", mergeResultRev);
 
@@ -526,11 +527,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-url", event.change.url);
-      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--change-owner", getDisplayName(event.change.owner));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--topic", event.change.topic);
-      addArg(args, "--submitter", getDisplayName(account));
+      addArg(args, "--submitter", getDisplayName(event.submitter));
       addArg(args, "--commit", event.patchSet.revision);
       addArg(args, "--reason",  reason == null ? "" : reason);
 
@@ -553,11 +554,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-url", event.change.url);
-      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--change-owner", getDisplayName(event.change.owner));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--topic", event.change.topic);
-      addArg(args, "--abandoner", getDisplayName(account));
+      addArg(args, "--abandoner", getDisplayName(event.abandoner));
       addArg(args, "--commit", event.patchSet.revision);
       addArg(args, "--reason", reason == null ? "" : reason);
 
@@ -580,11 +581,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-url", event.change.url);
-      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--change-owner", getDisplayName(event.change.owner));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--topic", event.change.topic);
-      addArg(args, "--restorer", getDisplayName(account));
+      addArg(args, "--restorer", getDisplayName(event.restorer));
       addArg(args, "--commit", event.patchSet.revision);
       addArg(args, "--reason", reason == null ? "" : reason);
 
@@ -635,10 +636,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
       addArg(args, "--change-url", event.change.url);
-      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--change-owner", getDisplayName(event.change.owner));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
-      addArg(args, "--reviewer", getDisplayName(account));
+      addArg(args, "--reviewer", getDisplayName(event.reviewer));
 
       runHook(change.getProject(), reviewerAddedHook, args);
     }
@@ -657,10 +658,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
       List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
-      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--change-owner", getDisplayName(event.change.owner));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
-      addArg(args, "--changer", getDisplayName(account));
+      addArg(args, "--changer", getDisplayName(event.changer));
       addArg(args, "--old-topic", oldTopic);
       addArg(args, "--new-topic", event.change.topic);
 
@@ -692,10 +693,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
       List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
-      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--change-owner", getDisplayName(event.change.owner));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
-      addArg(args, "--editor", getDisplayName(account));
+      addArg(args, "--editor", getDisplayName(event.editor));
       if (hashtags != null) {
         for (String hashtag : hashtags) {
           addArg(args, "--hashtag", hashtag);
@@ -838,6 +839,25 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
             : account.getFullName();
         if (account.getPreferredEmail() != null) {
           result += " (" + account.getPreferredEmail() + ")";
+        }
+        return result;
+      }
+
+      return anonymousCowardName;
+    }
+
+    /**
+     * Get the display name for the given account.
+     *
+     * @param account Account to get name for.
+     * @return Name for this account.
+     */
+    private String getDisplayName(AccountAttribute account) {
+      if (account != null) {
+        String result =
+            (account.name == null) ? anonymousCowardName : account.name;
+        if (account.email != null) {
+          result += " (" + account.email + ")";
         }
         return result;
       }

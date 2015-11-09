@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_7c3b39a8",
+        "filename": "lib/js.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T23:53:36Z",
+      "side": 1,
+      "message": "Separate RFC for how to do this using genrule: https://gerrit-review.googlesource.com/72218",
+      "revId": "2449f07164521b686deae8c832763f405631f413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_5b4f633c",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T23:53:36Z",
+      "side": 1,
+      "message": "Needs a SHA-1, but I think I have bug in npm_binary that is giving me the wrong SHA-1.",
+      "revId": "2449f07164521b686deae8c832763f405631f413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_5c38fda9",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T23:53:36Z",
+      "side": 1,
+      "message": "I think this actually belongs in polygerrit-ui.",
+      "revId": "2449f07164521b686deae8c832763f405631f413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_1b55dbce",
+        "filename": "tools/js/run_npm_binary.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T23:53:36Z",
+      "side": 1,
+      "message": "This makes me sad.",
+      "revId": "2449f07164521b686deae8c832763f405631f413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

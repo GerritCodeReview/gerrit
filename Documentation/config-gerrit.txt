@@ -3031,7 +3031,7 @@ and updating references, not the time to index the pack. Values can
 be specified using standard time unit abbreviations ('ms', 'sec',
 'min', etc.).
 +
-Default is 2 minutes. If no unit is specified, milliseconds
+Default is 4 minutes. If no unit is specified, milliseconds
 is assumed.
 
 [[receive.trustedKey]]receive.trustedKey::

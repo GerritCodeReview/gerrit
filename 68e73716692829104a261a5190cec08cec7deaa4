@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16718a1c_a4e7c2d0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/CreateProjectIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-09T14:55:40Z",
+      "side": 1,
+      "message": "Literally, you are right. The project is valid. What is invalid is the creation of the project. Done.",
+      "parentUuid": "76800614_278e7a17",
+      "range": {
+        "startLine": 47,
+        "startChar": 29,
+        "endLine": 47,
+        "endChar": 43
+      },
+      "revId": "68e73716692829104a261a5190cec08cec7deaa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76800614_47936e3e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/AccountGroupUUIDHandler.java",
         "patchSetId": 6
@@ -36,6 +60,24 @@
       "writtenOn": "2015-11-07T01:23:17Z",
       "side": 1,
       "message": "nit: wrap this line, or remove the unnecessary \u0027final\u0027?",
+      "revId": "68e73716692829104a261a5190cec08cec7deaa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_c4f4be80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/AccountGroupUUIDHandler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-09T14:55:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76800614_47936e3e",
       "revId": "68e73716692829104a261a5190cec08cec7deaa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -56,6 +56,24 @@
       "revId": "3faab050b784a597580cc77003e5e473b9bce58e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_e837d3b7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-09T00:33:47Z",
+      "side": 1,
+      "message": "This was already done by Dave B. in a follow up change.\n\nhttps://gerrit-review.googlesource.com/#/c/71371/",
+      "parentUuid": "967d7aef_684cc354",
+      "revId": "3faab050b784a597580cc77003e5e473b9bce58e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

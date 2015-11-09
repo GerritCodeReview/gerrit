@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "16feeae5_3c4ff1b8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-11-09T19:25:56Z",
+      "side": 1,
+      "message": "Hold on, if you have 50 connections used concurrently then it means you have some problems somewhere else :-O\n\nHowever using a calculated value from HTTPThreads + SSHThreads + 2 seems to be a better choice",
+      "range": {
+        "startLine": 1407,
+        "startChar": 11,
+        "endLine": 1407,
+        "endChar": 13
+      },
+      "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_7c30592a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2336,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-11-09T19:25:56Z",
+      "side": 1,
+      "message": "Isn\u0027t this the SSH batch-threads you changed?",
+      "range": {
+        "startLine": 2336,
+        "startChar": 12,
+        "endLine": 2336,
+        "endChar": 13
+      },
+      "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56f4e201_1eb02d02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
         "patchSetId": 2
@@ -31,6 +77,29 @@
       "side": 1,
       "message": "Maybe we could create a ThreadSettingsConfig object that lives in a very early Guice injector that can read/compute the values for both thread pools and then take that as an injection here so you can do the math for the default.",
       "parentUuid": "56f4e201_1eb02d02",
+      "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_5b564352",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-11-09T19:25:56Z",
+      "side": 1,
+      "message": "hardcoded 2 batch threads is too low IMHO: only 2 concurrent CI jobs?",
+      "range": {
+        "startLine": 38,
+        "startChar": 57,
+        "endLine": 38,
+        "endChar": 58
+      },
       "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

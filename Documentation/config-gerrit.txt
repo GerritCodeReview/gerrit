@@ -3427,7 +3427,7 @@ If the number of threads requested for non-interactive users is larger
 than the total number of threads allocated in sshd.threads, then the
 value of sshd.threads is increased to accommodate the requested value.
 +
-By default, 0.
+By default is 1 on single core node, 2 otherwise.
 
 [[sshd.streamThreads]]sshd.streamThreads::
 +

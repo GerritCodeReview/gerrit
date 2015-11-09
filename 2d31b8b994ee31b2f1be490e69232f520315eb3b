@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16718a1c_44afee55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-09T16:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_e408da3d",
+      "range": {
+        "startLine": 16,
+        "startChar": 44,
+        "endLine": 16,
+        "endChar": 45
+      },
+      "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f66b162f_43e1a6be",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/ClippyResources.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2015-11-09T16:32:52Z",
       "side": 1,
       "message": "How about replacing line 14 with this or similar?:\n\n[blank line]\n// The above license applies to this file, whereas the below license applies to clipboard-16.png as used herein.\n[blank line]",
+      "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_a3e7bad0",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/ClippyResources.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-09T16:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f66b162f_43e1a6be",
       "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "f66b162f_c3f4b680",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/ClippyResources.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-09T16:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_04a5f675",
+      "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16718a1c_24aaf246",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
         "patchSetId": 2
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "f66b162f_e3f1b28d",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-09T16:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_24aaf246",
+      "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f66b162f_63e6a2d9",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
         "patchSetId": 2
@@ -87,6 +165,24 @@
       "writtenOn": "2015-11-09T16:32:52Z",
       "side": 1,
       "message": "(Would add spaces above, as per previous file\u0027 second comment.)",
+      "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_64b4eaa9",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-09T16:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f66b162f_63e6a2d9",
       "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -29,7 +29,7 @@ public class ThreadSettingsConfig {
   @Inject
   ThreadSettingsConfig(@GerritServerConfig Config cfg) {
     int cores = Runtime.getRuntime().availableProcessors();
-    sshdThreads = cfg.getInt("sshd", "threads", 3 * cores / 2);
+    sshdThreads = cfg.getInt("sshd", "threads", 2 * cores);
     httpdMaxThreads = cfg.getInt("httpd", "maxThreads", 25);
     int defaultDatabasePoolLimit = sshdThreads + httpdMaxThreads + 2;
     databasePoolLimit =

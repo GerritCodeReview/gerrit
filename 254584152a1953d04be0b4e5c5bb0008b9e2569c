@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_fc53c91c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-09T22:05:23Z",
+      "side": 1,
+      "message": "How does this interact with the REST API (e.g., requests for \u0027/projects/?d\u0027)?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 62
+      },
+      "revId": "254584152a1953d04be0b4e5c5bb0008b9e2569c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -30,6 +30,7 @@ import com.google.gerrit.pgm.http.jetty.HttpLog.HttpLogFactory;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gwtexpui.linker.server.UserAgentRule;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
@@ -162,12 +163,15 @@ public class JettyServer {
   private Resource baseResource;
 
   @Inject
-  JettyServer(@GerritServerConfig final Config cfg, final SitePaths site,
-      final JettyEnv env, final HttpLogFactory httpLogFactory)
+  JettyServer(@GerritServerConfig Config cfg,
+      ThreadSettingsConfig threadSettingsConfig,
+      SitePaths site,
+      JettyEnv env,
+      HttpLogFactory httpLogFactory)
       throws MalformedURLException, IOException {
     this.site = site;
 
-    httpd = new Server(threadPool(cfg));
+    httpd = new Server(threadPool(cfg, threadSettingsConfig));
     httpd.setConnectors(listen(httpd, cfg));
 
     Handler app = makeContext(env, cfg);
@@ -351,8 +355,8 @@ public class JettyServer {
     return site.resolve(path);
   }
 
-  private ThreadPool threadPool(Config cfg) {
-    int maxThreads = cfg.getInt("httpd", null, "maxthreads", 25);
+  private ThreadPool threadPool(Config cfg, ThreadSettingsConfig threadSettingsConfig) {
+    int maxThreads = threadSettingsConfig.getHttpdMaxThreads();
     int minThreads = cfg.getInt("httpd", null, "minthreads", 5);
     int maxQueued = cfg.getInt("httpd", null, "maxqueued", 200);
     int idleTimeout = (int)MILLISECONDS.convert(60, SECONDS);

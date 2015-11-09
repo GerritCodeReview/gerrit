@@ -243,10 +243,27 @@ public class WorkQueue {
     }
   }
 
-  /** Runnable needing to know it was canceled. */
+  /**
+   * Runnable needing to know it was canceled.
+   * Note that cancel is called only in case the task is not yet in
+   * progress.
+   */
   public interface CancelableRunnable extends Runnable {
     /** Notifies the runnable it was canceled. */
     public void cancel();
+  }
+
+  /**
+   * Base interface handles the case when task was canceled before
+   * actual execution and in case it was started cancel method is
+   * not called yet the task itself will be destroyed anyway (it
+   * will result in resource opening errors).
+   * This interface gives a chance to implementing classes to
+   * handle such scenario and act accordingly.
+   */
+  public interface CanceledWhileRunning extends CancelableRunnable {
+    /** Notifies the runnable it was canceled during execution. **/
+    public void setCanceledWhileRunning();
   }
 
   /** A wrapper around a scheduled Runnable, as maintained in the queue. */
@@ -321,9 +338,12 @@ public class WorkQueue {
         // as running and allow it to clean up. This ensures we do
         // not invoke cancel twice.
         //
-        if (runnable instanceof CancelableRunnable
-            && running.compareAndSet(false, true)) {
-          ((CancelableRunnable) runnable).cancel();
+        if (runnable instanceof CancelableRunnable) {
+          if (running.compareAndSet(false, true)) {
+            ((CancelableRunnable) runnable).cancel();
+          } else if (runnable instanceof CanceledWhileRunning) {
+            ((CanceledWhileRunning) runnable).setCanceledWhileRunning();
+          }
         }
         executor.remove(this);
         executor.purge();

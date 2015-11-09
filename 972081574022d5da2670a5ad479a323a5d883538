@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_dbca5320",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T21:21:54Z",
+      "side": 1,
+      "message": "You\u0027ll probably also want to include a bit more here on why...",
+      "revId": "972081574022d5da2670a5ad479a323a5d883538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

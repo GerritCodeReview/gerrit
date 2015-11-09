@@ -80,7 +80,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
   private final Provider<CurrentUser> self;
   private final AccountCache cache;
   private final Provider<ReviewDb> db;
-  private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
   private final DynamicMap<DownloadScheme> downloadSchemes;
 
@@ -88,7 +88,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
   SetPreferences(Provider<CurrentUser> self,
       AccountCache cache,
       Provider<ReviewDb> db,
-      MetaDataUpdate.User metaDataUpdateFactory,
+      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllUsersName allUsersName,
       DynamicMap<DownloadScheme> downloadSchemes) {
     this.self = self;
@@ -114,7 +114,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     Account.Id accountId = rsrc.getUser().getAccountId();
     AccountGeneralPreferences p;
     VersionedAccountPreferences versionedPrefs;
-    MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName);
+    MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName);
     db.get().accounts().beginTransaction(accountId);
     try {
       Account a = db.get().accounts().get(accountId);

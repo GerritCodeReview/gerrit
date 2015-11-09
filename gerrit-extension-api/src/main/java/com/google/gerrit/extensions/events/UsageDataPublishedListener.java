@@ -23,18 +23,18 @@ import java.util.List;
 @ExtensionPoint
 public interface UsageDataPublishedListener {
 
-  public interface Event {
+  interface Event {
     MetaData getMetaData();
     Timestamp getInstant();
     List<Data> getData();
   }
 
-  public interface Data {
+  interface Data {
     long getValue();
     String getProjectName();
   }
 
-  public interface MetaData {
+  interface MetaData {
     public String getName();
     public String getUnitName();
     public String getUnitSymbol();

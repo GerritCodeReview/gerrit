@@ -16,6 +16,24 @@
       "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_c87f6f42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T17:54:46Z",
+      "side": 1,
+      "message": "Maybe we could create a ThreadSettingsConfig object that lives in a very early Guice injector that can read/compute the values for both thread pools and then take that as an injection here so you can do the math for the default.",
+      "parentUuid": "56f4e201_1eb02d02",
+      "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

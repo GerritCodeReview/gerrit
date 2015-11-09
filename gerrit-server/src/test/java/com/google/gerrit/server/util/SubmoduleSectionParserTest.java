@@ -14,277 +14,274 @@
 
 package com.google.gerrit.server.util;
 
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.createStrictMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
-import org.eclipse.jgit.lib.BlobBasedConfig;
-import org.eclipse.jgit.lib.Constants;
-import org.junit.Before;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
-import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
   private static final String THIS_SERVER = "localhost";
-  private ProjectCache projectCache;
-  private BlobBasedConfig bbc;
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
+  @Inject
+  private SubmoduleSectionParser.Factory subSecParserFactory;
 
-    projectCache = createStrictMock(ProjectCache.class);
-    bbc = createStrictMock(BlobBasedConfig.class);
-  }
+  @Test
+  public void testSubmoduleParserFollowMasterBranch() throws Exception {
+    Config cfg = new Config();
+    String gitmodules = ""
+        + "[submodule \"a\"]\n"
+        + "path = localpath-to-a\n"
+        + "url = ssh://localhost/a\n"
+        + "branch = master\n";
 
-  private void doReplay() {
-    replay(projectCache, bbc);
-  }
+    cfg.fromText(gitmodules);
+    String thisServer = THIS_SERVER;
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("project"), "master");
 
-  private void doVerify() {
-    verify(projectCache, bbc);
+    Set<SubmoduleSubscription> res = subSecParserFactory.create(
+        cfg, thisServer, targetBranch).parseAllSections();
+
+    Set<SubmoduleSubscription> expected = Sets.newHashSet(
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("a"), "master"), "localpath-to-a"));
+
+    assertThat(res).containsExactlyElementsIn(expected);
   }
 
   @Test
-  public void testSubmodulesParseWithCorrectSections() throws Exception {
-    final Map<String, SubmoduleSection> sectionsToReturn = new TreeMap<>();
-    sectionsToReturn.put("a", new SubmoduleSection("ssh://localhost/a", "a",
-        "."));
-    sectionsToReturn.put("b", new SubmoduleSection("ssh://localhost/b", "b",
-        "."));
-    sectionsToReturn.put("c", new SubmoduleSection("ssh://localhost/test/c",
-        "c-path", "refs/heads/master"));
-    sectionsToReturn.put("d", new SubmoduleSection("ssh://localhost/d",
-        "d-parent/the-d-folder", "refs/heads/test"));
-    sectionsToReturn.put("e", new SubmoduleSection("ssh://localhost/e.git", "e",
-        "."));
+  public void testSubmoduleParserFollowMatchingBranch() throws Exception {
+    Config cfg = new Config();
+    String gitmodules = ""
+        + "[submodule \"a\"]\n"
+        + "path = a\n"
+        + "url = ssh://localhost/a\n"
+        + "branch = .\n";
+    cfg.fromText(gitmodules);
+    String thisServer = THIS_SERVER;
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("project"), "master");
+    Set<SubmoduleSubscription> res = subSecParserFactory.create(
+        cfg, thisServer, targetBranch).parseAllSections();
 
-    Map<String, String> reposToBeFound = new HashMap<>();
-    reposToBeFound.put("a", "a");
-    reposToBeFound.put("b", "b");
-    reposToBeFound.put("c", "test/c");
-    reposToBeFound.put("d", "d");
-    reposToBeFound.put("e", "e");
+    Set<SubmoduleSubscription> expected = Sets.newHashSet(
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("a"), "master"), "a"));
 
-    final Branch.NameKey superBranchNameKey =
-        new Branch.NameKey(new Project.NameKey("super-project"),
-            "refs/heads/master");
-
-    Set<SubmoduleSubscription> expectedSubscriptions = Sets.newHashSet();
-    expectedSubscriptions
-        .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
-            new Project.NameKey("a"), "refs/heads/master"), "a"));
-    expectedSubscriptions
-        .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
-            new Project.NameKey("b"), "refs/heads/master"), "b"));
-    expectedSubscriptions.add(new SubmoduleSubscription(superBranchNameKey,
-        new Branch.NameKey(new Project.NameKey("test/c"), "refs/heads/master"),
-        "c-path"));
-    expectedSubscriptions.add(new SubmoduleSubscription(superBranchNameKey,
-        new Branch.NameKey(new Project.NameKey("d"), "refs/heads/test"),
-        "d-parent/the-d-folder"));
-    expectedSubscriptions
-        .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
-            new Project.NameKey("e"), "refs/heads/master"), "e"));
-
-    execute(superBranchNameKey, sectionsToReturn, reposToBeFound,
-        expectedSubscriptions);
+    assertThat(res).containsExactlyElementsIn(expected);
   }
 
   @Test
-  public void testSubmodulesParseWithAnInvalidSection() throws Exception {
-    final Map<String, SubmoduleSection> sectionsToReturn = new TreeMap<>();
-    sectionsToReturn.put("a", new SubmoduleSection("ssh://localhost/a", "a",
-        "."));
-    // This one is invalid since "b" is not a recognized project
-    sectionsToReturn.put("b", new SubmoduleSection("ssh://localhost/b", "b",
-        "."));
-    sectionsToReturn.put("c", new SubmoduleSection("ssh://localhost/test/c",
-        "c-path", "refs/heads/master"));
-    sectionsToReturn.put("d", new SubmoduleSection("ssh://localhost/d",
-        "d-parent/the-d-folder", "refs/heads/test"));
-    sectionsToReturn.put("e", new SubmoduleSection("ssh://localhost/e.git", "e",
-        "."));
+  public void testSubmoduleParserFollowAnotherBranch() throws Exception {
+    Config cfg = new Config();
+    String gitmodules = ""
+        + "[submodule \"a\"]\n"
+        + "path = a\n"
+        + "url = ssh://localhost/a\n"
+        + "branch = anotherbranch\n";
 
-    // "b" will not be in this list
-    Map<String, String> reposToBeFound = new HashMap<>();
-    reposToBeFound.put("a", "a");
-    reposToBeFound.put("c", "test/c");
-    reposToBeFound.put("d", "d");
-    reposToBeFound.put("e", "e");
+    cfg.fromText(gitmodules);
+    String thisServer = THIS_SERVER;
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("project"), "master");
+    Set<SubmoduleSubscription> res = subSecParserFactory.create(
+        cfg, thisServer, targetBranch).parseAllSections();
 
-    final Branch.NameKey superBranchNameKey =
-        new Branch.NameKey(new Project.NameKey("super-project"),
-            "refs/heads/master");
+    Set<SubmoduleSubscription> expected = Sets.newHashSet(
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("a"), "anotherbranch"), "a"));
 
-    Set<SubmoduleSubscription> expectedSubscriptions = Sets.newHashSet();
-    expectedSubscriptions
-        .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
-            new Project.NameKey("a"), "refs/heads/master"), "a"));
-    expectedSubscriptions.add(new SubmoduleSubscription(superBranchNameKey,
-        new Branch.NameKey(new Project.NameKey("test/c"), "refs/heads/master"),
-        "c-path"));
-    expectedSubscriptions.add(new SubmoduleSubscription(superBranchNameKey,
-        new Branch.NameKey(new Project.NameKey("d"), "refs/heads/test"),
-        "d-parent/the-d-folder"));
-    expectedSubscriptions
-        .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
-            new Project.NameKey("e"), "refs/heads/master"), "e"));
-
-    execute(superBranchNameKey, sectionsToReturn, reposToBeFound,
-        expectedSubscriptions);
+    assertThat(res).containsExactlyElementsIn(expected);
   }
 
   @Test
-  public void testSubmoduleSectionToOtherServer() throws Exception {
-    Map<String, SubmoduleSection> sectionsToReturn = new HashMap<>();
-    // The url is not to this server.
-    sectionsToReturn.put("a", new SubmoduleSection("ssh://review.source.com/a",
-        "a", "."));
+  public void testSubmoduleParserWithAnotherURI() throws Exception {
+    Config cfg = new Config();
+    String gitmodules = ""
+        + "[submodule \"a\"]\n"
+        + "path = a\n"
+        + "url = http://localhost:80/a\n"
+        + "branch = master\n";
 
-    Set<SubmoduleSubscription> expectedSubscriptions = Collections.emptySet();
-    execute(new Branch.NameKey(new Project.NameKey("super-project"),
-        "refs/heads/master"), sectionsToReturn, new HashMap<String, String>(),
-        expectedSubscriptions);
+    cfg.fromText(gitmodules);
+    String thisServer = THIS_SERVER;
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("project"), "master");
+    Set<SubmoduleSubscription> res = subSecParserFactory.create(
+        cfg, thisServer, targetBranch).parseAllSections();
+
+    Set<SubmoduleSubscription> expected = Sets.newHashSet(
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("a"), "master"), "a"));
+
+    assertThat(res).containsExactlyElementsIn(expected);
   }
 
   @Test
-  public void testProjectNotFound() throws Exception {
-    Map<String, SubmoduleSection> sectionsToReturn = new HashMap<>();
-    sectionsToReturn.put("a", new SubmoduleSection("ssh://localhost/a", "a",
-        "."));
+  public void testSubmoduleParserWithSlashesInProjectName() throws Exception {
+    Config cfg = new Config();
+    String gitmodules = ""
+        + "[submodule \"project/with/slashes/a\"]\n"
+        + "path = a\n"
+        + "url = http://localhost:80/project/with/slashes/a\n"
+        + "branch = master\n";
 
-    Set<SubmoduleSubscription> expectedSubscriptions = Collections.emptySet();
-    execute(new Branch.NameKey(new Project.NameKey("super-project"),
-        "refs/heads/master"), sectionsToReturn, new HashMap<String, String>(),
-        expectedSubscriptions);
+    cfg.fromText(gitmodules);
+    String thisServer = THIS_SERVER;
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("project"), "master");
+    Set<SubmoduleSubscription> res = subSecParserFactory.create(
+        cfg, thisServer, targetBranch).parseAllSections();
+
+    Set<SubmoduleSubscription> expected = Sets.newHashSet(
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("project/with/slashes/a"), "master"), "a"));
+
+    assertThat(res).containsExactlyElementsIn(expected);
   }
 
   @Test
-  public void testProjectWithSlashesNotFound() throws Exception {
-    Map<String, SubmoduleSection> sectionsToReturn = new HashMap<>();
-    sectionsToReturn.put("project", new SubmoduleSection(
-        "ssh://localhost/company/tools/project", "project", "."));
+  public void testSubmoduleParserWithSlashesInPath() throws Exception {
+    Config cfg = new Config();
+    String gitmodules = ""
+        + "[submodule \"a\"]\n"
+        + "path = a/b/c/d/e\n"
+        + "url = http://localhost:80/a\n"
+        + "branch = master\n";
 
-    Set<SubmoduleSubscription> expectedSubscriptions = Collections.emptySet();
-    execute(new Branch.NameKey(new Project.NameKey("super-project"),
-        "refs/heads/master"), sectionsToReturn, new HashMap<String, String>(),
-        expectedSubscriptions);
+    cfg.fromText(gitmodules);
+    String thisServer = THIS_SERVER;
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("project"), "master");
+    Set<SubmoduleSubscription> res = subSecParserFactory.create(
+        cfg, thisServer, targetBranch).parseAllSections();
+
+    Set<SubmoduleSubscription> expected = Sets.newHashSet(
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("a"), "master"), "a/b/c/d/e"));
+
+    assertThat(res).containsExactlyElementsIn(expected);
+  }
+
+  @Test
+  public void testSubmodulesParseWithMoreSections() throws Exception {
+    Config cfg = new Config();
+    String gitmodules = ""
+        + "[submodule \"a\"]\n"
+        + "path = a\n"
+        + "url = ssh://localhost/a\n"
+        + "branch = .\n" // follow any branch including the master branch
+        + "[submodule \"b\"]\n"
+        + "    path = b\n"
+        + "    url = http://localhost:80/b\n"
+        + "    branch = master\n";
+    cfg.fromText(gitmodules);
+    String thisServer = THIS_SERVER;
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("project"), "master");
+    Set<SubmoduleSubscription> res = subSecParserFactory.create(
+        cfg, thisServer, targetBranch).parseAllSections();
+
+    Set<SubmoduleSubscription> expected = Sets.newHashSet(
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("a"), "master"), "a"),
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("b"), "master"), "b"));
+
+    assertThat(res).containsExactlyElementsIn(expected);
   }
 
   @Test
   public void testSubmodulesParseWithSubProjectFound() throws Exception {
-    Map<String, SubmoduleSection> sectionsToReturn = new TreeMap<>();
-    sectionsToReturn.put("a/b", new SubmoduleSection(
-        "ssh://localhost/a/b", "a/b", "."));
+    Config cfg = new Config();
+    cfg.fromText("\n"
+        + "[submodule \"a/b\"]\n"
+        + "path = a/b\n"
+        + "url = ssh://localhost/a/b\n"
+        + "branch = .\n"
+        + "[submodule \"b\"]\n"
+        + "path = b\n"
+        + "url = http://localhost/b\n"
+        + "branch = .\n");
 
-    Map<String, String> reposToBeFound = new HashMap<>();
-    reposToBeFound.put("a/b", "a/b");
-    reposToBeFound.put("b", "b");
+    String thisServer = THIS_SERVER;
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("project"), "master");
+    Set<SubmoduleSubscription> res = subSecParserFactory.create(
+        cfg, thisServer, targetBranch).parseAllSections();
 
-    Branch.NameKey superBranchNameKey =
-        new Branch.NameKey(new Project.NameKey("super-project"),
-            "refs/heads/master");
+    Set<SubmoduleSubscription> expected = Sets.newHashSet(
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("b"), "master"), "b"),
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("a/b"), "master"), "a/b")
+        );
 
-    Set<SubmoduleSubscription> expectedSubscriptions = Sets.newHashSet();
-    expectedSubscriptions
-        .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
-            new Project.NameKey("a/b"), "refs/heads/master"), "a/b"));
-    execute(superBranchNameKey, sectionsToReturn, reposToBeFound,
-        expectedSubscriptions);
+    assertThat(res).containsExactlyElementsIn(expected);
   }
 
-  private void execute(final Branch.NameKey superProjectBranch,
-      final Map<String, SubmoduleSection> sectionsToReturn,
-      final Map<String, String> reposToBeFound,
-      final Set<SubmoduleSubscription> expectedSubscriptions) throws Exception {
-    expect(bbc.getSubsections("submodule"))
-        .andReturn(sectionsToReturn.keySet());
+  @Test
+  public void testSubmodulesParseWithAnInvalidSection() throws Exception {
+    Config cfg = new Config();
+    cfg.fromText("\n"
+        + "[submodule \"a\"]\n"
+        + "path = a\n"
+        + "url = ssh://localhost/a\n"
+        + "branch = .\n"
+        + "[submodule \"b\"]\n"
+        // path missing
+        + "url = http://localhost:80/b\n"
+        + "branch = master\n"
+        + "[submodule \"c\"]\n"
+        + "path = c\n"
+        // url missing
+        + "branch = .\n"
+        + "[submodule \"d\"]\n"
+        + "path = d-parent/the-d-folder\n"
+        + "url = ssh://localhost/d\n"
+        // branch missing
+        + "[submodule \"e\"]\n"
+        + "path = e\n"
+        + "url = ssh://localhost/e\n"
+        + "branch = refs/heads/master\n");
+    String thisServer = THIS_SERVER;
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("project"), "master");
+    Set<SubmoduleSubscription> res = subSecParserFactory.create(
+        cfg, thisServer, targetBranch).parseAllSections();
 
-    for (Map.Entry<String, SubmoduleSection> entry : sectionsToReturn.entrySet()) {
-      String id = entry.getKey();
-      final SubmoduleSection section = entry.getValue();
-      expect(bbc.getString("submodule", id, "url")).andReturn(section.getUrl());
-      expect(bbc.getString("submodule", id, "path")).andReturn(
-          section.getPath());
-      expect(bbc.getString("submodule", id, "branch")).andReturn(
-          section.getBranch());
+    Set<SubmoduleSubscription> expected = Sets.newHashSet(
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("a"), "master"), "a"),
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            new Project.NameKey("e"), "master"), "e"));
 
-      if (THIS_SERVER.equals(new URI(section.getUrl()).getHost())) {
-        String projectNameCandidate;
-        final String urlExtractedPath = new URI(section.getUrl()).getPath();
-        int fromIndex = urlExtractedPath.length() - 1;
-        while (fromIndex > 0) {
-          fromIndex = urlExtractedPath.lastIndexOf('/', fromIndex - 1);
-          projectNameCandidate = urlExtractedPath.substring(fromIndex + 1);
-          if (projectNameCandidate.endsWith(Constants.DOT_GIT_EXT)) {
-            projectNameCandidate = projectNameCandidate.substring(0, //
-                projectNameCandidate.length() - Constants.DOT_GIT_EXT.length());
-          }
-          if (reposToBeFound.containsValue(projectNameCandidate)) {
-            expect(projectCache.get(new Project.NameKey(projectNameCandidate)))
-                .andReturn(createNiceMock(ProjectState.class));
-          } else {
-            expect(projectCache.get(new Project.NameKey(projectNameCandidate)))
-                .andReturn(null);
-          }
-        }
-      }
-    }
-
-    doReplay();
-
-    final SubmoduleSectionParser ssp =
-        new SubmoduleSectionParser(projectCache, bbc, THIS_SERVER,
-            superProjectBranch);
-
-    Set<SubmoduleSubscription> returnedSubscriptions = ssp.parseAllSections();
-
-    doVerify();
-
-    assertEquals(expectedSubscriptions, returnedSubscriptions);
+    assertThat(res).containsExactlyElementsIn(expected);
   }
 
-  private static final class SubmoduleSection {
-    private final String url;
-    private final String path;
-    private final String branch;
+  @Test
+  public void testSubmoduleSectionToOtherServer() throws Exception {
+    Config cfg = new Config();
+    cfg.fromText(""
+        + "[submodule \"a\"]"
+        + "path = a"
+        + "url = ssh://non-localhost/a"
+        + "branch = .");
+    String thisServer = THIS_SERVER;
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("project"), "master");
+    Set<SubmoduleSubscription> res = subSecParserFactory.create(
+        cfg, thisServer, targetBranch).parseAllSections();
 
-    public SubmoduleSection(final String url, final String path,
-        final String branch) {
-      this.url = url;
-      this.path = path;
-      this.branch = branch;
-    }
-
-    public String getUrl() {
-      return url;
-    }
-
-    public String getPath() {
-      return path;
-    }
-
-    public String getBranch() {
-      return branch;
-    }
+    assertThat(res).isEmpty();
   }
 }

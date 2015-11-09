@@ -22,7 +22,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.lib.BlobBasedConfig;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 
 import java.net.URI;
@@ -49,18 +49,18 @@ import java.util.Set;
 public class SubmoduleSectionParser {
 
   public interface Factory {
-    SubmoduleSectionParser create(BlobBasedConfig bbc, String thisServer,
+    SubmoduleSectionParser create(Config bbc, String thisServer,
         Branch.NameKey superProjectBranch);
   }
 
   private final ProjectCache projectCache;
-  private final BlobBasedConfig bbc;
+  private final Config bbc;
   private final String thisServer;
   private final Branch.NameKey superProjectBranch;
 
   @Inject
   public SubmoduleSectionParser(ProjectCache projectCache,
-      @Assisted BlobBasedConfig bbc,
+      @Assisted Config bbc,
       @Assisted String thisServer,
       @Assisted Branch.NameKey superProjectBranch) {
     this.projectCache = projectCache;

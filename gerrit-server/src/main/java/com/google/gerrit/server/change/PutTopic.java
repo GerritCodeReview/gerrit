@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PutTopic.Input;
+import com.google.gerrit.server.extensions.events.TopicEdited;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -47,6 +48,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
   private final ChangeHooks hooks;
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final TopicEdited topicEdited;
 
   public static class Input {
     @DefaultInput
@@ -57,11 +59,13 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
   PutTopic(Provider<ReviewDb> dbProvider,
       ChangeHooks hooks,
       ChangeMessagesUtil cmUtil,
-      BatchUpdate.Factory batchUpdateFactory) {
+      BatchUpdate.Factory batchUpdateFactory,
+      TopicEdited topicEdited) {
     this.dbProvider = dbProvider;
     this.hooks = hooks;
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.topicEdited = topicEdited;
   }
 
   @Override
@@ -130,6 +134,9 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     @Override
     public void postUpdate(Context ctx) throws OrmException {
       if (change != null) {
+        topicEdited.fire(change,
+            ctx.getUser().asIdentifiedUser().getAccount(),
+            oldTopicName);
         hooks.doTopicChangedHook(
             change,
             ctx.getUser().asIdentifiedUser().getAccount(),

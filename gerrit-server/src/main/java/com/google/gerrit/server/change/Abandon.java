@@ -82,7 +82,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       throws RestApiException, UpdateException, OrmException {
     ChangeControl control = req.getControl();
     IdentifiedUser caller = control.getUser().asIdentifiedUser();
-    if (!control.canAbandon()) {
+    if (!control.canAbandon(dbProvider.get())) {
       throw new AuthException("abandon not permitted");
     }
     Change change = abandon(control, input.message, caller.getAccount());
@@ -174,12 +174,18 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
 
   @Override
   public UiAction.Description getDescription(ChangeResource resource) {
+    boolean canAbandon = false;
+    try {
+      canAbandon = resource.getControl().canAbandon(dbProvider.get());
+    } catch (OrmException e) {
+      log.error("Cannot check canAbandon status. Assuming false.", e);
+    }
     return new UiAction.Description()
       .setLabel("Abandon")
       .setTitle("Abandon the change")
       .setVisible(resource.getChange().getStatus().isOpen()
           && resource.getChange().getStatus() != Change.Status.DRAFT
-          && resource.getControl().canAbandon());
+          && canAbandon);
   }
 
   private static String status(Change change) {

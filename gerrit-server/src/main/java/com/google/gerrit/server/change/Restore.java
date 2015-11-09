@@ -80,7 +80,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   public ChangeInfo apply(ChangeResource req, RestoreInput input)
       throws RestApiException, UpdateException, OrmException {
     ChangeControl ctl = req.getControl();
-    if (!ctl.canRestore()) {
+    if (!ctl.canRestore(dbProvider.get())) {
       throw new AuthException("restore not permitted");
     }
 
@@ -160,11 +160,17 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
 
   @Override
   public UiAction.Description getDescription(ChangeResource resource) {
+    boolean canRestore = false;
+    try {
+      canRestore = resource.getControl().canRestore(dbProvider.get());
+    } catch (OrmException e) {
+      log.error("Cannot check canRestore status. Assuming false.", e);
+    }
     return new UiAction.Description()
       .setLabel("Restore")
       .setTitle("Restore the change")
       .setVisible(resource.getChange().getStatus() == Status.ABANDONED
-          && resource.getControl().canRestore());
+          && canRestore);
   }
 
   private static String status(Change change) {

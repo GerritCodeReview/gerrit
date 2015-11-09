@@ -217,6 +217,19 @@ the lowest possible negative value will not block the change.
 The label is purely informational and values are not considered when
 determining whether a change is submittable.
 
+* `PatchSetLock`
++
+The `PatchSetLock` function provides a locking mechanism for patch
+sets.  This function's values are not considered when determining
+whether a change is submittable. When set, no new patchsets can be
+created and rebase and abandon are blocked.
++
+This function is designed to allow overlapping locks, so several lock
+accounts could lock the same change.
++
+Allowed range of values are 0 (Patch Set Unlocked) to 1 (Patch Set
+Locked).
+
 
 [[label_copyMinScore]]
 === `label.Label-Name.copyMinScore`

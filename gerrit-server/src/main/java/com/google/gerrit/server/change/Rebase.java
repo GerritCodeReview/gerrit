@@ -90,7 +90,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
         ObjectInserter oi = repo.newObjectInserter();
         BatchUpdate bu = updateFactory.create(dbProvider.get(),
           change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
-      if (!control.canRebase()) {
+      if (!control.canRebase(dbProvider.get())) {
         throw new AuthException("rebase not permitted");
       } else if (!change.getStatus().isOpen()) {
         throw new ResourceConflictException("change is "
@@ -209,9 +209,15 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   public UiAction.Description getDescription(RevisionResource resource) {
     PatchSet patchSet = resource.getPatchSet();
     Branch.NameKey dest = resource.getChange().getDest();
+    boolean canRebase = false;
+    try {
+      canRebase = resource.getControl().canRebase(dbProvider.get());
+    } catch (OrmException e) {
+      log.error("Cannot check canRebase status. Assuming false.", e);
+    }
     boolean visible = resource.getChange().getStatus().isOpen()
           && resource.isCurrent()
-          && resource.getControl().canRebase();
+          && canRebase;
     boolean enabled = true;
 
     if (visible) {

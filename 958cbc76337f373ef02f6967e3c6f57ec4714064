@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "56f4e201_febf41cd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/DeveloperGwtUiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T18:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_285f2b26",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 48
+      },
+      "revId": "958cbc76337f373ef02f6967e3c6f57ec4714064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_085a6735",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/DeveloperGwtUiServlet.java",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2015-11-08T22:08:54Z",
       "side": 1,
       "message": "Could this use Files.createTempDirectory?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "958cbc76337f373ef02f6967e3c6f57ec4714064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_28de4b91",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/DeveloperGwtUiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T18:05:31Z",
+      "side": 1,
+      "message": "ui comes from StaticModule#makeWarTempDir which already uses that. The Javadoc[1] explicitly says to use File#deleteOnExit\n\n[1] http://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#createTempDirectory(java.nio.file.Path,%20java.lang.String,%20java.nio.file.attribute.FileAttribute...)",
+      "parentUuid": "967d7aef_085a6735",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "967d7aef_a8c95bd3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T18:05:31Z",
+      "side": 1,
+      "message": "Yeah, this was originally mimicking FileUtil#getLastModifiedTime, which had this behavior because it matched File#lastModified, and it made migration easier.\n\nBut in this particular use case, we can just let the IOException propagate. Done.",
+      "parentUuid": "76800614_47228e95",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 36
+      },
+      "revId": "958cbc76337f373ef02f6967e3c6f57ec4714064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76800614_876d66dd",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/WarGwtUiServlet.java",
         "patchSetId": 3
@@ -95,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "967d7aef_48e37f58",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/WarGwtUiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T18:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76800614_876d66dd",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "958cbc76337f373ef02f6967e3c6f57ec4714064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76800614_a718aa60",
         "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
         "patchSetId": 3
@@ -106,6 +202,30 @@
       "writtenOn": "2015-11-09T07:48:00Z",
       "side": 1,
       "message": "(optional) can decrease nesting:\n\n  if (result !\u003d null) {\n    return result;\n  }",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 318,
+        "endChar": 29
+      },
+      "revId": "958cbc76337f373ef02f6967e3c6f57ec4714064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_e8d3537f",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T18:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76800614_a718aa60",
       "range": {
         "startLine": 318,
         "startChar": 0,

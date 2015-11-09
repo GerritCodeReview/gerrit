@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,15 +15,16 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.AccountInfo;
 
-
-/** Notified whenever a project is created on the master. */
+/** Notified whenever a Change is merged. */
 @ExtensionPoint
-public interface NewProjectCreatedListener {
-  interface Event {
-    String getProjectName();
-    String getHeadName();
+public interface ChangeMergedListener {
+  interface Event extends RevisionEvent {
+    AccountInfo getMerger();
+    /** Represents the merged Revision when the submit strategy is cherry-pick */
+    String getNewRevisionId();
   }
 
-  void onNewProjectCreated(Event event);
+  void onChangeMerged(Event event);
 }

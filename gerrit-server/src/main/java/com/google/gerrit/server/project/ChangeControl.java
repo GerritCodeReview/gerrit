@@ -189,8 +189,12 @@ public class ChangeControl {
     return isVisible(cd.db());
   }
 
-  /** Can this user abandon this change? */
-  public boolean canAbandon() {
+  /** Can this user abandon this change?
+   * @throws OrmException */
+  public boolean canAbandon(ReviewDb db) throws OrmException {
+    if (isPatchSetLocked(db)) {
+      return false;
+    }
     return isOwner() // owner (aka creator) of the change can abandon
         || getRefControl().isOwner() // branch owner can abandon
         || getProjectControl().isOwner() // project owner can abandon
@@ -211,15 +215,17 @@ public class ChangeControl {
         && isVisible(db);
   }
 
-  /** Can this user rebase this change? */
-  public boolean canRebase() {
-    return isOwner() || getRefControl().canSubmit()
-        || getRefControl().canRebase();
+  /** Can this user rebase this change?
+   * @throws OrmException */
+  public boolean canRebase(ReviewDb db) throws OrmException {
+    return (isOwner() || getRefControl().canSubmit()
+        || getRefControl().canRebase()) && !isPatchSetLocked(db);
   }
 
-  /** Can this user restore this change? */
-  public boolean canRestore() {
-    return canAbandon() // Anyone who can abandon the change can restore it back
+  /** Can this user restore this change?
+   * @throws OrmException */
+  public boolean canRestore(ReviewDb db) throws OrmException {
+    return canAbandon(db) // Anyone who can abandon the change can restore it back
         && getRefControl().canUpload(); // as long as you can upload too
   }
 
@@ -257,9 +263,29 @@ public class ChangeControl {
     return getRefControl().getRange(permission, isOwner());
   }
 
-  /** Can this user add a patch set to this change? */
-  public boolean canAddPatchSet() {
-    return getRefControl().canUpload();
+  /** Can this user add a patch set to this change?
+   * @throws OrmException */
+  public boolean canAddPatchSet(ReviewDb db) throws OrmException {
+    return getRefControl().canUpload() && !isPatchSetLocked(db);
+  }
+
+  /** Is the current patch set locked against state changes? */
+  public boolean isPatchSetLocked(ReviewDb db) throws OrmException {
+    if (getChange().getStatus() == Change.Status.MERGED) {
+      return false;
+    }
+    final List<PatchSetApproval> psApprovals = db.patchSetApprovals()
+        .byPatchSet(getChange().currentPatchSetId()).toList();
+    for (final PatchSetApproval ap : psApprovals) {
+      LabelType type = getLabelTypes().byLabel(ap.getLabel());
+      if (type != null) {
+        if (type.getFunctionName().equalsIgnoreCase("PatchSetLock")
+            && ap.getValue() == 1) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   /** Is this user the owner of the change? */

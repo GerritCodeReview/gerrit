@@ -141,7 +141,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_CAN_OVERRIDE = "canOverride";
   private static final String KEY_Branch = "branch";
   private static final Set<String> LABEL_FUNCTIONS = ImmutableSet.of(
-      "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp");
+      "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp", "PatchSetLock");
 
   private static final String PLUGIN = "plugin";
 

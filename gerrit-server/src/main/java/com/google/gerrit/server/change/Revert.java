@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.git.UpdateException;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.PersonIdent;
@@ -45,14 +47,17 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private final ChangeJson.Factory json;
   private final ChangeUtil changeUtil;
   private final PersonIdent myIdent;
+  private final Provider<ReviewDb> dbProvider;
 
   @Inject
   Revert(ChangeJson.Factory json,
       ChangeUtil changeUtil,
-      @GerritPersonIdent PersonIdent myIdent) {
+      @GerritPersonIdent PersonIdent myIdent,
+      Provider<ReviewDb> dbProvider) {
     this.json = json;
     this.changeUtil = changeUtil;
     this.myIdent = myIdent;
+    this.dbProvider = dbProvider;
   }
 
   @Override
@@ -61,7 +66,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       UpdateException {
     ChangeControl control = req.getControl();
     Change change = req.getChange();
-    if (!control.canAddPatchSet()) {
+    if (!control.canAddPatchSet(dbProvider.get())) {
       throw new AuthException("revert not permitted");
     } else if (change.getStatus() != Status.MERGED) {
       throw new ResourceConflictException("change is " + status(change));

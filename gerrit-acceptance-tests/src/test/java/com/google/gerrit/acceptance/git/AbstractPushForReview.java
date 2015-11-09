@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -26,11 +27,19 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.Util;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.joda.time.DateTime;
@@ -51,6 +60,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   private String sshUrl;
+  private LabelType patchSetLock;
 
   @BeforeClass
   public static void setTimeForTesting() {
@@ -73,6 +83,24 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     sshUrl = sshSession.getUrl();
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    patchSetLock = Util.patchSetLock();
+    cfg.getLabelSections().put(patchSetLock.getName(), patchSetLock);
+    AccountGroup.UUID anonymousUsers =
+        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+    Util.allow(cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, anonymousUsers,
+        "refs/heads/*");
+    saveProjectConfig(cfg);
+    grant(Permission.LABEL + "Patch-Set-Lock", project, "refs/heads/*");
+  }
+
+  private void saveProjectConfig(ProjectConfig cfg) throws Exception {
+    MetaDataUpdate md = metaDataUpdateFactory.create(project);
+    try {
+      cfg.commit(md);
+    } finally {
+      md.close();
+    }
   }
 
   protected void selectProtocol(Protocol p) throws Exception {
@@ -273,6 +301,18 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt", "anotherContent", r.getChangeId());
     r = push.to("refs/changes/" + r.getChange().change().getId().get());
     r.assertOkStatus();
+  }
+
+  @Test
+  public void testPushNewPatchsetToPatchSetLockedChange() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent", r.getChangeId());
+    revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
+    r = push.to("refs/for/master");
+    r.assertErrorStatus("cannot replace " + r.getChange().change().getChangeId() + ". Change is patch set locked.");
   }
 
   @Test

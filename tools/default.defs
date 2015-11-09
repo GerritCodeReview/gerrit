@@ -73,6 +73,16 @@ def _set_auto_value(kwargs):
     apds.extend(AUTO_VALUE_PROCESSOR_DEPS)
 
 
+# Add 'license' argument to genrule.
+_buck_genrule = genrule
+def genrule(*args, **kwargs):
+  license = kwargs.get('license')
+  if license:
+    license = '//lib:LICENSE-%s' % license
+    kwargs['cmd'] = 'true $(location %s); %s' % (license, kwargs['cmd'])
+  _buck_genrule(*args, **kwargs)
+
+
 def genantlr(
     name,
     srcs,

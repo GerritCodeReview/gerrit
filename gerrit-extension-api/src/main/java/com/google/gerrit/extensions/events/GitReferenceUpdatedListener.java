@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 @ExtensionPoint
 public interface GitReferenceUpdatedListener {
 
-  public interface Event {
+  interface Event {
     String getProjectName();
     String getRefName();
     String getOldObjectId();

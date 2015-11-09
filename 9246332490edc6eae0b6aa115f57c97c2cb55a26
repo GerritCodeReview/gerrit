@@ -1,0 +1,221 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f66b162f_436a86f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "error (singular, rather?: just one type of error added herein)",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_636f8205",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "Needs earlier wrapping so that line \u003c\u003d 72 chars.",
+      "range": {
+        "startLine": 7,
+        "startChar": 70,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_c45d9e58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "affected",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_e45a9a5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "What about the likely risk of human (or script) users losing the review comments they wholeheartedly wrote, upon getting that error? -Wondering if the above query optimization benefit outweighs the latter negative user experience. Maybe the error got removed after 2.5 for such a reason -or similar. You might want to consider finding the last known implementation of that error, hence the removal of it, as important context info for this change of yours. If you did so already, I would explicitly mention such input in the commit message.",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_646f8a05",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "Obsolete (or Outdated -would be more precise)",
+      "range": {
+        "startLine": 62,
+        "startChar": 37,
+        "endLine": 62,
+        "endChar": 40
+      },
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_04d7b6e5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "This assert is likely not necessary.",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_24dcb207",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "Would insert a blank line here.",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_44e1aebe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "Not sure here if we target the first or second patch set. (Effective index starts at 0 or 1? Did not check myself.)",
+      "range": {
+        "startLine": 70,
+        "startChar": 48,
+        "endLine": 70,
+        "endChar": 49
+      },
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_e35a925d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "Would insert a blank line here as well.",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_a3609a11",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "This assert is likely not necessary, either.",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_c35d9658",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T14:29:41Z",
+      "side": 1,
+      "message": "How about also checking that the second patch set still honours the original -2 vote?",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

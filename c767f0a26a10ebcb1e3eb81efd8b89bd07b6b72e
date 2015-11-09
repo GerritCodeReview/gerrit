@@ -16,6 +16,24 @@
       "revId": "c767f0a26a10ebcb1e3eb81efd8b89bd07b6b72e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_3c125171",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T21:04:33Z",
+      "side": 1,
+      "message": "I looked at doing that, but when it goes to actually create the revert change it needs it. See changeUpdateFactory.create().",
+      "parentUuid": "16feeae5_bcfdc162",
+      "revId": "c767f0a26a10ebcb1e3eb81efd8b89bd07b6b72e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

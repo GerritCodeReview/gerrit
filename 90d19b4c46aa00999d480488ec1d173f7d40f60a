@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_9bca8b71",
+        "filename": "contrib/convertkey/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:56:43Z",
+      "side": 1,
+      "message": "Just inline the DEPS array here. deps \u003d [ balh ]",
+      "revId": "90d19b4c46aa00999d480488ec1d173f7d40f60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_fbbf4fcd",
+        "filename": "contrib/convertkey/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:56:43Z",
+      "side": 1,
+      "message": "put all on one line for a single dep",
+      "revId": "90d19b4c46aa00999d480488ec1d173f7d40f60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

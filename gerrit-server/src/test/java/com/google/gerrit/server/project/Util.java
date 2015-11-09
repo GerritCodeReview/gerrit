@@ -96,6 +96,14 @@ public class Util {
         value(-2, "This shall not be merged"));
   }
 
+  public static final LabelType patchSetLock() {
+    LabelType label = category("Patch-Set-Lock",
+        value(1, "Patch Set Locked"),
+        value(0, "Patch Set Unlocked"));
+    label.setFunctionName("PatchSetLock");
+    return label;
+  }
+
   public static LabelValue value(int value, String text) {
     return new LabelValue((short) value, text);
   }

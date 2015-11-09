@@ -95,6 +95,11 @@ final class StreamEvents extends BaseCommand {
     public void cancel() {
       onExit(0);
     }
+
+    @Override
+    public String toString() {
+      return "Stream Events (" + currentUser.getAccount().getUserName() + ")";
+    }
   };
 
   /** True if {@link #droppedOutputEvent} needs to be sent. */

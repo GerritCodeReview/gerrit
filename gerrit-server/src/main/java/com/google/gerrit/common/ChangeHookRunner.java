@@ -399,14 +399,14 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
       List<String> args = new ArrayList<>();
       addArg(args, "--change", event.change.id);
-      addArg(args, "--is-draft", String.valueOf(patchSet.isDraft()));
+      addArg(args, "--is-draft", String.valueOf(event.patchSet.isDraft()));
       addArg(args, "--kind", String.valueOf(event.patchSet.kind));
       addArg(args, "--change-url", event.change.url);
       addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
       addArg(args, "--project", event.change.project);
       addArg(args, "--branch", event.change.branch);
       addArg(args, "--topic", event.change.topic);
-      addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
+      addArg(args, "--uploader", getDisplayName(event.uploader));
       addArg(args, "--commit", event.patchSet.revision);
       addArg(args, "--patchset", event.patchSet.number);
 
@@ -838,6 +838,25 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
             : account.getFullName();
         if (account.getPreferredEmail() != null) {
           result += " (" + account.getPreferredEmail() + ")";
+        }
+        return result;
+      }
+
+      return anonymousCowardName;
+    }
+
+    /**
+     * Get the display name for the given account.
+     *
+     * @param account Account to get name for.
+     * @return Name for this account.
+     */
+    private String getDisplayName(AccountAttribute account) {
+      if (account != null) {
+        String result =
+            (account.name == null) ? anonymousCowardName : account.name;
+        if (account.getPreferredEmail() != null) {
+          result += " (" + account.email + ")";
         }
         return result;
       }

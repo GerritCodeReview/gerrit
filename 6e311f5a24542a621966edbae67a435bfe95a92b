@@ -22,6 +22,30 @@
       "revId": "6e311f5a24542a621966edbae67a435bfe95a92b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_dbfb73a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-09T19:02:03Z",
+      "side": 1,
+      "message": "It is, it was just my keyboard layout which caused the search not to work.",
+      "parentUuid": "f6f876fc_9bf1ebc5",
+      "range": {
+        "startLine": 854,
+        "startChar": 19,
+        "endLine": 854,
+        "endChar": 33
+      },
+      "revId": "6e311f5a24542a621966edbae67a435bfe95a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

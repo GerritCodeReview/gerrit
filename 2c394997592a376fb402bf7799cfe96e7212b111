@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_fc44699d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-09T19:15:29Z",
+      "side": 1,
+      "message": "This one: https://gerrit-review.googlesource.com/72177",
+      "parentUuid": "16feeae5_fca8e99e",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56f4e201_fe0d8181",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1

@@ -16,6 +16,24 @@
       "revId": "9310556875f6e896a3fa5c4fca2c6ae29799e8e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_68e84334",
+        "filename": "contrib/convertkey/src/main/java/com/googlesource/gerrit/convertkey/ConvertKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-09T18:02:28Z",
+      "side": 1,
+      "message": "Yes.  Yes I do. :)",
+      "parentUuid": "56f4e201_9eca7d71",
+      "revId": "9310556875f6e896a3fa5c4fca2c6ae29799e8e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

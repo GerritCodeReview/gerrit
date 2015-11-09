@@ -18,6 +18,9 @@
 @external .CodeMirror-linenumber;
 @external .CodeMirror-overlayscroll-horizontal;
 @external .CodeMirror-overlayscroll-vertical;
+@external .CodeMirror-scrollbar-filler;
+@external .com-google-gerrit-client-diff-Scrollbar-Style-insert;
+
 @external .cm-tab;
 @external .cm-searching;
 @external .cm-trailingspace;
@@ -38,7 +41,20 @@
 .CodeMirror-overlayscroll-vertical div {
   min-height: 25px;
 }
-
+/* Ensure the scrollbars are not too narrow */
+.CodeMirror-overlayscroll-horizontal {
+  min-height: 12px;
+}
+.CodeMirror-overlayscroll-vertical {
+  min-width: 12px;
+}
+.CodeMirror-scrollbar-filler {
+  min-height: 12px;
+  min-width: 12px;
+}
+.com-google-gerrit-client-diff-Scrollbar-Style-insert {
+  min-width: 12px;
+}
 /* Stack the scrollbar so annotations can receive clicks. */
 .CodeMirror-overlayscroll-vertical {
   z-index: inherit;

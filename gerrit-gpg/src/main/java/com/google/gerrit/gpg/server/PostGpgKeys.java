@@ -41,6 +41,7 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.PostGpgKeys.Input;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
@@ -80,6 +81,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final Provider<PersonIdent> serverIdent;
   private final Provider<ReviewDb> db;
+  private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
   private final AddKeySender.Factory addKeyFactory;
@@ -87,11 +89,13 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   @Inject
   PostGpgKeys(@GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<ReviewDb> db,
+      Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
       AddKeySender.Factory addKeyFactory) {
     this.serverIdent = serverIdent;
     this.db = db;
+    this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
     this.addKeyFactory = addKeyFactory;
@@ -101,7 +105,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   public Map<String, GpgKeyInfo> apply(AccountResource rsrc, Input input)
       throws ResourceNotFoundException, BadRequestException,
       ResourceConflictException, PGPException, OrmException, IOException {
-    GpgKeys.checkEnabled();
+    GpgKeys.checkVisible(self, rsrc);
 
     List<AccountExternalId> existingExtIds =
         GpgKeys.getGpgExtIds(db.get(), rsrc.getUser().getAccountId()).toList();

@@ -40,6 +40,7 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -70,16 +71,19 @@ public class GpgKeys implements
 
   private final DynamicMap<RestView<GpgKey>> views;
   private final Provider<ReviewDb> db;
+  private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
 
   @Inject
   GpgKeys(DynamicMap<RestView<GpgKey>> views,
       Provider<ReviewDb> db,
+      Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory) {
     this.views = views;
     this.db = db;
+    this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
   }
@@ -87,7 +91,6 @@ public class GpgKeys implements
   @Override
   public ListGpgKeys list()
       throws ResourceNotFoundException, AuthException {
-    checkEnabled();
     return new ListGpgKeys();
   }
 
@@ -95,7 +98,7 @@ public class GpgKeys implements
   public GpgKey parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, PGPException, OrmException,
       IOException {
-    checkEnabled();
+    checkVisible(self, parent);
     String str = CharMatcher.WHITESPACE.removeFrom(id.get()).toUpperCase();
     if ((str.length() != 8 && str.length() != 40)
         || !CharMatcher.anyOf("0123456789ABCDEF").matchesAllOf(str)) {
@@ -151,7 +154,9 @@ public class GpgKeys implements
   public class ListGpgKeys implements RestReadView<AccountResource> {
     @Override
     public Map<String, GpgKeyInfo> apply(AccountResource rsrc)
-        throws OrmException, PGPException, IOException {
+        throws OrmException, PGPException, IOException,
+        ResourceNotFoundException {
+      checkVisible(self, rsrc);
       Map<String, GpgKeyInfo> keys = new HashMap<>();
       try (PublicKeyStore store = storeProvider.get()) {
         for (AccountExternalId extId : getGpgExtIds(rsrc)) {
@@ -225,9 +230,13 @@ public class GpgKeys implements
     return NB.decodeInt64(fp, fp.length - 8);
   }
 
-  static void checkEnabled() throws ResourceNotFoundException {
+  static void checkVisible(Provider<CurrentUser> self, AccountResource rsrc)
+      throws ResourceNotFoundException {
     if (!BouncyCastleUtil.havePGP()) {
       throw new ResourceNotFoundException("GPG not enabled");
+    }
+    if (self.get() != rsrc.getUser()) {
+      throw new ResourceNotFoundException();
     }
   }
 

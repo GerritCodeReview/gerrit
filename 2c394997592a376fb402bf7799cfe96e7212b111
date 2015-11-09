@@ -34,6 +34,217 @@
       "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56f4e201_1ede6d2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "nit: line wrap before \u0026\u0026 as before",
+      "range": {
+        "startLine": 219,
+        "startChar": 31,
+        "endLine": 219,
+        "endChar": 35
+      },
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_282c8b41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Restore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "line wrap as in old version",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56f4e201_9e18bdc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "This is wrong. Revert creates a new change with this merged commit\u0027s patch set, right?  So its OK to revert so long as the user can add a patch set to this change\u0027s branch.\n\nThe test here is probably wrong. It should be using the destination branch RefControl instead of the ChangeControl.",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56f4e201_fe0d8181",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "These @throws are pointless to document like this. Just revert that hunk.",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_883ad773",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "Consider checking the other permissions first as they are faster to check than a database query.",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56f4e201_de1245a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "as above",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_68368393",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "as above",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_a8379b8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "as above",
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_c844cffa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "We need to use the NoteDb APIs here.\n\nAbove there is a ChangeNotes notes field. You\u0027ll need to use that here to get the approval information.",
+      "range": {
+        "startLine": 277,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 62
+      },
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_084ee717",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "unnecessary",
+      "range": {
+        "startLine": 279,
+        "startChar": 9,
+        "endLine": 279,
+        "endChar": 14
+      },
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967d7aef_4848df08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-09T18:26:28Z",
+      "side": 1,
+      "message": "combine these conditionals together and test the value first as its faster to compare against then the string.",
+      "range": {
+        "startLine": 281,
+        "startChar": 6,
+        "endLine": 283,
+        "endChar": 36
+      },
+      "revId": "2c394997592a376fb402bf7799cfe96e7212b111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

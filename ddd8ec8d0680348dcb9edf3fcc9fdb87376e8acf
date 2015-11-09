@@ -46,6 +46,30 @@
       "revId": "ddd8ec8d0680348dcb9edf3fcc9fdb87376e8acf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_1cd79518",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferences.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T18:51:36Z",
+      "side": 0,
+      "message": "Oops, I updated gerrit-review but I think we forgot to import this change first.",
+      "parentUuid": "d698d291_029f6a76",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 5
+      },
+      "revId": "ddd8ec8d0680348dcb9edf3fcc9fdb87376e8acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

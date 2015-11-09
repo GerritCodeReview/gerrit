@@ -16,6 +16,24 @@
       "revId": "1e01bb7cb43eafd7e46dbda6dd2b6f1b41dac4d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_7c5e9954",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-09T20:43:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_c85befd1",
+      "revId": "1e01bb7cb43eafd7e46dbda6dd2b6f1b41dac4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

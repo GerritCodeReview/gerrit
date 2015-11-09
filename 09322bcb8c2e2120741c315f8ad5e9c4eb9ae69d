@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16718a1c_8498063a",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T17:00:28Z",
+      "side": 1,
+      "message": "ClippyResources (typo; you should copy-paste it anyway)",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 17
+      },
+      "revId": "09322bcb8c2e2120741c315f8ad5e9c4eb9ae69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_2303ca26",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T17:00:28Z",
+      "side": 1,
+      "message": "High-maintenance and error-prone... would remove.",
+      "range": {
+        "startLine": 16,
+        "startChar": 24,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "09322bcb8c2e2120741c315f8ad5e9c4eb9ae69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,15 +15,14 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.AccountInfo;
 
-
-/** Notified whenever a project is created on the master. */
+/** Notified whenever a Change Revision is created. */
 @ExtensionPoint
-public interface NewProjectCreatedListener {
-  interface Event {
-    String getProjectName();
-    String getHeadName();
+public interface RevisionCreatedListener {
+  interface Event extends RevisionEvent {
+    AccountInfo getUploader();
   }
 
-  void onNewProjectCreated(Event event);
+  void onRevisionCreated(Event event);
 }

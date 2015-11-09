@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_5b8483ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/GerritMetrics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-09T20:38:24Z",
+      "side": 1,
+      "message": "@Shawn, so I would like this to work, to help out the plugin authors. But of course it don\u0027t. Can I achieve something like this?",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "f04179818f09b88463f44925c6eb818102e7b703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

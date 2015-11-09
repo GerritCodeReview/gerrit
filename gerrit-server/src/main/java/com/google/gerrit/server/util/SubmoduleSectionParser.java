@@ -18,11 +18,8 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.lib.BlobBasedConfig;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 
 import java.net.URI;
@@ -48,31 +45,12 @@ import java.util.Set;
  */
 public class SubmoduleSectionParser {
 
-  public interface Factory {
-    SubmoduleSectionParser create(BlobBasedConfig bbc, String thisServer,
-        Branch.NameKey superProjectBranch);
-  }
-
-  private final ProjectCache projectCache;
-  private final BlobBasedConfig bbc;
-  private final String thisServer;
-  private final Branch.NameKey superProjectBranch;
-
-  @Inject
-  public SubmoduleSectionParser(ProjectCache projectCache,
-      @Assisted BlobBasedConfig bbc,
-      @Assisted String thisServer,
-      @Assisted Branch.NameKey superProjectBranch) {
-    this.projectCache = projectCache;
-    this.bbc = bbc;
-    this.thisServer = thisServer;
-    this.superProjectBranch = superProjectBranch;
-  }
-
-  public Set<SubmoduleSubscription> parseAllSections() {
+  public static Set<SubmoduleSubscription> parseAllSections(Config bbc,
+      String thisServer, Branch.NameKey superProjectBranch) {
     Set<SubmoduleSubscription> parsedSubscriptions = Sets.newHashSet();
     for (final String id : bbc.getSubsections("submodule")) {
-      final SubmoduleSubscription subscription = parse(id);
+      final SubmoduleSubscription subscription = parse(id, bbc,
+          thisServer, superProjectBranch);
       if (subscription != null) {
         parsedSubscriptions.add(subscription);
       }
@@ -80,12 +58,12 @@ public class SubmoduleSectionParser {
     return parsedSubscriptions;
   }
 
-  private SubmoduleSubscription parse(final String id) {
+  private static SubmoduleSubscription parse(String id, Config bbc,
+      String thisServer, Branch.NameKey superProjectBranch) {
     final String url = bbc.getString("submodule", id, "url");
     final String path = bbc.getString("submodule", id, "path");
     String branch = bbc.getString("submodule", id, "branch");
     SubmoduleSubscription ss = null;
-
     try {
       if (url != null && url.length() > 0 && path != null && path.length() > 0
           && branch != null && branch.length() > 0) {
@@ -115,18 +93,15 @@ public class SubmoduleSectionParser {
               projectName = projectName.substring(0, //
                   projectName.length() - Constants.DOT_GIT_EXT.length());
             }
-            Project.NameKey projectKey = new Project.NameKey(projectName);
-            if (projectCache.get(projectKey) != null) {
-              ss = new SubmoduleSubscription(
+            ss = new SubmoduleSubscription(
                   superProjectBranch,
                   new Branch.NameKey(new Project.NameKey(projectName), branch),
                   path);
-            }
           }
         }
       }
     } catch (URISyntaxException e) {
-      // Error in url syntax (in fact it is uri syntax)
+      // Error in uri syntax
     }
 
     return ss;

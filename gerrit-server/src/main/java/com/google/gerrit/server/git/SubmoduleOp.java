@@ -77,7 +77,6 @@ public class SubmoduleOp {
   private final Set<Branch.NameKey> updatedSubscribers;
   private final Account account;
   private final ChangeHooks changeHooks;
-  private final SubmoduleSectionParser.Factory subSecParserFactory;
   private final boolean verboseSuperProject;
 
   @Inject
@@ -88,15 +87,13 @@ public class SubmoduleOp {
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       @Nullable Account account,
-      ChangeHooks changeHooks,
-      SubmoduleSectionParser.Factory subSecParserFactory) {
+      ChangeHooks changeHooks) {
     this.urlProvider = urlProvider;
     this.myIdent = myIdent;
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
     this.account = account;
     this.changeHooks = changeHooks;
-    this.subSecParserFactory = subSecParserFactory;
     this.verboseSuperProject = cfg.getBoolean("submodule",
         "verboseSuperprojectUpdate", true);
 
@@ -140,9 +137,8 @@ public class SubmoduleOp {
             new BlobBasedConfig(null, repo, commit, GIT_MODULES);
 
         String thisServer = new URI(urlProvider.get()).getHost();
-
-        newSubscriptions = subSecParserFactory.create(bbc, thisServer,
-            destBranch).parseAllSections();
+        newSubscriptions = SubmoduleSectionParser.parseAllSections(bbc,
+            thisServer, destBranch);
       } else {
         newSubscriptions = Collections.emptySet();
       }

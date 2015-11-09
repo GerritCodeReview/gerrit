@@ -304,7 +304,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeValidators.Factory.class);
     factory(ProjectConfigValidator.Factory.class);
     factory(NotesBranchUtil.Factory.class);
-    factory(SubmoduleSectionParser.Factory.class);
 
     bind(AccountManager.class);
     factory(ChangeUserName.Factory.class);

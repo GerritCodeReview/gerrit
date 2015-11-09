@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1447092294 -0500\nnonce AFd3BxvrNgPMD2swrabvIhvvaJ0Wth6Jg2or3oI+7Y9NT7QocmWv1pqB1XMQhMXbP+uvFjYXr+Na\n\n0000000000000000000000000000000000000000 444da902e364cc469d7bb51261c798ebc89b2000 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWQOBGAAoJEF/XxZqaEoiMSfAQAMMgNNrJcCtGvja4sVacdHJO\nM/LyyY/F+EKhhY4ZZMsg5qyZTTpMjvt1mtG9RKl/X2V5Pfn8Nbbk6ide9kTzrT6W\nNb2tmAaNAlL13BTXlGk84RN84a3x186mwbEPmHdJu3wR3eWf5XIZ72Nf3Ejy/jeH\n7dbNNDwmCJksEfM5sjNoUIq7F7MQz1JyX7ZO5IJASwRXEd9i72zQmYcOdoa8w3iO\n/wPJ7TuLEhv8tkEKya0qV6S29ZRKAnuwSQCaf/KqM1wUFq5TlnFe3IABurRuYPHN\noVvn83u02bIqp9OXg96l3gnslF88ll6hIVgal4ouhFEFasge9zkKcL2LT9A275GP\nzGoe24rN/sGtcJao7tqxVTqZDUgiXJVv0IeqxoikUe81jJY4lhJwtqIwWfWipxUv\ny5tjQfFIE+4XZe/VG4vho74pGtqwHGawlOuHjw8mtxY9cVW27N7mSMuC1YbsWH+9\nVpXEmul4TvNdZHWMNyovghmlFghMV7kRM9B7JTxVeUhg5eEm4fr/aujNYJGDUtcL\nFms3jHUqOYk8Idpz4+qowpDk8miBhBW7K9Ag6BO8aTN6tPISpLiIEhAtJY2NSE2x\nwkV0NSsGJERh8mEESSVE74JW2OxrOxJ/OIU/p2p91+oak+P86D9z9uqLUyRpYeIy\nOOTIm/dvNMs9VD5ci2Vi\n\u003duTDG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "967d7aef_a85ebbc2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/DeveloperGwtUiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-09T18:31:29Z",
+      "side": 1,
+      "message": "This comment is out of date now (sorry I didn\u0027t mention it before).",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 78
+      },
+      "revId": "186460c169bc34bca2628b0623a03ec6ff0f4fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56f4e201_de49a5b5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/WarGwtUiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-09T18:31:29Z",
+      "side": 1,
+      "message": "Likewise.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 78
+      },
+      "revId": "186460c169bc34bca2628b0623a03ec6ff0f4fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

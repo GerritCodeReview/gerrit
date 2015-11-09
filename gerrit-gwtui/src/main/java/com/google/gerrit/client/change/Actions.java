@@ -36,8 +36,9 @@ import java.util.TreeSet;
 
 class Actions extends Composite {
   private static final String[] CORE = {
-    "abandon", "cherrypick", "followup", "hashtags", "publish",
-    "rebase", "restore", "revert", "submit", "topic", "/"};
+    "abandon", "cherrypick", "edit:revert", "followup",
+    "hashtags", "publish", "rebase", "restore", "revert",
+    "submit", "topic", "/"};
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
@@ -45,6 +46,7 @@ class Actions extends Composite {
   @UiField Button cherrypick;
   @UiField Button rebase;
   @UiField Button revert;
+  @UiField Button revertRevision;
   @UiField Button submit;
 
   @UiField Button abandon;
@@ -133,6 +135,7 @@ class Actions extends Composite {
 
     a2b(actions, "cherrypick", cherrypick);
     a2b(actions, "rebase", rebase);
+    a2b(actions, "edit:revert", revertRevision);
 
     // The rebase button on change screen is always enabled.
     // It is the "Rebase" button in the RebaseDialog that might be disabled.
@@ -202,6 +205,11 @@ class Actions extends Composite {
   @UiHandler("revert")
   void onRevert(@SuppressWarnings("unused") ClickEvent e) {
     RevertAction.call(revert, changeId, revision, subject);
+  }
+
+  @UiHandler("revertRevision")
+  void onEditRevert(@SuppressWarnings("unused") ClickEvent e) {
+    EditRevertAction.call(changeId, revision);
   }
 
   private static void a2b(NativeMap<ActionInfo> actions, String a, Button b) {

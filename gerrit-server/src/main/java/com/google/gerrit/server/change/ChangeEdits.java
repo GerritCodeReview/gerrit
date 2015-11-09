@@ -38,7 +38,9 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.WebLinks;
@@ -551,6 +553,60 @@ public class ChangeEdits implements
             .base64();
       }
       throw new ResourceNotFoundException();
+    }
+  }
+
+  @Singleton
+  static class RevertRevision implements
+      RestModifyView<RevisionResource, RevertRevision.Input>,
+      UiAction<RevisionResource> {
+    public static class Input {
+    }
+
+    private final Provider<ReviewDb> db;
+    private final ChangeEditModifier editModifier;
+    private final ChangeEditUtil editUtil;
+
+    @Inject
+    RevertRevision(Provider<ReviewDb> db,
+        ChangeEditModifier editModifier,
+        ChangeEditUtil editUtil) {
+      this.db = db;
+      this.editModifier = editModifier;
+      this.editUtil = editUtil;
+    }
+
+    @Override
+    public Response<?> apply(RevisionResource rsrc, Input input)
+        throws AuthException, IOException, InvalidChangeOperationException,
+        BadRequestException, ResourceConflictException, OrmException {
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+      if (edit.isPresent()) {
+        throw new ResourceConflictException(String.format(
+            "edit already exists for the change %s",
+            rsrc.getChange().getChangeId()));
+      }
+
+      if (rsrc.isCurrent()) {
+        throw new ResourceConflictException(String.format(
+            "cannot revert current revision %s",
+            rsrc.getPatchSet().getId()));
+      }
+
+      PatchSet c =
+          db.get().patchSets().get(rsrc.getChange().currentPatchSetId());
+      editModifier.createEdit(rsrc.getChange(), c, rsrc.getPatchSet());
+
+      return Response.none();
+    }
+
+    @Override
+    public UiAction.Description getDescription(RevisionResource rsrc) {
+      return new UiAction.Description()
+          .setLabel("Revert")
+          .setTitle("Revert the patch set as change edit")
+          .setVisible(rsrc.getChange().getStatus() == Status.NEW
+              && !rsrc.isCurrent());
     }
   }
 }

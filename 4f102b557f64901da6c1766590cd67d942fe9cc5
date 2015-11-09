@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_dc4b6d3b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeAbandonedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-09T23:47:21Z",
+      "side": 1,
+      "message": "Who abandoned the change?\n\nWe know the revision but what about the ChangeInfo data?",
+      "revId": "4f102b557f64901da6c1766590cd67d942fe9cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_fb5d8ffb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-09T23:47:21Z",
+      "side": 1,
+      "message": "Who merged the change?\n\nSame question in almost all follow-up listeners...",
+      "revId": "4f102b557f64901da6c1766590cd67d942fe9cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

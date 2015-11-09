@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_bb6f8706",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-09T20:40:51Z",
+      "side": 1,
+      "message": "expose what?",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "405672a041689fbd36a90ef9cbb05de81365910a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_9b744bdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-09T20:40:51Z",
+      "side": 1,
+      "message": "Why is this beneficial? (Does it add security, or is it convenience?)",
+      "revId": "405672a041689fbd36a90ef9cbb05de81365910a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

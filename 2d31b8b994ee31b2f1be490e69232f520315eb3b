@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16718a1c_e408da3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T16:32:52Z",
+      "side": 1,
+      "message": "I don\u0027t need the trailing pound sign when browsing the url; do you, Simon? If not, then I would remove it.",
+      "range": {
+        "startLine": 16,
+        "startChar": 44,
+        "endLine": 16,
+        "endChar": 45
+      },
+      "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_43e1a6be",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/ClippyResources.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T16:32:52Z",
+      "side": 1,
+      "message": "How about replacing line 14 with this or similar?:\n\n[blank line]\n// The above license applies to this file, whereas the below license applies to clipboard-16.png as used herein.\n[blank line]",
+      "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_04a5f675",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/ClippyResources.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T16:32:52Z",
+      "side": 1,
+      "message": "Would add a space between \u0027//\u0027 and first letter of each mit license line above, to fit nicely with other (apache) license header further above.",
+      "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_24aaf246",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T16:32:52Z",
+      "side": 1,
+      "message": "Same comment for above line 14 as in previous file, this time referring to the ClippyResources usage below or so. (You just don\u0027t want the comment to be high maintenance versus the below involved code that could change a tad.)",
+      "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f66b162f_63e6a2d9",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T16:32:52Z",
+      "side": 1,
+      "message": "(Would add spaces above, as per previous file\u0027 second comment.)",
+      "revId": "2d31b8b994ee31b2f1be490e69232f520315eb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

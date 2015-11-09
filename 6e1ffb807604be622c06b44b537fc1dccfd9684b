@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "561dc219_b6c5e863",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-09T22:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8af6189c_ab520933",
+      "range": {
+        "startLine": 1567,
+        "startChar": 27,
+        "endLine": 1567,
+        "endChar": 29
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ab8a0d4_f913378c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
         "patchSetId": 18
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "561dc219_96ca6c71",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-09T22:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab8a0d4_f913378c",
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ab8a0d4_5960a300",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
         "patchSetId": 18
@@ -53,6 +95,30 @@
       "writtenOn": "2015-08-04T12:37:03Z",
       "side": 1,
       "message": "This must be increased to 11.",
+      "range": {
+        "startLine": 157,
+        "startChar": 35,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "561dc219_56ba94e3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-09T22:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab8a0d4_5960a300",
       "range": {
         "startLine": 157,
         "startChar": 35,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "36184e2c_15b01402",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-09T22:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab8a0d4_19562b36",
+      "range": {
+        "startLine": 84,
+        "startChar": 21,
+        "endLine": 84,
+        "endChar": 44
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ab8a0d4_395bef5c",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 18
@@ -99,6 +189,30 @@
       "writtenOn": "2015-08-04T12:37:03Z",
       "side": 1,
       "message": "same here, and in all other places",
+      "range": {
+        "startLine": 168,
+        "startChar": 19,
+        "endLine": 168,
+        "endChar": 42
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36184e2c_75bd08da",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-09T22:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab8a0d4_395bef5c",
       "range": {
         "startLine": 168,
         "startChar": 19,
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "36184e2c_55ba8ce3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-09T22:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8af6189c_eb4c1196",
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8af6189c_8b4f4d89",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 18
@@ -139,6 +271,30 @@
       "writtenOn": "2015-08-04T12:37:03Z",
       "side": 1,
       "message": "Remove this comment, it doesn\u0027t apply to this method.",
+      "range": {
+        "startLine": 147,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 40
+      },
+      "revId": "6e1ffb807604be622c06b44b537fc1dccfd9684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "561dc219_f6bf60cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-09T22:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8af6189c_8b4f4d89",
       "range": {
         "startLine": 147,
         "startChar": 1,

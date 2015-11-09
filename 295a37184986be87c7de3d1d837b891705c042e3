@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_fc0f4907",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T23:11:17Z",
+      "side": 1,
+      "message": "Would it be better to have an own method for this:\n \n  @Before \n  public void setConfig() throws Exception {\n    config.setInt(\"index\", null, \"maxPages\", 10);\n  }\n\n? \n\nIt doesn\u0027t seem to belong into \u0027setUpInjector\u0027.",
+      "revId": "295a37184986be87c7de3d1d837b891705c042e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

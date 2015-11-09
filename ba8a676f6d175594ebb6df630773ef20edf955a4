@@ -153,6 +153,30 @@
       "revId": "ba8a676f6d175594ebb6df630773ef20edf955a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16718a1c_247832a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-09T17:38:25Z",
+      "side": 1,
+      "message": "Totally agree.",
+      "parentUuid": "16718a1c_a4bc2289",
+      "range": {
+        "startLine": 46,
+        "startChar": 47,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "ba8a676f6d175594ebb6df630773ef20edf955a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

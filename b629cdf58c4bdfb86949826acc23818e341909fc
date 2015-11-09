@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_3b36d728",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-09T19:36:41Z",
+      "side": 1,
+      "message": "look here https://gerrit-review.googlesource.com/72200",
+      "parentUuid": "16feeae5_3c4ff1b8",
+      "range": {
+        "startLine": 1407,
+        "startChar": 11,
+        "endLine": 1407,
+        "endChar": 13
+      },
+      "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_7c30592a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-09T19:25:56Z",
       "side": 1,
       "message": "Isn\u0027t this the SSH batch-threads you changed?",
+      "range": {
+        "startLine": 2336,
+        "startChar": 12,
+        "endLine": 2336,
+        "endChar": 13
+      },
+      "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_3c7d31c5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2336,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-09T19:36:41Z",
+      "side": 1,
+      "message": "True. I\u0027m about to split this patch into separate changes. Will fix this there",
+      "parentUuid": "16feeae5_7c30592a",
       "range": {
         "startLine": 2336,
         "startChar": 12,
@@ -83,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_db2093dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-09T19:36:41Z",
+      "side": 1,
+      "message": "David wanted to split those changes to separate patches. ThreadSettingsConfig impl is here https://gerrit-review.googlesource.com/72200",
+      "parentUuid": "967d7aef_c87f6f42",
+      "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_5b564352",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
         "patchSetId": 2
@@ -94,6 +160,30 @@
       "writtenOn": "2015-11-09T19:25:56Z",
       "side": 1,
       "message": "hardcoded 2 batch threads is too low IMHO: only 2 concurrent CI jobs?",
+      "range": {
+        "startLine": 38,
+        "startChar": 57,
+        "endLine": 38,
+        "endChar": 58
+      },
+      "revId": "b629cdf58c4bdfb86949826acc23818e341909fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_1c7af5cc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-09T19:36:41Z",
+      "side": 1,
+      "message": "Still 2 is better than 0 ;) I wonder how many automations you need to have in place (or how slow connection / big repository should be) to hit Gerrit in the very same second twice.",
+      "parentUuid": "f6f876fc_5b564352",
       "range": {
         "startLine": 38,
         "startChar": 57,

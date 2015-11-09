@@ -1404,7 +1404,7 @@ This limit must be several units higher than the total number of
 httpd and sshd threads as some request processing code paths may
 need multiple connections.
 +
-Default is 8.
+Default is 50.
 +
 This setting only applies if
 <<database.connectionPool,database.connectionPool>> is true.
@@ -1422,7 +1422,7 @@ This setting only applies if
 Maximum number of connections to keep idle in the pool.  If there
 are more idle connections, connections will be closed instead of
 being returned back to the pool.
-Default is 4.
+Default is 16.
 +
 This setting only applies if
 <<database.connectionPool,database.connectionPool>> is true.
@@ -2332,6 +2332,8 @@ online schema upgrades.
 If not set or set to a negative value, defaults to the number of logical
 CPUs as returned by the JVM (unless
 link:#changeMerge.threadPoolSize[changeMerge.threadPoolSize] is set).
++
+Defaults to 2.
 
 [[index.onlineUpgrade]]index.onlineUpgrade::
 +
@@ -3031,7 +3033,7 @@ and updating references, not the time to index the pack. Values can
 be specified using standard time unit abbreviations ('ms', 'sec',
 'min', etc.).
 +
-Default is 2 minutes. If no unit is specified, milliseconds
+Default is 4 minutes. If no unit is specified, milliseconds
 is assumed.
 
 [[receive.trustedKey]]receive.trustedKey::
@@ -3409,7 +3411,7 @@ Number of threads to use when executing SSH command requests.
 If additional requests are received while all threads are busy they
 are queued and serviced in a first-come-first-served order.
 +
-By default, 1.5x the number of CPUs available to the JVM.
+By default, 2x the number of CPUs available to the JVM.
 
 [[sshd.batchThreads]]sshd.batchThreads::
 +

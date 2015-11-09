@@ -34,8 +34,8 @@ public class CommandExecutorQueueProvider implements QueueProvider {
   public CommandExecutorQueueProvider(@GerritServerConfig final Config config,
       final WorkQueue queues) {
     final int cores = Runtime.getRuntime().availableProcessors();
-    poolSize = config.getInt("sshd", "threads", 3 * cores / 2);
-    batchThreads = config.getInt("sshd", "batchThreads", 0);
+    poolSize = config.getInt("sshd", "threads", 2 * cores);
+    batchThreads = config.getInt("sshd", "batchThreads", 2);
     if (batchThreads > poolSize) {
       poolSize += batchThreads;
     }

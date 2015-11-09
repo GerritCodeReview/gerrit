@@ -1,0 +1,24 @@
+include_defs('//lib/maven.defs')
+
+DEPS = [
+    '//lib:jsch',
+    '//lib/bouncycastle:bcprov',
+    '//lib/bouncycastle:bcpkix',
+    '//lib/log:nop',
+    '//lib/mina:sshd',
+  ]
+
+java_library(
+  name = 'convertkey__lib',
+  srcs = glob(['src/main/java/**/*.java']),
+  deps = DEPS,
+)
+
+java_binary(
+  name = 'convertkey',
+  deps = [
+    ':convertkey__lib',
+  ],
+  main_class = 'com.googlesource.gerrit.convertkey.ConvertKey',
+)
+

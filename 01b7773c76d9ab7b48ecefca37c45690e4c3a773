@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1447107365 -0500\nnonce AFd3BxvSUFlVi4uNtcwU4KG4zasmZrhd+t47SPvZw1G7RZjiEZFnHWk27T6hI/Pctr5ndggaaQ9g\n\n0000000000000000000000000000000000000000 01b7773c76d9ab7b48ecefca37c45690e4c3a773 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWQRslAAoJEF/XxZqaEoiMFEwQALnluZBE3P+u301RoF88MGWc\n4PyLeeLvlu0DiLHqnbz02xecXUtPwEbM/ETlHuR/yZ5gHjcAD0JiurUPBUZdxrQt\ncUj3+js+RSMQfB2j6xtpTX9owi/xs/zptIxr5OnIs4JfEKsGrC9T5DdZRs/lzrLt\nbq/SoPUr73MGwsCVSicr0fKoU+G4qfNO3HpOwueA8jcr9qkkH/e9sO4gUfpytbBh\nhlIKkoob4JJ/17c/IGau1OodFU0AB4pzu/gHY8Y4eYQQ5CtRIMBxuBQugWlEfj1Y\nViYKc0X0pvwZM1LDxCUitGeOswEj6P2YvolvIntqsa3Sr34xV40uGXs/pDTrUD/k\n5M+Q3K90ZOmZdFCuRCLiDfY0izBL5H1+gH2j5fRKdY+PbuYfwiQYdnqu9ksxBL0m\n1crqOZygxeUetWD/AM7xW0KB5oertXfd+AWAqYwhxlgY1m40LEPV+ar9nDSiBRo9\nBczRkdOOwcd5H9K2KthJEwne21Sg/5Ku7hX/Jp78VVC1h+E0vUIoHSB7yJ1oLIap\nMannuS/pgrnjFNG9AtrUxWmaMHjPTI5jxbtSDCymLaxi+Y3bHkAEWCzV7Focf8+L\nM86LLi0vX4pbzGU7mxbOGs/txDpHgSPhSILdC6qLmqlZqRTwOwd4zuXGS7V8cZZk\n4qroUS5d2z1NH5dHDzCb\n\u003dyXS+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_bb3ca7a5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-09T23:19:34Z",
+      "side": 1,
+      "message": "Document this option?",
+      "range": {
+        "startLine": 27,
+        "startChar": 37,
+        "endLine": 27,
+        "endChar": 71
+      },
+      "revId": "01b7773c76d9ab7b48ecefca37c45690e4c3a773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_dc140d1f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-09T23:19:34Z",
+      "side": 1,
+      "message": "Surprisingly for GWT driven developemnt process, we don\u0027t need to touch the whole UI stuff in our build toolchain in developemnt cycle? Hot-redeplyoment of changed client code would also just work?",
+      "range": {
+        "startLine": 150,
+        "startChar": 10,
+        "endLine": 150,
+        "endChar": 69
+      },
+      "revId": "01b7773c76d9ab7b48ecefca37c45690e4c3a773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

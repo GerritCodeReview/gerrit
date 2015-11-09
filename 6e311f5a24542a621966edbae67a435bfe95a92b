@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "16feeae5_9c18c5c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-09T19:03:38Z",
+      "side": 1,
+      "message": "Don\u0027t you want to use a corporate email address?",
+      "range": {
+        "startLine": 2,
+        "startChar": 25,
+        "endLine": 2,
+        "endChar": 45
+      },
+      "revId": "6e311f5a24542a621966edbae67a435bfe95a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_bc1301a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-09T19:03:38Z",
+      "side": 1,
+      "message": "nit: wrap the commit message at fewer columns.",
+      "revId": "6e311f5a24542a621966edbae67a435bfe95a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_9bf1ebc5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1

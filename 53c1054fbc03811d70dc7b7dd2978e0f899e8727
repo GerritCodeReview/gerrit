@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_1c615515",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T21:27:21Z",
+      "side": 1,
+      "message": "One space should be enough.",
+      "range": {
+        "startLine": 21,
+        "startChar": 30,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "53c1054fbc03811d70dc7b7dd2978e0f899e8727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_db6ed307",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T21:27:21Z",
+      "side": 1,
+      "message": "unmachted?",
+      "range": {
+        "startLine": 597,
+        "startChar": 32,
+        "endLine": 597,
+        "endChar": 33
+      },
+      "revId": "53c1054fbc03811d70dc7b7dd2978e0f899e8727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_fce0e9bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T21:27:21Z",
+      "side": 1,
+      "message": "Make this private?",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 10
+      },
+      "revId": "53c1054fbc03811d70dc7b7dd2978e0f899e8727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_dce52dcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T21:27:21Z",
+      "side": 1,
+      "message": "private?",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 10
+      },
+      "revId": "53c1054fbc03811d70dc7b7dd2978e0f899e8727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_1c96750b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T21:27:21Z",
+      "side": 1,
+      "message": "What happens if two plugins add operators with the same name? Or if a plugin adds an operator that conflict with an operator in core?\n\nShould, by default, operators from plugins be prefixed by the plugin name? Similar to how SSH commands from plugins are prefixed by the plugin name? Having the plugin name as prefix is likely too much of typing, but similar to how SSH commands can be mapped into the Gerrit namespace by defining SSH aliases, we could allow admins to map plugin operators into the Gerrit namespace as well. Then it\u0027s a conscious decision which operator wins in case of conflicts.",
+      "range": {
+        "startLine": 148,
+        "startChar": 12,
+        "endLine": 148,
+        "endChar": 33
+      },
+      "revId": "53c1054fbc03811d70dc7b7dd2978e0f899e8727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_fcf7497c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-09T21:27:21Z",
+      "side": 1,
+      "message": "This results in a warning in Eclipse:\n  \"QueryBuilder is a raw type. References to generic type QueryBuilder\u003cT\u003e should be parameterized\"",
+      "range": {
+        "startLine": 355,
+        "startChar": 33,
+        "endLine": 355,
+        "endChar": 45
+      },
+      "revId": "53c1054fbc03811d70dc7b7dd2978e0f899e8727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

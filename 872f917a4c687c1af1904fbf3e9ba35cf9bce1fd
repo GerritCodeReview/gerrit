@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_1b331b39",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-09T20:43:40Z",
+      "side": 1,
+      "message": "Not sure if it is worth mentioning here, the user get feedback is immediate, too.\n\nThat is the motivation for removal of the merge queue as this sounds more like internal refactoring than the other features.",
+      "range": {
+        "startLine": 66,
+        "startChar": 42,
+        "endLine": 66,
+        "endChar": 43
+      },
+      "revId": "872f917a4c687c1af1904fbf3e9ba35cf9bce1fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

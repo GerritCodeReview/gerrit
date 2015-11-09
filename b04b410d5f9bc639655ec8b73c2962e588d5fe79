@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "967d7aef_a82ddb6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventBroker.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-09T00:27:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76800614_e720e278",
+      "range": {
+        "startLine": 201,
+        "startChar": 27,
+        "endLine": 201,
+        "endChar": 48
+      },
+      "revId": "b04b410d5f9bc639655ec8b73c2962e588d5fe79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_2842cb21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventDispatcher.java",
         "patchSetId": 19
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "76800614_a72d0a6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventDispatcher.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-09T00:27:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_2842cb21",
+      "revId": "b04b410d5f9bc639655ec8b73c2962e588d5fe79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76800614_2742fa21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/RefEvent.java",
         "patchSetId": 19
@@ -53,6 +95,30 @@
       "writtenOn": "2015-11-09T00:18:57Z",
       "side": 1,
       "message": "Seems unused?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "revId": "b04b410d5f9bc639655ec8b73c2962e588d5fe79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76800614_873006c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/RefEvent.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-09T00:27:49Z",
+      "side": 1,
+      "message": "It\u0027s used in EventBroker.java@203",
+      "parentUuid": "76800614_2742fa21",
       "range": {
         "startLine": 23,
         "startChar": 0,

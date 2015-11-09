@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36184e2c_95a384c1",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-09T20:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_7c597982",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 11
+      },
+      "revId": "e8986ffe65eec76e81d1fb5a85a03d0a1b35a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_3b4ff7b8",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-09T19:20:58Z",
       "side": 1,
       "message": "Format as:\n\n  copier \u003d new Button(new SafeHtmlBuilder()\n    .openElement(\"img\")\n    .setAttribute(\"src\", ClippyResources.I.clipboard().getSafeUri().asString())\n    .setWidth(14)\n    .setHeight(14)\n    .closeSelf());\n\nI think the constructor takes a SafeHtml type.",
+      "range": {
+        "startLine": 123,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 40
+      },
+      "revId": "e8986ffe65eec76e81d1fb5a85a03d0a1b35a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36184e2c_f5a8f89e",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-09T20:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_3b4ff7b8",
       "range": {
         "startLine": 123,
         "startChar": 6,

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1447104496 -0800\nnonce AFd3Bxvix3Tdsb5S4boMG5cbiEgzBs7e1jdJisoxI82PmDFUZuoJ5Hb10IlZPg3MLGf48eXU4fNj\n\n0000000000000000000000000000000000000000 11d6a1c9bd88e91b69ee12849cbcdcfb4a385d1b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWQQ/xAAoJEGt7+xNJsB0bwf8H/0eZA+jpERQMk/ouperqj0tb\naW7RgxTsY/vB++s8AQDE+fzOfzAC0WfqvZ53NqcG7lkCqcT7KdipRj5OEQ0pOBXk\nSGE/tjn8jzE0hKULSOGNyAsBLXSg2xEAeNVEVwoGiH6DvnPAwYBVSqL9je0Dk+3+\nmffCPjGbNK4wbs3s35qoKOrntROH7GLTwFTPKCHnKoihZB0LitXuC0aXKet2Zwmd\nFylYgxGpO7B1udviN6x6IFDSfbdvQP5NvAzD4TiNef6je8t7vo1FHwgZdBYzNEJQ\n8LyHTVdkwVBhnQIxRmGRHgxjW5f3ACzff9dIkBMl5x5fwVlIBX3QGUFDAYr6dlg\u003d\n\u003dQ0MI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_5ca0fd5e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/SubmoduleSectionParserTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-09T21:33:12Z",
+      "side": 1,
+      "message": "This seems to still cause problems for me as it will be null later.",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 61
+      },
+      "revId": "11d6a1c9bd88e91b69ee12849cbcdcfb4a385d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

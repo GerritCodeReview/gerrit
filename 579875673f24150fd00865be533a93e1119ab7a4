@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_7c0cd950",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T21:06:33Z",
+      "side": 1,
+      "message": "Discussed in person: PatchSetInserter should be throwing RestApiException directly, which gets rethrown by BatchUpdate.",
+      "revId": "579875673f24150fd00865be533a93e1119ab7a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

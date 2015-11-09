@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_9b3f2b08",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T19:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76800614_073b361e",
+      "range": {
+        "startLine": 83,
+        "startChar": 38,
+        "endLine": 83,
+        "endChar": 43
+      },
+      "revId": "6b415689b6f94ba4b4290aff4d5f7eea117feb4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76800614_47452e97",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
         "patchSetId": 2
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_fb446f9d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T19:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76800614_47452e97",
+      "revId": "6b415689b6f94ba4b4290aff4d5f7eea117feb4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76800614_c75d9e58",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
         "patchSetId": 2
@@ -54,6 +96,30 @@
       "writtenOn": "2015-11-08T00:16:57Z",
       "side": 1,
       "message": "checkNotNull?",
+      "range": {
+        "startLine": 94,
+        "startChar": 17,
+        "endLine": 94,
+        "endChar": 22
+      },
+      "revId": "6b415689b6f94ba4b4290aff4d5f7eea117feb4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_db49b3b5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T19:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76800614_c75d9e58",
       "range": {
         "startLine": 94,
         "startChar": 17,
@@ -89,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_5c563d52",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T19:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76800614_27403a88",
+      "range": {
+        "startLine": 197,
+        "startChar": 52,
+        "endLine": 197,
+        "endChar": 56
+      },
+      "revId": "6b415689b6f94ba4b4290aff4d5f7eea117feb4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76800614_e75aa25d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
         "patchSetId": 2
@@ -100,6 +190,30 @@
       "writtenOn": "2015-11-08T00:16:57Z",
       "side": 1,
       "message": "checkNotNull? (and likewise for contentType)",
+      "range": {
+        "startLine": 223,
+        "startChar": 26,
+        "endLine": 223,
+        "endChar": 38
+      },
+      "revId": "6b415689b6f94ba4b4290aff4d5f7eea117feb4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_fc1bc9ad",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-09T19:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76800614_e75aa25d",
       "range": {
         "startLine": 223,
         "startChar": 26,

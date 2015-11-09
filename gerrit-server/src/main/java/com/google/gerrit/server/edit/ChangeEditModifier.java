@@ -110,14 +110,31 @@ public class ChangeEditModifier {
    * Create new change edit.
    *
    * @param change to create change edit for
-   * @param ps patch set to create change edit on
+   * @param base patch set to create change edit on
    * @return result
    * @throws AuthException
    * @throws IOException
    * @throws ResourceConflictException When change edit already
    * exists for the change
    */
-  public RefUpdate.Result createEdit(Change change, PatchSet ps)
+  public RefUpdate.Result createEdit(Change change, PatchSet base)
+      throws AuthException, IOException, ResourceConflictException {
+    return createEdit(change, base, base);
+  }
+
+  /**
+   * Create new change edit.
+   *
+   * @param change to create change edit for
+   * @param base patch set to create change edit on
+   * @param ps patch set to create cange edit for
+   * @return result
+   * @throws AuthException
+   * @throws IOException
+   * @throws ResourceConflictException When change edit already
+   * exists for the change
+   */
+  public RefUpdate.Result createEdit(Change change, PatchSet base, PatchSet ps)
       throws AuthException, IOException, ResourceConflictException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
@@ -135,7 +152,7 @@ public class ChangeEditModifier {
       try (RevWalk rw = new RevWalk(repo)) {
         ObjectId revision = ObjectId.fromString(ps.getRevision().get());
         String editRefName = RefNames.refsEdit(me.getAccountId(), change.getId(),
-            ps.getId());
+            base.getId());
         Result res =
             update(repo, me, editRefName, rw, ObjectId.zeroId(), revision);
         indexer.index(reviewDb.get(), change);

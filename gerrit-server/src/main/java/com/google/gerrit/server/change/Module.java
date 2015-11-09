@@ -108,6 +108,7 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "download").to(DownloadContent.class);
     get(FILE_KIND, "diff").to(GetDiff.class);
 
+    post(REVISION_KIND, "edit:revert").to(ChangeEdits.RevertRevision.class);
     child(CHANGE_KIND, "edit").to(ChangeEdits.class);
     delete(CHANGE_KIND, "edit").to(DeleteChangeEdit.class);
     child(CHANGE_KIND, "edit:publish").to(PublishChangeEdit.class);

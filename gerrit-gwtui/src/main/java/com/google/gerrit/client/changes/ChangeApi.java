@@ -76,6 +76,13 @@ public class ChangeApi {
     call(id, "revert").post(input, cb);
   }
 
+  /** Create a new change edit that reverts this revision. */
+  public static void editRevert(int id, String revision,
+      AsyncCallback<JavaScriptObject> cb) {
+    Input input = Input.create();
+    call(id, revision, "edit:revert").post(input, cb);
+  }
+
   /** Update the topic of a change. */
   public static void topic(int id, String topic, AsyncCallback<String> cb) {
     RestApi call = call(id, "topic");

@@ -234,7 +234,6 @@ public class HostPageServlet extends HttpServlet {
     String v = session != null ? session.getXGerritAuth() : "";
     Cookie c = new Cookie(HostPageData.XSRF_COOKIE_NAME, v);
     c.setPath("/");
-    c.setHttpOnly(false);
     c.setSecure(isSecure(req));
     c.setMaxAge(session != null
         ? -1 // Set the cookie for this browser session.

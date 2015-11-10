@@ -860,6 +860,9 @@ public class MergeOp {
       // If mergeTip is null merge failed and mergeResultRev will not be read.
       ObjectId mergeResultRev =
           mergeTip != null ? mergeTip.getMergeResults().get(commit) : null;
+      // The change notes must be forcefully reloaded so that the SUBMIT
+      // approval that we added earlier is visible
+      commit.notes().reload();
       try {
         ChangeMessage msg;
         switch (s) {
@@ -981,9 +984,7 @@ public class MergeOp {
       PatchSet.Id mergedId = commit.change().currentPatchSetId();
       merged = db.patchSets().get(mergedId);
       c = setMergedPatchSet(c.getId(), mergedId);
-      // The change notes must be forcefully reloaded so that the SUBMIT
-      // approval that we added earlier is visible
-      submitter = approvalsUtil.getSubmitter(db, commit.notes().reload(), mergedId);
+      submitter = approvalsUtil.getSubmitter(db, commit.notes(), mergedId);
       ChangeControl control = commit.getControl();
       update = updateFactory.create(control, c.getLastUpdatedOn());
 

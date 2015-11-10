@@ -16,6 +16,24 @@
       "revId": "179c26c64e26d38475a18102eaf886fbbdf044fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36184e2c_3508b06e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-10T20:03:28Z",
+      "side": 1,
+      "message": "Done; only one commit btw.",
+      "parentUuid": "16feeae5_bf72d3c6",
+      "revId": "179c26c64e26d38475a18102eaf886fbbdf044fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

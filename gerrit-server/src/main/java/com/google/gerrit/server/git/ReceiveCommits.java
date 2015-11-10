@@ -83,6 +83,7 @@ import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
@@ -100,6 +101,7 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -112,6 +114,7 @@ import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -311,6 +314,7 @@ public class ReceiveCommits {
   private final ChangeKindCache changeKindCache;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
+  private final ChangeMerged changeMerged;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -389,7 +393,8 @@ public class ReceiveCommits {
       final NotesMigration notesMigration,
       final ChangeEditUtil editUtil,
       final BatchUpdate.Factory batchUpdateFactory,
-      final SetHashtagsOp.Factory hashtagsFactory) throws IOException {
+      final SetHashtagsOp.Factory hashtagsFactory,
+      ChangeMerged changeMerged) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.queryProvider = queryProvider;
@@ -424,6 +429,7 @@ public class ReceiveCommits {
     this.changeKindCache = changeKindCache;
     this.batchUpdateFactory = batchUpdateFactory;
     this.hashtagsFactory = hashtagsFactory;
+    this.changeMerged = changeMerged;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -2372,6 +2378,11 @@ public class ReceiveCommits {
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {
+        try {
+          changeMerged.fire(change, newPatchSet, user.getAccount(), newCommit.getName());
+        } catch (PatchListNotAvailableException | GpgException e) {
+          throw new OrmException(e);
+        }
         hooks.doChangeMergedHook(
             change, user.getAccount(), newPatchSet, db, newCommit.getName());
       }
@@ -2711,6 +2722,11 @@ public class ReceiveCommits {
     result.info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
     result.mergedIntoRef = refName;
     markChangeMergedByPush(db, result, result.changeCtl);
+    try {
+      changeMerged.fire(change, result.newPatchSet, user.getAccount(), commit.getName());
+    } catch (PatchListNotAvailableException | GpgException e) {
+      throw new OrmException(e);
+    }
     hooks.doChangeMergedHook(
         change, user.getAccount(), result.newPatchSet, db, commit.getName());
     sendMergedEmail(result);

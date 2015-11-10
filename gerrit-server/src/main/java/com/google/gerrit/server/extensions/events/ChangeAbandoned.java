@@ -22,34 +22,23 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GpgException;
-import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import java.io.IOException;
 
 public class ChangeAbandoned {
 
   private final DynamicSet<ChangeAbandonedListener> listeners;
-  private final ChangeJson.Factory changeJsonFactory;
-  private final ChangeData.Factory changeDataFactory;
-  private final Provider<ReviewDb> db;
+  private final ChangeEventUtil util;
 
   @Inject
   ChangeAbandoned(DynamicSet<ChangeAbandonedListener> listeners,
-      ChangeJson.Factory changeJsonFactory,
-      ChangeData.Factory changeDataFactory,
-      Provider<ReviewDb> db) {
+      ChangeEventUtil util) {
     this.listeners = listeners;
-    this.changeJsonFactory = changeJsonFactory;
-    this.changeDataFactory = changeDataFactory;
-    this.db = db;
+    this.util = util;
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
@@ -62,16 +51,10 @@ public class ChangeAbandoned {
 
   public void fire(Change change, PatchSet ps, Account abandoner, String reason)
       throws OrmException, PatchListNotAvailableException, GpgException, IOException {
-    ChangeJson changeJson = changeJsonFactory.create(ChangeJson.NO_OPTIONS);
-    ChangeInfo changeInfo = changeJson.format(change);
-    ChangeData cd = changeDataFactory.create(db.get(), change);
-    ChangeControl ctl = cd.changeControl();
-    RevisionInfo revisionInfo = changeJson.toRevisionInfo(ctl, ps);
-    AccountInfo ai = new AccountInfo(abandoner.getId().get());
-    ai.email = abandoner.getPreferredEmail();
-    ai.name = abandoner.getFullName();
-    ai.username =  abandoner.getUserName();
-    fire(changeInfo, revisionInfo, ai, reason);
+    fire(util.changeInfo(change),
+        util.revisionInfo(ps),
+        util.accountInfo(abandoner),
+        reason);
   }
 
   private static class Event implements ChangeAbandonedListener.Event {

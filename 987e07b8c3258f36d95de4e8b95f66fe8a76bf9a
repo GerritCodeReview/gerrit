@@ -131,6 +131,47 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_bf6f7306",
+        "filename": "tools/js/download_bower.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-10T18:13:15Z",
+      "side": 1,
+      "message": "I uploaded a simplified version of this change that assumes that system wide bower is installed and is used: [1]. I havn\u0027t documented how to install it. This can be done later, though.\n\n* [1] https://gerrit-review.googlesource.com/72247",
+      "parentUuid": "16feeae5_7f020b4e",
+      "revId": "987e07b8c3258f36d95de4e8b95f66fe8a76bf9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_5f846fee",
+        "filename": "tools/js/download_bower.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-10T18:13:15Z",
+      "side": 1,
+      "message": "Any particular reason not to use had links here and below, how it\u0027s done in download_file.py?",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "987e07b8c3258f36d95de4e8b95f66fe8a76bf9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_9ea399c1",
         "filename": "tools/js/run_npm_binary.py",
         "patchSetId": 2

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_de81a1b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T19:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "561dc219_f6f640b9",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "0d4fcbd46ac4417f020b068b46a72e855cecb02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "561dc219_d6fb44a1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_3e87e5c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T19:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "561dc219_d6fb44a1",
+      "range": {
+        "startLine": 11,
+        "startChar": 62,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "0d4fcbd46ac4417f020b068b46a72e855cecb02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_1f4ca7c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-11-10T17:19:14Z",
       "side": 1,
       "message": "I would have thought \"not current\" was enough here.\n\nIts also maybe weird that you access this using /changes/id/revisions/sha1/review but we then tell you the patch set isn\u0027t current. If you really want to say its the revision maybe:\n\n  \"revision not current\"",
+      "range": {
+        "startLine": 561,
+        "startChar": 14,
+        "endLine": 561,
+        "endChar": 51
+      },
+      "revId": "0d4fcbd46ac4417f020b068b46a72e855cecb02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_1fbdc783",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T19:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_1f4ca7c0",
       "range": {
         "startLine": 561,
         "startChar": 14,
@@ -99,6 +171,24 @@
       "writtenOn": "2015-11-10T17:23:07Z",
       "side": 1,
       "message": "...or move the following assertQuery lines before this, if possible",
+      "parentUuid": "16feeae5_7f596b82",
+      "revId": "0d4fcbd46ac4417f020b068b46a72e855cecb02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_5eb751a1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesV14Test.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T19:53:56Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "16feeae5_7f596b82",
       "revId": "0d4fcbd46ac4417f020b068b46a72e855cecb02d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

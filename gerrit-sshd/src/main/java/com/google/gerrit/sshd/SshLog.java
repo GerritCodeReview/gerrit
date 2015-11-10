@@ -47,6 +47,7 @@ class SshLog implements LifecycleListener {
   private static final String P_WAIT = "queueWaitTime";
   private static final String P_EXEC = "executionTime";
   private static final String P_STATUS = "status";
+  private static final String P_AGENT = "agent";
 
   private final Provider<SshSession> session;
   private final Provider<Context> context;
@@ -115,7 +116,7 @@ class SshLog implements LifecycleListener {
     audit(null, "FAIL", "AUTH");
   }
 
-  void onExecute(DispatchCommand dcmd, int exitValue) {
+  void onExecute(DispatchCommand dcmd, int exitValue, SshSession sshSession) {
     final Context ctx = context.get();
     ctx.finished = TimeUtil.nowMs();
 
@@ -144,6 +145,7 @@ class SshLog implements LifecycleListener {
         break;
     }
     event.setProperty(P_STATUS, status);
+    event.setProperty(P_AGENT, sshSession.getPeerAgent());
 
     if (async != null) {
       async.append(event);

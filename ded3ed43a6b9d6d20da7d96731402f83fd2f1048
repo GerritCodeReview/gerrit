@@ -22,6 +22,30 @@
       "revId": "ded3ed43a6b9d6d20da7d96731402f83fd2f1048",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_3fe1a3ee",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T16:46:50Z",
+      "side": 1,
+      "message": "I think it\u0027s better to be explicit.",
+      "parentUuid": "bb142734_59a3a3c2",
+      "range": {
+        "startLine": 26,
+        "startChar": 29,
+        "endLine": 26,
+        "endChar": 36
+      },
+      "revId": "ded3ed43a6b9d6d20da7d96731402f83fd2f1048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

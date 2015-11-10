@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_fcb9093c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T01:19:28Z",
+      "side": 1,
+      "message": "getMerger?",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_1b383b7b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/DraftPublishedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T01:19:28Z",
+      "side": 1,
+      "message": "getPublisher()?",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_3b3b777b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ReviewerAddedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T01:19:28Z",
+      "side": 1,
+      "message": "ChangeEvent?\n\nReviewers aren\u0027t added to a revision.",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

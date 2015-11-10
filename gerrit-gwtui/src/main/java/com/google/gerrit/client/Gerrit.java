@@ -415,9 +415,26 @@ public class Gerrit implements EntryPoint {
     Cookies.removeCookie("GerritAccount");
   }
 
+  private void setXsrfToken() {
+    xGerritAuth = Cookies.getCookie(XSRF_COOKIE_NAME);
+    Cookies.removeCookie(XSRF_COOKIE_NAME);
+    JsonUtil.setDefaultXsrfManager(new XsrfManager() {
+      @Override
+      public String getToken(JsonDefTarget proxy) {
+        return xGerritAuth;
+      }
+
+      @Override
+      public void setToken(JsonDefTarget proxy, String token) {
+        // Ignore the request, we always rely upon the cookie.
+      }
+    });
+  }
+
   @Override
   public void onModuleLoad() {
     UserAgent.assertNotInIFrame();
+    setXsrfToken();
 
     KeyUtil.setEncoderImpl(new KeyUtil.Encoder() {
       @Override
@@ -513,8 +530,6 @@ public class Gerrit implements EntryPoint {
           editPrefs = null;
           onModuleLoad2(result);
         }
-        xGerritAuth = Cookies.getCookie(XSRF_COOKIE_NAME);
-        Cookies.removeCookie(XSRF_COOKIE_NAME);
       }
     }));
   }
@@ -612,17 +627,6 @@ public class Gerrit implements EntryPoint {
 
     JsonUtil.addRpcStartHandler(RpcStatus.INSTANCE);
     JsonUtil.addRpcCompleteHandler(RpcStatus.INSTANCE);
-    JsonUtil.setDefaultXsrfManager(new XsrfManager() {
-      @Override
-      public String getToken(JsonDefTarget proxy) {
-        return xGerritAuth;
-      }
-
-      @Override
-      public void setToken(JsonDefTarget proxy, String token) {
-        // Ignore the request, we always rely upon the cookie.
-      }
-    });
 
     gStarting.getElement().getParentElement().removeChild(
         gStarting.getElement());

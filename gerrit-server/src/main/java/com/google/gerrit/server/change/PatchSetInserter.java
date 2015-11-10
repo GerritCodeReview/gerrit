@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -194,7 +195,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws InvalidChangeOperationException, IOException {
+      throws ResourceConflictException, IOException {
     init();
     validate(ctx);
     patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
@@ -300,7 +301,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   private void validate(RepoContext ctx)
-      throws InvalidChangeOperationException, IOException {
+      throws ResourceConflictException, IOException {
     CommitValidators cv = commitValidatorsFactory.create(
         refControl, sshInfo, ctx.getRepository());
 
@@ -327,7 +328,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
         break;
       }
     } catch (CommitValidationException e) {
-      throw new InvalidChangeOperationException(e.getMessage());
+      throw new ResourceConflictException(e.getMessage());
     }
   }
 }

@@ -35,15 +35,11 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
@@ -52,8 +48,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -69,7 +63,6 @@ public class SetAccess implements
   private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
   private final ChangeHooks hooks;
-  private final GitReferenceUpdated gitRefUpdated;
   private final GetAccess getAccess;
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> identifiedUser;
@@ -80,7 +73,6 @@ public class SetAccess implements
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
       ChangeHooks hooks,
-      GitReferenceUpdated gitRefUpdated,
       GroupsCollection groupsCollection,
       ProjectCache projectCache,
       GetAccess getAccess,
@@ -91,7 +83,6 @@ public class SetAccess implements
     this.setParent = setParent;
     this.groupsCollection = groupsCollection;
     this.hooks = hooks;
-    this.gitRefUpdated = gitRefUpdated;
     this.getAccess = getAccess;
     this.projectCache = projectCache;
     this.identifiedUser = identifiedUser;
@@ -109,14 +100,12 @@ public class SetAccess implements
 
     ProjectControl projectControl = rsrc.getControl();
     ProjectConfig config;
-    ObjectId base;
 
     Project.NameKey newParentProjectName = input.parent == null ?
         null : new Project.NameKey(input.parent);
 
     try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
       config = ProjectConfig.read(md);
-      base = config.getRevision();
 
       // Perform removal checks
       for (AccessSection section : removals) {
@@ -225,7 +214,8 @@ public class SetAccess implements
         md.setMessage("Modify access rules\n");
       }
 
-      updateProjectConfig(projectControl.getUser(), config, md, base);
+      config.commit(md);
+      projectCache.evict(config.getProject());
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());
     } catch (ConfigInvalidException e) {
@@ -293,25 +283,11 @@ public class SetAccess implements
     return sections;
   }
 
-  private void updateProjectConfig(CurrentUser user,
-      ProjectConfig config, MetaDataUpdate md, ObjectId base)
-      throws IOException {
-    RevCommit commit = config.commit(md);
-
-    Account account = user.isIdentifiedUser()
-        ? user.asIdentifiedUser().getAccount()
-        : null;
-    gitRefUpdated.fire(config.getProject().getNameKey(), RefNames.REFS_CONFIG,
-        base, commit.getId(), account);
-
-    projectCache.evict(config.getProject());
 
     hooks.doRefUpdatedHook(
         new Branch.NameKey(config.getProject().getNameKey(),
             RefNames.REFS_CONFIG),
         base, commit.getId(), user.asIdentifiedUser().getAccount());
-  }
-
   private void checkGlobalCapabilityPermissions(Project.NameKey projectName)
     throws BadRequestException, AuthException {
 

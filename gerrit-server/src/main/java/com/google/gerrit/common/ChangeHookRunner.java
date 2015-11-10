@@ -22,9 +22,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -93,8 +91,7 @@ import java.util.concurrent.TimeoutException;
 
 /** Spawns local executables when a hook action occurs. */
 @Singleton
-public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
-    NewProjectCreatedListener {
+public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     /** A logger for this class. */
     private static final Logger log = LoggerFactory.getLogger(ChangeHookRunner.class);
 
@@ -103,7 +100,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       protected void configure() {
         bind(ChangeHookRunner.class);
         bind(ChangeHooks.class).to(ChangeHookRunner.class);
-        DynamicSet.bind(binder(), NewProjectCreatedListener.class).to(ChangeHookRunner.class);
         listener().to(ChangeHookRunner.class);
       }
     }
@@ -1139,11 +1135,5 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
     public void run() {
       super.runHook();
     }
-  }
-
-  @Override
-  public void onNewProjectCreated(NewProjectCreatedListener.Event event) {
-    Project.NameKey project = new Project.NameKey(event.getProjectName());
-    doProjectCreatedHook(project, event.getHeadName());
   }
 }

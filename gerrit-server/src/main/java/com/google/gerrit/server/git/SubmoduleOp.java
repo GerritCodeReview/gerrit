@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -76,7 +75,6 @@ public class SubmoduleOp {
   private final GitReferenceUpdated gitRefUpdated;
   private final Set<Branch.NameKey> updatedSubscribers;
   private final Account account;
-  private final ChangeHooks changeHooks;
   private final SubmoduleSectionParser.Factory subSecParserFactory;
   private final boolean verboseSuperProject;
 
@@ -88,14 +86,12 @@ public class SubmoduleOp {
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       @Nullable Account account,
-      ChangeHooks changeHooks,
       SubmoduleSectionParser.Factory subSecParserFactory) {
     this.urlProvider = urlProvider;
     this.myIdent = myIdent;
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
     this.account = account;
-    this.changeHooks = changeHooks;
     this.subSecParserFactory = subSecParserFactory;
     this.verboseSuperProject = cfg.getBoolean("submodule",
         "verboseSuperprojectUpdate", true);
@@ -331,7 +327,8 @@ public class SubmoduleOp {
         case NEW:
         case FAST_FORWARD:
           gitRefUpdated.fire(subscriber.getParentKey(), rfu);
-          changeHooks.doRefUpdatedHook(subscriber, rfu, account);
+// ToDo: listen to above
+/*          changeHooks.doRefUpdatedHook(subscriber, rfu, account);*/
           // TODO since this is performed "in the background" no mail will be
           // sent to inform users about the updated branch
           break;

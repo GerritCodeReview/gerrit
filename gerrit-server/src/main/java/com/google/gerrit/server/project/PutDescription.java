@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -45,16 +44,13 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final GitRepositoryManager gitMgr;
-  private final ChangeHooks hooks;
 
   @Inject
   PutDescription(ProjectCache cache,
       MetaDataUpdate.Server updateFactory,
-      ChangeHooks hooks,
       GitRepositoryManager gitMgr) {
     this.cache = cache;
     this.updateFactory = updateFactory;
-    this.hooks = hooks;
     this.gitMgr = gitMgr;
   }
 
@@ -91,9 +87,10 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
         ObjectId commitRev = config.commit(md);
         // Only fire hook if project was actually changed.
         if (!Objects.equals(baseRev, commitRev)) {
-          hooks.doRefUpdatedHook(
+// ToDo fire something like GitReferenceUpdated
+/*          hooks.doRefUpdatedHook(
             new Branch.NameKey(resource.getNameKey(), RefNames.REFS_CONFIG),
-            baseRev, commitRev, user.getAccount());
+            baseRev, commitRev, user.getAccount());*/
         }
         cache.evict(ctl.getProject());
         gitMgr.setProjectDescription(

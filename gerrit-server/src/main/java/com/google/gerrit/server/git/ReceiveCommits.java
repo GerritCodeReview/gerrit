@@ -53,8 +53,6 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.gerrit.common.ChangeHookRunner.HookResult;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
@@ -293,7 +291,6 @@ public class ReceiveCommits {
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
@@ -367,7 +364,6 @@ public class ReceiveCommits {
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final GitReferenceUpdated gitRefUpdated,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final ChangeHooks hooks,
       final ApprovalsUtil approvalsUtil,
       final ApprovalCopier approvalCopier,
       final ChangeMessagesUtil cmUtil,
@@ -413,7 +409,6 @@ public class ReceiveCommits {
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
@@ -672,11 +667,12 @@ public class ReceiveCommits {
             // Events for change refs are fired when they are created.
             //
             gitRefUpdated.fire(project.getNameKey(), c);
-            hooks.doRefUpdatedHook(
+            // ToDo: Listen event above
+/*            hooks.doRefUpdatedHook(
                 new Branch.NameKey(project.getNameKey(), c.getRefName()),
                 c.getOldId(),
                 c.getNewId(),
-                user.getAccount());
+                user.getAccount());*/
           }
         }
     }
@@ -894,18 +890,19 @@ public class ReceiveCommits {
         continue;
       }
 
-      HookResult result = hooks.doRefUpdateHook(project, cmd.getRefName(),
-                              user.getAccount(), cmd.getOldId(),
-                              cmd.getNewId());
-
-      if (result != null) {
-        final String message = result.toString().trim();
-        if (result.getExitValue() != 0) {
-          reject(cmd, message);
-          continue;
-        }
-        rp.sendMessage(message);
-      }
+// Why no CommitValidator here?
+//       HookResult result = hooks.doRefUpdateHook(project, cmd.getRefName(),
+//                               user.getAccount(), cmd.getOldId(),
+//                               cmd.getNewId());
+//
+//      if (result != null) {
+//        final String message = result.toString().trim();
+//        if (result.getExitValue() != 0) {
+//          reject(cmd, message);
+//          continue;
+//        }
+//        rp.sendMessage(message);
+//      }
 
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {
         parseMagicBranch(cmd);
@@ -2387,18 +2384,13 @@ public class ReceiveCommits {
           ObjectId.zeroId(), newCommit);
 
       revisionCreated.fire(change, newPatchSet, user.getAccountId());
-      hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {
         changeMerged.fire(change, newPatchSet, user.getAccount(), newCommit.getName());
-        hooks.doChangeMergedHook(
-            change, user.getAccount(), newPatchSet, db, newCommit.getName());
       }
 
       if (!approvals.isEmpty()) {
         commentAdded.fire(change, newPatchSet, user.getAccount(), null,
             approvals, ts);
-        hooks.doCommentAddedHook(change, user.getAccount(), newPatchSet,
-            null, approvals, db);
       }
 
       if (magicBranch != null && magicBranch.submit) {
@@ -2732,8 +2724,6 @@ public class ReceiveCommits {
     result.mergedIntoRef = refName;
     markChangeMergedByPush(db, result, result.changeCtl);
     changeMerged.fire(change, result.newPatchSet, user.getAccount(), commit.getName());
-    hooks.doChangeMergedHook(
-        change, user.getAccount(), result.newPatchSet, db, commit.getName());
     sendMergedEmail(result);
     return change.getKey();
   }

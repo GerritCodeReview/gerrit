@@ -29,7 +29,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -128,7 +127,6 @@ public class MergeOp {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeData.Factory changeDataFactory;
-  private final ChangeHooks hooks;
   private final ChangeIndexer indexer;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeUpdate.Factory updateFactory;
@@ -181,7 +179,6 @@ public class MergeOp {
       ApprovalsUtil approvalsUtil,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeData.Factory changeDataFactory,
-      ChangeHooks hooks,
       ChangeIndexer indexer,
       ChangeMessagesUtil cmUtil,
       ChangeUpdate.Factory updateFactory,
@@ -205,7 +202,6 @@ public class MergeOp {
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
     this.changeDataFactory = changeDataFactory;
-    this.hooks = hooks;
     this.indexer = indexer;
     this.cmUtil = cmUtil;
     this.updateFactory = updateFactory;
@@ -807,8 +803,9 @@ public class MergeOp {
       RefUpdate branchUpdate) {
     logDebug("Firing ref updated hooks for {}", branchUpdate.getName());
     gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
-    hooks.doRefUpdatedHook(destBranch, branchUpdate,
-        getAccount(mergeTips.get(destBranch).getCurrentTip()));
+// ToDo: listen to event above
+/*    hooks.doRefUpdatedHook(destBranch, branchUpdate,
+        getAccount(mergeTips.get(destBranch).getCurrentTip()));*/
   }
 
   private Account getAccount(CodeReviewCommit codeReviewCommit) {
@@ -1014,16 +1011,9 @@ public class MergeOp {
       log.error("Cannot email merged notification for " + c.getId(), e);
     }
     if (submitter != null && mergeResultRev != null) {
-      try {
-        changeMerged.fire(c, merged,
-            accountCache.get(submitter.getAccountId()).getAccount(),
-            mergeResultRev.name());
-        hooks.doChangeMergedHook(c,
-            accountCache.get(submitter.getAccountId()).getAccount(),
-            merged, db, mergeResultRev.name());
-      } catch (OrmException ex) {
-        logError("Cannot run hook for submitted patch set " + c.getId(), ex);
-      }
+      changeMerged.fire(c, merged,
+          accountCache.get(submitter.getAccountId()).getAccount(),
+          mergeResultRev.name());
     }
   }
 
@@ -1227,9 +1217,6 @@ public class MergeOp {
       try {
         mergeFailed.fire(change, db.patchSets().get(c.currentPatchSetId()),
             submitter.getAccountId(), msg.getMessage());
-        hooks.doMergeFailedHook(c,
-            accountCache.get(submitter.getAccountId()).getAccount(),
-            db.patchSets().get(c.currentPatchSetId()), msg.getMessage(), db);
       } catch (OrmException ex) {
         logError("Cannot run hook for merge failed " + c.getId(), ex);
       }

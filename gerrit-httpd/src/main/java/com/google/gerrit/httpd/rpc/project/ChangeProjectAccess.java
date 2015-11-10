@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
@@ -51,7 +50,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         @Nullable @Assisted String message);
   }
 
-  private final ChangeHooks hooks;
   private final IdentifiedUser user;
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final ProjectCache projectCache;
@@ -63,7 +61,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       MetaDataUpdate.User metaDataUpdateFactory,
       AllProjectsNameProvider allProjects,
       Provider<SetParent> setParent,
-      ChangeHooks hooks, IdentifiedUser user,
+      IdentifiedUser user,
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
@@ -74,7 +72,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         parentProjectName, message, true);
     this.projectAccessFactory = projectAccessFactory;
     this.projectCache = projectCache;
-    this.hooks = hooks;
     this.user = user;
   }
 
@@ -84,9 +81,10 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       throws IOException, NoSuchProjectException, ConfigInvalidException {
     RevCommit commit = config.commit(md);
 
-    hooks.doRefUpdatedHook(
-      new Branch.NameKey(config.getProject().getNameKey(), RefNames.REFS_CONFIG),
-      base, commit.getId(), user.getAccount());
+    // ToDo: We need to fire something like GitReferenceUpdated here
+//     hooks.doRefUpdatedHook(
+//       new Branch.NameKey(config.getProject().getNameKey(), RefNames.REFS_CONFIG),
+//       base, commit.getId(), user.getAccount());
 
     projectCache.evict(config.getProject());
     return projectAccessFactory.create(projectName).call();

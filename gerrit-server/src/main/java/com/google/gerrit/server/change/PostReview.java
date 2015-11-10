@@ -26,7 +26,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
@@ -105,7 +104,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final PatchListCache patchListCache;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
-  private final ChangeHooks hooks;
   private final CommentAdded commentAdded;
 
   @Inject
@@ -119,7 +117,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       PatchListCache patchListCache,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
-      ChangeHooks hooks,
       CommentAdded commentAdded) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
@@ -131,7 +128,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.cmUtil = cmUtil;
     this.accounts = accounts;
     this.email = email;
-    this.hooks = hooks;
     this.commentAdded = commentAdded;
   }
 
@@ -384,14 +380,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             message,
             comments).sendAsync();
       }
-      try {
-        commentAdded.fire(change, ps, user.getAccount(), message.getMessage(),
-            categories, ctx.getWhen());
-        hooks.doCommentAddedHook(change, user.getAccount(), ps,
-            message.getMessage(), categories, ctx.getDb());
-      } catch (OrmException e) {
-        log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
-      }
+      commentAdded.fire(change, ps, user.getAccount(), message.getMessage(),
+          categories, ctx.getWhen());
     }
 
     private boolean insertComments(ChangeContext ctx) throws OrmException {

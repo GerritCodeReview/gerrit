@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -88,7 +87,6 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final AllProjectsNameProvider allProjects;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> user;
-  private final ChangeHooks hooks;
 
   @Inject
   PutConfig(@EnableSignedPush boolean serverEnableSignedPush,
@@ -101,7 +99,6 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       PluginConfigFactory cfgFactory,
       AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views,
-      ChangeHooks hooks,
       Provider<CurrentUser> user) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -113,7 +110,6 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.cfgFactory = cfgFactory;
     this.allProjects = allProjects;
     this.views = views;
-    this.hooks = hooks;
     this.user = user;
   }
 
@@ -199,9 +195,10 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         ObjectId commitRev = projectConfig.commit(md);
         // Only fire hook if project was actually changed.
         if (!Objects.equals(baseRev, commitRev)) {
-          hooks.doRefUpdatedHook(
+// ToDo fire something like GitReferenceUpdated
+/*          hooks.doRefUpdatedHook(
             new Branch.NameKey(projectName, RefNames.REFS_CONFIG),
-            baseRev, commitRev, user.get().asIdentifiedUser().getAccount());
+            baseRev, commitRev, user.get().asIdentifiedUser().getAccount());*/
         }
         projectCache.evict(projectConfig.getProject());
         gitMgr.setProjectDescription(projectName, p.getDescription());

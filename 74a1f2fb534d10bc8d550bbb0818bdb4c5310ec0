@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_3cbed1f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LazyPostReceiveHookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T03:13:33Z",
+      "side": 1,
+      "message": "Missing license/copyright header.",
+      "revId": "74a1f2fb534d10bc8d550bbb0818bdb4c5310ec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

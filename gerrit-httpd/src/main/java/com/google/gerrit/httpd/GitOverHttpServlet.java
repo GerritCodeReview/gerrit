@@ -273,18 +273,10 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     private final AsyncReceiveCommits.Factory factory;
-    private final TransferConfig config;
-    private DynamicSet<ReceivePackInitializer> receivePackInitializers;
-    private DynamicSet<PostReceiveHook> postReceiveHooks;
 
     @Inject
-    ReceiveFactory(AsyncReceiveCommits.Factory factory, TransferConfig config,
-        DynamicSet<ReceivePackInitializer> receivePackInitializers,
-        DynamicSet<PostReceiveHook> postReceiveHooks) {
+    ReceiveFactory(AsyncReceiveCommits.Factory factory) {
       this.factory = factory;
-      this.config = config;
-      this.receivePackInitializers = receivePackInitializers;
-      this.postReceiveHooks = postReceiveHooks;
     }
 
     @Override
@@ -297,23 +289,12 @@ public class GitOverHttpServlet extends GitServlet {
         throw new ServiceNotAuthorizedException();
       }
 
-      final IdentifiedUser user = pc.getUser().asIdentifiedUser();
-      final ReceiveCommits rc = factory.create(pc, db).getReceiveCommits();
+      ReceiveCommits rc = factory.create(pc, db).getReceiveCommits();
+      rc.init();
+
       ReceivePack rp = rc.getReceivePack();
-      rp.setRefLogIdent(user.newRefLogIdent());
-      rp.setTimeout(config.getTimeout());
-      rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
-      init(pc.getProject().getNameKey(), rp);
-      rp.setPostReceiveHook(PostReceiveHookChain.newChain(
-          Lists.newArrayList(postReceiveHooks)));
       req.setAttribute(ATT_RC, rc);
       return rp;
-    }
-
-    private void init(Project.NameKey project, ReceivePack rp) {
-      for (ReceivePackInitializer initializer : receivePackInitializers) {
-        initializer.init(project, rp);
-      }
     }
   }
 

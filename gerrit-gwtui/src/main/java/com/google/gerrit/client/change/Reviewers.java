@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.NotSignedInDialog;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.AccountInfo;
@@ -177,10 +178,14 @@ public class Reviewers extends Composite {
 
           @Override
           public void onFailure(Throwable err) {
-            UIObject.setVisible(error, true);
-            error.setInnerText(err instanceof StatusCodeException
-                ? ((StatusCodeException) err).getEncodedResponse()
-                : err.getMessage());
+            if (isSigninFailure(err)) {
+              new NotSignedInDialog().center();
+            } else {
+              UIObject.setVisible(error, true);
+              error.setInnerText(err instanceof StatusCodeException
+                  ? ((StatusCodeException) err).getEncodedResponse()
+                  : err.getMessage());
+            }
           }
         });
   }

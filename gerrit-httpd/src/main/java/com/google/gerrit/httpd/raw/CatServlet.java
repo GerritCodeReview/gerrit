@@ -258,7 +258,6 @@ public class CatServlet extends HttpServlet {
     CacheHeaders.setNotCacheable(rsp);
 
     OutputStream out;
-    @SuppressWarnings("resource")
     ZipOutputStream zo;
 
     final MimeType contentType = registry.getMimeType(path, raw);
@@ -301,6 +300,7 @@ public class CatServlet extends HttpServlet {
 
     if (zo != null) {
       zo.closeEntry();
+      zo.close();
     }
     out.close();
   }

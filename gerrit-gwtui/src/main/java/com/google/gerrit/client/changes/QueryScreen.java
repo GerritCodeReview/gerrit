@@ -15,16 +15,21 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.documentation.DocInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 public class QueryScreen extends PagedSingleListScreen implements
     ChangeListScreen {
+  private static final String DOCS_SEARCH_URI = "/Documentation/";
+
   public static QueryScreen forQuery(String query) {
     return forQuery(query, 0);
   }
@@ -77,6 +82,23 @@ public class QueryScreen extends PagedSingleListScreen implements
     super.onLoad();
     ChangeList.query(
         query, ChangeTable.OPTIONS, loadCallback(), start, pageSize);
+    doDocsQuery();
+  }
+
+  private AsyncCallback<JsArray<DocInfo>> loadDocsCallback() {
+    return new GerritCallback<JsArray<DocInfo>>() {
+      @Override
+      public void onSuccess(JsArray<DocInfo> result) {
+        displayDocsResults(result);
+        display();
+      }
+    };
+  }
+
+  private void doDocsQuery() {
+    RestApi call = new RestApi(DOCS_SEARCH_URI);
+    call.addParameterRaw("q", query);
+    call.get(loadDocsCallback());
   }
 
   private static boolean isSingleQuery(String query) {

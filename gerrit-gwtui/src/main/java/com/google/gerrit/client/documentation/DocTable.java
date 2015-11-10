@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
-class DocTable extends NavigationTable<DocInfo> {
+public class DocTable extends NavigationTable<DocInfo> {
   private static final int C_TITLE = 1;
 
   private int rows = 0;

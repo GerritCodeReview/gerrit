@@ -898,59 +898,12 @@ public class SideBySide extends Screen {
     };
   }
 
-  private int adjustCommitMessageLine(int line) {
-    /* When commit messages are shown in the side-by-side screen they include
-      a header block that looks like this:
-
-      1 Parent:     deadbeef (Parent commit title)
-      2 Author:     A. U. Thor <author@example.com>
-      3 AuthorDate: 2015-02-27 19:20:52 +0900
-      4 Commit:     A. U. Thor <author@example.com>
-      5 CommitDate: 2015-02-27 19:20:52 +0900
-      6 [blank line]
-      7 Commit message title
-      8
-      9 Commit message body
-     10 ...
-     11 ...
-
-    If the commit is a merge commit, both parent commits are listed in the
-    first two lines instead of a 'Parent' line:
-
-      1 Merge Of:   deadbeef (Parent 1 commit title)
-      2             beefdead (Parent 2 commit title)
-
-    */
-
-    // Offset to compensate for header lines until the blank line
-    // after 'CommitDate'
-    int offset = 6;
-
-    // Adjust for merge commits, which have two parent lines
-    if (diff.textB().startsWith("Merge")) {
-      offset += 1;
-    }
-
-    // If the cursor is inside the header line, reset to the first line of the
-    // commit message. Otherwise if the cursor is on an actual line of the commit
-    // message, adjust the line number to compensate for the header lines, so the
-    // focus is on the correct line.
-    if (line <= offset) {
-      return 1;
-    } else {
-      return line - offset;
-    }
-  }
-
   private Runnable openEditScreen(final CodeMirror cm) {
     return new Runnable() {
       @Override
       public void run() {
         LineHandle handle = cm.extras().activeLine();
         int line = cm.getLineNumber(handle) + 1;
-        if (Patch.COMMIT_MSG.equals(path)) {
-          line = adjustCommitMessageLine(line);
-        }
         String token = Dispatcher.toEditScreen(revision, path, line);
         if (!Gerrit.isSignedIn()) {
           Gerrit.doSignIn(token);

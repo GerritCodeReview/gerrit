@@ -315,10 +315,58 @@ public class EditScreen extends Screen {
     cm.focus();
 
     if (startLine > 0) {
-      cm.scrollToLine(startLine);
+      if (Patch.COMMIT_MSG.equals(path)) {
+        cm.scrollToLine(adjustCommitMessageLine(startLine));
+      } else {
+        cm.scrollToLine(startLine);
+      }
     }
     updateActiveLine();
     editPrefsAction = new EditPreferencesAction(this, prefs);
+  }
+
+  private int adjustCommitMessageLine(int line) {
+    /* When commit messages are shown in the side-by-side screen they include
+      a header block that looks like this:
+
+      1 Parent:     deadbeef (Parent commit title)
+      2 Author:     A. U. Thor <author@example.com>
+      3 AuthorDate: 2015-02-27 19:20:52 +0900
+      4 Commit:     A. U. Thor <author@example.com>
+      5 CommitDate: 2015-02-27 19:20:52 +0900
+      6 [blank line]
+      7 Commit message title
+      8
+      9 Commit message body
+     10 ...
+     11 ...
+
+    If the commit is a merge commit, both parent commits are listed in the
+    first two lines instead of a 'Parent' line:
+
+      1 Merge Of:   deadbeef (Parent 1 commit title)
+      2             beefdead (Parent 2 commit title)
+
+    */
+
+    // Find the first blank line
+    int offset = 0;
+    for (String s : cm.getDoc().toString().split("\n")) {
+      if (s == null) {
+        break;
+      }
+      offset ++;
+    }
+
+    // If the cursor is inside the header line, reset to the first line of the
+    // commit message. Otherwise if the cursor is on an actual line of the commit
+    // message, adjust the line number to compensate for the header lines, so the
+    // focus is on the correct line.
+    if (line <= offset) {
+      return 1;
+    } else {
+      return line - offset;
+    }
   }
 
   @Override

@@ -119,7 +119,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableSetMultimap<ReviewerState, Account.Id> reviewers;
   private ImmutableList<Account.Id> allPastReviewers;
   private ImmutableList<SubmitRecord> submitRecords;
-  private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessages;
+  private ImmutableList<ChangeMessage> allChangeMessages;
+  private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private ImmutableSet<String> hashtags;
   NoteMap noteMap;
@@ -170,9 +171,18 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return submitRecords;
   }
 
-  /** @return change messages by patch set, in chronological order. */
-  public ImmutableListMultimap<PatchSet.Id, ChangeMessage> getChangeMessages() {
-    return changeMessages;
+  /** @return all change messages, in chronological order, oldest first. */
+  public ImmutableList<ChangeMessage> getChangeMessages() {
+    return allChangeMessages;
+  }
+
+  /**
+   * @return change messages by patch set, in chronological order, oldest
+   *     first.
+   */
+  public ImmutableListMultimap<PatchSet.Id, ChangeMessage>
+      getChangeMessagesByPatchSet() {
+    return changeMessagesByPatchSet;
   }
 
   /** @return inline comments on each revision. */
@@ -250,7 +260,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         change.setStatus(parser.status);
       }
       approvals = parser.buildApprovals();
-      changeMessages = parser.buildMessages();
+      changeMessagesByPatchSet = parser.buildMessagesByPatchSet();
+      allChangeMessages = parser.buildAllMessages();
       comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
 
@@ -277,7 +288,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     approvals = ImmutableListMultimap.of();
     reviewers = ImmutableSetMultimap.of();
     submitRecords = ImmutableList.of();
-    changeMessages = ImmutableListMultimap.of();
+    allChangeMessages = ImmutableList.of();
+    changeMessagesByPatchSet = ImmutableListMultimap.of();
     comments = ImmutableListMultimap.of();
     hashtags = ImmutableSet.of();
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_fe30dd97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T23:44:11Z",
+      "side": 1,
+      "message": "Is there any way to make this available only during testing?",
+      "revId": "1c200b552ba77915ca48b0e8aa3b3364111de186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

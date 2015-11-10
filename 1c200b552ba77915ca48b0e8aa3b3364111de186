@@ -16,6 +16,24 @@
       "revId": "1c200b552ba77915ca48b0e8aa3b3364111de186",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_1fcae7c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-10T23:47:26Z",
+      "side": 1,
+      "message": "It\u0027s not used from the test, but it\u0027s used from the ConsistencyChecker, which a user can invoke via REST to fix a change.",
+      "parentUuid": "f6f876fc_fe30dd97",
+      "revId": "1c200b552ba77915ca48b0e8aa3b3364111de186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

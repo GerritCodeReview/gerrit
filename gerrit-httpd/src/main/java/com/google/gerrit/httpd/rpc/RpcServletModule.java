@@ -22,7 +22,7 @@ import com.google.inject.servlet.ServletModule;
 
 /** Binds {@link RemoteJsonService} implementations to a JSON servlet. */
 public abstract class RpcServletModule extends ServletModule {
-  public static final String PREFIX = "/gerrit_ui/rpc/";
+  public static final String PREFIX = "/gwt_json/rpc/";
 
   private final String prefix;
 

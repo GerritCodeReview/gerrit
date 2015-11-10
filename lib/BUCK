@@ -42,9 +42,9 @@ java_library(
 
 maven_jar(
   name = 'gwtjsonrpc',
-  id = 'gwtjsonrpc:gwtjsonrpc:1.7-2-g272ca32',
-  bin_sha1 = '91be25537f7e53e0b5ff5edb9a42ebfc56f764b6',
-  src_sha1 = '7e6d8892f2e3bf21a9854afcfd2534263636dcbc',
+  id = 'gwtjsonrpc:gwtjsonrpc:1.7-3-gc274ed3',
+  bin_sha1 = '269be8d8a559b0e51f52a0ce1baa04717b72efd3',
+  src_sha1 = '27e136ec569a50cab3b830f328a461e0e74340ee',
   license = 'Apache2.0',
   repository = GERRIT,
 )

@@ -34,11 +34,20 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Requires the connection to use SSL, redirects if not. */
 @Singleton
-class RequireSslFilter implements Filter {
-  static class Module extends ServletModule {
+public class RequireSslFilter implements Filter {
+  public static class Module extends ServletModule {
+    private final boolean wantSsl;
+
+    @Inject
+    Module(@Nullable @CanonicalWebUrl String canonicalUrl) {
+      this.wantSsl = canonicalUrl != null && canonicalUrl.startsWith("https:");
+    }
+
     @Override
     protected void configureServlets() {
-      filter("/*").through(RequireSslFilter.class);
+      if (wantSsl) {
+        filter("/*").through(RequireSslFilter.class);
+      }
     }
   }
 

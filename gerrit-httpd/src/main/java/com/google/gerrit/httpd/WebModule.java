@@ -16,7 +16,6 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
@@ -28,7 +27,6 @@ import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
@@ -42,17 +40,14 @@ import java.net.SocketAddress;
 
 public class WebModule extends LifecycleModule {
   private final AuthConfig authConfig;
-  private final boolean wantSSL;
   private final GitwebCgiConfig gitwebCgiConfig;
   private final GerritOptions options;
 
   @Inject
   WebModule(AuthConfig authConfig,
-      @CanonicalWebUrl @Nullable String canonicalUrl,
       GerritOptions options,
       GitwebCgiConfig gitwebCgiConfig) {
     this.authConfig = authConfig;
-    this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
     this.options = options;
     this.gitwebCgiConfig = gitwebCgiConfig;
   }
@@ -62,9 +57,6 @@ public class WebModule extends LifecycleModule {
     bind(RequestScopePropagator.class).to(GuiceRequestScopePropagator.class);
     bind(HttpRequestContext.class);
 
-    if (wantSSL) {
-      install(new RequireSslFilter.Module());
-    }
     install(new RunAsFilter.Module());
 
     installAuthModule();

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_1fe827a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-10T18:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96a1f90e_eefbffa2",
+      "revId": "ad96cc39cc4935ca2ea6bcc87993d67fd4f9d8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96a1f90e_8ef6bbbc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_7e0ccd50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-10T18:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96a1f90e_8ef6bbbc",
+      "revId": "ad96cc39cc4935ca2ea6bcc87993d67fd4f9d8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96a1f90e_ce00c350",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2
@@ -48,6 +84,24 @@
       "writtenOn": "2015-10-28T17:41:25Z",
       "side": 1,
       "message": "Long line",
+      "revId": "ad96cc39cc4935ca2ea6bcc87993d67fd4f9d8e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_7ff5eb78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-10T18:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96a1f90e_ce00c350",
       "revId": "ad96cc39cc4935ca2ea6bcc87993d67fd4f9d8e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

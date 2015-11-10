@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_5cb59d07",
+        "filename": "lib/js.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-10T03:14:15Z",
+      "side": 1,
+      "message": "This would contain lots of stuff we wouldn\u0027t need in production, like tests, README etc. I wonder if this could be dropped?",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 58
+      },
+      "revId": "987e07b8c3258f36d95de4e8b95f66fe8a76bf9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_9ea399c1",
+        "filename": "tools/js/run_npm_binary.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-10T03:14:15Z",
+      "side": 1,
+      "message": "[Optionally] This can be optionally moved to ~/.gerritcodereview/buck-cache/npm_binary or some such to prevent extracting the tar again after the buck-out directory was removed.",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 59
+      },
+      "revId": "987e07b8c3258f36d95de4e8b95f66fe8a76bf9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

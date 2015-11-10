@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThatNameList;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -198,8 +199,12 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {
-    exception.expect(BadRequestException.class);
-    req.get();
+    try {
+      req.get();
+      fail("Expected BadRequestException");
+    } catch (BadRequestException expected) {
+      // Expected.
+    }
   }
 
   private Iterable<ProjectInfo> filter(Iterable<ProjectInfo> infos) {

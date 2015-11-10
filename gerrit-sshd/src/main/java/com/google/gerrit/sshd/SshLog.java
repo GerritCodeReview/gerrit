@@ -47,6 +47,7 @@ class SshLog implements LifecycleListener {
   private static final String P_WAIT = "queueWaitTime";
   private static final String P_EXEC = "executionTime";
   private static final String P_STATUS = "status";
+  private static final String P_AGENT = "agent";
 
   private final Provider<SshSession> session;
   private final Provider<Context> context;
@@ -104,6 +105,7 @@ class SshLog implements LifecycleListener {
 
     event.setProperty(P_SESSION, id(sd.getSessionId()));
     event.setProperty(P_USER_NAME, sd.getUsername());
+    event.setProperty(P_AGENT, sd.getPeerAgent());
 
     final String error = sd.getAuthenticationError();
     if (error != null) {

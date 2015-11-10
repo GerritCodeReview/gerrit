@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -55,7 +54,6 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Abandon.class);
 
-  private final ChangeHooks hooks;
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
@@ -64,14 +62,12 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final ChangeAbandoned changeAbandoned;
 
   @Inject
-  Abandon(ChangeHooks hooks,
-      AbandonedSender.Factory abandonedSenderFactory,
+  Abandon(AbandonedSender.Factory abandonedSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
       ChangeAbandoned changeAbandoned) {
-    this.hooks = hooks;
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
@@ -169,11 +165,6 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
         log.error("Cannot email update for change " + change.getId(), e);
       }
       changeAbandoned.fire(change, patchSet, account, msgTxt);
-      hooks.doChangeAbandonedHook(change,
-          account,
-          patchSet,
-          Strings.emptyToNull(msgTxt),
-          ctx.getDb());
     }
   }
 

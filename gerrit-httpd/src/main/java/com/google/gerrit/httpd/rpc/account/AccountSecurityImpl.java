@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditService;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.errors.NoSuchEntityException;
@@ -56,7 +55,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
 
-  private final ChangeHooks hooks;
   private final GroupCache groupCache;
   private final AuditService auditService;
   private final ClaSignup claSignup;
@@ -69,7 +67,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final AccountByEmailCache abec, final AccountCache uac,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
-      final ChangeHooks hooks, final GroupCache groupCache,
+      final GroupCache groupCache,
       final AuditService auditService,
       ClaSignup claSignup) {
     super(schema, currentUser);
@@ -81,7 +79,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     this.auditService = auditService;
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
-    this.hooks = hooks;
     this.groupCache = groupCache;
     this.claSignup = claSignup;
   }
@@ -158,7 +155,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
         Account account = user.get().getAccount();
         claSignup.fire(account, ca.getName());
-        hooks.doClaSignupHook(account, ca);
 
         final AccountGroupMember.Key key =
             new AccountGroupMember.Key(account.getId(), group.getId());

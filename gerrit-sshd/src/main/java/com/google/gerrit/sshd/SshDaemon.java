@@ -103,6 +103,11 @@ import org.apache.sshd.server.global.NoMoreSessionsHandler;
 import org.apache.sshd.server.global.TcpipForwardHandler;
 import org.apache.sshd.server.kex.DHG1;
 import org.apache.sshd.server.kex.DHG14;
+import org.apache.sshd.server.kex.DHGEX;
+import org.apache.sshd.server.kex.DHGEX256;
+import org.apache.sshd.server.kex.ECDHP256;
+import org.apache.sshd.server.kex.ECDHP384;
+import org.apache.sshd.server.kex.ECDHP521;
 import org.apache.sshd.server.session.SessionFactory;
 import org.bouncycastle.crypto.prng.RandomGenerator;
 import org.bouncycastle.crypto.prng.VMPCRandomGenerator;
@@ -407,8 +412,14 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initProviderBouncyCastle(Config cfg) {
-    setKeyExchangeFactories(Arrays.<NamedFactory<KeyExchange>> asList(
-        new DHG14.Factory(), new DHG1.Factory()));
+    setKeyExchangeFactories(filter(cfg, "kex",
+        new DHG14.Factory(),
+        new DHG1.Factory(),
+        new DHGEX.Factory(),
+        new DHGEX256.Factory(),
+        new ECDHP256.Factory(),
+        new ECDHP384.Factory(),
+        new ECDHP521.Factory()));
     NamedFactory<Random> factory;
     if (cfg.getBoolean("sshd", null, "testUseInsecureRandom", false)) {
       factory = new InsecureBouncyCastleRandom.Factory();

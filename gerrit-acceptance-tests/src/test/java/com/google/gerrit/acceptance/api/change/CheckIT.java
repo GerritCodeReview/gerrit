@@ -25,6 +25,10 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.inject.Inject;
 
 import org.junit.Test;
 
@@ -33,6 +37,15 @@ import java.util.List;
 
 @NoHttpd
 public class CheckIT extends AbstractDaemonTest {
+  @Inject
+  private ChangeControl.GenericFactory changeControlFactory;
+
+  @Inject
+  private IdentifiedUser.GenericFactory userFactory;
+
+  @Inject
+  private ChangeUpdate.Factory changeUpdateFactory;
+
   // Most types of tests belong in ConsistencyCheckerTest; these mostly just
   // test paths outside of ConsistencyChecker, like API wiring.
   @Test
@@ -66,6 +79,12 @@ public class CheckIT extends AbstractDaemonTest {
     Change c = getChange(r);
     c.setStatus(Change.Status.NEW);
     db.changes().update(Collections.singleton(c));
+    ChangeUpdate changeUpdate =
+        changeUpdateFactory.create(
+            changeControlFactory.controlFor(
+                c, userFactory.create(admin.id)));
+    changeUpdate.setStatus(Change.Status.NEW);
+    changeUpdate.commit();
     indexer.index(db, c);
 
     ChangeInfo info = gApi.changes()

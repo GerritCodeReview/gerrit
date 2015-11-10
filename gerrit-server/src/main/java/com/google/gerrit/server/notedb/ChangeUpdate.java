@@ -169,6 +169,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.status = status;
   }
 
+  public void fixStatus(Change.Status status) {
+    this.status = status;
+  }
+
   public void putApproval(String label, short value) {
     approvals.put(label, Optional.of(value));
   }

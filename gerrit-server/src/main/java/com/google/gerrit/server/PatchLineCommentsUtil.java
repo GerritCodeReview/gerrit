@@ -275,14 +275,10 @@ public class PatchLineCommentsUtil {
       return sort(db.patchComments().draftByAuthor(author).toList());
     }
 
-    // TODO(dborowitz): Just scan author space.
-    Set<String> refNames = getRefNamesAllUsers(RefNames.REFS_DRAFT_COMMENTS);
+    Set<String> refNames =
+        getRefNamesAllUsers(RefNames.refsDraftCommentsPrefix(author));
     List<PatchLineComment> comments = Lists.newArrayList();
     for (String refName : refNames) {
-      Account.Id id = Account.Id.fromRefPart(refName);
-      if (!author.equals(id)) {
-        continue;
-      }
       Change.Id changeId = Change.Id.parse(refName);
       comments.addAll(
           draftFactory.create(changeId, author).load().getComments().values());
@@ -364,7 +360,7 @@ public class PatchLineCommentsUtil {
   }
 
   private Set<String> getRefNamesAllUsers(String prefix) throws OrmException {
-    try (Repository repo = repoManager.openRepository(allUsers)) {
+    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
       RefDatabase refDb = repo.getRefDatabase();
       return refDb.getRefs(prefix).keySet();
     } catch (IOException e) {

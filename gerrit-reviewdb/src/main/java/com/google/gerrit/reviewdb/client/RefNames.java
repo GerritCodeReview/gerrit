@@ -88,6 +88,17 @@ public class RefNames {
 
   public static String refsDraftComments(Account.Id accountId,
       Change.Id changeId) {
+    StringBuilder r = buildRefsDraftCommentsPrefix(accountId);
+    r.append(changeId.get());
+    return r.toString();
+  }
+
+  public static String refsDraftCommentsPrefix(Account.Id accountId) {
+    return buildRefsDraftCommentsPrefix(accountId).toString();
+  }
+
+  public static StringBuilder buildRefsDraftCommentsPrefix(
+      Account.Id accountId) {
     StringBuilder r = new StringBuilder();
     r.append(REFS_DRAFT_COMMENTS);
     int n = accountId.get() % 100;
@@ -98,8 +109,7 @@ public class RefNames {
     r.append('/');
     r.append(accountId.get());
     r.append('-');
-    r.append(changeId.get());
-    return r.toString();
+    return r;
   }
 
   /**

@@ -289,6 +289,20 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listChangeWithDrafts() throws Exception {
+    for (Integer line : lines) {
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      DraftInput comment = newDraft(
+          "file1", Side.REVISION, line, "comment 1");
+      addDraft(changeId, revId, comment);
+      assertThat(gApi.changes().query(
+          "change:" + changeId + " has:draft").get()).hasSize(1);
+    }
+  }
+
+  @Test
   public void publishCommentsAllRevisions() throws Exception {
     PushOneCommit.Result r1 = createChange();
 

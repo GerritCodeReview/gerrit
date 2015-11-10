@@ -43,6 +43,12 @@ public class RefNamesTest {
   }
 
   @Test
+  public void refsDraftCommentsPrefix() throws Exception {
+    assertThat(RefNames.refsDraftCommentsPrefix(accountId))
+      .isEqualTo("refs/draft-comments/23/1011123-");
+  }
+
+  @Test
   public void refsEdit() throws Exception {
     assertThat(RefNames.refsEdit(accountId, changeId, psId))
       .isEqualTo("refs/users/23/1011123/edit-67473/42");

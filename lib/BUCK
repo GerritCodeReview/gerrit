@@ -211,6 +211,37 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'mockito-core',
+  id = 'org.mockito:mockito-core:1.10.19',
+  sha1 = 'e8546f5bef4e061d8dd73895b4e8f40e3fe6effe',
+  license = 'DO_NOT_DISTRIBUTE',
+)
+
+maven_jar(
+  name = 'mockito',
+  id = 'org.mockito:mockito-all:1.10.19',
+  sha1 = '539df70269cc254a58cccc5d8e43286b4a73bf30',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [':mockito-core'],
+)
+
+maven_jar(
+  name = 'assertj-core',
+  id = 'org.assertj:assertj-core:1.4.0',
+  sha1 = '7bf4bd403aca794b576e1b07fb8f0038be1991c7',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [':mockito'],
+)
+
+maven_jar(
+  name = 'catch-exception',
+  id = 'com.googlecode.catch-exception:catch-exception:1.2.0',
+  sha1 = 'f2d1a395d91b4c024b9cc6a0946cfb10199df0a0',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [':assertj-core'],
+)
+
+maven_jar(
   name = 'tukaani-xz',
   id = 'org.tukaani:xz:1.4',
   sha1 = '18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3',

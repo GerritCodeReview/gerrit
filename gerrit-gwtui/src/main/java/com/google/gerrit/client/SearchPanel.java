@@ -27,6 +27,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -34,6 +35,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 class SearchPanel extends Composite {
   private final HintTextBox searchBox;
+  private final ListBox dropdown;
   private HandlerRegistration regFocus;
 
   SearchPanel() {
@@ -54,6 +56,18 @@ class SearchPanel extends Composite {
       }
     });
 
+    if (Gerrit.hasDocSearch()) {
+      dropdown = new ListBox();
+      dropdown.setStyleName("searchDropdown");
+      dropdown.addItem(Gerrit.C.searchDropdownChanges());
+      dropdown.addItem(Gerrit.C.searchDropdownDoc());
+      dropdown.setVisibleItemCount(1);
+      dropdown.setSelectedIndex(0);
+    } else {
+      // Doc search is NOT available.
+      dropdown = null;
+    }
+
     final SuggestBox suggestBox =
         new SuggestBox(new SearchSuggestOracle(), searchBox, suggestionDisplay);
     searchBox.setStyleName("searchTextBox");
@@ -70,6 +84,9 @@ class SearchPanel extends Composite {
     });
 
     body.add(suggestBox);
+    if (dropdown != null) {
+      body.add(dropdown);
+    }
     body.add(searchButton);
   }
 
@@ -110,10 +127,16 @@ class SearchPanel extends Composite {
 
     searchBox.setFocus(false);
 
-    if (query.matches("^[1-9][0-9]*$")) {
-      Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
+    if (dropdown != null && dropdown.getSelectedValue().equals(Gerrit.C.searchDropdownDoc())) {
+      // doc
+      Gerrit.display(PageLinks.toDocumentationQuery(query));
     } else {
-      Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
+      // changes
+      if (query.matches("^[1-9][0-9]*$")) {
+        Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
+      } else {
+        Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
+      }
     }
   }
 

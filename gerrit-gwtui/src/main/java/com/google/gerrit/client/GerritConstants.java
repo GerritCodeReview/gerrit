@@ -126,4 +126,7 @@ public interface GerritConstants extends Constants {
   String stringListPanelDelete();
   String stringListPanelUp();
   String stringListPanelDown();
+
+  String searchDropdownChanges();
+  String searchDropdownDoc();
 }

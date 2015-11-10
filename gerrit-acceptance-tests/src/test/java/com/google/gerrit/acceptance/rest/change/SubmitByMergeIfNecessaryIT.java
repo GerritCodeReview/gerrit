@@ -5,6 +5,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.junit.TestRepository;
@@ -72,6 +73,39 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertPersonEquals(serverIdent.get(), tip.getCommitterIdent());
 
     assertNew(change2.getChangeId());
+  }
+
+  @Test
+  public void submitWithOutdatedParentsBlocked() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change1 = pushFactory.create(db, admin.getIdent(),
+        testRepo, "Change 1", "b", "b")
+        .to("refs/for/master");
+    change1.assertOkStatus();
+    approve(change1.getChangeId());
+
+    PushOneCommit.Result change2 = pushFactory.create(db, admin.getIdent(),
+        testRepo, "Change 2", "c", "c")
+        .to("refs/for/master");
+    change2.assertOkStatus();
+    approve(change2.getChangeId());
+
+    testRepo.reset("HEAD^");
+    PushOneCommit.Result change1b = pushFactory.create(db, admin.getIdent(),
+        testRepo, "Change 1b", "d", "d",
+        change1.getChangeId())
+        .to("refs/for/master");
+    change1b.assertOkStatus();
+    approve(change1b.getChangeId());
+
+    // Change 2 depends on an outdated revision of change 1, which should
+    // prevent submitting change 2. change 1 is approved in both revisions,
+    // so the error triggered should come from the outdated revision.
+    submitWithConflict(change2.getChangeId(), "Merge Conflict");
+
+    RevCommit tip1  = getRemoteLog(project, "master").get(0);
+    assertThat(tip1.getShortMessage()).isEqualTo(
+        initialHead.getShortMessage());
   }
 
   @Test

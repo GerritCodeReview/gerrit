@@ -307,9 +307,14 @@ public class MergeOp {
 
     StringBuilder msgbuf = new StringBuilder();
     List<Change.Id> problemChanges = new ArrayList<>();
-    for (Change.Id id : cs.ids()) {
+    for (PatchSet.Id id : cs.patchIds()) {
       try {
-        ChangeData cd = changeDataFactory.create(db, id);
+        ChangeData cd = changeDataFactory.create(db, id.getParentKey());
+        if (!cd.change().currentPatchSetId().equals(id)) {
+          throw new ResourceConflictException("Change " + cd.getId()
+              + " is included with revision " + cd.getId() + " / "
+              + cd.change().currentPatchSetId());
+        }
         if (cd.change().getStatus() != Change.Status.NEW){
           throw new ResourceConflictException("Change " +
               cd.change().getChangeId() + " is in state " +
@@ -319,7 +324,7 @@ public class MergeOp {
         }
       } catch (ResourceConflictException e) {
         msgbuf.append(e.getMessage() + "\n");
-        problemChanges.add(id);
+        problemChanges.add(id.getParentKey());
       }
     }
     String reason = msgbuf.toString();

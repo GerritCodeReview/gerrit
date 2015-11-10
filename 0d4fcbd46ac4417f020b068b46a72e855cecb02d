@@ -39,6 +39,24 @@
       "revId": "0d4fcbd46ac4417f020b068b46a72e855cecb02d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_de2081dd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/LuceneQueryChangesV14Test.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T17:23:07Z",
+      "side": 1,
+      "message": "...or move the following assertQuery lines before this, if possible",
+      "parentUuid": "16feeae5_7f596b82",
+      "revId": "0d4fcbd46ac4417f020b068b46a72e855cecb02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

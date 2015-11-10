@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f6f876fc_1e05c954",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeAbandonedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-10T07:06:14Z",
+      "side": 1,
+      "message": "all methods declared in interfaces are public, you can drop this modificator",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 10
+      },
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_fcb9093c",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
         "patchSetId": 3
@@ -13,6 +36,29 @@
       "writtenOn": "2015-11-10T01:19:28Z",
       "side": 1,
       "message": "getMerger?",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_1fd78718",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-10T07:06:14Z",
+      "side": 1,
+      "message": "same as in ChangeAbandonedListener, \u0027public\u0027 can be dropped",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 10
+      },
       "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

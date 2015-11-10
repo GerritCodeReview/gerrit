@@ -81,6 +81,11 @@ public class CheckIT extends AbstractDaemonTest {
     assertThat(info.problems).hasSize(1);
     assertThat(info.problems.get(0).status).isEqualTo(ProblemInfo.Status.FIXED);
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
+
+    info = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
   }
 
   private Change getChange(PushOneCommit.Result r) throws Exception {

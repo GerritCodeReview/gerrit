@@ -45,6 +45,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -114,6 +115,7 @@ public class ConsistencyChecker {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final BatchUpdate.Factory updateFactory;
+  private final ChangeIndexer indexer;
 
   private FixInput fix;
   private Change change;
@@ -135,7 +137,8 @@ public class ConsistencyChecker {
       ProjectControl.GenericFactory projectControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
-      BatchUpdate.Factory updateFactory) {
+      BatchUpdate.Factory updateFactory,
+      ChangeIndexer indexer) {
     this.db = db;
     this.repoManager = repoManager;
     this.user = user;
@@ -144,6 +147,7 @@ public class ConsistencyChecker {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.updateFactory = updateFactory;
+    this.indexer = indexer;
     reset();
   }
 
@@ -507,9 +511,10 @@ public class ConsistencyChecker {
               return c;
             }
           });
+      indexer.index(db.get(), change);
       p.status = Status.FIXED;
       p.outcome = "Marked change as merged";
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       log.warn("Error marking " + change.getId() + "as merged", e);
       p.status = Status.FIX_FAILED;
       p.outcome = "Error updating status to merged";

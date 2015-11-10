@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_9e7439dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-10T17:55:43Z",
+      "side": 1,
+      "message": "So I got sidetracked when doing that change with the changes on top of this.\n\nThe underlying assumption is that the MergeOp.merge will either be successful or it will error out with some sort of exception. If that assumption would hold, the code removed in this change would be the right thing to do.\n\nThe assumption does however not hold. Sometimes the MergeOp does not merge in the right way, but doesn\u0027t error out. So for now we should not include this change.",
+      "parentUuid": "f6bdd594_291a0db4",
+      "revId": "1c26634503593c755cac5a11b14e78b3aa1189f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16bb49a1_2a53df51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 1

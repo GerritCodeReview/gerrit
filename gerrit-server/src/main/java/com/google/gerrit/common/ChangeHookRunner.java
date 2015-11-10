@@ -842,7 +842,6 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       if (!claSignedHook.isPresent()) {
         return;
       }
-
       if (account != null) {
         List<String> args = new ArrayList<>();
         addArg(args, "--submitter", getDisplayName(account));

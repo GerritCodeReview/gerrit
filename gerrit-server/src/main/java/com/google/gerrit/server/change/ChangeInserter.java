@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
 import com.google.common.base.MoreObjects;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
@@ -86,7 +85,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private final ProjectControl.GenericFactory projectControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
-  private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final CreateChangeSender.Factory createChangeSenderFactory;
@@ -128,7 +126,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   ChangeInserter(ProjectControl.GenericFactory projectControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
-      ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CreateChangeSender.Factory createChangeSenderFactory,
@@ -142,7 +139,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.projectControlFactory = projectControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
-    this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.createChangeSenderFactory = createChangeSenderFactory;
@@ -397,15 +393,10 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
     if (runHooks) {
       revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId());
-      ReviewDb db = ctx.getDb();
-      hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (approvals != null && !approvals.isEmpty()) {
         commentAdded.fire(change, patchSet,
             ctx.getUser().asIdentifiedUser().getAccount(), null, approvals,
             ctx.getWhen());
-        hooks.doCommentAddedHook(change,
-            ctx.getUser().asIdentifiedUser().getAccount(), patchSet, null,
-            approvals, db);
       }
     }
   }

@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -87,7 +86,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final Provider<IdentifiedUser> user;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
-  private final ChangeHooks hooks;
   private final AccountCache accountCache;
   private final ReviewerJson json;
   private final ReviewerAdded reviewerAdded;
@@ -106,7 +104,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       Provider<IdentifiedUser> user,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config cfg,
-      ChangeHooks hooks,
       AccountCache accountCache,
       ReviewerJson json,
       ReviewerAdded reviewerAdded) {
@@ -123,7 +120,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.user = user;
     this.identifiedUserFactory = identifiedUserFactory;
     this.cfg = cfg;
-    this.hooks = hooks;
     this.accountCache = accountCache;
     this.json = json;
     this.reviewerAdded = reviewerAdded;
@@ -291,8 +287,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
         for (PatchSetApproval psa : added) {
           Account account = accountCache.get(psa.getAccountId()).getAccount();
           reviewerAdded.fire(rsrc.getChange(), patchSet, account);
-          hooks.doReviewerAddedHook(
-                  rsrc.getChange(), account, patchSet, dbProvider.get());
         }
       }
     }

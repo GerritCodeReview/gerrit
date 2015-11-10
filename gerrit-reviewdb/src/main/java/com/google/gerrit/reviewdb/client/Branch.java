@@ -38,6 +38,10 @@ public final class Branch {
       set(branchName);
     }
 
+    public NameKey(String proj, final String branchName) {
+      this(new Project.NameKey(proj), branchName);
+    }
+
     @Override
     public String get() {
       return branchName;

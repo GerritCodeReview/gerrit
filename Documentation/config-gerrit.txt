@@ -3519,6 +3519,22 @@ Supported MACs: hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96.
 +
 By default, all supported MACs are available.
 
+[[sshd.kex]]sshd.kex::
++
+Available key exchange algorithms. To permit multiple algorithms,
+specify multiple `sshd.kex` keys in the configuration file, one key
+exchange algorithm per key.  Key exchange algorithm names starting
+with `+` are enabled in addition to the default key exchange
+algorithms, key exchange algorithm names starting with `-` are
+removed from the default key exchange algorithms.
++
+Supported key exchange algorithms: diffie-hellman-group14-sha1,
+diffie-hellman-group1-sha1, diffie-hellman-group-exchange-sha1,
+diffie-hellman-group-exchange-sha256, ecdh-sha2-nistp256,
+ecdh-sha2-nistp384, ecdh-sha2-nistp521.
++
+By default, all supported key exchange algorithms are available.
+
 [[sshd.kerberosKeytab]]sshd.kerberosKeytab::
 +
 Enable kerberos authentication for SSH connections.  To permit

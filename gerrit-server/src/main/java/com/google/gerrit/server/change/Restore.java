@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -55,7 +54,6 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Restore.class);
 
-  private final ChangeHooks hooks;
   private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
@@ -64,14 +62,12 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final ChangeRestored changeRestored;
 
   @Inject
-  Restore(ChangeHooks hooks,
-      RestoredSender.Factory restoredSenderFactory,
+  Restore(RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
       ChangeRestored changeRestored) {
-    this.hooks = hooks;
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
@@ -156,11 +152,6 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       }
       changeRestored.fire(change, patchSet, caller.getAccount(),
           Strings.emptyToNull(input.message));
-      hooks.doChangeRestoredHook(change,
-          caller.getAccount(),
-          patchSet,
-          Strings.emptyToNull(input.message),
-          ctx.getDb());
     }
   }
 

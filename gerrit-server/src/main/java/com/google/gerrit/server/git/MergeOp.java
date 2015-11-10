@@ -29,7 +29,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -129,7 +128,6 @@ public class MergeOp {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeData.Factory changeDataFactory;
-  private final ChangeHooks hooks;
   private final ChangeIndexer indexer;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeUpdate.Factory updateFactory;
@@ -182,7 +180,6 @@ public class MergeOp {
       ApprovalsUtil approvalsUtil,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeData.Factory changeDataFactory,
-      ChangeHooks hooks,
       ChangeIndexer indexer,
       ChangeMessagesUtil cmUtil,
       ChangeUpdate.Factory updateFactory,
@@ -206,7 +203,6 @@ public class MergeOp {
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
     this.changeDataFactory = changeDataFactory;
-    this.hooks = hooks;
     this.indexer = indexer;
     this.cmUtil = cmUtil;
     this.updateFactory = updateFactory;
@@ -448,7 +444,8 @@ public class MergeOp {
             updateSubmoduleSubscriptions(subOp, branch, getBranchTip(branch));
           }
           if (update != null) {
-            fireRefUpdated(branch, update);
+            Account a = getAccount(mergeTips.get(branch).getCurrentTip());
+            gitRefUpdated.fire(branch.getParentKey(), update, a);
           }
         }
         closeRepository();
@@ -804,14 +801,6 @@ public class MergeOp {
     }
   }
 
-  private void fireRefUpdated(Branch.NameKey destBranch,
-      RefUpdate branchUpdate) {
-    logDebug("Firing ref updated hooks for {}", branchUpdate.getName());
-    Account a = getAccount(mergeTips.get(destBranch).getCurrentTip());
-    gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate, a);
-    hooks.doRefUpdatedHook(destBranch, branchUpdate, a);
-  }
-
   private Account getAccount(CodeReviewCommit codeReviewCommit) {
     Account account = null;
     PatchSetApproval submitter = approvalsUtil.getSubmitter(
@@ -1018,16 +1007,9 @@ public class MergeOp {
       log.error("Cannot email merged notification for " + c.getId(), e);
     }
     if (submitter != null && mergeResultRev != null) {
-      try {
-        changeMerged.fire(c, merged,
-            accountCache.get(submitter.getAccountId()).getAccount(),
-            mergeResultRev.name());
-        hooks.doChangeMergedHook(c,
-            accountCache.get(submitter.getAccountId()).getAccount(),
-            merged, db, mergeResultRev.name());
-      } catch (OrmException ex) {
-        logError("Cannot run hook for submitted patch set " + c.getId(), ex);
-      }
+      changeMerged.fire(c, merged,
+          accountCache.get(submitter.getAccountId()).getAccount(),
+          mergeResultRev.name());
     }
   }
 
@@ -1238,9 +1220,6 @@ public class MergeOp {
       try {
         mergeFailed.fire(change, db.patchSets().get(c.currentPatchSetId()),
             submitter.getAccountId(), msg.getMessage());
-        hooks.doMergeFailedHook(c,
-            accountCache.get(submitter.getAccountId()).getAccount(),
-            db.patchSets().get(c.currentPatchSetId()), msg.getMessage(), db);
       } catch (OrmException ex) {
         logError("Cannot run hook for merge failed " + c.getId(), ex);
       }

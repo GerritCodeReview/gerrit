@@ -49,6 +49,53 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_be2135e4",
+        "filename": "lib/js.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-10T17:27:31Z",
+      "side": 1,
+      "message": "Thanks. I missed it.",
+      "parentUuid": "16feeae5_7c66996d",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 58
+      },
+      "revId": "987e07b8c3258f36d95de4e8b95f66fe8a76bf9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_ff1bbbad",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-10T17:27:31Z",
+      "side": 1,
+      "message": "Nit: only 4 spaces, here and below.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "987e07b8c3258f36d95de4e8b95f66fe8a76bf9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_bf9e5377",
         "filename": "tools/js/download_bower.py",
         "patchSetId": 2
@@ -60,6 +107,24 @@
       "writtenOn": "2015-11-10T05:57:47Z",
       "side": 1,
       "message": "I think this can likely be hard-coded as long as we ensure that the py_binary has run_npm_binary and bower as dependencies.\n\n(OTOH maybe for experimental purposes it could be possible to pass a different bower command, like \"bower\" to use a globally installed one?)",
+      "revId": "987e07b8c3258f36d95de4e8b95f66fe8a76bf9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_7f020b4e",
+        "filename": "tools/js/download_bower.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-10T17:27:31Z",
+      "side": 1,
+      "message": "| (OTOH maybe for experimental purposes it could be possible to pass a different bower command, like \"bower\" to use a globally installed one?)\n\nI like the idea. The prerequisites would be:\n\n* install Node.js \u0026\u0026 npm # install node and npm globally\n* npm install -g bower # install bower globally",
+      "parentUuid": "16feeae5_bf9e5377",
       "revId": "987e07b8c3258f36d95de4e8b95f66fe8a76bf9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

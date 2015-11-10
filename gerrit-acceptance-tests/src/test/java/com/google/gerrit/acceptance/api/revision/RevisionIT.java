@@ -56,6 +56,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -159,7 +160,11 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(orig.get().messages).hasSize(1);
     ChangeApi cherry = orig.revision(r.getCommit().name())
         .cherryPick(in);
-    assertThat(orig.get().messages).hasSize(2);
+
+    Collection<ChangeMessageInfo> messages = gApi.changes()
+        .id(project.get() + "~master~" + r.getChangeId())
+        .get().messages;
+    assertThat(messages).hasSize(2);
 
     String cherryPickedRevision = cherry.get().currentRevision;
     String expectedMessage = String.format(
@@ -167,7 +172,7 @@ public class RevisionIT extends AbstractDaemonTest {
         "This patchset was cherry picked to branch %s as commit %s",
         in.destination, cherryPickedRevision);
 
-    Iterator<ChangeMessageInfo> origIt = orig.get().messages.iterator();
+    Iterator<ChangeMessageInfo> origIt = messages.iterator();
     origIt.next();
     assertThat(origIt.next().message).isEqualTo(expectedMessage);
 
@@ -279,7 +284,11 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(orig.get().messages).hasSize(1);
     ChangeApi cherry = orig.revision(r.getCommit().name())
         .cherryPick(in);
-    assertThat(orig.get().messages).hasSize(2);
+
+    Collection<ChangeMessageInfo> messages = gApi.changes()
+        .id(project.get() + "~master~" + r.getChangeId())
+        .get().messages;
+    assertThat(messages).hasSize(2);
 
     assertThat(cherry.get().subject).contains(in.message);
     cherry.current().review(ReviewInput.approve());

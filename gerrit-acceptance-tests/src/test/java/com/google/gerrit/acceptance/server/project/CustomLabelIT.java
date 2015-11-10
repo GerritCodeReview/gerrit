@@ -22,20 +22,18 @@ import static com.google.gerrit.server.project.Util.value;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.events.CommentAddedEvent;
-import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
@@ -52,7 +50,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
   private IdentifiedUser.GenericFactory factory;
 
   @Inject
-  private DynamicSet<UserScopedEventListener> source;
+  private DynamicSet<CommentAddedListener> source;
 
   private final LabelType label = category("CustomLabel",
       value(1, "Positive"),
@@ -63,8 +61,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
       value(1, "Positive"),
       value(0, "No score"));
 
-  private CommentAddedEvent lastCommentAddedEvent;
   private RegistrationHandle eventListenerRegistration;
+  private CommentAddedListener.Event lastCommentAddedEvent;
 
   @Before
   public void setUp() throws Exception {
@@ -77,17 +75,10 @@ public class CustomLabelIT extends AbstractDaemonTest {
         "refs/heads/*");
     saveProjectConfig(project, cfg);
 
-    eventListenerRegistration = source.add(new UserScopedEventListener() {
+    eventListenerRegistration = source.add(new CommentAddedListener() {
       @Override
-      public void onEvent(Event event) {
-        if (event instanceof CommentAddedEvent) {
-          lastCommentAddedEvent = (CommentAddedEvent) event;
-        }
-      }
-
-      @Override
-      public CurrentUser getUser() {
-        return factory.create(user.id);
+      public void onCommentAdded(Event event) {
+        lastCommentAddedEvent = event;
       }
     });
   }
@@ -172,7 +163,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNull();
     assertThat(q.blocking).isNull();
-    assertThat(lastCommentAddedEvent.comment).isEqualTo(
+    assertThat(lastCommentAddedEvent.getComment()).isEqualTo(
         "Patch Set 1:\n\n" + input.message);
   }
 

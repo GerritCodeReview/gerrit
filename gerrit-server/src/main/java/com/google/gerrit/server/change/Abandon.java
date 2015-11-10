@@ -31,13 +31,16 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.ChangeAbandoned;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -47,6 +50,7 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -60,6 +64,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final ChangeJson.Factory json;
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final ChangeAbandoned changeAbandoned;
 
   @Inject
   Abandon(ChangeHooks hooks,
@@ -67,13 +72,15 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
-      BatchUpdate.Factory batchUpdateFactory) {
+      BatchUpdate.Factory batchUpdateFactory,
+      ChangeAbandoned changeAbandoned) {
     this.hooks = hooks;
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.changeAbandoned = changeAbandoned;
   }
 
   @Override
@@ -164,6 +171,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       } catch (Exception e) {
         log.error("Cannot email update for change " + change.getId(), e);
       }
+      changeAbandoned.fire(change, patchSet, account, msgTxt);
       hooks.doChangeAbandonedHook(change,
           account,
           patchSet,

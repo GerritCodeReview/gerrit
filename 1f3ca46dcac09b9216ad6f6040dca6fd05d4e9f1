@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_bb77871f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-10T03:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_dba893b6",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 17
+      },
+      "revId": "1f3ca46dcac09b9216ad6f6040dca6fd05d4e9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_3bbed7f1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-10T02:35:56Z",
       "side": 1,
       "message": "just return, condition is not needed:\n\n  return cookie.startWith(\"patchCommentEdit-\") || cookie.startWith(\"patchReply-\") || cookie.startWith(\"patchComment-\");",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 120,
+        "endChar": 17
+      },
+      "revId": "1f3ca46dcac09b9216ad6f6040dca6fd05d4e9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_5c075d9b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-10T03:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_3bbed7f1",
       "range": {
         "startLine": 115,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_bcc2e180",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-10T03:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_5bb5a307",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 23
+      },
+      "revId": "1f3ca46dcac09b9216ad6f6040dca6fd05d4e9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_9c20c52e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2015-11-10T02:35:56Z",
       "side": 1,
       "message": "nit: I would declare it just before \u0027if\u0027 in line 141",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 30
+      },
+      "revId": "1f3ca46dcac09b9216ad6f6040dca6fd05d4e9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9cc72591",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-10T03:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_9c20c52e",
       "range": {
         "startLine": 127,
         "startChar": 4,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_fccc69b6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-10T03:05:57Z",
+      "side": 1,
+      "message": "Mostly for my own benefit, to keep fields sorted in my brain.",
+      "parentUuid": "f6f876fc_bb902775",
+      "range": {
+        "startLine": 135,
+        "startChar": 71,
+        "endLine": 135,
+        "endChar": 75
+      },
+      "revId": "1f3ca46dcac09b9216ad6f6040dca6fd05d4e9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_fc1589ca",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2015-11-10T02:35:56Z",
       "side": 1,
       "message": "how about having some helper methods to make this more descriptive, something like:\n\n  int changeId(int offset) { return offset; }\n  int patchSetId(int offset) { return offset + 1; }\n  int pathPostition(int offset) { return offset + 2; }",
+      "range": {
+        "startLine": 138,
+        "startChar": 25,
+        "endLine": 138,
+        "endChar": 35
+      },
+      "revId": "1f3ca46dcac09b9216ad6f6040dca6fd05d4e9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_db76d320",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-10T03:05:57Z",
+      "side": 1,
+      "message": "Helpers might be nice, but because it\u0027s static, it\u0027s not going to be much benefit in clarity...",
+      "parentUuid": "16feeae5_fc1589ca",
       "range": {
         "startLine": 138,
         "startChar": 25,

@@ -53,7 +53,6 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
@@ -298,7 +297,6 @@ public class ReceiveCommits {
   private final MergedSender.Factory mergedSenderFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ChangeHooks hooks;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
   private final GitRepositoryManager repoManager;
@@ -368,7 +366,6 @@ public class ReceiveCommits {
       MergedSender.Factory mergedSenderFactory,
       GitReferenceUpdated gitRefUpdated,
       PatchSetInfoFactory patchSetInfoFactory,
-      ChangeHooks hooks,
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
@@ -413,7 +410,6 @@ public class ReceiveCommits {
     this.mergedSenderFactory = mergedSenderFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.hooks = hooks;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
@@ -672,11 +668,6 @@ public class ReceiveCommits {
             // Events for change refs are fired when they are created.
             //
             gitRefUpdated.fire(project.getNameKey(), c, user.getAccount());
-            hooks.doRefUpdatedHook(
-                new Branch.NameKey(project.getNameKey(), c.getRefName()),
-                c.getOldId(),
-                c.getNewId(),
-                user.getAccount());
           }
         }
     }
@@ -2513,8 +2504,6 @@ public class ReceiveCommits {
     PatchSetInfo info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
     markChangeMergedByPush(db, info, refName);
     changeMerged.fire(change, ps, user.getAccount(), commit.getName());
-    hooks.doChangeMergedHook(
-        change, user.getAccount(), ps, db, commit.getName());
     sendMergedEmail(ps, info);
     return change.getKey();
   }

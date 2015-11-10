@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -51,18 +50,16 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
   private final GitRepositoryManager repoManager;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitReferenceUpdated referenceUpdated;
-  private final ChangeHooks hooks;
 
   @Inject
   DeleteBranch(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
-      GitReferenceUpdated referenceUpdated, ChangeHooks hooks) {
+      GitReferenceUpdated referenceUpdated) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
-    this.hooks = hooks;
   }
 
   @Override
@@ -110,7 +107,6 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
         case FORCED:
           referenceUpdated.fire(rsrc.getNameKey(), u, ReceiveCommand.Type.DELETE,
               identifiedUser.get().getAccount());
-          hooks.doRefUpdatedHook(rsrc.getBranchKey(), u, identifiedUser.get().getAccount());
           break;
 
         case REJECTED_CURRENT_BRANCH:

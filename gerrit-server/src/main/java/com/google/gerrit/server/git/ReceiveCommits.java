@@ -65,6 +65,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -308,6 +309,7 @@ public class ReceiveCommits {
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
+  private final DynamicSet<ReceivePackInitializer> initializers;
   private final ChangeKindCache changeKindCache;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
@@ -378,7 +380,10 @@ public class ReceiveCommits {
       final ChangeIndexer indexer,
       final SshInfo sshInfo,
       final AllProjectsName allProjectsName,
-      ReceiveConfig config,
+      ReceiveConfig receiveConfig,
+      TransferConfig transferConfig,
+      DynamicSet<ReceivePackInitializer> initializers,
+      Provider<LazyPostReceiveHookChain> lazyPostReceive,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
       final Provider<SubmoduleOp> subOpProvider,
@@ -420,7 +425,8 @@ public class ReceiveCommits {
     this.indexer = indexer;
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
-    this.receiveConfig = config;
+    this.receiveConfig = receiveConfig;
+    this.initializers = initializers;
     this.changeKindCache = changeKindCache;
     this.batchUpdateFactory = batchUpdateFactory;
     this.hashtagsFactory = hashtagsFactory;
@@ -448,6 +454,10 @@ public class ReceiveCommits {
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
+    rp.setRefLogIdent(user.newRefLogIdent());
+    rp.setTimeout(transferConfig.getTimeout());
+    rp.setMaxObjectSizeLimit(transferConfig.getEffectiveMaxObjectSizeLimit(
+        projectControl.getProjectState()));
     rp.setCheckReceivedObjects(ps.getConfig().getCheckReceivedObjects());
     rp.setRefFilter(new RefFilter() {
       @Override
@@ -465,7 +475,7 @@ public class ReceiveCommits {
     });
 
     if (!projectControl.allRefsAreVisible()) {
-      rp.setCheckReferencedObjectsAreReachable(config.checkReferencedObjectsAreReachable);
+      rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
       rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db, false));
     }
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(3);
@@ -497,6 +507,13 @@ public class ReceiveCommits {
         db, queryProvider, projectControl.getProject().getNameKey()));
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
+    rp.setPostReceiveHook(lazyPostReceive.get());
+  }
+
+  public void init() {
+    for (ReceivePackInitializer i : initializers) {
+      i.init(projectControl.getProject().getNameKey(), rp);
+    }
   }
 
   /** Add reviewers for new (or updated) changes. */

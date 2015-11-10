@@ -78,6 +78,7 @@ final class Upload extends AbstractGitCommand {
     up.setPreUploadHook(PreUploadHookChain.newChain(allPreUploadHooks));
     try {
       up.upload(in, out, err);
+      session.setPeerAgent(up.getPeerUserAgent());
     } catch (UploadValidationException e) {
       // UploadValidationException is used by the UploadValidators to
       // stop the uploadPack. We do not want this exception to go beyond this

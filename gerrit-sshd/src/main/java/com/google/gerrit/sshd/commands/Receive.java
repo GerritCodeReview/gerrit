@@ -22,6 +22,7 @@ import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
@@ -54,6 +55,9 @@ final class Receive extends AbstractGitCommand {
 
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;
+
+  @Inject
+  private SshSession session;
 
   private final Set<Account.Id> reviewerId = new HashSet<>();
   private final Set<Account.Id> ccId = new HashSet<>();
@@ -91,6 +95,7 @@ final class Receive extends AbstractGitCommand {
     ReceivePack rp = receive.getReceivePack();
     try {
       rp.receive(in, out, err);
+      session.setPeerAgent(rp.getPeerUserAgent());
     } catch (UnpackException badStream) {
       // In case this was caused by the user pushing an object whose size
       // is larger than the receive.maxObjectSizeLimit gerrit.config parameter

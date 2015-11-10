@@ -35,6 +35,7 @@ public class SshSession {
   private volatile CurrentUser identity;
   private volatile String username;
   private volatile String authError;
+  private volatile String peerAgent;
 
   SshSession(final int sessionId, SocketAddress peer) {
     this.sessionId = sessionId;
@@ -70,6 +71,14 @@ public class SshSession {
 
   public String getRemoteAddressAsString() {
     return remoteAsString;
+  }
+
+  public String getPeerAgent() {
+    return peerAgent;
+  }
+
+  public void setPeerAgent(String agent) {
+    peerAgent = agent;
   }
 
   String getUsername() {

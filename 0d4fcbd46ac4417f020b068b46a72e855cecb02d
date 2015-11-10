@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_1f4ca7c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T17:19:14Z",
+      "side": 1,
+      "message": "I would have thought \"not current\" was enough here.\n\nIts also maybe weird that you access this using /changes/id/revisions/sha1/review but we then tell you the patch set isn\u0027t current. If you really want to say its the revision maybe:\n\n  \"revision not current\"",
+      "range": {
+        "startLine": 561,
+        "startChar": 14,
+        "endLine": 561,
+        "endChar": 51
+      },
+      "revId": "0d4fcbd46ac4417f020b068b46a72e855cecb02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -32,7 +32,9 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.events.CommentAdded;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.events.RevisionCreated;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -81,6 +83,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final WorkQueue workQueue;
   private final CommitValidators.Factory commitValidatorsFactory;
+  private final RevisionCreated revisionCreated;
+  private final CommentAdded commentAdded;
 
   private final RefControl refControl;
   private final IdentifiedUser user;
@@ -104,6 +108,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private ChangeMessage changeMessage;
   private PatchSetInfo patchSetInfo;
 
+
   @Inject
   ChangeInserter(PatchSetInfoFactory patchSetInfoFactory,
       ChangeHooks hooks,
@@ -112,6 +117,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       CreateChangeSender.Factory createChangeSenderFactory,
       WorkQueue workQueue,
       CommitValidators.Factory commitValidatorsFactory,
+      CommentAdded commentAdded,
+      RevisionCreated revisionCreated,
       @Assisted RefControl refControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
@@ -129,6 +136,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.workQueue = workQueue;
     this.commitValidatorsFactory = commitValidatorsFactory;
+    this.revisionCreated = revisionCreated;
+    this.commentAdded = commentAdded;
 
     this.refControl = refControl;
     this.change = change;
@@ -297,9 +306,12 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     }
 
     if (runHooks) {
+      revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId());
       ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (approvals != null && !approvals.isEmpty()) {
+        commentAdded.fire(change, patchSet, user.getAccount(), null, approvals,
+            ctx.getWhen());
         hooks.doCommentAddedHook(
             change, user.getAccount(), patchSet, null, approvals, db);
       }

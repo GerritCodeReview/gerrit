@@ -8,7 +8,6 @@ maven_jar(
   name = 'bcprov',
   id = 'org.bouncycastle:bcprov-jdk15on:' + VERSION,
   sha1 = '88a941faf9819d371e3174b5ed56a3f3f7d73269',
-  unsign = True,
   license = 'DO_NOT_DISTRIBUTE', #'bouncycastle'
 )
 
@@ -24,7 +23,6 @@ maven_jar(
   name = 'bcpkix',
   id = 'org.bouncycastle:bcpkix-jdk15on:' + VERSION,
   sha1 = 'b8ffac2bbc6626f86909589c8cc63637cc936504',
-  unsign = True,
   license = 'DO_NOT_DISTRIBUTE', #'bouncycastle'
   deps = [':bcprov'],
 )

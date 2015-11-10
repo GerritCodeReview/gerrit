@@ -46,8 +46,11 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
@@ -116,6 +119,8 @@ public class ConsistencyChecker {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final BatchUpdate.Factory updateFactory;
   private final ChangeIndexer indexer;
+  private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeUpdate.Factory changeUpdateFactory;
 
   private FixInput fix;
   private Change change;
@@ -138,7 +143,9 @@ public class ConsistencyChecker {
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       BatchUpdate.Factory updateFactory,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      ChangeControl.GenericFactory changeControlFactory,
+      ChangeUpdate.Factory changeUpdateFactory) {
     this.db = db;
     this.repoManager = repoManager;
     this.user = user;
@@ -148,6 +155,8 @@ public class ConsistencyChecker {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.updateFactory = updateFactory;
     this.indexer = indexer;
+    this.changeControlFactory = changeControlFactory;
+    this.changeUpdateFactory = changeUpdateFactory;
     reset();
   }
 
@@ -511,10 +520,15 @@ public class ConsistencyChecker {
               return c;
             }
           });
+      ChangeUpdate changeUpdate =
+          changeUpdateFactory.create(
+              changeControlFactory.controlFor(change, user.get()));
+      changeUpdate.fixStatus(Change.Status.MERGED);
+      changeUpdate.commit();
       indexer.index(db.get(), change);
       p.status = Status.FIXED;
       p.outcome = "Marked change as merged";
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | NoSuchChangeException e) {
       log.warn("Error marking " + change.getId() + "as merged", e);
       p.status = Status.FIX_FAILED;
       p.outcome = "Error updating status to merged";

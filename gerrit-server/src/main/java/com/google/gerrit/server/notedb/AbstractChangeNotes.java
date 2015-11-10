@@ -63,6 +63,11 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
     return self();
   }
 
+  public T reload() throws OrmException {
+    loaded = false;
+    return load();
+  }
+
   public ObjectId loadRevision() throws OrmException {
     if (loaded) {
       return getRevision();

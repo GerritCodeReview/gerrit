@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb142734_59a3a3c2",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-11-10T11:58:24Z",
+      "side": 1,
+      "message": "Do you prefer explicit fixup|squash here?\n\nI sometime use \"temp!\" to avoid the hook, but that\u0027s just me :)\n\nNotice that this affects commit message that starts with ! (like \"! foo\"). This can be fixed by using extended grep and replacing the * with +.",
+      "range": {
+        "startLine": 26,
+        "startChar": 29,
+        "endLine": 26,
+        "endChar": 36
+      },
+      "revId": "ded3ed43a6b9d6d20da7d96731402f83fd2f1048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -714,7 +714,7 @@ public class ChangeJson {
     return labels;
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, Integer value, Timestamp date) {
+  public ApprovalInfo approvalInfo(Account.Id id, Integer value, Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
     ai.date = date;

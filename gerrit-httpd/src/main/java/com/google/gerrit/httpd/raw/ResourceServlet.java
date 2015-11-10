@@ -304,7 +304,7 @@ public abstract class ResourceServlet extends HttpServlet {
     }
   }
 
-  static class Weigher
+  public static class Weigher
       implements com.google.common.cache.Weigher<Path, Resource> {
     @Override
     public int weigh(Path p, Resource r) {

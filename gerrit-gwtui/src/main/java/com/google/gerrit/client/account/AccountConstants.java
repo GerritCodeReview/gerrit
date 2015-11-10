@@ -159,4 +159,10 @@ public interface AccountConstants extends Constants {
   String welcomeAgreementText();
   String welcomeAgreementLater();
   String welcomeContinue();
+
+  String submitWithParentsText();
+  String oldSubmitTitle();
+  String submitWholeTopicText();
+  String newSubmitTitle();
+  String submitDialogHeader();
 }

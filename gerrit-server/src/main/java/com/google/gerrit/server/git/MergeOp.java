@@ -51,6 +51,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
@@ -144,6 +145,7 @@ public class MergeOp {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<SubmoduleOp> subOpProvider;
   private final TagCache tagCache;
+  private final ChangeMerged changeMerged;
 
   private final Map<Change.Id, List<SubmitRecord>> records;
   private final Map<Change.Id, CodeReviewCommit> commits;
@@ -194,7 +196,8 @@ public class MergeOp {
       @GerritPersonIdent PersonIdent serverIdent,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<SubmoduleOp> subOpProvider,
-      TagCache tagCache) {
+      TagCache tagCache,
+      ChangeMerged changeMerged) {
     this.accountCache = accountCache;
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
@@ -217,6 +220,7 @@ public class MergeOp {
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpProvider = subOpProvider;
     this.tagCache = tagCache;
+    this.changeMerged = changeMerged;
 
     commits = new HashMap<>();
     pendingRefUpdates = new HashMap<>();
@@ -1007,6 +1011,9 @@ public class MergeOp {
     }
     if (submitter != null && mergeResultRev != null) {
       try {
+        changeMerged.fire(c, merged,
+            accountCache.get(submitter.getAccountId()).getAccount(),
+            mergeResultRev.name());
         hooks.doChangeMergedHook(c,
             accountCache.get(submitter.getAccountId()).getAccount(),
             merged, db, mergeResultRev.name());

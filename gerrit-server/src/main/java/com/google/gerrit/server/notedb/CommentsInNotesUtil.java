@@ -243,9 +243,6 @@ public class CommentsInNotesUtil {
     }
 
     int startChar = RawParseUtils.parseBase10(note, ptr.value, ptr);
-    if (startChar == 0) {
-      return null;
-    }
     if (note[ptr.value] == '-') {
       range.setStartCharacter(startChar);
       ptr.value += 1;

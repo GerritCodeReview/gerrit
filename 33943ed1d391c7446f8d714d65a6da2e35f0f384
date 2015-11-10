@@ -269,6 +269,30 @@
       "revId": "33943ed1d391c7446f8d714d65a6da2e35f0f384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_1cb1554f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T01:32:04Z",
+      "side": 1,
+      "message": "I meant something like:\n\n if (this.suggestTopics) {\n   this.maxTopics \u003d cfg.getInt(...);\n } else {\n   this.maxTopic \u003d DEFAULT...;\n }",
+      "parentUuid": "f6f876fc_3b62578b",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 44
+      },
+      "revId": "33943ed1d391c7446f8d714d65a6da2e35f0f384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

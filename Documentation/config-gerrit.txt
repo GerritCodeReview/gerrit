@@ -910,9 +910,23 @@ changes including ancestors and other changes related by topic)".
 [[change.submitWholeTopic]]change.submitWholeTopic (*Experimental*)::
 +
 Determines if the submit button submits the whole topic instead of
-just the current change.
+just the current change. The supported values are:
 +
-Default is false.
+* `OFF`
++
+Disables submit whole topic feature.
++
+* `AUTO`
++
+Enables immediate submit of changes grouped by the same topic.
++
+* `DIALOG`
++
+Before submitting changes that are grouped together, a submit type selection
+dialog will be shown. Reviewer then can choose between submitting the whole
+topic or only this change with its parents.
++
+Default is `OFF`.
 
 [[change.submitTopicLabel]]change.submitTopicLabel::
 +

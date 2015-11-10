@@ -4667,7 +4667,9 @@ Whether the request should wait for the merge to complete.
 |`submit_whole_topic`|optional|
 When set to `true`, changes in the same topic will be also submitted,
 otherwise only this change with its parents will be submitted.
-Default value depends on link:config-gerrit.html#change.submitWholeTopic[change.submitWholeTopic]
+Default value is `true` when
+link:config-gerrit.html#change.submitWholeTopic[change.submitWholeTopic]
+is set to `AUTO`.
 |===========================
 
 [[submit-record]]

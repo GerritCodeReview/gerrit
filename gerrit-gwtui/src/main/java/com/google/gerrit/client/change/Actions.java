@@ -16,6 +16,7 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.actions.ActionButton;
+import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
 import com.google.gerrit.client.info.ActionInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
@@ -23,6 +24,7 @@ import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -56,6 +58,7 @@ class Actions extends Composite {
   @UiField Button followUp;
   private FollowUpAction followUpAction;
 
+  private JsArray<ChangeAndCommit> sameTopicChanges;
   private Change.Id changeId;
   private ChangeInfo changeInfo;
   private String revision;
@@ -146,6 +149,10 @@ class Actions extends Composite {
     }
   }
 
+  void setSameTopicChanges(JsArray<ChangeAndCommit> sameTopicChanges) {
+    this.sameTopicChanges = sameTopicChanges;
+  }
+
   private void add(ActionButton b) {
     ((FlowPanel) getWidget()).add(b);
   }
@@ -191,7 +198,7 @@ class Actions extends Composite {
 
   @UiHandler("submit")
   void onSubmit(@SuppressWarnings("unused") ClickEvent e) {
-    SubmitAction.call(changeInfo, changeInfo.revision(revision));
+    SubmitAction.call(sameTopicChanges, changeInfo, changeInfo.revision(revision));
   }
 
   @UiHandler("cherrypick")

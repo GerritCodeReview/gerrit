@@ -65,6 +65,10 @@ public class RelatedChanges extends TabPanel {
     String tabPanel();
   }
 
+  interface SameTopicChangesHandler {
+    void onSameTopicChanges(JsArray<ChangeAndCommit> changes);
+  }
+
   enum Tab {
     RELATED_CHANGES(Resources.C.relatedChanges(),
         Resources.C.relatedChangesTooltip()) {
@@ -193,7 +197,8 @@ public class RelatedChanges extends TabPanel {
     getTab(Tab.SUBMITTED_TOGETHER).setShowSubmittable(true);
   }
 
-  void set(final ChangeInfo info, final String revision) {
+  void set(final ChangeInfo info, final String revision,
+      SameTopicChangesHandler relatedChangesHandler) {
     if (info.status().isOpen()) {
       setForOpenChange(info, revision);
     }
@@ -229,8 +234,8 @@ public class RelatedChanges extends TabPanel {
     } else {
       // TODO(sbeller): show only on latest revision
       ChangeApi.change(info.legacyId().get()).view("submitted_together")
-          .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER,
-              info.project(), revision));
+          .get(new RelatedChangesTabChangeListCallback(Tab.SUBMITTED_TOGETHER,
+              info.project(), revision, relatedChangesHandler));
     }
   }
 
@@ -361,6 +366,23 @@ public class RelatedChanges extends TabPanel {
           arr.push(c);
         }
       }
+      return arr;
+    }
+  }
+
+  private class RelatedChangesTabChangeListCallback extends TabChangeListCallback {
+    private final SameTopicChangesHandler relatedChangesHandler;
+
+    RelatedChangesTabChangeListCallback(Tab tabInfo, String project, String revision,
+        SameTopicChangesHandler relatedChangesHandler) {
+      super(tabInfo, project, revision);
+      this.relatedChangesHandler = relatedChangesHandler;
+    }
+
+    @Override
+    protected JsArray<ChangeAndCommit> convert(ChangeList l) {
+      JsArray<ChangeAndCommit> arr = super.convert(l);
+      relatedChangesHandler.onSameTopicChanges(arr);
       return arr;
     }
   }

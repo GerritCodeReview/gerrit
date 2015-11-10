@@ -90,6 +90,7 @@ TESTUTIL_DEPS = [
   '//gerrit-gpg:gpg',
   '//gerrit-lucene:lucene',
   '//gerrit-reviewdb:server',
+  '//lib:catch-exception',
   '//lib:gwtorm',
   '//lib:h2',
   '//lib:truth',

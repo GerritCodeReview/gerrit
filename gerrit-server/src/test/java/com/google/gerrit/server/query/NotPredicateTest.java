@@ -21,6 +21,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static com.googlecode.catchexception.CatchException.caughtException;
+import static com.googlecode.catchexception.apis.CatchExceptionAssertJ.then;
+import static com.googlecode.catchexception.apis.CatchExceptionAssertJ.when;
+
 
 import org.junit.Test;
 
@@ -103,12 +107,14 @@ public class NotPredicateTest extends PredicateTest {
     assertNotSame(n, n.copy(sb));
     assertEquals(sb, n.copy(sb).getChildren());
 
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage("Expected exactly one child");
-    n.copy(Collections.<Predicate> emptyList());
+    when(n).copy(Collections.<Predicate> emptyList());
+    then(caughtException())
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("Expected exactly one child");
 
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage("Expected exactly one child");
-    n.copy(and(a, b).getChildren());
+    when(n).copy(and(a, b).getChildren());
+    then(caughtException())
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("Expected exactly one child");
   }
 }

@@ -49,8 +49,10 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
@@ -61,6 +63,7 @@ import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -144,6 +147,7 @@ public class MergeOp {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<SubmoduleOp> subOpProvider;
   private final TagCache tagCache;
+  private final ChangeMerged changeMerged;
 
   private final Map<Change.Id, List<SubmitRecord>> records;
   private final Map<Change.Id, CodeReviewCommit> commits;
@@ -194,7 +198,8 @@ public class MergeOp {
       @GerritPersonIdent PersonIdent serverIdent,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<SubmoduleOp> subOpProvider,
-      TagCache tagCache) {
+      TagCache tagCache,
+      ChangeMerged changeMerged) {
     this.accountCache = accountCache;
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
@@ -217,6 +222,7 @@ public class MergeOp {
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpProvider = subOpProvider;
     this.tagCache = tagCache;
+    this.changeMerged = changeMerged;
 
     commits = new HashMap<>();
     pendingRefUpdates = new HashMap<>();
@@ -1007,6 +1013,13 @@ public class MergeOp {
     }
     if (submitter != null && mergeResultRev != null) {
       try {
+        try {
+          changeMerged.fire(c, merged,
+              accountCache.get(submitter.getAccountId()).getAccount(),
+              mergeResultRev.name());
+        } catch (PatchListNotAvailableException | GpgException e) {
+          throw new OrmException(e);
+        }
         hooks.doChangeMergedHook(c,
             accountCache.get(submitter.getAccountId()).getAccount(),
             merged, db, mergeResultRev.name());

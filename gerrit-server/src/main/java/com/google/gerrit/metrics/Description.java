@@ -14,6 +14,7 @@
 
 package com.google.gerrit.metrics;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
@@ -109,24 +110,28 @@ public class Description {
    * Decode the unit as a unit of time.
    *
    * @return valid time unit.
-   * @throws IllegalStateException if the unit is not a valid unit of time.
+   * @throws IllegalArgumentException if the unit is not a valid unit of time.
    */
   public TimeUnit getTimeUnit() {
-    String unit = annotations.get(UNIT);
-    if (unit == null) {
-      throw new IllegalStateException("no unit configured");
-    } else if (Units.NANOSECONDS.equals(unit)) {
-      return TimeUnit.NANOSECONDS;
-    } else if (Units.MICROSECONDS.equals(unit)) {
-      return TimeUnit.MICROSECONDS;
-    } else if (Units.MILLISECONDS.equals(unit)) {
-      return TimeUnit.MILLISECONDS;
-    } else if (Units.SECONDS.equals(unit)) {
-      return TimeUnit.SECONDS;
-    } else {
-      throw new IllegalStateException(String.format(
+    return getTimeUnit(annotations.get(UNIT));
+  }
+
+  private static final ImmutableMap<String, TimeUnit> TIME_UNITS = ImmutableMap.of(
+      Units.NANOSECONDS, TimeUnit.NANOSECONDS,
+      Units.MICROSECONDS, TimeUnit.MICROSECONDS,
+      Units.MILLISECONDS, TimeUnit.MILLISECONDS,
+      Units.SECONDS, TimeUnit.SECONDS);
+
+  public static TimeUnit getTimeUnit(String unit) {
+    if (Strings.isNullOrEmpty(unit)) {
+      throw new IllegalArgumentException("no unit configured");
+    }
+    TimeUnit u = TIME_UNITS.get(unit);
+    if (u == null) {
+      throw new IllegalArgumentException(String.format(
           "unit %s not TimeUnit", unit));
     }
+    return u;
   }
 
   /** Immutable copy of all annotations (configurable properties). */

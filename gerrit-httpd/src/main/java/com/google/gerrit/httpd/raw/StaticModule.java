@@ -68,7 +68,10 @@ public class StaticModule extends ServletModule {
   }
 
   private void serveGwtUi() {
-    serve("/gerrit_ui/*")
+    // Serve static assets, everything *except*:
+    // ^/gerrit_ui/rpc$
+    // ^/gerrit_ui/rpc/.*$
+    serveRegex("^/gerrit_ui/(?!rpc(?:/|$))(.*)")
         .with(Key.get(HttpServlet.class, Names.named(GWT_UI_SERVLET)));
     if (warFs == null) {
       filter("/").through(new RecompileGwtUiFilter(buckOut, unpackedWar));

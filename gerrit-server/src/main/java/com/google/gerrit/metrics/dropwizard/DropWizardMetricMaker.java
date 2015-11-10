@@ -1,22 +1,29 @@
 package com.google.gerrit.metrics.dropwizard;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.metrics.dropwizard.MetricResource.METRIC_KIND;
+import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.metrics.CallbackMetric;
 import com.google.gerrit.metrics.Counter;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 
+import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -27,25 +34,47 @@ import java.util.concurrent.TimeUnit;
  */
 @Singleton
 public class DropWizardMetricMaker extends MetricMaker {
-  public static class Module extends AbstractModule {
+  public static class Module extends RestApiModule {
     @Override
     protected void configure() {
       bind(MetricRegistry.class).in(Scopes.SINGLETON);
+      bind(DropWizardMetricMaker.class).in(Scopes.SINGLETON);
       bind(MetricMaker.class).to(DropWizardMetricMaker.class);
+
+      DynamicMap.mapOf(binder(), METRIC_KIND);
+      child(CONFIG_KIND, "metrics").to(MetricsCollection.class);
+      get(METRIC_KIND).to(GetMetric.class);
     }
   }
 
   private final MetricRegistry registry;
+  private final Map<String, ImmutableMap<String, String>> descriptions;
 
   @Inject
   DropWizardMetricMaker(MetricRegistry registry) {
     this.registry = registry;
+    this.descriptions = new HashMap<>();
+  }
+
+  Map<String, Metric> getMetricMap() {
+    return registry.getMetrics();
+  }
+
+  /** Get the underlying metric implementation. */
+  public Metric getMetric(String name) {
+    return registry.getMetrics().get(name);
+  }
+
+  /** Lookup annotations from a metric's {@link Description}.  */
+  public ImmutableMap<String, String> getAnnotations(String name) {
+    return descriptions.get(name);
   }
 
   @Override
   public synchronized Counter newCounter(String name, Description desc) {
     checkArgument(!desc.isGauge(), "counters must not be gauge");
     checkNotDefined(name);
+    descriptions.put(name, desc.getAnnotations());
 
     if (desc.isRate()) {
       final com.codahale.metrics.Meter metric = registry.meter(name);
@@ -75,6 +104,7 @@ public class DropWizardMetricMaker extends MetricMaker {
     checkArgument(desc.isCumulative(), "timer must be cumulative");
     checkArgument(desc.getTimeUnit() != null, "timer must have a unit");
     checkNotDefined(name);
+    descriptions.put(name, desc.getAnnotations());
 
     final com.codahale.metrics.Timer metric = registry.timer(name);
     return new Timer() {
@@ -86,6 +116,7 @@ public class DropWizardMetricMaker extends MetricMaker {
 
       @Override
       public void remove() {
+        descriptions.remove(name);
         registry.remove(name);
       }
     };
@@ -96,6 +127,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   public <V> CallbackMetric<V> newCallbackMetric(String name,
       Class<V> valueClass, Description desc) {
     checkNotDefined(name);
+    descriptions.put(name, desc.getAnnotations());
     return new CallbackMetricImpl<V>(name, valueClass);
   }
 
@@ -116,6 +148,7 @@ public class DropWizardMetricMaker extends MetricMaker {
       @Override
       public void remove() {
         for (String name : names) {
+          descriptions.remove(name);
           registry.remove(name);
         }
       }
@@ -138,6 +171,7 @@ public class DropWizardMetricMaker extends MetricMaker {
 
     @Override
     public void remove() {
+      descriptions.remove(name);
       registry.remove(name);
     }
   }
@@ -163,7 +197,8 @@ public class DropWizardMetricMaker extends MetricMaker {
       } else if (valueClass == Boolean.class) {
         value = (V) Boolean.FALSE;
       } else {
-        throw new IllegalArgumentException("unsupported value type " + valueClass.getName());
+        throw new IllegalArgumentException("unsupported value type "
+            + valueClass.getName());
       }
     }
 

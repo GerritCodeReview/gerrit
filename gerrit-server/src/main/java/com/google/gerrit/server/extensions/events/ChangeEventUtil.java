@@ -15,6 +15,7 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -31,6 +32,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChangeEventUtil {
 
@@ -64,5 +68,15 @@ public class ChangeEventUtil {
     ai.name = a.getFullName();
     ai.username =  a.getUserName();
     return ai;
+  }
+
+  public Map<String, ApprovalInfo> approvals(Account a,
+      Map<String, Short> approvals, Timestamp ts) {
+    Map<String, ApprovalInfo> result = new HashMap<>();
+    for (Map.Entry<String, Short> e : approvals.entrySet()) {
+      result.put(e.getKey(),
+          changeJson.approvalInfo(a.getId(), new Integer(e.getValue()), ts));
+    }
+    return result;
   }
 }

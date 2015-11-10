@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
+import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.events.CommentAdded;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -81,6 +83,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final WorkQueue workQueue;
   private final CommitValidators.Factory commitValidatorsFactory;
+  private final CommentAdded commentAdded;
 
   private final RefControl refControl;
   private final IdentifiedUser user;
@@ -112,6 +115,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       CreateChangeSender.Factory createChangeSenderFactory,
       WorkQueue workQueue,
       CommitValidators.Factory commitValidatorsFactory,
+      CommentAdded commentAdded,
       @Assisted RefControl refControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
@@ -129,6 +133,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.workQueue = workQueue;
     this.commitValidatorsFactory = commitValidatorsFactory;
+    this.commentAdded = commentAdded;
 
     this.refControl = refControl;
     this.change = change;
@@ -300,6 +305,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (approvals != null && !approvals.isEmpty()) {
+        commentAdded.fire(change, patchSet, user.getAccount(), null, approvals,
+            ctx.getWhen());
         hooks.doCommentAddedHook(
             change, user.getAccount(), patchSet, null, approvals, db);
       }

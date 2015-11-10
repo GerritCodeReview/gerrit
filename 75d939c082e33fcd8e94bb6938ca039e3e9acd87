@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_5ef2b192",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-10T18:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_ffbf3bcd",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 10
+      },
+      "revId": "75d939c082e33fcd8e94bb6938ca039e3e9acd87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_9e18b9c5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-10T07:00:14Z",
       "side": 1,
       "message": "nit: same as above, this can be private or default access",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 13
+      },
+      "revId": "75d939c082e33fcd8e94bb6938ca039e3e9acd87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_9e027920",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-10T18:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_9e18b9c5",
       "range": {
         "startLine": 39,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_9fdb9710",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-10T18:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_fe0d7d81",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 27
+      },
+      "revId": "75d939c082e33fcd8e94bb6938ca039e3e9acd87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_dfc4ff64",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "2015-11-10T07:00:14Z",
       "side": 1,
       "message": "nit: same as above, class is private there is no need to make its constructor or methods public, private or default access will be enough.\n\nsame apply for the rest of methods",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 10
+      },
+      "revId": "75d939c082e33fcd8e94bb6938ca039e3e9acd87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_fef73d7c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-10T18:38:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_dfc4ff64",
       "range": {
         "startLine": 48,
         "startChar": 4,

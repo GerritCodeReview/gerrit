@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
@@ -1339,8 +1340,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected void assertBadQuery(QueryRequest query) throws Exception {
-    exception.expect(BadRequestException.class);
-    query.get();
+    try {
+      query.get();
+      fail("expected BadRequestException for query: " + query);
+    } catch (BadRequestException e) {
+      // Expected.
+    }
   }
 
   protected TestRepository<Repo> createProject(String name) throws Exception {

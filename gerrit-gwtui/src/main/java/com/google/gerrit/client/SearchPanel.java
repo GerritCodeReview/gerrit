@@ -15,6 +15,7 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.changes.QueryScreen;
+import com.google.gerrit.client.documentation.DocScreen;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
@@ -27,14 +28,22 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
+import com.google.gwtorm.client.KeyUtil;
 
 class SearchPanel extends Composite {
   private final HintTextBox searchBox;
+  private final ListBox dropdown;
   private HandlerRegistration regFocus;
+
+  // Make a documentation search rest api call to see if documentation is
+  // available. Use "gerrit" because if there's no documentation search result
+  // for "gerrit", then it must be unavailable.
+  private final static String DOC_TEST_KEYWORD = "gerrit";
 
   SearchPanel() {
     final FlowPanel body = new FlowPanel();
@@ -54,6 +63,19 @@ class SearchPanel extends Composite {
       }
     });
 
+    dropdown = new ListBox();
+    dropdown.setStyleName("searchDropdown");
+    dropdown.addItem(Gerrit.C.searchDropdownChanges());
+    dropdown.addItem(Gerrit.C.searchDropdownDoc());
+    dropdown.setVisibleItemCount(1);
+    dropdown.setSelectedIndex(0);
+
+    if (!Gerrit.hasDocSearch()) {
+      // Documentation search NOT available, hide the dropdown.
+      dropdown.setVisible(false);
+      dropdown.setSelectedIndex(0);
+    }
+
     final SuggestBox suggestBox =
         new SuggestBox(new SearchSuggestOracle(), searchBox, suggestionDisplay);
     searchBox.setStyleName("searchTextBox");
@@ -70,6 +92,7 @@ class SearchPanel extends Composite {
     });
 
     body.add(suggestBox);
+    body.add(dropdown);
     body.add(searchButton);
   }
 
@@ -110,10 +133,19 @@ class SearchPanel extends Composite {
 
     searchBox.setFocus(false);
 
-    if (query.matches("^[1-9][0-9]*$")) {
-      Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
-    } else {
-      Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
+    switch(dropdown.getSelectedIndex()) {
+      case 0:
+        // changes
+        if (query.matches("^[1-9][0-9]*$")) {
+          Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
+        } else {
+          Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
+        }
+        break;
+      case 1:
+        // doc
+        Gerrit.display(PageLinks.toDocumentationQuery(query));
+        break;
     }
   }
 

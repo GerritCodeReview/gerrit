@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GpgException;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -41,14 +42,17 @@ public class ChangeEventUtil {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<ReviewDb> db;
   private final ChangeJson changeJson;
+  private AccountCache accountCache;
 
   @Inject
   ChangeEventUtil(ChangeJson.Factory changeJsonFactory,
       ChangeData.Factory changeDataFactory,
-      Provider<ReviewDb> db) {
+      Provider<ReviewDb> db,
+      AccountCache accountCache) {
     this.changeDataFactory = changeDataFactory;
     this.db = db;
     this.changeJson = changeJsonFactory.create(ChangeJson.NO_OPTIONS);
+    this.accountCache = accountCache;
   }
 
   public ChangeInfo changeInfo(Change change) throws OrmException {
@@ -68,6 +72,10 @@ public class ChangeEventUtil {
     ai.name = a.getFullName();
     ai.username =  a.getUserName();
     return ai;
+  }
+
+  public AccountInfo accountInfo(Account.Id accountId) {
+    return accountInfo(accountCache.get(accountId).getAccount());
   }
 
   public Map<String, ApprovalInfo> approvals(Account a,

@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.events.ChangeAbandonedListener;
 import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.extensions.events.ChangeRestoredListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
+import com.google.gerrit.extensions.events.DraftPublishedListener;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
@@ -265,6 +266,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), ChangeAbandonedListener.class);
     DynamicSet.setOf(binder(), CommentAddedListener.class);
+    DynamicSet.setOf(binder(), DraftPublishedListener.class);
     DynamicSet.setOf(binder(), ChangeMergedListener.class);
     DynamicSet.setOf(binder(), ChangeRestoredListener.class);
     DynamicSet.setOf(binder(), ReceivePackInitializer.class);

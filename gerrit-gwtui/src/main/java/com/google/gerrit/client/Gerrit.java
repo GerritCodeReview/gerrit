@@ -118,6 +118,7 @@ public class Gerrit implements EntryPoint {
   private static AccountPreferencesInfo myPrefs;
   private static UrlAliasMatcher urlAliasMatcher;
   private static boolean hasDocumentation;
+  private static boolean docSearch;
   private static String docUrl;
   private static HostPageData.Theme myTheme;
   private static String defaultScreenToken;
@@ -487,6 +488,7 @@ public class Gerrit implements EntryPoint {
           hasDocumentation = true;
           docUrl = du;
         }
+        docSearch = info.gerrit().docSearch();
       }
     }));
     HostPageDataService hpd = GWT.create(HostPageDataService.class);
@@ -916,6 +918,10 @@ public class Gerrit implements EntryPoint {
     }
     FormatUtil.setPreferences(myPrefs);
     urlAliasMatcher.updateUserAliases(myPrefs.urlAliases());
+  }
+
+  public static boolean hasDocSearch() {
+    return docSearch;
   }
 
   private static void getDocIndex(final AsyncCallback<DocInfo> cb) {

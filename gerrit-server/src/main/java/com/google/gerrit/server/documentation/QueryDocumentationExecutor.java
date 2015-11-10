@@ -74,7 +74,7 @@ public class QueryDocumentationExecutor {
   }
 
   public List<DocResult> doQuery(String q) throws DocQueryException {
-    if (parser == null || searcher == null) {
+    if (!isAvailable()) {
       throw new DocQueryException("Documentation search not available");
     }
     try {
@@ -121,6 +121,10 @@ public class QueryDocumentationExecutor {
     }
     // We must NOT call dir.close() here, as DirectoryReader.open() expects an opened directory.
     return dir;
+  }
+
+  public boolean isAvailable() {
+    return parser != null && searcher != null;
   }
 
   @SuppressWarnings("serial")

@@ -30,7 +30,6 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
@@ -112,7 +111,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final PatchListCache patchListCache;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
-  private final ChangeHooks hooks;
   private final CommentAdded commentAdded;
 
   @Inject
@@ -127,7 +125,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       PatchListCache patchListCache,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
-      ChangeHooks hooks,
       CommentAdded commentAdded) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
@@ -140,7 +137,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.cmUtil = cmUtil;
     this.accounts = accounts;
     this.email = email;
-    this.hooks = hooks;
     this.commentAdded = commentAdded;
   }
 
@@ -394,15 +390,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             message,
             comments).sendAsync();
       }
-      try {
-        commentAdded.fire(
-            notes.getChange(), ps, user.getAccount(), message.getMessage(),
-            approvals, oldApprovals, ctx.getWhen());
-        hooks.doCommentAddedHook(notes.getChange(), user.getAccount(), ps,
-            message.getMessage(), approvals, oldApprovals, ctx.getDb());
-      } catch (OrmException e) {
-        log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
-      }
+      commentAdded.fire(
+          notes.getChange(), ps, user.getAccount(), message.getMessage(),
+          approvals, oldApprovals, ctx.getWhen());
     }
 
     private boolean insertComments(ChangeContext ctx) throws OrmException {

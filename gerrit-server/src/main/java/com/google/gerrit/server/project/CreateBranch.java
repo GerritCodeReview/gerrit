@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -56,7 +55,6 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> db;
   private final GitReferenceUpdated referenceUpdated;
-  private final ChangeHooks hooks;
   private String ref;
 
   @Inject
@@ -64,13 +62,11 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
       GitRepositoryManager repoManager,
       Provider<ReviewDb> db,
       GitReferenceUpdated referenceUpdated,
-      ChangeHooks hooks,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.db = db;
     this.referenceUpdated = referenceUpdated;
-    this.hooks = hooks;
     this.ref = ref;
   }
 
@@ -136,7 +132,6 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
             referenceUpdated.fire(
                 name.getParentKey(), u, ReceiveCommand.Type.CREATE,
                 identifiedUser.get().getAccount());
-            hooks.doRefUpdatedHook(name, u, identifiedUser.get().getAccount());
             break;
           case LOCK_FAILURE:
             if (repo.getRefDatabase().exactRef(ref) != null) {

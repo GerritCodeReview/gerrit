@@ -17,8 +17,6 @@ package com.google.gerrit.client.documentation;
 import com.google.gwt.i18n.client.Constants;
 
 public interface DocConstants extends Constants {
-  String keyReloadSearch();
-
   String docItemHelp();
   String docTableColumnTitle();
   String docTableNone();

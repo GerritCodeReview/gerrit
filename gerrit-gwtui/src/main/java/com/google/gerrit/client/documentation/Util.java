@@ -18,5 +18,4 @@ import com.google.gwt.core.client.GWT;
 
 public class Util {
   public static final DocConstants C = GWT.create(DocConstants.class);
-  public static final DocMessages M = GWT.create(DocMessages.class);
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bb142734_799e677a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-11-10T11:22:45Z",
+      "side": 1,
+      "message": "missing with relation to what? some more verbosity would be appreciated ...",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_1e05c954",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeAbandonedListener.java",
         "patchSetId": 3

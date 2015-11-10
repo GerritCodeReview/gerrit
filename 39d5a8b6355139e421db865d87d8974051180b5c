@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_7ebdedd9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/PluginMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "This is unnecessary. We can just give plugins the MetricRegistery type without any annotation at all.",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_9eca7971",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/GerritMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "I don\u0027t want this data here. It belongs over in the plugin stuff.\n\nWhich basically makes this type dead.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_febf3dcd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "Set\u003cString\u003e\n\nIf this is created per plugin we only have a set here and don\u0027t need the map.\n\nMake sure its a synchronized set.",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_1c82f525",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "I think we just need the core registry here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 35,
+        "endLine": 37,
+        "endChar": 68
+      },
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_1ed78918",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "move this above with the other finals like on line 81 and declare final.",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_7ed4cd11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "no public",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 8
+      },
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_bc77811f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "nit: insert a blank line above here, somewhere it got lost",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9c7c4505",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "Add the MetricRegistery here so that we don\u0027t copy it into the plugin. We want to replace it with a different one.",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_5ed11120",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "Instead of passing the entire env, just pass the MetricRegistry from the env.",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_fc71092b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginInfoModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "Do this instead:\n\n  final PluginMetricRegistery metrics \u003d new PluginMetricRegistry(serverMetrics);\n  bind(MetricRegistery.class).toInstance(metrics);\n  install(new LifecycleModule() {\n    @Override\n    public void configure() {\n      listener().toInstance(metrics);\n    }\n  });\n\nThen you can have PluginMetricRegistry implement onStop to remove the metrics its stored inside its little Set\u003cString\u003e.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_beec95eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T03:37:44Z",
+      "side": 1,
+      "message": "MetricRegistery\n\nNo need for the GerritMetrics type.",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

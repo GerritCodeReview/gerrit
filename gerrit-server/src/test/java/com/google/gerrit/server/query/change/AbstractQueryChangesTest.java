@@ -64,6 +64,7 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.DisabledReviewDb;
 import com.google.gerrit.testutil.GerritServerTests;
 import com.google.gerrit.testutil.InMemoryDatabase;
@@ -75,6 +76,7 @@ import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.joda.time.DateTime;
@@ -92,6 +94,13 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Ignore
 public abstract class AbstractQueryChangesTest extends GerritServerTests {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setInt("index", null, "maxPages", 10);
+    return cfg;
+  }
+
   @Inject protected AccountManager accountManager;
   @Inject protected BatchUpdate.Factory updateFactory;
   @Inject protected ChangeInserter.Factory changeFactory;
@@ -119,11 +128,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   private String systemTimeZone;
 
   protected abstract Injector createInjector();
-
-  @Before
-  public void setUpConfig() throws Exception {
-    config.setInt("index", null, "maxPages", 10);
-  }
 
   @Before
   public void setUpInjector() throws Exception {

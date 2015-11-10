@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_7f304b2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T20:56:17Z",
+      "side": 1,
+      "message": "Argh. This works now in 3.1, but when we upgrade to 4.0 we\u0027ll miss metrics even though this compiles.\n\nEither we build our own shim API, or we have to be really careful about that.",
+      "revId": "f72f15a824d8579b3c4e46f65e8c38ffad1c00fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_5f2d8fce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T20:56:17Z",
+      "side": 1,
+      "message": "Defer this until the coreRegistery has accepted the metric?",
+      "revId": "f72f15a824d8579b3c4e46f65e8c38ffad1c00fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_ff929b39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T20:56:17Z",
+      "side": 1,
+      "message": "Should we prefix the plugin name automatically, e.g.?\n\n  \"plugins/\" + pluginName + \"/\" + name\n\nSo that plugin authors are scoped and can\u0027t step on core metrics, and newly added core metrics can\u0027t steal a name a plugin author wants to use?",
+      "revId": "f72f15a824d8579b3c4e46f65e8c38ffad1c00fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_df97df27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T20:56:17Z",
+      "side": 1,
+      "message": "I wonder if all of the lookup stuff should be scoped to the plugin using this MetricRegistery.",
+      "revId": "f72f15a824d8579b3c4e46f65e8c38ffad1c00fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9f26f7f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T20:56:17Z",
+      "side": 1,
+      "message": "Use this idiom instead for MetricRegistry.",
+      "revId": "f72f15a824d8579b3c4e46f65e8c38ffad1c00fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_3e36c528",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T20:56:17Z",
+      "side": 1,
+      "message": "Use the actual class object like above, MetricRegistry.class.isAssignableFrom(type).\n\nWe only use this string form for the javax.servlet stuff that isn\u0027t available at compile time in gerrit-server because its scoped in the build process only to gerrit-http.",
+      "revId": "f72f15a824d8579b3c4e46f65e8c38ffad1c00fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_be88150c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T20:56:17Z",
+      "side": 1,
+      "message": "I think I would prefer to just use the raw name here over the name() function:\n\n  query/execution_time\n\nOur internal monitoring system uses names like /gerritcodereview/query/execution_time.\n\nWhen you grep the source code looking for where a metric is defined the string \"queries\" alone is going to have many useless hits. The string \"query/execution_time\" is likely to occur in exactly 1 place. Here. It makes it so much easier to track down where a metric is when its name is literally used in the source code.\n\nUsing underscores in metric names also makes them more readable.",
+      "range": {
+        "startLine": 68,
+        "startChar": 40,
+        "endLine": 68,
+        "endChar": 72
+      },
+      "revId": "f72f15a824d8579b3c4e46f65e8c38ffad1c00fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_7e304d2a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-10T20:56:17Z",
+      "side": 1,
+      "message": "nit: no blank line here for anonymous inner classes",
+      "revId": "f72f15a824d8579b3c4e46f65e8c38ffad1c00fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

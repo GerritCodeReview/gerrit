@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "561dc219_9618acc5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-10T20:17:41Z",
+      "side": 1,
+      "message": "No-op? I think you wanted to introduce a local variable here so it can be reused below or something.",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "42260f88eaee5b98dc9f5d7ad252e31ec5f24f50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

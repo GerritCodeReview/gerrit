@@ -34,6 +34,24 @@
       "revId": "edb30aea66911aaace21051478500ec2a9833010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_5cf0fdf8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T02:23:31Z",
+      "side": 1,
+      "message": "Per offline discussion, this is not caused by the Lucene update.  Fix for this is uploaded as https://gerrit-review.googlesource.com/#/c/72233/",
+      "parentUuid": "16feeae5_9cf9e5ee",
+      "revId": "edb30aea66911aaace21051478500ec2a9833010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

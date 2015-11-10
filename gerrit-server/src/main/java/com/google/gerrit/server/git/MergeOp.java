@@ -364,13 +364,13 @@ public class MergeOp {
   }
 
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
-      boolean checkSubmitRules) throws NoSuchChangeException,
+      boolean checkSubmitRules, boolean submitWholeTopic) throws NoSuchChangeException,
       OrmException, ResourceConflictException {
     updateSubmissionId(change);
     this.db = db;
     logDebug("Beginning integration of {}", change);
     try {
-      ChangeSet cs = mergeSuperSet.completeChangeSet(db, change);
+      ChangeSet cs = mergeSuperSet.completeChangeSet(db, change, submitWholeTopic);
       logDebug("Calculated to merge {}", cs);
       if (checkSubmitRules) {
         logDebug("Checking submit rules and state");

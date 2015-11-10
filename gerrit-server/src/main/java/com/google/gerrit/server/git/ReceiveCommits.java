@@ -1809,7 +1809,8 @@ public class ReceiveCommits {
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     try {
       mergeOpProvider.get().merge(db, rsrc.getChange(),
-          changeCtl.getUser().asIdentifiedUser(), false);
+          changeCtl.getUser().asIdentifiedUser(),
+          /* check submit rules */ false, /* submit whole topic */ true);
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);
     }

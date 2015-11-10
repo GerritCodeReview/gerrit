@@ -187,9 +187,11 @@ public class ChangeApi {
   }
 
   /** Submit a specific revision of a change. */
-  public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
+  public static void submit(int id, String commit, boolean submitWholeTopic,
+      AsyncCallback<SubmitInfo> cb) {
     SubmitInput in = SubmitInput.create();
     in.waitForMerge(true);
+    in.submitWholeTopic(submitWholeTopic);
     call(id, commit, "submit").post(in, cb);
   }
 
@@ -285,6 +287,7 @@ public class ChangeApi {
 
   private static class SubmitInput extends JavaScriptObject {
     final native void waitForMerge(boolean b) /*-{ this.wait_for_merge=b; }-*/;
+    final native void submitWholeTopic(boolean b) /*-{ this.submit_whole_topic=b; }-*/;
 
     static SubmitInput create() {
       return (SubmitInput) createObject();

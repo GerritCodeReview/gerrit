@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import static java.lang.String.format;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -72,21 +71,18 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
   private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitReferenceUpdated referenceUpdated;
-  private final ChangeHooks hooks;
 
   @Inject
   DeleteBranches(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<ReviewDb> dbProvider,
       Provider<InternalChangeQuery> queryProvider,
-      GitReferenceUpdated referenceUpdated,
-      ChangeHooks hooks) {
+      GitReferenceUpdated referenceUpdated) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.dbProvider = dbProvider;
     this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
-    this.hooks = hooks;
   }
 
   @Override
@@ -166,8 +162,6 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
         identifiedUser.get().getAccount());
     Branch.NameKey branchKey =
         new Branch.NameKey(project.getNameKey(), cmd.getRefName());
-    hooks.doRefUpdatedHook(branchKey, cmd.getOldId(), cmd.getNewId(),
-        identifiedUser.get().getAccount());
     ResultSet<SubmoduleSubscription> submoduleSubscriptions =
         dbProvider.get().submoduleSubscriptions().bySuperProject(branchKey);
     dbProvider.get().submoduleSubscriptions().delete(submoduleSubscriptions);

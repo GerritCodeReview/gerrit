@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_bf3c93a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-10T22:25:10Z",
+      "side": 1,
+      "message": "I wonder if we {c,s}hould split this into two commits.\nThe first would implement the first paragraph, while the second would implement the dialog box.\n\nI will probably add another commit on top of this to be able to disable the popup box for android again as they are already used to direct submit.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "75954436a659260d291eeaf6aaf86dc9f9116142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_ff461b33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-10T22:25:10Z",
+      "side": 1,
+      "message": "So I don\u0027t think having more than one project involved is the right thing to do here. Actually we want to have the information for either submitWholeTopic as the server config or if this is a dialog.",
+      "range": {
+        "startLine": 310,
+        "startChar": 6,
+        "endLine": 310,
+        "endChar": 67
+      },
+      "revId": "75954436a659260d291eeaf6aaf86dc9f9116142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9f41d71f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-10T22:25:10Z",
+      "side": 1,
+      "message": "I guess we could either have yet another Label which we construct in the constructor and select them here. (Hardcoding feels a bit hacky here).",
+      "range": {
+        "startLine": 341,
+        "startChar": 40,
+        "endLine": 341,
+        "endChar": 47
+      },
+      "revId": "75954436a659260d291eeaf6aaf86dc9f9116142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_de99a1ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-10T22:25:10Z",
+      "side": 1,
+      "message": "We discussed yesterday that the two booleans are not as easy to distinguish, but in the Gerrit project we never do these comments to describe the booleans inline. I guess with just two booleans we can just hardcode them without comments.",
+      "range": {
+        "startLine": 1813,
+        "startChar": 10,
+        "endLine": 1813,
+        "endChar": 72
+      },
+      "revId": "75954436a659260d291eeaf6aaf86dc9f9116142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

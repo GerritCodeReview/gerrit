@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36184e2c_35e1d0ee",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1403,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-10T14:37:57Z",
+      "side": 1,
+      "message": "How is this documented requirement implemented by the below sum? -Not sure that maxThreads accommodates \"several units higher\" enough.",
+      "range": {
+        "startLine": 1403,
+        "startChar": 19,
+        "endLine": 1403,
+        "endChar": 61
+      },
+      "revId": "09b89b129adae4c40d4fcd36ad0db6eca4e8b3b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36184e2c_15de542c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ThreadSettingsConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-10T14:37:57Z",
+      "side": 1,
+      "message": "Nice and clean /clear class!",
+      "revId": "09b89b129adae4c40d4fcd36ad0db6eca4e8b3b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36184e2c_d5fb3ca1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-10T14:37:57Z",
+      "side": 1,
+      "message": "Such computing of defaultBatchThreads could become a (reusable) service provided by ThreadSettingsConfig instead, assuming it is part of its mandate.",
+      "range": {
+        "startLine": 40,
+        "startChar": 30,
+        "endLine": 40,
+        "endChar": 75
+      },
+      "revId": "09b89b129adae4c40d4fcd36ad0db6eca4e8b3b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

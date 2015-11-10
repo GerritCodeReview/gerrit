@@ -980,7 +980,9 @@ public class MergeOp {
       PatchSet.Id mergedId = commit.change().currentPatchSetId();
       merged = db.patchSets().get(mergedId);
       c = setMergedPatchSet(c.getId(), mergedId);
-      submitter = approvalsUtil.getSubmitter(db, commit.notes(), mergedId);
+      // The change notes must be forcefully reloaded so that the SUBMIT
+      // approval that we added earlier is visible
+      submitter = approvalsUtil.getSubmitter(db, commit.notes().reload(), mergedId);
       ChangeControl control = commit.getControl();
       update = updateFactory.create(control, c.getLastUpdatedOn());
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_7eeb2dce",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/PluginMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_7ebdedd9",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_9eca7971",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/GerritMetrics.java",
         "patchSetId": 7
@@ -30,6 +48,30 @@
       "writtenOn": "2015-11-10T03:37:44Z",
       "side": 1,
       "message": "I don\u0027t want this data here. It belongs over in the plugin stuff.\n\nWhich basically makes this type dead.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 65
+      },
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_5ee8f1cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/GerritMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_9eca7971",
       "range": {
         "startLine": 29,
         "startChar": 0,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_9ef1d9c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_febf3dcd",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_1c82f525",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
         "patchSetId": 7
@@ -70,6 +130,30 @@
       "writtenOn": "2015-11-10T03:37:44Z",
       "side": 1,
       "message": "I think we just need the core registry here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 35,
+        "endLine": 37,
+        "endChar": 68
+      },
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_fef61db9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_1c82f525",
       "range": {
         "startLine": 36,
         "startChar": 35,
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_ffa8db9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_1ed78918",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_7ed4cd11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
         "patchSetId": 7
@@ -110,6 +212,30 @@
       "writtenOn": "2015-11-10T03:37:44Z",
       "side": 1,
       "message": "no public",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 8
+      },
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_defb61a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_7ed4cd11",
       "range": {
         "startLine": 135,
         "startChar": 2,
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_3ee1a5ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_bc77811f",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_9c7c4505",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
         "patchSetId": 7
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_dfad1fad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_9c7c4505",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_5ed11120",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPlugin.java",
         "patchSetId": 7
@@ -167,6 +329,24 @@
       "writtenOn": "2015-11-10T03:37:44Z",
       "side": 1,
       "message": "Instead of passing the entire env, just pass the MetricRegistry from the env.",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_be13f5a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_5ed11120",
       "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -196,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_1ede692c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPluginInfoModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Brilliant! Thanks!",
+      "parentUuid": "16feeae5_fc71092b",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_beec95eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
         "patchSetId": 7
@@ -207,6 +411,24 @@
       "writtenOn": "2015-11-10T03:37:44Z",
       "side": 1,
       "message": "MetricRegistery\n\nNo need for the GerritMetrics type.",
+      "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9fca7771",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T07:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_beec95eb",
       "revId": "39d5a8b6355139e421db865d87d8974051180b5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

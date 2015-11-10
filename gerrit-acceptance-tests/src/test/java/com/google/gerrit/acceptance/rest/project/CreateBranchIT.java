@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.Util.block;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -29,7 +28,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.server.git.ProjectConfig;
 
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
@@ -84,9 +82,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   private void blockCreateReference() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    block(cfg, Permission.CREATE, ANONYMOUS_USERS, "refs/*");
-    saveProjectConfig(project, cfg);
+    block(Permission.CREATE, ANONYMOUS_USERS, "refs/*");
   }
 
   private void grantOwner() throws Exception {

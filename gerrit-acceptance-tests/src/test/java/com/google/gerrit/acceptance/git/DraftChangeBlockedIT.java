@@ -15,13 +15,11 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
-import static com.google.gerrit.server.project.Util.block;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.server.git.ProjectConfig;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,9 +29,7 @@ public class DraftChangeBlockedIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    block(cfg, Permission.PUSH, ANONYMOUS_USERS, "refs/drafts/*");
-    saveProjectConfig(project, cfg);
+    block(Permission.PUSH, ANONYMOUS_USERS, "refs/drafts/*");
   }
 
   @Test

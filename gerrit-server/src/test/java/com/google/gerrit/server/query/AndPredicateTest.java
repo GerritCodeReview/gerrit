@@ -53,7 +53,7 @@ public class AndPredicateTest extends PredicateTest {
 
     exception.expect(UnsupportedOperationException.class);
     n.getChildren().iterator().remove();
-    assertChildren("remove(0)", n, of(a, b));
+    assertChildren("iterator().remove()", n, of(a, b));
   }
 
   private static void assertChildren(String o, Predicate<String> p,

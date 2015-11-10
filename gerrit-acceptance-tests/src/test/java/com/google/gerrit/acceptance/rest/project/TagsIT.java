@@ -49,7 +49,11 @@ public class TagsIT extends AbstractDaemonTest {
   @Test
   public void listTagsOfNonExistingProjectWithApi() throws Exception {
     exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name("does-not-exist").tags();
+    gApi.projects().name("does-not-exist").tags().get();
+  }
+
+  @Test
+  public void getTagOfNonExistingProjectWithApi() throws Exception {
     exception.expect(ResourceNotFoundException.class);
     gApi.projects().name("does-not-exist").tag("tag").get();
   }
@@ -65,8 +69,14 @@ public class TagsIT extends AbstractDaemonTest {
   @Test
   public void listTagsOfNonVisibleProjectWithApi() throws Exception {
     blockRead(project, "refs/*");
+    setApiUser(user);
     exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).tags();
+    gApi.projects().name(project.get()).tags().get();
+  }
+
+  @Test
+  public void getTagOfNonVisibleProjectWithApi() throws Exception {
+    blockRead(project, "refs/*");
     exception.expect(ResourceNotFoundException.class);
     gApi.projects().name(project.get()).tag("tag").get();
   }

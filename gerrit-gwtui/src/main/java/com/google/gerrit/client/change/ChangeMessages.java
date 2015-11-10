@@ -30,4 +30,5 @@ public interface ChangeMessages extends Messages {
   String submittedTogether(int count);
   String submittedTogether(String count);
   String editPatchSet(int patchSet);
+  String submitDialogFooter(String wholeTopic, String withParents);
 }

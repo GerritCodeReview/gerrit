@@ -53,4 +53,11 @@ interface ChangeConstants extends Constants {
   String deleteChangeEdit();
   String deleteDraftChange();
   String deleteDraftRevision();
+
+  String buttonCancel();
+  String submitBranchText();
+  String submitBranchTitle();
+  String submitTopicText();
+  String submitTopicTitle();
+  String submitDialogHeader();
 }

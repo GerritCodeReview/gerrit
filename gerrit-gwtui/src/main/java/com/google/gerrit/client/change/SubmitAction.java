@@ -16,6 +16,7 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.api.ChangeGlue;
+import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.SubmitInfo;
 import com.google.gerrit.client.info.ChangeInfo;
@@ -23,13 +24,36 @@ import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.core.client.JsArray;
 
 class SubmitAction {
-  static void call(ChangeInfo changeInfo, RevisionInfo revisionInfo) {
+  static void call(JsArray<ChangeAndCommit> sameTopicChanges,
+      final ChangeInfo changeInfo, final RevisionInfo revisionInfo) {
+    if (!Gerrit.info().change().submitWholeTopicMode()
+        .equalsIgnoreCase("DIALOG")) {
+      call(changeInfo, revisionInfo,
+          Gerrit.info().change().isSubmitWholeTopicEnabled());
+      return;
+    }
+
+    new SubmitDialog(changeInfo, sameTopicChanges, new SubmitDialog.Handler() {
+      @Override
+      public void onBranchSubmit() {
+        call(changeInfo, revisionInfo, false);
+      }
+      @Override
+      public void onTopicSubmit() {
+        call(changeInfo, revisionInfo, true);
+      }
+    }).center();
+  }
+
+  private static void call(ChangeInfo changeInfo, RevisionInfo revisionInfo,
+      boolean submitWholeTopic) {
     if (ChangeGlue.onSubmitChange(changeInfo, revisionInfo)) {
       final Change.Id changeId = changeInfo.legacyId();
       ChangeApi.submit(
-        changeId.get(), revisionInfo.name(),
+        changeId.get(), revisionInfo.name(), submitWholeTopic,
         new GerritCallback<SubmitInfo>() {
           @Override
           public void onSuccess(SubmitInfo result) {

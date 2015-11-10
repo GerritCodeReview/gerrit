@@ -168,7 +168,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
             .or("Reply") + "\u2026";
     info.updateDelay = (int) ConfigUtil.getTimeUnit(
         cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS);
-    info.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
+    info.submitWholeTopicMode = Submit.wholeTopic(cfg).name();
     return info;
   }
 
@@ -347,7 +347,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public String replyLabel;
     public String replyTooltip;
     public int updateDelay;
-    public Boolean submitWholeTopic;
+    public String submitWholeTopicMode;
   }
 
   public static class DownloadInfo {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_5bf003f9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-10T01:50:51Z",
+      "side": 1,
+      "message": "This is not a safe change. There are lots of places where we do:\n\n assertQuery(1)\n assertBadQuery(2)\n assertQuery(3)\n\nWith this implementation of assertBadQuery, (2) throws BadRequestException, short-circuiting (3) entirely.",
+      "revId": "edb30aea66911aaace21051478500ec2a9833010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

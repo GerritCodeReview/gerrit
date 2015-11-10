@@ -38,15 +38,10 @@ public abstract class GerritCallback<T> implements
   }
 
   public static void showFailure(Throwable caught) {
-    if (isNotSignedIn(caught) || isInvalidXSRF(caught)) {
+    if (isSigninFailure(caught)) {
       new NotSignedInDialog().center();
-
     } else if (isNoSuchEntity(caught)) {
-      if (Gerrit.isSignedIn()) {
-        new ErrorDialog(Gerrit.C.notFoundBody()).center();
-      } else {
-        new NotSignedInDialog().center();
-      }
+      new ErrorDialog(Gerrit.C.notFoundBody()).center();
     } else if (isInactiveAccount(caught)) {
       new ErrorDialog(Gerrit.C.inactiveAccountBody()).center();
 
@@ -77,12 +72,20 @@ public abstract class GerritCallback<T> implements
     }
   }
 
-  private static boolean isInvalidXSRF(final Throwable caught) {
+  public static boolean isSigninFailure(Throwable caught) {
+    if (isNotSignedIn(caught) || isInvalidXSRF(caught) ||
+        (isNoSuchEntity(caught) && !Gerrit.isSignedIn())) {
+      return true;
+    }
+    return false;
+  }
+
+  protected static boolean isInvalidXSRF(final Throwable caught) {
     return caught instanceof InvocationException
         && caught.getMessage().equals(JsonConstants.ERROR_INVALID_XSRF);
   }
 
-  private static boolean isNotSignedIn(Throwable caught) {
+  protected static boolean isNotSignedIn(Throwable caught) {
     return RestApi.isNotSignedIn(caught)
         || (caught instanceof RemoteJsonException
            && caught.getMessage().equals(NotSignedInException.MESSAGE));
@@ -99,17 +102,17 @@ public abstract class GerritCallback<T> implements
         && caught.getMessage().startsWith(InactiveAccountException.MESSAGE);
   }
 
-  private static boolean isNoSuchAccount(final Throwable caught) {
+  protected static boolean isNoSuchAccount(final Throwable caught) {
     return caught instanceof RemoteJsonException
         && caught.getMessage().startsWith(NoSuchAccountException.MESSAGE);
   }
 
-  private static boolean isNameAlreadyUsed(final Throwable caught) {
+  protected static boolean isNameAlreadyUsed(final Throwable caught) {
     return caught instanceof RemoteJsonException
         && caught.getMessage().startsWith(NameAlreadyUsedException.MESSAGE);
   }
 
-  private static boolean isNoSuchGroup(final Throwable caught) {
+  protected static boolean isNoSuchGroup(final Throwable caught) {
     return caught instanceof RemoteJsonException
     && caught.getMessage().startsWith(NoSuchGroupException.MESSAGE);
   }

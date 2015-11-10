@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_7feb2bce",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-10T16:47:37Z",
+      "side": 1,
+      "message": "We need to document (javadoc) the meaning of the inherited RevisionInfo and the newRevisionId. Does the newRevisionId also need to be a RevisionInfo.",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_fcb9093c",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
         "patchSetId": 3

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_3e86c582",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-11-10T23:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb142734_799e677a",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_1e05c954",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeAbandonedListener.java",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_1e9ca9da",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeAbandonedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-11-10T23:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_1e05c954",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 10
+      },
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_7feb2bce",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2015-11-10T16:47:37Z",
       "side": 1,
       "message": "We need to document (javadoc) the meaning of the inherited RevisionInfo and the newRevisionId. Does the newRevisionId also need to be a RevisionInfo.",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_7e804d64",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-11-10T23:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_7feb2bce",
       "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +159,48 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_1f55c7ce",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-11-10T23:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_fcb9093c",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_5e7d9148",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-11-10T23:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_1fd78718",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 10
+      },
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_3feb63a1",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/CommentAddedListener.java",
         "patchSetId": 3
@@ -110,6 +212,30 @@
       "writtenOn": "2015-11-10T18:48:30Z",
       "side": 1,
       "message": "ApprovalInfo doesn\u0027t contain a label name.\n\nCheck the callers of ChangeHooks.doCommentAddedHook callers. They provide a Map\u003cString, Short\u003e where the keys are label names.\n\nA simple thing to do here is to use a Map as the return type:\n\n  Map\u003cString, ApprovalInfo\u003e getApprovals();\n\nwhere the keys are label names.",
+      "range": {
+        "startLine": 29,
+        "startChar": 22,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_df4b5f3b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/CommentAddedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-11-10T23:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_3feb63a1",
       "range": {
         "startLine": 29,
         "startChar": 22,
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_5f4f4f3c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/DraftPublishedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-11-10T23:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_1b383b7b",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_3b3b777b",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ReviewerAddedListener.java",
         "patchSetId": 3
@@ -150,6 +294,24 @@
       "writtenOn": "2015-11-10T01:19:28Z",
       "side": 1,
       "message": "ChangeEvent?\n\nReviewers aren\u0027t added to a revision.",
+      "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_fee29d53",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ReviewerAddedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-11-10T23:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_3b3b777b",
       "revId": "d34739adf5e0b90789d37e33e184b320ac929124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

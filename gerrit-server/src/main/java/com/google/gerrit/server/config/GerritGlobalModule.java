@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.events.MergeFailedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.events.UsageDataPublishedListener;
@@ -269,6 +270,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CommentAddedListener.class);
     DynamicSet.setOf(binder(), DraftPublishedListener.class);
     DynamicSet.setOf(binder(), HashtagsEditedListener.class);
+    DynamicSet.setOf(binder(), MergeFailedListener.class);
     DynamicSet.setOf(binder(), ChangeMergedListener.class);
     DynamicSet.setOf(binder(), ChangeRestoredListener.class);
     DynamicSet.setOf(binder(), ReceivePackInitializer.class);

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -31,13 +30,16 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.ChangeAbandoned;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -47,6 +49,7 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -54,26 +57,27 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Abandon.class);
 
-  private final ChangeHooks hooks;
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final ChangeAbandoned changeAbandoned;
 
   @Inject
-  Abandon(ChangeHooks hooks,
+  Abandon(
       AbandonedSender.Factory abandonedSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
-      BatchUpdate.Factory batchUpdateFactory) {
-    this.hooks = hooks;
+      BatchUpdate.Factory batchUpdateFactory,
+      ChangeAbandoned changeAbandoned) {
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.changeAbandoned = changeAbandoned;
   }
 
   @Override
@@ -164,11 +168,11 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       } catch (Exception e) {
         log.error("Cannot email update for change " + change.getId(), e);
       }
-      hooks.doChangeAbandonedHook(change,
-          account,
-          patchSet,
-          Strings.emptyToNull(msgTxt),
-          ctx.getDb());
+      try {
+        changeAbandoned.fire(change, patchSet);
+      } catch (PatchListNotAvailableException | GpgException | IOException e) {
+        throw new OrmException(e);
+      }
     }
   }
 

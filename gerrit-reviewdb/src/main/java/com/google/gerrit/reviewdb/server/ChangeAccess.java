@@ -28,4 +28,8 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
 
   @Query
   ResultSet<Change> all() throws OrmException;
+
+  @Query("WHERE topic >= ? AND topic <= ? ORDER BY topic LIMIT ?")
+  ResultSet<Change> suggestByTopic(String topicA, String topicB, int limit)
+      throws OrmException;
 }

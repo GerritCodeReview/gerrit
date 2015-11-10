@@ -59,8 +59,12 @@ public class ServerInfo extends JavaScriptObject {
     public final native String replyLabel() /*-{ return this.reply_label; }-*/;
     public final native String replyTooltip() /*-{ return this.reply_tooltip; }-*/;
     public final native int updateDelay() /*-{ return this.update_delay || 0; }-*/;
-    public final native boolean isSubmitWholeTopicEnabled() /*-{
-        return this.submit_whole_topic; }-*/;
+    public final native String submitWholeTopicMode() /*-{
+        return this.submit_whole_topic_mode; }-*/;
+
+    public final boolean isSubmitWholeTopicEnabled() {
+      return !submitWholeTopicMode().equalsIgnoreCase("OFF");
+    }
 
     protected ChangeConfigInfo() {
     }

@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -72,7 +71,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   // Injected fields.
-  private final ChangeHooks hooks;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
   private final CommitValidators.Factory commitValidatorsFactory;
@@ -111,8 +109,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private ReviewerSet oldReviewers;
 
   @AssistedInject
-  public PatchSetInserter(ChangeHooks hooks,
-      ReviewDb db,
+  public PatchSetInserter(ReviewDb db,
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
@@ -124,7 +121,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
       @Assisted ChangeControl ctl,
       @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
-    this.hooks = hooks;
     this.db = db;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
@@ -279,7 +275,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
     if (runHooks) {
       revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId());
-      hooks.doPatchsetCreatedHook(change, patchSet, ctx.getDb());
     }
   }
 

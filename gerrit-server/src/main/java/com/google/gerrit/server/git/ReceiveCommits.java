@@ -52,7 +52,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
@@ -284,7 +283,6 @@ public class ReceiveCommits {
   private final CmdLineParser.Factory optionParserFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ChangeHooks hooks;
   private final PatchSetUtil psUtil;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
@@ -348,7 +346,6 @@ public class ReceiveCommits {
       CmdLineParser.Factory optionParserFactory,
       GitReferenceUpdated gitRefUpdated,
       PatchSetInfoFactory patchSetInfoFactory,
-      ChangeHooks hooks,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       GitRepositoryManager repoManager,
@@ -387,7 +384,6 @@ public class ReceiveCommits {
     this.optionParserFactory = optionParserFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.hooks = hooks;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
@@ -644,11 +640,6 @@ public class ReceiveCommits {
             // Events for change refs are fired when they are created.
             //
             gitRefUpdated.fire(project.getNameKey(), c, user.getAccount());
-            hooks.doRefUpdatedHook(
-                new Branch.NameKey(project.getNameKey(), refName),
-                c.getOldId(),
-                c.getNewId(),
-                user.getAccount());
           }
         }
     }

@@ -69,10 +69,6 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
       if (args.mergeTip.getCurrentTip().equals(args.mergeTip.getInitialTip())) {
         continue;
       }
-      args.hooks.doRefUpdatedHook(args.destBranch,
-          args.mergeTip.getInitialTip(),
-          args.mergeTip.getCurrentTip(),
-          args.accountCache.get(args.caller.getAccountId()).getAccount());
     }
   }
 

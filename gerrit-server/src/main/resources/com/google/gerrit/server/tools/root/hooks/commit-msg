@@ -22,6 +22,9 @@ unset GREP_OPTIONS
 CHANGE_ID_AFTER="Bug|Issue"
 MSG="$1"
 
+# Do not add Change-Id to temp commits (e.g. fixup!, squash!)
+head -1 "$MSG" | grep -q '^[a-z]*!' && exit 0
+
 # Check for, and add if missing, a unique Change-Id
 #
 add_ChangeId() {

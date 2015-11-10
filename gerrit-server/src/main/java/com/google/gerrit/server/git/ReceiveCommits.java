@@ -99,6 +99,7 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.events.CommentAdded;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -168,6 +169,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -313,6 +315,7 @@ public class ReceiveCommits {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final ChangeMerged changeMerged;
+  private final CommentAdded commentAdded;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -392,7 +395,8 @@ public class ReceiveCommits {
       final ChangeEditUtil editUtil,
       final BatchUpdate.Factory batchUpdateFactory,
       final SetHashtagsOp.Factory hashtagsFactory,
-      ChangeMerged changeMerged) throws IOException {
+      ChangeMerged changeMerged,
+      CommentAdded commentAdded) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.queryProvider = queryProvider;
@@ -428,6 +432,7 @@ public class ReceiveCommits {
     this.batchUpdateFactory = batchUpdateFactory;
     this.hashtagsFactory = hashtagsFactory;
     this.changeMerged = changeMerged;
+    this.commentAdded = commentAdded;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -2249,6 +2254,7 @@ public class ReceiveCommits {
 
       db.changes().beginTransaction(change.getId());
       ChangeKind changeKind = ChangeKind.REWORK;
+      Timestamp ts = TimeUtil.nowTs();
       try {
         change = db.changes().get(change.getId());
         if (change == null || change.getStatus().isClosed()) {
@@ -2273,7 +2279,7 @@ public class ReceiveCommits {
         approvalsUtil.addReviewers(db, update, labelTypes, change, newPatchSet,
             info, recipients.getReviewers(), oldRecipients.getAll());
         approvalsUtil.addApprovals(db, update, labelTypes, newPatchSet,
-            changeCtl, approvals);
+            changeCtl, approvals, ts);
         recipients.add(oldRecipients);
 
         RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
@@ -2382,6 +2388,8 @@ public class ReceiveCommits {
       }
 
       if (!approvals.isEmpty()) {
+        commentAdded.fire(change, newPatchSet, user.getAccount(), null,
+            approvals, ts);
         hooks.doCommentAddedHook(change, user.getAccount(), newPatchSet,
             null, approvals, db);
       }

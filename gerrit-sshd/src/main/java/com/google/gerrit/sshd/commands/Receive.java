@@ -14,15 +14,11 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.ReceiveCommits;
-import com.google.gerrit.server.git.ReceivePackInitializer;
-import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -33,8 +29,6 @@ import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
-import org.eclipse.jgit.transport.PostReceiveHook;
-import org.eclipse.jgit.transport.PostReceiveHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -60,15 +54,6 @@ final class Receive extends AbstractGitCommand {
 
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;
-
-  @Inject
-  private TransferConfig config;
-
-  @Inject
-  private DynamicSet<ReceivePackInitializer> receivePackInitializers;
-
-  @Inject
-  private DynamicSet<PostReceiveHook> postReceiveHooks;
 
   private final Set<Account.Id> reviewerId = new HashSet<>();
   private final Set<Account.Id> ccId = new HashSet<>();
@@ -100,17 +85,10 @@ final class Receive extends AbstractGitCommand {
     verifyProjectVisible("reviewer", reviewerId);
     verifyProjectVisible("CC", ccId);
 
+    receive.init();
     receive.addReviewers(reviewerId);
     receive.addExtraCC(ccId);
-
-    final ReceivePack rp = receive.getReceivePack();
-    rp.setRefLogIdent(currentUser.newRefLogIdent());
-    rp.setTimeout(config.getTimeout());
-    rp.setMaxObjectSizeLimit(config.getEffectiveMaxObjectSizeLimit(
-        projectControl.getProjectState()));
-    init(rp);
-    rp.setPostReceiveHook(PostReceiveHookChain.newChain(
-        Lists.newArrayList(postReceiveHooks)));
+    ReceivePack rp = receive.getReceivePack();
     try {
       rp.receive(in, out, err);
     } catch (UnpackException badStream) {
@@ -174,12 +152,6 @@ final class Receive extends AbstractGitCommand {
 
       IOException detail = new IOException(msg.toString(), badStream);
       throw new Failure(128, "fatal: Unpack error, check server log", detail);
-    }
-  }
-
-  private void init(ReceivePack rp) {
-    for (ReceivePackInitializer initializer : receivePackInitializers) {
-      initializer.init(projectControl.getProject().getNameKey(), rp);
     }
   }
 

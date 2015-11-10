@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
 import com.google.common.base.MoreObjects;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -90,7 +89,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
-  private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final CreateChangeSender.Factory createChangeSenderFactory;
@@ -132,7 +130,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       ChangeControl.GenericFactory changeControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
-      ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CreateChangeSender.Factory createChangeSenderFactory,
@@ -147,7 +144,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
-    this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.createChangeSenderFactory = createChangeSenderFactory;
@@ -406,11 +402,9 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
      */
     if (runHooks) {
       revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId());
-      ReviewDb db = ctx.getDb();
-      hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (approvals != null && !approvals.isEmpty()) {
         ChangeControl changeControl = changeControlFactory.controlFor(
-            db, change, ctx.getUser());
+            ctx.getDb(), change, ctx.getUser());
         List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
         Map<String, Short> oldApprovals = new HashMap<>();
@@ -427,9 +421,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         commentAdded.fire(change, patchSet,
             ctx.getUser().asIdentifiedUser().getAccount(), null,
             allApprovals, oldApprovals, ctx.getWhen());
-        hooks.doCommentAddedHook(change,
-            ctx.getUser().asIdentifiedUser().getAccount(), patchSet, null,
-            allApprovals, oldApprovals, db);
       }
     }
   }

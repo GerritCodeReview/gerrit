@@ -83,7 +83,6 @@ import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.diff.SideBySide;
-import com.google.gerrit.client.documentation.DocScreen;
 import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
@@ -214,9 +213,6 @@ public class Dispatcher {
 
     if (matchPrefix(QUERY, token)) {
       query(token);
-
-    } else if (matchPrefix("/Documentation/", token)) {
-      docSearch(token);
 
     } else if (matchPrefix("/c/", token)) {
       change(token);
@@ -811,14 +807,5 @@ public class Dispatcher {
         new ErrorDialog(reason).center();
       }
     }
-  }
-
-  private static void docSearch(final String token) {
-    GWT.runAsync(new AsyncSplit(token) {
-      @Override
-      public void onSuccess() {
-        Gerrit.display(token, new DocScreen(skip(token)));
-      }
-    });
   }
 }

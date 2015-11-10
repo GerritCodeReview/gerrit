@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.documentation;
 
+import static com.google.gerrit.client.ui.Util.M;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gwt.core.client.JsArray;
@@ -25,14 +27,14 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
-class DocTable extends NavigationTable<DocInfo> {
+public class DocTable extends NavigationTable<DocInfo> {
   private static final int C_TITLE = 1;
 
   private int rows = 0;
   private int dataBeginRow = 0;
 
   public DocTable() {
-    super(Util.C.docItemHelp());
+    super();
 
     table.setText(0, C_TITLE, Util.C.docTableColumnTitle());
 
@@ -51,6 +53,12 @@ class DocTable extends NavigationTable<DocInfo> {
         }
       }
     });
+
+    keysNavigation.add(
+        new PrevKeyCommand(0, 'K', M.helpListPrev(Util.C.docItemHelp())),
+        new NextKeyCommand(0, 'J', M.helpListNext(Util.C.docItemHelp())));
+    keysNavigation.add(
+        new OpenKeyCommand(0, 'O', M.helpListOpen(Util.C.docItemHelp())));
   }
 
   @Override

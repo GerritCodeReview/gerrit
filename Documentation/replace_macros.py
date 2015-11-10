@@ -65,7 +65,7 @@ SEARCH_BOX = """
 <button type="button" id="searchBox">Search</button>
 <script type="text/javascript">
 var f = function() {
-  window.location = '../#/Documentation/' +
+  window.location = '../#/q/' +
     encodeURIComponent(document.getElementById("docSearch").value);
 }
 document.getElementById("searchBox").onclick = f;

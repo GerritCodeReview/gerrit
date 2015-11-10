@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_fb158fca",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/PluginMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T01:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_bc266160",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ca7e1fc344503971b456435ef28ff251f71c92a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_db03739a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/PluginMetrics.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-10T01:50:30Z",
       "side": 1,
       "message": "Seems to be copy-pasted from the PluginName annotation?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "ca7e1fc344503971b456435ef28ff251f71c92a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_db1a53fa",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/PluginMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T01:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_db03739a",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_1b0ddbbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/GerritMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T01:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_3be9b717",
+      "revId": "ca7e1fc344503971b456435ef28ff251f71c92a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_1be67b45",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/GerritMetrics.java",
         "patchSetId": 5
@@ -76,6 +142,24 @@
       "writtenOn": "2015-11-10T01:50:30Z",
       "side": 1,
       "message": "wrap",
+      "revId": "ca7e1fc344503971b456435ef28ff251f71c92a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_7b0a1fa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/GerritMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T01:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_1be67b45",
       "revId": "ca7e1fc344503971b456435ef28ff251f71c92a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_dc4c0d1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T01:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_9c2ba52a",
+      "revId": "ca7e1fc344503971b456435ef28ff251f71c92a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_7bf33f07",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
         "patchSetId": 5
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_bbc2e780",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/metrics/MetricRegistryPluginProxy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T01:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_7bf33f07",
+      "revId": "ca7e1fc344503971b456435ef28ff251f71c92a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_fc30e997",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
         "patchSetId": 5
@@ -127,6 +247,24 @@
       "writtenOn": "2015-11-10T01:50:30Z",
       "side": 1,
       "message": "wrap",
+      "revId": "ca7e1fc344503971b456435ef28ff251f71c92a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_7c5cd9ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-10T01:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_fc30e997",
       "revId": "ca7e1fc344503971b456435ef28ff251f71c92a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

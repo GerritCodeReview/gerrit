@@ -51,15 +51,6 @@ public class SiteStaticDirectoryServlet extends ResourceServlet {
 
   @Override
   protected Path getResourcePath(String pathInfo) {
-    Path p = staticBase.resolve(pathInfo);
-    try {
-      p = p.toRealPath().normalize();
-      if (!p.startsWith(staticBase)) {
-        return null;
-      }
-      return p;
-    } catch (IOException e) {
-      return null;
-    }
+    return staticBase.resolve(pathInfo);
   }
 }

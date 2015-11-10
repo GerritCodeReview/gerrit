@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_3e7d25c5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-10T17:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0af5c83c_bf3057ef",
+      "range": {
+        "startLine": 101,
+        "startChar": 16,
+        "endLine": 101,
+        "endChar": 50
+      },
+      "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa059cff_1c22b5a8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2015-07-30T17:50:37Z",
       "side": 1,
       "message": "outdated",
+      "range": {
+        "startLine": 103,
+        "startChar": 51,
+        "endLine": 103,
+        "endChar": 60
+      },
+      "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_de97e127",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-10T17:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa059cff_1c22b5a8",
       "range": {
         "startLine": 103,
         "startChar": 51,
@@ -106,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_1e7ae9cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-10T17:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0af5c83c_7fc88f4d",
+      "range": {
+        "startLine": 314,
+        "startChar": 58,
+        "endLine": 314,
+        "endChar": 83
+      },
+      "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0af5c83c_5fcdcb5b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 9
@@ -117,6 +189,24 @@
       "writtenOn": "2015-07-30T17:50:37Z",
       "side": 1,
       "message": "How about something more specific and closer to the old thing that got added as a ChangeMessage:\n\n\"Change X depends on patch set A of change Y, but the latest patch set is B\"",
+      "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_7e87adf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-10T17:48:01Z",
+      "side": 1,
+      "message": "Because we\u0027re not having access to X here. We are checking Y and know about A and B here. So I tried coming up with an error message containing Y, A and B only.",
+      "parentUuid": "0af5c83c_5fcdcb5b",
       "revId": "3e643968597ec12da13134476988ac7e7ec085ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

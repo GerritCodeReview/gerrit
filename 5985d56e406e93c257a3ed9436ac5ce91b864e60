@@ -17,6 +17,24 @@
       "revId": "5985d56e406e93c257a3ed9436ac5ce91b864e60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_5ed47168",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-10T23:05:47Z",
+      "side": 1,
+      "message": "Made the intent more explicit, although the regex got more complicated.",
+      "parentUuid": "f6f876fc_9edd5996",
+      "revId": "5985d56e406e93c257a3ed9436ac5ce91b864e60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

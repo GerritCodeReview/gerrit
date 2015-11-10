@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -103,12 +104,18 @@ public class NotPredicateTest extends PredicateTest {
     assertNotSame(n, n.copy(sb));
     assertEquals(sb, n.copy(sb).getChildren());
 
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage("Expected exactly one child");
-    n.copy(Collections.<Predicate> emptyList());
+    try {
+      n.copy(Collections.<Predicate> emptyList());
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Expected exactly one child", e.getMessage());
+    }
 
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage("Expected exactly one child");
-    n.copy(and(a, b).getChildren());
+    try {
+      n.copy(and(a, b).getChildren());
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Expected exactly one child", e.getMessage());
+    }
   }
 }

@@ -900,9 +900,22 @@ changes including ancestors and other changes related by topic)".
 [[change.submitWholeTopic]]change.submitWholeTopic::
 +
 Determines if the submit button submits the whole topic instead of
-just the current change.
+just the current change. The supported values are:
 +
-Default is false.
+* `OFF`
++
+Disables submit whole topic feature
++
+* `ON`
++
+Enables immediate submit of changes grouped by the same topic
++
+* `DIALOG`
++
+Before submitting changes that was grouped together, confirmation dialog
+will be shown
++
+Default is `OFF`.
 
 [[change.submitTopicLabel]]change.submitTopicLabel::
 +

@@ -21,4 +21,5 @@ public interface AccountMessages extends Messages {
   String rowsPerPage(short cnt);
   String changeScreenServerDefault(String d);
   String enterIAGREE(String iagree);
+  String submitDialogFooter(String wholeTopic, String withParents);
 }

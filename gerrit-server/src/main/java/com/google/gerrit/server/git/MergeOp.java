@@ -370,14 +370,15 @@ public class MergeOp {
   }
 
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
-      boolean checkSubmitRules) throws NoSuchChangeException,
-  OrmException, ResourceConflictException {
+      boolean checkSubmitRules) throws NoSuchChangeException, OrmException,
+          ResourceConflictException {
     merge(db, change, caller, checkSubmitRules, submitWholeTopic);
   }
 
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
-      boolean checkSubmitRules, boolean submitWholeTopic) throws NoSuchChangeException,
-      OrmException, ResourceConflictException {
+      boolean checkSubmitRules, boolean submitWholeTopic)
+          throws NoSuchChangeException, OrmException,
+          ResourceConflictException {
     updateSubmissionId(change);
     this.db = db;
     logDebug("Beginning integration of {}", change);

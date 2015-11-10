@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_df26bfa6",
+        "filename": "lib/dropwizard/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T20:38:03Z",
+      "side": 1,
+      "message": "Should this be in the plugin?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "b034bf6db0732683928e4e78792ab37c67e7f24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

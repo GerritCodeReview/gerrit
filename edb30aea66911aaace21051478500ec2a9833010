@@ -16,6 +16,24 @@
       "revId": "edb30aea66911aaace21051478500ec2a9833010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9cf9e5ee",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T02:01:38Z",
+      "side": 1,
+      "message": "If (2) throws the expected exception, it should continue to the next test.\n\nI\u0027ve just run the tests again now and I\u0027m getting AssertionErrors, which means it\u0027s not throwing the BadRequestException.\n\nNot sure, but it might be caused by the Lucene update.  I had verified that change and this series separately...",
+      "parentUuid": "f6f876fc_5bf003f9",
+      "revId": "edb30aea66911aaace21051478500ec2a9833010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

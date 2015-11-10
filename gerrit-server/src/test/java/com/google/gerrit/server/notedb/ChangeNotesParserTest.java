@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.notedb;
 
+import static org.junit.Assert.fail;
+
 import com.google.gerrit.common.TimeUtil;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -200,8 +202,10 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   private void assertParseFails(RevCommit commit) throws Exception {
     try (ChangeNotesParser parser = newParser(commit)) {
-      exception.expect(ConfigInvalidException.class);
       parser.parseAll();
+      fail("Expected parse to fail:\n" + commit.getFullMessage());
+    } catch (ConfigInvalidException e) {
+      // Expected
     }
   }
 

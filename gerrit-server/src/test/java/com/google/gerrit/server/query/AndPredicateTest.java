@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -43,17 +44,29 @@ public class AndPredicateTest extends PredicateTest {
     final TestPredicate b = f("author", "bob");
     final Predicate<String> n = and(a, b);
 
-    exception.expect(UnsupportedOperationException.class);
-    n.getChildren().clear();
+    try {
+      n.getChildren().clear();
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException e) {
+      // Expected
+    }
     assertChildren("clear", n, of(a, b));
 
-    exception.expect(UnsupportedOperationException.class);
-    n.getChildren().remove(0);
+    try {
+      n.getChildren().remove(0);
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException e) {
+      // Expected
+    }
     assertChildren("remove(0)", n, of(a, b));
 
-    exception.expect(UnsupportedOperationException.class);
-    n.getChildren().iterator().remove();
-    assertChildren("remove(0)", n, of(a, b));
+    try {
+      n.getChildren().iterator().remove();
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException e) {
+      // Expected
+    }
+    assertChildren("iterator().remove()", n, of(a, b));
   }
 
   private static void assertChildren(String o, Predicate<String> p,

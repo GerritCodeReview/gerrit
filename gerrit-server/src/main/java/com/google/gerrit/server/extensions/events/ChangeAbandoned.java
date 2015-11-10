@@ -57,28 +57,16 @@ public class ChangeAbandoned {
         reason);
   }
 
-  private static class Event implements ChangeAbandonedListener.Event {
-    private final ChangeInfo change;
-    private final RevisionInfo revision;
+  private static class Event extends AbstractRevisionEvent
+      implements ChangeAbandonedListener.Event {
     private final AccountInfo abandoner;
     private final String reason;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo abandoner,
         String reason) {
-      this.change = change;
-      this.revision = revision;
+      super(change, revision);
       this.abandoner = abandoner;
       this.reason = reason;
-    }
-
-    @Override
-    public RevisionInfo getRevision() {
-      return revision;
-    }
-
-    @Override
-    public ChangeInfo getChange() {
-      return change;
     }
 
     @Override

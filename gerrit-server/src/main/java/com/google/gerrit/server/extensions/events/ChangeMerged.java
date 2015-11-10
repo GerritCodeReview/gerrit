@@ -57,28 +57,16 @@ public class ChangeMerged {
         newRevisionId);
   }
 
-  private static class Event implements ChangeMergedListener.Event {
-    private final ChangeInfo change;
-    private final RevisionInfo revision;
+  private static class Event extends AbstractRevisionEvent
+      implements ChangeMergedListener.Event {
     private final AccountInfo submitter;
     private final String newRevisionId;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo submitter,
         String newRevisionId) {
-      this.change = change;
-      this.revision = revision;
+      super(change, revision);
       this.submitter = submitter;
       this.newRevisionId = newRevisionId;
-    }
-
-    @Override
-    public RevisionInfo getRevision() {
-      return revision;
-    }
-
-    @Override
-    public ChangeInfo getChange() {
-      return change;
     }
 
     @Override

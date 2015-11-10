@@ -35,6 +35,7 @@ import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -64,6 +65,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final GitwebConfig gitwebConfig;
   private final DynamicItem<AvatarProvider> avatar;
   private final boolean enableSignedPush;
+  private final QueryDocumentationExecutor docSearcher;
 
   @Inject
   public GetServerInfo(
@@ -79,7 +81,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       @AnonymousCowardName String anonymousCowardName,
       GitwebConfig gitwebConfig,
       DynamicItem<AvatarProvider> avatar,
-      @EnableSignedPush boolean enableSignedPush) {
+      @EnableSignedPush boolean enableSignedPush,
+      QueryDocumentationExecutor docSearcher) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -93,6 +96,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.gitwebConfig = gitwebConfig;
     this.avatar = avatar;
     this.enableSignedPush = enableSignedPush;
+    this.docSearcher = docSearcher;
   }
 
   @Override
@@ -238,6 +242,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     info.reportBugText = cfg.getString("gerrit", null, "reportBugText");
     info.docUrl = getDocUrl(cfg);
+    info.docSearch = docSearcher.isAvailable();
     info.editGpgKeys = toBoolean(enableSignedPush
         && cfg.getBoolean("gerrit", null, "editGpgKeys", true));
     return info;
@@ -366,10 +371,11 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class GerritInfo {
     public String allProjects;
     public String allUsers;
+    public Boolean docSearch;
     public String docUrl;
+    public Boolean editGpgKeys;
     public String reportBugUrl;
     public String reportBugText;
-    public Boolean editGpgKeys;
   }
 
   public static class GitwebInfo {

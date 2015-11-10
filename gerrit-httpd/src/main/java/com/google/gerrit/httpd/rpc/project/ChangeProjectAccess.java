@@ -14,11 +14,9 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
@@ -52,7 +50,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         @Nullable @Assisted String message);
   }
 
-  private final ChangeHooks hooks;
   private final GitReferenceUpdated gitRefUpdated;
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final ProjectCache projectCache;
@@ -64,7 +61,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       MetaDataUpdate.User metaDataUpdateFactory,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
-      ChangeHooks hooks,
       GitReferenceUpdated gitRefUpdated,
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
@@ -76,7 +72,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         parentProjectName, message, true);
     this.projectAccessFactory = projectAccessFactory;
     this.projectCache = projectCache;
-    this.hooks = hooks;
     this.gitRefUpdated = gitRefUpdated;
   }
 
@@ -88,9 +83,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
 
     gitRefUpdated.fire(config.getProject().getNameKey(), RefNames.REFS_CONFIG,
         base, commit.getId(), user.asIdentifiedUser().getAccount());
-    hooks.doRefUpdatedHook(
-      new Branch.NameKey(config.getProject().getNameKey(), RefNames.REFS_CONFIG),
-      base, commit.getId(), user.asIdentifiedUser().getAccount());
 
     projectCache.evict(config.getProject());
     return projectAccessFactory.create(projectName).call();

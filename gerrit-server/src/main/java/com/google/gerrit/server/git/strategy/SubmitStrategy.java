@@ -17,7 +17,6 @@ package com.google.gerrit.server.git.strategy;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -30,6 +29,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -100,7 +100,7 @@ public abstract class SubmitStrategy {
     final ApprovalsUtil approvalsUtil;
     final BatchUpdate.Factory batchUpdateFactory;
     final ChangeControl.GenericFactory changeControlFactory;
-    final ChangeHooks hooks;
+    final ChangeMerged changeMerged;
     final ChangeMessagesUtil cmUtil;
     final EmailMerge.Factory mergedSenderFactory;
     final GitRepositoryManager repoManager;
@@ -136,7 +136,7 @@ public abstract class SubmitStrategy {
         ApprovalsUtil approvalsUtil,
         BatchUpdate.Factory batchUpdateFactory,
         ChangeControl.GenericFactory changeControlFactory,
-        ChangeHooks hooks,
+        ChangeMerged changeMerged,
         ChangeMessagesUtil cmUtil,
         EmailMerge.Factory mergedSenderFactory,
         GitRepositoryManager repoManager,
@@ -165,7 +165,7 @@ public abstract class SubmitStrategy {
       this.approvalsUtil = approvalsUtil;
       this.batchUpdateFactory = batchUpdateFactory;
       this.changeControlFactory = changeControlFactory;
-      this.hooks = hooks;
+      this.changeMerged = changeMerged;
       this.mergedSenderFactory = mergedSenderFactory;
       this.repoManager = repoManager;
       this.cmUtil = cmUtil;

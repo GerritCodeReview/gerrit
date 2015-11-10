@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.testutil.GerritBaseTests;
 
@@ -97,9 +98,12 @@ public class AddressTest extends GerritBaseTests {
   }
 
   private void assertInvalid(final String in) {
-    exception.expect(IllegalArgumentException.class);
-    exception.expectMessage("Invalid email address: " + in);
-    Address.parse(in);
+    try {
+      Address.parse(in);
+      fail("Expected IllegalArgumentException for " + in);
+    } catch (IllegalArgumentException e) {
+      assertThat(e.getMessage()).isEqualTo("Invalid email address: " + in);
+    }
   }
 
   @Test

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_dffd1f27",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-10T21:44:24Z",
+      "side": 1,
+      "message": "Alternatively, remove the option completely, and just serve both UIs. We can introduce user settings option: prefered UI or part of UI, like we did to switch between Change Screen and Change Screen2.",
+      "parentUuid": "f6f876fc_5babe3dc",
+      "range": {
+        "startLine": 27,
+        "startChar": 37,
+        "endLine": 27,
+        "endChar": 71
+      },
+      "revId": "01b7773c76d9ab7b48ecefca37c45690e4c3a773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_dc140d1f",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 11

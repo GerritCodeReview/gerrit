@@ -1064,6 +1064,9 @@ public class MergeOp {
       // If the submit strategy created a new revision (rebase, cherry-pick)
       // approve that as well
       if (!psIdNewRev.equals(psId)) {
+        update.setPatchSetId(psId);
+        update.commit();
+        update = updateFactory.create(control, timestamp);
         batch = approve(control, psIdNewRev, user,
             update, timestamp);
         // Write update commit after all normalized label commits.

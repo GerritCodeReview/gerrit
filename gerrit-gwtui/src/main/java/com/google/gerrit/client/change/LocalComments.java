@@ -28,9 +28,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class LocalComments {
-  private Change.Id changeId;
-  private PatchSet.Id psId;
-  private StorageBackend storage;
+  private final Change.Id changeId;
+  private final PatchSet.Id psId;
+  private final StorageBackend storage;
 
   private static class InlineComment {
     final PatchSet.Id psId;
@@ -43,13 +43,12 @@ public class LocalComments {
   }
 
   private static class StorageBackend {
-    private Storage storageBackend;
+    private final Storage storageBackend;
 
     StorageBackend() {
-      storageBackend = Storage.getLocalStorageIfSupported();
-      if (storageBackend == null) {
-        storageBackend = Storage.getSessionStorageIfSupported();
-      }
+      storageBackend = (Storage.isLocalStorageSupported())
+          ? Storage.getLocalStorageIfSupported()
+          : Storage.getSessionStorageIfSupported();
     }
 
     String getItem(String key) {
@@ -89,6 +88,7 @@ public class LocalComments {
 
   public LocalComments(Change.Id changeId) {
     this.changeId = changeId;
+    this.psId = null;
     this.storage = new StorageBackend();
   }
 

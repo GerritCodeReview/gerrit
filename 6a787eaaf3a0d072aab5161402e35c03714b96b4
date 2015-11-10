@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1447180615 -0800\nnonce AFd3Bxu1Q5lf6e9FmZxkFrba5ju67R93ybDoIEm/V4i3Nltt3TflV1QJ4CGcqWn6De3yCmag2Msh\n\n0000000000000000000000000000000000000000 6a787eaaf3a0d072aab5161402e35c03714b96b4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWQjlHAAoJEGt7+xNJsB0bpGgIAI7ty/b6BGDWuEdkClm70Ezg\nVwRfvz84dlf7PhD4+Mjeuk5tDdSFlJY4uZfXTTAWTS5Uu+IMYVj5fQp+nVU4yEsS\n0nL0dQmtFGse7CkVoGpC1O8bPCBDimZco5OhK32fsEcr5qACFhJBWPwdaIDKRSt6\n/hpGikNL5JuD8OlKK6ALcsAN5GhefjPi+2Sh8xAvOgIxQKOu57L8mEmLqiklmD2k\nOMsTBZxkOc3/Tzh9DJ1MxB5OmXf45sJhnqhCxk3kde0RsOFMlsvLGpixXpzE7M6A\nAbOUpgSeM5WmcSL2YbPkChYxbTJRZa/23rJ+5mBzovaZJqrCfG+4tjJv5GLQClg\u003d\n\u003dNsWo\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_3e3525d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-10T20:17:13Z",
+      "side": 1,
+      "message": "How about: \"Submit depends on patch set N of change M, but latest patch set is Q\"",
+      "revId": "6a787eaaf3a0d072aab5161402e35c03714b96b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

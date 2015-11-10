@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.events.MergeFailedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
+import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.UsageDataPublishedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -275,6 +276,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ChangeMergedListener.class);
     DynamicSet.setOf(binder(), ChangeRestoredListener.class);
     DynamicSet.setOf(binder(), ReviewerAddedListener.class);
+    DynamicSet.setOf(binder(), RevisionCreatedListener.class);
     DynamicSet.setOf(binder(), ReceivePackInitializer.class);
     DynamicSet.setOf(binder(), PostReceiveHook.class);
     DynamicSet.setOf(binder(), PreUploadHook.class);

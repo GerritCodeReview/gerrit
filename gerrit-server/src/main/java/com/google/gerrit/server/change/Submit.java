@@ -54,6 +54,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,6 +93,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
+  public enum Mode {
+    AUTO, DIALOG, OFF;
+  }
+
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
   private final ChangeData.Factory changeDataFactory;
@@ -108,6 +113,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final String submitTopicLabel;
   private final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
+  private final Submit.Mode submitWholeTopicMode;
   private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
@@ -146,6 +152,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
             cfg.getString("change", null, "submitTooltipAncestors"),
             DEFAULT_TOOLTIP_ANCESTORS));
     submitWholeTopic = wholeTopicEnabled(cfg);
+    submitWholeTopicMode = wholeTopic(cfg);
     this.submitTopicLabel = MoreObjects.firstNonNull(
         Strings.emptyToNull(cfg.getString("change", null, "submitTopicLabel")),
         "Submit whole topic");
@@ -183,7 +190,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
 
     boolean shouldSubmitWholeTopic = input.submitWholeTopic != null
-        ? input.submitWholeTopic : submitWholeTopic;
+        ? input.submitWholeTopic : submitWholeTopicMode == Submit.Mode.AUTO;
     try {
       ReviewDb db = dbProvider.get();
       mergeOpProvider.get().merge(db, change, caller, true,
@@ -306,8 +313,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
 
     ChangeSet cs;
+    boolean multipleProjects;
     try {
       cs = mergeSuperSet.completeChangeSet(db, cd.change(), submitWholeTopic);
+      multipleProjects = cs.changesByProject().keySet().size() > 1
+          || cs.changesByBranch().keys().size() > 1;
     } catch (OrmException | IOException e) {
       throw new OrmRuntimeException("Could not determine complete set of " +
           "changes to be submitted", e);
@@ -337,8 +347,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       Map<String, String> params = ImmutableMap.of(
           "topicSize", String.valueOf(topicSize),
           "submitSize", String.valueOf(cs.size()));
+      String actionLabel =
+          submitWholeTopicMode == Submit.Mode.DIALOG && multipleProjects ? label
+              : submitTopicLabel;
       return new UiAction.Description()
-          .setLabel(submitTopicLabel)
+          .setLabel(actionLabel)
           .setTitle(Strings.emptyToNull(
               submitTopicTooltip.replace(params)))
           .setVisible(true)
@@ -406,8 +419,21 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return new RevisionResource(changes.parse(target), rsrc.getPatchSet());
   }
 
+  public static Submit.Mode wholeTopic(Config config) {
+    String value = config.getString("change", null, "submitWholeTopic");
+    if (Strings.isNullOrEmpty(value)) {
+      return Submit.Mode.OFF;
+    }
+    try {
+      return StringUtils.toBoolean(value) ? Submit.Mode.AUTO : Submit.Mode.OFF;
+    } catch (IllegalArgumentException e) {
+      // ignore
+    }
+    return Submit.Mode.valueOf(value.toUpperCase());
+  }
+
   public static boolean wholeTopicEnabled(Config config) {
-    return config.getBoolean("change", null, "submitWholeTopic" , false);
+    return wholeTopic(config) != Submit.Mode.OFF;
   }
 
   private List<ChangeData> getChangesByTopic(String topic) {

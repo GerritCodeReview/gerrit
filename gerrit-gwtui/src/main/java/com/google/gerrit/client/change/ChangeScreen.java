@@ -21,6 +21,8 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.api.ExtensionPanel;
+import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
+import com.google.gerrit.client.change.RelatedChanges.SameTopicChangesHandler;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.CommentInfo;
@@ -1184,7 +1186,12 @@ public class ChangeScreen extends Screen {
     permalink.setText(String.valueOf(info.legacyId()));
     topic.set(info, revision);
     commit.set(commentLinkProcessor, info, revision);
-    related.set(info, revision);
+    related.set(info, revision, new SameTopicChangesHandler() {
+      @Override
+      public void onSameTopicChanges(JsArray<ChangeAndCommit> changes) {
+        actions.setRelatedChanges(changes);
+      }
+    });
     reviewers.set(info);
     if (Gerrit.isNoteDbEnabled()) {
       hashtags.set(info);

@@ -817,7 +817,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       if (!claSignedHook.isPresent()) {
         return;
       }
-
       if (account != null) {
         List<String> args = new ArrayList<>();
         addArg(args, "--submitter", getDisplayName(account));

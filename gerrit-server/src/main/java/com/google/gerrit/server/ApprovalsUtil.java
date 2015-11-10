@@ -224,10 +224,16 @@ public class ApprovalsUtil {
   public void addApprovals(ReviewDb db, ChangeUpdate update,
       LabelTypes labelTypes, PatchSet ps, ChangeControl changeCtl,
       Map<String, Short> approvals) throws OrmException {
+    Timestamp ts = TimeUtil.nowTs();
+    addApprovals(db, update, labelTypes, ps, changeCtl, approvals, ts);
+  }
+
+  public void addApprovals(ReviewDb db, ChangeUpdate update,
+      LabelTypes labelTypes, PatchSet ps, ChangeControl changeCtl,
+      Map<String, Short> approvals, Timestamp ts) throws OrmException {
     if (!approvals.isEmpty()) {
       checkApprovals(approvals, changeCtl);
       List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
-      Timestamp ts = TimeUtil.nowTs();
       for (Map.Entry<String, Short> vote : approvals.entrySet()) {
         LabelType lt = labelTypes.byLabel(vote.getKey());
         cells.add(new PatchSetApproval(new PatchSetApproval.Key(

@@ -3515,7 +3515,8 @@ configuration file, one MAC per key.  MAC names starting with `+`
 are enabled in addition to the default MACs, MAC names starting with
 `-` are removed from the default MACs.
 +
-Supported MACs: hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96.
+Supported MACs: hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96,
+hmac-sha2-256, hmac-sha2-512.
 +
 By default, all supported MACs are available.
 

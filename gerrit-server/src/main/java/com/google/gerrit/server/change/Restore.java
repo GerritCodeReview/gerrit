@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.ChangeRestored;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -60,6 +61,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final ChangeJson.Factory json;
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final ChangeRestored changeRestored;
 
   @Inject
   Restore(ChangeHooks hooks,
@@ -67,13 +69,15 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
-      BatchUpdate.Factory batchUpdateFactory) {
+      BatchUpdate.Factory batchUpdateFactory,
+      ChangeRestored changeRestored) {
     this.hooks = hooks;
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.changeRestored = changeRestored;
   }
 
   @Override
@@ -150,6 +154,8 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       } catch (Exception e) {
         log.error("Cannot email update for change " + change.getId(), e);
       }
+      changeRestored.fire(change, patchSet, caller.getAccount(),
+          Strings.emptyToNull(input.message));
       hooks.doChangeRestoredHook(change,
           caller.getAccount(),
           patchSet,

@@ -129,9 +129,8 @@ public class CacheHeaders {
   }
 
   public static boolean hasCacheHeader(HttpServletResponse res) {
-    return res.getHeader("Cache-Control") != null
-        || res.getHeader("Expires") != null
-        || "no-cache".equals(res.getHeader("Pragma"));
+    return res.containsHeader("Cache-Control")
+        || res.containsHeader("Expires");
   }
 
   private static void cache(HttpServletResponse res,

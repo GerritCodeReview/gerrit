@@ -307,7 +307,18 @@ a:hover {
 }
 .searchPanel .searchTextBox {
   font-size: 9pt;
-  margin: 5.286px 3px 0 0;
+  margin: 8.286px 3px 0 0;
+}
+.searchPanel .searchDropdown {
+  font-size: 8pt;
+  font-weight: bold;
+  border: 2px solid;
+  color: #FFF;
+  border-color: rgba(0, 0, 0, 0.15);
+  height: 16px;
+  background-color: #53A93F;
+  border-radius: 2px;
+  box-sizing: content-box;
 }
 .searchPanel .searchButton {
   text-align: center;

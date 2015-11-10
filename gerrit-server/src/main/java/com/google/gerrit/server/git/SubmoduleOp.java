@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.reviewdb.client.Account;
@@ -77,7 +76,6 @@ public class SubmoduleOp {
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
   private final Account account;
-  private final ChangeHooks changeHooks;
   private final boolean verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
   private final MergeOpRepoManager orm;
@@ -91,7 +89,6 @@ public class SubmoduleOp {
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
       @Nullable Account account,
-      ChangeHooks changeHooks,
       @Assisted MergeOpRepoManager orm) {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
@@ -99,7 +96,6 @@ public class SubmoduleOp {
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
     this.account = account;
-    this.changeHooks = changeHooks;
     this.verboseSuperProject = cfg.getBoolean("submodule",
         "verboseSuperprojectUpdate", true);
     this.enableSuperProjectSubscriptions = cfg.getBoolean("submodule",
@@ -370,7 +366,6 @@ public class SubmoduleOp {
         case NEW:
         case FAST_FORWARD:
           gitRefUpdated.fire(subscriber.getParentKey(), rfu, account);
-          changeHooks.doRefUpdatedHook(subscriber, rfu, account);
           // TODO since this is performed "in the background" no mail will be
           // sent to inform users about the updated branch
           break;

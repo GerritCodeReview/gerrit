@@ -23,6 +23,30 @@
       "revId": "49155524b590859345c250549ff33247389560a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_5e2d91ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-10T17:29:55Z",
+      "side": 1,
+      "message": "This should already be limited via the limit passed in to suggestByTopic,\nso in the next patch set I removed the lines around 104 to check for the size twice.",
+      "parentUuid": "f6f876fc_1b82fb25",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 5
+      },
+      "revId": "49155524b590859345c250549ff33247389560a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

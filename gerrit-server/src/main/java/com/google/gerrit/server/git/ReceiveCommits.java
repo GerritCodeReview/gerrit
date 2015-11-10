@@ -101,6 +101,7 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommentAdded;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.events.RevisionCreated;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -316,6 +317,7 @@ public class ReceiveCommits {
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final ChangeMerged changeMerged;
   private final CommentAdded commentAdded;
+  private final RevisionCreated revisionCreated;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -351,6 +353,7 @@ public class ReceiveCommits {
   private Task commandProgress;
   private MessageSender messageSender;
   private BatchRefUpdate batch;
+
 
   @Inject
   ReceiveCommits(final ReviewDb db,
@@ -396,7 +399,8 @@ public class ReceiveCommits {
       final BatchUpdate.Factory batchUpdateFactory,
       final SetHashtagsOp.Factory hashtagsFactory,
       ChangeMerged changeMerged,
-      CommentAdded commentAdded) throws IOException {
+      CommentAdded commentAdded,
+      RevisionCreated revisionCreated) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.queryProvider = queryProvider;
@@ -433,6 +437,7 @@ public class ReceiveCommits {
     this.hashtagsFactory = hashtagsFactory;
     this.changeMerged = changeMerged;
     this.commentAdded = commentAdded;
+    this.revisionCreated = revisionCreated;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -2380,6 +2385,7 @@ public class ReceiveCommits {
 
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
+
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {
         changeMerged.fire(change, newPatchSet, user.getAccount(), newCommit.getName());

@@ -39,7 +39,7 @@ public class GetCommitIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     repo = GitUtil.newTestRepository(repoManager.openRepository(project));
-    blockRead(project, "refs/*");
+    blockRead("refs/*");
   }
 
   @After

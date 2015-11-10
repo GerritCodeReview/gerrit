@@ -37,7 +37,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   @Test
   public void listBranchesOfNonVisibleProject_NotFound() throws Exception {
-    blockRead(project, "refs/*");
+    blockRead("refs/*");
     setApiUser(user);
     exception.expect(ResourceNotFoundException.class);
     gApi.projects().name(project.get()).branches().get();
@@ -65,7 +65,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   @Test
   public void listBranchesSomeHidden() throws Exception {
-    blockRead(project, "refs/heads/dev");
+    blockRead("refs/heads/dev");
     String master = pushTo("refs/heads/master").getCommit().name();
     pushTo("refs/heads/dev");
     setApiUser(user);
@@ -78,7 +78,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   @Test
   public void listBranchesHeadHidden() throws Exception {
-    blockRead(project, "refs/heads/master");
+    blockRead("refs/heads/master");
     pushTo("refs/heads/master");
     String dev = pushTo("refs/heads/dev").getCommit().name();
     setApiUser(user);

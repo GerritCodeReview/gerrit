@@ -30,7 +30,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
   @Test
   public void indexChangeOnNonVisibleBranch() throws Exception {
     String changeId = createChange().getChangeId();
-    blockRead(project, "refs/heads/master");
+    blockRead("refs/heads/master");
     userSession
         .post("/changes/" + changeId + "/index/")
         .assertNotFound();

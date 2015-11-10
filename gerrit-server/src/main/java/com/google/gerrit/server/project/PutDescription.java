@@ -16,18 +16,14 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -36,29 +32,21 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
-import java.util.Objects;
 
 @Singleton
 public class PutDescription implements RestModifyView<ProjectResource, PutDescriptionInput> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final GitRepositoryManager gitMgr;
-  private final ChangeHooks hooks;
-  private final GitReferenceUpdated gitRefUpdated;
 
   @Inject
   PutDescription(ProjectCache cache,
       MetaDataUpdate.Server updateFactory,
-      ChangeHooks hooks,
-      GitReferenceUpdated gitRefUpdated,
       GitRepositoryManager gitMgr) {
     this.cache = cache;
     this.updateFactory = updateFactory;
-    this.hooks = hooks;
-    this.gitRefUpdated = gitRefUpdated;
     this.gitMgr = gitMgr;
   }
 
@@ -89,16 +77,7 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
       }
       md.setAuthor(user);
       md.setMessage(msg);
-      ObjectId baseRev = config.getRevision();
-      ObjectId commitRev = config.commit(md);
-      // Only fire hook if project was actually changed.
-      if (!Objects.equals(baseRev, commitRev)) {
-        gitRefUpdated.fire(resource.getNameKey(), RefNames.REFS_CONFIG,
-            baseRev, commitRev, user.getAccount());
-        hooks.doRefUpdatedHook(
-          new Branch.NameKey(resource.getNameKey(), RefNames.REFS_CONFIG),
-          baseRev, commitRev, user.getAccount());
-      }
+      config.commit(md);
       cache.evict(ctl.getProject());
       gitMgr.setProjectDescription(
           resource.getNameKey(),

@@ -1071,6 +1071,7 @@ public class MergeOp {
     } finally {
       db.rollback();
     }
+    update.commit();
     indexer.index(db, cd.change());
   }
 

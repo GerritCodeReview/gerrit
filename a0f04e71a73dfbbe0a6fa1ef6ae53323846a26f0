@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_de1241a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-10T07:03:34Z",
+      "side": 1,
+      "message": "how about adding a message like \"Unable to abandon change XXXX\"?",
+      "range": {
+        "startLine": 177,
+        "startChar": 31,
+        "endLine": 177,
+        "endChar": 32
+      },
+      "revId": "a0f04e71a73dfbbe0a6fa1ef6ae53323846a26f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
+import com.google.gerrit.common.ChangeHookApiListener;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.EventBroker;
 import com.google.gerrit.gpg.GpgModule;
@@ -294,8 +295,12 @@ public class WebAppInitializer extends GuiceServletContextListener
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(new DropWizardMetricMaker.RestModule());
+<<<<<<< HEAD
     modules.add(new EventBroker.Module());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
+=======
+    modules.add(new ChangeHookApiListener.Module());
+>>>>>>> 00292b5... Make hooks/events listen to the new API Events.
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(new DiffExecutorModule());

@@ -870,7 +870,7 @@ public class ChangeJson {
     return map;
   }
 
-  private RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in)
+  public RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in)
       throws PatchListNotAvailableException, GpgException, OrmException,
       IOException {
     Change c = ctl.getChange();

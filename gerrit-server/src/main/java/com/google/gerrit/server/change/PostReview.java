@@ -349,7 +349,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     @Override
-    public void updateChange(ChangeContext ctx) throws OrmException {
+    public void updateChange(ChangeContext ctx)
+        throws OrmException, ResourceConflictException {
       user = ctx.getUser().asIdentifiedUser();
       change = ctx.getChange();
       if (change.getLastUpdatedOn().before(ctx.getWhen())) {
@@ -500,7 +501,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return drafts;
     }
 
-    private boolean updateLabels(ChangeContext ctx) throws OrmException {
+    private boolean updateLabels(ChangeContext ctx)
+        throws OrmException, ResourceConflictException {
       Map<String, Short> labels = in.labels;
       if (labels == null) {
         labels = Collections.emptyMap();
@@ -515,10 +517,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (Map.Entry<String, Short> ent : labels.entrySet()) {
         String name = ent.getKey();
         LabelType lt = checkNotNull(labelTypes.byLabel(name), name);
-        if (ctx.getChange().getStatus().isClosed()) {
-          // TODO Allow updating some labels even when closed.
-          continue;
-        }
 
         PatchSetApproval c = current.remove(lt.getName());
         String normName = lt.getName();
@@ -554,6 +552,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
+      if (!del.isEmpty() || !ups.isEmpty()) {
+        if (ctx.getChange().getStatus().isClosed()) {
+          throw new ResourceConflictException("change is closed");
+        }
+      }
       forceCallerAsReviewer(ctx, current, ups, del);
       ctx.getDb().patchSetApprovals().delete(del);
       ctx.getDb().patchSetApprovals().upsert(ups);

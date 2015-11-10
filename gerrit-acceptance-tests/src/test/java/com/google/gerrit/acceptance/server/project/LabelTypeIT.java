@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
@@ -43,6 +44,15 @@ public class LabelTypeIT extends AbstractDaemonTest {
     codeReview.setDefaultValue((short)-1);
     cfg.getLabelSections().put(codeReview.getName(), codeReview);
     saveProjectConfig(cfg);
+  }
+
+  @Test
+  public void failChangedLabelValueOnClosedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    merge(r);
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("change is closed");
+    revision(r).review(ReviewInput.reject());
   }
 
   @Test

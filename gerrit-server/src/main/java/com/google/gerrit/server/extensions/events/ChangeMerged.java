@@ -17,7 +17,7 @@ package com.google.gerrit.server.extensions.events;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
-import com.google.gerrit.extensions.events.ChangeAbandonedListener;
+import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,50 +29,50 @@ import com.google.inject.Inject;
 
 import java.io.IOException;
 
-public class ChangeAbandoned {
+public class ChangeMerged {
 
-  private final DynamicSet<ChangeAbandonedListener> listeners;
+  private final DynamicSet<ChangeMergedListener> listeners;
   private final ChangeEventUtil util;
 
   @Inject
-  ChangeAbandoned(DynamicSet<ChangeAbandonedListener> listeners,
+  ChangeMerged(DynamicSet<ChangeMergedListener> listeners,
       ChangeEventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo abandoner, String reason) {
-    Event e = new Event(change, revision, abandoner, reason);
-    for (ChangeAbandonedListener l : listeners) {
-      l.onChangeAbandoned(e);
+      AccountInfo merger, String newRevisionId) {
+    Event e = new Event(change, revision, merger, newRevisionId);
+    for (ChangeMergedListener l : listeners) {
+      l.onChangeMerged(e);
     }
   }
 
-  public void fire(Change change, PatchSet ps, Account abandoner, String reason)
-      throws OrmException {
+  public void fire(Change change, PatchSet ps, Account merger,
+      String newRevisionId) throws OrmException {
     try {
       fire(util.changeInfo(change),
           util.revisionInfo(ps),
-          util.accountInfo(abandoner),
-          reason);
+          util.accountInfo(merger),
+          newRevisionId);
     } catch (PatchListNotAvailableException | GpgException | IOException e) {
       throw new OrmException(e);
     }
   }
 
-  private static class Event implements ChangeAbandonedListener.Event {
+  private static class Event implements ChangeMergedListener.Event {
     private final ChangeInfo change;
     private final RevisionInfo revision;
-    private final AccountInfo abandoner;
-    private final String reason;
+    private final AccountInfo merger;
+    private final String newRevisionId;
 
-    Event(ChangeInfo change, RevisionInfo revision, AccountInfo abandoner,
-        String reason) {
+    Event(ChangeInfo change, RevisionInfo revision, AccountInfo merger,
+        String newRevisionId) {
       this.change = change;
       this.revision = revision;
-      this.abandoner = abandoner;
-      this.reason = reason;
+      this.merger = merger;
+      this.newRevisionId = newRevisionId;
     }
 
     @Override
@@ -86,13 +86,13 @@ public class ChangeAbandoned {
     }
 
     @Override
-    public AccountInfo getAbandoner() {
-      return abandoner;
+    public AccountInfo getMerger() {
+      return merger;
     }
 
     @Override
-    public String getReason() {
-      return reason;
+    public String getNewRevisionId() {
+      return newRevisionId;
     }
   }
 }

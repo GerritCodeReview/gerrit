@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_bb1b0701",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T01:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f66b162f_636f8205",
+      "range": {
+        "startLine": 7,
+        "startChar": 70,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16718a1c_c45d9e58",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2015-11-09T14:29:41Z",
       "side": 1,
       "message": "affected",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_9b20cb2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T01:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_c45d9e58",
       "range": {
         "startLine": 10,
         "startChar": 42,
@@ -88,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_1c38357b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T01:59:56Z",
+      "side": 1,
+      "message": "Done. Let me know if it needs more detail than what I provided.",
+      "parentUuid": "16718a1c_e45a9a5d",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16718a1c_646f8a05",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 1
@@ -99,6 +165,30 @@
       "writtenOn": "2015-11-09T14:29:41Z",
       "side": 1,
       "message": "Obsolete (or Outdated -would be more precise)",
+      "range": {
+        "startLine": 62,
+        "startChar": 37,
+        "endLine": 62,
+        "endChar": 40
+      },
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_7c45f9f2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T01:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_646f8a05",
       "range": {
         "startLine": 62,
         "startChar": 37,
@@ -128,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_5c42bdec",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T01:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_04d7b6e5",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16718a1c_24dcb207",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 1
@@ -139,6 +247,24 @@
       "writtenOn": "2015-11-09T14:29:41Z",
       "side": 1,
       "message": "Would insert a blank line here.",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9c5285ba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T01:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16718a1c_24dcb207",
       "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -168,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_bc4dc11c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T01:59:56Z",
+      "side": 1,
+      "message": "1 \u003d\u003d first patch set",
+      "parentUuid": "16718a1c_44e1aebe",
+      "range": {
+        "startLine": 70,
+        "startChar": 48,
+        "endLine": 70,
+        "endChar": 49
+      },
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f66b162f_e35a925d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 1
@@ -179,6 +329,24 @@
       "writtenOn": "2015-11-09T14:29:41Z",
       "side": 1,
       "message": "Would insert a blank line here as well.",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_3b1097d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T01:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f66b162f_e35a925d",
       "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -202,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_fc4749f6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T01:59:56Z",
+      "side": 1,
+      "message": "This one I think I\u0027ll keep, just to be paranoid and protect against future changes to LabelTypeIT.",
+      "parentUuid": "f66b162f_a3609a11",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f66b162f_c35d9658",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
         "patchSetId": 1
@@ -213,6 +399,24 @@
       "writtenOn": "2015-11-09T14:29:41Z",
       "side": 1,
       "message": "How about also checking that the second patch set still honours the original -2 vote?",
+      "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_9bc72b91",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-10T01:59:56Z",
+      "side": 1,
+      "message": "On the chance that the review call affected the current patch set instead? Sure.",
+      "parentUuid": "f66b162f_c35d9658",
       "revId": "9246332490edc6eae0b6aa115f57c97c2cb55a26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

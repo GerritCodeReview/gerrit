@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1447119285 -0800\nnonce AFd3BxsXUz7zi+CgLzMUKam10YyCjA8A9B/VQUxPHygczgUwTP6B5ljKFTHdg+pTp4LBT9akOZ++\n\n0000000000000000000000000000000000000000 49155524b590859345c250549ff33247389560a9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWQUm1AAoJEGt7+xNJsB0b8G8H/AggI2bQDYB3E0MRDpIF25oY\nqd7wHGP+6RNGixeiDg4r6UprJz08+z2BQbPaX2U7C5ZWoxBueOzqBT9Bd2YIQnEB\ngFaRsVNWHQmeMJof8FDMu3ANHrbNzUGmGTRUrV+qC+D97wsJIe5/DdI3n/g8Ua3u\nZ+o3P+1JQ4mbwUbLySkr9xRQifspCt3W/rN9YQl//BcADdmjI7YDCifAsP0mXMuQ\ncqxoxqHxFjUuzrtEtd10Er2+ve4CjVOLr7jSktXJKfI/N6Ui03PQeCnx4hGaDW/K\nCgzM0W9dv0qRP+cnUWwTO10fECV2dnmi9Vs497iUFUHwjolmtdPANYbiQfzjVnU\u003d\n\u003dWx+O\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_1b82fb25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-10T02:47:18Z",
+      "side": 1,
+      "message": "why don\u0027t you break this loop when set size is equal to value of limit? then you don\u0027t need to have \u0027if\u0027 in line 104",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 5
+      },
+      "revId": "49155524b590859345c250549ff33247389560a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

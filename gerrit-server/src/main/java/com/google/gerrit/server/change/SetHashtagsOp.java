@@ -20,7 +20,6 @@ import static com.google.gerrit.server.change.HashtagsUtil.extractTags;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -55,7 +54,6 @@ public class SetHashtagsOp extends BatchUpdate.Op {
 
   private final NotesMigration notesMigration;
   private final ChangeMessagesUtil cmUtil;
-  private final ChangeHooks hooks;
   private final DynamicSet<HashtagValidationListener> validationListeners;
   private final HashtagsEdited hashtagsEdited;
   private final HashtagsInput input;
@@ -71,13 +69,11 @@ public class SetHashtagsOp extends BatchUpdate.Op {
   SetHashtagsOp(
       NotesMigration notesMigration,
       ChangeMessagesUtil cmUtil,
-      ChangeHooks hooks,
       DynamicSet<HashtagValidationListener> validationListeners,
       HashtagsEdited hashtagsEdited,
       @Assisted @Nullable HashtagsInput input) {
     this.notesMigration = notesMigration;
     this.cmUtil = cmUtil;
-    this.hooks = hooks;
     this.validationListeners = validationListeners;
     this.hashtagsEdited = hashtagsEdited;
     this.input = input;
@@ -172,10 +168,6 @@ public class SetHashtagsOp extends BatchUpdate.Op {
     if (updated() && runHooks) {
       hashtagsEdited.fire(change, ctx.getUser().getAccountId(), updatedHashtags,
           toAdd, toRemove);
-      hooks.doHashtagsChangedHook(
-          change, ctx.getUser().asIdentifiedUser().getAccount(),
-          toAdd, toRemove, updatedHashtags,
-          ctx.getDb());
     }
   }
 

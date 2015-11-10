@@ -23,8 +23,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.Submit;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -35,7 +33,6 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -68,24 +65,21 @@ public class MergeSuperSet {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager repoManager;
-  private final Config cfg;
 
   @Inject
-  MergeSuperSet(@GerritServerConfig Config cfg,
-      ChangeData.Factory changeDataFactory,
+  MergeSuperSet(ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
       GitRepositoryManager repoManager) {
-    this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManager = repoManager;
   }
 
-  public ChangeSet completeChangeSet(ReviewDb db, Change change)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-      OrmException {
+  public ChangeSet completeChangeSet(ReviewDb db, Change change,
+      boolean submitWholeTopic) throws MissingObjectException,
+          IncorrectObjectTypeException, IOException, OrmException {
     ChangeData cd = changeDataFactory.create(db, change.getId());
-    if (Submit.wholeTopicEnabled(cfg)) {
+    if (submitWholeTopic) {
       return completeChangeSetIncludingTopics(db, new ChangeSet(cd));
     } else {
       return completeChangeSetWithoutTopic(db, new ChangeSet(cd));

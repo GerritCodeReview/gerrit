@@ -101,7 +101,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
   private List<ChangeData> getForOpenChange(Change c)
       throws OrmException, IOException {
-    ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c);
+    ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c, true);
     return cs.changes().asList();
   }
 

@@ -148,7 +148,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     submitWholeTopic = wholeTopicEnabled(cfg);
     this.submitTopicLabel = MoreObjects.firstNonNull(
         Strings.emptyToNull(cfg.getString("change", null, "submitTopicLabel")),
-        "Submit whole topic");
+        "Submit with parents");
     this.submitTopicTooltip = new ParameterizedString(MoreObjects.firstNonNull(
         cfg.getString("change", null, "submitTopicTooltip"),
         DEFAULT_TOPIC_TOOLTIP));
@@ -184,7 +184,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     try {
       ReviewDb db = dbProvider.get();
-      mergeOpProvider.get().merge(db, change, caller, true);
+      mergeOpProvider.get().merge(db, change, caller,
+          /* check submit rules */ true, input.submitWholeTopic);
       change = db.changes().get(change.getId());
     } catch (NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);
@@ -303,8 +304,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
 
     ChangeSet cs;
+    boolean multipleProjects;
     try {
-      cs = mergeSuperSet.completeChangeSet(db, cd.change());
+      cs = mergeSuperSet.completeChangeSet(db, cd.change(), true);
+      multipleProjects = cs.changesByProject().keySet().size() > 1;
     } catch (OrmException | IOException e) {
       throw new OrmRuntimeException("Could not determine complete set of " +
           "changes to be submitted", e);
@@ -335,7 +338,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           "topicSize", String.valueOf(topicSize),
           "submitSize", String.valueOf(cs.size()));
       return new UiAction.Description()
-          .setLabel(submitTopicLabel)
+          .setLabel(multipleProjects ? "Submit" : submitTopicLabel)
           .setTitle(Strings.emptyToNull(
               submitTopicTooltip.replace(params)))
           .setVisible(true)

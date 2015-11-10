@@ -15,13 +15,18 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.documentation.DocInfo;
+import com.google.gerrit.client.documentation.DocTable;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 public abstract class PagedSingleListScreen extends Screen {
@@ -34,6 +39,8 @@ public abstract class PagedSingleListScreen extends Screen {
   private ChangeTable.Section section;
   private Hyperlink prev;
   private Hyperlink next;
+  private VerticalPanel docsPanel;
+  private DocTable docs;
 
   protected PagedSingleListScreen(String anchorToken, int start) {
     anchorPrefix = anchorToken;
@@ -78,12 +85,22 @@ public abstract class PagedSingleListScreen extends Screen {
     buttons.add(prev);
     buttons.add(next);
     add(buttons);
+
+    docsPanel = new VerticalPanel();
+    Label docsText = new Label(Gerrit.M.documentationResults(), false);
+    docsText.setStyleName(Gerrit.RESOURCES.css().smallHeading());
+    docsPanel.add(docsText);
+    docs = new DocTable();
+    docsPanel.add(docs);
+    add(docsPanel);
+    docsPanel.setVisible(false);
   }
 
   @Override
   public void registerKeys() {
     super.registerKeys();
     table.setRegisterKeys(true);
+    docs.setRegisterKeys(true);
   }
 
   protected AsyncCallback<ChangeList> loadCallback() {
@@ -113,6 +130,20 @@ public abstract class PagedSingleListScreen extends Screen {
     table.updateColumnsForLabels(result);
     section.display(result);
     table.finishDisplay();
+  }
+
+  protected void displayDocsResults(JsArray<DocInfo> result) {
+    if (result.length() == 0) {
+      hideDocsResults();
+    } else {
+      docsPanel.setVisible(true);
+      docs.display(result);
+    }
+    docs.finishDisplay();
+  }
+
+  protected void hideDocsResults() {
+    docsPanel.setVisible(false);
   }
 
   private static final class DoLinkCommand extends KeyCommand {

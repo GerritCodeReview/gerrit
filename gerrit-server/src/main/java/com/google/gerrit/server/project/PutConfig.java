@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -89,7 +88,6 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final AllProjectsNameProvider allProjects;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> user;
-  private final ChangeHooks hooks;
   private final GitReferenceUpdated gitRefUpdated;
 
   @Inject
@@ -103,7 +101,6 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       PluginConfigFactory cfgFactory,
       AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views,
-      ChangeHooks hooks,
       GitReferenceUpdated gitRefUpdated,
       Provider<CurrentUser> user) {
     this.serverEnableSignedPush = serverEnableSignedPush;
@@ -116,7 +113,6 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.cfgFactory = cfgFactory;
     this.allProjects = allProjects;
     this.views = views;
-    this.hooks = hooks;
     this.gitRefUpdated = gitRefUpdated;
     this.user = user;
   }
@@ -205,9 +201,6 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         if (!Objects.equals(baseRev, commitRev)) {
           gitRefUpdated.fire(projectName, RefNames.REFS_CONFIG,
               baseRev, commitRev, user.get().asIdentifiedUser().getAccount());
-          hooks.doRefUpdatedHook(
-            new Branch.NameKey(projectName, RefNames.REFS_CONFIG),
-            baseRev, commitRev, user.get().asIdentifiedUser().getAccount());
         }
         projectCache.evict(projectConfig.getProject());
         gitMgr.setProjectDescription(projectName, p.getDescription());

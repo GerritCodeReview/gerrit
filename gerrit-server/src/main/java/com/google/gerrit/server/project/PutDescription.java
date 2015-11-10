@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -46,18 +45,15 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final GitRepositoryManager gitMgr;
-  private final ChangeHooks hooks;
   private final GitReferenceUpdated gitRefUpdated;
 
   @Inject
   PutDescription(ProjectCache cache,
       MetaDataUpdate.Server updateFactory,
-      ChangeHooks hooks,
       GitReferenceUpdated gitRefUpdated,
       GitRepositoryManager gitMgr) {
     this.cache = cache;
     this.updateFactory = updateFactory;
-    this.hooks = hooks;
     this.gitRefUpdated = gitRefUpdated;
     this.gitMgr = gitMgr;
   }
@@ -97,9 +93,6 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
         if (!Objects.equals(baseRev, commitRev)) {
           gitRefUpdated.fire(resource.getNameKey(), RefNames.REFS_CONFIG,
               baseRev, commitRev, user.getAccount());
-          hooks.doRefUpdatedHook(
-            new Branch.NameKey(resource.getNameKey(), RefNames.REFS_CONFIG),
-            baseRev, commitRev, user.getAccount());
         }
         cache.evict(ctl.getProject());
         gitMgr.setProjectDescription(

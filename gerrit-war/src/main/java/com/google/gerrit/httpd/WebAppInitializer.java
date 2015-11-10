@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.ChangeHookApiListener;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
@@ -292,6 +293,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new DropWizardMetricMaker.ApiModule());
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new WorkQueue.Module());
+    modules.add(new ChangeHookApiListener.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(new DiffExecutorModule());

@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
@@ -76,7 +75,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
   private final Provider<ReviewDb> dbProvider;
   private final BatchUpdate.Factory updateFactory;
-  private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final AccountResolver accountResolver;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -88,7 +86,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
   public PublishDraftPatchSet(
       Provider<ReviewDb> dbProvider,
       BatchUpdate.Factory updateFactory,
-      ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
       AccountResolver accountResolver,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -97,7 +94,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       DraftPublished draftPublished) {
     this.dbProvider = dbProvider;
     this.updateFactory = updateFactory;
-    this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.accountResolver = accountResolver;
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -237,7 +233,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     @Override
     public void postUpdate(Context ctx) throws OrmException {
       draftPublished.fire(change, patchSet, ctx.getUser().getAccountId());
-      hooks.doDraftPublishedHook(change, patchSet, ctx.getDb());
       if (patchSet.isDraft() && change.getStatus() == Change.Status.DRAFT) {
         // Skip emails if the patch set is still a draft.
         return;

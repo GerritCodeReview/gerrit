@@ -1,0 +1,4 @@
+{
+  "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1447177670 -0800\nnonce AFd3BxuwJWp/ZkffQ6rSPNZfEsTYhpzqE0kaVXsknX0c4BUCqYfpL6vyRLwOY5GLCaPZlTrfEKUg\n\n0000000000000000000000000000000000000000 221d10c74fdf468352cf0aee5a582886e47bd314 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWQi3GAAoJEGt7+xNJsB0bMJYH/2xxP+6BGHv6AvU5jTrxvUHt\nm4Z6CmcanRCLN5r5EUMK9iwovrh5JUvh4avUxnclUOiv77ttigan0708nTgpfOMw\nEkghsTgiEMzdB93tcWPYy/V5tpHFsJ177d+MK+Q8iPpIgzDJ85JqiiUkJSRMptne\ni0st0i2/JWIuiiHCZJrK43zApehANSQi++Hqtt7s016cp+8HziAPMDaq94KJ6UjT\njK7zeVW6eGQ3aLbLTVvOEs7Swuycq+ZTzJb8FRsyhJCZlUBxT4ZMrSvXo/p3aj7v\n2zvRYSjE26e2QcLobmRvlyp2zD1J8gGHYdSMCtkA0VIz0ZLnr3b8FuIZrXnbke8\u003d\n\u003ddV3u\n-----END PGP SIGNATURE-----\n",
+  "comments": []
+}

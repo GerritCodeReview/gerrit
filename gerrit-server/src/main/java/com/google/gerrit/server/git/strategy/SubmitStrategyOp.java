@@ -523,13 +523,11 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       log.error("Cannot email merged notification for " + getId(), e);
     }
     if (mergeResultRev != null) {
-      try {
-        args.hooks.doChangeMergedHook(updatedChange,
-            args.accountCache.get(submitter.getAccountId()).getAccount(),
-            mergedPatchSet, ctx.getDb(), args.mergeTip.getCurrentTip().name());
-      } catch (OrmException ex) {
-        logError("Cannot run hook for submitted patch set " + getId(), ex);
-      }
+      args.changeMerged.fire(
+          updatedChange,
+          mergedPatchSet,
+          args.accountCache.get(submitter.getAccountId()).getAccount(),
+          args.mergeTip.getCurrentTip().name());
     }
   }
 

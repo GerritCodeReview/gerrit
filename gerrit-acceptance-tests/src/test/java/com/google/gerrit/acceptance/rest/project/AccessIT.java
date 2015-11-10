@@ -79,6 +79,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     RevCommit updatedHead = getRemoteHead(p, "refs/meta/config");
     eventRecorder.assertRefUpdatedEvents(p.get(), "refs/meta/config",
+        null, initialHead,
         initialHead, updatedHead);
   }
 

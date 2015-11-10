@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
@@ -28,16 +27,13 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -48,7 +44,6 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +52,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 
 @Singleton
 public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
@@ -74,8 +68,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final AllProjectsName allProjects;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> user;
-  private final ChangeHooks hooks;
-  private final GitReferenceUpdated gitRefUpdated;
 
   @Inject
   PutConfig(@EnableSignedPush boolean serverEnableSignedPush,
@@ -88,8 +80,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
       DynamicMap<RestView<ProjectResource>> views,
-      ChangeHooks hooks,
-      GitReferenceUpdated gitRefUpdated,
       Provider<CurrentUser> user) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -101,8 +91,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.cfgFactory = cfgFactory;
     this.allProjects = allProjects;
     this.views = views;
-    this.hooks = hooks;
-    this.gitRefUpdated = gitRefUpdated;
     this.user = user;
   }
 
@@ -176,16 +164,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
       md.setMessage("Modified project settings\n");
       try {
-        ObjectId baseRev = projectConfig.getRevision();
-        ObjectId commitRev = projectConfig.commit(md);
-        // Only fire hook if project was actually changed.
-        if (!Objects.equals(baseRev, commitRev)) {
-          gitRefUpdated.fire(projectName, RefNames.REFS_CONFIG,
-              baseRev, commitRev, user.get().asIdentifiedUser().getAccount());
-          hooks.doRefUpdatedHook(
-            new Branch.NameKey(projectName, RefNames.REFS_CONFIG),
-            baseRev, commitRev, user.get().asIdentifiedUser().getAccount());
-        }
+        projectConfig.commit(md);
         projectCache.evict(projectConfig.getProject());
         gitMgr.setProjectDescription(projectName, p.getDescription());
       } catch (IOException e) {

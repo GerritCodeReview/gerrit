@@ -135,7 +135,7 @@ class ChangeNotesParser implements AutoCloseable {
 
   ImmutableListMultimap<PatchSet.Id, ChangeMessage> buildMessages() {
     for (Collection<ChangeMessage> v : changeMessages.asMap().values()) {
-      Collections.sort((List<ChangeMessage>) v, ChangeNotes.MESSAGE_BY_TIME);
+      Collections.reverse((List<ChangeMessage>) v);
     }
     return ImmutableListMultimap.copyOf(changeMessages);
   }

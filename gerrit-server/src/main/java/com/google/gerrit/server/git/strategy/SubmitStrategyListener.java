@@ -18,7 +18,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -70,12 +69,11 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
       if (args.mergeTip.getCurrentTip().equals(args.mergeTip.getInitialTip())) {
         continue;
       }
-      Account account =
-          args.accountCache.get(args.caller.getAccountId()).getAccount();
-      args.hooks.doRefUpdatedHook(args.destBranch,
+      args.refUpated.fire(args.project.getProject().getNameKey(),
+          args.destBranch.get(),
           args.mergeTip.getInitialTip(),
           args.mergeTip.getCurrentTip(),
-          account);
+          args.accountCache.get(args.caller.getAccountId()).getAccount());
     }
   }
 

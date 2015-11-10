@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_7b805f64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T00:50:52Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "33943ed1d391c7446f8d714d65a6da2e35f0f384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_bbd827a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T00:50:52Z",
+      "side": 1,
+      "message": "Topics",
+      "range": {
+        "startLine": 49,
+        "startChar": 32,
+        "endLine": 49,
+        "endChar": 41
+      },
+      "revId": "33943ed1d391c7446f8d714d65a6da2e35f0f384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_5b7da348",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T00:50:52Z",
+      "side": 1,
+      "message": "topics",
+      "range": {
+        "startLine": 52,
+        "startChar": 33,
+        "endLine": 52,
+        "endChar": 42
+      },
+      "revId": "33943ed1d391c7446f8d714d65a6da2e35f0f384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_bcd821a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T00:50:52Z",
+      "side": 1,
+      "message": "topics",
+      "range": {
+        "startLine": 60,
+        "startChar": 21,
+        "endLine": 60,
+        "endChar": 30
+      },
+      "revId": "33943ed1d391c7446f8d714d65a6da2e35f0f384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_9bdd6b96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T00:50:52Z",
+      "side": 1,
+      "message": "Topics",
+      "range": {
+        "startLine": 72,
+        "startChar": 43,
+        "endLine": 72,
+        "endChar": 52
+      },
+      "revId": "33943ed1d391c7446f8d714d65a6da2e35f0f384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9cdd6596",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-10T00:50:52Z",
+      "side": 1,
+      "message": "Move this into a conditional after lines 74-76; we don\u0027t need it if the suggestion is switched off.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 44
+      },
+      "revId": "33943ed1d391c7446f8d714d65a6da2e35f0f384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

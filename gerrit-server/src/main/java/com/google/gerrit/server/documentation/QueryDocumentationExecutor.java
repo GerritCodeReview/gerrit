@@ -75,7 +75,7 @@ public class QueryDocumentationExecutor {
 
   public List<DocResult> doQuery(String q) throws DocQueryException {
     if (parser == null || searcher == null) {
-      throw new DocQueryException("Documentation search not available");
+      return Lists.newArrayListWithCapacity(0);
     }
     try {
       Query query = parser.parse(q);

@@ -140,6 +140,30 @@
       "revId": "4c020965aa8a738d02ea2dcb127610196f8f570e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_35e0f0bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountInfoComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T20:54:11Z",
+      "side": 1,
+      "message": "Maybe these can be options passed to the comparator?",
+      "parentUuid": "3b203791_955b4461",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 77
+      },
+      "revId": "4c020965aa8a738d02ea2dcb127610196f8f570e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

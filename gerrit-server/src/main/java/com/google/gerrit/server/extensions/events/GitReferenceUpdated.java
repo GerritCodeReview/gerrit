@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 
@@ -36,54 +38,81 @@ public class GitReferenceUpdated {
       Collections.<GitReferenceUpdatedListener> emptyList());
 
   private final Iterable<GitReferenceUpdatedListener> listeners;
+  private final EventUtil util;
 
   @Inject
-  GitReferenceUpdated(DynamicSet<GitReferenceUpdatedListener> listeners) {
+  GitReferenceUpdated(DynamicSet<GitReferenceUpdatedListener> listeners,
+      EventUtil util) {
     this.listeners = listeners;
+    this.util = util;
   }
 
   GitReferenceUpdated(Iterable<GitReferenceUpdatedListener> listeners) {
     this.listeners = listeners;
+    this.util = null;
   }
 
   public void fire(Project.NameKey project, RefUpdate refUpdate,
-      ReceiveCommand.Type type) {
+      ReceiveCommand.Type type, Account updater) {
     fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(), type);
+        refUpdate.getNewObjectId(), type, util.accountInfo(updater));
   }
 
-  public void fire(Project.NameKey project, RefUpdate refUpdate) {
+  public void fire(Project.NameKey project, RefUpdate refUpdate,
+      ReceiveCommand.Type type, Account.Id updater) {
     fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
-        refUpdate.getNewObjectId(), ReceiveCommand.Type.UPDATE);
+        refUpdate.getNewObjectId(), type, util.accountInfo(updater));
+  }
+
+  public void fire(Project.NameKey project, RefUpdate refUpdate,
+      Account updater) {
+    fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
+        refUpdate.getNewObjectId(), ReceiveCommand.Type.UPDATE,
+        util.accountInfo(updater));
+  }
+
+  public void fire(Project.NameKey project, RefUpdate refUpdate,
+      AccountInfo updater) {
+    fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
+        refUpdate.getNewObjectId(), ReceiveCommand.Type.UPDATE, updater);
   }
 
   public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
-      ObjectId newObjectId, ReceiveCommand.Type type) {
+      ObjectId newObjectId, Account updater) {
+    fire(project, ref, oldObjectId, newObjectId, ReceiveCommand.Type.UPDATE,
+        util.accountInfo(updater));
+  }
+
+  public void fire(Project.NameKey project, ReceiveCommand cmd, Account updater) {
+    fire(project, cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType(),
+        util.accountInfo(updater));
+  }
+
+  public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
+      Account.Id updater) {
+    for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
+      if (cmd.getResult() == ReceiveCommand.Result.OK) {
+        fire(project, cmd, util.accountInfo(updater));
+      }
+    }
+  }
+
+  private void fire(Project.NameKey project, ReceiveCommand cmd,
+      AccountInfo updater) {
+    fire(project, cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType(),
+        updater);
+  }
+
+  private void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
+      ObjectId newObjectId, ReceiveCommand.Type type, AccountInfo updater) {
     ObjectId o = oldObjectId != null ? oldObjectId : ObjectId.zeroId();
     ObjectId n = newObjectId != null ? newObjectId : ObjectId.zeroId();
-    Event event = new Event(project, ref, o.name(), n.name(), type);
+    Event event = new Event(project, ref, o.name(), n.name(), type, updater);
     for (GitReferenceUpdatedListener l : listeners) {
       try {
         l.onGitReferenceUpdated(event);
       } catch (RuntimeException e) {
         log.warn("Failure in GitReferenceUpdatedListener", e);
-      }
-    }
-  }
-
-  public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
-      ObjectId newObjectId) {
-    fire(project, ref, oldObjectId, newObjectId, ReceiveCommand.Type.UPDATE);
-  }
-
-  public void fire(Project.NameKey project, ReceiveCommand cmd) {
-    fire(project, cmd.getRefName(), cmd.getOldId(), cmd.getNewId(), cmd.getType());
-  }
-
-  public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate) {
-    for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
-      if (cmd.getResult() == ReceiveCommand.Result.OK) {
-        fire(project, cmd);
       }
     }
   }
@@ -94,15 +123,18 @@ public class GitReferenceUpdated {
     private final String oldObjectId;
     private final String newObjectId;
     private final ReceiveCommand.Type type;
+    private final AccountInfo updater;
 
     Event(Project.NameKey project, String ref,
         String oldObjectId, String newObjectId,
-        ReceiveCommand.Type type) {
+        ReceiveCommand.Type type,
+        AccountInfo updater) {
       this.projectName = project.get();
       this.ref = ref;
       this.oldObjectId = oldObjectId;
       this.newObjectId = newObjectId;
       this.type = type;
+      this.updater = updater;
     }
 
     @Override
@@ -138,6 +170,11 @@ public class GitReferenceUpdated {
     @Override
     public boolean isNonFastForward() {
       return type == ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
+    }
+
+    @Override
+    public AccountInfo getUpdater() {
+      return updater;
     }
 
     @Override

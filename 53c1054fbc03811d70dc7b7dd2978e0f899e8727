@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_a23f5a07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-11-11T17:00:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_e21202a1",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 9
+      },
+      "revId": "53c1054fbc03811d70dc7b7dd2978e0f899e8727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_fce0e9bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryBuilder.java",
         "patchSetId": 1

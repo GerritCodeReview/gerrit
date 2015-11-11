@@ -292,6 +292,7 @@ class RelatedChangesTab implements IsWidget {
         if (url.startsWith("#")) {
           sb.setAttribute("onclick", OPEN);
         }
+        sb.setAttribute("title", info.commit().subject());
         if (showProjects) {
           sb.append(info.project()).append(": ");
         }

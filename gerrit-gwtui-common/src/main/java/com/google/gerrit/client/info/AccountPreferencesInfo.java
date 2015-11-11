@@ -51,6 +51,7 @@ public class AccountPreferencesInfo extends JavaScriptObject {
     p.sizeBarInChangeTable(defaultPrefs.isSizeBarInChangeTable());
     p.legacycidInChangeTable(defaultPrefs.isLegacycidInChangeTable());
     p.muteCommonPathPrefixes(defaultPrefs.isMuteCommonPathPrefixes());
+    p.publishChangeOnPush(defaultPrefs.isPublishChangeOnPush());
     p.reviewCategoryStrategy(defaultPrefs.getReviewCategoryStrategy());
     p.diffView(defaultPrefs.getDiffView());
     return p;
@@ -110,6 +111,9 @@ public class AccountPreferencesInfo extends JavaScriptObject {
 
   public final native boolean muteCommonPathPrefixes()
   /*-{ return this.mute_common_path_prefixes || false }-*/;
+
+  public final native boolean publishChangeOnPush()
+  /*-{ return this.publish_change_on_push || false }-*/;
 
   public final ReviewCategoryStrategy reviewCategoryStrategy() {
     String s = reviewCategeoryStrategyRaw();
@@ -172,6 +176,9 @@ public class AccountPreferencesInfo extends JavaScriptObject {
 
   public final native void muteCommonPathPrefixes(boolean s)
   /*-{ this.mute_common_path_prefixes = s }-*/;
+
+  public final native void publishChangeOnPush(boolean s)
+  /*-{ this.publish_change_on_push = s }-*/;
 
   public final void reviewCategoryStrategy(ReviewCategoryStrategy s) {
     reviewCategoryStrategyRaw(s != null ? s.toString() : null);

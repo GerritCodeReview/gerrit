@@ -68,24 +68,30 @@ public class MergeSuperSet {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager repoManager;
-  private final Config cfg;
+  private final boolean submitWholeTopicCfg;
 
   @Inject
   MergeSuperSet(@GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
       GitRepositoryManager repoManager) {
-    this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManager = repoManager;
+    this.submitWholeTopicCfg = Submit.wholeTopicEnabled(cfg);
   }
 
   public ChangeSet completeChangeSet(ReviewDb db, Change change)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       OrmException {
+    return completeChangeSet(db, change, submitWholeTopicCfg);
+  }
+
+  public ChangeSet completeChangeSet(ReviewDb db, Change change,
+      boolean submitWholeTopic) throws MissingObjectException,
+          IncorrectObjectTypeException, IOException, OrmException {
     ChangeData cd = changeDataFactory.create(db, change.getId());
-    if (Submit.wholeTopicEnabled(cfg)) {
+    if (submitWholeTopic) {
       return completeChangeSetIncludingTopics(db, new ChangeSet(cd));
     } else {
       return completeChangeSetWithoutTopic(db, new ChangeSet(cd));

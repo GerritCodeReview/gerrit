@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.junit.TestRepository;
@@ -115,7 +116,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     approve(getChangeId(sub2, sub2Id).get());
     approve(getChangeId(sub3, sub3Id).get());
 
-    gApi.changes().id(getChangeId(sub1, sub1Id).get()).current().submit();
+    SubmitInput input = new SubmitInput();
+    input.submitWholeTopic = true;
+    gApi.changes().id(getChangeId(sub1, sub1Id).get()).current().submit(input);
 
     expectToHaveSubmoduleState(superRepo, "master", "sub1", sub1Id);
     expectToHaveSubmoduleState(superRepo, "master", "sub2", sub2Id);

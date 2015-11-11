@@ -209,6 +209,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       throws Exception {
     approve(changeId);
     SubmitInput subm = new SubmitInput();
+    subm.submitWholeTopic =
+        cfg.getBoolean("change", null, "submitWholeTopic", false);
     RestResponse r =
         adminSession.post("/changes/" + changeId + "/submit", subm);
     assertThat(r.getStatusCode()).isEqualTo(expectedStatus);

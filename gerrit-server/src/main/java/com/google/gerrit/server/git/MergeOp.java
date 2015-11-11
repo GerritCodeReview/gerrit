@@ -51,6 +51,8 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
@@ -79,6 +81,7 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -122,6 +125,7 @@ import java.util.Set;
 public class MergeOp {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
+  private final boolean submitWholeTopic;
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -194,7 +198,8 @@ public class MergeOp {
       @GerritPersonIdent PersonIdent serverIdent,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<SubmoduleOp> subOpProvider,
-      TagCache tagCache) {
+      TagCache tagCache,
+      @GerritServerConfig Config cfg) {
     this.accountCache = accountCache;
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
@@ -217,6 +222,7 @@ public class MergeOp {
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpProvider = subOpProvider;
     this.tagCache = tagCache;
+    this.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
 
     commits = new HashMap<>();
     pendingRefUpdates = new HashMap<>();
@@ -365,12 +371,19 @@ public class MergeOp {
 
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
       boolean checkSubmitRules) throws NoSuchChangeException,
-      OrmException, ResourceConflictException {
+  OrmException, ResourceConflictException {
+    merge(db, change, caller, checkSubmitRules, submitWholeTopic);
+  }
+
+  public void merge(ReviewDb db, Change change, IdentifiedUser caller,
+      boolean checkSubmitRules, boolean submitWholeTopic)
+          throws NoSuchChangeException, OrmException,
+          ResourceConflictException {
     updateSubmissionId(change);
     this.db = db;
     logDebug("Beginning integration of {}", change);
     try {
-      ChangeSet cs = mergeSuperSet.completeChangeSet(db, change);
+      ChangeSet cs = mergeSuperSet.completeChangeSet(db, change, submitWholeTopic);
       logDebug("Calculated to merge {}", cs);
       if (checkSubmitRules) {
         logDebug("Checking submit rules and state");

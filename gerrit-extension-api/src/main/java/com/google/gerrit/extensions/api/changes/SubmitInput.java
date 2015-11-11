@@ -17,5 +17,6 @@ package com.google.gerrit.extensions.api.changes;
 public class SubmitInput {
   @Deprecated
   public boolean waitForMerge;
+  public Boolean submitWholeTopic;
   public String onBehalfOf;
 }

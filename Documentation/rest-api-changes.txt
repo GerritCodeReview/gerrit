@@ -1038,7 +1038,8 @@ complete.
   Content-Type: application/json; charset=UTF-8
 
   {
-    "wait_for_merge": true
+    "wait_for_merge": true,
+    "submit_whole_topic": true
   }
 ----
 
@@ -4663,6 +4664,10 @@ The `SubmitInput` entity contains information for submitting a change.
 |Field Name      ||Description
 |`wait_for_merge`|Deprecated, always `true`|
 Whether the request should wait for the merge to complete.
+|`submit_whole_topic`|optional|
+When set to `true`, changes in the same topic will be also submitted,
+otherwise only this change with its parents will be submitted.
+Default value depends on link:config-gerrit.html#change.submitWholeTopic[change.submitWholeTopic]
 |===========================
 
 [[submit-record]]

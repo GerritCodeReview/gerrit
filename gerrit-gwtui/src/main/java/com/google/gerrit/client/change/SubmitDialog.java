@@ -34,38 +34,41 @@ class SubmitDialog extends AutoCenterDialogBox {
   interface Binder extends UiBinder<FlowPanel, SubmitDialog> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  @UiField Label header;
-  @UiField Label footer;
+  @UiField Label submitTopicLabel;
+  @UiField Label submitBranchLabel;
   @UiField Button cancel;
   @UiField Button submitBranchButton;
   @UiField Button submitTopicButton;
-  @UiField FlowPanel sameTopicChanges;
+  @UiField FlowPanel sameTopicPanel;
+  @UiField FlowPanel sameBranchPanel;
 
   private final Handler handler;
   private final ChangeInfo changeInfo;
-  private final JsArray<ChangeAndCommit> relatedChanges;
+  private final JsArray<ChangeAndCommit> topicChanges;
+
+  private JsArray<ChangeAndCommit> branchChanges;
 
   interface Handler {
     void onBranchSubmit();
     void onTopicSubmit();
   }
 
-  SubmitDialog(ChangeInfo changeInfo, JsArray<ChangeAndCommit> relatedChnages,
-      Handler handler) {
+  SubmitDialog(ChangeInfo changeInfo,
+      JsArray<ChangeAndCommit> topicChnages,
+      JsArray<ChangeAndCommit> branchChanges, Handler handler) {
     super(/* auto hide */false, /* modal */true);
-    this.changeInfo = changeInfo;
-    this.relatedChanges = relatedChnages;
     this.handler = handler;
+    this.changeInfo = changeInfo;
+    this.topicChanges = topicChnages;
+    this.branchChanges = branchChanges;
 
     setWidget(uiBinder.createAndBindUi(this));
     getElement().setId("submit_dialog");
 
-    String submitTopicLabel = Resources.C.submitTopicText();
-    String submitBranchLabel = Resources.C.submitBranchText();
-    header.setText(Resources.C.submitDialogHeader());
-    footer.getElement().setInnerSafeHtml(new SafeHtmlBuilder()
+    submitTopicLabel.setText(Resources.C.submitTopicHeader());
+    submitBranchLabel.getElement().setInnerSafeHtml(new SafeHtmlBuilder()
         .openDiv()
-        .append(Resources.M.submitDialogFooter(submitTopicLabel, submitBranchLabel))
+        .append(Resources.C.submitBranchHeader())
         .closeDiv());
     cancel.setHTML(new SafeHtmlBuilder()
         .openDiv()
@@ -73,14 +76,12 @@ class SubmitDialog extends AutoCenterDialogBox {
         .closeDiv());
     submitBranchButton.setHTML(new SafeHtmlBuilder()
         .openDiv()
-        .append(submitBranchLabel)
+        .append(Resources.C.submitBranchText())
         .closeDiv());
-    submitBranchButton.setTitle(Resources.C.submitBranchTitle());
     submitTopicButton.setHTML(new SafeHtmlBuilder()
         .openDiv()
-        .append(submitTopicLabel)
+        .append(Resources.C.submitTopicText())
         .closeDiv());
-    submitTopicButton.setTitle(Resources.C.submitTopicTitle());
   }
 
   @Override
@@ -88,13 +89,25 @@ class SubmitDialog extends AutoCenterDialogBox {
     super.center();
     GlobalKey.dialog(this);
     submitBranchButton.setFocus(true);
-    RelatedChangesTab submittedTogether = new RelatedChangesTab(Tab.SUBMITTED_TOGETHER);
-    sameTopicChanges.add(submittedTogether);
-    submittedTogether.setShowBranches(true);
-    submittedTogether.setShowProjects(true);
-    submittedTogether.setShowSubmittable(true);
-    submittedTogether.setChanges(changeInfo.project(),
-        changeInfo.currentRevision(), relatedChanges);
+    RelatedChangesTab submittedTopic =
+        newRelatedChangesTab(Tab.SUBMITTED_TOGETHER);
+    sameTopicPanel.add(submittedTopic);
+    submittedTopic.setChanges(changeInfo.project(),
+        changeInfo.currentRevision(), topicChanges);
+
+    RelatedChangesTab submittedBranch =
+        newRelatedChangesTab(Tab.SUBMITTED_TOGETHER);
+    sameBranchPanel.add(submittedBranch);
+    submittedBranch.setChanges(changeInfo.project(),
+        changeInfo.currentRevision(), branchChanges);
+  }
+
+  public RelatedChangesTab newRelatedChangesTab(Tab subject) {
+    RelatedChangesTab changes = new RelatedChangesTab(subject);
+    changes.setShowBranches(true);
+    changes.setShowProjects(true);
+    changes.setShowSubmittable(true);
+    return changes;
   }
 
   @UiHandler("submitBranchButton")

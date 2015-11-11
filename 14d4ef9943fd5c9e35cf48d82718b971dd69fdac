@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1b1ff356_94f0e48a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommentAdded.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_81bdfedc",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b1ff356_34e0f0bb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommentAdded.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-11T22:22:12Z",
       "side": 1,
       "message": "wrong package, should be: extensions.events",
+      "range": {
+        "startLine": 15,
+        "startChar": 33,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_74ff8859",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommentAdded.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_34e0f0bb",
       "range": {
         "startLine": 15,
         "startChar": 33,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "1b1ff356_54048c2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommentAdded.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_54db6c0f",
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_3f6c034e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/DraftPublished.java",
         "patchSetId": 9
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "1b1ff356_34f91072",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/DraftPublished.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_3f6c034e",
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_75cd4839",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/DraftPublished.java",
         "patchSetId": 9
@@ -93,6 +177,30 @@
       "writtenOn": "2015-11-11T22:22:12Z",
       "side": 1,
       "message": "wrong package, should be: extensions.events",
+      "range": {
+        "startLine": 1,
+        "startChar": 33,
+        "endLine": 1,
+        "endChar": 40
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_15ccd439",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/DraftPublished.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_75cd4839",
       "range": {
         "startLine": 1,
         "startChar": 33,
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_f5c03800",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/HashtagsEdited.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_14e5f4cb",
+      "range": {
+        "startLine": 15,
+        "startChar": 33,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b1ff356_f4e958a6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/MergeFailed.java",
         "patchSetId": 9
@@ -139,6 +271,30 @@
       "writtenOn": "2015-11-11T22:22:12Z",
       "side": 1,
       "message": "wrong package, should be: extensions.events",
+      "range": {
+        "startLine": 15,
+        "startChar": 33,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_d5bd3c84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/MergeFailed.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_f4e958a6",
       "range": {
         "startLine": 15,
         "startChar": 33,
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_b5bac088",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ReviewerAdded.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_55d24cdd",
+      "range": {
+        "startLine": 15,
+        "startChar": 33,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b1ff356_d4e65cd6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/RevisionCreated.java",
         "patchSetId": 9
@@ -185,6 +365,30 @@
       "writtenOn": "2015-11-11T22:22:12Z",
       "side": 1,
       "message": "wrong package, should be: extensions.events",
+      "range": {
+        "startLine": 15,
+        "startChar": 33,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_b40c0051",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/RevisionCreated.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_d4e65cd6",
       "range": {
         "startLine": 15,
         "startChar": 33,
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "1b1ff356_d40f7c44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/TopicEdited.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_b4f3e096",
+      "range": {
+        "startLine": 15,
+        "startChar": 33,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_61ba72e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 9
@@ -243,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "1b1ff356_94090441",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "This one was correct but the previous two are wrong.\n\nDone.",
+      "parentUuid": "f6f876fc_61ba72e4",
+      "range": {
+        "startLine": 105,
+        "startChar": 32,
+        "endLine": 105,
+        "endChar": 63
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_c29ee678",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 9
@@ -254,6 +506,24 @@
       "writtenOn": "2015-11-11T02:20:53Z",
       "side": 1,
       "message": "Was this line removal intended?",
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_95b7c4a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-11T23:20:17Z",
+      "side": 1,
+      "message": "This line was added by mistake.\n\nDone.",
+      "parentUuid": "16feeae5_c29ee678",
       "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

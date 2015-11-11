@@ -349,6 +349,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     final List<Module> modules = new ArrayList<>();
     modules.add(RequestContextFilter.module());
     modules.add(AllRequestFilter.module());
+    modules.add(RequestMetricsFilter.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));
     modules.add(sysInjector.getInstance(RequireSslFilter.Module.class));

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_35aeb059",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-11T22:11:07Z",
+      "side": 1,
+      "message": "Should this constructor be deleted?",
+      "range": {
+        "startLine": 52,
+        "startChar": 20,
+        "endLine": 52,
+        "endChar": 21
+      },
+      "revId": "cff023c06402dea22c334d8b0e4e209128fe36b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_15b3b4c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-11T22:11:07Z",
+      "side": 1,
+      "message": "I suspect we might need this other places eventually, should we make it injectable?",
+      "range": {
+        "startLine": 265,
+        "startChar": 20,
+        "endLine": 265,
+        "endChar": 26
+      },
+      "revId": "cff023c06402dea22c334d8b0e4e209128fe36b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

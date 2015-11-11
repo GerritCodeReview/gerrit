@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.LabelId;
@@ -26,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.mail.MergedSender;
@@ -65,6 +67,7 @@ public class MergedByPushOp extends BatchUpdate.Op {
   private final MergedSender.Factory mergedSenderFactory;
   private final PatchSetUtil psUtil;
   private final ExecutorService sendEmailExecutor;
+  private final ChangeMerged changeMerged;
 
   private final PatchSet.Id psId;
   private final String refName;
@@ -83,6 +86,7 @@ public class MergedByPushOp extends BatchUpdate.Op {
       MergedSender.Factory mergedSenderFactory,
       PatchSetUtil psUtil,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
+      ChangeMerged changeMerged,
       @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted PatchSet.Id psId,
       @Assisted String refName) {
@@ -92,6 +96,7 @@ public class MergedByPushOp extends BatchUpdate.Op {
     this.mergedSenderFactory = mergedSenderFactory;
     this.psUtil = psUtil;
     this.sendEmailExecutor = sendEmailExecutor;
+    this.changeMerged = changeMerged;
     this.requestScopePropagator = requestScopePropagator;
     this.psId = psId;
     this.refName = refName;
@@ -194,9 +199,11 @@ public class MergedByPushOp extends BatchUpdate.Op {
       }
     }));
 
+    Account account = ctx.getUser().asIdentifiedUser().getAccount();
     hooks.doChangeMergedHook(
-        change, ctx.getUser().asIdentifiedUser().getAccount(), patchSet,
+        change, account, patchSet,
         ctx.getDb(), patchSet.getRevision().get());
+    changeMerged.fire(change, patchSet, account, patchSet.getRevision().get());
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {

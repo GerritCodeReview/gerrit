@@ -785,7 +785,12 @@ public class ChangeScreen extends Screen {
     CallbackGroup group = new CallbackGroup();
     Timestamp lastReply = myLastReply(info);
     if (rev.is_edit()) {
-      loadFileList(b, rev, lastReply, group, null, null);
+      // Comments are filtered for the current revision. Use parent
+      // patch set for edits, as edits themself can never have comments.
+      RevisionInfo p = RevisionInfo.findEditParentRevision(
+          info.revisions().values());
+      List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(p, group);
+      loadFileList(b, rev, lastReply, group, comments, null);
     } else {
       loadDiff(b, rev, lastReply, group);
     }

@@ -199,6 +199,24 @@
       "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_14fe145a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-11T22:24:40Z",
+      "side": 1,
+      "message": "Since this change was originally made, we changed the index system to barf if you pass it too many predicates. This means expanding a too-large group will fail, but expanding a reasonably small group will be fine. Alternatively, you can get the maximum number of terms with IndexConfig.getMaxTerms(), and truncate the list before you hit that limit.\n\nSo I think expanding the groups is correct.",
+      "parentUuid": "cb4e3f56_518ad443",
+      "revId": "eb6b97e245fd3e57064c61648eaf44869e7eb8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

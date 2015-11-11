@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_7fae8bee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/ChangeAbandoned.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2015-11-11T00:35:42Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to throw any Exceptions from here.  We know what we were doing when the exception happened, and it likely should be logged.  Let\u0027s not push this logging up to the callers.",
+      "range": {
+        "startLine": 64,
+        "startChar": 25,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "c5c687a9cd2cd984d6e88aa01a1a6d0bbd1804f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

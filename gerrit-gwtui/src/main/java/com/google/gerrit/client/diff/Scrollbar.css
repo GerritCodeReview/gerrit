@@ -27,12 +27,14 @@
 
 .delete {
   background-color: #faa;
+  min-width: 12px;
 }
 .insert {
   background-color: #9f9;
+  min-width: 12px;
 }
 .edit {
-  border-left: 3px solid #faa;
-  width: 2px !important;
+  border-left: 6px solid #faa;
+  width: 6px !important;
   background-color: #9f9;
 }

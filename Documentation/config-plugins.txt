@@ -386,6 +386,27 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/menuextender/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[metrics-reporter-elasticsearch]]
+
+This plugin reports Gerrit metrics to Elasticsearch.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-elasticsearch[
+Project].
+
+[[metrics-reporter-graphite]]
+
+This plugin reports Gerrit metrics to Graphite.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-graphite[
+Project].
+
+[[metrics-reporter-jmx]]
+
+This plugin reports Gerrit metrics to JMX.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-jmx[
+Project].
+
 [[motd]]
 === motd
 

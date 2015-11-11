@@ -44,19 +44,19 @@ class SubmitDialog extends AutoCenterDialogBox {
 
   private final Handler handler;
   private final ChangeInfo changeInfo;
-  private final JsArray<ChangeAndCommit> relatedChanges;
+  private final JsArray<ChangeAndCommit> topicChanges;
 
   interface Handler {
     void onWithParentsSubmit();
     void onWithTopicSubmit();
   }
 
-  SubmitDialog(ChangeInfo changeInfo, JsArray<ChangeAndCommit> relatedChnages,
+  SubmitDialog(ChangeInfo changeInfo, JsArray<ChangeAndCommit> topicChnages,
       Handler handler) {
     super(/* auto hide */false, /* modal */true);
-    this.changeInfo = changeInfo;
-    this.relatedChanges = relatedChnages;
     this.handler = handler;
+    this.changeInfo = changeInfo;
+    this.topicChanges = topicChnages;
 
     setWidget(uiBinder.createAndBindUi(this));
     getElement().setId("submit_dialog");
@@ -95,7 +95,7 @@ class SubmitDialog extends AutoCenterDialogBox {
     submittedTogether.setShowProjects(true);
     submittedTogether.setShowSubmittable(true);
     submittedTogether.setChanges(changeInfo.project(),
-        changeInfo.currentRevision(), relatedChanges);
+        changeInfo.currentRevision(), topicChanges);
   }
 
   @UiHandler("submitWithParents")

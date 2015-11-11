@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.common.data.SubmitWholeTopic;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -94,10 +95,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
-  public enum Mode {
-    AUTO, DIALOG, OFF;
-  }
-
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
   private final ChangeData.Factory changeDataFactory;
@@ -114,7 +111,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final String submitTopicLabel;
   private final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
-  private final Submit.Mode submitWholeTopicMode;
+  private final SubmitWholeTopic.Mode submitWholeTopicMode;
   private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
@@ -190,8 +187,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    boolean shouldSubmitWholeTopic = input.submitWholeTopic != null
-        ? input.submitWholeTopic : submitWholeTopicMode == Submit.Mode.AUTO;
+    boolean shouldSubmitWholeTopic =
+        input.submitWholeTopic != null ? input.submitWholeTopic
+            : submitWholeTopicMode == SubmitWholeTopic.Mode.AUTO;
     try {
       ReviewDb db = dbProvider.get();
       mergeOpProvider.get().merge(db, change, caller, true,
@@ -353,8 +351,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       Map<String, String> params = ImmutableMap.of(
           "topicSize", String.valueOf(topicSize),
           "submitSize", String.valueOf(cs.size()));
-      String actionLabel =
-          submitWholeTopicMode == Submit.Mode.DIALOG && multipleProjects ? label
+      String actionLabel = submitWholeTopicMode == SubmitWholeTopic.Mode.DIALOG
+          && multipleProjects ? label
               : submitTopicLabel;
       return new UiAction.Description()
           .setLabel(actionLabel)
@@ -425,21 +423,22 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     return new RevisionResource(changes.parse(target), rsrc.getPatchSet());
   }
 
-  public static Submit.Mode wholeTopic(Config config) {
+  public static SubmitWholeTopic.Mode wholeTopic(Config config) {
     String value = config.getString("change", null, "submitWholeTopic");
     if (Strings.isNullOrEmpty(value)) {
-      return Submit.Mode.OFF;
+      return SubmitWholeTopic.Mode.OFF;
     }
     try {
-      return StringUtils.toBoolean(value) ? Submit.Mode.AUTO : Submit.Mode.OFF;
+      return StringUtils.toBoolean(value) ? SubmitWholeTopic.Mode.AUTO
+          : SubmitWholeTopic.Mode.OFF;
     } catch (IllegalArgumentException e) {
       // ignore
     }
-    return Submit.Mode.valueOf(value.toUpperCase());
+    return SubmitWholeTopic.Mode.valueOf(value.toUpperCase());
   }
 
   public static boolean wholeTopicEnabled(Config config) {
-    return wholeTopic(config) != Submit.Mode.OFF;
+    return wholeTopic(config) == SubmitWholeTopic.Mode.AUTO;
   }
 
   private List<ChangeData> getChangesByTopic(String topic) {

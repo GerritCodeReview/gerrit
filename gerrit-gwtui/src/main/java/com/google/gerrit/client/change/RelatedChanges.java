@@ -23,6 +23,7 @@ import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.extensions.api.changes.SubmittedTogetherInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -233,8 +234,8 @@ public class RelatedChanges extends TabPanel {
           new TabChangeListCallback(Tab.SAME_TOPIC, info.project(), revision));
     } else {
       // TODO(sbeller): show only on latest revision
-      ChangeApi.change(info.legacyId().get()).view("submitted_together")
-          .get(new RelatedChangesTabChangeListCallback(Tab.SUBMITTED_TOGETHER,
+      ChangeApi.submittedTogether(info, true,
+          new RelatedChangesTabChangeListCallback(Tab.SUBMITTED_TOGETHER,
               info.project(), revision, relatedChangesHandler));
     }
   }

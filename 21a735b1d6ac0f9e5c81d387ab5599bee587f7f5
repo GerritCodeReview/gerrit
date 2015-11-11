@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_9faef7c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T01:53:21Z",
+      "side": 1,
+      "message": "nit: remove this word",
+      "range": {
+        "startLine": 16,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "21a735b1d6ac0f9e5c81d387ab5599bee587f7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_7fe16b1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T01:53:21Z",
+      "side": 1,
+      "message": "nit: unnecessary comma",
+      "range": {
+        "startLine": 27,
+        "startChar": 54,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "21a735b1d6ac0f9e5c81d387ab5599bee587f7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_be77751f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T01:53:21Z",
+      "side": 1,
+      "message": "that",
+      "range": {
+        "startLine": 31,
+        "startChar": 29,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "21a735b1d6ac0f9e5c81d387ab5599bee587f7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_9e7c3905",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3927,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T01:53:21Z",
+      "side": 1,
+      "message": "This is not included in the example above.",
+      "range": {
+        "startLine": 3927,
+        "startChar": 2,
+        "endLine": 3927,
+        "endChar": 5
+      },
+      "revId": "21a735b1d6ac0f9e5c81d387ab5599bee587f7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

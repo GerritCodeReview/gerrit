@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_bf901375",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T02:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_9faef7c0",
+      "range": {
+        "startLine": 16,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "21a735b1d6ac0f9e5c81d387ab5599bee587f7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_7fe16b1b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-11T01:53:21Z",
       "side": 1,
       "message": "nit: unnecessary comma",
+      "range": {
+        "startLine": 27,
+        "startChar": 54,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "21a735b1d6ac0f9e5c81d387ab5599bee587f7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_ff9a9b92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T02:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_7fe16b1b",
       "range": {
         "startLine": 27,
         "startChar": 54,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_1e69493e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T02:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_be77751f",
+      "range": {
+        "startLine": 31,
+        "startChar": 29,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "21a735b1d6ac0f9e5c81d387ab5599bee587f7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_9e7c3905",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2015-11-11T01:53:21Z",
       "side": 1,
       "message": "This is not included in the example above.",
+      "range": {
+        "startLine": 3927,
+        "startChar": 2,
+        "endLine": 3927,
+        "endChar": 5
+      },
+      "revId": "21a735b1d6ac0f9e5c81d387ab5599bee587f7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_7f8fab4d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3927,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T02:01:06Z",
+      "side": 1,
+      "message": "Yes, this is correct, because it the above examples, we always have non-zero votes for all reviewers.\n\nDue to the different behaviour of PostReviewers when notedb is enabled or not, I also wouldn\u0027t add any examples with CCs...",
+      "parentUuid": "f6f876fc_9e7c3905",
       "range": {
         "startLine": 3927,
         "startChar": 2,

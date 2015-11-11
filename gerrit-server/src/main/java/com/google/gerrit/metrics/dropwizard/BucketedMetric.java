@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.metrics;
+package com.google.gerrit.metrics.dropwizard;
 
-import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.metrics.Field;
 
+import com.codahale.metrics.Metric;
 
-/**
- * Metric whose value is supplied when the trigger is invoked.
- *
- * @see CallbackMetric0
- * @param <V> type of the metric value, typically Integer or Long.
- */
-public interface CallbackMetric<V> extends RegistrationHandle {
+import java.util.Map;
+
+/** Metric broken down into buckets by {@link Field} values. */
+interface BucketedMetric extends Metric {
+  @Nullable Metric getTotal();
+  Field<?>[] getFields();
+  Map<?, Metric> getCells();
 }

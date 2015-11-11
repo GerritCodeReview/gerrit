@@ -14,14 +14,27 @@
 
 package com.google.gerrit.metrics;
 
-import com.google.gerrit.extensions.registration.RegistrationHandle;
-
-
 /**
  * Metric whose value is supplied when the trigger is invoked.
  *
- * @see CallbackMetric0
+ * <pre>
+ *   CallbackMetric0<Long> hits = metricMaker.newCallbackMetric("hits", ...);
+ *   CallbackMetric0<Long> total = metricMaker.newCallbackMetric("total", ...);
+ *   metricMaker.newTrigger(hits, total, new Runnable() {
+ *     public void run() {
+ *       hits.set(1);
+ *       total.set(5);
+ *     }
+ *   });
+ * </pre>
+ *
  * @param <V> type of the metric value, typically Integer or Long.
  */
-public interface CallbackMetric<V> extends RegistrationHandle {
+public abstract class CallbackMetric0<V> implements CallbackMetric<V> {
+  /**
+   * Supply the current value of the metric.
+   *
+   * @param value current value.
+   */
+  public abstract void set(V value);
 }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1446474269 +0100\nnonce AFd3Bxsi9jyIi9WrkQBHKlouvyxn4A9GWoCqV6GDn08LQaprJFqhABbJETQV1X6Z1mV5BcYpQJcE\n\n0000000000000000000000000000000000000000 240d3c6fa45c077e9f01030613a28c8f84782656 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWN3IeAAoJEFG1/Zeg0O9RuBoH/i748LVpSsPEP5XywkRaA0RI\nPsVHtcBrARqMNPJsL6GjiW5OGrZWFk/xdzIy3c4llmP/c+fkfQMDsIxIpm4/eKer\n5X+w/53D7hEJSUn0IC3yZnAYkBiq9bEIuHVhh1FIY5y6Uo6LN6XeosScwNG1IwQL\nA8NVycjOUD6DqcSqJQhISq17iBqpzcQzrdVlfhYcTnq+bEo9BmtHwfmNVFN6tFGp\nwMAmgBmp73gJ2HJnBQd3f40CGzDTUghVyHNZiL3pKWD7Z+slhi1GUAJHeYvZ95Br\nUq8NBW6to4sQ+kCwidNlap1Ilqx6Ux49N19+E1QIWe0EfGBFsZ0hMbuLK1gLezo\u003d\n\u003drI/e\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_df9fdf80",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/FormatUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T01:57:39Z",
+      "side": 1,
+      "message": "This is causing a warning in FindBugs:\n\nBug: int value cast to float and then passed to Math.round in com.google.gerrit.client.FormatUtil.formatAbsPercentage(long, long)\n\nThis code converts an int value to a float precision floating point number and then passing the result to the Math.round() function, which returns the int/long closest to the argument. This operation should always be a no-op, since the converting an integer to a float should give a number with no fractional part. It is likely that the operation that generated the value to be passed to Math.round was intended to be performed using floating point arithmetic.",
+      "range": {
+        "startLine": 150,
+        "startChar": 21,
+        "endLine": 150,
+        "endChar": 51
+      },
+      "revId": "240d3c6fa45c077e9f01030613a28c8f84782656",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

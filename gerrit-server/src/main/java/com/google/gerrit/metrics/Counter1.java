@@ -25,17 +25,20 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
  * <p>
  * For an instantaneous read of a value that can change over time
  * (e.g. "memory in use") use a {@link CallbackMetric}.
+ *
+ * @param <F1> type of the field.
  */
-public abstract class Counter implements RegistrationHandle {
+public abstract class Counter1<F1> implements RegistrationHandle {
   /** Increment the counter by one event. */
-  public void increment() {
-    incrementBy(1);
+  public void increment(F1 field1) {
+    incrementBy(field1, 1);
   }
 
   /**
    * Increment the counter by a specified amount.
    *
+   * @param field1 bucket to increment.
    * @param value value to increment by, must be >= 0.
    */
-  public abstract void incrementBy(long value);
+  public abstract void incrementBy(F1 field1, long value);
 }

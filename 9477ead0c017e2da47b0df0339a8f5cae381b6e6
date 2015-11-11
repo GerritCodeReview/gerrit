@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_016a8ef5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-11T17:48:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_011c4ea5",
+      "revId": "9477ead0c017e2da47b0df0339a8f5cae381b6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_c188a60d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginMetricMaker.java",
         "patchSetId": 15
@@ -30,6 +48,30 @@
       "writtenOn": "2015-11-11T17:21:03Z",
       "side": 1,
       "message": "is there any difference between synchronized block and synchronized method here? you don\u0027t synchronize on `cleanup` in other places.",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 28
+      },
+      "revId": "9477ead0c017e2da47b0df0339a8f5cae381b6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_e16e8207",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginMetricMaker.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-11T17:48:45Z",
+      "side": 1,
+      "message": "Yes we do. cleanup is a synchronized set. We are taking the lock on the set to iterate over it.",
+      "parentUuid": "f6f876fc_c188a60d",
       "range": {
         "startLine": 83,
         "startChar": 4,

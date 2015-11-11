@@ -12,23 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.events;
+package com.google.gerrit.server.extensions.events;
 
-import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.common.ApprovalInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.events.ChangeEvent;
 
-import java.util.Map;
+public abstract class AbstractChangeEvent implements ChangeEvent {
+  private final ChangeInfo changeInfo;
 
-/** Notified whenever a comment is added to a change. */
-@ExtensionPoint
-public interface CommentAddedListener {
-  interface Event extends RevisionEvent {
-    AccountInfo getAuthor();
-    String getComment();
-    Map<String, ApprovalInfo> getApprovals();
-    Map<String, ApprovalInfo> getOldApprovals();
+  protected AbstractChangeEvent(ChangeInfo change) {
+    this.changeInfo = change;
   }
 
-  void onCommentAdded(Event event);
+  @Override
+  public ChangeInfo getChange() {
+    return changeInfo;
+  }
 }

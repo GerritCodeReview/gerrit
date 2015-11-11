@@ -34,6 +34,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -79,6 +80,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private final ReviewDb db;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
+  private final RevisionCreated revisionCreated;
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
@@ -118,6 +120,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       CommitValidators.Factory commitValidatorsFactory,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       PatchSetUtil psUtil,
+      RevisionCreated revisionCreated,
       @Assisted RefControl refControl,
       @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
@@ -130,6 +133,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.psUtil = psUtil;
+    this.revisionCreated = revisionCreated;
 
     this.refControl = refControl;
     this.psId = psId;
@@ -275,6 +279,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     }
 
     if (runHooks) {
+      revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId());
       hooks.doPatchsetCreatedHook(change, patchSet, ctx.getDb());
     }
   }

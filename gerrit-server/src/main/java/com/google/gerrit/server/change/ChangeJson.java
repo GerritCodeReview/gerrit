@@ -916,6 +916,15 @@ public class ChangeJson {
     return map;
   }
 
+  public RevisionInfo getRevisionInfo(ChangeControl ctl, PatchSet in)
+      throws PatchListNotAvailableException, GpgException, OrmException,
+      IOException {
+    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+    RevisionInfo rev = toRevisionInfo(ctl, in);
+    accountLoader.fill();
+    return rev;
+  }
+
   private RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in)
       throws PatchListNotAvailableException, GpgException, OrmException,
       IOException {

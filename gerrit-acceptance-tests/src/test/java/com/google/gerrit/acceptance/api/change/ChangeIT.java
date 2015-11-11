@@ -22,10 +22,9 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
+import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -38,6 +37,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -45,7 +45,6 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -58,9 +57,10 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 @NoHttpd
 public class ChangeIT extends AbstractDaemonTest {
@@ -297,17 +297,6 @@ public class ChangeIT extends AbstractDaemonTest {
         .rebase(ri);
   }
 
-  private Set<Account.Id> getReviewers(String changeId) throws Exception {
-    ChangeInfo ci = gApi.changes().id(changeId).get();
-    Set<Account.Id> result = Sets.newHashSet();
-    for (LabelInfo li : ci.labels.values()) {
-      for (ApprovalInfo ai : li.all) {
-        result.add(new Account.Id(ai._accountId));
-      }
-    }
-    return result;
-  }
-
   @Test
   public void addReviewer() throws Exception {
     PushOneCommit.Result r = createChange();
@@ -317,8 +306,14 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .addReviewer(in);
 
-    assertThat(getReviewers(r.getChangeId()))
-        .containsExactlyElementsIn(ImmutableSet.of(user.id));
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    Collection<AccountInfo> reviewers =
+        isNoteDbTestEnabled() ? c.reviewers : c.ccs;
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.iterator().next()._accountId)
+        .isEqualTo(user.getId().get());
   }
 
   @Test
@@ -333,16 +328,39 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .submit();
 
-    assertThat(getReviewers(r.getChangeId()))
-      .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(c.reviewers).hasSize(1);
+    assertThat(c.reviewers.iterator().next()._accountId)
+        .isEqualTo(admin.getId().get());
+    assertThat(c.ccs).hasSize(0);
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
     gApi.changes()
         .id(r.getChangeId())
         .addReviewer(in);
-    assertThat(getReviewers(r.getChangeId()))
-        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.id));
+
+    c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    if (isNoteDbTestEnabled()) {
+      assertThat(c.reviewers).hasSize(2);
+      Iterator<AccountInfo> reviewerIt = c.reviewers.iterator();
+      assertThat(reviewerIt.next()._accountId)
+          .isEqualTo(admin.getId().get());
+      assertThat(reviewerIt.next()._accountId)
+          .isEqualTo(user.getId().get());
+      assertThat(c.ccs).hasSize(0);
+    } else {
+      assertThat(c.reviewers).hasSize(1);
+      assertThat(c.reviewers.iterator().next()._accountId)
+          .isEqualTo(admin.getId().get());
+      assertThat(c.ccs).hasSize(1);
+      assertThat(c.ccs.iterator().next()._accountId)
+          .isEqualTo(user.getId().get());
+    }
   }
 
   @Test

@@ -209,8 +209,8 @@ default. Optional fields are:
 --
 * `DETAILED_LABELS`: detailed label information, including numeric
   values of all existing approvals, recognized label values, values
-  permitted to be set by the current user, and reviewers that may be
-  removed by the current user.
+  permitted to be set by the current user, all reviewers and CCs, and
+  reviewers that may be removed by the current user.
 --
 
 [[current-revision]]
@@ -628,6 +628,20 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
       ]
     },
     "removable_reviewers": [
+      {
+        "_account_id": 1000096,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "username": "jdoe"
+      },
+      {
+        "_account_id": 1000097,
+        "name": "Jane Roe",
+        "email": "jane.roe@example.com",
+        "username": "jroe"
+      }
+    ],
+    "reviewers": [
       {
         "_account_id": 1000096,
         "name": "John Doe",
@@ -1204,6 +1218,11 @@ The list consists of:
         "_account_id": 1000000
       }
     ],
+    "reviewers": [
+      {
+        "_account_id": 1000000
+      }
+    ],
     "current_revision": "9adb9f4c7b40eeee0646e235de818d09164d7379",
     "revisions": {
       "9adb9f4c7b40eeee0646e235de818d09164d7379": {
@@ -1311,6 +1330,11 @@ The list consists of:
       ]
     },
     "removable_reviewers": [
+      {
+        "_account_id": 1000000
+      }
+    ],
+    "reviewers": [
       {
         "_account_id": 1000000
       }
@@ -2436,6 +2460,18 @@ for the current patch set.
       ]
     },
     "removable_reviewers": [
+      {
+        "_account_id": 1000096,
+        "name": "John Doe",
+        "email": "john.doe@example.com"
+      },
+      {
+        "_account_id": 1000097,
+        "name": "Jane Roe",
+        "email": "jane.roe@example.com"
+      }
+    ],
+    "reviewers": [
       {
         "_account_id": 1000096,
         "name": "John Doe",
@@ -3882,6 +3918,14 @@ values that are allowed for that label. +
 Only set if link:#detailed-labels[detailed labels] are requested.
 |`removable_reviewers`|optional|
 The reviewers that can be removed by the calling user as a list of
+link:rest-api-accounts.html#account-info[AccountInfo] entities. +
+Only set if link:#detailed-labels[detailed labels] are requested.
+|`reviewers`          |optional|
+The reviewers as a list of link:rest-api-accounts.html#account-info[
+AccountInfo] entities. +
+Only set if link:#detailed-labels[detailed labels] are requested.
+|`ccs`                |optional|
+Users that were added as CC to the change as a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities. +
 Only set if link:#detailed-labels[detailed labels] are requested.
 |`messages`|optional|

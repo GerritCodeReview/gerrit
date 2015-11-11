@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "16feeae5_a2caba70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T05:36:38Z",
+      "side": 1,
+      "message": "stream",
+      "range": {
+        "startLine": 13,
+        "startChar": 54,
+        "endLine": 13,
+        "endChar": 59
+      },
+      "revId": "6e076a692cd4c6ece6f5a6153d1832e52ee84b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_df4cff1d",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeAbandonedListener.java",
         "patchSetId": 5
@@ -18,6 +41,167 @@
         "startChar": 2,
         "endLine": 23,
         "endChar": 9
+      },
+      "revId": "6e076a692cd4c6ece6f5a6153d1832e52ee84b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_02c0ce4e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeMergedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T05:36:38Z",
+      "side": 1,
+      "message": "what about rebase-if-necessary, merge-if-necessary, and always-merge?",
+      "range": {
+        "startLine": 25,
+        "startChar": 39,
+        "endLine": 25,
+        "endChar": 78
+      },
+      "revId": "6e076a692cd4c6ece6f5a6153d1832e52ee84b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_81d4de12",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/CommentAddedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T05:36:38Z",
+      "side": 1,
+      "message": "Comment",
+      "range": {
+        "startLine": 23,
+        "startChar": 24,
+        "endLine": 23,
+        "endChar": 33
+      },
+      "revId": "6e076a692cd4c6ece6f5a6153d1832e52ee84b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_42dad642",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/CommentAddedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T05:36:38Z",
+      "side": 1,
+      "message": "With this data it\u0027s more than just a comment event.",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 45
+      },
+      "revId": "6e076a692cd4c6ece6f5a6153d1832e52ee84b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_22d7ca18",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/DraftPublishedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T05:36:38Z",
+      "side": 1,
+      "message": "ChangeEvent?",
+      "range": {
+        "startLine": 23,
+        "startChar": 33,
+        "endLine": 23,
+        "endChar": 46
+      },
+      "revId": "6e076a692cd4c6ece6f5a6153d1832e52ee84b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_82d4de12",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/MergeFailedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T05:36:38Z",
+      "side": 1,
+      "message": "ChangeEvent?\n\nMaybe I\u0027m missing the reason why RevisionEvent is used here, but ChangeEvent is used for example in the hashtags listener.",
+      "range": {
+        "startLine": 23,
+        "startChar": 33,
+        "endLine": 23,
+        "endChar": 46
+      },
+      "revId": "6e076a692cd4c6ece6f5a6153d1832e52ee84b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_61d1d220",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/RevisionCreatedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T05:36:38Z",
+      "side": 1,
+      "message": "Is it worth mentioning that here \"Change Revision\" has the same meaning as \"Patch Set\" in the previous events?",
+      "range": {
+        "startLine": 20,
+        "startChar": 24,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "6e076a692cd4c6ece6f5a6153d1832e52ee84b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_c2ec26ed",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/TopicEditedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T05:36:38Z",
+      "side": 1,
+      "message": "edited?",
+      "range": {
+        "startLine": 20,
+        "startChar": 40,
+        "endLine": 20,
+        "endChar": 47
       },
       "revId": "6e076a692cd4c6ece6f5a6153d1832e52ee84b62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

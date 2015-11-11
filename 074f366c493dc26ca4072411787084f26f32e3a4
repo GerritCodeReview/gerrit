@@ -22,6 +22,30 @@
       "revId": "074f366c493dc26ca4072411787084f26f32e3a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db363bde_729e987a",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-11T22:23:59Z",
+      "side": 1,
+      "message": "I\u0027d consider that as an extra space. Fixed.",
+      "parentUuid": "1b1ff356_7471c8eb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "074f366c493dc26ca4072411787084f26f32e3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

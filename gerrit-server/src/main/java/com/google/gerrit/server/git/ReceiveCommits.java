@@ -101,7 +101,10 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.extensions.events.ChangeMerged;
+import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
@@ -168,6 +171,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -313,6 +317,9 @@ public class ReceiveCommits {
   private final ChangeKindCache changeKindCache;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
+  private final ChangeMerged changeMerged;
+  private final CommentAdded commentAdded;
+  private final RevisionCreated revisionCreated;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -394,7 +401,10 @@ public class ReceiveCommits {
       final NotesMigration notesMigration,
       final ChangeEditUtil editUtil,
       final BatchUpdate.Factory batchUpdateFactory,
-      final SetHashtagsOp.Factory hashtagsFactory) throws IOException {
+      final SetHashtagsOp.Factory hashtagsFactory,
+      ChangeMerged changeMerged,
+      CommentAdded commentAdded,
+      RevisionCreated revisionCreated) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.queryProvider = queryProvider;
@@ -430,6 +440,9 @@ public class ReceiveCommits {
     this.changeKindCache = changeKindCache;
     this.batchUpdateFactory = batchUpdateFactory;
     this.hashtagsFactory = hashtagsFactory;
+    this.changeMerged = changeMerged;
+    this.commentAdded = commentAdded;
+    this.revisionCreated = revisionCreated;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -2266,6 +2279,7 @@ public class ReceiveCommits {
 
       db.changes().beginTransaction(change.getId());
       ChangeKind changeKind = ChangeKind.REWORK;
+      Timestamp ts = TimeUtil.nowTs();
       try {
         change = db.changes().get(change.getId());
         if (change == null || change.getStatus().isClosed()) {
@@ -2290,7 +2304,7 @@ public class ReceiveCommits {
         approvalsUtil.addReviewers(db, update, labelTypes, change, newPatchSet,
             info, recipients.getReviewers(), oldRecipients.getAll());
         approvalsUtil.addApprovals(db, update, labelTypes, newPatchSet,
-            changeCtl, approvals);
+            changeCtl, approvals, ts);
         recipients.add(oldRecipients);
 
         RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
@@ -2391,13 +2405,17 @@ public class ReceiveCommits {
 
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit, user.getAccount());
+      revisionCreated.fire(change, newPatchSet, user.getAccountId());
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {
+        changeMerged.fire(change, newPatchSet, user.getAccount(), newCommit.getName());
         hooks.doChangeMergedHook(
             change, user.getAccount(), newPatchSet, db, newCommit.getName());
       }
 
       if (!approvals.isEmpty()) {
+        commentAdded.fire(change, newPatchSet, user.getAccount(), null,
+            approvals, ts);
         hooks.doCommentAddedHook(change, user.getAccount(), newPatchSet,
             null, approvals, db);
       }
@@ -2732,6 +2750,7 @@ public class ReceiveCommits {
     result.info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
     result.mergedIntoRef = refName;
     markChangeMergedByPush(db, result, result.changeCtl);
+    changeMerged.fire(change, result.newPatchSet, user.getAccount(), commit.getName());
     hooks.doChangeMergedHook(
         change, user.getAccount(), result.newPatchSet, db, commit.getName());
     sendMergedEmail(result);

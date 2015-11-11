@@ -6,8 +6,8 @@
 Note that you need to use Java 7 for building gerrit.
 
 There is currently no binary distribution of Buck, so it has to be manually
-built and installed.  Apache Ant is required.  Currently only Linux and Mac
-OS are supported.
+built and installed.  Apache Ant and gcc are required.  Currently only Linux
+and Mac OS are supported.
 
 Clone the git and build it:
 

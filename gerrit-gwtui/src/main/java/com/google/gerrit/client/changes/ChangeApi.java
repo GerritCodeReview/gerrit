@@ -190,6 +190,7 @@ public class ChangeApi {
   public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
     SubmitInput in = SubmitInput.create();
     in.waitForMerge(true);
+    in.submitWholeTopic(Gerrit.info().change().isSubmitWholeTopicEnabled());
     call(id, commit, "submit").post(in, cb);
   }
 
@@ -285,6 +286,7 @@ public class ChangeApi {
 
   private static class SubmitInput extends JavaScriptObject {
     final native void waitForMerge(boolean b) /*-{ this.wait_for_merge=b; }-*/;
+    final native void submitWholeTopic(boolean b) /*-{ this.submit_whole_topic=b; }-*/;
 
     static SubmitInput create() {
       return (SubmitInput) createObject();

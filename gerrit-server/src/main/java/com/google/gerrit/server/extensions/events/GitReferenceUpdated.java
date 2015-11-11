@@ -115,6 +115,9 @@ public class GitReferenceUpdated {
 
   public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
       Account.Id updater) {
+    if (!listeners.iterator().hasNext()) {
+      return;
+    }
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() == ReceiveCommand.Result.OK) {
         fire(project, cmd, util.accountInfo(updater));
@@ -130,6 +133,9 @@ public class GitReferenceUpdated {
 
   private void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
       ObjectId newObjectId, ReceiveCommand.Type type, AccountInfo updater) {
+    if (!listeners.iterator().hasNext()) {
+      return;
+    }
     ObjectId o = oldObjectId != null ? oldObjectId : ObjectId.zeroId();
     ObjectId n = newObjectId != null ? newObjectId : ObjectId.zeroId();
     Event event = new Event(project, ref, o.name(), n.name(), type, updater);

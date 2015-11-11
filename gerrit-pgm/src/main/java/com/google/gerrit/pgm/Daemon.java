@@ -28,6 +28,7 @@ import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.H2CacheBasedWebSession;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.RequestContextFilter;
+import com.google.gerrit.httpd.RequestMetricsFilter;
 import com.google.gerrit.httpd.RequireSslFilter;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
@@ -445,6 +446,7 @@ public class Daemon extends SiteProgram {
     }
     modules.add(RequestContextFilter.module());
     modules.add(AllRequestFilter.module());
+    modules.add(RequestMetricsFilter.module());
     modules.add(H2CacheBasedWebSession.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));

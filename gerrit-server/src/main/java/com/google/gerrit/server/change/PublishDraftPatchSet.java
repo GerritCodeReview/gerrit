@@ -39,6 +39,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.PublishDraftPatchSet.Input;
+import com.google.gerrit.server.extensions.events.DraftPublished;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -81,6 +82,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
+  private final DraftPublished draftPublished;
 
   @Inject
   public PublishDraftPatchSet(
@@ -91,7 +93,8 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       AccountResolver accountResolver,
       PatchSetInfoFactory patchSetInfoFactory,
       CreateChangeSender.Factory createChangeSenderFactory,
-      ReplacePatchSetSender.Factory replacePatchSetFactory) {
+      ReplacePatchSetSender.Factory replacePatchSetFactory,
+      DraftPublished draftPublished) {
     this.dbProvider = dbProvider;
     this.updateFactory = updateFactory;
     this.hooks = hooks;
@@ -100,6 +103,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.draftPublished = draftPublished;
   }
 
   @Override
@@ -232,6 +236,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
+      draftPublished.fire(change, patchSet, ctx.getUser().getAccountId());
       hooks.doDraftPublishedHook(change, patchSet, ctx.getDb());
       if (patchSet.isDraft() && change.getStatus() == Change.Status.DRAFT) {
         // Skip emails if the patch set is still a draft.

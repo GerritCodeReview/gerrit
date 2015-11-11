@@ -17,6 +17,8 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.ChangeHooks;
@@ -42,7 +44,7 @@ import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
-import com.google.gerrit.server.notedb.ReviewerState;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ChangeModifiedException;
@@ -106,7 +108,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private PatchSet patchSet;
   private PatchSetInfo patchSetInfo;
   private ChangeMessage changeMessage;
-  private SetMultimap<ReviewerState, Account.Id> oldReviewers;
+  private SetMultimap<ReviewerStateInternal, Account.Id> oldReviewers;
 
   @AssistedInject
   public PatchSetInserter(ChangeHooks hooks,
@@ -280,8 +282,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
         cm.setFrom(ctx.getUser().getAccountId());
         cm.setPatchSet(patchSet, patchSetInfo);
         cm.setChangeMessage(changeMessage);
-        cm.addReviewers(oldReviewers.get(ReviewerState.REVIEWER));
-        cm.addExtraCC(oldReviewers.get(ReviewerState.CC));
+        cm.addReviewers(oldReviewers.get(REVIEWER));
+        cm.addExtraCC(oldReviewers.get(CC));
         cm.send();
       } catch (Exception err) {
         log.error("Cannot send email for new patch set on change "

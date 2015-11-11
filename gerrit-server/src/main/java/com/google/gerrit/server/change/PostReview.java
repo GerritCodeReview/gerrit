@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
@@ -64,7 +65,6 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -549,7 +549,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ups.add(c);
           addLabelDelta(normName, c.getValue());
           categories.put(normName, c.getValue());
-          update.putReviewer(user.getAccountId(), ReviewerState.REVIEWER);
+          update.putReviewer(user.getAccountId(), REVIEWER);
           update.putApproval(ent.getKey(), ent.getValue());
         }
       }

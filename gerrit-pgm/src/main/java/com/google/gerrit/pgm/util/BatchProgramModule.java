@@ -20,6 +20,8 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.metrics.DisabledMetricMaker;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.server.CurrentUser;
@@ -89,6 +91,7 @@ public class BatchProgramModule extends FactoryModule {
     install(reviewDbModule);
     install(new DiffExecutorModule());
     install(PatchListCacheImpl.module());
+    bind(MetricMaker.class).to(DisabledMetricMaker.class);
 
     // Plugins are not loaded and we're just running through each change
     // once, so don't worry about cache removal.

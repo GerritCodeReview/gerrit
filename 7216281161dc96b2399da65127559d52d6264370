@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b1ff356_d4dc1c35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-11T19:22:52Z",
+      "side": 1,
+      "message": "nit: Isn\u0027t IT \"integration test\", so IT tests would be redundant?",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "7216281161dc96b2399da65127559d52d6264370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

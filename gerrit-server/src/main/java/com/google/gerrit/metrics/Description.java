@@ -28,6 +28,7 @@ public class Description {
   public static final String CUMULATIVE = "CUMULATIVE";
   public static final String RATE = "RATE";
   public static final String GAUGE = "GAUGE";
+  public static final String FIELD_ORDERING = "FIELD_ORDERING";
   public static final String TRUE_VALUE = "1";
 
   public static class Units {
@@ -40,6 +41,19 @@ public class Description {
 
     private Units() {
     }
+  }
+
+  public static enum FieldOrdering {
+    /** Default ordering places fields at end of the parent metric name. */
+    AT_END,
+
+    /**
+     * Splits the metric name by inserting field values before the last '/' in
+     * the metric name. For example {@code "plugins/replication/push_latency"}
+     * with a {@code Field.ofString("remote")} will create submetrics named
+     * {@code "plugins/replication/some-server/push_latency"}.
+     */
+    PREFIX_FIELDS_BASENAME;
   }
 
   private final Map<String, String> annotations;
@@ -65,7 +79,7 @@ public class Description {
   /**
    * Indicates the metric may be usefully interpreted as a count over short
    * periods of time, such as request arrival rate. May only be applied to a
-   * {@link Counter}.
+   * {@link Counter0}.
    */
   public Description setRate() {
     annotations.put(RATE, TRUE_VALUE);
@@ -83,11 +97,17 @@ public class Description {
 
   /**
    * Indicates the metric accumulates over the lifespan of the process. A
-   * {@link Counter} like total requests handled accumulates over the process
+   * {@link Counter0} like total requests handled accumulates over the process
    * and should be {@code setCumulative()}.
    */
   public Description setCumulative() {
     annotations.put(CUMULATIVE, TRUE_VALUE);
+    return this;
+  }
+
+  /** Configure how fields are ordered into submetric names. */
+  public Description setFieldOrdering(FieldOrdering ordering) {
+    annotations.put(FIELD_ORDERING, ordering.name());
     return this;
   }
 
@@ -104,6 +124,12 @@ public class Description {
   /** True if the metric accumulates over the lifespan of the process. */
   public boolean isCumulative() {
     return TRUE_VALUE.equals(annotations.get(CUMULATIVE));
+  }
+
+  /** Get the suggested field ordering. */
+  public FieldOrdering getFieldOrdering() {
+    String o = annotations.get(FIELD_ORDERING);
+    return o != null ? FieldOrdering.valueOf(o) : FieldOrdering.AT_END;
   }
 
   /**

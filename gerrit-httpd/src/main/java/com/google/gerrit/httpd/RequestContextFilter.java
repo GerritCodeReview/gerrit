@@ -14,9 +14,13 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.metrics.Counter1;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.util.http.RequestUtil;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -47,14 +51,33 @@ public class RequestContextFilter implements Filter {
   private final Provider<RequestCleanup> cleanup;
   private final Provider<HttpRequestContext> requestContext;
   private final ThreadLocalRequestContext local;
+  private final RequestMetrics metrics;
+
+  @Singleton
+  public static class RequestMetrics {
+    public Counter1<String> failures;
+
+    @Inject
+    public RequestMetrics(MetricMaker metricMaker) {
+      failures = metricMaker.newCounter(
+          "rest/responses/errors",
+          new Description("Rate of REST API error responses")
+            .setRate()
+            .setUnit("failures"),
+          com.google.gerrit.metrics.Field.ofString(
+              "status", "HTTP error status code"));
+    }
+  }
 
   @Inject
   RequestContextFilter(final Provider<RequestCleanup> r,
       final Provider<HttpRequestContext> c,
-      final ThreadLocalRequestContext l) {
+      final ThreadLocalRequestContext l,
+      RequestMetrics m) {
     cleanup = r;
     requestContext = c;
     local = l;
+    metrics = m;
   }
 
   @Override
@@ -70,6 +93,7 @@ public class RequestContextFilter implements Filter {
       final ServletResponse response, final FilterChain chain)
       throws IOException, ServletException {
     RequestContext old = local.setContext(requestContext.get());
+    request.setAttribute(RequestUtil.ATTRIBUTE_METRICS, metrics);
     try {
       try {
         chain.doFilter(request, response);

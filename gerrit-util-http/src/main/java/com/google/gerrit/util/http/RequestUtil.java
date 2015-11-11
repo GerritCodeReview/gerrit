@@ -22,6 +22,10 @@ public class RequestUtil {
   private static final String ATTRIBUTE_ERROR_TRACE =
       RequestUtil.class.getName() + "/ErrorTraceThrowable";
 
+  /** HTTP request attribute for storing the metrics helper class. */
+  public static final String ATTRIBUTE_METRICS =
+      RequestUtil.class.getName() + "/Metrics";
+
   public static void setErrorTraceAttribute(HttpServletRequest req, Throwable t) {
     req.setAttribute(ATTRIBUTE_ERROR_TRACE, t);
   }

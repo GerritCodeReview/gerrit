@@ -76,6 +76,7 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.httpd.RequestContextFilter;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
@@ -1005,6 +1006,9 @@ public class RestApiServlet extends HttpServlet {
     configureCaching(req, res, null, null, c);
     res.setStatus(statusCode);
     replyText(req, res, msg);
+    RequestContextFilter.RequestMetrics m =
+        (RequestContextFilter.RequestMetrics)req.getAttribute(RequestUtil.ATTRIBUTE_METRICS);
+      m.failures.increment(String.valueOf(statusCode));
   }
 
   static void replyText(@Nullable HttpServletRequest req,

@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.Util.block;
 import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
 import com.google.common.base.Function;
@@ -542,6 +541,14 @@ public abstract class AbstractDaemonTest {
     saveProjectConfig(project, cfg);
   }
 
+  protected PermissionRule block(String permission, AccountGroup.UUID id, String ref)
+      throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    PermissionRule rule = Util.block(cfg, permission, id, ref);
+    saveProjectConfig(project, cfg);
+    return rule;
+  }
+
   protected void saveProjectConfig(Project.NameKey p, ProjectConfig cfg)
       throws Exception {
     MetaDataUpdate md = metaDataUpdateFactory.create(p);
@@ -574,16 +581,14 @@ public abstract class AbstractDaemonTest {
     projectCache.evict(config.getProject());
   }
 
-  protected void blockRead(Project.NameKey project, String ref) throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    block(cfg, Permission.READ, REGISTERED_USERS, ref);
-    saveProjectConfig(project, cfg);
+  protected void blockRead(String ref) throws Exception {
+    block(Permission.READ, REGISTERED_USERS, ref);
   }
 
   protected void blockForgeCommitter(Project.NameKey project, String ref)
       throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    block(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, ref);
+    Util.block(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, ref);
     saveProjectConfig(project, cfg);
   }
 

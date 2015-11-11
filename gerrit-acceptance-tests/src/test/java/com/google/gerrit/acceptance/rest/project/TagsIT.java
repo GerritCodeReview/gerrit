@@ -60,7 +60,7 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void listTagsOfNonVisibleProject() throws Exception {
-    blockRead(project, "refs/*");
+    blockRead("refs/*");
     userSession
         .get("/projects/" + project.get() + "/tags")
         .assertNotFound();
@@ -68,7 +68,7 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void listTagsOfNonVisibleProjectWithApi() throws Exception {
-    blockRead(project, "refs/*");
+    blockRead("refs/*");
     setApiUser(user);
     exception.expect(ResourceNotFoundException.class);
     gApi.projects().name(project.get()).tags().get();
@@ -76,7 +76,7 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void getTagOfNonVisibleProjectWithApi() throws Exception {
-    blockRead(project, "refs/*");
+    blockRead("refs/*");
     exception.expect(ResourceNotFoundException.class);
     gApi.projects().name(project.get()).tag("tag").get();
   }
@@ -211,7 +211,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.get(1).ref).isEqualTo("refs/tags/" + tag2.name);
     assertThat(result.get(1).revision).isEqualTo(r2.getCommitId().getName());
 
-    blockRead(project, "refs/heads/hidden");
+    blockRead("refs/heads/hidden");
     result = getTags().get();
     assertThat(result).hasSize(1);
     assertThat(result.get(0).ref).isEqualTo("refs/tags/" + tag1.name);

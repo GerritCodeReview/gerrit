@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.Util.block;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -26,7 +25,6 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.server.git.ProjectConfig;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -76,9 +74,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private void blockForcePush() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    block(cfg, Permission.PUSH, ANONYMOUS_USERS, "refs/heads/*").setForce(true);
-    saveProjectConfig(project, cfg);
+    block(Permission.PUSH, ANONYMOUS_USERS, "refs/heads/*").setForce(true);
   }
 
   private void grantOwner() throws Exception {

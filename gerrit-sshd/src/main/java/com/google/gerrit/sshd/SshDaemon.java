@@ -24,7 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.metrics.Counter;
+import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -266,7 +266,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           }
         });
 
-    final Counter sesssionsCreated = metricMaker.newCounter(
+    final Counter0 sesssionsCreated = metricMaker.newCounter(
         "sshd/sessions/created",
         new Description("Rate of new SSH sessions")
           .setRate()

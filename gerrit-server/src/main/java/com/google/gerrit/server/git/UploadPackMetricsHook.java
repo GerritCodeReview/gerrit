@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.metrics.Counter;
+import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -25,7 +26,12 @@ import org.eclipse.jgit.transport.PostUploadHook;
 
 @Singleton
 public class UploadPackMetricsHook implements PostUploadHook {
-  private final Counter upload;
+  enum Operation {
+    CLONE,
+    FETCH;
+  }
+
+  private final Counter1<Operation> upload;
 
   @Inject
   UploadPackMetricsHook(MetricMaker metricMaker) {
@@ -33,11 +39,17 @@ public class UploadPackMetricsHook implements PostUploadHook {
         "git/upload-pack",
         new Description("Total number of git-upload-pack requests")
           .setRate()
-          .setUnit("requests"));
+          .setUnit("requests"),
+        Field.ofEnum(Operation.class, "operation"));
   }
 
   @Override
   public void onPostUpload(PackStatistics stats) {
-    upload.increment();
+    Operation op = Operation.FETCH;
+    if (stats.getUninterestingObjects() == null
+        || stats.getUninterestingObjects().isEmpty()) {
+      op = Operation.CLONE;
+    }
+    upload.increment(op);
   }
 }

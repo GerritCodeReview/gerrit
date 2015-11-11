@@ -48,6 +48,8 @@ public class ChangeInfo {
   public Map<String, LabelInfo> labels;
   public Map<String, Collection<String>> permittedLabels;
   public Collection<AccountInfo> removableReviewers;
+  public Collection<AccountInfo> reviewers;
+  public Collection<AccountInfo> ccs;
   public Collection<ChangeMessageInfo> messages;
 
   public String currentRevision;

@@ -29,6 +29,7 @@ def npm_binary(
     name = name,
     cmd = ' '.join(cmd),
     out = dest,
+    visibility = visibility,
   )
 
 
@@ -72,5 +73,25 @@ def bower_components(
     name = name,
     cmd = ' && '.join(cmds),
     out = '%s.bower_components.zip' % name,
+    visibility = visibility,
+  )
+
+
+def vulcanize(
+    name,
+    app,
+    srcs,
+    visibility = ['PUBLIC']):
+  genrule(
+    name = name,
+    cmd = 'unzip -qd $SRCDIR $(location //lib/js:polygerrit_components);'
+    + ' '.join([
+      '$(exe //tools/js:vulcanize)',
+      '-c', '"%s"' % run_npm_binary('//lib/js:vulcanize'),
+      '-o', '$OUT',
+      '$SRCDIR/%s' % app,
+    ]),
+    srcs = srcs,
+    out = '%s.html' % name,
     visibility = visibility,
   )

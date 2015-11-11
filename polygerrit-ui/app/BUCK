@@ -1,0 +1,29 @@
+include_defs('//lib/js.defs')
+
+ENTRY = 'elements/gr-app.html'
+
+vulcanize(
+  name = 'polygerrit',
+  app = ENTRY,
+  srcs = [
+     ENTRY,
+    'elements/gr-change-list.html',
+    'elements/gr-change-list-item.html',
+    'elements/gr-change-list-view.html',
+    'elements/gr-change-view.html',
+    'elements/gr-date-formatter.html',
+    'elements/gr-diff-view.html',
+    'elements/gr-file-list.html',
+    'elements/gr-message.html',
+    'elements/gr-messages-list.html',
+    'elements/gr-search-bar.html',
+    'favicon.ico',
+    'index.html',
+    'robots.txt',
+    'scripts/app.js',
+    'scripts/changes.js',
+    'scripts/util.js',
+    'styles/main.css',
+  ],
+)
+

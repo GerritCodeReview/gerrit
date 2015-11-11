@@ -78,6 +78,7 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventsMetrics;
+import com.google.gerrit.server.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.EmailMerge;
@@ -271,6 +272,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ReceivePackInitializer.class);
     DynamicSet.setOf(binder(), PostReceiveHook.class);
     DynamicSet.setOf(binder(), PreUploadHook.class);
+    DynamicSet.setOf(binder(), ChangeIndexedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.setOf(binder(), ProjectDeletedListener.class);
     DynamicSet.setOf(binder(), GarbageCollectorListener.class);

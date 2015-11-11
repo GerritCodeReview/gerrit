@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_753ae819",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T19:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_541a4cbc",
+      "range": {
+        "startLine": 448,
+        "startChar": 11,
+        "endLine": 448,
+        "endChar": 16
+      },
+      "revId": "7a856a05e02f12d0286bca9df6264b4884eca398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b1ff356_340fd07a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 3
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "1b1ff356_b402c04b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T19:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_340fd07a",
+      "revId": "7a856a05e02f12d0286bca9df6264b4884eca398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b1ff356_f408386f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ReviewerStateInternal.java",
         "patchSetId": 3
@@ -54,6 +96,24 @@
       "writtenOn": "2015-11-11T19:34:53Z",
       "side": 1,
       "message": "Elsewhere where we map enums we have static initializers that check that the two enum sizes are equal",
+      "revId": "7a856a05e02f12d0286bca9df6264b4884eca398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_d54adca4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ReviewerStateInternal.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T19:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_f408386f",
       "revId": "7a856a05e02f12d0286bca9df6264b4884eca398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

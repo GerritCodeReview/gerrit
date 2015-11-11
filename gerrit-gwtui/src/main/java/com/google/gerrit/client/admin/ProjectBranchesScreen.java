@@ -258,8 +258,11 @@ public class ProjectBranchesScreen extends ProjectScreen {
         Query q = new Query(filterTxt.getValue());
         if (match.equals(q.qMatch)) {
           q.start(start);
-        } else if (query == null) {
-          q.run();
+        }
+        if (!match.equals(q.qMatch)) {
+          if (query == null) {
+            q.run();
+          }
           query = q;
         }
       }

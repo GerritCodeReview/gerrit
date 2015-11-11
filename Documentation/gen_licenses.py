@@ -53,12 +53,6 @@ def parse_graph():
   for target, attrs in obj.iteritems():
     for dep in attrs['buck.direct_dependencies']:
 
-      # bower is only used by the build process; skip it in those cases, even if
-      # --partial is not passed.
-      if ((target == '//tools/js:download_bower'
-           or target.startswith('//lib/js:')
-          and dep == '//lib/js:bower')):
-        continue
       if target in KNOWN_PROVIDED_DEPS:
         continue
 

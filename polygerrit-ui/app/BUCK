@@ -1,0 +1,44 @@
+include_defs('//lib/js.defs')
+
+WEBJS = 'bower_components/webcomponentsjs/webcomponents-lite.js'
+
+# TODO(dborowitz): Putting these rules in this package avoids having to handle
+# the app/ prefix like we would have to if this were in the parent directory.
+# The only reason for the app subdirectory in the first place was convenience
+# when witing server.go; when that goes away, we can just move all the files and
+# these rules up one directory.
+genrule(
+  name = 'polygerrit_ui',
+  cmd = ' && '.join([
+    'mkdir $TMP/polygerrit_ui',
+    'cd $TMP/polygerrit_ui',
+    'cp $(location :processed_index) index.html',
+    'mkdir -p {elements,bower_components/webcomponentsjs}',
+    'cp $(location :polygerrit) elements/gr-app.vulcanized.html',
+    'cp -rp $SRCDIR/* .',
+    'unzip -p $(location //polygerrit-ui:polygerrit_components) %s>%s' % (WEBJS, WEBJS),
+    'cd $TMP',
+    'zip -9qr $OUT .',
+  ]),
+  srcs = glob([
+    'favicon.ico',
+    'styles/**/*.css'
+  ]),
+  out = 'polygerrit_ui.zip',
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'processed_index',
+  cmd = 'sed "s/gr-app.html/gr-app.vulcanized.html/g" $SRCS >$OUT',
+  srcs = ['index.html'],
+  out = 'index_processed.html',
+)
+
+vulcanize(
+  name = 'polygerrit',
+  app = 'elements/gr-app.html',
+  srcs = glob(['**'], excludes = ['index.html']),
+  components = ['//polygerrit-ui:polygerrit_components'],
+)
+

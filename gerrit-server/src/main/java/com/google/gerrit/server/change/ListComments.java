@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -40,7 +43,12 @@ public class ListComments extends ListDraftComments {
   @Override
   protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
       throws OrmException {
+    PatchSet.Id id = rsrc.getPatchSet().getId();
+    Optional<ChangeEdit> edit = rsrc.getEdit();
+    if (edit.isPresent()) {
+      id = edit.get().getBasePatchSet().getId();
+    }
     ChangeNotes notes = rsrc.getNotes();
-    return plcUtil.publishedByPatchSet(db.get(), notes, rsrc.getPatchSet().getId());
+    return plcUtil.publishedByPatchSet(db.get(), notes, id);
   }
 }

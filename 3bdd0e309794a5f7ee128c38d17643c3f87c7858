@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_4299363c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl0.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-11T18:06:11Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "3bdd0e309794a5f7ee128c38d17643c3f87c7858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

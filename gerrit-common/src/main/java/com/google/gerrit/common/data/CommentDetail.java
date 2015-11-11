@@ -43,7 +43,7 @@ public class CommentDetail {
   protected CommentDetail() {
   }
 
-  public boolean include(final PatchLineComment p) {
+  public boolean include(final PatchLineComment p, PatchSet.Id editParent) {
     final PatchSet.Id psId = p.getKey().getParentKey().getParentKey();
     switch (p.getSide()) {
       case 0:
@@ -59,7 +59,8 @@ public class CommentDetail {
           return true;
         }
 
-        if (idB.equals(psId)) {
+        if (idB.equals(psId)
+            || (editParent != null && editParent.equals(psId))) {
           b.add(p);
           return true;
         }

@@ -293,7 +293,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       }
     }
 
-    if (loadComments && edit == null) {
+    if (loadComments) {
       final AccountInfoCacheFactory aic = aicFactory.create();
       comments = new CommentDetail(psa, psb);
       switch (changeType) {
@@ -351,8 +351,12 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private void loadPublished(final Map<Patch.Key, Patch> byKey,
       final AccountInfoCacheFactory aic, final String file) throws OrmException {
     ChangeNotes notes = control.getNotes();
+    PatchSet.Id editParent = null;
+    if (edit != null && edit.isPresent()) {
+      editParent = edit.get().getBasePatchSet().getId();
+    }
     for (PatchLineComment c : plcUtil.publishedByChangeFile(db, notes, changeId, file)) {
-      if (comments.include(c)) {
+      if (comments.include(c, editParent)) {
         aic.want(c.getAuthor());
       }
 
@@ -369,7 +373,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       throws OrmException {
     for (PatchLineComment c :
         plcUtil.draftByChangeFileAuthor(db, control.getNotes(), file, me)) {
-      if (comments.include(c)) {
+      if (comments.include(c, null)) {
         aic.want(me);
       }
 

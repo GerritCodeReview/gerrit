@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d609b2de_9a18cdc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-11-11T13:31:57Z",
+      "side": 1,
+      "message": "this is a bit of a corner case, but i actually make use of the ability to move changes to a non-existing branch: when somebody re-pushes to the new branch instead of requesting a move, but the old change has a history which should not be torn apart, i move the new change to the branch \"orcus\" (which obviously does not exist) and then move the original one.\n\npermitting this is also sort of consistent with the fact that changes continue to exist for branches which have been deleted since. of course, *open* changes prevent the deletion of branches, and you don\u0027t want to permit moving closed changes, so it\u0027s sort of consistent again.\n\nanyway, my case can be also served by simply nuking the new change altogether.",
+      "revId": "d162656951d328e838f82d8410a99685b92bf712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d609b2de_fa0d8981",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-11-11T13:31:57Z",
+      "side": 1,
+      "message": "you must do this within the transaction, as otherwise there is a race condition with creating new changes.\n\nif we\u0027re pedantic, the check for the existence of the target branch should be also within the transaction, but then, there are no actually atomic transactions between git and the database anyway.",
+      "revId": "d162656951d328e838f82d8410a99685b92bf712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

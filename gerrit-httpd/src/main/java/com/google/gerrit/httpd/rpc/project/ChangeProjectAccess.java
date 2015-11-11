@@ -90,7 +90,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
     RevCommit commit = config.commit(md);
 
     gitRefUpdated.fire(config.getProject().getNameKey(), RefNames.REFS_CONFIG,
-        base, commit.getId());
+        base, commit.getId(), user.getAccount());
     hooks.doRefUpdatedHook(
       new Branch.NameKey(config.getProject().getNameKey(), RefNames.REFS_CONFIG),
       base, commit.getId(), user.getAccount());

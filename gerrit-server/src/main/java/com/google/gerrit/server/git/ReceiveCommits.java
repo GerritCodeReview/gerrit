@@ -674,7 +674,7 @@ public class ReceiveCommits {
             // We only fire gitRefUpdated for direct refs updates.
             // Events for change refs are fired when they are created.
             //
-            gitRefUpdated.fire(project.getNameKey(), c);
+            gitRefUpdated.fire(project.getNameKey(), c, user.getAccount());
             hooks.doRefUpdatedHook(
                 new Branch.NameKey(project.getNameKey(), c.getRefName()),
                 c.getOldId(),
@@ -2377,7 +2377,7 @@ public class ReceiveCommits {
       }
 
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
-          ObjectId.zeroId(), newCommit);
+          ObjectId.zeroId(), newCommit, user.getAccount());
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {
         hooks.doChangeMergedHook(

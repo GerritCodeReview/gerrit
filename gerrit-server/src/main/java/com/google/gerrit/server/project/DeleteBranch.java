@@ -113,7 +113,8 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
         case NO_CHANGE:
         case FAST_FORWARD:
         case FORCED:
-          referenceUpdated.fire(rsrc.getNameKey(), u, ReceiveCommand.Type.DELETE);
+          referenceUpdated.fire(rsrc.getNameKey(), u, ReceiveCommand.Type.DELETE,
+              identifiedUser.get().getAccount());
           hooks.doRefUpdatedHook(rsrc.getBranchKey(), u, identifiedUser.get().getAccount());
           ResultSet<SubmoduleSubscription> submoduleSubscriptions =
             dbProvider.get().submoduleSubscriptions().bySuperProject(rsrc.getBranchKey());

@@ -25,7 +25,9 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -272,6 +274,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           .setRate()
           .setUnit("sessions"));
 
+    final Counter1<String> authFailures = metricMaker.newCounter(
+        "sshd/sessions/authentication-failed",
+        new Description("Rate of SSH authentication failures")
+          .setRate()
+          .setUnit("failures"),
+        Field.ofString("username", "User who failed to authenticate"));
+
     setSessionFactory(new SessionFactory() {
       @Override
       protected AbstractSession createSession(final IoSession io)
@@ -300,6 +309,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           public void operationComplete(CloseFuture future) {
             connected.decrementAndGet();
             if (sd.isAuthenticationError()) {
+              authFailures.increment(sd.getUsername());
               sshLog.onAuthFail(sd);
             }
           }

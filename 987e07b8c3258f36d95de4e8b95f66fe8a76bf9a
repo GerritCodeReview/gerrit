@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f6f876fc_21618a15",
+        "filename": "lib/js.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-11T17:52:19Z",
+      "side": 1,
+      "message": "visibility \u003d visibility\n\nis missing.",
+      "revId": "987e07b8c3258f36d95de4e8b95f66fe8a76bf9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_5cb59d07",
         "filename": "lib/js.defs",
         "patchSetId": 2

@@ -20,7 +20,6 @@ import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace
 import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_LEADING_AND_TRAILING;
 import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_NONE;
 import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_TRAILING;
-
 import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
 
 import com.google.gerrit.client.Gerrit;

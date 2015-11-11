@@ -62,6 +62,23 @@
       "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_c29ee678",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-11T02:20:53Z",
+      "side": 1,
+      "message": "Was this line removal intended?",
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

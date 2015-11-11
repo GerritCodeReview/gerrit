@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b1ff356_7471c8eb",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-11-11T20:57:18Z",
+      "side": 1,
+      "message": "nit: extra space, or are you trying to align with the following lines (with \u0027)?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "074f366c493dc26ca4072411787084f26f32e3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

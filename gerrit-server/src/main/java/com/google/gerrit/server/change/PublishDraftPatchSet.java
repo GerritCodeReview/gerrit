@@ -40,6 +40,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.PublishDraftPatchSet.Input;
+import com.google.gerrit.server.extensions.events.DraftPublished;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -82,6 +83,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
   private final PatchSetUtil psUtil;
   private final Provider<ReviewDb> dbProvider;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
+  private final DraftPublished draftPublished;
 
   @Inject
   public PublishDraftPatchSet(
@@ -93,7 +95,8 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       Provider<ReviewDb> dbProvider,
-      ReplacePatchSetSender.Factory replacePatchSetFactory) {
+      ReplacePatchSetSender.Factory replacePatchSetFactory,
+      DraftPublished draftPublished) {
     this.accountResolver = accountResolver;
     this.approvalsUtil = approvalsUtil;
     this.updateFactory = updateFactory;
@@ -103,6 +106,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     this.psUtil = psUtil;
     this.dbProvider = dbProvider;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.draftPublished = draftPublished;
   }
 
   @Override
@@ -227,6 +231,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
+      draftPublished.fire(change, patchSet, ctx.getUser().getAccountId());
       hooks.doDraftPublishedHook(change, patchSet, ctx.getDb());
       if (patchSet.isDraft() && change.getStatus() == Change.Status.DRAFT) {
         // Skip emails if the patch set is still a draft.

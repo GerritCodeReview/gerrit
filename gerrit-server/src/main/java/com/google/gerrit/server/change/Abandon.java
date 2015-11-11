@@ -33,6 +33,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.extensions.events.ChangeAbandoned;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -61,6 +62,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final ChangeAbandoned changeAbandoned;
 
   @Inject
   Abandon(ChangeHooks hooks,
@@ -69,7 +71,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
-      BatchUpdate.Factory batchUpdateFactory) {
+      BatchUpdate.Factory batchUpdateFactory,
+      ChangeAbandoned changeAbandoned) {
     this.hooks = hooks;
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
@@ -77,6 +80,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.changeAbandoned = changeAbandoned;
   }
 
   @Override
@@ -172,6 +176,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       } catch (Exception e) {
         log.error("Cannot email update for change " + change.getId(), e);
       }
+      changeAbandoned.fire(change, patchSet, account, msgTxt);
       hooks.doChangeAbandonedHook(change,
           account,
           patchSet,

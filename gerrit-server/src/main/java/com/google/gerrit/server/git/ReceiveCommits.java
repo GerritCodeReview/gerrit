@@ -100,6 +100,7 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -165,6 +166,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -312,6 +314,7 @@ public class ReceiveCommits {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
+  private final ChangeMerged changeMerged;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -390,7 +393,8 @@ public class ReceiveCommits {
       final ChangeEditUtil editUtil,
       final BatchUpdate.Factory batchUpdateFactory,
       final SetHashtagsOp.Factory hashtagsFactory,
-      final ReplaceOp.Factory replaceOpFactory) throws IOException {
+      final ReplaceOp.Factory replaceOpFactory,
+      ChangeMerged changeMerged) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.seq = seq;
@@ -423,6 +427,7 @@ public class ReceiveCommits {
     this.batchUpdateFactory = batchUpdateFactory;
     this.hashtagsFactory = hashtagsFactory;
     this.replaceOpFactory = replaceOpFactory;
+    this.changeMerged = changeMerged;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -2501,6 +2506,7 @@ public class ReceiveCommits {
     rp.getRevWalk().parseBody(commit);
     PatchSetInfo info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
     markChangeMergedByPush(db, info, refName);
+    changeMerged.fire(change, ps, user.getAccount(), commit.getName());
     hooks.doChangeMergedHook(
         change, user.getAccount(), ps, db, commit.getName());
     sendMergedEmail(ps, info);

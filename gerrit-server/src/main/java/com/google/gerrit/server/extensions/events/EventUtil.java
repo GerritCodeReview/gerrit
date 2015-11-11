@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountCache;
@@ -57,6 +58,14 @@ public class EventUtil {
 
   public ChangeInfo changeInfo(Change change) throws OrmException {
     return changeJson.format(change);
+  }
+
+  public RevisionInfo revisionInfo(Project.NameKey project, PatchSet ps)
+      throws OrmException, PatchListNotAvailableException, GpgException, IOException {
+    ChangeData cd = changeDataFactory.create(db.get(),
+        project, ps.getId().getParentKey());
+    ChangeControl ctl = cd.changeControl();
+    return changeJson.toRevisionInfo(ctl, ps);
   }
 
   public AccountInfo accountInfo(Account a) {

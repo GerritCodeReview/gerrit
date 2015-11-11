@@ -414,7 +414,8 @@ public class ChangeUtil {
           throw new IOException("Failed to delete ref " + patch.getRefName() +
               " in " + repo.getDirectory() + ": " + update.getResult());
       }
-      gitRefUpdated.fire(change.getProject(), update, ReceiveCommand.Type.DELETE);
+      gitRefUpdated.fire(change.getProject(), update, ReceiveCommand.Type.DELETE,
+          user.get().getAccount());
     }
 
     deleteOnlyDraftPatchSetPreserveRef(this.db.get(), patch);

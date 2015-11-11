@@ -149,6 +149,7 @@ public class MetaDataUpdate {
   private final CommitBuilder commit;
   private boolean allowEmpty;
   private boolean insertChangeId;
+  private IdentifiedUser user;
 
   @AssistedInject
   public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
@@ -172,6 +173,7 @@ public class MetaDataUpdate {
   }
 
   public void setAuthor(IdentifiedUser user) {
+    this.user = user;
     getCommitBuilder().setAuthor(user.newCommitterIdent(
         getCommitBuilder().getCommitter().getWhen(),
         getCommitBuilder().getCommitter().getTimeZone()));
@@ -216,6 +218,6 @@ public class MetaDataUpdate {
   }
 
   void fireGitRefUpdatedEvent(RefUpdate ru) {
-    gitRefUpdated.fire(projectName, ru);
+    gitRefUpdated.fire(projectName, ru, user.getAccount());
   }
 }

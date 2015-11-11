@@ -149,7 +149,8 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
           case FAST_FORWARD:
           case NEW:
           case NO_CHANGE:
-            referenceUpdated.fire(name.getParentKey(), u, ReceiveCommand.Type.CREATE);
+            referenceUpdated.fire(name.getParentKey(), u, ReceiveCommand.Type.CREATE,
+                identifiedUser.get().getAccount());
             hooks.doRefUpdatedHook(name, u, identifiedUser.get().getAccount());
             break;
           case LOCK_FAILURE:

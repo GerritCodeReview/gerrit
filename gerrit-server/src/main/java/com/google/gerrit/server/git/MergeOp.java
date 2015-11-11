@@ -806,9 +806,9 @@ public class MergeOp {
   private void fireRefUpdated(Branch.NameKey destBranch,
       RefUpdate branchUpdate) {
     logDebug("Firing ref updated hooks for {}", branchUpdate.getName());
-    gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
-    hooks.doRefUpdatedHook(destBranch, branchUpdate,
-        getAccount(mergeTips.get(destBranch).getCurrentTip()));
+    Account a = getAccount(mergeTips.get(destBranch).getCurrentTip());
+    gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate, a);
+    hooks.doRefUpdatedHook(destBranch, branchUpdate, a);
   }
 
   private Account getAccount(CodeReviewCommit codeReviewCommit) {

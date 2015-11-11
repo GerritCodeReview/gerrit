@@ -19,10 +19,14 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Strings;
+import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
@@ -126,6 +130,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * SSH daemon to communicate with Gerrit.
@@ -170,7 +175,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       final KeyPairProvider hostKeyProvider, final IdGenerator idGenerator,
       @GerritServerConfig final Config cfg, final SshLog sshLog,
       @SshListenAddresses final List<SocketAddress> listen,
-      @SshAdvertisedAddresses final List<String> advertised) {
+      @SshAdvertisedAddresses final List<String> advertised,
+      MetricMaker metricMaker) {
     setPort(IANA_SSH_PORT /* never used */);
 
     this.cfg = cfg;
@@ -245,10 +251,33 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setKeyPairProvider(hostKeyProvider);
     setCommandFactory(commandFactory);
     setShellFactory(noShell);
+
+    final AtomicInteger connected = new AtomicInteger();
+    metricMaker.newCallbackMetric(
+        "sshd/sessions/connected",
+        Integer.class,
+        new Description("Currently connected SSH sessions")
+          .setGauge()
+          .setUnit("sessions"),
+        new Supplier<Integer>() {
+          @Override
+          public Integer get() {
+            return connected.get();
+          }
+        });
+
+    final Counter0 sesssionsCreated = metricMaker.newCounter(
+        "sshd/sessions/created",
+        new Description("Rate of new SSH sessions")
+          .setRate()
+          .setUnit("sessions"));
+
     setSessionFactory(new SessionFactory() {
       @Override
       protected AbstractSession createSession(final IoSession io)
           throws Exception {
+        connected.incrementAndGet();
+        sesssionsCreated.increment();
         if (io instanceof MinaSession) {
           if (((MinaSession) io).getSession()
               .getConfig() instanceof SocketSessionConfig) {
@@ -269,6 +298,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         s.addCloseSessionListener(new SshFutureListener<CloseFuture>() {
           @Override
           public void operationComplete(CloseFuture future) {
+            connected.decrementAndGet();
             if (sd.isAuthenticationError()) {
               sshLog.onAuthFail(sd);
             }

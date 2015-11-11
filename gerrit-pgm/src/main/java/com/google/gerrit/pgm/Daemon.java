@@ -36,6 +36,7 @@ import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
+import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
 import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter;
@@ -323,6 +324,7 @@ public class Daemon extends SiteProgram {
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(SchemaVersionCheck.module());
+    modules.add(new DropWizardMetricMaker.Module());
     modules.add(new LogFileCompressor.Module());
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());

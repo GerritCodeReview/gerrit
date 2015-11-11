@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16feeae5_9f5277ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T00:59:08Z",
+      "side": 1,
+      "message": "It might be better to describe the metrics instead of explicitly listing like this.  I.e.:\n\n Query latency\n SSH sessions connected\n SSH connections created\n Upload packs",
+      "parentUuid": "f6f876fc_3e1085d7",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 27
+      },
+      "revId": "a335e54b662475e4226dd08ecf533880a8a91760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_5fabcfdc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 14

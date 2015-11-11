@@ -17,6 +17,24 @@
       "revId": "5778ac5aa1a2eaf03c8da4e1cca659ab21fd58d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_558dac17",
+        "filename": "tools/js/npm_pack.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-11T20:18:22Z",
+      "side": 1,
+      "message": "No, this script is run as a one-off by developers, they can live with the stack trace.",
+      "parentUuid": "1b1ff356_54280cc4",
+      "revId": "5778ac5aa1a2eaf03c8da4e1cca659ab21fd58d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

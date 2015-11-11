@@ -204,7 +204,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         // Only fire hook if project was actually changed.
         if (!Objects.equals(baseRev, commitRev)) {
           gitRefUpdated.fire(projectName, RefNames.REFS_CONFIG,
-              baseRev, commitRev);
+              baseRev, commitRev, user.get().asIdentifiedUser().getAccount());
           hooks.doRefUpdatedHook(
             new Branch.NameKey(projectName, RefNames.REFS_CONFIG),
             baseRev, commitRev, user.get().asIdentifiedUser().getAccount());

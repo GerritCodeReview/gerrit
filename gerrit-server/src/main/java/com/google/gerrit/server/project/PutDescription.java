@@ -96,7 +96,7 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
         // Only fire hook if project was actually changed.
         if (!Objects.equals(baseRev, commitRev)) {
           gitRefUpdated.fire(resource.getNameKey(), RefNames.REFS_CONFIG,
-              baseRev, commitRev);
+              baseRev, commitRev, user.getAccount());
           hooks.doRefUpdatedHook(
             new Branch.NameKey(resource.getNameKey(), RefNames.REFS_CONFIG),
             baseRev, commitRev, user.getAccount());

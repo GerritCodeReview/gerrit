@@ -439,7 +439,7 @@ public class MergeOp implements AutoCloseable {
         bypassSubmitRules(cs);
       }
       try {
-        integrateIntoHistory(cs);
+        integrateIntoHistory(cs, caller);
       } catch (IntegrationException e) {
         logError("Error from integrateIntoHistory", e);
         throw new ResourceConflictException(e.getMessage(), e);
@@ -464,7 +464,7 @@ public class MergeOp implements AutoCloseable {
     throw new ResourceConflictException(msg + Joiner.on('\n').join(ps));
   }
 
-  private void integrateIntoHistory(ChangeSet cs)
+  private void integrateIntoHistory(ChangeSet cs, IdentifiedUser caller)
       throws IntegrationException, RestApiException {
     logDebug("Beginning merge attempt on {}", cs);
     Map<Branch.NameKey, BranchBatch> toSubmit = new HashMap<>();
@@ -507,7 +507,8 @@ public class MergeOp implements AutoCloseable {
     try {
       BatchUpdate.execute(
           batchUpdates(projects),
-          new SubmitStrategyListener(submitInput, strategies, commits));
+          new SubmitStrategyListener(submitInput, strategies, commits),
+          caller.getAccountId());
     } catch (UpdateException e) {
       // BatchUpdate may have inadvertently wrapped an IntegrationException
       // thrown by some legacy SubmitStrategyOp code that intended the error

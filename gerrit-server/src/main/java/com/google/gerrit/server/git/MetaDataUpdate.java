@@ -176,6 +176,7 @@ public class MetaDataUpdate implements AutoCloseable {
   private final CommitBuilder commit;
   private boolean allowEmpty;
   private boolean insertChangeId;
+  private IdentifiedUser author;
 
   @AssistedInject
   public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
@@ -198,8 +199,9 @@ public class MetaDataUpdate implements AutoCloseable {
     getCommitBuilder().setMessage(message);
   }
 
-  public void setAuthor(IdentifiedUser user) {
-    getCommitBuilder().setAuthor(user.newCommitterIdent(
+  public void setAuthor(IdentifiedUser author) {
+    this.author = author;
+    getCommitBuilder().setAuthor(author.newCommitterIdent(
         getCommitBuilder().getCommitter().getWhen(),
         getCommitBuilder().getCommitter().getTimeZone()));
   }
@@ -244,6 +246,7 @@ public class MetaDataUpdate implements AutoCloseable {
   }
 
   void fireGitRefUpdatedEvent(RefUpdate ru) {
-    gitRefUpdated.fire(projectName, ru);
+    gitRefUpdated.fire(
+        projectName, ru, author == null ? null : author.getAccount());
   }
 }

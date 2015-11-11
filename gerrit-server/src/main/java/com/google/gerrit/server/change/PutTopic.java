@@ -101,8 +101,8 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     @Override
     public void updateChange(ChangeContext ctx) throws OrmException {
       change = ctx.getChange();
-      String newTopicName = Strings.nullToEmpty(input.topic);
-      String oldTopicName = Strings.nullToEmpty(change.getTopic());
+      newTopicName = Strings.nullToEmpty(input.topic);
+      oldTopicName = Strings.nullToEmpty(change.getTopic());
       if (oldTopicName.equals(newTopicName)) {
         return;
       }

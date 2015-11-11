@@ -22,7 +22,7 @@ import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
-import com.google.gerrit.client.change.RelatedChanges.SameTopicChangesHandler;
+import com.google.gerrit.client.change.RelatedChanges.RelatedChangesHandler;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.CommentInfo;
@@ -1191,10 +1191,16 @@ public class ChangeScreen extends Screen {
     permalink.setText(String.valueOf(info.legacyId()));
     topic.set(info, revision);
     commit.set(commentLinkProcessor, info, revision);
-    related.set(info, revision, new SameTopicChangesHandler() {
+    related.set(info, revision, new RelatedChangesHandler() {
       @Override
       public void onSameTopicChanges(JsArray<ChangeAndCommit> changes) {
         actions.setSameTopicChanges(changes);
+      }
+    }, new RelatedChangesHandler() {
+
+      @Override
+      public void onSameTopicChanges(JsArray<ChangeAndCommit> changes) {
+        actions.setRelatedBranchChanges(changes);
       }
     });
     reviewers.set(info);

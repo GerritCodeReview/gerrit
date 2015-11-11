@@ -23,29 +23,32 @@ import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.SubmitWholeTopic;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JsArray;
 
 class SubmitAction {
   static void call(JsArray<ChangeAndCommit> sameTopicChanges,
-      final ChangeInfo changeInfo, final RevisionInfo revisionInfo) {
-    if (!Gerrit.info().change().submitWholeTopicMode()
-        .equalsIgnoreCase("DIALOG")) {
-      call(changeInfo, revisionInfo,
-          Gerrit.info().change().isSubmitWholeTopicEnabled());
+      JsArray<ChangeAndCommit> sameBranchChanges,
+      final ChangeInfo changeInfo,
+      final RevisionInfo revisionInfo) {
+    if (Gerrit.info().change().submitWholeTopicMode() == SubmitWholeTopic.Mode.AUTO) {
+      call(changeInfo, revisionInfo, true);
       return;
     }
 
-    new SubmitDialog(changeInfo, sameTopicChanges, new SubmitDialog.Handler() {
-      @Override
-      public void onBranchSubmit() {
-        call(changeInfo, revisionInfo, false);
-      }
-      @Override
-      public void onTopicSubmit() {
-        call(changeInfo, revisionInfo, true);
-      }
-    }).center();
+    new SubmitDialog(changeInfo, sameTopicChanges, sameBranchChanges,
+        new SubmitDialog.Handler() {
+          @Override
+          public void onBranchSubmit() {
+            call(changeInfo, revisionInfo, false);
+          }
+
+          @Override
+          public void onTopicSubmit() {
+            call(changeInfo, revisionInfo, true);
+          }
+        }).center();
   }
 
   private static void call(ChangeInfo changeInfo, RevisionInfo revisionInfo,

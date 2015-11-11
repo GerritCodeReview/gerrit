@@ -23,6 +23,7 @@ import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.common.data.SubmitWholeTopic;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -65,7 +66,7 @@ public class RelatedChanges extends TabPanel {
     String tabPanel();
   }
 
-  interface SameTopicChangesHandler {
+  interface RelatedChangesHandler {
     void onSameTopicChanges(JsArray<ChangeAndCommit> changes);
   }
 
@@ -198,7 +199,8 @@ public class RelatedChanges extends TabPanel {
   }
 
   void set(final ChangeInfo info, final String revision,
-      SameTopicChangesHandler relatedChangesHandler) {
+      RelatedChangesHandler relatedChangesHandler,
+      RelatedChangesHandler relatedBranchChangesHandler) {
     if (info.status().isOpen()) {
       setForOpenChange(info, revision);
     }
@@ -236,6 +238,11 @@ public class RelatedChanges extends TabPanel {
       ChangeApi.submittedTogether(info, false,
           new RelatedChangesTabChangeListCallback(Tab.SUBMITTED_TOGETHER,
               info.project(), revision, relatedChangesHandler));
+      if (Gerrit.info().change().submitWholeTopicMode() == SubmitWholeTopic.Mode.DIALOG) {
+        ChangeApi.submittedTogether(info, true,
+            new RelatedChangesTabChangeListCallback(Tab.SUBMITTED_TOGETHER,
+                info.project(), revision, relatedBranchChangesHandler));
+      }
     }
   }
 
@@ -370,11 +377,12 @@ public class RelatedChanges extends TabPanel {
     }
   }
 
-  private class RelatedChangesTabChangeListCallback extends TabChangeListCallback {
-    private final SameTopicChangesHandler relatedChangesHandler;
+  private class RelatedChangesTabChangeListCallback
+      extends TabChangeListCallback {
+    private final RelatedChangesHandler relatedChangesHandler;
 
-    RelatedChangesTabChangeListCallback(Tab tabInfo, String project, String revision,
-        SameTopicChangesHandler relatedChangesHandler) {
+    RelatedChangesTabChangeListCallback(Tab tabInfo, String project,
+        String revision, RelatedChangesHandler relatedChangesHandler) {
       super(tabInfo, project, revision);
       this.relatedChangesHandler = relatedChangesHandler;
     }

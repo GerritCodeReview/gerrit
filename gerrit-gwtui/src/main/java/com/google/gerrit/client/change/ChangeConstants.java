@@ -56,8 +56,8 @@ interface ChangeConstants extends Constants {
 
   String submitDialogCancel();
   String submitBranchText();
-  String submitBranchTitle();
   String submitTopicText();
-  String submitTopicTitle();
-  String submitDialogHeader();
+  String submitTopicHeader();
+  String submitBranchHeader();
+  String submittedTogetherWithoutTopic();
 }

@@ -54,20 +54,22 @@ limitations under the License.
 
     #submit_dialog button.submit div {color: #fff;}
 
-    #submit_dialog div.header,
-    #submit_dialog div.footer { margin: 7px; }
-
+    #submit_dialog div.submitTopic,
+    #submit_dialog div.submitBranch {
+      margin: 7px;
+      clear: right;
+      padding-top: 7px;
+    }
   </ui:style>
 
   <g:FlowPanel>
-    <g:Label ui:field='header' styleName='{style.header}'/>
-
-    <g:FlowPanel ui:field='sameTopicChangesPanel'/>
-
-    <g:Label ui:field='footer' styleName='{style.footer}'/>
-
-    <g:Button ui:field='submitBranchButton' styleName='{style.submit}'/>
+    <g:Label ui:field='submitTopicLabel' styleName='{style.submitTopic}'/>
+    <g:FlowPanel ui:field='sameTopicPanel'/>
     <g:Button ui:field='submitTopicButton' styleName='{style.submit}'/>
-    <g:Button ui:field='cancel'/>
+
+    <g:Label ui:field='submitBranchLabel' styleName='{style.submitBranch}'/>
+    <g:FlowPanel ui:field='sameBranchPanel'/>
+    <g:Button ui:field='submitBranchButton' styleName='{style.submit}'/>
+    <g:Button ui:field='cancel' styleName=''/>
   </g:FlowPanel>
 </ui:UiBinder>

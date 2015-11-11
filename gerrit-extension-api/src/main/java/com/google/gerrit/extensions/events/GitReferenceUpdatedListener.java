@@ -14,7 +14,9 @@
 
 package com.google.gerrit.extensions.events;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.AccountInfo;
 
 /** Notified when one or more references are modified. */
 @ExtensionPoint
@@ -28,6 +30,10 @@ public interface GitReferenceUpdatedListener {
     boolean isCreate();
     boolean isDelete();
     boolean isNonFastForward();
+    /**
+     * The updater, could be null if it's the server.
+     */
+    @Nullable AccountInfo getUpdater();
   }
 
   void onGitReferenceUpdated(Event event);

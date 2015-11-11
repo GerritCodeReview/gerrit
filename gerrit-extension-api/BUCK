@@ -38,6 +38,9 @@ java_library(
 java_library(
   name = 'api',
   srcs = glob([SRC + '**/*.java']),
+  deps = [
+    '//gerrit-common:annotations',
+  ],
   provided_deps = [
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',

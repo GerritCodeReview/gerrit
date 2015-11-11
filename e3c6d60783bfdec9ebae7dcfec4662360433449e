@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_9fc71791",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 905,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": "I wonder if we need to support more options here (before it was boolean, so I guess values as 0,1, true,false are already out there in the wild.\n\nWhen parsing we could do something like\n\n    try {\n        ret \u003d Boolean.parse(config_string)\n    catch(..)\n        if config_string equals \"DIALOG\"\n          ...\n       else\n          rethrow exception",
+      "range": {
+        "startLine": 905,
+        "startChar": 2,
+        "endLine": 905,
+        "endChar": 7
+      },
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_1f0dc7bd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": ".",
+      "range": {
+        "startLine": 907,
+        "startChar": 34,
+        "endLine": 907,
+        "endChar": 35
+      },
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_7f0a0ba7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": ".",
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_3f1083d7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": "I don\u0027t mind \u0027confirmation\u0027, but it\u0027s rather a selection dialog isn\u0027t it?",
+      "range": {
+        "startLine": 915,
+        "startChar": 53,
+        "endLine": 915,
+        "endChar": 65
+      },
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9f20b72e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": "are or were?",
+      "range": {
+        "startLine": 915,
+        "startChar": 31,
+        "endLine": 915,
+        "endChar": 35
+      },
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_df1a3ffa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 915,
+        "startChar": 52,
+        "endLine": 915,
+        "endChar": 53
+      },
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_be901575",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": ".",
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_9e955965",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": "mental note:\nSo DIALOG is ON.\nI wonder if we need to make a distinction later on ON/DIALOG.",
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_ffa3bbd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": "This is defined in this very file?",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_dfa87fb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": "Mode.DIALOG, so we don\u0027t need the static import?",
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_7fb84b03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:54:39Z",
+      "side": 1,
+      "message": "Please remove the comments here.",
+      "range": {
+        "startLine": 1813,
+        "startChar": 42,
+        "endLine": 1813,
+        "endChar": 66
+      },
+      "revId": "e3c6d60783bfdec9ebae7dcfec4662360433449e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

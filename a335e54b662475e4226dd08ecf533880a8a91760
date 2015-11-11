@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_5fabcfdc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T00:42:05Z",
+      "side": 1,
+      "message": "nit: injected args should be one per line",
+      "revId": "a335e54b662475e4226dd08ecf533880a8a91760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_bf265360",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/Description.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T00:42:05Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "a335e54b662475e4226dd08ecf533880a8a91760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_9f2b972a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T00:42:05Z",
+      "side": 1,
+      "message": "nit: wrap",
+      "revId": "a335e54b662475e4226dd08ecf533880a8a91760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

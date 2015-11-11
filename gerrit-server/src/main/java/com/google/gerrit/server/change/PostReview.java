@@ -556,7 +556,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       if (!del.isEmpty() || !ups.isEmpty()) {
         if (ctx.getChange().getStatus().isClosed()) {
-          throw new ResourceConflictException("change is closed");
+          if (in.strictLabels == true) {
+            throw new ResourceConflictException("change is closed");
+          } else {
+            // Labels can't be updated, but user requested non-strict labels.
+            ups.clear();
+            del.clear();
+          }
         }
       }
       forceCallerAsReviewer(ctx, current, ups, del);

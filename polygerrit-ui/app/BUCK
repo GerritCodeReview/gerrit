@@ -1,0 +1,58 @@
+include_defs('//lib/js.defs')
+
+ENTRY = 'elements/gr-app.html'
+WEBJS = 'bower_components/webcomponentsjs/webcomponents-lite.js'
+
+genrule(
+  name = 'polygerrit_ui',
+  cmd = ';'.join([
+    'mkdir $TMP/polygerrit_ui',
+    'cd $TMP/polygerrit_ui',
+    'cp $(location :processed_index) index.html',
+    'mkdir -p {elements,bower_components/webcomponentsjs}',
+    'cp $(location :polygerrit) elements/gr-app.vulcanized.html',
+    'cp -rp $SRCDIR/* .',
+    'unzip -p $(location //lib/js:polygerrit_components) %s>%s' % (WEBJS, WEBJS),
+    'cd $TMP',
+    'zip -9qr $OUT .',
+  ]),
+  srcs = ['styles/main.css'],
+  out = 'polygerrit_ui.zip',
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'processed_index',
+  cmd = ';'.join([
+      'cd $TMP',
+      'cat $SRCS | sed "s/gr-app.html/gr-app.vulcanized.html/g" >$OUT',
+  ]),
+  srcs = ['index.html'],
+  out = 'index_processed.html',
+)
+
+vulcanize(
+  name = 'polygerrit',
+  app = ENTRY,
+  srcs = [
+    ENTRY,
+    'elements/gr-change-list.html',
+    'elements/gr-change-list-item.html',
+    'elements/gr-change-list-view.html',
+    'elements/gr-change-view.html',
+    'elements/gr-date-formatter.html',
+    'elements/gr-diff-view.html',
+    'elements/gr-file-list.html',
+    'elements/gr-message.html',
+    'elements/gr-messages-list.html',
+    'elements/gr-search-bar.html',
+    'favicon.ico',
+    'index.html',
+    'robots.txt',
+    'scripts/app.js',
+    'scripts/changes.js',
+    'scripts/util.js',
+    'styles/main.css',
+  ],
+)
+

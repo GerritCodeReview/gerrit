@@ -9,3 +9,9 @@ python_binary(
   main = 'run_npm_binary.py',
   visibility = ['PUBLIC'],
 )
+
+python_binary(
+  name = 'vulcanize',
+  main = 'vulcanize.py',
+  visibility = ['PUBLIC'],
+)

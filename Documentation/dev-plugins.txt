@@ -409,6 +409,10 @@ Publication of usage data
 +
 Garbage collection ran on a project
 
+* `com.google.gerrit.extensions.events.ChangeIndexedListener`:
++
+Update of the secondary index
+
 [[stream-events]]
 == Sending Events to the Events Stream
 

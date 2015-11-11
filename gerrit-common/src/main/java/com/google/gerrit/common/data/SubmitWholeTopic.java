@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.account;
+package com.google.gerrit.common.data;
 
-import com.google.gwt.i18n.client.Messages;
-
-public interface AccountMessages extends Messages {
-  String lines(short cnt);
-  String rowsPerPage(short cnt);
-  String changeScreenServerDefault(String d);
-  String enterIAGREE(String iagree);
+public class SubmitWholeTopic {
+  public enum Mode {
+    AUTO, DIALOG, OFF;
+  }
 }

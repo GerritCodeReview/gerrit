@@ -17,6 +17,7 @@ package com.google.gerrit.client.info;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.common.data.SubmitWholeTopic;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import java.util.HashMap;
@@ -59,15 +60,21 @@ public class ServerInfo extends JavaScriptObject {
     public final native String replyLabel() /*-{ return this.reply_label; }-*/;
     public final native String replyTooltip() /*-{ return this.reply_tooltip; }-*/;
     public final native int updateDelay() /*-{ return this.update_delay || 0; }-*/;
-    public final native String submitWholeTopicMode() /*-{
-        return this.submit_whole_topic_mode; }-*/;
+
+    public final SubmitWholeTopic.Mode submitWholeTopicMode() {
+      return SubmitWholeTopic.Mode
+          .valueOf(submitWholeTopicModeString().toUpperCase());
+    }
 
     public final boolean isSubmitWholeTopicEnabled() {
-      return !submitWholeTopicMode().equalsIgnoreCase("OFF");
+      return submitWholeTopicMode() != SubmitWholeTopic.Mode.OFF;
     }
 
     protected ChangeConfigInfo() {
     }
+
+    private final native String submitWholeTopicModeString() /*-{
+    return this.submit_whole_topic_mode; }-*/;
   }
 
   public static class PluginConfigInfo extends JavaScriptObject {

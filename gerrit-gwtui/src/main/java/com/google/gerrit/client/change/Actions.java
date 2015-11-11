@@ -58,6 +58,7 @@ class Actions extends Composite {
   @UiField Button followUp;
   private FollowUpAction followUpAction;
 
+  private JsArray<ChangeAndCommit> relatedBrancahChanges;
   private JsArray<ChangeAndCommit> relatedChanges;
   private Change.Id changeId;
   private ChangeInfo changeInfo;
@@ -153,6 +154,10 @@ class Actions extends Composite {
     this.relatedChanges = relatedChanges;
   }
 
+  void setRelatedBranchChanges(JsArray<ChangeAndCommit> changes) {
+    this.relatedBrancahChanges = changes;
+  }
+
   private void add(ActionButton b) {
     ((FlowPanel) getWidget()).add(b);
   }
@@ -198,7 +203,7 @@ class Actions extends Composite {
 
   @UiHandler("submit")
   void onSubmit(@SuppressWarnings("unused") ClickEvent e) {
-    SubmitAction.call(relatedChanges, changeInfo, changeInfo.revision(revision));
+    SubmitAction.call(relatedChanges, relatedBrancahChanges, changeInfo, changeInfo.revision(revision));
   }
 
   @UiHandler("cherrypick")

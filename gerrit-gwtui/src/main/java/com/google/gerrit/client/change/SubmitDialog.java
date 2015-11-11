@@ -35,38 +35,43 @@ class SubmitDialog extends AutoCenterDialogBox {
   interface Binder extends UiBinder<FlowPanel, SubmitDialog> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  @UiField Label header;
-  @UiField Label footer;
+  @UiField Label submitTopicLabel;
+  @UiField Label submitBranchLabel;
   @UiField Button cancel;
-  @UiField Button submitWithParents;
   @UiField Button submitWholeTopic;
-  @UiField FlowPanel sameTopicChanges;
+  @UiField Button submitWithParents;
+  @UiField FlowPanel sameTopicPanel;
+  @UiField FlowPanel sameBranchPanel;
 
   private final Handler handler;
   private final ChangeInfo changeInfo;
-  private final JsArray<ChangeAndCommit> relatedChanges;
+  private final JsArray<ChangeAndCommit> topicChanges;
+
+  private JsArray<ChangeAndCommit> brancahChanges;
 
   interface Handler {
     void onWithParentsSubmit();
     void onWithTopicSubmit();
   }
 
-  SubmitDialog(ChangeInfo changeInfo, JsArray<ChangeAndCommit> relatedChnages,
-      Handler handler) {
+  SubmitDialog(ChangeInfo changeInfo,
+      JsArray<ChangeAndCommit> topicChnages,
+      JsArray<ChangeAndCommit> relatedBrancahChanges, Handler handler) {
     super(/* auto hide */false, /* modal */true);
-    this.changeInfo = changeInfo;
-    this.relatedChanges = relatedChnages;
     this.handler = handler;
+    this.changeInfo = changeInfo;
+    this.topicChanges = topicChnages;
+    this.brancahChanges = relatedBrancahChanges;
 
     setWidget(uiBinder.createAndBindUi(this));
     getElement().setId("submit_dialog");
 
-    String wholeTopic = Util.C.submitWholeTopicText();
-    String withParents = Util.C.submitWithParentsText();
-    header.setText(Util.C.submitDialogHeader());
-    footer.getElement().setInnerSafeHtml(new SafeHtmlBuilder()
+    String submitTopic = Util.C.submitTopicText();
+    String submitBranch = Util.C.submitBranchText();
+    submitTopicLabel.setText(Util.C.submitTopicHeader());
+    submitBranchLabel.getElement().setInnerSafeHtml(new SafeHtmlBuilder()
         .openDiv()
-        .append(Util.M.submitDialogFooter(wholeTopic, withParents))
+        .append(Util.C.submitBranchHeader())
         .closeDiv());
     cancel.setHTML(new SafeHtmlBuilder()
         .openDiv()
@@ -74,14 +79,12 @@ class SubmitDialog extends AutoCenterDialogBox {
         .closeDiv());
     submitWithParents.setHTML(new SafeHtmlBuilder()
         .openDiv()
-        .append(wholeTopic)
+        .append(submitBranch)
         .closeDiv());
-    submitWithParents.setTitle(Util.C.oldSubmitTitle());
     submitWholeTopic.setHTML(new SafeHtmlBuilder()
         .openDiv()
-        .append(withParents)
+        .append(submitTopic)
         .closeDiv());
-    submitWholeTopic.setTitle(Util.C.newSubmitTitle());
   }
 
   @Override
@@ -89,13 +92,25 @@ class SubmitDialog extends AutoCenterDialogBox {
     super.center();
     GlobalKey.dialog(this);
     submitWithParents.setFocus(true);
-    RelatedChangesTab submittedTogether = new RelatedChangesTab(Tab.SUBMITTED_TOGETHER);
-    sameTopicChanges.add(submittedTogether);
-    submittedTogether.setShowBranches(true);
-    submittedTogether.setShowProjects(true);
-    submittedTogether.setShowSubmittable(true);
-    submittedTogether.setChanges(changeInfo.project(),
-        changeInfo.currentRevision(), relatedChanges);
+    RelatedChangesTab submittedTopic =
+        newRelatedChangesTab(Tab.SUBMITTED_TOGETHER);
+    sameTopicPanel.add(submittedTopic);
+    submittedTopic.setChanges(changeInfo.project(),
+        changeInfo.currentRevision(), topicChanges);
+
+    RelatedChangesTab submittedBranch =
+        newRelatedChangesTab(Tab.SUBMITTED_TOGETHER);
+    sameBranchPanel.add(submittedBranch);
+    submittedBranch.setChanges(changeInfo.project(),
+        changeInfo.currentRevision(), brancahChanges);
+  }
+
+  public RelatedChangesTab newRelatedChangesTab(Tab subject) {
+    RelatedChangesTab changes = new RelatedChangesTab(subject);
+    changes.setShowBranches(true);
+    changes.setShowProjects(true);
+    changes.setShowSubmittable(true);
+    return changes;
   }
 
   @UiHandler("submitWithParents")

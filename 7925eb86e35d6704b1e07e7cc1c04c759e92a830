@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_d5ae5ca5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-11T18:58:54Z",
+      "side": 1,
+      "message": "You should probably to a fullName on input.destination upfront permanently so that all the operations below will benefit from it.",
+      "range": {
+        "startLine": 87,
+        "startChar": 44,
+        "endLine": 87,
+        "endChar": 45
+      },
+      "revId": "7925eb86e35d6704b1e07e7cc1c04c759e92a830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_35c11055",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-11T18:58:54Z",
+      "side": 1,
+      "message": "It probably makes sense to reverse this if and avoid the else since line 167 is actually unrelated to the test.",
+      "range": {
+        "startLine": 169,
+        "startChar": 8,
+        "endLine": 169,
+        "endChar": 13
+      },
+      "revId": "7925eb86e35d6704b1e07e7cc1c04c759e92a830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

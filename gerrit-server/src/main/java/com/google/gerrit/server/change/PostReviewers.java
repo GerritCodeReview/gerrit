@@ -43,6 +43,7 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.ReviewerAdded;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -89,6 +90,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final AccountCache accountCache;
   private final ReviewerJson json;
   private final ChangeIndexer indexer;
+  private final ReviewerAdded reviewerAdded;
 
   @Inject
   PostReviewers(AccountsCollection accounts,
@@ -106,7 +108,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       ChangeHooks hooks,
       AccountCache accountCache,
       ReviewerJson json,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      ReviewerAdded reviewerAdded) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.approvalsUtil = approvalsUtil;
@@ -123,6 +126,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.accountCache = accountCache;
     this.json = json;
     this.indexer = indexer;
+    this.reviewerAdded = reviewerAdded;
   }
 
   @Override
@@ -259,6 +263,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       PatchSet patchSet = dbProvider.get().patchSets().get(rsrc.getChange().currentPatchSetId());
       for (PatchSetApproval psa : added) {
         Account account = accountCache.get(psa.getAccountId()).getAccount();
+        reviewerAdded.fire(rsrc.getChange(), patchSet, account);
         hooks.doReviewerAddedHook(rsrc.getChange(), account, patchSet, dbProvider.get());
       }
     }

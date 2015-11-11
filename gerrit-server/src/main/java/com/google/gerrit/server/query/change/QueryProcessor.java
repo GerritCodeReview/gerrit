@@ -22,7 +22,7 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.Timer;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexConfig;
@@ -122,7 +122,7 @@ public class QueryProcessor {
       List<Predicate<ChangeData>> queries)
       throws OrmException, QueryParseException {
     @SuppressWarnings("resource")
-    Timer.Context context = metrics.executionTime.start();
+    Timer0.Context context = metrics.executionTime.start();
 
     Predicate<ChangeData> visibleToMe = enforceVisibility
         ? new IsVisibleToPredicate(db, changeControlFactory, userProvider.get())
@@ -217,7 +217,7 @@ public class QueryProcessor {
 
   @Singleton
   static class Metrics {
-    final Timer executionTime;
+    final Timer0 executionTime;
 
     @Inject
     Metrics(MetricMaker metricMaker) {

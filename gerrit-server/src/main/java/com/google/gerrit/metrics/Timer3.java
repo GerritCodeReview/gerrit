@@ -26,29 +26,44 @@ import java.util.concurrent.TimeUnit;
  * Typical usage in a try-with-resources block:
  *
  * <pre>
- * try (Timer.Context ctx = timer.start()) {
+ * try (Timer3.Context ctx = timer.start(field)) {
  * }
  * </pre>
+ *
+ * @param <F1> type of the field.
+ * @param <F2> type of the field.
+ * @param <F3> type of the field.
  */
-public abstract class Timer implements RegistrationHandle {
-  public class Context implements AutoCloseable {
+public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
+  public static class Context implements AutoCloseable {
+    private final Timer3<Object, Object, Object> timer;
+    private final Object field1;
+    private final Object field2;
+    private final Object field3;
     private final long startNanos;
 
-    Context() {
+    @SuppressWarnings("unchecked")
+    <F1, F2, F3> Context(Timer3<F1, F2, F3> timer, F1 f1, F2 f2, F3 f3) {
+      this.timer = (Timer3<Object, Object, Object>) timer;
+      this.field1 = f1;
+      this.field2 = f2;
+      this.field3 = f3;
       this.startNanos = System.nanoTime();
     }
 
     @Override
     public void close() {
-      record(System.nanoTime() - startNanos, NANOSECONDS);
+      timer.record(field1, field2, field3,
+          System.nanoTime() - startNanos, NANOSECONDS);
     }
   }
 
   /** Begin a timer for the current block, value will be recorded when closed. */
-  public Context start() {
-    return new Context();
+  public Context start(F1 field1, F2 field2, F3 field3) {
+    return new Context(this, field1, field2, field3);
   }
 
   /** Record a value in the distribution. */
-  public abstract void record(long value, TimeUnit unit);
+  public abstract void record(F1 field1, F2 field2, F3 field3,
+      long value, TimeUnit unit);
 }

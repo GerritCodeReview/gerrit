@@ -55,14 +55,12 @@ class ListMetrics implements RestReadView<ConfigResource> {
     }
 
     SortedMap<String, MetricJson> out = new TreeMap<>();
-    Map<String, Metric> all = metrics.getMetricMap();
-
     List<String> prefixes = new ArrayList<>(query.size());
     for (String q : query) {
       if (q.endsWith("/")) {
         prefixes.add(q);
       } else {
-        Metric m = all.get(q);
+        Metric m = metrics.getMetric(q);
         if (m != null) {
           out.put(q, toJson(q, m));
         }
@@ -70,10 +68,9 @@ class ListMetrics implements RestReadView<ConfigResource> {
     }
 
     if (query.isEmpty() || !prefixes.isEmpty()) {
-      for (Map.Entry<String, Metric> e : all.entrySet()) {
-        String name = e.getKey();
+      for (String name : metrics.getMetricNames()) {
         if (include(prefixes, name)) {
-          out.put(name, toJson(name, e.getValue()));
+          out.put(name, toJson(name, metrics.getMetric(name)));
         }
       }
     }
@@ -82,9 +79,7 @@ class ListMetrics implements RestReadView<ConfigResource> {
   }
 
   private MetricJson toJson(String q, Metric m) {
-    return dataOnly
-        ? new MetricJson(m)
-        : new MetricJson(m, metrics.getAnnotations(q));
+    return new MetricJson(m, metrics.getAnnotations(q), dataOnly);
   }
 
   private static boolean include(List<String> prefixes, String name) {

@@ -2,6 +2,21 @@ include_defs('//lib/js.defs')
 
 ENTRY = 'elements/gr-app.html'
 
+# TODO(davdo): zip_file almost does what we want,
+# but it doesn't support prefix directory, so we need
+# to layout this manually for now
+genrule(
+  name = 'polygerrit_ui',
+  cmd = ';'.join([
+    'cd $TMP',
+    'mkdir -p $TMP/polygerrit_ui',
+    'cp $(location :polygerrit) $TMP/polygerrit_ui',
+    'zip -qr $OUT .',
+  ]),
+  out = 'polygerrit_ui.zip',
+  visibility = ['PUBLIC'],
+)
+
 vulcanize(
   name = 'polygerrit',
   app = ENTRY,

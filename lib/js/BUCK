@@ -5,6 +5,11 @@ npm_binary(
   version = '1.6.5',
 )
 
+npm_binary(
+  name = 'vulcanize',
+  version = '1.14.0',
+)
+
 bower_components(
   name = 'polygerrit_components',
   deps = [

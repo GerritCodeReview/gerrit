@@ -272,6 +272,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           .setRate()
           .setUnit("sessions"));
 
+    final Counter0 authFailures = metricMaker.newCounter(
+        "sshd/sessions/authentication-failed",
+        new Description("Rate of SSH authentication failures")
+          .setRate()
+          .setUnit("failures"));
+
     setSessionFactory(new SessionFactory() {
       @Override
       protected AbstractSession createSession(final IoSession io)
@@ -300,6 +306,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           public void operationComplete(CloseFuture future) {
             connected.decrementAndGet();
             if (sd.isAuthenticationError()) {
+              authFailures.increment();
               sshLog.onAuthFail(sd);
             }
           }

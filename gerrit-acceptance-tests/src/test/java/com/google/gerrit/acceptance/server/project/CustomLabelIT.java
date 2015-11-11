@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
+import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -127,7 +128,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     revision(r).review(new ReviewInput().label(P.getName(), 0));
     ChangeInfo c = get(r.getChangeId());
     LabelInfo q = c.labels.get(P.getName());
-    assertThat(q.all).hasSize(2);
+    assertThat(q.all).hasSize(isNoteDbTestEnabled() ? 1 : 2);
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNull();
     assertThat(q.blocking).isNull();

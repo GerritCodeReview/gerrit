@@ -8,11 +8,16 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.metrics.CallbackMetric;
 import com.google.gerrit.metrics.Counter;
+import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer;
+import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.metrics.Timer2;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
@@ -48,6 +53,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   private final MetricRegistry registry;
+  private final Map<String, Metric> bucketed = new HashMap<>();
   private final Map<String, ImmutableMap<String, String>> descriptions;
 
   @Inject
@@ -56,12 +62,16 @@ public class DropWizardMetricMaker extends MetricMaker {
     this.descriptions = new HashMap<>();
   }
 
-  Map<String, Metric> getMetricMap() {
-    return registry.getMetrics();
+  Iterable<String> getMetricNames() {
+    return descriptions.keySet();
   }
 
   /** Get the underlying metric implementation. */
   public Metric getMetric(String name) {
+    Metric m = bucketed.get(name);
+    if (m != null) {
+      return m;
+    }
     return registry.getMetrics().get(name);
   }
 
@@ -73,61 +83,85 @@ public class DropWizardMetricMaker extends MetricMaker {
   @Override
   public synchronized Counter newCounter(String name, Description desc) {
     checkArgument(!desc.isGauge(), "counters must not be gauge");
-    checkNotDefined(name);
-    descriptions.put(name, desc.getAnnotations());
+    define(name, desc);
+    return newCounterImpl(name, desc.isRate());
+  }
 
-    if (desc.isRate()) {
-      final com.codahale.metrics.Meter metric = registry.meter(name);
-      return new CounterImpl(name) {
+  @Override
+  public synchronized <F1> Counter1<F1> newCounter(String name,
+      Description desc, Field<F1> field1) {
+    checkArgument(!desc.isGauge(), "counters must not be gauge");
+    CounterImpl1<F1> m = new CounterImpl1<>(this, name, desc.isRate(), field1);
+    define(name, desc);
+    bucketed.put(name, m);
+    return m;
+  }
+
+  CounterImpl newCounterImpl(String name, boolean isRate) {
+    if (isRate) {
+      final com.codahale.metrics.Meter m = registry.meter(name);
+      return new CounterImpl(name, m) {
         @Override
         public void incrementBy(long delta) {
           checkArgument(delta >= 0, "counter delta must be >= 0");
-          metric.mark(delta);
+          m.mark(delta);
         }
       };
     } else {
-      final com.codahale.metrics.Counter metric = registry.counter(name);
-      return new CounterImpl(name) {
+      final com.codahale.metrics.Counter m = registry.counter(name);
+      return new CounterImpl(name, m) {
         @Override
         public void incrementBy(long delta) {
           checkArgument(delta >= 0, "counter delta must be >= 0");
-          metric.inc(delta);
+          m.inc(delta);
         }
       };
     }
   }
 
   @Override
-  public synchronized Timer newTimer(final String name, Description desc) {
+  public synchronized Timer newTimer(String name, Description desc) {
+    checkTimerDescription(desc);
+    define(name, desc);
+    return newTimerImpl(name);
+  }
+
+  @Override
+  public synchronized <F1> Timer1<F1> newTimer(String name, Description desc, Field<F1> field1) {
+    checkTimerDescription(desc);
+    TimerImpl1<F1> m = new TimerImpl1<>(this, name, field1);
+    define(name, desc);
+    bucketed.put(name, m);
+    return m.timer();
+  }
+
+  @Override
+  public synchronized <F1, F2> Timer2<F1, F2> newTimer(String name, Description desc,
+      Field<F1> field1, Field<F2> field2) {
+    checkTimerDescription(desc);
+    TimerImplN m = new TimerImplN(this, name, field1, field2);
+    define(name, desc);
+    bucketed.put(name, m);
+    return m.timer2();
+  }
+
+  private static void checkTimerDescription(Description desc) {
     checkArgument(!desc.isGauge(), "timer must not be a gauge");
     checkArgument(!desc.isRate(), "timer must not be a rate");
     checkArgument(desc.isCumulative(), "timer must be cumulative");
     checkArgument(desc.getTimeUnit() != null, "timer must have a unit");
-    checkNotDefined(name);
-    descriptions.put(name, desc.getAnnotations());
+  }
 
-    final com.codahale.metrics.Timer metric = registry.timer(name);
-    return new Timer() {
-      @Override
-      public void record(long value, TimeUnit unit) {
-        checkArgument(value >= 0, "timer delta must be >= 0");
-        metric.update(value, unit);
-      }
-
-      @Override
-      public void remove() {
-        descriptions.remove(name);
-        registry.remove(name);
-      }
-    };
+  TimerImpl newTimerImpl(final String name) {
+    com.codahale.metrics.Timer metric = registry.timer(name);
+    return new TimerImpl(name, metric);
   }
 
   @SuppressWarnings("unused")
   @Override
   public <V> CallbackMetric<V> newCallbackMetric(String name,
       Class<V> valueClass, Description desc) {
-    checkNotDefined(name);
-    descriptions.put(name, desc.getAnnotations());
+    define(name, desc);
     return new CallbackMetricImpl<V>(name, valueClass);
   }
 
@@ -135,7 +169,11 @@ public class DropWizardMetricMaker extends MetricMaker {
   public synchronized RegistrationHandle newTrigger(
       Set<CallbackMetric<?>> metrics, Runnable trigger) {
     for (CallbackMetric<?> m : metrics) {
-      checkNotDefined(((CallbackMetricImpl<?>) m).name);
+      CallbackMetricImpl<?> metric = (CallbackMetricImpl<?>) m;
+      if (registry.getMetrics().containsKey(metric.name)) {
+        throw new IllegalStateException(String.format(
+            "metric %s already configured", metric.name));
+      }
     }
 
     final List<String> names = new ArrayList<>(metrics.size());
@@ -155,18 +193,52 @@ public class DropWizardMetricMaker extends MetricMaker {
     };
   }
 
-  private void checkNotDefined(String name) {
-    if (registry.getNames().contains(name)) {
+  String encode(String part) {
+    return Url.encode(part);
+  }
+
+  synchronized void remove(String name) {
+    bucketed.remove(name);
+    descriptions.remove(name);
+  }
+
+  private synchronized void define(String name, Description desc) {
+    if (descriptions.containsKey(name)) {
       throw new IllegalStateException(String.format(
           "metric %s already defined", name));
     }
+    descriptions.put(name, desc.getAnnotations());
   }
 
-  private abstract class CounterImpl extends Counter {
+  abstract class CounterImpl extends Counter {
     private final String name;
+    final Metric metric;
 
-    CounterImpl(String name) {
+    CounterImpl(String name, Metric metric) {
       this.name = name;
+      this.metric = metric;
+    }
+
+    @Override
+    public void remove() {
+      descriptions.remove(name);
+      registry.remove(name);
+    }
+  }
+
+  class TimerImpl extends Timer {
+    private final String name;
+    final com.codahale.metrics.Timer metric;
+
+    private TimerImpl(String name, com.codahale.metrics.Timer metric) {
+      this.metric = metric;
+      this.name = name;
+    }
+
+    @Override
+    public void record(long value, TimeUnit unit) {
+      checkArgument(value >= 0, "timer delta must be >= 0");
+      metric.update(value, unit);
     }
 
     @Override

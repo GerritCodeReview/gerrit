@@ -46,6 +46,30 @@
       "revId": "f4745a121372d87ccbf82e78194cb6f44b98e8b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_22b06a02",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-11T05:33:05Z",
+      "side": 1,
+      "message": "Thanks.  That\u0027s obviously what I was going for; I probably got distracted mid-change. :)",
+      "parentUuid": "16feeae5_9f955765",
+      "range": {
+        "startLine": 150,
+        "startChar": 33,
+        "endLine": 150,
+        "endChar": 58
+      },
+      "revId": "f4745a121372d87ccbf82e78194cb6f44b98e8b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

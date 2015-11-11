@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.AccountInfo;
 
 /** Notified when one or more references are modified. */
 @ExtensionPoint
@@ -28,6 +29,7 @@ public interface GitReferenceUpdatedListener {
     boolean isCreate();
     boolean isDelete();
     boolean isNonFastForward();
+    AccountInfo getUpdater();
   }
 
   void onGitReferenceUpdated(Event event);

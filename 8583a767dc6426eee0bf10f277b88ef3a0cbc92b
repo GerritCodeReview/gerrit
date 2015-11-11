@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d609b2de_3ae1c1ee",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-11T10:32:54Z",
+      "side": 1,
+      "message": "1. it does: userNameToLowerCase\n2. done",
+      "parentUuid": "16feeae5_1f830773",
+      "revId": "8583a767dc6426eee0bf10f277b88ef3a0cbc92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_1eb1494f",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "d609b2de_1ade7d2c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-11T10:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_1eb1494f",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 5
+      },
+      "revId": "8583a767dc6426eee0bf10f277b88ef3a0cbc92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_7eae8dee",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2015-11-10T23:30:11Z",
       "side": 1,
       "message": "private static",
+      "revId": "8583a767dc6426eee0bf10f277b88ef3a0cbc92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d609b2de_7aeb39ce",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-11T10:32:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_7eae8dee",
       "revId": "8583a767dc6426eee0bf10f277b88ef3a0cbc92b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

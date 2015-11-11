@@ -31,6 +31,7 @@ public final class SshLogLayout extends Layout {
   private static final String P_WAIT = "queueWaitTime";
   private static final String P_EXEC = "executionTime";
   private static final String P_STATUS = "status";
+  private static final String P_AGENT = "agent";
 
   private final Calendar calendar;
   private long lastTimeMillis;
@@ -66,6 +67,7 @@ public final class SshLogLayout extends Layout {
     opt(P_WAIT, buf, event);
     opt(P_EXEC, buf, event);
     opt(P_STATUS, buf, event);
+    opt(P_AGENT, buf, event);
 
     buf.append('\n');
     return buf.toString();

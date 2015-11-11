@@ -217,7 +217,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>,
 
     private void log(final int rc) {
       if (logged.compareAndSet(false, true)) {
-        log.onExecute(cmd, rc);
+        log.onExecute(cmd, rc, ctx.getSession());
       }
     }
 

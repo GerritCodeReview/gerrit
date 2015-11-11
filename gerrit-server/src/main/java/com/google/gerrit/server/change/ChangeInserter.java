@@ -37,6 +37,8 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.extensions.events.CommentAdded;
+import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -94,6 +96,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final ExecutorService sendEmailExecutor;
   private final CommitValidators.Factory commitValidatorsFactory;
+  private final RevisionCreated revisionCreated;
+  private final CommentAdded commentAdded;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -123,6 +127,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private PatchSetInfo patchSetInfo;
   private PatchSet patchSet;
 
+
   @Inject
   ChangeInserter(ProjectControl.GenericFactory projectControlFactory,
       ChangeControl.GenericFactory changeControlFactory,
@@ -134,6 +139,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       CreateChangeSender.Factory createChangeSenderFactory,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       CommitValidators.Factory commitValidatorsFactory,
+      CommentAdded commentAdded,
+      RevisionCreated revisionCreated,
       @Assisted Change.Id changeId,
       @Assisted RevCommit commit,
       @Assisted String refName) {
@@ -147,6 +154,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.sendEmailExecutor = sendEmailExecutor;
     this.commitValidatorsFactory = commitValidatorsFactory;
+    this.revisionCreated = revisionCreated;
+    this.commentAdded = commentAdded;
 
     this.changeId = changeId;
     this.psId = new PatchSet.Id(changeId, INITIAL_PATCH_SET_ID);
@@ -397,6 +406,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
      * show a transition from an oldValue of 0 to the new value.
      */
     if (runHooks) {
+      revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId());
       ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (approvals != null && !approvals.isEmpty()) {
@@ -415,6 +425,9 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
             oldApprovals.put(entry.getKey(), (short) 0);
           }
         }
+        commentAdded.fire(change, patchSet,
+            ctx.getUser().asIdentifiedUser().getAccount(), null,
+            allApprovals, oldApprovals, ctx.getWhen());
         hooks.doCommentAddedHook(change,
             ctx.getUser().asIdentifiedUser().getAccount(), patchSet, null,
             allApprovals, oldApprovals, db);

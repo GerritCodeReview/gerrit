@@ -22,6 +22,30 @@
       "revId": "5b377677c60823fba99cee8f8b27755ed8510974",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_61f27293",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-11T18:01:22Z",
+      "side": 1,
+      "message": "After discussing in person, it\u0027s a new feature and should be done pn master.",
+      "parentUuid": "16feeae5_0293ae3f",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "5b377677c60823fba99cee8f8b27755ed8510974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

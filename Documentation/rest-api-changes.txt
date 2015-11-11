@@ -4615,6 +4615,8 @@ If `true`, attempting to use a label not granted to the user will fail
 the entire modify operation early. +
 If `false`, the operation will execute anyway, but the proposed labels
 will be modified to be the "best" value allowed by the access controls.
+This will also ignore votes on closed changes thus allowing a message to
+still be posted to the change.
 |`drafts`                 |optional|
 Draft handling that defines how draft comments are handled that are
 already in the database but that were not also described in this

@@ -16,15 +16,19 @@ package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
@@ -32,6 +36,9 @@ import com.google.gerrit.server.project.Util;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Collections;
+import java.util.EnumSet;
 
 @NoHttpd
 public class LabelTypeIT extends AbstractDaemonTest {
@@ -53,6 +60,30 @@ public class LabelTypeIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("change is closed");
     revision(r).review(ReviewInput.reject());
+  }
+
+  @Test
+  public void forceMessageOnClosedChange() throws Exception {
+    String message = "Forced message";
+    PushOneCommit.Result r = createChange();
+    merge(r);
+
+    ReviewInput ri = ReviewInput.approve().message(message);
+    ri.strictLabels = false;
+    revision(r).review(ri);
+
+    ApprovalsUtil approvalsUtil = new ApprovalsUtil(notesMigration, null);
+    for (PatchSetApproval approval : approvalsUtil.byPatchSet(db,
+        r.getChange().changeControl(), r.getPatchSetId())) {
+      assertThat(approval.getLabelId().equals(codeReview));
+      assertThat(approval.getValue() == 0);
+    }
+
+    EnumSet<ListChangesOption> options =
+        Sets.newEnumSet(Collections.singletonList(ListChangesOption.MESSAGES),
+            ListChangesOption.class);
+    ChangeInfo output = gApi.changes().id(r.getChangeId()).get(options);
+    assertThat(output.messages.contains(message));
   }
 
   @Test

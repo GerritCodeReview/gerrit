@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -262,6 +263,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ReceivePackInitializer.class);
     DynamicSet.setOf(binder(), PostReceiveHook.class);
     DynamicSet.setOf(binder(), PreUploadHook.class);
+    DynamicSet.setOf(binder(), ChangeIndexedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.setOf(binder(), ProjectDeletedListener.class);
     DynamicSet.setOf(binder(), GarbageCollectorListener.class);

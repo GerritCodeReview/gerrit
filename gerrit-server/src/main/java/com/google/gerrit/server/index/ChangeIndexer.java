@@ -20,6 +20,9 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
+import com.google.gerrit.extensions.events.ChangeIndexedListener.Event;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -93,11 +96,13 @@ public class ChangeIndexer {
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService executor;
+  private final DynamicSet<ChangeIndexedListener> indexedListener;
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
+      DynamicSet<ChangeIndexedListener> indexedListener,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
     this.executor = executor;
@@ -106,12 +111,14 @@ public class ChangeIndexer {
     this.context = context;
     this.index = index;
     this.indexes = null;
+    this.indexedListener = indexedListener;
   }
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
+      DynamicSet<ChangeIndexedListener> indexedListener,
       @Assisted ListeningExecutorService executor,
       @Assisted IndexCollection indexes) {
     this.executor = executor;
@@ -120,6 +127,7 @@ public class ChangeIndexer {
     this.context = context;
     this.index = null;
     this.indexes = indexes;
+    this.indexedListener = indexedListener;
   }
 
   /**
@@ -157,6 +165,29 @@ public class ChangeIndexer {
     for (ChangeIndex i : getWriteIndexes()) {
       i.replace(cd);
     }
+    fireIndexedEvent(cd.getId(), false);
+  }
+
+  private void fireIndexedEvent(Change.Id id, boolean removed) {
+    Event indexedEvent = createIndexedEvent(id, removed);
+    for (ChangeIndexedListener listener : indexedListener) {
+      listener.onChangeIndexed(indexedEvent);
+    }
+  }
+
+  private ChangeIndexedListener.Event createIndexedEvent(final Change.Id id,
+      final boolean removed) {
+    return new ChangeIndexedListener.Event() {
+      @Override
+      public String getChangeNumber() {
+        return Integer.toString(id.get());
+      }
+
+      @Override
+      public boolean removed() {
+        return removed;
+      }
+    };
   }
 
   /**
@@ -275,6 +306,7 @@ public class ChangeIndexer {
       for (ChangeIndex i : getWriteIndexes()) {
         i.delete(id);
       }
+      fireIndexedEvent(id, true);
       return null;
     }
   }

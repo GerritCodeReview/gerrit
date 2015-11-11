@@ -34,6 +34,11 @@ public class FileInfo extends JavaScriptObject {
   // JSNI methods cannot have 'long' as a parameter type or a return type and
   // it's suggested to use double in this case:
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html#important
+  public final long size() {
+    return (long)_size();
+  }
+  private final native double _size() /*-{ return this.size || 0; }-*/;
+
   public final long sizeDelta() {
     return (long)_sizeDelta();
   }

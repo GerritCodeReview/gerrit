@@ -36,6 +36,8 @@ public interface ChangeMessages extends Messages {
   String patchTableSize_Modify(int insertions, int deletions);
   String patchTableSize_ModifyBinaryFiles(String bytesInserted,
       String bytesDeleted);
+  String patchTableSize_ModifyBinaryFilesWithPercentages(String bytesInserted,
+      String percentageInserted, String bytesDeleted, String percentageDeleted);
   String patchTableSize_LongModify(int insertions, int deletions);
   String patchTableSize_Lines(@PluralCount int insertions);
 

@@ -64,6 +64,7 @@ public class FileInfoJson {
           ? e.getChangeType().getCode() : null;
       d.oldPath = e.getOldName();
       d.sizeDelta = e.getSizeDelta();
+      d.size = e.getSize();
       if (e.getPatchType() == Patch.PatchType.BINARY) {
         d.binary = true;
       } else {
@@ -78,6 +79,7 @@ public class FileInfoJson {
         // a single record with data from both sides.
         d.status = Patch.ChangeType.REWRITE.getCode();
         d.sizeDelta = o.sizeDelta;
+        d.size = o.size;
         if (o.binary != null && o.binary) {
           d.binary = true;
         }

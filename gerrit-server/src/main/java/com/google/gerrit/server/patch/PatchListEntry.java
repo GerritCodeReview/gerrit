@@ -51,7 +51,7 @@ public class PatchListEntry {
 
   static PatchListEntry empty(final String fileName) {
     return new PatchListEntry(ChangeType.MODIFIED, PatchType.UNIFIED, null,
-        fileName, EMPTY_HEADER, Collections.<Edit> emptyList(), 0, 0, 0);
+        fileName, EMPTY_HEADER, Collections.<Edit> emptyList(), 0, 0, 0, 0);
   }
 
   private final ChangeType changeType;
@@ -62,11 +62,13 @@ public class PatchListEntry {
   private final List<Edit> edits;
   private final int insertions;
   private final int deletions;
+  private final long size;
   private final long sizeDelta;
   // Note: When adding new fields, the serialVersionUID in PatchListKey must be
   // incremented so that entries from the cache are automatically invalidated.
 
-  PatchListEntry(FileHeader hdr, List<Edit> editList, long sizeDelta) {
+  PatchListEntry(FileHeader hdr, List<Edit> editList, long size,
+      long sizeDelta) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);
 
@@ -111,12 +113,13 @@ public class PatchListEntry {
     }
     insertions = ins;
     deletions = del;
+    this.size = size;
     this.sizeDelta = sizeDelta;
   }
 
   private PatchListEntry(ChangeType changeType, PatchType patchType,
       String oldName, String newName, byte[] header, List<Edit> edits,
-      int insertions, int deletions, long sizeDelta) {
+      int insertions, int deletions, long size, long sizeDelta) {
     this.changeType = changeType;
     this.patchType = patchType;
     this.oldName = oldName;
@@ -125,6 +128,7 @@ public class PatchListEntry {
     this.edits = edits;
     this.insertions = insertions;
     this.deletions = deletions;
+    this.size = size;
     this.sizeDelta = sizeDelta;
   }
 
@@ -172,6 +176,10 @@ public class PatchListEntry {
     return deletions;
   }
 
+  public long getSize() {
+    return size;
+  }
+
   public long getSizeDelta() {
     return sizeDelta;
   }
@@ -208,6 +216,7 @@ public class PatchListEntry {
     writeBytes(out, header);
     writeVarInt32(out, insertions);
     writeVarInt32(out, deletions);
+    writeFixInt64(out, size);
     writeFixInt64(out, sizeDelta);
 
     writeVarInt32(out, edits.size());
@@ -227,6 +236,7 @@ public class PatchListEntry {
     byte[] hdr = readBytes(in);
     int ins = readVarInt32(in);
     int del = readVarInt32(in);
+    long size = readFixInt64(in);
     long sizeDelta = readFixInt64(in);
 
     int editCount = readVarInt32(in);
@@ -240,7 +250,7 @@ public class PatchListEntry {
     }
 
     return new PatchListEntry(changeType, patchType, oldName, newName, hdr,
-        toList(editArray), ins, del, sizeDelta);
+        toList(editArray), ins, del, size, sizeDelta);
   }
 
   private static List<Edit> toList(Edit[] l) {

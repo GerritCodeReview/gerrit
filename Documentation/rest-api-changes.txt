@@ -414,35 +414,42 @@ default. Optional fields are:
           "files": {
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeCache.java": {
               "lines_deleted": 8,
-              "size_delta": -412
+              "size_delta": -412,
+              "size": 7782
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeDetailCache.java": {
               "lines_inserted": 1,
-              "size_delta": 23
+              "size_delta": 23,
+              "size": 6762
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java": {
               "lines_inserted": 11,
               "lines_deleted": 19,
-              "size_delta": -298
+              "size_delta": -298,
+              "size": 47023
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java": {
               "lines_inserted": 23,
               "lines_deleted": 20,
-              "size_delta": 132
+              "size_delta": 132,
+              "size": 17727
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java": {
               "status": "D",
               "lines_deleted": 139,
-              "size_delta": -5512
+              "size_delta": -5512,
+              "size": 13098
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarredChanges.java": {
               "status": "A",
               "lines_inserted": 204,
-              "size_delta": 8345
+              "size_delta": 8345,
+              "size": 8345
             },
             "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java": {
               "lines_deleted": 9,
-              "size_delta": -343
+              "size_delta": -343,
+              "size": 5385
             }
           }
         }
@@ -3270,12 +3277,14 @@ sorted by file path.
     "/COMMIT_MSG": {
       "status": "A",
       "lines_inserted": 7,
-      "size_delta": 551
+      "size_delta": 551,
+      "size": 551
     },
     "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": {
       "lines_inserted": 5,
       "lines_deleted": 3,
-      "size_delta": 98
+      "size_delta": 98,
+      "size": 23348
     }
   }
 ----
@@ -4218,6 +4227,8 @@ Number of deleted lines. +
 Not set for binary files or if no lines were deleted.
 |`size_delta`    ||
 Number of bytes by which the file size increased/decreased.
+|`size`          ||
+File size in bytes.
 |=============================
 
 [[fix-input]]

@@ -16,6 +16,8 @@ package com.google.gerrit.client.change;
 
 import static com.google.gerrit.client.FormatUtil.formatAbsBytes;
 import static com.google.gerrit.client.FormatUtil.formatBytes;
+import static com.google.gerrit.client.FormatUtil.formatPercentage;
+import static com.google.gerrit.client.FormatUtil.formatAbsPercentage;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
@@ -464,6 +466,7 @@ public class FileTable extends FlowPanel {
     private boolean hasNonBinaryFile;
     private int inserted;
     private int deleted;
+    private long binOldSize;
     private long bytesInserted;
     private long bytesDeleted;
 
@@ -520,6 +523,7 @@ public class FileTable extends FlowPanel {
     private void computeInsertedDeleted() {
       inserted = 0;
       deleted = 0;
+      binOldSize = 0;
       bytesInserted = 0;
       bytesDeleted = 0;
       for (int i = 0; i < list.length(); i++) {
@@ -531,6 +535,7 @@ public class FileTable extends FlowPanel {
             deleted += info.linesDeleted();
           } else {
             hasBinaryFile = true;
+            binOldSize += info.size() - info.sizeDelta();
             if (info.sizeDelta() >= 0) {
               bytesInserted += info.sizeDelta();
             } else {
@@ -771,6 +776,12 @@ public class FileTable extends FlowPanel {
         }
       } else if (info.binary()) {
         sb.append(formatBytes(info.sizeDelta()));
+        long oldSize = info.size() - info.sizeDelta();
+        if (oldSize != 0) {
+          sb.append(" (")
+            .append(formatPercentage(oldSize, info.sizeDelta()))
+            .append(")");
+        }
       }
       sb.closeTd();
     }
@@ -827,8 +838,17 @@ public class FileTable extends FlowPanel {
         if (hasNonBinaryFile) {
           sb.br();
         }
-        sb.append(Util.M.patchTableSize_ModifyBinaryFiles(
-            formatAbsBytes(bytesInserted), formatAbsBytes(bytesDeleted)));
+        if (binOldSize != 0) {
+          sb.append(Util.M.patchTableSize_ModifyBinaryFilesWithPercentages(
+              formatAbsBytes(bytesInserted),
+              formatAbsPercentage(binOldSize, bytesInserted),
+              formatAbsBytes(bytesDeleted),
+              formatAbsPercentage(binOldSize, bytesDeleted)));
+        } else {
+          sb.append(Util.M.patchTableSize_ModifyBinaryFiles(
+              formatAbsBytes(bytesInserted),
+              formatAbsBytes(bytesDeleted)));
+        }
       }
       sb.closeTh();
 

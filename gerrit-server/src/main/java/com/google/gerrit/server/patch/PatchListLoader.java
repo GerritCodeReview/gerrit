@@ -206,7 +206,7 @@ public class PatchListLoader implements Callable<PatchList> {
               getFileSize(repo, reader, e.getOldMode(), e.getOldPath(), aTree);
           long newSize =
               getFileSize(repo, reader, e.getNewMode(), e.getNewPath(), bTree);
-          entries.add(newEntry(aTree, fh, newSize - oldSize));
+          entries.add(newEntry(aTree, fh, newSize, newSize - oldSize));
         }
       }
       return new PatchList(a, b, againstParent,
@@ -301,37 +301,38 @@ public class PatchListLoader implements Callable<PatchList> {
     byte[] rawHdr = hdr.toString().getBytes(UTF_8);
     byte[] aContent = aText.getContent();
     byte[] bContent = bText.getContent();
+    long size = bContent.length;
     long sizeDelta = bContent.length - aContent.length;
     RawText aRawText = new RawText(aContent);
     RawText bRawText = new RawText(bContent);
     EditList edits = new HistogramDiff().diff(cmp, aRawText, bRawText);
     FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
-    return new PatchListEntry(fh, edits, sizeDelta);
+    return new PatchListEntry(fh, edits, size, sizeDelta);
   }
 
   private PatchListEntry newEntry(RevTree aTree, FileHeader fileHeader,
-      long sizeDelta) {
+      long size, long sizeDelta) {
     final FileMode oldMode = fileHeader.getOldMode();
     final FileMode newMode = fileHeader.getNewMode();
 
     if (oldMode == FileMode.GITLINK || newMode == FileMode.GITLINK) {
       return new PatchListEntry(fileHeader, Collections.<Edit> emptyList(),
-          sizeDelta);
+          size, sizeDelta);
     }
 
     if (aTree == null // want combined diff
         || fileHeader.getPatchType() != PatchType.UNIFIED
         || fileHeader.getHunks().isEmpty()) {
       return new PatchListEntry(fileHeader, Collections.<Edit> emptyList(),
-          sizeDelta);
+          size, sizeDelta);
     }
 
     List<Edit> edits = fileHeader.toEditList();
     if (edits.isEmpty()) {
       return new PatchListEntry(fileHeader, Collections.<Edit> emptyList(),
-          sizeDelta);
+          size, sizeDelta);
     } else {
-      return new PatchListEntry(fileHeader, edits, sizeDelta);
+      return new PatchListEntry(fileHeader, edits, size, sizeDelta);
     }
   }
 

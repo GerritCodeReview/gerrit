@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.api.changes.SubmittedTogetherInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
@@ -45,7 +46,8 @@ import java.util.EnumSet;
 import java.util.List;
 
 @Singleton
-public class SubmittedTogether implements RestReadView<ChangeResource> {
+public class SubmittedTogether
+    implements RestModifyView<ChangeResource, SubmittedTogetherInput> {
   private static final Logger log = LoggerFactory.getLogger(
       SubmittedTogether.class);
 
@@ -71,15 +73,27 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     this.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
   }
 
-  @Override
   public List<ChangeInfo> apply(ChangeResource resource)
-      throws AuthException, BadRequestException,
-      ResourceConflictException, Exception {
+      throws OrmException, IOException {
+    return apply(resource, submitWholeTopic);
+  }
+
+  @Override
+  public List<ChangeInfo> apply(ChangeResource resource, SubmittedTogetherInput input)
+      throws AuthException, BadRequestException, ResourceConflictException,
+      Exception {
+    boolean wholeTopic = input.submitWholeTopic != null ? input.submitWholeTopic
+        : submitWholeTopic;
+    return apply(resource, wholeTopic);
+  }
+
+  private List<ChangeInfo> apply(ChangeResource resource, boolean wholeTopic)
+      throws OrmException, IOException {
     try {
       Change c = resource.getChange();
       List<ChangeData> cds;
       if (c.getStatus().isOpen()) {
-        cds = getForOpenChange(c);
+        cds = getForOpenChange(c, wholeTopic);
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
         cds = getForMergedChange(c);
       } else {
@@ -104,10 +118,10 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     }
   }
 
-  private List<ChangeData> getForOpenChange(Change c)
+  private List<ChangeData> getForOpenChange(Change c, boolean wholeTopic)
       throws OrmException, IOException {
     ChangeSet cs =
-        mergeSuperSet.completeChangeSet(dbProvider.get(), c, submitWholeTopic);
+        mergeSuperSet.completeChangeSet(dbProvider.get(), c, wholeTopic);
     return cs.changes().asList();
   }
 

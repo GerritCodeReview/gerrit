@@ -32,9 +32,9 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,12 +44,21 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
-@Singleton
 public class SubmittedTogether implements RestReadView<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(
       SubmittedTogether.class);
 
-  private final boolean submitWholeTopic;
+  // workaround for three state boolean with args4j
+  // when 'branchOnly' option is not provided we would like to get
+  // the default from gerrit.config
+  enum IncludingTopicValues {
+    TRUE, FALSE;
+  }
+
+  @Option(name = "--including-topic", aliases = {"-i"}, usage = "Control submission of whole topic")
+  private IncludingTopicValues includingTopic;
+
+  private final Config cfg;
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -63,12 +72,12 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       Provider<InternalChangeQuery> queryProvider,
       MergeSuperSet mergeSuperSet,
       Provider<WalkSorter> sorter) {
+    this.cfg = cfg;
     this.json = json;
     this.dbProvider = dbProvider;
     this.queryProvider = queryProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.sorter = sorter;
-    this.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
   }
 
   @Override
@@ -106,8 +115,9 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
   private List<ChangeData> getForOpenChange(Change c)
       throws OrmException, IOException {
-    ChangeSet cs =
-        mergeSuperSet.completeChangeSet(dbProvider.get(), c, submitWholeTopic);
+    ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c,
+        includingTopic != null ? includingTopic == IncludingTopicValues.TRUE
+            : Submit.wholeTopicEnabled(cfg));
     return cs.changes().asList();
   }
 

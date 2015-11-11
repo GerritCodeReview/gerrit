@@ -1095,6 +1095,15 @@ including the current change itself.
 An empty list is returned if this change will be submitted
 by itself (no other changes).
 
+If the `including-topic` parameter is set to `true`, the service will not
+consider topic related changes. Only changes in same branch will be
+returned.
+
+.Request
+----
+  GET GET /changes/link:#change-id[\{change-id\}]/submitted_together?branch-only=true HTTP/1.0
+----
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submitted_together HTTP/1.0

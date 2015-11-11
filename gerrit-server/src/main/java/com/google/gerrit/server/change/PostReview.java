@@ -63,6 +63,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountsCollection;
+import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -112,6 +113,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
   private final ChangeHooks hooks;
+  private final CommentAdded commentAdded;
 
   @Inject
   PostReview(Provider<ReviewDb> db,
@@ -125,7 +127,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       PatchListCache patchListCache,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
-      ChangeHooks hooks) {
+      ChangeHooks hooks,
+      CommentAdded commentAdded) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
@@ -138,6 +141,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.accounts = accounts;
     this.email = email;
     this.hooks = hooks;
+    this.commentAdded = commentAdded;
   }
 
   @Override
@@ -391,6 +395,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             comments).sendAsync();
       }
       try {
+        commentAdded.fire(
+            notes.getChange(), ps, user.getAccount(), message.getMessage(),
+            approvals, oldApprovals, ctx.getWhen());
         hooks.doCommentAddedHook(notes.getChange(), user.getAccount(), ps,
             message.getMessage(), approvals, oldApprovals, ctx.getDb());
       } catch (OrmException e) {

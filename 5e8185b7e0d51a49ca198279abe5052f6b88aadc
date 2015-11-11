@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36184e2c_d5497cb5",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.5.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-11T15:04:04Z",
+      "side": 1,
+      "message": "https://code.google.com/p/gerrit/issues/detail?id\u003d3659 was fixed and should be mentioned here as well.",
+      "revId": "5e8185b7e0d51a49ca198279abe5052f6b88aadc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

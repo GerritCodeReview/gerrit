@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1447205392 -0800\nnonce AFd3BxuP8U2PsOwfdb0coERREtngyVtx5F6sNFD9dohAKwtn1PewlnfJ0FJD3CR/qUxK0Ry9QpTT\n\n0000000000000000000000000000000000000000 fd84a7b26dc5196dc5561dcced908e80be66eb29 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWQpoQAAoJEGt7+xNJsB0bvQ8IAKOA/5072nQ+ynRtwsx2RuBE\niepbcDzfy6wlBkkIGhsKWix0eyxcMzSd5Sd54GYALCJmSXv4VTZMDXF6OF6osWID\niX9PmO88D5mUXP9V1c4HyrVJFu0vE9XVLXaq/t+KMh0qSSV/qjcvTJNWHmspi7qG\n4A9R7gCRemLiYvLGk/82g9pxlayHKRlbtK+a0l5A81z5GQ+qIEQwYlk2/p67gO+D\nMjHSCvB7g93PwMdYSmyKL8C9KkRkqbfAz8wCVIJkf8ENrcOEENPX4YCcvBCP+PMj\nT4yFgBRuYqrOgyDZF9KFo9XhXcHkstMEhBxeGMa/d5DopwvB01yXWuu2LxprgDM\u003d\n\u003d6PWy\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b1ff356_142294e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T20:08:20Z",
+      "side": 1,
+      "message": "Should this be named \u0027publishDraftCommentsOnPush\u0027?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "fd84a7b26dc5196dc5561dcced908e80be66eb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_351d90a2",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T20:08:20Z",
+      "side": 1,
+      "message": "publishDraftCommentsOnPush?",
+      "range": {
+        "startLine": 159,
+        "startChar": 20,
+        "endLine": 159,
+        "endChar": 39
+      },
+      "revId": "fd84a7b26dc5196dc5561dcced908e80be66eb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

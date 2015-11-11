@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3b203791_55048c2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/DisabledMetricMaker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T21:00:40Z",
+      "side": 1,
+      "message": "nit: missing blank line before this import",
+      "revId": "e1c08ab82b1abb7e50a62b026769a508123ae997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b1ff356_5476cce5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/DisabledMetricMaker.java",
         "patchSetId": 1

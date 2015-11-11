@@ -18,9 +18,12 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.metrics.CallbackMetric;
 import com.google.gerrit.metrics.Counter;
+import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer;
+import com.google.gerrit.metrics.Timer1;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -46,8 +49,24 @@ class PluginMetricMaker extends MetricMaker implements LifecycleListener {
   }
 
   @Override
+  public <F1> Counter1<F1> newCounter(String name, Description desc,
+      Field<F1> field1) {
+    Counter1<F1> m = root.newCounter(prefix + name, desc, field1);
+    cleanup.add(m);
+    return m;
+  }
+
+  @Override
   public Timer newTimer(String name, Description desc) {
     Timer m = root.newTimer(prefix + name, desc);
+    cleanup.add(m);
+    return m;
+  }
+
+  @Override
+  public <F1> Timer1<F1> newTimer(String name, Description desc,
+      Field<F1> field1) {
+    Timer1<F1> m = root.newTimer(prefix + name, desc, field1);
     cleanup.add(m);
     return m;
   }

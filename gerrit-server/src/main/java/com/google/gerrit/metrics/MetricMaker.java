@@ -24,9 +24,13 @@ import java.util.Set;
 public abstract class MetricMaker {
   /** Metric whose value increments during the life of the process. */
   public abstract Counter newCounter(String name, Description desc);
+  public abstract <F1> Counter1<F1> newCounter(String name, Description desc,
+      Field<F1> field);
 
   /** Metric recording time spent on an operation. */
   public abstract Timer newTimer(String name, Description desc);
+  public abstract <F1> Timer1<F1> newTimer(String name, Description desc,
+      Field<F1> field);
 
   /**
    * Instantaneous reading of a value.

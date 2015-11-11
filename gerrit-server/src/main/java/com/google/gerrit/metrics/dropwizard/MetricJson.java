@@ -14,8 +14,10 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Gauge;
@@ -23,6 +25,11 @@ import com.codahale.metrics.Meter;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.Snapshot;
 import com.codahale.metrics.Timer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 class MetricJson {
   String description;
@@ -50,8 +57,11 @@ class MetricJson {
   Long max;
   Double std_dev;
 
+  List<FieldJson> fields;
+  Map<String, MetricJson> buckets;
+
   MetricJson(Metric metric, ImmutableMap<String, String> atts) {
-    this(metric);
+    init(metric);
     description = atts.get(Description.DESCRIPTION);
     unit = atts.get(Description.UNIT);
     rate = toBool(atts, Description.RATE);
@@ -60,7 +70,24 @@ class MetricJson {
   }
 
   MetricJson(Metric metric) {
-    if (metric instanceof Counter) {
+    init(metric);
+  }
+
+  private void init(Metric metric) {
+    if (metric instanceof BucketedMetric) {
+      BucketedMetric m = (BucketedMetric) metric;
+      if (m.getTotal() != null) {
+        init(m.getTotal());
+      }
+
+      Field<?>[] fieldList = m.getFields();
+      fields = new ArrayList<>(fieldList.length);
+      for (Field<?> f : fieldList) {
+        fields.add(new FieldJson(f));
+      }
+      buckets = makeBuckets(fieldList[0], m.getMetrics());
+
+    } else if (metric instanceof Counter) {
       Counter c = (Counter) metric;
       count = c.getCount();
 
@@ -98,5 +125,39 @@ class MetricJson {
 
   private static Boolean toBool(ImmutableMap<String, String> atts, String key) {
     return Description.TRUE_VALUE.equals(atts.get(key)) ? true : null;
+  }
+
+  @SuppressWarnings("unchecked")
+  private static Map<String, MetricJson> makeBuckets(
+      Field<?> field,
+      Map<?, Metric> metrics) {
+    return makeBucketsHelper(
+        (Field<Object>) field,
+        (Map<Object, Metric>) metrics);
+  }
+
+  private static <F1> Map<String, MetricJson> makeBucketsHelper(
+      Field<F1> field,
+      Map<F1, Metric> metrics) {
+    Function<F1, String> fmt = field.formatter();
+    Map<String, MetricJson> out = new TreeMap<>();
+    for (Map.Entry<F1, Metric> e : metrics.entrySet()) {
+      out.put(
+          fmt.apply(e.getKey()),
+          new MetricJson(e.getValue()));
+    }
+    return out;
+  }
+
+  static class FieldJson {
+    String name;
+    String type;
+
+    FieldJson(Field<?> field) {
+      this.name = field.getName();
+      this.type = Enum.class.isAssignableFrom(field.getType())
+          ? field.getType().getSimpleName()
+          : null;
+    }
   }
 }

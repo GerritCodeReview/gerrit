@@ -125,8 +125,8 @@ public class MetaDataUpdate implements AutoCloseable {
     public MetaDataUpdate create(Project.NameKey name, Repository repository,
         IdentifiedUser user, BatchRefUpdate batch) {
       MetaDataUpdate md = factory.create(name, repository, batch);
-      md.getCommitBuilder().setAuthor(createPersonIdent(user));
       md.getCommitBuilder().setCommitter(serverIdent);
+      md.setAuthor(user);
       return md;
     }
 
@@ -176,6 +176,7 @@ public class MetaDataUpdate implements AutoCloseable {
   private final CommitBuilder commit;
   private boolean allowEmpty;
   private boolean insertChangeId;
+  private IdentifiedUser author;
 
   @AssistedInject
   public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
@@ -198,8 +199,9 @@ public class MetaDataUpdate implements AutoCloseable {
     getCommitBuilder().setMessage(message);
   }
 
-  public void setAuthor(IdentifiedUser user) {
-    getCommitBuilder().setAuthor(user.newCommitterIdent(
+  public void setAuthor(IdentifiedUser author) {
+    this.author = author;
+    getCommitBuilder().setAuthor(author.newCommitterIdent(
         getCommitBuilder().getCommitter().getWhen(),
         getCommitBuilder().getCommitter().getTimeZone()));
   }
@@ -244,6 +246,7 @@ public class MetaDataUpdate implements AutoCloseable {
   }
 
   void fireGitRefUpdatedEvent(RefUpdate ru) {
-    gitRefUpdated.fire(projectName, ru);
+    gitRefUpdated.fire(
+        projectName, ru, author == null ? null : author.getAccount());
   }
 }

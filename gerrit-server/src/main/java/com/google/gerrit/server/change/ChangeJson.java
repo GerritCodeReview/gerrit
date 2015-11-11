@@ -754,11 +754,17 @@ public class ChangeJson {
 
   private ApprovalInfo approvalInfo(Account.Id id, Integer value, String tag,
       Timestamp date) {
+    ApprovalInfo ai = getApprovalInfo(id, value, tag, date);
+    accountLoader.put(ai);
+    return ai;
+  }
+
+  public static ApprovalInfo getApprovalInfo(
+      Account.Id id, Integer value, String tag, Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
     ai.date = date;
     ai.tag = tag;
-    accountLoader.put(ai);
     return ai;
   }
 
@@ -921,6 +927,15 @@ public class ChangeJson {
       map.put(patchSet.getId(), patchSet);
     }
     return map;
+  }
+
+  public RevisionInfo getRevisionInfo(ChangeControl ctl, PatchSet in)
+      throws PatchListNotAvailableException, GpgException, OrmException,
+      IOException {
+    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+    RevisionInfo rev = toRevisionInfo(ctl, in);
+    accountLoader.fill();
+    return rev;
   }
 
   private RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in)

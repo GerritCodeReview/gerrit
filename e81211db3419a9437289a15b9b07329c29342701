@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16feeae5_fffe1bd2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4670,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:39:01Z",
+      "side": 1,
+      "message": "So the way I assume this would depend on Gerrit.info().change().isSubmitWholeTopicEnabled().",
+      "range": {
+        "startLine": 4670,
+        "startChar": 0,
+        "endLine": 4670,
+        "endChar": 19
+      },
+      "revId": "e81211db3419a9437289a15b9b07329c29342701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_3ebec5f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-11T01:39:01Z",
+      "side": 1,
+      "message": "So this comes directly from the server config, but we need to query it depending on the submit type (whether the user will set submitWholeTopic in the submission request, so I guess we want to query this with both true/false eventually for the dialog?",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 58
+      },
+      "revId": "e81211db3419a9437289a15b9b07329c29342701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

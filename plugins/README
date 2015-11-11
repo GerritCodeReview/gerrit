@@ -1,11 +1,3 @@
-If you are adding a directory here:
-
-- Search all pom.xml files for "CORE PLUGIN LIST".
-- Add the new plugin to that location.
-- (optional) Thank the Maven developers for making this easy.
-
-- Ensure the plugin's pom.xml <version> is the same as Gerrit's
-  own pom.xml(s). Gerrit will only embed a plugin that has the
-  same version as itself.
-
-- Register the plugin as a submodule with git submodule.
+Adding a new plug-in? See Documentation/dev-plugins.html
+for more information about setting up and building a new
+plug-in.

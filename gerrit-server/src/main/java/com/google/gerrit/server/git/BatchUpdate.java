@@ -295,7 +295,7 @@ public class BatchUpdate implements AutoCloseable {
         // Fire ref update events only after all mutations are finished, since
         // callers may assume a patch set ref being created means the change was
         // created, or a branch advancing meaning some changes were closed.
-        gitRefUpdated.fire(project, batchRefUpdate);
+        gitRefUpdated.fire(project, batchRefUpdate, user.getAccountId());
       }
 
       executePostOps();

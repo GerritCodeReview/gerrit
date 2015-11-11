@@ -35,6 +35,7 @@ import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.PatchSetInserter;
@@ -142,5 +143,8 @@ public class BatchProgramModule extends FactoryModule {
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(ProjectState.Factory.class);
+
+    bind(ChangeJson.Factory.class).toProvider(
+        Providers.<ChangeJson.Factory>of(null));
   }
 }

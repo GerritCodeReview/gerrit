@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.MergeSuperSet;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -33,6 +34,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +49,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(
       SubmittedTogether.class);
 
+  private final boolean submitWholeTopic;
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -54,7 +57,8 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private final Provider<WalkSorter> sorter;
 
   @Inject
-  SubmittedTogether(ChangeJson.Factory json,
+  SubmittedTogether(@GerritServerConfig Config cfg,
+      ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
       Provider<InternalChangeQuery> queryProvider,
       MergeSuperSet mergeSuperSet,
@@ -64,6 +68,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     this.queryProvider = queryProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.sorter = sorter;
+    this.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
   }
 
   @Override
@@ -101,7 +106,8 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
   private List<ChangeData> getForOpenChange(Change c)
       throws OrmException, IOException {
-    ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c);
+    ChangeSet cs =
+        mergeSuperSet.completeChangeSet(dbProvider.get(), c, submitWholeTopic);
     return cs.changes().asList();
   }
 

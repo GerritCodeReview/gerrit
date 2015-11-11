@@ -184,7 +184,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     try {
       ReviewDb db = dbProvider.get();
-      mergeOpProvider.get().merge(db, change, caller, true);
+      mergeOpProvider.get().merge(db, change, caller, true, input.submitWholeTopic);
       change = db.changes().get(change.getId());
     } catch (NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);
@@ -304,7 +304,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     ChangeSet cs;
     try {
-      cs = mergeSuperSet.completeChangeSet(db, cd.change());
+      cs = mergeSuperSet.completeChangeSet(db, cd.change(), submitWholeTopic);
     } catch (OrmException | IOException e) {
       throw new OrmRuntimeException("Could not determine complete set of " +
           "changes to be submitted", e);

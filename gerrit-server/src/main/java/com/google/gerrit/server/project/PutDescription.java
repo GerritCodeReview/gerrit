@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -46,15 +47,18 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
   private final MetaDataUpdate.Server updateFactory;
   private final GitRepositoryManager gitMgr;
   private final ChangeHooks hooks;
+  private final GitReferenceUpdated gitRefUpdated;
 
   @Inject
   PutDescription(ProjectCache cache,
       MetaDataUpdate.Server updateFactory,
       ChangeHooks hooks,
+      GitReferenceUpdated gitRefUpdated,
       GitRepositoryManager gitMgr) {
     this.cache = cache;
     this.updateFactory = updateFactory;
     this.hooks = hooks;
+    this.gitRefUpdated = gitRefUpdated;
     this.gitMgr = gitMgr;
   }
 
@@ -91,6 +95,8 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
         ObjectId commitRev = config.commit(md);
         // Only fire hook if project was actually changed.
         if (!Objects.equals(baseRev, commitRev)) {
+          gitRefUpdated.fire(resource.getNameKey(), RefNames.REFS_CONFIG,
+              baseRev, commitRev);
           hooks.doRefUpdatedHook(
             new Branch.NameKey(resource.getNameKey(), RefNames.REFS_CONFIG),
             baseRev, commitRev, user.getAccount());

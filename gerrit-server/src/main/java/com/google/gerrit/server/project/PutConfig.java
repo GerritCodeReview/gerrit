@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -89,6 +90,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> user;
   private final ChangeHooks hooks;
+  private final GitReferenceUpdated gitRefUpdated;
 
   @Inject
   PutConfig(@EnableSignedPush boolean serverEnableSignedPush,
@@ -102,6 +104,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       AllProjectsNameProvider allProjects,
       DynamicMap<RestView<ProjectResource>> views,
       ChangeHooks hooks,
+      GitReferenceUpdated gitRefUpdated,
       Provider<CurrentUser> user) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -114,6 +117,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     this.allProjects = allProjects;
     this.views = views;
     this.hooks = hooks;
+    this.gitRefUpdated = gitRefUpdated;
     this.user = user;
   }
 
@@ -199,6 +203,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         ObjectId commitRev = projectConfig.commit(md);
         // Only fire hook if project was actually changed.
         if (!Objects.equals(baseRev, commitRev)) {
+          gitRefUpdated.fire(projectName, RefNames.REFS_CONFIG,
+              baseRev, commitRev);
           hooks.doRefUpdatedHook(
             new Branch.NameKey(projectName, RefNames.REFS_CONFIG),
             baseRev, commitRev, user.get().asIdentifiedUser().getAccount());

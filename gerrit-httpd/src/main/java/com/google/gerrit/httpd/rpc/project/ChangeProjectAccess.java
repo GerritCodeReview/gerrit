@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -52,6 +53,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   }
 
   private final ChangeHooks hooks;
+  private final GitReferenceUpdated gitRefUpdated;
   private final IdentifiedUser user;
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final ProjectCache projectCache;
@@ -63,7 +65,9 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       MetaDataUpdate.User metaDataUpdateFactory,
       AllProjectsNameProvider allProjects,
       Provider<SetParent> setParent,
-      ChangeHooks hooks, IdentifiedUser user,
+      ChangeHooks hooks,
+      GitReferenceUpdated gitRefUpdated,
+      IdentifiedUser user,
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
@@ -75,6 +79,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
     this.projectAccessFactory = projectAccessFactory;
     this.projectCache = projectCache;
     this.hooks = hooks;
+    this.gitRefUpdated = gitRefUpdated;
     this.user = user;
   }
 
@@ -84,6 +89,8 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       throws IOException, NoSuchProjectException, ConfigInvalidException {
     RevCommit commit = config.commit(md);
 
+    gitRefUpdated.fire(config.getProject().getNameKey(), RefNames.REFS_CONFIG,
+        base, commit.getId());
     hooks.doRefUpdatedHook(
       new Branch.NameKey(config.getProject().getNameKey(), RefNames.REFS_CONFIG),
       base, commit.getId(), user.getAccount());

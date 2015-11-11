@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b1ff356_5476cce5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/DisabledMetricMaker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T20:56:02Z",
+      "side": 1,
+      "message": "Internal Google stuff?",
+      "range": {
+        "startLine": 21,
+        "startChar": 46,
+        "endLine": 21,
+        "endChar": 55
+      },
+      "revId": "e1c08ab82b1abb7e50a62b026769a508123ae997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_15e5f4cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/DisabledMetricMaker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T20:56:02Z",
+      "side": 1,
+      "message": "nit: wrap.  also below.",
+      "revId": "e1c08ab82b1abb7e50a62b026769a508123ae997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,17 +15,64 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EventUtil {
 
+  private final ChangeData.Factory changeDataFactory;
+  private final Provider<ReviewDb> db;
+  private final ChangeJson changeJson;
   private final AccountCache accountCache;
 
   @Inject
-  EventUtil(AccountCache accountCache) {
+  EventUtil(ChangeJson.Factory changeJsonFactory,
+      ChangeData.Factory changeDataFactory,
+      Provider<ReviewDb> db,
+      AccountCache accountCache) {
+    this.changeDataFactory = changeDataFactory;
+    this.db = db;
+    this.changeJson = changeJsonFactory.create(ChangeJson.NO_OPTIONS);
     this.accountCache = accountCache;
+  }
+
+  public ChangeInfo changeInfo(Change change) throws OrmException {
+    return changeJson.format(change);
+  }
+
+  public RevisionInfo revisionInfo(Project project, PatchSet ps)
+      throws OrmException, PatchListNotAvailableException, GpgException,
+             IOException {
+    return revisionInfo(project.getNameKey(), ps);
+  }
+
+  public RevisionInfo revisionInfo(Project.NameKey project, PatchSet ps)
+      throws OrmException, PatchListNotAvailableException, GpgException,
+             IOException {
+    ChangeData cd = changeDataFactory.create(db.get(),
+        project, ps.getId().getParentKey());
+    ChangeControl ctl = cd.changeControl();
+    return changeJson.getRevisionInfo(ctl, ps);
   }
 
   public AccountInfo accountInfo(Account a) {
@@ -41,5 +88,16 @@ public class EventUtil {
 
   public AccountInfo accountInfo(Account.Id accountId) {
     return accountInfo(accountCache.get(accountId).getAccount());
+  }
+
+  public Map<String, ApprovalInfo> approvals(Account a,
+      Map<String, Short> approvals, Timestamp ts) {
+    Map<String, ApprovalInfo> result = new HashMap<>();
+    for (Map.Entry<String, Short> e : approvals.entrySet()) {
+      Integer value = e.getValue() != null ? new Integer(e.getValue()) : null;
+      result.put(e.getKey(),
+          ChangeJson.getApprovalInfo(a.getId(), value, null, ts));
+    }
+    return result;
   }
 }

@@ -47,14 +47,17 @@ public class RequestContextFilter implements Filter {
   private final Provider<RequestCleanup> cleanup;
   private final Provider<HttpRequestContext> requestContext;
   private final ThreadLocalRequestContext local;
+  private final RequestMetrics metrics;
 
   @Inject
   RequestContextFilter(final Provider<RequestCleanup> r,
       final Provider<HttpRequestContext> c,
-      final ThreadLocalRequestContext l) {
+      final ThreadLocalRequestContext l,
+      RequestMetrics m) {
     cleanup = r;
     requestContext = c;
     local = l;
+    metrics = m;
   }
 
   @Override
@@ -70,6 +73,7 @@ public class RequestContextFilter implements Filter {
       final ServletResponse response, final FilterChain chain)
       throws IOException, ServletException {
     RequestContext old = local.setContext(requestContext.get());
+    metrics.attachToRequest(request);
     try {
       try {
         chain.doFilter(request, response);

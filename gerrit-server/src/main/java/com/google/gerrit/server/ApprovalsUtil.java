@@ -15,6 +15,8 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
@@ -44,7 +46,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.notedb.ReviewerState;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -114,10 +116,10 @@ public class ApprovalsUtil {
    * @param notes change notes.
    * @return multimap of reviewers keyed by state, where each account appears
    *     exactly once in {@link SetMultimap#values()}, and
-   *     {@link ReviewerState#REMOVED} is not present.
+   *     {@link ReviewerStateInternal#REMOVED} is not present.
    * @throws OrmException if reviewers for the change could not be read.
    */
-  public ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers(
+  public ImmutableSetMultimap<ReviewerStateInternal, Account.Id> getReviewers(
       ReviewDb db, ChangeNotes notes) throws OrmException {
     if (!migration.readChanges()) {
       return getReviewers(db.patchSetApprovals().byChange(notes.getChangeId()));
@@ -132,9 +134,9 @@ public class ApprovalsUtil {
    *     change.
    * @return multimap of reviewers keyed by state, where each account appears
    *     exactly once in {@link SetMultimap#values()}, and
-   *     {@link ReviewerState#REMOVED} is not present.
+   *     {@link ReviewerStateInternal#REMOVED} is not present.
    */
-  public ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers(
+  public ImmutableSetMultimap<ReviewerStateInternal, Account.Id> getReviewers(
       ChangeNotes notes, Iterable<PatchSetApproval> allApprovals)
       throws OrmException {
     if (!migration.readChanges()) {
@@ -143,10 +145,10 @@ public class ApprovalsUtil {
     return notes.load().getReviewers();
   }
 
-  private static ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers(
+  private static ImmutableSetMultimap<ReviewerStateInternal, Account.Id> getReviewers(
       Iterable<PatchSetApproval> allApprovals) {
     PatchSetApproval first = null;
-    SetMultimap<ReviewerState, Account.Id> reviewers =
+    SetMultimap<ReviewerStateInternal, Account.Id> reviewers =
         LinkedHashMultimap.create();
     for (PatchSetApproval psa : allApprovals) {
       if (first == null) {
@@ -159,10 +161,10 @@ public class ApprovalsUtil {
       }
       Account.Id id = psa.getAccountId();
       if (psa.getValue() != 0) {
-        reviewers.put(ReviewerState.REVIEWER, id);
-        reviewers.remove(ReviewerState.CC, id);
-      } else if (!reviewers.containsEntry(ReviewerState.REVIEWER, id)) {
-        reviewers.put(ReviewerState.CC, id);
+        reviewers.put(REVIEWER, id);
+        reviewers.remove(CC, id);
+      } else if (!reviewers.containsEntry(REVIEWER, id)) {
+        reviewers.put(CC, id);
       }
     }
     return ImmutableSetMultimap.copyOf(reviewers);
@@ -215,7 +217,7 @@ public class ApprovalsUtil {
       cells.add(new PatchSetApproval(
           new PatchSetApproval.Key(psId, account, labelId),
           (short) 0, TimeUtil.nowTs()));
-      update.putReviewer(account, ReviewerState.REVIEWER);
+      update.putReviewer(account, REVIEWER);
     }
     db.patchSetApprovals().insert(cells);
     return Collections.unmodifiableList(cells);

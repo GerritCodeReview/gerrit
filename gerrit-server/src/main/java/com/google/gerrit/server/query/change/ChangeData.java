@@ -45,7 +45,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.notedb.ReviewerState;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -707,7 +707,7 @@ public class ChangeData {
     return allApprovals;
   }
 
-  public SetMultimap<ReviewerState, Account.Id> reviewers()
+  public SetMultimap<ReviewerStateInternal, Account.Id> reviewers()
       throws OrmException {
     return approvalsUtil.getReviewers(notes(), approvals().values());
   }

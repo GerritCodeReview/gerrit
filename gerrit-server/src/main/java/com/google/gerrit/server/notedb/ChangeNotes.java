@@ -116,7 +116,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private final Change change;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
-  private ImmutableSetMultimap<ReviewerState, Account.Id> reviewers;
+  private ImmutableSetMultimap<ReviewerStateInternal, Account.Id> reviewers;
   private ImmutableList<Account.Id> allPastReviewers;
   private ImmutableList<SubmitRecord> submitRecords;
   private ImmutableList<ChangeMessage> allChangeMessages;
@@ -144,7 +144,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return approvals;
   }
 
-  public ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers() {
+  public ImmutableSetMultimap<ReviewerStateInternal, Account.Id> getReviewers() {
     return reviewers;
   }
 
@@ -270,9 +270,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       } else {
         hashtags = ImmutableSet.of();
       }
-      ImmutableSetMultimap.Builder<ReviewerState, Account.Id> reviewers =
+      ImmutableSetMultimap.Builder<ReviewerStateInternal, Account.Id> reviewers =
           ImmutableSetMultimap.builder();
-      for (Map.Entry<Account.Id, ReviewerState> e
+      for (Map.Entry<Account.Id, ReviewerStateInternal> e
           : parser.reviewers.entrySet()) {
         reviewers.put(e.getValue(), e.getKey());
       }

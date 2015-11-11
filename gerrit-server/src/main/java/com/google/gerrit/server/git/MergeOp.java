@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Optional;
@@ -61,7 +62,6 @@ import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -1053,7 +1053,7 @@ public class MergeOp {
 
     logDebug("Add approval for " + cd + " from user " + user);
     ChangeUpdate update = updateFactory.create(control, timestamp);
-    update.putReviewer(user.getAccountId(), ReviewerState.REVIEWER);
+    update.putReviewer(user.getAccountId(), REVIEWER);
     List<SubmitRecord> record = records.get(cd.change().getId());
     if (record != null) {
       update.merge(record);

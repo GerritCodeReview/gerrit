@@ -71,7 +71,7 @@ import java.util.Map;
 import java.util.Set;
 
 class ChangeNotesParser implements AutoCloseable {
-  final Map<Account.Id, ReviewerState> reviewers;
+  final Map<Account.Id, ReviewerStateInternal> reviewers;
   final List<Account.Id> allPastReviewers;
   final List<SubmitRecord> submitRecords;
   final Multimap<RevId, PatchLineComment> comments;
@@ -168,7 +168,7 @@ class ChangeNotesParser implements AutoCloseable {
       parseApproval(psId, accountId, commit, line);
     }
 
-    for (ReviewerState state : ReviewerState.values()) {
+    for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
       for (String line : commit.getFooterLines(state.getFooterKey())) {
         parseReviewer(state, line);
       }
@@ -394,7 +394,7 @@ class ChangeNotesParser implements AutoCloseable {
       GERRIT_PLACEHOLDER_HOST, email);
   }
 
-  private void parseReviewer(ReviewerState state, String line)
+  private void parseReviewer(ReviewerStateInternal state, String line)
       throws ConfigInvalidException {
     PersonIdent ident = RawParseUtils.parsePersonIdent(line);
     if (ident == null) {
@@ -407,11 +407,11 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void pruneReviewers() {
-    Iterator<Map.Entry<Account.Id, ReviewerState>> rit =
+    Iterator<Map.Entry<Account.Id, ReviewerStateInternal>> rit =
         reviewers.entrySet().iterator();
     while (rit.hasNext()) {
-      Map.Entry<Account.Id, ReviewerState> e = rit.next();
-      if (e.getValue() == ReviewerState.REMOVED) {
+      Map.Entry<Account.Id, ReviewerStateInternal> e = rit.next();
+      if (e.getValue() == ReviewerStateInternal.REMOVED) {
         rit.remove();
         for (Table<Account.Id, ?, ?> curr : approvals.values()) {
           curr.rowKeySet().remove(e.getKey());

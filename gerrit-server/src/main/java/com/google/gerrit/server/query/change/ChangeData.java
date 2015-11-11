@@ -21,6 +21,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -808,10 +809,7 @@ public class ChangeData {
           events.add(ReviewedByEvent.create(msg));
         }
       }
-      for (PatchSet ps : patchSets()) {
-        events.add(ReviewedByEvent.create(ps));
-      }
-      Collections.sort(events, Collections.reverseOrder());
+      events = Lists.reverse(events);
       reviewedBy = new LinkedHashSet<>();
       Account.Id owner = c.getOwner();
       for (ReviewedByEvent event : events) {
@@ -829,12 +827,7 @@ public class ChangeData {
   }
 
   @AutoValue
-  abstract static class ReviewedByEvent implements Comparable<ReviewedByEvent> {
-    private static ReviewedByEvent create(PatchSet ps) {
-      return new AutoValue_ChangeData_ReviewedByEvent(
-          ps.getUploader(), ps.getCreatedOn());
-    }
-
+  abstract static class ReviewedByEvent {
     private static ReviewedByEvent create(ChangeMessage msg) {
       return new AutoValue_ChangeData_ReviewedByEvent(
           msg.getAuthor(), msg.getWrittenOn());
@@ -842,11 +835,6 @@ public class ChangeData {
 
     public abstract Account.Id author();
     public abstract Timestamp ts();
-
-    @Override
-    public int compareTo(ReviewedByEvent other) {
-      return ts().compareTo(other.ts());
-    }
   }
 
   @Override

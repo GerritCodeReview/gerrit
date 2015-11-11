@@ -23,10 +23,28 @@ import java.util.Set;
 /** Factory to create metrics for monitoring. */
 public abstract class MetricMaker {
   /** Metric whose value increments during the life of the process. */
-  public abstract Counter newCounter(String name, Description desc);
+  public abstract Counter0 newCounter(String name, Description desc);
+  public abstract <F1> Counter1<F1> newCounter(
+      String name, Description desc,
+      Field<F1> field1);
+  public abstract <F1, F2> Counter2<F1, F2> newCounter(
+      String name, Description desc,
+      Field<F1> field1, Field<F2> field2);
+  public abstract <F1, F2, F3> Counter3<F1, F2, F3> newCounter(
+      String name, Description desc,
+      Field<F1> field1, Field<F2> field2, Field<F3> field3);
 
   /** Metric recording time spent on an operation. */
-  public abstract Timer newTimer(String name, Description desc);
+  public abstract Timer0 newTimer(String name, Description desc);
+  public abstract <F1> Timer1<F1> newTimer(
+      String name, Description desc,
+      Field<F1> field1);
+  public abstract <F1, F2> Timer2<F1, F2> newTimer(
+      String name, Description desc,
+      Field<F1> field1, Field<F2> field2);
+  public abstract <F1, F2, F3> Timer3<F1, F2, F3> newTimer(
+      String name, Description desc,
+      Field<F1> field1, Field<F2> field2, Field<F3> field3);
 
   /**
    * Instantaneous reading of a value.
@@ -50,7 +68,7 @@ public abstract class MetricMaker {
    */
   public <V> void newCallbackMetric(String name,
       Class<V> valueClass, Description desc, final Supplier<V> trigger) {
-    final CallbackMetric<V> metric = newCallbackMetric(name, valueClass, desc);
+    final CallbackMetric0<V> metric = newCallbackMetric(name, valueClass, desc);
     newTrigger(metric, new Runnable() {
       @Override
       public void run() {
@@ -59,9 +77,9 @@ public abstract class MetricMaker {
     });
   }
 
-  /** Instantaneous reading of a particular value. */
-  public abstract <V> CallbackMetric<V> newCallbackMetric(String name,
-      Class<V> valueClass, Description desc);
+  /** Instantaneous reading of a single value. */
+  public abstract <V> CallbackMetric0<V> newCallbackMetric(
+      String name, Class<V> valueClass, Description desc);
 
   /** Connect logic to populate a previously created {@link CallbackMetric}. */
   public RegistrationHandle newTrigger(CallbackMetric<?> metric1, Runnable trigger) {

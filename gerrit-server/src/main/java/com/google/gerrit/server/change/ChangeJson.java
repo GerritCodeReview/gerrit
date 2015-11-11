@@ -741,11 +741,17 @@ public class ChangeJson {
 
   private ApprovalInfo approvalInfo(Account.Id id, Integer value, String tag,
       Timestamp date) {
+    ApprovalInfo ai = getApprovalInfo(id, value, tag, date);
+    accountLoader.put(ai);
+    return ai;
+  }
+
+  public static ApprovalInfo getApprovalInfo(Account.Id id, Integer value,
+      String tag, Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
     ai.date = date;
     ai.tag = tag;
-    accountLoader.put(ai);
     return ai;
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b1ff356_14c6146d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLogLayout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-11T19:08:05Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "e1910eb44aa9f5109df182ef46f944ba0cb48e4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

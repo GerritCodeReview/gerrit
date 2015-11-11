@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_759e687a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4670,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-11T18:45:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16feeae5_fffe1bd2",
+      "range": {
+        "startLine": 4670,
+        "startChar": 0,
+        "endLine": 4670,
+        "endChar": 19
+      },
+      "revId": "e81211db3419a9437289a15b9b07329c29342701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_3ebec5f1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-11T01:39:01Z",
       "side": 1,
       "message": "So this comes directly from the server config, but we need to query it depending on the submit type (whether the user will set submitWholeTopic in the submission request, so I guess we want to query this with both true/false eventually for the dialog?",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 58
+      },
+      "revId": "e81211db3419a9437289a15b9b07329c29342701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_749e687a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-11T18:45:30Z",
+      "side": 1,
+      "message": "yes, we can do that in a separate change that will add second table to the dialog",
+      "parentUuid": "f6f876fc_3ebec5f1",
       "range": {
         "startLine": 71,
         "startChar": 28,

@@ -266,7 +266,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           }
         });
 
-    final Counter0 sesssionsCreated = metricMaker.newCounter(
+    final Counter0 sessionsCreated = metricMaker.newCounter(
         "sshd/sessions/created",
         new Description("Rate of new SSH sessions")
           .setRate()
@@ -283,7 +283,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       protected AbstractSession createSession(final IoSession io)
           throws Exception {
         connected.incrementAndGet();
-        sesssionsCreated.increment();
+        sessionsCreated.increment();
         if (io instanceof MinaSession) {
           if (((MinaSession) io).getSession()
               .getConfig() instanceof SocketSessionConfig) {

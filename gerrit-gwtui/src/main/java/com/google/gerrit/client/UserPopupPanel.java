@@ -55,7 +55,7 @@ public class UserPopupPanel extends PopupPanel {
         switchAccount.setHref(Gerrit.getConfig().getSwitchAccountUrl());
       } else if (Gerrit.getConfig().getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT
           || Gerrit.getConfig().getAuthType() == AuthType.OPENID) {
-        switchAccount.setHref(Gerrit.selfRedirect("/login/"));
+        switchAccount.setHref(Gerrit.selfRedirect("/login"));
       } else {
         switchAccount.removeFromParent();
         switchAccount = null;

@@ -714,7 +714,7 @@ public class ChangeJson {
     return labels;
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, Integer value, Timestamp date) {
+  public ApprovalInfo approvalInfo(Account.Id id, Integer value, Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
     ai.date = date;
@@ -870,7 +870,7 @@ public class ChangeJson {
     return map;
   }
 
-  private RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in)
+  public RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in)
       throws PatchListNotAvailableException, GpgException, OrmException,
       IOException {
     Change c = ctl.getChange();

@@ -370,7 +370,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
         Result result = ru.update();
         switch (result) {
           case NEW:
-            referenceUpdated.fire(project, ru, ReceiveCommand.Type.CREATE);
+            referenceUpdated.fire(project, ru, ReceiveCommand.Type.CREATE,
+                currentUser.get().getAccountId());
             break;
           default: {
             throw new IOException(String.format(

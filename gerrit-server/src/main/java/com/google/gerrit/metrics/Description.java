@@ -63,7 +63,7 @@ public class Description {
   /**
    * Indicates the metric may be usefully interpreted as a count over short
    * periods of time, such as request arrival rate. May only be applied to a
-   * {@link Counter}.
+   * {@link Counter0}.
    */
   public Description setRate() {
     annotations.put(RATE, TRUE_VALUE);
@@ -81,7 +81,7 @@ public class Description {
 
   /**
    * Indicates the metric accumulates over the lifespan of the process. A
-   * {@link Counter} like total requests handled accumulates over the process
+   * {@link Counter0} like total requests handled accumulates over the process
    * and should be {@code setCumulative()}.
    */
   public Description setCumulative() {
@@ -111,9 +111,12 @@ public class Description {
    * @throws IllegalStateException if the unit is not a valid unit of time.
    */
   public TimeUnit getTimeUnit() {
-    String unit = annotations.get(UNIT);
+    return getTimeUnit(annotations.get(UNIT));
+  }
+
+  public static TimeUnit getTimeUnit(String unit) {
     if (unit == null) {
-      throw new IllegalStateException("no unit configured");
+      throw new IllegalArgumentException("no unit configured");
     } else if (Units.NANOSECONDS.equals(unit)) {
       return TimeUnit.NANOSECONDS;
     } else if (Units.MICROSECONDS.equals(unit)) {
@@ -123,7 +126,7 @@ public class Description {
     } else if (Units.SECONDS.equals(unit)) {
       return TimeUnit.SECONDS;
     } else {
-      throw new IllegalStateException(String.format(
+      throw new IllegalArgumentException(String.format(
           "unit %s not TimeUnit", unit));
     }
   }

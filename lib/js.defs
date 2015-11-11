@@ -15,6 +15,9 @@
 NPMJS = 'NPMJS'
 GERRIT = 'GERRIT'
 
+# NOTE: npm_binary rules do not get their licenses checked by gen_licenses.py,
+# as we would have to cut too many edges. DO NOT include these binaries in
+# build outputs. Using them in the build _process_ is ok.
 def npm_binary(
     name,
     version,
@@ -38,7 +41,6 @@ def npm_binary(
     name = name,
     cmd = ' '.join(cmd),
     out = dest,
-    license = 'DO_NOT_DISTRIBUTE',
     visibility = visibility,
   )
 
@@ -84,5 +86,34 @@ def bower_components(
     name = name,
     cmd = ' && '.join(cmds),
     out = '%s.bower_components.zip' % name,
+    visibility = visibility,
+  )
+
+
+VULCANIZE_FLAGS = [
+  '--inline-scripts',
+  '--inline-css',
+  '--strip-comments',
+]
+
+def vulcanize(
+    name,
+    app,
+    srcs,
+    components,
+    extra_flags = [],
+    visibility = ['PUBLIC']):
+  genrule(
+    name = name,
+    cmd = ' '.join([
+      'unzip', '-qd', '$SRCDIR',
+    ] + ['$(location %s)' % c for c in components] + [
+      '&&', run_npm_binary('//lib/js:vulcanize')
+    ] + VULCANIZE_FLAGS + extra_flags + [
+      '--out-html', '$OUT',
+      '$SRCDIR/%s' % app,
+    ]),
+    srcs = srcs,
+    out = '%s.html' % name,
     visibility = visibility,
   )

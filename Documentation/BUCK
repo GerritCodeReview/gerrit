@@ -6,7 +6,7 @@ include_defs('//tools/git.defs')
 DOC_DIR = 'Documentation'
 
 JSUI_JAVA_DEPS = ['//gerrit-gwtui:ui_module']
-JSUI_NON_JAVA_DEPS = ['//polygerrit-ui:polygerrit_components']
+JSUI_NON_JAVA_DEPS = ['//polygerrit-ui/app:polygerrit_ui']
 MAIN_JAVA_DEPS = ['//gerrit-pgm:pgm']
 SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
 

@@ -21,6 +21,13 @@ npm_binary(
   sha1 = '59d457122a161e42cc1625bbab8179c214b7ac11',
 )
 
+npm_binary(
+  name = 'vulcanize',
+  version = '1.14.0',
+  sha1 = '91eac280d031b5bbcafb5f86bb6ed30515fa2564',
+  repository = GERRIT,
+)
+
 # bower_components are listed without transitive dependencies; the whole
 # flattened dependency tree needs to be included in
 # //polygerrit-ui:polygerrit_components.

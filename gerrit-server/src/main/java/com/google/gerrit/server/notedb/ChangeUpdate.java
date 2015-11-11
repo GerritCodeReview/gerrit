@@ -165,7 +165,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setStatus(Change.Status status) {
     checkArgument(status != Change.Status.MERGED,
-        "use submit(Iterable<PatchSetApproval>)");
+        "use merge(Iterable<SubmitRecord>)");
     this.status = status;
   }
 

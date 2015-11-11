@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "3b203791_1514d48c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T19:28:55Z",
+      "side": 1,
+      "message": "As discussed offline, we now return a map of ReviewerState to Collection\u003cAccountInfo\u003e.",
+      "parentUuid": "16feeae5_42649625",
+      "revId": "262de2296fa300585fadc94b4b99dea1925aebd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_618432ef",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "f6f876fc_01f8ce6d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T19:28:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_618432ef",
+      "revId": "262de2296fa300585fadc94b4b99dea1925aebd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_a1747adb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -48,6 +84,24 @@
       "writtenOn": "2015-11-11T17:49:22Z",
       "side": 1,
       "message": "Optional: use FluentIterable:\n\n return FluentIterable.from(accounts)\n     .transform(new Function\u003cAccount.Id, AccountInfo\u003e() {...})\n     .toSortedList(new Comparator\u003cAccountInfo\u003e() {...}));",
+      "revId": "262de2296fa300585fadc94b4b99dea1925aebd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_e2b322c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-11T19:28:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6f876fc_a1747adb",
       "revId": "262de2296fa300585fadc94b4b99dea1925aebd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

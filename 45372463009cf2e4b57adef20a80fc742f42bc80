@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_f5127870",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/DisabledMetricMaker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T21:02:19Z",
+      "side": 1,
+      "message": "missing blank line before import",
+      "revId": "45372463009cf2e4b57adef20a80fc742f42bc80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_15fe145a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/DisabledMetricMaker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T21:02:19Z",
+      "side": 1,
+      "message": "wrap?",
+      "revId": "45372463009cf2e4b57adef20a80fc742f42bc80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,9 +15,9 @@
 package com.google.gerrit.client.change;
 
 import static com.google.gerrit.client.FormatUtil.formatAbsBytes;
+import static com.google.gerrit.client.FormatUtil.formatAbsPercentage;
 import static com.google.gerrit.client.FormatUtil.formatBytes;
 import static com.google.gerrit.client.FormatUtil.formatPercentage;
-import static com.google.gerrit.client.FormatUtil.formatAbsPercentage;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;

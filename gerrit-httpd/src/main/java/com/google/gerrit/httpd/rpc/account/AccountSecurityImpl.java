@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.extensions.events.AgreementSignup;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -58,6 +59,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final ChangeHooks hooks;
   private final GroupCache groupCache;
   private final AuditService auditService;
+  private final AgreementSignup agreementSignup;
 
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
@@ -68,7 +70,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
       final ChangeHooks hooks, final GroupCache groupCache,
-      final AuditService auditService) {
+      final AuditService auditService,
+      AgreementSignup agreementSignup) {
     super(schema, currentUser);
     realm = r;
     user = u;
@@ -80,6 +83,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.hooks = hooks;
     this.groupCache = groupCache;
+    this.agreementSignup = agreementSignup;
   }
 
   @Override
@@ -153,6 +157,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         }
 
         Account account = user.get().getAccount();
+        agreementSignup.fire(account, ca.getName());
         hooks.doClaSignupHook(account, ca.getName());
 
         final AccountGroupMember.Key key =

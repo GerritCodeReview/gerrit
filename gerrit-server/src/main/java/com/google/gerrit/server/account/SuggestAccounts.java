@@ -15,8 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -24,6 +22,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -33,7 +32,6 @@ import org.kohsuke.args4j.Option;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -140,15 +138,7 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
     }
 
     List<AccountInfo> m = new ArrayList<>(matches.values());
-    Collections.sort(m, new Comparator<AccountInfo>() {
-      @Override
-      public int compare(AccountInfo a, AccountInfo b) {
-        return ComparisonChain.start()
-          .compare(a.name, b.name, Ordering.natural().nullsLast())
-          .compare(a.email, b.email, Ordering.natural().nullsLast())
-          .result();
-      }
-    });
+    Collections.sort(m, AccountInfoComparator.nullsLast());
     return m;
   }
 

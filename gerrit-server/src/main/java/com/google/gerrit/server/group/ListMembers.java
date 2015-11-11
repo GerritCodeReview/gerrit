@@ -14,10 +14,8 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -30,13 +28,13 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory;
+import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -82,15 +80,7 @@ public class ListMembers implements RestReadView<GroupResource> {
     final Map<Account.Id, AccountInfo> members =
         getMembers(groupId, new HashSet<AccountGroup.UUID>());
     final List<AccountInfo> memberInfos = Lists.newArrayList(members.values());
-    Collections.sort(memberInfos, new Comparator<AccountInfo>() {
-      @Override
-      public int compare(AccountInfo a, AccountInfo b) {
-        return ComparisonChain.start()
-            .compare(a.name, b.name, Ordering.natural().nullsFirst())
-            .compare(a.email, b.email, Ordering.natural().nullsFirst())
-            .compare(a._accountId, b._accountId, Ordering.natural().nullsFirst()).result();
-      }
-    });
+    Collections.sort(memberInfos, AccountInfoComparator.nullsFirst());
     return memberInfos;
   }
 

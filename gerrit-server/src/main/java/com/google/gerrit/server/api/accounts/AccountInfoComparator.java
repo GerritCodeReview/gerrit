@@ -1,0 +1,56 @@
+// Copyright (C) 2015 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.api.accounts;
+
+import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
+import com.google.gerrit.extensions.common.AccountInfo;
+
+import java.util.Comparator;
+
+public class AccountInfoComparator extends Ordering<AccountInfo>
+    implements Comparator<AccountInfo> {
+  public static AccountInfoComparator ORDER_NULLS_FIRST =
+      new AccountInfoComparator();
+  public static AccountInfoComparator ORDER_NULLS_LAST =
+      new AccountInfoComparator().setNullsLast();
+
+  private boolean nullsLast;
+
+  private AccountInfoComparator() {
+  }
+
+  private AccountInfoComparator setNullsLast() {
+    this.nullsLast = true;
+    return this;
+  }
+
+  @Override
+  public int compare(AccountInfo a, AccountInfo b) {
+    return ComparisonChain.start()
+        .compare(a.name, b.name, createOrdering())
+        .compare(a.email, b.email, createOrdering())
+        .compare(a._accountId, b._accountId, createOrdering())
+        .result();
+  }
+
+  private <S extends Comparable<?>> Ordering<S> createOrdering() {
+    if (nullsLast) {
+      return Ordering.natural().nullsLast();
+    } else {
+      return Ordering.natural().nullsFirst();
+    }
+  }
+}

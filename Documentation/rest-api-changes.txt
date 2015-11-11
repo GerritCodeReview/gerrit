@@ -209,8 +209,8 @@ default. Optional fields are:
 --
 * `DETAILED_LABELS`: detailed label information, including numeric
   values of all existing approvals, recognized label values, values
-  permitted to be set by the current user, and reviewers that may be
-  removed by the current user.
+  permitted to be set by the current user, all reviewers by state, and
+  reviewers that may be removed by the current user.
 --
 
 [[current-revision]]
@@ -641,6 +641,16 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
         "username": "jroe"
       }
     ],
+    "reviewers": {
+      "REVIEWER": [
+        {
+          "_account_id": 1000096
+        },
+        {
+          "_account_id": 1000097
+        }
+      ]
+    },
     "messages": [
       {
         "id": "YH-egE",
@@ -1204,6 +1214,13 @@ The list consists of:
         "_account_id": 1000000
       }
     ],
+    "reviewers": {
+      "REVIEWER": [
+        {
+          "_account_id": 1000000
+        }
+      ]
+    },
     "current_revision": "9adb9f4c7b40eeee0646e235de818d09164d7379",
     "revisions": {
       "9adb9f4c7b40eeee0646e235de818d09164d7379": {
@@ -1315,6 +1332,13 @@ The list consists of:
         "_account_id": 1000000
       }
     ],
+    "reviewers": {
+      "REVIEWER": [
+        {
+          "_account_id": 1000000
+        }
+      ]
+    },
     "current_revision": "1bd7c12a38854a2c6de426feec28800623f492c4",
     "revisions": {
       "1bd7c12a38854a2c6de426feec28800623f492c4": {
@@ -2447,6 +2471,16 @@ for the current patch set.
         "email": "jane.roe@example.com"
       }
     ],
+    "reviewers": {
+      "REVIEWER": [
+        {
+          "_account_id": 1000096
+        },
+        {
+          "_account_id": 1000097
+        }
+      ]
+    },
     "current_revision": "674ac754f91e64a0efb8087e59a176484bd534d1",
     "revisions": {
       "674ac754f91e64a0efb8087e59a176484bd534d1": {
@@ -3883,6 +3917,15 @@ Only set if link:#detailed-labels[detailed labels] are requested.
 |`removable_reviewers`|optional|
 The reviewers that can be removed by the calling user as a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities. +
+Only set if link:#detailed-labels[detailed labels] are requested.
+|`reviewers`          ||
+The reviewers as a map that maps a reviewer state to a list of
+link:rest-api-accounts.html#account-info[AccountInfo] entities.
+Possible reviewer states are `REVIEWER`, `CC` and `REMOVED`. +
+`REVIEWER`: Users with at least one non-zero vote on the change. +
+`CC`: Users that were added to the change, but have not voted. +
+`REMOVED`: Users that were previously reviewers on the change, but have
+been removed. +
 Only set if link:#detailed-labels[detailed labels] are requested.
 |`messages`|optional|
 Messages associated with the change as a list of

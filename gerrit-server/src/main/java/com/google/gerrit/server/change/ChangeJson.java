@@ -40,6 +40,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
@@ -48,6 +49,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
@@ -94,6 +96,7 @@ import com.google.gerrit.server.api.accounts.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -118,9 +121,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -437,6 +443,13 @@ public class ChangeJson {
         out.permittedLabels = permittedLabels(ctl, cd);
       }
       out.removableReviewers = removableReviewers(ctl, out.labels.values());
+
+      out.reviewers = new HashMap<>();
+      for (Entry<ReviewerStateInternal, Collection<Account.Id>> e
+          : cd.reviewers().asMap().entrySet()) {
+        out.reviewers.put(e.getKey().asReviewerState(),
+            toAccountInfo(e.getValue()));
+      }
     }
 
     boolean needMessages = has(MESSAGES);
@@ -826,6 +839,27 @@ public class ChangeJson {
       result.add(accountLoader.get(id));
     }
     return result;
+  }
+
+  private Collection<AccountInfo> toAccountInfo(
+      Collection<Account.Id> accounts) {
+    return FluentIterable.from(accounts)
+        .transform(new Function<Account.Id, AccountInfo>() {
+          @Override
+          public AccountInfo apply(Account.Id id) {
+            return accountLoader.get(id);
+          }
+        })
+        .toSortedList(new Comparator<AccountInfo>() {
+          @Override
+          public int compare(AccountInfo a, AccountInfo b) {
+            return ComparisonChain.start()
+                .compare(a.name, b.name, Ordering.natural().nullsFirst())
+                .compare(a.email, b.email, Ordering.natural().nullsFirst())
+                .compare(a._accountId, b._accountId,
+                    Ordering.natural().nullsFirst()).result();
+          }
+        });
   }
 
   private Map<String, RevisionInfo> revisions(ChangeControl ctl,

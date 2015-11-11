@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.ReviewerState;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -48,6 +49,7 @@ public class ChangeInfo {
   public Map<String, LabelInfo> labels;
   public Map<String, Collection<String>> permittedLabels;
   public Collection<AccountInfo> removableReviewers;
+  public Map<ReviewerState, Collection<AccountInfo>> reviewers;
   public Collection<ChangeMessageInfo> messages;
 
   public String currentRevision;

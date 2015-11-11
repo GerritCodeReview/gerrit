@@ -20,7 +20,7 @@ import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.notedb.ReviewerState;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -56,10 +56,10 @@ public class MailUtil {
   }
 
   public static MailRecipients getRecipientsFromReviewers(
-      Multimap<ReviewerState, Account.Id> reviewers) {
+      Multimap<ReviewerStateInternal, Account.Id> reviewers) {
     MailRecipients recipients = new MailRecipients();
-    recipients.reviewers.addAll(reviewers.get(ReviewerState.REVIEWER));
-    recipients.cc.addAll(reviewers.get(ReviewerState.CC));
+    recipients.reviewers.addAll(reviewers.get(ReviewerStateInternal.REVIEWER));
+    recipients.cc.addAll(reviewers.get(ReviewerStateInternal.CC));
     return recipients;
   }
 

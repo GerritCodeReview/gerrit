@@ -14,26 +14,34 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.gerrit.extensions.client.ReviewerState;
+
 import org.eclipse.jgit.revwalk.FooterKey;
 
 /** State of a reviewer on a change. */
-public enum ReviewerState {
+public enum ReviewerStateInternal {
   /** The user has contributed at least one nonzero vote on the change. */
-  REVIEWER(new FooterKey("Reviewer")),
+  REVIEWER(new FooterKey("Reviewer"), ReviewerState.REVIEWER),
 
   /** The reviewer was added to the change, but has not voted. */
-  CC(new FooterKey("CC")),
+  CC(new FooterKey("CC"), ReviewerState.CC),
 
   /** The user was previously a reviewer on the change, but was removed. */
-  REMOVED(new FooterKey("Removed"));
+  REMOVED(new FooterKey("Removed"), ReviewerState.REMOVED);
 
   private final FooterKey footerKey;
+  private final ReviewerState state;
 
-  private ReviewerState(FooterKey footerKey) {
+  private ReviewerStateInternal(FooterKey footerKey, ReviewerState state) {
     this.footerKey = footerKey;
+    this.state = state;
   }
 
   FooterKey getFooterKey() {
     return footerKey;
+  }
+
+  public ReviewerState asReviewerState() {
+    return state;
   }
 }

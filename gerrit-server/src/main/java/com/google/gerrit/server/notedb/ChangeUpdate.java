@@ -86,7 +86,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private final AccountCache accountCache;
   private final Map<String, Optional<Short>> approvals;
-  private final Map<Account.Id, ReviewerState> reviewers;
+  private final Map<Account.Id, ReviewerStateInternal> reviewers;
   private Change.Status status;
   private String subject;
   private List<SubmitRecord> submitRecords;
@@ -320,13 +320,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.hashtags = hashtags;
   }
 
-  public void putReviewer(Account.Id reviewer, ReviewerState type) {
-    checkArgument(type != ReviewerState.REMOVED, "invalid ReviewerType");
+  public void putReviewer(Account.Id reviewer, ReviewerStateInternal type) {
+    checkArgument(type != ReviewerStateInternal.REMOVED, "invalid ReviewerType");
     reviewers.put(reviewer, type);
   }
 
   public void removeReviewer(Account.Id reviewer) {
-    reviewers.put(reviewer, ReviewerState.REMOVED);
+    reviewers.put(reviewer, ReviewerStateInternal.REMOVED);
   }
 
   /** @return the tree id for the updated tree */
@@ -422,7 +422,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_HASHTAGS, Joiner.on(",").join(hashtags));
     }
 
-    for (Map.Entry<Account.Id, ReviewerState> e : reviewers.entrySet()) {
+    for (Map.Entry<Account.Id, ReviewerStateInternal> e : reviewers.entrySet()) {
       Account account = accountCache.get(e.getKey()).getAccount();
       PersonIdent ident = newIdent(account, when);
       addFooter(msg, e.getValue().getFooterKey())

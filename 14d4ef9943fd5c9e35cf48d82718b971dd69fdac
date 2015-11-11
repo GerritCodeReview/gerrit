@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f876fc_81bdfedc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommentAdded.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T02:15:54Z",
+      "side": 1,
+      "message": "2015",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16feeae5_3f6c034e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/DraftPublished.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T02:15:54Z",
+      "side": 1,
+      "message": "Missing license/copyright header.",
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6f876fc_61ba72e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-11T02:15:54Z",
+      "side": 1,
+      "message": "is this the correct import?",
+      "range": {
+        "startLine": 105,
+        "startChar": 32,
+        "endLine": 105,
+        "endChar": 63
+      },
+      "revId": "14d4ef9943fd5c9e35cf48d82718b971dd69fdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

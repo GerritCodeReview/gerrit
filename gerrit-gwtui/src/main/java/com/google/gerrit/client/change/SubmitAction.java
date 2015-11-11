@@ -29,10 +29,8 @@ import com.google.gwt.core.client.JsArray;
 class SubmitAction {
   static void call(JsArray<ChangeAndCommit> sameTopicChanges,
       final ChangeInfo changeInfo, final RevisionInfo revisionInfo) {
-    if (!Gerrit.info().change().submitWholeTopicMode()
-        .equalsIgnoreCase("DIALOG")) {
-      call(changeInfo, revisionInfo,
-          Gerrit.info().change().isSubmitWholeTopicEnabled());
+    if (!Gerrit.info().change().isSubmitWholeTopicEnabled()) {
+      call(changeInfo, revisionInfo, true);
       return;
     }
 

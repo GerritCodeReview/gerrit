@@ -195,6 +195,13 @@ public class ChangeApi {
     call(id, commit, "submit").post(in, cb);
   }
 
+  public static void submittedTogether(ChangeInfo info, boolean submitWholeTopic,
+      AsyncCallback<ChangeList> cb) {
+    SubmittedTogetherInput input = SubmittedTogetherInput.create();
+    input.submitWholeTopic(submitWholeTopic);
+    change(info.legacyId().get()).view("submitted_together").post(input, cb);
+  }
+
   /** Publish a specific revision of a draft change. */
   public static void publish(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
@@ -294,6 +301,17 @@ public class ChangeApi {
     }
 
     protected SubmitInput() {
+    }
+  }
+
+  private static class SubmittedTogetherInput extends JavaScriptObject {
+    final native void submitWholeTopic(boolean b) /*-{ this.submit_whole_topic=b; }-*/;
+
+    static SubmittedTogetherInput create() {
+      return (SubmittedTogetherInput) createObject();
+    }
+
+    protected SubmittedTogetherInput() {
     }
   }
 

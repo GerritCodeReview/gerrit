@@ -1085,7 +1085,7 @@ message is contained in the response body.
 [[submitted_together]]
 === Changes submitted together
 --
-'GET /changes/link:#change-id[\{change-id\}]/submitted_together'
+'POST /changes/link:#change-id[\{change-id\}]/submitted_together'
 --
 
 Returns a list of all changes which are submitted when
@@ -1097,8 +1097,12 @@ by itself (no other changes).
 
 .Request
 ----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submitted_together HTTP/1.0
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submitted_together HTTP/1.0
   Content-Type: application/json; charset=UTF-8
+  
+  {
+    "submit_whole_topic": true
+  }
 ----
 
 The return value is a list of changes in the same format as in
@@ -4664,6 +4668,21 @@ The `SubmitInput` entity contains information for submitting a change.
 |Field Name      ||Description
 |`wait_for_merge`|Deprecated, always `true`|
 Whether the request should wait for the merge to complete.
+|`submit_whole_topic`|optional|
+When set to `true` changes in the same topic will be also sbmitted,
+otherwise only this change with its parents will be submitted.
+Default value is `true` when link:config-gerrit.html#change.submitWholeTopic[change.submitWholeTopic]
+is set to `AUTO`.
+|===========================
+
+[[submitted-together-input]]
+=== SubmitInput
+The `SubmittedTogetherInput` entity contains information for obrating
+list of that will be subbmitted for given submit mode.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
 |`submit_whole_topic`|optional|
 When set to `true` changes in the same topic will be also sbmitted,
 otherwise only this change with its parents will be submitted.

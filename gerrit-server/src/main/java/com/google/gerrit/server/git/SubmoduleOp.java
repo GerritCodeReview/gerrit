@@ -330,7 +330,7 @@ public class SubmoduleOp {
       switch (rfu.update()) {
         case NEW:
         case FAST_FORWARD:
-          gitRefUpdated.fire(subscriber.getParentKey(), rfu);
+          gitRefUpdated.fire(subscriber.getParentKey(), rfu, account);
           changeHooks.doRefUpdatedHook(subscriber, rfu, account);
           // TODO since this is performed "in the background" no mail will be
           // sent to inform users about the updated branch

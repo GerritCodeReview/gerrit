@@ -26,6 +26,7 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -326,8 +327,8 @@ public class BatchUpdate implements AutoCloseable {
     return o;
   }
 
-  static void execute(Collection<BatchUpdate> updates, Listener listener)
-      throws UpdateException, RestApiException {
+  static void execute(Collection<BatchUpdate> updates, Listener listener,
+      Account.Id account) throws UpdateException, RestApiException {
     if (updates.isEmpty()) {
       return;
     }
@@ -378,7 +379,7 @@ public class BatchUpdate implements AutoCloseable {
           // callers may assume a patch set ref being created means the change
           // was created, or a branch advancing meaning some changes were
           // closed.
-          u.gitRefUpdated.fire(u.project, u.batchRefUpdate);
+          u.gitRefUpdated.fire(u.project, u.batchRefUpdate, account);
         }
       }
 
@@ -538,7 +539,7 @@ public class BatchUpdate implements AutoCloseable {
 
   public void execute(Listener listener)
       throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), listener);
+    execute(ImmutableList.of(this), listener, user.getAccountId());
   }
 
   private void executeUpdateRepo() throws UpdateException, RestApiException {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -261,7 +262,10 @@ public class NotesBranchUtil {
         throw new IOException("Couldn't update " + notesBranch + ". "
             + result.name());
       } else {
-        gitRefUpdated.fire(project, refUpdate);
+        AccountInfo gerrit = new AccountInfo(null);
+        gerrit.name = gerritIdent.getName();
+        gerrit.email = gerritIdent.getEmailAddress();
+        gitRefUpdated.fire(project, refUpdate, gerrit);
         break;
       }
     }

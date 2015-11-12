@@ -18,6 +18,7 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
+var crisper = require('gulp-crisper');
 var runSequence = require('run-sequence');
 var merge = require('merge-stream');
 var path = require('path');
@@ -65,18 +66,18 @@ var optimizeHtmlTask = function (src, dest) {
     .pipe($.if('*.html', $.replace('elements/gr-app.html', 'elements/gr-app.vulcanized.html')))
     .pipe(assets)
     // Concatenate and minify JavaScript
-    .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
-    // Concatenate and minify styles
-    // In case you are still using useref build blocks
-    .pipe($.if('*.css', $.cssmin()))
-    .pipe(assets.restore())
-    .pipe($.useref())
-    // Minify any HTML
-    .pipe($.if('*.html', $.minifyHtml({
-      quotes: true,
-      empty: true,
-      spare: true
-    })))
+    //.pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
+    //// Concatenate and minify styles
+    //// In case you are still using useref build blocks
+    //.pipe($.if('*.css', $.cssmin()))
+    //.pipe(assets.restore())
+    //.pipe($.useref())
+    //// Minify any HTML
+    //.pipe($.if('*.html', $.minifyHtml({
+    //  quotes: true,
+    //  empty: true,
+    //  spare: true
+    //})))
     // Output files
     .pipe(gulp.dest(dest))
     .pipe($.size({title: 'html'}));
@@ -148,6 +149,7 @@ gulp.task('vulcanize', function () {
       inlineCss: true,
       inlineScripts: true
     }))
+    .pipe($.crisper())
     .pipe(gulp.dest(DEST_DIR))
     .pipe($.size({title: 'vulcanize'}));
 });

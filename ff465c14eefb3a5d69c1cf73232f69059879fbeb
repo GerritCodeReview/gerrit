@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_b8a19566",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-12T23:46:08Z",
+      "side": 1,
+      "message": "Needs a sha1 before submission.",
+      "revId": "ff465c14eefb3a5d69c1cf73232f69059879fbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_18cc093a",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-12T23:46:08Z",
+      "side": 1,
+      "message": "I think this can just glob([\u0027app/**\u0027]).",
+      "revId": "ff465c14eefb3a5d69c1cf73232f69059879fbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0935e985",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-12T23:46:08Z",
+      "side": 1,
+      "message": "This breaks the developer build, doesn\u0027t it? And there was already a sed command in BUCK to replace this during the build.",
+      "revId": "ff465c14eefb3a5d69c1cf73232f69059879fbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_c936b190",
+        "filename": "tools/js/vulcanize.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-12T23:46:08Z",
+      "side": 1,
+      "message": "I think putting this in a python script is overkill. You\u0027re literally just passing arguments to the vulcanize command; that can all be done in a genrule.",
+      "revId": "ff465c14eefb3a5d69c1cf73232f69059879fbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

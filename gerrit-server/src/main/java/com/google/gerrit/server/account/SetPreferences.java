@@ -71,6 +71,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public Boolean sizeBarInChangeTable;
     public Boolean legacycidInChangeTable;
     public Boolean muteCommonPathPrefixes;
+    public Boolean publishDraftCommentsOnPush;
     public ReviewCategoryStrategy reviewCategoryStrategy;
     public DiffView diffView;
     public List<TopMenu.MenuItem> my;
@@ -166,6 +167,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.muteCommonPathPrefixes != null) {
         p.setMuteCommonPathPrefixes(i.muteCommonPathPrefixes);
+      }
+      if (i.publishDraftCommentsOnPush != null) {
+        p.setPublishDraftCommentsOnPush(i.publishDraftCommentsOnPush);
       }
       if (i.reviewCategoryStrategy != null) {
         p.setReviewCategoryStrategy(i.reviewCategoryStrategy);

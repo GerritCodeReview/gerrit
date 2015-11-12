@@ -68,7 +68,10 @@ def gerrit_war(name, ui = 'ui_optdbg', context = [], docs = False, visibility = 
     context = [
       '//gerrit-main:main_bin',
       '//gerrit-war:webapp_assets',
-    ] + (['//gerrit-gwtui:' + ui] if ui else []) +
+    ] + ([
+      '//gerrit-gwtui:' + ui,
+      '//polygerrit-ui/app:polygerrit_ui',
+    ] if ui else []) +
     context,
     docs = docs,
     visibility = visibility,

@@ -125,6 +125,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
@@ -164,16 +165,19 @@ public class RestApiServlet extends HttpServlet {
     final DynamicItem<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
     final AuditService auditService;
+    final RestApiMetrics metrics;
 
     @Inject
     Globals(Provider<CurrentUser> currentUser,
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
-        AuditService auditService) {
+        AuditService auditService,
+        RestApiMetrics metrics) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
       this.auditService = auditService;
+      this.metrics = metrics;
     }
   }
 
@@ -197,6 +201,7 @@ public class RestApiServlet extends HttpServlet {
   @Override
   protected final void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
+    long startNanos = System.nanoTime();
     long auditStartTs = TimeUtil.nowMs();
     res.setHeader("Content-Disposition", "attachment");
     res.setHeader("X-Content-Type-Options", "nosniff");
@@ -389,6 +394,17 @@ public class RestApiServlet extends HttpServlet {
       status = SC_INTERNAL_SERVER_ERROR;
       handleException(e, req, res);
     } finally {
+      if (viewData != null) {
+        String metric = globals.metrics.view(viewData);
+        globals.metrics.count.increment(metric);
+        if (status >= SC_BAD_REQUEST) {
+          globals.metrics.errorCount.increment(metric, status);
+        }
+        globals.metrics.serverLatency.record(
+            metric,
+            System.nanoTime() - startNanos,
+            TimeUnit.NANOSECONDS);
+      }
       globals.auditService.dispatch(new ExtendedHttpAuditEvent(globals.webSession.get()
           .getSessionId(), globals.currentUser.get(), req,
           auditStartTs, params, inputRequestBody, status,
@@ -1099,7 +1115,7 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static class ViewData {
+  static class ViewData {
     String pluginName;
     RestView<RestResource> view;
 

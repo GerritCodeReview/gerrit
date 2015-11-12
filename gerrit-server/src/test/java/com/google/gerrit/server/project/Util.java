@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
@@ -325,6 +326,8 @@ public class Util {
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
         bind(MergeabilityCache.class)
           .to(MergeabilityCache.NotImplemented.class);
+        bind(StarredChangesUtil.class)
+          .toProvider(Providers.<StarredChangesUtil> of(null));
       }
     });
 

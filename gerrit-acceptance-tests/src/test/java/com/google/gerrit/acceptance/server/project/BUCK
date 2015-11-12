@@ -1,6 +1,6 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
-FLAKY_TEST_CASES=['ProjectWatchIT.java']
+FLAKY_TEST_CASES=['ProjectWatchIT.java','LuceneQueryChangesTest']
 
 acceptance_tests(
   group = 'server-project',

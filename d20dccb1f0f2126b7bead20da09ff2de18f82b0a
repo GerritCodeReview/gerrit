@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_55ddac91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/Description.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T17:14:36Z",
+      "side": 1,
+      "message": "Most metrics have only 2 or 3 things in the annotations:\n\n  description\n  unit\n  gauge or rate or constant or cumulative\n\nSo 4 is still an accurate enough estimate.",
+      "parentUuid": "3b203791_b552c0e5",
+      "range": {
+        "startLine": 70,
+        "startChar": 56,
+        "endLine": 70,
+        "endChar": 57
+      },
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_954fc43b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/MetricMaker.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "3b203791_f5cb98c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/MetricMaker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T17:14:36Z",
+      "side": 1,
+      "message": "Not in this case, we have a lot of methods that are identical except for an extra parameter. To keep it concise I have tried to keep them crammed together here since the class is mostly abstract.",
+      "parentUuid": "3b203791_954fc43b",
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_699ea57a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/CallbackMetricGlue.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2015-11-12T14:49:51Z",
       "side": 1,
       "message": "Nit: unneeded blank line.",
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_d5c89cce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/CallbackMetricGlue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T17:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_699ea57a",
       "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_89ff9981",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T17:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_359470b6",
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_e9b17509",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
         "patchSetId": 1
@@ -122,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_493f6108",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T17:14:36Z",
+      "side": 1,
+      "message": "No -1 is the correct test here.\n\n-1 indicates the JVM is not reporting metrics from this bean. So we should not report metrics from this bean.\n\n0 indicates the JVM *is* reporting metrics, but the current value is 0. That means this GC algorithm is configured and running but has not yet done any work. That is useful to know.",
+      "parentUuid": "bb6267ec_e9b17509",
+      "range": {
+        "startLine": 198,
+        "startChar": 14,
+        "endLine": 198,
+        "endChar": 25
+      },
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_c9aeb1a5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
         "patchSetId": 1
@@ -133,6 +235,30 @@
       "writtenOn": "2015-11-12T14:49:51Z",
       "side": 1,
       "message": "Those names are often obfuscated. In my case: \"PS Scavenge\". Max be prefix it with \"GC type: \", or just \"GC \"?",
+      "range": {
+        "startLine": 199,
+        "startChar": 24,
+        "endLine": 199,
+        "endChar": 36
+      },
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_b5d52069",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T17:14:36Z",
+      "side": 1,
+      "message": "No these names are scoped within the metric name of proc/jvm/gc/time with the field gc_name so it should be obvious from context what it is.",
+      "parentUuid": "bb6267ec_c9aeb1a5",
       "range": {
         "startLine": 199,
         "startChar": 24,

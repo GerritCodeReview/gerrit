@@ -5,8 +5,9 @@ include_defs('//tools/git.defs')
 
 DOC_DIR = 'Documentation'
 
-JSUI = '//gerrit-gwtui:ui_module'
-MAIN = '//gerrit-pgm:pgm'
+JSUI_JAVA_DEPS = ['//gerrit-gwtui:ui_module']
+JSUI_NON_JAVA_DEPS = ['//polygerrit-ui:polygerrit_components']
+MAIN_JAVA_DEPS = ['//gerrit-pgm:pgm']
 SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
 
 
@@ -34,7 +35,8 @@ genasciidoc(
 genlicenses(
   name = 'licenses.txt',
   opts = ['--asciidoc'],
-  java_deps = [MAIN, JSUI],
+  java_deps = JSUI_JAVA_DEPS + MAIN_JAVA_DEPS,
+  non_java_deps = JSUI_NON_JAVA_DEPS,
   out = 'licenses.txt',
 )
 
@@ -42,7 +44,8 @@ genlicenses(
 genlicenses(
   name = 'js_licenses.txt',
   opts = ['--partial'],
-  java_deps = [JSUI],
+  java_deps = JSUI_JAVA_DEPS,
+  non_java_deps = JSUI_NON_JAVA_DEPS,
   out = 'js_licenses.txt',
 )
 

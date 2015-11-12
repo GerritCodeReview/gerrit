@@ -17,6 +17,24 @@
       "revId": "9033534ffb4f17fe22a50064bf1a4e645d0ba000",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_6940e53a",
+        "filename": "polygerrit-ui/gulpfile.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T19:05:39Z",
+      "side": 1,
+      "message": "Alternatively, we could add it as dependency to package.json in both build toolchains.",
+      "parentUuid": "bb6267ec_e96e15d6",
+      "revId": "9033534ffb4f17fe22a50064bf1a4e645d0ba000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

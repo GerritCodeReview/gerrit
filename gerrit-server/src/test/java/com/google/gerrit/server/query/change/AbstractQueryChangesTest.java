@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -49,6 +50,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.CreateGroupArgs;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -109,6 +113,8 @@ public abstract class AbstractQueryChangesTest {
   @Inject protected Provider<QueryChanges> queryProvider;
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected ThreadLocalRequestContext requestContext;
+  @Inject protected GroupCache groupCache;
+  @Inject protected PerformCreateGroup.Factory performCreateGroupFactory;
 
   protected LifecycleManager lifecycle;
   protected ReviewDb db;
@@ -534,6 +540,49 @@ public abstract class AbstractQueryChangesTest {
     assertResultEquals(change, queryOne("label:Code-Review=+1,user=user"));
     assertResultEquals(change, queryOne("label:Code-Review=+1,Administrators"));
     assertResultEquals(change, queryOne("label:Code-Review=+1,group=Administrators"));
+  }
+
+  private void createGroup(String name, AccountGroup.Id owner, Account.Id member)
+      throws Exception {
+    CreateGroupArgs args = new CreateGroupArgs();
+    args.setGroupName(name);
+    args.ownerGroupId = owner;
+    args.initialMembers = ImmutableList.of(member);
+    performCreateGroupFactory.create(args).createGroup();
+  }
+
+  @Test
+  public void byLabelGroup() throws Exception {
+    Account.Id user1 = accountManager
+        .authenticate(AuthRequest.forUser("user1")).getAccountId();
+    Account.Id user2 = accountManager
+        .authenticate(AuthRequest.forUser("user2")).getAccountId();
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+
+    // create group and add users
+    AccountGroup.Id adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators")).getId();
+    createGroup("group1", adminGroup, user1);
+    createGroup("group2", adminGroup, user2);
+
+    // create a change
+    ChangeInserter ins = newChange(repo, null, null, user1.get(), null);
+    Change change1 = ins.insert();
+
+    // post a review with user1
+    requestContext.setContext(newRequestContext(user1));
+    ReviewInput input = new ReviewInput();
+    input.labels = ImmutableMap.<String, Short> of("Code-Review", (short) 1);
+    postReview.apply(new RevisionResource(
+        changes.parse(change1.getId()), ins.getPatchSet()), input);
+
+    // verify that query with user1 will return results.
+    requestContext.setContext(newRequestContext(userId));
+    assertResultEquals(change1, queryOne("label:Code-Review=+1,group1"));
+    assertResultEquals(change1, queryOne("label:Code-Review=+1,group=group1"));
+    assertResultEquals(change1, queryOne("label:Code-Review=+1,user=user1"));
+    assertThat(query("label:Code-Review=+1,user=user2")).isEmpty();
+    assertThat(query("label:Code-Review=+1,group=group2")).isEmpty();
   }
 
   @Test

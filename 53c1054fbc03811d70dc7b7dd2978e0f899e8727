@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_9507c49c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-12T18:01:28Z",
+      "side": 1,
+      "message": "Operators are now postfixed by the plugin name to prevent collisions.",
+      "parentUuid": "f6f876fc_e1fb22a1",
+      "range": {
+        "startLine": 148,
+        "startChar": 12,
+        "endLine": 148,
+        "endChar": 33
+      },
+      "revId": "53c1054fbc03811d70dc7b7dd2978e0f899e8727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16feeae5_fcf7497c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryBuilder.java",
         "patchSetId": 1
@@ -319,6 +343,30 @@
       "writtenOn": "2015-11-09T21:27:21Z",
       "side": 1,
       "message": "This results in a warning in Eclipse:\n  \"QueryBuilder is a raw type. References to generic type QueryBuilder\u003cT\u003e should be parameterized\"",
+      "range": {
+        "startLine": 355,
+        "startChar": 33,
+        "endLine": 355,
+        "endChar": 45
+      },
+      "revId": "53c1054fbc03811d70dc7b7dd2978e0f899e8727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_a9f37d96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-12T18:01:28Z",
+      "side": 1,
+      "message": "Gone.",
+      "parentUuid": "16feeae5_fcf7497c",
       "range": {
         "startLine": 355,
         "startChar": 33,

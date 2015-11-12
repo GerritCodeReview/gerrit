@@ -22,6 +22,30 @@
       "revId": "b65b83a5f6452540e3717a864ff7d8dfb02041d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_c9d7d117",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T15:59:45Z",
+      "side": 1,
+      "message": "This indent is consistent with how it\u0027s done in other places, for example:\n\nhttps://gerrit-review.googlesource.com/#/c/72171/17/gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+      "parentUuid": "3b203791_f5583809",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 10
+      },
+      "revId": "b65b83a5f6452540e3717a864ff7d8dfb02041d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

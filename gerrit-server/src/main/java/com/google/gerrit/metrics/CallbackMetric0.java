@@ -37,4 +37,7 @@ public abstract class CallbackMetric0<V> implements CallbackMetric<V> {
    * @param value current value.
    */
   public abstract void set(V value);
+
+  @Override
+  public void prune() {}
 }

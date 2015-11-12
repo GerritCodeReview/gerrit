@@ -16,7 +16,11 @@ package com.google.gerrit.metrics.dropwizard;
 
 import com.google.gerrit.metrics.CallbackMetric0;
 
-class CallbackMetricImpl0<V> extends CallbackMetric0<V> {
+import com.codahale.metrics.MetricRegistry;
+
+class CallbackMetricImpl0<V>
+    extends CallbackMetric0<V>
+    implements CallbackMetricGlue {
   @SuppressWarnings("unchecked")
   static <V> V zeroFor(Class<V> valueClass) {
     if (valueClass == Integer.class) {
@@ -37,10 +41,15 @@ class CallbackMetricImpl0<V> extends CallbackMetric0<V> {
     }
   }
 
-  final String name;
-  private V value;
+  private final DropWizardMetricMaker metrics;
+  private final MetricRegistry registry;
+  private final String name;
+  private volatile V value;
 
-  CallbackMetricImpl0(String name, Class<V> valueType) {
+  CallbackMetricImpl0(DropWizardMetricMaker metrics, MetricRegistry registry,
+      String name, Class<V> valueType) {
+    this.metrics = metrics;
+    this.registry = registry;
     this.name = name;
     this.value = zeroFor(valueType);
   }
@@ -52,16 +61,18 @@ class CallbackMetricImpl0<V> extends CallbackMetric0<V> {
 
   @Override
   public void remove() {
-    // Triggers register and remove the metric.
+    metrics.remove(name);
+    registry.remove(name);
   }
 
-  com.codahale.metrics.Gauge<V> gauge(final Runnable trigger) {
-    return new com.codahale.metrics.Gauge<V>() {
+  @Override
+  public void register(final Runnable trigger) {
+    registry.register(name, new com.codahale.metrics.Gauge<V>() {
       @Override
       public V getValue() {
         trigger.run();
         return value;
       }
-    };
+    });
   }
 }

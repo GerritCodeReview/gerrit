@@ -24,18 +24,21 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.metrics.CallbackMetric;
 import com.google.gerrit.metrics.CallbackMetric0;
+import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.FieldOrdering;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.metrics.Timer3;
-import com.google.gerrit.metrics.Description.FieldOrdering;
+import com.google.gerrit.metrics.proc.JGitMetricModule;
+import com.google.gerrit.metrics.proc.ProcMetricModule;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
@@ -63,6 +66,9 @@ public class DropWizardMetricMaker extends MetricMaker {
       bind(MetricRegistry.class).in(Scopes.SINGLETON);
       bind(DropWizardMetricMaker.class).in(Scopes.SINGLETON);
       bind(MetricMaker.class).to(DropWizardMetricMaker.class);
+
+      install(new ProcMetricModule());
+      install(new JGitMetricModule());
 
       DynamicMap.mapOf(binder(), METRIC_KIND);
       child(CONFIG_KIND, "metrics").to(MetricsCollection.class);
@@ -137,6 +143,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   private static void checkCounterDescription(Description desc) {
+    checkArgument(!desc.isConstant(), "counters must not be constant");
     checkArgument(!desc.isGauge(), "counters must not be gauge");
   }
 
@@ -200,6 +207,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   private static void checkTimerDescription(Description desc) {
+    checkArgument(!desc.isConstant(), "timer must not be constant");
     checkArgument(!desc.isGauge(), "timer must not be a gauge");
     checkArgument(!desc.isRate(), "timer must not be a rate");
     checkArgument(desc.isCumulative(), "timer must be cumulative");
@@ -214,37 +222,35 @@ public class DropWizardMetricMaker extends MetricMaker {
   public <V> CallbackMetric0<V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc) {
     define(name, desc);
-    return new CallbackMetricImpl0<>(name, valueClass);
+    return new CallbackMetricImpl0<>(this, registry, name, valueClass);
+  }
+
+  @Override
+  public <F1, V> CallbackMetric1<F1, V> newCallbackMetric(
+      String name, Class<V> valueClass, Description desc, Field<F1> field1) {
+    CallbackMetricImpl1<F1, V> m = new CallbackMetricImpl1<>(this, registry,
+        name, valueClass, desc, field1);
+    define(name, desc);
+    bucketed.put(name, m);
+    return m.create();
   }
 
   @Override
   public synchronized RegistrationHandle newTrigger(
       Set<CallbackMetric<?>> metrics, Runnable trigger) {
-    if (metrics.size() > 1) {
-      trigger = new CallbackGroup(trigger);
-    }
+    trigger = new CallbackGroup(trigger);
 
     for (CallbackMetric<?> m : metrics) {
-      CallbackMetricImpl0<?> metric = (CallbackMetricImpl0<?>) m;
-      if (registry.getMetrics().containsKey(metric.name)) {
-        throw new IllegalStateException(String.format(
-            "metric %s already configured", metric.name));
-      }
+      ((CallbackMetricGlue) m).register(trigger);
     }
+    trigger.run();
 
-    final List<String> names = new ArrayList<>(metrics.size());
-    for (CallbackMetric<?> m : metrics) {
-      CallbackMetricImpl0<?> metric = (CallbackMetricImpl0<?>) m;
-      registry.register(metric.name, metric.gauge(trigger));
-      names.add(metric.name);
-    }
-
+    final List<CallbackMetric<?>> all = new ArrayList<>(metrics);
     return new RegistrationHandle() {
       @Override
       public void remove() {
-        for (String name : names) {
-          descriptions.remove(name);
-          registry.remove(name);
+        for (CallbackMetric<?> m : all) {
+          m.remove();
         }
       }
     };

@@ -47,6 +47,27 @@ public abstract class MetricMaker {
       Field<F1> field1, Field<F2> field2, Field<F3> field3);
 
   /**
+   * Constant value that does not change.
+   *
+   * @param name unique name of the metric.
+   * @param value only value of the metric.
+   * @param desc description of the metric.
+   */
+  public <V> void newConstantMetric(String name, final V value, Description desc) {
+    desc.setConstant();
+
+    @SuppressWarnings("unchecked")
+    Class<V> type = (Class<V>) value.getClass();
+    final CallbackMetric0<V> metric = newCallbackMetric(name, type, desc);
+    newTrigger(metric, new Runnable() {
+      @Override
+      public void run() {
+        metric.set(value);
+      }
+    });
+  }
+
+  /**
    * Instantaneous reading of a value.
    *
    * <pre>
@@ -80,6 +101,9 @@ public abstract class MetricMaker {
   /** Instantaneous reading of a single value. */
   public abstract <V> CallbackMetric0<V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc);
+  public abstract <F1, V> CallbackMetric1<F1, V> newCallbackMetric(
+      String name, Class<V> valueClass, Description desc,
+      Field<F1> field1);
 
   /** Connect logic to populate a previously created {@link CallbackMetric}. */
   public RegistrationHandle newTrigger(CallbackMetric<?> metric1, Runnable trigger) {

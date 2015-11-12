@@ -101,6 +101,16 @@ public class DisabledMetricMaker extends MetricMaker {
   }
 
   @Override
+  public <F1, V> CallbackMetric1<F1, V> newCallbackMetric(String name,
+      Class<V> valueClass, Description desc, Field<F1> field1) {
+    return new CallbackMetric1<F1, V>() {
+      @Override public void set(F1 field1, V value) {}
+      @Override public void forceCreate(F1 field1) {}
+      @Override public void remove() {}
+    };
+  }
+
+  @Override
   public RegistrationHandle newTrigger(Set<CallbackMetric<?>> metrics,
       Runnable trigger) {
     return new RegistrationHandle() {

@@ -47,6 +47,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   @TestProjectInput(createEmptyCommit = false)
   public void listBranchesOfEmptyProject() throws Exception {
     assertBranches(ImmutableList.of(
+          branch("HEAD", null, false),
           branch("refs/meta/config",  null, false)),
         list().get());
   }

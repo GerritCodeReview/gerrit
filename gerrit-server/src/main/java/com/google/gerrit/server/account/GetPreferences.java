@@ -111,6 +111,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     Boolean sizeBarInChangeTable;
     Boolean legacycidInChangeTable;
     Boolean muteCommonPathPrefixes;
+    Boolean publishDraftCommentsOnPush;
     ReviewCategoryStrategy reviewCategoryStrategy;
     DiffView diffView;
     List<TopMenu.MenuItem> my;
@@ -131,6 +132,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         sizeBarInChangeTable = p.isSizeBarInChangeTable() ? true : null;
         legacycidInChangeTable = p.isLegacycidInChangeTable() ? true : null;
         muteCommonPathPrefixes = p.isMuteCommonPathPrefixes() ? true : null;
+        publishDraftCommentsOnPush = p.isPublishDraftCommentsOnPush() ? true : null;
         reviewCategoryStrategy = p.getReviewCategoryStrategy();
         diffView = p.getDiffView();
       }

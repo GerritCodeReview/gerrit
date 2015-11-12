@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_95134442",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestContextFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-12T00:36:32Z",
+      "side": 1,
+      "message": "Would it make sense for this to be a top-level class? Then it would look like\n\n @Singleton\n public class RequestMetrics {\n   public final Counter1\u003cString\u003e failures;\n\n   /** HTTP request attribute for storing metrics. */\n   public static final String ATTRIBUTE_METRICS \u003d\n        RequestMetrics.class.getName() + \"/Metrics\";\n\n   public static RequestMetrics forRequest(ServletRequest req) {\n     return (RequestMetrics) checkNonNull(req.getAttribute(ATTRIBUTE_METRICS));\n   }\n\n   public void attachToRequest(ServletRequest req) {\n     req.setAttribute(ATTRIBUTE_METRICS, this);\n   }\n }\n\nIn doFilter, the RequestContextFilter could do\n\n  metrics.attachToRequest(req)\n\nCallers wanting to update a metric could use RequestMetrics.forRequest(req).\n\nSo the ugliness would be relatively contained.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 38
+      },
+      "revId": "d2145560785d9f0c26053d84f3d9f41bfda72b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

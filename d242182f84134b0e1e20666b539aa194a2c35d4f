@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_697105ec",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ClaSignupListener.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-12T17:46:59Z",
+      "side": 1,
+      "message": "unfortunately, PermissionRuleInfo is not from the extensions.common package...",
+      "revId": "d242182f84134b0e1e20666b539aa194a2c35d4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

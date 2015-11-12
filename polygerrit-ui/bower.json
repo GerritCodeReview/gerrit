@@ -4,12 +4,13 @@
   "description": "Gerrit UI in Polymer; DO NOT PUBLISH, used only for dependency management",
   "private": true,
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.1",
-    "page": "visionmedia/page.js#~1.6",
-    "iron-ajax": "PolymerElements/iron-ajax#~1.0",
-    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#~1.0",
-    "iron-input": "PolymerElements/iron-input#~1.0",
-    "iron-test-helpers": "PolymerElements/iron-test-helpers#~1.0"
+    "polymer": "Polymer/polymer#^1.2.1",
+    "page": "visionmedia/page.js#~1.6.4",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.8",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#~1.0.3",
+    "iron-input": "PolymerElements/iron-input#~1.0.6",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#~1.0.6"
+
   },
   "devDependencies": {
     "web-component-tester": "*",

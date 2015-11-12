@@ -20,7 +20,6 @@ import org.eclipse.jgit.util.QuotedString;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 public final class SshLogLayout extends Layout {
@@ -35,15 +34,15 @@ public final class SshLogLayout extends Layout {
   private final Calendar calendar;
   private long lastTimeMillis;
   private final char[] lastTimeString = new char[20];
-  private final char[] timeZone;
+  private final SimpleDateFormat tzFormat;
+  private char[] timeZone;
 
  public SshLogLayout() {
     final TimeZone tz = TimeZone.getDefault();
     calendar = Calendar.getInstance(tz);
 
-    final SimpleDateFormat sdf = new SimpleDateFormat("Z");
-    sdf.setTimeZone(tz);
-    timeZone = sdf.format(new Date()).toCharArray();
+    tzFormat = new SimpleDateFormat("Z");
+    tzFormat.setTimeZone(tz);
   }
 
   @Override
@@ -52,8 +51,6 @@ public final class SshLogLayout extends Layout {
 
     buf.append('[');
     formatDate(event.getTimeStamp(), buf);
-    buf.append(' ');
-    buf.append(timeZone);
     buf.append(']');
 
     req(P_SESSION, buf, event);
@@ -92,11 +89,14 @@ public final class SshLogLayout extends Layout {
         sbuf.append(',');
         sbuf.getChars(start, sbuf.length(), lastTimeString, 0);
         lastTimeMillis = rounded;
+        timeZone = tzFormat.format(calendar.getTime()).toCharArray();
       }
     } else {
       sbuf.append(lastTimeString);
     }
     sbuf.append(String.format("%03d", millis));
+    sbuf.append(' ');
+    sbuf.append(timeZone);
   }
 
   private String toTwoDigits(int input) {

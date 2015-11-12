@@ -37,8 +37,8 @@ class SubmitDialog extends AutoCenterDialogBox {
   @UiField Label submitTopicLabel;
   @UiField Label submitBranchLabel;
   @UiField Button cancel;
-  @UiField Button submitBranchButton;
   @UiField Button submitTopicButton;
+  @UiField Button submitBranchButton;
   @UiField FlowPanel sameTopicPanel;
   @UiField FlowPanel sameBranchPanel;
 
@@ -66,17 +66,9 @@ class SubmitDialog extends AutoCenterDialogBox {
     getElement().setId("submit_dialog");
 
     submitTopicLabel.setText(Resources.C.submitTopicHeader());
-    submitBranchLabel.getElement().setInnerSafeHtml(new SafeHtmlBuilder()
-        .openDiv()
-        .append(Resources.C.submitBranchHeader())
-        .closeDiv());
     cancel.setHTML(new SafeHtmlBuilder()
         .openDiv()
         .append(Resources.C.submitDialogCancel())
-        .closeDiv());
-    submitBranchButton.setHTML(new SafeHtmlBuilder()
-        .openDiv()
-        .append(Resources.C.submitBranchText())
         .closeDiv());
     submitTopicButton.setHTML(new SafeHtmlBuilder()
         .openDiv()
@@ -88,18 +80,40 @@ class SubmitDialog extends AutoCenterDialogBox {
   public void center() {
     super.center();
     GlobalKey.dialog(this);
-    submitBranchButton.setFocus(true);
+
     RelatedChangesTab submittedTopic =
         newRelatedChangesTab(Tab.SUBMITTED_TOGETHER);
     sameTopicPanel.add(submittedTopic);
     submittedTopic.setChanges(changeInfo.project(),
         changeInfo.currentRevision(), sameTopicChanges);
 
-    RelatedChangesTab submittedBranch =
-        newRelatedChangesTab(Tab.SUBMITTED_TOGETHER);
-    sameBranchPanel.add(submittedBranch);
-    submittedBranch.setChanges(changeInfo.project(),
-        changeInfo.currentRevision(), sameBranchChanges);
+    if (sameBranchChanges.length() > 0) {
+      submitBranchLabel.getElement()
+          .setInnerSafeHtml(new SafeHtmlBuilder()
+          .openDiv()
+          .append(Resources.C.submitBranchHeader())
+          .closeDiv());
+      submitBranchButton.setHTML(new SafeHtmlBuilder()
+          .openDiv()
+          .append(Resources.C.submitBranchText())
+          .closeDiv());
+      RelatedChangesTab submittedBranch =
+          newRelatedChangesTab(Tab.SUBMITTED_TOGETHER);
+      sameBranchPanel.add(submittedBranch);
+      submittedBranch.setChanges(changeInfo.project(),
+          changeInfo.currentRevision(), sameBranchChanges);
+    } else {
+      sameBranchPanel.setVisible(false);
+      submitBranchLabel.getElement()
+          .setInnerSafeHtml(new SafeHtmlBuilder()
+          .openDiv()
+          .append(Resources.C.submitThisChangeOnly())
+          .closeDiv());
+      submitBranchButton.setHTML(new SafeHtmlBuilder()
+          .openDiv()
+          .append(Resources.C.submitButton())
+          .closeDiv());
+    }
   }
 
   public RelatedChangesTab newRelatedChangesTab(Tab subject) {

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_b5f1a000",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventsMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T17:48:43Z",
+      "side": 1,
+      "message": "name this after the metric, so just \"events\".\n\ncounter1 is a bad name for the variable holding the object.",
+      "range": {
+        "startLine": 27,
+        "startChar": 33,
+        "endLine": 27,
+        "endChar": 41
+      },
+      "revId": "ff9ad22f9524d0fe28fed6f570e235bc652f3215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_296b0dfa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventsMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T17:48:43Z",
+      "side": 1,
+      "message": "nit: blank line after",
+      "revId": "ff9ad22f9524d0fe28fed6f570e235bc652f3215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_1503b49d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventsMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T17:48:43Z",
+      "side": 1,
+      "message": "update description",
+      "revId": "ff9ad22f9524d0fe28fed6f570e235bc652f3215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -172,6 +172,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
           mergeTip.getCurrentTip().name())
         .setCommitterIdent(args.serverIdent.get())
         .setRunHooks(false)
+        .setSendEmail(false)
         .setValidatePolicy(CommitValidators.Policy.NONE);
     try (BatchUpdate bu = args.newBatchUpdate(TimeUtil.nowTs())) {
       bu.addOp(n.change().getId(), op);

@@ -34,6 +34,7 @@ import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -66,6 +67,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class PatchSetInserter extends BatchUpdate.Op {
   private static final Logger log =
@@ -85,6 +89,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
+  private final ChangeKindCache changeKindCache;
+  private final AccountCache accountCache;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -119,6 +125,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
       PatchSetInfoFactory patchSetInfoFactory,
       CommitValidators.Factory commitValidatorsFactory,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
+      ChangeKindCache changeKindCache,
+      AccountCache accountCache,
       @Assisted RefControl refControl,
       @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
@@ -130,6 +138,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.changeKindCache = changeKindCache;
+    this.accountCache = accountCache;
 
     this.refControl = refControl;
     this.psId = psId;
@@ -276,14 +286,30 @@ public class PatchSetInserter extends BatchUpdate.Op {
   @Override
   public void postUpdate(Context ctx) throws OrmException {
     if (sendMail) {
+      Set<Account.Id> reviewers = new HashSet<>(oldReviewers.get(REVIEWER));
+      Set<Account.Id> ccOnly = new HashSet<>(oldReviewers.get(CC));
+      if (changeKindCache.getChangeKind(db, change, patchSet) == ChangeKind.TRIVIAL_REBASE) {
+        for (Iterator<Account.Id> user = reviewers.iterator(); user.hasNext();) {
+          if (!accountCache.get(user.next()).getAccount().getGeneralPreferences()
+              .isSendTrivialRebaseEmails()) {
+            user.remove();
+          }
+        }
+        for (Iterator<Account.Id> user = ccOnly.iterator(); user.hasNext();) {
+          if (!accountCache.get(user.next()).getAccount().getGeneralPreferences()
+              .isSendTrivialRebaseEmails()) {
+            user.remove();
+          }
+        }
+      }
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(
             change.getId());
         cm.setFrom(ctx.getUser().getAccountId());
         cm.setPatchSet(patchSet, patchSetInfo);
         cm.setChangeMessage(changeMessage);
-        cm.addReviewers(oldReviewers.get(REVIEWER));
-        cm.addExtraCC(oldReviewers.get(CC));
+        cm.addReviewers(reviewers);
+        cm.addExtraCC(ccOnly);
         cm.send();
       } catch (Exception err) {
         log.error("Cannot send email for new patch set on change "

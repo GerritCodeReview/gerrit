@@ -51,6 +51,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
   private CheckBox copySelfOnEmails;
+  private CheckBox sendTrivialRebaseEmails;
   private CheckBox relativeDateInChangeTable;
   private CheckBox sizeBarInChangeTable;
   private CheckBox legacycidInChangeTable;
@@ -70,6 +71,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
+    sendTrivialRebaseEmails = new CheckBox(Util.C.sendTrivialRebaseEmails());
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
@@ -141,7 +143,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     muteCommonPathPrefixes = new CheckBox(Util.C.muteCommonPathPrefixes());
 
     boolean flashClippy = !UserAgent.hasJavaScriptClipboard() && UserAgent.Flash.isInstalled();
-    final Grid formGrid = new Grid(10 + (flashClippy ? 1 : 0), 2);
+    final Grid formGrid = new Grid(11 + (flashClippy ? 1 : 0), 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -156,6 +158,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, copySelfOnEmails);
+    row++;
+
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, sendTrivialRebaseEmails);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.reviewCategoryLabel());
@@ -209,6 +215,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(showSiteHeader);
     e.listenTo(useFlashClipboard);
     e.listenTo(copySelfOnEmails);
+    e.listenTo(sendTrivialRebaseEmails);
     e.listenTo(maximumPageSize);
     e.listenTo(dateFormat);
     e.listenTo(timeFormat);
@@ -241,6 +248,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
     copySelfOnEmails.setEnabled(on);
+    sendTrivialRebaseEmails.setEnabled(on);
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
@@ -256,6 +264,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader.setValue(p.showSiteHeader());
     useFlashClipboard.setValue(p.useFlashClipboard());
     copySelfOnEmails.setValue(p.copySelfOnEmail());
+    sendTrivialRebaseEmails.setValue(p.sendTrivialRebaseEmail());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
         p.dateFormat());
@@ -338,6 +347,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.showSiteHeader(showSiteHeader.getValue());
     p.useFlashClipboard(useFlashClipboard.getValue());
     p.copySelfOnEmail(copySelfOnEmails.getValue());
+    p.sendTrivialRebaseEmail(sendTrivialRebaseEmails.getValue());
     p.changesPerPage(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.dateFormat(getListBox(dateFormat,
         AccountGeneralPreferences.DateFormat.STD,

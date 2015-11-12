@@ -164,7 +164,7 @@ public class CommitValidators {
     }
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
-    validators.add(new ChangeHookValidator(refControl, hooks));
+    validators.add(new ChangeHookValidator(hooks));
 
     List<CommitValidationMessage> messages = new LinkedList<>();
 
@@ -548,40 +548,34 @@ public class CommitValidators {
   /** Reject commits that don't pass user-supplied ref-update hook. */
   public static class ChangeHookValidator implements
       CommitValidationListener {
-    private final RefControl refControl;
     private final ChangeHooks hooks;
 
-    public ChangeHookValidator(RefControl refControl, ChangeHooks hooks) {
-      this.refControl = refControl;
+    public ChangeHookValidator(ChangeHooks hooks) {
       this.hooks = hooks;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
+      IdentifiedUser user = receiveEvent.user;
+      String refname = receiveEvent.refName;
+      ObjectId old = receiveEvent.commit.getParent(0);
 
-      if (refControl.getUser().isIdentifiedUser()) {
-        IdentifiedUser user = refControl.getUser().asIdentifiedUser();
-
-        String refname = receiveEvent.refName;
-        ObjectId old = receiveEvent.commit.getParent(0);
-
-        if (receiveEvent.command.getRefName().startsWith(REFS_CHANGES)) {
-          /*
-           * If the ref-update hook tries to distinguish behavior between pushes to
-           * refs/heads/... and refs/for/..., make sure we send it the correct refname.
-           * Also, if this is targetting refs/for/, make sure we behave the same as
-           * what a push to refs/for/ would behave; in particular, setting oldrev to
-           * 0000000000000000000000000000000000000000.
-           */
-          refname = refname.replace(R_HEADS, "refs/for/refs/heads/");
-          old = ObjectId.zeroId();
-        }
-        HookResult result = hooks.doRefUpdateHook(receiveEvent.project, refname,
-            user.getAccount(), old, receiveEvent.commit);
-        if (result != null && result.getExitValue() != 0) {
-            throw new CommitValidationException(result.toString().trim());
-        }
+      if (receiveEvent.command.getRefName().startsWith(REFS_CHANGES)) {
+        /*
+          * If the ref-update hook tries to distinguish behavior between pushes to
+          * refs/heads/... and refs/for/..., make sure we send it the correct refname.
+          * Also, if this is targetting refs/for/, make sure we behave the same as
+          * what a push to refs/for/ would behave; in particular, setting oldrev to
+          * 0000000000000000000000000000000000000000.
+          */
+        refname = refname.replace(R_HEADS, "refs/for/refs/heads/");
+        old = ObjectId.zeroId();
+      }
+      HookResult result = hooks.doRefUpdateHook(receiveEvent.project, refname,
+          user.getAccount(), old, receiveEvent.commit);
+      if (result != null && result.getExitValue() != 0) {
+          throw new CommitValidationException(result.toString().trim());
       }
       return Collections.emptyList();
     }

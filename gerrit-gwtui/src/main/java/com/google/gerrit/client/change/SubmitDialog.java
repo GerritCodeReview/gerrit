@@ -107,6 +107,7 @@ class SubmitDialog extends AutoCenterDialogBox {
     changes.setShowBranches(true);
     changes.setShowProjects(true);
     changes.setShowSubmittable(true);
+    changes.setOnlyShowSubmittable(true);
     return changes;
   }
 

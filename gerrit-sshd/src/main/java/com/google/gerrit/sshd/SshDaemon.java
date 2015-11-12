@@ -83,6 +83,8 @@ import org.apache.sshd.common.mac.HMACMD5;
 import org.apache.sshd.common.mac.HMACMD596;
 import org.apache.sshd.common.mac.HMACSHA1;
 import org.apache.sshd.common.mac.HMACSHA196;
+import org.apache.sshd.common.mac.HMACSHA256;
+import org.apache.sshd.common.mac.HMACSHA512;
 import org.apache.sshd.common.random.BouncyCastleRandom;
 import org.apache.sshd.common.random.JceRandom;
 import org.apache.sshd.common.random.SingletonRandomFactory;
@@ -552,9 +554,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initMacs(final Config cfg) {
-    setMacFactories(filter(cfg, "mac", new HMACMD5.Factory(),
-        new HMACSHA1.Factory(), new HMACMD596.Factory(),
-        new HMACSHA196.Factory()));
+    setMacFactories(filter(cfg, "mac",
+        new HMACMD5.Factory(),
+        new HMACSHA1.Factory(),
+        new HMACMD596.Factory(),
+        new HMACSHA196.Factory(),
+        new HMACSHA256.Factory(),
+        new HMACSHA512.Factory()));
   }
 
   @SafeVarargs

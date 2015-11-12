@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.metrics.CallbackMetric;
 import com.google.gerrit.metrics.CallbackMetric0;
+import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Counter2;
@@ -120,6 +121,15 @@ class PluginMetricMaker extends MetricMaker implements LifecycleListener {
   public <V> CallbackMetric0<V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc) {
     CallbackMetric0<V> m = root.newCallbackMetric(prefix + name, valueClass, desc);
+    cleanup.add(m);
+    return m;
+  }
+
+  @Override
+  public <F1, V> CallbackMetric1<F1, V> newCallbackMetric(String name,
+      Class<V> valueClass, Description desc, Field<F1> field1) {
+    CallbackMetric1<F1, V> m =
+        root.newCallbackMetric(prefix + name, valueClass, desc, field1);
     cleanup.add(m);
     return m;
   }

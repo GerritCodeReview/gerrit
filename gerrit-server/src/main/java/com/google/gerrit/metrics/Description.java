@@ -28,6 +28,7 @@ public class Description {
   public static final String CUMULATIVE = "CUMULATIVE";
   public static final String RATE = "RATE";
   public static final String GAUGE = "GAUGE";
+  public static final String CONSTANT = "CONSTANT";
   public static final String FIELD_ORDERING = "FIELD_ORDERING";
   public static final String TRUE_VALUE = "1";
 
@@ -77,6 +78,16 @@ public class Description {
   }
 
   /**
+   * Mark the value as constant for the life of this process. Typically used for
+   * software versions, command line arguments, etc. that cannot change without
+   * a process restart.
+   */
+  public Description setConstant() {
+    annotations.put(CONSTANT, TRUE_VALUE);
+    return this;
+  }
+
+  /**
    * Indicates the metric may be usefully interpreted as a count over short
    * periods of time, such as request arrival rate. May only be applied to a
    * {@link Counter0}.
@@ -109,6 +120,11 @@ public class Description {
   public Description setFieldOrdering(FieldOrdering ordering) {
     annotations.put(FIELD_ORDERING, ordering.name());
     return this;
+  }
+
+  /** True if the metric value never changes after startup. */
+  public boolean isConstant() {
+    return TRUE_VALUE.equals(annotations.get(CONSTANT));
   }
 
   /** True if the metric may be interpreted as a rate over time. */

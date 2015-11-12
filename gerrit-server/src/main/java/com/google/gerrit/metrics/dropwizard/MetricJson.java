@@ -35,6 +35,7 @@ import java.util.TreeMap;
 class MetricJson {
   String description;
   String unit;
+  Boolean constant;
   Boolean rate;
   Boolean gauge;
   Boolean cumulative;
@@ -65,6 +66,7 @@ class MetricJson {
     if (!dataOnly) {
       description = atts.get(Description.DESCRIPTION);
       unit = atts.get(Description.UNIT);
+      constant = toBool(atts, Description.CONSTANT);
       rate = toBool(atts, Description.RATE);
       gauge = toBool(atts, Description.GAUGE);
       cumulative = toBool(atts, Description.CUMULATIVE);

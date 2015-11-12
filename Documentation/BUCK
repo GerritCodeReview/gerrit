@@ -31,8 +31,6 @@ genasciidoc(
 genrule(
   name = 'licenses.txt',
   cmd = '$(exe :gen_licenses) --asciidoc '
-    + '--classpath $(classpath %s) ' % MAIN
-    + '--classpath $(classpath %s) ' % JSUI
     + MAIN + ' ' + JSUI + ' >$OUT',
   out = 'licenses.txt',
 )
@@ -41,7 +39,6 @@ genrule(
 genrule(
   name = 'js_licenses.txt',
   cmd = '$(exe :gen_licenses) --partial '
-    + '--classpath $(classpath %s) ' % JSUI
     + JSUI + ' >$OUT',
   out = 'js_licenses.txt',
 )

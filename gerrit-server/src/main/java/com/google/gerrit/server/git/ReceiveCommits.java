@@ -897,6 +897,19 @@ public class ReceiveCommits {
         continue;
       }
 
+      HookResult result = hooks.doRefUpdateHook(project, cmd.getRefName(),
+                              user.getAccount(), cmd.getOldId(),
+                              cmd.getNewId());
+
+      if (result != null) {
+        final String message = result.toString().trim();
+        if (result.getExitValue() != 0) {
+          reject(cmd, message);
+          continue;
+        }
+        rp.sendMessage(message);
+      }
+
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {
         parseMagicBranch(cmd);
         continue;

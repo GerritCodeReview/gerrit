@@ -131,7 +131,6 @@ public class CommitValidators {
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new BannedCommitsValidator(rejectCommits));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
-    validators.add(new ChangeHookValidator(refControl, hooks));
 
     List<CommitValidationMessage> messages = new LinkedList<>();
 

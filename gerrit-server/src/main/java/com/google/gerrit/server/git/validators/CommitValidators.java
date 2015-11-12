@@ -565,7 +565,10 @@ public class CommitValidators {
         IdentifiedUser user = refControl.getUser().asIdentifiedUser();
 
         String refname = receiveEvent.refName;
-        ObjectId old = receiveEvent.commit.getParent(0);
+        ObjectId old = ObjectId.zeroId();
+        if (receiveEvent.commit.getParentCount() > 0) {
+          old = receiveEvent.commit.getParent(0);
+        }
 
         if (receiveEvent.command.getRefName().startsWith(REFS_CHANGES)) {
           /*

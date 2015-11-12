@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_3523509b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-12T01:24:40Z",
+      "side": 1,
+      "message": "Doh! Of course.",
+      "parentUuid": "1b1ff356_142294e4",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "fd84a7b26dc5196dc5561dcced908e80be66eb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_351d90a2",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 4

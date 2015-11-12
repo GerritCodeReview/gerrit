@@ -35,12 +35,17 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProcMetricModuleTest {
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
   @Inject
   MetricMaker metrics;
 
@@ -128,6 +133,18 @@ public class ProcMetricModuleTest {
 
     // Triggers are debounced to avoid being fired too frequently.
     assertThat(invocations.get()).isEqualTo(1);
+  }
+
+  @Test
+  public void testInvalidName1() {
+    exception.expect(IllegalArgumentException.class);
+    metrics.newCounter("invalid name", new Description("fail"));
+  }
+
+  @Test
+  public void testInvalidName2() {
+    exception.expect(IllegalArgumentException.class);
+    metrics.newCounter("invalid/ name", new Description("fail"));
   }
 
   @SuppressWarnings({"unchecked", "cast"})

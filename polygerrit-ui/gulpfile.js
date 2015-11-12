@@ -114,11 +114,14 @@ gulp.task('copy', function () {
                            'app/elements/**/*.js'])
     .pipe(gulp.dest('dist/elements'));
 
+  var scripts = gulp.src(['app/scripts/**/*.js'])
+    .pipe(gulp.dest('dist/scripts'));
+
   var vulcanized = gulp.src(['app/elements/gr-app.html'])
     .pipe($.rename('gr-app.vulcanized.html'))
     .pipe(gulp.dest('dist/elements'));
 
-  return merge(app, bower, elements, vulcanized)
+  return merge(app, bower, elements, scripts, vulcanized)
     .pipe($.size({title: 'copy'}));
 });
 

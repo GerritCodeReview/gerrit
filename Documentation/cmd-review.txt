@@ -129,6 +129,12 @@ branch.
 	or invalid value), votes that are not permitted for the user,
 	and votes on outdated or closed patches are silently ignored.
 
+--strict-labels::
+	Require ability to vote on all specified labels before reviewing change.
+	If the vote is invalid (invalid label or invalid name), the vote is not
+	permitted for the user, or the vote is on an outdated or closed patch set,
+	return an error instead of silently discarding the vote.
+
 == ACCESS
 Any user who has configured an SSH key.
 

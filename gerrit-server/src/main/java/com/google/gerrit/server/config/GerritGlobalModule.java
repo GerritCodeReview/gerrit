@@ -70,6 +70,7 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
 import com.google.gerrit.server.avatar.AvatarProvider;
+import com.google.gerrit.server.cache.CacheMetrics;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;

@@ -155,6 +155,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 19)
   protected boolean muteCommonPathPrefixes;
 
+  @Column(id = 20)
+  protected boolean publishDraftCommentsOnPush;
+
   public AccountGeneralPreferences() {
   }
 
@@ -332,6 +335,15 @@ public final class AccountGeneralPreferences {
     this.muteCommonPathPrefixes = muteCommonPathPrefixes;
   }
 
+  public boolean isPublishDraftCommentsOnPush() {
+    return publishDraftCommentsOnPush;
+  }
+
+  public void setPublishDraftCommentsOnPush(
+      boolean publishDraftCommentsOnPush) {
+    this.publishDraftCommentsOnPush = publishDraftCommentsOnPush;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -347,5 +359,6 @@ public final class AccountGeneralPreferences {
     sizeBarInChangeTable = true;
     legacycidInChangeTable = false;
     muteCommonPathPrefixes = true;
+    publishDraftCommentsOnPush = false;
   }
 }

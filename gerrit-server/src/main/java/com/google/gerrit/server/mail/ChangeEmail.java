@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.patch.PatchList;
@@ -297,9 +296,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     try {
       // BCC anyone who has starred this change.
       //
-      for (StarredChange w : args.db.get().starredChanges().byChange(
-          change.getId())) {
-        super.add(RecipientType.BCC, w.getAccountId());
+      for (Account.Id accountId : args.starredChangesUtil
+          .byChange(change.getId())) {
+        super.add(RecipientType.BCC, accountId);
       }
     } catch (OrmException err) {
       // Just don't BCC everyone. Better to send a partial message to those

@@ -188,6 +188,7 @@ public class ChangeUtil {
   private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final ChangeUpdate.Factory changeUpdateFactory;
+  private final StarredChangesUtil starredChangesUtil;
 
   @Inject
   ChangeUtil(Provider<IdentifiedUser> user,
@@ -200,7 +201,8 @@ public class ChangeUtil {
       ChangeIndexer indexer,
       BatchUpdate.Factory updateFactory,
       ChangeMessagesUtil changeMessagesUtil,
-      ChangeUpdate.Factory changeUpdateFactory) {
+      ChangeUpdate.Factory changeUpdateFactory,
+      StarredChangesUtil starredChangesUtil) {
     this.user = user;
     this.db = db;
     this.queryProvider = queryProvider;
@@ -212,6 +214,7 @@ public class ChangeUtil {
     this.updateFactory = updateFactory;
     this.changeMessagesUtil = changeMessagesUtil;
     this.changeUpdateFactory = changeUpdateFactory;
+    this.starredChangesUtil = starredChangesUtil;
   }
 
   public Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
@@ -363,7 +366,7 @@ public class ChangeUtil {
       db.patchSetApprovals().delete(db.patchSetApprovals().byChange(changeId));
       db.patchSets().delete(patchSets);
       db.changeMessages().delete(db.changeMessages().byChange(changeId));
-      db.starredChanges().delete(db.starredChanges().byChange(changeId));
+      starredChangesUtil.unstarAll(user.get(), changeId);
       db.changes().delete(Collections.singleton(change));
 
       // Delete all refs at once.

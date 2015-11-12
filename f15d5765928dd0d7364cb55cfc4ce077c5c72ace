@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b1ff356_743c28a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T06:21:44Z",
+      "side": 1,
+      "message": "Add more info?  I.e. say that this is because the titles in the list often get truncated.",
+      "revId": "f15d5765928dd0d7364cb55cfc4ce077c5c72ace",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

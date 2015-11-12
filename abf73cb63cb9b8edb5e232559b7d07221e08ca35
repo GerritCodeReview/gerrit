@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_b50ac0a2",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/metrics/proc/ProcMetricModuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T18:04:07Z",
+      "side": 1,
+      "message": "[Optional] We have two other constants: birth_time and uptime. Check them too, they should be older then current time.",
+      "revId": "abf73cb63cb9b8edb5e232559b7d07221e08ca35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_29e0adbb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/metrics/proc/ProcMetricModuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T18:04:07Z",
+      "side": 1,
+      "message": "That\u0027s cool!",
+      "revId": "abf73cb63cb9b8edb5e232559b7d07221e08ca35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_151cd4f3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/metrics/proc/ProcMetricModuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T18:04:07Z",
+      "side": 1,
+      "message": "[Optional] Can be @BeforeClass and turn setup() method to be static and use static Injector, to prevent instantiation of Injector per test method.",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 9
+      },
+      "revId": "abf73cb63cb9b8edb5e232559b7d07221e08ca35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_55224c37",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/metrics/proc/ProcMetricModuleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T18:04:07Z",
+      "side": 1,
+      "message": "[Optional] Move it to the top of the class.",
+      "revId": "abf73cb63cb9b8edb5e232559b7d07221e08ca35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

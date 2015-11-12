@@ -289,7 +289,8 @@ public class WebAppInitializer extends GuiceServletContextListener
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
-    modules.add(new DropWizardMetricMaker.Module());
+    modules.add(new DropWizardMetricMaker.ApiModule());
+    modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());

@@ -28,7 +28,6 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -77,7 +76,7 @@ public class BanCommitCommand extends SshCommand {
   }
 
   private void printCommits(List<String> commits, String message) {
-    if (CollectionUtils.isNotEmpty(commits)) {
+    if (commits != null && !commits.isEmpty()) {
       stdout.print(message + ":\n");
       stdout.print(Joiner.on(",\n").join(commits));
       stdout.print("\n\n");

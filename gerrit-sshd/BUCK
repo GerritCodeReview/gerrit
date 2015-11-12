@@ -20,7 +20,6 @@ java_library(
     '//lib:jsch',
     '//lib/auto:auto-value',
     '//lib/commons:codec',
-    '//lib/commons:collections',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',  # SSH should not depend on servlet

@@ -66,18 +66,18 @@ var optimizeHtmlTask = function (src, dest) {
     .pipe($.if('*.html', $.replace('elements/gr-app.html', 'elements/gr-app.vulcanized.html')))
     .pipe(assets)
     // Concatenate and minify JavaScript
-    .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
-    // Concatenate and minify styles
-    // In case you are still using useref build blocks
-    .pipe($.if('*.css', $.cssmin()))
-    .pipe(assets.restore())
-    .pipe($.useref())
-    // Minify any HTML
-    .pipe($.if('*.html', $.minifyHtml({
-      quotes: true,
-      empty: true,
-      spare: true
-    })))
+    //.pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
+    //// Concatenate and minify styles
+    //// In case you are still using useref build blocks
+    //.pipe($.if('*.css', $.cssmin()))
+    //.pipe(assets.restore())
+    //.pipe($.useref())
+    //// Minify any HTML
+    //.pipe($.if('*.html', $.minifyHtml({
+    //  quotes: true,
+    //  empty: true,
+    //  spare: true
+    //})))
     // Output files
     .pipe(gulp.dest(dest))
     .pipe($.size({title: 'html'}));

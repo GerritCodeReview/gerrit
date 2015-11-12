@@ -16,6 +16,7 @@
 
 // Include Gulp & tools we'll use
 var gulp = require('gulp');
+var debug = require('gulp-debug');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var runSequence = require('run-sequence');
@@ -41,8 +42,10 @@ var styleTask = function (stylesPath, srcs) {
     }))
     .pipe($.changed(stylesPath, {extension: '.css'}))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
+    .pipe(debug({title: 'autoprefixer:'}))
     .pipe(gulp.dest('.tmp/' + stylesPath))
     .pipe($.cssmin())
+    .pipe(debug({title: 'cssmin:'}))
     .pipe(gulp.dest('dist/' + stylesPath))
     .pipe($.size({title: stylesPath}));
 };
@@ -65,18 +68,22 @@ var optimizeHtmlTask = function (src, dest) {
     .pipe($.if('*.html', $.replace('elements/gr-app.html', 'elements/gr-app.vulcanized.html')))
     .pipe(assets)
     // Concatenate and minify JavaScript
+    .pipe(debug({title: 'uglify:'}))
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
     // Concatenate and minify styles
     // In case you are still using useref build blocks
+    .pipe(debug({title: 'cssmin:'}))
     .pipe($.if('*.css', $.cssmin()))
     .pipe(assets.restore())
     .pipe($.useref())
+    .pipe(debug({title: 'useref:'}))
     // Minify any HTML
     .pipe($.if('*.html', $.minifyHtml({
       quotes: true,
       empty: true,
       spare: true
     })))
+    .pipe(debug({title: 'minifyHtml:'}))
     // Output files
     .pipe(gulp.dest(dest))
     .pipe($.size({title: 'html'}));

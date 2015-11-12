@@ -18,7 +18,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.metrics.dropwizard.MetricResource.METRIC_KIND;
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -46,8 +49,6 @@ import com.google.inject.Singleton;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -248,18 +249,26 @@ public class DropWizardMetricMaker extends MetricMaker {
   @Override
   public synchronized RegistrationHandle newTrigger(
       Set<CallbackMetric<?>> metrics, Runnable trigger) {
-    trigger = new CallbackGroup(trigger);
+    final ImmutableSet<CallbackMetricGlue> all = FluentIterable.from(metrics)
+        .transform(
+          new Function<CallbackMetric<?>, CallbackMetricGlue>() {
+            @Override
+            public CallbackMetricGlue apply(CallbackMetric<?> input) {
+              return (CallbackMetricGlue) input;
+            }
+          })
+        .toSet();
 
-    for (CallbackMetric<?> m : metrics) {
-      ((CallbackMetricGlue) m).register(trigger);
+    trigger = new CallbackGroup(trigger, all);
+    for (CallbackMetricGlue m : all) {
+      m.register(trigger);
     }
     trigger.run();
 
-    final List<CallbackMetric<?>> all = new ArrayList<>(metrics);
     return new RegistrationHandle() {
       @Override
       public void remove() {
-        for (CallbackMetric<?> m : all) {
+        for (CallbackMetricGlue m : all) {
           m.remove();
         }
       }

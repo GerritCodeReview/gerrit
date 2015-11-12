@@ -55,6 +55,14 @@ class CallbackMetricImpl0<V>
   }
 
   @Override
+  public void beginSet() {
+  }
+
+  @Override
+  public void endSet() {
+  }
+
+  @Override
   public void set(V value) {
     this.value = value;
   }

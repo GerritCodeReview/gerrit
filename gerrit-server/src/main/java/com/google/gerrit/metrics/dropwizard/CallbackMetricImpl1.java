@@ -36,8 +36,25 @@ class CallbackMetricImpl1<F1, V> extends BucketedCallback<V> {
       extends CallbackMetric1<F1, V>
       implements CallbackMetricGlue {
     @Override
+    public void beginSet() {
+      doBeginSet();
+    }
+
+    @Override
     public void set(F1 field1, V value) {
-      getOrCreate(field1).value = value;
+      BucketedCallback<V>.ValueGauge cell = getOrCreate(field1);
+      cell.value = value;
+      cell.set = true;
+    }
+
+    @Override
+    public void prune() {
+      doPrune();
+    }
+
+    @Override
+    public void endSet() {
+      doEndSet();
     }
 
     @Override

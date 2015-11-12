@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -26,7 +28,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
-import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -329,7 +330,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Users who have non-zero approval codes on the change. */
   protected void ccExistingReviewers() {
     try {
-      for (Account.Id id : changeData.reviewers().get(ReviewerState.REVIEWER)) {
+      for (Account.Id id : changeData.reviewers().get(REVIEWER)) {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {

@@ -15,8 +15,8 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.notedb.ReviewerState.CC;
-import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 

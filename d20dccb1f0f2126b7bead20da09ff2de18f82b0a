@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_b552c0e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/Description.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T14:49:51Z",
+      "side": 1,
+      "message": "Increase this to 5?",
+      "range": {
+        "startLine": 70,
+        "startChar": 56,
+        "endLine": 70,
+        "endChar": 57
+      },
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_954fc43b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/MetricMaker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T14:49:51Z",
+      "side": 1,
+      "message": "Nit: blank line between methods in class.",
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_699ea57a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/CallbackMetricGlue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T14:49:51Z",
+      "side": 1,
+      "message": "Nit: unneeded blank line.",
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_558feca1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T14:49:51Z",
+      "side": 1,
+      "message": "Would it be easy to create unit test, that retrieves this  constant metric and verifies that it equals to Version.getVersion()? That way the whole Metric machinery could be tested.",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 22
+      },
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_359470b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T14:49:51Z",
+      "side": 1,
+      "message": "Nit: too long line.",
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_e9b17509",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T14:49:51Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be !\u003d 0? When only one from number of GarbageCollectorMXBean in JVM:[1] is filled with values then real values are overriden. I ran it on my laptop, and got two beans, with values: count_1 \u003d 3, time_1 \u003d 46 and count_2 \u003d 0 and time_2 \u003d 0. Second default values override the real values.\n\n* [1] According to Javadoc: \"The Java virtual machine may have one or more GarbageCollectorMXBean objects. It may add or remove GarbageCollectorMXBean during execution.\"",
+      "range": {
+        "startLine": 198,
+        "startChar": 14,
+        "endLine": 198,
+        "endChar": 25
+      },
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_c9aeb1a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T14:49:51Z",
+      "side": 1,
+      "message": "Those names are often obfuscated. In my case: \"PS Scavenge\". Max be prefix it with \"GC type: \", or just \"GC \"?",
+      "range": {
+        "startLine": 199,
+        "startChar": 24,
+        "endLine": 199,
+        "endChar": 36
+      },
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.git;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer1;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -31,16 +35,41 @@ public class UploadPackMetricsHook implements PostUploadHook {
     FETCH;
   }
 
-  private final Counter1<Operation> upload;
+  private final Counter1<Operation> requestCount;
+  private final Timer1<Operation> counting;
+  private final Timer1<Operation> compressing;
+  private final Timer1<Operation> writing;
 
   @Inject
   UploadPackMetricsHook(MetricMaker metricMaker) {
-    upload = metricMaker.newCounter(
+    Field<Operation> operation = Field.ofEnum(Operation.class, "operation");
+    requestCount = metricMaker.newCounter(
         "git/upload-pack/request_count",
         new Description("Total number of git-upload-pack requests")
           .setRate()
           .setUnit("requests"),
-        Field.ofEnum(Operation.class, "operation"));
+        operation);
+
+    counting = metricMaker.newTimer(
+        "git/upload-pack/phase_counting",
+        new Description("Time spenting in the 'Counting...' phase")
+          .setRate()
+          .setUnit(Units.MILLISECONDS),
+        operation);
+
+    compressing = metricMaker.newTimer(
+        "git/upload-pack/phase_compressing",
+        new Description("Time spenting in the 'Compressing...' phase")
+          .setRate()
+          .setUnit(Units.MILLISECONDS),
+        operation);
+
+    writing = metricMaker.newTimer(
+        "git/upload-pack/phase_writing",
+        new Description("Time spenting transferring bytes to client")
+          .setRate()
+          .setUnit(Units.MILLISECONDS),
+        operation);
   }
 
   @Override
@@ -50,6 +79,10 @@ public class UploadPackMetricsHook implements PostUploadHook {
         || stats.getUninterestingObjects().isEmpty()) {
       op = Operation.CLONE;
     }
-    upload.increment(op);
+
+    requestCount.increment(op);
+    counting.record(op, stats.getTimeCounting(), MILLISECONDS);
+    compressing.record(op, stats.getTimeCompressing(), MILLISECONDS);
+    writing.record(op, stats.getTimeWriting(), MILLISECONDS);
   }
 }

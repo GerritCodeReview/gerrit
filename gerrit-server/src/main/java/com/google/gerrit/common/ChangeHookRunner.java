@@ -715,12 +715,12 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     @Override
-    public void doClaSignupHook(Account account, ContributorAgreement cla) {
+    public void doClaSignupHook(Account account, String claName) {
       if (account != null) {
         List<String> args = new ArrayList<>();
         addArg(args, "--submitter", getDisplayName(account));
         addArg(args, "--user-id", account.getId().toString());
-        addArg(args, "--cla-name", cla.getName());
+        addArg(args, "--cla-name", claName);
 
         runHook(claSignedHook, args);
       }

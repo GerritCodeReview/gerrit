@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_f52a7859",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T03:49:38Z",
+      "side": 1,
+      "message": "Nit: Uneeded new line.",
+      "revId": "047677aa48b1a0f1e9a6f74d4eff2aea3972344c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_d5277c91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T03:49:38Z",
+      "side": 1,
+      "message": "Given that NewProjectCreatedListener and ClaSignedListener are entirely unrelated to changes, may be we should called this class just HookApiListener, even though all hooks are fired through ChangeHooks class.",
+      "range": {
+        "startLine": 72,
+        "startChar": 13,
+        "endLine": 72,
+        "endChar": 34
+      },
+      "revId": "047677aa48b1a0f1e9a6f74d4eff2aea3972344c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_b40be0ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T03:49:38Z",
+      "side": 1,
+      "message": "// TODO or WIP here // ClaListener",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 23
+      },
+      "revId": "047677aa48b1a0f1e9a6f74d4eff2aea3972344c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_74178826",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T03:49:38Z",
+      "side": 1,
+      "message": "Inconsistent logging of failures. I understand that this code was moved, but may be add a TODO here?",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 5
+      },
+      "revId": "047677aa48b1a0f1e9a6f74d4eff2aea3972344c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_9408e403",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T03:49:38Z",
+      "side": 1,
+      "message": "Too long line, here and below.",
+      "revId": "047677aa48b1a0f1e9a6f74d4eff2aea3972344c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_d4277c91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T03:49:38Z",
+      "side": 1,
+      "message": "So we converting the API classes back to internal database classes. We should clean this up and change HookRunner to use API classes. And would expect, that the commit message mention would that.",
+      "range": {
+        "startLine": 280,
+        "startChar": 2,
+        "endLine": 290,
+        "endChar": 3
+      },
+      "revId": "047677aa48b1a0f1e9a6f74d4eff2aea3972344c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_541c8c46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T03:49:38Z",
+      "side": 1,
+      "message": "This is confusing, as this change was aready done in another change out of this series. Rebase it on top of it and revert those changes in this change.",
+      "revId": "047677aa48b1a0f1e9a6f74d4eff2aea3972344c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_3411102f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T03:49:38Z",
+      "side": 1,
+      "message": "The same.",
+      "revId": "047677aa48b1a0f1e9a6f74d4eff2aea3972344c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_9421047e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T03:49:38Z",
+      "side": 1,
+      "message": "Not used now.",
+      "range": {
+        "startLine": 306,
+        "startChar": 6,
+        "endLine": 306,
+        "endChar": 32
+      },
+      "revId": "047677aa48b1a0f1e9a6f74d4eff2aea3972344c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

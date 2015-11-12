@@ -38,7 +38,8 @@ def main(args):
 
   out = os.path.join(os.getcwd(), opts.o)
   subprocess.check_call(
-    cmd(opts.c,
+    cmd('/home/davido/projects/gerrit/polygerrit-ui/node_modules/vulcanize/bin/vulcanize',
+    #cmd(opts.c,
         '--inline-scripts',
         '--inline-css',
         '--strip-comments',

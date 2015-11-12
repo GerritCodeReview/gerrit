@@ -198,6 +198,30 @@
       "revId": "d2145560785d9f0c26053d84f3d9f41bfda72b66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_94134442",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T01:28:49Z",
+      "side": 1,
+      "message": "Done.  Much cleaner now.  Thanks.",
+      "parentUuid": "1b1ff356_3423509b",
+      "range": {
+        "startLine": 1009,
+        "startChar": 0,
+        "endLine": 1011,
+        "endChar": 55
+      },
+      "revId": "d2145560785d9f0c26053d84f3d9f41bfda72b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

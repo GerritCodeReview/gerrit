@@ -22,6 +22,7 @@ import com.google.gerrit.metrics.CallbackMetric0;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.FieldOrdering;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
@@ -35,12 +36,17 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProcMetricModuleTest {
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
   @Inject
   MetricMaker metrics;
 
@@ -104,6 +110,30 @@ public class ProcMetricModuleTest {
   }
 
   @Test
+  public void testCounterPrefixFields() {
+    Counter1<String> cntr = metrics.newCounter(
+        "test/count",
+        new Description("simple test")
+          .setCumulative()
+          .setFieldOrdering(FieldOrdering.PREFIX_FIELDS_BASENAME),
+        Field.ofString("action"));
+
+    Counter total = get("test/count_total", Counter.class);
+    assertThat(total.getCount()).isEqualTo(0);
+
+    cntr.increment("passed");
+    Counter passed = get("test/passed/count", Counter.class);
+    assertThat(total.getCount()).isEqualTo(1);
+    assertThat(passed.getCount()).isEqualTo(1);
+
+    cntr.incrementBy("failed", 5);
+    Counter failed = get("test/failed/count", Counter.class);
+    assertThat(total.getCount()).isEqualTo(6);
+    assertThat(passed.getCount()).isEqualTo(1);
+    assertThat(failed.getCount()).isEqualTo(5);
+  }
+
+  @Test
   public void testCallbackMetric0() {
     final CallbackMetric0<Long> cntr = metrics.newCallbackMetric(
         "test/count",
@@ -128,6 +158,18 @@ public class ProcMetricModuleTest {
 
     // Triggers are debounced to avoid being fired too frequently.
     assertThat(invocations.get()).isEqualTo(1);
+  }
+
+  @Test
+  public void testInvalidName1() {
+    exception.expect(IllegalArgumentException.class);
+    metrics.newCounter("invalid name", new Description("fail"));
+  }
+
+  @Test
+  public void testInvalidName2() {
+    exception.expect(IllegalArgumentException.class);
+    metrics.newCounter("invalid/ name", new Description("fail"));
   }
 
   @SuppressWarnings({"unchecked", "cast"})

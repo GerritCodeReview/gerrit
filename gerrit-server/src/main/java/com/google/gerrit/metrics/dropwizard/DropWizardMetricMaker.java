@@ -52,6 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 /**
  * Connects Gerrit metric package onto DropWizard.
@@ -109,7 +110,7 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   @Override
   public synchronized Counter0 newCounter(String name, Description desc) {
-    checkCounterDescription(desc);
+    checkCounterDescription(name, desc);
     define(name, desc);
     return newCounterImpl(name, desc.isRate());
   }
@@ -118,7 +119,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   public synchronized <F1> Counter1<F1> newCounter(
       String name, Description desc,
       Field<F1> field1) {
-    checkCounterDescription(desc);
+    checkCounterDescription(name, desc);
     CounterImpl1<F1> m = new CounterImpl1<>(this, name, desc, field1);
     define(name, desc);
     bucketed.put(name, m);
@@ -129,7 +130,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   public synchronized <F1, F2> Counter2<F1, F2> newCounter(
       String name, Description desc,
       Field<F1> field1, Field<F2> field2) {
-    checkCounterDescription(desc);
+    checkCounterDescription(name, desc);
     CounterImplN m = new CounterImplN(this, name, desc, field1, field2);
     define(name, desc);
     bucketed.put(name, m);
@@ -140,14 +141,15 @@ public class DropWizardMetricMaker extends MetricMaker {
   public synchronized <F1, F2, F3> Counter3<F1, F2, F3> newCounter(
       String name, Description desc,
       Field<F1> field1, Field<F2> field2, Field<F3> field3) {
-    checkCounterDescription(desc);
+    checkCounterDescription(name, desc);
     CounterImplN m = new CounterImplN(this, name, desc, field1, field2, field3);
     define(name, desc);
     bucketed.put(name, m);
     return m.counter3();
   }
 
-  private static void checkCounterDescription(Description desc) {
+  private static void checkCounterDescription(String name, Description desc) {
+    checkMetricName(name);
     checkArgument(!desc.isConstant(), "counters must not be constant");
     checkArgument(!desc.isGauge(), "counters must not be gauge");
   }
@@ -176,14 +178,14 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   @Override
   public synchronized Timer0 newTimer(String name, Description desc) {
-    checkTimerDescription(desc);
+    checkTimerDescription(name, desc);
     define(name, desc);
     return newTimerImpl(name);
   }
 
   @Override
   public synchronized <F1> Timer1<F1> newTimer(String name, Description desc, Field<F1> field1) {
-    checkTimerDescription(desc);
+    checkTimerDescription(name, desc);
     TimerImpl1<F1> m = new TimerImpl1<>(this, name, desc, field1);
     define(name, desc);
     bucketed.put(name, m);
@@ -193,7 +195,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   @Override
   public synchronized <F1, F2> Timer2<F1, F2> newTimer(String name, Description desc,
       Field<F1> field1, Field<F2> field2) {
-    checkTimerDescription(desc);
+    checkTimerDescription(name, desc);
     TimerImplN m = new TimerImplN(this, name, desc, field1, field2);
     define(name, desc);
     bucketed.put(name, m);
@@ -204,14 +206,15 @@ public class DropWizardMetricMaker extends MetricMaker {
   public synchronized <F1, F2, F3> Timer3<F1, F2, F3> newTimer(
       String name, Description desc,
       Field<F1> field1, Field<F2> field2, Field<F3> field3) {
-    checkTimerDescription(desc);
+    checkTimerDescription(name, desc);
     TimerImplN m = new TimerImplN(this, name, desc, field1, field2, field3);
     define(name, desc);
     bucketed.put(name, m);
     return m.timer3();
   }
 
-  private static void checkTimerDescription(Description desc) {
+  private static void checkTimerDescription(String name, Description desc) {
+    checkMetricName(name);
     checkArgument(!desc.isConstant(), "timer must not be constant");
     checkArgument(!desc.isGauge(), "timer must not be a gauge");
     checkArgument(!desc.isRate(), "timer must not be a rate");
@@ -226,6 +229,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   @Override
   public <V> CallbackMetric0<V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc) {
+    checkMetricName(name);
     define(name, desc);
     return new CallbackMetricImpl0<>(this, registry, name, valueClass);
   }
@@ -233,6 +237,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   @Override
   public <F1, V> CallbackMetric1<F1, V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc, Field<F1> field1) {
+    checkMetricName(name);
     CallbackMetricImpl1<F1, V> m = new CallbackMetricImpl1<>(this, registry,
         name, valueClass, desc, field1);
     define(name, desc);
@@ -272,6 +277,15 @@ public class DropWizardMetricMaker extends MetricMaker {
           "metric %s already defined", name));
     }
     descriptions.put(name, desc.getAnnotations());
+  }
+
+  private static final Pattern METRIC_NAME_PATTERN = Pattern
+      .compile("[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*");
+
+  private static void checkMetricName(String name) {
+    checkArgument(
+        METRIC_NAME_PATTERN.matcher(name).matches(),
+        "metric name must match %s", METRIC_NAME_PATTERN.pattern());
   }
 
   static String name(Description.FieldOrdering ordering,

@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bb6267ec_c9feb11f",
+        "filename": "polygerrit-ui/gulpfile.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-12T20:07:49Z",
+      "side": 1,
+      "message": "Need to comment out this one first.",
+      "revId": "9033534ffb4f17fe22a50064bf1a4e645d0ba000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_e96e15d6",
         "filename": "polygerrit-ui/gulpfile.js",
         "patchSetId": 3

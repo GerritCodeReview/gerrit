@@ -259,7 +259,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
    * @param cd the change to check for submittability
    * @return if the change has any problems for submission
    */
-  public boolean submittable(ChangeData cd) {
+  public static boolean submittable(ChangeData cd) {
     try {
       MergeOp.checkSubmitRule(cd);
       return true;

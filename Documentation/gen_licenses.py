@@ -19,8 +19,8 @@ from __future__ import print_function
 
 import argparse
 from collections import defaultdict, deque
+import json
 from os import chdir, path
-import re
 from shutil import copyfileobj
 from subprocess import Popen, PIPE
 from sys import stdout, stderr
@@ -28,7 +28,6 @@ from sys import stdout, stderr
 parser = argparse.ArgumentParser()
 parser.add_argument('--asciidoc', action='store_true')
 parser.add_argument('--partial', action='store_true')
-parser.add_argument('--classpath', action='append')
 parser.add_argument('targets', nargs='+')
 args = parser.parse_args()
 
@@ -38,37 +37,34 @@ KNOWN_PROVIDED_DEPS = [
   '//lib/bouncycastle:bcprov',
 ]
 
+for target in args.targets:
+  if not target.startswith('//'):
+    print('Target must be absolute: %s' % target, file=stderr)
+
 def parse_graph():
   graph = defaultdict(list)
   while not path.isfile('.buckconfig'):
     chdir('..')
-  # TODO(davido): use passed in classpath from Buck instead
-  p = Popen(
-    ['buck', 'audit', 'classpath', '--dot'] + args.targets,
-    stdout = PIPE)
-  for line in p.stdout:
-    m = re.search(r'"(//.*?)" -> "(//.*?)";', line)
-    if not m:
-      continue
-    target, dep = m.group(1), m.group(2)
-    if args.partial:
-      if dep == '//lib/codemirror:js_minifier':
-        if target == '//lib/codemirror:js':
-          continue
-        if target.startswith('//lib/codemirror:mode_'):
-          continue
-      if target == '//gerrit-gwtui:ui_module' and \
-         dep == '//gerrit-gwtexpui:CSS':
+  query = ' + '.join('deps(%s)' % t for t in args.targets)
+  p = Popen([
+      'buck', 'query', query,
+      '--output-attributes=buck.direct_dependencies'], stdout=PIPE)
+  obj = json.load(p.stdout)
+  for target, attrs in obj.iteritems():
+    for dep in attrs['buck.direct_dependencies']:
+      if target in KNOWN_PROVIDED_DEPS:
         continue
 
-    # Dependencies included in provided_deps set are contained in audit
-    # classpath and must be sorted out. That's safe thing to do because
-    # they are not included in the final artifact.
-    if "DO_NOT_DISTRIBUTE" in dep:
-      if not target in KNOWN_PROVIDED_DEPS:
-        print('DO_NOT_DISTRIBUTE license for target: %s' % target, file=stderr)
-        exit(1)
-    else:
+      if args.partial:
+        if dep == '//lib/codemirror:js_minifier':
+          if target == '//lib/codemirror:js':
+            continue
+          if target.startswith('//lib/codemirror:mode_'):
+            continue
+        if (target == '//gerrit-gwtui:ui_module'
+            and dep == '//gerrit-gwtexpui:CSS'):
+          continue
+
       graph[target].append(dep)
   r = p.wait()
   if r != 0:
@@ -78,14 +74,27 @@ def parse_graph():
 graph = parse_graph()
 licenses = defaultdict(set)
 
+do_not_distribute = False
 queue = deque(args.targets)
 while queue:
   target = queue.popleft()
   for dep in graph[target]:
     if not dep.startswith('//lib:LICENSE-'):
       continue
+    if 'DO_NOT_DISTRIBUTE' in dep:
+      do_not_distribute = True
     licenses[dep].add(target)
   queue.extend(graph[target])
+
+if do_not_distribute:
+  print('DO_NOT_DISTRIBUTE license found', file=stderr)
+  for target in args.targets:
+    print('...via %s:' % target)
+    Popen(['buck', 'query',
+           'allpaths(%s, //lib:LICENSE-DO_NOT_DISTRIBUTE)' % target],
+          stdout=stderr).communicate()
+  exit(1)
+
 used = sorted(licenses.keys())
 
 if args.asciidoc:

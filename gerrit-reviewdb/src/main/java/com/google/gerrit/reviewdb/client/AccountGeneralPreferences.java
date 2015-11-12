@@ -155,6 +155,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 19)
   protected boolean muteCommonPathPrefixes;
 
+  @Column(id = 20)
+  protected boolean sendTrivialRebaseEmail;
+
   public AccountGeneralPreferences() {
   }
 
@@ -250,6 +253,14 @@ public final class AccountGeneralPreferences {
     copySelfOnEmail = includeSelfOnEmail;
   }
 
+  public boolean isSendTrivialRebaseEmails() {
+    return sendTrivialRebaseEmail;
+  }
+
+  public void setSendTrivialRebaseEmails(boolean sendTrivialRebase) {
+    sendTrivialRebaseEmail = sendTrivialRebase;
+  }
+
   public boolean isShowInfoInReviewCategory() {
     return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
   }
@@ -337,6 +348,7 @@ public final class AccountGeneralPreferences {
     showSiteHeader = true;
     useFlashClipboard = true;
     copySelfOnEmail = false;
+    sendTrivialRebaseEmail = false;
     reviewCategoryStrategy = null;
     downloadUrl = null;
     downloadCommand = null;

@@ -65,6 +65,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public String downloadScheme;
     public DownloadCommand downloadCommand;
     public Boolean copySelfOnEmail;
+    public Boolean sendTrivialRebaseEmail;
     public DateFormat dateFormat;
     public TimeFormat timeFormat;
     public Boolean relativeDateInChangeTable;
@@ -148,6 +149,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.copySelfOnEmail != null) {
         p.setCopySelfOnEmails(i.copySelfOnEmail);
+      }
+      if (i.sendTrivialRebaseEmail != null) {
+        p.setSendTrivialRebaseEmails(i.sendTrivialRebaseEmail);
       }
       if (i.dateFormat != null) {
         p.setDateFormat(i.dateFormat);

@@ -105,6 +105,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
             findBaseRev(rw, rsrc, input))
           .setForceContentMerge(true)
           .setRunHooks(true)
+          .setSendEmail(true)
           .setValidatePolicy(CommitValidators.Policy.GERRIT));
       bu.execute();
     }

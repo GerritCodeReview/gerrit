@@ -18,6 +18,7 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
+var crisper = require('gulp-crisper');
 var runSequence = require('run-sequence');
 var merge = require('merge-stream');
 var path = require('path');
@@ -148,6 +149,7 @@ gulp.task('vulcanize', function () {
       inlineCss: true,
       inlineScripts: true
     }))
+    .pipe($.crisper())
     .pipe(gulp.dest(DEST_DIR))
     .pipe($.size({title: 'vulcanize'}));
 });

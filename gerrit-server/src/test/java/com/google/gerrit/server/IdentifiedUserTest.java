@@ -29,9 +29,11 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeAccountCache;
+import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -94,8 +96,10 @@ public class IdentifiedUserTest {
         bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
         bind(CapabilityControl.Factory.class)
           .toProvider(Providers.<CapabilityControl.Factory>of(null));
+        bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
         bind(Realm.class).toInstance(mockRealm);
-
+        bind(StarredChangesUtil.class)
+            .toProvider(Providers.<StarredChangesUtil> of(null));
       }
     };
 

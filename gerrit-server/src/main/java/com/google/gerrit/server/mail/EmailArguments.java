@@ -22,6 +22,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
@@ -73,6 +74,7 @@ public class EmailArguments {
   final RuntimeInstance velocityRuntime;
   final EmailSettings settings;
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
+  final StarredChangesUtil starredChangesUtil;
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
@@ -96,7 +98,8 @@ public class EmailArguments {
       RuntimeInstance velocityRuntime,
       EmailSettings settings,
       @SshAdvertisedAddresses List<String> sshAddresses,
-      DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners) {
+      DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
+      StarredChangesUtil starredChangesUtil) {
     this.server = server;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
@@ -122,5 +125,6 @@ public class EmailArguments {
     this.settings = settings;
     this.sshAddresses = sshAddresses;
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
+    this.starredChangesUtil = starredChangesUtil;
   }
 }

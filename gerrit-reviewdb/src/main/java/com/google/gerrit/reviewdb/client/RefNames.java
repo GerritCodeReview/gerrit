@@ -43,6 +43,9 @@ public class RefNames {
   /** Draft inline comments of a user on a change */
   public static final String REFS_DRAFT_COMMENTS = "refs/draft-comments/";
 
+  /** A change starred by a user */
+  public static final String REFS_STARRED_CHANGES = "refs/starred-changes/";
+
   /**
    * Prefix applied to merge commit base nodes.
    * <p>
@@ -110,6 +113,32 @@ public class RefNames {
     r.append('/');
     r.append(accountId.get());
     r.append('-');
+    return r;
+  }
+
+  public static String refsStarredChanges(Account.Id accountId,
+      Change.Id changeId) {
+    StringBuilder r = buildRefsPrefix(REFS_STARRED_CHANGES, accountId);
+    r.append(changeId.get());
+    return r.toString();
+  }
+
+  public static String refsStarredChangesPrefix(Account.Id accountId) {
+    return buildRefsPrefix(REFS_STARRED_CHANGES, accountId).toString();
+  }
+
+  private static StringBuilder buildRefsPrefix(String prefix,
+      Account.Id accountId) {
+    StringBuilder r = new StringBuilder();
+    r.append(prefix);
+    int n = accountId.get() % 100;
+    if (n < 10) {
+      r.append('0');
+    }
+    r.append(n);
+    r.append('/');
+    r.append(accountId.get());
+    r.append('/');
     return r;
   }
 

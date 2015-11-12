@@ -55,9 +55,10 @@ interface ChangeConstants extends Constants {
   String deleteDraftRevision();
 
   String buttonCancel();
+  String submitButton();
   String submitBranchText();
   String submitTopicText();
   String submitTopicHeader();
   String submitBranchHeader();
-  String submittedTogetherWithoutTopic();
+  String submitThisChangeOnly();
 }

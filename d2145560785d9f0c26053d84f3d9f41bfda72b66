@@ -22,6 +22,92 @@
       "revId": "d2145560785d9f0c26053d84f3d9f41bfda72b66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_d4309ce5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestContextFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T00:44:09Z",
+      "side": 1,
+      "message": "final",
+      "revId": "d2145560785d9f0c26053d84f3d9f41bfda72b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_144f3469",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestContextFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T00:44:09Z",
+      "side": 1,
+      "message": "ofInteger",
+      "range": {
+        "startLine": 67,
+        "startChar": 42,
+        "endLine": 67,
+        "endChar": 50
+      },
+      "revId": "d2145560785d9f0c26053d84f3d9f41bfda72b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_f43398ef",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestContextFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T00:44:09Z",
+      "side": 1,
+      "message": "This is the only use of Field in the class that I could find, maybe we can import the Field type?",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 67,
+        "endChar": 41
+      },
+      "revId": "d2145560785d9f0c26053d84f3d9f41bfda72b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_75ee6874",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T00:44:09Z",
+      "side": 1,
+      "message": "Cleaner approach may be to just use an HttpServletResponseWrapper in the RequestContextFilter to wrap the incoming request, capture the status code, and increment the counter if its \u003e\u003d 400.",
+      "range": {
+        "startLine": 1009,
+        "startChar": 0,
+        "endLine": 1011,
+        "endChar": 55
+      },
+      "revId": "d2145560785d9f0c26053d84f3d9f41bfda72b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_2911cd2e",
+        "filename": "lib/js.defs",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T20:21:06Z",
+      "side": 1,
+      "message": "Running our self extracted vulcanize npm module still exposes this problem, that polifill script isn\u0027t get vulcanized.\n\n  $ buck build polygerrit-ui/app:polygerrit\n  $ buck targets --show_output polygerrit-ui/app:polygerrit\n  $ grep polyfill buck-out/gen/polygerrit-ui/app/polygerrit/polygerrit.html\n  \u003cscript src\u003d\"../bower_components/promise-polyfill/Promise.js\"\u003e\u003c/script\u003e\n        // These classes are added to account for Polymer’s polyfill behavior.\n\nReplacing the npm with system wide (installed by gulp process) serves this problem, in my case:\n\n  /home/davido/projects/gerrit/polygerrit-ui/node_modules/vulcanize/bin/vulcanize",
+      "range": {
+        "startLine": 90,
+        "startChar": 21,
+        "endLine": 90,
+        "endChar": 57
+      },
+      "revId": "c92654cbbdcc912ef4622657ac72dd4bb04930d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

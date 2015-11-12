@@ -275,7 +275,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           .setUnit("sessions"));
 
     final Counter0 authFailures = metricMaker.newCounter(
-        "sshd/sessions/authentication-failed",
+        "sshd/sessions/authentication_failures",
         new Description("Rate of SSH authentication failures")
           .setRate()
           .setUnit("failures"));

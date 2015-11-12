@@ -36,7 +36,7 @@ public class UploadPackMetricsHook implements PostUploadHook {
   @Inject
   UploadPackMetricsHook(MetricMaker metricMaker) {
     upload = metricMaker.newCounter(
-        "git/upload-pack",
+        "git/upload-pack/request_count",
         new Description("Total number of git-upload-pack requests")
           .setRate()
           .setUnit("requests"),

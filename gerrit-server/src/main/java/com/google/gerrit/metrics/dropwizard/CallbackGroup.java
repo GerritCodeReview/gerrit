@@ -14,24 +14,42 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.google.common.collect.ImmutableSet;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * Run a user specified trigger only once every 2 seconds.
+ * <p>
+ * This allows the same Runnable trigger to be applied to several metrics. When
+ * a recorder is sampling the related metrics only the first access will perform
+ * recomputation. Reading other related metrics will rely on the already set
+ * values for the next several seconds.
+ */
 class CallbackGroup implements Runnable {
   private static final long PERIOD = TimeUnit.SECONDS.toNanos(2);
 
   private final AtomicLong reloadAt;
   private final Runnable trigger;
+  private final ImmutableSet<CallbackMetricGlue> metrics;
 
-  CallbackGroup(Runnable trigger) {
+  CallbackGroup(Runnable trigger, ImmutableSet<CallbackMetricGlue> metrics) {
     this.reloadAt = new AtomicLong(0);
     this.trigger = trigger;
+    this.metrics = metrics;
   }
 
   @Override
   public void run() {
     if (reload()) {
+      for (CallbackMetricGlue m : metrics) {
+        m.beginSet();
+      }
       trigger.run();
+      for (CallbackMetricGlue m : metrics) {
+        m.endSet();
+      }
     }
   }
 

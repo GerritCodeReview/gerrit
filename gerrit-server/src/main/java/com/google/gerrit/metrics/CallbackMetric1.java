@@ -31,4 +31,8 @@ public abstract class CallbackMetric1<F1, V> implements CallbackMetric<V> {
 
   /** Ensure a zeroed metric is created for the field value. */
   public abstract void forceCreate(F1 field1);
+
+  /** Prune any submetrics that were not assigned during this trigger. */
+  public void prune() {
+  }
 }

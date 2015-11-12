@@ -24,6 +24,7 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -54,6 +55,29 @@ abstract class BucketedCallback<V> implements BucketedMetric {
       registry.remove(submetric(key));
     }
     metrics.remove(name);
+  }
+
+  void doBeginSet() {
+    for (ValueGauge g : cells.values()) {
+      g.set = false;
+    }
+  }
+
+  void doPrune() {
+    Iterator<Map.Entry<Object, ValueGauge>> i = cells.entrySet().iterator();
+    while (i.hasNext()) {
+      if (!i.next().getValue().set) {
+        i.remove();
+      }
+    }
+  }
+
+  void doEndSet() {
+    for (ValueGauge g : cells.values()) {
+      if (!g.set) {
+        g.value = zero;
+      }
+    }
   }
 
   ValueGauge getOrCreate(Object f1, Object f2) {
@@ -111,6 +135,7 @@ abstract class BucketedCallback<V> implements BucketedMetric {
 
   final class ValueGauge implements Gauge<V> {
     volatile V value = zero;
+    boolean set;
 
     @Override
     public V getValue() {

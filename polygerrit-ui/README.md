@@ -3,8 +3,9 @@
 For local testing against production data...
 
 ```sh
-npm install
-bower install
+rm -rf bower_components && \
+buck build //lib/js:polygerrit_components && \
+unzip ../buck-out/gen/lib/js/polygerrit_components/polygerrit_components.bower_components.zip && \
 go run server.go
 ```
 

@@ -27,10 +27,9 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.StarredChange;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.query.change.QueryChanges;
@@ -42,8 +41,6 @@ import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Collections;
 
 @Singleton
 public class StarredChanges implements
@@ -117,13 +114,13 @@ public class StarredChanges implements
   @Singleton
   public static class Create implements RestModifyView<AccountResource, EmptyInput> {
     private final Provider<CurrentUser> self;
-    private final Provider<ReviewDb> dbProvider;
+    private final StarredChangesUtil starredChangesUtil;
     private ChangeResource change;
 
     @Inject
-    Create(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider) {
+    Create(Provider<CurrentUser> self, StarredChangesUtil starredChangesUtil) {
       this.self = self;
-      this.dbProvider = dbProvider;
+      this.starredChangesUtil = starredChangesUtil;
     }
 
     public Create setChange(ChangeResource change) {
@@ -138,10 +135,8 @@ public class StarredChanges implements
         throw new AuthException("not allowed to add starred change");
       }
       try {
-        dbProvider.get().starredChanges().insert(Collections.singleton(
-            new StarredChange(new StarredChange.Key(
-                rsrc.getUser().getAccountId(),
-                change.getChange().getId()))));
+        starredChangesUtil.star(self.get().getAccountId(),
+            change.getChange().getId());
       } catch (OrmDuplicateKeyException e) {
         return Response.none();
       }
@@ -173,12 +168,12 @@ public class StarredChanges implements
   public static class Delete implements
       RestModifyView<AccountResource.StarredChange, EmptyInput> {
     private final Provider<CurrentUser> self;
-    private final Provider<ReviewDb> dbProvider;
+    private final StarredChangesUtil starredChangesUtil;
 
     @Inject
-    Delete(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider) {
+    Delete(Provider<CurrentUser> self, StarredChangesUtil starredChangesUtil) {
       this.self = self;
-      this.dbProvider = dbProvider;
+      this.starredChangesUtil = starredChangesUtil;
     }
 
     @Override
@@ -187,10 +182,8 @@ public class StarredChanges implements
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed remove starred change");
       }
-      dbProvider.get().starredChanges().delete(Collections.singleton(
-          new StarredChange(new StarredChange.Key(
-              rsrc.getUser().getAccountId(),
-              rsrc.getChange().getId()))));
+      starredChangesUtil.unstar(self.get().getAccountId(),
+          rsrc.getChange().getId());
       return Response.none();
     }
   }

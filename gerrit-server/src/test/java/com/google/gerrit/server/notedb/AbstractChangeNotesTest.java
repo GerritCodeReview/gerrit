@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
@@ -140,6 +141,8 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
             .toInstance(serverIdent);
         bind(GitReferenceUpdated.class)
             .toInstance(GitReferenceUpdated.DISABLED);
+        bind(StarredChangesUtil.class)
+            .toProvider(Providers.<StarredChangesUtil> of(null));
       }
     });
 

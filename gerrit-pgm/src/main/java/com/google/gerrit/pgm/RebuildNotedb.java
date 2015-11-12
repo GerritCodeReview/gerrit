@@ -117,11 +117,12 @@ public class RebuildNotedb extends SiteProgram {
         sysInjector.getInstance(AllUsersName.class);
     try (Repository allUsersRepo =
         repoManager.openMetadataRepository(allUsersName)) {
-      deleteDraftRefs(allUsersRepo);
+      deleteRefs(RefNames.REFS_DRAFT_COMMENTS, allUsersRepo);
+      deleteRefs(RefNames.REFS_STARRED_CHANGES, allUsersRepo);
       for (final Project.NameKey project : changesByProject.keySet()) {
         try (Repository repo = repoManager.openMetadataRepository(project)) {
           final BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
-          final BatchRefUpdate bruForDrafts =
+          final BatchRefUpdate bruAllUsers =
               allUsersRepo.getRefDatabase().newBatchUpdate();
           List<ListenableFuture<?>> futures = Lists.newArrayList();
 
@@ -136,7 +137,7 @@ public class RebuildNotedb extends SiteProgram {
 
           for (final Change c : changesByProject.get(project)) {
             final ListenableFuture<?> future = rebuilder.rebuildAsync(c,
-                executor, bru, bruForDrafts, repo, allUsersRepo);
+                executor, bru, bruAllUsers, repo, allUsersRepo);
             futures.add(future);
             future.addListener(
                 new RebuildListener(c.getId(), future, ok, doneTask, failedTask),
@@ -149,7 +150,7 @@ public class RebuildNotedb extends SiteProgram {
                 public ListenableFuture<Void> apply(List<?> input)
                     throws Exception {
                   execute(bru, repo);
-                  execute(bruForDrafts, allUsersRepo);
+                  execute(bruAllUsers, allUsersRepo);
                   mpm.end();
                   return Futures.immediateFuture(null);
                 }
@@ -173,15 +174,22 @@ public class RebuildNotedb extends SiteProgram {
     try (RevWalk rw = new RevWalk(repo)) {
       bru.execute(rw, NullProgressMonitor.INSTANCE);
     }
+    for (ReceiveCommand command : bru.getCommands()) {
+      if (command.getResult() != ReceiveCommand.Result.OK) {
+        throw new IOException(String.format("Command %s failed: %s",
+            command.toString(), command.getResult()));
+      }
+    }
   }
 
-  private void deleteDraftRefs(Repository allUsersRepo) throws IOException {
+  private void deleteRefs(String prefix, Repository allUsersRepo)
+      throws IOException {
     RefDatabase refDb = allUsersRepo.getRefDatabase();
-    Map<String, Ref> allRefs = refDb.getRefs(RefNames.REFS_DRAFT_COMMENTS);
+    Map<String, Ref> allRefs = refDb.getRefs(prefix);
     BatchRefUpdate bru = refDb.newBatchUpdate();
     for (Map.Entry<String, Ref> ref : allRefs.entrySet()) {
       bru.addCommand(new ReceiveCommand(ref.getValue().getObjectId(),
-          ObjectId.zeroId(), RefNames.REFS_DRAFT_COMMENTS + ref.getKey()));
+          ObjectId.zeroId(), prefix + ref.getKey()));
     }
     execute(bru, allUsersRepo);
   }

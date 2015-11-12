@@ -58,15 +58,19 @@ public class ListCaches implements RestReadView<ConfigResource> {
     this.cacheMap = cacheMap;
   }
 
+  public Map<String, CacheInfo> getCacheInfos() {
+    Map<String, CacheInfo> cacheInfos = new TreeMap<>();
+    for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+      cacheInfos.put(cacheNameOf(e.getPluginName(), e.getExportName()),
+          new CacheInfo(e.getProvider().get()));
+    }
+    return cacheInfos;
+  }
+
   @Override
   public Object apply(ConfigResource rsrc) {
     if (format == null) {
-      Map<String, CacheInfo> cacheInfos = new TreeMap<>();
-      for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
-        cacheInfos.put(cacheNameOf(e.getPluginName(), e.getExportName()),
-            new CacheInfo(e.getProvider().get()));
-      }
-      return cacheInfos;
+      return getCacheInfos();
     } else {
       List<String> cacheNames = new ArrayList<>();
       for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {

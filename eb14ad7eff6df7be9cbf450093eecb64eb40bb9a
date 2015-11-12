@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db363bde_f2b16809",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-12T15:16:01Z",
+      "side": 1,
+      "message": "nit- Should be removed as per late style guidelines.",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 122,
+        "endChar": 9
+      },
+      "revId": "eb14ad7eff6df7be9cbf450093eecb64eb40bb9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

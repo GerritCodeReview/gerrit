@@ -33,6 +33,7 @@ public abstract class CallbackMetric1<F1, V> implements CallbackMetric<V> {
   public abstract void forceCreate(F1 field1);
 
   /** Prune any submetrics that were not assigned during this trigger. */
+  @Override
   public void prune() {
   }
 }

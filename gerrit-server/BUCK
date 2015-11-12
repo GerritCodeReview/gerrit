@@ -195,6 +195,7 @@ java_test(
     '//lib:args4j',
     '//lib:grappa',
     '//lib:guava',
+    '//lib/dropwizard:dropwizard-core',
     '//lib/guice:guice-assistedinject',
     '//lib/joda:joda-time',
     '//lib/prolog:runtime',

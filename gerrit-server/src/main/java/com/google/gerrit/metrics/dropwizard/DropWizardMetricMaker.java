@@ -60,7 +60,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Singleton
 public class DropWizardMetricMaker extends MetricMaker {
-  public static class Module extends RestApiModule {
+  public static class ApiModule extends RestApiModule {
     @Override
     protected void configure() {
       bind(MetricRegistry.class).in(Scopes.SINGLETON);
@@ -69,7 +69,12 @@ public class DropWizardMetricMaker extends MetricMaker {
 
       install(new ProcMetricModule());
       install(new JGitMetricModule());
+    }
+  }
 
+  public static class RestModule extends RestApiModule {
+    @Override
+    protected void configure() {
       DynamicMap.mapOf(binder(), METRIC_KIND);
       child(CONFIG_KIND, "metrics").to(MetricsCollection.class);
       get(METRIC_KIND).to(GetMetric.class);

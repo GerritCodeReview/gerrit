@@ -49,6 +49,18 @@ public class RefNamesTest {
   }
 
   @Test
+  public void refsStarredChanges() throws Exception {
+    assertThat(RefNames.refsStarredChanges(accountId, changeId))
+      .isEqualTo("refs/starred-changes/23/1011123/67473");
+  }
+
+  @Test
+  public void refsStarredChangesPrefix() throws Exception {
+    assertThat(RefNames.refsStarredChangesPrefix(accountId))
+      .isEqualTo("refs/starred-changes/23/1011123/");
+  }
+
+  @Test
   public void refsEdit() throws Exception {
     assertThat(RefNames.refsEdit(accountId, changeId, psId))
       .isEqualTo("refs/users/23/1011123/edit-67473/42");

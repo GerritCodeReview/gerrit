@@ -153,7 +153,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         }
 
         Account account = user.get().getAccount();
-        hooks.doClaSignupHook(account, ca);
+        hooks.doClaSignupHook(account, ca.getName());
 
         final AccountGroupMember.Key key =
             new AccountGroupMember.Key(account.getId(), group.getId());

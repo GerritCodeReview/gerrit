@@ -45,6 +45,7 @@ public class AccountPreferencesInfo extends JavaScriptObject {
     p.downloadScheme(defaultPrefs.getDownloadUrl());
     p.downloadCommand(defaultPrefs.getDownloadCommand());
     p.copySelfOnEmail(defaultPrefs.isCopySelfOnEmails());
+    p.sendTrivialRebaseEmail(defaultPrefs.isSendTrivialRebaseEmails());
     p.dateFormat(defaultPrefs.getDateFormat());
     p.timeFormat(defaultPrefs.getTimeFormat());
     p.relativeDateInChangeTable(defaultPrefs.isRelativeDateInChangeTable());
@@ -84,6 +85,9 @@ public class AccountPreferencesInfo extends JavaScriptObject {
 
   public final native boolean copySelfOnEmail()
   /*-{ return this.copy_self_on_email || false }-*/;
+
+  public final native boolean sendTrivialRebaseEmail()
+  /*-{ return this.send_trivial_rebase_email || false }-*/;
 
   public final DateFormat dateFormat() {
     String s = dateFormatRaw();
@@ -148,6 +152,9 @@ public class AccountPreferencesInfo extends JavaScriptObject {
 
   public final native void copySelfOnEmail(boolean c)
   /*-{ this.copy_self_on_email = c }-*/;
+
+  public final native void sendTrivialRebaseEmail(boolean s)
+  /*-{ this.send_trivial_rebase_email = s }-*/;
 
   public final void dateFormat(DateFormat f) {
     dateFormatRaw(f != null ? f.toString() : null);

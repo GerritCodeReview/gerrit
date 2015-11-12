@@ -60,6 +60,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   private String baseCommitish;
   private PersonIdent committerIdent;
   private boolean runHooks = true;
+  private boolean sendEmail = false;
   private CommitValidators.Policy validate;
   private boolean forceContentMerge;
 
@@ -97,6 +98,11 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     return this;
   }
 
+  public RebaseChangeOp setSendEmail(boolean sendEmail) {
+    this.sendEmail = sendEmail;
+    return this;
+  }
+
   public RebaseChangeOp setForceContentMerge(boolean forceContentMerge) {
     this.forceContentMerge = forceContentMerge;
     return this;
@@ -131,7 +137,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
         .create(ctl.getRefControl(), rebasedPatchSetId, rebasedCommit)
         .setDraft(originalPatchSet.isDraft())
         .setUploader(ctx.getUser().getAccountId())
-        .setSendMail(false)
+        .setSendMail(sendEmail)
         .setRunHooks(runHooks)
         .setMessage(
           "Patch Set " + rebasedPatchSetId.get()

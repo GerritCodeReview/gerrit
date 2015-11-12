@@ -105,6 +105,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     String downloadScheme;
     DownloadCommand downloadCommand;
     Boolean copySelfOnEmail;
+    Boolean sendTrivialRebaseEmail;
     DateFormat dateFormat;
     TimeFormat timeFormat;
     Boolean relativeDateInChangeTable;
@@ -125,6 +126,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         downloadScheme = p.getDownloadUrl();
         downloadCommand = p.getDownloadCommand();
         copySelfOnEmail = p.isCopySelfOnEmails() ? true : null;
+        sendTrivialRebaseEmail = p.isSendTrivialRebaseEmails() ? true : null;
         dateFormat = p.getDateFormat();
         timeFormat = p.getTimeFormat();
         relativeDateInChangeTable = p.isRelativeDateInChangeTable() ? true : null;

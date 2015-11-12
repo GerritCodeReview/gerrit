@@ -2346,34 +2346,36 @@ public class ReceiveCommits {
         cmd.execute(rp);
       }
       indexer.index(db, change);
-      if (changeKind != ChangeKind.TRIVIAL_REBASE) {
-        workQueue.getDefaultQueue()
-            .submit(requestScopePropagator.wrap(new Runnable() {
-          @Override
-          public void run() {
-            try {
-              ReplacePatchSetSender cm =
-                  replacePatchSetFactory.create(change.getId());
-              cm.setFrom(me);
-              cm.setPatchSet(newPatchSet, info);
-              cm.setChangeMessage(msg);
-              cm.addReviewers(recipients.getReviewers());
-              cm.addExtraCC(recipients.getCcOnly());
-              cm.send();
-            } catch (Exception e) {
-              log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
-            }
-            if (mergedIntoRef != null) {
-              sendMergedEmail(ReplaceRequest.this);
-            }
-          }
-
-          @Override
-          public String toString() {
-            return "send-email newpatchset";
-          }
-        }));
+      if (changeKind == ChangeKind.TRIVIAL_REBASE) {
+        filterTrivialRebase(recipients, recipients.getReviewers());
+        filterTrivialRebase(recipients, recipients.getCcOnly());
       }
+      workQueue.getDefaultQueue()
+          .submit(requestScopePropagator.wrap(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            ReplacePatchSetSender cm =
+                replacePatchSetFactory.create(change.getId());
+            cm.setFrom(me);
+            cm.setPatchSet(newPatchSet, info);
+            cm.setChangeMessage(msg);
+            cm.addReviewers(recipients.getReviewers());
+            cm.addExtraCC(recipients.getCcOnly());
+            cm.send();
+          } catch (Exception e) {
+            log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
+          }
+          if (mergedIntoRef != null) {
+            sendMergedEmail(ReplaceRequest.this);
+          }
+        }
+
+        @Override
+        public String toString() {
+          return "send-email newpatchset";
+        }
+      }));
 
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
@@ -2393,6 +2395,15 @@ public class ReceiveCommits {
       }
 
       return newPatchSet.getId();
+    }
+  }
+
+  private void filterTrivialRebase(MailRecipients recipients, Set<Account.Id> users) {
+    for (Account.Id user : users) {
+      if (!accountCache.get(user).getAccount().getGeneralPreferences()
+          .isSendTrivialRebaseEmails()) {
+        recipients.remove(user);
+      }
     }
   }
 

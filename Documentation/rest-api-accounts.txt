@@ -1917,6 +1917,8 @@ link:rest-api-config.html#download-info[DownloadInfo].
 The type of download command the user prefers to use.
 |`copy_self_on_email`           |not set if `false`|
 Whether to CC me on comments I write.
+|`send_trivial_rebase_email`    |not set if `false`|
+Whether to CC me on trivial rebases.
 |`date_format`                  ||
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -1966,6 +1968,8 @@ The type of download URL the user prefers to use.
 The type of download command the user prefers to use.
 |`copy_self_on_email`           |optional|
 Whether to CC me on comments I write.
+|`send_trivial_rebase_email`    |optional|
+Whether to CC me on trivial rebases.
 |`date_format`                  |optional|
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.

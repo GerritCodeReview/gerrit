@@ -154,7 +154,7 @@ public interface ChangeHooks {
   public void doTopicChangedHook(Change change, Account account,
       String oldTopic, ReviewDb db) throws OrmException;
 
-  public void doClaSignupHook(Account account, ContributorAgreement cla);
+  public void doClaSignupHook(Account account, String claName);
 
   /**
    * Fire the Ref update Hook

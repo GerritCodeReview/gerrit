@@ -59,7 +59,7 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
   }
 
   @Override
-  public void doClaSignupHook(Account account, ContributorAgreement cla) {
+  public void doClaSignupHook(Account account, String claName) {
   }
 
   @Override

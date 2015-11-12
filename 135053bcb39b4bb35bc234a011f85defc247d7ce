@@ -22,6 +22,30 @@
       "revId": "135053bcb39b4bb35bc234a011f85defc247d7ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db5f1b26_eada873f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-12T20:25:27Z",
+      "side": 1,
+      "message": "I think in this case we did not need it. In the previous patchset it had that code snippet then Hector pointed out that it was redundant. Also, unlike other similar codes, we do not check whether the query is open.",
+      "parentUuid": "3b203791_f8da6d3f",
+      "range": {
+        "startLine": 262,
+        "startChar": 14,
+        "endLine": 262,
+        "endChar": 27
+      },
+      "revId": "135053bcb39b4bb35bc234a011f85defc247d7ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

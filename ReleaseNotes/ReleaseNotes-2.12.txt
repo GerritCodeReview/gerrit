@@ -155,6 +155,10 @@ Change Screen
 
 * Show push certificate status.
 
+* Show change subject as tooltip on related changes list.
++
+This helps to identify changes when the subject is truncated in the list.
+
 
 Side-By-Side Diff
 ^^^^^^^^^^^^^^^^^
@@ -197,14 +201,20 @@ Tags
 * Support pagination with `--start` and `--end` in the list tags endpoint.
 
 
-Other
-~~~~~
+SSH
+~~~
 
-* Add support for SSH ZLib Compression.
+* Add support for ZLib Compression.
 +
 To enable compression use the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#sshd.enableCompression[
 `sshd.enableCompression` setting].
+
+* Add support for hmac-sha2-256 and hmac-sha2-512 as MACs.
+
+
+Other
+~~~~~
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2061[Issue 2061]
 Add Support for `git-upload-archive`.
@@ -240,7 +250,28 @@ allows the download commands plugin to check for hidden change refs.
 Bug Fixes
 ---------
 
-* TODO
+* link:http://code.google.com/p/gerrit/issues/detail?id=3653[Issue 3653]:
+Correct timezone in sshd log after DST change.
++
+When encountering a DST switch, the timezone wasn't updated until
+the server was reloaded.
+
+* Make email validation case insensitive.
++
+While link:https://tools.ietf.org/html/rfc5321#section-2.3.11[
+RFC 5321 section 2.3.11] allows for the local-part (the part left of
+the '@') of an email address to be case sensitive, the domain portion is
+case insensitive according to
+link:https://tools.ietf.org/html/rfc1035#section-3.1[RFC 1035 section 3.1].
+And in practice, even the local-part is typically case insensitive also.
+
+* commit-msg hook: Don't add Change-Id line on temporary commits.
++
+Commits created with `git commit --fixup` or `git commit --squash` are not
+intended to be pushed to Gerrit, and don't need a `Change-Id` line.
++
+This also prevents changes from being accidentally uploaded, at least for
+projects that have the 'Require Change-Id' configuration enabled.
 
 
 Upgrades
@@ -264,9 +295,9 @@ Upgrades
 
 * Upgrade httpcomponents to 4.4.1
 
-* Upgrade jetty to 9.2.12.v20150709
+* Upgrade Jetty to 9.2.13.v20150730
 
-* Upgrade JGit to 4.0.1.201506240215-r.94-g39dc898
+* Upgrade JGit to 4.1.0.201509280440-r
 
 * Upgrade joda-time to 2.8
 

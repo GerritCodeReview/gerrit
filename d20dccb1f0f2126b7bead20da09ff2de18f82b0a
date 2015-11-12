@@ -224,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_892d59d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-12T17:25:46Z",
+      "side": 1,
+      "message": "Thanks. I missed that this metric is cumulative, so we are not overriding values. I wonder if exposing method add() in the API in addition to set() would make the intent more clear  here:\n\n  gcCount.add(gc.getName(), count);",
+      "parentUuid": "bb6267ec_493f6108",
+      "range": {
+        "startLine": 198,
+        "startChar": 14,
+        "endLine": 198,
+        "endChar": 25
+      },
+      "revId": "d20dccb1f0f2126b7bead20da09ff2de18f82b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_c9aeb1a5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
         "patchSetId": 1

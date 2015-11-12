@@ -1,0 +1,115 @@
+include_defs('//lib/js.defs')
+
+# WHEN REVIEWING NEW NPM_BINARY RULES:
+#
+# You must check licenses in the transitive closure of dependencies to ensure
+# they can be used by Gerrit. (npm binaries are not distributed with Gerrit
+# releases, so we are less restrictive in our selection of licenses, but we
+# still need to do a sanity check.)
+#
+# To do this:
+#   npm install -g license-checker
+#   mkdir /tmp/npmtmp
+#   cd /tmp/npmtmp
+#   npm install <package>@<version>
+#   license-checker
+# (Piping to grep -o 'licenses:.*' and/or sort -u may make the output saner.)
+
+npm_binary(
+  name = 'bower',
+  version = '1.6.5',
+  sha1 = '59d457122a161e42cc1625bbab8179c214b7ac11',
+)
+
+# bower_components are listed without transitive dependencies; the whole
+# flattened dependency tree needs to be included in
+# //polygerrit-ui:polygerrit_components.
+#
+# To print a full dependency tree with specific versions (i.e. not semantic
+# versions containing ~ or ^), use bower-dependency-tree:
+#   npm install -g bower-dependency-tree
+#   cd polygerrit-ui
+#   bower-dependency-tree --production
+#
+# Pull the name and package strings from the initial "Fetching" lines, and the
+# actual versions from the dependency tree output.
+
+bower_component(
+  name = 'iron-a11y-keys',
+  package = 'PolymerElements/iron-a11y-keys',
+  version = '1.0.3',
+  license = 'polymer',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-a11y-keys-behavior',
+  package = 'PolymerElements/iron-a11y-keys-behavior',
+  version = '1.0.8',
+  license = 'polymer',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-ajax',
+  package = 'PolymerElements/iron-ajax',
+  version = '1.0.8',
+  license = 'polymer',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-input',
+  package = 'PolymerElements/iron-input',
+  version = '1.0.6',
+  license = 'polymer',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-meta',
+  package = 'PolymerElements/iron-meta',
+  version = '1.1.1',
+  license = 'polymer',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'iron-validatable-behavior',
+  package = 'PolymerElements/iron-validatable-behavior',
+  version = '1.0.5',
+  license = 'polymer',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'page',
+  package = 'visionmedia/page.js',
+  version = '1.6.4',
+  license = 'page.js',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'polymer',
+  package = 'Polymer/polymer',
+  version = '1.2.1',
+  license = 'polymer',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'promise-polyfill',
+  package = 'polymerlabs/promise-polyfill',
+  version = '1.0.0',
+  license = 'promise-polyfill',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)
+
+bower_component(
+  name = 'webcomponentsjs',
+  package = 'webcomponentsjs',
+  version = '0.7.16',
+  license = 'polymer',
+  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+)

@@ -1,0 +1,79 @@
+# Copyright (C) 2015 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+def npm_binary(
+    name,
+    version,
+    sha1 = '',
+    visibility = ['PUBLIC']):
+
+  dir = '%s-%s' % (name, version)
+  filename = '%s.tgz' % dir
+  dest = '%s@%s.npm_binary.tgz' % (name, version)
+  url = 'http://registry.npmjs.org/%s/-/%s' % (name, filename)
+  cmd = ['$(exe //tools:download_file)', '-o', '$OUT', '-u', url]
+  if sha1:
+    cmd.extend(['-v', sha1])
+  genrule(
+    name = name,
+    cmd = ' '.join(cmd),
+    out = dest,
+    license = 'DO_NOT_DISTRIBUTE',
+    visibility = visibility,
+  )
+
+
+def run_npm_binary(target):
+  return '$(location //tools/js:run_npm_binary) $(location %s)' % target
+
+
+def bower_component(
+    name,
+    package,
+    version,
+    license,
+    sha1 = '',
+    visibility = ['PUBLIC']):
+  genrule(
+    name = name,
+    cmd = ' '.join([
+      '$(exe //tools/js:download_bower)',
+      '-b', '"%s"' % run_npm_binary('//lib/js:bower'),
+      '-n', name,
+      '-p', package,
+      '-v', version,
+      '-s', sha1,
+      '-o', '$OUT',
+    ]),
+    out = '%s-%s.zip' % (name, version),
+    license = license,
+    visibility = visibility,
+  )
+
+
+def bower_components(
+    name,
+    deps,
+    visibility = ['PUBLIC']):
+  bc = '$TMP/bower_components'
+  cmds = ['mkdir %s' % bc, 'cd %s' % bc]
+  for dep in deps:
+    cmds.append('unzip $(location %s)' % dep)
+  cmds.extend(['cd $TMP', 'zip -r $OUT bower_components'])
+  genrule(
+    name = name,
+    cmd = ' && '.join(cmds),
+    out = '%s.bower_components.zip' % name,
+    visibility = visibility,
+  )

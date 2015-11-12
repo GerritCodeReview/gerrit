@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.base.Function;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -23,7 +21,6 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -38,7 +35,6 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -68,6 +64,7 @@ public class IdentifiedUser extends CurrentUser {
   @Singleton
   public static class GenericFactory {
     private final CapabilityControl.Factory capabilityControlFactory;
+    private final StarredChangesUtil.Factory starredChangesUtilFactory;
     private final AuthConfig authConfig;
     private final Realm realm;
     private final String anonymousCowardName;
@@ -79,6 +76,7 @@ public class IdentifiedUser extends CurrentUser {
     @Inject
     public GenericFactory(
         @Nullable CapabilityControl.Factory capabilityControlFactory,
+        StarredChangesUtil.Factory starredChangesUtilFactory,
         AuthConfig authConfig,
         Realm realm,
         @AnonymousCowardName String anonymousCowardName,
@@ -87,6 +85,7 @@ public class IdentifiedUser extends CurrentUser {
         AccountCache accountCache,
         GroupBackend groupBackend) {
       this.capabilityControlFactory = capabilityControlFactory;
+      this.starredChangesUtilFactory = starredChangesUtilFactory;
       this.authConfig = authConfig;
       this.realm = realm;
       this.anonymousCowardName = anonymousCowardName;
@@ -101,24 +100,23 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
+      return new IdentifiedUser(capabilityControlFactory,
+          starredChangesUtilFactory.create(db), authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
           disableReverseDnsLookup, null, db, id, null);
     }
 
     public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
-          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, Providers.of(remotePeer), null,
-          id, null);
+      return new IdentifiedUser(capabilityControlFactory, null, authConfig,
+          realm, anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, Providers.of(remotePeer), null, id, null);
     }
 
     public CurrentUser runAs(SocketAddress remotePeer, Account.Id id,
         @Nullable CurrentUser caller) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
-          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, Providers.of(remotePeer), null,
-          id, caller);
+      return new IdentifiedUser(capabilityControlFactory, null, authConfig,
+          realm, anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, Providers.of(remotePeer), null, id, caller);
     }
   }
 
@@ -131,6 +129,7 @@ public class IdentifiedUser extends CurrentUser {
   @Singleton
   public static class RequestFactory {
     private final CapabilityControl.Factory capabilityControlFactory;
+    private final StarredChangesUtil starredChangesUtil;
     private final AuthConfig authConfig;
     private final Realm realm;
     private final String anonymousCowardName;
@@ -145,6 +144,7 @@ public class IdentifiedUser extends CurrentUser {
     @Inject
     RequestFactory(
         CapabilityControl.Factory capabilityControlFactory,
+        StarredChangesUtil starredChangesUtil,
         final AuthConfig authConfig,
         Realm realm,
         @AnonymousCowardName final String anonymousCowardName,
@@ -155,6 +155,7 @@ public class IdentifiedUser extends CurrentUser {
         @RemotePeer final Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
       this.capabilityControlFactory = capabilityControlFactory;
+      this.starredChangesUtil = starredChangesUtil;
       this.authConfig = authConfig;
       this.realm = realm;
       this.anonymousCowardName = anonymousCowardName;
@@ -167,16 +168,16 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
-          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, remotePeerProvider, dbProvider,
+      return new IdentifiedUser(capabilityControlFactory, starredChangesUtil,
+          authConfig, realm, anonymousCowardName, canonicalUrl, accountCache,
+          groupBackend, disableReverseDnsLookup, remotePeerProvider, dbProvider,
           id, null);
     }
 
     public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
-          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, remotePeerProvider, dbProvider,
+      return new IdentifiedUser(capabilityControlFactory, starredChangesUtil,
+          authConfig, realm, anonymousCowardName, canonicalUrl, accountCache,
+          groupBackend, disableReverseDnsLookup, remotePeerProvider, dbProvider,
           id, caller);
     }
   }
@@ -189,6 +190,7 @@ public class IdentifiedUser extends CurrentUser {
           SystemGroupBackend.ANONYMOUS_USERS,
           SystemGroupBackend.REGISTERED_USERS));
 
+  private final StarredChangesUtil starredChangesUtil;
   private final Provider<String> canonicalUrl;
   private final AccountCache accountCache;
   private final AuthConfig authConfig;
@@ -212,12 +214,13 @@ public class IdentifiedUser extends CurrentUser {
   private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
   private Set<Change.Id> starredChanges;
-  private ResultSet<StarredChange> starredQuery;
+  private StarredChangesUtil.Query starredQuery;
   private Collection<AccountProjectWatch> notificationFilters;
   private CurrentUser realUser;
 
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
+      @Nullable StarredChangesUtil starredChangesUtil,
       final AuthConfig authConfig,
       Realm realm,
       final String anonymousCowardName,
@@ -230,6 +233,7 @@ public class IdentifiedUser extends CurrentUser {
       final Account.Id id,
       @Nullable CurrentUser realUser) {
     super(capabilityControlFactory);
+    this.starredChangesUtil = starredChangesUtil;
     this.canonicalUrl = canonicalUrl;
     this.accountCache = accountCache;
     this.groupBackend = groupBackend;
@@ -324,11 +328,8 @@ public class IdentifiedUser extends CurrentUser {
     if (starredChanges == null) {
       checkRequestScope();
       try {
-        starredChanges = starredChangeIds(
-            starredQuery != null ? starredQuery : starredQuery());
-      } catch (OrmException | RuntimeException e) {
-        log.warn("Cannot query starred changes", e);
-        starredChanges = Collections.emptySet();
+        starredChanges = (starredQuery != null
+            ? starredQuery : starredChangesUtil.query(accountId)).list();
       } finally {
         starredQuery = null;
       }
@@ -344,21 +345,15 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   public void asyncStarredChanges() {
-    if (starredChanges == null && dbProvider != null) {
-      try {
-        starredQuery = starredQuery();
-      } catch (OrmException e) {
-        log.warn("Cannot query starred by user changes", e);
-        starredQuery = null;
-        starredChanges = Collections.emptySet();
-      }
+    if (starredChanges == null && starredChangesUtil != null) {
+      starredQuery = starredChangesUtil.query(accountId);
     }
   }
 
   public void abortStarredChanges() {
     if (starredQuery != null) {
       try {
-        starredQuery.close();
+        starredQuery.abort();
       } finally {
         starredQuery = null;
       }
@@ -369,21 +364,6 @@ public class IdentifiedUser extends CurrentUser {
     if (dbProvider == null) {
       throw new OutOfScopeException("Not in request scoped user");
     }
-  }
-
-  private ResultSet<StarredChange> starredQuery() throws OrmException {
-    return dbProvider.get().starredChanges().byAccount(getAccountId());
-  }
-
-  private static ImmutableSet<Change.Id> starredChangeIds(
-      Iterable<StarredChange> scs) {
-    return FluentIterable.from(scs)
-        .transform(new Function<StarredChange, Change.Id>() {
-          @Override
-          public Change.Id apply(StarredChange in) {
-            return in.getChangeId();
-          }
-        }).toSet();
   }
 
   @Override

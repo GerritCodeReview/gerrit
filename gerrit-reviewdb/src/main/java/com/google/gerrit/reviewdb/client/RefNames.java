@@ -40,7 +40,11 @@ public class RefNames {
   /** Configurations of project-specific dashboards (canned search queries). */
   public static final String REFS_DASHBOARDS = "refs/meta/dashboards/";
 
+  /** Draft inline comments of a user on a change */
   public static final String REFS_DRAFT_COMMENTS = "refs/draft-comments/";
+
+  /** A change starred by a user */
+  public static final String REFS_STARRED_CHANGES = "refs/starred-changes/";
 
   /**
    * Prefix applied to merge commit base nodes.
@@ -88,19 +92,30 @@ public class RefNames {
 
   public static String refsDraftComments(Account.Id accountId,
       Change.Id changeId) {
-    StringBuilder r = buildRefsDraftCommentsPrefix(accountId);
+    StringBuilder r = buildRefsPrefix(REFS_DRAFT_COMMENTS, accountId);
     r.append(changeId.get());
     return r.toString();
   }
 
   public static String refsDraftCommentsPrefix(Account.Id accountId) {
-    return buildRefsDraftCommentsPrefix(accountId).toString();
+    return buildRefsPrefix(REFS_DRAFT_COMMENTS, accountId).toString();
   }
 
-  public static StringBuilder buildRefsDraftCommentsPrefix(
+  public static String refsStarredChanges(Account.Id accountId,
+      Change.Id changeId) {
+    StringBuilder r = buildRefsPrefix(REFS_STARRED_CHANGES, accountId);
+    r.append(changeId.get());
+    return r.toString();
+  }
+
+  public static String refsStarredChangesPrefix(Account.Id accountId) {
+    return buildRefsPrefix(REFS_STARRED_CHANGES, accountId).toString();
+  }
+
+  private static StringBuilder buildRefsPrefix(String prefix,
       Account.Id accountId) {
     StringBuilder r = new StringBuilder();
-    r.append(REFS_DRAFT_COMMENTS);
+    r.append(prefix);
     int n = accountId.get() % 100;
     if (n < 10) {
       r.append('0');

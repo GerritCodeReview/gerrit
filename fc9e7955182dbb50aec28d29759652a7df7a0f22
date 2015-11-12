@@ -22,6 +22,30 @@
       "revId": "fc9e7955182dbb50aec28d29759652a7df7a0f22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_b46880c8",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-12T00:24:53Z",
+      "side": 1,
+      "message": "Oops, that was a draft comment I should have discarded. See PS6.",
+      "parentUuid": "1b1ff356_945b4461",
+      "range": {
+        "startLine": 125,
+        "startChar": 20,
+        "endLine": 125,
+        "endChar": 41
+      },
+      "revId": "fc9e7955182dbb50aec28d29759652a7df7a0f22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

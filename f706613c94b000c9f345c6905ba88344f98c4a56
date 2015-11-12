@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1447283265 -0800\nnonce AFd3Bxsb4nxIZAZcp9hrhXSXbuaWDVABZ+sDG7R+yFwRnBpJVFgQtA7u3msWeDp8zM37FdRvcJPv\n\n0000000000000000000000000000000000000000 f706613c94b000c9f345c6905ba88344f98c4a56 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWQ8pBAAoJEHFVO370GiZW3DQH/jbDVqS7auTuEEWGEvV+Om9C\nBdET4UrEC2vWCrxqy1s8OCnObgMjn5cJkm1wACINQNjPwpPKdxmyaeQ51peoHCpN\nybTEWgNXKhCqbcWsZdiMEtf9b/u2N0BF3CB+wdOXCIdQP8aBPI5yj2X42VYTDmcx\n1u+zSeq/epVdf0AHeW96RJmUDPLu+CLOrN1W5bfvl1dQanLF6bN94c5yaCIcj/+1\nDuZkJIfI7LEFII1zTRb2RUiCIQ7isI+nvpI1BYbbFoD5uXVz7AaFbX059rA1uuOa\nrUPCpFi4n12AJfEybA0kOq7xCzwyaYDy2x6up61BrLzFsYxb1+YybEQuEDgnmmk\u003d\n\u003dO883\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_f5bef8ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountInfoComparator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-12T18:09:10Z",
+      "side": 1,
+      "message": "Make this extend Ordering just in case anyone wants to use it like that (e.g. call sortedCopy)",
+      "revId": "f706613c94b000c9f345c6905ba88344f98c4a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_b5b88002",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountInfoComparator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-12T18:09:10Z",
+      "side": 1,
+      "message": "No reason these can\u0027t be singletons.",
+      "revId": "f706613c94b000c9f345c6905ba88344f98c4a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

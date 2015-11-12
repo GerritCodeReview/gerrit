@@ -20,10 +20,14 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -34,6 +38,8 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -131,6 +137,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<InternalChangeQuery> queryProvider;
     final Provider<ChangeQueryRewriter> rewriter;
     final IdentifiedUser.GenericFactory userFactory;
+    final GroupDetailFactory.Factory groupDetailFactory;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final ChangeData.Factory changeDataFactory;
@@ -142,6 +149,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
+    final GroupCache groupCache;
     final Provider<ListChildProjects> listChildProjects;
     final IndexCollection indexes;
     final SubmitStrategyFactory submitStrategyFactory;
@@ -159,6 +167,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
+        GroupDetailFactory.Factory groupDetailFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeData.Factory changeDataFactory,
         FieldDef.FillArgs fillArgs,
@@ -169,6 +178,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
+        GroupCache groupCache,
         Provider<ListChildProjects> listChildProjects,
         IndexCollection indexes,
         SubmitStrategyFactory submitStrategyFactory,
@@ -176,11 +186,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         TrackingFooters trackingFooters,
         @GerritServerConfig Config cfg) {
       this(db, queryProvider, rewriter, userFactory, self,
-          capabilityControlFactory, changeControlGenericFactory,
+          capabilityControlFactory, groupDetailFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, patchListCache, repoManager, projectCache,
-          listChildProjects, indexes, submitStrategyFactory, conflictsCache,
-          trackingFooters,
+          groupCache, listChildProjects, indexes, submitStrategyFactory,
+          conflictsCache, trackingFooters,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
 
@@ -191,6 +201,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
+        GroupDetailFactory.Factory groupDetailFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeData.Factory changeDataFactory,
         FieldDef.FillArgs fillArgs,
@@ -201,6 +212,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
+        GroupCache groupCache,
         Provider<ListChildProjects> listChildProjects,
         IndexCollection indexes,
         SubmitStrategyFactory submitStrategyFactory,
@@ -213,6 +225,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.userFactory = userFactory;
      this.self = self;
      this.capabilityControlFactory = capabilityControlFactory;
+     this.groupDetailFactory = groupDetailFactory;
      this.changeControlGenericFactory = changeControlGenericFactory;
      this.changeDataFactory = changeDataFactory;
      this.fillArgs = fillArgs;
@@ -223,6 +236,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.patchListCache = patchListCache;
      this.repoManager = repoManager;
      this.projectCache = projectCache;
+     this.groupCache = groupCache;
      this.listChildProjects = listChildProjects;
      this.indexes = indexes;
      this.submitStrategyFactory = submitStrategyFactory;
@@ -234,10 +248,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Arguments asUser(CurrentUser otherUser) {
       return new Arguments(db, queryProvider, rewriter, userFactory,
           Providers.of(otherUser),
-          capabilityControlFactory, changeControlGenericFactory,
+          capabilityControlFactory, groupDetailFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, patchListCache, repoManager, projectCache,
-          listChildProjects, indexes, submitStrategyFactory, conflictsCache,
+          groupCache, listChildProjects, indexes, submitStrategyFactory, conflictsCache,
           trackingFooters, allowsDrafts);
     }
 
@@ -521,6 +535,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         if (pair.getKey().equalsIgnoreCase(ARG_ID_USER)) {
           accounts = parseAccount(pair.getValue());
         } else if (pair.getKey().equalsIgnoreCase(ARG_ID_GROUP)) {
+          //convert to account
           group = parseGroup(pair.getValue()).getUUID();
         } else {
           throw new QueryParseException(
@@ -545,6 +560,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           }
         }
       }
+    }
+
+    // expand group predicate into multiple user predicates
+    if (group != null) {
+      accounts = getMemberIds(group, new HashSet<AccountGroup.UUID>());
     }
 
     return new LabelPredicate(args.projectCache,
@@ -806,6 +826,45 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throw error("Group " + group + " not found");
     }
     return g;
+  }
+
+  private Set<Account.Id> getMemberIds(AccountGroup.UUID groupUUID,
+      HashSet<AccountGroup.UUID> seenGroups) throws OrmException {
+    seenGroups.add(groupUUID);
+
+    Set<Account.Id> members = new HashSet<>();
+    AccountGroup group = args.groupCache.get(groupUUID);
+    if (group == null) {
+      // the included group is an external group and can't be resolved
+      return new HashSet<>();
+    }
+
+    GroupDetail groupDetail;
+    try {
+      groupDetail = args.groupDetailFactory.create(group.getId()).call();
+    } catch (NoSuchGroupException e) {
+      // the included group is not visible
+      return new HashSet<>();
+    }
+
+    if (groupDetail.members != null) {
+      for (AccountGroupMember m : groupDetail.members) {
+        if (!members.contains(m.getAccountId())) {
+          members.add(m.getAccountId());
+        }
+      }
+    }
+
+    // get members of subgroups
+    if (groupDetail.includes != null) {
+      for (AccountGroupById includedGroup : groupDetail.includes) {
+        if (!seenGroups.contains(includedGroup.getIncludeUUID())) {
+          members.addAll(
+              getMemberIds(includedGroup.getIncludeUUID(), seenGroups));
+        }
+      }
+    }
+    return members;
   }
 
   private List<Change> parseChange(String value) throws OrmException,

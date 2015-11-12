@@ -89,6 +89,7 @@ class RelatedChangesTab implements IsWidget {
   private boolean showBranches;
   private boolean showProjects;
   private boolean showSubmittable;
+  private boolean onlyShowSubmittable;
   private boolean showIndirectAncestors;
   private boolean registerKeys;
   private int maxHeight;
@@ -116,6 +117,10 @@ class RelatedChangesTab implements IsWidget {
 
   void setShowSubmittable(boolean submittable) {
     this.showSubmittable = submittable;
+  }
+
+  void setOnlyShowSubmittable(boolean onlyShowSubmittable) {
+    this.onlyShowSubmittable = onlyShowSubmittable;
   }
 
   void setShowIndirectAncestors(boolean showIndirectAncestors) {
@@ -230,6 +235,10 @@ class RelatedChangesTab implements IsWidget {
 
       while (row < changes.length()) {
         ChangeAndCommit info = changes.get(row);
+        if (onlyShowSubmittable && !info.submittable()) {
+          row++;
+          continue;
+        }
         String commit = info.commit().commit();
         rows.add(new RowSafeHtml(
             info, connected != null && !connected.contains(commit)));

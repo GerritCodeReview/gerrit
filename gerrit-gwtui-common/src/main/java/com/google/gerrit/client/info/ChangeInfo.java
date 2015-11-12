@@ -329,6 +329,12 @@ public class ChangeInfo extends JavaScriptObject {
     }
 
     public static int findEditParent(JsArray<RevisionInfo> list) {
+      RevisionInfo r = findEditParentRevision(list);
+      return r == null ? -1 : r._number();
+    }
+
+    public static RevisionInfo findEditParentRevision(
+        JsArray<RevisionInfo> list) {
       for (int i = 0; i < list.length(); i++) {
         // edit under revisions?
         RevisionInfo editInfo = list.get(i);
@@ -340,12 +346,12 @@ public class ChangeInfo extends JavaScriptObject {
             String name = parentInfo.name();
             if (name.equals(parentRevision)) {
               // found parent pacth set number
-              return parentInfo._number();
+              return parentInfo;
             }
           }
         }
       }
-      return -1;
+      return null;
     }
 
     public final String id() {

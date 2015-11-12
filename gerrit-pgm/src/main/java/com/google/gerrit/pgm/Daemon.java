@@ -325,7 +325,8 @@ public class Daemon extends SiteProgram {
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(SchemaVersionCheck.module());
-    modules.add(new DropWizardMetricMaker.Module());
+    modules.add(new DropWizardMetricMaker.ApiModule());
+    modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());

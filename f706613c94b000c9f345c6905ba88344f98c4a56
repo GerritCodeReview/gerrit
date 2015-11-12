@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_a9801d65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountInfoComparator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-12T23:17:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_f5bef8ef",
+      "revId": "f706613c94b000c9f345c6905ba88344f98c4a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_b5b88002",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountInfoComparator.java",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2015-11-12T18:09:10Z",
       "side": 1,
       "message": "No reason these can\u0027t be singletons.",
+      "revId": "f706613c94b000c9f345c6905ba88344f98c4a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_d861f116",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountInfoComparator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-12T23:17:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_b5b88002",
       "revId": "f706613c94b000c9f345c6905ba88344f98c4a56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

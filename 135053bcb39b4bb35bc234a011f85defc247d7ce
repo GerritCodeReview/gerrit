@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_f8da6d3f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T19:55:09Z",
+      "side": 1,
+      "message": "Add\n\n  || !match.equals(q.qMatch)\n\nas in the other case I mentioned in my previous comment?",
+      "range": {
+        "startLine": 262,
+        "startChar": 14,
+        "endLine": 262,
+        "endChar": 27
+      },
+      "revId": "135053bcb39b4bb35bc234a011f85defc247d7ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

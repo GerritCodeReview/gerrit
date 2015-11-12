@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_f52f1861",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T07:12:17Z",
+      "side": 1,
+      "message": "Don\u0027t need to be public, only the sibling filter in same package should be touching them.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_144bb43c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T07:12:17Z",
+      "side": 1,
+      "message": "This is actually all HTTP. I\u0027d suggest:\n\n  http/server/error_count",
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_f42f1861",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T07:12:17Z",
+      "side": 1,
+      "message": "This should all fit on one line.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 43
+      },
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_154bb43c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T07:12:17Z",
+      "side": 1,
+      "message": "http/server/success_count ?",
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_d42c1c6f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T07:12:17Z",
+      "side": 1,
+      "message": "one line?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 43
+      },
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_3546b036",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetricsFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T07:12:17Z",
+      "side": 1,
+      "message": "class can be private access",
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_55412c1c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetricsFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T07:12:17Z",
+      "side": 1,
+      "message": "nit: blank line after field before constructor",
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b1ff356_3446b036",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetricsFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-12T07:12:17Z",
+      "side": 1,
+      "message": "Constructor can be default access",
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -35,6 +35,24 @@
       "revId": "9033534ffb4f17fe22a50064bf1a4e645d0ba000",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_49452149",
+        "filename": "polygerrit-ui/gulpfile.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-12T19:11:23Z",
+      "side": 1,
+      "message": "Probably we want to do that eventually (because CSP, which is why our internal toolchain uses it). But right now we\u0027re trying to keep it simple until we actually get the buck build working.",
+      "parentUuid": "bb6267ec_6940e53a",
+      "revId": "9033534ffb4f17fe22a50064bf1a4e645d0ba000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

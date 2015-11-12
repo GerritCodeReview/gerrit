@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_98d13924",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-12T20:01:59Z",
+      "side": 1,
+      "message": "as mentioned int code comment this is a workaround. I wasn\u0027t able to make args4j working with default value read from gerrit.config.\n\nIf `branchOnly` is a Boolean type, then we are not able to detect when \u0027branch-only\u0027 parameter was passed with `false` or not passed at all. In both cases args4j sets this variable to null. Actually it seams that it doesn\u0027t even set it, just keep the default value.",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 3
+      },
+      "revId": "7ebb134dbd84a65d223b5a555e2b273348db946e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

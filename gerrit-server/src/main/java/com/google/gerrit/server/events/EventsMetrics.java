@@ -24,13 +24,13 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class EventsMetrics implements EventListener {
-  private final Counter1<String> eventsCounter;
+  private final Counter1<String> events;
 
   @Inject
   public EventsMetrics(MetricMaker metricMaker) {
-    eventsCounter = metricMaker.newCounter(
+    events = metricMaker.newCounter(
         "events",
-        new Description("Event")
+        new Description("Triggered events")
           .setRate()
           .setUnit("triggered events"),
         Field.ofString("type"));
@@ -38,6 +38,6 @@ public class EventsMetrics implements EventListener {
 
   @Override
   public void onEvent(com.google.gerrit.server.events.Event event) {
-    eventsCounter.increment(event.getType());
+    events.increment(event.getType());
   }
 }

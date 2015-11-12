@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1447369973 -0500\nnonce AFd3Bxs28kowY8MQmM4gV2ecrhB0cCFEtdW8qMRxf+W8kHt8x0uFYfwFEe69EtOgsjSdMWNtLDOj\n\n0000000000000000000000000000000000000000 10e031a6743a25466eb9f4897e37544701847766 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWRRz1AAoJEF/XxZqaEoiM2U0QAKxLf/lVUioogVCZGnOcL17P\nSLGhPtKwEPjpPkQUQmF5gXzIZIYsubM1HUd8kTn1oAbx+MhR/3mdSqre3Z9JQLgE\nsenX9rUk8o/HsVF3IebrSoGpYsghRxciy49TSxaSrVMgmddrvAcecsvIOXJ6o++L\nLLykZWjbcZxbe4ruIQJcgfTD4TKGpP52QeLG3e7HSwS7B6SPz7uAZfJb7x0cSmXd\nju616X2LhU5zH8iHV6dKh/PoqgCWcd4BAqvGBfsVE8p4e4Msl9Rfdmu21gkUINZR\nTapyt2BJrOj+86yFgFVuotOBlT9c3eT94wP6S3s+9UrJmH+GSV5l7hNU9zAzWEHx\n2XnxbOO0mYgU3kMEmTP07ZeEQAemvUR/E9ha2xYGPLYpXPNoRSlazxNzZyE39iBv\nvNFeYfVoyMYadVEN/8E2fH1lnMsaKaRZwHWFcY3rVdrwc+n91R5t/yw+XWzcmQrx\noY+5KRg4alTri5bRoGJx2LYL/0kQZc49wm86sgNU13arpgYne15SPbLe0xY1f2KZ\nnAhFoAO1jqwS4obzUtaBk6ywje1ksgd0Y7JT+MH+kkgNeigRhhD3pvydFPSKq951\nVP3PE4N7pQFaelKD3RzEMd28S9I3KlGpMD3lI805hKjebFfoZIMLlH5ipqiWhxPK\nQYU/SGyOZggm0otH+hV5\n\u003dS6cv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_b8f3d596",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-11-12T23:28:21Z",
+      "side": 1,
+      "message": "The change in PS11 to drop these seems to have been lost",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 62
+      },
+      "revId": "bcc741f62824b7f38d0bbad045173b43363f6b89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

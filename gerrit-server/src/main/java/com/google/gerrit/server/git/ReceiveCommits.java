@@ -72,6 +72,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -85,6 +86,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -168,6 +170,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -294,6 +297,7 @@ public class ReceiveCommits {
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
+  private final PatchLineCommentsUtil plcUtil;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
@@ -365,6 +369,7 @@ public class ReceiveCommits {
       final ApprovalsUtil approvalsUtil,
       final ApprovalCopier approvalCopier,
       final ChangeMessagesUtil cmUtil,
+      final PatchLineCommentsUtil plcUtil,
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
@@ -411,6 +416,7 @@ public class ReceiveCommits {
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
+    this.plcUtil = plcUtil;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
@@ -2402,8 +2408,29 @@ public class ReceiveCommits {
             null, approvals, db);
       }
 
-      if (magicBranch != null && magicBranch.submit) {
-        submit(changeCtl, newPatchSet);
+      if (magicBranch != null) {
+        if (magicBranch.submit) {
+          submit(changeCtl, newPatchSet);
+        }
+        Account acc = changeCtl.getUser().asIdentifiedUser().getAccount();
+        if (acc.getGeneralPreferences().isPublishDraftCommentsOnPush()) {
+          ChangeData cd = changeDataFactory.create(db, changeCtl);
+          Timestamp now = TimeUtil.nowTs();
+          ChangeUpdate updatedComments = updateFactory.create(changeCtl, now);
+          for (PatchSet ps : cd.patchSets()) {
+            for (PatchLineComment c: plcUtil.draftByPatchSetAuthor(
+                db, ps.getId(), acc.getId(), cd.notes())) {
+              c.setStatus(PatchLineComment.Status.PUBLISHED);
+              c.setRevId(ps.getRevision());
+              updatedComments.updateComment(c);
+            }
+          }
+          try {
+            updatedComments.commit();
+          } catch (IOException e) {
+            throw new OrmException("Publishing comments on push failed", e);
+          }
+        }
       }
 
       return newPatchSet.getId();

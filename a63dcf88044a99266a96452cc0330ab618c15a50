@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_58dba10f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-12T23:22:32Z",
+      "side": 1,
+      "message": "This will go on DropWizardMetricsMaker. Just needed to do some debugging.",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 178,
+        "endChar": 29
+      },
+      "revId": "a63dcf88044a99266a96452cc0330ab618c15a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

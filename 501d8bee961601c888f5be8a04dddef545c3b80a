@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1b1ff356_9436a4bd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T07:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_f52f1861",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b1ff356_144bb43c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
         "patchSetId": 6
@@ -36,6 +60,24 @@
       "writtenOn": "2015-11-12T07:12:17Z",
       "side": 1,
       "message": "This is actually all HTTP. I\u0027d suggest:\n\n  http/server/error_count",
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_d52c1c6f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T07:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_144bb43c",
       "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "1b1ff356_746548c6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T07:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_f42f1861",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 43
+      },
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_154bb43c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
         "patchSetId": 6
@@ -76,6 +142,24 @@
       "writtenOn": "2015-11-12T07:12:17Z",
       "side": 1,
       "message": "http/server/success_count ?",
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_b539a0af",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T07:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_154bb43c",
       "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "1b1ff356_546a4c96",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T07:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_d42c1c6f",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 43
+      },
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_3546b036",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetricsFilter.java",
         "patchSetId": 6
@@ -116,6 +224,24 @@
       "writtenOn": "2015-11-12T07:12:17Z",
       "side": 1,
       "message": "class can be private access",
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_9536a4bd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetricsFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T07:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_3546b036",
       "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "3b203791_756548c6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetricsFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T07:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_55412c1c",
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b1ff356_3446b036",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetricsFilter.java",
         "patchSetId": 6
@@ -150,6 +294,24 @@
       "writtenOn": "2015-11-12T07:12:17Z",
       "side": 1,
       "message": "Constructor can be default access",
+      "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_556a4c96",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestMetricsFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T07:45:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b1ff356_3446b036",
       "revId": "501d8bee961601c888f5be8a04dddef545c3b80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

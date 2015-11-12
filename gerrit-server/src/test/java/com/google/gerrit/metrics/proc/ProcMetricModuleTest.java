@@ -56,7 +56,7 @@ public class ProcMetricModuleTest {
   @Test
   public void testProcUptime() {
     Gauge<Long> birth = gauge("proc/birth_timestamp");
-    assertThat(birth.getValue()).isLessThan(
+    assertThat(birth.getValue()).isAtMost(
         TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis()));
 
     Gauge<Long> uptime = gauge("proc/uptime");

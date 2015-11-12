@@ -6,13 +6,15 @@ WEBJS = 'bower_components/webcomponentsjs/webcomponents-lite.js'
 genrule(
   name = 'polygerrit_ui',
   cmd = ';'.join([
-    'cd $TMP',
+    'mkdir $TMP/polygerrit_ui',
+    'cd $TMP/polygerrit_ui',
     'cp $(location :processed_index) index.html',
     'mkdir -p {elements,bower_components/webcomponentsjs}',
     'cp $(location :polygerrit) elements/gr-app.vulcanized.html',
     'cp -rp $SRCDIR/* .',
     'unzip -p $(location //lib/js:polygerrit_components) %s>%s' % (WEBJS, WEBJS),
-    'zip -qr $OUT .',
+    'cd $TMP',
+    'zip -9qr $OUT .',
   ]),
   srcs = ['styles/main.css'],
   out = 'polygerrit_ui.zip',

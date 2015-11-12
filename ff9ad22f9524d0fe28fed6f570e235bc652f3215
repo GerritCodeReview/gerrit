@@ -56,6 +56,29 @@
       "revId": "ff9ad22f9524d0fe28fed6f570e235bc652f3215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_95eea41a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventsMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-12T17:51:10Z",
+      "side": 1,
+      "message": "Isn\u0027t there an \"increment\" method that implicitly increments by 1, so we don\u0027t need to explicitly pass it here?",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 24
+      },
+      "revId": "ff9ad22f9524d0fe28fed6f570e235bc652f3215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

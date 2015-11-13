@@ -46,6 +46,30 @@
       "revId": "2e7e1e6f1e1e8fe85c222660fee4481b75444f2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_ecb4e342",
+        "filename": "lib/js.defs",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-13T18:30:03Z",
+      "side": 1,
+      "message": "Yes, unfortunately. I even uploaded th fix for that, to reproduce that vilcanized PolyGerrit in gerrit.war is up and runnig in Buck driven build: [1].\n\n* [1] https://gerrit-review.googlesource.com/72440",
+      "parentUuid": "3b203791_db0fab44",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 57
+      },
+      "revId": "2e7e1e6f1e1e8fe85c222660fee4481b75444f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

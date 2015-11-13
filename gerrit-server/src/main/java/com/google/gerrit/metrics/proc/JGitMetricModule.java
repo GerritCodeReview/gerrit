@@ -16,8 +16,8 @@ package com.google.gerrit.metrics.proc;
 
 import com.google.common.base.Supplier;
 import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.MetricMaker;
 
 import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
 

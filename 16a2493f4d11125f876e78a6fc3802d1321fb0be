@@ -46,6 +46,30 @@
       "revId": "16a2493f4d11125f876e78a6fc3802d1321fb0be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_09d1694d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T00:10:27Z",
+      "side": 1,
+      "message": "FWIW this is actually a common pattern in my internal monitoring system. \n\nSometimes you create two metrics, one for a very high level coarse granularity that can be read frequently to detect big changes.\n\nAnd then lower level metrics that are very fine grained and can help you troubleshoot specific problems, but are too big or unwieldy to be captured at the same resolution as the coarse grained metrics.",
+      "parentUuid": "bb6267ec_69c22585",
+      "range": {
+        "startLine": 400,
+        "startChar": 8,
+        "endLine": 402,
+        "endChar": 9
+      },
+      "revId": "16a2493f4d11125f876e78a6fc3802d1321fb0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

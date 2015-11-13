@@ -897,7 +897,7 @@ submitted.
 Default is "Submit all ${topicSize} changes of the same topic (${submitSize}
 changes including ancestors and other changes related by topic)".
 
-[[change.submitWholeTopic]]change.submitWholeTopic::
+[[change.submitWholeTopic]]change.submitWholeTopic (*Experimental*)::
 +
 Determines if the submit button submits the whole topic instead of
 just the current change.

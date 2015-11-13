@@ -30,8 +30,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.common.EventListener;
-import com.google.gerrit.common.EventSource;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -93,25 +91,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject
   private IdentifiedUser.GenericFactory factory;
 
-  @Inject
-  EventSource source;
-
   @Before
   public void setUp() throws Exception {
     mergeResults = Maps.newHashMap();
-    CurrentUser listenerUser = factory.create(user.id);
-    source.addEventListener(new EventListener() {
-
-      @Override
-      public void onEvent(Event event) {
-        if (event instanceof ChangeMergedEvent) {
-          ChangeMergedEvent changeMergedEvent = (ChangeMergedEvent) event;
-          mergeResults.put(changeMergedEvent.change.number,
-              changeMergedEvent.newRev);
-        }
-      }
-
-    }, listenerUser);
   }
 
   @After

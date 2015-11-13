@@ -53,7 +53,6 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, ShowCaches.class);
     command(gerrit, ShowConnections.class);
     command(gerrit, ShowQueue.class);
-    command(gerrit, StreamEvents.class);
     command(gerrit, VersionCommand.class);
     command(gerrit, GarbageCollectionCommand.class);
 

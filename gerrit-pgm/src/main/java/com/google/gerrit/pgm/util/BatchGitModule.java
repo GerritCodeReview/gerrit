@@ -14,8 +14,6 @@
 
 package com.google.gerrit.pgm.util;
 
-import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -27,7 +25,6 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 public class BatchGitModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(ChangeHooks.class).to(DisabledChangeHooks.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     factory(CommitValidators.Factory.class);

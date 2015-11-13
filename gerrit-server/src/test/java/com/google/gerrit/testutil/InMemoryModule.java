@@ -18,8 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -167,7 +165,6 @@ public class InMemoryModule extends FactoryModule {
 
     bind(SecureStore.class).to(DefaultSecureStore.class);
 
-    bind(ChangeHooks.class).to(DisabledChangeHooks.class);
     install(NoSshKeyCache.module());
     install(new CanonicalWebUrlModule() {
       @Override

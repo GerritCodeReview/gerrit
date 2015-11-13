@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_2ccc3bb3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-13T20:41:41Z",
+      "side": 1,
+      "message": "This sounds like the opposite of submitWholeTopic,i.e. branch-only \u003d\u003d !submitWholeTopic.\n\nAlthough there may be a small difference:\nWhat about the changes in the same branch, which are not parents, but children? They may have the same topic, but you don\u0027t want to include them here, I\u0027d guess?\n\nSo would it make sense to rename it to \"wholeTopic\" or \"includingTopic\" ?",
+      "range": {
+        "startLine": 1098,
+        "startChar": 8,
+        "endLine": 1098,
+        "endChar": 19
+      },
+      "revId": "11c3d1b2b09f5e9e2587407e64de1ad62af0518a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_4cc76f93",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-13T20:41:41Z",
+      "side": 1,
+      "message": "returned",
+      "range": {
+        "startLine": 1100,
+        "startChar": 0,
+        "endLine": 1100,
+        "endChar": 9
+      },
+      "revId": "11c3d1b2b09f5e9e2587407e64de1ad62af0518a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0cd1774d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-13T20:41:41Z",
+      "side": 1,
+      "message": "submit or submission",
+      "range": {
+        "startLine": 58,
+        "startChar": 69,
+        "endLine": 58,
+        "endChar": 78
+      },
+      "revId": "11c3d1b2b09f5e9e2587407e64de1ad62af0518a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

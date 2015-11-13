@@ -2,6 +2,184 @@
   "comments": [
     {
       "key": {
+        "uuid": "bb6267ec_2c7c3b99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "caches/memory_cached ?",
+      "range": {
+        "startLine": 22,
+        "startChar": 24,
+        "endLine": 22,
+        "endChar": 47
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_38a585dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "You can use a Float or Double here and get a ratio between 0 and 1. Or 0 and 100. Either way I think you want a floating point number for this stat as hit ratios will approach 99.95% or something and that is a relevant value. Rounding to 0..100 in the integer space is losing a lot of information.",
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_f8d5cd39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "caches/memory_hit_ratio",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_18d1a94d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "I would put the persistent memory data on the other memory caches too.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 66
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0c8177b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "caches/disk_cached ?",
+      "range": {
+        "startLine": 32,
+        "startChar": 24,
+        "endLine": 32,
+        "endChar": 56
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_58c72193",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "units should be lower case",
+      "range": {
+        "startLine": 33,
+        "startChar": 53,
+        "endLine": 33,
+        "endChar": 62
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_d8d21150",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "caches/disk_hit_ratio",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 58
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_ecc06300",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "\"precent\" is a better unit here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 51,
+        "endLine": 36,
+        "endChar": 62
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_d80d71be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
         "patchSetId": 5
@@ -19,6 +197,149 @@
         "endLine": 38,
         "endChar": 68
       },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_98dc9962",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "Consider adding a metric caches/memory_eviction_count stats.evictionCount(). Its a useful number to know how often (especially over time) we are throwing values out of the cache as those represent recomputations or database reads.",
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_b8df5556",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "If you take my advice above and combine these metrics you can drop this part and the else clause, which shortens your code.\n\nI don\u0027t see any difference between a disk cache in memory and a memory only cache in memory. From a stat perspective we want to know how often its hitting, how much it has, etc.",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 54,
+        "endChar": 71
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_ec8503c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "FYI the stats object isn\u0027t free, if you also use evictionCount() as I mention above pull c.stats() into a local variable so you can also get the hitRate.",
+      "range": {
+        "startLine": 61,
+        "startChar": 40,
+        "endLine": 61,
+        "endChar": 49
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0cccd739",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "hitRatio can be int instead of long",
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_2cc79b1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "I\u0027m not sold on this utility method. Its ~3 lines of code to declare each metric whether you use the method or not. Using the method obscures the description and unit a bit.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 3
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_78c2dd84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "plugins to match what we use in PluginMetricMaker.",
+      "range": {
+        "startLine": 89,
+        "startChar": 28,
+        "endLine": 89,
+        "endChar": 34
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_f8beedef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T06:35:49Z",
+      "side": 1,
+      "message": "Unused now?",
       "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

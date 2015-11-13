@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b404344_104f4469",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-11-13T11:40:29Z",
+      "side": 1,
+      "message": "\"the specified branch\".",
+      "revId": "6c0fc668b907377fe46d9d0e688b82c4f37bf91e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b404344_f033a0ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-11-13T11:40:29Z",
+      "side": 1,
+      "message": "\"destination branch\" maybe? that would imply adjusting some other messages as well.",
+      "revId": "6c0fc668b907377fe46d9d0e688b82c4f37bf91e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "2e7e1e6f1e1e8fe85c222660fee4481b75444f2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_db0fab44",
+        "filename": "lib/js.defs",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-13T18:27:46Z",
+      "side": 1,
+      "message": "Just so I\u0027m keeping track of progress, is this still an issue?",
+      "parentUuid": "bb6267ec_2cae7b59",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 57
+      },
+      "revId": "2e7e1e6f1e1e8fe85c222660fee4481b75444f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

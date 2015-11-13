@@ -46,6 +46,30 @@
       "revId": "4d876170d89e0deff386e023ec9cf6eebb113ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_ccfebf1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1019219
+      },
+      "writtenOn": "2015-11-13T16:24:08Z",
+      "side": 1,
+      "message": "Thanks! Also, thanks for fixing the CI failure.",
+      "parentUuid": "3b203791_fb08276f",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 46
+      },
+      "revId": "4d876170d89e0deff386e023ec9cf6eebb113ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

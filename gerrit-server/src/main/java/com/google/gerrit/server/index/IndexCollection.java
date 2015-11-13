@@ -15,8 +15,11 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -33,9 +36,38 @@ public class IndexCollection implements LifecycleListener {
 
   @Inject
   @VisibleForTesting
-  public IndexCollection() {
+  public IndexCollection(MetricMaker metrics) {
     this.writeIndexes = Lists.newCopyOnWriteArrayList();
     this.searchIndex = new AtomicReference<>();
+
+    export(metrics);
+  }
+
+  private void export(MetricMaker metrics) {
+    metrics.newCallbackMetric(
+        "change/index/search_version",
+        Integer.class,
+        new Description("Version of the index read by searches.")
+          .setGauge(),
+        new Supplier<Integer>() {
+          @Override
+          public Integer get() {
+            ChangeIndex idx = getSearchIndex();
+            return idx != null ? idx.getSchema().getVersion() : 0;
+          }
+        });
+
+    metrics.newCallbackMetric(
+        "change/index/write_versions",
+        Integer.class,
+        new Description("Number of index versions being written to.")
+          .setGauge(),
+        new Supplier<Integer>() {
+          @Override
+          public Integer get() {
+            return writeIndexes.size();
+          }
+        });
   }
 
   /** @return the current search index version. */

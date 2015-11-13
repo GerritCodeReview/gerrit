@@ -31,6 +31,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -167,10 +168,12 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   static class GerritIndexWriterConfig {
+    private final String name;
     private final IndexWriterConfig luceneConfig;
     private long commitWithinMs;
 
     private GerritIndexWriterConfig(Config cfg, String name) {
+      this.name = name;
       CustomMappingAnalyzer analyzer =
           new CustomMappingAnalyzer(new StandardAnalyzer(
               CharArraySet.EMPTY_SET), CUSTOM_CHAR_MAPPING);
@@ -193,6 +196,10 @@ public class LuceneChangeIndex implements ChangeIndex {
       }
     }
 
+    String getName() {
+      return name;
+    }
+
     IndexWriterConfig getLuceneConfig() {
       return luceneConfig;
     }
@@ -202,6 +209,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
+  private final LuceneMetrics metrics;
   private final SitePaths sitePaths;
   private final FillArgs fillArgs;
   private final ListeningExecutorService executor;
@@ -226,6 +234,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @AssistedInject
   LuceneChangeIndex(
+      LuceneMetrics metrics,
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       @IndexExecutor(INTERACTIVE)  ListeningExecutorService executor,
@@ -234,6 +243,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       FillArgs fillArgs,
       @Assisted Schema<ChangeData> schema,
       @Assisted @Nullable String base) throws IOException {
+    this.metrics = metrics;
     this.sitePaths = sitePaths;
     this.fillArgs = fillArgs;
     this.executor = executor;
@@ -258,17 +268,17 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     SearcherFactory searcherFactory = newSearcherFactory();
     if (cfg.getBoolean("index", "lucene", "testInmemory", false)) {
-      openIndex = new SubIndex(new RAMDirectory(), "ramOpen", openConfig,
-          searcherFactory);
-      closedIndex = new SubIndex(new RAMDirectory(), "ramClosed", closedConfig,
-          searcherFactory);
+      openIndex = new SubIndex(metrics, new RAMDirectory(), "ramOpen",
+          openConfig, searcherFactory);
+      closedIndex = new SubIndex(metrics, new RAMDirectory(), "ramClosed",
+          closedConfig, searcherFactory);
     } else {
       Path dir = base != null ? Paths.get(base)
           : LuceneVersionManager.getDir(sitePaths, schema);
-      openIndex = new SubIndex(dir.resolve(CHANGES_OPEN), openConfig,
-          searcherFactory);
-      closedIndex = new SubIndex(dir.resolve(CHANGES_CLOSED), closedConfig,
-          searcherFactory);
+      openIndex = new SubIndex(metrics, dir.resolve(CHANGES_OPEN),
+          openConfig, searcherFactory);
+      closedIndex = new SubIndex(metrics, dir.resolve(CHANGES_CLOSED),
+          closedConfig, searcherFactory);
     }
   }
 
@@ -551,13 +561,15 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private Document toDocument(ChangeData cd) {
-    Document result = new Document();
-    for (Values<ChangeData> vs : schema.buildFields(cd, fillArgs)) {
-      if (vs.getValues() != null) {
-        add(result, vs);
+    try (Timer0.Context ctx = metrics.buildLatency.start()) {
+      Document result = new Document();
+      for (Values<ChangeData> vs : schema.buildFields(cd, fillArgs)) {
+        if (vs.getValues() != null) {
+          add(result, vs);
+        }
       }
+      return result;
     }
-    return result;
   }
 
   @SuppressWarnings("deprecation")

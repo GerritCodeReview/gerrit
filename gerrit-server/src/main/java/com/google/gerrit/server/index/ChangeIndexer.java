@@ -17,9 +17,11 @@ package com.google.gerrit.server.index;
 import com.google.common.base.Function;
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.CheckedFuture;
+import com.google.common.util.concurrent.ForwardingCheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -89,6 +91,7 @@ public class ChangeIndexer {
 
   private final IndexCollection indexes;
   private final ChangeIndex index;
+  private final IndexMetrics metrics;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
@@ -97,12 +100,14 @@ public class ChangeIndexer {
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
+      IndexMetrics metrics,
       ThreadLocalRequestContext context,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
+    this.metrics = metrics;
     this.context = context;
     this.index = index;
     this.indexes = null;
@@ -111,12 +116,14 @@ public class ChangeIndexer {
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
+      IndexMetrics metrics,
       ThreadLocalRequestContext context,
       @Assisted ListeningExecutorService executor,
       @Assisted IndexCollection indexes) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
+    this.metrics = metrics;
     this.context = context;
     this.index = null;
     this.indexes = indexes;
@@ -129,9 +136,19 @@ public class ChangeIndexer {
    * @return future for the indexing task.
    */
   public CheckedFuture<?, IOException> indexAsync(Change.Id id) {
-    return executor != null
-        ? submit(new IndexTask(id))
-        : Futures.<Object, IOException> immediateCheckedFuture(null);
+    if (executor == null) {
+      return Futures.<Object, IOException> immediateCheckedFuture(null);
+    }
+
+    @SuppressWarnings("unchecked")
+    final CheckedFuture<Object, IOException> indexFuture =
+        (CheckedFuture<Object, IOException>) submit(new IndexTask(id));
+    return new ForwardingCheckedFuture<Object, IOException>() {
+      @Override
+      protected CheckedFuture<Object, IOException> delegate() {
+        return indexFuture;
+      }
+    };
   }
 
   /**
@@ -154,8 +171,11 @@ public class ChangeIndexer {
    * @param cd change to index.
    */
   public void index(ChangeData cd) throws IOException {
-    for (ChangeIndex i : getWriteIndexes()) {
-      i.replace(cd);
+    try (Timer0.Context timer = metrics.updateLatency.start()) {
+      for (ChangeIndex i : getWriteIndexes()) {
+        i.replace(cd);
+      }
+      metrics.updates.increment();
     }
   }
 
@@ -236,12 +256,13 @@ public class ChangeIndexer {
           }
         };
         RequestContext oldCtx = context.setContext(newCtx);
-        try {
+        try (Timer0.Context timer = metrics.updateLatency.start()) {
           ChangeData cd = changeDataFactory.create(
               newCtx.getReviewDbProvider().get(), id);
           for (ChangeIndex i : getWriteIndexes()) {
             i.replace(cd);
           }
+          metrics.updates.increment();
           return null;
         } finally  {
           context.setContext(oldCtx);
@@ -274,10 +295,13 @@ public class ChangeIndexer {
       // Don't bother setting a RequestContext to provide the DB.
       // Implementations should not need to access the DB in order to delete a
       // change ID.
-      for (ChangeIndex i : getWriteIndexes()) {
-        i.delete(id);
+      try (Timer0.Context timer = metrics.deleteLatency.start()) {
+        for (ChangeIndex i : getWriteIndexes()) {
+          i.delete(id);
+        }
+        metrics.deletes.increment();
+        return null;
       }
-      return null;
     }
   }
 }

@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -146,6 +147,11 @@ public class RebaseChangeOp extends BatchUpdate.Op {
       throws OrmException, InvalidChangeOperationException {
     patchSetInserter.updateChange(ctx);
     rebasedPatchSet = patchSetInserter.getPatchSet();
+  }
+
+  @Override
+  public void postUpdate(Context ctx) throws OrmException {
+    patchSetInserter.postUpdate(ctx);
   }
 
   public PatchSet getPatchSet() {

@@ -99,7 +99,7 @@ public final class Change {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1)
-    protected int id;
+    public int id;
 
     protected Id() {
     }

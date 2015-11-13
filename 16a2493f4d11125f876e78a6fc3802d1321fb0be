@@ -22,6 +22,30 @@
       "revId": "16a2493f4d11125f876e78a6fc3802d1321fb0be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_69c22585",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T00:07:37Z",
+      "side": 1,
+      "message": "These are broken down by the REST API view name. So you can see errors for change.GetDetail vs. account.GetPreferences.",
+      "parentUuid": "bb6267ec_29178dd5",
+      "range": {
+        "startLine": 400,
+        "startChar": 8,
+        "endLine": 402,
+        "endChar": 9
+      },
+      "revId": "16a2493f4d11125f876e78a6fc3802d1321fb0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

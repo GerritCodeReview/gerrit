@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_cc559fd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T17:26:01Z",
+      "side": 1,
+      "message": "final is not necessary, this is not used inside of the trigger",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "c76c8c8eda2dd6e79909822f7f91b24696b82351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_1b22c3e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T17:26:01Z",
+      "side": 1,
+      "message": "space after (double) before d?",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 21
+      },
+      "revId": "c76c8c8eda2dd6e79909822f7f91b24696b82351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0c64d7c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T17:26:01Z",
+      "side": 1,
+      "message": "Kill the helpers, I don\u0027t think they improve readability of the code.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 3
+      },
+      "revId": "c76c8c8eda2dd6e79909822f7f91b24696b82351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

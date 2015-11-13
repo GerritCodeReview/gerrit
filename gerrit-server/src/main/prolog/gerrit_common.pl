@@ -295,6 +295,10 @@ any_with_block(Label, Min, may(_)).
 %%
 %% - At least one maximum is used.
 %%
+max_no_block(Max, Label, label(Label, S)) :-
+  number(Max), atom(Label),
+  !,
+  max_no_block(Label, Max, S).
 max_no_block(Label, Max, ok(Who)) :-
   check_label_range_permission(Label, Max, ok(Who)),
   !

@@ -43,6 +43,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.io.BaseEncoding;
+import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.audit.AuditService;
@@ -206,6 +207,7 @@ public class RestApiServlet extends HttpServlet {
     res.setHeader("Content-Disposition", "attachment");
     res.setHeader("X-Content-Type-Options", "nosniff");
     int status = SC_OK;
+    long responseBytes = -1;
     Object result = null;
     Multimap<String, String> params = LinkedHashMultimap.create();
     Object inputRequestBody = null;
@@ -353,46 +355,47 @@ public class RestApiServlet extends HttpServlet {
       if (result != Response.none()) {
         result = Response.unwrap(result);
         if (result instanceof BinaryResult) {
-          replyBinaryResult(req, res, (BinaryResult) result);
+          responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
         } else {
-          replyJson(req, res, config, result);
+          responseBytes = replyJson(req, res, config, result);
         }
       }
     } catch (MalformedJsonException e) {
-      replyError(req, res, status = SC_BAD_REQUEST,
+      responseBytes = replyError(req, res, status = SC_BAD_REQUEST,
           "Invalid " + JSON_TYPE + " in request", e);
     } catch (JsonParseException e) {
-      replyError(req, res, status = SC_BAD_REQUEST,
+      responseBytes = replyError(req, res, status = SC_BAD_REQUEST,
           "Invalid " + JSON_TYPE + " in request", e);
     } catch (BadRequestException e) {
-      replyError(req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad Request"),
-          e.caching(), e);
+      responseBytes = replyError(req, res, status = SC_BAD_REQUEST,
+          messageOr(e, "Bad Request"), e.caching(), e);
     } catch (AuthException e) {
-      replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"),
-          e.caching(), e);
+      responseBytes = replyError(req, res, status = SC_FORBIDDEN,
+          messageOr(e, "Forbidden"), e.caching(), e);
     } catch (AmbiguousViewException e) {
-      replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
+      responseBytes = replyError(req, res, status = SC_NOT_FOUND,
+          messageOr(e, "Ambiguous"), e);
     } catch (ResourceNotFoundException e) {
-      replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not Found"),
-          e.caching(), e);
+      responseBytes = replyError(req, res, status = SC_NOT_FOUND,
+          messageOr(e, "Not Found"), e.caching(), e);
     } catch (MethodNotAllowedException e) {
-      replyError(req, res, status = SC_METHOD_NOT_ALLOWED,
+      responseBytes = replyError(req, res, status = SC_METHOD_NOT_ALLOWED,
           messageOr(e, "Method Not Allowed"), e.caching(), e);
     } catch (ResourceConflictException e) {
-      replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"),
-          e.caching(), e);
+      responseBytes = replyError(req, res, status = SC_CONFLICT,
+          messageOr(e, "Conflict"), e.caching(), e);
     } catch (PreconditionFailedException e) {
-      replyError(req, res, status = SC_PRECONDITION_FAILED,
+      responseBytes = replyError(req, res, status = SC_PRECONDITION_FAILED,
           messageOr(e, "Precondition Failed"), e.caching(), e);
     } catch (UnprocessableEntityException e) {
-      replyError(req, res, status = 422, messageOr(e, "Unprocessable Entity"),
-          e.caching(), e);
+      responseBytes = replyError(req, res, status = 422,
+          messageOr(e, "Unprocessable Entity"), e.caching(), e);
     } catch (NotImplementedException e) {
-      replyError(req, res, status = SC_NOT_IMPLEMENTED,
+      responseBytes = replyError(req, res, status = SC_NOT_IMPLEMENTED,
           messageOr(e, "Not Implemented"), e);
     } catch (Exception e) {
       status = SC_INTERNAL_SERVER_ERROR;
-      handleException(e, req, res);
+      responseBytes = handleException(e, req, res);
     } finally {
       String metric = viewData != null && viewData.view != null
           ? globals.metrics.view(viewData)
@@ -400,6 +403,9 @@ public class RestApiServlet extends HttpServlet {
       globals.metrics.count.increment(metric);
       if (status >= SC_BAD_REQUEST) {
         globals.metrics.errorCount.increment(metric, status);
+      }
+      if (responseBytes != -1) {
+        globals.metrics.responseBytes.record(metric, responseBytes);
       }
       globals.metrics.serverLatency.record(
           metric,
@@ -667,7 +673,7 @@ public class RestApiServlet extends HttpServlet {
     throw new InstantiationException("Cannot make " + type);
   }
 
-  public static void replyJson(@Nullable HttpServletRequest req,
+  public static long replyJson(@Nullable HttpServletRequest req,
       HttpServletResponse res,
       Multimap<String, String> config,
       Object result)
@@ -683,7 +689,7 @@ public class RestApiServlet extends HttpServlet {
     }
     w.write('\n');
     w.flush();
-    replyBinaryResult(req, res, asBinaryResult(buf)
+    return replyBinaryResult(req, res, asBinaryResult(buf)
       .setContentType(JSON_TYPE)
       .setCharacterEncoding(UTF_8));
   }
@@ -752,7 +758,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   @SuppressWarnings("resource")
-  static void replyBinaryResult(
+  static long replyBinaryResult(
       @Nullable HttpServletRequest req,
       HttpServletResponse res,
       BinaryResult bin) throws IOException {
@@ -783,10 +789,13 @@ public class RestApiServlet extends HttpServlet {
       }
 
       if (req == null || !"HEAD".equals(req.getMethod())) {
-        try (OutputStream dst = res.getOutputStream()) {
+        try (CountingOutputStream dst =
+            new CountingOutputStream(res.getOutputStream())) {
           bin.writeTo(dst);
+          return dst.getCount();
         }
       }
+      return 0;
     } finally {
       appResult.close();
     }
@@ -993,7 +1002,7 @@ public class RestApiServlet extends HttpServlet {
         viewData.pluginName, viewData.view.getClass());
   }
 
-  private static void handleException(Throwable err, HttpServletRequest req,
+  private static long handleException(Throwable err, HttpServletRequest req,
       HttpServletResponse res) throws IOException {
     String uri = req.getRequestURI();
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
@@ -1003,16 +1012,17 @@ public class RestApiServlet extends HttpServlet {
 
     if (!res.isCommitted()) {
       res.reset();
-      replyError(req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error", err);
+      return replyError(req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error", err);
     }
+    return 0;
   }
 
-  public static void replyError(HttpServletRequest req, HttpServletResponse res,
+  public static long replyError(HttpServletRequest req, HttpServletResponse res,
       int statusCode, String msg, @Nullable Throwable err) throws IOException {
-    replyError(req, res, statusCode, msg, CacheControl.NONE, err);
+    return replyError(req, res, statusCode, msg, CacheControl.NONE, err);
   }
 
-  public static void replyError(HttpServletRequest req,
+  public static long replyError(HttpServletRequest req,
       HttpServletResponse res, int statusCode, String msg,
       CacheControl c, @Nullable Throwable err) throws IOException {
     if (err != null) {
@@ -1020,18 +1030,18 @@ public class RestApiServlet extends HttpServlet {
     }
     configureCaching(req, res, null, null, c);
     res.setStatus(statusCode);
-    replyText(req, res, msg);
+    return replyText(req, res, msg);
   }
 
-  static void replyText(@Nullable HttpServletRequest req,
+  static long replyText(@Nullable HttpServletRequest req,
       HttpServletResponse res, String text) throws IOException {
     if ((req == null || isGetOrHead(req)) && isMaybeHTML(text)) {
-      replyJson(req, res, ImmutableMultimap.of("pp", "0"), new JsonPrimitive(text));
+      return replyJson(req, res, ImmutableMultimap.of("pp", "0"), new JsonPrimitive(text));
     } else {
       if (!text.endsWith("\n")) {
         text += "\n";
       }
-      replyBinaryResult(req, res,
+      return replyBinaryResult(req, res,
           BinaryResult.create(text).setContentType("text/plain"));
     }
   }

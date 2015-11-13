@@ -92,6 +92,41 @@ public class DisabledMetricMaker extends MetricMaker {
   }
 
   @Override
+  public Histogram0 newHistogram(String name, Description desc) {
+    return new Histogram0() {
+      @Override public void record(long value) {}
+      @Override public void remove() {}
+    };
+  }
+
+  @Override
+  public <F1> Histogram1<F1> newHistogram(String name, Description desc,
+      Field<F1> field1) {
+    return new Histogram1<F1>() {
+      @Override public void record(F1 field1, long value) {}
+      @Override public void remove() {}
+    };
+  }
+
+  @Override
+  public <F1, F2> Histogram2<F1, F2> newHistogram(String name, Description desc,
+      Field<F1> field1, Field<F2> field2) {
+    return new Histogram2<F1, F2>() {
+      @Override public void record(F1 field1, F2 field2, long value) {}
+      @Override public void remove() {}
+    };
+  }
+
+  @Override
+  public <F1, F2, F3> Histogram3<F1, F2, F3> newHistogram(String name,
+      Description desc, Field<F1> field1, Field<F2> field2, Field<F3> field3) {
+    return new Histogram3<F1, F2, F3>() {
+      @Override public void record(F1 field1, F2 field2, F3 field3, long value) {}
+      @Override public void remove() {}
+    };
+  }
+
+  @Override
   public <V> CallbackMetric0<V> newCallbackMetric(String name,
       Class<V> valueClass, Description desc) {
     return new CallbackMetric0<V>() {

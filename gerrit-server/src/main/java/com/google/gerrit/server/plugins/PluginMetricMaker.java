@@ -25,6 +25,10 @@ import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.Histogram0;
+import com.google.gerrit.metrics.Histogram1;
+import com.google.gerrit.metrics.Histogram2;
+import com.google.gerrit.metrics.Histogram3;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.metrics.Timer1;
@@ -113,6 +117,41 @@ class PluginMetricMaker extends MetricMaker implements LifecycleListener {
       Field<F1> field1, Field<F2> field2, Field<F3> field3) {
     Timer3<F1, F2, F3> m =
         root.newTimer(prefix + name, desc, field1, field2, field3);
+    cleanup.add(m);
+    return m;
+  }
+
+  @Override
+  public Histogram0 newHistogram(String name, Description desc) {
+    Histogram0 m = root.newHistogram(prefix + name, desc);
+    cleanup.add(m);
+    return m;
+  }
+
+  @Override
+  public <F1> Histogram1<F1> newHistogram(
+      String name, Description desc,
+      Field<F1> field1) {
+    Histogram1<F1> m = root.newHistogram(prefix + name, desc, field1);
+    cleanup.add(m);
+    return m;
+  }
+
+  @Override
+  public <F1, F2> Histogram2<F1, F2> newHistogram(
+      String name, Description desc,
+      Field<F1> field1, Field<F2> field2) {
+    Histogram2<F1, F2> m = root.newHistogram(prefix + name, desc, field1, field2);
+    cleanup.add(m);
+    return m;
+  }
+
+  @Override
+  public <F1, F2, F3> Histogram3<F1, F2, F3> newHistogram(
+      String name, Description desc,
+      Field<F1> field1, Field<F2> field2, Field<F3> field3) {
+    Histogram3<F1, F2, F3> m =
+        root.newHistogram(prefix + name, desc, field1, field2, field3);
     cleanup.add(m);
     return m;
   }

@@ -20,6 +20,7 @@ import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.metrics.Description.Units;
@@ -36,6 +37,7 @@ public class RestApiMetrics {
   final Counter1<String> count;
   final Counter2<String, Integer> errorCount;
   final Timer1<String> serverLatency;
+  final Histogram1<String> responseBytes;
 
   @Inject
   RestApiMetrics(MetricMaker metrics) {
@@ -58,6 +60,13 @@ public class RestApiMetrics {
         new Description("REST API call latency by view")
           .setCumulative()
           .setUnit(Units.MILLISECONDS),
+        view);
+
+    responseBytes = metrics.newHistogram(
+        "http/server/rest_api/response_bytes",
+        new Description("Size of response on network (may be gzip compressed)")
+          .setCumulative()
+          .setUnit(Units.BYTES),
         view);
   }
 

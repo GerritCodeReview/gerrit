@@ -20,6 +20,7 @@ import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.inject.Inject;
@@ -39,6 +40,7 @@ public class UploadPackMetricsHook implements PostUploadHook {
   private final Timer1<Operation> counting;
   private final Timer1<Operation> compressing;
   private final Timer1<Operation> writing;
+  private final Histogram1<Operation> packBytes;
 
   @Inject
   UploadPackMetricsHook(MetricMaker metricMaker) {
@@ -70,6 +72,13 @@ public class UploadPackMetricsHook implements PostUploadHook {
           .setCumulative()
           .setUnit(Units.MILLISECONDS),
         operation);
+
+    packBytes = metricMaker.newHistogram(
+        "git/upload-pack/pack_bytes",
+        new Description("Distribution of sizes of packs sent to clients")
+          .setCumulative()
+          .setUnit(Units.BYTES),
+        operation);
   }
 
   @Override
@@ -84,5 +93,6 @@ public class UploadPackMetricsHook implements PostUploadHook {
     counting.record(op, stats.getTimeCounting(), MILLISECONDS);
     compressing.record(op, stats.getTimeCompressing(), MILLISECONDS);
     writing.record(op, stats.getTimeWriting(), MILLISECONDS);
+    packBytes.record(op, stats.getTotalBytes());
   }
 }

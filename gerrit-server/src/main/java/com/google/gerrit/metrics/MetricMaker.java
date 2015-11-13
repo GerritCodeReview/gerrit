@@ -46,6 +46,18 @@ public abstract class MetricMaker {
       String name, Description desc,
       Field<F1> field1, Field<F2> field2, Field<F3> field3);
 
+  /** Metric statistical distribution of values. */
+  public abstract Histogram0 newHistogram(String name, Description desc);
+  public abstract <F1> Histogram1<F1> newHistogram(
+      String name, Description desc,
+      Field<F1> field1);
+  public abstract <F1, F2> Histogram2<F1, F2> newHistogram(
+      String name, Description desc,
+      Field<F1> field1, Field<F2> field2);
+  public abstract <F1, F2, F3> Histogram3<F1, F2, F3> newHistogram(
+      String name, Description desc,
+      Field<F1> field1, Field<F2> field2, Field<F3> field3);
+
   /**
    * Constant value that does not change.
    *

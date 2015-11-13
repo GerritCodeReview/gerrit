@@ -32,6 +32,10 @@ import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.FieldOrdering;
 import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.Histogram0;
+import com.google.gerrit.metrics.Histogram1;
+import com.google.gerrit.metrics.Histogram2;
+import com.google.gerrit.metrics.Histogram3;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.metrics.Timer1;
@@ -227,6 +231,56 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   @Override
+  public synchronized Histogram0 newHistogram(String name, Description desc) {
+    checkHistogramDescription(name, desc);
+    define(name, desc);
+    return newHistogramImpl(name);
+  }
+
+  @Override
+  public synchronized <F1> Histogram1<F1> newHistogram(String name,
+      Description desc, Field<F1> field1) {
+    checkHistogramDescription(name, desc);
+    HistogramImpl1<F1> m = new HistogramImpl1<>(this, name, desc, field1);
+    define(name, desc);
+    bucketed.put(name, m);
+    return m.histogram1();
+  }
+
+  @Override
+  public synchronized <F1, F2> Histogram2<F1, F2> newHistogram(String name,
+      Description desc, Field<F1> field1, Field<F2> field2) {
+    checkHistogramDescription(name, desc);
+    HistogramImplN m = new HistogramImplN(this, name, desc, field1, field2);
+    define(name, desc);
+    bucketed.put(name, m);
+    return m.histogram2();
+  }
+
+  @Override
+  public synchronized <F1, F2, F3> Histogram3<F1, F2, F3> newHistogram(
+      String name, Description desc,
+      Field<F1> field1, Field<F2> field2, Field<F3> field3) {
+    checkHistogramDescription(name, desc);
+    HistogramImplN m = new HistogramImplN(this, name, desc, field1, field2, field3);
+    define(name, desc);
+    bucketed.put(name, m);
+    return m.histogram3();
+  }
+
+  private static void checkHistogramDescription(String name, Description desc) {
+    checkMetricName(name);
+    checkArgument(!desc.isConstant(), "histogram must not be constant");
+    checkArgument(!desc.isGauge(), "histogram must not be a gauge");
+    checkArgument(!desc.isRate(), "histogram must not be a rate");
+    checkArgument(desc.isCumulative(), "histogram must be cumulative");
+  }
+
+  HistogramImpl newHistogramImpl(String name) {
+    return new HistogramImpl(name, registry.histogram(name));
+  }
+
+  @Override
   public <V> CallbackMetric0<V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc) {
     checkMetricName(name);
@@ -331,6 +385,27 @@ public class DropWizardMetricMaker extends MetricMaker {
     public void record(long value, TimeUnit unit) {
       checkArgument(value >= 0, "timer delta must be >= 0");
       metric.update(value, unit);
+    }
+
+    @Override
+    public void remove() {
+      descriptions.remove(name);
+      registry.remove(name);
+    }
+  }
+
+  class HistogramImpl extends Histogram0 {
+    private final String name;
+    final com.codahale.metrics.Histogram metric;
+
+    private HistogramImpl(String name, com.codahale.metrics.Histogram metric) {
+      this.name = name;
+      this.metric = metric;
+    }
+
+    @Override
+    public void record(long value) {
+      metric.update(value);
     }
 
     @Override

@@ -22,6 +22,9 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.metrics.DisabledMetricMaker;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -93,7 +96,13 @@ public abstract class SiteProgram extends AbstractProgram {
   }
 
   /** @return provides database connectivity and site path. */
-  protected Injector createDbInjector(final DataSourceProvider.Context context) {
+  protected Injector createDbInjector(DataSourceProvider.Context context) {
+    return createDbInjector(false, context);
+  }
+
+  /** @return provides database connectivity and site path. */
+  protected Injector createDbInjector(final boolean enableMetrics,
+      final DataSourceProvider.Context context) {
     final Path sitePath = getSitePath();
     final List<Module> modules = new ArrayList<>();
 
@@ -106,6 +115,17 @@ public abstract class SiteProgram extends AbstractProgram {
       }
     };
     modules.add(sitePathModule);
+
+    if (enableMetrics) {
+      modules.add(new DropWizardMetricMaker.ApiModule());
+    } else {
+      modules.add(new AbstractModule() {
+        @Override
+        protected void configure() {
+          bind(MetricMaker.class).to(DisabledMetricMaker.class);
+        }
+      });
+    }
 
     modules.add(new LifecycleModule() {
       @Override

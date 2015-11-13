@@ -20,6 +20,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.persistence.DataSourceInterceptor;
+import com.google.gerrit.metrics.CallbackMetric1;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -46,15 +50,18 @@ public class DataSourceProvider implements Provider<DataSource>,
   public static final int DEFAULT_POOL_LIMIT = 8;
 
   private final Config cfg;
+  private final MetricMaker metrics;
   private final Context ctx;
   private final DataSourceType dst;
   private DataSource ds;
 
   @Inject
   protected DataSourceProvider(@GerritServerConfig Config cfg,
+      MetricMaker metrics,
       Context ctx,
       DataSourceType dst) {
     this.cfg = cfg;
+    this.metrics = metrics;
     this.ctx = ctx;
     this.dst = dst;
   }
@@ -126,6 +133,7 @@ public class DataSourceProvider implements Provider<DataSource>,
       ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,
           "poolmaxwait", MILLISECONDS.convert(30, SECONDS), MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());
+      exportPoolMetrics(ds);
       return intercept(interceptor, ds);
 
     } else {
@@ -146,6 +154,25 @@ public class DataSourceProvider implements Provider<DataSource>,
         throw new ProvisionException("Database unavailable", se);
       }
     }
+  }
+
+  private void exportPoolMetrics(final BasicDataSource pool) {
+    final CallbackMetric1<Boolean, Integer> cnt = metrics.newCallbackMetric(
+        "sql/connection_pool/connections",
+        Integer.class,
+        new Description("SQL database connections")
+          .setGauge()
+          .setUnit("connections"),
+        Field.ofBoolean("active"));
+    metrics.newTrigger(cnt, new Runnable() {
+      @Override
+      public void run() {
+        synchronized (pool) {
+          cnt.set(true, pool.getNumActive());
+          cnt.set(false, pool.getNumIdle());
+        }
+      }
+    });
   }
 
   private DataSource intercept(String interceptor, DataSource ds) {

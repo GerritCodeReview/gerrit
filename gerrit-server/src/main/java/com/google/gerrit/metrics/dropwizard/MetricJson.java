@@ -22,6 +22,7 @@ import com.google.gerrit.metrics.Field;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Gauge;
+import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.Snapshot;
@@ -56,7 +57,9 @@ class MetricJson {
   Double p99_9;
 
   Double min;
+  Double avg;
   Double max;
+  Double sum;
   Double std_dev;
 
   List<FieldJson> fields;
@@ -123,6 +126,24 @@ class MetricJson {
       min = s.getMin() / div;
       max = s.getMax() / div;
       std_dev = s.getStdDev() / div;
+
+    } else if (metric instanceof Histogram) {
+      Histogram m = (Histogram) metric;
+      Snapshot s = m.getSnapshot();
+      count = m.getCount();
+
+      p50 = s.getMedian();
+      p75 = s.get75thPercentile();
+      p95 = s.get95thPercentile();
+      p98 = s.get98thPercentile();
+      p99 = s.get99thPercentile();
+      p99_9 = s.get999thPercentile();
+
+      min = (double) s.getMin();
+      avg = (double) s.getMean();
+      max = (double) s.getMax();
+      sum = s.getMean() * m.getCount();
+      std_dev = s.getStdDev();
     }
   }
 

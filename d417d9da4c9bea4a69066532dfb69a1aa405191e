@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_9821397e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-13T00:52:04Z",
+      "side": 1,
+      "message": "Please document the new extension point in dev-plugins.txt",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "d417d9da4c9bea4a69066532dfb69a1aa405191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_5841611c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-13T00:52:04Z",
+      "side": 1,
+      "message": "Why do we need a factory? Isn\u0027t a simple interface enough?",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "d417d9da4c9bea4a69066532dfb69a1aa405191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_c980f11f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/SuggestedReviewerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-13T00:52:04Z",
+      "side": 1,
+      "message": "Please document this new field in rest-api-changes.txt",
+      "range": {
+        "startLine": 20,
+        "startChar": 16,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "d417d9da4c9bea4a69066532dfb69a1aa405191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_98081904",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/SuggestedReviewerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-13T00:52:04Z",
+      "side": 1,
+      "message": "Should be null by default.",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 31
+      },
+      "revId": "d417d9da4c9bea4a69066532dfb69a1aa405191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_29730d35",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-13T00:52:04Z",
+      "side": 1,
+      "message": "Should it be\n\n  + \" \" + reviewer.annotation()\n\n?",
+      "range": {
+        "startLine": 72,
+        "startChar": 58,
+        "endLine": 72,
+        "endChar": 79
+      },
+      "revId": "d417d9da4c9bea4a69066532dfb69a1aa405191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0978490b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-13T00:52:04Z",
+      "side": 1,
+      "message": "here too?",
+      "revId": "d417d9da4c9bea4a69066532dfb69a1aa405191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_d827b191",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-13T00:52:04Z",
+      "side": 1,
+      "message": "why not final?",
+      "revId": "d417d9da4c9bea4a69066532dfb69a1aa405191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_783c1da4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-13T00:52:04Z",
+      "side": 1,
+      "message": "Do this only if annotatorFactory.get() !\u003d null?",
+      "revId": "d417d9da4c9bea4a69066532dfb69a1aa405191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

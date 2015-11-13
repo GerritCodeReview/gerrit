@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_7829bd78",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-13T00:11:53Z",
+      "side": 1,
+      "message": "Hah! I literally just got an email from someone on the polymer team saying \"Iron-ajax 1.0.9 added `json-prefix` attribute handling\". So it turns out to be the same problem with blaze as with buck.",
+      "revId": "cbb4e55482d10f1d8f48b46ac9b30ed4e23a5966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

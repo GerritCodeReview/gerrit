@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9b404344_304a4859",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-11-13T11:40:29Z",
+      "side": 1,
+      "message": "i wouldn\u0027t want to create an actual branch for trash.\n\nthe idea of transplanting patchsets is actually kinda neat, though i suspect it might be a bit more effort.\n\nanyway, this isn\u0027t critical. if everything else fails, i can still hack the database.",
+      "parentUuid": "3b203791_95e6a403",
+      "revId": "d162656951d328e838f82d8410a99685b92bf712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d609b2de_fa0d8981",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
         "patchSetId": 7

@@ -261,6 +261,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       });
     }
     modules.add(new DatabaseModule());
+    modules.add(new DropWizardMetricMaker.ApiModule());
     return Guice.createInjector(PRODUCTION, modules);
   }
 
@@ -289,7 +290,6 @@ public class WebAppInitializer extends GuiceServletContextListener
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
-    modules.add(new DropWizardMetricMaker.ApiModule());
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());

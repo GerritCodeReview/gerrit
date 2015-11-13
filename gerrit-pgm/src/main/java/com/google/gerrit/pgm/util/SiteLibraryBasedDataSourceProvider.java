@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.util;
 
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.schema.DataSourceProvider;
@@ -37,9 +38,10 @@ public class SiteLibraryBasedDataSourceProvider extends DataSourceProvider {
   @Inject
   SiteLibraryBasedDataSourceProvider(SitePaths site,
       @GerritServerConfig Config cfg,
+      MetricMaker metrics,
       DataSourceProvider.Context ctx,
       DataSourceType dst) {
-    super(cfg, ctx, dst);
+    super(cfg, metrics, ctx, dst);
     libdir = site.lib_dir;
   }
 

@@ -276,7 +276,7 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void start() throws IOException {
     if (dbInjector == null) {
-      dbInjector = createDbInjector(MULTI_USER);
+      dbInjector = createDbInjector(true /* enableMetrics */, MULTI_USER);
     }
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(
@@ -325,7 +325,6 @@ public class Daemon extends SiteProgram {
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(SchemaVersionCheck.module());
-    modules.add(new DropWizardMetricMaker.ApiModule());
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
     modules.add(new WorkQueue.Module());

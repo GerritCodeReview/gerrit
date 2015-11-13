@@ -141,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_ac570b4f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-13T02:20:31Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "3b203791_b83995af",
+      "range": {
+        "startLine": 72,
+        "startChar": 58,
+        "endLine": 72,
+        "endChar": 79
+      },
+      "revId": "d417d9da4c9bea4a69066532dfb69a1aa405191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_0978490b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
         "patchSetId": 3

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1447370109 -0800\nnonce AFd3BxvW1CTLkAxxWoB/GtBQYh2+dQ8rRc2vWf/5yFVDwiDmnrz97HgwdpGcFft+Lzy4/qo30XxQ\n\n0000000000000000000000000000000000000000 b499ec4fa25547a468a38968dd4970cecd24eff4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWRR19AAoJEHFVO370GiZWTPoH/3l9F62WW87KME1mxpIKhlME\n+KGiKzT/UweeN8GtPd4E1WqNfO1gKbBFdExJvkZPK4550AlovsR2v+bm/bc15oC+\nWYzlV9KyBJS0sCx0cFI99hCw7NOesedKZ4is6PWCMxOCB7GcgMrayh4T9C3k87Xx\nZAf03ZtVceLHo9WaqlSVsnVy0CwX3d6RytxS+Pt44J6r53oZypTikfRsZnw0+7oW\nrEeXOmJAghavjCmRG82vtkzHwbeeVNGYIqLbKksQD7IQh1QyFDYzxs+eZjyeXltQ\nrdGuPORgo55Uv4VRXsWG159yuoSw2R2DQrU6c6CeSqpgI5obm9jiFMYre/VwSdU\u003d\n\u003dVCY3\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_984019e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountInfoComparator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T02:55:32Z",
+      "side": 1,
+      "message": "Can\u0027t these be initialised already here?\n\n public static final AccountInfoComparator ORDER_NULLS_FIRST \u003d\n   new AccountInfoComparator();\n \n public static final AccountInfoComparator ORDER_NULLS_LAST \u003d\n   new AccountInfoComparator().setNullsLast();\n\nand then they can be used directly from callers rather than going through the methods below.",
+      "revId": "b499ec4fa25547a468a38968dd4970cecd24eff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

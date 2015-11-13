@@ -145,7 +145,6 @@ public class ChangeJson {
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
-  private final Submit submit;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeData.Factory changeDataFactory;
   private final FileInfoJson fileInfoJson;
@@ -171,7 +170,6 @@ public class ChangeJson {
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
-      Submit submit,
       IdentifiedUser.GenericFactory uf,
       ChangeData.Factory cdf,
       FileInfoJson fileInfoJson,
@@ -192,7 +190,6 @@ public class ChangeJson {
     this.repoManager = repoManager;
     this.userFactory = uf;
     this.projectCache = projectCache;
-    this.submit = submit;
     this.mergeUtilFactory = mergeUtilFactory;
     this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
@@ -412,7 +409,7 @@ public class ChangeJson {
     // the response and avoid making a request to /submit_type from the UI.
     out.mergeable = in.getStatus() == Change.Status.MERGED
         ? null : cd.isMergeable();
-    out.submittable = submit.submittable(cd);
+    out.submittable = Submit.submittable(cd);
     ChangedLines changedLines = cd.changedLines();
     if (changedLines != null) {
       out.insertions = changedLines.insertions;

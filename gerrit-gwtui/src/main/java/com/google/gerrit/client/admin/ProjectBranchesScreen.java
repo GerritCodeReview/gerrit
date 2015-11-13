@@ -207,8 +207,10 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
         Query q = new Query(filterTxt.getValue());
         if (match.equals(q.qMatch)) {
           q.start(start);
-        } else if (query == null) {
-          q.run();
+        } else {
+          if (query == null) {
+            q.run();
+          }
           query = q;
         }
       }

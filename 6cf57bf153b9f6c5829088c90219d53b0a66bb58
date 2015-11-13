@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_0ce73766",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T18:26:36Z",
+      "side": 1,
+      "message": "nit: add final or remove finals from other parameters to make this code more consistant",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 8
+      },
+      "revId": "6cf57bf153b9f6c5829088c90219d53b0a66bb58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_3bf9ff71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/HashtagsEdited.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T18:26:36Z",
+      "side": 1,
+      "message": "should be package protected",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 8
+      },
+      "revId": "6cf57bf153b9f6c5829088c90219d53b0a66bb58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_1bfe435a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T18:26:36Z",
+      "side": 1,
+      "message": "nit: add finals or remove them from other parameters to keep the code consistent",
+      "revId": "6cf57bf153b9f6c5829088c90219d53b0a66bb58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

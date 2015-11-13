@@ -16,11 +16,11 @@ import java.util.Set;
 
 @Singleton
 public class CacheMetrics {
-  private static final Field<String> F_NAME = Field.ofString("cache_name");
-
   @Inject
   public CacheMetrics(MetricMaker metrics,
       final DynamicMap<Cache<?, ?>> cacheMap) {
+    Field<String> F_NAME = Field.ofString("cache_name");
+
     final CallbackMetric1<String, Long> memEnt =
         metrics.newCallbackMetric("caches/memory_cached", Long.class,
             new Description("Memory entries").setGauge().setUnit("entries"),

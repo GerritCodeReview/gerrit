@@ -377,7 +377,9 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void reindexChanges() throws IOException {
-    ChangeIndexer.allAsList(indexFutures).checkedGet();
+    for (CheckedFuture<?, IOException> f : indexFutures) {
+      f.checkedGet();
+    }
   }
 
   private void executePostOps() throws Exception {

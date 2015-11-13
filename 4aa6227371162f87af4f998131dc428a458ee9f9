@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_fb970708",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T18:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_3bae9f59",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 55
+      },
+      "revId": "4aa6227371162f87af4f998131dc428a458ee9f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_2c30bb95",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-13T18:34:49Z",
       "side": 1,
       "message": "Line wrapping is inconsistent between these declarations and it makes ir a bit difficult to read.",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 19
+      },
+      "revId": "4aa6227371162f87af4f998131dc428a458ee9f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_1bb3e3c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T18:41:30Z",
+      "side": 1,
+      "message": "Yeah. I know. But I really want Google\u0027s Eclipse Formatter to handle my line-wrapping, so I (or someone else) do not accidentally generate diff lines in the future.",
+      "parentUuid": "bb6267ec_2c30bb95",
       "range": {
         "startLine": 24,
         "startChar": 4,

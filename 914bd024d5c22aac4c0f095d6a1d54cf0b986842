@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_18352986",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T02:38:23Z",
+      "side": 1,
+      "message": "nit: don\u0027t use final in new code.\n\nis this variable even needed if we only use it to set the value of accounts on the next line?",
+      "range": {
+        "startLine": 569,
+        "startChar": 6,
+        "endLine": 569,
+        "endChar": 11
+      },
+      "revId": "914bd024d5c22aac4c0f095d6a1d54cf0b986842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

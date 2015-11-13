@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_5b415b1c",
+        "filename": "rules.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-13T23:28:46Z",
+      "side": 1,
+      "message": "OK, I see.\n\nHowever, the gerrit:max_no_block is usable even without [1] being deployed. These two lines are just parameter validations and we can see\nthat the parameters you pass (line 12) are ok.\n\nMy proposal is to just use gerrit:max_no_block in line 12 (it is already good enough) and don\u0027t try to fix max_with_block here. Basically keep only the change in line 12.",
+      "parentUuid": "3b203791_5bdb9b0f",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 4
+      },
+      "revId": "4840beba599e2f24070a6b621434e5e12e24e83c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_ec2f4361",
         "filename": "rules.pl",
         "patchSetId": 5

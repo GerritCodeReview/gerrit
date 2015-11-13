@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_ac0a6ba2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_db820bb6",
+      "range": {
+        "startLine": 916,
+        "startChar": 55,
+        "endLine": 916,
+        "endChar": 66
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_2cfe7bd3",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_8c07a79c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4671,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "this documentation is about rest API not about UI behavior, therefore wouldn\u0027t add such information.",
+      "parentUuid": "bb6267ec_2cfe7bd3",
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_acf14b00",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
         "patchSetId": 6
@@ -53,6 +95,30 @@
       "writtenOn": "2015-11-13T19:57:00Z",
       "side": 1,
       "message": "related changes sounds like a misnomer here, because that makes me think of the \"Related Changes\" tab, which includes all kinds of changes. (outdated revisions of changes which were related once, but rebased onto somewhere else now, and other guesses what may be related)\n\nIs it more like a \"submittedTogether\" set?",
+      "range": {
+        "startLine": 201,
+        "startChar": 22,
+        "endLine": 201,
+        "endChar": 36
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_1b5ac331",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "how about sameTopicChanges?",
+      "parentUuid": "bb6267ec_acf14b00",
       "range": {
         "startLine": 201,
         "startChar": 22,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_6cc23385",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_ec1063da",
+      "range": {
+        "startLine": 57,
+        "startChar": 9,
+        "endLine": 57,
+        "endChar": 24
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_8cee871a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
         "patchSetId": 6
@@ -99,6 +189,30 @@
       "writtenOn": "2015-11-13T19:57:00Z",
       "side": 1,
       "message": "sameTopicChanges is what was passed in as relatedChanges, in SubmitDialog it is called relatedChanges again.\n\nRename it here or at the other two places.",
+      "range": {
+        "startLine": 39,
+        "startChar": 33,
+        "endLine": 39,
+        "endChar": 49
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_fb6ee7d5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_8cee871a",
       "range": {
         "startLine": 39,
         "startChar": 33,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_db6b2bc4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "sameTopicChanges?",
+      "parentUuid": "3b203791_7b5bf738",
+      "range": {
+        "startLine": 53,
+        "startChar": 63,
+        "endLine": 53,
+        "endChar": 77
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_5b603be5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitDialog.java",
         "patchSetId": 6
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_bb686fc8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/SubmitDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_5b603be5",
+      "range": {
+        "startLine": 55,
+        "startChar": 10,
+        "endLine": 55,
+        "endChar": 25
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_4c22cf37",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 6
@@ -168,6 +330,30 @@
       "writtenOn": "2015-11-13T19:57:00Z",
       "side": 1,
       "message": "So in case of DIALOG we also assume false when it is not given to us, ok.",
+      "range": {
+        "startLine": 193,
+        "startChar": 35,
+        "endLine": 193,
+        "endChar": 76
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_8cdc4762",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "yes, we want to preserve \"old\" behavior when topic changes was not send together",
+      "parentUuid": "bb6267ec_4c22cf37",
       "range": {
         "startLine": 193,
         "startChar": 35,
@@ -226,6 +412,54 @@
     },
     {
       "key": {
+        "uuid": "3b203791_1b4f6369",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_0c1cd7f3",
+      "range": {
+        "startLine": 319,
+        "startChar": 28,
+        "endLine": 319,
+        "endChar": 44
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_ecd5033a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_2c179bd5",
+      "range": {
+        "startLine": 319,
+        "startChar": 6,
+        "endLine": 319,
+        "endChar": 22
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_3b557f03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 6
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_0caa97ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_3b557f03",
+      "range": {
+        "startLine": 356,
+        "startChar": 53,
+        "endLine": 356,
+        "endChar": 72
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_6c1d93f3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 6
@@ -260,6 +518,30 @@
       "writtenOn": "2015-11-13T19:57:00Z",
       "side": 1,
       "message": "This looks like a white space change only? No need to include that in this commit.",
+      "range": {
+        "startLine": 372,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 37
+      },
+      "revId": "d6bcee67570859ccb684873a85cf50b1f0e96fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_acdf0b56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T21:07:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_6c1d93f3",
       "range": {
         "startLine": 372,
         "startChar": 0,

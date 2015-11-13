@@ -17,9 +17,10 @@ package com.google.gerrit.server.index;
 import com.google.common.base.Function;
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.CheckedFuture;
+import com.google.common.util.concurrent.ForwardingCheckedFuture;
 import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -39,12 +40,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -61,15 +62,6 @@ public class ChangeIndexer {
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndex index);
     ChangeIndexer create(ListeningExecutorService executor,
         IndexCollection indexes);
-  }
-
-  public static CheckedFuture<?, IOException> allAsList(
-      List<? extends ListenableFuture<?>> futures) {
-    // allAsList propagates the first seen exception, wrapped in
-    // ExecutionException, so we can reuse the same mapper as for a single
-    // future. Assume the actual contents of the exception are not useful to
-    // callers. All exceptions are already logged by IndexTask.
-    return Futures.makeChecked(Futures.allAsList(futures), MAPPER);
   }
 
   private static final Function<Exception, IOException> MAPPER =
@@ -89,6 +81,7 @@ public class ChangeIndexer {
 
   private final IndexCollection indexes;
   private final ChangeIndex index;
+  private final IndexMetrics metrics;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
@@ -97,12 +90,14 @@ public class ChangeIndexer {
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
+      IndexMetrics metrics,
       ThreadLocalRequestContext context,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
+    this.metrics = metrics;
     this.context = context;
     this.index = index;
     this.indexes = null;
@@ -111,12 +106,14 @@ public class ChangeIndexer {
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
+      IndexMetrics metrics,
       ThreadLocalRequestContext context,
       @Assisted ListeningExecutorService executor,
       @Assisted IndexCollection indexes) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
+    this.metrics = metrics;
     this.context = context;
     this.index = null;
     this.indexes = indexes;
@@ -135,27 +132,16 @@ public class ChangeIndexer {
   }
 
   /**
-   * Start indexing multiple changes in parallel.
-   *
-   * @param ids changes to index.
-   * @return future for completing indexing of all changes.
-   */
-  public CheckedFuture<?, IOException> indexAsync(Collection<Change.Id> ids) {
-    List<ListenableFuture<?>> futures = new ArrayList<>(ids.size());
-    for (Change.Id id : ids) {
-      futures.add(indexAsync(id));
-    }
-    return allAsList(futures);
-  }
-
-  /**
    * Synchronously index a change.
    *
    * @param cd change to index.
    */
   public void index(ChangeData cd) throws IOException {
-    for (ChangeIndex i : getWriteIndexes()) {
-      i.replace(cd);
+    try (Timer0.Context timer = metrics.updateLatency.start()) {
+      for (ChangeIndex i : getWriteIndexes()) {
+        i.replace(cd);
+      }
+      metrics.updates.increment();
     }
   }
 
@@ -196,8 +182,45 @@ public class ChangeIndexer {
         : Collections.singleton(index);
   }
 
-  private CheckedFuture<?, IOException> submit(Callable<?> task) {
-    return Futures.makeChecked(executor.submit(task), MAPPER);
+  private CheckedFuture<?, IOException> submit(Callable<Void> task) {
+    final CheckedFuture<Void, IOException> future =
+        Futures.makeChecked(executor.submit(task), MAPPER);
+    return new ForwardingCheckedFuture<Void, IOException>() {
+      @Override
+      public Void checkedGet() throws IOException {
+        try (Timer0.Context timer = metrics.commitLatency.start()) {
+          return super.checkedGet();
+        }
+      }
+
+      @Override
+      public Void checkedGet(long timeout, TimeUnit unit) throws IOException,
+          TimeoutException {
+        try (Timer0.Context timer = metrics.commitLatency.start()) {
+          return super.checkedGet(timeout, unit);
+        }
+      }
+
+      @Override
+      public Void get() throws InterruptedException, ExecutionException {
+        try (Timer0.Context timer = metrics.commitLatency.start()) {
+          return super.get();
+        }
+      }
+
+      @Override
+      public Void get(long timeout, TimeUnit unit) throws InterruptedException,
+          ExecutionException, TimeoutException {
+        try (Timer0.Context timer = metrics.commitLatency.start()) {
+          return super.get(timeout, unit);
+        }
+      }
+
+      @Override
+      protected CheckedFuture<Void, IOException> delegate() {
+        return future;
+      }
+    };
   }
 
   private class IndexTask implements Callable<Void> {
@@ -236,12 +259,13 @@ public class ChangeIndexer {
           }
         };
         RequestContext oldCtx = context.setContext(newCtx);
-        try {
+        try (Timer0.Context timer = metrics.updateLatency.start()) {
           ChangeData cd = changeDataFactory.create(
               newCtx.getReviewDbProvider().get(), id);
           for (ChangeIndex i : getWriteIndexes()) {
             i.replace(cd);
           }
+          metrics.updates.increment();
           return null;
         } finally  {
           context.setContext(oldCtx);
@@ -274,10 +298,13 @@ public class ChangeIndexer {
       // Don't bother setting a RequestContext to provide the DB.
       // Implementations should not need to access the DB in order to delete a
       // change ID.
-      for (ChangeIndex i : getWriteIndexes()) {
-        i.delete(id);
+      try (Timer0.Context timer = metrics.deleteLatency.start()) {
+        for (ChangeIndex i : getWriteIndexes()) {
+          i.delete(id);
+        }
+        metrics.deletes.increment();
+        return null;
       }
-      return null;
     }
   }
 }

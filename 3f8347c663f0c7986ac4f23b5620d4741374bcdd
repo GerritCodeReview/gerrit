@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3b203791_d830d1e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T00:09:17Z",
+      "side": 1,
+      "message": "extra trailing quote",
+      "range": {
+        "startLine": 16,
+        "startChar": 56,
+        "endLine": 16,
+        "endChar": 57
+      },
+      "revId": "3f8347c663f0c7986ac4f23b5620d4741374bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_29cc2db3",
         "filename": "project.config",
         "patchSetId": 2

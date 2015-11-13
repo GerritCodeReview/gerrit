@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b4d3387_24a8d29a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T23:55:46Z",
+      "side": 1,
+      "message": "can be refactored to:\n\n  Set\u003cAccount.Id\u003e reviewers \u003d\n          filterTrivialRebaseRecipients(changeKindCache.getChangeKind(db, change, patchSet),\n              accountCache, oldReviewers.get(REVIEWER));\n  Set\u003cAccount.Id\u003e ccOnly \u003d\n          filterTrivialRebaseRecipients(changeKindCache.getChangeKind(db, change, patchSet),\n              accountCache, oldReviewers.get(CC));",
+      "range": {
+        "startLine": 289,
+        "startChar": 6,
+        "endLine": 290,
+        "endChar": 67
+      },
+      "revId": "2b0a9481186c954a094a82c3ee13e33b22ba06a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_8fd1d923",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T23:55:46Z",
+      "side": 1,
+      "message": "and this extracted:\n\n  public static Set\u003cAccount.Id\u003e filterTrivialRebaseRecipients(ChangeKind changeKind,\n      AccountCache accountCache, Set\u003cAccount.Id\u003e set) {\n    if (changeKind \u003d\u003d ChangeKind.TRIVIAL_REBASE) {\n      Set\u003cAccount.Id\u003e recipinets \u003d new HashSet\u003c\u003e();\n      for (Iterator\u003cAccount.Id\u003e input \u003d set.iterator(); input.hasNext();) {\n        Account.Id recipient \u003d input.next();\n        if (accountCache.get(recipient).getAccount().getGeneralPreferences()\n            .isSendTrivialRebaseEmails()) {\n          recipinets.add(recipient);\n        }\n      }\n      return recipinets;\n    }\n    return Collections.emptySet();\n  }",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 7
+      },
+      "revId": "2b0a9481186c954a094a82c3ee13e33b22ba06a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_db2c4b6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2361,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T23:55:46Z",
+      "side": 1,
+      "message": "you can use here `filterTrivialRebaseRecipients` proposed in PatchSetInserter",
+      "range": {
+        "startLine": 2350,
+        "startChar": 8,
+        "endLine": 2361,
+        "endChar": 9
+      },
+      "revId": "2b0a9481186c954a094a82c3ee13e33b22ba06a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

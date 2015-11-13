@@ -127,9 +127,9 @@ public class DataSourceProvider implements Provider<DataSource>,
       if (password != null && !password.isEmpty()) {
         ds.setPassword(password);
       }
-      ds.setMaxActive(cfg.getInt("database", "poollimit", DEFAULT_POOL_LIMIT));
-      ds.setMinIdle(cfg.getInt("database", "poolminidle", 4));
-      ds.setMaxIdle(cfg.getInt("database", "poolmaxidle", 4));
+      ds.setMaxActive(cfg.getInt("database", "poollimit", 1));
+      ds.setMinIdle(cfg.getInt("database", "poolminidle", 1));
+      ds.setMaxIdle(cfg.getInt("database", "poolmaxidle", 1));
       ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,
           "poolmaxwait", MILLISECONDS.convert(30, SECONDS), MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());

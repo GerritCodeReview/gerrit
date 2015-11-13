@@ -70,6 +70,30 @@
       "revId": "4d876170d89e0deff386e023ec9cf6eebb113ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_db056b57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-13T16:33:24Z",
+      "side": 1,
+      "message": "If you rebase a change in c git resolving actual conflicts, then the authorship changes (I did not pay attention to authorship at the time). Sorry for that in the first place, but I\u0027ll blame the tools. :)",
+      "parentUuid": "bb6267ec_ccfebf1f",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 46
+      },
+      "revId": "4d876170d89e0deff386e023ec9cf6eebb113ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

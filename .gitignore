@@ -23,3 +23,5 @@
 *.swp
 *.asc
 /bin/
+/node_modules/
+/npm-debug.log

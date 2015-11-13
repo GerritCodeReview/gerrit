@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_78abfdb2",
+        "filename": "rules.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-13T06:29:44Z",
+      "side": 1,
+      "message": "So, max_no_block is required now to ensure we don\u0027t actually block on -1 verifications from the CI server? Is this correct?\n\nMight be worth documenting in the commit message at least.",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 36
+      },
+      "revId": "328236ecb1d1c844cb9d14a0f21b1f485c9a5d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

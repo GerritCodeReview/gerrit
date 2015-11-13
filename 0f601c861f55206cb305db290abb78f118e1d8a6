@@ -23,6 +23,30 @@
       "revId": "0f601c861f55206cb305db290abb78f118e1d8a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_c90d91be",
+        "filename": "polygerrit-ui/gulpfile.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-13T00:03:04Z",
+      "side": 1,
+      "message": "The input to vulcanize is the files that are copied to dist in this task. Prior to this change, scripts/*.js were loaded from index.html, which is not vulcanized. Now, they are loaded from gr-app.html, which is vulcanized, so vulcanize needs to see the scripts.",
+      "parentUuid": "3b203791_185ac931",
+      "range": {
+        "startLine": 117,
+        "startChar": 2,
+        "endLine": 118,
+        "endChar": 37
+      },
+      "revId": "0f601c861f55206cb305db290abb78f118e1d8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -76,7 +76,6 @@ public class DropWizardMetricMaker extends MetricMaker {
 
       install(new ProcMetricModule());
       install(new JGitMetricModule());
-      bind(CacheMetrics.class);
     }
   }
 
@@ -86,6 +85,7 @@ public class DropWizardMetricMaker extends MetricMaker {
       DynamicMap.mapOf(binder(), METRIC_KIND);
       child(CONFIG_KIND, "metrics").to(MetricsCollection.class);
       get(METRIC_KIND).to(GetMetric.class);
+      bind(CacheMetrics.class);
     }
   }
 

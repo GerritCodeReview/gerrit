@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_ec2aa359",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4668,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T17:09:32Z",
+      "side": 1,
+      "message": "add a comma after",
+      "range": {
+        "startLine": 4668,
+        "startChar": 17,
+        "endLine": 4668,
+        "endChar": 18
+      },
+      "revId": "334539d0f915ecb677ed26ab405d6e7ea37a8341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_5b3f1b08",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4668,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T17:09:32Z",
+      "side": 1,
+      "message": "submitted",
+      "range": {
+        "startLine": 4668,
+        "startChar": 58,
+        "endLine": 4668,
+        "endChar": 66
+      },
+      "revId": "334539d0f915ecb677ed26ab405d6e7ea37a8341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_cc27df91",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T17:09:32Z",
+      "side": 1,
+      "message": "wrap this line",
+      "revId": "334539d0f915ecb677ed26ab405d6e7ea37a8341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_ac24ab8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T17:09:32Z",
+      "side": 1,
+      "message": "wrap",
+      "revId": "334539d0f915ecb677ed26ab405d6e7ea37a8341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

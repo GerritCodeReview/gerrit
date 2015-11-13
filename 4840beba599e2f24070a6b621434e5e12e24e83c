@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_ac802b65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-13T18:05:29Z",
+      "side": 1,
+      "message": "That\u0027s what folks in the room said :-)",
+      "parentUuid": "bb6267ec_0c4bb73c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "4840beba599e2f24070a6b621434e5e12e24e83c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_cc2c7f6f",
         "filename": "rules.pl",
         "patchSetId": 5
@@ -59,6 +83,30 @@
       "writtenOn": "2015-11-13T17:19:06Z",
       "side": 1,
       "message": "This is already done in the gerrit:max_no_block [1]\n\n[1] https://gerrit-review.googlesource.com/#/c/72472/2/gerrit-server/src/main/prolog/gerrit_common.pl",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 4
+      },
+      "revId": "4840beba599e2f24070a6b621434e5e12e24e83c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_5bdb9b0f",
+        "filename": "rules.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-13T18:05:29Z",
+      "side": 1,
+      "message": "Yes, but that isn\u0027t yet deployed. Once it is, this should be updated with your suggestions.",
+      "parentUuid": "3b203791_bb574f4f",
       "range": {
         "startLine": 18,
         "startChar": 0,

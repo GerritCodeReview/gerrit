@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_691d85f3",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-13T00:03:15Z",
+      "side": 1,
+      "message": "I prefer to name them based on their usage: *_JAVA_DEPS goes in java_deps of genlicenses; *_NON_JAVA_DEPS goes in non_java_deps of genlicenses.",
+      "parentUuid": "bb6267ec_69f465f5",
+      "revId": "984fca158265addd0cc8c2df923c46af6086ca03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_387c6599",
         "filename": "lib/BUCK",
         "patchSetId": 8
@@ -31,6 +49,24 @@
       "writtenOn": "2015-11-12T23:55:59Z",
       "side": 1,
       "message": "Nit: Unneeded new line.",
+      "revId": "984fca158265addd0cc8c2df923c46af6086ca03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_4922c137",
+        "filename": "lib/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-13T00:03:15Z",
+      "side": 1,
+      "message": "The first block is alpha sorted. The second block just contains DO_NOT_DISTRIBUTE which is \"special\"",
+      "parentUuid": "3b203791_387c6599",
       "revId": "984fca158265addd0cc8c2df923c46af6086ca03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "3b203791_9865b9f2",
+        "filename": "polygerrit-ui/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-13T00:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_1881a9b3",
+      "revId": "984fca158265addd0cc8c2df923c46af6086ca03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_988c99e8",
         "filename": "polygerrit-ui/README.md",
         "patchSetId": 8
@@ -65,6 +119,24 @@
       "writtenOn": "2015-11-12T23:55:59Z",
       "side": 1,
       "message": "Is it equivalent change? Buck driven build doesn\u0027t include dev dependencies for now, right? So may be keep npm/bower/gulp toolchain in place?",
+      "revId": "984fca158265addd0cc8c2df923c46af6086ca03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_e91055da",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-13T00:03:15Z",
+      "side": 1,
+      "message": "Yeah, we can delete this later. Reverted.",
+      "parentUuid": "3b203791_988c99e8",
       "revId": "984fca158265addd0cc8c2df923c46af6086ca03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -22,6 +22,30 @@
       "revId": "4d876170d89e0deff386e023ec9cf6eebb113ea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_fb08276f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-11-13T16:11:50Z",
+      "side": 1,
+      "message": "No it is not, I\u0027ll fix that.",
+      "parentUuid": "3b203791_78265d65",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 46
+      },
+      "revId": "4d876170d89e0deff386e023ec9cf6eebb113ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

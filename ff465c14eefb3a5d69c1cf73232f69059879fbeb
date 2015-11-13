@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "3b203791_983a59c0",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-13T00:15:26Z",
+      "side": 1,
+      "message": "This was uploaded by mistake.",
+      "parentUuid": "bb6267ec_0935e985",
+      "revId": "ff465c14eefb3a5d69c1cf73232f69059879fbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_c936b190",
         "filename": "tools/js/vulcanize.py",
         "patchSetId": 4
@@ -64,6 +82,24 @@
       "writtenOn": "2015-11-12T23:46:08Z",
       "side": 1,
       "message": "I think putting this in a python script is overkill. You\u0027re literally just passing arguments to the vulcanize command; that can all be done in a genrule.",
+      "revId": "ff465c14eefb3a5d69c1cf73232f69059879fbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_69ab45b3",
+        "filename": "tools/js/vulcanize.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-13T00:15:26Z",
+      "side": 1,
+      "message": "This is hiding of details. Say, we would need vulcanize hundreds of assets, why should the callers care about such details? Not to mention, that one would pass one set of parameters, while another would pass another. Strictly speaking npm_binary must be only present, because changes in the scripts that controll them must be nown to bug to trigger bilding of python_inary. So all is needed here is input and output.",
+      "parentUuid": "bb6267ec_c936b190",
       "revId": "ff465c14eefb3a5d69c1cf73232f69059879fbeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_8c8207e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T02:56:07Z",
+      "side": 1,
+      "message": "This refactoring is not needed anymore, but I think it is fine to keep.",
+      "range": {
+        "startLine": 73,
+        "startChar": 5,
+        "endLine": 73,
+        "endChar": 29
+      },
+      "revId": "c9f1945a564e78acbe304c39aa220a62159676ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

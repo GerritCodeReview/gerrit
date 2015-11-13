@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_d80d71be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T03:41:19Z",
+      "side": 1,
+      "message": "Should be Immutable",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 68
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

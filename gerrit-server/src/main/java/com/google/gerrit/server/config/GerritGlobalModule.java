@@ -125,6 +125,7 @@ import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
@@ -298,6 +299,8 @@ public class GerritGlobalModule extends FactoryModule {
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);
+
+    DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
 
     bind(AnonymousUser.class);
 

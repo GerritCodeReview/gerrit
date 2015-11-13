@@ -586,6 +586,48 @@ $ ssh -p 29418 review.example.com sh ls
 $ ssh -p 29418 review.example.com sh ps
 ----
 
+[[search_operators]]
+=== Search Operators ===
+
+Plugins can define new search operators to extend change searching by
+implementing the `ChangeQueryBuilder.ChangeOperatorFactory` interface
+and registering it to an operator name in the plugin module's
+`configure()` method.  The search operator name is defined during
+registration via the DynamicMap annotation mechanism.  The plugin
+name will get appended to the annotated name, with an underscore
+in between, leading to the final operator name.  An example
+registration looks like this:
+
+    bind(ChangeOperatorFactory.class)
+       .annotatedWith(Exports.named("sample"))
+       .to(SampleOperator.class);
+
+If this is registered in the `myplugin` plugin, then the resulting
+operator will be named `sample_myplugin`.
+
+The search operator itself is implemented by ensuring that the
+`create()` method of the class implementing the
+`ChangeQueryBuilder.ChangeOperatorFactory` interface returns a
+`Predicate<ChangeData>`.  Here is a sample operator factory
+defintion which creates a `MyPredicate`:
+
+[source,java]
+----
+@Singleton
+public class SampleOperator
+    implements ChangeQueryBuilder.ChangeOperatorFactory {
+  public static class MyPredicate extends OperatorPredicate<ChangeData> {
+    ...
+  }
+
+  @Override
+  public Predicate<ChangeData> create(ChangeQueryBuilder builder, String value)
+      throws QueryParseException {
+    return new MyPredicate(value);
+  }
+}
+----
+
 [[simple-configuration]]
 == Simple Configuration in `gerrit.config`
 

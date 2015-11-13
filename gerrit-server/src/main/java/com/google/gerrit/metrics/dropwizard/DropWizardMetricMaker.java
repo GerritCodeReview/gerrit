@@ -46,6 +46,7 @@ import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.metrics.Timer3;
 import com.google.gerrit.metrics.proc.JGitMetricModule;
 import com.google.gerrit.metrics.proc.ProcMetricModule;
+import com.google.gerrit.server.cache.CacheMetrics;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
@@ -75,6 +76,7 @@ public class DropWizardMetricMaker extends MetricMaker {
 
       install(new ProcMetricModule());
       install(new JGitMetricModule());
+      bind(CacheMetrics.class);
     }
   }
 

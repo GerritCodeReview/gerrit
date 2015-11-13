@@ -40,7 +40,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
-import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
@@ -49,7 +48,6 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
@@ -92,6 +90,7 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
@@ -121,7 +120,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -846,16 +844,7 @@ public class ChangeJson {
             return accountLoader.get(id);
           }
         })
-        .toSortedList(new Comparator<AccountInfo>() {
-          @Override
-          public int compare(AccountInfo a, AccountInfo b) {
-            return ComparisonChain.start()
-                .compare(a.name, b.name, Ordering.natural().nullsFirst())
-                .compare(a.email, b.email, Ordering.natural().nullsFirst())
-                .compare(a._accountId, b._accountId,
-                    Ordering.natural().nullsFirst()).result();
-          }
-        });
+        .toSortedList(AccountInfoComparator.ORDER_NULLS_FIRST);
   }
 
   private Map<String, RevisionInfo> revisions(ChangeControl ctl,

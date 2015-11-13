@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "3b203791_9b54934b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ReviewDbDatabaseProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-13T17:21:56Z",
+      "side": 1,
+      "message": "Why we don\u0027t namespace this counter with reviewdb as well? We may have different databases, like event_log plugin and ci_plugin, that may want to reporto the metric system.",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 89,
+        "endChar": 28
+      },
+      "revId": "d4cefeab4ab5c88ee00f82dc353eec70fe6648ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_d880d11f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ReviewDbDatabaseProvider.java",
         "patchSetId": 1

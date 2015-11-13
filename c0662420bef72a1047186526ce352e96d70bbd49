@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_2c6d5b9c",
+        "filename": "lib/js.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-13T17:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_bbd4ef13",
+      "revId": "c0662420bef72a1047186526ce352e96d70bbd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_8c132742",
         "filename": "lib/js.defs",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-11-13T15:44:45Z",
       "side": 1,
       "message": "Maybe:\n\n elif repository \u003d\u003d NPMJS:\n   ...\n else:\n   raise ValueError(\u0027invalid repository: %s\u0027 % repository)\n\nbut I don\u0027t feel too strongly.",
+      "revId": "c0662420bef72a1047186526ce352e96d70bbd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0c72977e",
+        "filename": "lib/js.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-13T17:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_8c132742",
       "revId": "c0662420bef72a1047186526ce352e96d70bbd49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

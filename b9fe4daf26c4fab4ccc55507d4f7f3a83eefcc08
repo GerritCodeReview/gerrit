@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_db61eb16",
+        "filename": "tools/js/run_npm_binary.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-13T17:59:47Z",
+      "side": 1,
+      "message": "So on all non Debian/Ubuntu OSs we have to do extra lookup that would always fail. Can\u0027t we cache it?",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 89,
+        "endChar": 42
+      },
+      "revId": "b9fe4daf26c4fab4ccc55507d4f7f3a83eefcc08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

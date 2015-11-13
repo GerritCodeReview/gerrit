@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_1878890b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_2c7c3b99",
+      "range": {
+        "startLine": 22,
+        "startChar": 24,
+        "endLine": 22,
+        "endChar": 47
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_38a585dd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "3b203791_3ba8df9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_38a585dd",
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_f8d5cd39",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
         "patchSetId": 5
@@ -53,6 +95,30 @@
       "writtenOn": "2015-11-13T06:35:49Z",
       "side": 1,
       "message": "caches/memory_hit_ratio",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_f86cad4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_f8d5cd39",
       "range": {
         "startLine": 24,
         "startChar": 8,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_d869f13d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_18d1a94d",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 66
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_0c8177b3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
         "patchSetId": 5
@@ -99,6 +189,30 @@
       "writtenOn": "2015-11-13T06:35:49Z",
       "side": 1,
       "message": "caches/disk_cached ?",
+      "range": {
+        "startLine": 32,
+        "startChar": 24,
+        "endLine": 32,
+        "endChar": 56
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_2c4afb58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_0c8177b3",
       "range": {
         "startLine": 32,
         "startChar": 24,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_b866356c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_58c72193",
+      "range": {
+        "startLine": 33,
+        "startChar": 53,
+        "endLine": 33,
+        "endChar": 62
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_d8d21150",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
         "patchSetId": 5
@@ -145,6 +283,30 @@
       "writtenOn": "2015-11-13T06:35:49Z",
       "side": 1,
       "message": "caches/disk_hit_ratio",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 58
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0c4f3769",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_d8d21150",
       "range": {
         "startLine": 35,
         "startChar": 24,
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_7b9e577a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_ecc06300",
+      "range": {
+        "startLine": 36,
+        "startChar": 51,
+        "endLine": 36,
+        "endChar": 62
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_d80d71be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
         "patchSetId": 5
@@ -191,6 +377,30 @@
       "writtenOn": "2015-11-13T03:41:19Z",
       "side": 1,
       "message": "Should be Immutable",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 68
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_cc30ffe5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_d80d71be",
       "range": {
         "startLine": 38,
         "startChar": 4,
@@ -220,6 +430,24 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_ac3dcbbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_98dc9962",
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_b8df5556",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
         "patchSetId": 5
@@ -231,6 +459,30 @@
       "writtenOn": "2015-11-13T06:35:49Z",
       "side": 1,
       "message": "If you take my advice above and combine these metrics you can drop this part and the else clause, which shortens your code.\n\nI don\u0027t see any difference between a disk cache in memory and a memory only cache in memory. From a stat perspective we want to know how often its hitting, how much it has, etc.",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 54,
+        "endChar": 71
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_9863795c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_b8df5556",
       "range": {
         "startLine": 53,
         "startChar": 12,
@@ -266,6 +518,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_5ba39bc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_ec8503c0",
+      "range": {
+        "startLine": 61,
+        "startChar": 40,
+        "endLine": 61,
+        "endChar": 49
+      },
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_0cccd739",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
         "patchSetId": 5
@@ -277,6 +553,24 @@
       "writtenOn": "2015-11-13T06:35:49Z",
       "side": 1,
       "message": "hitRatio can be int instead of long",
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_8c3a07c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "Double?",
+      "parentUuid": "bb6267ec_0cccd739",
       "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -340,6 +634,24 @@
       "writtenOn": "2015-11-13T06:35:49Z",
       "side": 1,
       "message": "Unused now?",
+      "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_38734535",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCaches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2015-11-13T07:25:12Z",
+      "side": 1,
+      "message": "I left it since it got rid of some extra nesting. But I can remove it if you want.",
+      "parentUuid": "3b203791_f8beedef",
       "revId": "1df2f9aeeb081ca239e98e9a146aa24160f8d6cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

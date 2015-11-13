@@ -16,6 +16,24 @@
       "revId": "555abd709fe72f30265e3f82acd285ecdb27fe56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_3849050c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-13T03:02:29Z",
+      "side": 1,
+      "message": "Added explanation why we need it. Done.",
+      "parentUuid": "bb6267ec_cc78ffd4",
+      "revId": "555abd709fe72f30265e3f82acd285ecdb27fe56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

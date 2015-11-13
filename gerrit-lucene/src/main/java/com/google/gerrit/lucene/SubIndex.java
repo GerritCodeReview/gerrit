@@ -21,11 +21,14 @@ import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.lucene.LuceneChangeIndex.GerritIndexWriterConfig;
+import com.google.gerrit.metrics.Timer0;
+import com.google.gerrit.server.index.ChangeField;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TrackingIndexWriter;
+import org.apache.lucene.search.CollectionStatistics;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ReferenceManager;
@@ -50,25 +53,28 @@ import java.util.concurrent.TimeoutException;
 public class SubIndex {
   private static final Logger log = LoggerFactory.getLogger(SubIndex.class);
 
+  private final LuceneMetrics.IndexMetrics metrics;
   private final Directory dir;
   private final TrackingIndexWriter writer;
   private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
 
-  SubIndex(Path path, GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory) throws IOException {
-    this(FSDirectory.open(path), path.getFileName().toString(), writerConfig,
-        searcherFactory);
+  SubIndex(LuceneMetrics metrics, Path path,
+      GerritIndexWriterConfig writerConfig, SearcherFactory searcherFactory)
+      throws IOException {
+    this(metrics, FSDirectory.open(path), path.getFileName().toString(),
+        writerConfig, searcherFactory);
   }
 
-  SubIndex(Directory dir, final String dirName,
-      GerritIndexWriterConfig writerConfig,
-      SearcherFactory searcherFactory) throws IOException {
+  SubIndex(LuceneMetrics luceneMetrics, Directory dir, final String dirName,
+      GerritIndexWriterConfig writerConfig, SearcherFactory searcherFactory)
+      throws IOException {
+    this.metrics = luceneMetrics.forIndex(writerConfig.getName());
     this.dir = dir;
     IndexWriter delegateWriter;
-    long commitPeriod = writerConfig.getCommitWithinMs();
 
+    long commitPeriod = writerConfig.getCommitWithinMs();
     if (commitPeriod < 0) {
       delegateWriter = new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
     } else if (commitPeriod == 0) {
@@ -88,8 +94,10 @@ public class SubIndex {
             public void run() {
               try {
                 if (autoCommitWriter.hasUncommittedChanges()) {
-                  autoCommitWriter.manualFlush();
-                  autoCommitWriter.commit();
+                  try (Timer0.Context ctx = metrics.autoCommit.start()) {
+                    autoCommitWriter.manualFlush();
+                    autoCommitWriter.commit();
+                  }
                 }
               } catch (IOException e) {
                 log.error("Error committing Lucene index " + dirName, e);
@@ -143,6 +151,7 @@ public class SubIndex {
     });
 
     reopenThread.start();
+    exportStats();
   }
 
   void close() {
@@ -176,14 +185,19 @@ public class SubIndex {
   }
 
   ListenableFuture<?> insert(Document doc) throws IOException {
+    metrics.updates.increment();
+    metrics.count.incrementAndGet();
     return new NrtFuture(writer.addDocument(doc));
   }
 
   ListenableFuture<?> replace(Term term, Document doc) throws IOException {
+    metrics.updates.increment();
     return new NrtFuture(writer.updateDocument(term, doc));
   }
 
   ListenableFuture<?> delete(Term term) throws IOException {
+    metrics.updates.increment();
+    metrics.count.decrementAndGet();
     return new NrtFuture(writer.deleteDocuments(term));
   }
 
@@ -203,6 +217,27 @@ public class SubIndex {
     searcherManager.release(searcher);
   }
 
+  private void exportStats() {
+    new Thread("Index-Stats") {
+      @Override
+      public void run() {
+        try {
+          IndexSearcher searcher = acquire();
+          try {
+            CollectionStatistics stats =
+                searcher.collectionStatistics(
+                    ChangeField.LEGACY_ID2.getName());
+            metrics.count.set(stats.docCount());
+          } finally {
+            release(searcher);
+          }
+        } catch (IOException e) {
+          log.warn("cannot read stats from index", e);
+        }
+      }
+    }.start();
+  }
+
   private final class NrtFuture extends AbstractFuture<Void> {
     private final long gen;
 
@@ -216,7 +251,9 @@ public class SubIndex {
     @Override
     public Void get() throws InterruptedException, ExecutionException {
       if (!isDone()) {
-        reopenThread.waitForGeneration(gen);
+        try (Timer0.Context ctx = metrics.commitLatency.start()) {
+          reopenThread.waitForGeneration(gen);
+        }
         set(null);
       }
       return super.get();
@@ -226,11 +263,14 @@ public class SubIndex {
     public Void get(long timeout, TimeUnit unit) throws InterruptedException,
         TimeoutException, ExecutionException {
       if (!isDone()) {
-        if (reopenThread.waitForGeneration(gen,
-            (int) MILLISECONDS.convert(timeout, unit))) {
-          set(null);
-        } else {
-          throw new TimeoutException();
+        try (Timer0.Context ctx = metrics.commitLatency.start()) {
+          if (reopenThread.waitForGeneration(gen,
+              (int) MILLISECONDS.convert(timeout, unit))) {
+            set(null);
+          } else {
+            metrics.commitTimeout.increment();
+            throw new TimeoutException();
+          }
         }
       }
       return super.get(timeout, unit);

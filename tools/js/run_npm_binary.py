@@ -16,9 +16,11 @@
 from __future__ import print_function
 
 import atexit
+from distutils import spawn
 import hashlib
 import os
 import shutil
+import subprocess
 import sys
 import tarfile
 import tempfile
@@ -84,7 +86,13 @@ def main(args):
   if not os.path.isfile(bin):
     extract(path, outdir, rel_bin)
 
-  os.execv(bin, args[1:])
+  nodejs = spawn.find_executable('nodejs')
+  if nodejs:
+    # Debian installs Node.js as 'nodejs', due to a conflict with another
+    # package.
+    subprocess.check_call([nodejs, bin] + args[1:])
+  else:
+    subprocess.check_call([bin] + args[1:])
 
 
 if __name__ == '__main__':

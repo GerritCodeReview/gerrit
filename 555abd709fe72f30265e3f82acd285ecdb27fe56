@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_cc78ffd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T02:50:25Z",
+      "side": 1,
+      "message": "Any reason we need to update them, or is this just to pick up latest versions?",
+      "revId": "555abd709fe72f30265e3f82acd285ecdb27fe56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

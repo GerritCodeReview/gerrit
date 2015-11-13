@@ -18,6 +18,8 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.metrics.DisabledMetricMaker;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
@@ -67,6 +69,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(GitRepositoryManager.class)
       .toInstance(new InMemoryRepositoryManager());
 
+    bind(MetricMaker.class).to(DisabledMetricMaker.class);
     bind(DataSourceType.class).to(InMemoryH2Type.class);
     bind(InMemoryDatabase.class).in(SINGLETON);
     bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})

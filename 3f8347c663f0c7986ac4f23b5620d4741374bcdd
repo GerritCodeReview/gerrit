@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_29cc2db3",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T00:08:45Z",
+      "side": 1,
+      "message": "Any reason not to limit it to master?",
+      "range": {
+        "startLine": 30,
+        "startChar": 10,
+        "endLine": 30,
+        "endChar": 22
+      },
+      "revId": "3f8347c663f0c7986ac4f23b5620d4741374bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -12,16 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+NPMJS = 'NPMJS'
+GERRIT = 'GERRIT'
+
 def npm_binary(
     name,
     version,
     sha1 = '',
+    repository = NPMJS,
     visibility = ['PUBLIC']):
 
   dir = '%s-%s' % (name, version)
   filename = '%s.tgz' % dir
   dest = '%s@%s.npm_binary.tgz' % (name, version)
-  url = 'http://registry.npmjs.org/%s/-/%s' % (name, filename)
+  if repository == GERRIT:
+    url = 'https://gerrit-maven.storage.googleapis.com/npm-packages/%s' % filename
+  elif repository == NPMJS:
+    url = 'http://registry.npmjs.org/%s/-/%s' % (name, filename)
+  else:
+    raise ValueError('invalid repository: %s' % repository)
   cmd = ['$(exe //tools:download_file)', '-o', '$OUT', '-u', url]
   if sha1:
     cmd.extend(['-v', sha1])

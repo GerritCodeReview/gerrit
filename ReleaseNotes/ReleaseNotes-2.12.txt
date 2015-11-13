@@ -35,7 +35,7 @@ Release Highlights
 This release includes the following new features. See the sections below for
 further details.
 
-* New "Submit Whole Topic" / "Submitted Together" workflow.
+* New "Submit Whole Topic" / "Submitted Together" workflow. (*experimental*)
 
 * Support for GPG Keys and signed pushes.
 

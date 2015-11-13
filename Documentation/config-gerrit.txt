@@ -899,6 +899,8 @@ changes including ancestors and other changes related by topic)".
 
 [[change.submitWholeTopic]]change.submitWholeTopic::
 +
+This feature is considered to be experimental.
++
 Determines if the submit button submits the whole topic instead of
 just the current change.
 +

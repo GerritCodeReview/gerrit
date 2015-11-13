@@ -16,6 +16,29 @@
       "revId": "e156fb96dbc457e9d05d36fded85f7a81f6dd376",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_8c8a073a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-13T22:01:38Z",
+      "side": 1,
+      "message": "I think Martin suggested I switch the order of these args. I\u0027ll do that unless anyone prefers it this way.",
+      "range": {
+        "startLine": 76,
+        "startChar": 32,
+        "endLine": 76,
+        "endChar": 74
+      },
+      "revId": "e156fb96dbc457e9d05d36fded85f7a81f6dd376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "bb6267ec_6cd8f3a3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T18:05:24Z",
+      "side": 1,
+      "message": "nobody expects providers to be null",
+      "range": {
+        "startLine": 148,
+        "startChar": 41,
+        "endLine": 148,
+        "endChar": 45
+      },
+      "revId": "1390246a1ec9ee9eae9d3ed0b33632aeee0b59af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_8c7d674b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T18:05:24Z",
+      "side": 1,
+      "message": "nit: double space",
+      "range": {
+        "startLine": 73,
+        "startChar": 17,
+        "endLine": 73,
+        "endChar": 19
+      },
+      "revId": "1390246a1ec9ee9eae9d3ed0b33632aeee0b59af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_ace94bd5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
         "patchSetId": 7
@@ -18,6 +64,29 @@
         "startChar": 13,
         "endLine": 52,
         "endChar": 14
+      },
+      "revId": "1390246a1ec9ee9eae9d3ed0b33632aeee0b59af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_3be0dfbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T18:05:24Z",
+      "side": 1,
+      "message": "this can crash, nobody expects AccountInfo.getId() to be null",
+      "range": {
+        "startLine": 265,
+        "startChar": 45,
+        "endLine": 265,
+        "endChar": 49
       },
       "revId": "1390246a1ec9ee9eae9d3ed0b33632aeee0b59af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

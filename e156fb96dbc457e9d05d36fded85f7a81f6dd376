@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_6f9ea57a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T22:41:40Z",
+      "side": 1,
+      "message": "guava Strings:\n\n  String annotation \u003d Strings.nullToEmpty(reviewer.annotation());",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 7
+      },
+      "revId": "e156fb96dbc457e9d05d36fded85f7a81f6dd376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_8c8a073a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 5

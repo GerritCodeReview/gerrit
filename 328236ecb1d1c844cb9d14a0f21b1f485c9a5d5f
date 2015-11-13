@@ -22,6 +22,30 @@
       "revId": "328236ecb1d1c844cb9d14a0f21b1f485c9a5d5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_cc823fb6",
+        "filename": "rules.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-11-13T06:34:12Z",
+      "side": 1,
+      "message": "No, the diff is wrong because I need to rebase this on top of the other rules.pl change I uploaded. I\u0027ll do that now.",
+      "parentUuid": "3b203791_78abfdb2",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 36
+      },
+      "revId": "328236ecb1d1c844cb9d14a0f21b1f485c9a5d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

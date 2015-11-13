@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1447176497 -0800\nnonce AFd3BxsjQKg9kAKIr4uPiYuQ1j2qp+zNjSjHfj5DaxwJQrwPe8UB+CX9UNcCbWBEv4JwqjhW4JBh\n\n0000000000000000000000000000000000000000 861585646fd923df01700ae844dd7a154db3cdaa refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWQikxAAoJEGt7+xNJsB0bHtkH/3s0Y8612mXgNKEVUOU0SPhH\nBdugiOcb9cZeu5W1bDA2FLzmeKev3ipp/ddxchx7wFOc015d3+n+Of4vw74B1nvl\nCpxnUB9nHgq18r8Q/yrMIkK4660ggXD5SDCWkWGQ8QUSqpR1C2QZtBk03BB067MP\nL6coXWdqKw9yWT14Cs+kRJzBVFNSoesfUvZ3X+72p/LoxGXWwX3TZVlyZeM1kYbO\n5EbS+75AR81QCYQmPXXHiFd2hu1OeyA6yfshczZ/WAkDpGUkPbJQEgs7wvCfdb2A\n38S3ObUkTPcoqwhT0zqTNvWJdVMn+wkIOvPcBzJVd25lqvBQQbOo/UVGoNq2E6s\u003d\n\u003dppOD\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_4c6acf96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T17:26:52Z",
+      "side": 1,
+      "message": "don\u0027t know when polygerrit ui would be usable, therefore don\u0027t see any value in having this end point without using it in the web ui. nobody will benefit from this endpoint for a long time.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 56
+      },
+      "revId": "861585646fd923df01700ae844dd7a154db3cdaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_3b1d7fa2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T17:26:52Z",
+      "side": 1,
+      "message": "Config.getBoolean() does that work for you, see org.eclipse.jgit.util.StringUtils.toBooleanOrNull(String) for details",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 46
+      },
+      "revId": "861585646fd923df01700ae844dd7a154db3cdaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_ec586309",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T17:26:52Z",
+      "side": 1,
+      "message": "just return here",
+      "range": {
+        "startLine": 100,
+        "startChar": 5,
+        "endLine": 100,
+        "endChar": 23
+      },
+      "revId": "861585646fd923df01700ae844dd7a154db3cdaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_db332b37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestTopic.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-13T17:26:52Z",
+      "side": 1,
+      "message": "just \u0027return\u0027\n\nalso you can consider using ImmutableList from guava",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 122,
+        "endChar": 22
+      },
+      "revId": "861585646fd923df01700ae844dd7a154db3cdaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -16,6 +16,24 @@
       "revId": "775185c2ababe09c3ab8a46607c7e443e5b9f918",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_d8369190",
+        "filename": "polygerrit-ui/bower.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-13T02:49:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_38f8e534",
+      "revId": "775185c2ababe09c3ab8a46607c7e443e5b9f918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

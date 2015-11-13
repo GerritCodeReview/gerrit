@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_5895e162",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T06:54:01Z",
+      "side": 1,
+      "message": "It\u0027s actually going to be 1.14-21-g\u003csha1\u003e.  We stopped tagging it and updating the pom.xml a few releases back.",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "d4cefeab4ab5c88ee00f82dc353eec70fe6648ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0c5a9731",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T06:54:01Z",
+      "side": 1,
+      "message": "Why are the defaults changed?",
+      "range": {
+        "startLine": 130,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 62
+      },
+      "revId": "d4cefeab4ab5c88ee00f82dc353eec70fe6648ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_d880d11f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ReviewDbDatabaseProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-13T06:54:01Z",
+      "side": 1,
+      "message": "Will it always be this string on all database types?",
+      "range": {
+        "startLine": 115,
+        "startChar": 13,
+        "endLine": 115,
+        "endChar": 46
+      },
+      "revId": "d4cefeab4ab5c88ee00f82dc353eec70fe6648ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

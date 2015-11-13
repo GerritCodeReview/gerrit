@@ -82,7 +82,7 @@ public final class PatchSet {
     @Column(id = 2)
     protected int patchSetId;
 
-    protected Id() {
+    public Id() {
       changeId = new Change.Id();
     }
 

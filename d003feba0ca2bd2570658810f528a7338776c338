@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_2c49db0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-13T18:51:00Z",
+      "side": 1,
+      "message": "Make this a local variable in the constructor. Its not retained by the implementation past the setup. By storing it in a static you are holding onto a few bytes more of memory than is required.",
+      "revId": "d003feba0ca2bd2570658810f528a7338776c338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

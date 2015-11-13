@@ -117,6 +117,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_b83995af",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-13T01:07:24Z",
+      "side": 1,
+      "message": "Not adding a space allow the plugin to decide what the separator is, maybe they what a \":\" or \"/\".",
+      "parentUuid": "bb6267ec_29730d35",
+      "range": {
+        "startLine": 72,
+        "startChar": 58,
+        "endLine": 72,
+        "endChar": 79
+      },
+      "revId": "d417d9da4c9bea4a69066532dfb69a1aa405191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_0978490b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReviewerSuggestOracle.java",
         "patchSetId": 3

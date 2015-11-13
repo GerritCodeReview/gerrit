@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_6cc7d36c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-13T01:00:15Z",
+      "side": 1,
+      "message": "Should be done outside of the loop to prevent multiple instances construction for the same updater.",
+      "range": {
+        "startLine": 95,
+        "startChar": 27,
+        "endLine": 95,
+        "endChar": 51
+      },
+      "revId": "b8bc0a1abb1f7133544425f6ebe910516c2d3141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

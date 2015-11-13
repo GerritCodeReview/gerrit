@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_38f8e534",
+        "filename": "polygerrit-ui/bower.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-13T00:27:34Z",
+      "side": 1,
+      "message": "This should be 1.0.9 because that\u0027s the one we need.",
+      "revId": "775185c2ababe09c3ab8a46607c7e443e5b9f918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

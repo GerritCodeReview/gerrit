@@ -103,6 +103,24 @@
       "revId": "ff465c14eefb3a5d69c1cf73232f69059879fbeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_78ee5d74",
+        "filename": "tools/js/vulcanize.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-13T00:27:11Z",
+      "side": 1,
+      "message": "All I\u0027m saying is instead of:\n\n def vulcanize(...):\n   genrule(cmd \u003d \"$(exe //tools/js:vulcanize) ...\")\n\njust do:\n\n def vulcanize(...):\n   genrule(cmd \u003d run_npm_binary(\"//lib/js:vulcanize\") + \"...\")\n\nCallers call the same vulcanize() rule. Just instead of using a .py file, do the logic in the body of \"def vulcanize(...)\". It\u0027s still python.",
+      "parentUuid": "bb6267ec_69ab45b3",
+      "revId": "ff465c14eefb3a5d69c1cf73232f69059879fbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

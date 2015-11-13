@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b203791_5bd27bdd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-13T18:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_1b97632c",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 29
+      },
+      "revId": "b8f7415082e9018c72f5e9034d53395f876262ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_bb850fef",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-13T17:52:24Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "b8f7415082e9018c72f5e9034d53395f876262ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_3bc7bf1b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-13T18:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_bb850fef",
       "range": {
         "startLine": 32,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_8c40c7e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-13T18:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_9b8253e3",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 33
+      },
+      "revId": "b8f7415082e9018c72f5e9034d53395f876262ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_5b8ddb17",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
         "patchSetId": 8
@@ -82,6 +154,30 @@
       "writtenOn": "2015-11-13T17:52:24Z",
       "side": 1,
       "message": "can be final if you extract storage negotiation logic from constructor to private helper method or use ternery operator",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 35
+      },
+      "revId": "b8f7415082e9018c72f5e9034d53395f876262ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_6c4fd313",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-13T18:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_5b8ddb17",
       "range": {
         "startLine": 46,
         "startChar": 4,

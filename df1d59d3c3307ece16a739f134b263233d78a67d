@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b203791_d8dc5135",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-14T00:26:03Z",
+      "side": 1,
+      "message": "this dependency is a problem when running the reindex program (and likely other site programs except the daemon)",
+      "revId": "df1d59d3c3307ece16a739f134b263233d78a67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

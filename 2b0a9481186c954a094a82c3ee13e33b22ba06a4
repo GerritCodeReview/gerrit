@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1b4d3387_2444529c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-14T01:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b4d3387_24a8d29a",
+      "range": {
+        "startLine": 289,
+        "startChar": 6,
+        "endLine": 290,
+        "endChar": 67
+      },
+      "revId": "2b0a9481186c954a094a82c3ee13e33b22ba06a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_6fec65ea",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 2
@@ -129,6 +153,30 @@
       "writtenOn": "2015-11-13T23:56:50Z",
       "side": 1,
       "message": "Same comment here. Actually I wonder if it\u0027s worth factoring it out to a utility method?",
+      "range": {
+        "startLine": 2350,
+        "startChar": 8,
+        "endLine": 2361,
+        "endChar": 9
+      },
+      "revId": "2b0a9481186c954a094a82c3ee13e33b22ba06a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b4d3387_443f4e08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2361,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-11-14T01:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_2ff66dbc",
       "range": {
         "startLine": 2350,
         "startChar": 8,

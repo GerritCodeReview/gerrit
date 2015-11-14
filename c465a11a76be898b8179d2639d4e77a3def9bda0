@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_8f54394b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/Timer1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-14T01:19:40Z",
+      "side": 1,
+      "message": "Also update Timer0, Timer2, Timer3 to use the new TimerContext.",
+      "revId": "c465a11a76be898b8179d2639d4e77a3def9bda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_af57fd4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/Timer1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-14T01:19:40Z",
+      "side": 1,
+      "message": "unnecessary",
+      "revId": "c465a11a76be898b8179d2639d4e77a3def9bda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_cf4a31a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/TimerContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-14T01:19:40Z",
+      "side": 1,
+      "message": "Document its in nanoseconds. Or take a TimeUnit the caller wants it in and convert to the caller supplied TimeUnit.",
+      "revId": "c465a11a76be898b8179d2639d4e77a3def9bda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b4d3387_a4e962d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/TimerContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-14T01:19:40Z",
+      "side": 1,
+      "message": "Add a boolean stopped field and then do if (!stopped) inside of stop so that a stop() close() or close() close() sequence doesn\u0027t report two times.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "c465a11a76be898b8179d2639d4e77a3def9bda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

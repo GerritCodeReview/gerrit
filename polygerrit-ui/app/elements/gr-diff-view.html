@@ -36,25 +36,32 @@ limitations under the License.
       .diffContent {
         padding-left: 2px;
       }
-      .lineNum {
+      .lineNum:before,
+      .content:before,
+      .content span:before {
+        content: '\200B';
+      }
+      .lineNum:not(.blank) {
         cursor: pointer;
       }
       .lineNum:hover {
         text-decoration: underline;
       }
       .lightRed {
-        background-color: #fee;
+        background-color: #ffecec;
       }
-      .darkRed,
-      .delete span {
+      .darkRed {
         background-color: #faa;
       }
       .lightGreen {
-        background-color: #efe;
+        background-color: #eaffea;
       }
-      .darkGreen,
-      .insert span {
+      .darkGreen {
         background-color: #9f9;
+      }
+      .content span {
+        display: inline-block;
+        min-width: 1em;
       }
     </style>
     <iron-ajax id="changeDetailXHR"
@@ -81,6 +88,13 @@ limitations under the License.
   (function() {
     'use strict';
 
+    var CharCode = {
+      LESS_THAN: '<'.charCodeAt(0),
+      GREATER_THAN: '>'.charCodeAt(0),
+      AMPERSAND: '&'.charCodeAt(0),
+      SEMICOLON: ';'.charCodeAt(0)
+    };
+
     Polymer({
       is: 'gr-diff-view',
 
@@ -100,12 +114,10 @@ limitations under the License.
       },
 
       _paramsChanged: function(value) {
-        console.log(value)
         this._changeNum = value.changeNum;
         this._patchNum = value.patchNum;
         this._basePatchNum = value.basePatchNum;
         this._path = value.path;
-        console.log(this._basePatchNum);
         if (!this._changeNum) {
           this._change = null;
           this._basePatchNum = null;
@@ -153,118 +165,134 @@ limitations under the License.
 
       _constructDOM: function(diff) {
         if (!diff.content) { return; }
-
+        var initialLineNum = 0 + (diff.content.skip || 0);
+        var ctx = {
+          left: {
+            lineNum: initialLineNum,
+            content: '',
+            cssClass: '',
+          },
+          right: {
+            lineNum: initialLineNum,
+            content: '',
+            cssClass: '',
+          }
+        };
         var leftLineNum = 0 + (diff.content.skip || 0);
         var rightLineNum = leftLineNum;
         for (var i = 0; i < diff.content.length; i++) {
-          var diffChunk = diff.content[i];
-          if (diffChunk.ab) {
-            for (var j = 0; j < diffChunk.ab.length; j++) {
-              this._addRow(++leftLineNum, ++rightLineNum, diffChunk.ab[j],
-                  diffChunk.ab[j]);
-            }
-            continue;
-          }
-          if (diffChunk.a || diffChunk.b) {
-            var aLen = (diffChunk.a && diffChunk.a.length) || 0;
-            var bLen = (diffChunk.b && diffChunk.b.length) || 0;
-            var maxLen = Math.max(aLen, bLen);
-            for (var j = 0; j < maxLen; j++) {
-              var leftContent;
-              if (diffChunk.a && j < diffChunk.a.length) {
-                leftContent = diffChunk.a[j];
-                leftLineNum++;
-              }
-              var rightContent;
-              if (diffChunk.b && j < diffChunk.b.length) {
-                rightContent = diffChunk.b[j];
-                rightLineNum++;
-              }
-              var leftHighlight;
-              if (diffChunk.edit_a && j < diffChunk.edit_a.length) {
-                leftHighlight = diffChunk.edit_a[j];
-              }
-              var rightHighlight;
-              if (diffChunk.edit_b && j < diffChunk.edit_b.length) {
-                rightHighlight = diffChunk.edit_b[j];
-              }
-              this._addRow(leftLineNum,
-                           rightLineNum,
-                           leftContent,
-                           rightContent,
-                           leftHighlight,
-                           rightHighlight);
-            }
-          }
+          this._addDiffChunk(ctx, diff.content[i]);
         }
       },
 
-      _addRow: function(leftLineNum,
-                        rightLineNum,
-                        leftContent,
-                        rightContent,
-                        leftHighlight,
-                        rightHighlight) {
+      _addDiffChunk: function(ctx, diffChunk) {
+        // Simplest case where both sides have the same content.
+        if (diffChunk.ab) {
+          for (var i = 0; i < diffChunk.ab.length; i++) {
+            ctx.left.lineNum++;
+            ctx.right.lineNum++;
+            ctx.left.content = ctx.right.content = diffChunk.ab[i];
+            ctx.left.cssClass = ctx.right.cssClass = null;
+            this._addRow(ctx);
+          }
+          return;
+        }
+
+        if (diffChunk.a && !diffChunk.b) {
+          ctx.left.cssClass = 'lightRed';
+          delete(ctx.right.cssClass);
+        } else if (diffChunk.b && !diffChunk.a) {
+          ctx.right.cssClass = 'lightGreen';
+          delete(ctx.left.cssClass);
+        } else {
+          ctx.left.cssClass = 'lightRed';
+          ctx.right.cssClass = 'lightGreen';
+        }
+
+        var aLen = (diffChunk.a && diffChunk.a.length) || 0;
+        var bLen = (diffChunk.b && diffChunk.b.length) || 0;
+        var maxLen = Math.max(aLen, bLen);
+        for (var i = 0; i < maxLen; i++) {
+          if (diffChunk.a && i < diffChunk.a.length) {
+            ctx.left.lineNum++;
+            ctx.left.content = diffChunk.a[i];
+          } else {
+            delete(ctx.left.content);
+          }
+          if (diffChunk.b && i < diffChunk.b.length) {
+            ctx.right.lineNum++;
+            ctx.right.content = diffChunk.b[i];
+          } else {
+            delete(ctx.right.content);
+          }
+          this._addRow(ctx);
+        }
+      },
+
+      _addRow: function(ctx) {
         var leftLineNumEl = document.createElement('div');
         var rightLineNumEl = document.createElement('div');
         var leftColEl = document.createElement('div');
+        var rightColEl = document.createElement('div');
+
         // These classes are added to account for Polymer’s polyfill behavior.
         // In order to guarantee sufficient specificity within the CSS rules,
         // these are added to every element. Since the Polymer DOM utility
         // functions (which would do this automatically) are not being used for
         // performance reasons, this is done manually.
-        leftColEl.className = 'style-scope gr-diff-view';
-        var rightColEl = document.createElement('div');
-        rightColEl.className = 'style-scope gr-diff-view';
+        leftColEl.className = 'style-scope gr-diff-view content';
+        rightColEl.className = 'style-scope gr-diff-view content';
         leftLineNumEl.className = 'style-scope gr-diff-view lineNum';
         rightLineNumEl.className = 'style-scope gr-diff-view lineNum';
 
-        // Ensure that all elements have content so they render at the correct
-        // height.
-        leftLineNumEl.textContent =
-            leftContent != undefined ? leftLineNum : '\n';
-        rightLineNumEl.textContent =
-            rightContent != undefined ? rightLineNum : '\n';
-        leftContent = leftContent || '\n';
-        rightContent = rightContent || '\n';
-
-        var leftHTML;
-        var rightHTML;
-        if (leftContent == rightContent) {
-          leftHTML = leftContent;
-          rightHTML = rightContent;
+        if (ctx.left.content != undefined) {
+          leftLineNumEl.textContent = ctx.left.lineNum;
+          leftLineNumEl.id = 'L' + ctx.left.lineNum;
+          leftColEl.id = 'LC' + ctx.left.lineNum;
         } else {
-          leftHTML = this._highlightedHTML(leftContent, leftHighlight);
-          rightHTML = this._highlightedHTML(rightContent, rightHighlight);
+          leftLineNumEl.classList.add('blank');
+        }
+        if (ctx.right.content != undefined) {
+          rightLineNumEl.textContent = ctx.right.lineNum;
+          rightLineNumEl.id = 'R' + ctx.right.lineNum;
+          rightColEl.id = 'RC' + ctx.right.lineNum;
+        } else {
+          rightLineNumEl.classList.add('blank');
         }
 
-        // If the html is just the text then it didn't get highlighted.
-        // Use textContent which is faster than innerHTML.
-        if (leftContent == leftHTML) {
-          leftColEl.textContent = leftContent;
+        // Content must be defined to prevent the HTML from showing 'undefined'.
+        // Additionally, a newline is used place of an empty string to ensure
+        // copy/paste works correctly.
+        ctx.left.content = ctx.left.content || '\n';
+        ctx.right.content = ctx.right.content || '\n';
+
+        if (!!ctx.left.cssClass) {
+          leftColEl.classList.add(ctx.left.cssClass);
+        }
+        if (!!ctx.right.cssClass) {
+          rightColEl.classList.add(ctx.right.cssClass);
+        }
+
+        var leftHTML = util.escapeHTML(ctx.left.content);
+        var rightHTML = util.escapeHTML(ctx.right.content);
+
+        // If the html is equivalent to the text then it didn't get highlighted
+        // or escaped. Use textContent which is faster than innerHTML.
+        if (ctx.left.content == leftHTML) {
+          leftColEl.textContent = ctx.left.content;
         } else {
           leftColEl.innerHTML = leftHTML;
         }
-        if (rightContent == rightHTML) {
-          rightColEl.textContent = rightContent;
+        if (ctx.right.content == rightHTML) {
+          rightColEl.textContent = ctx.right.content;
         } else {
           rightColEl.innerHTML = rightHTML;
         }
 
-        if (leftContent != rightContent) {
-          leftColEl.classList.add('delete');
-          rightColEl.classList.add('insert');
-          leftColEl.classList.add(leftHighlight ? 'lightRed' : 'darkRed');
-          rightColEl.classList.add(rightHighlight ? 'lightGreen' : 'darkGreen');
-        }
         this.$.leftDiffNumbers.appendChild(leftLineNumEl);
         this.$.leftDiffContent.appendChild(leftColEl);
         this.$.rightDiffNumbers.appendChild(rightLineNumEl);
         this.$.rightDiffContent.appendChild(rightColEl);
-      },
-
-      _highlightedHTML: function(content, range) {
-        return content;
       },
 
     });

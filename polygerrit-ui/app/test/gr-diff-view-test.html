@@ -21,26 +21,89 @@ limitations under the License.
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
 <script src="../../bower_components/test-fixture/test-fixture-mocha.js"></script>
+<script src="../scripts/changes.js"></script>
+<script src="../scripts/util.js"></script>
 <link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
-
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="../elements/gr-diff-view.html">
 
 <test-fixture id="basic">
   <template>
-    <gr-diff></gr-diff>
+    <gr-diff-view></gr-diff-view>
   </template>
 </test-fixture>
 
 <script>
   suite('gr-diff-view tests', function() {
     var element;
-
+    var diffContent = [
+      {
+        ab: [
+          'if i < 5 { // "comments" &= \'fun\' && true',
+          '  println("i is less than five")',
+          '}',
+          '',
+          '',
+          '// Comment'
+        ]
+      },
+      {
+        a: [
+          'foo', // L: 7
+          'bar'  // R: 8
+        ],
+        b: [
+          'baz', // R: 7
+        ]
+      },
+      {
+        ab: [
+          'Bad news: combustible lemons failed.' // L: 9, R: 8
+        ]
+      }
+    ];
     setup(function() {
       element = fixture('basic');
+      element._constructDOM({content: diffContent});
+      flushAsynchronousOperations();
     });
 
-    test('', function() {
+    test('ab content is the same for left and right sides', function() {
+      for (var i = 0; i < diffContent[0].ab.length; i++) {
+        var leftEl = element.$$('#LC' + (i + 1));
+        assert.isNotNull(leftEl);
+        var rightEl = element.$$('#RC' + (i + 1));
+        assert.isNotNull(rightEl);
+        assert.equal(leftEl.textContent, rightEl.textContent);
+      }
+    });
 
+    test('all line number and content elements have same (non-zero) height',
+        function() {
+      var els = element.querySelectorAll('.lineNum, .content');
+      assert.isAbove(els.length, 0);
+      var offsetHeight = els.length > 0 && els[0].offsetHeight;
+      assert.isAbove(offsetHeight, 0);
+      for (var i = 0; i < els.length; i++) {
+        assert.equal(offsetHeight, els[i].offsetHeight);
+      }
+    });
+
+    test('content is properly escaped', function() {
+      var firstLineEls = element.querySelectorAll('#LC1, #RC1');
+      assert.equal(2, firstLineEls.length);
+      for (var i = 0; i < firstLineEls.length; i++) {
+        assert.equal(firstLineEls[i].innerHTML,
+            'if i &lt; 5 { // "comments" &amp;= \'fun\' &amp;&amp; true');
+      }
+    });
+
+    test('content and line numbers are correct for a/b edit', function() {
+      assert.equal(element.$$('#LC7').textContent, 'foo');
+      assert.equal(element.$$('#LC8').textContent, 'bar');
+      assert.equal(element.$$('#RC7').textContent, 'baz');
+      assert.equal(element.$$('#LC9').textContent,
+                   element.$$('#RC8').textContent);
     });
 
   });

@@ -23,3 +23,18 @@ util.parseDate = function(dateStr) {
   // Munge the date into an ISO 8061 format and parse that.
   return new Date(dateStr.replace(' ', 'T') + 'Z');
 };
+
+util.htmlEntityMap = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  '\'': '&#39;',
+  '/': '&#x2F;'
+};
+
+util.escapeHTML = function(str) {
+  return String(str).replace(/[&<>"'\/]/g, function(s) {
+    return util.htmlEntityMap[s];
+  });
+};

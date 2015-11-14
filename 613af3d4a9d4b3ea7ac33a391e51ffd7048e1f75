@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1b4d3387_a45e0251",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-14T05:57:05Z",
+      "side": 1,
+      "message": "Yes. I disagree with Gustaf\u0027s approach about only recording successes. This is about the time spent in the block.\n\nIf we want to record success we could add a counter after loaded \u003d true and increment it on success. Failures are the delta between the two counters.\n\nIf failures are hard to compute that way we could track failures in the catch by ticking a counter.\n\nBut for a timer asking \"how long\" we should include failures.",
+      "parentUuid": "1b4d3387_246b32fa",
+      "range": {
+        "startLine": 60,
+        "startChar": 9,
+        "endLine": 60,
+        "endChar": 60
+      },
+      "revId": "613af3d4a9d4b3ea7ac33a391e51ffd7048e1f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_ef129570",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 1

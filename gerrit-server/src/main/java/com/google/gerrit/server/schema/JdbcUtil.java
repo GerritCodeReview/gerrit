@@ -26,7 +26,7 @@ public class JdbcUtil {
     return hostname;
   }
 
-  static String port(String port) {
+  public static String port(String port) {
     if (port != null && !port.isEmpty()) {
       return ":" + port;
     }

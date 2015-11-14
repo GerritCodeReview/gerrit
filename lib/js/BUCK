@@ -53,7 +53,7 @@ bower_component(
 bower_component(
   name = 'iron-ajax',
   package = 'PolymerElements/iron-ajax',
-  version = '1.0.9',
+  version = '1.1.0',
   license = 'polymer',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )
@@ -93,7 +93,7 @@ bower_component(
 bower_component(
   name = 'polymer',
   package = 'Polymer/polymer',
-  version = '1.2.1',
+  version = '1.2.2',
   license = 'polymer',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )

@@ -171,6 +171,6 @@ public abstract class Plugin {
   protected abstract boolean canReload();
 
   boolean isModified(Path jar) {
-    return snapshot.lastModified() != lastModified(jar);
+    return snapshot.isModified(jar.toFile());
   }
 }

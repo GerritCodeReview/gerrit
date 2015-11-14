@@ -20,6 +20,29 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_cfbd9184",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-14T16:25:43Z",
+      "side": 1,
+      "message": "I understand that two kinds of instantiation of StarredChangesUtil is used: one with passing of Provider\u003cReviewDb\u003e and one without (request scope). It looks like all this is only needed to satisfy server tests. So i removed all this two levels of indirection and repalced with simple StarredChangesUtil: [1]. Only couple of server tests are failing:\n\n  Failed target: //gerrit-server:server_tests\n  FAIL com.google.gerrit.server.IdentifiedUserTest\n  FAIL com.google.gerrit.server.change.CommentsTest\n  FAIL com.google.gerrit.server.notedb.ChangeNotesParserTest\n  FAIL com.google.gerrit.server.notedb.ChangeNotesTest\n  FAIL com.google.gerrit.server.notedb.CommitMessageOutputTest\n  FAIL com.google.gerrit.server.project.RefControlTest\n  Failed target: //gerrit-server:prolog_tests\n  FAIL com.google.gerrit.rules.GerritCommonTest\n\nI wonder how far one should go and how the code should be obfuscated, with two different factories to satisfy server tests? I guess when all server tests are moved to acceptance tests, it wouldn\u0027t be needed any more?\n\n* [1] http://paste.openstack.org/show/478864",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 5
+      },
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_6fa4657b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 3
@@ -31,6 +54,98 @@
       "writtenOn": "2015-11-14T06:01:38Z",
       "side": 1,
       "message": "nit: unnecessary wrap?",
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_2fc78d1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-14T16:25:43Z",
+      "side": 1,
+      "message": "Reverse the logic to avoid ! operator?",
+      "range": {
+        "startLine": 250,
+        "startChar": 10,
+        "endLine": 250,
+        "endChar": 34
+      },
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_4fd2c1dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-14T16:25:43Z",
+      "side": 1,
+      "message": "I would expect thart this logic is in DbQuery ant not in invocation of it.",
+      "range": {
+        "startLine": 251,
+        "startChar": 27,
+        "endLine": 251,
+        "endChar": 81
+      },
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b4d3387_4404ee2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-14T16:25:43Z",
+      "side": 1,
+      "message": "I would expect that this logic is in NoteDbQuery class and not in instantiation parameters:\n\n  try {\n    return migration.readChanges()\n        ? new NotedbQuery(accountId)\n        : new DbQuery(accountId);\n  } catch (OrmException) {\n    [...]\n  }",
+      "range": {
+        "startLine": 254,
+        "startChar": 31,
+        "endLine": 261,
+        "endChar": 20
+      },
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0fccc939",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-14T16:25:43Z",
+      "side": 1,
+      "message": "Why catch runtime exception?",
+      "range": {
+        "startLine": 263,
+        "startChar": 28,
+        "endLine": 263,
+        "endChar": 44
+      },
       "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

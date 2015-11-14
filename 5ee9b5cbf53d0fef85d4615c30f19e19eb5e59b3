@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_6f7105ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/TimerContext.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-14T02:05:36Z",
+      "side": 1,
+      "message": "I\u0027d prefer not to have a blank comment line at the end of the block.",
+      "revId": "5ee9b5cbf53d0fef85d4615c30f19e19eb5e59b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

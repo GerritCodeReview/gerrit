@@ -34,23 +34,21 @@ import java.util.concurrent.TimeUnit;
  * @param <F2> type of the field.
  */
 public abstract class Timer2<F1, F2> implements RegistrationHandle {
-  public static class Context implements AutoCloseable {
+  public static class Context extends TimerContext {
     private final Timer2<Object, Object> timer;
     private final Object field1;
     private final Object field2;
-    private final long startNanos;
 
     @SuppressWarnings("unchecked")
     <F1, F2> Context(Timer2<F1, F2> timer, F1 field1, F2 field2) {
       this.timer = (Timer2<Object, Object>) timer;
       this.field1 = field1;
       this.field2 = field2;
-      this.startNanos = System.nanoTime();
     }
 
     @Override
-    public void close() {
-      timer.record(field1, field2, System.nanoTime() - startNanos, NANOSECONDS);
+    public void record(long elapsed) {
+      timer.record(field1, field2, elapsed, NANOSECONDS);
     }
   }
 

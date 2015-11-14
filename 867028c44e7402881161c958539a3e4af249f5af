@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b4d3387_0414b68c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-14T01:25:56Z",
+      "side": 1,
+      "message": "shouldn\u0027t you assign it to \u0027labels\u0027 variable? \n\nactually it seams that \u0027labels\u0027 was not even used here, so you can remove this line",
+      "range": {
+        "startLine": 518,
+        "startChar": 6,
+        "endLine": 518,
+        "endChar": 66
+      },
+      "revId": "867028c44e7402881161c958539a3e4af249f5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

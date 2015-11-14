@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_ecbe23f0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-14T00:26:03Z",
+      "side": 1,
+      "message": "This is the same code as in the line 112 and is an efficient way to deal with missing dependencies.\n\nThe fact is that some site programs (like reindex) depend on many more things than they really need (because they for convenience install the whole modules which include more than they need). However, the installed modules here don\u0027t provide full set of dependencies (like for example the ChangeJson.Factory, etc..). This problem can be solved in 3 ways:\n\n* we try to define only those dependencies we really need. This is hard.\n* we keep adding more and more dependencies to have a full transitive closure\n* we just bind a missing but not really needed dependency to null.\n\nThe last option is the simplest and is already used in this code.",
+      "parentUuid": "bb6267ec_6cd8f3a3",
+      "range": {
+        "startLine": 148,
+        "startChar": 41,
+        "endLine": 148,
+        "endChar": 45
+      },
+      "revId": "1390246a1ec9ee9eae9d3ed0b33632aeee0b59af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_8c7d674b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-13T18:05:24Z",
       "side": 1,
       "message": "nit: double space",
+      "range": {
+        "startLine": 73,
+        "startChar": 17,
+        "endLine": 73,
+        "endChar": 19
+      },
+      "revId": "1390246a1ec9ee9eae9d3ed0b33632aeee0b59af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_7b29b778",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-14T00:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_8c7d674b",
       "range": {
         "startLine": 73,
         "startChar": 17,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_cfdc7135",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-14T00:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_ace94bd5",
+      "range": {
+        "startLine": 52,
+        "startChar": 13,
+        "endLine": 52,
+        "endChar": 14
+      },
+      "revId": "1390246a1ec9ee9eae9d3ed0b33632aeee0b59af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_3be0dfbb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2015-11-13T18:05:24Z",
       "side": 1,
       "message": "this can crash, nobody expects AccountInfo.getId() to be null",
+      "range": {
+        "startLine": 265,
+        "startChar": 45,
+        "endLine": 265,
+        "endChar": 49
+      },
+      "revId": "1390246a1ec9ee9eae9d3ed0b33632aeee0b59af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b203791_5b2efb82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-14T00:26:03Z",
+      "side": 1,
+      "message": "I don\u0027t know a better solution. The Gerrit Server identity doesn\u0027t exist as an account, there is not accountId. The (new) stream-events plugin will have to expect that AccountInfo.getId() can be null.",
+      "parentUuid": "3b203791_3be0dfbb",
       "range": {
         "startLine": 265,
         "startChar": 45,

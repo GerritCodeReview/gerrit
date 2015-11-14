@@ -31,22 +31,22 @@ import java.util.concurrent.TimeUnit;
  * </pre>
  */
 public abstract class Timer0 implements RegistrationHandle {
-  public class Context implements AutoCloseable {
-    private final long startNanos;
+  public static class Context extends TimerContext {
+    private final Timer0 timer;
 
-    Context() {
-      this.startNanos = System.nanoTime();
+    Context(Timer0 timer) {
+      this.timer = timer;
     }
 
     @Override
-    public void close() {
-      record(System.nanoTime() - startNanos, NANOSECONDS);
+    public void record(long elapsed) {
+      timer.record(elapsed, NANOSECONDS);
     }
   }
 
   /** Begin a timer for the current block, value will be recorded when closed. */
   public Context start() {
-    return new Context();
+    return new Context(this);
   }
 
   /** Record a value in the distribution. */

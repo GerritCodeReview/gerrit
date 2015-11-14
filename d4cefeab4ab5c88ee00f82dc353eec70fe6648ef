@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "1b4d3387_04add6aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ReviewDbDatabaseProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-14T00:01:42Z",
+      "side": 1,
+      "message": "shouldn\u0027t then they go into \"plugins/$plugin_name/sql/conection_pool/..\"?",
+      "parentUuid": "3b203791_9b54934b",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 89,
+        "endChar": 28
+      },
+      "revId": "d4cefeab4ab5c88ee00f82dc353eec70fe6648ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_d880d11f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ReviewDbDatabaseProvider.java",
         "patchSetId": 1

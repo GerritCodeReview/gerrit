@@ -47,6 +47,30 @@
       "revId": "ab765d28c63dbaa504c0b25fbe5d0cc4dd9c5242",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b4d3387_84d1c623",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-14T00:45:00Z",
+      "side": 1,
+      "message": "Ah, right, we don\u0027t want to stay forever with:\n\n  bower install\n\nAnd would like to replace it with something like\n\n  $ unzip `buck targets --show_output //polygerrit-ui:polygerrit_components | awk \u0027{print $1}\u0027`",
+      "parentUuid": "1b4d3387_c4d7be17",
+      "range": {
+        "startLine": 42,
+        "startChar": 16,
+        "endLine": 42,
+        "endChar": 55
+      },
+      "revId": "ab765d28c63dbaa504c0b25fbe5d0cc4dd9c5242",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1b4d3387_24f692bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-11-14T01:02:21Z",
+      "side": 1,
+      "message": "as long as you want to split them into recipients and cc\u0027ed you must go with two set. IMO it does make sense to have this split, since labels used for this feature explicitly mention \u0027CC\u0027",
+      "parentUuid": "bb6267ec_6fec65ea",
+      "range": {
+        "startLine": 292,
+        "startChar": 8,
+        "endLine": 303,
+        "endChar": 9
+      },
+      "revId": "2b0a9481186c954a094a82c3ee13e33b22ba06a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_8fd1d923",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 2

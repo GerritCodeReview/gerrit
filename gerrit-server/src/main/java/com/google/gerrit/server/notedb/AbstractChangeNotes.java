@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -30,14 +31,16 @@ import java.io.IOException;
 /** View of contents at a single ref related to some change. **/
 public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
   protected final GitRepositoryManager repoManager;
+  protected final NoteDbMetrics metrics;
   protected final NotesMigration migration;
   private final Change.Id changeId;
 
   private boolean loaded;
 
-  AbstractChangeNotes(GitRepositoryManager repoManager,
+  AbstractChangeNotes(GitRepositoryManager repoManager, NoteDbMetrics metrics,
       NotesMigration migration, Change.Id changeId) {
     this.repoManager = repoManager;
+    this.metrics = metrics;
     this.migration = migration;
     this.changeId = changeId;
   }
@@ -54,7 +57,8 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
       loadDefaults();
       return self();
     }
-    try (Repository repo = repoManager.openMetadataRepository(getProjectName())) {
+    try (Timer0.Context timer = metrics.readLatency.start();
+        Repository repo = repoManager.openMetadataRepository(getProjectName())) {
       load(repo);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {

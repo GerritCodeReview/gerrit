@@ -97,20 +97,24 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public static class Factory {
     private final GitRepositoryManager repoManager;
     private final NotesMigration migration;
+    private final NoteDbMetrics metrics;
     private final AllUsersNameProvider allUsersProvider;
 
     @VisibleForTesting
     @Inject
     public Factory(GitRepositoryManager repoManager,
+        NoteDbMetrics metrics,
         NotesMigration migration,
         AllUsersNameProvider allUsersProvider) {
       this.repoManager = repoManager;
+      this.metrics = metrics;
       this.migration = migration;
       this.allUsersProvider = allUsersProvider;
     }
 
     public ChangeNotes create(Change change) {
-      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+      return new ChangeNotes(repoManager, metrics, migration,
+          allUsersProvider, change);
     }
   }
 
@@ -129,9 +133,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private DraftCommentNotes draftCommentNotes;
 
   @VisibleForTesting
-  public ChangeNotes(GitRepositoryManager repoManager, NotesMigration migration,
-      AllUsersNameProvider allUsersProvider, Change change) {
-    super(repoManager, migration, change.getId());
+  public ChangeNotes(GitRepositoryManager repoManager, NoteDbMetrics metrics,
+      NotesMigration migration, AllUsersNameProvider allUsersProvider,
+      Change change) {
+    super(repoManager, metrics, migration, change.getId());
     this.allUsers = allUsersProvider.get();
     this.change = new Change(change);
   }
@@ -206,8 +211,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       throws OrmException {
     if (draftCommentNotes == null ||
         !author.equals(draftCommentNotes.getAuthor())) {
-      draftCommentNotes = new DraftCommentNotes(repoManager, migration,
-          allUsers, getChangeId(), author);
+      draftCommentNotes = new DraftCommentNotes(repoManager, metrics,
+          migration, allUsers, getChangeId(), author);
       draftCommentNotes.load();
     }
   }

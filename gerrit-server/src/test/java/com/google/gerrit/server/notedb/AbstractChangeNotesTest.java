@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.CommentRange;
@@ -181,7 +182,9 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(repoManager, MIGRATION, allUsers, c).load();
+    return new ChangeNotes(repoManager,
+        new NoteDbMetrics(new DisabledMetricMaker()),
+        MIGRATION, allUsers, c).load();
   }
 
   protected static SubmitRecord submitRecord(String status,

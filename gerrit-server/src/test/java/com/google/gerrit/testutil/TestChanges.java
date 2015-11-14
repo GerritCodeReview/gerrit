@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.expect;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbMetrics;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -105,7 +107,10 @@ public class TestChanges {
     ChangeControl ctl = EasyMock.createNiceMock(ChangeControl.class);
     expect(ctl.getChange()).andStubReturn(c);
     expect(ctl.getUser()).andStubReturn(user);
-    ChangeNotes notes = new ChangeNotes(repoManager, migration, allUsers, c)
+    ChangeNotes notes = new ChangeNotes(
+        repoManager,
+        new NoteDbMetrics(new DisabledMetricMaker()),
+        migration, allUsers, c)
         .load();
     expect(ctl.getNotes()).andStubReturn(notes);
     EasyMock.replay(ctl);

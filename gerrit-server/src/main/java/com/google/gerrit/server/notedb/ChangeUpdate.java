@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -84,6 +85,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         Comparator<String> labelNameComparator);
   }
 
+  private final NoteDbMetrics metrics;
   private final AccountCache accountCache;
   private final Map<String, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers;
@@ -101,6 +103,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeUpdate(
+      NoteDbMetrics metrics,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
@@ -111,13 +114,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       CommentsInNotesUtil commentsUtil) {
-    this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
-        updateFactory, draftUpdateFactory,
-        projectCache, ctl, serverIdent.getWhen(), commentsUtil);
+    this(metrics, serverIdent, anonymousCowardName, repoManager, migration,
+        accountCache, updateFactory, draftUpdateFactory, projectCache, ctl,
+        serverIdent.getWhen(), commentsUtil);
   }
 
   @AssistedInject
   private ChangeUpdate(
+      NoteDbMetrics metrics,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
@@ -129,9 +133,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       CommentsInNotesUtil commentsUtil) {
-    this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
-        updateFactory, draftUpdateFactory, ctl,
-        when,
+    this(metrics, serverIdent, anonymousCowardName, repoManager, migration,
+        accountCache, updateFactory, draftUpdateFactory, ctl, when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
         commentsUtil);
   }
@@ -142,6 +145,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeUpdate(
+      NoteDbMetrics metrics,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
@@ -155,6 +159,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       CommentsInNotesUtil commentsUtil) {
     super(migration, repoManager, updateFactory, ctl, serverIdent,
         anonymousCowardName, when);
+    this.metrics = metrics;
     this.draftUpdateFactory = draftUpdateFactory;
     this.accountCache = accountCache;
     this.commentsUtil = commentsUtil;
@@ -357,18 +362,20 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public RevCommit commit() throws IOException {
-    BatchMetaDataUpdate batch = openUpdate();
-    try {
-      writeCommit(batch);
-      if (draftUpdate != null) {
-        draftUpdate.commit();
+    try (Timer0.Context timer = metrics.writeLatency.start()) {
+      BatchMetaDataUpdate batch = openUpdate();
+      try {
+        writeCommit(batch);
+        if (draftUpdate != null) {
+          draftUpdate.commit();
+        }
+        RevCommit c = batch.commit();
+        return c;
+      } catch (OrmException e) {
+        throw new IOException(e);
+      } finally {
+        batch.close();
       }
-      RevCommit c = batch.commit();
-      return c;
-    } catch (OrmException e) {
-      throw new IOException(e);
-    } finally {
-      batch.close();
     }
   }
 

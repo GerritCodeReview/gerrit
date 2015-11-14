@@ -118,6 +118,30 @@
       "revId": "2e7e1e6f1e1e8fe85c222660fee4481b75444f2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_8fff9981",
+        "filename": "lib/js.defs",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-14T00:34:09Z",
+      "side": 1,
+      "message": "That\u0027s really cool. Thanks for fixing it. Getting rid of vulcanize.py is also great optimization.",
+      "parentUuid": "bb6267ec_0f14c98c",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 57
+      },
+      "revId": "2e7e1e6f1e1e8fe85c222660fee4481b75444f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb6267ec_af301d2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/TimerContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-14T01:33:49Z",
+      "side": 1,
+      "message": "These aren\u0027t thread safe. A simple boolean is good enough.",
+      "revId": "8f65083a2293f6ccf1eb36c623f1b9ce50549eb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b4d3387_e4087a6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/TimerContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-14T01:33:49Z",
+      "side": 1,
+      "message": "Style nit:\n\n  */",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 7
+      },
+      "revId": "8f65083a2293f6ccf1eb36c623f1b9ce50549eb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -71,6 +71,30 @@
       "revId": "ab765d28c63dbaa504c0b25fbe5d0cc4dd9c5242",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b4d3387_44f18ec2",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-14T00:52:13Z",
+      "side": 1,
+      "message": "Not even that, we will do this at runtime in the server.\n\n* Serve /bower_components with a ResourceServlet that looks in buck-out/.../polygerrit.bower_components.zip and serve directly out of the zip file.\n* Put a filter in front of / that rebuilds the .bower_components.zip whenever you refresh the index.\n\nSo when you are using Eclipse you do not have to run buck _at all_ to do frontend development (except to regenerate your Eclips project).",
+      "parentUuid": "1b4d3387_84d1c623",
+      "range": {
+        "startLine": 42,
+        "startChar": 16,
+        "endLine": 42,
+        "endChar": 55
+      },
+      "revId": "ab765d28c63dbaa504c0b25fbe5d0cc4dd9c5242",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

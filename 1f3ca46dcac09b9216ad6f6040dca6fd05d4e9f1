@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f6f876fc_7be17f1b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-11-14T17:46:01Z",
+      "side": 1,
+      "message": "Why are we saving here? Shouldn\u0027t we be saving in the block above?",
+      "revId": "1f3ca46dcac09b9216ad6f6040dca6fd05d4e9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6f876fc_dba893b6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/LocalComments.java",
         "patchSetId": 2

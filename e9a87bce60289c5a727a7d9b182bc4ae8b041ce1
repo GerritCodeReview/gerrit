@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1b4d3387_e4b19a09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-14T00:03:23Z",
+      "side": 1,
+      "message": "Seems to be also for LabelId?",
+      "revId": "e9a87bce60289c5a727a7d9b182bc4ae8b041ce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_efb17509",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

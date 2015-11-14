@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_2f1d4da2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/Timer1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-14T01:24:26Z",
+      "side": 1,
+      "message": "Will do.  Didn\u0027t want to do it all until getting feedback on the whole concept.",
+      "parentUuid": "bb6267ec_8f54394b",
+      "revId": "c465a11a76be898b8179d2639d4e77a3def9bda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_af57fd4e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/Timer1.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-11-14T01:19:40Z",
       "side": 1,
       "message": "unnecessary",
+      "revId": "c465a11a76be898b8179d2639d4e77a3def9bda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_0f2289e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/Timer1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-14T01:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_af57fd4e",
       "revId": "c465a11a76be898b8179d2639d4e77a3def9bda0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bb6267ec_4f2881c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/TimerContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-14T01:24:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_cf4a31a5",
+      "revId": "c465a11a76be898b8179d2639d4e77a3def9bda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4d3387_a4e962d5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/TimerContext.java",
         "patchSetId": 3
@@ -64,6 +118,30 @@
       "writtenOn": "2015-11-14T01:19:40Z",
       "side": 1,
       "message": "Add a boolean stopped field and then do if (!stopped) inside of stop so that a stop() close() or close() close() sequence doesn\u0027t report two times.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "c465a11a76be898b8179d2639d4e77a3def9bda0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb6267ec_6f2345ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/TimerContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-14T01:24:26Z",
+      "side": 1,
+      "message": "Thought about doing that, but in the existing implementation there was also no protection against multiple calls to close()",
+      "parentUuid": "1b4d3387_a4e962d5",
       "range": {
         "startLine": 41,
         "startChar": 4,

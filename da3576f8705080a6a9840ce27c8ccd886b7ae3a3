@@ -22,6 +22,30 @@
       "revId": "da3576f8705080a6a9840ce27c8ccd886b7ae3a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b4d3387_44286ec4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/TimerContext.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-14T01:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b4d3387_8454264b",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "da3576f8705080a6a9840ce27c8ccd886b7ae3a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

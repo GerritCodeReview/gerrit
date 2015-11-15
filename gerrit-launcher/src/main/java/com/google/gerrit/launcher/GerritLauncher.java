@@ -580,41 +580,35 @@ public final class GerritLauncher {
     URL u = self.getResource(self.getSimpleName() + ".class");
     if (u == null) {
       throw new FileNotFoundException("Cannot find class " + self.getName());
-    } else if (!"file".equals(u.getProtocol())) {
+    } else if ("jar".equals(u.getProtocol())) {
+      String p = u.getPath();
+      try {
+        u = new URL(p.substring(0, p.indexOf('!')));
+      } catch (MalformedURLException e) {
+        FileNotFoundException fnfe =
+            new FileNotFoundException("Not a valid jar file: " + u);
+        fnfe.initCause(e);
+        throw fnfe;
+      }
+    }
+    if (!"file".equals(u.getProtocol())) {
       throw new FileNotFoundException("Cannot find extract path from " + u);
     }
 
     // Pop up to the top level classes folder that contains us.
     Path dir = Paths.get(u.getPath());
-    String myName = self.getName();
-    for (;;) {
-      int dot = myName.lastIndexOf('.');
-      if (dot < 0) {
-        dir = dir.getParent();
-        break;
+    while (!name(dir).equals("buck-out")) {
+      Path parent = dir.getParent();
+      if (parent == null || parent.equals(dir)) {
+        throw new FileNotFoundException("Cannot find buck-out from " + u);
       }
-      myName = myName.substring(0, dot);
-      dir = dir.getParent();
+      dir = parent;
     }
-
-    dir = popdir(u, dir, "classes");
-    dir = popdir(u, dir, "eclipse");
-    if (last(dir).equals("buck-out")) {
-      return dir;
-    }
-    throw new FileNotFoundException("Cannot find buck-out from " + u);
+    return dir;
   }
 
-  private static String last(Path dir) {
-    return dir.getName(dir.getNameCount() - 1).toString();
-  }
-
-  private static Path popdir(URL u, Path dir, String name)
-      throws FileNotFoundException {
-    if (last(dir).equals(name)) {
-      return dir.getParent();
-    }
-    throw new FileNotFoundException("Cannot find buck-out from " + u);
+  private static String name(Path dir) {
+    return dir.getFileName().toString();
   }
 
   private static ClassLoader useDevClasspath()

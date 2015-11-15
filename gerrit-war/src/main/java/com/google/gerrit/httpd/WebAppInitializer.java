@@ -324,7 +324,7 @@ public class WebAppInitializer extends GuiceServletContextListener
       @Override
       protected void configure() {
         bind(GerritOptions.class)
-            .toInstance(new GerritOptions(config, false, false));
+            .toInstance(new GerritOptions(config, false, false, false));
       }
     });
     modules.add(new GarbageCollectionModule());

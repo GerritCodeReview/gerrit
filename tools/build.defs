@@ -61,18 +61,19 @@ def war(
   )
 
 def gerrit_war(name, ui = 'ui_optdbg', context = [], docs = False, visibility = []):
+  ui_deps = []
+  if ui:
+    ui_deps.append('//polygerrit-ui/app:polygerrit_ui')
+    if ui != 'polygerrit':
+      ui_deps.append('//gerrit-gwtui:%s' % ui)
   war(
     name = name,
     libs = LIBS + ['//gerrit-war:version'],
     pgmlibs = PGMLIBS,
-    context = [
+    context = ui_deps + context + [
       '//gerrit-main:main_bin',
       '//gerrit-war:webapp_assets',
-    ] + ([
-      '//gerrit-gwtui:' + ui,
-      '//polygerrit-ui/app:polygerrit_ui',
-    ] if ui else []) +
-    context,
+    ],
     docs = docs,
     visibility = visibility,
   )

@@ -9,6 +9,7 @@
   firefox = //:firefox
   gerrit = //:gerrit
   headless = //:headless
+  polygerrit = //:polygerrit
   release = //:release
   safari = //:safari
   soyc = //gerrit-gwtui:ui_soyc

@@ -1,10 +1,11 @@
 include_defs('//tools/build.defs')
 
 gerrit_war(name = 'gerrit')
-gerrit_war(name = 'headless', ui = None)
-gerrit_war(name = 'chrome',   ui = 'ui_chrome')
-gerrit_war(name = 'firefox',  ui = 'ui_firefox')
-gerrit_war(name = 'safari',   ui = 'ui_safari')
+gerrit_war(name = 'headless',    ui = None)
+gerrit_war(name = 'chrome',      ui = 'ui_chrome')
+gerrit_war(name = 'firefox',     ui = 'ui_firefox')
+gerrit_war(name = 'safari',      ui = 'ui_safari')
+gerrit_war(name = 'polygerrit',  ui = 'polygerrit')
 gerrit_war(name = 'withdocs', docs = True)
 gerrit_war(name = 'release',  ui = 'ui_optdbg_r', docs = True, context = ['//plugins:core'],  visibility = ['//tools/maven:'])
 

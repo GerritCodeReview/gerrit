@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.cache.Cache;
 import com.google.gerrit.httpd.GerritOptions;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
@@ -146,9 +148,14 @@ public class StaticModule extends ServletModule {
 
     private Path polyGerritBasePath() {
       Paths p = getPaths();
-      return p.warFs != null
-          ? p.warFs.getPath("/polygerrit_ui")
-          : p.buckOut.getParent().resolve("polygerrit-ui").resolve("app");
+      boolean forceDev = options.forcePolyGerritDev();
+      if (forceDev) {
+        checkArgument(p.buckOut != null,
+            "no buck-out directory found for PolyGerrit developer mode");
+      }
+      return forceDev || p.warFs == null
+          ? p.buckOut.getParent().resolve("polygerrit-ui").resolve("app")
+          : p.warFs.getPath("/polygerrit_ui");
     }
   }
 

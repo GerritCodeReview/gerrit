@@ -19,16 +19,20 @@ import org.eclipse.jgit.lib.Config;
 public class GerritOptions {
   private final boolean headless;
   private final boolean slave;
-  private final boolean polyGerrit;
+  private final boolean enablePolyGerrit;
+  private final boolean forcePolyGerritDev;
 
-  public GerritOptions(Config cfg, boolean headless, boolean slave) {
+  public GerritOptions(Config cfg, boolean headless, boolean slave,
+      boolean forcePolyGerritDev) {
     this.headless = headless;
     this.slave = slave;
-    this.polyGerrit = cfg.getBoolean("gerrit", null, "enablePolyGerrit", false);
+    this.enablePolyGerrit = forcePolyGerritDev
+        || cfg.getBoolean("gerrit", null, "enablePolyGerrit", false);
+    this.forcePolyGerritDev = forcePolyGerritDev;
   }
 
   public boolean enableDefaultUi() {
-    return !headless && !polyGerrit;
+    return !headless && !enablePolyGerrit;
   }
 
   public boolean enableMasterFeatures() {
@@ -36,6 +40,10 @@ public class GerritOptions {
   }
 
   public boolean enablePolyGerrit() {
-    return !headless && polyGerrit;
+    return !headless && enablePolyGerrit;
+  }
+
+  public boolean forcePolyGerritDev() {
+    return !headless && forcePolyGerritDev;
   }
 }

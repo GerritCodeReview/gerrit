@@ -142,6 +142,9 @@ public class Daemon extends SiteProgram {
   @Option(name = "--headless", usage = "Don't start the UI frontend")
   private boolean headless;
 
+  @Option(name = "--polygerrit-dev", usage = "Force PolyGerrit UI for development")
+  private boolean polyGerritDev;
+
   @Option(name = "--init", aliases = {"-i"},
       usage = "Init site before starting the daemon")
   private boolean doInit;
@@ -370,8 +373,8 @@ public class Daemon extends SiteProgram {
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(GerritOptions.class)
-            .toInstance(new GerritOptions(config, headless, slave));
+        bind(GerritOptions.class).toInstance(
+            new GerritOptions(config, headless, slave, polyGerritDev));
         if (test) {
           bind(String.class).annotatedWith(SecureStoreClassName.class)
               .toInstance(DefaultSecureStore.class.getName());

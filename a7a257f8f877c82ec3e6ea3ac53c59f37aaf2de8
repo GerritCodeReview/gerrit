@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ba29363_bce64103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-16T18:02:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9cdf2b_9bd4ab14",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_1bc17b54",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1ba29363_1cf655bc",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-16T18:02:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9cdf2b_1bc17b54",
+      "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_3bc6b76d",
         "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
         "patchSetId": 5
@@ -53,6 +95,24 @@
       "writtenOn": "2015-11-16T15:24:07Z",
       "side": 1,
       "message": "This would be easier to follow if you showed the full contents of A/B in a comment.",
+      "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_9ce905d6",
+        "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-16T18:02:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9cdf2b_3bc6b76d",
       "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -116,6 +176,30 @@
       "writtenOn": "2015-11-16T15:24:07Z",
       "side": 1,
       "message": "What does $$ mean here?",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_3cfb11a3",
+        "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-16T18:02:31Z",
+      "side": 1,
+      "message": "https://www.polymer-project.org/1.0/docs/devguide/utility-functions.html#utility-functions",
+      "parentUuid": "1ba29363_5cc7fd6b",
       "range": {
         "startLine": 73,
         "startChar": 21,

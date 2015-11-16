@@ -28,18 +28,36 @@ npm_binary(
   repository = GERRIT,
 )
 
-# bower_components are listed without transitive dependencies; the whole
-# flattened dependency tree needs to be included in
-# //polygerrit-ui:polygerrit_components.
+# To add a new Bower component dependency:
 #
-# To print a full dependency tree with specific versions (i.e. not semantic
-# versions containing ~ or ^), use bower-dependency-tree:
-#   npm install -g bower-dependency-tree
-#   cd polygerrit-ui
-#   bower-dependency-tree --production
+# 1. Add a dummy bower_component rule to this file, specifying the version you
+#    want to use:
+#      bower_component(
+#        name = 'somepackage',
+#        package = 'someauthor/somepackage',
+#        version = 'TODO',
+#        semver = '~1.0.0',
+#        license = 'DO_NOT_DISTRIBUTE'
+#      )
 #
-# Pull the name and package strings from the initial "Fetching" lines, and the
-# actual versions from the dependency tree output.
+# 2. Add your bower_component as a dep to a bower_components rule:
+#      bower_components(
+#        name = 'my_components',
+#        deps = [
+#          '//lib/js:foo',
+#          '//lib/js:somepackage',  # NEW
+#        ],
+#      )
+#
+# 3. Run bower2buck.py:
+#      buck run //tools/js:bower2buck.py -o newbuck //path/to:my_components
+#
+# 4. Use your favorite diff tool to merge the output in newbuck with this file.
+#    bower2buck.py reevaluates semantic versions and may upgrade some packages,
+#    so you may need to make changes beyond the new component that was added.
+#
+# 5. Make sure to specify licenses for all new packages. You may need to define
+#    new licenses in lib/BUCK.
 
 bower_component(
   name = 'iron-a11y-keys',

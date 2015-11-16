@@ -8,5 +8,6 @@ bower_components(
     '//lib/js:iron-ajax',
     '//lib/js:iron-a11y-keys',
     '//lib/js:iron-input',
+    '//lib/js:paper-progress',
   ],
 )

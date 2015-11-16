@@ -158,3 +158,11 @@ bower_component(
   license = 'polymer',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )
+
+bower_component(
+  name = 'paper-progress',
+  package = 'polymerelements/paper-progress',
+  version = 'TODO',
+  semver = '~1.0.0',
+  license = 'DO_NOT_DISTRIBUTE',
+)

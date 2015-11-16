@@ -49,6 +49,103 @@
     },
     {
       "key": {
+        "uuid": "fb9cdf2b_7ba3dfc2",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T03:48:54Z",
+      "side": 1,
+      "message": "Comment what this character is?",
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_1ba89b9a",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T03:48:54Z",
+      "side": 1,
+      "message": "initialLineNum?",
+      "range": {
+        "startLine": 174,
+        "startChar": 26,
+        "endLine": 174,
+        "endChar": 54
+      },
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_7ca3d9c2",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T03:48:54Z",
+      "side": 1,
+      "message": "I haven\u0027t reviewed this part yet, it\u0027s too late for me to be wrapping my head around it.",
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_3bad57ab",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T03:48:54Z",
+      "side": 1,
+      "message": "Dumb JS question: why? Is str not already a string?",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_dbb1d309",
+        "filename": "polygerrit-ui/app/test/gr-file-list-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T03:48:54Z",
+      "side": 1,
+      "message": "Why did these test files get deleted?",
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_0f5a8931",
         "filename": "polygerrit-ui/bower.json",
         "patchSetId": 2

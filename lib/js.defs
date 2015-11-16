@@ -55,9 +55,10 @@ def bower_component(
     version,
     license,
     deps = [],
+    semver = None,
     sha1 = '',
     visibility = ['PUBLIC']):
-  download_name = '%s__download' % name
+  download_name = '%s__download_bower' % name
   genrule(
     name = download_name,
     cmd = ' '.join([
@@ -93,6 +94,16 @@ def bower_component(
     name = name,
     cmd = _combine_components([':%s' % renamed_name] + deps),
     out = '%s-%s.zip' % (name, version),
+    visibility = visibility,
+  )
+
+  version_name = '%s__bower_version' % name
+  deps_json = '{"%s": "%s#%s"}' % (
+      name, package, semver if semver is not None else version)
+  genrule(
+    name = version_name,
+    cmd = "echo '%s' > $OUT" % deps_json,
+    out = version_name,
     visibility = visibility,
   )
 

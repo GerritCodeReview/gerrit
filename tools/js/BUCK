@@ -1,4 +1,11 @@
 python_binary(
+  name = 'bower2buck',
+  main = 'bower2buck.py',
+  deps = ['//tools:util'],
+  visibility = ['PUBLIC'],
+)
+
+python_binary(
   name = 'download_bower',
   main = 'download_bower.py',
   deps = ['//tools:util'],

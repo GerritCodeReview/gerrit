@@ -23,7 +23,6 @@ import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
 import com.google.gerrit.httpd.raw.RobotsServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
-import com.google.gerrit.httpd.raw.StaticModule;
 import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.httpd.rpc.access.AccessRestApiServlet;
 import com.google.gerrit.httpd.rpc.account.AccountsRestApiServlet;
@@ -106,9 +105,6 @@ class UrlModule extends ServletModule {
     filter("/Documentation/").through(QueryDocumentationFilter.class);
 
     serve("/robots.txt").with(RobotsServlet.class);
-
-    // Static paths are bound last, since they may include a wildcard for /*.
-    install(new StaticModule(options));
   }
 
   private Key<HttpServlet> notFound() {

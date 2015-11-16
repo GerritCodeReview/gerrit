@@ -35,6 +35,7 @@ import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
+import com.google.gerrit.httpd.raw.StaticModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
@@ -451,6 +452,7 @@ public class Daemon extends SiteProgram {
     modules.add(H2CacheBasedWebSession.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));
+    modules.add(sysInjector.getInstance(StaticModule.class));
     modules.add(sysInjector.getInstance(RequireSslFilter.Module.class));
     modules.add(new HttpPluginModule());
     if (sshd) {

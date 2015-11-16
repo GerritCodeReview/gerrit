@@ -19,6 +19,7 @@ import com.google.gerrit.httpd.GerritOptions;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
@@ -38,11 +39,12 @@ import javax.servlet.http.HttpServlet;
 public class StaticModule extends ServletModule {
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
   private static final String BOWER_SERVLET = "BowerServlet";
-  static final String CACHE = "static_content";
+  public static final String CACHE = "static_content";
 
   private final GerritOptions options;
   private Paths paths;
 
+  @Inject
   public StaticModule(GerritOptions options) {
     this.options = options;
   }

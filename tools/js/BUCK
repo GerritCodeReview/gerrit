@@ -1,4 +1,10 @@
 python_binary(
+  name = 'bower_json',
+  main = 'bower_json.py',
+  visibility = ['PUBLIC'],
+)
+
+python_binary(
   name = 'download_bower',
   main = 'download_bower.py',
   visibility = ['PUBLIC'],

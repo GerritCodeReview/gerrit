@@ -209,6 +209,30 @@
       "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_db08f36f",
+        "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T19:36:26Z",
+      "side": 1,
+      "message": "Thanks. Not exactly the easiest thing to google.",
+      "parentUuid": "1ba29363_3cfb11a3",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

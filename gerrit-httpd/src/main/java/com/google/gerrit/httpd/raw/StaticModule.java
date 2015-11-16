@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServlet;
 public class StaticModule extends ServletModule {
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
   private static final String BOWER_SERVLET = "BowerServlet";
-  static final String CACHE = "static_content";
+  public static final String CACHE = "static_content";
 
   private final GerritOptions options;
   private Paths paths;

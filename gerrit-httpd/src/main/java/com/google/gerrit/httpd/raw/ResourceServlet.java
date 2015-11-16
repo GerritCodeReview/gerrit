@@ -285,7 +285,7 @@ public abstract class ResourceServlet extends HttpServlet {
     };
   }
 
-  static class Resource {
+  public static class Resource {
     static final Resource NOT_FOUND =
         new Resource(FileTime.fromMillis(0), "", new byte[] {});
 

@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb9cdf2b_1bc17b54",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T15:24:07Z",
+      "side": 1,
+      "message": "Is (!a \u0026\u0026 !b) possible? I don\u0027t know what that would mean.\n\nIf not, then maybe it would be clearer to consider a and b separately:\n\n if (diffChunk.a) {\n   ctx.left.cssClass \u003d \u0027lightRed\u0027;\n } else {\n   delete(ctx.left.cssClass);\n }\n if (diffChunk.b) {\n   ctx.right.cssClass \u003d \u0027lightGreen\u0027;\n } else {\n   delete(ctx.right.cssClass);\n }\n\nwhich I think is logically equivalent.",
+      "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_3bc6b76d",
+        "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T15:24:07Z",
+      "side": 1,
+      "message": "This would be easier to follow if you showed the full contents of A/B in a comment.",
+      "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_bcb881e9",
+        "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T15:24:07Z",
+      "side": 1,
+      "message": "These would be obvious if you follow my suggestion above, and annotate the original contents with line numbers.",
+      "range": {
+        "startLine": 52,
+        "startChar": 20,
+        "endLine": 52,
+        "endChar": 24
+      },
+      "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_9cbb45e6",
+        "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T15:24:07Z",
+      "side": 1,
+      "message": "L?",
+      "range": {
+        "startLine": 53,
+        "startChar": 20,
+        "endLine": 53,
+        "endChar": 21
+      },
+      "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_5cc7fd6b",
+        "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T15:24:07Z",
+      "side": 1,
+      "message": "What does $$ mean here?",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "a7a257f8f877c82ec3e6ea3ac53c59f37aaf2de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

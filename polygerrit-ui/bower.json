@@ -14,5 +14,16 @@
     "web-component-tester": "*",
     "iron-test-helpers": "PolymerElements/iron-test-helpers#^1.0",
     "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+    "polymer": "Polymer/polymer#^1.2.1",
+    "page": "visionmedia/page.js#~1.6.4",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.9",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#~1.0.3",
+    "iron-input": "PolymerElements/iron-input#~1.0.6"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#~1.0",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#~1.0.6"
   }
 }

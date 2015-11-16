@@ -45,6 +45,10 @@ bower_component(
   name = 'iron-a11y-keys',
   package = 'PolymerElements/iron-a11y-keys',
   version = '1.0.3',
+  deps = [
+    ':iron-a11y-keys-behavior',
+    ':polymer',
+  ],
   license = 'polymer',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )
@@ -53,6 +57,7 @@ bower_component(
   name = 'iron-a11y-keys-behavior',
   package = 'PolymerElements/iron-a11y-keys-behavior',
   version = '1.0.8',
+  deps = [':polymer'],
   license = 'polymer',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )
@@ -61,6 +66,10 @@ bower_component(
   name = 'iron-ajax',
   package = 'PolymerElements/iron-ajax',
   version = '1.1.0',
+  deps = [
+    ':polymer',
+    ':promise-polyfill',
+  ],
   license = 'polymer',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )
@@ -69,6 +78,10 @@ bower_component(
   name = 'iron-input',
   package = 'PolymerElements/iron-input',
   version = '1.0.6',
+  deps = [
+    ':iron-validatable-behavior',
+    ':polymer',
+  ],
   license = 'polymer',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )
@@ -77,6 +90,7 @@ bower_component(
   name = 'iron-meta',
   package = 'PolymerElements/iron-meta',
   version = '1.1.1',
+  deps = [':polymer'],
   license = 'polymer',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )
@@ -85,6 +99,10 @@ bower_component(
   name = 'iron-validatable-behavior',
   package = 'PolymerElements/iron-validatable-behavior',
   version = '1.0.5',
+  deps = [
+    ':iron-meta',
+    ':polymer',
+  ],
   license = 'polymer',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )
@@ -101,6 +119,7 @@ bower_component(
   name = 'polymer',
   package = 'Polymer/polymer',
   version = '1.2.2',
+  deps = [':webcomponentsjs'],
   license = 'polymer',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )
@@ -109,6 +128,7 @@ bower_component(
   name = 'promise-polyfill',
   package = 'polymerlabs/promise-polyfill',
   version = '1.0.0',
+  deps = [':polymer'],
   license = 'promise-polyfill',
   sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
 )

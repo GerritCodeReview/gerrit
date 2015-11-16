@@ -54,10 +54,12 @@ def bower_component(
     package,
     version,
     license,
+    deps = [],
     sha1 = '',
     visibility = ['PUBLIC']):
+  download_name = '%s__download' % name
   genrule(
-    name = name,
+    name = download_name,
     cmd = ' '.join([
       '$(exe //tools/js:download_bower)',
       '-b', '"%s"' % run_npm_binary('//lib/js:bower'),
@@ -67,8 +69,30 @@ def bower_component(
       '-s', sha1,
       '-o', '$OUT',
     ]),
-    out = '%s-%s.zip' % (name, version),
+    out = '%s.zip' % download_name,
     license = license,
+    visibility = [],
+  )
+
+  renamed_name = '%s__renamed' % name
+  genrule(
+    name = renamed_name,
+    cmd = ' && '.join([
+      'cd $TMP',
+      'mkdir bower_components',
+      'cd bower_components',
+      'unzip $(location :%s)' % download_name,
+      'cd ..',
+      'zip -r $OUT bower_components',
+    ]),
+    out = '%s.zip' % renamed_name,
+    visibility = [],
+  )
+
+  genrule(
+    name = name,
+    cmd = _combine_components([':%s' % renamed_name] + deps),
+    out = '%s-%s.zip' % (name, version),
     visibility = visibility,
   )
 
@@ -77,17 +101,20 @@ def bower_components(
     name,
     deps,
     visibility = ['PUBLIC']):
-  bc = '$TMP/bower_components'
-  cmds = ['mkdir %s' % bc, 'cd %s' % bc]
-  for dep in deps:
-    cmds.append('unzip $(location %s)' % dep)
-  cmds.extend(['cd $TMP', 'zip -r $OUT bower_components'])
   genrule(
     name = name,
-    cmd = ' && '.join(cmds),
+    cmd = _combine_components(deps),
     out = '%s.bower_components.zip' % name,
     visibility = visibility,
   )
+
+
+def _combine_components(deps):
+  cmds = ['cd $TMP']
+  for d in deps:
+    cmds.append('unzip -qo $(location %s)' % d)
+  cmds.append('zip -r $OUT bower_components')
+  return ' && '.join(cmds)
 
 
 VULCANIZE_FLAGS = [

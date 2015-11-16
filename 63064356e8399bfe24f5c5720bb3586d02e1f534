@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1ba29363_dcb1cd09",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-16T15:00:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9cdf2b_7ba3dfc2",
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_1ba89b9a",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 2
@@ -77,6 +95,30 @@
       "writtenOn": "2015-11-16T03:48:54Z",
       "side": 1,
       "message": "initialLineNum?",
+      "range": {
+        "startLine": 174,
+        "startChar": 26,
+        "endLine": 174,
+        "endChar": 54
+      },
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_9bbb4be6",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-16T15:00:20Z",
+      "side": 1,
+      "message": "removed. these are obsolete.",
+      "parentUuid": "fb9cdf2b_1ba89b9a",
       "range": {
         "startLine": 174,
         "startChar": 26,
@@ -129,6 +171,30 @@
     },
     {
       "key": {
+        "uuid": "1ba29363_fcae09a5",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-16T15:00:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9cdf2b_3bad57ab",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_dbb1d309",
         "filename": "polygerrit-ui/app/test/gr-file-list-test.html",
         "patchSetId": 2
@@ -140,6 +206,24 @@
       "writtenOn": "2015-11-16T03:48:54Z",
       "side": 1,
       "message": "Why did these test files get deleted?",
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_bbb887e9",
+        "filename": "polygerrit-ui/app/test/gr-file-list-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-16T15:00:20Z",
+      "side": 1,
+      "message": "Because they were empty. I’ll be filling them in as I work more on each component.",
+      "parentUuid": "fb9cdf2b_dbb1d309",
       "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -211,6 +295,24 @@
       "side": 1,
       "message": "| The iron-ajax issue was not related to the vulcanize invocation issue, they were two completely separate things.\n\nYes, I meant here not the vulcanize invocation issue. Even when system vulcanize command (and not run_npm_binary) was used during Buck driven build, the resulting application was broken. Upgrading the bower components in [1] fixed it.",
       "parentUuid": "1ba29363_5c9e1d7a",
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_5bc7036c",
+        "filename": "polygerrit-ui/bower.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-16T15:00:20Z",
+      "side": 1,
+      "message": "Discussed offline. Updated.",
+      "parentUuid": "bb70a7c4_79a3e7c2",
       "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -334,12 +334,42 @@ public final class GerritLauncher {
     zip = zip.toRealPath();
     FileSystem zipFs = zipFileSystems.get(zip);
     if (zipFs == null) {
-      zipFs = FileSystems.newFileSystem(
-          URI.create("jar:" + zip.toUri()),
-          Collections.<String, String> emptyMap());
+      zipFs = newZipFileSystem(zip);
       zipFileSystems.put(zip, zipFs);
     }
     return zipFs;
+  }
+
+  /**
+   * Reload the zip {@link FileSystem} for a path.
+   * <p>
+   * <strong>Warning</strong>: This calls {@link FileSystem#close()} on any
+   * previously open instance of the filesystem at this path, which may cause
+   * {@code IOException}s in any open path handles created with the old
+   * filesystem. Use with caution.
+   *
+   * @param zip path to zip file.
+   * @return reloaded filesystem instance.
+   * @throws IOException if there was an error reading the zip file.
+   */
+  public static synchronized FileSystem reloadZipFileSystem(Path zip)
+      throws IOException {
+    // FileSystems canonicalizes the path, so we should too.
+    zip = zip.toRealPath();
+    @SuppressWarnings("resource") // Caching resource for later use.
+    FileSystem zipFs = zipFileSystems.get(zip);
+    if (zipFs != null) {
+      zipFs.close();
+    }
+    zipFs = newZipFileSystem(zip);
+    zipFileSystems.put(zip, zipFs);
+    return zipFs;
+  }
+
+  private static FileSystem newZipFileSystem(Path zip) throws IOException {
+    return FileSystems.newFileSystem(
+        URI.create("jar:" + zip.toUri()),
+        Collections.<String, String> emptyMap());
   }
 
   private static File locateMyArchive() throws FileNotFoundException {

@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.raw;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.httpd.GerritOptions;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -39,9 +40,23 @@ import java.nio.file.Path;
 import javax.servlet.http.HttpServlet;
 
 public class StaticModule extends ServletModule {
-  private static final String GWT_UI_SERVLET = "GwtUiServlet";
-  private static final String BOWER_SERVLET = "BowerServlet";
   public static final String CACHE = "static_content";
+
+  public static final ImmutableList<String> POLYGERRIT_INDEX_PATHS =
+      ImmutableList.of(
+        "/",
+        "/c/*",
+        "/q/*",
+        "/x/*",
+        "/admin/*",
+        "/dashboard/*",
+        "/settings/*",
+        // TODO(dborowitz): These fragments conflict with the REST API
+        // namespace, so they will need to use a different path.
+        "/groups/*",
+        "/projects/*");
+
+  private static final String GWT_UI_SERVLET = "GwtUiServlet";
 
   private final GerritOptions options;
   private Paths paths;
@@ -104,21 +119,26 @@ public class StaticModule extends ServletModule {
   private class PolyGerritUiModule extends ServletModule {
     @Override
     public void configureServlets() {
-      serve("/").with(PolyGerritUiIndexServlet.class);
-      serve("/c/*").with(PolyGerritUiIndexServlet.class);
-      serve("/q/*").with(PolyGerritUiIndexServlet.class);
-      serve("/x/*").with(PolyGerritUiIndexServlet.class);
-      serve("/admin/*").with(PolyGerritUiIndexServlet.class);
-      serve("/dashboard/*").with(PolyGerritUiIndexServlet.class);
-      serve("/settings/*").with(PolyGerritUiIndexServlet.class);
-      // TODO(dborowitz): These fragments conflict with the REST API namespace,
-      // so they will need to use a different path.
-      //serve("/groups/*").with(PolyGerritUiIndexServlet.class);
-      //serve("/projects/*").with(PolyGerritUiIndexServlet.class);
+      Path buckOut = getPaths().buckOut;
+      if (buckOut != null) {
+        RebuildBowerComponentsFilter rebuildFilter =
+            new RebuildBowerComponentsFilter(buckOut);
+        for (String p : POLYGERRIT_INDEX_PATHS) {
+          // Rebuilding bower_components once per load on the index request,
+          // is sufficient, since it will finish building before attempting to
+          // access any bower_components resources. Plus it saves contention and
+          // extraneous buck builds.
+          filter(p).through(rebuildFilter);
+        }
+        serve("/bower_components/*").with(BowerComponentsServlet.class);
+      } else {
+        // In the war case, bower_components are either inlined by vulcanize, or
+        // live under /polygerrit_ui in the war file, so we don't need a
+        // separate servlet.
+      }
 
-      if (getPaths().warFs == null) {
-        serve("/bower_components/*").with(
-            Key.get(PolyGerritUiServlet.class, Names.named(BOWER_SERVLET)));
+      for (String p : POLYGERRIT_INDEX_PATHS) {
+        serve(p).with(PolyGerritUiIndexServlet.class);
       }
       serve("/*").with(PolyGerritUiServlet.class);
     }
@@ -139,11 +159,9 @@ public class StaticModule extends ServletModule {
 
     @Provides
     @Singleton
-    @Named(BOWER_SERVLET)
-    PolyGerritUiServlet getPolyGerritUiBowerServlet(
+    BowerComponentsServlet getBowerComponentsServlet(
         @Named(CACHE) Cache<Path, Resource> cache) {
-      return new PolyGerritUiServlet(cache,
-          polyGerritBasePath().resolveSibling("bower_components"));
+      return new BowerComponentsServlet(cache, getPaths().buckOut);
     }
 
     private Path polyGerritBasePath() {
@@ -159,7 +177,7 @@ public class StaticModule extends ServletModule {
     }
   }
 
-  private static class Paths {
+  private class Paths {
     private final FileSystem warFs;
     private final Path buckOut;
     private final Path unpackedWar;
@@ -170,6 +188,9 @@ public class StaticModule extends ServletModule {
         if (warFs == null) {
           buckOut = getDeveloperBuckOut();
           unpackedWar = makeWarTempDir();
+        } else if (options.forcePolyGerritDev()) {
+          buckOut = getDeveloperBuckOut();
+          unpackedWar = null;
         } else {
           buckOut = null;
           unpackedWar = null;
@@ -180,7 +201,7 @@ public class StaticModule extends ServletModule {
       }
     }
 
-    private static FileSystem getDistributionArchive() throws IOException {
+    private FileSystem getDistributionArchive() throws IOException {
       File war;
       try {
         war = GerritLauncher.getDistributionArchive();
@@ -198,7 +219,7 @@ public class StaticModule extends ServletModule {
       return GerritLauncher.getZipFileSystem(war.toPath());
     }
 
-    private static Path getDeveloperBuckOut() {
+    private Path getDeveloperBuckOut() {
       try {
         return GerritLauncher.getDeveloperBuckOut();
       } catch (FileNotFoundException e) {
@@ -206,7 +227,7 @@ public class StaticModule extends ServletModule {
       }
     }
 
-    private static Path makeWarTempDir() {
+    private Path makeWarTempDir() {
       // Obtain our local temporary directory, but it comes back as a file
       // so we have to switch it to be a directory post creation.
       //

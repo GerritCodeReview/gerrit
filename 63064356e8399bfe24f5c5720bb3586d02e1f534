@@ -230,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "1ba29363_7ccc398d",
+        "filename": "polygerrit-ui/app/test/gr-file-list-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T15:24:07Z",
+      "side": 1,
+      "message": "Heh, I missed that apparently.\n\nMaybe delete them in a separate commit?",
+      "parentUuid": "fb9cdf2b_bbb887e9",
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_0f5a8931",
         "filename": "polygerrit-ui/bower.json",
         "patchSetId": 2
@@ -313,6 +331,24 @@
       "side": 1,
       "message": "Discussed offline. Updated.",
       "parentUuid": "bb70a7c4_79a3e7c2",
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_dbda3340",
+        "filename": "polygerrit-ui/bower.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T15:24:07Z",
+      "side": 1,
+      "message": "* For now, these should be exact versions, and should match lib/js/BUCK.\n* Eventually, we want to kill bower.json\n* Before killing bower.json we should have a good story for semi-automatically adding transitive dependencies. (And unfortunately, bower-dependency-tree is not as good a story as I previously thought.)",
+      "parentUuid": "fb9cdf2b_5bc7036c",
       "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

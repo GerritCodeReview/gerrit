@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "9b67630e_f8ae11a5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-11-16T12:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d627f2f2_8add8b32",
+      "range": {
+        "startLine": 853,
+        "startChar": 67,
+        "endLine": 853,
+        "endChar": 78
+      },
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b67630e_98bb55e6",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-11-16T12:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b62a7ebd_e9d37528",
+      "range": {
+        "startLine": 853,
+        "startChar": 40,
+        "endLine": 853,
+        "endChar": 44
+      },
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_083b471e",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-11-06T18:25:38Z",
       "side": 1,
       "message": "for better code readability, align this column with the columns above",
+      "range": {
+        "startLine": 2243,
+        "startChar": 12,
+        "endLine": 2243,
+        "endChar": 32
+      },
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b67630e_b8b899e9",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2243,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-11-16T12:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_083b471e",
       "range": {
         "startLine": 2243,
         "startChar": 12,
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "9b67630e_58c7fd6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-11-16T12:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_48453f97",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76800614_c7011e49",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
         "patchSetId": 1
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "bb70a7c4_d9b1d309",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-11-16T12:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76800614_c7011e49",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_28400b88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
         "patchSetId": 1
@@ -116,6 +224,24 @@
       "writtenOn": "2015-11-06T18:25:38Z",
       "side": 1,
       "message": "nit: missing space after \u0027if\u0027",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b67630e_78cc418d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-11-16T12:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_28400b88",
       "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -175,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "bb70a7c4_99bb5be6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-11-16T12:49:28Z",
+      "side": 1,
+      "message": "My Eclipse (Luna) also complains if I remove @SuppressWarnings(\"resource\").",
+      "parentUuid": "16718a1c_a47982d9",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "967d7aef_684a03aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
         "patchSetId": 1
@@ -186,6 +330,24 @@
       "writtenOn": "2015-11-06T18:25:38Z",
       "side": 1,
       "message": "nit: wrap line",
+      "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb70a7c4_f9ae17a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-11-16T12:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "967d7aef_684a03aa",
       "revId": "db3a8c5b2aef062eb4561b5914062325bfcaf2a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

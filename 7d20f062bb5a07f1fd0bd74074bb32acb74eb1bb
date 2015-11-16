@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bb70a7c4_59c7036c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-16T13:41:09Z",
+      "side": 1,
+      "message": "OK, it is funny but still too broad subject. Please make it more specific.",
+      "parentUuid": "d9e9e22c_60055250",
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9e9e22c_400e4e7a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -222,6 +240,23 @@
         "endLine": 27,
         "endChar": 71
       },
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b67630e_d8da2d40",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-16T13:41:09Z",
+      "side": 1,
+      "message": "For a fresh new install this is OK. It will install all plugins.\n\nFor an upgrade of an existing site we said (see previous comments) that we want to upgrade only existing plugins but NOT install any new plugin(s) by default.",
       "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

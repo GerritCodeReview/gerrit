@@ -81,6 +81,24 @@
       "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_5c9e1d7a",
+        "filename": "polygerrit-ui/bower.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-16T03:36:53Z",
+      "side": 1,
+      "message": "\u003e We found out, that vulcanization doesn\u0027t work properly.\n\nThe iron-ajax issue was not related to the vulcanize invocation issue, they were two completely separate things.\n\nBut yes Andy let\u0027s talk about this tomorrow morning.",
+      "parentUuid": "9b592348_280f8b7a",
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

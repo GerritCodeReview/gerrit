@@ -196,6 +196,24 @@
       "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb70a7c4_79a3e7c2",
+        "filename": "polygerrit-ui/bower.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-16T07:06:25Z",
+      "side": 1,
+      "message": "| The iron-ajax issue was not related to the vulcanize invocation issue, they were two completely separate things.\n\nYes, I meant here not the vulcanize invocation issue. Even when system vulcanize command (and not run_npm_binary) was used during Buck driven build, the resulting application was broken. Upgrading the bower components in [1] fixed it.",
+      "parentUuid": "1ba29363_5c9e1d7a",
+      "revId": "63064356e8399bfe24f5c5720bb3586d02e1f534",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

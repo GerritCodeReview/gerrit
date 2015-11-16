@@ -38,7 +38,9 @@ import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.jar.Attributes;
@@ -300,8 +302,9 @@ public final class GerritLauncher {
   }
 
   private static volatile File myArchive;
-  private static volatile FileSystem myArchiveFs;
   private static volatile File myHome;
+
+  private static final Map<Path, FileSystem> zipFileSystems = new HashMap<>();
 
   /**
    * Locate the JAR/WAR file we were launched from.
@@ -319,19 +322,24 @@ public final class GerritLauncher {
           return result;
         }
         result = locateMyArchive();
-        myArchiveFs = FileSystems.newFileSystem(
-            URI.create("jar:" + result.toPath().toUri()),
-            Collections.<String, String> emptyMap());
         myArchive = result;
       }
     }
     return result;
   }
 
-  public static FileSystem getDistributionArchiveFileSystem()
-      throws FileNotFoundException, IOException {
-    getDistributionArchive();
-    return myArchiveFs;
+  public static synchronized FileSystem getZipFileSystem(Path zip)
+      throws IOException {
+    // FileSystems canonicalizes the path, so we should too.
+    zip = zip.toRealPath();
+    FileSystem zipFs = zipFileSystems.get(zip);
+    if (zipFs == null) {
+      zipFs = FileSystems.newFileSystem(
+          URI.create("jar:" + zip.toUri()),
+          Collections.<String, String> emptyMap());
+      zipFileSystems.put(zip, zipFs);
+    }
+    return zipFs;
   }
 
   private static File locateMyArchive() throws FileNotFoundException {

@@ -1533,6 +1533,14 @@ public class ReceiveCommits {
       final Set<Change.Key> newChangeIds = new HashSet<>();
       final int maxBatchChanges =
           receiveConfig.getEffectiveMaxBatchChangesLimit(user);
+      boolean checkImplicitMerges = projectCache.get(project.getNameKey())
+          .isCheckImplicitMerges();
+      Set<RevCommit> mergedParents;
+      if (checkImplicitMerges) {
+        mergedParents = new HashSet<>();
+      } else {
+        mergedParents = null;
+      }
       for (;;) {
         final RevCommit c = rp.getRevWalk().next();
         if (c == null) {
@@ -1540,6 +1548,14 @@ public class ReceiveCommits {
         }
         groupCollector.visit(c);
         Collection<Ref> existingRefs = existing.get(c);
+
+        if (checkImplicitMerges) {
+          for (RevCommit p : c.getParents()) {
+            mergedParents.add(p);
+          }
+          mergedParents.remove(c);
+        }
+
         if (!existingRefs.isEmpty()) { // Commit is already tracked.
           // Corner cases where an existing commit might need a new group:
           // A) Existing commit has a null group; wasn't assigned during schema
@@ -1596,6 +1612,10 @@ public class ReceiveCommits {
           newChanges = Collections.emptyList();
           return;
         }
+      }
+
+      if (checkImplicitMerges) {
+        checkImplicitMerges(mergedParents);
       }
 
       for (ChangeLookup p : pending) {
@@ -1680,6 +1700,37 @@ public class ReceiveCommits {
       log.error("Error collecting groups for changes", e);
       reject(magicBranch.cmd, "internal server error");
       return;
+    }
+  }
+
+  private void checkImplicitMerges(Set<RevCommit> mergedParents)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+    if (!mergedParents.isEmpty()) {
+      Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
+      if (targetRef != null) {
+        RevWalk rw = rp.getRevWalk();
+        boolean containsImplicitMerges = true;
+        RevCommit tip = rw.parseCommit(targetRef.getObjectId());
+        for (RevCommit p : mergedParents) {
+          containsImplicitMerges &= !rw.isMergedInto(p, tip);
+        }
+
+        if (containsImplicitMerges) {
+          rw.reset();
+          for (RevCommit p : mergedParents) {
+            rw.markStart(p);
+          }
+          rw.markUninteresting(tip);
+          RevCommit c;
+          while ((c = rw.next()) != null) {
+            rw.parseBody(c);
+            messages.add(new CommitValidationMessage(
+                "WARNING: Implicit Merge of " + c.abbreviate(7).name()
+                + " " + c.getShortMessage(), false));
+
+          }
+        }
+      }
     }
   }
 

@@ -175,6 +175,19 @@ configuration] for details.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
+[[receive.checkImplicitMerges]]receive.checkImplicitMerges::
++
+Controls whether check for implicit merges will be performed when changes are
+pushed for review. An implicit merge is a case where merging an open change
+would implicitely merge another branch into the target branch. Typically, this
+happens when a change is done on master and, by mistake, pushed to stable branch
+for review. When submitting such change, master would be implicitely merged into
+the stable without anyone noticing that. When this option is set to 'true'
+Gerrit will print warnings if any implicit merge is detected.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
+
 [[submit-section]]
 === Submit section
 

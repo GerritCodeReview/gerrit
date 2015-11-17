@@ -114,6 +114,30 @@
     },
     {
       "key": {
+        "uuid": "bb70a7c4_9957db4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-17T16:36:37Z",
+      "side": 1,
+      "message": "| I\u0027m not sure that converting all tests to acceptance tests would be the right thing to do.\n\nThat would be my suggestion, yes. Convert all them to acceptance tests (in its own change of course) and avoid all this mess. Note, that we made acceptance test faster by reusing running daemon and tweaking Buck test execution. And even when server tests are still faster, we should try to avoid to be nominated for this year obfuscation contest in our production code, to satisfy corner cases for performance optimized unit tests.",
+      "parentUuid": "3b93d719_9de903d6",
+      "range": {
+        "startLine": 74,
+        "startChar": 37,
+        "endLine": 74,
+        "endChar": 66
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ba29363_7c3f5908",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4

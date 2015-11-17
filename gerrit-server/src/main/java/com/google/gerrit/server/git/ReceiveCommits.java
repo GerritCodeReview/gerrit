@@ -1608,8 +1608,8 @@ public class ReceiveCommits {
     rp.getRevWalk().sort(RevSort.TOPO);
     rp.getRevWalk().sort(RevSort.REVERSE, true);
     try {
-      rp.getRevWalk().markStart(
-          rp.getRevWalk().parseCommit(magicBranch.cmd.getNewId()));
+      RevCommit start = rp.getRevWalk().parseCommit(magicBranch.cmd.getNewId());
+      rp.getRevWalk().markStart(start);
       if (magicBranch.baseCommit != null) {
         logDebug("Marking {} base commits uninteresting",
             magicBranch.baseCommit.size());
@@ -1635,6 +1635,15 @@ public class ReceiveCommits {
           receiveConfig.getEffectiveMaxBatchChangesLimit(user);
       int total = 0;
       int alreadyTracked = 0;
+      boolean rejectImplicitMerges = start.getParentCount() == 1
+          && projectCache.get(project.getNameKey()).isRejectImplicitMerges();
+      Set<RevCommit> mergedParents;
+      if (rejectImplicitMerges) {
+        mergedParents = new HashSet<>();
+      } else {
+        mergedParents = null;
+      }
+
       for (;;) {
         RevCommit c = rp.getRevWalk().next();
         if (c == null) {
@@ -1644,6 +1653,14 @@ public class ReceiveCommits {
         String name = c.name();
         groupCollector.visit(c);
         Collection<Ref> existingRefs = existing.get(c);
+
+        if (rejectImplicitMerges) {
+          for (RevCommit p : c.getParents()) {
+            mergedParents.add(p);
+          }
+          mergedParents.remove(c);
+        }
+
         if (!existingRefs.isEmpty()) { // Commit is already tracked.
           alreadyTracked++;
           // Corner cases where an existing commit might need a new group:
@@ -1716,6 +1733,10 @@ public class ReceiveCommits {
           + " tracked, {} new changes with no Change-Id, and {} deferred"
           + " lookups", total, alreadyTracked, newChanges.size(),
           pending.size());
+
+      if (rejectImplicitMerges) {
+        rejectImplicitMerges(mergedParents);
+      }
 
       for (Iterator<ChangeLookup> itr = pending.iterator(); itr.hasNext();) {
         ChangeLookup p = itr.next();
@@ -1830,6 +1851,38 @@ public class ReceiveCommits {
       logError("Error collecting groups for changes", e);
       reject(magicBranch.cmd, "internal server error");
       return;
+    }
+  }
+
+  private void rejectImplicitMerges(Set<RevCommit> mergedParents)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+    if (!mergedParents.isEmpty()) {
+      Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
+      if (targetRef != null) {
+        RevWalk rw = rp.getRevWalk();
+        RevCommit tip = rw.parseCommit(targetRef.getObjectId());
+        boolean containsImplicitMerges = true;
+        for (RevCommit p : mergedParents) {
+          containsImplicitMerges &= !rw.isMergedInto(p, tip);
+        }
+
+        if (containsImplicitMerges) {
+          rw.reset();
+          for (RevCommit p : mergedParents) {
+            rw.markStart(p);
+          }
+          rw.markUninteresting(tip);
+          RevCommit c;
+          while ((c = rw.next()) != null) {
+            rw.parseBody(c);
+            messages.add(new CommitValidationMessage(
+                "ERROR: Implicit Merge of " + c.abbreviate(7).name()
+                + " " + c.getShortMessage(), false));
+
+          }
+          reject(magicBranch.cmd, "implicit merges detected");
+        }
+      }
     }
   }
 

@@ -118,6 +118,7 @@ public class ProjectApi {
       InheritableBoolean requireChangeId,
       InheritableBoolean enableSignedPush,
       InheritableBoolean requireSignedPush,
+      InheritableBoolean rejectImplicitMerges,
       String maxObjectSizeLimit,
       SubmitType submitType, ProjectState state,
       Map<String, Map<String, ConfigParameterValue>> pluginConfigValues,
@@ -135,6 +136,7 @@ public class ProjectApi {
     if (requireSignedPush != null) {
       in.setRequireSignedPush(requireSignedPush);
     }
+    in.setRejectImplicitMerges(rejectImplicitMerges);
     in.setMaxObjectSizeLimit(maxObjectSizeLimit);
     in.setSubmitType(submitType);
     in.setState(state);
@@ -266,6 +268,12 @@ public class ProjectApi {
     }
     private native void setRequireSignedPushRaw(String v)
     /*-{ if(v)this.require_signed_push=v; }-*/;
+
+    final void setRejectImplicitMerges(InheritableBoolean v) {
+      setRejectImplicitMergesRaw(v.name());
+    }
+    private native void setRejectImplicitMergesRaw(String v)
+    /*-{ if(v)this.reject_implicit_merges=v; }-*/;
 
     final native void setMaxObjectSizeLimit(String l)
     /*-{ if(l)this.max_object_size_limit=l; }-*/;

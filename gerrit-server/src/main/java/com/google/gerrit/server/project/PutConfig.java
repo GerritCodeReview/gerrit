@@ -145,6 +145,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         }
       }
 
+      if (input.rejectImplicitMerges != null) {
+        p.setRejectImplicitMerges(input.rejectImplicitMerges);
+      }
+
       if (input.maxObjectSizeLimit != null) {
         p.setMaxObjectSizeLimit(input.maxObjectSizeLimit);
       }

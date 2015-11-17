@@ -39,7 +39,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ConfigInfoImpl extends ConfigInfo {
-
   public ConfigInfoImpl(boolean serverEnableSignedPush,
       ProjectControl control,
       TransferConfig config,
@@ -60,6 +59,7 @@ public class ConfigInfoImpl extends ConfigInfo {
         new InheritedBooleanInfo();
     InheritedBooleanInfo enableSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo requireSignedPush = new InheritedBooleanInfo();
+    InheritedBooleanInfo rejectImplicitMerges = new InheritedBooleanInfo();
 
     useContributorAgreements.value = projectState.isUseContributorAgreements();
     useSignedOffBy.value = projectState.isUseSignedOffBy();
@@ -77,6 +77,7 @@ public class ConfigInfoImpl extends ConfigInfo {
         p.getCreateNewChangeForAllNotInTarget();
     enableSignedPush.configuredValue = p.getEnableSignedPush();
     requireSignedPush.configuredValue = p.getRequireSignedPush();
+    rejectImplicitMerges.configuredValue = p.getRejectImplicitMerges();
 
     ProjectState parentState = Iterables.getFirst(projectState
         .parents(), null);
@@ -90,12 +91,14 @@ public class ConfigInfoImpl extends ConfigInfo {
           parentState.isCreateNewChangeForAllNotInTarget();
       enableSignedPush.inheritedValue = projectState.isEnableSignedPush();
       requireSignedPush.inheritedValue = projectState.isRequireSignedPush();
+      rejectImplicitMerges.inheritedValue = projectState.isRejectImplicitMerges();
     }
 
     this.useContributorAgreements = useContributorAgreements;
     this.useSignedOffBy = useSignedOffBy;
     this.useContentMerge = useContentMerge;
     this.requireChangeId = requireChangeId;
+    this.rejectImplicitMerges = rejectImplicitMerges;
     this.createNewChangeForAllNotInTarget = createNewChangeForAllNotInTarget;
     if (serverEnableSignedPush) {
       this.enableSignedPush = enableSignedPush;

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "5b988b33_fed7e116",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T00:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_8f09d940",
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_cfbd9184",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 3
@@ -31,6 +49,30 @@
       "writtenOn": "2015-11-14T16:25:43Z",
       "side": 1,
       "message": "I understand that two kinds of instantiation of StarredChangesUtil is used: one with passing of Provider\u003cReviewDb\u003e and one without (request scope). It looks like all this is only needed to satisfy server tests. So i removed all this two levels of indirection and repalced with simple StarredChangesUtil: [1]. Only couple of server tests are failing:\n\n  Failed target: //gerrit-server:server_tests\n  FAIL com.google.gerrit.server.IdentifiedUserTest\n  FAIL com.google.gerrit.server.change.CommentsTest\n  FAIL com.google.gerrit.server.notedb.ChangeNotesParserTest\n  FAIL com.google.gerrit.server.notedb.ChangeNotesTest\n  FAIL com.google.gerrit.server.notedb.CommitMessageOutputTest\n  FAIL com.google.gerrit.server.project.RefControlTest\n  Failed target: //gerrit-server:prolog_tests\n  FAIL com.google.gerrit.rules.GerritCommonTest\n\nI wonder how far one should go and how the code should be obfuscated, with two different factories to satisfy server tests? I guess when all server tests are moved to acceptance tests, it wouldn\u0027t be needed any more?\n\n* [1] http://paste.openstack.org/show/478864",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 5
+      },
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b988b33_3ec6a96d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T00:52:34Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m not really happy with these 2 factories, but on the other hand converting all tests to acceptance tests looks bad to me as well :(\n\nI\u0027ve now changed the code so that it only requires 1 factory and this factory is used only from within IdentifiedUser.GenericFactory. All other places can get StarredChangesUtil injected directly.\n\nDone",
+      "parentUuid": "bb6267ec_cfbd9184",
       "range": {
         "startLine": 98,
         "startChar": 4,
@@ -60,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "3b93d719_5dc7fb6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T00:52:34Z",
+      "side": 1,
+      "message": "No, without the wrap it\u0027s 82 characters...",
+      "parentUuid": "bb6267ec_6fa4657b",
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_2fc78d1b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 3
@@ -71,6 +131,30 @@
       "writtenOn": "2015-11-14T16:25:43Z",
       "side": 1,
       "message": "Reverse the logic to avoid ! operator?",
+      "range": {
+        "startLine": 250,
+        "startChar": 10,
+        "endLine": 250,
+        "endChar": 34
+      },
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b93d719_bdb87fe9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T00:52:34Z",
+      "side": 1,
+      "message": "I would keep it like this to be consistent with other util classes, e.g. the methods in ApprovalsUtil also have this pattern:\n\n  if (!migration.readChanges()) {\n    // load from db\n    return ...;\n  }\n  // load from notedb",
+      "parentUuid": "bb6267ec_2fc78d1b",
       "range": {
         "startLine": 250,
         "startChar": 10,
@@ -106,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "5b988b33_deda2540",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T00:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_4fd2c1dd",
+      "range": {
+        "startLine": 251,
+        "startChar": 27,
+        "endLine": 251,
+        "endChar": 81
+      },
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4d3387_4404ee2d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 3
@@ -129,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "3b93d719_7dcc378d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T00:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b4d3387_4404ee2d",
+      "range": {
+        "startLine": 254,
+        "startChar": 31,
+        "endLine": 261,
+        "endChar": 20
+      },
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_0fccc939",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 3
@@ -140,6 +272,30 @@
       "writtenOn": "2015-11-14T16:25:43Z",
       "side": 1,
       "message": "Why catch runtime exception?",
+      "range": {
+        "startLine": 263,
+        "startChar": 28,
+        "endLine": 263,
+        "endChar": 44
+      },
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b988b33_1ec16d54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T00:52:34Z",
+      "side": 1,
+      "message": "Because the old code in IdentifiedUser did catch RuntimeException, it\u0027s just moving the code without changing the behaviour.",
+      "parentUuid": "bb6267ec_0fccc939",
       "range": {
         "startLine": 263,
         "startChar": 28,

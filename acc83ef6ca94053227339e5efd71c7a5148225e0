@@ -383,6 +383,24 @@
     },
     {
       "key": {
+        "uuid": "1ba29363_bc2de1d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T17:28:37Z",
+      "side": 1,
+      "message": "I missed that part.\n\nYou could implement your own ResultSet\u003cChange.Id\u003e that wraps the ResultSet\u003cStarredChange\u003e and passes through the close() call. Not sure if that will end up saving code overall. Up to you.",
+      "parentUuid": "dbd2bbe6_32ad90ab",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ba29363_dc4d4dbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4

@@ -299,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "dbd2bbe6_32ad90ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T17:18:11Z",
+      "side": 1,
+      "message": "\u003e What if query() just returned a ResultSet directly? In the notedb case you   \n \u003e could just use a ListResultSet.\n\nThe ResultSet in the db case contains StarredChange entities, but the callers just need the Change.Id\u0027s. This means in the notedb case we would need to instantiate StarredChange classes in vain, wouldn\u0027t we?",
+      "parentUuid": "fb9cdf2b_1b1dfba1",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ba29363_dc4d4dbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4

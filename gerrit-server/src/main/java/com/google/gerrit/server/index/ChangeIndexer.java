@@ -239,9 +239,7 @@ public class ChangeIndexer {
         try {
           ChangeData cd = changeDataFactory.create(
               newCtx.getReviewDbProvider().get(), id);
-          for (ChangeIndex i : getWriteIndexes()) {
-            i.replace(cd);
-          }
+          index(cd);
           return null;
         } finally  {
           context.setContext(oldCtx);

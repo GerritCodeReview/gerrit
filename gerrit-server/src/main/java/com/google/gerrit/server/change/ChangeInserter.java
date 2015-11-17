@@ -68,6 +68,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -390,9 +391,15 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (approvals != null && !approvals.isEmpty()) {
+        Map<String, Boolean> approvalStatus = new HashMap<>();
+        for (Map.Entry<String, Short> entry : approvals.entrySet()) {
+          if (entry.getValue() != 0) {
+            approvalStatus.put(entry.getKey(), true);
+          }
+        }
         hooks.doCommentAddedHook(change,
             ctx.getUser().asIdentifiedUser().getAccount(), patchSet, null,
-            approvals, db);
+            approvals, approvalStatus, db);
       }
     }
   }

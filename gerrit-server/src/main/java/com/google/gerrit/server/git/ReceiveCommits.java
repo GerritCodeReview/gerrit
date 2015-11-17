@@ -2406,7 +2406,7 @@ public class ReceiveCommits {
 
       if (!approvals.isEmpty()) {
         hooks.doCommentAddedHook(change, user.getAccount(), newPatchSet,
-            null, approvals, db);
+            null, approvals, null, db);
       }
 
       if (magicBranch != null && magicBranch.submit) {

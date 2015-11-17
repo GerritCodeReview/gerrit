@@ -64,7 +64,8 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
   @Override
   public void doCommentAddedHook(Change change, Account account,
       PatchSet patchSet, String comment,
-      Map<String, Short> approvals, ReviewDb db) {
+      Map<String, Short> approvals, Map<String, Boolean> approvalStatus,
+      ReviewDb db) {
   }
 
   @Override

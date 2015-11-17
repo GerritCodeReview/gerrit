@@ -31,6 +31,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo requireChangeId;
   public InheritedBooleanInfo enableSignedPush;
   public InheritedBooleanInfo requireSignedPush;
+  public InheritedBooleanInfo rejectImplicitMerges;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
   public ProjectState state;

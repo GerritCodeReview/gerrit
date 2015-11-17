@@ -423,7 +423,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
     @Override
     public void doCommentAddedHook(final Change change, Account account,
           PatchSet patchSet, String comment, final Map<String, Short> approvals,
-          ReviewDb db) throws OrmException {
+          final Map<String, Short> approvalStatus, ReviewDb db)
+              throws OrmException {
       CommentAddedEvent event = new CommentAddedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
@@ -441,7 +442,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
                 ApprovalAttribute[] r = new ApprovalAttribute[approvals.size()];
                 int i = 0;
                 for (Map.Entry<String, Short> approval : approvals.entrySet()) {
-                  r[i++] = getApprovalAttribute(labelTypes, approval);
+                  r[i++] = getApprovalAttribute(labelTypes, approval,
+                      approvalStatus);
                 }
                 return r;
               }
@@ -475,6 +477,14 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
         LabelType lt = labelTypes.byLabel(approval.getKey());
         if (lt != null) {
           addArg(args, "--" + lt.getName(), Short.toString(approval.getValue()));
+          Short status = null;
+          if (approvalStatus != null && !approvalStatus.isEmpty()) {
+            status = approvalStatus.get(approval.getKey());
+          }
+          if (status != null) {
+            addArg(args, "--" + lt.getName() + "-old",
+                Short.toString(status));
+          }
         }
       }
 
@@ -860,9 +870,16 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
      * @return object suitable for serialization to JSON
      */
     private ApprovalAttribute getApprovalAttribute(LabelTypes labelTypes,
-            Entry<String, Short> approval) {
+            Entry<String, Short> approval,
+            Map<String, Short> approvalStatus) {
       ApprovalAttribute a = new ApprovalAttribute();
       a.type = approval.getKey();
+      if (approvalStatus != null && !approvalStatus.isEmpty()) {
+        a.old = approvalStatus.get(approval.getKey());
+      } else {
+//        a.old = (short)0;
+        a.old = null;
+      }
       LabelType lt = labelTypes.byLabel(approval.getKey());
       if (lt != null) {
         a.description = lt.getName();

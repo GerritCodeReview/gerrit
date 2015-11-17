@@ -350,6 +350,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private List<PatchLineComment> comments = new ArrayList<>();
     private List<String> labelDelta = new ArrayList<>();
     private Map<String, Short> categories = new HashMap<>();
+    private Map<String, Short> categoryStatus = new HashMap<>();
 
     private Op(PatchSet.Id psId, ReviewInput in) {
       this.psId = psId;
@@ -392,7 +393,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
       try {
         hooks.doCommentAddedHook(notes.getChange(), user.getAccount(), ps,
-            message.getMessage(), categories, ctx.getDb());
+            message.getMessage(), categories, categoryStatus, ctx.getDb());
       } catch (OrmException e) {
         log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
       }
@@ -530,10 +531,24 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchSetApproval> del = Lists.newArrayList();
       List<PatchSetApproval> ups = Lists.newArrayList();
       Map<String, PatchSetApproval> current = scanLabels(ctx, del);
+      Map<String, Short> currentLabels = new HashMap<>();
+      for (Map.Entry<String, PatchSetApproval> ent : current.entrySet()) {
+        currentLabels.put(ent.getValue().getLabel(), ent.getValue().getValue());
+      }
+
+
       Map<String, Short> union = Collections.emptyMap();
       if (current != null) {
         union = psaToMap(current.values());
         union.putAll(inLabels);
+      }
+      Map<String, Short> previous = new HashMap<>();
+      for (Map.Entry<String, Short> ent : union.entrySet()) {
+        if (currentLabels.get(ent.getKey()) == null) {
+          previous.put(ent.getKey(), (short)0);
+        } else {
+          previous.put(ent.getKey(), currentLabels.get(ent.getKey()));
+        }
       }
 
       ChangeUpdate update = ctx.getUpdate(psId);
@@ -546,9 +561,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         String normName = lt.getName();
         if (ent.getValue() == null || ent.getValue() == 0) {
           // User requested delete of this label.
+//          categoryStatus.put(ent.getKey(), (short)0);
+          categoryStatus.put(ent.getKey(), null);
           if (c != null) {
             if (c.getValue() != 0) {
               addLabelDelta(normName, (short) 0);
+//              categoryStatus.put(ent.getKey(), (short)1);
+              categoryStatus.put(ent.getKey(), previous.get(ent.getKey()));
             }
             del.add(c);
             update.putApproval(ent.getKey(), (short) 0);
@@ -559,10 +578,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           c.setGranted(ctx.getWhen());
           ups.add(c);
           addLabelDelta(normName, c.getValue());
+//          categoryStatus.put(ent.getKey(), (short)1);
+          categoryStatus.put(ent.getKey(), previous.get(ent.getKey()));
           categories.put(normName, c.getValue());
           update.putApproval(ent.getKey(), ent.getValue());
         } else if (c != null && c.getValue() == ent.getValue()) {
           current.put(normName, c);
+//          categoryStatus.put(ent.getKey(), (short)0);
+          categoryStatus.put(ent.getKey(), null);
           categories.put(normName, c.getValue());
         } else if (c == null) {
           c = new PatchSetApproval(new PatchSetApproval.Key(
@@ -573,6 +596,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           c.setGranted(ctx.getWhen());
           ups.add(c);
           addLabelDelta(normName, c.getValue());
+//          categoryStatus.put(ent.getKey(), (short)1);
+          categoryStatus.put(ent.getKey(), previous.get(ent.getKey()));
           categories.put(normName, c.getValue());
           update.putReviewer(user.getAccountId(), REVIEWER);
           update.putApproval(ent.getKey(), ent.getValue());

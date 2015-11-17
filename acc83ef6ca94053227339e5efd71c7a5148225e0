@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3b93d719_fddcc734",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T16:25:23Z",
+      "side": 1,
+      "message": "\u003e that you can\u0027t do a single ref prefix lookup for \"all starred changes by this user\"\n\nYou can, at the moment getting all starred changes by user is easy, since we can just fetch all refs starting with refs/starred-changes/YY/XXXX-\nGetting all users that have starred a certain change is the case where it\u0027s required to scan the whole refs/starred-changes/ namespace, this is the case when sending emails or when deleting a draft change :(",
+      "parentUuid": "fb9cdf2b_3b2237e5",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_5b2383eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -66,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "3b93d719_9de903d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T16:25:23Z",
+      "side": 1,
+      "message": "\u003e I would pass in an actual ReviewDb.\n\nOK.\n\n \u003e The alternative is to just not use a factory at all, and depend on the \n \u003e request context to give us the ReviewDb. IIRC this was an issue with \n \u003e ApprovalsUtil for some reason, maybe due to spawning background \n \u003e threads. But I don\u0027t remember.\n\nI tried this, but then a lot of tests start failing due to injection issues (see comment from davido on patch set 3 [1]). I\u0027m not sure that converting all tests to acceptance tests would be the right thing to do.\n\n[1] https://gerrit-review.googlesource.com/#/c/72417/3/gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java@101",
+      "parentUuid": "1ba29363_5c3a9d19",
+      "range": {
+        "startLine": 74,
+        "startChar": 37,
+        "endLine": 74,
+        "endChar": 66
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ba29363_7c3f5908",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -77,6 +125,24 @@
       "writtenOn": "2015-11-17T15:37:58Z",
       "side": 1,
       "message": "If you use the factory, don\u0027t use @Inject, make this constructor private.",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_529e147a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T16:25:23Z",
+      "side": 1,
+      "message": "The factory is used only in a single place (IdentifiedUser.GenericFactory), all other callers get StarredChangesUtil injected directly. In the previous patch set I had two factories for this, one where the caller needs to provide reviewDb to create a StarredChangesUtil, and one that can be used in request scope where reviewDb doesn\u0027t need to be provided by the caller. Would it be cleaner to go back to this pattern?",
+      "parentUuid": "1ba29363_7c3f5908",
       "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -151,6 +217,24 @@
       "writtenOn": "2015-11-17T15:37:58Z",
       "side": 1,
       "message": "What\u0027s the advantage of doing this over letting the error propagate?",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b93d719_bde63f03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T16:25:23Z",
+      "side": 1,
+      "message": "Not sure, this is how it was done in the old code in IdentifiedUser and I didn\u0027t want to change the behaviour. I guessed that we don\u0027t want change queries to fail just because the starred changes cannot be loaded from the database, but this might be a wrong assumption.",
+      "parentUuid": "1ba29363_9c57c54f",
       "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

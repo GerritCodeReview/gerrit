@@ -39,13 +39,13 @@ public class RefNamesTest {
   @Test
   public void refsDraftComments() throws Exception {
     assertThat(RefNames.refsDraftComments(accountId, changeId))
-      .isEqualTo("refs/draft-comments/23/1011123-67473");
+      .isEqualTo("refs/draft-comments/23/1011123/67473");
   }
 
   @Test
   public void refsDraftCommentsPrefix() throws Exception {
     assertThat(RefNames.refsDraftCommentsPrefix(accountId))
-      .isEqualTo("refs/draft-comments/23/1011123-");
+      .isEqualTo("refs/draft-comments/23/1011123/");
   }
 
   @Test

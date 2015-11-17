@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "1ba29363_3c2231e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T17:24:56Z",
+      "side": 1,
+      "message": "Conceptually it is still a prefix scan, but RefDirectory has explicit optimizations for the case when the prefix ends with /, which this does not.",
+      "parentUuid": "3b93d719_fddcc734",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_5b2383eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -138,6 +162,30 @@
     },
     {
       "key": {
+        "uuid": "1ba29363_dc36ad29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T17:24:56Z",
+      "side": 1,
+      "message": "\u003e That would be my suggestion, yes. Convert all them to acceptance tests (in its own change of course) and avoid all this mess.\n\nMaybe, but that\u0027s a lot of work and should not block this change.",
+      "parentUuid": "bb70a7c4_9957db4f",
+      "range": {
+        "startLine": 74,
+        "startChar": 37,
+        "endLine": 74,
+        "endChar": 66
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ba29363_7c3f5908",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -167,6 +215,24 @@
       "side": 1,
       "message": "The factory is used only in a single place (IdentifiedUser.GenericFactory), all other callers get StarredChangesUtil injected directly. In the previous patch set I had two factories for this, one where the caller needs to provide reviewDb to create a StarredChangesUtil, and one that can be used in request scope where reviewDb doesn\u0027t need to be provided by the caller. Would it be cleaner to go back to this pattern?",
       "parentUuid": "1ba29363_7c3f5908",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_fc336936",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T17:24:56Z",
+      "side": 1,
+      "message": "I think using a single assisted factory with two methods, create() and create(ReviewDb), is easier for callers to understand.",
+      "parentUuid": "dbd2bbe6_529e147a",
       "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

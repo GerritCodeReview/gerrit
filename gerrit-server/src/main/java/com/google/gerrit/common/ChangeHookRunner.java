@@ -442,7 +442,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doCommentAddedHook(Change change, Account account,
           PatchSet patchSet, String comment, Map<String, Short> approvals,
-          ReviewDb db) throws OrmException {
+          Map<String, Boolean> approvalStatus, ReviewDb db) throws OrmException {
       CommentAddedEvent event = new CommentAddedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -456,7 +456,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         event.approvals = new ApprovalAttribute[approvals.size()];
         int i = 0;
         for (Map.Entry<String, Short> approval : approvals.entrySet()) {
-          event.approvals[i++] = getApprovalAttribute(labelTypes, approval);
+          event.approvals[i++] = getApprovalAttribute(labelTypes, approval,
+              approvalStatus);
         }
       }
 
@@ -477,6 +478,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         LabelType lt = labelTypes.byLabel(approval.getKey());
         if (lt != null) {
           addArg(args, "--" + lt.getName(), Short.toString(approval.getValue()));
+          addArg(args, "--" + lt.getName() + "-Updated", Boolean.toString(
+              approvalStatus.get(approval.getKey())));
         }
       }
 
@@ -814,9 +817,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
      * @return object suitable for serialization to JSON
      */
     private ApprovalAttribute getApprovalAttribute(LabelTypes labelTypes,
-            Entry<String, Short> approval) {
+            Entry<String, Short> approval,
+            Map<String, Boolean> approvalStatus) {
       ApprovalAttribute a = new ApprovalAttribute();
       a.type = approval.getKey();
+      a.updated = approvalStatus.get(approval.getKey());
       LabelType lt = labelTypes.byLabel(approval.getKey());
       if (lt != null) {
         a.description = lt.getName();

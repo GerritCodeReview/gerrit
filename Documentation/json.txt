@@ -140,6 +140,8 @@ description::  Human readable category of the approval.
 
 value:: Value assigned by the approval, usually a numerical score.
 
+updated:: Flag to indicate whether the value changed.
+
 grantedOn:: Time in seconds since the UNIX epoch when this approval
 was added or last updated.
 

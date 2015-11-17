@@ -301,7 +301,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (approvals != null && !approvals.isEmpty()) {
         hooks.doCommentAddedHook(
-            change, user.getAccount(), patchSet, null, approvals, db);
+            change, user.getAccount(), patchSet, null, approvals, null, db);
       }
     }
   }

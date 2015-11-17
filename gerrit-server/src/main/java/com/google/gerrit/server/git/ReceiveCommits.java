@@ -2414,8 +2414,18 @@ public class ReceiveCommits {
       }
 
       if (!approvals.isEmpty()) {
+        Map<String, PatchSetApproval> current = scanLabels(db, approvals);
+        Map<String, Boolean> approvalStatus = new HashMap<>();
+        for (Map.Entry<String, Short> entry: approvals.entrySet()) {
+          String inputLabel = entry.getKey();
+          if (current.containsKey(inputLabel)) {
+            if (current.get(inputLabel).getValue() != entry.getValue()) {
+              approvalStatus.put(inputLabel, true);
+            }
+          }
+        }
         hooks.doCommentAddedHook(change, user.getAccount(), newPatchSet,
-            null, approvals, db);
+            null, approvals, approvalStatus, db);
       }
 
       if (magicBranch != null && magicBranch.submit) {

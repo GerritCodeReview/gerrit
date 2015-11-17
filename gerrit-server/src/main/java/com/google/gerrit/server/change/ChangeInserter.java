@@ -370,7 +370,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       if (approvals != null && !approvals.isEmpty()) {
         hooks.doCommentAddedHook(change,
             ctx.getUser().asIdentifiedUser().getAccount(), patchSet, null,
-            approvals, db);
+            approvals, null, db);
       }
     }
   }

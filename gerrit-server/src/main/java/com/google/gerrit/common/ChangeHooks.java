@@ -59,11 +59,13 @@ public interface ChangeHooks {
    * @param account The gerrit user who added the comment.
    * @param comment The comment given.
    * @param approvals Map of label IDs to scores
+   * @param approvalStatus Map of label IDs to score status
    * @throws OrmException
    */
   void doCommentAddedHook(Change change, Account account,
       PatchSet patchSet, String comment,
-      Map<String, Short> approvals, ReviewDb db)
+      Map<String, Short> approvals, Map<String, Boolean> approvalStatus,
+      ReviewDb db)
       throws OrmException;
 
   /**

@@ -23,6 +23,30 @@
       "revId": "aa0a3f93a0d3f3c6e5795acf8aa1b0f1b1657bcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b988b33_bed15923",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1785,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-17T00:53:13Z",
+      "side": 1,
+      "message": "I wouldn\u0027t like to do this in this change.",
+      "parentUuid": "3b203791_fb4dc7be",
+      "range": {
+        "startLine": 1784,
+        "startChar": 10,
+        "endLine": 1785,
+        "endChar": 64
+      },
+      "revId": "aa0a3f93a0d3f3c6e5795acf8aa1b0f1b1657bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

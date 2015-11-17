@@ -195,8 +195,10 @@ public class CustomLabelIT extends AbstractDaemonTest {
     for (ApprovalAttribute approval : lastCommentAddedEvent.approvals.get()) {
       if (approval.type.equals(label.getName())) {
         assertThat(approval.value).isEqualTo("-1");
+        assertThat(approval.updated).isEqualTo(false);
       } else if (approval.type.equals(P.getName())) {
         assertThat(approval.value).isEqualTo("1");
+        assertThat(approval.updated).isEqualTo(true);
       } else {
         fail("Unexpected label: " + approval.type);
       }

@@ -1,4 +1,216 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1447721419 -0800\nnonce AFd3BxvrS+A4O7lx784uxRCuQ6okHxQKccWkKjTWKfKKu4g2g489VQnAL2us3w/OV8dauQwsgHMS\n\n0000000000000000000000000000000000000000 acc83ef6ca94053227339e5efd71c7a5148225e0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWSnnLAAoJEHFVO370GiZWU74H/idnrBxdTBxRc5NCOkzSRGf/\nZVt6eqD/CpHoduuh9TueQ4PAF+JHG0Zu481jtAkzShac+W+joSIEh8i4+kxiEv4I\nuNA6BYLqbxQgNP93aq22bTSUKdy2SSZA7CbtEd9E17CJEvi8oQ5VpQTi4DqDiqJe\nL3XWLNr+D6XF1pLqjTaAbOWy5HV4mILmU+V33m0GYT334BnBimml/d8dJ+19V51n\nQcyjb5/QN9/rLDhgy5J9dQ5ODhYTuj3v+Z/DGWbO05ZRjvdLhlN0x6NADdPW0P1T\nQHZIWt1Egn+HlrW6JjQeNok2ybpipz0HagmR+utgjqovyvAyILcS66ysMFOKiJk\u003d\n\u003d75w6\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb9cdf2b_3b2237e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "The downside of this ref format (which I don\u0027t think we fully bikeshedded when doing refs/draft-comments) is that you can\u0027t do a single ref prefix lookup for \"all starred changes by this user\". You have to scan an entire directory shard.\n\nI think (though I have no numbers to back this up) that the number of starred changes per user is likely to grow higher than the number of outstanding draft comments per user.\n\nObviously this is not hard to change later, as long as we do it before migration.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_5b2383eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "This looks like it can just be an assisted factory, there\u0027s no special logic in create()",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_5c3a9d19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "I would pass in an actual ReviewDb.\n\nThe alternative is to just not use a factory at all, and depend on the request context to give us the ReviewDb. IIRC this was an issue with ApprovalsUtil for some reason, maybe due to spawning background threads. But I don\u0027t remember.",
+      "range": {
+        "startLine": 74,
+        "startChar": 37,
+        "endLine": 74,
+        "endChar": 66
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_7c3f5908",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "If you use the factory, don\u0027t use @Inject, make this constructor private.",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_7b28bfc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "Optional nit: the non-brace style is more prevalent:\n\n $ find g* -name \\*.java | xargs pcregrep \u0027(case \\w+|default):\\s*\\{\u0027 | wc -l\n 14\n $ find g* -name \\*.java | xargs pcregrep \u0027(case \\w+|default):\\s*$\u0027 | wc -l\n 693",
+      "range": {
+        "startLine": 114,
+        "startChar": 19,
+        "endLine": 114,
+        "endChar": 20
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_1c44159c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "Optional: reduce nesting with an early return:\n\n if (!migration.writeChanges()) {\n   return;\n }",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_3c49d1b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "Optional: reduce nesting with an early return",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_9c57c54f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "What\u0027s the advantage of doing this over letting the error propagate?",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_fc4a89a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "It sounds odd to have a method called list() that doesn\u0027t return a List. Maybe rename this toSet(), or simply get()",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_1b1dfba1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "What if query() just returned a ResultSet directly? In the notedb case you could just use a ListResultSet.\n\nYou don\u0027t get the free conversion to a Set, but do all the callers really need that? For the ones that do, is it too much to ask them to call ImmutableSet.copyOf(...) on their own?",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_dc4d4dbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-17T15:37:58Z",
+      "side": 1,
+      "message": "Optional: you could just store the FluentIterable and only materialize to a set below.",
+      "range": {
+        "startLine": 287,
+        "startChar": 12,
+        "endLine": 287,
+        "endChar": 21
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

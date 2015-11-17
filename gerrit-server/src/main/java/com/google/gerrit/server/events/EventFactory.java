@@ -562,6 +562,7 @@ public class EventFactory {
     a.value = Short.toString(approval.getValue());
     a.by = asAccountAttribute(approval.getAccountId());
     a.grantedOn = approval.getGranted().getTime() / 1000L;
+    a.updated = false;
 
     LabelType lt = labelTypes.byLabel(approval.getLabelId());
     if (lt != null) {

@@ -33,6 +33,29 @@
       "revId": "6c0fc668b907377fe46d9d0e688b82c4f37bf91e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b988b33_fedcc134",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1005956
+      },
+      "writtenOn": "2015-11-17T05:19:41Z",
+      "side": 1,
+      "message": "We dont need the above two lines. \"Patch Set \u003cnumber\u003e :\" is automatically being added to the comment.",
+      "range": {
+        "startLine": 172,
+        "startChar": 13,
+        "endLine": 172,
+        "endChar": 19
+      },
+      "revId": "6c0fc668b907377fe46d9d0e688b82c4f37bf91e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

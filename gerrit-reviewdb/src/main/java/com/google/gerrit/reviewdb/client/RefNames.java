@@ -40,6 +40,7 @@ public class RefNames {
   /** Configurations of project-specific dashboards (canned search queries). */
   public static final String REFS_DASHBOARDS = "refs/meta/dashboards/";
 
+  /** Draft inline comments of a user on a change */
   public static final String REFS_DRAFT_COMMENTS = "refs/draft-comments/";
 
   /**

@@ -85,6 +85,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox newChangeForAllNotInTarget;
   private ListBox enableSignedPush;
   private ListBox requireSignedPush;
+  private ListBox rejectImplicitMerges;
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
   private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
@@ -184,6 +185,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     contributorAgreements.setEnabled(isOwner);
     signedOffBy.setEnabled(isOwner);
     requireChangeID.setEnabled(isOwner);
+    rejectImplicitMerges.setEnabled(isOwner);
     maxObjectSizeLimit.setEnabled(isOwner);
 
     if (pluginConfigWidgets != null) {
@@ -252,6 +254,10 @@ public class ProjectInfoScreen extends ProjectScreen {
       saveEnabler.listenTo(requireSignedPush);
       grid.add(Util.C.requireSignedPush(), requireSignedPush);
     }
+
+    rejectImplicitMerges = newInheritedBooleanBox();
+    saveEnabler.listenTo(rejectImplicitMerges);
+    grid.addHtml(Util.C.rejectImplicitMerges(), rejectImplicitMerges);
 
     maxObjectSizeLimit = new NpTextBox();
     saveEnabler.listenTo(maxObjectSizeLimit);
@@ -383,6 +389,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       setBool(enableSignedPush, result.enableSignedPush());
       setBool(requireSignedPush, result.requireSignedPush());
     }
+    setBool(rejectImplicitMerges, result.rejectImplicitMerges());
     setSubmitType(result.submitType());
     setState(result.state());
     maxObjectSizeLimit.setText(result.maxObjectSizeLimit().configuredValue());
@@ -659,7 +666,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     ProjectApi.setConfig(getProjectKey(), descTxt.getText().trim(),
         getBool(contributorAgreements), getBool(contentMerge),
         getBool(signedOffBy), getBool(newChangeForAllNotInTarget), getBool(requireChangeID),
-        esp, rsp,
+        esp, rsp, getBool(rejectImplicitMerges),
         maxObjectSizeLimit.getText().trim(),
         SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         ProjectState.valueOf(state.getValue(state.getSelectedIndex())),

@@ -29,6 +29,7 @@ public class ConfigInput {
   public InheritableBoolean requireChangeId;
   public InheritableBoolean enableSignedPush;
   public InheritableBoolean requireSignedPush;
+  public InheritableBoolean rejectImplicitMerges;
   public String maxObjectSizeLimit;
   public SubmitType submitType;
   public ProjectState state;

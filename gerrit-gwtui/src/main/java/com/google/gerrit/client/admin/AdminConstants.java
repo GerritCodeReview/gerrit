@@ -45,6 +45,7 @@ public interface AdminConstants extends Constants {
   String enableSignedPush();
   String requireSignedPush();
   String requireChangeID();
+  String rejectImplicitMerges();
   String headingMaxObjectSizeLimit();
   String headingGroupOptions();
   String isVisibleToAll();

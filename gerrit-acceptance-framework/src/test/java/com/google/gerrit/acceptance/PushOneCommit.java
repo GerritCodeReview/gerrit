@@ -305,6 +305,11 @@ public class PushOneCommit {
         .contains(expectedMessage.toLowerCase());
     }
 
+    public String getMessage() {
+      RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
+      return message(refUpdate);
+    }
+
     private String message(RemoteRefUpdate refUpdate) {
       StringBuilder b = new StringBuilder();
       if (refUpdate.getMessage() != null) {

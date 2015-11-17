@@ -422,6 +422,15 @@ public class ProjectState {
     });
   }
 
+  public boolean isRejectImplicitMerges() {
+    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
+      @Override
+      public InheritableBoolean apply(Project input) {
+        return input.getRejectImplicitMerges();
+      }
+    });
+  }
+
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = Maps.newLinkedHashMap();
     for (ProjectState s : treeInOrder()) {

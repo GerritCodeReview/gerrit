@@ -371,7 +371,7 @@ public class PatchLineCommentsUtil {
   private Iterable<String> getDraftRefs(final Change.Id changeId)
       throws OrmException {
     Set<String> refNames = getRefNamesAllUsers(RefNames.REFS_DRAFT_COMMENTS);
-    final String suffix = "-" + changeId.get();
+    final String suffix = "/" + changeId.get();
     return Iterables.filter(refNames, new Predicate<String>() {
       @Override
       public boolean apply(String input) {

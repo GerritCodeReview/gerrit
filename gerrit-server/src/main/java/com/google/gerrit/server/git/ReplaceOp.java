@@ -45,6 +45,7 @@ import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.LabelVote;
@@ -93,6 +94,7 @@ public class ReplaceOp extends BatchUpdate.Op {
 
   private final PatchSetUtil psUtil;
   private final ChangeData.Factory changeDataFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeHooks hooks;
@@ -127,6 +129,7 @@ public class ReplaceOp extends BatchUpdate.Op {
   @AssistedInject
   ReplaceOp(PatchSetUtil psUtil,
       ChangeData.Factory changeDataFactory,
+      ChangeControl.GenericFactory changeControlFactory,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
       ChangeHooks hooks,
@@ -149,6 +152,7 @@ public class ReplaceOp extends BatchUpdate.Op {
       @Assisted @Nullable PushCertificate pushCertificate) {
     this.psUtil = psUtil;
     this.changeDataFactory = changeDataFactory;
+    this.changeControlFactory = changeControlFactory;
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
     this.hooks = hooks;
@@ -391,9 +395,26 @@ public class ReplaceOp extends BatchUpdate.Op {
       hooks.doChangeMergedHook(change, account, newPatchSet, ctx.getDb(),
           commit.getName());
     }
+
     if (!approvals.isEmpty()) {
-      hooks.doCommentAddedHook(change, account, newPatchSet, null, approvals,
-          ctx.getDb());
+      ChangeControl changeControl = changeControlFactory.controlFor(
+          ctx.getDb(), change, ctx.getUser());
+      List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
+      Map<String, Short> allApprovals = new HashMap<>();
+      Map<String, Boolean> approvalsStatus = new HashMap<>();
+      for (LabelType lt : labels){
+        allApprovals.put(lt.getName(), (short) 0);
+        approvalsStatus.put(lt.getName(), false);
+      }
+      for (Map.Entry<String, Short> entry : approvals.entrySet()) {
+        if (entry.getValue() != 0) {
+          allApprovals.put(entry.getKey(), entry.getValue());
+          approvalsStatus.put(entry.getKey(), true);
+        }
+      }
+      hooks.doCommentAddedHook(change,
+          ctx.getUser().asIdentifiedUser().getAccount(), newPatchSet, null,
+          allApprovals, approvalsStatus, ctx.getDb());
     }
   }
 

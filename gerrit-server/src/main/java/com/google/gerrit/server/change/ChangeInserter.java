@@ -21,6 +21,7 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -49,6 +50,7 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
@@ -68,6 +70,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -82,6 +85,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       LoggerFactory.getLogger(ChangeInserter.class);
 
   private final ProjectControl.GenericFactory projectControlFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final ChangeHooks hooks;
@@ -121,6 +125,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   @Inject
   ChangeInserter(ProjectControl.GenericFactory projectControlFactory,
+      ChangeControl.GenericFactory changeControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       ChangeHooks hooks,
@@ -133,6 +138,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       @Assisted RevCommit commit,
       @Assisted String refName) {
     this.projectControlFactory = projectControlFactory;
+    this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
     this.hooks = hooks;
@@ -355,7 +361,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException {
+  public void postUpdate(Context ctx) throws OrmException, NoSuchChangeException {
     if (sendMail) {
       Runnable sender = new Runnable() {
         @Override
@@ -389,10 +395,25 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (runHooks) {
       ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
-      if (approvals != null && !approvals.isEmpty()) {
+      if (!approvals.isEmpty()) {
+        ChangeControl changeControl = changeControlFactory.controlFor(
+            db, change, ctx.getUser());
+        List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
+        Map<String, Short> allApprovals = new HashMap<>();
+        Map<String, Boolean> approvalsStatus = new HashMap<>();
+        for (LabelType lt : labels){
+          allApprovals.put(lt.getName(), (short) 0);
+          approvalsStatus.put(lt.getName(), false);
+        }
+        for (Map.Entry<String, Short> entry : approvals.entrySet()) {
+          if (entry.getValue() != 0) {
+            allApprovals.put(entry.getKey(), entry.getValue());
+            approvalsStatus.put(entry.getKey(), true);
+          }
+        }
         hooks.doCommentAddedHook(change,
             ctx.getUser().asIdentifiedUser().getAccount(), patchSet, null,
-            approvals, db);
+            allApprovals, approvalsStatus, db);
       }
     }
   }

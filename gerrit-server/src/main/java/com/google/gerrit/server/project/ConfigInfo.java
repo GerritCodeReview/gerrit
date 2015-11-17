@@ -48,6 +48,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo enableSignedPush;
   public InheritedBooleanInfo requireSignedPush;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
+  public InheritedBooleanInfo checkImplicitMerges;
   public SubmitType submitType;
   public com.google.gerrit.extensions.client.ProjectState state;
   public Map<String, Map<String, ConfigParameterInfo>> pluginConfig;
@@ -76,6 +77,7 @@ public class ConfigInfo {
         new InheritedBooleanInfo();
     InheritedBooleanInfo enableSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo requireSignedPush = new InheritedBooleanInfo();
+    InheritedBooleanInfo checkImplicitMerges = new InheritedBooleanInfo();
 
     useContributorAgreements.value = projectState.isUseContributorAgreements();
     useSignedOffBy.value = projectState.isUseSignedOffBy();
@@ -93,6 +95,7 @@ public class ConfigInfo {
         p.getCreateNewChangeForAllNotInTarget();
     enableSignedPush.configuredValue = p.getEnableSignedPush();
     requireSignedPush.configuredValue = p.getRequireSignedPush();
+    checkImplicitMerges.configuredValue = p.getCheckImplicitMerges();
 
     ProjectState parentState = Iterables.getFirst(projectState
         .parents(), null);
@@ -106,6 +109,7 @@ public class ConfigInfo {
           parentState.isCreateNewChangeForAllNotInTarget();
       enableSignedPush.inheritedValue = projectState.isEnableSignedPush();
       requireSignedPush.inheritedValue = projectState.isRequireSignedPush();
+      checkImplicitMerges.inheritedValue = projectState.isCheckImplicitMerges();
     }
 
     this.useContributorAgreements = useContributorAgreements;

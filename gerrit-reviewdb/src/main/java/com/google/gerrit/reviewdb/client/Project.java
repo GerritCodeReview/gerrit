@@ -99,6 +99,8 @@ public final class Project {
   protected InheritableBoolean enableSignedPush;
   protected InheritableBoolean requireSignedPush;
 
+  protected InheritableBoolean checkImplicitMerges;
+
   protected Project() {
   }
 
@@ -151,6 +153,10 @@ public final class Project {
     return maxObjectSizeLimit;
   }
 
+  public InheritableBoolean getCheckImplicitMerges() {
+    return checkImplicitMerges;
+  }
+
   public void setUseContributorAgreements(final InheritableBoolean u) {
     useContributorAgreements = u;
   }
@@ -194,6 +200,10 @@ public final class Project {
 
   public void setMaxObjectSizeLimit(final String limit) {
     maxObjectSizeLimit = limit;
+  }
+
+  public void setCheckImplicitMerges(InheritableBoolean check) {
+    checkImplicitMerges = check;
   }
 
   public SubmitType getSubmitType() {

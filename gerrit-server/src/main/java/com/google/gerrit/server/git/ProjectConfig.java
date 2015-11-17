@@ -119,6 +119,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_CHECK_RECEIVED_OBJECTS = "checkReceivedObjects";
   private static final String KEY_ENABLE_SIGNED_PUSH = "enableSignedPush";
   private static final String KEY_REQUIRE_SIGNED_PUSH = "requireSignedPush";
+  private static final String KEY_CHECK_IMPLICIT_MERGES = "checkImplicitMerges";
 
   private static final String SUBMIT = "submit";
   private static final String KEY_ACTION = "action";
@@ -424,6 +425,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     p.setRequireSignedPush(getEnum(rc, RECEIVE, null,
           KEY_REQUIRE_SIGNED_PUSH, InheritableBoolean.INHERIT));
     p.setMaxObjectSizeLimit(rc.getString(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT));
+    p.setCheckImplicitMerges(getEnum(rc, RECEIVE, null,
+        KEY_CHECK_IMPLICIT_MERGES, InheritableBoolean.INHERIT));
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, InheritableBoolean.INHERIT));
@@ -844,6 +847,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         p.getEnableSignedPush(), InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_PUSH,
         p.getRequireSignedPush(), InheritableBoolean.INHERIT);
+    set(rc, RECEIVE, null, KEY_CHECK_IMPLICIT_MERGES,
+        p.getCheckImplicitMerges(), InheritableBoolean.INHERIT);
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), InheritableBoolean.INHERIT);

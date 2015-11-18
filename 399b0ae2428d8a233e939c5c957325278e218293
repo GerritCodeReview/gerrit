@@ -161,6 +161,24 @@
       "revId": "399b0ae2428d8a233e939c5c957325278e218293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_d24d24bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-18T14:10:30Z",
+      "side": 1,
+      "message": "\u003e we could cache all artifacts in the Gerrit bucket\n\nThat would be one way to do it, but it would be a lot of effort considering there\u0027s currently only one person it would benefit.",
+      "parentUuid": "fb9cdf2b_7b767fe6",
+      "revId": "399b0ae2428d8a233e939c5c957325278e218293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

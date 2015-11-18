@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "bbd507d1_11440c9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T18:03:10Z",
+      "side": 1,
+      "message": "Maybe I\u0027m wrong and it\u0027s always request scope, except for the tests.",
+      "parentUuid": "dbd2bbe6_f24aa8a4",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bdcc3fe_10a8849a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 7
@@ -31,6 +49,24 @@
       "writtenOn": "2015-11-18T15:07:28Z",
       "side": 1,
       "message": "This will NPE when starredChangesUtil is null. Maybe we don\u0027t care, those tests NPE a lot if you hold something wrong.",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_713f9808",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T18:03:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bdcc3fe_10a8849a",
       "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "dbd2bbe6_92579c4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T18:03:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b67630e_187c2599",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb70a7c4_998fdbdc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 7
@@ -65,6 +119,24 @@
       "writtenOn": "2015-11-18T08:11:01Z",
       "side": 1,
       "message": "Nit: too long line",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_b254204b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T18:03:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb70a7c4_998fdbdc",
       "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "dbd2bbe6_522374eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T18:03:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb70a7c4_d98553c0",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 14
+      },
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb70a7c4_f98297b5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 7
@@ -105,6 +201,24 @@
       "writtenOn": "2015-11-18T08:11:01Z",
       "side": 1,
       "message": "Nit: too long line.",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_b1ff4081",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T18:03:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb70a7c4_f98297b5",
       "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

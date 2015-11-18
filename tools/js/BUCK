@@ -1,6 +1,7 @@
 python_binary(
   name = 'download_bower',
   main = 'download_bower.py',
+  deps = ['//tools:util'],
   visibility = ['PUBLIC'],
 )
 

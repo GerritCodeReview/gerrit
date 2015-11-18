@@ -25,16 +25,7 @@ import sys
 import tarfile
 import tempfile
 
-
-def hash_file(p):
-  d = hashlib.sha1()
-  with open(p, 'rb') as f:
-    while True:
-      b = f.read(8192)
-      if not b:
-        break
-      d.update(b)
-  return d.hexdigest()
+from tools import util
 
 
 def extract(path, outdir, bin):
@@ -80,7 +71,8 @@ def main(args):
     return 1
 
   name, version = parts
-  outdir = '%s-%s' % (path[:-len(suffix)], hash_file(path))
+  sha1 = util.hash_file(hashlib.sha1(), path).hexdigest()
+  outdir = '%s-%s' % (path[:-len(suffix)], sha1)
   rel_bin = os.path.join('package', 'bin', name)
   bin = os.path.join(outdir, rel_bin)
   if not os.path.isfile(bin):

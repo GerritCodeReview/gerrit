@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "fb9cdf2b_1b92db3b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T13:24:03Z",
+      "side": 1,
+      "message": "No, but now mentioned in the commit message.",
+      "parentUuid": "bb70a7c4_b9097f40",
+      "range": {
+        "startLine": 288,
+        "startChar": 2,
+        "endLine": 288,
+        "endChar": 9
+      },
+      "revId": "5dd434e0bd17dec9ac927623e472ea9d39970a8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb70a7c4_59a4e37a",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2015-11-17T19:09:55Z",
       "side": 1,
       "message": "Unrelated change?",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 8
+      },
+      "revId": "5dd434e0bd17dec9ac927623e472ea9d39970a8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_bc82c1e2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T13:24:03Z",
+      "side": 1,
+      "message": "Mentioned.",
+      "parentUuid": "bb70a7c4_59a4e37a",
       "range": {
         "startLine": 42,
         "startChar": 2,

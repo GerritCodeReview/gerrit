@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.util;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -25,11 +26,16 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
+import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
+import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
@@ -115,6 +121,10 @@ public class BatchProgramModule extends FactoryModule {
       .annotatedWith(GitReceivePackGroups.class)
       .toInstance(Collections.<AccountGroup.UUID> emptySet());
     factory(ChangeControl.AssistedFactory.class);
+    factory(AccountLoader.Factory.class);
+    factory(GroupDetailFactory.Factory.class);
+    factory(AccountInfoCacheFactory.Factory.class);
+    factory(GroupInfoCacheFactory.Factory.class);
     factory(ProjectControl.AssistedFactory.class);
 
     install(new BatchGitModule());
@@ -134,5 +144,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(ProjectState.Factory.class);
+
+    DynamicItem.itemOf(binder(), AvatarProvider.class);
   }
 }

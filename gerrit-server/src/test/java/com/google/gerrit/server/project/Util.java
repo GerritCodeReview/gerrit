@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.account.Realm;
@@ -55,6 +56,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.GroupJson;
+import com.google.gerrit.server.group.ListIncludedGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -185,6 +188,9 @@ public class Util {
   private final ChangeControl.AssistedFactory changeControlFactory;
   private final PermissionCollection.Factory sectionSorter;
   private final InMemoryRepositoryManager repoManager;
+  private final GroupControl.Factory controlFactory;
+  private final GroupJson json;
+  private final Provider<ListIncludedGroups> listIncludes;
 
   private final AllProjectsName allProjectsName =
       new AllProjectsName("All-Projects");
@@ -295,6 +301,9 @@ public class Util {
         injector.getInstance(CapabilityControl.Factory.class);
     changeControlFactory =
       injector.getInstance(ChangeControl.AssistedFactory.class);
+    controlFactory = null;
+    json = null;
+    listIncludes = null;
   }
 
   public InMemoryRepository add(ProjectConfig pc) {
@@ -328,9 +337,10 @@ public class Util {
     String canonicalWebUrl = "http://localhost";
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
-        Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, repoManager, changeControlFactory, null, null,
-        canonicalWebUrl, new MockUser(name, memberOf), newProjectState(local));
+        Collections.<AccountGroup.UUID> emptySet(), projectCache, sectionSorter,
+        repoManager, changeControlFactory, null, null, canonicalWebUrl,
+        controlFactory, json, listIncludes, new MockUser(name, memberOf),
+        newProjectState(local));
   }
 
   private ProjectState newProjectState(ProjectConfig local) {

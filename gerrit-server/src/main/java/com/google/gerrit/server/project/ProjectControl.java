@@ -26,6 +26,8 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -34,6 +36,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -43,7 +46,12 @@ import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.group.GroupJson;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
+import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.ListIncludedGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -154,6 +162,9 @@ public class ProjectControl {
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
   private final ChangeCache changeCache;
+  private final GroupControl.Factory controlFactory;
+  private final GroupJson json;
+  private final Provider<ListIncludedGroups> listIncludes;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -171,8 +182,12 @@ public class ProjectControl {
       TagCache tagCache,
       ChangeCache changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
+      GroupControl.Factory controlFactory,
+      GroupJson json,
+      Provider<ListIncludedGroups> listIncludes,
       @Assisted CurrentUser who,
-      @Assisted ProjectState ps) {
+      @Assisted ProjectState ps
+      ) {
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.tagCache = tagCache;
@@ -182,6 +197,9 @@ public class ProjectControl {
     this.permissionFilter = permissionFilter;
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
+    this.controlFactory = controlFactory;
+    this.json = json;
+    this.listIncludes = listIncludes;
     user = who;
     state = ps;
   }
@@ -506,13 +524,35 @@ public class ProjectControl {
     return match(uuid, false);
   }
 
+  @SuppressWarnings("finally")
   boolean match(AccountGroup.UUID uuid, boolean isChangeOwner) {
     if (SystemGroupBackend.PROJECT_OWNERS.equals(uuid)) {
       return isDeclaredOwner();
     } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
       return isChangeOwner;
     } else {
-      return user.getEffectiveGroups().contains(uuid);
+      boolean childrenValid = false;
+      boolean selfValid = user.getEffectiveGroups().contains(uuid);
+      try {
+        if (controlFactory != null && json != null && listIncludes != null) {
+          GroupControl gControl = controlFactory.controlFor(uuid);
+          GroupResource gResource = new GroupResource(gControl);
+          GroupInfo gInfo = json.format(gControl.getGroup());
+          gInfo.includes = listIncludes.get().apply(gResource);
+          for (GroupInfo gi : gInfo.includes) {
+            Set<AccountGroup.UUID> userGroups = user.getEffectiveGroups().getKnownGroups();
+            for (AccountGroup.UUID gUUID : userGroups) {
+              if (gUUID.toString().equals(gi.id)) {
+                childrenValid = true;
+              }
+            }
+          }
+        }
+      } catch (NoSuchGroupException | MethodNotAllowedException | OrmException e) {
+        log.error("Not able to check included groups!", e);
+      } finally {
+        return selfValid || childrenValid;
+      }
     }
   }
 

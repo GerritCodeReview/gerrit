@@ -16,7 +16,7 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-diff</title>
+<title>gr-diff-view</title>
 
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
@@ -29,13 +29,21 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
+    <gr-diff-view ruler-width="0"></gr-diff-view>
+  </template>
+</test-fixture>
+
+<test-fixture id="comments">
+  <template>
     <gr-diff-view></gr-diff-view>
   </template>
 </test-fixture>
 
+
 <script>
   suite('gr-diff-view tests', function() {
     var element;
+    var elWithComments;
     // Original diff:
     // Left side (side A):
     // 1: if i < 5 { // "comments" &= \'fun\' && true
@@ -86,17 +94,22 @@ limitations under the License.
     ];
     setup(function() {
       element = fixture('basic');
-      element._constructDOM({content: diffContent});
+      element._maybeRenderDiff({content: diffContent}, [], []);
       flushAsynchronousOperations();
+
+      elWithComments = fixture('comments');
+      elWithComments._patchNum = 1;
     });
 
     test('ab content is the same for left and right sides', function() {
       for (var i = 0; i < diffContent[0].ab.length; i++) {
-        var leftEl = element.$$('#LC' + (i + 1));
-        assert.isNotNull(leftEl);
-        var rightEl = element.$$('#RC' + (i + 1));
-        assert.isNotNull(rightEl);
-        assert.equal(leftEl.textContent, rightEl.textContent);
+        var leftEls = element.querySelectorAll(
+            '#leftDiffContent .content[data-line-num="' + (i + 1) + '"]');
+        assert.equal(leftEls.length, 1);
+        var rightEls = element.querySelectorAll(
+            '#rightDiffContent .content[data-line-num="' + (i + 1) + '"]');
+        assert.equal(rightEls.length, 1);
+        assert.equal(leftEls[0].textContent, rightEls[0].textContent);
       }
     });
 
@@ -112,7 +125,9 @@ limitations under the License.
     });
 
     test('content is properly escaped', function() {
-      var firstLineEls = element.querySelectorAll('#LC1, #RC1');
+      var firstLineEls = element.querySelectorAll(
+        '#leftDiffContent .content[data-line-num="1"], ' +
+        '#rightDiffContent .content[data-line-num="1"]');
       assert.equal(2, firstLineEls.length);
       for (var i = 0; i < firstLineEls.length; i++) {
         assert.equal(firstLineEls[i].innerHTML,
@@ -121,11 +136,58 @@ limitations under the License.
     });
 
     test('content and line numbers are correct for a/b edit', function() {
-      assert.equal(element.$$('#LC7').textContent, 'foo');
-      assert.equal(element.$$('#LC8').textContent, 'bar');
-      assert.equal(element.$$('#RC7').textContent, 'baz');
-      assert.equal(element.$$('#LC9').textContent,
-                   element.$$('#RC8').textContent);
+      assert.equal(element.$$(
+          '#leftDiffContent .content[data-line-num="7"]').textContent, 'foo');
+      assert.equal(element.$$(
+          '#leftDiffContent .content[data-line-num="8"]').textContent, 'bar');
+      assert.equal(element.$$(
+          '#rightDiffContent .content[data-line-num="7"]').textContent, 'baz');
+      assert.equal(element.$$(
+          '#leftDiffContent .content[data-line-num="9"]').textContent,
+          element.$$(
+              '#rightDiffContent .content[data-line-num="8"]').textContent);
+    });
+
+    test('ruler width changes are applied correctly', function() {
+      assert.equal(element.rulerWidth, 0);
+      assert.equal(element.querySelectorAll('.ruler').length, 0);
+      element.rulerWidth = 80;
+      flushAsynchronousOperations();
+      var els = element.querySelectorAll('.ruler');
+      assert.isAbove(els.length, 0);
+      for (var i = 0; i < els.length; i++) {
+        assert.equal(els[i].style.left, '80ch');
+      }
+      element.rulerWidth = 0;
+      flushAsynchronousOperations();
+      assert.equal(element.querySelectorAll('.ruler').length, 0);
+      element.rulerWidth = 100;
+      flushAsynchronousOperations();
+      els = element.querySelectorAll('.ruler');
+      assert.isAbove(els.length, 0);
+      for (var i = 0; i < els.length; i++) {
+        assert.equal(els[i].style.left, '100ch');
+      }
+    });
+
+    test('comment thread is rendered correctly', function() {
+      elWithComments._maybeRenderDiff({content: diffContent}, [], [
+          {
+            id: 'portal_thing',
+            line: 8,
+            message: 'MAKE LIFE TAKE THE LEMONS BACK',
+            author: {
+              name: 'Cave Johnson',
+            },
+          }
+      ]);
+      flushAsynchronousOperations();
+      var threadEls = elWithComments.querySelectorAll(
+          'gr-diff-comment-thread[data-thread-id="thread-1-8"]');
+      assert.equal(threadEls.length, 1);
+      var fillerEls = elWithComments.querySelectorAll(
+          '.js-threadFiller[data-thread-id="thread-1-8"]');
+      assert.equal(fillerEls.length, 3);
     });
 
   });

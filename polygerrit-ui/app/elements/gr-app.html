@@ -15,10 +15,10 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="./gr-change-list-view.html">
-<link rel="import" href="./gr-change-view.html">
-<link rel="import" href="./gr-diff-view.html">
-<link rel="import" href="./gr-search-bar.html">
+<link rel="import" href="gr-change-list-view.html">
+<link rel="import" href="gr-change-view.html">
+<link rel="import" href="gr-diff-view.html">
+<link rel="import" href="gr-search-bar.html">
 
 <dom-module id="gr-app">
   <template>
@@ -28,7 +28,7 @@ limitations under the License.
         min-height: 100vh;
         flex-direction: column;
       }
-      :host[constrained] main {
+      :host([constrained]) main {
         margin: 0 auto;
         width: 100%;
         max-width: 980px;

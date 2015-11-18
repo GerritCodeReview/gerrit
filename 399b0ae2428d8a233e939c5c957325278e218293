@@ -71,6 +71,24 @@
       "revId": "399b0ae2428d8a233e939c5c957325278e218293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_12440c9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-18T13:35:20Z",
+      "side": 1,
+      "message": "Both Maven Central and the Googlesource bucket are http, which works fine.  It only seems to be https and ssh that it chokes on.  I can only do git operations to gerrit-review by going through a cntlmn proxy running on my local box.",
+      "parentUuid": "1ba29363_7c7679e6",
+      "revId": "399b0ae2428d8a233e939c5c957325278e218293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

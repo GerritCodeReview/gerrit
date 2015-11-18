@@ -16,6 +16,29 @@
       "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bdf0ff3_4f150d8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-11-18T23:08:01Z",
+      "side": 1,
+      "message": "I understand why you are partitioning the retrieval of change ids from the DB :-) ... otherwise you\u0027ll just flood the DBMS connection with SQL statements.\n\nDoes it make sense however to make this number configurable via gerrit.config? Why 30 and not 100 or 50?",
+      "range": {
+        "startLine": 124,
+        "startChar": 58,
+        "endLine": 124,
+        "endChar": 60
+      },
+      "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

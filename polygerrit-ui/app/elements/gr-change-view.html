@@ -16,9 +16,9 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="./gr-date-formatter.html">
-<link rel="import" href="./gr-file-list.html">
-<link rel="import" href="./gr-messages-list.html">
+<link rel="import" href="gr-date-formatter.html">
+<link rel="import" href="gr-file-list.html">
+<link rel="import" href="gr-messages-list.html">
 
 <dom-module id="gr-change-view">
   <template>
@@ -70,7 +70,10 @@ limitations under the License.
         debounce-duration="300"></iron-ajax>
 
     <div class="container">
-      <h2>[[change.subject]]</h2>
+      <h2>
+         <a href$="[[_computeChangePath(change._number)]]">[[change._number]]</a><span>:</span>
+         <span>[[change.subject]]</span>
+      </h2>
       <div class="changeInfo">
         <table>
           <tr>
@@ -150,6 +153,10 @@ limitations under the License.
         }
         this.$.detailXHR.generateRequest();
         this.$.commentsXHR.generateRequest();
+      },
+
+      _computeChangePath: function(changeNum) {
+        return '/c/' + changeNum;
       },
 
       _computeDetailPath: function(changeNum) {

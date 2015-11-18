@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="./gr-date-formatter.html">
+<link rel="import" href="gr-date-formatter.html">
 
 <dom-module id="gr-message">
   <template>
@@ -25,7 +25,7 @@ limitations under the License.
         display: block;
         position: relative;
       }
-      :host:not([expanded]) {
+      :host(:not([expanded])) {
         cursor: pointer;
       }
       .avatar {

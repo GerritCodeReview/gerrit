@@ -179,6 +179,24 @@
       "revId": "399b0ae2428d8a233e939c5c957325278e218293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bdf0ff3_afb839e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-18T14:52:15Z",
+      "side": 1,
+      "message": "| Sure, if you can untangle it I wouldn\u0027t turn it down.\n\nUntangle? Like you\u0027ve introduced :polygerrit, we could add :gwtui and extend the if:\n\n if ui:\n    if ui \u003d\u003d \u0027polygerrit\u0027 or ui \u003d\u003d \u0027gerrit\u0027 or ui \u003d\u003d \u0027release\u0027:\n      ui_deps.append(\u0027//polygerrit-ui/app:polygerrit_ui\u0027)\n\nNow, when executing:\n\n  $ buck build :gwtui|:headless|:ui_\u003cUserAgent\u003e\n\npolygerrit UI build path wouldn\u0027t be activated. Combined with tweaking licenses.txt with:\n\n  NO_POLYGERRIT\u003d1 ./tools/eclipse/project.py\n\nfor tools/eclipse/project.py we should be pretty done. No need to set up NodeJS for dev who is working on gerrit with GWT UI.\n\nHaving said that, we should try to extract the whole UI code in plugin and ship headless.war Gerrit and by deploying dynamically plugins (doesn\u0027t work on googlesource.com) gerrit-polymer-ui-plugin.jar or gerrit-gwtui-plugin.jar or gerrit-xxx-ui-plugin.jar the corresponding UI bits would be activated.",
+      "parentUuid": "1ba29363_fc7849d4",
+      "revId": "399b0ae2428d8a233e939c5c957325278e218293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

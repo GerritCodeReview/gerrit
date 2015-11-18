@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "dbd2bbe6_f24aa8a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T17:31:34Z",
+      "side": 1,
+      "message": "Dave, although this seems to work, I\u0027m a little concerned whether this is correct. I believe this GenericFactory is used outside of request scope, hence it doesn\u0027t get Provider\u003cReviewDb\u003e injected, but the one create method requires it as parameter. Now StarredChangesUtil is injected here which requires itself injection of Provider\u003cReviewDb\u003e. I wonder how this works outside of request scope, does it? Is it wrong to inject StarredChangesUtil directly here?",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bdcc3fe_10a8849a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 7

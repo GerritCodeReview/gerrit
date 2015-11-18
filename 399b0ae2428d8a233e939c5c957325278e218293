@@ -143,6 +143,24 @@
       "revId": "399b0ae2428d8a233e939c5c957325278e218293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_110f2c7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-18T14:08:10Z",
+      "side": 1,
+      "message": "It\u0027s trying to use https and failing with\n\n Error: Request to https://bower.herokuapp.com/packages/webcomponentsjs failed: tunneling socket could not be established\n\nThat page seems to be also available over http.  I wonder if it\u0027s possible to force it to download from that instead.",
+      "parentUuid": "9bdcc3fe_70a310c3",
+      "revId": "399b0ae2428d8a233e939c5c957325278e218293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

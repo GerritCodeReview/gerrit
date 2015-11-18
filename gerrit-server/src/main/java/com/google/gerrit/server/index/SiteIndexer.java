@@ -33,11 +33,11 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
@@ -112,7 +112,6 @@ public class SiteIndexer {
   }
 
   private final SchemaFactory<ReviewDb> schemaFactory;
-  private final ChangeCache changeCache;
   private final ChangeData.Factory changeDataFactory;
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
@@ -126,14 +125,12 @@ public class SiteIndexer {
 
   @Inject
   SiteIndexer(SchemaFactory<ReviewDb> schemaFactory,
-      ChangeCache changeCache,
       ChangeData.Factory changeDataFactory,
       GitRepositoryManager repoManager,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
       @GerritServerConfig Config config) {
     this.schemaFactory = schemaFactory;
-    this.changeCache = changeCache;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
     this.executor = executor;
@@ -241,7 +238,7 @@ public class SiteIndexer {
           repo = repoManager.openRepository(project);
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
           db = schemaFactory.open();
-          for (Change c : changeCache.get(project)) {
+          for (Change c : ScanningChangeCacheImpl.scan(repo, db)) {
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {
               byId.put(r.getObjectId(), changeDataFactory.create(db, c));

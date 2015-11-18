@@ -330,7 +330,7 @@ public class Util {
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
         sectionSorter, repoManager, changeControlFactory, null, null,
-        canonicalWebUrl, new MockUser(name, memberOf), newProjectState(local));
+        canonicalWebUrl, new MockUser(name, memberOf), newProjectState(local), null, null, null);
   }
 
   private ProjectState newProjectState(ProjectConfig local) {

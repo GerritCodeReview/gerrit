@@ -15,5 +15,6 @@ python_binary(
 python_binary(
   name = 'run_npm_binary',
   main = 'run_npm_binary.py',
+  deps = ['//tools:util'],
   visibility = ['PUBLIC'],
 )

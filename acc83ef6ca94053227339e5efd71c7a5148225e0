@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "dbd2bbe6_b2b8a0e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "Oh, I didn\u0027t know about this optimisation. Then it should better be refs/starred-changes/YY/XXXX/ZZZZ?\n\nDone",
+      "parentUuid": "1ba29363_3c2231e5",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_5b2383eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -85,6 +109,24 @@
       "writtenOn": "2015-11-17T15:37:58Z",
       "side": 1,
       "message": "This looks like it can just be an assisted factory, there\u0027s no special logic in create()",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_52c7f46b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "Not applicable anymore, since I found a solution which doesn\u0027t require a factory.",
+      "parentUuid": "fb9cdf2b_5b2383eb",
       "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -186,6 +228,30 @@
     },
     {
       "key": {
+        "uuid": "3b93d719_9d02634c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "Not applicable anymore, since I found a solution which doesn\u0027t require a factory.",
+      "parentUuid": "1ba29363_dc36ad29",
+      "range": {
+        "startLine": 74,
+        "startChar": 37,
+        "endLine": 74,
+        "endChar": 66
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ba29363_7c3f5908",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -239,6 +305,24 @@
     },
     {
       "key": {
+        "uuid": "3b93d719_bdff1f81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "Not applicable anymore, since I found a solution which doesn\u0027t require a factory.",
+      "parentUuid": "1ba29363_fc336936",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_7b28bfc4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -250,6 +334,30 @@
       "writtenOn": "2015-11-17T15:37:58Z",
       "side": 1,
       "message": "Optional nit: the non-brace style is more prevalent:\n\n $ find g* -name \\*.java | xargs pcregrep \u0027(case \\w+|default):\\s*\\{\u0027 | wc -l\n 14\n $ find g* -name \\*.java | xargs pcregrep \u0027(case \\w+|default):\\s*$\u0027 | wc -l\n 693",
+      "range": {
+        "startLine": 114,
+        "startChar": 19,
+        "endLine": 114,
+        "endChar": 20
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b93d719_5d3a9b19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9cdf2b_7b28bfc4",
       "range": {
         "startLine": 114,
         "startChar": 19,
@@ -279,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "3b93d719_7d3f5708",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ba29363_1c44159c",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ba29363_3c49d1b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -290,6 +416,24 @@
       "writtenOn": "2015-11-17T15:37:58Z",
       "side": 1,
       "message": "Optional: reduce nesting with an early return",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_72cc788d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ba29363_3c49d1b2",
       "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -342,6 +486,24 @@
       "writtenOn": "2015-11-17T15:37:58Z",
       "side": 1,
       "message": "It sounds odd to have a method called list() that doesn\u0027t return a List. Maybe rename this toSet(), or simply get()",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b93d719_1d44139c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ba29363_fc4a89a4",
       "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -401,6 +563,24 @@
     },
     {
       "key": {
+        "uuid": "3b93d719_3d49cfb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "Looks better to me :-)\n\nDone.",
+      "parentUuid": "1ba29363_bc2de1d0",
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ba29363_dc4d4dbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 4
@@ -412,6 +592,30 @@
       "writtenOn": "2015-11-17T15:37:58Z",
       "side": 1,
       "message": "Optional: you could just store the FluentIterable and only materialize to a set below.",
+      "range": {
+        "startLine": 287,
+        "startChar": 12,
+        "endLine": 287,
+        "endChar": 21
+      },
+      "revId": "acc83ef6ca94053227339e5efd71c7a5148225e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_12c16c54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "Not applicable anymore.",
+      "parentUuid": "1ba29363_dc4d4dbf",
       "range": {
         "startLine": 287,
         "startChar": 12,

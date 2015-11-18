@@ -125,6 +125,24 @@
       "revId": "399b0ae2428d8a233e939c5c957325278e218293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_7b767fe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T13:54:45Z",
+      "side": 1,
+      "message": "Throwing another idea out there: we could cache all artifacts in the Gerrit bucket, using the same name format as in ~/.gerritcodereview/buck-cache/downloaded-artifacts. Someone with permissions would have to manually populate the cache, but for cache hits, you would only be dependent on one storage system.",
+      "parentUuid": "9bdcc3fe_70a310c3",
+      "revId": "399b0ae2428d8a233e939c5c957325278e218293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

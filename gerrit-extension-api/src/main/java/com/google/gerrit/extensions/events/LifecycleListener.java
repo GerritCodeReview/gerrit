@@ -22,8 +22,8 @@ import java.util.EventListener;
 @ExtensionPoint
 public interface LifecycleListener extends EventListener {
   /** Invoke when the server is starting. */
-  public void start();
+  void start();
 
   /** Invoked when the server is stopping. */
-  public void stop();
+  void stop();
 }

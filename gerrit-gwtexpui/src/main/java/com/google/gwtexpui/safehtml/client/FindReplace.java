@@ -22,7 +22,7 @@ public interface FindReplace {
    * @return regular expression to match substrings with; should be treated as
    *     immutable.
    */
-  public RegExp pattern();
+  RegExp pattern();
 
   /**
    * Find and replace a single instance of this pattern in an input.
@@ -36,5 +36,5 @@ public interface FindReplace {
    * @return result of regular expression replacement.
    * @throws IllegalArgumentException if the input could not be safely sanitized.
    */
-  public String replace(String input);
+  String replace(String input);
 }

@@ -17,7 +17,7 @@ package com.google.gerrit.server.cache;
 import com.google.common.cache.RemovalNotification;
 
 public interface CacheRemovalListener<K,V> {
-  public void onRemoval(String pluginName,
+  void onRemoval(String pluginName,
     String cacheName,
     RemovalNotification<K, V> notification);
 }

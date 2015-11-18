@@ -20,12 +20,12 @@ import com.google.gerrit.reviewdb.client.Project;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 public interface PatchListCache {
-  public PatchList get(PatchListKey key, Project.NameKey project)
+  PatchList get(PatchListKey key, Project.NameKey project)
       throws PatchListNotAvailableException;
 
-  public PatchList get(Change change, PatchSet patchSet)
+  PatchList get(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException;
 
-  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,
+  IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,
       IntraLineDiffArgs args);
 }

@@ -18,13 +18,13 @@ import com.google.gerrit.reviewdb.client.Account;
 
 /** Caches important (but small) account state to avoid database hits. */
 public interface AccountCache {
-  public AccountState get(Account.Id accountId);
+  AccountState get(Account.Id accountId);
 
-  public AccountState getIfPresent(Account.Id accountId);
+  AccountState getIfPresent(Account.Id accountId);
 
-  public AccountState getByUsername(String username);
+  AccountState getByUsername(String username);
 
-  public void evict(Account.Id accountId);
+  void evict(Account.Id accountId);
 
-  public void evictByUsername(String username);
+  void evictByUsername(String username);
 }

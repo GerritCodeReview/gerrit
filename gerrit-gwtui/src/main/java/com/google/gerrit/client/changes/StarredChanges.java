@@ -38,7 +38,7 @@ public class StarredChanges {
 
   /** Handler that can receive notifications of a change's starred status. */
   public static interface ChangeStarHandler {
-    public void onChangeStar(ChangeStarEvent event);
+    void onChangeStar(ChangeStarEvent event);
   }
 
   /** Event fired when a star changes status. The new status is reported. */

@@ -19,92 +19,92 @@ import com.google.gwt.resources.client.ImageResource;
 
 public interface Resources extends ClientBundle {
   @Source("addFileComment.png")
-  public ImageResource addFileComment();
+  ImageResource addFileComment();
 
   @Source("arrowDown.png")
-  public ImageResource arrowDown();
+  ImageResource arrowDown();
 
   @Source("arrowRight.png")
-  public ImageResource arrowRight();
+  ImageResource arrowRight();
 
   @Source("arrowUp.png")
-  public ImageResource arrowUp();
+  ImageResource arrowUp();
 
   @Source("deleteHover.png")
-  public ImageResource deleteHover();
+  ImageResource deleteHover();
 
   @Source("deleteNormal.png")
-  public ImageResource deleteNormal();
+  ImageResource deleteNormal();
 
   @Source("diffy26.png")
-  public ImageResource gerritAvatar26();
+  ImageResource gerritAvatar26();
 
   @Source("downloadIcon.png")
-  public ImageResource downloadIcon();
+  ImageResource downloadIcon();
 
   @Source("draftComments.png")
-  public ImageResource draftComments();
+  ImageResource draftComments();
 
   @Source("editText.png")
-  public ImageResource edit();
+  ImageResource edit();
 
   @Source("editUndo.png")
-  public ImageResource editUndo();
+  ImageResource editUndo();
 
   @Source("gear.png")
-  public ImageResource gear();
+  ImageResource gear();
 
   @Source("goNext.png")
-  public ImageResource goNext();
+  ImageResource goNext();
 
   @Source("goPrev.png")
-  public ImageResource goPrev();
+  ImageResource goPrev();
 
   @Source("goUp.png")
-  public ImageResource goUp();
+  ImageResource goUp();
 
   @Source("greenCheck.png")
-  public ImageResource greenCheck();
+  ImageResource greenCheck();
 
   @Source("info.png")
-  public ImageResource info();
+  ImageResource info();
 
   @Source("listAdd.png")
-  public ImageResource listAdd();
+  ImageResource listAdd();
 
   @Source("mediaFloppy.png")
-  public ImageResource save();
+  ImageResource save();
 
   @Source("merge.png")
-  public ImageResource merge();
+  ImageResource merge();
 
   @Source("queryIcon.png")
-  public ImageResource queryIcon();
+  ImageResource queryIcon();
 
   @Source("readOnly.png")
-  public ImageResource readOnly();
+  ImageResource readOnly();
 
   @Source("redNot.png")
-  public ImageResource redNot();
+  ImageResource redNot();
 
   @Source("sideBySideDiff.png")
-  public ImageResource sideBySideDiff();
+  ImageResource sideBySideDiff();
 
   @Source("starFilled.png")
-  public ImageResource starFilled();
+  ImageResource starFilled();
 
   @Source("starOpen.png")
-  public ImageResource starOpen();
+  ImageResource starOpen();
 
   @Source("undoNormal.png")
-  public ImageResource undoNormal();
+  ImageResource undoNormal();
 
   @Source("unifiedDiff.png")
-  public ImageResource unifiedDiff();
+  ImageResource unifiedDiff();
 
   @Source("warning.png")
-  public ImageResource warning();
+  ImageResource warning();
 
   @Source("question.png")
-  public ImageResource question();
+  ImageResource question();
 }

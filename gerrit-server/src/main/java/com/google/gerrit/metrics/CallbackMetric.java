@@ -24,5 +24,5 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
  * @param <V> type of the metric value, typically Integer or Long.
  */
 public interface CallbackMetric<V> extends RegistrationHandle {
-  public void prune();
+  void prune();
 }

@@ -17,5 +17,5 @@ package com.google.gerrit.client.ui;
 import com.google.gwt.event.shared.EventHandler;
 
 public interface ScreenLoadHandler extends EventHandler {
-  public void onScreenLoad(ScreenLoadEvent event);
+  void onScreenLoad(ScreenLoadEvent event);
 }

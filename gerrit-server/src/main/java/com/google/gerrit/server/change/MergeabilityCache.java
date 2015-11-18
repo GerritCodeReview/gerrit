@@ -39,9 +39,9 @@ public interface MergeabilityCache {
     }
   }
 
-  public boolean get(ObjectId commit, Ref intoRef, SubmitType submitType,
+  boolean get(ObjectId commit, Ref intoRef, SubmitType submitType,
       String mergeStrategy, Branch.NameKey dest, Repository repo, ReviewDb db);
 
-  public Boolean getIfPresent(ObjectId commit, Ref intoRef,
+  Boolean getIfPresent(ObjectId commit, Ref intoRef,
       SubmitType submitType, String mergeStrategy);
 }

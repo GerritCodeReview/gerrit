@@ -25,9 +25,9 @@ import java.util.List;
 
 public class AddKeySender extends OutgoingEmail {
   public interface Factory {
-    public AddKeySender create(IdentifiedUser user, AccountSshKey sshKey);
+    AddKeySender create(IdentifiedUser user, AccountSshKey sshKey);
 
-    public AddKeySender create(IdentifiedUser user, List<String> gpgKey);
+    AddKeySender create(IdentifiedUser user, List<String> gpgKey);
   }
 
   private final IdentifiedUser callingUser;

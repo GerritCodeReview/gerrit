@@ -37,7 +37,7 @@ public interface AvatarProvider {
    *         {@code null} is acceptable, and results in the server responding
    *         with a 404. This will hide the avatar image in the web UI.
    */
-  public String getUrl(IdentifiedUser forUser, int imageSize);
+  String getUrl(IdentifiedUser forUser, int imageSize);
 
   /**
    * Gets a URL for a user to modify their avatar image.
@@ -46,5 +46,5 @@ public interface AvatarProvider {
    * @return a URL the user should visit to modify their avatar, or null if
    *         modification is not possible.
    */
-  public String getChangeAvatarUrl(IdentifiedUser forUser);
+  String getChangeAvatarUrl(IdentifiedUser forUser);
 }

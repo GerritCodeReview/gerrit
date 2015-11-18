@@ -52,7 +52,7 @@ public class CommentSender extends ReplyToChangeSender {
       .getLogger(CommentSender.class);
 
   public static interface Factory {
-    public CommentSender create(NotifyHandling notify, Change.Id id);
+    CommentSender create(NotifyHandling notify, Change.Id id);
   }
 
   private final NotifyHandling notify;

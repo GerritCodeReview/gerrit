@@ -246,7 +246,7 @@ public class WorkQueue {
   /** Runnable needing to know it was canceled. */
   public interface CancelableRunnable extends Runnable {
     /** Notifies the runnable it was canceled. */
-    public void cancel();
+    void cancel();
   }
 
   /** A wrapper around a scheduled Runnable, as maintained in the queue. */

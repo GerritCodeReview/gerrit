@@ -18,7 +18,7 @@ import com.google.gerrit.reviewdb.client.Account;
 
 /** Constructs an address to send email from. */
 public interface FromAddressGenerator {
-  public boolean isGenericAddress(Account.Id fromId);
+  boolean isGenericAddress(Account.Id fromId);
 
-  public Address from(Account.Id fromId);
+  Address from(Account.Id fromId);
 }

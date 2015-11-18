@@ -32,5 +32,5 @@ public interface ReceivePackInitializer {
    * @param project project for which the ReceivePack is created
    * @param receivePack the ReceivePack instance which is being initialized
    */
-  public void init(Project.NameKey project, ReceivePack receivePack);
+  void init(Project.NameKey project, ReceivePack receivePack);
 }

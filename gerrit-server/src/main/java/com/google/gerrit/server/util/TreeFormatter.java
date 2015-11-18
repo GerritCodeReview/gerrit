@@ -20,9 +20,9 @@ import java.util.SortedSet;
 public class TreeFormatter {
 
   public static interface TreeNode {
-    public String getDisplayName();
-    public boolean isVisible();
-    public SortedSet<? extends TreeNode> getChildren();
+    String getDisplayName();
+    boolean isVisible();
+    SortedSet<? extends TreeNode> getChildren();
   }
 
   public static final String NOT_VISIBLE_NODE = "(x)";

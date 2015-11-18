@@ -1,4 +1,79 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1447823477 -0800\nnonce AFd3Bxu/6zQXTP6mltM5I7uwjZlTqPBEJ7PAbYXWmhGBZYgB3jX4fNTH9GJSj5QMmM31mcNP7pkb\n\n0000000000000000000000000000000000000000 c729a356076012db8fdf5bc71c7b011b5e515cfd refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWTAh1AAoJEHFVO370GiZWen8IAIrpZmJzNKjqkh242Kz0GtTf\n3nSI6WVtnyMg2yb7/dcuGiWXeYG6TMN4z3hw7eaPx2q5SDuGUbGs3TXumVE2+Tu7\ngMeKM8ne1HSOxCYZTzMrol68fpeqDvNntzcybbvl3xBCxrrvK2ZiaPmH2R13Q9r4\nTpmxIEMR3bfJX5RAjcYZK96qHj42x7jMCrtdV+fGsi9bh8KBdcIu2d9P+y3SgVqR\nLg9BQEROWQGrQ/q3nei/dWEi89oZQ1a0E32e9q39dYZcXlOObKAXd6Zt0uM7oQBy\nhB34k+lMBz1mxNlHUnm+Z6Dpd/ond3mtojDfG7zr0AxTBRS2ocNuxDuPD9o7aZA\u003d\n\u003dnNF2\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b67630e_187c2599",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-18T08:11:01Z",
+      "side": 1,
+      "message": "@Singleton",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb70a7c4_998fdbdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-18T08:11:01Z",
+      "side": 1,
+      "message": "Nit: too long line",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb70a7c4_d98553c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-18T08:11:01Z",
+      "side": 1,
+      "message": "Nit: Only 2 blanks indentation level, like on line 193.",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 14
+      },
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb70a7c4_f98297b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-18T08:11:01Z",
+      "side": 1,
+      "message": "Nit: too long line.",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

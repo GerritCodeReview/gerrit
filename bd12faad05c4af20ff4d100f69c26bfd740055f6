@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bdf0ff3_8fe9b5d5",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-18T21:25:28Z",
+      "side": 1,
+      "message": "Does the redirection work at all with your current reverse proxy configuration:\n\n* log out\n* go to side-by-side\n* enter draft commeht\n* redirect to login page\n* login to SSO Launchpad\n* redirected back to the side-by-side screen for the same file\n\nAs the matter of fact, the same code works with specific reverse proxy configuration and doesn\u0027t work with another coniguration. May be you just want to revert the whole change: [1]? Or at least provide exact steps and reverse proxy configuration to reproduce your issue and workaround with alternative reverse proxy configuration that fixed your issue? And the reason why the solution suggested by Doug, that fixed it cannot be applied on review.o.o.\n\n* [1] https://gerrit-review.googlesource.com/57800",
+      "revId": "bd12faad05c4af20ff4d100f69c26bfd740055f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

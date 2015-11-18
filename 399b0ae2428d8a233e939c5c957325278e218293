@@ -35,6 +35,24 @@
       "revId": "399b0ae2428d8a233e939c5c957325278e218293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_91e9dcd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-18T13:21:01Z",
+      "side": 1,
+      "message": "If you can do this it will make my life a lot easier.  I spent most of this afternoon trying, without success, to get the polygerrit dependencies to download through the corporate proxy.\n\n\u003e the pain of running \"sudo apt-get install nodejs\" exactly once\n\nSadly in my case it wasn\u0027t as easy as that.",
+      "parentUuid": "1ba29363_fc7849d4",
+      "revId": "399b0ae2428d8a233e939c5c957325278e218293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -53,6 +53,12 @@
         patchNum: ctx.params[4],
         path: ctx.params[5]
       };
+      // Don’t allow diffing the same patch number against itself because WHY?
+      if (params.basePatchNum == params.patchNum) {
+        page.redirect('/c/' + params.changeNum + '/' + params.patchNum + '/' +
+            params.path);
+        return;
+      }
       if (!params.patchNum) {
         params.patchNum = params.basePatchNum;
         delete(params.basePatchNum);

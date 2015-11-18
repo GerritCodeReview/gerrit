@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bdcc3fe_f0ae20a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T15:34:31Z",
+      "side": 1,
+      "message": "In case anyone was wondering, I\u0027m pretty sure that the version of JGit in stable-2.11 doesn\u0027t have Repository implementing AutoCloseable.",
+      "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

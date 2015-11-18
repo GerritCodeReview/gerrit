@@ -26,7 +26,10 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -34,6 +37,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -43,7 +47,12 @@ import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.group.GroupJson;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
+import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.ListIncludedGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -154,6 +163,9 @@ public class ProjectControl {
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
   private final ChangeCache changeCache;
+  private final GroupControl.Factory controlFactory;
+  private final GroupJson json;
+  private final Provider<ListIncludedGroups> listIncludes;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -172,7 +184,11 @@ public class ProjectControl {
       ChangeCache changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
-      @Assisted ProjectState ps) {
+      @Assisted ProjectState ps,
+      GroupControl.Factory controlFactory,
+      GroupJson json,
+      Provider<ListIncludedGroups> listIncludes
+      ) {
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.tagCache = tagCache;
@@ -182,6 +198,9 @@ public class ProjectControl {
     this.permissionFilter = permissionFilter;
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
+    this.controlFactory = controlFactory;
+    this.json = json;
+    this.listIncludes = listIncludes;
     user = who;
     state = ps;
   }
@@ -512,8 +531,30 @@ public class ProjectControl {
     } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
       return isChangeOwner;
     } else {
-      return user.getEffectiveGroups().contains(uuid);
+      try {
+        if (controlFactory != null && json != null && listIncludes != null) {
+          GroupControl gControl = controlFactory.controlFor(uuid);
+          GroupResource gResource = new GroupResource(gControl);
+          GroupInfo gInfo = json.format(gControl.getGroup());
+          gInfo.includes = listIncludes.get().apply(gResource);
+          for (GroupInfo gi : gInfo.includes) {
+            Set<UUID> userGroups = user.getEffectiveGroups().getKnownGroups();
+            for (UUID gUUID : userGroups) {
+              if (gUUID.toString().equals(gi.id)) {
+                return true;
+              }
+            }
+          }
+        }
+      } catch (NoSuchGroupException e) {
+        log.error("No such group exists!", e);
+      } catch (OrmException e) {
+        log.error("Exception in reading/writing data", e);
+      } catch (MethodNotAllowedException e) {
+        log.error("Method is not acceptable on the resource", e);
+      }
     }
+    return user.getEffectiveGroups().contains(uuid);
   }
 
   public boolean canRunUploadPack() {

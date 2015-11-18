@@ -55,6 +55,29 @@
     },
     {
       "key": {
+        "uuid": "9b67630e_988fd5dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-11-18T09:33:23Z",
+      "side": 1,
+      "message": "nit:upgrade",
+      "range": {
+        "startLine": 10,
+        "startChar": 21,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9e9e22c_400e4e7a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

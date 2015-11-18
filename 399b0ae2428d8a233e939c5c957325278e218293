@@ -89,6 +89,24 @@
       "revId": "399b0ae2428d8a233e939c5c957325278e218293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_bb82c7e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T13:39:47Z",
+      "side": 1,
+      "message": "Ok, I take back my comment that it\u0027s arbitrary, that\u0027s just evil.",
+      "parentUuid": "dbd2bbe6_12440c9c",
+      "revId": "399b0ae2428d8a233e939c5c957325278e218293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

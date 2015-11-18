@@ -30,6 +30,6 @@ public interface GroupCreationValidationListener {
    * @param args arguments for the group creation
    * @throws ValidationException if validation fails
    */
-  public void validateNewGroup(CreateGroupArgs args)
+  void validateNewGroup(CreateGroupArgs args)
       throws ValidationException;
 }

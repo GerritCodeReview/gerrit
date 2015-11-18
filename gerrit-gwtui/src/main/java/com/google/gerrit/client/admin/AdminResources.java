@@ -25,11 +25,11 @@ public interface AdminResources extends ClientBundle {
   AdminCss css();
 
   @Source("deleteNormal.png")
-  public ImageResource deleteNormal();
+  ImageResource deleteNormal();
 
   @Source("deleteHover.png")
-  public ImageResource deleteHover();
+  ImageResource deleteHover();
 
   @Source("undoNormal.png")
-  public ImageResource undoNormal();
+  ImageResource undoNormal();
 }

@@ -23,5 +23,5 @@ import java.lang.annotation.Target;
 @Target({METHOD})
 @Retention(RUNTIME)
 public @interface GerritConfigs {
-  public GerritConfig[] value();
+  GerritConfig[] value();
 }

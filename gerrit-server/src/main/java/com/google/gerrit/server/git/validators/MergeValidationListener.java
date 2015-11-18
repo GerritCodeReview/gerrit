@@ -39,7 +39,7 @@ public interface MergeValidationListener {
    * @param patchSetId the patch set ID
    * @throws MergeValidationException if the commit fails to validate
    */
-  public void onPreMerge(Repository repo,
+  void onPreMerge(Repository repo,
       CodeReviewCommit commit,
       ProjectState destProject,
       Branch.NameKey destBranch,

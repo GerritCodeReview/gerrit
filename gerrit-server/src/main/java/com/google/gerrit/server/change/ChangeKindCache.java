@@ -29,8 +29,8 @@ import org.eclipse.jgit.lib.Repository;
  * implementation changes, which might invalidate old entries).
  */
 public interface ChangeKindCache {
-  public ChangeKind getChangeKind(ProjectState project, Repository repo,
+  ChangeKind getChangeKind(ProjectState project, Repository repo,
       ObjectId prior, ObjectId next);
 
-  public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch);
+  ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch);
 }

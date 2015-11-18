@@ -31,7 +31,7 @@ import java.util.Set;
 /** Send notice of new patch sets for reviewers. */
 public class ReplacePatchSetSender extends ReplyToChangeSender {
   public static interface Factory {
-    public ReplacePatchSetSender create(Change.Id id);
+    ReplacePatchSetSender create(Change.Id id);
   }
 
   private final Set<Account.Id> reviewers = new HashSet<>();

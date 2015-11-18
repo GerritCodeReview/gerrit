@@ -20,11 +20,11 @@ import java.io.IOException;
 /** Abstraction of a supported database platform */
 public interface DataSourceType {
 
-  public String getDriver();
+  String getDriver();
 
-  public String getUrl();
+  String getUrl();
 
-  public boolean usePool();
+  boolean usePool();
 
   /**
    * Return a ScriptRunner that runs the index script. Must not return
@@ -32,5 +32,5 @@ public interface DataSourceType {
    *
    * @throws IOException
    */
-  public ScriptRunner getIndexScript() throws IOException;
+  ScriptRunner getIndexScript() throws IOException;
 }

@@ -22,7 +22,7 @@ import com.google.gwtorm.server.OrmException;
 /** Alert a user to a reply to a change, usually commentary made during review. */
 public abstract class ReplyToChangeSender extends ChangeEmail {
   public static interface Factory<T extends ReplyToChangeSender> {
-    public T create(Change.Id id);
+    T create(Change.Id id);
   }
 
   protected ReplyToChangeSender(EmailArguments ea, String mc, ChangeData cd)

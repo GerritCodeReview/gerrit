@@ -15,5 +15,5 @@
 package com.google.gwtexpui.globalkey.client;
 
 public interface KeyCommandFilter {
-  public boolean include(KeyCommand key);
+  boolean include(KeyCommand key);
 }

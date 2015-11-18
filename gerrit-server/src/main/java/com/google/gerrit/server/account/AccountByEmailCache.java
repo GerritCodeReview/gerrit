@@ -20,7 +20,7 @@ import java.util.Set;
 
 /** Translates an email address to a set of matching accounts. */
 public interface AccountByEmailCache {
-  public Set<Account.Id> get(String email);
+  Set<Account.Id> get(String email);
 
-  public void evict(String email);
+  void evict(String email);
 }

@@ -22,26 +22,26 @@ import java.util.Set;
 
 public interface Realm {
   /** Can the end-user modify this field of their own account? */
-  public boolean allowsEdit(Account.FieldName field);
+  boolean allowsEdit(Account.FieldName field);
 
   /** Returns the account fields that the end-user can modify. */
-  public Set<Account.FieldName> getEditableFields();
+  Set<Account.FieldName> getEditableFields();
 
-  public AuthRequest authenticate(AuthRequest who) throws AccountException;
+  AuthRequest authenticate(AuthRequest who) throws AccountException;
 
-  public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who)
+  AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who)
       throws AccountException;
 
-  public AuthRequest unlink(ReviewDb db, Account.Id to, AuthRequest who)
+  AuthRequest unlink(ReviewDb db, Account.Id to, AuthRequest who)
       throws AccountException;
 
-  public void onCreateAccount(AuthRequest who, Account account);
+  void onCreateAccount(AuthRequest who, Account account);
 
   /** @return true if the user has the given email address. */
-  public boolean hasEmailAddress(IdentifiedUser who, String email);
+  boolean hasEmailAddress(IdentifiedUser who, String email);
 
   /** @return all known email addresses for the identified user. */
-  public Set<String> getEmailAddresses(IdentifiedUser who);
+  Set<String> getEmailAddresses(IdentifiedUser who);
 
   /**
    * Locate an account whose local username is the given account name.
@@ -51,5 +51,5 @@ public interface Realm {
    * how to convert the accountName into an email address, and then locate the
    * user by that email address.
    */
-  public Account.Id lookup(String accountName);
+  Account.Id lookup(String accountName);
 }

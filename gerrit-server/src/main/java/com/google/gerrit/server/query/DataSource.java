@@ -19,8 +19,8 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface DataSource<T> {
   /** @return an estimate of the number of results from {@link #read()}. */
-  public int getCardinality();
+  int getCardinality();
 
   /** @return read from the database and return the results. */
-  public ResultSet<T> read() throws OrmException;
+  ResultSet<T> read() throws OrmException;
 }

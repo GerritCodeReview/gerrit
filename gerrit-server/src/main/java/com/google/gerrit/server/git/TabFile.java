@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class TabFile {
   public interface Parser {
-    public String parse(String str);
+    String parse(String str);
   }
 
   public static Parser TRIM = new Parser() {

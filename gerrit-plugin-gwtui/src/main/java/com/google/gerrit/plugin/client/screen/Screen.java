@@ -58,7 +58,7 @@ public final class Screen extends SimplePanel {
      *
      * @param screen panel that will contain the screen widget.
      */
-    public void onLoad(Screen screen);
+    void onLoad(Screen screen);
   }
 
   static final class Context extends JavaScriptObject {

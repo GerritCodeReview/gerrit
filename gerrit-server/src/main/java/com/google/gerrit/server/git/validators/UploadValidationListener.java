@@ -51,7 +51,7 @@ public interface UploadValidationListener {
    * @throws ValidationException to block the upload and send a message
    *         back to the end-user over the client's protocol connection.
    */
-  public void onPreUpload(Repository repository, Project project,
+  void onPreUpload(Repository repository, Project project,
       String remoteHost, UploadPack up, Collection<? extends ObjectId> wants,
       Collection<? extends ObjectId> haves)
       throws ValidationException;

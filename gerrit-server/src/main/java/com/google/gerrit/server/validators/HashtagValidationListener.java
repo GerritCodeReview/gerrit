@@ -32,6 +32,6 @@ public interface HashtagValidationListener {
    * @param toRemove the hashtags to be removed
    * @throws ValidationException if validation fails
    */
-  public void validateHashtags(Change change, Set<String> toAdd,
+  void validateHashtags(Change change, Set<String> toAdd,
       Set<String> toRemove) throws ValidationException;
 }

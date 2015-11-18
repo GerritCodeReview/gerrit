@@ -18,8 +18,8 @@ import com.google.gerrit.common.Nullable;
 
 public interface ConflictsCache {
 
-  public void put(ConflictKey key, Boolean value);
+  void put(ConflictKey key, Boolean value);
 
   @Nullable
-  public Boolean getIfPresent(ConflictKey key);
+  Boolean getIfPresent(ConflictKey key);
 }

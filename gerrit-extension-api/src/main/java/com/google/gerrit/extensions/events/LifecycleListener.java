@@ -21,9 +21,9 @@ import java.util.EventListener;
 /** Listener interested in server startup and shutdown events. */
 @ExtensionPoint
 public interface LifecycleListener extends EventListener {
-  /** Invoke when the server is starting. */
-  public void start();
+  /** Invoked when the server is starting. */
+  void start();
 
   /** Invoked when the server is stopping. */
-  public void stop();
+  void stop();
 }

@@ -21,14 +21,14 @@ import java.util.Set;
 /** Tracks group inclusions in memory for efficient access. */
 public interface GroupIncludeCache {
   /** @return groups directly a member of the passed group. */
-  public Set<AccountGroup.UUID> subgroupsOf(AccountGroup.UUID group);
+  Set<AccountGroup.UUID> subgroupsOf(AccountGroup.UUID group);
 
   /** @return any groups the passed group belongs to. */
-  public Set<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId);
+  Set<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId);
 
   /** @return set of any UUIDs that are not internal groups. */
-  public Set<AccountGroup.UUID> allExternalMembers();
+  Set<AccountGroup.UUID> allExternalMembers();
 
-  public void evictSubgroupsOf(AccountGroup.UUID groupId);
-  public void evictParentGroupsOf(AccountGroup.UUID groupId);
+  void evictSubgroupsOf(AccountGroup.UUID groupId);
+  void evictParentGroupsOf(AccountGroup.UUID groupId);
 }

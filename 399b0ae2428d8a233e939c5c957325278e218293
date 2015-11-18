@@ -53,6 +53,24 @@
       "revId": "399b0ae2428d8a233e939c5c957325278e218293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_7c7679e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T13:28:03Z",
+      "side": 1,
+      "message": "That\u0027s unfortunate. Even more unfortunate in the next release, since starting with 2.13 polygerrit will be distributed with gerrit.war.\n\nYour proxy will let you download from Maven Central and Gerrit\u0027s GCS bucket but not npm or bower? That seems...arbitrary.",
+      "parentUuid": "bbd507d1_91e9dcd5",
+      "revId": "399b0ae2428d8a233e939c5c957325278e218293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

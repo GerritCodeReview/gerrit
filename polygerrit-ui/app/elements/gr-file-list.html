@@ -46,8 +46,7 @@ limitations under the License.
     <iron-ajax id="xhr"
         url="[[_computeFilesURL(changeNum, revision)]]"
         json-prefix=")]}'"
-        on-response="_handleResponse"
-        debounce-duration="300"></iron-ajax>
+        on-response="_handleResponse"></iron-ajax>
     <div class="tableContainer">
       <table>
         <tr>

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "bb70a7c4_194aeb58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-18T10:19:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb70a7c4_59c7036c",
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b67630e_988fd5dc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -66,6 +84,30 @@
       "writtenOn": "2015-11-18T09:33:23Z",
       "side": 1,
       "message": "nit:upgrade",
+      "range": {
+        "startLine": 10,
+        "startChar": 21,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb70a7c4_79452749",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-18T10:19:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b67630e_988fd5dc",
       "range": {
         "startLine": 10,
         "startChar": 21,
@@ -280,6 +322,24 @@
       "writtenOn": "2015-11-16T13:41:09Z",
       "side": 1,
       "message": "For a fresh new install this is OK. It will install all plugins.\n\nFor an upgrade of an existing site we said (see previous comments) that we want to upgrade only existing plugins but NOT install any new plugin(s) by default.",
+      "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b67630e_986835c9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-18T10:19:48Z",
+      "side": 1,
+      "message": "Yes, that\u0027s correct. We don\u0027t have obvious way to figure out what plugins are installed on Gerrit site. PluginLoader has similar logic in rescan() method, that should be reused here.",
+      "parentUuid": "9b67630e_d8da2d40",
       "revId": "7d20f062bb5a07f1fd0bd74074bb32acb74eb1bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -23,32 +23,11 @@ import shutil
 import subprocess
 import sys
 
+from tools import util
+
+
 CACHE_DIR = os.path.expanduser(os.path.join(
     '~', '.gerritcodereview', 'buck-cache', 'downloaded-artifacts'))
-
-
-def hash_file(h, p):
-  with open(p, 'rb') as f:
-    while True:
-      b = f.read(8192)
-      if not b:
-        break
-      h.update(p)
-
-
-def hash_dir(dir):
-  # It's hard to get zipfiles to hash deterministically. Instead, do a sorted
-  # walk and hash filenames and contents together.
-  h = hashlib.sha1()
-
-  for root, dirs, files in os.walk(dir):
-    dirs.sort()
-    for f in sorted(files):
-      p = os.path.join(root, f)
-      h.update(p)
-      hash_file(h, p)
-
-  return h.hexdigest()
 
 
 def bower_cmd(bower, *args):
@@ -89,11 +68,10 @@ def ignore_deps(info):
       json.dump({'ignoredDependencies': deps.keys()}, f)
 
 
-def cache_entry(name, version, sha1):
-  c = os.path.join(CACHE_DIR, '%s-%s.zip' % (name, version))
-  if sha1:
-    c += '-%s' % sha1
-  return c
+def cache_entry(name, package, version, sha1):
+  if not sha1:
+    sha1 = hashlib.sha1('%s#%s' % (package, version)).hexdigest()
+  return os.path.join(CACHE_DIR, '%s-%s.zip-%s' % (name, version, sha1))
 
 
 def main(args):
@@ -106,33 +84,31 @@ def main(args):
   opts.add_option('-o', help='output file location')
   opts, _ = opts.parse_args()
 
-  outzip = os.path.join(os.getcwd(), opts.o)
-  # TODO(dborowitz): match download_file behavior of pulling any old file from
-  # the cache if there is no -s
-  # Also don't double-append sha1.
-  cached = cache_entry(opts.n, opts.v, opts.s)
-  if os.path.isfile(cached):
-    shutil.copyfile(cached, outzip)
-    return 0
+  cwd = os.getcwd()
+  bc = os.path.join(cwd, 'bower_components')
+  outzip = os.path.join(cwd, opts.o)
+  cached = cache_entry(opts.n, opts.p, opts.v, opts.s)
 
-  info = bower_info(opts.b, opts.n, opts.p, opts.v)
-  ignore_deps(info)
-  subprocess.check_call(
-      bower_cmd(opts.b, '--quiet', 'install', '%s#%s' % (opts.p, opts.v)))
-  name = info['name']
-  sha1 = hash_dir(name)
+  if not os.path.exists(cached):
+    info = bower_info(opts.b, opts.n, opts.p, opts.v)
+    ignore_deps(info)
+    subprocess.check_call(
+        bower_cmd(opts.b, '--quiet', 'install', '%s#%s' % (opts.p, opts.v)))
+    subprocess.check_call(
+        ['zip', '-q', '--exclude', '.bower.json', '-r', cached, opts.n],
+        cwd=bc)
 
-  if opts.s and sha1 != opts.s:
-    print((
-      '%s#%s:\n'
-      'expected %s\n'
-      'received %s\n') % (opts.p, opts.v, opts.s, sha1), file=sys.stderr)
-    return 1
+    if opts.s:
+      path = os.path.join(bc, opts.n)
+      sha1 = util.hash_bower_component(hashlib.sha1(), path).hexdigest()
+      if opts.s != sha1:
+        print((
+          '%s#%s:\n'
+          'expected %s\n'
+          'received %s\n') % (opts.p, opts.v, opts.s, sha1), file=sys.stderr)
+        return 1
 
-  os.chdir('bower_components')
-  cmd = ['zip', '-q', '-r', outzip, opts.n]
-  subprocess.check_call(cmd)
-  shutil.copyfile(outzip, cache_entry(opts.n, opts.v, sha1))
+  shutil.copyfile(cached, outzip)
   return 0
 
 

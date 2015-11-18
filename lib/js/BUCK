@@ -50,7 +50,7 @@ bower_component(
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = 'cf7fdf9ffa3349d28632fc3e86b84300d1439e29',
 )
 
 bower_component(
@@ -59,7 +59,7 @@ bower_component(
   version = '1.0.8',
   deps = [':polymer'],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = '2f1ea0b4542e2949de195dff5cbe02b7cb953eff',
 )
 
 bower_component(
@@ -71,7 +71,7 @@ bower_component(
     ':promise-polyfill',
   ],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = 'f94a3a3d847842c49def41e27da42c7c94f8d7c7',
 )
 
 bower_component(
@@ -83,7 +83,7 @@ bower_component(
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = '2d3eedf0a26046c0e828b1ce3d5b102ee1d0ab19',
 )
 
 bower_component(
@@ -92,7 +92,7 @@ bower_component(
   version = '1.1.1',
   deps = [':polymer'],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = 'e06281b6ddb3355ceca44975a167381b1fd72ce5',
 )
 
 bower_component(
@@ -104,7 +104,7 @@ bower_component(
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = '5a68250d6d9abcd576f116dc4fc7312426323883',
 )
 
 bower_component(
@@ -112,7 +112,7 @@ bower_component(
   package = 'visionmedia/page.js',
   version = '1.6.4',
   license = 'page.js',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = 'cc442386d4e392be26c85873f463db76fafbaeaf',
 )
 
 bower_component(
@@ -121,7 +121,7 @@ bower_component(
   version = '1.2.2',
   deps = [':webcomponentsjs'],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = '7f4033438425584d8912a80614d1a4f754438e15',
 )
 
 bower_component(
@@ -130,7 +130,7 @@ bower_component(
   version = '1.0.0',
   deps = [':polymer'],
   license = 'promise-polyfill',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = 'a3b598c06cbd7f441402e666ff748326030905d6',
 )
 
 bower_component(
@@ -138,5 +138,5 @@ bower_component(
   package = 'webcomponentsjs',
   version = '0.7.17',
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = '36e29cfe21caa71322a0b5026d7d423c33c0426f',
 )

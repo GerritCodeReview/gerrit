@@ -107,6 +107,24 @@
       "revId": "399b0ae2428d8a233e939c5c957325278e218293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_70a310c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T13:45:29Z",
+      "side": 1,
+      "message": "You could try setting up a TLS terminating proxy locally (assuming configuring a self-signed cert is not impossible) and configuring bower to use that.\n\nNot sure at what point it\u0027s trying to use ssh://, but if it\u0027s for git repo URLs, you can probably do some url.*.insteadof rewrites in your git config.",
+      "parentUuid": "fb9cdf2b_bb82c7e2",
+      "revId": "399b0ae2428d8a233e939c5c957325278e218293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

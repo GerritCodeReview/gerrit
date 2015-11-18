@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9bdcc3fe_10a8849a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T15:07:28Z",
+      "side": 1,
+      "message": "This will NPE when starredChangesUtil is null. Maybe we don\u0027t care, those tests NPE a lot if you hold something wrong.",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b67630e_187c2599",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 7

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbd507d1_b1e66003",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-18T13:23:31Z",
+      "side": 1,
+      "message": "nit: don\u0027t use final in new code unless it\u0027s needed by the compiler.  here and a few cases below.",
+      "range": {
+        "startLine": 832,
+        "startChar": 6,
+        "endLine": 832,
+        "endChar": 11
+      },
+      "revId": "1f7ced843409a62853f42c17f32ebdc062378402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fb9cdf2b_7b8d1f18",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T13:23:04Z",
+      "side": 1,
+      "message": "After subsequent refactoring it\u0027s shorter to leave \u003d\u003d null.",
+      "parentUuid": "dbd2bbe6_f2ae28a5",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 24
+      },
+      "revId": "1e8e7fcf5b466d971e4b8cc087d1ba8493b64702",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbd2bbe6_92bb1ce6",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-17T20:40:23Z",
       "side": 1,
       "message": "Would the two-argument constructor work?\n\n  catch (IOException e) {\n    throw new ProvisionException(\n         \"Error initializing ...\", e);\n  }\n\nShould Paths constructor be responsible for converting all IOException to ProvisionException?",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 17
+      },
+      "revId": "1e8e7fcf5b466d971e4b8cc087d1ba8493b64702",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_dc7b0dcf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T13:23:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbd2bbe6_92bb1ce6",
       "range": {
         "startLine": 55,
         "startChar": 0,

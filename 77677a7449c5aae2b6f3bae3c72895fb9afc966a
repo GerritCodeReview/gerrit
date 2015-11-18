@@ -85,6 +85,30 @@
     },
     {
       "key": {
+        "uuid": "3b93d719_fd05a756",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-18T00:01:25Z",
+      "side": 1,
+      "message": "OK, I figured out how I can have no factory without rewriting the tests. In the tests I just need to bind StarredChangesUtil to null wherever we have a custom injector.\n\nDone.",
+      "parentUuid": "5b988b33_3ec6a96d",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 5
+      },
+      "revId": "77677a7449c5aae2b6f3bae3c72895fb9afc966a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_6fa4657b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 3

@@ -17,6 +17,24 @@
       "revId": "399b0ae2428d8a233e939c5c957325278e218293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba29363_fc7849d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-18T13:10:57Z",
+      "side": 1,
+      "message": "Sure, if you can untangle it I wouldn\u0027t turn it down.\n\nAlthough IMHO the pain of building the GWT UI on every fetch from upstream outweighs the pain of running \"sudo apt-get install nodejs\" exactly once, but *shrug*.\n\n\u003e NO_POLYGERRIT\u003d1 ./tools/eclipse/project.py\n\nOr just a flag.",
+      "parentUuid": "bb70a7c4_f96b77c3",
+      "revId": "399b0ae2428d8a233e939c5c957325278e218293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

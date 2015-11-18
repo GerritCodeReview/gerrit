@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.account.Realm;
@@ -55,6 +56,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.GroupJson;
+import com.google.gerrit.server.group.ListIncludedGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -185,11 +188,15 @@ public class Util {
   private final ChangeControl.AssistedFactory changeControlFactory;
   private final PermissionCollection.Factory sectionSorter;
   private final InMemoryRepositoryManager repoManager;
+  private final GroupControl.Factory controlFactory;
+  private final GroupJson json;
+  private final Provider<ListIncludedGroups> listIncludes;
 
   private final AllProjectsName allProjectsName =
       new AllProjectsName("All-Projects");
   private final ProjectConfig allProjects;
 
+  @SuppressWarnings("unchecked")
   public Util() {
     all = new HashMap<>();
     repoManager = new InMemoryRepositoryManager();
@@ -258,7 +265,7 @@ public class Util {
     };
 
     Injector injector = Guice.createInjector(new FactoryModule() {
-      @SuppressWarnings({"rawtypes", "unchecked"})
+      @SuppressWarnings({"rawtypes"})
       @Override
       protected void configure() {
         Provider nullProvider = Providers.of(null);
@@ -272,7 +279,10 @@ public class Util {
         factory(CapabilityControl.Factory.class);
         factory(ChangeControl.AssistedFactory.class);
         factory(ChangeData.Factory.class);
+        factory(GroupControl.Factory.class);
         factory(MergeUtil.Factory.class);
+        bind(GroupJson.class).toInstance(json);
+        bind(Provider.class).toInstance(listIncludes);
         bind(ProjectCache.class).toInstance(projectCache);
         bind(AccountCache.class).toInstance(new FakeAccountCache());
         bind(GroupBackend.class).to(SystemGroupBackend.class);
@@ -295,6 +305,9 @@ public class Util {
         injector.getInstance(CapabilityControl.Factory.class);
     changeControlFactory =
       injector.getInstance(ChangeControl.AssistedFactory.class);
+    controlFactory = injector.getInstance(GroupControl.Factory.class);
+    json = injector.getInstance(GroupJson.class);
+    listIncludes = injector.getInstance(Provider.class);
   }
 
   public InMemoryRepository add(ProjectConfig pc) {
@@ -328,9 +341,10 @@ public class Util {
     String canonicalWebUrl = "http://localhost";
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
-        Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, repoManager, changeControlFactory, null, null,
-        canonicalWebUrl, new MockUser(name, memberOf), newProjectState(local));
+        Collections.<AccountGroup.UUID> emptySet(), projectCache, sectionSorter,
+        repoManager, changeControlFactory, null, null, canonicalWebUrl,
+        new MockUser(name, memberOf), newProjectState(local), controlFactory,
+        json, listIncludes);
   }
 
   private ProjectState newProjectState(ProjectConfig local) {

@@ -84,7 +84,7 @@ limitations under the License.
       },
 
       _selectedIndexChanged: function(value) {
-        // Don’t re-render the entire list.
+        // Don't re-render the entire list.
         var changeEls = this._getNonHeaderListItems();
         for (var i = 0; i < changeEls.length; i++) {
           changeEls[i].toggleAttribute('selected', i == value);

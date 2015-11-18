@@ -1,0 +1,111 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="./gr-diff-comment.html">
+
+<dom-module id="gr-diff-comment-thread">
+  <template>
+    <style>
+      :host {
+        display: block;
+        max-width: 50em;
+        white-space: normal;
+      }
+    </style>
+    <template id="commentList" is="dom-repeat" items="{{_orderedComments}}" as="comment">
+      <gr-diff-comment comment="[[comment]]"></gr-diff-comment>
+    </template>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+
+    Polymer({
+      is: 'gr-diff-comment-thread',
+
+      /**
+       * Fired when the height of the thread changes.
+       *
+       * @event gr-diff-comment-thread-height-changed
+       */
+
+      properties: {
+        comments: {
+          type: Array,
+          observer: '_commentsChanged',
+        },
+        _orderedComments: Array,
+      },
+
+      ready: function() {
+        this.addEventListener('gr-diff-comment-height-changed',
+            this._handleCommentHeightChange.bind(this));
+      },
+
+      _commentsChanged: function(comments) {
+        this._orderedComments = this._sortedComments(comments);
+      },
+
+      _sortedComments: function(comments) {
+        var comments = comments || [];
+        comments.sort(function(c1, c2) {
+          return util.parseDate(c1.updated) - util.parseDate(c2.updated);
+        });
+
+        var commentIDToReplies = {};
+        var topLevelComments = [];
+        for (var i = 0; i < comments.length; i++) {
+          var c = comments[i];
+          if (c.in_reply_to) {
+            if (commentIDToReplies[c.in_reply_to] == null) {
+              commentIDToReplies[c.in_reply_to] = [];
+            }
+            commentIDToReplies[c.in_reply_to].push(c);
+          } else {
+            topLevelComments.push(c);
+          }
+        }
+        var results = [];
+        for (var i = 0; i < topLevelComments.length; i++) {
+          this._visitComment(topLevelComments[i], commentIDToReplies, results);
+        }
+        return results;
+      },
+
+      _visitComment: function(parent, commentIDToReplies, results) {
+        results.push(parent);
+
+        var replies = commentIDToReplies[parent.id];
+        if (!replies) { return; }
+        for (var i = 0; i < replies.length; i++) {
+          this._visitComment(replies[i], commentIDToReplies, results);
+        }
+      },
+
+      _handleCommentHeightChange: function(e) {
+        // TODO: This fires for each comment on initialization. Optimize to only
+        // fire the top level "thread height has changed" event once during
+        // initial DOM stamp.
+        this.fire('gr-diff-comment-thread-height-changed',
+            {height: this.offsetHeight});
+      },
+
+    });
+  })();
+  </script>
+</dom-module>

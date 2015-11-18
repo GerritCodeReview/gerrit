@@ -16,5 +16,5 @@ package com.google.gerrit.server.plugins;
 
 /** Broadcasts event indicating a plugin was reloaded. */
 public interface ReloadPluginListener {
-  public void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin);
+  void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin);
 }

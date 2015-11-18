@@ -23,7 +23,7 @@ import com.google.inject.assistedinject.Assisted;
 
 public class RegisterNewEmailSender extends OutgoingEmail {
   public interface Factory {
-    public RegisterNewEmailSender create(String address);
+    RegisterNewEmailSender create(String address);
   }
 
   private final EmailTokenVerifier tokenVerifier;

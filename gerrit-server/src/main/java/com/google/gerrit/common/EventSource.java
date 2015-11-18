@@ -18,7 +18,7 @@ import com.google.gerrit.server.CurrentUser;
 
 /** Distributes Events to ChangeListeners.  Register listeners here. */
 public interface EventSource {
-  public void addEventListener(EventListener listener, CurrentUser user);
+  void addEventListener(EventListener listener, CurrentUser user);
 
-  public void removeEventListener(EventListener listener);
+  void removeEventListener(EventListener listener);
 }

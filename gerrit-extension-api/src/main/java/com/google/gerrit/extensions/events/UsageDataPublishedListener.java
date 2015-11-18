@@ -35,10 +35,10 @@ public interface UsageDataPublishedListener {
   }
 
   public interface MetaData {
-    public String getName();
-    public String getUnitName();
-    public String getUnitSymbol();
-    public String getDescription();
+    String getName();
+    String getUnitName();
+    String getUnitSymbol();
+    String getDescription();
   }
 
   void onUsageDataPublished(Event event);

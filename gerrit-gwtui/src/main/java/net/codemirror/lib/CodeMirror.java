@@ -401,23 +401,23 @@ public class CodeMirror extends JavaScriptObject {
   }
 
   public interface EventHandler {
-    public void handle(CodeMirror instance, NativeEvent event);
+    void handle(CodeMirror instance, NativeEvent event);
   }
 
   public interface RenderLineHandler {
-    public void handle(CodeMirror instance, LineHandle handle, Element element);
+    void handle(CodeMirror instance, LineHandle handle, Element element);
   }
 
   public interface GutterClickHandler {
-    public void handle(CodeMirror instance, int line, String gutter,
+    void handle(CodeMirror instance, int line, String gutter,
         NativeEvent clickEvent);
   }
 
   public interface BeforeSelectionChangeHandler {
-    public void handle(CodeMirror instance, Pos anchor, Pos head);
+    void handle(CodeMirror instance, Pos anchor, Pos head);
   }
 
   public interface ChangesHandler {
-    public void handle(CodeMirror instance);
+    void handle(CodeMirror instance);
   }
 }

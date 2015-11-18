@@ -30,6 +30,6 @@ public interface ProjectCreationValidationListener {
    * @param args arguments for the project creation
    * @throws ValidationException if validation fails
    */
-  public void validateNewProject(CreateProjectArgs args)
+  void validateNewProject(CreateProjectArgs args)
       throws ValidationException;
 }

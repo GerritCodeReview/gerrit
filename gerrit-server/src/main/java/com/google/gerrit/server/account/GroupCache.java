@@ -19,9 +19,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 
 /** Tracks group objects in memory for efficient access. */
 public interface GroupCache {
-  public AccountGroup get(AccountGroup.Id groupId);
+  AccountGroup get(AccountGroup.Id groupId);
 
-  public AccountGroup get(AccountGroup.NameKey name);
+  AccountGroup get(AccountGroup.NameKey name);
 
   /**
    * Lookup a group definition by its UUID. The returned definition may be null
@@ -29,16 +29,16 @@ public interface GroupCache {
    * copied from another server.
    */
   @Nullable
-  public AccountGroup get(AccountGroup.UUID uuid);
+  AccountGroup get(AccountGroup.UUID uuid);
 
   /** @return sorted iteration of groups. */
-  public abstract Iterable<AccountGroup> all();
+  Iterable<AccountGroup> all();
 
   /** Notify the cache that a new group was constructed. */
-  public void onCreateGroup(AccountGroup.NameKey newGroupName);
+  void onCreateGroup(AccountGroup.NameKey newGroupName);
 
-  public void evict(AccountGroup group);
+  void evict(AccountGroup group);
 
-  public void evictAfterRename(final AccountGroup.NameKey oldName,
+  void evictAfterRename(final AccountGroup.NameKey oldName,
       final AccountGroup.NameKey newName);
 }

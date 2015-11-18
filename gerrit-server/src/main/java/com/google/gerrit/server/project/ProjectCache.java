@@ -23,10 +23,10 @@ import java.util.Set;
 /** Cache of project information, including access rights. */
 public interface ProjectCache {
   /** @return the parent state for all projects on this server. */
-  public ProjectState getAllProjects();
+  ProjectState getAllProjects();
 
   /** @return the project state of the project storing meta data for all users. */
-  public ProjectState getAllUsers();
+  ProjectState getAllUsers();
 
   /**
    * Get the cached data for a project by its unique name.
@@ -35,7 +35,7 @@ public interface ProjectCache {
    * @return the cached data; null if no such project exists or a error occurred.
    * @see #checkedGet(com.google.gerrit.reviewdb.client.Project.NameKey)
    */
-  public ProjectState get(Project.NameKey projectName);
+  ProjectState get(Project.NameKey projectName);
 
   /**
    * Get the cached data for a project by its unique name.
@@ -44,14 +44,14 @@ public interface ProjectCache {
    * @throws IOException when there was an error.
    * @return the cached data; null if no such project exists.
    */
-  public ProjectState checkedGet(Project.NameKey projectName)
+  ProjectState checkedGet(Project.NameKey projectName)
       throws IOException;
 
   /** Invalidate the cached information about the given project. */
-  public void evict(Project p);
+  void evict(Project p);
 
   /** Invalidate the cached information about the given project. */
-  public void evict(Project.NameKey p);
+  void evict(Project.NameKey p);
 
   /**
    * Remove information about the given project from the cache. It will no
@@ -60,14 +60,14 @@ public interface ProjectCache {
   void remove(Project p);
 
   /** @return sorted iteration of projects. */
-  public abstract Iterable<Project.NameKey> all();
+  Iterable<Project.NameKey> all();
 
   /**
    * @return estimated set of relevant groups extracted from hot project access
    *         rules. If the cache is cold or too small for the entire project set
    *         of the server, this set may be incomplete.
    */
-  public abstract Set<AccountGroup.UUID> guessRelevantGroupUUIDs();
+  Set<AccountGroup.UUID> guessRelevantGroupUUIDs();
 
   /**
    * Filter the set of registered project names by common prefix.
@@ -75,8 +75,8 @@ public interface ProjectCache {
    * @param prefix common prefix.
    * @return sorted iteration of projects sharing the same prefix.
    */
-  public abstract Iterable<Project.NameKey> byName(String prefix);
+  Iterable<Project.NameKey> byName(String prefix);
 
   /** Notify the cache that a new project was constructed. */
-  public void onCreateProject(Project.NameKey newProjectName);
+  void onCreateProject(Project.NameKey newProjectName);
 }

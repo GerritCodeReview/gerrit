@@ -20,5 +20,5 @@ import com.google.gerrit.reviewdb.client.Project;
 import java.util.List;
 
 public interface ChangeCache {
-  public List<Change> get(Project.NameKey name);
+  List<Change> get(Project.NameKey name);
 }

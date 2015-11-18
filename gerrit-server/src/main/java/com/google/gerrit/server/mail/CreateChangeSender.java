@@ -33,7 +33,7 @@ public class CreateChangeSender extends NewChangeSender {
       LoggerFactory.getLogger(CreateChangeSender.class);
 
   public static interface Factory {
-    public CreateChangeSender create(Change.Id id);
+    CreateChangeSender create(Change.Id id);
   }
 
   @Inject

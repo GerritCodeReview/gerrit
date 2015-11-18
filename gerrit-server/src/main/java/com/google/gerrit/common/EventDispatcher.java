@@ -31,7 +31,7 @@ public interface EventDispatcher {
    * @param db The database
    * @throws OrmException
    */
-  public void postEvent(Change change, Event event, ReviewDb db)
+  void postEvent(Change change, Event event, ReviewDb db)
       throws OrmException;
 
   /**
@@ -40,5 +40,5 @@ public interface EventDispatcher {
    * @param branchName The branch that the event is related to
    * @param event The event to post
    */
-  public void postEvent(Branch.NameKey branchName, Event event);
+  void postEvent(Branch.NameKey branchName, Event event);
 }

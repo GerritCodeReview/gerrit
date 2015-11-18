@@ -33,7 +33,7 @@ public interface PluginsDistribution {
      *         IOException caused by dealing with the InputStream back to the
      *         caller
      */
-    public void process(String pluginName, InputStream in) throws IOException;
+    void process(String pluginName, InputStream in) throws IOException;
   }
 
   /**
@@ -45,7 +45,7 @@ public interface PluginsDistribution {
    * @throws IOException in case of any other IO error caused by reading the
    *         plugin input stream
    */
-  public void foreach(Processor processor) throws FileNotFoundException, IOException;
+  void foreach(Processor processor) throws FileNotFoundException, IOException;
 
   /**
    * List plugins included in the Gerrit distribution
@@ -53,5 +53,5 @@ public interface PluginsDistribution {
    * @throws FileNotFoundException if the location of the plugins couldn't be
    *         determined
    */
-  public List<String> listPluginNames() throws FileNotFoundException;
+  List<String> listPluginNames() throws FileNotFoundException;
 }

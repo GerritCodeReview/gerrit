@@ -39,7 +39,7 @@ public interface ChangeHooks {
    * @param patchSet The Patchset that was created.
    * @throws OrmException
    */
-  public void doPatchsetCreatedHook(Change change, PatchSet patchSet,
+  void doPatchsetCreatedHook(Change change, PatchSet patchSet,
       ReviewDb db) throws OrmException;
 
   /**
@@ -49,7 +49,7 @@ public interface ChangeHooks {
    * @param patchSet The Patchset that was published.
    * @throws OrmException
    */
-  public void doDraftPublishedHook(Change change, PatchSet patchSet,
+  void doDraftPublishedHook(Change change, PatchSet patchSet,
       ReviewDb db) throws OrmException;
 
   /**
@@ -62,7 +62,7 @@ public interface ChangeHooks {
    * @param approvals Map of label IDs to scores
    * @throws OrmException
    */
-  public void doCommentAddedHook(Change change, Account account,
+  void doCommentAddedHook(Change change, Account account,
       PatchSet patchSet, String comment,
       Map<String, Short> approvals, ReviewDb db)
       throws OrmException;
@@ -76,7 +76,7 @@ public interface ChangeHooks {
    * @param mergeResultRev The SHA-1 of the merge result revision.
    * @throws OrmException
    */
-  public void doChangeMergedHook(Change change, Account account,
+  void doChangeMergedHook(Change change, Account account,
       PatchSet patchSet, ReviewDb db, String mergeResultRev) throws OrmException;
 
   /**
@@ -88,7 +88,7 @@ public interface ChangeHooks {
    * @param reason The reason that the change failed to merge.
    * @throws OrmException
    */
-  public void doMergeFailedHook(Change change, Account account,
+  void doMergeFailedHook(Change change, Account account,
       PatchSet patchSet, String reason, ReviewDb db) throws OrmException;
 
   /**
@@ -99,7 +99,7 @@ public interface ChangeHooks {
    * @param reason Reason for abandoning the change.
    * @throws OrmException
    */
-  public void doChangeAbandonedHook(Change change, Account account,
+  void doChangeAbandonedHook(Change change, Account account,
       PatchSet patchSet, String reason, ReviewDb db) throws OrmException;
 
   /**
@@ -110,7 +110,7 @@ public interface ChangeHooks {
    * @param reason Reason for restoring the change.
    * @throws OrmException
    */
-  public void doChangeRestoredHook(Change change, Account account,
+  void doChangeRestoredHook(Change change, Account account,
       PatchSet patchSet, String reason, ReviewDb db) throws OrmException;
 
   /**
@@ -120,7 +120,7 @@ public interface ChangeHooks {
    * @param refUpdate An actual RefUpdate object
    * @param account The gerrit user who moved the ref
    */
-  public void doRefUpdatedHook(Branch.NameKey refName, RefUpdate refUpdate,
+  void doRefUpdatedHook(Branch.NameKey refName, RefUpdate refUpdate,
       Account account);
 
   /**
@@ -131,7 +131,7 @@ public interface ChangeHooks {
    * @param newId The ref's new id
    * @param account The gerrit user who moved the ref
    */
-  public void doRefUpdatedHook(Branch.NameKey refName, ObjectId oldId,
+  void doRefUpdatedHook(Branch.NameKey refName, ObjectId oldId,
       ObjectId newId, Account account);
 
   /**
@@ -141,7 +141,7 @@ public interface ChangeHooks {
    * @param patchSet The patchset that the reviewer was added on.
    * @param account The gerrit user who was added as reviewer.
    */
-  public void doReviewerAddedHook(Change change, Account account,
+  void doReviewerAddedHook(Change change, Account account,
       PatchSet patchSet, ReviewDb db) throws OrmException;
 
   /**
@@ -151,10 +151,10 @@ public interface ChangeHooks {
    * @param account The gerrit user who changed the topic.
    * @param oldTopic The old topic name.
    */
-  public void doTopicChangedHook(Change change, Account account,
+  void doTopicChangedHook(Change change, Account account,
       String oldTopic, ReviewDb db) throws OrmException;
 
-  public void doClaSignupHook(Account account, ContributorAgreement cla);
+  void doClaSignupHook(Account account, ContributorAgreement cla);
 
   /**
    * Fire the Ref update Hook
@@ -165,7 +165,7 @@ public interface ChangeHooks {
    * @param oldId The ref's old id
    * @param newId The ref's new id
    */
-  public HookResult doRefUpdateHook(Project project,  String refName,
+  HookResult doRefUpdateHook(Project project,  String refName,
        Account uploader, ObjectId oldId, ObjectId newId);
 
   /**
@@ -178,7 +178,7 @@ public interface ChangeHooks {
    * @param db The database
    * @throws OrmException
    */
-  public void doHashtagsChangedHook(Change change, Account account,
+  void doHashtagsChangedHook(Change change, Account account,
       Set<String>added, Set<String> removed, Set<String> hashtags,
       ReviewDb db) throws OrmException;
 
@@ -188,5 +188,5 @@ public interface ChangeHooks {
    * @param project The project that was created
    * @param headName The head name of the created project
    */
-  public void doProjectCreatedHook(Project.NameKey project, String headName);
+  void doProjectCreatedHook(Project.NameKey project, String headName);
 }

@@ -16,5 +16,5 @@ package com.google.gerrit.server.plugins;
 
 /** Broadcasts event indicating a plugin was unloaded. */
 public interface StopPluginListener {
-  public void onStopPlugin(Plugin plugin);
+  void onStopPlugin(Plugin plugin);
 }

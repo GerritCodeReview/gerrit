@@ -15,5 +15,5 @@
 package com.google.gerrit.httpd.resources;
 
 public interface ResourceKey {
-  public int weigh();
+  int weigh();
 }

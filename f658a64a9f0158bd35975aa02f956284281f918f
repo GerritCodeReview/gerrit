@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bd0d3e3_8cbb07e6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3528,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-19T17:30:51Z",
+      "side": 1,
+      "message": "Could you add an example showing the use of the + and -?",
+      "range": {
+        "startLine": 3527,
+        "startChar": 4,
+        "endLine": 3528,
+        "endChar": 58
+      },
+      "revId": "f658a64a9f0158bd35975aa02f956284281f918f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_11c72c1b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3531,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-19T17:30:51Z",
+      "side": 1,
+      "message": "\"Bouncy Castle supported\"?\n\nAnd add a section for the non BC supported versions?",
+      "range": {
+        "startLine": 3531,
+        "startChar": 0,
+        "endLine": 3531,
+        "endChar": 9
+      },
+      "revId": "f658a64a9f0158bd35975aa02f956284281f918f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

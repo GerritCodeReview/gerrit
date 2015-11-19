@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b67630e_386489c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-19T10:37:55Z",
+      "side": 1,
+      "message": "I just test and the default answers are all N for a new site.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 6
+      },
+      "revId": "f6a5e3f29e2edff51d0ea3c7fe193c838754a38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b67630e_d858ed09",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-19T10:37:55Z",
+      "side": 1,
+      "message": "This means that the default answer is N for all plugins.\n\nWe agreed that the default answer should be \"Y\" for all plugins when installing a new site and \"N\" for all NEW plugins when upgrading an existing site.",
+      "range": {
+        "startLine": 116,
+        "startChar": 63,
+        "endLine": 116,
+        "endChar": 77
+      },
+      "revId": "f6a5e3f29e2edff51d0ea3c7fe193c838754a38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bdf0ff3_ef33a136",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-19T10:37:55Z",
+      "side": 1,
+      "message": "This change of the default answer is OK but this code will not be reached because of the default answer N in the line 116. Means: when upgrading in --batch mode and not specifying any --install-plugin option then NO existing plugin will be upgraded.",
+      "revId": "f6a5e3f29e2edff51d0ea3c7fe193c838754a38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

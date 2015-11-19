@@ -69,7 +69,27 @@ enter the "Submitted, Merge Pending" state.
 GPG Keys and Signed Pushes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* TODO: Details
+* Signed push can be enabled by setting
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#receive.enableSignedPush[
+`receive.enableSignedPush`] to true.
++
+When a client pushes with `git push --signed`, Gerrit ensures that the push
+certificate is valid and signed with a valid public key stored in the
+`refs/gpg-keys` branch of the `All-Users` repository.
+
+* When signed push is enabled, and
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#gerrit.editGpgKeys[
+`gerrit.editGpgKeys`] is set to true, users may upload their public GPG
+key via the REST API or UI.
++
+If this setting is not enabled, GPG keys may only be added by administrators
+with direct access to the `All-Users` repository.
+
+* Administrators may also configure
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#receive.certNonceSeed[
+`receive.certNonceSeed`]
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#receive.certNonceSlop[
+`receive.certNonceSlop`].
 
 
 Secondary Index
@@ -193,8 +213,33 @@ REST API
 
 New REST API endpoints and new options on existing endpoints.
 
-Tags
-^^^^
+
+Accounts
+^^^^^^^^
+
+* TODO
+
+
+Changes
+^^^^^^^
+
+* TODO
+
+
+Config
+^^^^^^
+
+* TODO
+
+
+Groups
+^^^^^^
+
+* TODO
+
+
+Projects
+^^^^^^^^
 
 * Support filtering by substring and regex in the list tags endpoint.
 

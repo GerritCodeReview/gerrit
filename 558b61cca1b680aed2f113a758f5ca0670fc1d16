@@ -37,6 +37,47 @@
     },
     {
       "key": {
+        "uuid": "dbd2bbe6_9230fc2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T00:15:05Z",
+      "side": 1,
+      "message": "It was converted to try-with-resource on master (and included in stable-2.12):\n\nhttps://gerrit-review.googlesource.com/#/c/68604/5/gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java\n\nThis patch is already going to conflict when merged up to stable-2.12 so it\u0027s not going to hurt to do the conversion here too.",
+      "parentUuid": "7bdf0ff3_ef05e156",
+      "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_f2338836",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T00:15:05Z",
+      "side": 1,
+      "message": "nit: wrong indentation on this comment block",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 21
+      },
+      "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bdf0ff3_4f150d8c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
         "patchSetId": 1
@@ -48,6 +89,30 @@
       "writtenOn": "2015-11-18T23:08:01Z",
       "side": 1,
       "message": "I understand why you are partitioning the retrieval of change ids from the DB :-) ... otherwise you\u0027ll just flood the DBMS connection with SQL statements.\n\nDoes it make sense however to make this number configurable via gerrit.config? Why 30 and not 100 or 50?",
+      "range": {
+        "startLine": 124,
+        "startChar": 58,
+        "endLine": 124,
+        "endChar": 60
+      },
+      "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_b154204b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T00:15:05Z",
+      "side": 1,
+      "message": "30 is same as in the original code (line 113 on the left side).  If we change this, I would prefer it in a separate commit, and preferably not on the stable branch.",
+      "parentUuid": "7bdf0ff3_4f150d8c",
       "range": {
         "startLine": 124,
         "startChar": 58,

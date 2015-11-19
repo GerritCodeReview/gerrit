@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "9bdcc3fe_30e588cc",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T19:05:36Z",
+      "side": 1,
+      "message": "My previous git experience is pretty much in line with https://xkcd.com/1597/",
+      "parentUuid": "fbca1f38_abb829e9",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbca1f38_6ba321c3",
         "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
         "patchSetId": 7
@@ -119,6 +137,30 @@
       "writtenOn": "2015-11-19T18:30:51Z",
       "side": 1,
       "message": "So I understand how this works: when you add a key to the object you pass to Polymer(), it goes through and converts any values that are functions into some other type that has this magic bind method. Sound right?",
+      "range": {
+        "startLine": 57,
+        "startChar": 44,
+        "endLine": 57,
+        "endChar": 48
+      },
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_10e084bb",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T19:05:36Z",
+      "side": 1,
+      "message": "Ah, no this doesn\u0027t have to do with Polymer binding. `bind` is a vanilla JS function that returns a new function with the first argument as its `this` keyword. So in this case when the event handler fires, `this` (the element object) will be the same as opposed to a newly scoped `this`.",
+      "parentUuid": "fbca1f38_6ba321c3",
       "range": {
         "startLine": 57,
         "startChar": 44,
@@ -154,6 +196,30 @@
     },
     {
       "key": {
+        "uuid": "fbca1f38_4bc7456c",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T19:05:36Z",
+      "side": 1,
+      "message": "Yeah. Tap is the preferred method for the best cross-platform results:\nhttps://www.polymer-project.org/1.0/docs/devguide/events.html#gestures",
+      "parentUuid": "fbca1f38_0ba85d9a",
+      "range": {
+        "startLine": 55,
+        "startChar": 32,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbca1f38_2bad19ab",
         "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
         "patchSetId": 7
@@ -165,6 +231,24 @@
       "writtenOn": "2015-11-19T18:30:51Z",
       "side": 1,
       "message": "What\u0027s with these jsdoc blocks that are not attached to anything?",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbca1f38_6bcc818d",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T19:05:36Z",
+      "side": 1,
+      "message": "Following Polymer\u0027s style. They are used by auto-generated documentation: https://github.com/PolymerElements/iron-ajax/blob/master/iron-ajax.html#L45",
+      "parentUuid": "fbca1f38_2bad19ab",
       "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -188,6 +272,24 @@
     },
     {
       "key": {
+        "uuid": "9bdcc3fe_d0e99ca6",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T19:05:36Z",
+      "side": 1,
+      "message": "You are correct.",
+      "parentUuid": "fbca1f38_cbb1f509",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bdcc3fe_905eb451",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 7
@@ -199,6 +301,24 @@
       "writtenOn": "2015-11-19T18:30:51Z",
       "side": 1,
       "message": "IIUC debounce-duration has no effect if auto\u003dfalse (which is the default).\n\nAlthough considering that you explicitly call generateRequest() on these on each change to params, I\u0027m wondering if maybe auto\u003dtrue is really what you want. \n\nhttps://elements.polymer-project.org/elements/iron-ajax says:\n\n\"If true, automatically performs an Ajax request when either url or params changes\"\n\nIf I understand computed bindings correctly, this will reevaluate the function on any change to one of the arguments, and notify the child element if and only if the value changes.",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_f0e620d6",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T19:05:36Z",
+      "side": 1,
+      "message": "Removed debounce duration. Good catch.\n\nIf you check out the _paramsChanged function, there is a case where we don\u0027t want the xhr firing even if its value has changed. Also, _basePatchNum isn\u0027t guaranteed to be defined (there\u0027s a comment in there about it).\n\nWhat\u0027s annoying is that the computed binding function will only be called once the parameters become defined, but after that, calls are made even if one of the params is null/undefined.",
+      "parentUuid": "9bdcc3fe_905eb451",
       "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -222,6 +342,24 @@
     },
     {
       "key": {
+        "uuid": "9bdcc3fe_90f31497",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T19:05:36Z",
+      "side": 1,
+      "message": "this is more preference for ease in testing plus keeping the functions a bit more pure in general means just less properties to worry about.",
+      "parentUuid": "fbca1f38_ebae31a5",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbca1f38_8bbbede5",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 7
@@ -239,6 +377,24 @@
     },
     {
       "key": {
+        "uuid": "fbca1f38_0bc13d54",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T19:05:36Z",
+      "side": 1,
+      "message": "If I understand you correclty, that\u0027s what we\u0027re avoiding due to performance reasons.",
+      "parentUuid": "fbca1f38_8bbbede5",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bdcc3fe_b05bb860",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 7
@@ -250,6 +406,24 @@
       "writtenOn": "2015-11-19T18:30:51Z",
       "side": 1,
       "message": "I don\u0027t follow, what\u0027s the deal with this \u003ci\u003e ruler thing?",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbca1f38_2bc6796d",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T19:05:36Z",
+      "side": 1,
+      "message": "the ruler is the column limit indicator. when i looked at what sublime text called it, it was \"ruler\" so i went with that.\n\nusing \u003ci\u003e as the element to house it is convention for strictly preference. Some like to use \u003ci\u003e to indicate \"icon\" if they\u0027re using the element as a placeholder for a background image, for example. It could be a div or whatever.",
+      "parentUuid": "9bdcc3fe_b05bb860",
       "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -284,6 +458,24 @@
       "writtenOn": "2015-11-19T18:30:51Z",
       "side": 1,
       "message": "High-level question: this is just a simple utility method for sorting some JSON objects. Is it really necessary to set up a webcomponent test fixture for this kind of test?\n\nI\u0027m imagining a world where we have some \"small\" JS tests that can run in pure headless node and not have to spin up a browser or three. Is that a world we\u0027re interested in? Or not worth it?",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_50ffec58",
+        "filename": "polygerrit-ui/app/test/gr-diff-comment-thread-test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T19:05:36Z",
+      "side": 1,
+      "message": "You don\u0027t need a DOM to test this function, no, but there are so many UI tests that will most likely outnumber this kind of test that a headless mode wouldn\u0027t be running that many tests anyway.",
+      "parentUuid": "9bdcc3fe_50d60ceb",
       "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

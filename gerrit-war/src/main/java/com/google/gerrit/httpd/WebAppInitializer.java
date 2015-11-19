@@ -23,6 +23,7 @@ import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
+import com.google.gerrit.httpd.raw.StaticModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -354,6 +355,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(RequestMetricsFilter.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));
+    modules.add(sysInjector.getInstance(StaticModule.class));
     modules.add(sysInjector.getInstance(RequireSslFilter.Module.class));
     if (sshInjector != null) {
       modules.add(sshInjector.getInstance(WebSshGlueModule.class));

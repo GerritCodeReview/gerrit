@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7bdf0ff3_ef05e156",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-11-19T00:02:57Z",
+      "side": 1,
+      "message": "on stable-2.11 gerrit uses JGit 4.0.1 [1] where Repositoriy is an AutoClosable [2]\n\n[1] https://gerrit.googlesource.com/gerrit/+/stable-2.11/lib/jgit/BUCK\n[2] http://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java?h\u003dv4.0.1.201506240215-r#n94",
+      "parentUuid": "9bdcc3fe_f0ae20a5",
+      "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bdf0ff3_4f150d8c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
         "patchSetId": 1

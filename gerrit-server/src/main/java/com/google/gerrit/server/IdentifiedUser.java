@@ -36,7 +36,6 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -219,7 +218,6 @@ public class IdentifiedUser extends CurrentUser {
   private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
   private Set<Change.Id> starredChanges;
-  private ResultSet<Change.Id> starredQuery;
   private Collection<AccountProjectWatch> notificationFilters;
   private CurrentUser realUser;
 
@@ -334,41 +332,14 @@ public class IdentifiedUser extends CurrentUser {
       if (starredChangesUtil == null) {
         throw new IllegalStateException("StarredChangesUtil is missing");
       }
-      try {
-        starredChanges =
-            FluentIterable.from(
-              starredQuery != null
-              ? starredQuery
-              : starredChangesUtil.query(accountId))
-            .toSet();
-      } finally {
-        starredQuery = null;
-      }
+      starredChanges =
+          FluentIterable.from(starredChangesUtil.byAccount(accountId)).toSet();
     }
     return starredChanges;
   }
 
   public void clearStarredChanges() {
-    // Async query may have started before an update that the caller expects
-    // to see the results of, so we can't trust it.
-    abortStarredChanges();
     starredChanges = null;
-  }
-
-  public void asyncStarredChanges() {
-    if (starredChanges == null && starredChangesUtil != null) {
-      starredQuery = starredChangesUtil.query(accountId);
-    }
-  }
-
-  public void abortStarredChanges() {
-    if (starredQuery != null) {
-      try {
-        starredQuery.close();
-      } finally {
-        starredQuery = null;
-      }
-    }
   }
 
   private void checkRequestScope() {

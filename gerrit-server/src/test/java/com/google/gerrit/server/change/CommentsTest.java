@@ -184,9 +184,9 @@ public class CommentsTest extends GerritServerTests {
         bind(GitReferenceUpdated.class)
             .toInstance(GitReferenceUpdated.DISABLED);
         bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
-          .toInstance(serverIdent);
+            .toInstance(serverIdent);
         bind(StarredChangesUtil.class)
-          .toProvider(Providers.<StarredChangesUtil> of(null));
+            .toProvider(Providers.<StarredChangesUtil> of(null));
       }
 
       @Provides

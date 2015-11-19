@@ -56,7 +56,7 @@ public class Panel extends SimplePanel {
      *
      * @param panel panel that will contain the panel widget.
      */
-    public void onLoad(Panel panel);
+    void onLoad(Panel panel);
   }
 
   static final class Context extends JavaScriptObject {

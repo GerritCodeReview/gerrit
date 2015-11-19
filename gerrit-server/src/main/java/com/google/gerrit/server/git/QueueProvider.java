@@ -19,5 +19,5 @@ public interface QueueProvider {
     INTERACTIVE, BATCH
   }
 
-  public WorkQueue.Executor getQueue(QueueType type);
+  WorkQueue.Executor getQueue(QueueType type);
 }

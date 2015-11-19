@@ -28,7 +28,7 @@ public interface EmailTokenVerifier {
    *         the string provides proof the user has the ability to read messages
    *         sent to that address. Must not be null.
    */
-  public String encode(Account.Id accountId, String emailAddress);
+  String encode(Account.Id accountId, String emailAddress);
 
   /**
    * Decode a token previously created.
@@ -36,7 +36,7 @@ public interface EmailTokenVerifier {
    * @return a pair of account id and email address.
    * @throws InvalidTokenException the token is invalid, expired, malformed, etc.
    */
-  public ParsedToken decode(String tokenString) throws InvalidTokenException;
+  ParsedToken decode(String tokenString) throws InvalidTokenException;
 
   /** Exception thrown when a token does not parse correctly. */
   public static class InvalidTokenException extends Exception {

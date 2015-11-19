@@ -23,5 +23,5 @@ interface DatabaseConfigInitializer {
    * Performs database platform specific configuration steps and writes
    * configuration parameters into the given database section
    */
-  public void initConfig(Section databaseSection);
+  void initConfig(Section databaseSection);
 }

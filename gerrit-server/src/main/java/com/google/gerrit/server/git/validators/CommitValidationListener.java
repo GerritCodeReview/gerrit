@@ -34,6 +34,6 @@ public interface CommitValidationListener {
    * @return list of validation messages
    * @throws CommitValidationException if validation fails
    */
-  public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+  List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
       throws CommitValidationException;
 }

@@ -35,10 +35,10 @@ import java.io.IOException;
  */
 public interface ChangeIndex {
   /** @return the schema version used by this index. */
-  public Schema<ChangeData> getSchema();
+  Schema<ChangeData> getSchema();
 
   /** Close this index. */
-  public void close();
+  void close();
 
   /**
    * Update a change document in the index.
@@ -52,7 +52,7 @@ public interface ChangeIndex {
    *
    * @throws IOException
    */
-  public void replace(ChangeData cd) throws IOException;
+  void replace(ChangeData cd) throws IOException;
 
   /**
    * Delete a change document from the index by id.
@@ -61,14 +61,14 @@ public interface ChangeIndex {
    *
    * @throws IOException
    */
-  public void delete(Change.Id id) throws IOException;
+  void delete(Change.Id id) throws IOException;
 
   /**
    * Delete all change documents from the index.
    *
    * @throws IOException
    */
-  public void deleteAll() throws IOException;
+  void deleteAll() throws IOException;
 
   /**
    * Convert the given operator predicate into a source searching the index and
@@ -90,7 +90,7 @@ public interface ChangeIndex {
    * @throws QueryParseException if the predicate could not be converted to an
    *     indexed data source.
    */
-  public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
+  ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException;
 
   /**
@@ -99,5 +99,5 @@ public interface ChangeIndex {
    * @param ready whether the index is ready
    * @throws IOException
    */
-  public void markReady(boolean ready) throws IOException;
+  void markReady(boolean ready) throws IOException;
 }

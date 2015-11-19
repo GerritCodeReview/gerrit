@@ -29,7 +29,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
    *         assumed unavailable and not presented. This is usually the same as
    *         {@code setVisible(false)}.
    */
-  public Description getDescription(R resource);
+  Description getDescription(R resource);
 
   /** Describes an action invokable through the web interface. */
   public static class Description {

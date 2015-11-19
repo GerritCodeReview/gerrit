@@ -30,11 +30,11 @@ public interface RestResource {
      * @return time for the Last-Modified header. HTTP truncates the header
      *         value to seconds.
      */
-    public Timestamp getLastModified();
+    Timestamp getLastModified();
   }
 
   /** A resource with an ETag. */
   public interface HasETag {
-    public String getETag();
+    String getETag();
   }
 }

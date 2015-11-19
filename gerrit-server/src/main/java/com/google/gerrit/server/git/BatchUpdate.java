@@ -77,7 +77,7 @@ import java.util.TimeZone;
  */
 public class BatchUpdate implements AutoCloseable {
   public interface Factory {
-    public BatchUpdate create(ReviewDb db, Project.NameKey project,
+    BatchUpdate create(ReviewDb db, Project.NameKey project,
         CurrentUser user, Timestamp when);
   }
 

@@ -55,6 +55,6 @@ public interface OutgoingEmailValidationListener {
    * @param args E-mail properties. Some are mutable.
    * @throws ValidationException if validation fails.
    */
-  public void validateOutgoingEmail(OutgoingEmailValidationListener.Args args)
+  void validateOutgoingEmail(OutgoingEmailValidationListener.Args args)
       throws ValidationException;
 }

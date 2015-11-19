@@ -41,7 +41,7 @@ public interface GitRepositoryManager {
    *         repository.
    * @throws IOException the name cannot be read as a repository.
    */
-  public abstract Repository openRepository(Project.NameKey name)
+  Repository openRepository(Project.NameKey name)
       throws RepositoryNotFoundException, IOException;
 
   /**
@@ -58,7 +58,7 @@ public interface GitRepositoryManager {
    * @throws RepositoryNotFoundException the name is invalid.
    * @throws IOException the repository cannot be created.
    */
-  public abstract Repository createRepository(Project.NameKey name)
+  Repository createRepository(Project.NameKey name)
       throws RepositoryCaseMismatchException, RepositoryNotFoundException,
       IOException;
 
@@ -76,11 +76,11 @@ public interface GitRepositoryManager {
    *         repository.
    * @throws IOException the name cannot be read as a repository.
    */
-  public abstract Repository openMetadataRepository(Project.NameKey name)
+  Repository openMetadataRepository(Project.NameKey name)
       throws RepositoryNotFoundException, IOException;
 
   /** @return set of all known projects, sorted by natural NameKey order. */
-  public abstract SortedSet<Project.NameKey> list();
+  SortedSet<Project.NameKey> list();
 
   /**
    * Read the {@code GIT_DIR/description} file for gitweb.
@@ -94,7 +94,7 @@ public interface GitRepositoryManager {
    * @throws IOException the description file exists, but is not readable by
    *         this process.
    */
-  public abstract String getProjectDescription(Project.NameKey name)
+  String getProjectDescription(Project.NameKey name)
       throws RepositoryNotFoundException, IOException;
 
   /**
@@ -106,6 +106,6 @@ public interface GitRepositoryManager {
    * @param name the repository name, relative to the base directory.
    * @param description new description text for the repository.
    */
-  public abstract void setProjectDescription(Project.NameKey name,
+  void setProjectDescription(Project.NameKey name,
       final String description);
 }

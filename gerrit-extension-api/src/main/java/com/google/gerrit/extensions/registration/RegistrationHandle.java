@@ -17,5 +17,5 @@ package com.google.gerrit.extensions.registration;
 /** Handle for registered information. */
 public interface RegistrationHandle {
   /** Delete this registration. */
-  public void remove();
+  void remove();
 }

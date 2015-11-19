@@ -22,11 +22,11 @@ import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 
 public interface GerritApi {
-  public Accounts accounts();
-  public Changes changes();
-  public Config config();
-  public Groups groups();
-  public Projects projects();
+  Accounts accounts();
+  Changes changes();
+  Config config();
+  Groups groups();
+  Projects projects();
 
   /**
    * A default implementation which allows source compatibility

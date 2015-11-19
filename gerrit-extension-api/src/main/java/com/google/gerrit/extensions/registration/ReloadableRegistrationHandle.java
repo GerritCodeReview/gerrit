@@ -18,7 +18,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 
 public interface ReloadableRegistrationHandle<T> extends RegistrationHandle {
-  public Key<T> getKey();
+  Key<T> getKey();
 
-  public RegistrationHandle replace(Key<T> key, Provider<T> item);
+  RegistrationHandle replace(Key<T> key, Provider<T> item);
 }

@@ -37,7 +37,7 @@ import com.google.inject.assistedinject.AssistedInject;
 public class ProjectOwnerGroupsProvider extends GroupSetProvider {
 
   public interface Factory {
-    public ProjectOwnerGroupsProvider create(Project.NameKey project);
+    ProjectOwnerGroupsProvider create(Project.NameKey project);
   }
 
   @AssistedInject

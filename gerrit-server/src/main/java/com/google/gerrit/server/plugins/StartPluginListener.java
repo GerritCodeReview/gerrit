@@ -16,5 +16,5 @@ package com.google.gerrit.server.plugins;
 
 /** Broadcasts event indicating a plugin was loaded. */
 public interface StartPluginListener {
-  public void onStartPlugin(Plugin plugin);
+  void onStartPlugin(Plugin plugin);
 }

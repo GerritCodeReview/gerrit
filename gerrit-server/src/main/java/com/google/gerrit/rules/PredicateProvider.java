@@ -30,5 +30,5 @@ import com.googlecode.prolog_cafe.lang.Predicate;
 @ExtensionPoint
 public interface PredicateProvider {
   /** Return set of packages that contain Prolog predicates */
-  public ImmutableSet<String> getPackages();
+  ImmutableSet<String> getPackages();
 }

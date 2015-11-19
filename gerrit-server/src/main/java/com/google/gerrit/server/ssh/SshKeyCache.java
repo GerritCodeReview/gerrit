@@ -19,8 +19,8 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 
 /** Permits controlling the contents of the SSH key cache area. */
 public interface SshKeyCache {
-  public void evict(String username);
+  void evict(String username);
 
-  public AccountSshKey create(AccountSshKey.Id id, String encoded)
+  AccountSshKey create(AccountSshKey.Id id, String encoded)
       throws InvalidSshKeyException;
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fb9cdf2b_dbc0f300",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-19T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbd2bbe6_d2644429",
+      "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbd2bbe6_f2614816",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2015-11-19T01:28:01Z",
       "side": 1,
       "message": "I\u0027m not sure if we have a guideline saying that @Assisted arguments should be last?",
+      "range": {
+        "startLine": 187,
+        "startChar": 31,
+        "endLine": 190,
+        "endChar": 47
+      },
+      "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_302268e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-19T15:54:18Z",
+      "side": 1,
+      "message": "The guideline says \u0027if you are using assisted injection, the factory for your class should be before the instance members\u0027\nI will put them at the last just in case.",
+      "parentUuid": "dbd2bbe6_f2614816",
       "range": {
         "startLine": 187,
         "startChar": 31,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "fb9cdf2b_fbbdaf83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-19T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbd2bbe6_925ebc51",
+      "range": {
+        "startLine": 541,
+        "startChar": 16,
+        "endLine": 541,
+        "endChar": 20
+      },
+      "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbd507d1_915ebc51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 4
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "9bdcc3fe_d0367c29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-19T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbd507d1_915ebc51",
+      "range": {
+        "startLine": 549,
+        "startChar": 7,
+        "endLine": 555,
+        "endChar": 7
+      },
+      "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbd507d1_b15bc060",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
         "patchSetId": 4
@@ -99,6 +189,24 @@
       "writtenOn": "2015-11-19T01:28:01Z",
       "side": 1,
       "message": "Why is this added?",
+      "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_101de4a1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-19T15:54:18Z",
+      "side": 1,
+      "message": "Forgot to place it back to where it was. Done",
+      "parentUuid": "bbd507d1_b15bc060",
       "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

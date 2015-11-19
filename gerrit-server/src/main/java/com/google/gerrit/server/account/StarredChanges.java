@@ -49,14 +49,17 @@ public class StarredChanges implements
   private static final Logger log = LoggerFactory.getLogger(StarredChanges.class);
 
   private final ChangesCollection changes;
+  private final StarredChangesUtil starredChangesUtil;
   private final DynamicMap<RestView<AccountResource.StarredChange>> views;
   private final Provider<Create> createProvider;
 
   @Inject
   StarredChanges(ChangesCollection changes,
+      StarredChangesUtil starredChangesUtil,
       DynamicMap<RestView<AccountResource.StarredChange>> views,
       Provider<Create> createProvider) {
     this.changes = changes;
+    this.starredChangesUtil = starredChangesUtil;
     this.views = views;
     this.createProvider = createProvider;
   }
@@ -65,17 +68,12 @@ public class StarredChanges implements
   public AccountResource.StarredChange parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, OrmException {
     IdentifiedUser user = parent.getUser();
-    try {
-      user.asyncStarredChanges();
-
-      ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-      if (user.getStarredChanges().contains(change.getId())) {
-        return new AccountResource.StarredChange(user, change);
-      }
-      throw new ResourceNotFoundException(id);
-    } finally {
-      user.abortStarredChanges();
+    ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
+    if (starredChangesUtil.isStarred(user.getAccountId(),
+        change.getId())) {
+      return new AccountResource.StarredChange(user, change);
     }
+    throw new ResourceNotFoundException(id);
   }
 
   @Override

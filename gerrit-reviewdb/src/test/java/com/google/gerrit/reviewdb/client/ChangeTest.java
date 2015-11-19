@@ -72,6 +72,17 @@ public class ChangeTest {
   }
 
   @Test
+  public void parseRefParts() {
+    assertRefPart(1234, "34/1234");
+    assertRefPart(1234, RefNames.REFS_STARRED_CHANGES + "34/1234");
+    assertRefPart(1234, RefNames.REFS_DRAFT_COMMENTS + "34/1234");
+
+    assertNotRefPart("34/1234/meta");
+    assertNotRefPart("meta/");
+    assertNotRefPart("meta");
+  }
+
+  @Test
   public void toRefPrefix() {
     assertThat(new Change.Id(1).toRefPrefix())
         .isEqualTo("refs/changes/01/1/");
@@ -85,5 +96,13 @@ public class ChangeTest {
 
   private static void assertNotRef(String refName) {
     assertThat(Change.Id.fromRef(refName)).isNull();
+  }
+
+  private static void assertRefPart(int changeId, String refPart) {
+    assertThat(Change.Id.fromRefPart(refPart)).isEqualTo(new Change.Id(changeId));
+  }
+
+  private static void assertNotRefPart(String refPart) {
+    assertThat(Change.Id.fromRefPart(refPart)).isNull();
   }
 }

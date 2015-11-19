@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -29,6 +30,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StarredChangesCache;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -49,14 +51,17 @@ public class StarredChanges implements
   private static final Logger log = LoggerFactory.getLogger(StarredChanges.class);
 
   private final ChangesCollection changes;
+  private final DynamicItem<StarredChangesCache> starredChangesCache;
   private final DynamicMap<RestView<AccountResource.StarredChange>> views;
   private final Provider<Create> createProvider;
 
   @Inject
   StarredChanges(ChangesCollection changes,
+      DynamicItem<StarredChangesCache> starredChangesCache,
       DynamicMap<RestView<AccountResource.StarredChange>> views,
       Provider<Create> createProvider) {
     this.changes = changes;
+    this.starredChangesCache = starredChangesCache;
     this.views = views;
     this.createProvider = createProvider;
   }
@@ -65,17 +70,12 @@ public class StarredChanges implements
   public AccountResource.StarredChange parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, OrmException {
     IdentifiedUser user = parent.getUser();
-    try {
-      user.asyncStarredChanges();
-
-      ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-      if (user.getStarredChanges().contains(change.getChange().getId())) {
-        return new AccountResource.StarredChange(user, change);
-      }
-      throw new ResourceNotFoundException(id);
-    } finally {
-      user.abortStarredChanges();
+    ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
+    if (starredChangesCache.get().isStarred(user.getAccountId(),
+        change.getChange().getId())) {
+      return new AccountResource.StarredChange(user, change);
     }
+    throw new ResourceNotFoundException(id);
   }
 
   @Override

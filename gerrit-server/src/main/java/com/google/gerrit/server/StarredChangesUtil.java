@@ -14,11 +14,7 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -27,9 +23,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -41,30 +35,22 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 @Singleton
 public class StarredChangesUtil {
-  private static final Logger log =
-      LoggerFactory.getLogger(StarredChangesUtil.class);
-
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final NotesMigration migration;
   private final Provider<ReviewDb> dbProvider;
   private final PersonIdent serverIdent;
+  private final DynamicItem<StarredChangesCache> starredChangesCache;
 
 
   @Inject
@@ -72,12 +58,14 @@ public class StarredChangesUtil {
       AllUsersName allUsers,
       NotesMigration migration,
       Provider<ReviewDb> dbProvider,
-      @GerritPersonIdent PersonIdent serverIdent) {
+      @GerritPersonIdent PersonIdent serverIdent,
+      DynamicItem<StarredChangesCache> starredChangesCache) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.migration = migration;
     this.dbProvider = dbProvider;
     this.serverIdent = serverIdent;
+    this.starredChangesCache = starredChangesCache;
   }
 
   public synchronized void star(Account.Id accountId, Change.Id changeId)
@@ -85,6 +73,7 @@ public class StarredChangesUtil {
     dbProvider.get().starredChanges()
         .insert(Collections.singleton(new StarredChange(
             new StarredChange.Key(accountId, changeId))));
+    starredChangesCache.get().star(accountId, changeId);
     if (!migration.writeChanges()) {
       return;
     }
@@ -125,6 +114,7 @@ public class StarredChangesUtil {
     dbProvider.get().starredChanges()
         .delete(Collections.singleton(new StarredChange(
             new StarredChange.Key(accountId, changeId))));
+    starredChangesCache.get().unstar(accountId, changeId);
     if (!migration.writeChanges()) {
       return;
     }
@@ -154,6 +144,8 @@ public class StarredChangesUtil {
   public synchronized void unstarAll(Change.Id changeId) throws OrmException {
     dbProvider.get().starredChanges().delete(
         dbProvider.get().starredChanges().byChange(changeId));
+    Iterable<Account.Id> accounts =
+        starredChangesCache.get().unstarAll(changeId);
     if (!migration.writeChanges()) {
       return;
     }
@@ -163,7 +155,7 @@ public class StarredChangesUtil {
       batchUpdate.setAllowNonFastForwards(true);
       batchUpdate.setRefLogIdent(serverIdent);
       batchUpdate.setRefLogMessage("Unstar change " + changeId.get(), true);
-      for (Account.Id accountId : byChange(changeId)) {
+      for (Account.Id accountId : accounts) {
         String refName = RefNames.refsStarredChanges(accountId, changeId);
         Ref ref = repo.getRefDatabase().getRef(refName);
         batchUpdate.addCommand(new ReceiveCommand(ref.getObjectId(),
@@ -180,99 +172,6 @@ public class StarredChangesUtil {
     } catch (IOException e) {
       throw new OrmException(
           String.format("Unstar change %d failed", changeId.get()), e);
-    }
-  }
-
-  public Iterable<Account.Id> byChange(final Change.Id changeId)
-      throws OrmException {
-    if (!migration.readChanges()) {
-      return FluentIterable
-          .from(dbProvider.get().starredChanges().byChange(changeId))
-          .transform(new Function<StarredChange, Account.Id>() {
-            @Override
-            public Account.Id apply(StarredChange in) {
-              return in.getAccountId();
-            }
-          });
-    }
-    return FluentIterable.from(getRefNames(RefNames.REFS_STARRED_CHANGES))
-        .filter(new Predicate<String>() {
-          @Override
-          public boolean apply(String refPart) {
-            return refPart.endsWith("/" + changeId.get());
-          }
-        })
-        .transform(new Function<String, Account.Id>() {
-          @Override
-          public Account.Id apply(String refPart) {
-            return Account.Id.fromRefPart(refPart);
-          }
-        });
-  }
-
-  public ResultSet<Change.Id> query(Account.Id accountId) {
-    try {
-      if (!migration.readChanges()) {
-        return new ChangeIdResultSet(
-            dbProvider.get().starredChanges().byAccount(accountId));
-      }
-
-      return new ListResultSet<>(FluentIterable
-          .from(getRefNames(RefNames.refsStarredChangesPrefix(accountId)))
-          .transform(new Function<String, Change.Id>() {
-            @Override
-            public Change.Id apply(String changeId) {
-              return Change.Id.parse(changeId);
-            }
-          }).toList());
-    } catch (OrmException | RuntimeException e) {
-      log.warn(String.format("Cannot query starred changes for account %d",
-          accountId.get()), e);
-      List<Change.Id> empty = Collections.emptyList();
-      return new ListResultSet<>(empty);
-    }
-  }
-
-  private Set<String> getRefNames(String prefix) throws OrmException {
-    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
-      RefDatabase refDb = repo.getRefDatabase();
-      return refDb.getRefs(prefix).keySet();
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
-  }
-
-  private static class ChangeIdResultSet implements ResultSet<Change.Id> {
-    private static final Function<StarredChange, Change.Id>
-        STARRED_CHANGE_TO_CHANGE_ID =
-            new Function<StarredChange, Change.Id>() {
-              @Override
-              public Change.Id apply(StarredChange starredChange) {
-                return starredChange.getChangeId();
-              }
-            };
-
-    private final ResultSet<StarredChange> starredChangesResultSet;
-
-    ChangeIdResultSet(ResultSet<StarredChange> starredChangesResultSet) {
-      this.starredChangesResultSet = starredChangesResultSet;
-    }
-
-    @Override
-    public Iterator<Change.Id> iterator() {
-      return Iterators.transform(starredChangesResultSet.iterator(),
-          STARRED_CHANGE_TO_CHANGE_ID);
-    }
-
-    @Override
-    public List<Change.Id> toList() {
-      return Lists.transform(starredChangesResultSet.toList(),
-          STARRED_CHANGE_TO_CHANGE_ID);
-    }
-
-    @Override
-    public void close() {
-      starredChangesResultSet.close();
     }
   }
 }

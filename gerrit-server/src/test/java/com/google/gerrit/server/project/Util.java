@@ -29,6 +29,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -37,7 +38,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
@@ -326,8 +327,7 @@ public class Util {
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
         bind(MergeabilityCache.class)
           .to(MergeabilityCache.NotImplemented.class);
-        bind(StarredChangesUtil.class)
-          .toProvider(Providers.<StarredChangesUtil> of(null));
+        DynamicItem.itemOf(binder(), StarredChangesCache.class);
       }
     });
 

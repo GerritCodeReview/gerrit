@@ -164,6 +164,30 @@
       "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b67630e_985275e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-11-19T10:38:15Z",
+      "side": 1,
+      "message": "Yes, agreed. Let\u0027s leave it like that and minimise the moving parts.",
+      "parentUuid": "bbd507d1_b154204b",
+      "range": {
+        "startLine": 124,
+        "startChar": 58,
+        "endLine": 124,
+        "endChar": 60
+      },
+      "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

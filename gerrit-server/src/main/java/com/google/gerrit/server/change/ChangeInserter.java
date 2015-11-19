@@ -21,6 +21,7 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -46,7 +47,6 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -228,7 +228,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws InvalidChangeOperationException, IOException {
+      throws ResourceConflictException, IOException {
     validate(ctx);
     patchSetInfo = patchSetInfoFactory.get(
         ctx.getRevWalk(), commit, patchSet.getId());
@@ -307,7 +307,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   private void validate(RepoContext ctx)
-      throws IOException, InvalidChangeOperationException {
+      throws IOException, ResourceConflictException {
     if (validatePolicy == CommitValidators.Policy.NONE) {
       return;
     }
@@ -339,7 +339,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         break;
       }
     } catch (CommitValidationException e) {
-      throw new InvalidChangeOperationException(e.getFullMessage());
+      throw new ResourceConflictException(e.getFullMessage());
     }
   }
 }

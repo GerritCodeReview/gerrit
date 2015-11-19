@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb9cdf2b_db8553c0",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T17:09:44Z",
+      "side": 1,
+      "message": "Unrelated cleanup could come as separate changes in the same series.",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_3097c82c",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T17:09:44Z",
+      "side": 1,
+      "message": "Unrelated to this change.",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_bb8c07e8",
+        "filename": "polygerrit-ui/app/scripts/app.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T17:09:44Z",
+      "side": 1,
+      "message": "I thought of a somewhat convoluted use case where you might want to do this. Example using the current UI:\n\n* Start on PS4 of a change\n* Use the patch sets dropdown to switch to PS2\n* Decide you want to diff PS2 against PS3, so change the \"diff against\" dropdown to say PS3\n* Click on a file, realize PS3 is on the left and PS2 is on the right, so you want to swap them\n* Swap them in two clicks by clicking 2 on the right side and 3 on the left side.\n\nIn the last step, you are briefly diffing 2 against 2. It\u0027s not that you want to do that per se, it\u0027s that it\u0027s the easiest way to swap LHS and RHS without having to switch one of them to a temporary unrelated patch set.\n\nI\u0027m thinking we can fix this directly by saying, if you click a patch set number that would lead to N..N, instead just swap them.\n\nI\u0027m fine with bailing and redirecting somewhere else if you encounter N..N in a URL.",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

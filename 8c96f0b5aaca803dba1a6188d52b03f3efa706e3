@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbd507d1_f1338836",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/LifecycleListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T00:23:31Z",
+      "side": 1,
+      "message": "While you\u0027re in here:\n\nInvoked",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "8c96f0b5aaca803dba1a6188d52b03f3efa706e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

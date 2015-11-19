@@ -339,7 +339,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         break;
       }
     } catch (CommitValidationException e) {
-      throw new InvalidChangeOperationException(e.getMessage());
+      throw new InvalidChangeOperationException(e.getFullMessage());
     }
   }
 }

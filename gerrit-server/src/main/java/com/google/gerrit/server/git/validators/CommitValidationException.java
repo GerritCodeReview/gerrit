@@ -23,7 +23,8 @@ public class CommitValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;
   private final List<CommitValidationMessage> messages;
 
-  public CommitValidationException(String reason, List<CommitValidationMessage> messages) {
+  public CommitValidationException(String reason,
+      List<CommitValidationMessage> messages) {
     super(reason);
     this.messages = messages;
   }
@@ -40,5 +41,17 @@ public class CommitValidationException extends ValidationException {
 
   public List<CommitValidationMessage> getMessages() {
     return messages;
+  }
+
+  /** @return the reason string along with all validation messages. */
+  public String getFullMessage() {
+    StringBuilder sb = new StringBuilder(getMessage());
+    if (!messages.isEmpty()) {
+      sb.append(':');
+      for (CommitValidationMessage msg : messages) {
+        sb.append("\n  ").append(msg.getMessage());
+      }
+    }
+    return sb.toString();
   }
 }

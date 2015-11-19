@@ -330,7 +330,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
         break;
       }
     } catch (CommitValidationException e) {
-      throw new ResourceConflictException(e.getMessage());
+      throw new ResourceConflictException(e.getFullMessage());
     }
   }
 }

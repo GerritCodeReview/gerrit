@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7bdf0ff3_8f30d52b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-19T10:56:59Z",
+      "side": 1,
+      "message": "Yes. It was discussed in the review history of this change that this would be desired behavior. However, I decided to only tweak upgrade issue in this change. Upgrade issue is critical bug and our project had already Gerrit outage because of this issue and other projects reported upgrade problems, because of wrong default option on site upgrade, leaving Gerrit site in broken state. So this change only addresses upgrade problem and leaves default installation option unchanged. I missed to update this part of the commit message. Done.",
+      "parentUuid": "9b67630e_386489c7",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 6
+      },
+      "revId": "f6a5e3f29e2edff51d0ea3c7fe193c838754a38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b67630e_d858ed09",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
         "patchSetId": 3

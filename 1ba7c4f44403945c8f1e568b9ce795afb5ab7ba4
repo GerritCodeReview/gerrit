@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9bdcc3fe_50712ceb",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T17:25:14Z",
+      "side": 1,
+      "message": "I guess I\u0027m ok with this because like you say it\u0027s pretty minor, but as a meta-question we should be asking ourselves what is the source of headaches here, and can we change the tools/workflow to make it less of a headache. Which I feel like is fair game considering you\u0027re thinking about overhauling Gerrit UX ;)",
+      "parentUuid": "fb9cdf2b_5b5b8338",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_bb8c07e8",
         "filename": "polygerrit-ui/app/scripts/app.js",
         "patchSetId": 7

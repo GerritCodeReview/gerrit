@@ -188,6 +188,30 @@
       "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9cdf2b_9ba10b67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T13:07:52Z",
+      "side": 1,
+      "message": "Happy to change it if it\u0027s too slow for large sites, but I don\u0027t really want yet another config option just for this.",
+      "parentUuid": "9b67630e_985275e6",
+      "range": {
+        "startLine": 124,
+        "startChar": 58,
+        "endLine": 124,
+        "endChar": 60
+      },
+      "revId": "558b61cca1b680aed2f113a758f5ca0670fc1d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bdf0ff3_4fcd0d39",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-11-19T22:05:52Z",
+      "side": 1,
+      "message": "JavaDocs?",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "5940a42997480569187f2e4cc186c3fc78422f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bdf0ff3_6fd251de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-11-19T22:05:52Z",
+      "side": 1,
+      "message": "Why don\u0027t we just pass the changeId to the listeners? We would avoid the creation of objects, even when there are not listeners listening to it.",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 6
+      },
+      "revId": "5940a42997480569187f2e4cc186c3fc78422f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

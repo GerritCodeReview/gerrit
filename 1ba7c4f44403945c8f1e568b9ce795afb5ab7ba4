@@ -90,6 +90,172 @@
     },
     {
       "key": {
+        "uuid": "fbca1f38_abb829e9",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T18:30:51Z",
+      "side": 1,
+      "message": "I agree with your reasoning and am fine with this.\n\nBut two things I wanted to point out.\n\nOne, if you aren\u0027t familiar with the process of splitting up one commit into smaller commits and rearranging them with an interactive rebase, it can be easier to learn on a commit like this where it\u0027s pretty clear-cut at the file level, rather than something more complicated that could generate conflicts within a file. (Not trying to presume one way or the other about your previous git experience.)\n\nTwo, I tend to use number of files changed as a rough estimate for how long it\u0027s going to take me to review something, and too many files can make my eyes glaze over. Yes I realize this is really my problem, and shouldn\u0027t have to be yours.",
+      "parentUuid": "9bdcc3fe_307028e5",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbca1f38_6ba321c3",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T18:30:51Z",
+      "side": 1,
+      "message": "So I understand how this works: when you add a key to the object you pass to Polymer(), it goes through and converts any values that are functions into some other type that has this magic bind method. Sound right?",
+      "range": {
+        "startLine": 57,
+        "startChar": 44,
+        "endLine": 57,
+        "endChar": 48
+      },
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbca1f38_0ba85d9a",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T18:30:51Z",
+      "side": 1,
+      "message": "So on-tap is a Polymer thing, right? Because I thought native HTML handlers are like onClick.",
+      "range": {
+        "startLine": 55,
+        "startChar": 32,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbca1f38_2bad19ab",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T18:30:51Z",
+      "side": 1,
+      "message": "What\u0027s with these jsdoc blocks that are not attached to anything?",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbca1f38_cbb1f509",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T18:30:51Z",
+      "side": 1,
+      "message": "Am I missing something, or is this not currently used?",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_905eb451",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T18:30:51Z",
+      "side": 1,
+      "message": "IIUC debounce-duration has no effect if auto\u003dfalse (which is the default).\n\nAlthough considering that you explicitly call generateRequest() on these on each change to params, I\u0027m wondering if maybe auto\u003dtrue is really what you want. \n\nhttps://elements.polymer-project.org/elements/iron-ajax says:\n\n\"If true, automatically performs an Ajax request when either url or params changes\"\n\nIf I understand computed bindings correctly, this will reevaluate the function on any change to one of the arguments, and notify the child element if and only if the value changes.",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbca1f38_ebae31a5",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T18:30:51Z",
+      "side": 1,
+      "message": "You only ever pass the same set of fields as arguments to _maybeRenderDiff; would it make more sense to just access the fields within that method, and avoid repeating yourself when calling it?",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbca1f38_8bbbede5",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T18:30:51Z",
+      "side": 1,
+      "message": "You previously said that we\u0027re bypassing the Polymer DOM utility functions for performance reasons, but this chunk feels like it would be a lot cleaner if it looked more like html. Is there not a way to do a dynamic loop of adding webcomponents as html? Or is that exactly the Polymer DOM stuff that we\u0027re avoiding?",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_b05bb860",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T18:30:51Z",
+      "side": 1,
+      "message": "I don\u0027t follow, what\u0027s the deal with this \u003ci\u003e ruler thing?",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_bb8c07e8",
         "filename": "polygerrit-ui/app/scripts/app.js",
         "patchSetId": 7
@@ -101,6 +267,23 @@
       "writtenOn": "2015-11-19T17:09:44Z",
       "side": 1,
       "message": "I thought of a somewhat convoluted use case where you might want to do this. Example using the current UI:\n\n* Start on PS4 of a change\n* Use the patch sets dropdown to switch to PS2\n* Decide you want to diff PS2 against PS3, so change the \"diff against\" dropdown to say PS3\n* Click on a file, realize PS3 is on the left and PS2 is on the right, so you want to swap them\n* Swap them in two clicks by clicking 2 on the right side and 3 on the left side.\n\nIn the last step, you are briefly diffing 2 against 2. It\u0027s not that you want to do that per se, it\u0027s that it\u0027s the easiest way to swap LHS and RHS without having to switch one of them to a temporary unrelated patch set.\n\nI\u0027m thinking we can fix this directly by saying, if you click a patch set number that would lead to N..N, instead just swap them.\n\nI\u0027m fine with bailing and redirecting somewhere else if you encounter N..N in a URL.",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_50d60ceb",
+        "filename": "polygerrit-ui/app/test/gr-diff-comment-thread-test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-19T18:30:51Z",
+      "side": 1,
+      "message": "High-level question: this is just a simple utility method for sorting some JSON objects. Is it really necessary to set up a webcomponent test fixture for this kind of test?\n\nI\u0027m imagining a world where we have some \"small\" JS tests that can run in pure headless node and not have to spin up a browser or three. Is that a world we\u0027re interested in? Or not worth it?",
       "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

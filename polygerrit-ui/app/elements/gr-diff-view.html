@@ -15,12 +15,23 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-diff-comment-thread.html">
 
 <dom-module id="gr-diff-view">
   <template>
     <style>
       :host {
         display: block;
+      }
+      h3 {
+        border-bottom: 1px solid #ddd;
+        margin: 0 20px 20px 20px;
+        padding-bottom: 10px;
+      }
+      .mainContainer {
+        margin: 0 auto;
+        max-width: calc(100% - 40px);
+        overflow: auto;
       }
       .diffContainer {
         display: flex;
@@ -34,15 +45,27 @@ limitations under the License.
         text-align: right;
       }
       .diffContent {
+        min-width: 80ch;
         padding-left: 2px;
+      }
+      .ruler {
+        display: block;
+        background-color: #ddd;
+        height: 1.3em;
+        position: absolute;
+        top: 0;
+        width: 1px;
       }
       .lineNum:before,
       .content:before {
         /* To ensure the height is non-zero in these elements, a
            zero-width space is set as its content. The character
-           itself doesn’t matter. Just that there is something
+           itself doesn't matter. Just that there is something
            there. */
         content: '\200B';
+      }
+      .content {
+        position: relative;
       }
       .lineNum.blank {
         border-right: 2px solid #F34D4D;
@@ -78,13 +101,28 @@ limitations under the License.
         id="diffXHR"
         url="[[_computeDiffPath(_changeNum, _patchNum, _path)]]"
         json-prefix=")]}'"
-        on-response="_handleDiffResponse"
-        debounce-duration="300"></iron-ajax>
-    <div class="diffContainer" id="diffContainer">
-      <div class="diffNumbers" id="leftDiffNumbers"></div>
-      <div class="diffContent" id="leftDiffContent"></div>
-      <div class="diffNumbers" id="rightDiffNumbers"></div>
-      <div class="diffContent" id="rightDiffContent"></div>
+        on-response="_handleDiffResponse"></iron-ajax>
+    <iron-ajax
+        id="leftCommentsXHR"
+        url="[[_computeCommentsPath(_changeNum, _basePatchNum)]]"
+        json-prefix=")]}'"
+        on-response="_handleLeftCommentsResponse"></iron-ajax>
+    <iron-ajax
+        id="rightCommentsXHR"
+        url="[[_computeCommentsPath(_changeNum, _patchNum)]]"
+        json-prefix=")]}'"
+        on-response="_handleRightCommentsResponse"></iron-ajax>
+    <h3>
+      <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
+      <span>[[_change.subject]]</span>
+    </h3>
+    <div class="mainContainer">
+      <div class="diffContainer" id="diffContainer">
+        <div class="diffNumbers" id="leftDiffNumbers"></div>
+        <div class="diffContent" id="leftDiffContent"></div>
+        <div class="diffNumbers" id="rightDiffNumbers"></div>
+        <div class="diffContent" id="rightDiffContent"></div>
+      </div>
     </div>
   </template>
   <script>
@@ -102,11 +140,24 @@ limitations under the License.
           type: Object,
           observer: '_paramsChanged',
         },
+        rulerWidth: {
+          type: Number,
+          value: 80,
+          observer: '_rulerWidthChanged',
+        },
         _change: Object,
         _changeNum: String,
+        _diff: Object,
         _basePatchNum: String,
         _patchNum: String,
         _path: String,
+        _leftComments: Array,
+        _rightComments: Array,
+        _rendered: Boolean,
+      },
+
+      listeners: {
+        'diffContainer.tap': '_diffContainerTapHandler'
       },
 
       _paramsChanged: function(value) {
@@ -114,17 +165,48 @@ limitations under the License.
         this._patchNum = value.patchNum;
         this._basePatchNum = value.basePatchNum;
         this._path = value.path;
-        if (!this._changeNum) {
+        if (!this._patchNum) {
           this._change = null;
           this._basePatchNum = null;
           this._patchNum = null;
+          this._diff = null;
           this._path = null;
+          this._leftComments = null;
+          this._rightComments = null;
+          this._rendered = false;
           return;
         }
         // Assign the params here since a computed binding relying on
-        // `_basePatchNum` won’t fire in the case where it’s not defined.
-        this.$.diffXHR.params = this._diffQueryParams();
+        // `_basePatchNum` won't fire in the case where it's not defined.
+        this.$.diffXHR.params = this._diffQueryParams(this._basePatchNum);
         this.$.diffXHR.generateRequest();
+
+        if (this._basePatchNum) {
+          this.$.leftCommentsXHR.generateRequest();
+        }
+        this.$.rightCommentsXHR.generateRequest();
+      },
+
+      _rulerWidthChanged: function(newValue, oldValue) {
+        if (newValue < 0) {
+          throw Error('ruler width must be greater than zero.');
+        }
+        if (oldValue == 0) {
+          this._renderRulerElements();
+        }
+        var remove = newValue == 0;
+        var rulerEls = document.querySelectorAll('.ruler');
+        for (var i = 0; i < rulerEls.length; i++) {
+          if (remove) {
+            rulerEls[i].parentNode.removeChild(rulerEls[i]);
+          } else {
+            rulerEls[i].style.left = newValue + 'ch';
+          }
+        }
+      },
+
+      _computeChangePath: function(changeNum) {
+        return '/c/' + changeNum;
       },
 
       _computeChangeDetailPath: function(changeNum) {
@@ -143,6 +225,10 @@ limitations under the License.
             encodeURIComponent(path) + '/diff';
       },
 
+      _computeCommentsPath: function(changeNum, patchNum) {
+        return '/changes/' + changeNum + '/revisions/' + patchNum + '/comments';
+      },
+
       _diffQueryParams: function(basePatchNum) {
         var params =  {
           context: 'ALL',
@@ -154,15 +240,114 @@ limitations under the License.
         return params;
       },
 
-      _handleDiffResponse: function(e, req) {
-        var diff = e.detail.response;
-        this._constructDOM(diff);
+      _diffContainerTapHandler: function(e) {
+        var el = e.detail.sourceEvent.target;
+        if (el.classList.contains('lineNum')) {
+          // TODO: Implement adding draft comments.
+        }
       },
 
-      _constructDOM: function(diff) {
-        if (!diff.content) { return; }
+      _handleLeftCommentsResponse: function(e, req) {
+        this._leftComments = e.detail.response[this._path] || [];
+        this._maybeRenderDiff(this._diff, this._leftComments,
+            this._rightComments);
+      },
+
+      _handleRightCommentsResponse: function(e, req) {
+        this._rightComments = e.detail.response[this._path] || [];
+        this._maybeRenderDiff(this._diff, this._leftComments,
+            this._rightComments);
+      },
+
+      _handleDiffResponse: function(e, req) {
+        this._diff = e.detail.response;
+        this._maybeRenderDiff(this._diff, this._leftComments,
+            this._rightComments);
+      },
+
+      _threadID: function(patchNum, lineNum) {
+        return 'thread-' + patchNum + '-' + lineNum;
+      },
+
+      _renderComments: function(comments, patchNum) {
+        // Group the comments by line number. Absense of a line number indicates
+        // a top-level file comment.
+        var threads = {};
+
+        for (var i = 0; i < comments.length; i++) {
+          var line = comments[i].line || 'FILE';
+          if (threads[line] == null) {
+            threads[line] = []
+          }
+          threads[line].push(comments[i]);
+        }
+        for (var lineNum in threads) {
+          this._addThread(threads[lineNum], patchNum, lineNum);
+        }
+      },
+
+      _addThread: function(comments, patchNum, lineNum) {
+        var el = document.createElement('gr-diff-comment-thread');
+        el.comments = comments;
+        var threadID = this._threadID(patchNum, lineNum);
+        el.setAttribute('data-thread-id', threadID);
+
+        // Find the element that the thread should be appended after. In the
+        // case of a file comment, it will be appended after the first line.
+        // TODO: Show file comment above the file itself.
+        var fileComment = lineNum == 'FILE';
+        if (fileComment) {
+          lineNum = 1;
+        }
+        var contentEl = this.$$('.content' +
+            '[data-patch-num="' + patchNum + '"]' +
+            '[data-line-num="' + lineNum + '"]');
+        var rowNum = contentEl.getAttribute('data-row-num');
+        el.addEventListener('gr-diff-comment-thread-height-changed',
+            this._handleCommentThreadHeightChange.bind(this, rowNum, threadID));
+
+        Polymer.dom(contentEl.parentNode).insertBefore(
+            el, contentEl.nextSibling);
+      },
+
+      _handleCommentThreadHeightChange: function(rowNum, threadID, e) {
+        // Adjust the filler element heights if they're present in the DOM.
+        var els = this.querySelectorAll(
+            '.js-threadFiller[data-thread-id="' + threadID + '"]');
+        if (els.length > 0) {
+          for (var i = 0; i < els.length; i++) {
+            els[i].style.height = e.detail.height + 'px';
+          }
+          return;
+        }
+
+        // Create the filler elements if they're not already present.
+        var els = this.querySelectorAll('[data-row-num="' + rowNum + '"]');
+        for (var i = 0; i < els.length; i++) {
+          // Is this is the side with the comment? Skip if so.
+          if (els[i].nextSibling &&
+              els[i].nextSibling.tagName == 'GR-DIFF-COMMENT-THREAD') {
+            continue;
+          }
+          var fillerEl = document.createElement('div');
+          fillerEl.setAttribute('data-thread-id', threadID);
+          fillerEl.className = 'js-threadFiller';
+          fillerEl.style.height = e.detail.height + 'px';
+          Polymer.dom(els[i].parentNode).insertBefore(
+              fillerEl, els[i].nextSibling);
+        }
+      },
+
+      _maybeRenderDiff: function(diff, leftComments, rightComments) {
+        if (this._rendered) {
+          throw Error('diff has already been rendered');
+        }
+        if (!diff || !diff.content) { return; }
+        if (this._basePatchNum && leftComments == null) { return; }
+        if (rightComments == null) { return; }
         var initialLineNum = 0 + (diff.content.skip || 0);
         var ctx = {
+          rowNum: 0,
           left: {
             lineNum: initialLineNum,
             content: '',
@@ -177,6 +362,19 @@ limitations under the License.
         for (var i = 0; i < diff.content.length; i++) {
           this._addDiffChunk(ctx, diff.content[i]);
         }
+
+        if (leftComments) {
+          this._renderComments(leftComments, this._basePatchNum);
+        }
+        if (rightComments) {
+          this._renderComments(rightComments, this._patchNum);
+        }
+
+        if (this.rulerWidth) {
+          this._renderRulerElements();
+        }
+
+        this._rendered = true;
       },
 
       _addDiffChunk: function(ctx, diffChunk) {
@@ -224,32 +422,41 @@ limitations under the License.
       },
 
       _addRow: function(ctx) {
-        var leftLineNumEl = document.createElement('div');
-        var rightLineNumEl = document.createElement('div');
-        var leftColEl = document.createElement('div');
-        var rightColEl = document.createElement('div');
+        var leftLineNumEl = this._createElement('div', 'lineNum');
+        var leftColEl = this._createElement('div', 'content');
+        var rightLineNumEl = this._createElement('div', 'lineNum');
+        var rightColEl = this._createElement('div', 'content');
 
-        // These classes are added to account for Polymer’s polyfill behavior.
-        // In order to guarantee sufficient specificity within the CSS rules,
-        // these are added to every element. Since the Polymer DOM utility
-        // functions (which would do this automatically) are not being used for
-        // performance reasons, this is done manually.
-        leftColEl.className = 'style-scope gr-diff-view content';
-        rightColEl.className = 'style-scope gr-diff-view content';
-        leftLineNumEl.className = 'style-scope gr-diff-view lineNum';
-        rightLineNumEl.className = 'style-scope gr-diff-view lineNum';
+        [leftColEl,
+         rightColEl,
+         leftLineNumEl,
+         rightLineNumEl].forEach(function(el) {
+          el.setAttribute('data-row-num', ctx.rowNum);
+        });
 
-        if (ctx.left.content != undefined) {
+        var self = this;
+        if (this._basePatchNum) {
+          [leftLineNumEl, leftColEl].forEach(function(el) {
+            el.setAttribute('data-patch-num', self._basePatchNum);
+          });
+        }
+        [rightLineNumEl, rightColEl].forEach(function(el) {
+          el.setAttribute('data-patch-num', self._patchNum);
+        });
+
+        if (ctx.left.content != null) {
           leftLineNumEl.textContent = ctx.left.lineNum;
-          leftLineNumEl.id = 'L' + ctx.left.lineNum;
-          leftColEl.id = 'LC' + ctx.left.lineNum;
+          [leftLineNumEl, leftColEl].forEach(function(el) {
+            el.setAttribute('data-line-num', ctx.left.lineNum);
+          });
         } else {
           leftLineNumEl.classList.add('blank');
         }
-        if (ctx.right.content != undefined) {
+        if (ctx.right.content != null) {
           rightLineNumEl.textContent = ctx.right.lineNum;
-          rightLineNumEl.id = 'R' + ctx.right.lineNum;
-          rightColEl.id = 'RC' + ctx.right.lineNum;
+          [rightLineNumEl, rightColEl].forEach(function(el) {
+            el.setAttribute('data-line-num', ctx.right.lineNum);
+          });
         } else {
           rightLineNumEl.classList.add('blank');
         }
@@ -287,8 +494,29 @@ limitations under the License.
         this.$.leftDiffContent.appendChild(leftColEl);
         this.$.rightDiffNumbers.appendChild(rightLineNumEl);
         this.$.rightDiffContent.appendChild(rightColEl);
+
+        ctx.rowNum++;
       },
 
+      _renderRulerElements: function() {
+        var contentEls = this.querySelectorAll('.content');
+        for (var i = 0; i < contentEls.length; i++) {
+          var rulerEl = this._createElement('i', 'ruler');
+          rulerEl.style.left = this.rulerWidth + 'ch';
+          contentEls[i].appendChild(rulerEl);
+        }
+      },
+
+      _createElement: function(tagName, className) {
+        var el = document.createElement(tagName);
+        // These classes are added to account for Polymer's polyfill behavior.
+        // In order to guarantee sufficient specificity within the CSS rules,
+        // these are added to every element. Since the Polymer DOM utility
+        // functions (which would do this automatically) are not being used for
+        // performance reasons, this is done manually.
+        el.className = 'style-scope gr-diff-view ' + className;
+        return el;
+      },
     });
   })();
   </script>

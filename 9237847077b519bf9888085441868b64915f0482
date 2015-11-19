@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbca1f38_cb081570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-19T22:17:50Z",
+      "side": 1,
+      "message": "After more investigation, it is discovered that the operations from the gerrit core has no issue with the included groups without this change.\n\nSo far, only the replication has the issue with the included groups here.\n\ni.e. This method contains both the parent group that has READ permission to the project and its included group which the user belongs to when executing the command \u0027gerrit ls-user-refs ....\u0027.\nHowever it only contains the included group that the user belongs to when executing the command \u0027replication start .....\u0027",
+      "range": {
+        "startLine": 543,
+        "startChar": 48,
+        "endLine": 543,
+        "endChar": 90
+      },
+      "revId": "9237847077b519bf9888085441868b64915f0482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

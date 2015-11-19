@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "9bdcc3fe_9057944f",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T15:21:55Z",
+      "side": 1,
+      "message": "Not sure what to say ¯\\_(ツ)_/¯",
+      "parentUuid": "bbd507d1_11e08cbb",
+      "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbd2bbe6_b2f0a08a",
         "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
         "patchSetId": 4
@@ -76,6 +94,30 @@
       "writtenOn": "2015-11-19T01:53:07Z",
       "side": 1,
       "message": "Is this explicit path needed even though it\u0027s in the same path as the current file?",
+      "range": {
+        "startLine": 18,
+        "startChar": 25,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_b054184b",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T15:21:55Z",
+      "side": 1,
+      "message": "No. I’ll remove the ./",
+      "parentUuid": "dbd2bbe6_b2f0a08a",
       "range": {
         "startLine": 18,
         "startChar": 25,
@@ -111,6 +153,30 @@
     },
     {
       "key": {
+        "uuid": "9bdcc3fe_50236ceb",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T15:21:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbd507d1_31e590cc",
+      "range": {
+        "startLine": 314,
+        "startChar": 45,
+        "endLine": 314,
+        "endChar": 46
+      },
+      "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbd2bbe6_52fff458",
         "filename": "polygerrit-ui/app/scripts/app.js",
         "patchSetId": 4
@@ -122,6 +188,24 @@
       "writtenOn": "2015-11-19T01:53:07Z",
       "side": 1,
       "message": "Note that the current UI does allow this.",
+      "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bdcc3fe_7028f0c4",
+        "filename": "polygerrit-ui/app/scripts/app.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T15:21:55Z",
+      "side": 1,
+      "message": "Yes I know and it’s silly :)",
+      "parentUuid": "dbd2bbe6_52fff458",
       "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

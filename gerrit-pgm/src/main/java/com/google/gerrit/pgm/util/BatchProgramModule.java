@@ -18,12 +18,14 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StarredChangesCache;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -108,6 +110,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(ReplacePatchSetSender.Factory.class).toProvider(
         Providers.<ReplacePatchSetSender.Factory>of(null));
     bind(CurrentUser.class).to(IdentifiedUser.class);
+    DynamicItem.itemOf(binder(), StarredChangesCache.class);
     factory(BatchUpdate.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);

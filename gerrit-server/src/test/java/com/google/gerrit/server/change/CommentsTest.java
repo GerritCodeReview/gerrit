@@ -28,6 +28,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -47,7 +48,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -185,8 +186,7 @@ public class CommentsTest extends GerritServerTests {
             .toInstance(GitReferenceUpdated.DISABLED);
         bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
           .toInstance(serverIdent);
-        bind(StarredChangesUtil.class)
-          .toProvider(Providers.<StarredChangesUtil> of(null));
+        DynamicItem.itemOf(binder(), StarredChangesCache.class);
       }
 
       @Provides

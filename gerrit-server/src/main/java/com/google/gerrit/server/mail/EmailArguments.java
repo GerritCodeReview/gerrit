@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -22,7 +23,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
@@ -74,7 +75,7 @@ public class EmailArguments {
   final RuntimeInstance velocityRuntime;
   final EmailSettings settings;
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
-  final StarredChangesUtil starredChangesUtil;
+  final DynamicItem<StarredChangesCache> starredChangesCache;
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
@@ -99,7 +100,7 @@ public class EmailArguments {
       EmailSettings settings,
       @SshAdvertisedAddresses List<String> sshAddresses,
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
-      StarredChangesUtil starredChangesUtil) {
+      DynamicItem<StarredChangesCache> starredChangesCache) {
     this.server = server;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
@@ -125,6 +126,6 @@ public class EmailArguments {
     this.settings = settings;
     this.sshAddresses = sshAddresses;
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
-    this.starredChangesUtil = starredChangesUtil;
+    this.starredChangesCache = starredChangesCache;
   }
 }

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -95,8 +96,7 @@ public class IdentifiedUserTest {
         bind(CapabilityControl.Factory.class)
           .toProvider(Providers.<CapabilityControl.Factory>of(null));
         bind(Realm.class).toInstance(mockRealm);
-        bind(StarredChangesUtil.class)
-            .toProvider(Providers.<StarredChangesUtil> of(null));
+        DynamicItem.itemOf(binder(), StarredChangesCache.class);
       }
     };
 

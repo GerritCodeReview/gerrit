@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbd507d1_31fef05a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T12:33:02Z",
+      "side": 1,
+      "message": "We already instantiated a new HashSet\u003c\u003e() at line 835.  Just return that here.\n\nOr better, invert the logic at line 837 and nest this so that we only return members once, at the end of the method.",
+      "range": {
+        "startLine": 839,
+        "startChar": 6,
+        "endLine": 839,
+        "endChar": 29
+      },
+      "revId": "2f645d98927c9ea31623ab6dc97469f39c93a5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_d1120471",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T12:33:02Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "2f645d98927c9ea31623ab6dc97469f39c93a5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dbd2bbe6_d27be4ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-19T01:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_551c8c46",
+      "revId": "d1b866eaeb9e8601eba0faa0591ed20fba9a5a95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b203791_3511102f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-11-12T03:24:10Z",
       "side": 1,
       "message": "I tend to agree. Another apporach would be to expose some attributes from ContributorAgreement in ClaInfo class:\n\n* name\n* description\n* agreementUrl",
+      "revId": "d1b866eaeb9e8601eba0faa0591ed20fba9a5a95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_f27868d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-19T01:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_3511102f",
       "revId": "d1b866eaeb9e8601eba0faa0591ed20fba9a5a95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

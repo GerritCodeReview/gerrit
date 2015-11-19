@@ -163,6 +163,15 @@ public final class Change {
       return new Change.Id(Integer.parseInt(id));
     }
 
+    public static Id fromRefPart(String ref) {
+      try {
+        return new Change.Id(
+            Integer.parseInt(ref.substring(ref.lastIndexOf('/') + 1)));
+      } catch (NumberFormatException e) {
+        return null;
+      }
+    }
+
     static int startIndex(String ref) {
       if (ref == null || !ref.startsWith(REFS_CHANGES)) {
         return -1;

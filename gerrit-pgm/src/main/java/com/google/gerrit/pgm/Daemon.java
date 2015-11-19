@@ -47,6 +47,7 @@ import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.server.StarredChangesCacheImpl;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
@@ -388,6 +389,7 @@ public class Daemon extends SiteProgram {
     if (!slave) {
       modules.add(new ChangeCleanupRunner.Module());
     }
+    modules.add(StarredChangesCacheImpl.module());
     return cfgInjector.createChildInjector(modules);
   }
 

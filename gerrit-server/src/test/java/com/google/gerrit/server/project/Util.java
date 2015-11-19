@@ -325,9 +325,9 @@ public class Util {
             .toProvider(AnonymousCowardNameProvider.class);
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
         bind(MergeabilityCache.class)
-          .to(MergeabilityCache.NotImplemented.class);
+            .to(MergeabilityCache.NotImplemented.class);
         bind(StarredChangesUtil.class)
-          .toProvider(Providers.<StarredChangesUtil> of(null));
+            .toProvider(Providers.<StarredChangesUtil> of(null));
       }
     });
 

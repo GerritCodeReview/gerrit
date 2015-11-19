@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "9bdcc3fe_307028e5",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-19T17:32:29Z",
+      "side": 1,
+      "message": "If you feel that the trivial stuff surrounding the meat is impeding your ability to review a change (I see this if there’s a refactor alongside a big feature in the same file, for example), then I think it’s warranted to break it up. Otherwise that behavior will come naturally as the code base gets larger.",
+      "parentUuid": "9bdcc3fe_50712ceb",
+      "revId": "1ba7c4f44403945c8f1e568b9ce795afb5ab7ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9cdf2b_bb8c07e8",
         "filename": "polygerrit-ui/app/scripts/app.js",
         "patchSetId": 7

@@ -293,18 +293,11 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** BCC any user who has starred this change. */
   protected void bccStarredBy() {
-    try {
-      // BCC anyone who has starred this change.
-      //
-      for (Account.Id accountId : args.starredChangesUtil
-          .byChange(change.getId())) {
-        super.add(RecipientType.BCC, accountId);
-      }
-    } catch (OrmException err) {
-      // Just don't BCC everyone. Better to send a partial message to those
-      // we already have queued up then to fail deliver entirely to people
-      // who have a lower interest in the change.
-      log.warn("Cannot BCC users that starred updated change", err);
+    // BCC anyone who has starred this change.
+    //
+    for (Account.Id accountId : args.starredChangesUtil
+        .byChange(change.getId())) {
+      super.add(RecipientType.BCC, accountId);
     }
   }
 

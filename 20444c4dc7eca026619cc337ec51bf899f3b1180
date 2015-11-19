@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbd507d1_312270e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T00:21:30Z",
+      "side": 1,
+      "message": "Add some comment about why we\u0027re doing this?\n\nAlso, unless it\u0027s a bug fix we probably shouldn\u0027t do this on the stable branch.",
+      "revId": "20444c4dc7eca026619cc337ec51bf899f3b1180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

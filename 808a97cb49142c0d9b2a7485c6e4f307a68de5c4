@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbd2bbe6_f2e628d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:53:07Z",
+      "side": 1,
+      "message": "nit: please wrap the commit message at around 70 columns.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 102
+      },
+      "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_92f31c97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:53:07Z",
+      "side": 1,
+      "message": "Use the format:\n\n Bug: Issue 3676\n\nor\n\n Feature: Issue 3676\n\nin the footer block, i.e. with no blank line before Change-Id.",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_11e08cbb",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:53:07Z",
+      "side": 1,
+      "message": "General comment not related to this change:  CodeMirror doesn\u0027t seem to be doing a very good job of the syntax highlighting in these files.",
+      "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_b2f0a08a",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:53:07Z",
+      "side": 1,
+      "message": "Is this explicit path needed even though it\u0027s in the same path as the current file?",
+      "range": {
+        "startLine": 18,
+        "startChar": 25,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_31e590cc",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:53:07Z",
+      "side": 1,
+      "message": "\u0027\n\nAlso in other places.",
+      "range": {
+        "startLine": 314,
+        "startChar": 45,
+        "endLine": 314,
+        "endChar": 46
+      },
+      "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_52fff458",
+        "filename": "polygerrit-ui/app/scripts/app.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:53:07Z",
+      "side": 1,
+      "message": "Note that the current UI does allow this.",
+      "revId": "808a97cb49142c0d9b2a7485c6e4f307a68de5c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

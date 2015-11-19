@@ -22,6 +22,30 @@
       "revId": "5b8e560df57ea80e70fe7c8b96e9e2ad454db2a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bdf0ff3_4f3aed19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-19T05:54:26Z",
+      "side": 1,
+      "message": "Well, we do have setting in the inline editor that marks trailing blanks red. This should be enough: [1], not?\n\n* [1] http://imgur.com/0id2PFz",
+      "parentUuid": "bbd507d1_71db1810",
+      "range": {
+        "startLine": 11,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "5b8e560df57ea80e70fe7c8b96e9e2ad454db2a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

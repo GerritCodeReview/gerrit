@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbd2bbe6_d2644429",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:28:01Z",
+      "side": 1,
+      "message": "Don\u0027t import this.  Instead, explicitly use `AccountGroup.UUID` in statements that use it.",
+      "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_f2614816",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:28:01Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we have a guideline saying that @Assisted arguments should be last?",
+      "range": {
+        "startLine": 187,
+        "startChar": 31,
+        "endLine": 190,
+        "endChar": 47
+      },
+      "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd2bbe6_925ebc51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:28:01Z",
+      "side": 1,
+      "message": "AccountGroup.UUID per the comment at line 32.  See also line 528 where it\u0027s already like that.",
+      "range": {
+        "startLine": 541,
+        "startChar": 16,
+        "endLine": 541,
+        "endChar": 20
+      },
+      "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_915ebc51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:28:01Z",
+      "side": 1,
+      "message": "Might be simpler to just catch them all in one block.  IIRC passing e into the log will cause the log message to include the exception type anyway.",
+      "range": {
+        "startLine": 549,
+        "startChar": 7,
+        "endLine": 555,
+        "endChar": 7
+      },
+      "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd507d1_b15bc060",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-19T01:28:01Z",
+      "side": 1,
+      "message": "Why is this added?",
+      "revId": "f6eb1c3e8cd3fa0a699108d6cecdf7d3c6344a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -37,6 +38,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -97,25 +99,29 @@ public class ScanningChangeCacheImpl implements ChangeCache {
     public List<Change> load(Project.NameKey key) throws Exception {
       try (Repository repo = repoManager.openRepository(key);
           ManualRequestContext ctx = requestContext.open()) {
-        ReviewDb db = ctx.getReviewDbProvider().get();
-        Map<String, Ref> refs =
-            repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
-        Set<Change.Id> ids = new LinkedHashSet<>();
-        for (Ref r : refs.values()) {
-          Change.Id id = Change.Id.fromRef(r.getName());
-          if (id != null) {
-            ids.add(id);
-          }
-        }
-        List<Change> changes = new ArrayList<>(ids.size());
-         // A batch size of N may overload get(Iterable), so use something smaller,
-         // but still >1.
-        for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
-          Iterables.addAll(changes, db.changes().get(batch));
-        }
-        return changes;
+        return scan(repo, ctx.getReviewDbProvider().get());
       }
     }
 
+  }
+
+  public static List<Change> scan(Repository repo, ReviewDb db)
+      throws OrmException, IOException {
+    Map<String, Ref> refs =
+        repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
+    Set<Change.Id> ids = new LinkedHashSet<>();
+    for (Ref r : refs.values()) {
+      Change.Id id = Change.Id.fromRef(r.getName());
+      if (id != null) {
+        ids.add(id);
+      }
+    }
+    List<Change> changes = new ArrayList<>(ids.size());
+    // A batch size of N may overload get(Iterable), so use something smaller,
+    // but still >1.
+    for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
+      Iterables.addAll(changes, db.changes().get(batch));
+    }
+    return changes;
   }
 }

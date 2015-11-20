@@ -77,12 +77,12 @@ public final class PatchSet {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1)
-    protected Change.Id changeId;
+    public Change.Id changeId;
 
     @Column(id = 2)
-    protected int patchSetId;
+    public int patchSetId;
 
-    protected Id() {
+    public Id() {
       changeId = new Change.Id();
     }
 

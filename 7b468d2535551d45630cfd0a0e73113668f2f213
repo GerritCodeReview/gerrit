@@ -22,6 +22,30 @@
       "revId": "7b468d2535551d45630cfd0a0e73113668f2f213",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bdf0ff3_8f24558e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-20T13:55:23Z",
+      "side": 1,
+      "message": "+1. Instead of \u0027:\u0027 delimiter we should use \u0027-\u0027 as in capabilities and secure-store-providers exposed by plugins. Note, that a plugin can have \"-\" in there name, so that:\n\n  [auth]\n    gitOAuthProvider \u003d foo-bar-baz-qux-quux\n\nwould mean plugin: \"foo-bar-baz-qux\", provider: \"quux\".",
+      "parentUuid": "3bc1171a_cd97c908",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 16
+      },
+      "revId": "7b468d2535551d45630cfd0a0e73113668f2f213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import com.google.common.base.Joiner;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -33,6 +36,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -41,7 +46,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class StarredChangesUtil {
@@ -67,32 +77,34 @@ public class StarredChangesUtil {
     this.starredChangesCache = starredChangesCache;
   }
 
-  public synchronized void star(Account.Id accountId, Change.Id changeId)
-      throws OrmException {
-    dbProvider.get().starredChanges()
-        .insert(Collections.singleton(new StarredChange(
-            new StarredChange.Key(accountId, changeId))));
-    starredChangesCache.get().star(accountId, changeId);
+  public synchronized void star(Account.Id accountId, Change.Id changeId,
+      String... labels) throws OrmException {
+    List<String> newLabels = Arrays.asList(labels);
+    if (newLabels.contains(StarredChangesCache.DEFAULT_LABEL)) {
+      dbProvider.get().starredChanges()
+          .insert(Collections.singleton(new StarredChange(
+              new StarredChange.Key(accountId, changeId))));
+      starredChangesCache.get().star(accountId, changeId,
+          StarredChangesCache.DEFAULT_LABEL);
+    }
     if (!migration.writeChanges()) {
+      if (!Collections.singleton(StarredChangesCache.DEFAULT_LABEL)
+          .containsAll(newLabels)) {
+        throw new OrmException("labeled stars not supported");
+      }
       return;
     }
-    try (Repository repo = repoManager.openMetadataRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      RefUpdate u = repo.updateRef(
-          RefNames.refsStarredChanges(accountId, changeId));
-      u.setExpectedOldObjectId(ObjectId.zeroId());
-      u.setNewObjectId(emptyTree(repo));
-      u.setRefLogIdent(serverIdent);
-      u.setRefLogMessage("Star change " + changeId.get(), false);
-      RefUpdate.Result result = u.update(rw);
-      switch (result) {
-        case NEW:
-          return;
-        default:
-          throw new OrmException(
-              String.format("Star change %d for account %d failed: %s",
-                  changeId.get(), accountId.get(), result.name()));
+    try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
+      String refName = RefNames.refsStarredChanges(accountId, changeId);
+      ObjectId oldObjectId = getObjectId(repo, refName);
+
+      List<String> labelList = new ArrayList<>(readLabels(repo, oldObjectId));
+      if (!labelList.addAll(newLabels)) {
+        return;
       }
+
+      updateLabels(repo, refName, oldObjectId, labelList);
+      starredChangesCache.get().star(accountId, changeId, labels);
     } catch (IOException e) {
       throw new OrmException(
           String.format("Star change %d for account %d failed",
@@ -100,43 +112,121 @@ public class StarredChangesUtil {
     }
   }
 
-  private static ObjectId emptyTree(Repository repo) throws IOException {
+  public synchronized void unstar(Account.Id accountId, Change.Id changeId,
+      String... labels) throws OrmException {
+    List<String> labelsToRemove = Arrays.asList(labels);
+    if (labelsToRemove.contains(StarredChangesCache.DEFAULT_LABEL)) {
+      dbProvider.get().starredChanges()
+          .delete(Collections.singleton(new StarredChange(
+              new StarredChange.Key(accountId, changeId))));
+      starredChangesCache.get().unstar(accountId, changeId,
+          StarredChangesCache.DEFAULT_LABEL);
+    }
+    if (!migration.writeChanges()) {
+      if (!Collections.singleton(StarredChangesCache.DEFAULT_LABEL)
+          .containsAll(labelsToRemove)) {
+        throw new OrmException("labeled stars not supported");
+      }
+      return;
+    }
+    try (Repository repo = repoManager.openMetadataRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      String refName = RefNames.refsStarredChanges(accountId, changeId);
+      ObjectId oldObjectId = getObjectId(repo, refName);
+
+      List<String> labelList = new ArrayList<>(readLabels(repo, oldObjectId));
+      if (!labelList.removeAll(labelsToRemove)) {
+        return;
+      }
+
+      if (labelList.isEmpty()) {
+        deleteRef(repo, refName, oldObjectId);
+      } else {
+        updateLabels(repo, refName, oldObjectId, labelList);
+      }
+      starredChangesCache.get().unstar(accountId, changeId, labels);
+    } catch (IOException e) {
+      throw new OrmException(
+          String.format("Unstar change %d for account %d failed",
+              changeId.get(), accountId.get()), e);
+    }
+  }
+
+  public static List<String> readLabels(Repository repo, String refName)
+      throws IOException {
+    return readLabels(repo, getObjectId(repo, refName));
+  }
+
+  private static ObjectId getObjectId(Repository repo, String refName)
+      throws IOException {
+    Ref ref = repo.getRef(refName);
+    return ref != null ? ref.getObjectId() : ObjectId.zeroId();
+  }
+
+  private static List<String> readLabels(Repository repo, ObjectId id)
+      throws IOException {
+    if (ObjectId.zeroId().equals(id)) {
+      return Collections.emptyList();
+    }
+
+    try (ObjectReader reader = repo.newObjectReader()) {
+      ObjectLoader obj = reader.open(id, Constants.OBJ_BLOB);
+      return Arrays.asList(UTF_8.newDecoder()
+          .decode(ByteBuffer.wrap(obj.getCachedBytes(Integer.MAX_VALUE)))
+          .toString().split("\\n"));
+    }
+  }
+
+  private static ObjectId writeLabels(Repository repo, List<String> labels)
+      throws IOException {
+    Collections.sort(labels);
     try (ObjectInserter oi = repo.newObjectInserter()) {
-      ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
+      ObjectId id = oi.insert(Constants.OBJ_TREE, UTF_8.newEncoder()
+          .encode(CharBuffer.wrap(Joiner.on("\n").join(labels))).array());
       oi.flush();
       return id;
     }
   }
 
-  public synchronized void unstar(Account.Id accountId, Change.Id changeId)
-      throws OrmException {
-    dbProvider.get().starredChanges()
-        .delete(Collections.singleton(new StarredChange(
-            new StarredChange.Key(accountId, changeId))));
-    starredChangesCache.get().unstar(accountId, changeId);
-    if (!migration.writeChanges()) {
-      return;
-    }
-    try (Repository repo = repoManager.openMetadataRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      RefUpdate u = repo.updateRef(
-          RefNames.refsStarredChanges(accountId, changeId));
+  private void updateLabels(Repository repo, String refName,
+      ObjectId oldObjectId, List<String> labels)
+          throws IOException, OrmException {
+    try (RevWalk rw = new RevWalk(repo)) {
+      RefUpdate u = repo.updateRef(refName);
+      u.setExpectedOldObjectId(oldObjectId);
       u.setForceUpdate(true);
+      u.setNewObjectId(writeLabels(repo, labels));
       u.setRefLogIdent(serverIdent);
-      u.setRefLogMessage("Unstar change " + changeId.get(), true);
-      RefUpdate.Result result = u.delete();
+      u.setRefLogMessage("Update star labels", true);
+      RefUpdate.Result result = u.update(rw);
       switch (result) {
+        case NEW:
         case FORCED:
+        case NO_CHANGE:
+        case FAST_FORWARD:
           return;
         default:
           throw new OrmException(
-              String.format("Unstar change %d for account %d failed: %s",
-                  changeId.get(), accountId.get(), result.name()));
+              String.format("Update star labels on ref %s failed: %s", refName,
+                  result.name()));
       }
-    } catch (IOException e) {
-      throw new OrmException(
-          String.format("Unstar change %d for account %d failed",
-              changeId.get(), accountId.get()), e);
+    }
+  }
+
+  private void deleteRef(Repository repo, String refName, ObjectId oldObjectId)
+      throws IOException, OrmException {
+    RefUpdate u = repo.updateRef(refName);
+    u.setForceUpdate(true);
+    u.setExpectedOldObjectId(oldObjectId);
+    u.setRefLogIdent(serverIdent);
+    u.setRefLogMessage("Unstar change", true);
+    RefUpdate.Result result = u.delete();
+    switch (result) {
+      case FORCED:
+        return;
+      default:
+        throw new OrmException(String.format("Delete star ref %s failed: %s",
+            refName, result.name()));
     }
   }
 

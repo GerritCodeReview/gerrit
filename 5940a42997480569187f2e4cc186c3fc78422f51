@@ -117,6 +117,30 @@
       "revId": "5940a42997480569187f2e4cc186c3fc78422f51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbca1f38_4b3ae519",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-20T13:40:34Z",
+      "side": 1,
+      "message": "Listeners are called synchronously(same as all the other extension point in Gerrit) but the sync-index plugin does the network call asynchronously using a queue. The only overhead added to the reidexing (if you install the plugin) is to put a task in a queue.",
+      "parentUuid": "3bc1171a_0dae3159",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 6
+      },
+      "revId": "5940a42997480569187f2e4cc186c3fc78422f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

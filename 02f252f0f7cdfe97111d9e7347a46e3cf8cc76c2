@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "bbbee78e_e9d71517",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-20T15:52:56Z",
+      "side": 1,
+      "message": "The question is whether we should be concerned about this and rather have an assisted factory for StarredChangesUtil?\nLater in this series, this injection is also changed to StarredChangesCache [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/72566/2/gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+      "parentUuid": "fbca1f38_2b4999b2",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bdcc3fe_10a8849a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 7

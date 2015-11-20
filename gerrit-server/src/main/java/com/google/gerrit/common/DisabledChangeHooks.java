@@ -15,7 +15,6 @@
 package com.google.gerrit.common;
 
 import com.google.gerrit.common.ChangeHookRunner.HookResult;
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;

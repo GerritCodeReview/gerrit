@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb5c2765_59fb63a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T21:18:19Z",
+      "side": 1,
+      "message": "Commit message summary should fit on one line (I think we\u0027re supposed to warn about that on push?)",
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_b9df1f28",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T21:18:19Z",
+      "side": 1,
+      "message": "Is this an unrelated bugfix? IIUC what this would do is change this to a two-way binding, causing the search bar\u0027s value to be updated when the URL changes.",
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_1af1ddc3",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T21:18:19Z",
+      "side": 1,
+      "message": "Of the changes here, it seems like this one is the only one that was actually causing a bug.\n\nIIUC, the computed binding is only recomputed when one of the arguments changes (only after all of them become defined). So a computed binding with no arguments is never recomputed.\n\nContrast this with e.g. [[_computeAvatarURL(change.owner)]] below, which should be recomputed when change.owner changes. This was working already.",
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_99dcdb34",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T21:18:19Z",
+      "side": 1,
+      "message": "IIUC this is the only change that\u0027s needed, and you could have put this in [[]] above instead of creating a separate property. Or am I missing something?\n\n(Ok, I think what I was missing is that there is another component that was calling .changeURL().)",
+      "range": {
+        "startLine": 123,
+        "startChar": 21,
+        "endLine": 123,
+        "endChar": 54
+      },
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_f9e997d4",
+        "filename": "polygerrit-ui/app/elements/gr-search-bar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T21:18:19Z",
+      "side": 1,
+      "message": "I think having an observer here is cleaner than using a value-changed handler, but I don\u0027t see a behavior change. Am I missing something?",
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_7af619bd",
+        "filename": "polygerrit-ui/app/test/gr-search-bar-test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T21:18:19Z",
+      "side": 1,
+      "message": "I don\u0027t understand these tests. What is _preventDefaultAndNavigateToInputVal? What does done() do? Why is the last thing in the test the interaction, rather than testing that something happened (\"triggers nav\")?",
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

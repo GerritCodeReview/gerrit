@@ -40,12 +40,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-class PluginMetricMaker extends MetricMaker implements LifecycleListener {
+public class PluginMetricMaker extends MetricMaker implements LifecycleListener {
   private final MetricMaker root;
   private final String prefix;
   private final Set<RegistrationHandle> cleanup;
 
-  PluginMetricMaker(MetricMaker root, String pluginName) {
+  public PluginMetricMaker(MetricMaker root, String pluginName) {
     this.root = root;
     this.prefix = String.format("plugins/%s/", pluginName);
     cleanup = Collections.synchronizedSet(new HashSet<RegistrationHandle>());

@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bdf0ff3_2f4be93c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-20T14:43:49Z",
+      "side": 1,
+      "message": "This can only work as long as we use a thread pool of size 1, which currently is the case. If this ever changes the tests may start failing randomly.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 71
+      },
+      "revId": "94bb73814caa5490dbee3301c07140682e192998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bdf0ff3_ef272191",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-20T14:43:49Z",
+      "side": 1,
+      "message": "@VisibleForTesting",
+      "revId": "94bb73814caa5490dbee3301c07140682e192998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bc1171a_8da1c166",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-20T14:43:49Z",
+      "side": 1,
+      "message": "extract this into a private static method and reuse from line 200",
+      "range": {
+        "startLine": 177,
+        "startChar": 20,
+        "endLine": 177,
+        "endChar": 80
+      },
+      "revId": "94bb73814caa5490dbee3301c07140682e192998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bdf0ff3_4f3c2da4",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-20T14:43:49Z",
+      "side": 1,
+      "message": "nit: unnecessary reformatting",
+      "revId": "94bb73814caa5490dbee3301c07140682e192998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bc1171a_adb7dda1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/AdjustableTicker.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-20T14:43:49Z",
+      "side": 1,
+      "message": "No test for this class? ;-)",
+      "revId": "94bb73814caa5490dbee3301c07140682e192998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bc1171a_4dcd1939",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/AdjustableTicker.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-20T14:43:49Z",
+      "side": 1,
+      "message": "1. nit: this initialization happens by default according to the Java language spec.\n\n2. does this need to be thread safe?\n\n3. What about using Guava\u0027s FakeTicker [1]\n\n[1] https://code.google.com/p/guava-libraries/source/browse/guava/test/com/google/common/testing/FakeTicker.java?spec\u003dsvn4569adf3c580376e65eec3170429c48e2a9f6255\u0026r\u003d4569adf3c580376e65eec3170429c48e2a9f6255",
+      "range": {
+        "startLine": 21,
+        "startChar": 20,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "94bb73814caa5490dbee3301c07140682e192998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bdf0ff3_cf2fbd61",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-20T14:43:49Z",
+      "side": 1,
+      "message": "The expectation that this will return only when cache.put is finished will only work as long as the size of the thread pool is 1. This should be at least commented here.",
+      "revId": "94bb73814caa5490dbee3301c07140682e192998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

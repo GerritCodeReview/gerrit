@@ -1431,7 +1431,11 @@ link:rest-api-changes.html#change-info[ChangeInfo] entities.
       "status": "NEW",
       "created": "2013-02-01 09:59:32.126000000",
       "updated": "2013-02-21 11:16:36.775000000",
+      "starred": true,
       "mergeable": true,
+      "submittable": false,
+      "insertions": 145,
+      "deletions": 12,
       "_number": 3965,
       "owner": {
         "name": "John Doe"

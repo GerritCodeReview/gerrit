@@ -130,6 +130,24 @@
       "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bafab61_46c7326c",
+        "filename": "polygerrit-ui/app/test/gr-search-bar-test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1022867
+      },
+      "writtenOn": "2015-11-20T22:03:53Z",
+      "side": 1,
+      "message": "This test is written in the form prescribed by WCT (Web Component Tester). The syntax for describing a test suite is the same as that used by Mocha (a popular JavaScript testing framework). This test appears to be doing the following things:\n\n1) Describing an asynchronous Mocha test. This is done by providing passing a callback that deliberately accepts a single argument. Conventionally, this argument is called `done`. Mocha notices that the callback has a parameter and calls it with a callback argument. This callback argument (`done`) can be called by the tester to notify when asynchronous operations are complete. The test will not be considered finished until `done` is called, or a (configurable) timeout elapses. A tester can also call `done` with an argument, and Mocha will fail the test with the argument as the reason.\n\n2) Stubbing a method on `element`. Since DOM events dispatch and propagate synchronously, this has to be done before events are fired (3), otherwise it would not be possible to observe their side-effects. As a side note, WCT brings Sinon.js into the test environment. This library makes creating stubs / spies / mocks etc a little easier and more semantically consistent. For example, this test could achieve the same effect with:\n\n```js\nsinon.stub(element, \u0027_preventDefaultAndNavigateToInputVal\u0027, function() {\n  element._preventDefaultAndNavigateToInputVal.restore();\n  done();\n});\n```\n\nMore on Sinon.js here: http://sinonjs.org/docs/\n\n3) Firing an event on a DOM target to cause expected side-effects to happen.",
+      "parentUuid": "db59db74_7af619bd",
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

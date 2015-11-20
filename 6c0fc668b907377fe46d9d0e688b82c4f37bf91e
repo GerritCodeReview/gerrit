@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3b3f57ea_1da393c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-20T18:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b404344_104f4469",
+      "revId": "6c0fc668b907377fe46d9d0e688b82c4f37bf91e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b404344_f033a0ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
         "patchSetId": 9
@@ -47,6 +65,30 @@
       "writtenOn": "2015-11-17T05:19:41Z",
       "side": 1,
       "message": "We dont need the above two lines. \"Patch Set \u003cnumber\u003e :\" is automatically being added to the comment.",
+      "range": {
+        "startLine": 172,
+        "startChar": 13,
+        "endLine": 172,
+        "endChar": 19
+      },
+      "revId": "6c0fc668b907377fe46d9d0e688b82c4f37bf91e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bafab61_66a34ec3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-11-20T18:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b988b33_fedcc134",
       "range": {
         "startLine": 172,
         "startChar": 13,

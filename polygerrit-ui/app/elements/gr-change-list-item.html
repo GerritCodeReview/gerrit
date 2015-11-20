@@ -76,19 +76,19 @@ limitations under the License.
         <span class="positionIndicator">&#x25b6;</span>
       </td>
       <td>
-        <a href$="[[changeURL()]]">[[change.subject]]</a>
+        <a href$="[[changeURL]]">[[change.subject]]</a>
       </td>
-      <td>[[_computeChangeStatusString(change)]]</td>
+      <td>[[_changeStatusString]]</td>
       <td>
-        <img class="avatarImage" src$="[[_computeAvatarURL(change.owner)]]">
-        <a href$="[[_computeOwnerLink(change.owner.email)]]"
-           title$="[[_computeOwnerTitle(change.owner)]]">[[change.owner.name]]</a>
-      </td>
-      <td>
-        <a href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
+        <img class="avatarImage" src$="[[_avatarURL]]">
+        <a href$="[[_ownerLink]]"
+           title$="[[_ownerTitle]]">[[change.owner.name]]</a>
       </td>
       <td>
-        <a href$="[[_computeProjectBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
+        <a href$="[[_projectURL]]">[[change.project]]</a>
+      </td>
+      <td>
+        <a href$="[[_projectBranchURL]]">[[change.branch]]</a>
       </td>
       <td><gr-date-formatter date-str="[[change.updated]]"></gr-date-formatter></td>
       <td class="u-monospace">
@@ -96,8 +96,8 @@ limitations under the License.
         <span class="u-red"><span>-</span>[[change.deletions]]</span>
       </td>
       <td title="Code-Review"
-          class$="[[_computeCodeReviewClass(change.labels.Code-Review)]]">[[_computeCodeReviewLabel(change.labels.Code-Review)]]</td>
-      <td title="Verified" class="u-green">[[_computeVerifiedLabel(change.labels.Verified)]]</td>
+          class$="[[_codeReviewClass]]">[[_codeReviewLabel]]</td>
+      <td title="Verified" class="u-green">[[_verifiedLabel]]</td>
     </template>
   </template>
   <script>
@@ -118,15 +118,55 @@ limitations under the License.
           reflectToAttribute: true,
         },
         change: Object,
+        changeURL: {
+          type: String,
+          computed: '_computeChangeURL(change._number)',
+        },
+        _changeStatusString: {
+          type: String,
+          computed: '_computeChangeStatusString(change.mergeable)',
+        },
+        _codeReviewClass: {
+          type: String,
+          computed: '_computeCodeReviewClass(change.labels.Code-Review)',
+        },
+        _codeReviewLabel: {
+          type: String,
+          computed: '_computeCodeReviewLabel(change.labels.Code-Review)',
+        },
+        _verifiedLabel: {
+          type: String,
+          computed: '_computeVerifiedLabel(change.labels.Verified)',
+        },
+        _avatarURL: {
+          type: String,
+          computed: '_computeAvatarURL(change.owner)',
+        },
+        _ownerLink: {
+          type: String,
+          computed: '_computeOwnerLink(change.owner.email)',
+        },
+        _ownerTitle: {
+          type: String,
+          computed: '_computeOwnerTitle(change.owner)',
+        },
+        _projectURL: {
+          type: String,
+          computed: '_computeProjectURL(change.project)',
+        },
+        _projectBranchURL: {
+          type: String,
+          computed: '_computeProjectBranchURL(change.project, change.branch)',
+        },
       },
 
-      changeURL: function() {
+      _computeChangeURL: function(changeNum) {
         if (!this.change) { return ''; }
-        return '/c/' + this.change._number + '/';
+        return '/c/' + changeNum + '/';
       },
 
-      _computeChangeStatusString: function(change) {
-        if (!change.mergeable) {
+      _computeChangeStatusString: function(mergeable) {
+        if (!mergeable) {
           return 'Merge Conflict';
         }
         return '';

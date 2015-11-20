@@ -21,8 +21,10 @@ limitations under the License.
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
 <script src="../../bower_components/test-fixture/test-fixture-mocha.js"></script>
-<link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
+<script src="../scripts/util.js"></script>
 
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
 <link rel="import" href="../elements/gr-change-list-item.html">
 
 <test-fixture id="basic">
@@ -39,10 +41,9 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('computed fields', function() {
-      assert.equal(element._computeChangeStatusString({mergeable: true}), '');
-      assert.equal(element._computeChangeStatusString({mergeable: false}),
-          'Merge Conflict');
+    test('computed field functions', function() {
+      assert.equal(element._computeChangeStatusString(true), '');
+      assert.equal(element._computeChangeStatusString(false), 'Merge Conflict');
 
       assert.equal(element._computeCodeReviewClass(), '');
       assert.equal(element._computeCodeReviewClass({}), '');
@@ -75,14 +76,105 @@ limitations under the License.
           }),
           'Andrew Bonventre <andybons+gerrit@gmail.com>');
 
-      // TODO(andybons): _computeProjectURL once it's not a constant.
+      assert.equal(element._computeProjectURL('combustible-lemons'),
+          '/projects/combustible-lemons,dashboards/default');
 
       assert.equal(element._computeProjectBranchURL(
           'combustible-stuff', 'lemons'),
           '/q/status:open+project:combustible-stuff+branch:lemons');
+    });
 
-      element.change = { _number: 42 };
-      assert.equal(element.changeURL(), '/c/42/');
+    test('model changes propagate to the item correctly', function() {
+      var c1 = {
+        'project': 'gerrit',
+        'branch': 'master',
+        'subject': 'ChangeControl: Add getId() method',
+        'status': 'NEW',
+        'updated': '2015-11-20 19:45:25.630000000',
+        'mergeable': true,
+        'insertions': 39,
+        'deletions': 35,
+        '_number': 72610,
+        'owner': {
+          '_account_id': 1010008,
+          'name': 'Dave Borowitz',
+          'email': 'dborowitz@google.com'
+        },
+        'labels': {
+          'Verified': {
+            'approved': {
+              '_account_id': 1022687,
+              'name': 'GerritForge CI',
+              'email': 'gerritforge@gmail.com'
+            }
+          },
+          'Code-Review': {}
+        }
+      };
+      element.change = c1;
+      assert.equal(element.changeURL, '/c/72610/');
+      assert.equal(element._changeStatusString, '');
+      assert.equal(element._codeReviewClass, '');
+      assert.equal(element._codeReviewLabel, '');
+      assert.equal(element._verifiedLabel, '✓');
+      assert.equal(element._avatarURL,
+          '/accounts/dborowitz@google.com/avatar?s=32');
+      assert.equal(element._ownerLink,
+          '/q/owner:dborowitz%40google.com+status:open');
+      assert.equal(element._ownerTitle,
+          'Dave Borowitz <dborowitz@google.com>');
+      assert.equal(element._projectURL,
+          '/projects/gerrit,dashboards/default');
+      assert.equal(element._projectBranchURL,
+          '/q/status:open+project:gerrit+branch:master');
+
+      var c2 = {
+        'id': 'plugins%2Freplication~stable-2.11~Iaf9bd3502c1846c7b4bf89f5e2c068045647efef',
+        'project': 'plugins/replication',
+        'branch': 'stable-2.11',
+        'subject': 'Fetch parent groups of the authGroups',
+        'status': 'NEW',
+        'updated': '2015-11-20 19:43:49.408000000',
+        'mergeable': false,
+        'submittable': false,
+        'insertions': 17,
+        'deletions': 5,
+        '_number': 72633,
+        'owner': {
+          '_account_id': 1021532,
+          'name': 'Sangmoon Hwang',
+          'email': 'simon.hwang@ericsson.com',
+        },
+        'labels': {
+          'Verified': {
+            'approved': {
+              '_account_id': 1021532,
+              'name': 'Sangmoon Hwang',
+              'email': 'simon.hwang@ericsson.com',
+            }
+          },
+          'Code-Review': {
+            'approved': true,
+            'value': 1
+          }
+        }
+      };
+      element.change = c2;
+      assert.equal(element.changeURL, '/c/72633/');
+      assert.equal(element._changeStatusString, 'Merge Conflict');
+      assert.equal(element._codeReviewClass, 'u-green');
+      assert.equal(element._codeReviewLabel, '✓');
+      assert.equal(element._verifiedLabel, '✓');
+      assert.equal(element._avatarURL,
+          '/accounts/simon.hwang@ericsson.com/avatar?s=32');
+      assert.equal(element._ownerLink,
+          '/q/owner:simon.hwang%40ericsson.com+status:open');
+      assert.equal(element._ownerTitle,
+          'Sangmoon Hwang <simon.hwang@ericsson.com>');
+      assert.equal(element._projectURL,
+          '/projects/plugins/replication,dashboards/default');
+      assert.equal(element._projectBranchURL,
+          '/q/status:open+project:plugins/replication+branch:stable-2.11');
     });
 
   });

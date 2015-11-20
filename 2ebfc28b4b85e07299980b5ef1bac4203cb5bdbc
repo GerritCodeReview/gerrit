@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bafab61_86bbeae5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1408,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-11-20T21:36:39Z",
+      "side": 1,
+      "message": "This is awesome, and long overdue!  Can we add all the other thread sources, the ssh \u0026 http connector threads, the replication threads (not sure how to do that), the email sending threadsm and any other background threads... to this default calculation also?",
+      "revId": "2ebfc28b4b85e07299980b5ef1bac4203cb5bdbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

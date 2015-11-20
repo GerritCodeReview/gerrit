@@ -14,9 +14,14 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.Predicate;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -39,7 +44,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
@@ -50,8 +57,7 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
   private static final Logger log =
       LoggerFactory.getLogger(StarredChangesCacheImpl.class);
 
-  private static final String CACHE_NAME = "starred_changes";
-  private static final Object VALUE = new Object();
+  private static final String CACHE_NAME = "stars";
 
   public static Module module() {
     return new CacheModule() {
@@ -59,7 +65,7 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
       protected void configure() {
         persist(CACHE_NAME,
             CacheKey.class,
-            new TypeLiteral<HashBasedTable<Account.Id, Change.Id, Object>>() {})
+            new TypeLiteral<HashBasedTable<Account.Id, Change.Id, HashSet<String>>>() {})
           .maximumWeight(1)
           .loader(Loader.class);
         DynamicItem.bind(binder(), StarredChangesCache.class)
@@ -68,33 +74,50 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
     };
   }
 
-  private final LoadingCache<CacheKey, HashBasedTable<Account.Id, Change.Id, Object>> cache;
+  private final LoadingCache<CacheKey, HashBasedTable<Account.Id, Change.Id, HashSet<String>>> cache;
   private final Lock cacheLock;
 
   @Inject
   StarredChangesCacheImpl(
-      @Named(CACHE_NAME) LoadingCache<CacheKey, HashBasedTable<Account.Id, Change.Id, Object>> cache) {
+      @Named(CACHE_NAME) LoadingCache<CacheKey, HashBasedTable<Account.Id, Change.Id, HashSet<String>>> cache) {
     this.cache = cache;
     this.cacheLock = new ReentrantLock(true /* fair */);
   }
 
   @Override
-  public boolean isStarred(Account.Id accountId, Change.Id changeId) {
+  public boolean isStarred(Account.Id accountId, Change.Id changeId,
+      String label) {
+    return getLabels(accountId, changeId).contains(label);
+  }
+
+  @Override
+  public ImmutableSet<String> getLabels(Account.Id accountId, Change.Id changeId) {
     try {
-      return all().contains(accountId, changeId);
+      HashSet<String> labels = all().get(accountId, changeId);
+      if (labels != null) {
+        return ImmutableSet.copyOf(labels);
+      } else {
+        return ImmutableSet.of();
+      }
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup star for change %d by account %d",
+      log.warn(String.format("Cannot lookup stars for change %d by account %d",
           changeId.get(), accountId.get()), e);
-      return false;
+      return ImmutableSet.of();
     }
   }
 
   @Override
-  public Iterable<Change.Id> byAccount(Account.Id accountId) {
+  public Iterable<Change.Id> byAccount(Account.Id accountId, final String label) {
     try {
-      Map<Change.Id, Object> byAccount = all().rowMap().get(accountId);
+      Map<Change.Id, HashSet<String>> byAccount = all().rowMap().get(accountId);
       if (byAccount != null) {
-        return byAccount.keySet();
+        return Maps.filterEntries(byAccount,
+            new Predicate<Map.Entry<Change.Id, HashSet<String>>>() {
+              @Override
+              public boolean apply(Map.Entry<Change.Id, HashSet<String>> e) {
+                return e.getValue().contains(label);
+              }
+            }).keySet();
       } else {
         return Collections.emptySet();
       }
@@ -106,11 +129,39 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
   }
 
   @Override
-  public Iterable<Account.Id> byChange(Change.Id changeId) {
+  public ImmutableMultimap<Change.Id, String> byAccount(Account.Id accountId) {
     try {
-      Map<Account.Id, Object> byChange = all().columnMap().get(changeId);
+      Map<Change.Id, HashSet<String>> byAccount = all().rowMap().get(accountId);
+      if (byAccount != null) {
+        ImmutableMultimap.Builder<Change.Id, String> b =
+            ImmutableMultimap.builder();
+        for (Map.Entry<Change.Id, HashSet<String>> e : byAccount.entrySet()) {
+          b.putAll(e.getKey(), e.getValue());
+        }
+        return b.build();
+      } else {
+        return ImmutableMultimap.of();
+      }
+    } catch (ExecutionException e) {
+      log.warn(String.format("Cannot lookup stars by account %d",
+          accountId.get()), e);
+      return ImmutableMultimap.of();
+    }
+  }
+
+  @Override
+  public Iterable<Account.Id> byChange(Change.Id changeId, final String label) {
+    try {
+      Map<Account.Id, HashSet<String>> byChange =
+          all().columnMap().get(changeId);
       if (byChange != null) {
-        return byChange.keySet();
+        return Maps.filterEntries(byChange,
+            new Predicate<Map.Entry<Account.Id, HashSet<String>>>() {
+              @Override
+              public boolean apply(Map.Entry<Account.Id, HashSet<String>> e) {
+                return e.getValue().contains(label);
+              }
+            }).keySet();
       } else {
         return Collections.emptySet();
       }
@@ -121,27 +172,68 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
     }
   }
 
-  private HashBasedTable<Account.Id, Change.Id, Object> all()
+  @Override
+  public ImmutableMultimap<Account.Id, String> byChange(Change.Id changeId) {
+    try {
+      Map<Account.Id, HashSet<String>> byChange =
+          all().columnMap().get(changeId);
+      if (byChange != null) {
+        ImmutableMultimap.Builder<Account.Id, String> b =
+            ImmutableMultimap.builder();
+        for (Map.Entry<Account.Id, HashSet<String>> e : byChange.entrySet()) {
+          b.putAll(e.getKey(), e.getValue());
+        }
+        return b.build();
+      } else {
+        return ImmutableMultimap.of();
+      }
+    } catch (ExecutionException e) {
+      log.warn(String.format("Cannot lookup stars for change %d",
+          changeId.get()), e);
+      return ImmutableMultimap.of();
+    }
+  }
+
+  private HashBasedTable<Account.Id, Change.Id, HashSet<String>> all()
       throws ExecutionException {
     return cache.get(CacheKey.ALL);
   }
 
   @Override
-  public void star(final Account.Id accountId, final Change.Id changeId) {
-    new CacheUpdateOp<Object>() {
+  public ImmutableSet<String> star(final Account.Id accountId,
+      final Change.Id changeId, final String... labelList) {
+    return new CacheUpdateOp<ImmutableSet<String>>() {
       @Override
-      Object op(HashBasedTable<Account.Id, Change.Id, Object> t) {
-        return t.put(accountId, changeId, VALUE);
+      ImmutableSet<String> op(
+          HashBasedTable<Account.Id, Change.Id, HashSet<String>> t) {
+        HashSet<String> labels = t.get(accountId, changeId);
+        if (labels == null) {
+          labels = new HashSet<>();
+          t.put(accountId, changeId, labels);
+        }
+        labels.addAll(Arrays.asList(labelList));
+        return ImmutableSet.copyOf(labels);
       }
     }.run();
   }
 
   @Override
-  public void unstar(final Account.Id accountId, final Change.Id changeId) {
-    new CacheUpdateOp<Object>() {
+  public ImmutableSet<String> unstar(final Account.Id accountId,
+      final Change.Id changeId, final String... labelList) {
+    return new CacheUpdateOp<ImmutableSet<String>>() {
       @Override
-      Object op(HashBasedTable<Account.Id, Change.Id, Object> t) {
-        return t.remove(accountId, changeId);
+      ImmutableSet<String> op(
+          HashBasedTable<Account.Id, Change.Id, HashSet<String>> t) {
+        HashSet<String> labels = t.get(accountId, changeId);
+        if (labels == null) {
+          return ImmutableSet.of();
+        }
+        labels.removeAll(Arrays.asList(labelList));
+        if (labels.isEmpty()) {
+          t.remove(accountId, changeId);
+          return ImmutableSet.of();
+        }
+        return ImmutableSet.copyOf(labels);
       }
     }.run();
   }
@@ -150,8 +242,10 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
   public Iterable<Account.Id> unstarAll(final Change.Id changeId) {
     return new CacheUpdateOp<Iterable<Account.Id>>() {
       @Override
-      Iterable<Account.Id> op(HashBasedTable<Account.Id, Change.Id, Object> t) {
-        Map<Account.Id, Object> removed = t.columnMap().remove(changeId);
+      Iterable<Account.Id> op(
+          HashBasedTable<Account.Id, Change.Id, HashSet<String>> t) {
+        Map<Account.Id, HashSet<String>> removed =
+            t.columnMap().remove(changeId);
         if (removed != null) {
           return removed.keySet();
         } else {
@@ -166,7 +260,7 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
       T result = null;
       cacheLock.lock();
       try {
-        HashBasedTable<Account.Id, Change.Id, Object> t =
+        HashBasedTable<Account.Id, Change.Id, HashSet<String>> t =
             HashBasedTable.create(cache.get(CacheKey.ALL));
         result = op(t);
         cache.put(CacheKey.ALL, t);
@@ -178,7 +272,7 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
       return result;
     }
 
-    abstract T op(HashBasedTable<Account.Id, Change.Id, Object> t);
+    abstract T op(HashBasedTable<Account.Id, Change.Id, HashSet<String>> t);
   }
 
   private static class CacheKey implements Serializable {
@@ -191,7 +285,7 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
   }
 
   private static class Loader extends
-      CacheLoader<CacheKey, HashBasedTable<Account.Id, Change.Id, Object>> {
+      CacheLoader<CacheKey, HashBasedTable<Account.Id, Change.Id, HashSet<String>>> {
     private final NotesMigration migration;
     private final Provider<ReviewDb> dbProvider;
     private final GitRepositoryManager repoManager;
@@ -210,16 +304,16 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
     }
 
     @Override
-    public HashBasedTable<Account.Id, Change.Id, Object> load(CacheKey key)
+    public HashBasedTable<Account.Id, Change.Id, HashSet<String>> load(CacheKey key)
         throws Exception {
-      HashBasedTable<Account.Id, Change.Id, Object> t = HashBasedTable.create();
+      HashBasedTable<Account.Id, Change.Id, HashSet<String>> t = HashBasedTable.create();
       if (!migration.readChanges()) {
         for (StarredChange starredChange :
             dbProvider.get().starredChanges().all()) {
           t.put(
               starredChange.getAccountId(),
               starredChange.getChangeId(),
-              VALUE);
+              Sets.newHashSet(StarredChangesCache.DEFAULT_LABEL));
         }
       } else {
         try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
@@ -228,7 +322,8 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
             t.put(
                 Account.Id.fromRefPart(refPart),
                 Change.Id.fromRefPart(refPart),
-                VALUE);
+                new HashSet<>(StarredChangesUtil.readLabels(repo,
+                    RefNames.REFS_STARRED_CHANGES + refPart)));
           }
         }
       }

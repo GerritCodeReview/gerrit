@@ -72,7 +72,7 @@ public class StarredChanges implements
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     if (starredChangesCache.get().isStarred(user.getAccountId(),
-        change.getChange().getId())) {
+        change.getChange().getId(), StarredChangesCache.DEFAULT_LABEL)) {
       return new AccountResource.StarredChange(user, change);
     }
     throw new ResourceNotFoundException(id);
@@ -136,7 +136,7 @@ public class StarredChanges implements
       }
       try {
         starredChangesUtil.star(self.get().getAccountId(),
-            change.getChange().getId());
+            change.getChange().getId(), StarredChangesCache.DEFAULT_LABEL);
       } catch (OrmDuplicateKeyException e) {
         return Response.none();
       }
@@ -183,7 +183,7 @@ public class StarredChanges implements
         throw new AuthException("not allowed remove starred change");
       }
       starredChangesUtil.unstar(self.get().getAccountId(),
-          rsrc.getChange().getId());
+          rsrc.getChange().getId(), StarredChangesCache.DEFAULT_LABEL);
       return Response.none();
     }
   }

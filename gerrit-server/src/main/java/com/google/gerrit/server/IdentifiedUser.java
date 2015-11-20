@@ -331,9 +331,8 @@ public class IdentifiedUser extends CurrentUser {
       if (starredChangesCache.get() == null) {
         throw new IllegalStateException("StarredChangesCache is missing");
       }
-      starredChanges = FluentIterable.from(
-              starredChangesCache.get().byAccount(accountId))
-          .toSet();
+      starredChanges = FluentIterable.from(starredChangesCache.get()
+          .byAccount(accountId, StarredChangesCache.DEFAULT_LABEL)).toSet();
     }
     return starredChanges;
   }

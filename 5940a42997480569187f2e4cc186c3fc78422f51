@@ -93,6 +93,30 @@
       "revId": "5940a42997480569187f2e4cc186c3fc78422f51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bc1171a_0dae3159",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-11-20T08:55:32Z",
+      "side": 1,
+      "message": "I see, however isn\u0027t going to be a big problem as I guess there will never be thousands of index events per second ... apart from reindexing :-O\n\nCan we make sure that events AREN\u0027T triggered during reindexing? Otherwise the reindex operation will take a very long time and may create a flood of calls over the network.",
+      "parentUuid": "9bdcc3fe_b0b738a2",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 6
+      },
+      "revId": "5940a42997480569187f2e4cc186c3fc78422f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

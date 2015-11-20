@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db59db74_dad12523",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T20:44:39Z",
+      "side": 0,
+      "message": "It feels a bit odd to have two different classes for reading and writing starred changes (Cache and Util, respectively). It\u0027s more like the cache is an implementation detail of StarredChangesUtil; it seems like it would be easier on callers if they didn\u0027t have to choose between classes.",
+      "revId": "06040893a3c97ca5bda5151b4a2777bd39020f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

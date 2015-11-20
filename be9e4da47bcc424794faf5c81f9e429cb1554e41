@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bb5c2765_19f1ebc3",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T20:44:39Z",
+      "side": 1,
+      "message": "Tests for this method.",
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bc1171a_8df30197",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 2
@@ -20,6 +37,97 @@
         "endLine": 331,
         "endChar": 46
       },
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_f9bb57e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T20:44:39Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_3ac7816d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T20:44:39Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_39ecafe9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T20:44:39Z",
+      "side": 1,
+      "message": "There is no magic in HashBasedTable, this has to iterate over all rows.\n\nI think what you really want is a pair of HashMultimaps.",
+      "range": {
+        "startLine": 111,
+        "startChar": 47,
+        "endLine": 111,
+        "endChar": 56
+      },
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_3aeca1e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T20:44:39Z",
+      "side": 1,
+      "message": "The big advantage of Cache is that it handles the synchronization so that multiple threads don\u0027t repeat work. But you\u0027re already manually synchronizing, so this doesn\u0027t buy you anything.\n\nYou could just have the cache table/maps be a volatile field, I think.",
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_fabb49e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T20:44:39Z",
+      "side": 1,
+      "message": "This defeats the purpose of having a DynamicItem, since we always unconditionally install a module with the binding.\n\nThe way we usually handle these things is to move the specific binding into Daemon+WebAppInitializer and simply don\u0027t have a binding lower down the stack.\n\nDynamicItem is unnecessary unless it can be provided by plugins.",
       "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

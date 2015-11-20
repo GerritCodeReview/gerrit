@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "fbca1f38_2b4999b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-20T15:25:11Z",
+      "side": 1,
+      "message": "My guess is this is never actually used outside of request scope, so it just happens to work, but I might be wrong.",
+      "parentUuid": "bbd507d1_11440c9c",
+      "revId": "02f252f0f7cdfe97111d9e7347a46e3cf8cc76c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bdcc3fe_10a8849a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 7

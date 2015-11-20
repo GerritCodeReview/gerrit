@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bc1171a_ad091d40",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-20T08:23:58Z",
+      "side": 1,
+      "message": "I think it is only per site and per screen base, but not per user base.",
+      "revId": "bab52869944b7950e5b7f1ec6affbecaeb1d708b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bc1171a_4da4397b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-20T08:23:58Z",
+      "side": 1,
+      "message": "And reindex changes per REST API.",
+      "revId": "bab52869944b7950e5b7f1ec6affbecaeb1d708b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

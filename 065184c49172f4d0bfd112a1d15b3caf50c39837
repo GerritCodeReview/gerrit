@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bc1171a_0dc7111b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-20T14:09:15Z",
+      "side": 1,
+      "message": "in other places in plugin exposed providers, we are using \u0027-\u0027 delimiter between plugin name and aspect name (e.g. capability, secure store provider, etc). It would also make sense to use s.lastIndexOf(delimiter) in case it case be used in the plugin name itself.",
+      "range": {
+        "startLine": 187,
+        "startChar": 24,
+        "endLine": 187,
+        "endChar": 27
+      },
+      "revId": "065184c49172f4d0bfd112a1d15b3caf50c39837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

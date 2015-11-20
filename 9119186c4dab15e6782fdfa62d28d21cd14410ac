@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb5c2765_79c10754",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-20T20:16:31Z",
+      "side": 1,
+      "message": "nit: I\u0027d propose to rewrite this part as \"deleted from the index\", to be consistent with the domain language used around onChangeDeleted below.",
+      "range": {
+        "startLine": 19,
+        "startChar": 45,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "9119186c4dab15e6782fdfa62d28d21cd14410ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

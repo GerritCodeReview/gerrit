@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3bc1171a_cdc02901",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-20T14:09:39Z",
+      "side": 1,
+      "message": "Nit: too long line, here and below.",
+      "revId": "065184c49172f4d0bfd112a1d15b3caf50c39837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bc1171a_0dc7111b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 1

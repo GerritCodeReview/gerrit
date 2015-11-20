@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bc1171a_cd97c908",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-20T13:37:51Z",
+      "side": 1,
+      "message": "Instead of iterating through all OAuthLoginProviders in order to find (plugin, provider) pair I would propose to actually read \"plugin:provider\" from gerrit.config as the value of auth.gitOAuthProvider. Example:\n\n  [auth]\n    gitOAuthProvider \u003d cfoauth:cfoauth\n\nthis has a couple of advantages: we can directly access the loginProviders DynamicMap using its DynamicMap.get(plugin, exportName) method. Further, from the configured value we see immediately which plugin provides the gitOAuthProvider and we don\u0027t need to assume globally unique provider names accross plugins.\n\nAssuming my proposal is accepted then the cfoauth plugin can actually bind its OAuthLoginProvider named as \"git\" and in the gerrit.config we could have:\n\n  [auth]\n    gitOAuthProvider \u003d cfoauth:git\n\nI have taken exactly this approach in my change [1], see line 155 in [2].\n\n[1] https://gerrit-review.googlesource.com/72212\n[2] https://gerrit-review.googlesource.com/#/c/72212/1/gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 16
+      },
+      "revId": "7b468d2535551d45630cfd0a0e73113668f2f213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "db59db74_badf1128",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-21T02:26:02Z",
+      "side": 1,
+      "message": "Yes you’re correct. Splitting this part off into another change to localize the bug.",
+      "parentUuid": "db59db74_1af1ddc3",
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_99dcdb34",
         "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
         "patchSetId": 1
@@ -87,6 +105,30 @@
       "writtenOn": "2015-11-20T21:18:19Z",
       "side": 1,
       "message": "IIUC this is the only change that\u0027s needed, and you could have put this in [[]] above instead of creating a separate property. Or am I missing something?\n\n(Ok, I think what I was missing is that there is another component that was calling .changeURL().)",
+      "range": {
+        "startLine": 123,
+        "startChar": 21,
+        "endLine": 123,
+        "endChar": 54
+      },
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_9adccd34",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-21T02:26:02Z",
+      "side": 1,
+      "message": "The reason I moved these to computed properties is that it makes it easier to test. Otherwise when you set the change property to something new you have to query the inner DOM properties to make sure the values are correctly calculated, which according to the Polymer team, is not super hygienic.",
+      "parentUuid": "bb5c2765_99dcdb34",
       "range": {
         "startLine": 123,
         "startChar": 21,

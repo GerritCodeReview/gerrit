@@ -3134,6 +3134,26 @@ compiling source code to internal Prolog machine code.
 +
 Default is 10x reductionLimit (1,000,000).
 
+[[rules.maxSourceBytes]]rules.maxSourceBytes::
++
+Maximum input size (in bytes) of a Prolog rules.pl file.  Larger
+source files may need a larger rules.compileReductionLimit.  Consider
+using link:pgm-rulec.html[rulec] to precompile larger rule files.
++
+A size of 0 bytes disables rules, same as rules.enable = false.
++
+Default is 128 KiB.
+
+[[rules.maxPrologDatabaseSize]]rules.maxPrologDatabaseSize::
++
+Number of predicate clauses allowed to be defined in the Prolog
+database by project rules.  Very complex rules may need more than the
+default 256 limit, but cost more memory and may need more time to
+evaluate.  Consider using link:pgm-rulec.html[rulec] to precompile
+larger rule files.
++
+Default is 256.
+
 [[execution]]
 === Section execution
 

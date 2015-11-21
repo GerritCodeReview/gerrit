@@ -75,19 +75,8 @@ import java.util.Map;
  */
 @Singleton
 public class RulesCache {
-  /** Maximum size of a dynamic Prolog script, in bytes. */
-  private static final int SRC_LIMIT = 128 * 1024;
-
-  /** Default size of the internal Prolog database within each interpreter. */
-  private static final int DB_MAX = 256;
-
   private static final List<String> PACKAGE_LIST = ImmutableList.of(
       Prolog.BUILTIN, "gerrit");
-
-  private final Map<ObjectId, MachineRef> machineCache = new HashMap<>();
-
-  private final ReferenceQueue<PrologMachineCopy> dead =
-      new ReferenceQueue<>();
 
   private static final class MachineRef extends WeakReference<PrologMachineCopy> {
     final ObjectId key;
@@ -100,17 +89,25 @@ public class RulesCache {
   }
 
   private final boolean enableProjectRules;
+  private final int maxDbSize;
+  private final int maxSrcBytes;
   private final Path cacheDir;
   private final Path rulesDir;
   private final GitRepositoryManager gitMgr;
   private final DynamicSet<PredicateProvider> predicateProviders;
   private final ClassLoader systemLoader;
   private final PrologMachineCopy defaultMachine;
+  private final Map<ObjectId, MachineRef> machineCache = new HashMap<>();
+  private final ReferenceQueue<PrologMachineCopy> dead =
+      new ReferenceQueue<>();
 
   @Inject
   protected RulesCache(@GerritServerConfig Config config, SitePaths site,
       GitRepositoryManager gm, DynamicSet<PredicateProvider> predicateProviders) {
-    enableProjectRules = config.getBoolean("rules", null, "enable", true);
+    maxDbSize = config.getInt("rules", null, "maxPrologDatabaseSize", 256);
+    maxSrcBytes = config.getInt("rules", null, "maxSourceBytes", 128 << 10);
+    enableProjectRules = config.getBoolean("rules", null, "enable", true)
+        && maxSrcBytes > 0;
     cacheDir = site.resolve(config.getString("cache", null, "directory"));
     rulesDir = cacheDir != null ? cacheDir.resolve("rules") : null;
     gitMgr = gm;
@@ -267,7 +264,7 @@ public class RulesCache {
     try (Repository git = gitMgr.openRepository(project)) {
       try {
         ObjectLoader ldr = git.open(rulesId, Constants.OBJ_BLOB);
-        byte[] raw = ldr.getCachedBytes(SRC_LIMIT);
+        byte[] raw = ldr.getCachedBytes(maxSrcBytes);
         return RawParseUtils.decode(raw);
       } catch (LargeObjectException e) {
         throw new CompileException("rules of " + project + " are too large", e);
@@ -281,7 +278,7 @@ public class RulesCache {
 
   private BufferingPrologControl newEmptyMachine(ClassLoader cl) {
     BufferingPrologControl ctl = new BufferingPrologControl();
-    ctl.setMaxDatabaseSize(DB_MAX);
+    ctl.setMaxDatabaseSize(maxDbSize);
     ctl.setPrologClassLoader(new PrologClassLoader(new PredicateClassLoader(
         predicateProviders, cl)));
     ctl.setEnabled(EnumSet.allOf(Prolog.Feature.class), false);

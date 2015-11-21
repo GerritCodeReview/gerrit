@@ -28,6 +28,7 @@ java_library(
     '//gerrit-gwtexpui:server',
     '//gerrit-reviewdb:server',
     '//lib:args4j',
+    '//lib/dropwizard:dropwizard-core',
     '//lib:guava',
     '//lib:gwtorm',
     '//lib:jsch',

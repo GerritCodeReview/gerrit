@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1447878417 -0500\nnonce AFd3BxvncqjEXggcTIa+X5OHPBeryxIo4Nsp1EpNXoyuwp5YRUm9NP1dH6OBTHhIlUjwSHIPGVwn\n\n0000000000000000000000000000000000000000 ac112237d28fe931c70cc2984944aebca55cca4b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWTN8RAAoJEF/XxZqaEoiM3B4P/AxBRb8Q5Y5RuXP36eNRt57d\nu/yKTdn5q69yMTidVej39UBnmWhwTKZhm0UE1yR7gGe3zTSoRQRo6z8LxO5pooH/\nhOO4fB2JNQjX5pAYWN2C6ppBXWCcABSBRvlbH8Dw0kMuQqFB3W4s/RECsivEkPgs\nb9t+sFShKK3LfTrV38iWqJBulQdmQ/P8O9s0ebNsWV1LGnqtnQMyvamIMdOomXHj\nypW4vieuh6lV1rsb6pYHgQAuVn9WWPIW9bsjsowR7L4jqjCm8DTMB3uG5Yu/SPqb\nIc9TqkE5e2ANhQbU+CIRe+0FECG419tdimqpZ5jtnFpT3GenmD3c9vdvL8++aFHZ\naubCwvHV2tne/ZuZyklcOIWP+z0Fb5vA0kEZjvUgE1rnNwfccPeXY+YlcwrgHSTE\nIhoY/i1Qg9Z1BKeKKxboWjrIx9oLidJsLWHVJO+kHkguZdXqMzHD40n+FMP6JDCH\nmSBgEKU9lQ4AMcaFzv6tjnW3nFpB5Vx3B1hozsjogl8aZhzkchQGXN3+oby8NNiQ\nzDZ0ybMHlyvXKxDyzh8tx9w6ccjjNtx6hP/BPVgFFNRpDpL7mnJAvLZp6rENdfbt\ngAuhxVcdOefKO/Zd+4d7B65y/V9ZhmDhQMzZOoyieYKpxgcU6TyVUYn6gaKiWZNo\n/asst3bhclvc25827GIK\n\u003d8xri\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bafab61_c6b1e209",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckBuildFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-21T00:36:50Z",
+      "side": 1,
+      "message": "Do you want to leave this todo in?",
+      "revId": "4e0734db1fbde597f2e7193f67bb5dc0aec7e73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f57ea_fdbb47e4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckBuildFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-21T00:36:50Z",
+      "side": 1,
+      "message": "[optional] Looks like you read two optional properties from buck.properties file, but you fail if the file does not exist. Would it makes sense to continue even when the buck.properties file does not exist?\n\nBut I see it was already like this before.",
+      "revId": "4e0734db1fbde597f2e7193f67bb5dc0aec7e73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f57ea_ddb80beb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RebuildBowerComponentsFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-21T00:36:50Z",
+      "side": 1,
+      "message": "[optional] include the TARGET into this message",
+      "range": {
+        "startLine": 60,
+        "startChar": 21,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "4e0734db1fbde597f2e7193f67bb5dc0aec7e73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

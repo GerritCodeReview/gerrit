@@ -158,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "bb5c2765_9905fb58",
+        "filename": "polygerrit-ui/app/elements/gr-search-bar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-21T03:51:27Z",
+      "side": 1,
+      "message": "It\u0027s more specific. `value-changed` could be fired by any child element. Should the search bar become more complex (and I imagine it will with autocomplete), then it could contain elements that fire a value-changed event.",
+      "parentUuid": "bb5c2765_f9e997d4",
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_7af619bd",
         "filename": "polygerrit-ui/app/test/gr-search-bar-test.html",
         "patchSetId": 1

@@ -18,8 +18,8 @@ package com.google.gerrit.metrics;
  * Metric whose value is supplied when the trigger is invoked.
  *
  * <pre>
- *   CallbackMetric0<Long> hits = metricMaker.newCallbackMetric("hits", ...);
- *   CallbackMetric0<Long> total = metricMaker.newCallbackMetric("total", ...);
+ *   CallbackMetric0&lt;Long&gt; hits = metricMaker.newCallbackMetric("hits", ...);
+ *   CallbackMetric0&lt;Long&gt; total = metricMaker.newCallbackMetric("total", ...);
  *   metricMaker.newTrigger(hits, total, new Runnable() {
  *     public void run() {
  *       hits.set(1);

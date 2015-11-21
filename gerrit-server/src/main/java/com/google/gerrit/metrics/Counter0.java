@@ -35,7 +35,7 @@ public abstract class Counter0 implements RegistrationHandle {
   /**
    * Increment the counter by a specified amount.
    *
-   * @param value value to increment by, must be >= 0.
+   * @param value value to increment by, must be &gt;= 0.
    */
   public abstract void incrementBy(long value);
 }

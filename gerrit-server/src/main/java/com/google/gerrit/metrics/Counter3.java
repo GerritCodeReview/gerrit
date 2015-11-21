@@ -42,7 +42,7 @@ public abstract class Counter3<F1, F2, F3> implements RegistrationHandle {
    * @param field1 bucket to increment.
    * @param field2 bucket to increment.
    * @param field3 bucket to increment.
-   * @param value value to increment by, must be >= 0.
+   * @param value value to increment by, must be &gt;= 0.
    */
   public abstract void incrementBy(F1 field1, F2 field2, F3 field3, long value);
 }

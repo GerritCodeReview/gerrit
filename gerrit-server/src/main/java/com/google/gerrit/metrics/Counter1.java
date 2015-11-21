@@ -38,7 +38,7 @@ public abstract class Counter1<F1> implements RegistrationHandle {
    * Increment the counter by a specified amount.
    *
    * @param field1 bucket to increment.
-   * @param value value to increment by, must be >= 0.
+   * @param value value to increment by, must be &gt;= 0.
    */
   public abstract void incrementBy(F1 field1, long value);
 }

@@ -2,7 +2,12 @@ include_defs('//lib/js.defs')
 
 WCT_TEST_PATTERNS = ['test/**']
 PY_TEST_PATTERNS = ['polygerrit_wct_tests.py']
-APP_SRCS = glob(['**'], excludes = WCT_TEST_PATTERNS + PY_TEST_PATTERNS)
+APP_SRCS = glob(
+  ['**'],
+  excludes = [
+    'BUCK',
+    'index.html',
+  ] + WCT_TEST_PATTERNS + PY_TEST_PATTERNS)
 
 WEBJS = 'bower_components/webcomponentsjs/webcomponents-lite.js'
 

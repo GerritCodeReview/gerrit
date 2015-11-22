@@ -38,7 +38,7 @@ genrule(
 vulcanize(
   name = 'polygerrit',
   app = 'elements/gr-app.html',
-  srcs = glob(['**'], excludes = ['index.html']),
+  srcs = glob(['**'], excludes = ['index.html', 'BUCK']),
   components = ['//polygerrit-ui:polygerrit_components'],
 )
 

@@ -600,11 +600,24 @@ public final class GerritLauncher {
   }
 
   /**
+   * Locate the path of the {@code eclipse-out} directory in a source tree.
+   *
+   * @throws FileNotFoundException if the directory cannot be found.
+   */
+  public static Path getDeveloperEclipseOut() throws FileNotFoundException {
+    return getDeveloperOutputFor("eclipse");
+  }
+
+  /**
    * Locate the path of the {@code buck-out} directory in a source tree.
    *
    * @throws FileNotFoundException if the directory cannot be found.
    */
   public static Path getDeveloperBuckOut() throws FileNotFoundException {
+    return getDeveloperOutputFor("buck");
+  }
+
+  private static Path getDeveloperOutputFor(String out) throws FileNotFoundException {
     // Find ourselves in the CLASSPATH, we should be a loose class file.
     Class<GerritLauncher> self = GerritLauncher.class;
     URL u = self.getResource(self.getSimpleName() + ".class");
@@ -625,12 +638,13 @@ public final class GerritLauncher {
       throw new FileNotFoundException("Cannot find extract path from " + u);
     }
 
+    out += "-out";
     // Pop up to the top level classes folder that contains us.
     Path dir = Paths.get(u.getPath());
-    while (!name(dir).equals("buck-out")) {
+    while (!name(dir).equals(out)) {
       Path parent = dir.getParent();
       if (parent == null || parent.equals(dir)) {
-        throw new FileNotFoundException("Cannot find buck-out from " + u);
+        throw new FileNotFoundException("Cannot find " + out + " from " + u);
       }
       dir = parent;
     }
@@ -643,9 +657,9 @@ public final class GerritLauncher {
 
   private static ClassLoader useDevClasspath()
       throws MalformedURLException, FileNotFoundException {
-    Path out = getDeveloperBuckOut();
+    Path out = getDeveloperEclipseOut();
     List<URL> dirs = new ArrayList<>();
-    dirs.add(out.resolve("eclipse").resolve("classes").toUri().toURL());
+    dirs.add(out.resolve("classes").toUri().toURL());
     ClassLoader cl = GerritLauncher.class.getClassLoader();
     for (URL u : ((URLClassLoader) cl).getURLs()) {
       if (includeJar(u)) {

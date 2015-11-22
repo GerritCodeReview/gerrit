@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bafab61_a6e62603",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3145,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-22T03:43:09Z",
+      "side": 1,
+      "message": "If the value must be in bytes it might be better to state the default value also in bytes.",
+      "range": {
+        "startLine": 3145,
+        "startChar": 11,
+        "endLine": 3145,
+        "endChar": 18
+      },
+      "revId": "a2b985276ce88152fb8e66ca0b018f189fdb095b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

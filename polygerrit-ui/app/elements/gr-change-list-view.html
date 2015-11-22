@@ -22,21 +22,24 @@ limitations under the License.
   <template>
     <style>
       :host {
+        background-color: var(--view-background-color);
         display: block;
+        margin: 0 1.25rem;
       }
       gr-change-list {
-        margin: 0 20px;
-        width: calc(100% - 40px);
+        margin-top: 1em;
+        width: 100%;
       }
       nav {
-        padding: 10px 0;
+        margin-bottom: 1em;
+        padding: .5em 0;
         text-align: center;
       }
       nav a {
         display: inline-block;
       }
       nav a:first-of-type {
-        margin-right: 10px;
+        margin-right: .5em;
       }
       [hidden] {
         display: none !important;

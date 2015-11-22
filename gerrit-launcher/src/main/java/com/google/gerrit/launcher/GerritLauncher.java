@@ -32,6 +32,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.CodeSource;
@@ -600,12 +601,26 @@ public final class GerritLauncher {
   }
 
   /**
+   * Locate the path of the {@code eclipse-out} directory in a source tree.
+   *
+   * @throws FileNotFoundException if the directory cannot be found.
+   */
+  public static Path getDeveloperEclipseOut() throws FileNotFoundException {
+    return resolveInSourceRoot("eclipse-out");
+  }
+
+  /**
    * Locate the path of the {@code buck-out} directory in a source tree.
    *
    * @throws FileNotFoundException if the directory cannot be found.
    */
   public static Path getDeveloperBuckOut() throws FileNotFoundException {
-    // Find ourselves in the CLASSPATH, we should be a loose class file.
+    return resolveInSourceRoot("buck-out");
+  }
+
+  private static Path resolveInSourceRoot(String name)
+      throws FileNotFoundException {
+    // Find ourselves in the classpath, as a loose class file or jar.
     Class<GerritLauncher> self = GerritLauncher.class;
     URL u = self.getResource(self.getSimpleName() + ".class");
     if (u == null) {
@@ -622,30 +637,32 @@ public final class GerritLauncher {
       }
     }
     if (!"file".equals(u.getProtocol())) {
-      throw new FileNotFoundException("Cannot find extract path from " + u);
+      throw new FileNotFoundException("Cannot extract path from " + u);
     }
 
-    // Pop up to the top level classes folder that contains us.
+    // Pop up to the top-level source folder by looking for .buckconfig.
     Path dir = Paths.get(u.getPath());
-    while (!name(dir).equals("buck-out")) {
+    while (!Files.isRegularFile(dir.resolve(".buckconfig"))) {
       Path parent = dir.getParent();
-      if (parent == null || parent.equals(dir)) {
-        throw new FileNotFoundException("Cannot find buck-out from " + u);
+      if (parent == null) {
+        throw new FileNotFoundException("Cannot find source root from " + u);
       }
       dir = parent;
     }
-    return dir;
-  }
 
-  private static String name(Path dir) {
-    return dir.getFileName().toString();
+    Path ret = dir.resolve(name);
+    if (!Files.exists(ret)) {
+      throw new FileNotFoundException(
+          name + " not found in source root " + dir);
+    }
+    return ret;
   }
 
   private static ClassLoader useDevClasspath()
       throws MalformedURLException, FileNotFoundException {
-    Path out = getDeveloperBuckOut();
+    Path out = getDeveloperEclipseOut();
     List<URL> dirs = new ArrayList<>();
-    dirs.add(out.resolve("eclipse").resolve("classes").toUri().toURL());
+    dirs.add(out.resolve("classes").toUri().toURL());
     ClassLoader cl = GerritLauncher.class.getClassLoader();
     for (URL u : ((URLClassLoader) cl).getURLs()) {
       if (includeJar(u)) {

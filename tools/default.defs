@@ -27,7 +27,6 @@ from multiprocessing import cpu_count
 # Set defaults on java rules:
 #  - Add AutoValue annotation processing support.
 #  - Treat source files as UTF-8.
-#  - std_out_log_level = info (the default is too spammy)
 
 _buck_java_library = java_library
 def java_library(*args, **kwargs):
@@ -37,8 +36,8 @@ def java_library(*args, **kwargs):
 _buck_java_test = java_test
 def java_test(*args, **kwargs):
   _munge_args(kwargs)
-  _do_not_spam_std_out(kwargs)
   _buck_java_test(*args, **kwargs)
+
 
 # Munge kwargs to set Gerrit-specific defaults.
 def _munge_args(kwargs):
@@ -56,11 +55,6 @@ def _set_extra_arguments(kwargs):
       return
 
   extra_args.extend(['-encoding', 'UTF-8'])
-
-def _do_not_spam_std_out(kwargs):
-  level = 'std_out_log_level'
-  if level not in kwargs:
-    kwargs[level] = 'INFO'
 
 def _set_auto_value(kwargs):
   apk = 'annotation_processors'

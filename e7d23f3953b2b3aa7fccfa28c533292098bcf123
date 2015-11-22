@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "9b53e354_984a15a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1022607
+      },
+      "writtenOn": "2015-11-22T22:46:57Z",
+      "side": 1,
+      "message": "That\u0027s a good question, I will ask the author if I will find out who it was ;) \nAnd why not do it here? Simple - that change is not about making this code more meaningful. I wrote those comments for my own while I was deciphering the code and they kinda sticked around in my commit.",
+      "parentUuid": "96657a98_68b08303",
+      "revId": "e7d23f3953b2b3aa7fccfa28c533292098bcf123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d698d291_4230d229",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4

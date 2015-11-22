@@ -24,15 +24,19 @@ limitations under the License.
   <template>
     <style>
       :host {
+        background-color: var(--view-background-color);
         display: block;
       }
       .container {
-        margin: 0 20px;
+        margin: 1em 0;
+        padding-top: 1em;
       }
-      .changeInfo,
-      .summary {
+      h2 {
+        padding: 0 var(--default-horizontal-margin);
+      }
+      section {
         margin: 10px 0;
-        padding: 10px 0;
+        padding: 10px var(--default-horizontal-margin);
       }
       table {
         border-collapse: collapse;
@@ -46,15 +50,14 @@ limitations under the License.
         text-align: right;
       }
       .summary {
-        font-family: 'Source Code Pro', Menlo, 'Lucida Console', Monaco, monospace;
-        margin: 10px 0;
-        overflow-x: auto;
-        padding: 10px 0;
-        white-space: pre-wrap;
-      }
-      .summary {
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
+        font-family: 'Source Code Pro', Menlo, 'Lucida Console', Monaco, monospace;
+        overflow-x: auto;
+        white-space: pre-wrap;
+      }
+      gr-file-list {
+        padding: 0 var(--default-horizontal-margin) 10px;
       }
     </style>
     <iron-ajax id="detailXHR"
@@ -69,10 +72,10 @@ limitations under the License.
 
     <div class="container">
       <h2>
-         <a href$="[[_computeChangePath(change._number)]]">[[change._number]]</a><span>:</span>
-         <span>[[change.subject]]</span>
+        <a href$="[[_computeChangePath(change._number)]]">[[change._number]]</a><span>:</span>
+        <span>[[change.subject]]</span>
       </h2>
-      <div class="changeInfo">
+      <section class="changeInfo">
         <table>
           <tr>
             <td class="changeInfo-label">Owner</td>
@@ -112,8 +115,8 @@ limitations under the License.
             </td>
           </tr>
         </table>
-      </div>
-      <div class="summary">[[_computeCurrentRevisionMessage(change)]]</div>
+      </section>
+      <section class="summary">[[_computeCurrentRevisionMessage(change)]]</section>
       <gr-file-list change-num="[[changeNum]]"
                     patch-num="[[_computePatchNum(change.current_revision)]]"
                     revision="[[change.current_revision]]"

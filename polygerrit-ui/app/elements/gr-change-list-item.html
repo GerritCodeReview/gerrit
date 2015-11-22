@@ -23,31 +23,36 @@ limitations under the License.
       :host {
         display: table-row;
       }
+      :host([selected]) {
+        background-color: #d8EdF9;
+      }
       th, td {
         border-bottom: 1px solid #eee;
-        padding: 2px 5px;
+        padding: .3em .5em;
         vertical-align: top;
       }
       th {
-        background: #eee;
+        background: #ddd;
         text-align: left;
       }
       a {
-        color: #000;
+        color: var(--default-text-color);
         text-decoration: none;
       }
       a:hover {
         text-decoration: underline;
       }
       .positionIndicator {
-        opacity: .1;
         visibility: hidden;
+      }
+      :host([selected]) .positionIndicator {
+        visibility: visible;
       }
       .avatarImage {
         border-radius: 50%;
-        height: 16px;
-        vertical-align: -3px;
-        width: 16px;
+        height: 1.3em;
+        vertical-align: -.3em;
+        width: 1.3em;
       }
       .u-monospace {
         font-family: 'Source Code Pro';

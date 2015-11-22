@@ -50,7 +50,7 @@ limitations under the License.
       }
       .avatar {
         position: absolute;
-        left: 0;
+        left: var(--default-horizontal-margin);
       }
       .collapsed .avatar {
         top: 8px;
@@ -59,12 +59,12 @@ limitations under the License.
         top: 10px;
       }
       .collapsed .avatar {
-        height: 25px;
-        width: 25px;
+        height: 1.75em;
+        width: 1.75em;
       }
       .expanded .avatar {
-        height: 35px;
-        width: 35px;
+        height: 2.5em;
+        width: 2.5em;
       }
       .name {
         font-weight: bold;
@@ -79,7 +79,7 @@ limitations under the License.
       }
       .collapsed .name,
       .collapsed gr-date-formatter {
-        color: #000;
+        color: var(--default-text-color);
       }
       .expanded .name {
         cursor: pointer;
@@ -90,7 +90,7 @@ limitations under the License.
       }
       gr-date-formatter {
         position: absolute;
-        right: 0;
+        right: var(--default-horizontal-margin);
         top: 10px;
       }
       .file {

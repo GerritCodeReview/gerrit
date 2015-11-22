@@ -15,6 +15,7 @@
 /.buckd
 /buck-cache
 /buck-out
+/eclipse-out
 /extras
 /local.properties
 *.pyc

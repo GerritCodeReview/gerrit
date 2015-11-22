@@ -604,7 +604,7 @@ public final class GerritLauncher {
    *
    * @throws FileNotFoundException if the directory cannot be found.
    */
-  public static Path getDeveloperBuckOut() throws FileNotFoundException {
+  public static Path getDeveloperEclipseOut() throws FileNotFoundException {
     // Find ourselves in the CLASSPATH, we should be a loose class file.
     Class<GerritLauncher> self = GerritLauncher.class;
     URL u = self.getResource(self.getSimpleName() + ".class");
@@ -627,7 +627,7 @@ public final class GerritLauncher {
 
     // Pop up to the top level classes folder that contains us.
     Path dir = Paths.get(u.getPath());
-    while (!name(dir).equals("buck-out")) {
+    while (!name(dir).equals("eclipse-out")) {
       Path parent = dir.getParent();
       if (parent == null || parent.equals(dir)) {
         throw new FileNotFoundException("Cannot find buck-out from " + u);
@@ -643,9 +643,9 @@ public final class GerritLauncher {
 
   private static ClassLoader useDevClasspath()
       throws MalformedURLException, FileNotFoundException {
-    Path out = getDeveloperBuckOut();
+    Path out = getDeveloperEclipseOut();
     List<URL> dirs = new ArrayList<>();
-    dirs.add(out.resolve("eclipse").resolve("classes").toUri().toURL());
+    dirs.add(out.resolve("classes").toUri().toURL());
     ClassLoader cl = GerritLauncher.class.getClassLoader();
     for (URL u : ((URLClassLoader) cl).getURLs()) {
       if (includeJar(u)) {

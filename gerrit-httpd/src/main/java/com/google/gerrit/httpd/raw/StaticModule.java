@@ -221,7 +221,7 @@ public class StaticModule extends ServletModule {
 
     private Path getDeveloperBuckOut() {
       try {
-        return GerritLauncher.getDeveloperBuckOut();
+        return GerritLauncher.getDeveloperEclipseOut();
       } catch (FileNotFoundException e) {
         return null;
       }

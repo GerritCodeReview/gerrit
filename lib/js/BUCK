@@ -114,6 +114,16 @@ bower_component(
 )
 
 bower_component(
+  name = 'iron-test-helpers',
+  package = 'PolymerElements/iron-test-helpers',
+  version = '1.0.6',
+  semver = '~1.0.6',
+  deps = [':polymer'],
+  license = 'DO_NOT_DISTRIBUTE',
+  sha1 = 'c0f7c7f010ca3c63fb08ae0d9462e400380cde2c',
+)
+
+bower_component(
   name = 'iron-validatable-behavior',
   package = 'PolymerElements/iron-validatable-behavior',
   version = '1.0.5',
@@ -149,6 +159,15 @@ bower_component(
   deps = [':polymer'],
   license = 'promise-polyfill',
   sha1 = 'a3b598c06cbd7f441402e666ff748326030905d6',
+)
+
+bower_component(
+  name = 'test-fixture',
+  package = 'PolymerElements/test-fixture',
+  version = '1.0.3',
+  semver = '^1.0.0',
+  license = 'DO_NOT_DISTRIBUTE',
+  sha1 = '21192d554ff6ad7eea894ca751c73b6bc46867dc',
 )
 
 bower_component(

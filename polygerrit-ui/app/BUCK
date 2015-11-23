@@ -1,5 +1,9 @@
 include_defs('//lib/js.defs')
 
+WCT_TEST_PATTERNS = ['test/**']
+PY_TEST_PATTERNS = ['polygerrit_wct_tests.py']
+APP_SRCS = glob(['**'], excludes = WCT_TEST_PATTERNS + PY_TEST_PATTERNS)
+
 WEBJS = 'bower_components/webcomponentsjs/webcomponents-lite.js'
 
 # TODO(dborowitz): Putting these rules in this package avoids having to handle
@@ -38,7 +42,38 @@ genrule(
 vulcanize(
   name = 'polygerrit',
   app = 'elements/gr-app.html',
-  srcs = glob(['**'], excludes = ['index.html']),
+  srcs = APP_SRCS,
   components = ['//polygerrit-ui:polygerrit_components'],
 )
 
+
+bower_components(
+  name = 'test_components',
+  deps = [
+    '//polygerrit-ui:polygerrit_components',
+    '//lib/js:iron-test-helpers',
+    '//lib/js:test-fixture',
+  ],
+)
+
+genrule(
+  name = 'test_resources',
+  cmd = ' && '.join([
+    'cd $TMP',
+    'unzip -q $(location :test_components)',
+    'cp -rL $SRCDIR/* .',
+    'zip -r $OUT .',
+  ]),
+  srcs = APP_SRCS + glob(WCT_TEST_PATTERNS),
+  out = 'test_resources.zip',
+)
+
+python_test(
+  name = 'polygerrit_tests',
+  srcs = glob(PY_TEST_PATTERNS),
+  resources = [':test_resources'],
+  labels = [
+    'slow',
+    'web',
+  ],
+)

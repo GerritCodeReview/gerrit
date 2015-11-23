@@ -31,7 +31,20 @@ java -jar buck-out/gen/polygerrit/polygerrit.war daemon --polygerrit-dev -d ../g
 
 ## Running Tests
 
+One-time setup:
+
 ```sh
 npm install -g web-component-tester
-wct
+```
+
+Run all web tests:
+
+```sh
+buck test --include web
+```
+
+Pass additional arguments to `wct`:
+
+```sh
+WCT_ARGS='-b --some-arg="foo bar"' buck test --no-results-cache --include web
 ```

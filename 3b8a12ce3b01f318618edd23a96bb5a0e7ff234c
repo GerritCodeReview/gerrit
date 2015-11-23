@@ -208,6 +208,24 @@
       "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_3a3ae118",
+        "filename": "polygerrit-ui/app/test/gr-search-bar-test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T14:35:20Z",
+      "side": 1,
+      "message": "Thanks for the explanation. It took me a bit to wrap my head around the idiom but I think I get it now. (It helped when I actually looked at gr-search-bar.html to see what _preventDefaultAndNavigateToInputVal did.)",
+      "parentUuid": "5bafab61_46c7326c",
+      "revId": "3b8a12ce3b01f318618edd23a96bb5a0e7ff234c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

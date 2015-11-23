@@ -1,4 +1,102 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1447978767 -0800\npushee rpc://gerrit/gerrit\nnonce AFd3BxuEEJchcRnEwbAn4CL6c6LmtDmRvAiF0rhqaDl9wfjm2AJv6LK7V0eJRmUAdG2KaiOZ7HsQ\n\n0000000000000000000000000000000000000000 668c2a1d6c17f10c35f49913893b56fdfd3f344f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWTmcPAAoJELOGKwXbr+wP1ekP/jRmOpotcB4hs7vQvh3FsOS4\nUxPlwb+jfo302qqYWEzwse75ng7gH10uXKS90rCSLv7W3nKtyB2QjWfjpmzA/g8X\nkGtfZjBQTjxBlplChZKhaMR+YmvXr611idauGSy0BTgodw6VOZyBDq4jIQA8+k7Q\nbRA/Sz+3rxenDonTG03S3zjPhSPiWY7QigU+SECx8Uyl5x8htDxi3yE/J8+YPi7E\nscmbvvYpnhmucCUIUveUAfX/gw0JoOxIeeydt4QCB59dZB22XNwUFSu1tZav5yup\nNbPr72Bcj9zVaaGe4fO5pFpfu/qyBTAbiUYPTWmgtkl6Py2BFSGZdF98T6MLW+zL\npmOWbYHtRLMAy0wzQntBX19mqVZMIyFj2pEoTuwyZJQRuZ6iVJhrueEtmTd8kNXr\nD2CWzD29xQCjHGFnieflYt9yxv9GRwYA3Obb37YsTbrtsLAmVH4WGT0Abhc8MK2x\njeRpooA69VnjsvaXO+kO6rflg9qKU+cUwDknRcwuF2ikV1vlSCWEnNIB1OVhC2Rd\nNyXOp9XVOAN77oSoA7xJnoJagM+VK2bZqK9+jDkWq21lYvTtQIxK7CSuIpdKuURF\nQF+8jbLs7vs4CXn+jU16nwsAeBanlz4p2YXdrb6fvLeeuQxyRSLKdJLQ7nY1nboO\n0/Dq+MP8tdHtQ7jURieO\n\u003dz7iB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "db59db74_7a6bb9f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T16:31:53Z",
+      "side": 1,
+      "message": "This is no longer used.",
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_ba643128",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T16:31:53Z",
+      "side": 1,
+      "message": "Move this up above l. 66 so there isn\u0027t even a dropdown if it would only have one item?",
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_796bc7f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T16:31:53Z",
+      "side": 1,
+      "message": "Nit: space before (",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 12
+      },
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_5a7075e5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T16:31:53Z",
+      "side": 1,
+      "message": "Use the value instead, getSelectedValue()",
+      "range": {
+        "startLine": 136,
+        "startChar": 20,
+        "endLine": 136,
+        "endChar": 36
+      },
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_9a616d18",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 9
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T16:31:53Z",
+      "side": 1,
+      "message": "Not a huge fan of the dropdown being green. The button is green because it says \"hey click me\". I think a neutral gray would be fine.\n\nTry removing:\n\n* font-weight\n* color\n* background-color\n\nThat leaves us with this which is fine I think:\n\nhttps://screenshot.googleplex.com/8anZbQ35Con\n\nOptionally you could also add margin-right: 3px to get the spacing even, but I don\u0027t feel strongly.",
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

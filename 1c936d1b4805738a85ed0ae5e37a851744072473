@@ -192,6 +192,24 @@
       "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_99785bd4",
+        "filename": "polygerrit-ui/app/styles/main.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-23T15:44:51Z",
+      "side": 1,
+      "message": "Well under 1240px it\u0027s actually 11px, but that would be based on user feedback from people like yourself :)\n\nI have very weakly held convictions on this until we get more feedback.",
+      "parentUuid": "db59db74_ba7b91cf",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

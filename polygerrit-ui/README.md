@@ -1,5 +1,18 @@
 # PolyGerrit
 
+## Installing [Node.js](https://nodejs.org/en/download/)
+
+```sh
+# Debian/Ubuntu
+sudo apt-get install nodejs-legacy
+
+# OS X with Homebrew
+brew install node
+```
+
+All other platforms: [download from
+nodejs.org](https://nodejs.org/en/download/).
+
 ## Local UI, Production Data
 
 To test the local UI against gerrit-review.googlesource.com:
@@ -31,7 +44,27 @@ java -jar buck-out/gen/polygerrit/polygerrit.war daemon --polygerrit-dev -d ../g
 
 ## Running Tests
 
+One-time setup:
+
 ```sh
-npm install -g web-component-tester
-wct
+# Debian/Ubuntu
+sudo apt-get install npm
+
+# OS X with Homebrew
+brew install npm
+
+# All platforms (including those above)
+sudo npm install -g web-component-tester
+```
+
+Run all web tests:
+
+```sh
+buck test --include web
+```
+
+If you need to pass additional arguments to `wct`:
+
+```sh
+WCT_ARGS='-p --some-flag="foo bar"' buck test --no-results-cache --include web
 ```

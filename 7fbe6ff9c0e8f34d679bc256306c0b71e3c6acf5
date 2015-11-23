@@ -39,6 +39,30 @@
       "revId": "7fbe6ff9c0e8f34d679bc256306c0b71e3c6acf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_ba08b16e",
+        "filename": "tools/js/download_bower.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T14:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbd507d1_d1644429",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 44
+      },
+      "revId": "7fbe6ff9c0e8f34d679bc256306c0b71e3c6acf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

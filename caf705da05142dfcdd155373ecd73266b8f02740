@@ -17,6 +17,24 @@
       "revId": "caf705da05142dfcdd155373ecd73266b8f02740",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_b836f927",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-23T13:40:43Z",
+      "side": 1,
+      "message": "Maybe it doesn\u0027t need to be synchronized. I was a little concerned about not having a transaction for doing the updates in the database and in notedb. E.g. in one thread the database was updated that a change is starred, but notedb was not yet updated. When now a second request unstars the change there could be a race between the notedb updates for this change. Likely in practice this will not happen because the user can click unstar only when the star request has finished.\n\nWith the follow-up change we must update the cache in addition and we want to be sure that database, notedb and cache are always consistent, so synchronization on this level may be the right thing to guarantee this.",
+      "parentUuid": "db59db74_bab1d10a",
+      "revId": "caf705da05142dfcdd155373ecd73266b8f02740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

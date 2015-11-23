@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db59db74_1a3f1d09",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T14:52:42Z",
+      "side": 1,
+      "message": "http://caniuse.com/#feat\u003dcss-variables says these are only supported in Firefox?\n\n(Reads docs.)\n\nLooks like this is a Polymer feature:\nhttps://www.polymer-project.org/1.0/docs/devguide/styling.html#xscope-styling-details",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_994a1ba4",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T14:52:42Z",
+      "side": 1,
+      "message": "This is already set in gr-app, why does it need to be repeated in the top-level view component?",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_f957d74d",
+        "filename": "polygerrit-ui/app/elements/gr-messages-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T14:52:42Z",
+      "side": 1,
+      "message": "em?",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_7a44599d",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T14:52:42Z",
+      "side": 1,
+      "message": "I understand the others but what\u0027s the reasoning for making this one stylable?\n\nAlso, should this be in rem?",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_5a4995b1",
+        "filename": "polygerrit-ui/app/styles/main.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T14:52:42Z",
+      "side": 1,
+      "message": "Why do we have separate cases for these two 100px increments? I would understand (kind of) if we set the font for a whole bunch of 100px increments, but this is singling out just a few screen sizes.",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

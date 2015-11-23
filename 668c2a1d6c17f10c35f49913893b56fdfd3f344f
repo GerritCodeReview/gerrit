@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "5bafab61_060ffa79",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-11-23T18:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_da5be55f",
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_7a6bb9f8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
         "patchSetId": 9
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5bafab61_2614768d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-11-23T18:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_7a6bb9f8",
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_ba643128",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
         "patchSetId": 9
@@ -48,6 +84,24 @@
       "writtenOn": "2015-11-23T16:31:53Z",
       "side": 1,
       "message": "Move this up above l. 66 so there isn\u0027t even a dropdown if it would only have one item?",
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f57ea_fd02274c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-11-23T18:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_ba643128",
       "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -100,6 +154,54 @@
     },
     {
       "key": {
+        "uuid": "5bafab61_e605fe56",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-11-23T18:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_5a7075e5",
+      "range": {
+        "startLine": 136,
+        "startChar": 20,
+        "endLine": 136,
+        "endChar": 36
+      },
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bafab61_c6080270",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-11-23T18:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb5c2765_796bc7f8",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 12
+      },
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_9a616d18",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
         "patchSetId": 9
@@ -111,6 +213,24 @@
       "writtenOn": "2015-11-23T16:31:53Z",
       "side": 1,
       "message": "Not a huge fan of the dropdown being green. The button is green because it says \"hey click me\". I think a neutral gray would be fine.\n\nTry removing:\n\n* font-weight\n* color\n* background-color\n\nThat leaves us with this which is fine I think:\n\nhttps://screenshot.googleplex.com/8anZbQ35Con\n\nOptionally you could also add margin-right: 3px to get the spacing even, but I don\u0027t feel strongly.",
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f57ea_ddff6b80",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 9
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2015-11-23T18:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_9a616d18",
       "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

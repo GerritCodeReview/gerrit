@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "db59db74_7a0f3979",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckBuildFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T14:01:17Z",
+      "side": 1,
+      "message": "Oops, done.",
+      "parentUuid": "5bafab61_c6b1e209",
+      "revId": "4e0734db1fbde597f2e7193f67bb5dc0aec7e73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b3f57ea_fdbb47e4",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckBuildFilter.java",
         "patchSetId": 3
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "db59db74_5a14f58d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BuckBuildFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T14:01:17Z",
+      "side": 1,
+      "message": "Yeah, not trying to change behavior.\n\nI think the idea is that tools/eclipse/project.py explicitly builds buck.properties so it\u0027s more or less guaranteed to exist if you\u0027re running this from Eclipse.",
+      "parentUuid": "3b3f57ea_fdbb47e4",
+      "revId": "4e0734db1fbde597f2e7193f67bb5dc0aec7e73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b3f57ea_ddb80beb",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RebuildBowerComponentsFilter.java",
         "patchSetId": 3
@@ -48,6 +84,30 @@
       "writtenOn": "2015-11-21T00:36:50Z",
       "side": 1,
       "message": "[optional] include the TARGET into this message",
+      "range": {
+        "startLine": 60,
+        "startChar": 21,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "4e0734db1fbde597f2e7193f67bb5dc0aec7e73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_1a1a7dbb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/RebuildBowerComponentsFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T14:01:17Z",
+      "side": 1,
+      "message": "BuckBuildFilter.java:49 already prints the target name, so this seemed like unnecessary repetition. (It\u0027s not like there are lots of users all recompiling different targets.)",
+      "parentUuid": "3b3f57ea_ddb80beb",
       "range": {
         "startLine": 60,
         "startChar": 21,

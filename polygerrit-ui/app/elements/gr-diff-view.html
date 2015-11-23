@@ -362,7 +362,7 @@ limitations under the License.
         this.$.diffContainer.classList.toggle('rightOnly',
             diff.change_type == Changes.DiffType.ADDED);
         this.$.diffContainer.classList.toggle('leftOnly',
-            diff.change_type == Changes.DiffType.REMOVED);
+            diff.change_type == Changes.DiffType.DELETED);
 
         var initialLineNum = 0 + (diff.content.skip || 0);
         var ctx = {

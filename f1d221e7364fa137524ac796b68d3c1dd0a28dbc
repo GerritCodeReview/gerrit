@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb485fa2_1b3f1b09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-23T15:13:59Z",
+      "side": 1,
+      "message": "It this documented somewhere? Please include a link to that documentation in the commit message.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "f1d221e7364fa137524ac796b68d3c1dd0a28dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

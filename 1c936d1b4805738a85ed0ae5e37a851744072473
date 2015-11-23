@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "db59db74_3a2301ed",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-23T15:24:55Z",
+      "side": 1,
+      "message": "This element\u0027s background color isn\u0027t set in gr-app.",
+      "parentUuid": "bb5c2765_994a1ba4",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_f957d74d",
         "filename": "polygerrit-ui/app/elements/gr-messages-list.html",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2015-11-23T14:52:42Z",
       "side": 1,
       "message": "em?",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_1928cbc3",
+        "filename": "polygerrit-ui/app/elements/gr-messages-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-23T15:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb5c2765_f957d74d",
       "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "bb5c2765_791d87a1",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-23T15:24:55Z",
+      "side": 1,
+      "message": "Regarding rems, yes. Done.\n\nI mentioned in the change description that there are vars that are meant to be styled by the user and those that are for code re-use and that they would be separated out once this becomes larger. This is example of something that would be just for devs to tweak.",
+      "parentUuid": "db59db74_7a44599d",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_5a4995b1",
         "filename": "polygerrit-ui/app/styles/main.css",
         "patchSetId": 2
@@ -81,6 +135,24 @@
       "writtenOn": "2015-11-23T14:52:42Z",
       "side": 1,
       "message": "Why do we have separate cases for these two 100px increments? I would understand (kind of) if we set the font for a whole bunch of 100px increments, but this is singling out just a few screen sizes.",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_592243e5",
+        "filename": "polygerrit-ui/app/styles/main.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-23T15:24:55Z",
+      "side": 1,
+      "message": "For now it is based on what you can see when you\u0027re viewing an 80-column code layout.",
+      "parentUuid": "db59db74_5a4995b1",
       "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

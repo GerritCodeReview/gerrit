@@ -63,6 +63,10 @@ add_ChangeId() {
 		AWK=/usr/xpg4/bin/awk
 	fi
 
+	# Get core.commentChar from git config or use default symbol
+	commentChar=`git config --get core.commentChar`
+	commentChar=${commentChar:-#}
+
 	# How this works:
 	# - parse the commit message as (textLine+ blankLine*)*
 	# - assume textLine+ to be a footer until proven otherwise
@@ -81,8 +85,8 @@ add_ChangeId() {
 		blankLines = 0
 	}
 
-	# Skip lines starting with "#" without any spaces before it.
-	/^#/ { next }
+	# Skip lines starting with commentChar without any spaces before it.
+	/^'"$commentChar"'/ { next }
 
 	# Skip the line starting with the diff command and everything after it,
 	# up to the end of the file, assuming it is only patch data.

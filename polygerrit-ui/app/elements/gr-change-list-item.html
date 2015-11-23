@@ -76,7 +76,7 @@ limitations under the License.
         <span class="positionIndicator">&#x25b6;</span>
       </td>
       <td>
-        <a href$="[[changeURL()]]">[[change.subject]]</a>
+        <a href$="[[changeURL]]">[[change.subject]]</a>
       </td>
       <td>[[_computeChangeStatusString(change)]]</td>
       <td>
@@ -118,11 +118,15 @@ limitations under the License.
           reflectToAttribute: true,
         },
         change: Object,
+        changeURL: {
+          type: String,
+          computed: '_computeChangeURL(change._number)',
+        }
       },
 
-      changeURL: function() {
-        if (!this.change) { return ''; }
-        return '/c/' + this.change._number + '/';
+      _computeChangeURL: function(changeNum) {
+        if (!changeNum) { return ''; }
+        return '/c/' + changeNum + '/';
       },
 
       _computeChangeStatusString: function(change) {

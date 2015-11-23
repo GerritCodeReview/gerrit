@@ -111,7 +111,7 @@ limitations under the License.
       _changeURLForIndex: function(index) {
         var changeEls = this._getNonHeaderListItems();
         if (index < changeEls.length && changeEls[index]) {
-          return changeEls[index].changeURL();
+          return changeEls[index].changeURL;
         }
         return '';
       },

@@ -82,7 +82,9 @@ limitations under the License.
           '/q/status:open+project:combustible-stuff+branch:lemons');
 
       element.change = { _number: 42 };
-      assert.equal(element.changeURL(), '/c/42/');
+      assert.equal(element.changeURL, '/c/42/');
+      element.change = { _number: 43 };
+      assert.equal(element.changeURL, '/c/43/');
     });
 
   });

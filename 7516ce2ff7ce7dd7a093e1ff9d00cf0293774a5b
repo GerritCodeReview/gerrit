@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bafab61_86020a4c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1012422
+      },
+      "writtenOn": "2015-11-23T19:46:10Z",
+      "side": 1,
+      "message": "This check is failing when we\u0027re using notedb (see the notedb failure posted to comments). They don\u0027t use the dummy 0 approvals with notedb anymore.\n\nSee the comments in addReviewerToClosedChange above.",
+      "revId": "7516ce2ff7ce7dd7a093e1ff9d00cf0293774a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f57ea_5d499bb1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1012422
+      },
+      "writtenOn": "2015-11-23T19:46:10Z",
+      "side": 1,
+      "message": "A comment explaining what we\u0027re doing here would be nice (e.g. that we\u0027re checking that the reviewer is still present.)",
+      "revId": "7516ce2ff7ce7dd7a093e1ff9d00cf0293774a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f57ea_7d44579d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1012422
+      },
+      "writtenOn": "2015-11-23T19:46:10Z",
+      "side": 1,
+      "message": "Too many spaces, right?",
+      "range": {
+        "startLine": 446,
+        "startChar": 15,
+        "endLine": 446,
+        "endChar": 16
+      },
+      "revId": "7516ce2ff7ce7dd7a093e1ff9d00cf0293774a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f57ea_bd4d3fc0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1012422
+      },
+      "writtenOn": "2015-11-23T19:46:10Z",
+      "side": 1,
+      "message": "Looks like the character to append here changed (maybe by your editor?)",
+      "range": {
+        "startLine": 321,
+        "startChar": 19,
+        "endLine": 321,
+        "endChar": 24
+      },
+      "revId": "7516ce2ff7ce7dd7a093e1ff9d00cf0293774a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bafab61_a6ff0681",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012422
+      },
+      "writtenOn": "2015-11-23T19:46:10Z",
+      "side": 1,
+      "message": "Isn\u0027t this already the case? (That if you have ordinary non-special permissions you can\u0027t remove reviewers who have blocked your CL).",
+      "revId": "7516ce2ff7ce7dd7a093e1ff9d00cf0293774a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bafab61_463ad219",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012422
+      },
+      "writtenOn": "2015-11-23T19:46:10Z",
+      "side": 1,
+      "message": "1. Is this needed when notedb is enabled?\n\n2. What if the default is not zero and is something else?",
+      "revId": "7516ce2ff7ce7dd7a093e1ff9d00cf0293774a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

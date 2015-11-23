@@ -26,7 +26,7 @@ Run a test server:
 
 ```sh
 buck build polygerrit && \
-java -jar buck-out/gen/polygerrit/polygerrit.war --polygerrit-dev -d ../gerrit_testsite --console-log --show-stack-trace
+java -jar buck-out/gen/polygerrit/polygerrit.war daemon --polygerrit-dev -d ../gerrit_testsite --console-log --show-stack-trace
 ```
 
 ## Running Tests

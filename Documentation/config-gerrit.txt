@@ -3430,7 +3430,7 @@ Number of threads to use when executing SSH command requests.
 If additional requests are received while all threads are busy they
 are queued and serviced in a first-come-first-served order.
 +
-By default, 1.5x the number of CPUs available to the JVM.
+By default, 2x the number of CPUs available to the JVM.
 
 [[sshd.batchThreads]]sshd.batchThreads::
 +

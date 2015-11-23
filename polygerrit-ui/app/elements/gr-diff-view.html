@@ -21,16 +21,16 @@ limitations under the License.
   <template>
     <style>
       :host {
+        background-color: var(--view-background-color);
         display: block;
+        margin: 1em 1.25rem;
       }
       h3 {
-        border-bottom: 1px solid #ddd;
-        margin: 0 20px 20px 20px;
-        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        padding: .75em 1em;
       }
       .mainContainer {
-        margin: 0 auto;
-        max-width: calc(100% - 40px);
+        max-width: 100%;
         overflow: auto;
       }
       .diffContainer {
@@ -39,14 +39,27 @@ limitations under the License.
         white-space: pre;
       }
       .diffNumbers {
-        border-right: 1px solid #eee;
-        color: #aaa;
-        padding: 0 10px;
+        background-color: #ddd;
+        color: #666;
+        padding: 0 .75em;
         text-align: right;
       }
       .diffContent {
-        min-width: 80ch;
+        border-right: 1px solid #ddd;
+        min-width: calc(80ch + 2px);
+        overflow-x: auto;
         padding-left: 2px;
+        width: calc(80ch + 2px);
+      }
+      .diffContainer.leftOnly .diffContent,
+      .diffContainer.rightOnly .diffContent {
+        overflow: visible;
+      }
+      .diffContainer.leftOnly .right {
+        display: none;
+      }
+      .diffContainer.rightOnly .left {
+        display: none;
       }
       .ruler {
         display: block;
@@ -114,14 +127,14 @@ limitations under the License.
         on-response="_handleRightCommentsResponse"></iron-ajax>
     <h3>
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
-      <span>[[_change.subject]]</span>
+      <span>[[_change.subject]]</span> — <span>[[params.path]]</span>
     </h3>
     <div class="mainContainer">
       <div class="diffContainer" id="diffContainer">
-        <div class="diffNumbers" id="leftDiffNumbers"></div>
-        <div class="diffContent" id="leftDiffContent"></div>
-        <div class="diffNumbers" id="rightDiffNumbers"></div>
-        <div class="diffContent" id="rightDiffContent"></div>
+        <div class="diffNumbers left" id="leftDiffNumbers"></div>
+        <div class="diffContent left" id="leftDiffContent"></div>
+        <div class="diffNumbers right" id="rightDiffNumbers"></div>
+        <div class="diffContent right" id="rightDiffContent"></div>
       </div>
     </div>
   </template>
@@ -157,7 +170,7 @@ limitations under the License.
       },
 
       listeners: {
-        'diffContainer.tap': '_diffContainerTapHandler'
+        'diffContainer.tap': '_diffContainerTapHandler',
       },
 
       _paramsChanged: function(value) {
@@ -345,6 +358,12 @@ limitations under the License.
         if (!diff || !diff.content) { return; }
         if (this._basePatchNum && leftComments == null) { return; }
         if (rightComments == null) { return; }
+
+        this.$.diffContainer.classList.toggle('rightOnly',
+            diff.change_type == Changes.DiffType.ADDED);
+        this.$.diffContainer.classList.toggle('leftOnly',
+            diff.change_type == Changes.DiffType.REMOVED);
+
         var initialLineNum = 0 + (diff.content.skip || 0);
         var ctx = {
           rowNum: 0,
@@ -509,11 +528,12 @@ limitations under the License.
 
       _createElement: function(tagName, className) {
         var el = document.createElement(tagName);
-        // These classes are added to account for Polymer's polyfill behavior.
-        // In order to guarantee sufficient specificity within the CSS rules,
-        // these are added to every element. Since the Polymer DOM utility
-        // functions (which would do this automatically) are not being used for
-        // performance reasons, this is done manually.
+        // When Shady DOM is being used, these classes are added to account for
+        // Polymer's polyfill behavior. In order to guarantee sufficient
+        // specificity within the CSS rules, these are added to every element.
+        // Since the Polymer DOM utility functions (which would do this
+        // automatically) are not being used for performance reasons, this is
+        // done manually.
         el.className = 'style-scope gr-diff-view ' + className;
         return el;
       },

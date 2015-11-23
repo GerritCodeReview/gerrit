@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../styles/app-theme.html">
 <link rel="import" href="gr-change-list-view.html">
 <link rel="import" href="gr-change-view.html">
 <link rel="import" href="gr-diff-view.html">
@@ -24,6 +25,7 @@ limitations under the License.
   <template>
     <style>
       :host {
+        background-color: var(--secondary-color);
         display: flex;
         min-height: 100vh;
         flex-direction: column;
@@ -35,8 +37,9 @@ limitations under the License.
       }
       header,
       footer {
-        background-color: #eee;
-        padding: 10px 20px;
+        background-color: var(--primary-color);
+        color: var(--primary-text-color);
+        padding: .5rem 1.25rem;
       }
       header {
         display: flex;
@@ -44,11 +47,10 @@ limitations under the License.
       }
       main {
         flex: 1;
-        padding: 20px 0;
       }
       .bigTitle {
-        color: #000;
-        font-size: 24px;
+        color: var(--primary-text-color);
+        font-size: 1.75em;
         text-decoration: none;
       }
       .bigTitle:hover {

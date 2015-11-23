@@ -16,6 +16,15 @@
 
 var Changes = Changes || {};
 
+Changes.DiffType = {
+  ADDED: 'ADDED',
+  COPIED: 'COPIED',
+  DELETED: 'DELETED',
+  MODIFIED: 'MODIFIED',
+  RENAMED: 'RENAMED',
+  REWRITE: 'REWRITE',
+};
+
 // Must be kept in sync with the ListChangesOption enum and protobuf.
 Changes.ListChangesOption = {
   LABELS: 0,

@@ -30,5 +30,21 @@ body {
   transition: none; /* Override the default Polymer fade-in. */
 }
 body {
-  font: 14px 'Open Sans', sans-serif;
+  font: 11px 'Open Sans', sans-serif;
+}
+
+@media only screen and (min-width: 1240px) {
+  body {
+    font-size: 12px;
+  }
+}
+@media only screen and (min-width: 1340px) {
+  body {
+    font-size: 13px;
+  }
+}
+@media only screen and (min-width: 1450px) {
+  body {
+    font-size: 14px;
+  }
 }

@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "db59db74_da5be55f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T16:38:41Z",
+      "side": 1,
+      "message": "Looks like you have some unused imports.",
+      "revId": "668c2a1d6c17f10c35f49913893b56fdfd3f344f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_7a6bb9f8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
         "patchSetId": 9

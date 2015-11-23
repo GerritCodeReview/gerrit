@@ -90,7 +90,7 @@ public class ChangeControl {
         throws NoSuchChangeException, OrmException {
       ChangeControl c = controlFor(change, user);
       if (!c.isVisible(db.get())) {
-        throw new NoSuchChangeException(c.getChange().getId());
+        throw new NoSuchChangeException(c.getId());
       }
       return c;
     }
@@ -151,6 +151,10 @@ public class ChangeControl {
 
   public Project getProject() {
     return getProjectControl().getProject();
+  }
+
+  public Change.Id getId() {
+    return notes.getChangeId();
   }
 
   public Change getChange() {

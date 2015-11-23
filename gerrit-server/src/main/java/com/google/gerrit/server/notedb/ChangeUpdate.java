@@ -387,7 +387,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @Override
   protected String getRefName() {
-    return ChangeNoteUtil.changeRefName(getChange().getId());
+    return ChangeNoteUtil.changeRefName(ctl.getId());
   }
 
   @Override

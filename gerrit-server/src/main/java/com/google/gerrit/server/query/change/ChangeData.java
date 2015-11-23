@@ -416,7 +416,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
-    legacyId = c.getChange().getId();
+    legacyId = c.getId();
     change = c.getChange();
     changeControl = c;
     notes = c.getNotes();
@@ -540,6 +540,23 @@ public class ChangeData {
       } catch (NoSuchChangeException e) {
         throw new OrmException(e);
       }
+    }
+    return changeControl;
+  }
+
+  public ChangeControl changeControl(CurrentUser user) throws OrmException {
+    if (changeControl != null) {
+      throw new IllegalStateException(
+          "user already specified: " + changeControl.getUser());
+    }
+    try {
+      if (change != null) {
+        changeControl = changeControlFactory.controlFor(change, user);
+      } else {
+        changeControl = changeControlFactory.controlFor(legacyId, user);
+      }
+    } catch (NoSuchChangeException e) {
+      throw new OrmException(e);
     }
     return changeControl;
   }

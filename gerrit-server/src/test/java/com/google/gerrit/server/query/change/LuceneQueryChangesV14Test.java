@@ -78,6 +78,13 @@ public class LuceneQueryChangesV14Test extends LuceneQueryChangesTest {
     // Ignore.
   }
 
+  @Override
+  @Ignore
+  @Test
+  public void prepopulateOnlyRequestedFields() throws Exception {
+    // Ignore.
+  }
+
   @Test
   public void isReviewed() throws Exception {
     clockStepMs = MILLISECONDS.convert(2, MINUTES);

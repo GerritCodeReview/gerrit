@@ -177,7 +177,7 @@ public class ChangeEdits implements
       if (edit.isPresent()) {
         throw new ResourceConflictException(String.format(
             "edit already exists for the change %s",
-            resource.getChange().getChangeId()));
+            resource.getId()));
       }
       edit = createEdit();
       if (!Strings.isNullOrEmpty(path)) {

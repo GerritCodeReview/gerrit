@@ -72,7 +72,7 @@ public class StarredChanges implements
       user.asyncStarredChanges();
 
       ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-      if (user.getStarredChanges().contains(change.getChange().getId())) {
+      if (user.getStarredChanges().contains(change.getId())) {
         return new AccountResource.StarredChange(user, change);
       }
       throw new ResourceNotFoundException(id);
@@ -141,7 +141,7 @@ public class StarredChanges implements
         dbProvider.get().starredChanges().insert(Collections.singleton(
             new StarredChange(new StarredChange.Key(
                 rsrc.getUser().getAccountId(),
-                change.getChange().getId()))));
+                change.getId()))));
       } catch (OrmDuplicateKeyException e) {
         return Response.none();
       }

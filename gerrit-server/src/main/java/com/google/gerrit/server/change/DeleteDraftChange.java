@@ -85,8 +85,7 @@ public class DeleteDraftChange implements
   public UiAction.Description getDescription(ChangeResource rsrc) {
     try {
       return new UiAction.Description()
-        .setTitle(String.format("Delete draft change %d",
-            rsrc.getChange().getChangeId()))
+        .setTitle("Delete draft change " + rsrc.getId())
         .setVisible(allowDrafts
             && rsrc.getChange().getStatus() == Status.DRAFT
             && rsrc.getControl().canDeleteDraft(dbProvider.get()));

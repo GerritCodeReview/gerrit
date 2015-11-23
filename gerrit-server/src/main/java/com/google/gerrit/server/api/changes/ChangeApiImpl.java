@@ -132,7 +132,7 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public String id() {
-    return Integer.toString(change.getChange().getId().get());
+    return Integer.toString(change.getId().get());
   }
 
   @Override

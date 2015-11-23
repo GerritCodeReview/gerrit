@@ -129,7 +129,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       // Chance of collision rises; look at all patch sets on the change.
       List<RevisionResource> out = Lists.newArrayList();
       for (PatchSet ps : dbProvider.get().patchSets()
-          .byChange(change.getChange().getId())) {
+          .byChange(change.getId())) {
         if (ps.getRevision() != null && ps.getRevision().get().startsWith(id)) {
           out.add(new RevisionResource(change, ps));
         }
@@ -141,7 +141,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   private List<RevisionResource> byLegacyPatchSetId(ChangeResource change,
       String id) throws OrmException {
     PatchSet ps = dbProvider.get().patchSets().get(new PatchSet.Id(
-        change.getChange().getId(),
+        change.getId(),
         Integer.parseInt(id)));
     if (ps != null) {
       return Collections.singletonList(new RevisionResource(change, ps));
@@ -161,8 +161,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       throws AuthException, IOException {
     Optional<ChangeEdit> edit = editUtil.byChange(change.getChange());
     if (edit.isPresent()) {
-      PatchSet ps = new PatchSet(new PatchSet.Id(
-          change.getChange().getId(), 0));
+      PatchSet ps = new PatchSet(new PatchSet.Id(change.getId(), 0));
       ps.setRevision(edit.get().getRevision());
       if (revid == null || edit.get().getRevision().equals(revid)) {
         return Collections.singletonList(
@@ -174,7 +173,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   private static List<RevisionResource> toResources(final ChangeResource change,
       Iterable<PatchSet> patchSets) {
-    final Change.Id changeId = change.getChange().getId();
+    final Change.Id changeId = change.getId();
     return FluentIterable.from(patchSets)
         .filter(new Predicate<PatchSet>() {
           @Override

@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.util;
 
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Injector;
@@ -34,14 +35,15 @@ public class ThreadLimiter {
     return limitThreads(
         dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class)),
         dbInjector.getInstance(DataSourceType.class),
+        dbInjector.getInstance(ThreadSettingsConfig.class),
         threads);
   }
 
-  private static int limitThreads(Config cfg, DataSourceType dst, int threads) {
+  private static int limitThreads(Config cfg, DataSourceType dst,
+      ThreadSettingsConfig threadSettingsConfig, int threads) {
     boolean usePool = cfg.getBoolean("database", "connectionpool",
         dst.usePool());
-    int poolLimit = cfg.getInt("database", "poollimit",
-        DataSourceProvider.DEFAULT_POOL_LIMIT);
+    int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
     if (usePool && threads > poolLimit) {
       log.warn("Limiting program to " + poolLimit
           + " threads due to database.poolLimit");

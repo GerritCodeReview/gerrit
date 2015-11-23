@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_3b7137ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2015-11-23T21:23:53Z",
+      "side": 1,
+      "message": "So if you do not intend to make this particular section of code more meaningful (which is ok, as the topic of this change is something else) your comments should go away.",
+      "parentUuid": "9b53e354_984a15a4",
+      "revId": "e7d23f3953b2b3aa7fccfa28c533292098bcf123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d698d291_4230d229",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4

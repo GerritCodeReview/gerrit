@@ -23,13 +23,14 @@ limitations under the License.
 <script src="../../bower_components/test-fixture/test-fixture-mocha.js"></script>
 <script src="../scripts/changes.js"></script>
 <script src="../scripts/util.js"></script>
+
 <link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
 <link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="../elements/gr-diff-view.html">
 
 <test-fixture id="basic">
   <template>
-    <gr-diff-view ruler-width="0"></gr-diff-view>
+    <gr-diff-view></gr-diff-view>
   </template>
 </test-fixture>
 
@@ -53,7 +54,7 @@ limitations under the License.
     // 5:
     // 6: // Comment
     // 7: foo
-    // 8: bar
+    // 8: bar this particular line intentionally spans more than 80 characters for testing purposes
     // 9: Bad news: combustible lemons failed.
     //
     // Right side (side B):
@@ -80,7 +81,7 @@ limitations under the License.
       {
         a: [
           'foo',
-          'bar'
+          'bar this particular line intentionally spans more than 80 characters for testing purposes'
         ],
         b: [
           'baz',
@@ -113,14 +114,21 @@ limitations under the License.
       }
     });
 
-    test('all line number and content elements have same (non-zero) height',
+    test('all line number and content elements have non-zero height',
         function() {
       var els = element.querySelectorAll('.lineNum, .content');
       assert.isAbove(els.length, 0);
-      var offsetHeight = els.length > 0 && els[0].offsetHeight;
-      assert.isAbove(offsetHeight, 0);
       for (var i = 0; i < els.length; i++) {
-        assert.equal(offsetHeight, els[i].offsetHeight);
+        assert.isAbove(els[i].offsetHeight, 0);
+      }
+    });
+
+    test('line num and content elements are properly sized', function() {
+      var tallerEls = element.querySelectorAll('[data-row-num="7"]');
+      assert.isAbove(tallerEls.length, 0);
+      var height = tallerEls[0].offsetHeight;
+      for (var i = 0; i < tallerEls.length; i++) {
+        assert.equal(tallerEls[i].offsetHeight, height, 'Element ' + i);
       }
     });
 
@@ -139,35 +147,15 @@ limitations under the License.
       assert.equal(element.$$(
           '#leftDiffContent .content[data-line-num="7"]').textContent, 'foo');
       assert.equal(element.$$(
-          '#leftDiffContent .content[data-line-num="8"]').textContent, 'bar');
+          '#leftDiffContent .content[data-line-num="8"]').textContent,
+          'bar this particular line intentionally spans more than 80 ' +
+          'characters for testing purposes');
       assert.equal(element.$$(
           '#rightDiffContent .content[data-line-num="7"]').textContent, 'baz');
       assert.equal(element.$$(
           '#leftDiffContent .content[data-line-num="9"]').textContent,
           element.$$(
               '#rightDiffContent .content[data-line-num="8"]').textContent);
-    });
-
-    test('ruler width changes are applied correctly', function() {
-      assert.equal(element.rulerWidth, 0);
-      assert.equal(element.querySelectorAll('.ruler').length, 0);
-      element.rulerWidth = 80;
-      flushAsynchronousOperations();
-      var els = element.querySelectorAll('.ruler');
-      assert.isAbove(els.length, 0);
-      for (var i = 0; i < els.length; i++) {
-        assert.equal(els[i].style.left, '80ch');
-      }
-      element.rulerWidth = 0;
-      flushAsynchronousOperations();
-      assert.equal(element.querySelectorAll('.ruler').length, 0);
-      element.rulerWidth = 100;
-      flushAsynchronousOperations();
-      els = element.querySelectorAll('.ruler');
-      assert.isAbove(els.length, 0);
-      for (var i = 0; i < els.length; i++) {
-        assert.equal(els[i].style.left, '100ch');
-      }
     });
 
     test('comment threads are rendered correctly', function() {

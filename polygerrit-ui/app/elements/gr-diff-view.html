@@ -30,13 +30,18 @@ limitations under the License.
         padding: .75em 1em;
       }
       .mainContainer {
+        border-collapse: collapse;
         max-width: 100%;
         overflow: auto;
       }
       .diffContainer {
-        display: flex;
         font-family: 'Source Code Pro', monospace;
         white-space: pre;
+        word-break: break-word;
+      }
+      .diffNumbers,
+      .diffContent {
+        vertical-align: top;
       }
       .diffNumbers {
         background-color: #ddd;
@@ -46,8 +51,7 @@ limitations under the License.
       }
       .diffContent {
         border-right: 1px solid #ddd;
-        min-width: calc(80ch + 2px);
-        overflow-x: auto;
+        max-width: calc(80ch + 2px);
         padding-left: 2px;
         width: calc(80ch + 2px);
       }
@@ -55,19 +59,9 @@ limitations under the License.
       .diffContainer.rightOnly .diffContent {
         overflow: visible;
       }
-      .diffContainer.leftOnly .right {
-        display: none;
-      }
+      .diffContainer.leftOnly .right,
       .diffContainer.rightOnly .left {
         display: none;
-      }
-      .ruler {
-        display: block;
-        background-color: #ddd;
-        height: 1.3em;
-        position: absolute;
-        top: 0;
-        width: 1px;
       }
       .lineNum:before,
       .content:before {
@@ -76,9 +70,6 @@ limitations under the License.
            itself doesn't matter. Just that there is something
            there. */
         content: '\200B';
-      }
-      .content {
-        position: relative;
       }
       .lineNum.blank {
         border-right: 2px solid #F34D4D;
@@ -129,14 +120,14 @@ limitations under the License.
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span> — <span>[[params.path]]</span>
     </h3>
-    <div class="mainContainer">
-      <div class="diffContainer" id="diffContainer">
-        <div class="diffNumbers left" id="leftDiffNumbers"></div>
-        <div class="diffContent left" id="leftDiffContent"></div>
-        <div class="diffNumbers right" id="rightDiffNumbers"></div>
-        <div class="diffContent right" id="rightDiffContent"></div>
-      </div>
-    </div>
+    <table class="mainContainer">
+      <tr class="diffContainer" id="diffContainer">
+        <td class="diffNumbers left" id="leftDiffNumbers"></td>
+        <td class="diffContent left" id="leftDiffContent"></td>
+        <td class="diffNumbers right" id="rightDiffNumbers"></td>
+        <td class="diffContent right" id="rightDiffContent"></td>
+      </tr>
+    </table>
   </template>
   <script>
   (function() {
@@ -153,10 +144,9 @@ limitations under the License.
           type: Object,
           observer: '_paramsChanged',
         },
-        rulerWidth: {
+        _maxColWidth: {
           type: Number,
           value: 80,
-          observer: '_rulerWidthChanged',
         },
         _change: Object,
         _changeNum: String,
@@ -198,24 +188,6 @@ limitations under the License.
           this.$.leftCommentsXHR.generateRequest();
         }
         this.$.rightCommentsXHR.generateRequest();
-      },
-
-      _rulerWidthChanged: function(newValue, oldValue) {
-        if (newValue < 0) {
-          throw Error('ruler width must be greater than zero.');
-        }
-        if (oldValue == 0) {
-          this._renderRulerElements();
-        }
-        var remove = newValue == 0;
-        var rulerEls = document.querySelectorAll('.ruler');
-        for (var i = 0; i < rulerEls.length; i++) {
-          if (remove) {
-            rulerEls[i].parentNode.removeChild(rulerEls[i]);
-          } else {
-            rulerEls[i].style.left = newValue + 'ch';
-          }
-        }
       },
 
       _computeChangePath: function(changeNum) {
@@ -369,11 +341,13 @@ limitations under the License.
           rowNum: 0,
           left: {
             lineNum: initialLineNum,
+            numLinesSpanned: 1,
             content: '',
             cssClass: '',
           },
           right: {
             lineNum: initialLineNum,
+            numLinesSpanned: 1,
             content: '',
             cssClass: '',
           }
@@ -387,10 +361,6 @@ limitations under the License.
         }
         if (rightComments) {
           this._renderComments(rightComments, this._patchNum);
-        }
-
-        if (this.rulerWidth) {
-          this._renderRulerElements();
         }
 
         this._rendered = true;
@@ -486,6 +456,34 @@ limitations under the License.
         ctx.left.content = ctx.left.content || '\n';
         ctx.right.content = ctx.right.content || '\n';
 
+        ctx.left.numLinesSpanned =
+            Math.ceil(ctx.left.content.length / this._maxColWidth);
+        ctx.right.numLinesSpanned =
+            Math.ceil(ctx.right.content.length / this._maxColWidth);
+
+        var maxLinesSpanned = Math.max(ctx.left.numLinesSpanned,
+            ctx.right.numLinesSpanned);
+        if (maxLinesSpanned > 1) {
+          [leftLineNumEl, rightLineNumEl].forEach(function(el) {
+            el.textContent += '\n'.repeat(maxLinesSpanned);
+          });
+        }
+
+        if (maxLinesSpanned > 1 && ctx.left.content != ctx.right.content) {
+          // One line may need to be padded with extra lines.
+          var diff = Math.abs(
+              ctx.right.numLinesSpanned - ctx.left.numLinesSpanned);
+          var suffix = '\n'.repeat(diff);
+          if (ctx.right.numLinesSpanned < ctx.left.numLinesSpanned) {
+            ctx.right.content += suffix;
+          } else if (ctx.left.numLinesSpanned < ctx.right.numLinesSpanned) {
+            ctx.left.content += suffix;
+          } else {
+            throw Error('Left and right content is equal but the number of ' +
+                'lines spanned is not');
+          }
+        }
+
         if (!!ctx.left.cssClass) {
           leftColEl.classList.add(ctx.left.cssClass);
         }
@@ -515,15 +513,6 @@ limitations under the License.
         this.$.rightDiffContent.appendChild(rightColEl);
 
         ctx.rowNum++;
-      },
-
-      _renderRulerElements: function() {
-        var contentEls = this.querySelectorAll('.content');
-        for (var i = 0; i < contentEls.length; i++) {
-          var rulerEl = this._createElement('i', 'ruler');
-          rulerEl.style.left = this.rulerWidth + 'ch';
-          contentEls[i].appendChild(rulerEl);
-        }
       },
 
       _createElement: function(tagName, className) {

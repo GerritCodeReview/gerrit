@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b53e354_f8f35195",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2244,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-23T21:44:53Z",
+      "side": 1,
+      "message": "Replaced vote-id with label.",
+      "parentUuid": "0df5e23c_bf4bb77c",
+      "range": {
+        "startLine": 2244,
+        "startChar": 119,
+        "endLine": 2244,
+        "endChar": 126
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb2e32_de4e858e",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 11
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_5b7083e5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2249,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-23T21:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2db546ac_6806c35b",
+      "range": {
+        "startLine": 2249,
+        "startChar": 0,
+        "endLine": 2249,
+        "endChar": 56
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0df5e23c_9f48f380",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 11
@@ -83,6 +131,30 @@
       "writtenOn": "2015-07-21T13:08:24Z",
       "side": 1,
       "message": "This should be explained in an own section under the \"ID\" section in line 3641.",
+      "range": {
+        "startLine": 2249,
+        "startChar": 0,
+        "endLine": 2250,
+        "endChar": 68
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_d8f00d8c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-23T21:44:53Z",
+      "side": 1,
+      "message": "Replaced with label.",
+      "parentUuid": "0df5e23c_9f48f380",
       "range": {
         "startLine": 2249,
         "startChar": 0,
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "9b53e354_58e51dcb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-23T21:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d59fe72_1adf1d52",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 68
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edfb2e32_be4bb97c",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 11
@@ -129,6 +225,30 @@
       "writtenOn": "2015-07-21T13:08:24Z",
       "side": 1,
       "message": "[optional] indent these lines",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 18
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_fb850fee",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-23T21:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfb2e32_be4bb97c",
       "range": {
         "startLine": 65,
         "startChar": 2,
@@ -158,6 +278,24 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_db82d3e3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-23T21:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0df5e23c_7fa52fb9",
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2db546ac_080b8762",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerApi.java",
         "patchSetId": 11
@@ -169,6 +307,30 @@
       "writtenOn": "2015-07-22T13:45:10Z",
       "side": 1,
       "message": "remove this?",
+      "range": {
+        "startLine": 24,
+        "startChar": 30,
+        "endLine": 24,
+        "endChar": 43
+      },
+      "revId": "fd4f0e4d16c9c8416169cd21758f74ea2dc4cba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_98e695d5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-23T21:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2db546ac_080b8762",
       "range": {
         "startLine": 24,
         "startChar": 30,

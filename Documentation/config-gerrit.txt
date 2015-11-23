@@ -1423,7 +1423,7 @@ This setting only applies if
 Maximum number of connections to keep idle in the pool.  If there
 are more idle connections, connections will be closed instead of
 being returned back to the pool.
-Default is 4.
+Default is min(<<database.poolLimit, database.poolLimit>>, 16).
 +
 This setting only applies if
 <<database.connectionPool,database.connectionPool>> is true.

@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "db59db74_5a97d52a",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T15:39:54Z",
+      "side": 1,
+      "message": "Got it, gr-app has\n\n :host { -color: var(--secondary-color); }\n\nbut this is --view-background-color",
+      "parentUuid": "db59db74_3a2301ed",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_f957d74d",
         "filename": "polygerrit-ui/app/elements/gr-messages-list.html",
         "patchSetId": 2
@@ -153,6 +171,24 @@
       "side": 1,
       "message": "For now it is based on what you can see when you\u0027re viewing an 80-column code layout.",
       "parentUuid": "db59db74_5a4995b1",
+      "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_ba7b91cf",
+        "filename": "polygerrit-ui/app/styles/main.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-23T15:39:54Z",
+      "side": 1,
+      "message": "So eventually would you expect there to be more of these with smaller font-sizes to handle smaller screen sizes, down to a reasonable floor?\n\nIf the answer is 12px is already a reasonable floor, I disagree, as it doesn\u0027t fit 2x80 cols on my 11\" MBA.",
+      "parentUuid": "bb5c2765_592243e5",
       "revId": "1c936d1b4805738a85ed0ae5e37a851744072473",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

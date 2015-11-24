@@ -14,22 +14,21 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginUrlToken {
-  private static final String DEFAULT_TOKEN = '#' + PageLinks.MINE;
 
-  public static String getToken(final HttpServletRequest req){
+  public static String getToken(HttpServletRequest req) {
     String token = req.getPathInfo();
     if (Strings.isNullOrEmpty(token)) {
-      return DEFAULT_TOKEN;
-    } else {
-      return CharMatcher.is('/').trimLeadingFrom(token);
+      token = PageLinks.MINE;
+    } else if (!token.startsWith("/")) {
+      token = "/" + token;
     }
+    return token;
   }
 
   private LoginUrlToken() {

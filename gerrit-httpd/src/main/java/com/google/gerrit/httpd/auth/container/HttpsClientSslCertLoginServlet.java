@@ -53,6 +53,7 @@ public class HttpsClientSslCertLoginServlet extends HttpServlet {
       final HttpServletResponse rsp) throws IOException {
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
+    rdr.append('#');
     rdr.append(LoginUrlToken.getToken(req));
 
     CacheHeaders.setNotCacheable(rsp);

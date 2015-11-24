@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db59db74_da65a5f1",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-24T23:14:48Z",
+      "side": 1,
+      "message": "Intentional?",
+      "range": {
+        "startLine": 75,
+        "startChar": 46,
+        "endLine": 75,
+        "endChar": 55
+      },
+      "revId": "b450677931e5cb84ca5d7ce555dd1d7be4ea74c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_3a40213a",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-24T23:14:48Z",
+      "side": 1,
+      "message": "It feels a bit odd to me that you have to add this otherwise unused property to the host element in order to connect the gr-account-manager to the gr-account-dropdown. Is there no way to link bind them directly?",
+      "revId": "b450677931e5cb84ca5d7ce555dd1d7be4ea74c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_d99e5321",
+        "filename": "polygerrit-ui/bower.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-24T23:14:48Z",
+      "side": 1,
+      "message": "Please add this to lib/js/BUCK as well. Use the recipe at the top of the file, and let me know if the directions are unclear.",
+      "revId": "b450677931e5cb84ca5d7ce555dd1d7be4ea74c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

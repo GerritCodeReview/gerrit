@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "db59db74_7a4a9959",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-24T23:28:11Z",
+      "side": 1,
+      "message": "NOPE.",
+      "parentUuid": "db59db74_da65a5f1",
+      "range": {
+        "startLine": 75,
+        "startChar": 46,
+        "endLine": 75,
+        "endChar": 55
+      },
+      "revId": "b450677931e5cb84ca5d7ce555dd1d7be4ea74c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_3a40213a",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "bb5c2765_59cc033b",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-24T23:28:11Z",
+      "side": 1,
+      "message": "You don\u0027t have to add it in order for it to connect. It just makes it more explicit. Happy to remove if you like.",
+      "parentUuid": "db59db74_3a40213a",
+      "revId": "b450677931e5cb84ca5d7ce555dd1d7be4ea74c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_d99e5321",
         "filename": "polygerrit-ui/bower.json",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2015-11-24T23:14:48Z",
       "side": 1,
       "message": "Please add this to lib/js/BUCK as well. Use the recipe at the top of the file, and let me know if the directions are unclear.",
+      "revId": "b450677931e5cb84ca5d7ce555dd1d7be4ea74c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_5a4fd567",
+        "filename": "polygerrit-ui/bower.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-24T23:28:11Z",
+      "side": 1,
+      "message": "i actually forgot to revert this.",
+      "parentUuid": "bb5c2765_d99e5321",
       "revId": "b450677931e5cb84ca5d7ce555dd1d7be4ea74c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

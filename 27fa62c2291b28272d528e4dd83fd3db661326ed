@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b53e354_3840293a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T14:41:53Z",
+      "side": 1,
+      "message": "What if I copy code to the clipboard, would the wrap lines contain line breaks?",
+      "revId": "27fa62c2291b28272d528e4dd83fd3db661326ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

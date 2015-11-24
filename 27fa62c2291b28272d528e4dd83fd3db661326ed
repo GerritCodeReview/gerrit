@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "db59db74_1a771dba",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-24T15:35:40Z",
+      "side": 1,
+      "message": "Did not know that, hm. Is polyfilling it likely to be an issue? Does it not come for free with Polymer?",
+      "parentUuid": "bb5c2765_b9127f6f",
+      "revId": "27fa62c2291b28272d528e4dd83fd3db661326ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_19044b2d",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 4

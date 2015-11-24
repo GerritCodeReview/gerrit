@@ -84,6 +84,10 @@ class HttpLoginServlet extends HttpServlet {
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws ServletException, IOException {
     final String token = LoginUrlToken.getToken(req);
+    if ("/logout".equals(token) || "/signout".equals(token)) {
+      req.getRequestDispatcher("/logout").forward(req, rsp);
+      return;
+    }
 
     CacheHeaders.setNotCacheable(rsp);
     final String user = authFilter.getRemoteUser(req);
@@ -145,8 +149,9 @@ class HttpLoginServlet extends HttpServlet {
       rdr.append(authConfig.getRegisterPageUrl());
     } else {
       rdr.append(urlProvider.get(req));
+      rdr.append('#');
       if (arsp.isNew() && !token.startsWith(PageLinks.REGISTER + "/")) {
-        rdr.append('#' + PageLinks.REGISTER);
+        rdr.append(PageLinks.REGISTER);
       }
       rdr.append(token);
     }

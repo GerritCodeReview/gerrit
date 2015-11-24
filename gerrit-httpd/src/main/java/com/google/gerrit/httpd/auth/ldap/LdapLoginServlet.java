@@ -16,7 +16,7 @@ package com.google.gerrit.httpd.auth.ldap;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -74,8 +74,11 @@ class LdapLoginServlet extends HttpServlet {
   private void sendForm(HttpServletRequest req, HttpServletResponse res,
       @Nullable String errorMessage) throws IOException {
     String self = req.getRequestURI();
-    String cancel = MoreObjects.firstNonNull(urlProvider.get(req), "/");
-    cancel += LoginUrlToken.getToken(req);
+    String cancel = Objects.firstNonNull(urlProvider.get(req), "/");
+    String token = LoginUrlToken.getToken(req);
+    if (!token.equals("/")) {
+      cancel += "#" + token;
+    }
 
     Document doc = headers.parse(LdapLoginServlet.class, "LoginForm.html");
     HtmlDomUtil.find(doc, "hostName").setTextContent(req.getServerName());
@@ -144,6 +147,7 @@ class LdapLoginServlet extends HttpServlet {
 
     StringBuilder dest = new StringBuilder();
     dest.append(urlProvider.get(req));
+    dest.append('#');
     dest.append(LoginUrlToken.getToken(req));
 
     CacheHeaders.setNotCacheable(res);

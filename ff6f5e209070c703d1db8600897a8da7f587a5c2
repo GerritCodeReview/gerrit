@@ -345,6 +345,30 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_5b5a4332",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-24T12:52:25Z",
+      "side": 1,
+      "message": "Thanks, I think you forgot the negation operator in your example. It should be:\n\n  if (!isNoteDbTestEnabled()) {\n  [...]",
+      "parentUuid": "fb485fa2_5bb363c2",
+      "range": {
+        "startLine": 443,
+        "startChar": 56,
+        "endLine": 443,
+        "endChar": 64
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb485fa2_bb970709",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 17

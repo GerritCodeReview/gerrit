@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "bb5c2765_59fec35a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-24T15:20:21Z",
+      "side": 1,
+      "message": "As pointed out by Dave this is a core behavior change but I don’t expect to live as the only behavior. the issue is more about matching the interaction of the scrolling interface which was janky for me so I\u0027d rather punt it until after we have our first internal customers and I have more time to look at it and get it right.",
+      "parentUuid": "db59db74_faba2989",
+      "revId": "27fa62c2291b28272d528e4dd83fd3db661326ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_39ff8f5a",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 4

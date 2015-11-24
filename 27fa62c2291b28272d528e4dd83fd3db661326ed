@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_fb3d0fbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T15:20:22Z",
+      "side": 1,
+      "message": "that would be annoying :(",
+      "parentUuid": "db59db74_faba2989",
+      "revId": "27fa62c2291b28272d528e4dd83fd3db661326ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_39ff8f5a",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 4

@@ -3143,6 +3143,8 @@ using link:pgm-rulec.html[rulec] to precompile larger rule files.
 +
 A size of 0 bytes disables rules, same as rules.enable = false.
 +
+Common unit suffixes of 'k', 'm', or 'g' are supported.
++
 Default is 128 KiB.
 
 [[rules.maxPrologDatabaseSize]]rules.maxPrologDatabaseSize::

@@ -533,6 +533,54 @@
     },
     {
       "key": {
+        "uuid": "9b53e354_f83d11bb",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T15:19:26Z",
+      "side": 1,
+      "message": "Hmm, then maybe call it \u0027removableReviewerIds\u0027?",
+      "parentUuid": "fb485fa2_5b4fe367",
+      "range": {
+        "startLine": 88,
+        "startChar": 28,
+        "endLine": 88,
+        "endChar": 37
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_bb3387f0",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T15:19:26Z",
+      "side": 1,
+      "message": "Ahh, right!!",
+      "parentUuid": "9b53e354_b83399f0",
+      "range": {
+        "startLine": 88,
+        "startChar": 19,
+        "endLine": 88,
+        "endChar": 26
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b53e354_f8a19165",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
         "patchSetId": 17

@@ -118,6 +118,30 @@
       "revId": "f1d221e7364fa137524ac796b68d3c1dd0a28dbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_3b5bf739",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-24T12:01:15Z",
+      "side": 1,
+      "message": "Reading the Oracle documentation [1] it says that it is uncompressed size. It doesn\u0027t say that the returned value is just a hint. This is why I asked.\n\n[1] http://docs.oracle.com/javase/7/docs/api/java/util/zip/ZipEntry.html#getSize()",
+      "parentUuid": "fb485fa2_dbb773a1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "f1d221e7364fa137524ac796b68d3c1dd0a28dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

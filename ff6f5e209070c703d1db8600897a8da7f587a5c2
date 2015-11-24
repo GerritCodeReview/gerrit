@@ -186,6 +186,30 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_1b771bba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-24T11:29:21Z",
+      "side": 1,
+      "message": "I had the assertions, but removed them after Sasa commented that we don\u0027t need to verify stuff unrelated to this unit test, that is know to work already. See: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/62410/11/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java@265",
+      "parentUuid": "fb485fa2_7bae1f5a",
+      "range": {
+        "startLine": 411,
+        "startChar": 4,
+        "endLine": 414,
+        "endChar": 17
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b53e354_b8971909",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 17

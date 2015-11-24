@@ -121,7 +121,7 @@ time setup between client and server is easier.
 This is done via the SSH port:
 
 ----
-  user@host:~$ ssh -p 29418 user@localhost gerrit create-project --empty-commit --name demo-project
+  user@host:~$ ssh -p 29418 user@localhost gerrit create-project demo-project --empty-commit
   user@host:~$
 ----
 
@@ -134,7 +134,7 @@ want to try out Gerrit on.
 First you have to create the project.  This is done via the SSH port:
 
 ----
-  user@host:~$ ssh -p 29418 user@localhost gerrit create-project --name demo-project
+  user@host:~$ ssh -p 29418 user@localhost gerrit create-project demo-project
   user@host:~$
 ----
 

@@ -123,7 +123,7 @@ public class InternalChangeQuery {
     return query(and(topic(topic), open()));
   }
 
-  private List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {
+  public List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {
     try {
       return qp.queryChanges(p).changes();
     } catch (QueryParseException e) {

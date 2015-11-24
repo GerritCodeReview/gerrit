@@ -16,6 +16,24 @@
       "revId": "27fa62c2291b28272d528e4dd83fd3db661326ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_5accf53a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-24T14:52:38Z",
+      "side": 1,
+      "message": "The wrapping wrapped code columns is done by the browser in the same way it wraps any other text, so no. If a line needs to be adjusted on another side to add extra vertical padding that isn\u0027t done by the browser then you would see extra line breaks should you decide to copy/paste.\n\nSo if you have\n\n```\nfoo | extra long line that\n    | wraps.\nbar |\n```\n\nCopying the right side would result in:\n```\nextra long line that wraps\n```\n\nwhile copying the left side would result in\n```\nfoo\n\u003cnewline\u003e\nbar\n```",
+      "parentUuid": "9b53e354_3840293a",
+      "revId": "27fa62c2291b28272d528e4dd83fd3db661326ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "123d5c23f4154b335528e35f2715163be9f7b91c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_7a557902",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-24T19:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_7aae195a",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 11
+      },
+      "revId": "123d5c23f4154b335528e35f2715163be9f7b91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

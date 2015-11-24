@@ -68,6 +68,7 @@ func handleRESTProxy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer res.Body.Close()
+	w.WriteHeader(res.StatusCode)
 	if _, err := io.Copy(w, res.Body); err != nil {
 		log.Println("Error copying response to ResponseWriter:", err)
 		return

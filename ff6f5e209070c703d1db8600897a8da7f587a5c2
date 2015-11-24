@@ -1,0 +1,446 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb485fa2_9b0fab45",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 2273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "for a specific reviewer",
+      "range": {
+        "startLine": 2273,
+        "startChar": 16,
+        "endLine": 2273,
+        "endChar": 37
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_fb0cef51",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 2273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "of the change",
+      "range": {
+        "startLine": 2273,
+        "startChar": 38,
+        "endLine": 2273,
+        "endChar": 52
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_3ba4977a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 2280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "to the label value",
+      "range": {
+        "startLine": 2280,
+        "startChar": 53,
+        "endLine": 2280,
+        "endChar": 67
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_78ae215a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 2300,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "This should be a link to a section under \"ids\" that explains the label-id.",
+      "range": {
+        "startLine": 2300,
+        "startChar": 119,
+        "endLine": 2300,
+        "endChar": 124
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_58ccfd3a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 2303,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "the last vote",
+      "range": {
+        "startLine": 2303,
+        "startChar": 58,
+        "endLine": 2303,
+        "endChar": 67
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_58b35dc2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 2304,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "of a reviewer",
+      "range": {
+        "startLine": 2303,
+        "startChar": 68,
+        "endLine": 2304,
+        "endChar": 9
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_1bd27bdc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "Remove this?\n\nOtherwise the check in line 443 that verifies that admin is still listed as reviewer after the deletion of the vote is confusing.\n\nWith the current test setup, before the deletion of the vote you have the following approvals:\nPS1, admin, Code-Review-1\nPS2, admin, Code-Review+2\nPS2, user, Code-Review-1\n\nAfter the removal you have:\nPS1, admin, Code-Review-1\nPS2, admin, Code-Review+0\nPS2, user, Code-Review-1\n\nNow admin is listed as reviewer due to the -1 vote on PS1, and not due to the 0 vote on PS2 what you actually want to verify. If there would be no -1 vote on PS1, without notedb admin would be returned as CC after the vote has been deleted and this is what you should test.",
+      "range": {
+        "startLine": 390,
+        "startChar": 4,
+        "endLine": 395,
+        "endChar": 37
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_7bae1f5a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "Did you forget to do assertions on \u0027m\u0027?",
+      "range": {
+        "startLine": 411,
+        "startChar": 4,
+        "endLine": 414,
+        "endChar": 17
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_b8971909",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "Expecting a zero vote here is ok with the database backend because we need the dummy 0 vote approval to keep the user as reviewer/CC. But when notedb is enabled we don\u0027t use dummy 0 votes anymore, and hence when notedb is enabled we should expect that \u0027m\u0027 doesn\u0027t contain an entry for \u0027Code-Review\u0027 now.\n\n  if (isNoteDbTestEnabled()) {\n    assertThat(m).isEmpty();\n  } else {\n    assertThat(m).containsEntry(\"Code-Review\", new Short((short)0));\n  }\n\nCurrently the check only works because in DeleteVote you wrongly use\n  update.updateApproval(label, (short)0);\ninstead of\n  update.removeApproval(label);",
+      "range": {
+        "startLine": 436,
+        "startChar": 4,
+        "endLine": 436,
+        "endChar": 68
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_38cdc93a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "Add assertion to verify that the \"Removed Code-Review+2 by Administrator \u003cadmin@example.com\u003e\" message was added to the change.",
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_5bb363c2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "When notedb is disabled a user with only a dummy 0 vote is expected to be listed as CC and not as REVIEWER. Currently admin is only listed as reviewer to to the -1 vote on PS1. As commented above I would remove the first patch set and then do a proper check here:\n\n  if (isNoteDbTestEnabled()) {\n    Collection\u003cAccountInfo\u003e reviewers \u003d c.reviewers.get(REVIEWER);\n    assertThat(Iterables.transform(reviewers, new Function\u003cAccountInfo, Account.Id\u003e() {\n      @Override\n      public Account.Id apply(AccountInfo account) {\n        return new Account.Id(account._accountId);\n      }\n      })).containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));\n  } else {\n    Collection\u003cAccountInfo\u003e reviewers \u003d c.reviewers.get(REVIEWER);\n    assertThat(Iterables.transform(reviewers, new Function\u003cAccountInfo, Account.Id\u003e() {\n      @Override\n      public Account.Id apply(AccountInfo account) {\n        return new Account.Id(account._accountId);\n      }\n      })).containsExactlyElementsIn(ImmutableSet.of(user.getId()));\n\n    reviewers \u003d c.reviewers.get(CC);\n    assertThat(Iterables.transform(reviewers, new Function\u003cAccountInfo, Account.Id\u003e() {\n      @Override\n        public Account.Id apply(AccountInfo account) {\n        return new Account.Id(account._accountId);\n      }\n      })).containsExactlyElementsIn(ImmutableSet.of(admin.getId()));\n  }\n\nOf course you can refactor this to make the code nicer and shorter :-)",
+      "range": {
+        "startLine": 443,
+        "startChar": 56,
+        "endLine": 443,
+        "endChar": 64
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_bb970709",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 62,
+        "startChar": 26,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_9b94cb05",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "\u0027ID\u0027 to be consistent with the text above",
+      "range": {
+        "startLine": 69,
+        "startChar": 51,
+        "endLine": 69,
+        "endChar": 53
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_9894d505",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "better: Account.Id",
+      "range": {
+        "startLine": 88,
+        "startChar": 19,
+        "endLine": 88,
+        "endChar": 26
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_fba18f65",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "better: removableReviewers()",
+      "range": {
+        "startLine": 88,
+        "startChar": 28,
+        "endLine": 88,
+        "endChar": 37
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_f8a19165",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "nit: missing blank line after this line\n\nShould this be moved after the new method below?",
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_d89e4d21",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "\u0027labelName\u0027 or just \u0027label\u0027?",
+      "range": {
+        "startLine": 236,
+        "startChar": 13,
+        "endLine": 236,
+        "endChar": 22
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_3bcdb73a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "Would be great if you could implement this as a BatchUpdate operation, see [1] for an example.\n\n[1] https://gerrit-review.googlesource.com/65033",
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_18d285dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "Should be:\n  update.removeApproval(label);",
+      "range": {
+        "startLine": 97,
+        "startChar": 12,
+        "endLine": 97,
+        "endChar": 48
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_78c7411a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/VoteResource.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T10:55:51Z",
+      "side": 1,
+      "message": "better: label",
+      "range": {
+        "startLine": 28,
+        "startChar": 56,
+        "endLine": 28,
+        "endChar": 58
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -369,6 +369,30 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_9b6b2bc5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T13:01:01Z",
+      "side": 1,
+      "message": "No, actually not :-)\n\nWith notedb, we record users explicitly as REVIEWER, and this record stays even when you remove the vote.\n\nWith the database backend, we look at the votes of the user to decide whether it is CC or REVIEWER. Users that have only 0 votes are CCs, see ApprovalsUtil.getReviewers(Iterable\u003cPatchSetApproval\u003e).",
+      "parentUuid": "fb485fa2_5b5a4332",
+      "range": {
+        "startLine": 443,
+        "startChar": 56,
+        "endLine": 443,
+        "endChar": 64
+      },
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb485fa2_bb970709",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 17

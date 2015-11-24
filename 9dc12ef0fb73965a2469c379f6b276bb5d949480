@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bafab61_06929a3b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-11-24T14:16:28Z",
+      "side": 1,
+      "message": "So after this commit, slave instances need Lucene?\nhttps://code.google.com/p/gerrit/issues/detail?id\u003d3694",
+      "range": {
+        "startLine": 418,
+        "startChar": 4,
+        "endLine": 418,
+        "endChar": 5
+      },
+      "revId": "9dc12ef0fb73965a2469c379f6b276bb5d949480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

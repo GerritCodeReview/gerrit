@@ -22,6 +22,30 @@
       "revId": "f1d221e7364fa137524ac796b68d3c1dd0a28dbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f57ea_dd548b4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-24T01:06:30Z",
+      "side": 1,
+      "message": "What level of documentation are you looking for?\n\nThe javadoc of readFully [1] says \"Read the entire byte array into memory, or throw an exception\", while readWholeStream\u0027s [2] says \"Read an entire input stream into memory\".  Is that enough, or were you looking for some documentation that describes the specific use case we\u0027ve encountered here?\n\nBTW is there any specific reason to use JGit\u0027s API here rather than the standard Java IO APIs? As far as I can see we\u0027re not doing anything with git repositories in this code.  Perhaps this is something that should be followed up on master, rather than a stable branch, though.\n\n\n[1] http://download.eclipse.org/jgit/docs/jgit-2.0.0.201206130900-r/apidocs/org/eclipse/jgit/util/IO.html#readFully(java.io.InputStream, byte[], int, int)\n\n[2] http://download.eclipse.org/jgit/docs/jgit-2.0.0.201206130900-r/apidocs/org/eclipse/jgit/util/IO.html#readWholeStream(java.io.InputStream, int)",
+      "parentUuid": "fb485fa2_1b3f1b09",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "f1d221e7364fa137524ac796b68d3c1dd0a28dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -24,17 +24,21 @@ limitations under the License.
         background-color: var(--view-background-color);
         display: block;
         margin: 1em 1.25rem;
+        overflow: auto;
       }
       h3 {
         border-bottom: 1px solid #eee;
         padding: .75em 1em;
       }
       .mainContainer {
-        max-width: 100%;
-        overflow: auto;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .diffNumbers,
+      .diffContent {
+        vertical-align: top;
       }
       .diffContainer {
-        display: flex;
         font-family: 'Source Code Pro', monospace;
         white-space: pre;
       }
@@ -45,19 +49,14 @@ limitations under the License.
         text-align: right;
       }
       .diffContent {
-        border-right: 1px solid #ddd;
-        min-width: calc(80ch + 2px);
-        overflow-x: auto;
-        padding-left: 2px;
-        width: calc(80ch + 2px);
+        min-width: 80ch;
+        max-width: 80ch;
       }
       .diffContainer.leftOnly .diffContent,
       .diffContainer.rightOnly .diffContent {
         overflow: visible;
       }
-      .diffContainer.leftOnly .right {
-        display: none;
-      }
+      .diffContainer.leftOnly .right,
       .diffContainer.rightOnly .left {
         display: none;
       }
@@ -129,14 +128,14 @@ limitations under the License.
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span> — <span>[[params.path]]</span>
     </h3>
-    <div class="mainContainer">
-      <div class="diffContainer" id="diffContainer">
-        <div class="diffNumbers left" id="leftDiffNumbers"></div>
-        <div class="diffContent left" id="leftDiffContent"></div>
-        <div class="diffNumbers right" id="rightDiffNumbers"></div>
-        <div class="diffContent right" id="rightDiffContent"></div>
-      </div>
-    </div>
+    <table class="mainContainer">
+      <tr class="diffContainer" id="diffContainer">
+        <td class="diffNumbers left" id="leftDiffNumbers"></td>
+        <td class="diffContent left" id="leftDiffContent"></td>
+        <td class="diffNumbers right" id="rightDiffNumbers"></td>
+        <td class="diffContent right" id="rightDiffContent"></td>
+      </tr>
+    </table>
   </template>
   <script>
   (function() {

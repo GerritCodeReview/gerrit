@@ -35,7 +35,7 @@ Release Highlights
 This release includes the following new features. See the sections below for
 further details.
 
-* New "Submit Whole Topic" / "Submitted Together" workflow.
+* New change submission workflows, "Submit Whole Topic" and "Submitted Together".
 
 * Support for GPG Keys and signed pushes.
 
@@ -43,8 +43,8 @@ further details.
 New Features
 ------------
 
-New Change Submission Workflow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+New Change Submission Workflows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * New "Submit Whole Topic" setting.
 +
@@ -53,7 +53,7 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/conf
 `change.submitWholeTopic`] setting is enabled, all changes belonging to the same
 topic will be submitted at the same time.
 +
-This setting is disabled by default.
+This setting should be considered experimental, and is disabled by default.
 
 * Submission of changes may include ancestors.
 +
@@ -297,7 +297,7 @@ Upgrades
 
 * Upgrade Jetty to 9.2.13.v20150730
 
-* Upgrade JGit to 4.1.0.201509280440-r
+* Upgrade JGit to 4.1.1.201511131810-r
 
 * Upgrade joda-time to 2.8
 

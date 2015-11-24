@@ -283,6 +283,7 @@ can get `com.google.gerrit.pgm.init.api.AllProjectsConfig` injected:
     private final ConsoleUI ui;
     private final AllProjectsConfig allProjectsConfig;
 
+    @Inject
     public MyInitStep(@PluginName String pluginName, ConsoleUI ui,
         AllProjectsConfig allProjectsConfig) {
       this.pluginName = pluginName;

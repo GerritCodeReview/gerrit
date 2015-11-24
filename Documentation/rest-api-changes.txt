@@ -224,7 +224,7 @@ default. Optional fields are:
 * `ALL_REVISIONS`: describe all revisions, not just current.
 --
 
-[[download_commands]]
+[[download-commands]]
 --
 * `DOWNLOAD_COMMANDS`: include the `commands` field in the
   link:#fetch-info[FetchInfo] for revisions. Only valid when the
@@ -1104,7 +1104,7 @@ message is contained in the response body.
   blocked by Verified
 ----
 
-[[submitted_together]]
+[[submitted-together]]
 === Changes submitted together
 --
 'GET /changes/link:#change-id[\{change-id\}]/submitted_together'
@@ -4254,7 +4254,7 @@ set via a certain protocol.
 |`commands`    |optional|
 The download commands for this patch set as a map that maps the command
 names to the commands. +
-Only set if link:#download_commands[download commands] are requested.
+Only set if link:#download-commands[download commands] are requested.
 |==========================
 
 [[file-info]]

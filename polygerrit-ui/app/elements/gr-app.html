@@ -16,6 +16,8 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../styles/app-theme.html">
+<link rel="import" href="gr-account-dropdown.html">
+<link rel="import" href="gr-account-manager.html">
 <link rel="import" href="gr-change-list-view.html">
 <link rel="import" href="gr-change-view.html">
 <link rel="import" href="gr-diff-view.html">
@@ -56,7 +58,7 @@ limitations under the License.
       .bigTitle:hover {
         text-decoration: underline;
       }
-      .searchContainer {
+      .headerRightItems {
         display: flex;
         flex: 1;
         justify-content: flex-end;
@@ -64,11 +66,18 @@ limitations under the License.
       gr-search-bar {
         width: 500px;
       }
+      gr-account-dropdown {
+        align-items: center;
+        display: flex;
+        margin-left: var(--default-horizontal-margin);
+      }
     </style>
+    <gr-account-manager account="{{account}}">HEY THERE</gr-account-manager>
     <header role="banner">
       <a href="/" class="bigTitle">PolyGerrit</a>
-      <div class="searchContainer">
+      <div class="headerRightItems">
         <gr-search-bar value="{{params.query}}" role="search"></gr-search-bar>
+        <gr-account-dropdown account="[[account]]"></gr-account-dropdown>
       </div>
     </header>
     <main>
@@ -92,6 +101,7 @@ limitations under the License.
       is: 'gr-app',
 
       properties: {
+        account: Object,
         constrained: {
           type: Boolean,
           value: false,

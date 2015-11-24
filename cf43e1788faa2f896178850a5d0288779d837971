@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb5c2765_79ae275a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-24T17:27:26Z",
+      "side": 1,
+      "message": "Did we ever discuss why this is FULL_TEXT instead of EXACT? We\u0027re getting some weird behavior on googlesource.com. And it seems like the tokenization and case normalization in getAuthorParts is intended to make exact matching reasonable.",
+      "revId": "cf43e1788faa2f896178850a5d0288779d837971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

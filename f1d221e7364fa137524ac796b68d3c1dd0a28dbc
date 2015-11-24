@@ -70,6 +70,30 @@
       "revId": "f1d221e7364fa137524ac796b68d3c1dd0a28dbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_f8ba3189",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-24T11:24:31Z",
+      "side": 1,
+      "message": "\u003e What level of documentation are you looking for?\n\nOne which says that JarEntry.getSize() is unreliable and can only be used as a hint.",
+      "parentUuid": "3b3f57ea_dd548b4c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "f1d221e7364fa137524ac796b68d3c1dd0a28dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -69,6 +69,11 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
 
   @Override
   public void onGitReferenceUpdated(final Event event) {
+    if (event.getRefName().startsWith(RefNames.REFS_CHANGES)
+        || event.getRefName().startsWith(RefNames.REFS_DRAFT_COMMENTS)
+        || event.getRefName().startsWith(RefNames.REFS_USERS)) {
+      return;
+    }
     Futures.transformAsync(
         executor.submit(new GetChanges(event)),
         new AsyncFunction<List<Change>, List<Void>>() {

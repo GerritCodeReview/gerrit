@@ -14,9 +14,9 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.escape.Escaper;
 import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteStreams;
@@ -27,12 +27,12 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
@@ -47,7 +47,7 @@ class BuckUtils {
       throws IOException, BuildFailureException {
     log.info("buck build " + target);
     Properties properties = loadBuckProperties(gen);
-    String buck = MoreObjects.firstNonNull(properties.getProperty("buck"), "buck");
+    String buck = firstNonNull(properties.getProperty("buck"), "buck");
     ProcessBuilder proc = new ProcessBuilder(buck, "build", target)
         .directory(root.toFile())
         .redirectErrorStream(true);
@@ -77,12 +77,13 @@ class BuckUtils {
     log.info(String.format("UPDATED    %s in %.3fs", target, time / 1000.0));
   }
 
-  private static Properties loadBuckProperties(Path gen)
-      throws FileNotFoundException, IOException {
+  private static Properties loadBuckProperties(Path gen) throws IOException {
     Properties properties = new Properties();
-    try (InputStream in = new FileInputStream(
-        gen.resolve(Paths.get("tools/buck/buck.properties")).toFile())) {
+    Path p = gen.resolve(Paths.get("tools/buck/buck.properties"));
+    try (InputStream in = Files.newInputStream(p)) {
       properties.load(in);
+    } catch (NoSuchFileException e) {
+      // Ignore; will be run from PATH, with a descriptive error if it fails.
     }
     return properties;
   }

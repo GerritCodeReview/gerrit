@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_1b455b4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-24T15:05:12Z",
+      "side": 1,
+      "message": "\u003e ```\n \u003e foo\n \u003e \u003cnewline\u003e\n \u003e bar\n \u003e ```\n\nI\u0027m not sure, does this mean it will be 2 lines (\"foo\\nbar\") or 3 lines (\"foo\\n\\nbar\") when copying the left side?",
+      "parentUuid": "db59db74_5accf53a",
+      "revId": "27fa62c2291b28272d528e4dd83fd3db661326ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_39ff8f5a",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 4

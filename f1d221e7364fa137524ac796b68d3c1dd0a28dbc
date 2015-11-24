@@ -142,6 +142,30 @@
       "revId": "f1d221e7364fa137524ac796b68d3c1dd0a28dbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_988215b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-11-24T12:09:06Z",
+      "side": 1,
+      "message": "Yes, but the problem is what it doesn\u0027t say :-( it seems that the size is the one declared in the JAR header, that could be different from the actual size of the uncompressed file.\n\nHave you tried to display the its-jira.jar documentation? Does it work for you without this patch?",
+      "parentUuid": "fb485fa2_3b5bf739",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "f1d221e7364fa137524ac796b68d3c1dd0a28dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

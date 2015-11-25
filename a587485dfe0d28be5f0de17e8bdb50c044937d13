@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "9b53e354_f84351ef",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-11-25T16:54:51Z",
+      "side": 1,
+      "message": "Hiccup of the on-line edit :-) ... done again in PS3",
+      "parentUuid": "db59db74_fa0b49fe",
+      "range": {
+        "startLine": 98,
+        "startChar": 38,
+        "endLine": 98,
+        "endChar": 74
+      },
+      "revId": "a587485dfe0d28be5f0de17e8bdb50c044937d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_79558702",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 1

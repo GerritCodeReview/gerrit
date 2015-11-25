@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb5c2765_f93d17bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-25T19:08:15Z",
+      "side": 1,
+      "message": "I will test to see which tabs are also affected and will list them as suggested.",
+      "parentUuid": "db59db74_9a27ad92",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "ad5fca6f9477b2a6a9e3cc0b472b38fe40fee3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_fa24e98e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-25T18:43:51Z",
       "side": 1,
       "message": "C (rather?)",
+      "range": {
+        "startLine": 15,
+        "startChar": 48,
+        "endLine": 15,
+        "endChar": 49
+      },
+      "revId": "ad5fca6f9477b2a6a9e3cc0b472b38fe40fee3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_99305be5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-25T19:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_fa24e98e",
       "range": {
         "startLine": 15,
         "startChar": 48,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "bb5c2765_b9339ff0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-25T19:08:15Z",
+      "side": 1,
+      "message": "This catches the case where an item in \u0027My.Changes\u0027 is clicked. Done",
+      "parentUuid": "db59db74_da21257d",
+      "revId": "ad5fca6f9477b2a6a9e3cc0b472b38fe40fee3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_1a41dd1d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
         "patchSetId": 2
@@ -76,6 +142,24 @@
       "writtenOn": "2015-11-25T18:43:51Z",
       "side": 1,
       "message": "Same as above. Here a method with an explicit name could be better (than a comment), as this block currently adds up to an already busy constructor.",
+      "revId": "ad5fca6f9477b2a6a9e3cc0b472b38fe40fee3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_594fe367",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-25T19:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_1a41dd1d",
       "revId": "ad5fca6f9477b2a6a9e3cc0b472b38fe40fee3bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

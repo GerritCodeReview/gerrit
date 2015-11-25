@@ -46,6 +46,54 @@
       "revId": "7b468d2535551d45630cfd0a0e73113668f2f213",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_18dd6593",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-25T13:30:29Z",
+      "side": 1,
+      "message": "Which would not work for your OAuth plugin, because it uses \nfor example -github-oauth as export name. The only reliable way to resolve the ambiguities would be something like\n\nfor (Entry\u003cOAuthLoginProvider\u003e e: loginProviders) {\n  String name \u003d String.format(\"%s-%s\", e.getPluginName(),\n          e.getExportName());\n  if (name.equals(gitOAuthProvider)) {\n    ...\n  }\n}\n\nProbably ok in an init() function, but too expensive for evaluating cookies with each request (see my subsequent patch). I\u0027ll follow Sasa\u0027s proposal and use a colon.",
+      "parentUuid": "7bdf0ff3_8f24558e",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 16
+      },
+      "revId": "7b468d2535551d45630cfd0a0e73113668f2f213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_78e2a156",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2015-11-25T13:30:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bc1171a_cd97c908",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 16
+      },
+      "revId": "7b468d2535551d45630cfd0a0e73113668f2f213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

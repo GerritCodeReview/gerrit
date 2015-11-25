@@ -20,8 +20,14 @@ limitations under the License.
 <link rel="import" href="gr-account-manager.html">
 <link rel="import" href="gr-change-list-view.html">
 <link rel="import" href="gr-change-view.html">
+<link rel="import" href="gr-dashboard-view.html">
 <link rel="import" href="gr-diff-view.html">
 <link rel="import" href="gr-search-bar.html">
+
+<script src="../bower_components/page/page.js"></script>
+<script src="../scripts/app.js"></script>
+<script src="../scripts/changes.js"></script>
+<script src="../scripts/util.js"></script>
 
 <dom-module id="gr-app">
   <template>
@@ -81,8 +87,11 @@ limitations under the License.
       </div>
     </header>
     <main>
-      <template is="dom-if" if="{{_showChangeList}}">
+      <template is="dom-if" if="{{_showChangeListView}}" restamp="true">
         <gr-change-list-view params="[[params]]"></gr-change-list-view>
+      </template>
+      <template is="dom-if" if="{{_showDashboardView}}" restamp="true">
+        <gr-dashboard-view params="[[params]]"></gr-dashboard-view>
       </template>
       <template is="dom-if" if="{{_showChangeView}}" restamp="true">
         <gr-change-view params="[[params]]"></gr-change-view>
@@ -101,7 +110,20 @@ limitations under the License.
       is: 'gr-app',
 
       properties: {
-        account: Object,
+        account: {
+          type: Object,
+          observer: '_accountChanged',
+        },
+        accountReady: {
+          type: Object,
+          readOnly: true,
+          notify: true,
+          value: function() {
+            return new Promise(function(resolve) {
+              this._resolveAccountReady = resolve;
+            }.bind(this));
+          },
+        },
         constrained: {
           type: Boolean,
           value: false,
@@ -112,11 +134,20 @@ limitations under the License.
           type: Object,
           value: {},
           observer: '_routeChanged',
-        }
+        },
+      },
+
+      get loggedIn() {
+        return this.account && Object.keys(this.account).length > 0;
+      },
+
+      _accountChanged: function() {
+        this._resolveAccountReady();
       },
 
       _routeChanged: function(route) {
-        this.set('_showChangeList', route == 'gr-change-list');
+        this.set('_showChangeListView', route == 'gr-change-list-view');
+        this.set('_showDashboardView', route == 'gr-dashboard-view');
         this.set('_showChangeView', route == 'gr-change-view');
         this.set('_showDiffView', route == 'gr-diff-view');
         this.constrained = route == 'gr-change-view';
@@ -126,8 +157,3 @@ limitations under the License.
   })();
   </script>
 </dom-module>
-
-<script src="../bower_components/page/page.js"></script>
-<script src="../scripts/app.js"></script>
-<script src="../scripts/changes.js"></script>
-<script src="../scripts/util.js"></script>

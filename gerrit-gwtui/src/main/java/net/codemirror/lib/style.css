@@ -62,11 +62,11 @@
 }
 
 .cm-searching {
-  background-color: #ffa;
+  background-color: #ffa !important;
 }
 
 .cm-trailingspace {
-  background-color: red;
+  background-color: red !important;
 }
 
 /* Line length margin displayed at NN columns to provide

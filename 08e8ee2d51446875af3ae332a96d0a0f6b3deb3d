@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_db07739b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-25T20:41:44Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "db59db74_3aee6173",
+      "range": {
+        "startLine": 189,
+        "startChar": 10,
+        "endLine": 192,
+        "endChar": 42
+      },
+      "revId": "08e8ee2d51446875af3ae332a96d0a0f6b3deb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_1af39d5d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2015-11-25T15:32:38Z",
       "side": 1,
       "message": "s/eclipse/buck/",
+      "range": {
+        "startLine": 224,
+        "startChar": 42,
+        "endLine": 224,
+        "endChar": 49
+      },
+      "revId": "08e8ee2d51446875af3ae332a96d0a0f6b3deb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_fb0a2fa3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-25T20:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_1af39d5d",
       "range": {
         "startLine": 224,
         "startChar": 42,

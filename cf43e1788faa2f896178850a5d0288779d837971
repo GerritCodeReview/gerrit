@@ -34,6 +34,24 @@
       "revId": "cf43e1788faa2f896178850a5d0288779d837971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_9a304de5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-25T01:26:23Z",
+      "side": 1,
+      "message": "Actually our strange behavior was related to case normalization, which is not part of the field definition. I\u0027ll send a change to {Author,Committer}Predicate.",
+      "parentUuid": "5bafab61_e6617e16",
+      "revId": "cf43e1788faa2f896178850a5d0288779d837971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

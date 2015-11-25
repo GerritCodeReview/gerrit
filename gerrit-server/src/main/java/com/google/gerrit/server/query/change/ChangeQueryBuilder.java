@@ -831,38 +831,33 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private Set<Account.Id> getMemberIds(AccountGroup.UUID groupUUID,
       HashSet<AccountGroup.UUID> seenGroups) throws OrmException {
     seenGroups.add(groupUUID);
-
     Set<Account.Id> members = new HashSet<>();
     AccountGroup group = args.groupCache.get(groupUUID);
     if (group == null) {
-      // the included group is an external group and can't be resolved
-      return new HashSet<>();
+      // The included group is an external group and can't be resolved
+      return members;
     }
-
-    GroupDetail groupDetail;
     try {
-      groupDetail = args.groupDetailFactory.create(group.getId()).call();
+      GroupDetail groupDetail =
+          args.groupDetailFactory.create(group.getId()).call();
+      if (groupDetail.members != null) {
+        for (AccountGroupMember m : groupDetail.members) {
+          if (!members.contains(m.getAccountId())) {
+            members.add(m.getAccountId());
+          }
+        }
+      }
+      // Get members of subgroups
+      if (groupDetail.includes != null) {
+        for (AccountGroupById includedGroup : groupDetail.includes) {
+          if (!seenGroups.contains(includedGroup.getIncludeUUID())) {
+            members.addAll(
+                getMemberIds(includedGroup.getIncludeUUID(), seenGroups));
+          }
+        }
+      }
     } catch (NoSuchGroupException e) {
-      // the included group is not visible
-      return new HashSet<>();
-    }
-
-    if (groupDetail.members != null) {
-      for (AccountGroupMember m : groupDetail.members) {
-        if (!members.contains(m.getAccountId())) {
-          members.add(m.getAccountId());
-        }
-      }
-    }
-
-    // get members of subgroups
-    if (groupDetail.includes != null) {
-      for (AccountGroupById includedGroup : groupDetail.includes) {
-        if (!seenGroups.contains(includedGroup.getIncludeUUID())) {
-          members.addAll(
-              getMemberIds(includedGroup.getIncludeUUID(), seenGroups));
-        }
-      }
+      // The included group is not visible
     }
     return members;
   }

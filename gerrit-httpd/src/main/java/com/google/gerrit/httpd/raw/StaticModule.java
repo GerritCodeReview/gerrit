@@ -32,10 +32,15 @@ import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class StaticModule extends ServletModule {
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
+  private static final String DOC_SERVLET = "DocServlet";
+
   static final String CACHE = "static_content";
 
   private final FileSystem warFs;
@@ -55,6 +60,8 @@ public class StaticModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
+    serveRegex("^/Documentation/(.+)$").with(
+        Key.get(HttpServlet.class, Names.named(DOC_SERVLET)));
     serve("/static/*").with(SiteStaticDirectoryServlet.class);
     serveGwtUi();
     install(new CacheModule() {
@@ -72,6 +79,25 @@ public class StaticModule extends ServletModule {
         .with(Key.get(HttpServlet.class, Names.named(GWT_UI_SERVLET)));
     if (warFs == null) {
       filter("/").through(new RecompileGwtUiFilter(buckOut, unpackedWar));
+    }
+  }
+
+  @Provides
+  @Singleton
+  @Named(DOC_SERVLET)
+  HttpServlet getDocServlet(@Named(CACHE) Cache<Path, Resource> cache) {
+    if (warFs != null) {
+      return new WarDocServlet(cache, warFs);
+    } else {
+      return new HttpServlet() {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        protected void service(HttpServletRequest req,
+            HttpServletResponse resp) {
+          resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
+      };
     }
   }
 

@@ -236,6 +236,24 @@
       "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_182ba52a",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-25T16:03:38Z",
+      "side": 1,
+      "message": "This didn\u0027t help, still seeing the same error :(",
+      "parentUuid": "bb5c2765_f98fd7da",
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

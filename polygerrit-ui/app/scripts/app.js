@@ -18,10 +18,10 @@
   // See https://github.com/Polymer/polymer/issues/1381
   window.addEventListener('WebComponentsReady', function() {
     // Middleware
-    function scrollToTop(ctx, next) {
+    page(function(ctx, next) {
       document.body.scrollTop = 0;
       next();
-    }
+    });
 
     // Routes.
     page('/', function() {
@@ -33,19 +33,19 @@
       app.params = data.params;
     }
 
-    page('/q/:query,:offset', scrollToTop, queryHandler);
-    page('/q/:query', scrollToTop, queryHandler);
+    page('/q/:query,:offset', queryHandler);
+    page('/q/:query', queryHandler);
 
-    page(/^\/(\d+)\/?/, scrollToTop, function(ctx) {
+    page(/^\/(\d+)\/?/, function(ctx) {
       page.redirect('/c/' + ctx.params[0]);
     });
 
-    page('/c/:changeNum', scrollToTop, function(data) {
+    page('/c/:changeNum', function(data) {
       app.route = 'gr-change-view';
       app.params = data.params;
     });
 
-    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, scrollToTop, function(ctx) {
+    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
       app.route = 'gr-diff-view';
       var params = {
         changeNum: ctx.params[0],

@@ -88,6 +88,24 @@
       "revId": "0bcac9b5327b30cf55c377c2d76acfbc73dd2b7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bafab61_26cc763a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-25T07:26:04Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/#/c/72549/",
+      "parentUuid": "76a9e55d_652026e4",
+      "revId": "0bcac9b5327b30cf55c377c2d76acfbc73dd2b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

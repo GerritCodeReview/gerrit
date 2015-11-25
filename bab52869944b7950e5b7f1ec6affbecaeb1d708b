@@ -69,6 +69,24 @@
       "revId": "bab52869944b7950e5b7f1ec6affbecaeb1d708b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bafab61_66d26ede",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-25T07:25:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bc1171a_4da4397b",
+      "revId": "bab52869944b7950e5b7f1ec6affbecaeb1d708b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

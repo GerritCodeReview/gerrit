@@ -166,6 +166,8 @@ for n in used:
       p = d[len('//lib:'):]
     else:
       p = d[d.index(':')+1:].lower()
+    if '__' in p:
+      p = p[:p.index('__')]
     print('* ' + p)
   if args.asciidoc:
     print()

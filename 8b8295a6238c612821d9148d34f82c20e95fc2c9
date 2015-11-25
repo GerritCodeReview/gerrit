@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b53e354_98833572",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2015-11-25T10:39:51Z",
+      "side": 1,
+      "message": "This particular line is irrelevant",
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

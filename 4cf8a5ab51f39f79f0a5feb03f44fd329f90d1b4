@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b3f57ea_3d712fed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-25T00:40:05Z",
+      "side": 1,
+      "message": "Can you expand the commit message to describe why it was broken?",
+      "revId": "4cf8a5ab51f39f79f0a5feb03f44fd329f90d1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

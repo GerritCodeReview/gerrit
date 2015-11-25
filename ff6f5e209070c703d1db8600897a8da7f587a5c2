@@ -964,6 +964,24 @@
     },
     {
       "key": {
+        "uuid": "9b53e354_786d819b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-25T10:12:42Z",
+      "side": 1,
+      "message": "Sorry, for that. I addressed most comment with inline edit, then fetched it in my local environment in and uploaded new patch set and deleted the change edit. Something went wrong here.",
+      "parentUuid": "9b53e354_38730987",
+      "revId": "ff6f5e209070c703d1db8600897a8da7f587a5c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b53e354_d89e4d21",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
         "patchSetId": 17

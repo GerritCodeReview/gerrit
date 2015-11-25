@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1448381246 -0500\nnonce AFd3BxsiN9kv1l+PaTG3ARJnl6FCDW/5Uy6s2utEqIol1Yf4Od+pl4m9Zwlph4X5cufs837TB+md\n\n0000000000000000000000000000000000000000 58b3d239116af48f50789ca29f62e1e332a4405d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWVIs+AAoJEF/XxZqaEoiMoigQALUWJ4Z92YR28Llx0UlxanJ6\ntLvAW1PSzFJva//Fz0+EIas9b1suhJxw/eVftXdptGRQRMquBhkkApOAREHbHBA9\nlpTiBn8IgyHzK6qhrXEAJWz0FnWGbYLX11x/f7OnW6JKEwxf3iOhfedlNB5S0IuP\nhCbNmA+IpWohOrFX422ajgrdoqiYCtwqqw05u8l4jyqOrqOAhLVyUmfvWmAuqAwO\nHvlEWmLgtYExu+kwmYk2BADYiCK6D+0Cdqb12kIohS6i2+bdki55evjtvCZIancz\nQBfrzBMuHZYeC41GOkSCp4gpcdj1iaKe452pyKvuVtYOjLjIkzyfYYibeSpDW+l+\nKHwZxnG8TQ7wmCO3C7alAVryt+TePIjZvnVl+CvN3StR1QBPSzVSBxDyfKxpTcel\nQ/GB16h/E1dsXT3UmYDtSvZoij4r9T1UyiFt4cvwTk9FWKoLEJhdSkmyfujHcXMn\nn9fRDxenrTT/5hzJFtgAtI4ZClJNpL4jfVJDM7RoZNt+NL/P1wAKkOR60CvjzloI\n91RSeCDvCzn6o8yn5AaecVcwgGPSsauNgg9ifADr9ZNnIv41VmVOy5y1WHxXglvw\n6V7Q3bpPU6SQEi6L0bJY+ub54qh3sE0QbakxfxF7RQoAN18aeJc7GPy5gJljRPa9\nbueE/WKjhKsJzN2i3iX9\n\u003dSfTt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb485fa2_fba7cf27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-25T09:52:31Z",
+      "side": 1,
+      "message": "s/tests tests/tests",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_1b78bb5d",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-25T09:52:31Z",
+      "side": 1,
+      "message": "Not sure if it needs to be mentioned, but this of course requires installation of npm first. And to get npm installed I had to create a symbolic link for node which points to nodejs, and I had to run this npm command with sudo.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_dba49326",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-25T09:52:31Z",
+      "side": 1,
+      "message": "I\u0027m getting this error even after installing wct:\n\n  $ which wct\n  /usr/local/bin/wct\n\n/usr/local/bin is conatined in $PATH\n\n  $ buck test //polygerrit-ui/app:polygerrit_tests\n  Not using buckd because watchman isn\u0027t installed.\n  FAILURE test_wct polygerrit-ui.app.polygerrit_wct_tests.PolyGerritWctTests: AssertionError: wct not found; try `npm install -g web-component-tester`\n  [-] PROCESSING BUCK FILES...FINISHED 0.1s [100%]\n  [-] BUILDING...FINISHED 0.3s [100%] (2/51 JOBS, 0 UPDATED, 0.0% CACHE MISS)\n  [-] TESTING...FINISHED 0.0s (0 PASS/1 FAIL)\n  RESULTS FOR //polygerrit-ui/app:polygerrit_tests\n  FAIL    CACHED  0 Passed   0 Skipped   1 Failed   //polygerrit-ui/app:polygerrit_tests\n  FAILURE test_wct polygerrit-ui.app.polygerrit_wct_tests.PolyGerritWctTests: AssertionError: wct not found; try `npm install -g web-component-tester`\n    File \"/usr/lib/python2.7/unittest/case.py\", line 331, in run\n      testMethod()\n    File \"polygerrit-ui/app/polygerrit_wct_tests.py\", line 69, in test_wct\n      self._check_wct()\n    File \"polygerrit-ui/app/polygerrit_wct_tests.py\", line 49, in _check_wct\n      msg\u003d\u0027wct not found; try `npm install -g web-component-tester`\u0027)\n    File \"/usr/lib/python2.7/unittest/case.py\", line 424, in assertTrue\n      raise self.failureException(msg)\n\n  \u003d\u003d\u003d\u003dSTANDARD OUT\u003d\u003d\u003d\u003d\n\n  \u003d\u003d\u003d\u003dSTANDARD ERR\u003d\u003d\u003d\u003d\n\n  TESTS FAILED: 1 FAILURE",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 71
+      },
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

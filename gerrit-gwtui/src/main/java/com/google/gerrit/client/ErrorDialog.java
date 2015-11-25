@@ -16,11 +16,13 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.RpcConstants;
+import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
@@ -87,6 +89,19 @@ public class ErrorDialog extends PopupPanel {
   /** Create a dialog box to show a single message string. */
   public ErrorDialog(final String message) {
     this();
+    // In case this exception is caused by an expired session, the user needs
+    // to be given a redirection option to be able to login again. i.e. if an
+    // item under 'My.Changes' is clicked when the session is expired, the user
+    // is redirected to login page by clicking on 'Continue' button
+    if (message.equals(Gerrit.C.notFoundBody())) {
+      closey.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          hide();
+          History.back();
+        }
+      });
+    }
     body.add(new Label(message));
   }
 
@@ -149,6 +164,9 @@ public class ErrorDialog extends PopupPanel {
     }
 
     if (msg != null) {
+      if (msg.equals(NotSignedInException.MESSAGE)) {
+        changeToRedirectionButton();
+      }
       final Label m = new Label(msg);
       m.getElement().getStyle().setProperty("whiteSpace", "pre");
       body.add(m);
@@ -164,5 +182,16 @@ public class ErrorDialog extends PopupPanel {
   public void center() {
     show();
     closey.setFocus(true);
+  }
+
+  private void changeToRedirectionButton() {
+    closey.setText(Gerrit.C.menuSignIn());
+    closey.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        hide();
+        Gerrit.doSignIn(History.getToken());
+      }
+    });
   }
 }

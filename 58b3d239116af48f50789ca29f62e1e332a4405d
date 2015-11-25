@@ -182,6 +182,24 @@
       "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_7af8d935",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-25T15:38:42Z",
+      "side": 1,
+      "message": "It should also print stdout/stderr from the wct command, as well as the command line and working directory. Anything useful there?",
+      "parentUuid": "fb485fa2_fb434fef",
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

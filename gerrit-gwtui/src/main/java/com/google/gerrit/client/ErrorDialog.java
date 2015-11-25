@@ -16,11 +16,13 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.RpcConstants;
+import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
@@ -87,6 +89,7 @@ public class ErrorDialog extends PopupPanel {
   /** Create a dialog box to show a single message string. */
   public ErrorDialog(final String message) {
     this();
+    enhanceButtonUponExpiredSession(message);
     body.add(new Label(message));
   }
 
@@ -149,6 +152,7 @@ public class ErrorDialog extends PopupPanel {
     }
 
     if (msg != null) {
+      enhanceButtonUponExpiredSession(msg);
       final Label m = new Label(msg);
       m.getElement().getStyle().setProperty("whiteSpace", "pre");
       body.add(m);
@@ -164,5 +168,28 @@ public class ErrorDialog extends PopupPanel {
   public void center() {
     show();
     closey.setFocus(true);
+  }
+
+  private void enhanceButtonUponExpiredSession(String errorMessage) {
+    if (errorMessage.equals(NotSignedInException.MESSAGE)) {
+      // Redirection added for 'My.*' menus
+      closey.setText(Gerrit.C.menuSignIn());
+      closey.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          hide();
+          Gerrit.doSignIn(History.getToken());
+        }
+      });
+    } else if (errorMessage.equals(Gerrit.C.notFoundBody())) {
+      // If a My.Changes item is clicked, 'Continue' button redirects to login
+      closey.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          hide();
+          History.back();
+        }
+      });
+    }
   }
 }

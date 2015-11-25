@@ -254,6 +254,24 @@
       "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_395b0f3a",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-25T16:14:40Z",
+      "side": 1,
+      "message": "Passing --skip-selenium-install seems to work. I\u0027ve statically configured that into the wct.conf.js above, give this another shot.",
+      "parentUuid": "9b53e354_182ba52a",
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

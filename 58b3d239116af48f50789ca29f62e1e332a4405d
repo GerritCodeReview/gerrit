@@ -141,6 +141,47 @@
       "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_b8b43942",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-25T15:35:50Z",
+      "side": 1,
+      "message": "After running\n  $ sudo apt-get install nodejs-legacy\nI don\u0027t see this error any more.",
+      "parentUuid": "db59db74_5a287572",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 71
+      },
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_fb434fef",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-25T15:35:50Z",
+      "side": 1,
+      "message": "Now this assertion fails for me:\n\n  FAIL    CACHED  0 Passed   0 Skipped   1 Failed   //polygerrit-ui/app:polygerrit_tests\n  FAILURE test_wct polygerrit-ui.app.polygerrit_wct_tests.PolyGerritWctTests: AssertionError: 0 !\u003d 1\n    File \"/usr/lib/python2.7/unittest/case.py\", line 331, in run\n      testMethod()\n    File \"polygerrit-ui/app/polygerrit_wct_tests.py\", line 89, in test_wct\n      self.assertEquals(0, p.returncode)\n    File \"/usr/lib/python2.7/unittest/case.py\", line 515, in assertEqual\n      assertion_func(first, second, msg\u003dmsg)\n    File \"/usr/lib/python2.7/unittest/case.py\", line 508, in _baseAssertEqual\n      raise self.failureException(msg)",
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

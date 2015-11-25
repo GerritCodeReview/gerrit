@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "db59db74_fa0b49fe",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-25T16:53:08Z",
+      "side": 1,
+      "message": "Not done?",
+      "parentUuid": "fb485fa2_7bfe1fd4",
+      "range": {
+        "startLine": 98,
+        "startChar": 38,
+        "endLine": 98,
+        "endChar": 74
+      },
+      "revId": "a587485dfe0d28be5f0de17e8bdb50c044937d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_79558702",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 1

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb5c2765_b91c3f55",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-25T20:21:20Z",
+      "side": 1,
+      "message": "Much better. Done",
+      "parentUuid": "bb5c2765_7923c799",
+      "revId": "0f9eb4ab82d86163272c92926c8b93594d5976e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb5c2765_59288372",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "db59db74_9a2ccd6e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-25T20:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb5c2765_59288372",
+      "revId": "0f9eb4ab82d86163272c92926c8b93594d5976e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_5a4b553b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
         "patchSetId": 3
@@ -47,6 +83,30 @@
       "writtenOn": "2015-11-25T19:56:10Z",
       "side": 1,
       "message": "Next step would be to rename this method so it mentions the specific case(s) it covers. Would then also need to keep a 1-line comment below about the button it helps render.",
+      "range": {
+        "startLine": 187,
+        "startChar": 15,
+        "endLine": 187,
+        "endChar": 40
+      },
+      "revId": "0f9eb4ab82d86163272c92926c8b93594d5976e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_fa3989ae",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-11-25T20:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_5a4b553b",
       "range": {
         "startLine": 187,
         "startChar": 15,

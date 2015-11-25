@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "db59db74_9a196d65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-25T15:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb485fa2_fba7cf27",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb485fa2_1b78bb5d",
         "filename": "polygerrit-ui/README.md",
         "patchSetId": 3
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "db59db74_ba1c3155",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-25T15:22:54Z",
+      "side": 1,
+      "message": "Reworked all the instructions.",
+      "parentUuid": "fb485fa2_1b78bb5d",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb485fa2_dba49326",
         "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
         "patchSetId": 3
@@ -60,6 +108,30 @@
       "writtenOn": "2015-11-25T09:52:31Z",
       "side": 1,
       "message": "I\u0027m getting this error even after installing wct:\n\n  $ which wct\n  /usr/local/bin/wct\n\n/usr/local/bin is conatined in $PATH\n\n  $ buck test //polygerrit-ui/app:polygerrit_tests\n  Not using buckd because watchman isn\u0027t installed.\n  FAILURE test_wct polygerrit-ui.app.polygerrit_wct_tests.PolyGerritWctTests: AssertionError: wct not found; try `npm install -g web-component-tester`\n  [-] PROCESSING BUCK FILES...FINISHED 0.1s [100%]\n  [-] BUILDING...FINISHED 0.3s [100%] (2/51 JOBS, 0 UPDATED, 0.0% CACHE MISS)\n  [-] TESTING...FINISHED 0.0s (0 PASS/1 FAIL)\n  RESULTS FOR //polygerrit-ui/app:polygerrit_tests\n  FAIL    CACHED  0 Passed   0 Skipped   1 Failed   //polygerrit-ui/app:polygerrit_tests\n  FAILURE test_wct polygerrit-ui.app.polygerrit_wct_tests.PolyGerritWctTests: AssertionError: wct not found; try `npm install -g web-component-tester`\n    File \"/usr/lib/python2.7/unittest/case.py\", line 331, in run\n      testMethod()\n    File \"polygerrit-ui/app/polygerrit_wct_tests.py\", line 69, in test_wct\n      self._check_wct()\n    File \"polygerrit-ui/app/polygerrit_wct_tests.py\", line 49, in _check_wct\n      msg\u003d\u0027wct not found; try `npm install -g web-component-tester`\u0027)\n    File \"/usr/lib/python2.7/unittest/case.py\", line 424, in assertTrue\n      raise self.failureException(msg)\n\n  \u003d\u003d\u003d\u003dSTANDARD OUT\u003d\u003d\u003d\u003d\n\n  \u003d\u003d\u003d\u003dSTANDARD ERR\u003d\u003d\u003d\u003d\n\n  TESTS FAILED: 1 FAILURE",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 71
+      },
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_5a287572",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-25T15:22:54Z",
+      "side": 1,
+      "message": "Does it work if you just comment out the call to _check_wct()? If so that points to a problem with spawn.find_executable and maybe we should just skip this check",
+      "parentUuid": "fb485fa2_dba49326",
       "range": {
         "startLine": 48,
         "startChar": 0,

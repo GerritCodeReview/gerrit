@@ -218,6 +218,24 @@
       "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_f98fd7da",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-25T15:53:51Z",
+      "side": 1,
+      "message": "\u003e Error: EPERM, chmod \u0027/usr/local/lib/node_modules/web-component-tester/node_modules/wct-local/node_modules/selenium-standalone/.selenium/chromedriver/2.18-x64-chromedriver\u0027\n\nFFFFFUUUUUU npm. This shit is why we are excluding web tests by default.\n\nI think, no joke, this needs a \"sudo chown -R $USER /usr/local/lib/node_modules\".\n\n(And I\u0027m pretty sure this still won\u0027t work on OS X 10.11 but we\u0027ll tackle that later.)",
+      "parentUuid": "9b53e354_f8aeb1eb",
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

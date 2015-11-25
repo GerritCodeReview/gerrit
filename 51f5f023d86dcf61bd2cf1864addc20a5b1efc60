@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b53e354_1878c55d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-25T10:09:53Z",
+      "side": 1,
+      "message": "We may want to add a comment here and below to explain why the expected behavior is different when notedb is enabled, similar to how it is done in ChangeIT.addReviewerToClosedChange().",
+      "revId": "51f5f023d86dcf61bd2cf1864addc20a5b1efc60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_5b72437f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-25T10:09:53Z",
+      "side": 1,
+      "message": "ctx.getWhen()",
+      "range": {
+        "startLine": 135,
+        "startChar": 16,
+        "endLine": 135,
+        "endChar": 32
+      },
+      "revId": "51f5f023d86dcf61bd2cf1864addc20a5b1efc60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

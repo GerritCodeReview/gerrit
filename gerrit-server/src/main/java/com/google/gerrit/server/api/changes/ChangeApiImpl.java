@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
+import com.google.gerrit.extensions.api.changes.ReviewerApi;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -46,6 +47,7 @@ import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
+import com.google.gerrit.server.change.Reviewers;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestReviewers;
@@ -68,7 +70,9 @@ class ChangeApiImpl implements ChangeApi {
 
   private final Provider<CurrentUser> user;
   private final Changes changeApi;
+  private final Reviewers reviewers;
   private final Revisions revisions;
+  private final ReviewerApiImpl.Factory reviewerApi;
   private final RevisionApiImpl.Factory revisionApi;
   private final Provider<SuggestReviewers> suggestReviewers;
   private final ChangeResource change;
@@ -90,7 +94,9 @@ class ChangeApiImpl implements ChangeApi {
   @Inject
   ChangeApiImpl(Provider<CurrentUser> user,
       Changes changeApi,
+      Reviewers reviewers,
       Revisions revisions,
+      ReviewerApiImpl.Factory reviewerApi,
       RevisionApiImpl.Factory revisionApi,
       Provider<SuggestReviewers> suggestReviewers,
       Abandon abandon,
@@ -111,7 +117,9 @@ class ChangeApiImpl implements ChangeApi {
     this.user = user;
     this.changeApi = changeApi;
     this.revert = revert;
+    this.reviewers = reviewers;
     this.revisions = revisions;
+    this.reviewerApi = reviewerApi;
     this.revisionApi = revisionApi;
     this.suggestReviewers = suggestReviewers;
     this.abandon = abandon;
@@ -152,6 +160,16 @@ class ChangeApiImpl implements ChangeApi {
           revisions.parse(change, IdString.fromDecoded(id)));
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot parse revision", e);
+    }
+  }
+
+  @Override
+  public ReviewerApi reviewer(String id) throws RestApiException {
+    try {
+      return reviewerApi.create(
+          reviewers.parse(change, IdString.fromDecoded(id)));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot parse reviewer", e);
     }
   }
 

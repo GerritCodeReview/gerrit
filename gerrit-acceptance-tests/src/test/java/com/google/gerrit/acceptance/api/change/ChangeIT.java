@@ -26,6 +26,8 @@ import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
 
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -46,7 +48,9 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -63,6 +67,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @NoHttpd
 public class ChangeIT extends AbstractDaemonTest {
@@ -379,6 +384,115 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listVotes() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    Map<String, Short> m = gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .votes();
+
+    assertThat(m).hasSize(1);
+    assertThat(m).containsEntry("Code-Review", new Short((short)2));
+
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.dislike());
+
+    m = gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .votes();
+
+    assertThat(m).hasSize(1);
+    assertThat(m).containsEntry("Code-Review", new Short((short)-1));
+  }
+
+  @Test
+  public void deleteVote() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.recommend());
+
+    setApiUser(admin);
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .deleteVote("Code-Review");
+
+    Map<String, Short> m = gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .votes();
+
+    if (isNoteDbTestEnabled()) {
+      // When notedb is enabled each reviewer is explicitly recorded in the
+      // notedb and this record stays even when all votes of that user have been
+      // deleted, hence there is no dummy 0 approval left when a vote is
+      // deleted.
+      assertThat(m).isEmpty();
+    } else {
+      // When notedb is disabled there is a dummy 0 approval on the change so
+      // that the user is still returned as CC when all votes of that user have
+      // been deleted.
+      assertThat(m).containsEntry("Code-Review", new Short((short)0));
+    }
+
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+
+    assertThat(Iterables.getLast(c.messages).message).isEqualTo(
+        "Removed Code-Review+2 by Administrator <admin@example.com>\n");
+    if (isNoteDbTestEnabled()) {
+      // When notedb is enabled each reviewer is explicitly recorded in the
+      // notedb and this record stays even when all votes of that user have been
+      // deleted.
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(
+              ImmutableSet.of(admin.getId(), user.getId()));
+    } else {
+      // When notedb is disabled users that have only dummy 0 approvals on the
+      // change are returned as CC and not as REVIEWER.
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(ImmutableSet.of(user.getId()));
+      assertThat(getReviewers(c.reviewers.get(CC)))
+          .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
+    }
+  }
+
+  @Test
+  public void deleteVoteNotPermitted() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("delete not permitted");
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .deleteVote("Code-Review");
+  }
+
+  @Test
   public void createEmptyChange() throws Exception {
     ChangeInfo in = new ChangeInfo();
     in.branch = Constants.MASTER;
@@ -676,5 +790,16 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(rev2.pushCertificate).isNotNull();
     assertThat(rev2.pushCertificate.certificate).isNull();
     assertThat(rev2.pushCertificate.key).isNull();
+  }
+
+
+  private static Iterable<Account.Id> getReviewers(
+      Collection<AccountInfo> r) {
+    return Iterables.transform(r, new Function<AccountInfo, Account.Id>() {
+      @Override
+      public Account.Id apply(AccountInfo account) {
+        return new Account.Id(account._accountId);
+      }
+    });
   }
 }

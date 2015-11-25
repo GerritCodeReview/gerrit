@@ -200,6 +200,24 @@
       "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_f8aeb1eb",
+        "filename": "polygerrit-ui/app/polygerrit_wct_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-25T15:40:48Z",
+      "side": 1,
+      "message": "Here is the full output:\n\n$ buck test //polygerrit-ui/app:polygerrit_tests\nNot using buckd because watchman isn\u0027t installed.\nFAILURE test_wct polygerrit-ui.app.polygerrit_wct_tests.PolyGerritWctTests: AssertionError: 0 !\u003d 1\n[-] PROCESSING BUCK FILES...FINISHED 0.1s [100%]\n[-] BUILDING...FINISHED 0.3s [100%] (2/51 JOBS, 0 UPDATED, 0.0% CACHE MISS)\n[-] TESTING...FINISHED 0.0s (0 PASS/1 FAIL)\nRESULTS FOR //polygerrit-ui/app:polygerrit_tests\nFAIL    CACHED  0 Passed   0 Skipped   1 Failed   //polygerrit-ui/app:polygerrit_tests\nFAILURE test_wct polygerrit-ui.app.polygerrit_wct_tests.PolyGerritWctTests: AssertionError: 0 !\u003d 1\n  File \"/usr/lib/python2.7/unittest/case.py\", line 331, in run\n    testMethod()\n  File \"polygerrit-ui/app/polygerrit_wct_tests.py\", line 89, in test_wct\n    self.assertEquals(0, p.returncode)\n  File \"/usr/lib/python2.7/unittest/case.py\", line 515, in assertEqual\n    assertion_func(first, second, msg\u003dmsg)\n  File \"/usr/lib/python2.7/unittest/case.py\", line 508, in _baseAssertEqual\n    raise self.failureException(msg)\n\n\u003d\u003d\u003d\u003dSTANDARD OUT\u003d\u003d\u003d\u003d\nInstalling and starting Selenium server for local browsers\n----------\nselenium-standalone installation starting\n----------\n---\nselenium install:\nfrom: http://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.1.jar\nto: /usr/local/lib/node_modules/web-component-tester/node_modules/wct-local/node_modules/selenium-standalone/.selenium/selenium-server/2.47.1-server.jar\n---\nchrome install:\nfrom: http://chromedriver.storage.googleapis.com/2.18/chromedriver_linux64.zip\nto: /usr/local/lib/node_modules/web-component-tester/node_modules/wct-local/node_modules/selenium-standalone/.selenium/chromedriver/2.18-x64-chromedriver\n---\nFile from http://selenium-release.storage.googleapis.com/2.47/selenium-server-standalone-2.47.1.jar has already been downloaded\n---\nFile from http://chromedriver.storage.googleapis.com/2.18/chromedriver_linux64.zip has already been downloaded\n-----\nselenium-standalone installation finished\n-----\n\nError: EPERM, chmod \u0027/usr/local/lib/node_modules/web-component-tester/node_modules/wct-local/node_modules/selenium-standalone/.selenium/chromedriver/2.18-x64-chromedriver\u0027\n\n\n\u003d\u003d\u003d\u003dSTANDARD ERR\u003d\u003d\u003d\u003d\nRunning [\u0027wct\u0027] in /tmp/tmpuCs6L7/polygerrit\n\nTESTS FAILED: 1 FAILURE",
+      "parentUuid": "db59db74_7af8d935",
+      "revId": "58b3d239116af48f50789ca29f62e1e332a4405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

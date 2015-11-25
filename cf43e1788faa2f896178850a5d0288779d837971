@@ -16,6 +16,24 @@
       "revId": "cf43e1788faa2f896178850a5d0288779d837971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bafab61_e6617e16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-25T00:38:39Z",
+      "side": 1,
+      "message": "I can\u0027t see any previous discussion of this. I can change it, but I guess that would require me to add new fields and deprecate these. Is that going to cause problems?",
+      "parentUuid": "bb5c2765_79ae275a",
+      "revId": "cf43e1788faa2f896178850a5d0288779d837971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

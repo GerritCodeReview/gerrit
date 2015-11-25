@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.httpd.GerritOptions;
+import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.cache.CacheModule;
@@ -138,6 +139,7 @@ public class StaticModule extends ServletModule {
       }
 
       for (String p : POLYGERRIT_INDEX_PATHS) {
+        filter(p).through(XsrfCookieFilter.class);
         serve(p).with(PolyGerritUiIndexServlet.class);
       }
       serve("/*").with(PolyGerritUiServlet.class);

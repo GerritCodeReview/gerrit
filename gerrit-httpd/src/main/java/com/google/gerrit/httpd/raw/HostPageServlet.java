@@ -25,13 +25,11 @@ import com.google.common.primitives.Bytes;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
@@ -67,7 +65,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -83,7 +80,6 @@ public class HostPageServlet extends HttpServlet {
   private static final int DEFAULT_JS_LOAD_TIMEOUT = 5000;
 
   private final Provider<CurrentUser> currentUser;
-  private final DynamicItem<WebSession> session;
   private final DynamicSet<WebUiPlugin> plugins;
   private final DynamicSet<MessageOfTheDay> messages;
   private final HostPageData.Theme signedOutTheme;
@@ -101,7 +97,6 @@ public class HostPageServlet extends HttpServlet {
   @Inject
   HostPageServlet(
       Provider<CurrentUser> cu,
-      DynamicItem<WebSession> w,
       SitePaths sp,
       ThemeFactory themeFactory,
       ServletContext servletContext,
@@ -113,7 +108,6 @@ public class HostPageServlet extends HttpServlet {
       GetDiffPreferences diffPref)
       throws IOException, ServletException {
     currentUser = cu;
-    session = w;
     plugins = webUiPlugins;
     messages = motd;
     signedOutTheme = themeFactory.getSignedOutTheme();
@@ -193,7 +187,6 @@ public class HostPageServlet extends HttpServlet {
     StringWriter w = new StringWriter();
     CurrentUser user = currentUser.get();
     if (user.isIdentifiedUser()) {
-      setXGerritAuthCookie(req, rsp, session.get());
       w.write(HPD_ID + ".accountDiffPref=");
       json(getDiffPreferences(user.asIdentifiedUser()), w);
       w.write(";");
@@ -202,7 +195,6 @@ public class HostPageServlet extends HttpServlet {
       json(signedInTheme, w);
       w.write(";");
     } else {
-      setXGerritAuthCookie(req, rsp, null);
       w.write(HPD_ID + ".theme=");
       json(signedOutTheme, w);
       w.write(";");
@@ -227,22 +219,6 @@ public class HostPageServlet extends HttpServlet {
     try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
     }
-  }
-
-  private static void setXGerritAuthCookie(HttpServletRequest req,
-      HttpServletResponse rsp, WebSession session) {
-    String v = session != null ? session.getXGerritAuth() : "";
-    Cookie c = new Cookie(HostPageData.XSRF_COOKIE_NAME, v);
-    c.setPath("/");
-    c.setSecure(isSecure(req));
-    c.setMaxAge(session != null
-        ? -1 // Set the cookie for this browser session.
-        : 0); // Remove the cookie (expire immediately).
-    rsp.addCookie(c);
-  }
-
-  private static boolean isSecure(HttpServletRequest req) {
-    return req.isSecure() || "https".equals(req.getScheme());
   }
 
   private DiffPreferencesInfo getDiffPreferences(IdentifiedUser user) {

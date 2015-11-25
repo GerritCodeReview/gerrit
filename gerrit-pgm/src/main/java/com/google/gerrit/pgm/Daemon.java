@@ -278,7 +278,9 @@ public class Daemon extends SiteProgram {
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(
         Key.get(Config.class, GerritServerConfig.class));
-    initIndexType();
+    if (!slave) {
+      initIndexType();
+    }
     sysInjector = createSysInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class)
       .setDbCfgInjector(dbInjector, cfgInjector);
@@ -415,7 +417,7 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new DefaultCommandModule(slave,
         sysInjector.getInstance(DownloadConfig.class)));
-    if (indexType == IndexType.LUCENE) {
+    if (!slave && indexType == IndexType.LUCENE) {
       modules.add(new IndexCommandsModule());
     }
     return sysInjector.createChildInjector(modules);

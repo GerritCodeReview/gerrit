@@ -12,7 +12,6 @@
   },
   "devDependencies": {
     "web-component-tester": "*",
-    "iron-test-helpers": "PolymerElements/iron-test-helpers#~1.0.6",
-    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+    "iron-test-helpers": "PolymerElements/iron-test-helpers"
   }
 }

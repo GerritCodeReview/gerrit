@@ -18,16 +18,22 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>Elements Test Runner</title>
 <meta charset="utf-8">
-<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
 <script>
-  WCT.loadSuites([
-    'gr-change-list-item-test.html',
+  var testFiles = [];
+
+  [ 'gr-change-list-item-test.html',
     'gr-change-list-test.html',
     'gr-date-formatter-test.html',
     'gr-diff-comment-test.html',
     'gr-diff-comment-thread-test.html',
     'gr-diff-view-test.html',
-    'gr-search-bar-test.html'
-  ]);
+    'gr-search-bar-test.html',
+  ].forEach(function(file) {
+      testFiles.push(file);
+      testFiles.push(file + '?dom=shadow');
+  });
+
+  WCT.loadSuites(testFiles);
 </script>

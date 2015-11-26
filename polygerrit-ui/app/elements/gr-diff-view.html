@@ -208,7 +208,7 @@ limitations under the License.
           this._renderRulerElements();
         }
         var remove = newValue == 0;
-        var rulerEls = document.querySelectorAll('.ruler');
+        var rulerEls = Polymer.dom(this.root).querySelectorAll('.ruler');
         for (var i = 0; i < rulerEls.length; i++) {
           if (remove) {
             rulerEls[i].parentNode.removeChild(rulerEls[i]);
@@ -318,14 +318,13 @@ limitations under the License.
         var rowNum = contentEl.getAttribute('data-row-num');
         el.addEventListener('gr-diff-comment-thread-height-changed',
             this._handleCommentThreadHeightChange.bind(this, rowNum, threadID));
-
         Polymer.dom(contentEl.parentNode).insertBefore(
             el, contentEl.nextSibling);
       },
 
       _handleCommentThreadHeightChange: function(rowNum, threadID, e) {
         // Adjust the filler element heights if they're present in the DOM.
-        var els = this.querySelectorAll(
+        var els = Polymer.dom(this.root).querySelectorAll(
             '.js-threadFiller[data-thread-id="' + threadID + '"]');
         if (els.length > 0) {
           for (var i = 0; i < els.length; i++) {
@@ -335,7 +334,8 @@ limitations under the License.
         }
 
         // Create the filler elements if they're not already present.
-        var els = this.querySelectorAll('[data-row-num="' + rowNum + '"]');
+        var els = Polymer.dom(this.root).querySelectorAll(
+            '[data-row-num="' + rowNum + '"]');
         for (var i = 0; i < els.length; i++) {
           // Is this is the side with the comment? Skip if so.
           if (els[i].nextSibling &&
@@ -344,7 +344,7 @@ limitations under the License.
           }
           var fillerEl = document.createElement('div');
           fillerEl.setAttribute('data-thread-id', threadID);
-          fillerEl.className = 'js-threadFiller';
+          fillerEl.classList.add('js-threadFiller');
           fillerEl.style.height = e.detail.height + 'px';
           Polymer.dom(els[i].parentNode).insertBefore(
               fillerEl, els[i].nextSibling);
@@ -518,7 +518,7 @@ limitations under the License.
       },
 
       _renderRulerElements: function() {
-        var contentEls = this.querySelectorAll('.content');
+        var contentEls = Polymer.dom(this.root).querySelectorAll('.content');
         for (var i = 0; i < contentEls.length; i++) {
           var rulerEl = this._createElement('i', 'ruler');
           rulerEl.style.left = this.rulerWidth + 'ch';

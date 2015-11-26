@@ -23,7 +23,7 @@ limitations under the License.
 <script src="../../bower_components/test-fixture/test-fixture-mocha.js"></script>
 <script src="../scripts/changes.js"></script>
 <script src="../scripts/util.js"></script>
-<link rel="import" href="../../bower_components/test-fixture/test-fixture.html">
+
 <link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="../elements/gr-diff-view.html">
 
@@ -103,10 +103,10 @@ limitations under the License.
 
     test('ab content is the same for left and right sides', function() {
       for (var i = 0; i < diffContent[0].ab.length; i++) {
-        var leftEls = element.querySelectorAll(
+        var leftEls = Polymer.dom(element.root).querySelectorAll(
             '#leftDiffContent .content[data-line-num="' + (i + 1) + '"]');
         assert.equal(leftEls.length, 1);
-        var rightEls = element.querySelectorAll(
+        var rightEls = Polymer.dom(element.root).querySelectorAll(
             '#rightDiffContent .content[data-line-num="' + (i + 1) + '"]');
         assert.equal(rightEls.length, 1);
         assert.equal(leftEls[0].textContent, rightEls[0].textContent);
@@ -115,7 +115,7 @@ limitations under the License.
 
     test('all line number and content elements have same (non-zero) height',
         function() {
-      var els = element.querySelectorAll('.lineNum, .content');
+      var els = Polymer.dom(element.root).querySelectorAll('.lineNum, .content');
       assert.isAbove(els.length, 0);
       var offsetHeight = els.length > 0 && els[0].offsetHeight;
       assert.isAbove(offsetHeight, 0);
@@ -125,7 +125,7 @@ limitations under the License.
     });
 
     test('content is properly escaped', function() {
-      var firstLineEls = element.querySelectorAll(
+      var firstLineEls = Polymer.dom(element.root).querySelectorAll(
         '#leftDiffContent .content[data-line-num="1"], ' +
         '#rightDiffContent .content[data-line-num="1"]');
       assert.equal(2, firstLineEls.length);
@@ -150,27 +150,29 @@ limitations under the License.
 
     test('ruler width changes are applied correctly', function() {
       assert.equal(element.rulerWidth, 0);
-      assert.equal(element.querySelectorAll('.ruler').length, 0);
+      assert.equal(Polymer.dom(element.root).querySelectorAll('.ruler').length,
+          0);
       element.rulerWidth = 80;
       flushAsynchronousOperations();
-      var els = element.querySelectorAll('.ruler');
+      var els = Polymer.dom(element.root).querySelectorAll('.ruler');
       assert.isAbove(els.length, 0);
       for (var i = 0; i < els.length; i++) {
         assert.equal(els[i].style.left, '80ch');
       }
       element.rulerWidth = 0;
       flushAsynchronousOperations();
-      assert.equal(element.querySelectorAll('.ruler').length, 0);
+      assert.equal(Polymer.dom(element.root).querySelectorAll('.ruler').length,
+          0);
       element.rulerWidth = 100;
       flushAsynchronousOperations();
-      els = element.querySelectorAll('.ruler');
+      els = Polymer.dom(element.root).querySelectorAll('.ruler');
       assert.isAbove(els.length, 0);
       for (var i = 0; i < els.length; i++) {
         assert.equal(els[i].style.left, '100ch');
       }
     });
 
-    test('comment threads are rendered correctly', function() {
+    test('comment threads are rendered correctly', function(done) {
       elWithComments._maybeRenderDiff({content: diffContent}, [], [
           {
             id: 'file_comment',
@@ -188,20 +190,34 @@ limitations under the License.
             },
           }
       ]);
-      flushAsynchronousOperations();
-      var threadEls = elWithComments.querySelectorAll(
-          'gr-diff-comment-thread[data-thread-id="thread-1-8"]');
-      assert.equal(threadEls.length, 1);
-      var fillerEls = elWithComments.querySelectorAll(
-          '.js-threadFiller[data-thread-id="thread-1-8"]');
-      assert.equal(fillerEls.length, 3);
 
-      threadEls = elWithComments.querySelectorAll(
-          'gr-diff-comment-thread[data-thread-id="thread-1-FILE"]');
-      assert.equal(threadEls.length, 1);
-      fillerEls = elWithComments.querySelectorAll(
-          '.js-threadFiller[data-thread-id="thread-1-FILE"]');
-      assert.equal(fillerEls.length, 3);
+      // On WebKit and Gecko, flushAsynchronousOperations isn't enough to allow
+      // the thread filler elements to properly render. Wait for the resize
+      // events that trigger their addition and check after the expected number
+      // come in.
+      var numEventsFired = 0;
+      elWithComments.addEventListener('gr-diff-comment-thread-height-changed',
+          function() {
+        numEventsFired++;
+        if (numEventsFired < 2) { return; }
+        assert.equal(numEventsFired, 2);
+
+        var threadEls = Polymer.dom(elWithComments.root).querySelectorAll(
+            'gr-diff-comment-thread[data-thread-id="thread-1-8"]');
+        assert.equal(threadEls.length, 1);
+        var fillerEls = Polymer.dom(elWithComments.root).querySelectorAll(
+            '.js-threadFiller[data-thread-id="thread-1-8"]');
+        assert.equal(fillerEls.length, 3);
+
+        threadEls = Polymer.dom(elWithComments.root).querySelectorAll(
+            'gr-diff-comment-thread[data-thread-id="thread-1-FILE"]');
+        assert.equal(threadEls.length, 1);
+        fillerEls = Polymer.dom(elWithComments.root).querySelectorAll(
+            '.js-threadFiller[data-thread-id="thread-1-FILE"]');
+        assert.equal(fillerEls.length, 3);
+
+        done();
+      });
     });
 
   });

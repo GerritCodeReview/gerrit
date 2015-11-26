@@ -649,11 +649,8 @@ class HttpPluginServlet extends HttpServlet
   private static byte[] readWholeEntry(PluginContentScanner scanner, PluginEntry entry)
       throws IOException {
     byte[] data = new byte[entry.getSize().get().intValue()];
-    InputStream in = scanner.getInputStream(entry);
-    try {
+    try (InputStream in = scanner.getInputStream(entry)) {
       IO.readFully(in, data, 0, data.length);
-    } finally {
-      in.close();
     }
     return data;
   }

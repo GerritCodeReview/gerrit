@@ -107,7 +107,8 @@ limitations under the License.
       },
 
       _getNonHeaderListItems: function() {
-        return this.querySelectorAll('gr-change-list-item:not([header])');
+        return Polymer.dom(this.root).querySelectorAll(
+            'gr-change-list-item:not([header])');
       },
 
     });

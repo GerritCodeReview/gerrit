@@ -376,7 +376,9 @@ public class Daemon extends SiteProgram {
       }
     });
     modules.add(new GarbageCollectionModule());
-    modules.add(new ChangeCleanupRunner.Module());
+    if (!slave) {
+      modules.add(new ChangeCleanupRunner.Module());
+    }
     return cfgInjector.createChildInjector(modules);
   }
 

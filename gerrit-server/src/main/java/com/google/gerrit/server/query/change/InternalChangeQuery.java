@@ -240,7 +240,7 @@ public class InternalChangeQuery {
     return query(and(project(project), or(groupPredicates)));
   }
 
-  private List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {
+  public List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {
     try {
       return qp.queryChanges(p).changes();
     } catch (QueryParseException e) {

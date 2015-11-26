@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb5c2765_b92f1f62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T18:29:32Z",
+      "side": 1,
+      "message": "a JsonEventSource",
+      "range": {
+        "startLine": 13,
+        "startChar": 53,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "3494fcd99ee68d4a2b1964d31e887e254a6092ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_ba86f181",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T18:29:32Z",
+      "side": 1,
+      "message": "JsonEventSource",
+      "range": {
+        "startLine": 443,
+        "startChar": 33,
+        "endLine": 443,
+        "endChar": 43
+      },
+      "revId": "3494fcd99ee68d4a2b1964d31e887e254a6092ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_f93997ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/JsonEventDispatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T18:29:32Z",
+      "side": 1,
+      "message": "Might want to consider using a javadoc method @link.",
+      "range": {
+        "startLine": 20,
+        "startChar": 44,
+        "endLine": 20,
+        "endChar": 76
+      },
+      "revId": "3494fcd99ee68d4a2b1964d31e887e254a6092ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_79462737",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/JsonEventDispatcher.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T18:29:32Z",
+      "side": 1,
+      "message": "Missing \u003cp\u003e?",
+      "revId": "3494fcd99ee68d4a2b1964d31e887e254a6092ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_d93653be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/JsonEventSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T18:29:32Z",
+      "side": 1,
+      "message": "EventBroker, if ever based on [1]?\n\n[1] https://gerrit-review.googlesource.com/#/c/62520",
+      "range": {
+        "startLine": 33,
+        "startChar": 37,
+        "endLine": 33,
+        "endChar": 52
+      },
+      "revId": "3494fcd99ee68d4a2b1964d31e887e254a6092ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_594b633b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/JsonEventSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T18:29:32Z",
+      "side": 1,
+      "message": "Missing 4-spaces indent.",
+      "revId": "3494fcd99ee68d4a2b1964d31e887e254a6092ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_3965cfc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/JsonEventSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T18:29:32Z",
+      "side": 1,
+      "message": "Just found the caller I was wondering about in that comment I had within [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/62520/21/gerrit-server/src/main/java/com/google/gerrit/common/EventBroker.java",
+      "revId": "3494fcd99ee68d4a2b1964d31e887e254a6092ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_9a832d72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/SingleDispatch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T18:29:32Z",
+      "side": 1,
+      "message": "(Method @link instead?)",
+      "range": {
+        "startLine": 24,
+        "startChar": 53,
+        "endLine": 24,
+        "endChar": 75
+      },
+      "revId": "3494fcd99ee68d4a2b1964d31e887e254a6092ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_5a72357f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/SingleDispatch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T18:29:32Z",
+      "side": 1,
+      "message": "Missing \u003cp\u003e?",
+      "revId": "3494fcd99ee68d4a2b1964d31e887e254a6092ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

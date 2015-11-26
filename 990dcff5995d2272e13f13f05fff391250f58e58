@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb5c2765_1941eb1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventBroker.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T17:03:46Z",
+      "side": 1,
+      "message": "Assuming likely hierarchy-bound caller-s (beside local one); not sure which existing one(s) today.",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 129,
+        "endChar": 11
+      },
+      "revId": "990dcff5995d2272e13f13f05fff391250f58e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_1a78bd5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventBroker.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T17:03:46Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "range": {
+        "startLine": 192,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 11
+      },
+      "revId": "990dcff5995d2272e13f13f05fff391250f58e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

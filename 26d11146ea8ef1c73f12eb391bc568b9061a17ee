@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "bb5c2765_b958bf08",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-11-26T20:43:03Z",
+      "side": 1,
+      "message": "1. Will do\n2. This is probably our internal context/\"trust model\" starting to leak (or maybe I mis-used the word \"safety\" also.)  For us, all the whitelist are under the same administrative control.  So the hierarchy come out of commonalities rather than delegation of power.  Since this is just an cookbook example, I am not suggesting that it will work with the other model (as you correctly pointed out, child project can override all.)\n3. The assumption here is that the child project will use the same script.  (It\u0027s not by design that I don\u0027t want to do a contain check... just not sure how with Prolog.)\n4. Probably my lack of Prolog skill ;).  Would something like this work?\nadd_whitelisted([label(\u0027Whitelisted\u0027, ok(_)) | In], In) :-\n    true, !.",
+      "parentUuid": "fb485fa2_5ec6b16d",
+      "range": {
+        "startLine": 1079,
+        "startChar": 0,
+        "endLine": 1081,
+        "endChar": 49
+      },
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b53e354_9880551f",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 6

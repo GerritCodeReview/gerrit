@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb5c2765_d921337d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventBroker.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T16:53:43Z",
+      "side": 1,
+      "message": "Not sure then why event is not of type ChangeEvent straight in method signature instead of RefEvent.",
+      "revId": "0a20cf0f88797cce2142279763ccd58365c6a560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

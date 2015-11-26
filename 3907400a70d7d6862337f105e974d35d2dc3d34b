@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db59db74_fa5229e6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T13:50:09Z",
+      "side": 1,
+      "message": "features (albeit next comment)",
+      "range": {
+        "startLine": 174,
+        "startChar": 14,
+        "endLine": 174,
+        "endChar": 21
+      },
+      "revId": "3907400a70d7d6862337f105e974d35d2dc3d34b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_59fd2324",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T13:50:09Z",
+      "side": 1,
+      "message": "Javadoc no longer needed I think since comments were added below. Does not add much knowledge to/about this method.",
+      "revId": "3907400a70d7d6862337f105e974d35d2dc3d34b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_9a55edd2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T13:50:09Z",
+      "side": 1,
+      "message": "errorMessage",
+      "range": {
+        "startLine": 177,
+        "startChar": 36,
+        "endLine": 177,
+        "endChar": 39
+      },
+      "revId": "3907400a70d7d6862337f105e974d35d2dc3d34b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_99fe9b1e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T13:50:09Z",
+      "side": 1,
+      "message": "Would move comment to current line 180, as first line after if statement\u0027s opening brace.",
+      "revId": "3907400a70d7d6862337f105e974d35d2dc3d34b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb5c2765_f90b57fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ErrorDialog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T13:50:09Z",
+      "side": 1,
+      "message": "Same as above. You could also remove the mention of \"expired session\" from both in-method comments, and rename the method to \"enhanceButtonUponExpiredSession\". Your goal would be to minimize comments while making the code explicit by itself. Great if you could make the above comment fit in just one line, helping local code readability as well.",
+      "revId": "3907400a70d7d6862337f105e974d35d2dc3d34b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

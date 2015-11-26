@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "9b53e354_b883992a",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-26T14:07:18Z",
+      "side": 1,
+      "message": "What is the purpose of this predicate? Isn\u0027t the third add_whitelisted (line 1088) taking care of adding the Whitelisted-OK to result? I would remove this code.",
+      "range": {
+        "startLine": 1079,
+        "startChar": 0,
+        "endLine": 1081,
+        "endChar": 49
+      },
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_9880551f",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-26T14:07:18Z",
+      "side": 1,
+      "message": "optional: this can be written in a more compact way:\n\n  add_whitelisted(In, [label(\u0027Whitelisted\u0027, ok(A)) :-\n    gerrit:change_owner(A).",
+      "range": {
+        "startLine": 1088,
+        "startChar": 0,
+        "endLine": 1090,
+        "endChar": 45
+      },
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b53e354_98bb35ff",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 6

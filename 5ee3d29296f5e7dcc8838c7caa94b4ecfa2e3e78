@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db59db74_3ad821a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-11-26T19:20:29Z",
+      "side": 1,
+      "message": "I prefer \"allowRegisterNewEmail()\".",
+      "revId": "5ee3d29296f5e7dcc8838c7caa94b4ecfa2e3e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "db59db74_ba9d51da",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-11-26T16:44:19Z",
+      "side": 1,
+      "message": "That is true.  This is probably because I am reverse engineering the doc from the final solution.  In the end, the same set of rules are used by both submit_filter and submit_rule.  This way the whitelist can be applied to both children projects and itself.  Being able to reuse the code with just one extra check is worth it I think.",
+      "parentUuid": "fb485fa2_fb8d0f55",
+      "range": {
+        "startLine": 980,
+        "startChar": 0,
+        "endLine": 980,
+        "endChar": 15
+      },
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b53e354_b883992a",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2015-11-26T14:07:18Z",
       "side": 1,
       "message": "What is the purpose of this predicate? Isn\u0027t the third add_whitelisted (line 1088) taking care of adding the Whitelisted-OK to result? I would remove this code.",
+      "range": {
+        "startLine": 1079,
+        "startChar": 0,
+        "endLine": 1081,
+        "endChar": 49
+      },
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_faa7c927",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-11-26T16:44:19Z",
+      "side": 1,
+      "message": "This is a safety thing in case of the whitelist rules being placed in multiple places of a hierarchy of projects.  I believe the third add_whitelisted will just append additional Whitelisted label with status ok even if a Whitelisted label already exists from children project.\n\nThis predicate allow children project (more specific) whitelist to override parent project / submit filter (more general) whitelist.  Essentially, if children project is ok with the path branch combination, don\u0027t need to check my whitelist.",
+      "parentUuid": "9b53e354_b883992a",
       "range": {
         "startLine": 1079,
         "startChar": 0,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "bb5c2765_9927bb92",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-11-26T16:44:19Z",
+      "side": 1,
+      "message": "Cool.  I didn\u0027t realize you can do that.  I will put that in.",
+      "parentUuid": "9b53e354_f88d1155",
+      "range": {
+        "startLine": 1088,
+        "startChar": 0,
+        "endLine": 1090,
+        "endChar": 45
+      },
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b53e354_98bb35ff",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 6
@@ -106,6 +178,24 @@
       "writtenOn": "2015-11-26T10:31:06Z",
       "side": 1,
       "message": "For submit_rule, as said above, a while-list of projects makes no sense.",
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_9a9a0dde",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1021862
+      },
+      "writtenOn": "2015-11-26T16:44:19Z",
+      "side": 1,
+      "message": "This example also give the user file and branch level whitelist, so having a project level whitelist is by design.",
+      "parentUuid": "9b53e354_98bb35ff",
       "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

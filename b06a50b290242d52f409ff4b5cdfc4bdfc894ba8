@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db59db74_fad50968",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-11-26T21:03:52Z",
+      "side": 1,
+      "message": "Does this mean that a plugin could unexpectedly change the default event dispatching|sourcing assumed by core and some other plugin-s? If so, could this change cause regressions once such \"streaming\" plugin(s) get deployed?",
+      "revId": "b06a50b290242d52f409ff4b5cdfc4bdfc894ba8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

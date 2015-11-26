@@ -22,6 +22,30 @@
       "revId": "e42d6ad70e7d778fc078538382c839c957e2a2d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_38902974",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2975,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-26T12:19:47Z",
+      "side": 1,
+      "message": "Yes, maybe you are right the auth would be a better place to host this config option.",
+      "parentUuid": "3b3f57ea_fd6867c9",
+      "range": {
+        "startLine": 2975,
+        "startChar": 35,
+        "endLine": 2975,
+        "endChar": 66
+      },
+      "revId": "e42d6ad70e7d778fc078538382c839c957e2a2d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

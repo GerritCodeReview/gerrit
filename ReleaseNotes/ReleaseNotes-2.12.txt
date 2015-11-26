@@ -212,6 +212,27 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/conf
 
 * Add support for hmac-sha2-256 and hmac-sha2-512 as MACs.
 
+Plugins
+~~~~~~~
+
+General
+^^^^^^^
+
+* Gerrit client can now pass JavaScriptObjects to extension panels
+* New UI extension point for header bar in change screen
+* New UI extension point to password screen
+* New UI extension points to project info screen
+* New UI extension point for pop down buttons on change screen
+* New UI extension point for buttons in header bar on change screen
+* New UI extension point at bottom of the user preferences screen
+* Plugins can extend Gerrit screens with GWT controls
+* Plugins can add custom settings screens
+* Admins can now configure URL aliases
+* User-specific URL aliases are also supported
+* Referencing groups in `project.config`
++
+Plugins can refer to groups so that when they are renamed, the project
+config will also be updated in this section.
 
 Other
 ~~~~~

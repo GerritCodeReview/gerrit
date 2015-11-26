@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "9b53e354_f88d1155",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-26T14:11:50Z",
+      "side": 1,
+      "message": "oops, typo in my example. Should be:\n\n  add_whitelisted(In, [label(\u0027Whitelisted\u0027, ok(A)) | In]) :-\n    gerrit:change_owner(A).",
+      "parentUuid": "9b53e354_9880551f",
+      "range": {
+        "startLine": 1088,
+        "startChar": 0,
+        "endLine": 1090,
+        "endChar": 45
+      },
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b53e354_98bb35ff",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 6

@@ -33,7 +33,6 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -79,7 +78,6 @@ public class LdapRealm extends AbstractRealm {
       Helper helper,
       AuthConfig authConfig,
       EmailExpander emailExpander,
-      EmailSettings emailSettings,
       @Named(LdapModule.GROUP_CACHE) final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(LdapModule.USERNAME_CACHE) final LoadingCache<String, Optional<Account.Id>> usernameCache,
       @GerritServerConfig final Config config) {
@@ -98,7 +96,7 @@ public class LdapRealm extends AbstractRealm {
     if (optdef(config, "accountSshUserName", "DEFAULT") != null) {
       readOnlyAccountFields.add(Account.FieldName.USER_NAME);
     }
-    if (!emailSettings.allowRegisterNewEmail) {
+    if (!authConfig.isAllowRegisterNewEmail()) {
       readOnlyAccountFields.add(Account.FieldName.REGISTER_NEW_EMAIL);
     }
 

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_5ec6b16d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-26T17:06:56Z",
+      "side": 1,
+      "message": "\u003e in case of the whitelist rules being placed in multiple places of a hierarchy of projects\n\n1. In that case please document above that white-listing a change in a (sub)project has a precedence over white/black listing in a parent project (via submit_filter).\n\n2. Keep in mind that with such approach you cannot enforce a white-black list from a common parent project because project owners of a (child) project can always effectively avoid the add_whitelisted by simply putting the \u0027Whitelisted-OK\u0027 in their project\u0027s submit_rule.\n\n3. The \"safety check\" will only work if the \u0027Whitelisted\u0027 label is the first element of the input list. If a subproject adds it at any other place in the list then this will not work. So you need a \"contains\" check which checks if the \u0027Whitelisted-OK\u0027 is contained in the input list.\n\n4. Why is this check fixing the user of the ok(_)? If a whitelisted label was added in a child project then why not assume that it was added correctly?",
+      "parentUuid": "db59db74_faa7c927",
+      "range": {
+        "startLine": 1079,
+        "startChar": 0,
+        "endLine": 1081,
+        "endChar": 49
+      },
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b53e354_9880551f",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 6
@@ -196,6 +220,24 @@
       "side": 1,
       "message": "This example also give the user file and branch level whitelist, so having a project level whitelist is by design.",
       "parentUuid": "9b53e354_98bb35ff",
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_beda553e",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-26T17:06:56Z",
+      "side": 1,
+      "message": "If, as you said, you allow child project(s) to white list something and thus avoid any further white/black list check up to parent chain then  I would really split this example into two examples. One which shows how a child project can do white-listing and one which shows how to do that from a submit_filter.",
+      "parentUuid": "db59db74_9a9a0dde",
       "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

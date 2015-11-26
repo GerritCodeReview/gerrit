@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb485fa2_fb8d0f55",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-26T10:31:06Z",
+      "side": 1,
+      "message": "Checking for repository name only makes sense in case of submit_filter, because it runs in a parent project.\n\nsubmit_rule runs in the context of the project the current change belongs to and it makes no sense for a project to have to white-list itself.",
+      "range": {
+        "startLine": 980,
+        "startChar": 0,
+        "endLine": 980,
+        "endChar": 15
+      },
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b53e354_98bb35ff",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-11-26T10:31:06Z",
+      "side": 1,
+      "message": "For submit_rule, as said above, a while-list of projects makes no sense.",
+      "revId": "26d11146ea8ef1c73f12eb391bc568b9061a17ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

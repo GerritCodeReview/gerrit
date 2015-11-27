@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b3f57ea_dd080b05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-27T09:14:41Z",
+      "side": 1,
+      "message": "Does ListMembers recurse member groups too?",
+      "revId": "a64c4b03c3aaf08cebb29bccd9a20906ee6e338e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

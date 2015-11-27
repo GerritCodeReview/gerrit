@@ -16,6 +16,24 @@
       "revId": "5ee3d29296f5e7dcc8838c7caa94b4ecfa2e3e78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f57ea_dd3acbc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-27T00:36:22Z",
+      "side": 1,
+      "message": "So do I, but this way is consistent with how it\u0027s done in the other methods of this class, and generally in get-methods for booleans in the Gerrit code base.",
+      "parentUuid": "db59db74_3ad821a3",
+      "revId": "5ee3d29296f5e7dcc8838c7caa94b4ecfa2e3e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

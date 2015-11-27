@@ -70,6 +70,30 @@
       "revId": "b59a26daa64f67a2d01ff2338d7236137eb9cf08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b3f57ea_1d2ef381",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-11-27T02:30:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb485fa2_beb1b50a",
+      "range": {
+        "startLine": 280,
+        "startChar": 13,
+        "endLine": 280,
+        "endChar": 70
+      },
+      "revId": "b59a26daa64f67a2d01ff2338d7236137eb9cf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

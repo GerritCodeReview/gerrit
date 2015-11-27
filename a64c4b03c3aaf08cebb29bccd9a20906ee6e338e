@@ -16,6 +16,24 @@
       "revId": "a64c4b03c3aaf08cebb29bccd9a20906ee6e338e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bcff3a0_94ace4af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-27T09:19:04Z",
+      "side": 1,
+      "message": "It does, but only when the recursive flag is set, what I missed in my implementation.",
+      "parentUuid": "3b3f57ea_dd080b05",
+      "revId": "a64c4b03c3aaf08cebb29bccd9a20906ee6e338e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

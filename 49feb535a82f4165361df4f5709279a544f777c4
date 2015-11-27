@@ -34,6 +34,24 @@
       "revId": "49feb535a82f4165361df4f5709279a544f777c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bcff3a0_14b9f4ec",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-27T10:10:07Z",
+      "side": 1,
+      "message": "Daemon and WebAppInitializer both startup Gerrit, Daemon is used when Gerrit runs standalone e.g. with embedded Jetty, WebAppInitializer is used when Gerrit runs in a container, e.g. Tomcat. So normally each change that you do to one of the classes must be done in the other as well. I\u0027m not sure how Gerrit slaves are started, if a Gerrit slave cannot run in a container than it might be ok to not touch WebAppInitializer.",
+      "parentUuid": "3bd0373b_9596242d",
+      "revId": "49feb535a82f4165361df4f5709279a544f777c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

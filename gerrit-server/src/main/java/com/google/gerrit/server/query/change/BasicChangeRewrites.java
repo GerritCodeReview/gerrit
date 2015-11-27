@@ -29,7 +29,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
           new InvalidProvider<InternalChangeQuery>(),
           new InvalidProvider<ChangeQueryRewriter>(),
           null, null, null, null, null, null, null, null, null, null, null,
-          null, null, null, null, null, null, null, null, null, null, null));
+          null, null, null, null, null, null, null, null, null, null));
 
   private static final QueryRewriter.Definition<ChangeData, BasicChangeRewrites> mydef =
       new QueryRewriter.Definition<>(BasicChangeRewrites.class, BUILDER);

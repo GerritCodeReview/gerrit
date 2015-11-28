@@ -16,6 +16,24 @@
       "revId": "eaeadd648de8b42005b987f87c856c199b281fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db59db74_5ac0759f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-11-28T00:25:13Z",
+      "side": 1,
+      "message": "I do not think so, IIRC slave mode is not supported in WebAppInitializer.",
+      "parentUuid": "fb485fa2_9e331938",
+      "revId": "eaeadd648de8b42005b987f87c856c199b281fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -26,7 +26,7 @@ public final class CurrentSchemaVersion {
     private static final String VALUE = "X";
 
     @Column(id = 1, length = 1)
-    protected String one = VALUE;
+    public String one = VALUE;
 
     public Key() {
     }
@@ -50,12 +50,12 @@ public final class CurrentSchemaVersion {
   }
 
   @Column(id = 1)
-  protected Key singleton;
+  public Key singleton;
 
   /** Current version number of the schema. */
   @Column(id = 2)
   public transient int versionNbr;
 
-  protected CurrentSchemaVersion() {
+  public CurrentSchemaVersion() {
   }
 }

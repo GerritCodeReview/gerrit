@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bfd33c1_64b2ca0f",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T17:54:22Z",
+      "side": 1,
+      "message": "https://www.polymer-project.org/1.0/docs/devguide/local-dom.html#work-with-local-dom\n\nsays this is equivalent to this.$$(\u0027.content\u0027). Presumably the $$ method exists in the first place is because the alternative is such a mouthfull.",
+      "revId": "7fbb07e7a477bf31476b9a39a6d911a7a9030109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bfd33c1_84aca6af",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T17:54:22Z",
+      "side": 1,
+      "message": "I\u0027m a little confused. Going by this:\n\nhttp://webcomponents.org/polyfills/\n\nit looks like the main difference between webcomponents.js and webcomponents-lite.js is that the latter does *not* contain support for Shadow DOM. So how is WCT able to actually test Shadow DOM support?\n\nOr is it maybe: _this page_ doesn\u0027t require Shadow DOM support, whereas later on in the test suite generation WCT inserts references to webcomponents.js where it\u0027s actually necessary.",
+      "revId": "7fbb07e7a477bf31476b9a39a6d911a7a9030109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bfd33c1_a4a7a2cc",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T17:54:22Z",
+      "side": 1,
+      "message": "Is it worth generating the ?dom\u003dshadow variants programmatically so we don\u0027t forget to add it?",
+      "revId": "7fbb07e7a477bf31476b9a39a6d911a7a9030109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

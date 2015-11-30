@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.Predicate;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -39,6 +43,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
 
 @Singleton
@@ -54,7 +61,8 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
       protected void configure() {
         persist(CACHE_NAME,
             CacheKey.class,
-            new TypeLiteral<HashMultimapPair<Account.Id, Change.Id>>() {})
+            new TypeLiteral<HashBasedBiTable<
+                Account.Id, Change.Id, TreeSet<String>>>() {})
           .maximumWeight(1)
           .loader(Loader.class);
         DynamicItem.bind(binder(), StarredChangesCache.class)
@@ -64,70 +72,143 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
   }
 
   private final LoadingCache<CacheKey,
-      HashMultimapPair<Account.Id, Change.Id>> cache;
+      HashBasedBiTable<Account.Id, Change.Id, TreeSet<String>>> cache;
 
   @Inject
   StarredChangesCacheImpl(
       @Named(CACHE_NAME) LoadingCache<CacheKey,
-      HashMultimapPair<Account.Id, Change.Id>> cache) {
+      HashBasedBiTable<Account.Id, Change.Id, TreeSet<String>>> cache) {
     this.cache = cache;
   }
 
   @Override
-  public boolean isStarred(Account.Id accountId, Change.Id changeId) {
+  public boolean isStarred(Account.Id accountId, Change.Id changeId,
+      String label) {
+    return getLabels(accountId, changeId).contains(label);
+  }
+
+  @Override
+  public ImmutableSortedSet<String> getLabels(Account.Id accountId,
+      Change.Id changeId) {
     try {
-      return all().contains(accountId, changeId);
+      return ImmutableSortedSet.copyOf(all().get(accountId, changeId));
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup star for change %d by account %d",
+      log.warn(String.format("Cannot lookup stars for change %d by account %d",
           changeId.get(), accountId.get()), e);
-      return false;
+      return ImmutableSortedSet.of();
     }
   }
 
   @Override
-  public Iterable<Change.Id> byAccount(Account.Id accountId) {
+  public Iterable<Change.Id> byAccount(Account.Id accountId,
+      final String label) {
     try {
-      return all().getByFirstKey(accountId);
+      return Maps.filterEntries(all().getMapByFirstKey(accountId),
+          new Predicate<Map.Entry<Change.Id, TreeSet<String>>>() {
+            @Override
+            public boolean apply(Map.Entry<Change.Id, TreeSet<String>> e) {
+              return e.getValue().contains(label);
+            }
+          }).keySet();
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup stars by account %d",
-          accountId.get()), e);
+      log.warn(String.format(
+          "Cannot lookup stars by account %d", accountId.get()), e);
       return Collections.emptySet();
     }
   }
 
   @Override
-  public Iterable<Account.Id> byChange(Change.Id changeId) {
+  public ImmutableMultimap<Change.Id, String> byAccount(Account.Id accountId) {
     try {
-      return all().getBySecondKey(changeId);
+      ImmutableMultimap.Builder<Change.Id, String> b =
+          ImmutableMultimap.builder();
+      for (Map.Entry<Change.Id, TreeSet<String>> entry : all()
+          .getMapByFirstKey(accountId).entrySet()) {
+        b.putAll(entry.getKey(), entry.getValue());
+      }
+      return b.build();
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup stars for change %d",
-          changeId.get()), e);
+      log.warn(String.format(
+          "Cannot lookup stars by account %d", accountId.get()), e);
+      return ImmutableMultimap.of();
+    }
+  }
+
+  @Override
+  public Iterable<Account.Id> byChange(Change.Id changeId, final String label) {
+    try {
+      return Maps.filterEntries(all().getMapBySecondKey(changeId),
+          new Predicate<Map.Entry<Account.Id, TreeSet<String>>>() {
+            @Override
+            public boolean apply(Map.Entry<Account.Id, TreeSet<String>> e) {
+              return e.getValue().contains(label);
+            }
+          }).keySet();
+    } catch (ExecutionException e) {
+      log.warn(String.format(
+          "Cannot lookup stars for change %d", changeId.get()), e);
       return Collections.emptySet();
     }
   }
 
   @Override
-  public void star(Account.Id accountId, Change.Id changeId) {
+  public ImmutableMultimap<Account.Id, String> byChange(Change.Id changeId) {
     try {
-      all().put(accountId, changeId);
+      ImmutableMultimap.Builder<Account.Id, String> b =
+          ImmutableMultimap.builder();
+      for (Map.Entry<Account.Id, TreeSet<String>> entry : all()
+          .getMapBySecondKey(changeId).entrySet()) {
+        b.putAll(entry.getKey(), entry.getValue());
+      }
+      return b.build();
+    } catch (ExecutionException e) {
+      log.warn(String.format(
+          "Cannot lookup stars for change %d", changeId.get()), e);
+      return ImmutableMultimap.of();
+    }
+  }
+
+  @Override
+  public ImmutableSortedSet<String> star(Account.Id accountId,
+      Change.Id changeId, Set<String> labels) {
+    try {
+      HashBasedBiTable<Account.Id, Change.Id, TreeSet<String>> all = all();
+      synchronized (all) {
+        TreeSet<String> currentLabels = all.get(accountId, changeId);
+        if (currentLabels == null) {
+          currentLabels = new TreeSet<>();
+          all.put(accountId, changeId, currentLabels);
+        }
+        currentLabels.addAll(labels);
+        return ImmutableSortedSet.copyOf(currentLabels);
+      }
     } catch (ExecutionException e) {
       log.warn(String.format("Failed to star change %d by account %d",
           changeId.get(), accountId.get()), e);
+      return ImmutableSortedSet.of();
     }
   }
 
   @Override
-  public void unstar(final Account.Id accountId, final Change.Id changeId) {
+  public ImmutableSortedSet<String> unstar(Account.Id accountId,
+      Change.Id changeId, Set<String> labels) {
     try {
-      all().remove(accountId, changeId);
+      HashBasedBiTable<Account.Id, Change.Id, TreeSet<String>> all = all();
+      synchronized (all) {
+        TreeSet<String> currentLabels = all.get(accountId, changeId);
+        currentLabels.removeAll(labels);
+        return ImmutableSortedSet.copyOf(currentLabels);
+      }
+
     } catch (ExecutionException e) {
       log.warn(String.format("Failed to unstar change %d by account %d",
           changeId.get(), accountId.get()), e);
+      return ImmutableSortedSet.of();
     }
   }
 
   @Override
-  public Iterable<Account.Id> unstarAll(final Change.Id changeId) {
+  public Iterable<Account.Id> unstarAll(Change.Id changeId) {
     try {
       return all().removeAllBySecondKey(changeId);
     } catch (ExecutionException e) {
@@ -137,7 +218,7 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
     }
   }
 
-  private HashMultimapPair<Account.Id, Change.Id> all()
+  private HashBasedBiTable<Account.Id, Change.Id, TreeSet<String>> all()
       throws ExecutionException {
     return cache.get(CacheKey.ALL);
   }
@@ -151,8 +232,8 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
     }
   }
 
-  private static class Loader extends
-      CacheLoader<CacheKey, HashMultimapPair<Account.Id, Change.Id>> {
+  private static class Loader extends CacheLoader<CacheKey,
+      HashBasedBiTable<Account.Id, Change.Id, TreeSet<String>>> {
     private final NotesMigration migration;
     private final Provider<ReviewDb> dbProvider;
     private final GitRepositoryManager repoManager;
@@ -171,15 +252,17 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
     }
 
     @Override
-    public HashMultimapPair<Account.Id, Change.Id> load(CacheKey key)
-        throws Exception {
-      HashMultimapPair<Account.Id, Change.Id> t = HashMultimapPair.create();
+    public HashBasedBiTable<Account.Id, Change.Id, TreeSet<String>> load(
+        CacheKey key) throws Exception {
+      HashBasedBiTable<Account.Id, Change.Id, TreeSet<String>> t =
+          HashBasedBiTable.create();
       if (!migration.readChanges()) {
         for (StarredChange starredChange :
             dbProvider.get().starredChanges().all()) {
           t.put(
               starredChange.getAccountId(),
-              starredChange.getChangeId());
+              starredChange.getChangeId(),
+              StarredChangesUtil.DEFAULT_LABELS);
         }
       } else {
         try (Repository repo = repoManager.openMetadataRepository(allUsers)) {
@@ -187,7 +270,9 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
               .getRefs(RefNames.REFS_STARRED_CHANGES).keySet()) {
             t.put(
                 Account.Id.fromRefPart(refPart),
-                Change.Id.fromRefPart(refPart));
+                Change.Id.fromRefPart(refPart),
+                StarredChangesUtil.readLabels(repo,
+                    RefNames.REFS_STARRED_CHANGES + refPart));
           }
         }
       }

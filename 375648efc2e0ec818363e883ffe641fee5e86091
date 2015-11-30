@@ -34,6 +34,24 @@
       "revId": "375648efc2e0ec818363e883ffe641fee5e86091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db1d5bf8_1abc9ddc",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-30T20:50:49Z",
+      "side": 1,
+      "message": "This method is only called from StaticModule. In PolyGerrit case, we never use Eclipse. See the suggested development workflow for PolyGerrit:\n\n  https://gerrit-review.googlesource.com/#/c/72666/5/polygerrit-ui/README.md@41",
+      "parentUuid": "1bfd33c1_24ea92c9",
+      "revId": "375648efc2e0ec818363e883ffe641fee5e86091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

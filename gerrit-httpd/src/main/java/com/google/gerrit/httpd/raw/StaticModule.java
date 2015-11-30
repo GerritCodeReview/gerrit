@@ -38,6 +38,8 @@ import java.nio.file.FileSystem;
 import java.nio.file.Path;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class StaticModule extends ServletModule {
   public static final String CACHE = "static_content";
@@ -57,6 +59,7 @@ public class StaticModule extends ServletModule {
         "/projects/*");
 
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
+  private static final String DOC_SERVLET = "DocServlet";
 
   private final GerritOptions options;
   private Paths paths;
@@ -75,6 +78,8 @@ public class StaticModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
+    serveRegex("^/Documentation/(.+)$").with(
+        Key.get(HttpServlet.class, Names.named(DOC_SERVLET)));
     serve("/static/*").with(SiteStaticDirectoryServlet.class);
     install(new CacheModule() {
       @Override
@@ -88,6 +93,26 @@ public class StaticModule extends ServletModule {
       install(new PolyGerritUiModule());
     } else if (options.enableDefaultUi()) {
       install(new GwtUiModule());
+    }
+  }
+
+  @Provides
+  @Singleton
+  @Named(DOC_SERVLET)
+  HttpServlet getDocServlet(@Named(CACHE) Cache<Path, Resource> cache) {
+    Paths p = getPaths();
+    if (p.warFs != null) {
+      return new WarDocServlet(cache, p.warFs);
+    } else {
+      return new HttpServlet() {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        protected void service(HttpServletRequest req,
+            HttpServletResponse resp) throws IOException {
+          resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
+      };
     }
   }
 

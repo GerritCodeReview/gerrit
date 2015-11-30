@@ -85,7 +85,9 @@ limitations under the License.
       </td>
       <td>[[_computeChangeStatusString(change)]]</td>
       <td>
-        <img class="avatarImage" src$="[[_computeAvatarURL(change.owner)]]">
+        <template is="dom-if" if="[[showAvatar]]">
+          <img class="avatarImage" src$="[[_computeAvatarURL(change.owner)]]">
+        </template>
         <a href$="[[_computeOwnerLink(change.owner.email)]]"
            title$="[[_computeOwnerTitle(change.owner)]]">[[change.owner.name]]</a>
       </td>
@@ -126,7 +128,14 @@ limitations under the License.
         changeURL: {
           type: String,
           computed: '_computeChangeURL(change._number)',
-        }
+        },
+        showAvatars: Boolean,
+      },
+
+      ready: function() {
+        app.configReady.then(function(cfg) {
+          this.showAvatar = cfg && cfg.plugin && cfg.plugin.has_avatars;
+        }.bind(this));
       },
 
       _computeChangeURL: function(changeNum) {

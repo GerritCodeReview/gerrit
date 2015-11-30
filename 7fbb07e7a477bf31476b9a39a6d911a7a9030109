@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1bfd33c1_24bcd2dc",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-30T18:14:10Z",
+      "side": 1,
+      "message": "$$ returns the FIRST element that matches, not all of them. It’s equivalent to Polymer.dom(this.root).querySelector",
+      "parentUuid": "1bfd33c1_64b2ca0f",
+      "revId": "7fbb07e7a477bf31476b9a39a6d911a7a9030109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bfd33c1_84aca6af",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1bfd33c1_04b9d6ec",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-30T18:14:10Z",
+      "side": 1,
+      "message": "Based on where I got the idea to do this: https://github.com/PolymerElements/iron-ajax/blob/master/test/index.html \n\nit does not appear to affect the dom\u003dshadow switch (I manually tested by reverting one of the lines that failed only on Shadow DOM).",
+      "parentUuid": "1bfd33c1_84aca6af",
+      "revId": "7fbb07e7a477bf31476b9a39a6d911a7a9030109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bfd33c1_a4a7a2cc",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2015-11-30T17:54:22Z",
       "side": 1,
       "message": "Is it worth generating the ?dom\u003dshadow variants programmatically so we don\u0027t forget to add it?",
+      "revId": "7fbb07e7a477bf31476b9a39a6d911a7a9030109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bfe77bd_05b9d2ec",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-30T18:14:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bfd33c1_a4a7a2cc",
       "revId": "7fbb07e7a477bf31476b9a39a6d911a7a9030109",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

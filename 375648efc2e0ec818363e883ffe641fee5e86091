@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bfd33c1_24ea92c9",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T19:50:51Z",
+      "side": 1,
+      "message": "This doesn\u0027t work when running from Eclipse. GerritLauncher.class lives under eclipse-out so it will never encounter a buck-out when walking parents.\n\nProbably we should do what we do in various of our Python scripts and look for a directory containing .buckconfig.",
+      "revId": "375648efc2e0ec818363e883ffe641fee5e86091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

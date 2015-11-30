@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
@@ -23,11 +25,14 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -35,13 +40,23 @@ public class ChangeResource implements RestResource, HasETag {
   public static final TypeLiteral<RestView<ChangeResource>> CHANGE_KIND =
       new TypeLiteral<RestView<ChangeResource>>() {};
 
+  public static interface Factory {
+    ChangeResource create(ChangeControl control);
+  }
+
+  private final StarredChangesUtil starredChangesUtil;
   private final ChangeControl control;
 
-  public ChangeResource(ChangeControl control) {
+  @AssistedInject
+  ChangeResource(StarredChangesUtil starredChangesUtil,
+      @Assisted ChangeControl control)  {
+    this.starredChangesUtil = starredChangesUtil;
     this.control = control;
   }
 
-  protected ChangeResource(ChangeResource copy) {
+  protected ChangeResource(StarredChangesUtil starredChangesUtil,
+      ChangeResource copy) {
+    this.starredChangesUtil = starredChangesUtil;
     this.control = copy.control;
   }
 
@@ -93,8 +108,11 @@ public class ChangeResource implements RestResource, HasETag {
   @Override
   public String getETag() {
     CurrentUser user = control.getUser();
-    Hasher h = Hashing.md5().newHasher()
-        .putBoolean(user.getStarredChanges().contains(getId()));
+    Hasher h = Hashing.md5().newHasher();
+    for (String starLabel : starredChangesUtil.getLabels(
+        user.getAccountId(), getId())) {
+      h.putString(starLabel, UTF_8);
+    }
     prepareETag(h, user);
     return h.hash().toString();
   }

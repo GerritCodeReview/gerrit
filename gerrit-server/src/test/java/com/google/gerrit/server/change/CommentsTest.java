@@ -28,6 +28,8 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -47,7 +49,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesCache;
+import com.google.gerrit.server.StarredChangesCacheImpl;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -123,6 +126,7 @@ public class CommentsTest extends GerritServerTests {
   @Inject private InMemoryRepositoryManager repoManager;
   @Inject private NotesMigration migration;
   @Inject private PatchLineCommentsUtil plcUtil;
+  @Inject private ChangeResource.Factory changeResourceFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -157,7 +161,7 @@ public class CommentsTest extends GerritServerTests {
     accountCache.put(ou);
     Account.Id otherUserId = ou.getId();
 
-    AbstractModule mod = new AbstractModule() {
+    AbstractModule mod = new FactoryModule() {
       @Override
       protected void configure() {
         bind(commentViewsType).toInstance(commentViews);
@@ -185,8 +189,9 @@ public class CommentsTest extends GerritServerTests {
             .toInstance(GitReferenceUpdated.DISABLED);
         bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
             .toInstance(serverIdent);
-        bind(StarredChangesUtil.class)
-            .toProvider(Providers.<StarredChangesUtil> of(null));
+        DynamicItem.itemOf(binder(), StarredChangesCache.class);
+        install(StarredChangesCacheImpl.module());
+        factory(ChangeResource.Factory.class);
       }
 
       @Provides
@@ -309,9 +314,10 @@ public class CommentsTest extends GerritServerTests {
     update.commit();
 
     ChangeControl ctl = stubChangeControl(change1);
-    revRes1 = new RevisionResource(new ChangeResource(ctl), ps1);
-    revRes2 = new RevisionResource(new ChangeResource(ctl), ps2);
-    revRes3 = new RevisionResource(new ChangeResource(stubChangeControl(change2)), ps3);
+    revRes1 = new RevisionResource(changeResourceFactory.create(ctl), ps1);
+    revRes2 = new RevisionResource(changeResourceFactory.create(ctl), ps2);
+    revRes3 = new RevisionResource(
+        changeResourceFactory.create(stubChangeControl(change2)), ps3);
   }
 
   private ChangeControl stubChangeControl(Change c) throws OrmException {

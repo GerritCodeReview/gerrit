@@ -52,6 +52,24 @@
       "revId": "49feb535a82f4165361df4f5709279a544f777c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bcff3a0_94faa49c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T06:46:47Z",
+      "side": 1,
+      "message": "As Hugo pointed out [1] slave mode is only supported by Daemon, but not by WebAppInitializer.\n\n[1] https://gerrit-review.googlesource.com/#/c/72743/2/gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+      "parentUuid": "1bcff3a0_14b9f4ec",
+      "revId": "49feb535a82f4165361df4f5709279a544f777c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

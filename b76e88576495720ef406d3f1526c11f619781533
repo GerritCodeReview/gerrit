@@ -159,6 +159,24 @@
       "revId": "b76e88576495720ef406d3f1526c11f619781533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db1d5bf8_facbe973",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-11-30T21:04:55Z",
+      "side": 1,
+      "message": "Isn\u0027t this is how websession cache gets overriden by websession-flatfile plugin: [1]? Quite some huge gerrit installations in the wild use it today, and they don\u0027t care about wasteful instantiation of gerrit core vanilla websession cache implementation.\n\n* [1] https://gerrit-review.googlesource.com/#/admin/projects/plugins/websession-flatfile",
+      "parentUuid": "3bfe77bd_c5f05ac2",
+      "revId": "b76e88576495720ef406d3f1526c11f619781533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

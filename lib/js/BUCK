@@ -28,18 +28,36 @@ npm_binary(
   repository = GERRIT,
 )
 
-# bower_components are listed without transitive dependencies; the whole
-# flattened dependency tree needs to be included in
-# //polygerrit-ui:polygerrit_components.
+# To add a new Bower component dependency:
 #
-# To print a full dependency tree with specific versions (i.e. not semantic
-# versions containing ~ or ^), use bower-dependency-tree:
-#   npm install -g bower-dependency-tree
-#   cd polygerrit-ui
-#   bower-dependency-tree --production
+# 1. Add a dummy bower_component rule to this file, specifying the version you
+#    want to use:
+#      bower_component(
+#        name = 'somepackage',
+#        package = 'someauthor/somepackage',
+#        version = 'TODO',
+#        semver = '~1.0.0',
+#        license = 'DO_NOT_DISTRIBUTE'
+#      )
 #
-# Pull the name and package strings from the initial "Fetching" lines, and the
-# actual versions from the dependency tree output.
+# 2. Add your bower_component as a dep to a bower_components rule:
+#      bower_components(
+#        name = 'my_components',
+#        deps = [
+#          '//lib/js:foo',
+#          '//lib/js:somepackage',  # NEW
+#        ],
+#      )
+#
+# 3. Run bower2buck.py:
+#      buck run //tools/js:bower2buck.py -o newbuck //path/to:my_components
+#
+# 4. Use your favorite diff tool to merge the output in newbuck with this file.
+#    bower2buck.py reevaluates semantic versions and may upgrade some packages,
+#    so you may need to make changes beyond the new component that was added.
+#
+# 5. Make sure to specify licenses for all new packages. You may need to define
+#    new licenses in lib/BUCK.
 
 bower_component(
   name = 'iron-a11y-keys',
@@ -50,7 +68,7 @@ bower_component(
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = 'cf7fdf9ffa3349d28632fc3e86b84300d1439e29',
 )
 
 bower_component(
@@ -59,7 +77,7 @@ bower_component(
   version = '1.0.8',
   deps = [':polymer'],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = '2f1ea0b4542e2949de195dff5cbe02b7cb953eff',
 )
 
 bower_component(
@@ -71,7 +89,7 @@ bower_component(
     ':promise-polyfill',
   ],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = 'f94a3a3d847842c49def41e27da42c7c94f8d7c7',
 )
 
 bower_component(
@@ -83,7 +101,7 @@ bower_component(
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = '2d3eedf0a26046c0e828b1ce3d5b102ee1d0ab19',
 )
 
 bower_component(
@@ -92,7 +110,17 @@ bower_component(
   version = '1.1.1',
   deps = [':polymer'],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = 'e06281b6ddb3355ceca44975a167381b1fd72ce5',
+)
+
+bower_component(
+  name = 'iron-test-helpers',
+  package = 'PolymerElements/iron-test-helpers',
+  version = '1.0.6',
+  semver = '~1.0.6',
+  deps = [':polymer'],
+  license = 'DO_NOT_DISTRIBUTE',
+  sha1 = 'c0f7c7f010ca3c63fb08ae0d9462e400380cde2c',
 )
 
 bower_component(
@@ -104,7 +132,7 @@ bower_component(
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = '5a68250d6d9abcd576f116dc4fc7312426323883',
 )
 
 bower_component(
@@ -112,7 +140,7 @@ bower_component(
   package = 'visionmedia/page.js',
   version = '1.6.4',
   license = 'page.js',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = 'cc442386d4e392be26c85873f463db76fafbaeaf',
 )
 
 bower_component(
@@ -121,7 +149,7 @@ bower_component(
   version = '1.2.2',
   deps = [':webcomponentsjs'],
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = '7f4033438425584d8912a80614d1a4f754438e15',
 )
 
 bower_component(
@@ -130,7 +158,16 @@ bower_component(
   version = '1.0.0',
   deps = [':polymer'],
   license = 'promise-polyfill',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = 'a3b598c06cbd7f441402e666ff748326030905d6',
+)
+
+bower_component(
+  name = 'test-fixture',
+  package = 'PolymerElements/test-fixture',
+  version = '1.0.3',
+  semver = '^1.0.0',
+  license = 'DO_NOT_DISTRIBUTE',
+  sha1 = '21192d554ff6ad7eea894ca751c73b6bc46867dc',
 )
 
 bower_component(
@@ -138,5 +175,5 @@ bower_component(
   package = 'webcomponentsjs',
   version = '0.7.17',
   license = 'polymer',
-  sha1 = 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+  sha1 = '36e29cfe21caa71322a0b5026d7d423c33c0426f',
 )

@@ -21,7 +21,7 @@ from os import link, makedirs, path, remove
 import shutil
 from subprocess import check_call, CalledProcessError
 from sys import stderr
-from util import resolve_url
+from util import hash_file, resolve_url
 from zipfile import ZipFile, BadZipfile, LargeZipFile
 
 GERRIT_HOME = path.expanduser('~/.gerritcodereview')
@@ -31,17 +31,6 @@ CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache', 'downloaded-artifacts')
 # Please remove after 3 months (2015-10-07).
 LEGACY_CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache')
 LOCAL_PROPERTIES = 'local.properties'
-
-
-def hashfile(p):
-  d = sha1()
-  with open(p, 'rb') as f:
-    while True:
-      b = f.read(8192)
-      if not b:
-        break
-      d.update(b)
-  return d.hexdigest()
 
 
 def safe_mkdirs(d):
@@ -148,7 +137,7 @@ if not path.exists(cache_ent):
     exit(1)
 
 if args.v:
-  have = hashfile(cache_ent)
+  have = hash_file(sha1(), cache_ent).hexdigest()
   if args.v != have:
     print((
       '%s:\n' +

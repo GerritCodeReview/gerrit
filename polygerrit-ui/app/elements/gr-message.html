@@ -30,33 +30,36 @@ limitations under the License.
       }
       .avatar {
         border-radius: 50%;
+        position: absolute;
+        left: var(--default-horizontal-margin);
+      }
+      .hideAvatar .avatar {
+        display: none;
       }
       .collapsed .contentContainer {
-        padding: 10px;
-        padding-right: 60px;
+        color: #777;
         white-space: nowrap;
         overflow-x: hidden;
         text-overflow: ellipsis;
       }
-      .expanded .contentContainer {
-        padding: 7px 0 10px;
+      .showAvatar.expanded .contentContainer {
+        margin-left: calc(var(--default-horizontal-margin) + 2.5em);
+        padding: 10px 0;
       }
-      .expanded .contentContainer {
-        margin-left: calc(var(--default-horizontal-margin) + 25px);
+      .showAvatar.collapsed .contentContainer {
+        margin-left: calc(var(--default-horizontal-margin) + 1.75em);
+        padding: 10px 75px 10px 0;
       }
-      .collapsed .contentContainer {
-        color: #777;
-        margin-left: calc(var(--default-horizontal-margin) + 15px);
-      }
-      .avatar {
-        position: absolute;
-        left: var(--default-horizontal-margin);
+      .hideAvatar.collapsed .contentContainer,
+      .hideAvatar.expanded .contentContainer {
+        margin-left: 0;
+        padding: 10px 75px 10px 0;
       }
       .collapsed .avatar {
         top: 8px;
       }
       .expanded .avatar {
-        top: 10px;
+        top: 12px;
       }
       .collapsed .avatar {
         height: 1.75em;
@@ -111,7 +114,7 @@ limitations under the License.
         flex: 1;
       }
     </style>
-    <div class$="[[_computeClass(expanded)]]">
+    <div class$="[[_computeClass(expanded, showAvatar)]]">
       <img class="avatar" src$="[[_computeAvatarURL(message.author)]]">
       <div class="contentContainer">
         <div class="name" id="name">[[message.author.name]]</div>
@@ -168,6 +171,13 @@ limitations under the License.
           value: true,
           reflectToAttribute: true,
         },
+        showAvatar: Boolean,
+      },
+
+      ready: function() {
+        app.configReady.then(function(cfg) {
+          this.showAvatar = cfg && cfg.plugin && cfg.plugin.has_avatars;
+        }.bind(this));
       },
 
       _commentsChanged: function(value) {
@@ -202,8 +212,11 @@ limitations under the License.
         this.expanded = false;
       },
 
-      _computeClass: function(expanded) {
-        return expanded ? 'expanded' : 'collapsed';
+      _computeClass: function(expanded, showAvatar) {
+        var classes = [];
+        classes.push(expanded ? 'expanded' : 'collapsed');
+        classes.push(showAvatar ? 'showAvatar' : 'hideAvatar');
+        return classes.join(' ');
       },
 
       _computeAvatarURL: function(author) {

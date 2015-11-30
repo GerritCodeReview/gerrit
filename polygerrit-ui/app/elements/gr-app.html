@@ -17,7 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../styles/app-theme.html">
 <link rel="import" href="gr-account-dropdown.html">
-<link rel="import" href="gr-account-manager.html">
+<link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-change-list-view.html">
 <link rel="import" href="gr-change-view.html">
 <link rel="import" href="gr-dashboard-view.html">
@@ -78,7 +78,8 @@ limitations under the License.
         margin-left: var(--default-horizontal-margin);
       }
     </style>
-    <gr-account-manager account="{{account}}"></gr-account-manager>
+    <gr-ajax auto url="/accounts/self/detail" response="{{account}}"></gr-ajax>
+    <gr-ajax auto url="/config/server/info" response="{{config}}"></gr-ajax>
     <header role="banner">
       <a href="/" class="bigTitle">PolyGerrit</a>
       <div class="headerRightItems">
@@ -124,6 +125,20 @@ limitations under the License.
             }.bind(this));
           },
         },
+        config: {
+          type: Object,
+          observer: '_configChanged',
+        },
+        configReady: {
+          type: Object,
+          readOnly: true,
+          notify: true,
+          value: function() {
+            return new Promise(function(resolve) {
+              this._resolveConfigReady = resolve;
+            }.bind(this));
+          },
+        },
         constrained: {
           type: Boolean,
           value: false,
@@ -143,6 +158,10 @@ limitations under the License.
 
       _accountChanged: function() {
         this._resolveAccountReady();
+      },
+
+      _configChanged: function(config) {
+        this._resolveConfigReady(config);
       },
 
       _routeChanged: function(route) {

@@ -17,6 +17,10 @@ package com.google.gerrit.server;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
@@ -43,6 +47,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Singleton
 public class StarredChangesCacheImpl implements StarredChangesCache {
@@ -133,7 +141,7 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final WorkQueue workQueue;
-  private final HashMultimapPair<Account.Id, Change.Id> cache;
+  private final HashBasedBiTable<Account.Id, Change.Id, SortedSet<String>> cache;
 
   @Inject
   StarredChangesCacheImpl(
@@ -147,7 +155,7 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.workQueue = workQueue;
-    this.cache = HashMultimapPair.create();
+    this.cache = HashBasedBiTable.create();
   }
 
   public Future<?> loadAsync() {
@@ -166,7 +174,8 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
             dbProvider.get().starredChanges().all()) {
           cache.put(
               starredChange.getAccountId(),
-              starredChange.getChangeId());
+              starredChange.getChangeId(),
+              StarredChangesUtil.DEFAULT_LABELS);
         }
         return;
       }
@@ -176,7 +185,9 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
             .getRefs(RefNames.REFS_STARRED_CHANGES).keySet()) {
           cache.put(
               Account.Id.fromRefPart(refPart),
-              Change.Id.fromRefPart(refPart));
+              Change.Id.fromRefPart(refPart),
+              StarredChangesUtil.readLabels(repo,
+                  RefNames.REFS_STARRED_CHANGES + refPart));
         }
       }
     } catch (OrmException | IOException e) {
@@ -185,28 +196,71 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
   }
 
   @Override
-  public boolean isStarred(Account.Id accountId, Change.Id changeId) {
-    return cache.contains(accountId, changeId);
+  public boolean isStarred(Account.Id accountId, Change.Id changeId,
+      String label) {
+    return getLabels(accountId, changeId).contains(label);
   }
 
   @Override
-  public Iterable<Change.Id> byAccount(Account.Id accountId) {
-    return cache.getByFirstKey(accountId);
+  public ImmutableSortedSet<String> getLabels(Account.Id accountId,
+      Change.Id changeId) {
+    SortedSet<String> labels = cache.get(accountId, changeId);
+    if (labels != null) {
+      return ImmutableSortedSet.copyOf(labels);
+    } else {
+      return ImmutableSortedSet.of();
+    }
   }
 
   @Override
-  public Iterable<Account.Id> byChange(Change.Id changeId) {
-    return cache.getBySecondKey(changeId);
+  public Iterable<Change.Id> byAccount(Account.Id accountId,
+      final String label) {
+    return Maps.filterEntries(cache.getMapByFirstKey(accountId),
+        new Predicate<Map.Entry<Change.Id, SortedSet<String>>>() {
+          @Override
+          public boolean apply(Map.Entry<Change.Id, SortedSet<String>> e) {
+            return e.getValue().contains(label);
+          }
+        }).keySet();
   }
 
   @Override
-  public void star(Account.Id accountId, Change.Id changeId) {
-    cache.put(accountId, changeId);
+  public ImmutableMultimap<Change.Id, String> byAccount(Account.Id accountId) {
+    ImmutableMultimap.Builder<Change.Id, String> b =
+        ImmutableMultimap.builder();
+    for (Map.Entry<Change.Id, SortedSet<String>> entry : cache
+        .getMapByFirstKey(accountId).entrySet()) {
+      b.putAll(entry.getKey(), entry.getValue());
+    }
+    return b.build();
   }
 
   @Override
-  public void unstar(Account.Id accountId, Change.Id changeId) {
-    cache.remove(accountId, changeId);
+  public Iterable<Account.Id> byChange(Change.Id changeId, final String label) {
+    return Maps.filterEntries(cache.getMapBySecondKey(changeId),
+        new Predicate<Map.Entry<Account.Id, SortedSet<String>>>() {
+          @Override
+          public boolean apply(Map.Entry<Account.Id, SortedSet<String>> e) {
+            return e.getValue().contains(label);
+          }
+        }).keySet();
+  }
+
+  @Override
+  public ImmutableMultimap<Account.Id, String> byChange(Change.Id changeId) {
+    ImmutableMultimap.Builder<Account.Id, String> b =
+        ImmutableMultimap.builder();
+    for (Map.Entry<Account.Id, SortedSet<String>> entry : cache
+        .getMapBySecondKey(changeId).entrySet()) {
+      b.putAll(entry.getKey(), entry.getValue());
+    }
+    return b.build();
+  }
+
+  @Override
+  public void star(Account.Id accountId, Change.Id changeId,
+      Set<String> labels) {
+    cache.put(accountId, changeId, new TreeSet<>(labels));
   }
 
   @Override

@@ -16,6 +16,24 @@
       "revId": "375648efc2e0ec818363e883ffe641fee5e86091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bfd33c1_e4147a92",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T20:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bfd33c1_24ea92c9",
+      "revId": "375648efc2e0ec818363e883ffe641fee5e86091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

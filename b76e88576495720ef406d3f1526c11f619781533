@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "1bfd33c1_a40e827a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T20:58:56Z",
+      "side": 1,
+      "message": "Ok, I obviously missed that part.\n\nThis doesn\u0027t work though: writes to the in-memory HashMultimapPair aren\u0027t written through to the persistent cache.",
+      "parentUuid": "db1d5bf8_7aafd9a1",
+      "revId": "b76e88576495720ef406d3f1526c11f619781533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bfd33c1_a4f562b0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 4
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "Yes, the idea is that StarredChangesCacheImpl is the default implementation for StarredChangesCache, but plugins should be able to replace it with an alternative implementation. \nI must admit that I\u0027m not sure if this actually works, Maybe I should write a test plugin to see if it works.",
       "parentUuid": "7b41cfd6_7fafcfa1",
+      "revId": "b76e88576495720ef406d3f1526c11f619781533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bfe77bd_c5f05ac2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T20:58:56Z",
+      "side": 1,
+      "message": "I can see that in some cases we might want to use a plugin for something that \"traditionally\" (i.e. before plugins) we had to just use a separate binding for in our googlesource.com glue.\n\nBut in the case where the default implementation is backed by a cache it seems wasteful, because the default implementation is loaded before the plugin is loaded, so it creates a new persistent cache that is never used.",
+      "parentUuid": "db1d5bf8_3ab961ed",
       "revId": "b76e88576495720ef406d3f1526c11f619781533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

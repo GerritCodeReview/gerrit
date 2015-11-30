@@ -14,60 +14,76 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 
 /**
- * A pair of {@link HashMultimap} with redundant storage that allows efficient
- * lookup by two keys.
+ * A pair of {@link HashBasedTable} and {@link HashMultimap} with redundant
+ * storage of keys that allows efficient lookup by both keys.
  *
  * @param <K1> type of first key
  * @param <K2> type of second key
+ * @param <V> type of value
  */
-public class HashMultimapPair<K1, K2> implements Serializable {
+public class HashBasedBiTable<K1, K2, V> implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  private final HashMultimap<K1, K2> byFirstKey;
+  private final HashBasedTable<K1, K2, V> byFirstKey;
   private final HashMultimap<K2, K1> bySecondKey;
 
-  public static <K1, K2> HashMultimapPair<K1, K2> create() {
-    return new HashMultimapPair<>();
+  public static <K1, K2, V> HashBasedBiTable<K1, K2, V> create() {
+    return new HashBasedBiTable<>();
   }
 
-  public static <K1, K2> HashMultimapPair<K1, K2> create(
-      HashMultimapPair<K1, K2> mapPair) {
-    return new HashMultimapPair<>(HashMultimap.create(mapPair.byFirstKey),
+  public static <K1, K2, V> HashBasedBiTable<K1, K2, V> create(
+      HashBasedBiTable<K1, K2, V> mapPair) {
+    return new HashBasedBiTable<>(HashBasedTable.create(mapPair.byFirstKey),
         HashMultimap.create(mapPair.bySecondKey));
   }
 
-  private HashMultimapPair() {
-    this.byFirstKey = HashMultimap.create();
+  private HashBasedBiTable() {
+    this.byFirstKey = HashBasedTable.create();
     this.bySecondKey = HashMultimap.create();
   }
 
-  private HashMultimapPair(HashMultimap<K1, K2> byFirstKey,
+  private HashBasedBiTable(HashBasedTable<K1, K2, V> byFirstKey,
       HashMultimap<K2, K1> bySecondKey) {
     this.byFirstKey = byFirstKey;
     this.bySecondKey = bySecondKey;
   }
 
-  public boolean contains(K1 key1, K2 key2) {
-    return byFirstKey.containsEntry(key1, key2);
+  public synchronized V get(K1 key1, K2 key2) {
+    return byFirstKey.get(key1, key2);
   }
 
-  public ImmutableSet<K2> getByFirstKey(K1 key1) {
-    return ImmutableSet.copyOf(byFirstKey.get(key1));
+  public synchronized ImmutableSet<K2> getByFirstKey(K1 key1) {
+    return ImmutableSet.copyOf(byFirstKey.row(key1).keySet());
   }
 
-  public ImmutableSet<K1> getBySecondKey(K2 key2) {
+  public synchronized ImmutableSet<K1> getBySecondKey(K2 key2) {
     return ImmutableSet.copyOf(bySecondKey.get(key2));
   }
 
-  public synchronized boolean put(K1 key1, K2 key2) {
-    byFirstKey.put(key1, key2);
+  public synchronized ImmutableMap<K2, V> getMapByFirstKey(K1 key1) {
+    return ImmutableMap.copyOf(byFirstKey.row(key1));
+  }
+
+  public synchronized ImmutableMap<K1, V> getMapBySecondKey(K2 key2) {
+    ImmutableMap.Builder<K1, V> b = ImmutableMap.builder();
+    for (K1 key1 : bySecondKey.get(key2)) {
+      b.put(key1, byFirstKey.get(key1, key2));
+    }
+    return b.build();
+  }
+
+  public synchronized boolean put(K1 key1, K2 key2, V value) {
+    byFirstKey.put(key1, key2, value);
     return bySecondKey.put(key2, key1);
   }
 
@@ -77,7 +93,11 @@ public class HashMultimapPair<K1, K2> implements Serializable {
   }
 
   public synchronized ImmutableSet<K2> removeAllByFirstKey(K1 key1) {
-    Set<K2> removedKeys = byFirstKey.removeAll(key1);
+    Map<K2, V> removed = byFirstKey.rowMap().remove(key1);
+    if (removed == null) {
+      return ImmutableSet.of();
+    }
+    Set<K2> removedKeys = removed.keySet();
     for (K2 key2 : removedKeys) {
       bySecondKey.remove(key2, key1);
     }

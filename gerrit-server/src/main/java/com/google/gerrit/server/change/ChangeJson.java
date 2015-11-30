@@ -155,6 +155,7 @@ public class ChangeJson {
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
   private final GpgApiAdapter gpgApi;
+  private final ChangeResource.Factory changeResourceFactory;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -179,6 +180,7 @@ public class ChangeJson {
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
       GpgApiAdapter gpgApi,
+      ChangeResource.Factory changeResourceFactory,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -198,6 +200,7 @@ public class ChangeJson {
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
     this.gpgApi = gpgApi;
+    this.changeResourceFactory = changeResourceFactory;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -933,7 +936,7 @@ public class ChangeJson {
         && userProvider.get().isIdentifiedUser()) {
 
       actionJson.addRevisionActions(out,
-          new RevisionResource(new ChangeResource(ctl), in));
+          new RevisionResource(changeResourceFactory.create(ctl), in));
     }
 
     if (has(PUSH_CERTIFICATES)) {

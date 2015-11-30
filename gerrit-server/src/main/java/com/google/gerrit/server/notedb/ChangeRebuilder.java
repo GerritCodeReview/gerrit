@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
@@ -44,7 +45,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -190,19 +190,12 @@ public class ChangeRebuilder {
   private void createStarredChangesRefs(Change.Id changeId,
       BatchRefUpdate bruAllUsers, Repository allUsersRepo)
           throws IOException, OrmException {
-    ObjectId emptyTree = emptyTree(allUsersRepo);
+    ObjectId id = StarredChangesUtil.writeLabels(allUsersRepo,
+        StarredChangesUtil.DEFAULT_LABELS);
     for (StarredChange starred : dbProvider.get().starredChanges()
         .byChange(changeId)) {
-      bruAllUsers.addCommand(new ReceiveCommand(ObjectId.zeroId(), emptyTree,
+      bruAllUsers.addCommand(new ReceiveCommand(ObjectId.zeroId(), id,
           RefNames.refsStarredChanges(starred.getAccountId(), changeId)));
-    }
-  }
-
-  private static ObjectId emptyTree(Repository repo) throws IOException {
-    try (ObjectInserter oi = repo.newObjectInserter()) {
-      ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
-      oi.flush();
-      return id;
     }
   }
 

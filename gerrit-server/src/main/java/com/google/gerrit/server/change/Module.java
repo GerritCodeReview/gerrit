@@ -131,6 +131,7 @@ public class Module extends RestApiModule {
     factory(EmailReviewComments.Factory.class);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);
+    factory(ChangeResource.Factory.class);
     factory(ReviewerResource.Factory.class);
     factory(SetHashtagsOp.Factory.class);
   }

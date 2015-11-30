@@ -29,7 +29,7 @@ def npm_binary(
   filename = '%s.tgz' % dir
   dest = '%s@%s.npm_binary.tgz' % (name, version)
   if repository == GERRIT:
-    url = 'https://gerrit-maven.storage.googleapis.com/npm-packages/%s' % filename
+    url = 'http://gerrit-maven.storage.googleapis.com/npm-packages/%s' % filename
   elif repository == NPMJS:
     url = 'http://registry.npmjs.org/%s/-/%s' % (name, filename)
   else:

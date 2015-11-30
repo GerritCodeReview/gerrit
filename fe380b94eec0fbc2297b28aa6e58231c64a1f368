@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3bfe77bd_e5eb56d1",
+        "filename": "polygerrit-ui/app/elements/gr-dashboard-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-30T18:51:23Z",
+      "side": 1,
+      "message": "You\u0027re right. Done.",
+      "parentUuid": "1bfd33c1_84c5c661",
+      "revId": "fe380b94eec0fbc2297b28aa6e58231c64a1f368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bfd33c1_a4c0c251",
         "filename": "polygerrit-ui/app/elements/gr-dashboard-view.html",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3bfe77bd_05d2f226",
+        "filename": "polygerrit-ui/app/elements/gr-dashboard-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-30T18:51:23Z",
+      "side": 1,
+      "message": "Not according to the request currently being made on the GWT version of the dashboard.",
+      "parentUuid": "1bfd33c1_a4c0c251",
+      "revId": "fe380b94eec0fbc2297b28aa6e58231c64a1f368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bfe77bd_25d5ee0e",
         "filename": "polygerrit-ui/app/scripts/app.js",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2015-11-30T18:41:40Z",
       "side": 1,
       "message": "This isn\u0027t really true except for / itself, for example following a direct link to /c/1234 could load account info in parallel with the rest of the change screen. This is fine for now but just saying it could be improved later.",
+      "revId": "fe380b94eec0fbc2297b28aa6e58231c64a1f368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bfd33c1_24d5f20e",
+        "filename": "polygerrit-ui/app/scripts/app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-11-30T18:51:23Z",
+      "side": 1,
+      "message": "True. Updated comment and put a TODO in.",
+      "parentUuid": "3bfe77bd_25d5ee0e",
       "revId": "fe380b94eec0fbc2297b28aa6e58231c64a1f368",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

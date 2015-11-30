@@ -53,6 +53,24 @@
       "revId": "caf705da05142dfcdd155373ecd73266b8f02740",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_9bb16b52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T09:23:44Z",
+      "side": 1,
+      "message": "OK :D\nThen I\u0027m removing the synchronization here.",
+      "parentUuid": "bb5c2765_39714fed",
+      "revId": "caf705da05142dfcdd155373ecd73266b8f02740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_fbaeafeb",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T09:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb5c2765_19f1ebc3",
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bc1171a_8df30197",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 2
@@ -31,6 +49,30 @@
       "writtenOn": "2015-11-20T03:41:48Z",
       "side": 1,
       "message": "Can this be ever null? Previously starredChangesUtil could be null in request scope on server tests, because it was bound to null. Now gerrit core always bind valis instance. Plugin can override it, but still the valid cache implementation will always be there.",
+      "range": {
+        "startLine": 331,
+        "startChar": 6,
+        "endLine": 331,
+        "endChar": 46
+      },
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_dbabf3d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T09:28:57Z",
+      "side": 1,
+      "message": "It can only be null during test runs. This is the same as before when starredChangesUtil could only be null during test runs. This check is only here to get a better error message if there is an issue with a test setup.",
+      "parentUuid": "3bc1171a_8df30197",
       "range": {
         "startLine": 331,
         "startChar": 6,
@@ -60,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_3b265764",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T09:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb5c2765_f9bb57e4",
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_3ac7816d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
         "patchSetId": 2
@@ -71,6 +131,24 @@
       "writtenOn": "2015-11-20T20:44:39Z",
       "side": 1,
       "message": "Long line.",
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_1b2b9b2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T09:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_3ac7816d",
       "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -100,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "fb485fa2_7b30df96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T09:28:57Z",
+      "side": 1,
+      "message": "\u003e There is no magic in HashBasedTable, this has to iterate \n \u003e over all rows.\n\nDon\u0027t know why I thought it would be the magic for me :(\n\n \u003e I think what you really want is a pair of HashMultimaps.\n\nDone",
+      "parentUuid": "bb5c2765_39ecafe9",
+      "range": {
+        "startLine": 111,
+        "startChar": 47,
+        "endLine": 111,
+        "endChar": 56
+      },
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db59db74_3aeca1e9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
         "patchSetId": 2
@@ -111,6 +213,24 @@
       "writtenOn": "2015-11-20T20:44:39Z",
       "side": 1,
       "message": "The big advantage of Cache is that it handles the synchronization so that multiple threads don\u0027t repeat work. But you\u0027re already manually synchronizing, so this doesn\u0027t buy you anything.\n\nYou could just have the cache table/maps be a volatile field, I think.",
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_5efeb15a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T09:28:57Z",
+      "side": 1,
+      "message": "Right, I think this locking is indeed unneeded. The \u0027cache\u0027 field is already final so it cannot be volatile.\n\nDone.",
+      "parentUuid": "db59db74_3aeca1e9",
       "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "1bcff3a0_b4436095",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T09:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db59db74_fabb49e4",
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bdf0ff3_6f2ed183",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_116.java",
         "patchSetId": 2
@@ -145,6 +283,24 @@
       "writtenOn": "2015-11-20T03:41:48Z",
       "side": 1,
       "message": "Add a comment, that it\u0027s only needed fpr googlesource.com because new query was added:\n\n ResultSet\u003cStarredChange\u003e all() throws OrmException;",
+      "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb485fa2_fe0cdd51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_116.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T09:28:57Z",
+      "side": 1,
+      "message": "I added this to the commit message.\n\nDone",
+      "parentUuid": "7bdf0ff3_6f2ed183",
       "revId": "be9e4da47bcc424794faf5c81f9e429cb1554e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

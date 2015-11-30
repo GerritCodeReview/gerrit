@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1448875712 +0100\nnonce AFd3BxuX+YXMAoaOg7BM/A7yKBhbB14RahNEAyq+j9n6f3okieOfkLCPo+WDx9Xb6XFJ/uoQbOHC\n\n0000000000000000000000000000000000000000 b76e88576495720ef406d3f1526c11f619781533 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWXBbAAAoJEFG1/Zeg0O9RiwIH+wcSQ6120Gi+Apn2jGW/3wIj\ndhYvi6qik1mINU6ypMqvy6laj31NejrH60NmikkQyHZ4q53iIeetylfq1zUuLqjf\nogUYZwnCRFR4WGTeSVnLzJJdd0M19CcFZNdDsLuFITFB3E199/jG8F05etKqH7Zq\nufXoTK8akTZokUQeIEmFp7+cRX/9bbFgzknYS4+Yw9zIPLowtVjXAaU/vbzMXYzH\n5In/PhqSX41Fmfu68RuekRWETKi1r+mPUFptbRiluzZeXdTpLz2VhfwxpNwrKrI8\nLFx1X30iPu+rJrHEAS2GQWfmBjgVEF1QqEmEOE1t1uO2H8JMI/rdctRJAclMl3A\u003d\n\u003dRIC4\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bfd33c1_c4f05ec2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/HashMultimapPair.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T18:56:04Z",
+      "side": 1,
+      "message": "Can this be package-private?",
+      "revId": "b76e88576495720ef406d3f1526c11f619781533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bfd33c1_e4eb5ad1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T18:56:04Z",
+      "side": 1,
+      "message": "Using a cache is still way overkill when all you\u0027re trying to do is avoid multiple initializations of the pair on startup.\n\nJust use one of the standard idioms for a lazily initialized singleton in Java, either double-checked locking or the holder idiom.",
+      "revId": "b76e88576495720ef406d3f1526c11f619781533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bfd33c1_a4f562b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T18:56:04Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be a DynamicItem unless it\u0027s provided by a plugin. I believe I previously suggested moving the binding up into Daemon et al so that we can just bind a separate implementation on googlesource.com. I see you moved the binding to Daemon but didn\u0027t remove the DynamicItem binding.",
+      "revId": "b76e88576495720ef406d3f1526c11f619781533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

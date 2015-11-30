@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -332,8 +331,8 @@ public class IdentifiedUser extends CurrentUser {
       if (starredChangesUtil == null) {
         throw new IllegalStateException("StarredChangesUtil is missing");
       }
-      starredChanges =
-          FluentIterable.from(starredChangesUtil.byAccount(accountId)).toSet();
+      starredChanges = starredChangesUtil.byAccount(accountId,
+          StarredChangesUtil.DEFAULT_LABEL);
     }
     return starredChanges;
   }

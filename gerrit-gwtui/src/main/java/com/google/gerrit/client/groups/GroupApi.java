@@ -34,7 +34,7 @@ public class GroupApi {
   /** Create a new group */
   public static void createGroup(String groupName, AsyncCallback<GroupInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    new RestApi("/groups/").id(groupName).ifNoneMatch().put(in, cb);
+    new RestApi("groups").id(groupName).ifNoneMatch().put(in, cb);
   }
 
   public static void getGroupDetail(String group, AsyncCallback<GroupInfo> cb) {
@@ -212,7 +212,7 @@ public class GroupApi {
   }
 
   private static RestApi group(String group) {
-    return new RestApi("/groups/").id(group);
+    return new RestApi("groups").id(group);
   }
 
   private static class GroupInput extends JavaScriptObject {

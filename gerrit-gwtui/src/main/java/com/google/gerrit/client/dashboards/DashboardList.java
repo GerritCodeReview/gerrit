@@ -38,7 +38,7 @@ public class DashboardList extends JsArray<DashboardInfo> {
   }
 
   private static RestApi base(Project.NameKey project) {
-    return new RestApi("/projects/").id(project.get()).view("dashboards");
+    return new RestApi("projects").id(project.get()).view("dashboards");
   }
 
   private static String encodeDashboardId(String id) {

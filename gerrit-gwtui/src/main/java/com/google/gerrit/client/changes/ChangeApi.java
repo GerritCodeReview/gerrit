@@ -59,7 +59,7 @@ public class ChangeApi {
       input.status(Change.Status.DRAFT.toString());
     }
 
-    new RestApi("/changes/").post(input, cb);
+    new RestApi("changes").post(input, cb);
   }
 
   /** Restore a previously abandoned change to be open again. */
@@ -308,7 +308,7 @@ public class ChangeApi {
 
   public static RestApi change(int id) {
     // TODO Switch to triplet project~branch~id format in URI.
-    return new RestApi("/changes/").id(String.valueOf(id));
+    return new RestApi("changes").id(String.valueOf(id));
   }
 
   public static String emptyToNull(String str) {

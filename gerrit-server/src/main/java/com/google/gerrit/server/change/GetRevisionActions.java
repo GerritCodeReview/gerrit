@@ -42,16 +42,19 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   private final Config config;
   private final Provider<ReviewDb> dbProvider;
   private final MergeSuperSet mergeSuperSet;
+  private final ChangeResource.Factory changeResourceFactory;
 
   @Inject
   GetRevisionActions(
       ActionJson delegate,
       Provider<ReviewDb> dbProvider,
       MergeSuperSet mergeSuperSet,
+      ChangeResource.Factory changeResourceFactory,
       @GerritServerConfig Config config) {
     this.delegate = delegate;
     this.dbProvider = dbProvider;
     this.mergeSuperSet = mergeSuperSet;
+    this.changeResourceFactory = changeResourceFactory;
     this.config = config;
   }
 
@@ -70,7 +73,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       ReviewDb db = dbProvider.get();
       ChangeSet cs = mergeSuperSet.completeChangeSet(db, rsrc.getChange());
       for (ChangeData cd : cs.changes()) {
-        new ChangeResource(cd.changeControl()).prepareETag(h, user);
+        changeResourceFactory.create(cd.changeControl()).prepareETag(h, user);
       }
     } catch (IOException | OrmException e) {
       throw new OrmRuntimeException(e);

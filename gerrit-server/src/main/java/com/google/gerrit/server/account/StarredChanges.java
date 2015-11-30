@@ -33,7 +33,6 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.query.change.QueryChanges;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -70,7 +69,7 @@ public class StarredChanges implements
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     if (starredChangesUtil.isStarred(user.getAccountId(),
-        change.getId())) {
+        change.getId(), StarredChangesUtil.DEFAULT_LABEL)) {
       return new AccountResource.StarredChange(user, change);
     }
     throw new ResourceNotFoundException(id);
@@ -132,11 +131,8 @@ public class StarredChanges implements
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed to add starred change");
       }
-      try {
-        starredChangesUtil.star(self.get().getAccountId(), change.getId());
-      } catch (OrmDuplicateKeyException e) {
-        return Response.none();
-      }
+      starredChangesUtil.star(self.get().getAccountId(), change.getId(),
+          StarredChangesUtil.DEFAULT_LABELS, null);
       return Response.none();
     }
   }
@@ -179,8 +175,8 @@ public class StarredChanges implements
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed remove starred change");
       }
-      starredChangesUtil.unstar(self.get().getAccountId(),
-          rsrc.getChange().getId());
+      starredChangesUtil.star(self.get().getAccountId(),
+          rsrc.getChange().getId(), null, StarredChangesUtil.DEFAULT_LABELS);
       return Response.none();
     }
   }

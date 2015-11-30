@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3bfe77bd_e5c6b66e",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T18:20:50Z",
+      "side": 1,
+      "message": "Well then I guess I should be thankful this doesn\u0027t come up too often...",
+      "parentUuid": "1bfd33c1_24bcd2dc",
+      "revId": "7fbb07e7a477bf31476b9a39a6d911a7a9030109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bfd33c1_84aca6af",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 3
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Based on where I got the idea to do this: https://github.com/PolymerElements/iron-ajax/blob/master/test/index.html \n\nit does not appear to affect the dom\u003dshadow switch (I manually tested by reverting one of the lines that failed only on Shadow DOM).",
       "parentUuid": "1bfd33c1_84aca6af",
+      "revId": "7fbb07e7a477bf31476b9a39a6d911a7a9030109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bfd33c1_c4cbbe74",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-11-30T18:20:50Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll take your word for it that it works. I would still like to understand what\u0027s going on but it doesn\u0027t need to block submitting this change.",
+      "parentUuid": "1bfd33c1_04b9d6ec",
       "revId": "7fbb07e7a477bf31476b9a39a6d911a7a9030109",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

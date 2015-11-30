@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "7b41cfd6_3fb947ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/HashMultimapPair.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T20:50:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bfd33c1_c4f05ec2",
+      "revId": "b76e88576495720ef406d3f1526c11f619781533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bfd33c1_e4eb5ad1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2015-11-30T18:56:04Z",
       "side": 1,
       "message": "Using a cache is still way overkill when all you\u0027re trying to do is avoid multiple initializations of the pair on startup.\n\nJust use one of the standard idioms for a lazily initialized singleton in Java, either double-checked locking or the holder idiom.",
+      "revId": "b76e88576495720ef406d3f1526c11f619781533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db1d5bf8_7aafd9a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T20:50:04Z",
+      "side": 1,
+      "message": "Actually it\u0027s a persistent cache so that even on startup we don\u0027t need to scan all the starred-changes refs.",
+      "parentUuid": "1bfd33c1_e4eb5ad1",
       "revId": "b76e88576495720ef406d3f1526c11f619781533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -66,6 +102,24 @@
       "side": 1,
       "message": "It must be a DynamicItem when plugins would like to provide their own implementation of this cache. The commit message mentioned that:\n\n  This allows plugins to exchange the cache implementation.\n  E.g. one could implement an H2-based cache when the\n  number of starred changes grows too big to be kept in memory,\n  or one could implement an MySQL-based cache with replication\n  if Gerrit should run in a multi master setup.",
       "parentUuid": "1bfd33c1_a4f562b0",
+      "revId": "b76e88576495720ef406d3f1526c11f619781533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db1d5bf8_3ab961ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T20:50:04Z",
+      "side": 1,
+      "message": "Yes, the idea is that StarredChangesCacheImpl is the default implementation for StarredChangesCache, but plugins should be able to replace it with an alternative implementation. \nI must admit that I\u0027m not sure if this actually works, Maybe I should write a test plugin to see if it works.",
+      "parentUuid": "7b41cfd6_7fafcfa1",
       "revId": "b76e88576495720ef406d3f1526c11f619781533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

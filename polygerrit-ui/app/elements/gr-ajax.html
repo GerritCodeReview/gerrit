@@ -16,26 +16,36 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<dom-module id="gr-account-manager">
+<dom-module id="gr-ajax">
   <template>
     <iron-ajax id="xhr"
-        auto
-        url="/accounts/self/detail"
-        json-prefix=")]}'"></iron-ajax>
+        auto="{{auto}}"
+        url="{{url}}"
+        params="{{params}}"
+        json-prefix=")]}'"
+        debounce-duration="300"></iron-ajax>
   </template>
   <script>
   (function() {
     'use strict';
 
     Polymer({
-      is: 'gr-account-manager',
+      is: 'gr-ajax',
 
       hostAttributes: {
         hidden: true
       },
 
       properties: {
-        account: {
+        auto: Boolean,
+        url: String,
+        params: {
+          type: Object,
+          value: function() {
+            return {};
+          },
+        },
+        response: {
           type: Object,
           notify: true,
         },
@@ -48,9 +58,9 @@ limitations under the License.
 
       _handleResponse: function(e, req) {
         if (req.status >= 200 && req.status < 300) {
-          this.account = req.response;
+          this.response = req.response;
         } else {
-          this.account = {};
+          this.response = {};
         }
       },
 

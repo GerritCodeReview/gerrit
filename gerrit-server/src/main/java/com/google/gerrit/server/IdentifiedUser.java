@@ -332,8 +332,10 @@ public class IdentifiedUser extends CurrentUser {
       if (starredChangesUtil == null) {
         throw new IllegalStateException("StarredChangesUtil is missing");
       }
-      starredChanges =
-          FluentIterable.from(starredChangesUtil.byAccount(accountId)).toSet();
+      starredChanges = FluentIterable.from(
+              starredChangesUtil.byAccount(
+                  accountId, StarredChangesUtil.DEFAULT_LABEL))
+          .toSet();
     }
     return starredChanges;
   }

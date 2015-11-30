@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+
+import java.util.Set;
 
 public interface StarredChangesCache {
 
@@ -24,42 +28,80 @@ public interface StarredChangesCache {
    *
    * @param accountId account ID of the user
    * @param changeId ID of the change
-   * @return {@code true} if the user has starred the change, otherwise
-   *         {@code false}
+   * @param label star label
+   * @return {@code true} if the user has starred the change with the given
+   *         label, otherwise {@code false}
    */
-  boolean isStarred(Account.Id accountId, Change.Id changeId);
+  boolean isStarred(Account.Id accountId, Change.Id changeId, String label);
+
+  /**
+   * Returns all star labels that the user has put on the change.
+   *
+   * @param accountId account ID of the user
+   * @param changeId ID of the change
+   * @return the star labels that the user has put on the change
+   */
+  ImmutableSortedSet<String> getLabels(Account.Id accountId, Change.Id changeId);
+
+  /**
+   * Returns all changes that are starred by the given user with the given
+   * label.
+   *
+   * @param accountId the account ID of the user
+   * @param label star label
+   * @return the changes that are starred by the given user with the given label
+   */
+  Iterable<Change.Id> byAccount(Account.Id accountId, String label);
 
   /**
    * Returns all changes that are starred by the given user.
    *
    * @param accountId the account ID of the user
-   * @return the changes that are starred by the given user
+   * @return the changes that are starred by the given user with the star labels
    */
-  Iterable<Change.Id> byAccount(Account.Id accountId);
+  ImmutableMultimap<Change.Id, String> byAccount(Account.Id accountId);
+
+  /**
+   * Returns all accounts that have starred the given change with the given
+   * label.
+   *
+   * @param changeId the ID of the change
+   * @param label star label
+   * @return the accounts that have starred the given change with the star
+   *         labels
+   */
+  Iterable<Account.Id> byChange(Change.Id changeId, String label);
 
   /**
    * Returns all accounts that have starred the given change.
    *
    * @param changeId the ID of the change
-   * @return the accounts that have starred the given change
+   * @return the accounts that have starred the given change with the star
+   *         labels
    */
-  Iterable<Account.Id> byChange(Change.Id changeId);
+  ImmutableMultimap<Account.Id, String> byChange(Change.Id changeId);
 
   /**
-   * Updates the cache when a user stars a change.
+   * Updates the cache when a user stars a change with a label.
    *
    * @param accountId the account ID of the user that stars the change
    * @param changeId the ID of the change that is starred by the user
+   * @param labels the labels that should be applied to the change
+   * @return the star labels of the user on the change
    */
-  void star(Account.Id accountId, Change.Id changeId);
+  ImmutableSortedSet<String> star(Account.Id accountId, Change.Id changeId,
+      Set<String> labels);
 
   /**
-   * Updates the cache when a user unstars a change.
+   * Updates the cache when a user removes a star label from a change.
    *
    * @param accountId the account ID of the user that unstars the change
    * @param changeId the ID of the change that is unstarred by the user
+   * @param labels the labels that should be removed from the change
+   * @return the star labels of the user on the change
    */
-  void unstar(Account.Id accountId, Change.Id changeId);
+  ImmutableSortedSet<String> unstar(Account.Id accountId, Change.Id changeId,
+      Set<String> labels);
 
   /**
    * Update the cache when a change is unstarred by all users (e.g. when the

@@ -34,6 +34,24 @@
       "revId": "eaeadd648de8b42005b987f87c856c199b281fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bcff3a0_d4f01cc2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-11-30T06:41:15Z",
+      "side": 1,
+      "message": "Thanks, for clarifying, I didn\u0027t know this.",
+      "parentUuid": "db59db74_5ac0759f",
+      "revId": "eaeadd648de8b42005b987f87c856c199b281fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

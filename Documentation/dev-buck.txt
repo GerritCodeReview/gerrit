@@ -97,7 +97,7 @@ show documentation or dive into the implementation of a library JAR:
 
 === Gerrit Development WAR File
 
-To build the Gerrit web application:
+To build the Gerrit web application that includes GWT UI and PolyGerrit UI:
 
 ----
   buck build gerrit
@@ -107,6 +107,18 @@ The output executable WAR will be placed in:
 
 ----
   buck-out/gen/gerrit/gerrit.war
+----
+
+To build the Gerrit web application that includes only GWT UI:
+
+----
+  buck build gwtgerrit
+----
+
+The output executable WAR will be placed in:
+
+----
+  buck-out/gen/gwtgerrit/gwtgerrit.war
 ----
 
 

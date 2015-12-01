@@ -70,7 +70,7 @@ def gwt_genrule(module, deps, suffix = ""):
     strict = True,
     experimental_args = args,
     vm_args = GWT_JVM_ARGS,
-    visibility = ['//:eclipse'],
+    visibility = ['PUBLIC'],
   )
 
   gwt_binary(

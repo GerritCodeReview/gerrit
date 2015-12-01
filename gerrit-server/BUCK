@@ -72,6 +72,8 @@ java_library(
     '//lib/prolog:runtime',
     '@jgit//:jgit',
     '@jgit//:jgit-archive',
+    '@jgit//:jgit-lfs',
+    '@jgit//:jgit-lfs-server',
   ],
   provided_deps = [
     '//lib:servlet-api-3_1',

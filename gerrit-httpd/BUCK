@@ -37,6 +37,8 @@ java_library(
     '//lib/lucene:lucene-core-and-backward-codecs',
     '@jgit//:jgit',
     '@jgit//:jgit-servlet',
+    '@jgit//:jgit-lfs',
+    '@jgit//:jgit-lfs-server',
   ],
   provided_deps = ['//lib:servlet-api-3_1'],
   visibility = ['PUBLIC'],

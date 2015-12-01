@@ -13,6 +13,7 @@ java_library(
   deps = [
     '//lib:guava',
     '//lib:servlet-api-3_1',
+    '//lib/httpcomponents:httpclient',
     '//lib/jgit:jgit',
   ],
   visibility = ['PUBLIC'],

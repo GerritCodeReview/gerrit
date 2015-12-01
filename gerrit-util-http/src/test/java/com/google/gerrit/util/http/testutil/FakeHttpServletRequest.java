@@ -25,6 +25,8 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 
+import org.apache.http.client.utils.DateUtils;
+
 import java.io.BufferedReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -267,7 +269,8 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public long getDateHeader(String name) {
-    throw new UnsupportedOperationException();
+    String v = getHeader(name);
+    return v != null ? DateUtils.parseDate(v).getTime() : 0;
   }
 
   @Override
@@ -301,7 +304,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   }
 
   public FakeHttpServletRequest setPathInfo(String path) {
-    this.path = checkNotNull(path);
+    this.path = path;
     return this;
   }
 
@@ -481,5 +484,10 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   public <T extends HttpUpgradeHandler> T upgrade(
       Class<T> httpUpgradeHandlerClass) {
     throw new UnsupportedOperationException();
+  }
+
+  public FakeHttpServletRequest addHeader(String name, String value) {
+    headers.put(name, value);
+    return this;
   }
 }

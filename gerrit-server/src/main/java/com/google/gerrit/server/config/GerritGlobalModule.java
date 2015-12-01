@@ -144,6 +144,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.eclipse.jgit.lfs.server.LargeFileRepository;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreUploadHook;
 
@@ -302,6 +303,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ProjectWebLink.class);
     DynamicSet.setOf(binder(), BranchWebLink.class);
     DynamicMap.mapOf(binder(), OAuthLoginProvider.class);
+    DynamicItem.itemOf(binder(), LargeFileRepository.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

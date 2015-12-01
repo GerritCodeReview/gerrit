@@ -48,6 +48,39 @@ maven_jar(
  )
 
 maven_jar(
+  name = 'jgit-lfs',
+  id = 'org.eclipse.jgit:org.eclipse.jgit.lfs:' + VERS,
+  bin_sha1 = '72937229f9dacbcfa27fd7d08e466199eea14ce3',
+  src_sha1 = '759b81f14cfce56babc96d2487c0b3d9351560c6',
+  license = 'jgit',
+  repository = REPO,
+  deps = [':jgit'],
+  unsign = True,
+  exclude = [
+    'about.html',
+    'plugin.properties',
+  ],
+)
+
+maven_jar(
+  name = 'jgit-lfs-server',
+  id = 'org.eclipse.jgit:org.eclipse.jgit.lfs.server:' + VERS,
+  bin_sha1 = 'ee94f7c8232b3a1ce49dcf81b5f8babf145c69a2',
+  src_sha1 = 'b16ab3d47a7c4c92c60e410f644dbcbabfaa3d59',
+  license = 'jgit',
+  repository = REPO,
+  deps = [':jgit',
+    ':jgit-lfs',
+    '//lib:gson',
+  ],
+  unsign = True,
+  exclude = [
+    'about.html',
+    'plugin.properties',
+  ],
+)
+
+maven_jar(
   name = 'junit',
   id = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + VERS,
   sha1 = '215b322b5e37ff6731bc23794772346eb4e3d9c0',

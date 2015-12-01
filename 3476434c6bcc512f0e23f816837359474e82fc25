@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fb7a1f32_8bf5adb0",
+        "filename": "polygerrit-ui/app/elements/gr-ajax.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:29:50Z",
+      "side": 1,
+      "message": "Yes. The idea is to have this be our application-specific version of iron-ajax that can, in the future, handle a global \u0027loading\u0027 indicator, allow us to specify the json-prefix just once, perform retries, etc.",
+      "parentUuid": "fb7a1f32_0bd53d0e",
+      "revId": "3476434c6bcc512f0e23f816837359474e82fc25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb7a1f32_2bd27927",
         "filename": "polygerrit-ui/app/elements/gr-ajax.html",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-01T15:19:08Z",
       "side": 1,
       "message": "Fine for now, but I think ultimately we are going to want to have some actual behavior when loading the global server config fails. That\u0027s going to prevent a lot of stuff from rendering as expected; just silently omitting stuff like the download schemes dropdown is not really the right behavior.\n\nMaybe a fixed number of retries and then a sad robot page or something.",
+      "revId": "3476434c6bcc512f0e23f816837359474e82fc25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb7a1f32_abfae99b",
+        "filename": "polygerrit-ui/app/elements/gr-ajax.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:29:50Z",
+      "side": 1,
+      "message": "Agreed. It\u0027s also not correct to have the response be {} in all cases where we\u0027re using iron-ajax.",
+      "parentUuid": "fb7a1f32_2bd27927",
       "revId": "3476434c6bcc512f0e23f816837359474e82fc25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bb0c27ef_19ddeb2e",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:29:50Z",
+      "side": 1,
+      "message": "The moment it becomes repeated more than twice (it will be once I implement the avatar within the account dropdown) I’ll be putting it into... something, whether that\u0027s a model wrapper for the config available globally or otherwise. For now I’m following the age-old Go Proverb: \"A little copying is better than a little dependency.\" (http://go-proverbs.github.io/)",
+      "parentUuid": "fb7a1f32_cbebb5d1",
+      "revId": "3476434c6bcc512f0e23f816837359474e82fc25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb7a1f32_6bd88147",
         "filename": "polygerrit-ui/app/index.html",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2015-12-01T15:19:08Z",
       "side": 1,
       "message": "Wasn\u0027t this also made in another change? Need to rebase?",
+      "revId": "3476434c6bcc512f0e23f816837359474e82fc25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb7a1f32_4be025eb",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:29:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb7a1f32_6bd88147",
       "revId": "3476434c6bcc512f0e23f816837359474e82fc25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

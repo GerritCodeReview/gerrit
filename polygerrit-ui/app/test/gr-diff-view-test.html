@@ -20,6 +20,7 @@ limitations under the License.
 
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../bower_components/page/page.js"></script>
 <script src="../scripts/changes.js"></script>
 <script src="../scripts/util.js"></script>
 
@@ -219,5 +220,68 @@ limitations under the License.
       });
     });
 
+    test('keyboard shortcuts', function() {
+      element._changeNum = '42';
+      element._patchNum = '10';
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+
+      var showStub = sinon.stub(page, 'show');
+      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
+      assert(showStub.lastCall.calledWithExactly('/c/42'),
+          'Should navigate to /c/42');
+
+      pressAndReleaseKeyIdentifierOn(element, '\U+005D');  // ']'
+      assert(showStub.lastCall.calledWithExactly('/c/42/10/wheatley.md'),
+          'Should navigate to /c/42/10/wheatley.md');
+      element._path = 'wheatley.md';
+
+      pressAndReleaseKeyIdentifierOn(element, '\U+005B');  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/10/glados.txt'),
+          'Should navigate to /c/42/10/glados.txt');
+      element._path = 'glados.txt';
+
+      pressAndReleaseKeyIdentifierOn(element, '\U+005B');  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/10/chell.go'),
+          'Should navigate to /c/42/10/chell.go');
+      element._path = 'chell.go';
+
+      pressAndReleaseKeyIdentifierOn(element, '\U+005B');  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42'),
+          'Should navigate to /c/42');
+
+      showStub.restore();
+
+      // https://github.com/PolymerElements/iron-test-helpers/issues/33
+      function keyboardEventFor(type, keyIdentifier) {
+        var event = new CustomEvent(type, {
+          bubbles: true,
+          cancelable: true
+        });
+
+        event.keyIdentifier = keyIdentifier;
+
+        return event;
+      }
+
+      function keyEventOn(target, type, keyIdentifier) {
+        target.dispatchEvent(keyboardEventFor(type, keyIdentifier));
+      }
+
+      function keyDownOn(target, keyIdentifier) {
+        keyEventOn(target, 'keydown', keyIdentifier);
+      }
+
+      function keyUpOn(target, keyIdentifier) {
+        keyEventOn(target, 'keyup', keyIdentifier);
+      }
+
+      function pressAndReleaseKeyIdentifierOn(target, keyIdentifier) {
+        keyDownOn(target, keyIdentifier);
+        Polymer.Base.async(function() {
+          keyUpOn(target, keyIdentifier);
+        }, 1);
+      }
+    });
   });
 </script>

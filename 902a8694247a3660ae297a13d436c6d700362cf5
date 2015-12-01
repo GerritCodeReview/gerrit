@@ -16,6 +16,24 @@
       "revId": "902a8694247a3660ae297a13d436c6d700362cf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb7a1f32_cb22d5e7",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T18:50:58Z",
+      "side": 1,
+      "message": "ah. great point.",
+      "parentUuid": "bb0c27ef_d94893b1",
+      "revId": "902a8694247a3660ae297a13d436c6d700362cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

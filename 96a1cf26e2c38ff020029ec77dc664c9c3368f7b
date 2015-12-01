@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b062fd1_f7c00053",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ReviewDbDatabaseProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-01T10:46:18Z",
+      "side": 1,
+      "message": "com.google.common.base.Throwables",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 62
+      },
+      "revId": "96a1cf26e2c38ff020029ec77dc664c9c3368f7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

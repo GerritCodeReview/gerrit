@@ -22,8 +22,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 public class DocScreen extends Screen {
-  private static final String URI = "/Documentation/";
-
   private DocTable table;
   private final String query;
 
@@ -71,7 +69,7 @@ public class DocScreen extends Screen {
   }
 
   private void doQuery() {
-    RestApi call = new RestApi(URI);
+    RestApi call = new RestApi("Documentation");
     call.addParameterRaw("q", KeyUtil.encode(query));
     call.get(loadCallback());
   }

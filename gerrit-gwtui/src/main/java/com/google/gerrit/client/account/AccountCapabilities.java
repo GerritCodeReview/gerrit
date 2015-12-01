@@ -21,7 +21,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /** Capabilities the caller has from {@code /accounts/self/capabilities}.  */
 public class AccountCapabilities extends JavaScriptObject {
   public static void all(AsyncCallback<AccountCapabilities> cb, String... filter) {
-    new RestApi("/accounts/self/capabilities")
+    new RestApi("accounts/self/capabilities")
       .addParameter("q", filter)
       .get(cb);
   }

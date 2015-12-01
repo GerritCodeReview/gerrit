@@ -40,7 +40,7 @@ public class ProjectApi {
     input.setParent(parent);
     input.setPermissionsOnly(permissionsOnly);
     input.setCreateEmptyCommit(createEmptyCcommit);
-    new RestApi("/projects/").id(projectName).ifNoneMatch()
+    new RestApi("projects").id(projectName).ifNoneMatch()
         .put(input, cb);
   }
 
@@ -194,7 +194,7 @@ public class ProjectApi {
   }
 
   public static RestApi project(Project.NameKey name) {
-    return new RestApi("/projects/").id(name.get());
+    return new RestApi("projects").id(name.get());
   }
 
   private static class ProjectInput extends JavaScriptObject {

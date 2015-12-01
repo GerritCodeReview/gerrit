@@ -100,7 +100,7 @@ public class MyProfileScreen extends SettingsScreen {
   void display(AccountInfo account) {
     if (Gerrit.info().plugin().hasAvatars()) {
       avatar.setAccount(account, 93, false);
-      new RestApi("/accounts/").id("self").view("avatar.change.url")
+      new RestApi("accounts").id("self").view("avatar.change.url")
           .get(new AsyncCallback<NativeString>() {
             @Override
             public void onSuccess(NativeString changeUrl) {

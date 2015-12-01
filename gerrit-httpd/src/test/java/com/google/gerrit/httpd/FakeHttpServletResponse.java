@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Iterables;
@@ -85,12 +86,10 @@ public class FakeHttpServletResponse implements HttpServletResponse {
   public synchronized ServletOutputStream getOutputStream() {
     checkState(writer == null, "getWriter() already called");
     if (outputStream == null) {
-      final PrintWriter osWriter = new PrintWriter(actualBody);
       outputStream = new ServletOutputStream() {
         @Override
         public void write(int c) throws IOException {
-          osWriter.write(c);
-          osWriter.flush();
+          actualBody.write(c);
         }
 
         @Override
@@ -150,13 +149,13 @@ public class FakeHttpServletResponse implements HttpServletResponse {
   @Override
   public void setContentLengthLong(long length) {
     headers.removeAll(HttpHeaders.CONTENT_LENGTH);
-    headers.put(HttpHeaders.CONTENT_LENGTH, Long.toString(length));
+    addHeader(HttpHeaders.CONTENT_LENGTH, Long.toString(length));
   }
 
   @Override
   public void setContentType(String type) {
     headers.removeAll(HttpHeaders.CONTENT_TYPE);
-    headers.put(HttpHeaders.CONTENT_TYPE, type);
+    addHeader(HttpHeaders.CONTENT_TYPE, type);
   }
 
   @Override
@@ -176,17 +175,17 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public void addHeader(String name, String value) {
-    headers.put(name, value);
+    headers.put(name.toLowerCase(), value);
   }
 
   @Override
   public void addIntHeader(String name, int value) {
-    headers.put(name, Integer.toString(value));
+    addHeader(name, Integer.toString(value));
   }
 
   @Override
   public boolean containsHeader(String name) {
-    return headers.containsKey(name);
+    return headers.containsKey(name.toLowerCase());
   }
 
   @Override
@@ -237,13 +236,13 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public void setHeader(String name, String value) {
-    headers.removeAll(name);
+    headers.removeAll(name.toLowerCase());
     addHeader(name, value);
   }
 
   @Override
   public void setIntHeader(String name, int value) {
-    headers.removeAll(name);
+    headers.removeAll(name.toLowerCase());
     addIntHeader(name, value);
   }
 
@@ -267,7 +266,8 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public String getHeader(String name) {
-    return Iterables.getFirst(headers.get(checkNotNull(name)), null);
+    return Iterables.getFirst(
+        headers.get(checkNotNull(name.toLowerCase())), null);
   }
 
   @Override
@@ -277,7 +277,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public Collection<String> getHeaders(String name) {
-    return headers.get(checkNotNull(name));
+    return headers.get(checkNotNull(name.toLowerCase()));
   }
 
   public byte[] getActualBody() {

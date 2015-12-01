@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "db1d5bf8_ba21f1e1",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-01T18:10:43Z",
+      "side": 1,
+      "message": "Thanks. First time I tried PolyGerrit, it was annoying that \u0027u\u0027 wasn\u0027t implemented on change screen.",
+      "parentUuid": "bb0c27ef_993e1b0a",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db1d5bf8_ba1331a6",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 2

@@ -19,6 +19,7 @@ import (
 	"compress/gzip"
 	"errors"
 	"flag"
+	"fmt"
 	"io"
 	"log"
 	"net"
@@ -32,6 +33,7 @@ var (
 	restHost = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
 	port     = flag.String("port", ":8081", "Port to serve HTTP requests on")
 	prod     = flag.Bool("prod", false, "Serve production assets")
+	loggedIn = flag.Bool("logged_in", false, "Return user info as if the user is logged in")
 )
 
 func main() {
@@ -48,6 +50,7 @@ func main() {
 	http.HandleFunc("/changes/", handleRESTProxy)
 	http.HandleFunc("/accounts/", handleRESTProxy)
 	http.HandleFunc("/config/", handleRESTProxy)
+	http.HandleFunc("/accounts/self/detail", handleAccountDetail)
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))
 }
@@ -75,6 +78,28 @@ func handleRESTProxy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func handleAccountDetail(w http.ResponseWriter, r *http.Request) {
+	if !*loggedIn {
+		http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+		return
+	}
+	fmt.Fprint(w, accountInfo)
+}
+
+const accountInfo = `)]}'
+{
+  "registered_on": "2015-08-31 21:24:17.614000000",
+  "_account_id": 1021482,
+  "name": "Andrew Bonventre",
+  "email": "andybons@chromium.org",
+  "avatars": [
+    {
+      "url": "https://lh4.googleusercontent.com/-1EovlES413I/AAAAAAAAAAI/AAAAAAAAAAA/GQ5-31ULE1Q/s26-p/photo.jpg",
+      "height": 26
+    }
+  ]
+}`
 
 type gzipResponseWriter struct {
 	io.WriteCloser

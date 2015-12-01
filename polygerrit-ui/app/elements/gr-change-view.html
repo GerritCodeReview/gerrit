@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-file-list.html">
@@ -133,7 +134,17 @@ limitations under the License.
     Polymer({
       is: 'gr-change-view',
 
+      behaviors: [
+        Polymer.IronA11yKeysBehavior
+      ],
+
       properties: {
+        keyEventTarget: {
+          type: Object,
+          value: function() {
+            return document.body;
+          },
+        },
         /**
          * URL params passed from the router.
          */
@@ -143,6 +154,10 @@ limitations under the License.
         },
 
         changeNum: Number,
+      },
+
+      keyBindings: {
+        'a': '_handleKey',
       },
 
       _paramsChanged: function(value) {
@@ -195,6 +210,18 @@ limitations under the License.
         return reviewers.filter(function(reviewer) {
           return reviewer._account_id != owner._account_id;
         });
+      },
+
+      _handleKey: function(e) {
+        switch(e.detail.combo) {
+          case 'a':
+            this._showReplyField();
+            break;
+        }
+      },
+
+      _showReplyField: function() {
+        // TODO(andybons): Implement reply field.
       },
 
     });

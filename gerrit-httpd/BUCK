@@ -58,6 +58,7 @@ java_test(
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//gerrit-util-http:http',
+    '//gerrit-util-http:testutil',
     '//lib:junit',
     '//lib:gson',
     '//lib:gwtorm',

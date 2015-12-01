@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb0c27ef_d94893b1",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T17:56:58Z",
+      "side": 1,
+      "message": "Does page.show(\u0027/\u0027) not do this for you?",
+      "revId": "902a8694247a3660ae297a13d436c6d700362cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

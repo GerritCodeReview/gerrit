@@ -15,21 +15,68 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 
 <dom-module id="gr-account-dropdown">
+  <style>
+    :host {
+      display: inline-block;
+    }
+    .dropdown-trigger {
+      color: #00e;
+      cursor: pointer;
+    }
+    .dropdown-content {
+      background-color: #fff;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+    }
+    button {
+      background: none;
+      border: none;
+      font: inherit;
+      padding: .3em 0;
+    }
+    ul {
+      list-style: none;
+    }
+    ul .accountName {
+      font-weight: bold;
+    }
+    li .accountInfo,
+    li a {
+      display: block;
+      padding: .85em 1em;
+    }
+    li a:link,
+    li a:visited {
+      color: #00e;
+      text-decoration: none;
+    }
+    li a:hover {
+      background-color: #6B82D6;
+      color: #fff;
+    }
+  </style>
   <template>
-    <style>
-      :not(.loggedIn):not(.loggedOut) .loginButton,
-      :not(.loggedIn):not(.loggedOut) .logoutButton,
-      .loggedIn .loginButton,
-      .loggedOut .logoutButton {
-        display: none;
-      }
-    </style>
-    <div class$="[[_computeContainerClass(account)]]">
-      <a class="loginButton" href="/login" on-tap="_loginTapHandler">Login</a>
-      <a class="logoutButton" href="/logout">Logout</a>
-    </div>
+    <button class="dropdown-trigger" id="trigger"
+        on-tap="_showDropdownTapHandler">[[account.name]]</button>
+    <iron-dropdown id="dropdown"
+        vertical-align="top"
+        vertical-offset="25"
+        horizontal-align="right">
+      <div class="dropdown-content">
+        <ul>
+          <li>
+            <div class="accountInfo">
+              <div class="accountName">[[account.name]]</div>
+              <div>[[account.email]]</div>
+            </div>
+          </li>
+          <li><a href="/switch-account">Switch account</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+      </div>
+    </iron-dropdown>
   </template>
   <script>
   (function() {
@@ -42,19 +89,9 @@ limitations under the License.
         account: Object,
       },
 
-      _loginTapHandler: function(e) {
-        e.preventDefault();
-        page.show('/login/' + encodeURIComponent(
-            window.location.pathname + window.location.hash));
+      _showDropdownTapHandler: function(e) {
+        this.$.dropdown.open();
       },
-
-      _computeContainerClass: function(account) {
-        if (Object.keys(account).length == 0) {
-          return 'loggedOut';
-        }
-        return 'loggedIn';
-      },
-
     });
   })();
   </script>

@@ -90,6 +90,30 @@ bower_component(
 )
 
 bower_component(
+  name = 'iron-dropdown',
+  package = 'polymerelements/iron-dropdown',
+  version = '1.0.6',
+  deps = [
+    ':neon-animation',
+    ':iron-behaviors',
+    ':iron-overlay-behavior',
+    ':iron-resizable-behavior',
+    ':polymer',
+  ],
+  license = 'polymer',
+  sha1 = 'b54ff404ce5535919979bb4488e4b6ae9146fc5a',
+)
+
+bower_component(
+  name = 'iron-resizable-behavior',
+  package = 'polymerelements/iron-resizable-behavior',
+  version = '1.0.2',
+  deps = [':polymer'],
+  license = 'polymer',
+  sha1 = '954e82c70b5412d20e7b4d65195a844bb6dc9a07',
+)
+
+bower_component(
   name = 'iron-input',
   package = 'polymerelements/iron-input',
   version = '1.0.6',
@@ -99,6 +123,103 @@ bower_component(
   ],
   license = 'polymer',
   sha1 = '2d3eedf0a26046c0e828b1ce3d5b102ee1d0ab19',
+)
+
+bower_component(
+  name = 'iron-behaviors',
+  package = 'polymerelements/iron-behaviors',
+  version = '1.0.11',
+  deps = [
+    ':iron-a11y-keys-behavior',
+    ':polymer',
+  ],
+  license = 'polymer',
+  sha1 = 'e0fcfcd8696381fc78ff62261ba333e5e133f39d',
+)
+
+bower_component(
+  name = 'iron-overlay-behavior',
+  package = 'polymerelements/iron-overlay-behavior',
+  version = '1.1.1',
+  deps = [
+    ':iron-fit-behavior',
+    ':polymer',
+  ],
+  license = 'polymer',
+  sha1 = '98d80ea1cbee2631553d4fbc98da6cbb25748a4f',
+)
+
+bower_component(
+  name = 'iron-fit-behavior',
+  package = 'polymerelements/iron-fit-behavior',
+  version = '1.0.5',
+  deps = [':polymer'],
+  license = 'polymer',
+  sha1 = 'c0273d22531451a1e64f447971ad16b357a7f7e0',
+)
+
+bower_component(
+  name = 'neon-animation',
+  package = 'polymerelements/neon-animation',
+  version = '1.0.8',
+  deps = [
+    ':iron-meta',
+    ':iron-resizable-behavior',
+    ':iron-selector',
+    ':paper-styles',
+    ':web-animations-js',
+    ':polymer'
+  ],
+  license = 'polymer',
+  sha1 = 'c5f3700e9259554db14f9dfddb290a42c099d88a',
+)
+
+bower_component(
+  name = 'iron-selector',
+  package = 'polymerelements/iron-selector',
+  version = '1.0.8',
+  deps = [':polymer'],
+  license = 'polymer',
+  sha1 = '7559560733882656bf479b620669a1d60c3bda21',
+)
+
+bower_component(
+  name = 'paper-styles',
+  package = 'polymerelements/paper-styles',
+  version = '1.0.13',
+  deps = [
+    ':font-roboto',
+    ':iron-flex-layout',
+    ':polymer',
+  ],
+  license = 'polymer',
+  sha1 = 'e0bfdadfe10e070f39c16aa784de16734eed25a6',
+)
+
+bower_component(
+  name = 'font-roboto',
+  package = 'polymerelements/font-roboto',
+  version = '1.0.1',
+  license = 'polymer',
+  sha1 = '735676217f67221903d6be10cc2fb1b336bed13f',
+)
+
+bower_component(
+  name = 'iron-flex-layout',
+  package = 'polymerelements/iron-flex-layout',
+  version = '1.2.2',
+  deps = [':polymer'],
+  license = 'polymer',
+  sha1 = '3ca2fbbf3b56d95677663f78304262dee68753c3',
+)
+
+bower_component(
+  name = 'web-animations-js',
+  package = 'web-animations-js',
+  version = '2.1.2',
+  deps = [],
+  license = 'Apache2.0',
+  sha1 = '3e2f4648b770183f577cb5171785cfedcb3a960b',
 )
 
 bower_component(

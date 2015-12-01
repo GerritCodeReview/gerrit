@@ -72,7 +72,13 @@ limitations under the License.
       gr-search-bar {
         width: 500px;
       }
-      gr-account-dropdown {
+      .accountContainer:not(.loggedIn):not(.loggedOut) .loginButton,
+      .accountContainer:not(.loggedIn):not(.loggedOut) gr-account-dropdown,
+      .accountContainer.loggedIn .loginButton,
+      .accountContainer.loggedOut gr-account-dropdown {
+        display: none;
+      }
+      .accountContainer {
         align-items: center;
         display: flex;
         margin-left: var(--default-horizontal-margin);
@@ -84,7 +90,10 @@ limitations under the License.
       <a href="/" class="bigTitle">PolyGerrit</a>
       <div class="headerRightItems">
         <gr-search-bar value="{{params.query}}" role="search"></gr-search-bar>
-        <gr-account-dropdown account="[[account]]"></gr-account-dropdown>
+        <div class="accountContainer" id="accountContainer">
+          <a class="loginButton" href="/login" on-tap="_loginTapHandler">Login</a>
+          <gr-account-dropdown account="[[account]]"></gr-account-dropdown>
+        </div>
       </div>
     </header>
     <main>
@@ -158,6 +167,8 @@ limitations under the License.
 
       _accountChanged: function() {
         this._resolveAccountReady();
+        this.$.accountContainer.classList.toggle('loggedIn', this.loggedIn);
+        this.$.accountContainer.classList.toggle('loggedOut', !this.loggedIn);
       },
 
       _configChanged: function(config) {
@@ -170,6 +181,12 @@ limitations under the License.
         this.set('_showChangeView', route == 'gr-change-view');
         this.set('_showDiffView', route == 'gr-diff-view');
         this.constrained = route == 'gr-change-view';
+      },
+
+      _loginTapHandler: function(e) {
+        e.preventDefault();
+        page.show('/login/' + encodeURIComponent(
+            window.location.pathname + window.location.hash));
       },
 
     });

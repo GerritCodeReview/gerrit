@@ -123,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "fb7a1f32_8b0e0d7b",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:47:01Z",
+      "side": 1,
+      "message": "True, but sharing that object is non-trivial given the current architecture. The files var would have to be a property on gr-app and passed to each view, which adds a level of complexity that I\u0027m trying to avoid in this change. Added a TODO.\n\nAlso, this isn\u0027t a regression from how the GWT UI works. It makes two calls to the files endpoint :)",
+      "parentUuid": "bb0c27ef_39e0afea",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b41cfd6_bf1317a6",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 2

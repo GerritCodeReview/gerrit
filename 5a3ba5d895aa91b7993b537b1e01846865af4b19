@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1448986260 -0500\nnonce AFd3Bxvg2Lng2qYMZoOnzhLQ4uCzbfBRs+uXr/Ub+H52Nm++QlFUW/iN5IPwzFOjtHU1AEmybWsf\n\n0000000000000000000000000000000000000000 5a3ba5d895aa91b7993b537b1e01846865af4b19 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWXcaUAAoJEF/XxZqaEoiMnNkQAM80IlwMeAmvPXfAfmSfWtbk\nNrzLC6dEXAXs+j34VcBxVqv6t60UHG8u4+YTN85qTRZglmNo9dB7jpXjlylEeo/v\nUiZgPuIPnRcclwXA6+ChwpGpUEzDpEGplbzsd6bVNIzckJ4E9a06S+wHZmhmvuqd\nZvWpP5gShaNGqcdIjGk+WV78TsBpIYZ8IbXjnpdFNuFcJZWc7ZfmJNyMIgJ3bQOT\n4LN4CqFqz5uK8Cz5VwVaeU68Ix7jmfyAPoyQMRYYu+VI4mYJzg6PCwsvjj7HErFE\nizNt/mUeIp6WPRSOsGikLKjDbgHCPPp6drjQNumoPpIZhUy3VKT03envE+3C+0CP\nHu8CFbxt7jHilDXP7oUw8YMQRaLX8Wsq1bsgzCw77lgdS0OzcuVOAqStWtzm7moJ\n71jL8NmC8UFAsPk+tlC8HAg/FFRqkS3+d9sJZ5At3Qngo+3xZQZCuV3xmeWOdO/B\nLjZH18b4VPzsNtn/ecdOgnJeGSRZagHSdhYjU2hHQiRETK1fZdUSS9mO/pQpHmlf\nXi3j6JKlOfG9PQD6ccIsdrNe/3nlNmZtEuK8rx4D/lN45fJzPJm1bt29tgEukOGR\nNWw8vGeFR37sH54c8Ysm+g1CE8HtfatFKh478Qq3e6BOiWNtkmzrrAvfucbGcTDa\nXck34gbGZRSmTN4EGk70\n\u003d0v/s\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "db1d5bf8_7a4b59aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-01T16:29:44Z",
+      "side": 1,
+      "message": "Something went wrong here.",
+      "revId": "5a3ba5d895aa91b7993b537b1e01846865af4b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b41cfd6_bf48f7af",
+        "filename": "tools/js/bower2buck.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-01T16:29:44Z",
+      "side": 1,
+      "message": "That\u0027s sane default.",
+      "revId": "5a3ba5d895aa91b7993b537b1e01846865af4b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

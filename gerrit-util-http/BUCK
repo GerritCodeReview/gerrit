@@ -14,6 +14,7 @@ java_library(
     '//gerrit-extension-api:api',
     '//lib:guava',
     '//lib:servlet-api-3_1',
+    '//lib/httpcomponents:httpclient',
     '//lib/jgit:jgit',
   ],
   visibility = ['PUBLIC'],

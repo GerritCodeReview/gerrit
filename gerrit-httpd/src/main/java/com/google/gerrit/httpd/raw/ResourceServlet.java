@@ -26,6 +26,7 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableMap;
@@ -96,10 +97,18 @@ public abstract class ResourceServlet extends HttpServlet {
 
   private final Cache<Path, Resource> cache;
   private final boolean refresh;
+  private final int cacheFileSizeLimitBytes;
 
   protected ResourceServlet(Cache<Path, Resource> cache, boolean refresh) {
+    this(cache, refresh, CACHE_FILE_SIZE_LIMIT_BYTES);
+  }
+
+  @VisibleForTesting
+  ResourceServlet(Cache<Path, Resource> cache, boolean refresh,
+      int cacheFileSizeLimitBytes) {
     this.cache = checkNotNull(cache, "cache");
     this.refresh = refresh;
+    this.cacheFileSizeLimitBytes = cacheFileSizeLimitBytes;
   }
 
   /**
@@ -214,7 +223,7 @@ public abstract class ResourceServlet extends HttpServlet {
   private boolean maybeStream(Path p, HttpServletRequest req,
       HttpServletResponse rsp) throws IOException {
     try {
-      if (Files.size(p) < CACHE_FILE_SIZE_LIMIT_BYTES) {
+      if (Files.size(p) < cacheFileSizeLimitBytes) {
         return false;
       }
     } catch (NoSuchFileException e) {
@@ -294,7 +303,12 @@ public abstract class ResourceServlet extends HttpServlet {
     }
 
     boolean isStale(Path p, ResourceServlet rs) throws IOException {
-      FileTime t = rs.getLastModifiedTime(p);
+      FileTime t;
+      try {
+        t = rs.getLastModifiedTime(p);
+      } catch (NoSuchFileException e) {
+        return this != NOT_FOUND;
+      }
       return t.toMillis() == 0
           || lastModified.toMillis() == 0
           || !lastModified.equals(t);

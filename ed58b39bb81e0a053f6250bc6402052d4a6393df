@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "bb0c27ef_b914bf91",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T15:31:25Z",
+      "side": 1,
+      "message": "Version changes should come with sha1 changes. If you run `buck build polygerrit` (and/or bower2buck) then you\u0027ll get a helpful error:\n\n PolymerElements/iron-a11y-keys-behavior#1.1.0:\n expected 2f1ea0b4542e2949de195dff5cbe02b7cb953eff\n received 0b7962ed8409336652da4b4e83d052dbe53d4e1a",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb0c27ef_d9fa539d",
+        "filename": "polygerrit-ui/app/elements/gr-account-dropdown.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T15:31:25Z",
+      "side": 1,
+      "message": "Why this change? https://visionmedia.github.io/page.js/ says they are equivalent.",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b41cfd6_9f0e537b",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 2
@@ -30,6 +64,23 @@
       "writtenOn": "2015-12-01T08:45:21Z",
       "side": 1,
       "message": "and\n\n  case \u0027u\u0027:\n    page.show(\u0027\u003cpath-to-change-list\u003e\u0027)\n   break;",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb0c27ef_39e0afea",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T15:31:25Z",
+      "side": 1,
+      "message": "In the case where you\u0027re entering the diff view from the change view, you should already have a list of files available and don\u0027t need to incur an extra XHR.",
       "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -77,6 +128,40 @@
         "endLine": 323,
         "endChar": 34
       },
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb7a1f32_6bdde12d",
+        "filename": "polygerrit-ui/app/test/gr-change-list-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T15:31:25Z",
+      "side": 1,
+      "message": "Why is flushAsynchronousOperations() no longer necessary? I\u0027m guessing MockInteractions effectively does that for you?",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb0c27ef_59e76300",
+        "filename": "polygerrit-ui/app/test/gr-change-view-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T15:31:25Z",
+      "side": 1,
+      "message": "Maybe a TODO to actually test the effect of this once it exists, rather than mocking it out.",
       "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

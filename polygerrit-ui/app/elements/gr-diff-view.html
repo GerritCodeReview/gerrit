@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="gr-diff-comment-thread.html">
 
 <dom-module id="gr-diff-view">
@@ -125,6 +126,11 @@ limitations under the License.
         url="[[_computeCommentsPath(_changeNum, _patchNum)]]"
         json-prefix=")]}'"
         on-response="_handleRightCommentsResponse"></iron-ajax>
+    <iron-ajax
+        id="filesXHR"
+        url="[[_computeFilesPath(_changeNum, _patchNum)]]"
+        json-prefix=")]}'"
+        on-response="_handleFilesResponse"></iron-ajax>
     <h3>
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span> — <span>[[params.path]]</span>
@@ -145,7 +151,17 @@ limitations under the License.
     Polymer({
       is: 'gr-diff-view',
 
+      behaviors: [
+        Polymer.IronA11yKeysBehavior
+      ],
+
       properties: {
+        keyEventTarget: {
+          type: Object,
+          value: function() {
+            return document.body;
+          },
+        },
         /**
          * URL params passed from the router.
          */
@@ -158,19 +174,27 @@ limitations under the License.
           value: 80,
           observer: '_rulerWidthChanged',
         },
+        _basePatchNum: String,
         _change: Object,
         _changeNum: String,
         _diff: Object,
-        _basePatchNum: String,
+        _fileList: {
+          type: Array,
+          value: [],
+        },
+        _leftComments: Array,
         _patchNum: String,
         _path: String,
-        _leftComments: Array,
-        _rightComments: Array,
         _rendered: Boolean,
+        _rightComments: Array,
       },
 
       listeners: {
         'diffContainer.tap': '_diffContainerTapHandler',
+      },
+
+      keyBindings: {
+        '[ ] u': '_handleKey',
       },
 
       _paramsChanged: function(value) {
@@ -198,6 +222,7 @@ limitations under the License.
           this.$.leftCommentsXHR.generateRequest();
         }
         this.$.rightCommentsXHR.generateRequest();
+        this.$.filesXHR.generateRequest();
       },
 
       _rulerWidthChanged: function(newValue, oldValue) {
@@ -242,6 +267,10 @@ limitations under the License.
         return '/changes/' + changeNum + '/revisions/' + patchNum + '/comments';
       },
 
+      _computeFilesPath: function(changeNum, patchNum) {
+        return '/changes/' + changeNum + '/revisions/' + patchNum + '/files';
+      },
+
       _diffQueryParams: function(basePatchNum) {
         var params =  {
           context: 'ALL',
@@ -272,10 +301,46 @@ limitations under the License.
             this._rightComments);
       },
 
+      _handleFilesResponse: function(e, req) {
+        this._fileList = Object.keys(e.detail.response).sort();
+      },
+
       _handleDiffResponse: function(e, req) {
         this._diff = e.detail.response;
         this._maybeRenderDiff(this._diff, this._leftComments,
             this._rightComments);
+      },
+
+      _handleKey: function(e) {
+        switch(e.detail.combo) {
+          case '[':
+            this._navToFile(this._fileList, -1);
+            break;
+          case ']':
+            this._navToFile(this._fileList, 1);
+            break;
+          case 'u':
+            if (this._changeNum) {
+              page.show(this._computeChangePath(this._changeNum));
+            }
+            break;
+        }
+      },
+
+      _navToFile: function(fileList, direction) {
+        if (fileList.length == 0) { return; }
+
+        var idx = fileList.indexOf(this._path) + direction;
+        if (idx < 0 || idx > fileList.length - 1) {
+          page.show(this._computeChangePath(this._changeNum));
+          return;
+        }
+        page.show(
+            this._diffURL(this._changeNum, this._patchNum, fileList[idx]));
+      },
+
+      _diffURL: function(changeNum, patchNum, path) {
+        return '/c/' + changeNum + '/' + patchNum + '/' + path;
       },
 
       _threadID: function(patchNum, lineNum) {
@@ -351,9 +416,18 @@ limitations under the License.
         }
       },
 
+      _clearChildren: function(el) {
+        while (el.firstChild) {
+          el.removeChild(el.firstChild);
+        }
+      },
+
       _maybeRenderDiff: function(diff, leftComments, rightComments) {
         if (this._rendered) {
-          throw Error('diff has already been rendered');
+          this._clearChildren(this.$.leftDiffNumbers);
+          this._clearChildren(this.$.leftDiffContent);
+          this._clearChildren(this.$.rightDiffNumbers);
+          this._clearChildren(this.$.rightDiffContent);
         }
         if (!diff || !diff.content) { return; }
         if (this._basePatchNum && leftComments == null) { return; }

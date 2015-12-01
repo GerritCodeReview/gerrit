@@ -6,7 +6,7 @@ bower_components(
     '//lib/js:polymer',
     '//lib/js:page',
     '//lib/js:iron-ajax',
-    '//lib/js:iron-a11y-keys',
+    '//lib/js:iron-a11y-keys-behavior',
     '//lib/js:iron-input',
   ],
 )

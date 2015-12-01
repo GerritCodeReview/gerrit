@@ -16,25 +16,36 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>Elements Test Runner</title>
-<meta charset="utf-8">
-<script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<title>gr-change-view</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../scripts/changes.js"></script>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../elements/gr-change-view.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-change-view></gr-change-view>
+  </template>
+</test-fixture>
+
 <script>
-  var testFiles = [];
+  suite('gr-change-view tests', function() {
+    var element;
 
-  [ 'gr-change-list-item-test.html',
-    'gr-change-list-test.html',
-    'gr-change-view-test.html',
-    'gr-date-formatter-test.html',
-    'gr-diff-comment-test.html',
-    'gr-diff-comment-thread-test.html',
-    'gr-diff-view-test.html',
-    'gr-search-bar-test.html',
-  ].forEach(function(file) {
-      testFiles.push(file);
-      testFiles.push(file + '?dom=shadow');
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('keyboard shortcuts', function(done) {
+      sinon.stub(element, '_showReplyField', function() {
+        element._showReplyField.restore();
+        done();
+      });
+      MockInteractions.pressAndReleaseKeyOn(element, 65); 'a'
+    })
+
   });
-
-  WCT.loadSuites(testFiles);
 </script>

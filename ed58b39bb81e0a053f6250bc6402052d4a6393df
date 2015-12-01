@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b41cfd6_9f0e537b",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-01T08:45:21Z",
+      "side": 1,
+      "message": "\u0027a u\u0027",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db1d5bf8_ba1331a6",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-01T08:45:21Z",
+      "side": 1,
+      "message": "and\n\n  case \u0027u\u0027:\n    page.show(\u0027\u003cpath-to-change-list\u003e\u0027)\n   break;",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b41cfd6_bf1317a6",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-01T08:45:21Z",
+      "side": 1,
+      "message": "Can it be ever false?",
+      "range": {
+        "startLine": 323,
+        "startChar": 12,
+        "endLine": 323,
+        "endChar": 34
+      },
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

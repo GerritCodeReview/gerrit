@@ -16,26 +16,33 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>Elements Test Runner</title>
-<meta charset="utf-8">
-<script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<title>gr-account-dropdown</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../elements/gr-account-dropdown.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-account-dropdown></gr-account-dropdown>
+  </template>
+</test-fixture>
+
 <script>
-  var testFiles = [];
+  suite('gr-account-dropdown tests', function() {
+    var element;
 
-  [ 'gr-account-dropdown-test.html',
-    'gr-change-list-item-test.html',
-    'gr-change-list-test.html',
-    'gr-change-view-test.html',
-    'gr-date-formatter-test.html',
-    'gr-diff-comment-test.html',
-    'gr-diff-comment-thread-test.html',
-    'gr-diff-view-test.html',
-    'gr-search-bar-test.html',
-  ].forEach(function(file) {
-      testFiles.push(file);
-      testFiles.push(file + '?dom=shadow');
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('tap on trigger opens menu', function() {
+      assert.isFalse(element.$.dropdown.opened);
+      MockInteractions.tap(element.$.trigger);
+      assert.isTrue(element.$.dropdown.opened);
+    });
+
   });
-
-  WCT.loadSuites(testFiles);
 </script>

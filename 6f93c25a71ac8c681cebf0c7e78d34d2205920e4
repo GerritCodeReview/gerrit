@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb0c27ef_b9c67f6d",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T14:44:19Z",
+      "side": 1,
+      "message": "Still trying to wrap my head around this.\n\nWhen a caller accesses app.accountReady, it creates a new promise object whose body assigns _resolveAccountReady to the resolve function of the promise. So when the account is changed, it calls _resolveAccountReady and continues the promise chain.\n\nOne thing I didn\u0027t learn in my cursory intro to promises is: when is the argument of the promise evaluated? Is it possible for _accountChanged to be called (i.e. account to be returned from the account manager) _before_ _resolveAccountReady is assinged?\n\nAnother potential issue I see is that there is only a single _resolveAccountReady field on this object. If two callers call app.accountReady, ISTM that would create two promises, and _resolveAccountReady would only be assigned to the second promise\u0027s resolve argument. So the first promise\u0027s resolve would never get called.",
+      "revId": "6f93c25a71ac8c681cebf0c7e78d34d2205920e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb0c27ef_59b923ec",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T14:44:19Z",
+      "side": 1,
+      "message": "Trying to figure out the difference between a getter and a property. IIUC they both look the same to the caller (access .foo and have it call some method). But getters are a native JS thing whereas properties are Polymer magic and thus get magic Polymer binding semantics. And in this case you really don\u0027t care about binding semantics, you just want this simple function.\n\nSound right?",
+      "revId": "6f93c25a71ac8c681cebf0c7e78d34d2205920e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "bb0c27ef_993e1b0a",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T17:36:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b41cfd6_9f0e537b",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db1d5bf8_ba1331a6",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 2
@@ -136,6 +154,24 @@
       "writtenOn": "2015-12-01T08:45:21Z",
       "side": 1,
       "message": "and\n\n  case \u0027u\u0027:\n    page.show(\u0027\u003cpath-to-change-list\u003e\u0027)\n   break;",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb7a1f32_ab48a9af",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T17:36:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db1d5bf8_ba1331a6",
       "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

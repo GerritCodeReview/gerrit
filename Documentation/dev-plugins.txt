@@ -2024,6 +2024,67 @@ ProjectWebLinks will appear in the project list in the
 
 BranchWebLinks will appear in the branch list in the last column.
 
+[[lfs-extension]]
+== LFS Storage Plugins
+
+Gerrit provides an extension point that enables development of LFS (Large File
+Storage) storage plugins. Gerrit core provides a reusable implementation of
+the LFS Batch REST API which LFS storage plugins can reuse by registering their
+implementation of the `LargeFileRepository` interface which is used by
+plugin(s) to provide an implementation of the blob storage and
+generation of URLs for blob read/store operations.
+
+[source, java]
+----
+/** Implement the LargeFileRepository interface */
+import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
+import org.eclipse.jgit.lfs.server.LargeFileRepository;
+import org.eclipse.jgit.lfs.server.Response.Action;
+...
+
+class MyLfsRepository implements LargeFileRepository {
+	@Inject
+	private com.google.gerrit.server.config.PluginConfigFactory cfg;
+
+	@Inject
+	MyLfsRepository(@PluginCanonicalWebUrl String url) {
+		// configure
+	}
+
+	@Override
+	public Action getDownloadAction(AnyLongObjectId id) {
+		...
+	}
+
+	@Override
+	public Action getUploadAction(AnyLongObjectId id, long size) {
+		...
+	}
+
+	@Override
+	public Action getVerifyAction(AnyLongObjectId id) {
+		...
+	}
+
+	@Override
+	public long getSize(AnyLongObjectId id) throws IOException {
+		...
+	}
+}
+
+/** Register the LargeFileRepository implementation */
+import org.eclipse.jgit.lfs.server.LargeFileRepository;
+
+import com.google.inject.AbstractModule;
+
+class Module extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(LargeFileRepository.class).to(MyLfsRepository.class);
+  }
+}
+----
+
 [[documentation]]
 == Documentation
 

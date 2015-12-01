@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb7a1f32_8b1ccda6",
+        "filename": "polygerrit-ui/app/scripts/fake-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T19:13:55Z",
+      "side": 1,
+      "message": "My tongue-in-cheek comments about mocking Promises notwithstanding, I\u0027m curious if there actually is a more idiomatic way to do this.",
+      "revId": "5711981711e70e8738010fc404b580862a01e8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

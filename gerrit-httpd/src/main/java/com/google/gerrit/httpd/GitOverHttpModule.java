@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.httpd.lfs.LfsApiServlet;
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadConfig;
@@ -49,6 +50,7 @@ public class GitOverHttpModule extends ServletModule {
       String git = GitOverHttpServlet.URL_REGEX;
       filterRegex(git).through(authFilter);
       serveRegex(git).with(GitOverHttpServlet.class);
+      serveRegex(LfsApiServlet.URL_REGEX).with(LfsApiServlet.class);
     }
 
     filter("/a/*").through(authFilter);

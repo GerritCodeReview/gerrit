@@ -59,6 +59,8 @@ java_library(
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
     '//lib/jgit:jgit-archive',
+    '//lib/jgit:jgit-lfs',
+    '//lib/jgit:jgit-lfs-server',
     '//lib/joda:joda-time',
     '//lib/log:api',
     '//lib/log:jsonevent-layout',

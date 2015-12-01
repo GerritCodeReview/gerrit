@@ -38,7 +38,10 @@ limitations under the License.
       position: absolute;
       bottom: 5px;
       right: 5px;
+      background-color: #eee;
+      background-image: -webkit-linear-gradient(top, #eee, #eee);
     }
+    .cancel div { color: #444; }
     .comments {
       max-height: 275px;
       width: 526px;

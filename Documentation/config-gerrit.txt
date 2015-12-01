@@ -2851,6 +2851,17 @@ are specified in the link:#container[container section]:
   javaOptions = -Dcom.sun.jndi.ldap.connect.pool.timeout=300000
 ----
 
+[[lfs]]
+=== Section lfs
+
+[[lfs.plugin]]lfs.plugin::
++
+The name of a plugin which serves the LFS protocol on the
+`<project-name>/info/lfs/objects/batch` endpoint. When not configured Gerrit
+will respond with `503 Service Unavailable` on LFS protocol requests.
++
+By default unset.
+
 [[log]]
 === Section log
 

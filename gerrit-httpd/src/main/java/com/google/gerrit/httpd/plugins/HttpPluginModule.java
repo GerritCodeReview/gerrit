@@ -32,6 +32,9 @@ public class HttpPluginModule extends ServletModule {
     bind(HttpPluginServlet.class);
     serveRegex("^/(?:a/)?plugins/(.*)?$").with(HttpPluginServlet.class);
 
+    bind(LfsPluginServlet.class);
+    serveRegex(LfsPluginServlet.URL_REGEX).with(LfsPluginServlet.class);
+
     bind(StartPluginListener.class)
       .annotatedWith(UniqueAnnotations.create())
       .to(HttpPluginServlet.class);
@@ -39,6 +42,14 @@ public class HttpPluginModule extends ServletModule {
     bind(ReloadPluginListener.class)
       .annotatedWith(UniqueAnnotations.create())
       .to(HttpPluginServlet.class);
+
+    bind(StartPluginListener.class)
+      .annotatedWith(UniqueAnnotations.create())
+      .to(LfsPluginServlet.class);
+
+    bind(ReloadPluginListener.class)
+      .annotatedWith(UniqueAnnotations.create())
+      .to(LfsPluginServlet.class);
 
     bind(HttpModuleGenerator.class)
       .to(HttpAutoRegisterModuleGenerator.class);

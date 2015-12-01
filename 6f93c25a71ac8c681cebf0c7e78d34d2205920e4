@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fb7a1f32_ebcb1174",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T14:52:59Z",
+      "side": 1,
+      "message": "The promise is created upon initialization of the element, not access to the property. It is only created once (unless accountReady is reassigned, which it shouldn\u0027t be hence the readOnly).\n\nAs I understand it, property observers are not fired until after properties are initialized on the element, so _accountChanged won\u0027t be called before _resolveAccountReady is assigned.\n\nThe third issue is moot due to the first clarification above. You’re always referring to the same promise.",
+      "parentUuid": "bb0c27ef_b9c67f6d",
+      "revId": "6f93c25a71ac8c681cebf0c7e78d34d2205920e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb0c27ef_59b923ec",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-01T14:44:19Z",
       "side": 1,
       "message": "Trying to figure out the difference between a getter and a property. IIUC they both look the same to the caller (access .foo and have it call some method). But getters are a native JS thing whereas properties are Polymer magic and thus get magic Polymer binding semantics. And in this case you really don\u0027t care about binding semantics, you just want this simple function.\n\nSound right?",
+      "revId": "6f93c25a71ac8c681cebf0c7e78d34d2205920e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb0c27ef_f9c0f752",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T14:52:59Z",
+      "side": 1,
+      "message": "Yep you got it.",
+      "parentUuid": "bb0c27ef_59b923ec",
       "revId": "6f93c25a71ac8c681cebf0c7e78d34d2205920e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -69,24 +69,12 @@ npm_binary(
 # version number of the existing bower_component rather than adding a new rule.
 
 bower_component(
-  name = 'iron-a11y-keys',
-  package = 'polymerelements/iron-a11y-keys',
-  version = '1.0.3',
-  deps = [
-    ':iron-a11y-keys-behavior',
-    ':polymer',
-  ],
-  license = 'polymer',
-  sha1 = 'cf7fdf9ffa3349d28632fc3e86b84300d1439e29',
-)
-
-bower_component(
   name = 'iron-a11y-keys-behavior',
-  package = 'polymerelements/iron-a11y-keys-behavior',
-  version = '1.0.8',
+  package = 'PolymerElements/iron-a11y-keys-behavior',
+  version = '1.1.0',
   deps = [':polymer'],
   license = 'polymer',
-  sha1 = '2f1ea0b4542e2949de195dff5cbe02b7cb953eff',
+  sha1 = '0b7962ed8409336652da4b4e83d052dbe53d4e1a',
 )
 
 bower_component(

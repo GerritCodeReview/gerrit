@@ -28,10 +28,12 @@ npm_binary(
   repository = GERRIT,
 )
 
-# To add a new Bower component dependency:
+# ## Adding Bower component dependencies
 #
-# 1. Add a dummy bower_component rule to this file, specifying the version you
-#    want to use:
+# 1. Add a dummy bower_component rule to this file, specifying the semantic
+#    version you want to use. The actual version will be filled in by Bower,
+#    after evaluating the full dependency tree.
+#
 #      bower_component(
 #        name = 'somepackage',
 #        package = 'someauthor/somepackage',
@@ -40,28 +42,35 @@ npm_binary(
 #        license = 'DO_NOT_DISTRIBUTE'
 #      )
 #
-# 2. Add your bower_component as a dep to a bower_components rule:
+# 2. Add your bower_component as a dep to a bower_components rule.
+#
 #      bower_components(
-#        name = 'my_components',
+#        name = 'polygerrit_components',
 #        deps = [
 #          '//lib/js:foo',
 #          '//lib/js:somepackage',  # NEW
 #        ],
 #      )
 #
-# 3. Run bower2buck.py:
-#      buck run //tools/js:bower2buck.py -o newbuck //path/to:my_components
+# 3. Run bower2buck.py.
+#
+#      buck run //tools/js:bower2buck -- -o /tmp/newbuck
 #
 # 4. Use your favorite diff tool to merge the output in newbuck with this file.
-#    bower2buck.py reevaluates semantic versions and may upgrade some packages,
-#    so you may need to make changes beyond the new component that was added.
+#    bower2buck reevaluates semantic versions and may upgrade some packages, so
+#    you may need to make changes beyond the new component that was added.
 #
-# 5. Make sure to specify licenses for all new packages. You may need to define
-#    new licenses in lib/BUCK.
+#      meld /tmp/newbuck lib/js/BUCK
+#
+#
+# ## Updating Bower component dependencies
+#
+# Use the same procedure as for adding dependencies, except just change the
+# version number of the existing bower_component rather than adding a new rule.
 
 bower_component(
   name = 'iron-a11y-keys',
-  package = 'PolymerElements/iron-a11y-keys',
+  package = 'polymerelements/iron-a11y-keys',
   version = '1.0.3',
   deps = [
     ':iron-a11y-keys-behavior',
@@ -73,7 +82,7 @@ bower_component(
 
 bower_component(
   name = 'iron-a11y-keys-behavior',
-  package = 'PolymerElements/iron-a11y-keys-behavior',
+  package = 'polymerelements/iron-a11y-keys-behavior',
   version = '1.0.8',
   deps = [':polymer'],
   license = 'polymer',
@@ -82,7 +91,7 @@ bower_component(
 
 bower_component(
   name = 'iron-ajax',
-  package = 'PolymerElements/iron-ajax',
+  package = 'polymerelements/iron-ajax',
   version = '1.1.0',
   deps = [
     ':polymer',
@@ -94,7 +103,7 @@ bower_component(
 
 bower_component(
   name = 'iron-input',
-  package = 'PolymerElements/iron-input',
+  package = 'polymerelements/iron-input',
   version = '1.0.6',
   deps = [
     ':iron-validatable-behavior',
@@ -106,7 +115,7 @@ bower_component(
 
 bower_component(
   name = 'iron-meta',
-  package = 'PolymerElements/iron-meta',
+  package = 'polymerelements/iron-meta',
   version = '1.1.1',
   deps = [':polymer'],
   license = 'polymer',
@@ -115,7 +124,7 @@ bower_component(
 
 bower_component(
   name = 'iron-test-helpers',
-  package = 'PolymerElements/iron-test-helpers',
+  package = 'polymerelements/iron-test-helpers',
   version = '1.0.6',
   semver = '~1.0.6',
   deps = [':polymer'],
@@ -125,7 +134,7 @@ bower_component(
 
 bower_component(
   name = 'iron-validatable-behavior',
-  package = 'PolymerElements/iron-validatable-behavior',
+  package = 'polymerelements/iron-validatable-behavior',
   version = '1.0.5',
   deps = [
     ':iron-meta',
@@ -145,7 +154,7 @@ bower_component(
 
 bower_component(
   name = 'polymer',
-  package = 'Polymer/polymer',
+  package = 'polymer/polymer',
   version = '1.2.2',
   deps = [':webcomponentsjs'],
   license = 'polymer',
@@ -163,7 +172,7 @@ bower_component(
 
 bower_component(
   name = 'test-fixture',
-  package = 'PolymerElements/test-fixture',
+  package = 'polymerelements/test-fixture',
   version = '1.0.3',
   semver = '^1.0.0',
   license = 'DO_NOT_DISTRIBUTE',

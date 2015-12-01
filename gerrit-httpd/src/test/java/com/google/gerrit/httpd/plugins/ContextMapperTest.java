@@ -14,10 +14,9 @@
 
 package com.google.gerrit.httpd.plugins;
 
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
+
+import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 
 import org.junit.Test;
 
@@ -34,16 +33,17 @@ public class ContextMapperTest {
     ContextMapper classUnderTest = new ContextMapper(CONTEXT);
 
     HttpServletRequest originalRequest =
-        createMockRequest("/plugins/", PLUGIN_NAME + "/" + RESOURCE);
+        createFakeRequest("/plugins/", PLUGIN_NAME + "/" + RESOURCE);
 
     HttpServletRequest result =
         classUnderTest.create(originalRequest, PLUGIN_NAME);
 
-    assertEquals(CONTEXT + "/plugins/" + PLUGIN_NAME, result.getContextPath());
-    assertEquals("", result.getServletPath());
-    assertEquals("/" + RESOURCE, result.getPathInfo());
-    assertEquals(CONTEXT + "/plugins/" + PLUGIN_NAME + "/" + RESOURCE,
-        result.getRequestURI());
+    assertThat(result.getContextPath())
+        .isEqualTo(CONTEXT + "/plugins/" + PLUGIN_NAME);
+    assertThat("").isEqualTo(result.getServletPath());
+    assertThat(result.getPathInfo()).isEqualTo("/" + RESOURCE);
+    assertThat(result.getRequestURI())
+        .isEqualTo(CONTEXT + "/plugins/" + PLUGIN_NAME + "/" + RESOURCE);
   }
 
   @Test
@@ -51,29 +51,22 @@ public class ContextMapperTest {
     ContextMapper classUnderTest = new ContextMapper(CONTEXT);
 
     HttpServletRequest originalRequest =
-        createMockRequest("/a/plugins/", PLUGIN_NAME + "/" + RESOURCE);
+        createFakeRequest("/a/plugins/", PLUGIN_NAME + "/" + RESOURCE);
 
     HttpServletRequest result =
         classUnderTest.create(originalRequest, PLUGIN_NAME);
 
-    assertEquals(CONTEXT + "/a/plugins/" + PLUGIN_NAME,
-        result.getContextPath());
-    assertEquals("", result.getServletPath());
-    assertEquals("/" + RESOURCE, result.getPathInfo());
-    assertEquals(CONTEXT + "/a/plugins/" + PLUGIN_NAME + "/" + RESOURCE,
-        result.getRequestURI());
+    assertThat(result.getContextPath())
+        .isEqualTo(CONTEXT + "/a/plugins/" + PLUGIN_NAME);
+    assertThat(result.getServletPath()).isEqualTo("");
+    assertThat(result.getPathInfo()).isEqualTo("/" + RESOURCE);
+    assertThat(result.getRequestURI())
+        .isEqualTo(CONTEXT + "/a/plugins/" + PLUGIN_NAME + "/" + RESOURCE);
   }
 
-  private static HttpServletRequest createMockRequest(String servletPath,
+  private static FakeHttpServletRequest createFakeRequest(String servletPath,
       String pathInfo) {
-    HttpServletRequest req = createNiceMock(HttpServletRequest.class);
-    expect(req.getContextPath()).andStubReturn(CONTEXT);
-    expect(req.getServletPath()).andStubReturn(servletPath);
-    expect(req.getPathInfo()).andStubReturn(pathInfo);
-    String uri = CONTEXT + servletPath + pathInfo;
-    expect(req.getRequestURI()).andStubReturn(uri);
-    replay(req);
-
-    return req;
+    return new FakeHttpServletRequest(
+        "gerrit.example.com", 80, CONTEXT, servletPath).setPathInfo(pathInfo);
   }
 }

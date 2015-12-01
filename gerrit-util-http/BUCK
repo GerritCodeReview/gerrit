@@ -5,11 +5,28 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
+TESTUTIL_SRCS = glob(['src/test/**/testutil/**/*.java'])
+
+java_library(
+  name = 'testutil',
+  srcs = TESTUTIL_SRCS,
+  deps = [
+    '//lib:guava',
+    '//lib:servlet-api-3_1',
+    '//lib/jgit:jgit',
+  ],
+  visibility = ['PUBLIC'],
+)
+
 java_test(
   name = 'http_tests',
-  srcs = glob(['src/test/java/**/*.java']),
+  srcs = glob(
+    ['src/test/java/**/*.java'],
+    excludes = TESTUTIL_SRCS,
+  ),
   deps = [
     ':http',
+    ':testutil',
     '//lib:junit',
     '//lib:servlet-api-3_1',
     '//lib:truth',

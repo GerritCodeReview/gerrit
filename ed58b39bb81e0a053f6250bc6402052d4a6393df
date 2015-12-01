@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb0c27ef_9919fbc9",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:45:12Z",
+      "side": 1,
+      "message": "Ah cool. Fixed, but from the first comment on the change:\n\nWhen I attempt to run `buck run //tools/js:bower2buck.py -o newbuck //path/to:my_components` I get the following error:\n$ buck run //tools/js:bower2buck.py -o newbuck //polygerrit-ui:polygerrit_components\n\"-o\" is not a valid option",
+      "parentUuid": "bb0c27ef_b914bf91",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb0c27ef_d9fa539d",
         "filename": "polygerrit-ui/app/elements/gr-account-dropdown.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-01T15:31:25Z",
       "side": 1,
       "message": "Why this change? https://visionmedia.github.io/page.js/ says they are equivalent.",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb7a1f32_cb141593",
+        "filename": "polygerrit-ui/app/elements/gr-account-dropdown.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:45:12Z",
+      "side": 1,
+      "message": "Consistency with the other change that allowed for more clear stubs and clarity (in my opinion, at least).",
+      "parentUuid": "bb0c27ef_d9fa539d",
       "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -151,6 +187,24 @@
     },
     {
       "key": {
+        "uuid": "fb7a1f32_2be7d901",
+        "filename": "polygerrit-ui/app/test/gr-change-list-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:45:12Z",
+      "side": 1,
+      "message": "From trial and error on Chrome, Safari, FF it appears that it\u0027s not needed, no.",
+      "parentUuid": "fb7a1f32_6bdde12d",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb0c27ef_59e76300",
         "filename": "polygerrit-ui/app/test/gr-change-view-test.html",
         "patchSetId": 2
@@ -162,6 +216,24 @@
       "writtenOn": "2015-12-01T15:31:25Z",
       "side": 1,
       "message": "Maybe a TODO to actually test the effect of this once it exists, rather than mocking it out.",
+      "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb0c27ef_f90e377b",
+        "filename": "polygerrit-ui/app/test/gr-change-view-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:45:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb0c27ef_59e76300",
       "revId": "ed58b39bb81e0a053f6250bc6402052d4a6393df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

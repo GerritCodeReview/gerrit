@@ -43,6 +43,9 @@ java_library(
     '//lib/log:api',
     '//lib/mina:sshd',
     '@jgit//org.eclipse.jgit:jgit',
+    '@jgit//org.eclipse.jgit.http.apache:jgit-http-apache',
+    '@jgit//org.eclipse.jgit.lfs:jgit-lfs',
+    '@jgit//org.eclipse.jgit.lfs.server:jgit-lfs-server',
   ],
   visibility = ['PUBLIC'],
 )

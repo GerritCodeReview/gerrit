@@ -119,7 +119,7 @@ def gen_classpath():
       gwt_lib.add(p)
       continue
 
-    if p.startswith('buck-out/gen/lib/gwt/'):
+    if 'buck-out/gen/lib/gwt/' in p:
       # gwt_module() depends on huge shaded GWT JARs that import
       # incorrect versions of classes for Gerrit. Collect into
       # a private grouping for later use.
@@ -165,7 +165,7 @@ def gen_classpath():
         if path.exists(p):
           classpathentry('src', p, out=o)
 
-  for libs in [gwt_lib, lib]:
+  for libs in [lib, gwt_lib]:
     for j in sorted(libs):
       s = None
       if j.endswith('.jar'):

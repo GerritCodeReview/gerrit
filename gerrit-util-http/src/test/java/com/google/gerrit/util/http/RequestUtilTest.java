@@ -15,77 +15,50 @@
 package com.google.gerrit.util.http;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
 
-import org.junit.After;
-import org.junit.Before;
+import com.google.gerrit.httpd.FakeHttpServletRequest;
+
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 public class RequestUtilTest {
-  private List<Object> mocks;
-
-  @Before
-  public void setUp() {
-    mocks = Collections.synchronizedList(new ArrayList<>());
-  }
-
-  @After
-  public void tearDown() {
-    for (Object mock : mocks) {
-      verify(mock);
-    }
-  }
-
   @Test
   public void emptyContextPath() {
     assertThat(RequestUtil.getEncodedPathInfo(
-        mockRequest("/s/foo/bar", "", "/s"))).isEqualTo("/foo/bar");
+        fakeRequest("", "/s", "/foo/bar"))).isEqualTo("/foo/bar");
     assertThat(RequestUtil.getEncodedPathInfo(
-        mockRequest("/s/foo%2Fbar", "", "/s"))).isEqualTo("/foo%2Fbar");
+        fakeRequest("", "/s", "/foo%2Fbar"))).isEqualTo("/foo%2Fbar");
   }
 
   @Test
   public void emptyServletPath() {
     assertThat(RequestUtil.getEncodedPathInfo(
-        mockRequest("/c/foo/bar", "", "/c"))).isEqualTo("/foo/bar");
+        fakeRequest("", "/c", "/foo/bar"))).isEqualTo("/foo/bar");
     assertThat(RequestUtil.getEncodedPathInfo(
-        mockRequest("/c/foo%2Fbar", "", "/c"))).isEqualTo("/foo%2Fbar");
+        fakeRequest("", "/c", "/foo%2Fbar"))).isEqualTo("/foo%2Fbar");
   }
 
   @Test
   public void trailingSlashes() {
     assertThat(RequestUtil.getEncodedPathInfo(
-        mockRequest("/c/s/foo/bar/", "/c", "/s"))).isEqualTo("/foo/bar/");
+        fakeRequest("/c", "/s", "/foo/bar/"))).isEqualTo("/foo/bar/");
     assertThat(RequestUtil.getEncodedPathInfo(
-        mockRequest("/c/s/foo/bar///", "/c", "/s"))).isEqualTo("/foo/bar/");
+        fakeRequest("/c", "/s", "/foo/bar///"))).isEqualTo("/foo/bar/");
     assertThat(RequestUtil.getEncodedPathInfo(
-        mockRequest("/c/s/foo%2Fbar/", "/c", "/s"))).isEqualTo("/foo%2Fbar/");
+        fakeRequest("/c", "/s", "/foo%2Fbar/"))).isEqualTo("/foo%2Fbar/");
     assertThat(RequestUtil.getEncodedPathInfo(
-        mockRequest("/c/s/foo%2Fbar///", "/c", "/s"))).isEqualTo("/foo%2Fbar/");
+        fakeRequest("/c", "/s", "/foo%2Fbar///"))).isEqualTo("/foo%2Fbar/");
   }
 
   @Test
-  public void servletPathMatchesRequestPath() {
+  public void emptyPathInfo() {
     assertThat(RequestUtil.getEncodedPathInfo(
-        mockRequest("/c/s", "/c", "/s"))).isNull();
+        fakeRequest("/c", "/s", ""))).isNull();
   }
 
-  private HttpServletRequest mockRequest(String uri, String contextPath, String servletPath) {
-    HttpServletRequest req = createMock(HttpServletRequest.class);
-    expect(req.getRequestURI()).andStubReturn(uri);
-    expect(req.getContextPath()).andStubReturn(contextPath);
-    expect(req.getServletPath()).andStubReturn(servletPath);
-    replay(req);
-    mocks.add(req);
-    return req;
+  private FakeHttpServletRequest fakeRequest(String contextPath,
+      String servletPath, String pathInfo) {
+    FakeHttpServletRequest req = new FakeHttpServletRequest(
+        "gerrit.example.com", 80, contextPath, servletPath);
+    return req.setPathInfo(pathInfo);
   }
 }

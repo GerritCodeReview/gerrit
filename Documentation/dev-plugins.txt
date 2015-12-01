@@ -2046,6 +2046,60 @@ ProjectWebLinks will appear in the project list in the
 
 BranchWebLinks will appear in the branch list in the last column.
 
+[[lfs-extension]]
+== LFS Storage Plugins
+
+Gerrit provides an extension point that enables development of LFS (Large File
+Storage) storage plugins. Gerrit core exposes the default LFS protocol endpoint
+`<project-name>/info/lfs/objects/batch` and forwards the requests to the configured
+link:config-gerrit.html#lfs[lfs.plugin] plugin which implements the LFS protocol.
+By exposing the default LFS endpoint, the git-lfs client can be used without
+any configuration.
+
+[source, java]
+----
+/** Provide an LFS protocol implementation */
+import org.eclipse.jgit.lfs.server.LargeFileRepository;
+import org.eclipse.jgit.lfs.server.LfsProtocolServlet;
+
+@Singleton
+public class LfsApiServlet extends LfsProtocolServlet {
+  private static final long serialVersionUID = 1L;
+
+  private final S3LargeFileRepository repository;
+
+  @Inject
+  LfsApiServlet(S3LargeFileRepository repository) {
+    this.repository = repository;
+  }
+
+  @Override
+  protected LargeFileRepository getLargeFileRepository() {
+    return repository;
+  }
+}
+
+/** Register the LfsApiServlet to listen on the default LFS protocol endpoint */
+import static com.google.gerrit.httpd.plugins.LfsPluginServlet.URL_REGEX;
+
+import com.google.gerrit.httpd.plugins.HttpPluginModule;
+
+public class HttpModule extends HttpPluginModule {
+
+  @Override
+  protected void configureServlets() {
+    serveRegex(URL_REGEX).with(LfsApiServlet.class);
+  }
+}
+
+/** Provide an implementation of the LargeFileRepository */
+import org.eclipse.jgit.lfs.server.s3.S3Repository;
+
+public class S3LargeFileRepository extends S3Repository {
+...
+}
+----
+
 [[documentation]]
 == Documentation
 

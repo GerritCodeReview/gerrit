@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bb0c27ef_79034752",
+        "filename": "polygerrit-ui/app/elements/gr-ajax.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T16:52:26Z",
+      "side": 1,
+      "message": "Actually after reading some more code I like having our own component for the simple purpose of only writing json-prefix once ;)\n\nStill a lot of boilerplate to achieve that goal, but I can see the value.",
+      "parentUuid": "fb7a1f32_8bf5adb0",
+      "revId": "3476434c6bcc512f0e23f816837359474e82fc25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb7a1f32_2bd27927",
         "filename": "polygerrit-ui/app/elements/gr-ajax.html",
         "patchSetId": 3
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "The moment it becomes repeated more than twice (it will be once I implement the avatar within the account dropdown) I’ll be putting it into... something, whether that\u0027s a model wrapper for the config available globally or otherwise. For now I’m following the age-old Go Proverb: \"A little copying is better than a little dependency.\" (http://go-proverbs.github.io/)",
       "parentUuid": "fb7a1f32_cbebb5d1",
+      "revId": "3476434c6bcc512f0e23f816837359474e82fc25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb0c27ef_59000344",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-01T16:52:26Z",
+      "side": 1,
+      "message": "Yeah but in Go you could have your cake and eat it too, since you wouldn\u0027t have to inject a dependency, just use a package global :)\n\nAnyway, fine for now.",
+      "parentUuid": "bb0c27ef_19ddeb2e",
       "revId": "3476434c6bcc512f0e23f816837359474e82fc25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

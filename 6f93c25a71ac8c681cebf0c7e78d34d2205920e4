@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "bb0c27ef_59d2c327",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:07:41Z",
+      "side": 1,
+      "message": "You got it.",
+      "parentUuid": "bb0c27ef_39db8f46",
+      "revId": "6f93c25a71ac8c681cebf0c7e78d34d2205920e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb0c27ef_59b923ec",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 6
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "Well, given the above discussion I think I\u0027m wrong: setting the value of a property to a function does *not* call the function every time the property is accessed.\n\nSo I don\u0027t know a way using Polymer properties to have getter-like behavior of something that looks like .foo but actually calls a function.\n\n(Which is not like a problem or anything, just clarifying my understanding.)",
       "parentUuid": "bb0c27ef_f9c0f752",
+      "revId": "6f93c25a71ac8c681cebf0c7e78d34d2205920e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb0c27ef_99f0dbc1",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-01T15:07:41Z",
+      "side": 1,
+      "message": "Ah yes sorry. I was only focusing on the semantics of the `get` keyword  property, which will call this function on each access to `.loggedIn`",
+      "parentUuid": "bb0c27ef_19d84b46",
       "revId": "6f93c25a71ac8c681cebf0c7e78d34d2205920e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

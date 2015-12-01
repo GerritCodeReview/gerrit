@@ -1,0 +1,16 @@
+include_defs('//lib/maven.defs')
+include_defs('//lib/JGIT_VERSION')
+
+maven_jar(
+  name = 'jgit-lfs-server',
+  id = 'org.eclipse.jgit:org.eclipse.jgit.lfs.server:' + VERS,
+  bin_sha1 = 'ee94f7c8232b3a1ce49dcf81b5f8babf145c69a2',
+  src_sha1 = 'b16ab3d47a7c4c92c60e410f644dbcbabfaa3d59',
+  license = 'jgit',
+  repository = REPO,
+  unsign = True,
+  exclude = [
+    'about.html',
+    'plugin.properties',
+  ],
+)

@@ -43,7 +43,8 @@ public class ProjectListPopup {
   private HorizontalPanel filterPanel;
   private String match;
   private Query query;
-  private Button close;
+  private Button closeTop;
+  private Button closeBottom;
   private ScrollPanel sp;
   private PopupPanel.PositionCallback popupPosition;
   private int preferredTop;
@@ -55,10 +56,11 @@ public class ProjectListPopup {
     createWidgets(popupText, currentPageLink);
     final FlowPanel pfp = new FlowPanel();
     pfp.add(filterPanel);
+    pfp.add(closeTop);
     sp = new ScrollPanel(projectsTab);
     sp.setSize("100%", "100%");
     pfp.add(sp);
-    pfp.add(close);
+    pfp.add(closeBottom);
     popup.setWidget(pfp);
     popup.setHeight("100%");
     popupPosition = getPositionCallback();
@@ -147,17 +149,23 @@ public class ProjectListPopup {
     };
     projectsTab.setSavePointerId(currentPageLink);
 
-    close = new Button(Util.C.projectsClose());
+    closeTop = createCloseButton();
+    closeBottom = createCloseButton();
+
+    popup = new DialogBox();
+    popup.setModal(false);
+    popup.setText(popupText);
+  }
+
+  private Button createCloseButton() {
+    Button close = new Button(Util.C.projectsClose());
     close.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
         closePopup();
       }
     });
-
-    popup = new DialogBox();
-    popup.setModal(false);
-    popup.setText(popupText);
+    return close;
   }
 
   public void displayPopup() {

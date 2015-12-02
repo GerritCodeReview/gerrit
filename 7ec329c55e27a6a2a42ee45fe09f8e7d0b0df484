@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bbb8f3b_afebb9d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-02T07:03:28Z",
+      "side": 1,
+      "message": "Just to confirm my understanding of this statement.  Do you mean that by using ProxyPass instead of RewriteRule, the problem described in issue 3365 is fixed (and the other redirections still work)?\n\nIf that\u0027s the case, should we then update the documentation instead?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "7ec329c55e27a6a2a42ee45fe09f8e7d0b0df484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

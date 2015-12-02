@@ -135,7 +135,7 @@ class DownloadBox extends VerticalPanel {
   private void insertPatch() {
     String id = revision.substring(0, 7);
     Anchor patchBase64 = new Anchor(id + ".diff.base64");
-    patchBase64.setHref(new RestApi("changes")
+    patchBase64.setHref(new RestApi("/changes/")
       .id(psId.getParentKey().get())
       .view("revisions")
       .id(revision)
@@ -144,7 +144,7 @@ class DownloadBox extends VerticalPanel {
       .url());
 
     Anchor patchZip = new Anchor(id + ".diff.zip");
-    patchZip.setHref(new RestApi("changes")
+    patchZip.setHref(new RestApi("/changes/")
       .id(psId.getParentKey().get())
       .view("revisions")
       .id(revision)
@@ -170,7 +170,7 @@ class DownloadBox extends VerticalPanel {
     List<Anchor> anchors = new ArrayList<>(activated.size());
     for (String f : activated) {
       Anchor archive = new Anchor(f);
-      archive.setHref(new RestApi("changes")
+      archive.setHref(new RestApi("/changes/")
           .id(psId.getParentKey().get())
           .view("revisions")
           .id(revision)

@@ -100,7 +100,7 @@ class ReviewedPanels {
         fileList.updateReviewedStatus(patchKey, reviewed);
       }
 
-      RestApi api = new RestApi("changes").id(ps.getParentKey().get())
+      RestApi api = new RestApi("/changes/").id(ps.getParentKey().get())
           .view("revisions").id(ps.get())
           .view("files").id(patchKey.getFileName())
           .view("reviewed");

@@ -26,7 +26,7 @@ import java.util.Set;
 public class AccessMap extends NativeMap<ProjectAccessInfo> {
   public static void get(Set<Project.NameKey> projects,
       AsyncCallback<AccessMap> callback) {
-    RestApi api = new RestApi("access");
+    RestApi api = new RestApi("/access/");
     for (Project.NameKey p : projects) {
       api.addParameter("project", p.get());
     }

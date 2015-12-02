@@ -52,7 +52,7 @@ public class GroupMap extends NativeMap<GroupInfo> {
   }
 
   private static RestApi groups() {
-    return new RestApi("groups");
+    return new RestApi("/groups/");
   }
 
   protected GroupMap() {

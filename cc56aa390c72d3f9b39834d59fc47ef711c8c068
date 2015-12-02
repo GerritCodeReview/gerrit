@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1b48d34e_6c553b45",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/lfs/LfsApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-12-02T16:05:38Z",
+      "side": 1,
+      "message": "Yes, only the batch protocol is supported. The git-lfs client is by default using the new protocol (I checked the source code) and is only using the old protocol as a fallback when the LFS server doesn\u0027t support the new protocol",
+      "parentUuid": "60fcbc2b_7e9d317a",
+      "range": {
+        "startLine": 29,
+        "startChar": 31,
+        "endLine": 29,
+        "endChar": 53
+      },
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b27ab98_e613fea4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2015-12-02T14:25:41Z",
       "side": 1,
       "message": "I\u0027m not so sure about reusing same interface here.\n\nWhat if we wanted to extend it in future? Waiting for a change being merged into jgit, then bumping it\u0027s version in Gerrit dependencies... sounds time consuming",
+      "range": {
+        "startLine": 300,
+        "startChar": 33,
+        "endLine": 300,
+        "endChar": 52
+      },
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b27ab98_c691a238",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-12-02T16:05:38Z",
+      "side": 1,
+      "message": "Why is this interface in JGit? Our idea was that even JGit could provide a simple minimalistic LFS server that could be used for test purposes at least. The new lfs-store commands in JGit does that already.\n\nAs long as the lfs protocol implementation is in JGit I would also keep this interface in JGit.",
+      "parentUuid": "5b27ab98_e613fea4",
       "range": {
         "startLine": 300,
         "startChar": 33,

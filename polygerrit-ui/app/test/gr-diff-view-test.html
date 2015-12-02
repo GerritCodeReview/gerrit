@@ -101,7 +101,8 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
-      element._maybeRenderDiff({content: diffContent}, [], []);
+      element._renderDiff({content: diffContent}, [], []);
+      flushAsynchronousOperations();
     });
 
     test('ab content is the same for left and right sides', function() {
@@ -174,7 +175,6 @@ limitations under the License.
         assert.equal(els[i].style.left, '100ch');
       }
     });
-
   });
 
   suite('comments', function() {
@@ -183,22 +183,22 @@ limitations under the License.
     setup(function() {
       element = fixture('comments');
       element._patchNum = 1;
-      element._maybeRenderDiff({content: diffContent}, [], [
-        {
-          id: 'file_comment',
-          message: 'this is a file comment about the meaninglessness of life',
-          author: {
-            name: 'GLaDOS'
-          }
-        },
-        {
-          id: 'all_the_lemons',
-          line: 8,
-          message: 'MAKE LIFE TAKE THE LEMONS BACK',
-          author: {
-            name: 'Cave Johnson',
+      element._renderDiff({content: diffContent}, [], [
+          {
+            id: 'file_comment',
+            message: 'this is a file comment about the meaninglessness of life',
+            author: {
+              name: 'GLaDOS'
+            }
           },
-        }
+          {
+            id: 'all_the_lemons',
+            line: 8,
+            message: 'MAKE LIFE TAKE THE LEMONS BACK',
+            author: {
+              name: 'Cave Johnson',
+            }
+          }
       ]);
     });
 
@@ -242,7 +242,7 @@ limitations under the License.
       for (var i = 0; i < 300; i++) {
         longDiffContent[0].ab.push('');
       }
-      element._maybeRenderDiff({content: longDiffContent}, [], []);
+      element._renderDiff({content: longDiffContent}, [], []);
     });
 
     function isVisibleInWindow(el) {

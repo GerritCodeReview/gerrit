@@ -81,10 +81,12 @@ limitations under the License.
       .content {
         position: relative;
       }
-      .lineNum.blank {
+      .lineNum.blank,
+      .threadFiller--redLine {
         border-right: 2px solid #F34D4D;
         margin-right: 3px;
       }
+
       .lineNum:not(.blank) {
         cursor: pointer;
       }
@@ -133,6 +135,16 @@ limitations under the License.
         url="[[_computeFilesPath(_changeNum, _patchNum)]]"
         json-prefix=")]}'"
         on-response="_handleFilesResponse"></iron-ajax>
+    <iron-ajax
+        id="leftDraftsXHR"
+        url="[[_computeDraftsPath(_changeNum, _basePatchNum)]]"
+        json-prefix=")]}'"
+        on-response="_handleLeftDraftsResponse"></iron-ajax>
+    <iron-ajax
+        id="rightDraftsXHR"
+        url="[[_computeDraftsPath(_changeNum, _patchNum)]]"
+        json-prefix=")]}'"
+        on-response="_handleRightDraftsResponse"></iron-ajax>
     <h3>
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span> — <span>[[params.path]]</span>
@@ -184,11 +196,25 @@ limitations under the License.
           type: Array,
           value: function() { return []; },
         },
-        _leftComments: Array,
+        _leftComments: {
+          type: Array,
+          value: function() { return []; },
+        },
+        _leftDrafts: {
+          type: Array,
+          value: function() { return []; },
+        },
         _patchNum: String,
         _path: String,
         _rendered: Boolean,
-        _rightComments: Array,
+        _rightComments: {
+          type: Array,
+          value: function() { return []; },
+        },
+        _rightDrafts: {
+          type: Array,
+          value: function() { return []; },
+        },
       },
 
       listeners: {
@@ -210,21 +236,48 @@ limitations under the License.
           this._patchNum = null;
           this._diff = null;
           this._path = null;
-          this._leftComments = null;
-          this._rightComments = null;
+          this._leftComments = [];
+          this._rightComments = [];
+          this._leftDrafts = [];
+          this._rightDrafts = [];
           this._rendered = false;
           return;
         }
         // Assign the params here since a computed binding relying on
         // `_basePatchNum` won't fire in the case where it's not defined.
         this.$.diffXHR.params = this._diffQueryParams(this._basePatchNum);
-        this.$.diffXHR.generateRequest();
+
+        var requestPromises = [];
+        requestPromises.push(this.$.diffXHR.generateRequest().completes);
 
         if (this._basePatchNum) {
-          this.$.leftCommentsXHR.generateRequest();
+          requestPromises.push(
+              this.$.leftCommentsXHR.generateRequest().completes);
         }
-        this.$.rightCommentsXHR.generateRequest();
-        this.$.filesXHR.generateRequest();
+
+        requestPromises.push(
+            this.$.rightCommentsXHR.generateRequest().completes);
+        requestPromises.push(this.$.filesXHR.generateRequest().completes);
+
+        app.accountReady.then(function() {
+          if (app.loggedIn) {
+            if (this._basePatchNum) {
+              requestPromises.push(
+                  this.$.leftDraftsXHR.generateRequest().completes);
+            }
+            requestPromises.push(
+                this.$.rightDraftsXHR.generateRequest().completes);
+          }
+
+          Promise.all(requestPromises).then(function(requests) {
+            this._renderDiff(this._diff, this._leftComments,
+                this._rightComments, this._leftDrafts, this._rightDrafts);
+          }.bind(this), function(err) {
+            alert('Oops. Something went wrong. Check the console and bug the ' +
+                'PolyGerrit team for assistance.');
+            throw err;
+          });
+        }.bind(this));
       },
 
       _rulerWidthChanged: function(newValue, oldValue) {
@@ -273,6 +326,10 @@ limitations under the License.
         return '/changes/' + changeNum + '/revisions/' + patchNum + '/files';
       },
 
+      _computeDraftsPath: function(changeNum, patchNum) {
+        return '/changes/' + changeNum + '/revisions/' + patchNum + '/drafts';
+      },
+
       _diffQueryParams: function(basePatchNum) {
         var params =  {
           context: 'ALL',
@@ -286,21 +343,56 @@ limitations under the License.
 
       _diffContainerTapHandler: function(e) {
         var el = e.detail.sourceEvent.target;
-        if (el.classList.contains('lineNum')) {
-          // TODO: Implement adding draft comments.
+        // This tap handler only handles line number taps.
+        if (!el.classList.contains('lineNum')) { return; }
+
+        var leftSide = el.parentNode == this.$.leftDiffNumbers;
+        var rightSide = el.parentNode == this.$.rightDiffNumbers;
+        if (leftSide == rightSide) {
+          throw Error('Comment tap event cannot originate from both left and ' +
+              'right side');
         }
+
+        // If a draft or comment is already present at that line, don’t do
+        // anything.
+        var lineNum = parseInt(el.getAttribute('data-line-num'), 10);
+        var commentsAndDrafts = [];
+        if (leftSide) {
+          commentsAndDrafts = this._leftComments.concat(this._leftDrafts);
+        } else if (rightSide) {
+          commentsAndDrafts = this._rightComments.concat(this._rightDrafts);
+        }
+
+        for (var i = 0; i < commentsAndDrafts.length; i++) {
+          if (commentsAndDrafts[i].line == lineNum) {
+            // A comment or draft is already present at this line.
+            return;
+          }
+        }
+
+        var drafts = [{
+          __draft: true,
+          path: this._path,
+          line: lineNum,
+        }];
+
+        this._addThread(drafts, this._patchNum, lineNum);
       },
 
       _handleLeftCommentsResponse: function(e, req) {
         this._leftComments = e.detail.response[this._path] || [];
-        this._maybeRenderDiff(this._diff, this._leftComments,
-            this._rightComments);
       },
 
       _handleRightCommentsResponse: function(e, req) {
         this._rightComments = e.detail.response[this._path] || [];
-        this._maybeRenderDiff(this._diff, this._leftComments,
-            this._rightComments);
+      },
+
+      _handleLeftDraftsResponse: function(e, req) {
+        this._leftDrafts = e.detail.response[this._path] || [];
+      },
+
+      _handleRightDraftsResponse: function(e, req) {
+        this._rightDrafts = e.detail.response[this._path] || [];
       },
 
       _handleFilesResponse: function(e, req) {
@@ -309,8 +401,6 @@ limitations under the License.
 
       _handleDiffResponse: function(e, req) {
         this._diff = e.detail.response;
-        this._maybeRenderDiff(this._diff, this._leftComments,
-            this._rightComments);
       },
 
       _handleKey: function(e) {
@@ -351,9 +441,17 @@ limitations under the License.
         return 'thread-' + patchNum + '-' + lineNum;
       },
 
-      _renderComments: function(comments, patchNum) {
-        // Group the comments by line number. Absense of a line number indicates
-        // a top-level file comment.
+      _renderCommentsAndDrafts: function(comments, drafts, patchNum) {
+        // Drafts and comments are combined here, with drafts annotated with a
+        // property.
+        var annotatedDrafts = drafts.map(function(d) {
+          d.__draft = true;
+          return d;
+        });
+        comments = comments.concat(annotatedDrafts);
+
+        // Group the comments and drafts by line number. Absence of a line
+        // number indicates a top-level file comment or draft.
         var threads = {};
 
         for (var i = 0; i < comments.length; i++) {
@@ -406,7 +504,7 @@ limitations under the License.
         var els = Polymer.dom(this.root).querySelectorAll(
             '[data-row-num="' + rowNum + '"]');
         for (var i = 0; i < els.length; i++) {
-          // Is this is the side with the comment? Skip if so.
+          // Is this is the column with the comment? Skip if so.
           if (els[i].nextSibling &&
               els[i].nextSibling.tagName == 'GR-DIFF-COMMENT-THREAD') {
             continue;
@@ -414,6 +512,9 @@ limitations under the License.
           var fillerEl = document.createElement('div');
           fillerEl.setAttribute('data-thread-id', threadID);
           fillerEl.classList.add('js-threadFiller');
+          if (els[i].classList.contains('lineNum')) {
+            fillerEl.classList.add('threadFiller--redLine');
+          }
           fillerEl.style.height = e.detail.height + 'px';
           Polymer.dom(els[i].parentNode).insertBefore(
               fillerEl, els[i].nextSibling);
@@ -426,16 +527,14 @@ limitations under the License.
         }
       },
 
-      _maybeRenderDiff: function(diff, leftComments, rightComments) {
+      _renderDiff: function(
+          diff, leftComments, rightComments, leftDrafts, rightDrafts) {
         if (this._rendered) {
           this._clearChildren(this.$.leftDiffNumbers);
           this._clearChildren(this.$.leftDiffContent);
           this._clearChildren(this.$.rightDiffNumbers);
           this._clearChildren(this.$.rightDiffContent);
         }
-        if (!diff || !diff.content) { return; }
-        if (this._basePatchNum && leftComments == null) { return; }
-        if (rightComments == null) { return; }
 
         this.$.diffContainer.classList.toggle('rightOnly',
             diff.change_type == Changes.DiffType.ADDED);
@@ -461,10 +560,12 @@ limitations under the License.
         }
 
         if (leftComments) {
-          this._renderComments(leftComments, this._basePatchNum);
+          this._renderCommentsAndDrafts(leftComments, leftDrafts,
+              this._basePatchNum);
         }
         if (rightComments) {
-          this._renderComments(rightComments, this._patchNum);
+          this._renderCommentsAndDrafts(rightComments, rightDrafts,
+              this._patchNum);
         }
 
         if (this.rulerWidth) {

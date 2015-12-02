@@ -47,7 +47,14 @@ limitations under the License.
       properties: {
         comments: {
           type: Array,
+          value: function() { return []; },
           observer: '_commentsChanged',
+        },
+        drafts: {
+          type: Array,
+          value: function() { return []; },
+          observer: '_draftsChanged',
+          notify: true,
         },
         _orderedComments: Array,
       },
@@ -55,14 +62,19 @@ limitations under the License.
       ready: function() {
         this.addEventListener('gr-diff-comment-height-changed',
             this._handleCommentHeightChange.bind(this));
+        this.addEventListener('gr-diff-comment-reply',
+            this._handleCommentReply.bind(this));
       },
 
       _commentsChanged: function(comments) {
         this._orderedComments = this._sortedComments(comments);
       },
 
+      _draftsChanged: function(drafts) {
+        console.log('drafts changed...');
+      },
+
       _sortedComments: function(comments) {
-        var comments = comments || [];
         comments.sort(function(c1, c2) {
           return util.parseDate(c1.updated) - util.parseDate(c2.updated);
         });
@@ -103,6 +115,10 @@ limitations under the License.
         // initial DOM stamp.
         this.fire('gr-diff-comment-thread-height-changed',
             {height: this.offsetHeight});
+      },
+
+      _handleCommentReply: function(e) {
+        console.log('should add reply...')
       },
 
     });

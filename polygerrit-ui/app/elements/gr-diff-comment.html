@@ -15,6 +15,8 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="gr-date-formatter.html">
 
 <dom-module id="gr-diff-comment">
@@ -24,6 +26,9 @@ limitations under the License.
         border: 1px solid #ddd;
         display: block;
       }
+      .draft {
+
+      }
       .header,
       .message,
       .actions {
@@ -31,32 +36,90 @@ limitations under the License.
       }
       .header {
         background-color: #eee;
+        display: flex;
         font-family: 'Open Sans', sans-serif;
       }
-      gr-date-formatter {
-        float: right;
+      .authorName {
+        flex: 1;
+        font-weight: bold;
+      }
+      .date {
+        justify-content: flex-end;
         margin-left: 5px;
       }
-      .authorName {
-        font-weight: bold;
+      a.date:link,
+      a.date:visited {
+        color: #666;
+        text-decoration: none;
+      }
+      a.date:hover {
+        text-decoration: underline;
       }
       .message {
         white-space: pre-wrap;
       }
       .actions {
-        /** TODO: remove once the actions actually do something. **/
-        display: none;
+        display: flex;
         padding-top: 0;
       }
+      .action {
+        margin-right: 1em;
+      }
+      .danger {
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+      }
+      .editMessage {
+        display: none;
+        margin: .5em .7em;
+        width: calc(100% - 1.4em - 2px);
+      }
+      .danger .action {
+        margin-right: 0;
+      }
+      .draft .reply,
+      .draft .done {
+        display: none;
+      }
+      .draft:not(.editing) .save,
+      .draft:not(.editing) .cancel {
+        display: none;
+      }
+      .editing .message,
+      .editing .reply,
+      .editing .done,
+      .editing .edit {
+        display: none;
+      }
+      .editing .editMessage {
+        display: block;
+      }
     </style>
-    <div class="header" id="header">
-      <span class="authorName">[[comment.author.name]]</span>
-      <gr-date-formatter date-str="[[comment.updated]]"></gr-date-formatter>
-    </div>
-    <div class="message">[[comment.message]]</div>
-    <div class="actions">
-      <a class="reply" href="#" on-tap="_handleReply">Reply</a>
-      <a class="done" href="#" on-tap="_handleDone">Done</a>
+    <div id="container">
+      <div class="header" id="header">
+        <span class="authorName">[[comment.author.name]]</span>
+        <a class="date" href$="[[_computeLinkToComment(comment)]]">
+          <gr-date-formatter date-str="[[comment.updated]]"></gr-date-formatter>
+        </a>
+      </div>
+      <iron-autogrow-textarea
+          id="editTextarea"
+          class="editMessage"
+          disabled="{{disabled}}"
+          rows="2"
+          bind-value="{{_editingDraft}}"></iron-autogrow-textarea>
+      <div class="message">[[comment.message]]</div>
+      <div class="actions">
+        <a class="action reply" href="#" on-tap="_handleReply">Reply</a>
+        <a class="action done" href="#" on-tap="_handleDone">Done</a>
+        <a class="action edit" href="#" on-tap="_handleEdit">Edit</a>
+        <a class="action save" href="#" on-tap="_handleSave">Save</a>
+        <a class="action cancel" href="#" on-tap="_handleCancel">Cancel</a>
+        <div class="danger">
+          <a class="action discard" href="#" on-tap="_handleDiscard">Discard</a>
+        </div>
+      </div>
     </div>
   </template>
   <script>
@@ -84,17 +147,47 @@ limitations under the License.
        * @event gr-diff-comment-done
        */
 
+      /**
+       * Fired when this comment is discarded.
+       *
+       * @event gr-diff-comment-discard
+       */
+
       properties: {
         comment: Object,
         draft: {
           type: Boolean,
+          value: true,
+          observer: '_draftChanged',
+        },
+        editing: {
+          type: Boolean,
           value: false,
+          observer: '_editingChanged',
+        },
+        _editingDraft: String,
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
         },
       },
 
       attached: function() {
         this.fire('gr-diff-comment-height-changed',
             {height: this.offsetHeight});
+      },
+
+      _draftChanged: function(draft) {
+        this.$.container.classList.toggle('draft', draft);
+      },
+
+      _editingChanged: function(editing) {
+        this.$.container.classList.toggle('editing', editing);
+      },
+
+      _computeLinkToComment: function(comment) {
+        return '#' + comment.line;
       },
 
       _handleReply: function(e) {
@@ -105,6 +198,31 @@ limitations under the License.
       _handleDone: function(e) {
         e.preventDefault();
         this.fire('gr-diff-comment-done');
+      },
+
+      _handleEdit: function(e) {
+        e.preventDefault();
+        this._editingDraft = this.comment.message;
+        this.editing = true;
+      },
+
+      _handleSave: function(e) {
+        e.preventDefault();
+        console.log(this._editingDraft)
+        this.editing = false;
+        // send xhr...
+      },
+
+      _handleCancel: function(e) {
+        e.preventDefault();
+        this.editing = false;
+      },
+
+      _handleDiscard: function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure?')) {
+          // send xhr and remove.
+        }
       },
 
     });

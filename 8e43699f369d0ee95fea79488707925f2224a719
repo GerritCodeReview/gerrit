@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1b48d34e_8c87c7fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-12-02T16:54:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb6267ec_4cf9afe9",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "8e43699f369d0ee95fea79488707925f2224a719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_cc80ff1f",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ServerInfo.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2015-11-13T22:06:01Z",
       "side": 1,
       "message": "Why do we need the refactoring in this file in this commit?\nWould it make sense to amend this to the previous change where we introduce submitWholeTopicMode?",
+      "revId": "8e43699f369d0ee95fea79488707925f2224a719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b27ab98_06657a22",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-12-02T16:54:16Z",
+      "side": 1,
+      "message": "SubmitWholeTopic.Mode enum was introduced in this commit. It purpose it to share same data structure between client and server.",
+      "parentUuid": "bb6267ec_cc80ff1f",
       "revId": "8e43699f369d0ee95fea79488707925f2224a719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "5b27ab98_86708aea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-12-02T16:54:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b203791_dbfe8b1f",
+      "range": {
+        "startLine": 61,
+        "startChar": 43,
+        "endLine": 61,
+        "endChar": 49
+      },
+      "revId": "8e43699f369d0ee95fea79488707925f2224a719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb6267ec_ac8dcb55",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeConstants.properties",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2015-11-13T22:06:01Z",
       "side": 1,
       "message": "no needs for the comments?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 61
+      },
+      "revId": "8e43699f369d0ee95fea79488707925f2224a719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b27ab98_66838ee9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-12-02T16:54:16Z",
+      "side": 1,
+      "message": "that was just a left over",
+      "parentUuid": "bb6267ec_ac8dcb55",
       "range": {
         "startLine": 40,
         "startChar": 0,

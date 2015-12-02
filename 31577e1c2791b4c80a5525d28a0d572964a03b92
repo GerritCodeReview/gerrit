@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "60fcbc2b_fed70115",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/ResourceServletTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-02T17:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b48d34e_ac8c831d",
+      "range": {
+        "startLine": 112,
+        "startChar": 42,
+        "endLine": 112,
+        "endChar": 45
+      },
+      "revId": "31577e1c2791b4c80a5525d28a0d572964a03b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b27ab98_c66a82f4",
         "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/ResourceServletTest.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2015-12-02T16:50:17Z",
       "side": 1,
       "message": "Why 2?",
+      "range": {
+        "startLine": 135,
+        "startChar": 30,
+        "endLine": 135,
+        "endChar": 31
+      },
+      "revId": "31577e1c2791b4c80a5525d28a0d572964a03b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b30efcd_27d8ba46",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/ResourceServletTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-02T17:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b27ab98_c66a82f4",
       "range": {
         "startLine": 135,
         "startChar": 30,

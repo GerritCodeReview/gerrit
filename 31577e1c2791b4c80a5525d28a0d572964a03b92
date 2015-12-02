@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1449068944 -0500\npushee rpc://gerrit/gerrit\nnonce AFd3BxtvVYifrpbfzqa1w0d8RKoF7TvNqhJ4P039FpIFF/XXjpqsWldZ5R1WHtmJ4pr+ak/l3/7l\n\n0000000000000000000000000000000000000000 31577e1c2791b4c80a5525d28a0d572964a03b92 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWXwmQAAoJEF/XxZqaEoiMzf8QAN8pkBwD84G6coKfMeQ6vOaw\n7CBHccNYorruiFMs77AOhVd+hqax8muqxsizMzE4zr0vtAUR++RwEShJkXCifWju\n528lOS5RHJSjWK9EgsrE5HyhE3xVNSFv6F+SPB6q+fJjrmc4GJxKhJyaErnMBIS2\ndBbjNjtzwH4kbg4wlNp26Fczxj7Q9i3xv0c3S8q6HJjKC123h8ssntxhyV93HVBw\n3KzYzyeZvgu4W5TlJlAWjTxMINdEBI5LUj08rDCDHdVH2TowZ7Dbmf70S9dpsD5v\n8vle1pPaxI1UREJ38bxbm0DBVj9F6dsjDqH7Fx/U/tPIRpV9sHUjQDLKrcWTm6sh\nrmNCL/dEJbmmeNo9/P3V+QpGyhBR3OYetn89pg4I3pPnhZ37hCjEZWXsIy0DpqX8\nnlLoWUWIEh/B3R18a6Xjr+dhvRnmufClEmuWIf7hSHyytAvuH50RmBWegElkZ1w5\nHbfOKnc3pKzixNSNwqWE7r0fzod9AAedKYxe3eA6IdqiAhhA5OeVgGkKuUZ1c6IF\nBzjcz0Tok3RPOiUV/9wyiSxzUG80i9UDlKccTJRLl5sLxtJhn0CrU2VLbecjklPc\n19yZI9/JTpjp01nOKejmlenotoxz4ePMWen0rQWPUESU6if+66MIOXyIUgHWoivW\nxoKBrA8incIIXf0Lvn/C\n\u003dnGdE\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b48d34e_ac8c831d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/ResourceServletTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-02T16:50:17Z",
+      "side": 1,
+      "message": "HttpStatus.SC_NOT_FOUND",
+      "range": {
+        "startLine": 112,
+        "startChar": 42,
+        "endLine": 112,
+        "endChar": 45
+      },
+      "revId": "31577e1c2791b4c80a5525d28a0d572964a03b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b27ab98_c66a82f4",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/ResourceServletTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-02T16:50:17Z",
+      "side": 1,
+      "message": "Why 2?",
+      "range": {
+        "startLine": 135,
+        "startChar": 30,
+        "endLine": 135,
+        "endChar": 31
+      },
+      "revId": "31577e1c2791b4c80a5525d28a0d572964a03b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

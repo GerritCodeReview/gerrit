@@ -58,12 +58,14 @@ public final class Plugin extends JavaScriptObject {
    *        registered.
    * @param entry callback function invoked to create the panel widgets.
    */
-  public final void infoRow(String name, String header, Panel.EntryPoint entry) {
-    infoRow(name, header, wrap(entry));
+  public final void infoRow(String name, String header, String after,
+      Panel.EntryPoint entry) {
+    infoRow(name, header, after, wrap(entry));
   }
 
-  private final native void infoRow(String i, String h, JavaScriptObject e)
-  /*-{ this.infoRow(i, h, e) }-*/;
+  private final native void infoRow(String i, String h, String a,
+      JavaScriptObject e)
+  /*-{ this.infoRow(i, h, a, e) }-*/;
 
   protected Plugin() {
   }

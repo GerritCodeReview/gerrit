@@ -54,7 +54,7 @@ final class Plugin extends JavaScriptObject {
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
       on: function(e,f){G.on(e,f)},
       screen: function(p,c){G._screen(this.name,p,c)},
-      infoRow: function(i,h,c){G._infoRow(this.name,i,h,c)},
+      infoRow: function(i,h,a,c){G._infoRow(this.name,i,h,a,c)},
 
       url: function (u){return G.url(this._url(u))},
 

@@ -63,9 +63,9 @@ public class ApiGlue {
         return serverUrl;
       },
 
-      infoRow: function(i,h,c){this._infoRow(this.getPluginName(),i,h,c)},
-      _infoRow: function(n,i,h,c){
-        var r = new InfoRowDefinition(n,h,c);
+      infoRow: function(i,h,c){this._infoRow(this.getPluginName(),i,h,a,c)},
+      _infoRow: function(n,i,h,a,c){
+        var r = new InfoRowDefinition(n,h,a,c);
         (this.infoRows[i] || (this.infoRows[i]=[])).push(r);
       },
 

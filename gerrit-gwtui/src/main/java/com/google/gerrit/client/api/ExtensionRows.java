@@ -24,36 +24,38 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class ExtensionRows {
   private static final Logger logger =
       Logger.getLogger(ExtensionRows.class.getName());
+
   private final GerritUiExtensionPoint extensionPoint;
-  private final List<Context> contexts;
   private Grid table;
-  private Map<Definition, SimplePanel> panelsByDefinition;
+  private Map<Definition, Row> rowsByDefinition;
+  private List<Row> orderedRows;
 
   public ExtensionRows(GerritUiExtensionPoint extensionPoint, Grid table) {
     this.extensionPoint = extensionPoint;
-    this.contexts = create();
     this.table = table;
+    init();
   }
 
-  private List<Context> create() {
-    List<Context> contexts = new ArrayList<Context>();
-    panelsByDefinition = new HashMap<Definition, SimplePanel>();
+  private void init() {
+    rowsByDefinition = new HashMap<Definition, Row>();
     for (Definition def : Natives.asList(Definition.get(extensionPoint.name()))) {
       SimplePanel p = new SimplePanel();
-      panelsByDefinition.put(def, p);
-      contexts.add(Context.create(def, p));
+      Context c = Context.create(def, p);
+      rowsByDefinition.put(def, new Row(def, p, c, -1));
     }
-    return contexts;
   }
 
   /** This class assumes an extensionRow consists of a plugin
@@ -67,7 +69,8 @@ public abstract class ExtensionRows {
   protected abstract void setWidget(int row, Widget widget);
 
   public void putInt(GerritUiExtensionPoint.Key key, int value) {
-    for (Context ctx : contexts) {
+    for (Row r : rowsByDefinition.values()) {
+      Context ctx = r.getContext();
       ctx.putInt(key.name(), value);
     }
   }
@@ -84,24 +87,31 @@ public abstract class ExtensionRows {
   // * REMOVE: remove from highest to lowest index
 
   public void insertRows() {
-    for (Entry<Definition, SimplePanel> e : panelsByDefinition.entrySet()) {
-      int row = table.getRowCount();
+    removeRows();
+    orderRows();
+    for (Row r : orderedRows) {
+      int row = r.getRow();
       table.insertRow(row);
-      setHeader(row, e.getKey().getHeader());
-      setWidget(row, e.getValue());
+      setHeader(row, r.getHeader());
+      setWidget(row, r.getWidget());
     }
     onLoad();
   }
 
   public void removeRows() {
-    for (Entry<Definition, SimplePanel> e : panelsByDefinition.entrySet()) {
-      table.removeRow(table.getRowCount() - 1);
+    if (orderedRows != null) {
+      Collections.reverse(orderedRows);
+      for (Row r : orderedRows) {
+        table.removeRow(r.getRow());
+      }
+      onUnload();
+      orderedRows = null;
     }
-    onUnload();
   }
 
   private void onLoad() {
-    for (Context ctx : contexts) {
+    for (Row r : rowsByDefinition.values()) {
+      Context ctx = r.getContext();
       try {
         ctx.onLoad();
       } catch (RuntimeException e) {
@@ -114,19 +124,86 @@ public abstract class ExtensionRows {
   }
 
   private void onUnload() {
-    for (Context ctx : contexts) {
-      for (JavaScriptObject u : Natives.asList(ctx.unload())) {
+    for (Row r : rowsByDefinition.values()) {
+      for (JavaScriptObject u : Natives.asList(r.getContext().unload())) {
         ApiGlue.invoke(u);
       }
     }
   }
 
+  /** Order the rows and calculate their intended final row index */
+  private void orderRows() {
+    orderedRows = new ArrayList<Row>();
+
+    Map<String, Row> rowsByAfters = getRowsByAfters();
+    for (int row = 0; row < table.getRowCount(); row++) {
+      String header = table.getText(row, 0);
+      Row r = rowsByAfters.remove(header);
+      while (r != null) {
+        r.setRow(row + 1 + orderedRows.size());
+        orderedRows.add(r);
+
+        // Does anything point to the newly added extension?
+        r = rowsByAfters.remove(r.getHeader());
+      }
+    }
+  }
+
+  /**
+    * Order all the rows (core and extension) in an "after" map that can
+    * be traversed in order.
+    */
+  private Map<String, Row> getRowsByAfters() {
+    Map<String, Row> rowsByAfters = new HashMap<String, Row>();
+    Set<String> headers = getHeaderSet();
+    for (Row r : rowsByDefinition.values()) {
+      String header = r.getHeader();
+      headers.add(header);
+
+      Row previous = rowsByAfters.put(r.getAfter(), r);
+      if (previous != null) {
+        // Repoint the duplicate to the latest so both get added
+        rowsByAfters.put(header, previous);
+      }
+    }
+
+    String lastHeader = table.getText(table.getRowCount() -1, 0);
+    repointMissing(rowsByAfters, headers, lastHeader);
+
+    return rowsByAfters;
+  }
+
+  /** For any row pointing to a missing row, repoint in to "header" */
+  private void repointMissing(Map<String, Row> rowsByAfters,
+      Set<String> headers, String header) {
+    for (String after : new HashSet<String>(rowsByAfters.keySet())) {
+      if (!headers.contains(after)) {
+        Row r = rowsByAfters.remove(after);
+        Row previous = rowsByAfters.put(header, r);
+        if (previous != null) {
+          // Repoint the duplicate to the latest so both get added
+          rowsByAfters.put(r.getHeader(), previous);
+        }
+      }
+    }
+  }
+
+  /** Gets the Set of core headers */
+  private Set<String> getHeaderSet() {
+    Set<String> headers = new HashSet<String>();
+    for (int row = 0; row < table.getRowCount(); row++) {
+      headers.add(getHeader(row));
+    }
+    return headers;
+  }
+
   public static class Definition extends JavaScriptObject {
     static final JavaScriptObject TYPE = init();
     private static native JavaScriptObject init() /*-{
-      function InfoRowDefinition(n, h, c) {
+      function InfoRowDefinition(n, h, a, c) {
         this.pluginName = n;
         this.header = h;
+        this.after = a;
         this.onLoad = c;
       };
       return InfoRowDefinition;
@@ -140,6 +217,7 @@ public abstract class ExtensionRows {
 
     public final native String getPluginName() /*-{ return this.pluginName; }-*/;
     public final native String getHeader() /*-{ return this.header; }-*/;
+    public final native String getAfter() /*-{ return this.after; }-*/;
   }
 
   static class Context extends JavaScriptObject {
@@ -176,6 +254,44 @@ public abstract class ExtensionRows {
     }-*/;
 
     protected Context() {
+    }
+  }
+
+  static class Row {
+    private Definition definition;
+    private SimplePanel panel;
+    private Context context;
+    private int row;
+
+    public Row(Definition def, SimplePanel p, Context c, int row) {
+      this.definition = def;
+      this.panel = p;
+      this.context = c;
+      this.row = row;
+    }
+
+    public Context getContext() {
+      return context;
+    }
+
+    public String getHeader() {
+      return definition.getHeader();
+    }
+
+    public String getAfter() {
+      return definition.getAfter();
+    }
+
+    public Widget getWidget() {
+      return panel;
+    }
+
+    public int getRow() {
+      return row;
+    }
+
+    public void setRow(int r) {
+      row = r;
     }
   }
 }

@@ -375,6 +375,12 @@ a factory which can place a widget in the
 passed in.  On loading, the widgets can access the change number
 via the `Panel`'s getInt() method.
 
+Plugins must specify a `header` representing the header of the
+row which they would like the extension row to follow in the
+InfoBlock.  If the specified header does not exist, the row will
+be placed at the bottom.  Plugins may specify headers for rows
+supplied by other plugins.
+
 A simple row regsitration example:
 
 ====
@@ -388,8 +394,8 @@ public class Plugin extends PluginEntryPoint {
 
   @Override
   public void onPluginLoad() {
-    Plugin.get().infoRow("CHANGE_SCREEN_CHANGE_INFO_BLOCK", "header",
-        new Factory());
+    Plugin.get().infoRow("CHANGE_SCREEN_CHANGE_INFO_BLOCK",
+       "myHeader", "Branch", new Factory());
   }
 }
 ====

@@ -469,7 +469,37 @@ limitations under the License.
           this._renderRulerElements();
         }
 
+        if (window.location.hash.length > 0) {
+          // Allow for the initial rendering to complete before scrolling to the
+          // appropriate line.
+          this.async(function() {
+            this._jumpToLine(parseInt(window.location.hash.substring(1), 10));
+          }.bind(this), 1);
+        }
+
         this._rendered = true;
+      },
+
+      _jumpToLine: function(lineNum) {
+        if (isNaN(lineNum) || lineNum < 1) { return; }
+
+        var el = this.$$(
+            '.diffNumbers.right .lineNum[data-line-num="' + lineNum + '"]');
+        if (!el) { return; }
+
+        // Calculate where the line is relative to the window.
+        var top = el.offsetTop;
+        for (var offsetParent = el.offsetParent;
+             offsetParent;
+             offsetParent = offsetParent.offsetParent) {
+          top += offsetParent.offsetTop;
+        }
+
+        // Scroll the element to the middle of the window. Dividing by a third
+        // instead of half the inner height feels a bit better otherwise the
+        // element appears to be below the center of the window even when it
+        // isn't.
+        window.scrollTo(0, top - (window.innerHeight / 3) - el.offsetHeight);
       },
 
       _addDiffChunk: function(ctx, diffChunk) {

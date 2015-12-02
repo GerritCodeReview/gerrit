@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60fcbc2b_7e9d317a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/lfs/LfsApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2015-12-02T13:54:43Z",
+      "side": 1,
+      "message": "Is only the batch protocol supported by JGit\u0027s LFS implementation currently?  I know that\u0027s the main protocol moving forward, but should we support the old API?",
+      "range": {
+        "startLine": 29,
+        "startChar": 31,
+        "endLine": 29,
+        "endChar": 53
+      },
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

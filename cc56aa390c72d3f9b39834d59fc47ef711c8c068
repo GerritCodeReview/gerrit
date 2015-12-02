@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1b48d34e_ac03a325",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-02T22:13:52Z",
+      "side": 1,
+      "message": "Is it worth to mention here, that the JGit LFS support is now exposed in the plugin API and plugins can depend on it?",
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60fcbc2b_7e9d317a",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/lfs/LfsApiServlet.java",
         "patchSetId": 2
@@ -136,6 +153,46 @@
         "startChar": 33,
         "endLine": 300,
         "endChar": 52
+      },
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b48d34e_ccf8ef70",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-02T22:13:52Z",
+      "side": 1,
+      "message": "To be consistent, the SHA1 shouldn\u0027t be provided here and in the next rule, as they wouldn\u0027t be stable anyway.",
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b27ab98_e6b21ebe",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-02T22:13:52Z",
+      "side": 1,
+      "message": "Not needed. It already contained in transitive dependency chain, through dependency on :jgit-lfs.\n\nNit, we either use one line dep list: [\u0027foo\u0027], or multi line:\n\n  deps \u003d [\n    \u0027foo\u0027,\n    \u0027bar\u0027,\n  ]\n\nBut we don\u0027t mix them.",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 18
       },
       "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

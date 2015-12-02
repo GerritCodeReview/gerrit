@@ -17,10 +17,14 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -45,9 +49,11 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
+import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -168,8 +174,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final SubmitStrategyFactory submitStrategyFactory;
     final ConflictsCache conflictsCache;
     final TrackingFooters trackingFooters;
-    final boolean allowsDrafts;
     final ChangeIndex index;
+    final IndexConfig indexConfig;
+    final Provider<ListMembers> listMembers;
+    final boolean allowsDrafts;
 
     private final Provider<CurrentUser> self;
 
@@ -198,6 +206,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         SubmitStrategyFactory submitStrategyFactory,
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
+        IndexConfig indexConfig,
+        Provider<ListMembers> listMembers,
         @GerritServerConfig Config cfg) {
       this(db, queryProvider, rewriter, opFactories, userFactory, self,
           capabilityControlFactory, changeControlGenericFactory,
@@ -205,8 +215,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitStrategyFactory,
           conflictsCache, trackingFooters,
-          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
-          indexes != null ? indexes.getSearchIndex() : null);
+          indexes != null ? indexes.getSearchIndex() : null,
+          indexConfig, listMembers,
+          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
 
     private Arguments(
@@ -232,8 +243,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         SubmitStrategyFactory submitStrategyFactory,
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
-        boolean allowsDrafts,
-        ChangeIndex index) {
+        ChangeIndex index,
+        IndexConfig indexConfig,
+        Provider<ListMembers> listMembers,
+        boolean allowsDrafts) {
      this.db = db;
      this.queryProvider = queryProvider;
      this.rewriter = rewriter;
@@ -256,8 +269,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.submitStrategyFactory = submitStrategyFactory;
      this.conflictsCache = conflictsCache;
      this.trackingFooters = trackingFooters;
-     this.allowsDrafts = allowsDrafts;
      this.index = index;
+     this.indexConfig = indexConfig;
+     this.listMembers = listMembers;
+     this.allowsDrafts = allowsDrafts;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -267,7 +282,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitStrategyFactory,
-          conflictsCache, trackingFooters, allowsDrafts, index);
+          conflictsCache, trackingFooters, index, indexConfig, listMembers,
+          allowsDrafts);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -593,6 +609,26 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
             throw error("Neither user nor group " + value + " found");
           }
         }
+      }
+    }
+
+    // expand a group predicate into multiple user predicates
+    if (group != null) {
+      Set<Account.Id> allMembers =
+          new HashSet<>(Lists.transform(
+              args.listMembers.get().setRecursive(true).apply(group),
+              new Function<AccountInfo, Account.Id>() {
+                @Override
+                public Account.Id apply(AccountInfo accountInfo) {
+                  return new Account.Id(accountInfo._accountId);
+                }
+              }));
+      int maxTerms = args.indexConfig.maxLimit();
+      if (allMembers.size() > maxTerms) {
+        // limit the number of query terms otherwise Gerrit will barf
+        accounts = ImmutableSet.copyOf(Iterables.limit(allMembers, maxTerms));
+      } else {
+        accounts = allMembers;
       }
     }
 

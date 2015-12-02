@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -51,11 +52,13 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.group.AddMembers;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -119,6 +122,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected QueryProcessor queryProcessor;
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected ThreadLocalRequestContext requestContext;
+  @Inject protected GroupCache groupCache;
+  @Inject protected AddMembers addMembers;
 
   protected LifecycleManager lifecycle;
   protected ReviewDb db;
@@ -574,6 +579,49 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,user=user", change);
     assertQuery("label:Code-Review=+1,Administrators", change);
     assertQuery("label:Code-Review=+1,group=Administrators", change);
+  }
+
+  private String createGroup(String name, String owner) throws Exception {
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.ownerId = owner;
+    gApi.groups().create(in);
+    return name;
+  }
+
+  private Account.Id createAccount(String name) throws Exception {
+    return accountManager.authenticate(
+        AuthRequest.forUser(name)).getAccountId();
+  }
+
+  @Test
+  public void byLabelGroup() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    createAccount("user2");
+    TestRepository<Repo> repo = createProject("repo");
+
+    // create group and add users
+    String g1 = createGroup("group1", "Administrators");
+    String g2 = createGroup("group2", "Administrators");
+    gApi.groups().id(g1).addMembers("user1");
+    gApi.groups().id(g2).addMembers("user2");
+
+    // create a change
+    ChangeInserter ins = newChange(repo, null, null, user1.get(), null);
+    Change change1 = insert(ins);
+
+    // post a review with user1
+    requestContext.setContext(newRequestContext(user1));
+    gApi.changes().id(change1.getId().get()).current()
+      .review(new ReviewInput().label("Code-Review", 1));
+
+    // verify that query with user1 will return results.
+    requestContext.setContext(newRequestContext(userId));
+    assertQuery("label:Code-Review=+1,group1", change1);
+    assertQuery("label:Code-Review=+1,group=group1", change1);
+    assertQuery("label:Code-Review=+1,user=user1", change1);
+    assertQuery("label:Code-Review=+1,user=user2");
+    assertQuery("label:Code-Review=+1,group=group2");
   }
 
   @Test

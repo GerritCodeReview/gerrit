@@ -56,8 +56,9 @@ public class ListMembers implements RestReadView<GroupResource> {
     this.accountLoader = accountLoaderFactory.create(true);
   }
 
-  public void setRecursive(boolean recursive) {
+  public ListMembers setRecursive(boolean recursive) {
     this.recursive = recursive;
+    return this;
   }
 
   @Override

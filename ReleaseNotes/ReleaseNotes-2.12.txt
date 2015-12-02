@@ -15,9 +15,10 @@ Important Notes
   java -jar gerrit.war init -d site_path
 ----
 
-*WARNING:* Upgrading to 2.12.x requires the server be first upgraded to 2.8 (or
-2.9) and then to 2.12.x. If you are upgrading from 2.8.x or later, you may ignore
-this warning and upgrade directly to 2.12.x.
+*WARNING:* To use online reindexing when upgrading to 2.12.x the server must
+first be upgraded to 2.8 (or 2.9) and then through 2.10 and 2.11 to 2.12.x. If
+reindexing will be done offline, you may ignore this warning and upgrade directly
+to 2.12.x.
 
 *WARNING:* When upgrading from version 2.8.4 or older with a site that uses
 Bouncy Castle Crypto, new versions of the libraries will be downloaded. The old
@@ -69,7 +70,27 @@ enter the "Submitted, Merge Pending" state.
 GPG Keys and Signed Pushes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* TODO: Details
+* Signed push can be enabled by setting
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#receive.enableSignedPush[
+`receive.enableSignedPush`] to true.
++
+When a client pushes with `git push --signed`, Gerrit ensures that the push
+certificate is valid and signed with a valid public key stored in the
+`refs/gpg-keys` branch of the `All-Users` repository.
+
+* When signed push is enabled, and
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#gerrit.editGpgKeys[
+`gerrit.editGpgKeys`] is set to true, users may upload their public GPG
+key via the REST API or UI.
++
+If this setting is not enabled, GPG keys may only be added by administrators
+with direct access to the `All-Users` repository.
+
+* Administrators may also configure
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#receive.certNonceSeed[
+`receive.certNonceSeed`]
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#receive.certNonceSlop[
+`receive.certNonceSlop`].
 
 
 Secondary Index
@@ -122,7 +143,18 @@ General
 Previously it was only possible to edit these preferences from the actual
 diff and edit screens.
 
-* Add "Edits" to My dashboard menu.
+* Add 'Edits' to the 'My' dashboard menu to list changes on which the user
+has an unpublished edit revision.
+
+* Support for URL aliases.
++
+Administrators may define
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#urlAlias[
+URL aliases] to map plugin screens into the Gerrit URL namespace.
++
+Plugins may use user-specific URL aliases to replace certain screens for certain
+users.
+
 
 Project Screen
 ^^^^^^^^^^^^^^
@@ -149,6 +181,21 @@ Edit preferences are stored and loaded to/from the `All-Users` repository.
 Change Screen
 ^^^^^^^^^^^^^
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=3318[Issue 3318]:
+Highlight 'Reply' button if there are draft comments on any patch set.
++
+If any patch set of the change has a draft comment by the current user,
+the 'Reply' button is highlighted.
++
+The icons depicting draft comments are removed from the revisions drop-down
+list.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1100[Issue 1100]:
+Publish all draft comments when replying to a change.
++
+All draft comments, including those on older patch sets, are published when
+replying to a change.
+
 * Show file size increase/decrease for binary files.
 
 * Show uploader if different from change owner.
@@ -168,6 +215,14 @@ Add syntax highlighting for Puppet.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3447[Issue 3447]:
 Add syntax highlighting for VHDL.
+
+
+Group Screen
+^^^^^^^^^^^^
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1479[Issue 1479]:
+The group screen now includes an 'Audit Log' panel showing member additions,
+removals, and the user who made the change.
 
 
 API
@@ -193,12 +248,76 @@ REST API
 
 New REST API endpoints and new options on existing endpoints.
 
-Tags
-^^^^
 
-* Support filtering by substring and regex in the list tags endpoint.
+Accounts
+^^^^^^^^
 
-* Support pagination with `--start` and `--end` in the list tags endpoint.
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-accounts.html#set-username[
+Set Username]: Set the username of an account.
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-accounts.html#get-detail[
+Get Account Details]: Get the details of an account.
++
+In addition to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-accounts.html#account-info[
+AccountInfo] fields returned by the existing
+ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-accounts.html#get-account[
+Get Account] endpoint, the new REST endpoint returns the registration date of
+the account and the timestamp of when contact information was filed for this
+account.
+
+
+Changes
+^^^^^^^
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-changes.html#set-review[
+Set Review]: Add an option to omit duplicate comments.
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-changes.html#get-safe-content[
+Download Content]: Downloads the content of a file from a certain revision, in a
+safe format that poses no risk for inadvertent execution of untrusted code.
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-changes.html#submitted-together[
+Get Submitted Together]: Get the list of all changes that will be submitted at
+the same time as the change.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1100[Issue 1100]:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-changes.html#set-review[
+Set Review]: Add an option to publish draft comments on all revisions.
+
+Config
+^^^^^^
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-config.html#get-info[
+Get Server Info]: Returns information about the Gerrit server configuration.
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-config.html#confirm-email[
+Confirm Email]: Confirm that the user owns an email address.
+
+
+Groups
+^^^^^^
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-groups.html#list-group[
+List Groups]: Add option to suggest groups.
++
+This allows group auto-completion to be used in a plugin's UI.
+
+*  link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-groups.html#get-audit-log[
+Get Audit Log]: Gets the audit log of a Gerrit internal group, showing member
+additions, removals, and the user who made the change.
+
+
+Projects
+^^^^^^^^
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-projects.html#run-gc[
+Run GC]: Add `aggressive` option to specify whether or not to run an aggressive
+garbage collection.
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-projects.html#list-tags[
+List Tags]: Support filtering by substring and regex, and pagination with
+`--start` and `--end`.
 
 
 SSH
@@ -212,9 +331,50 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/conf
 
 * Add support for hmac-sha2-256 and hmac-sha2-512 as MACs.
 
+Plugins
+~~~~~~~
+
+General
+^^^^^^^
+
+* Gerrit client can now pass JavaScriptObjects to extension panels.
+
+* New UI extension point for header bar in change screen.
+
+* New UI extension point to password screen.
+
+* New UI extension points to project info screen.
+
+* New UI extension point for pop down buttons on change screen.
+
+* New UI extension point for buttons in header bar on change screen.
+
+* New UI extension point at bottom of the user preferences screen.
+
+* New UI extension point for the 'Included In' drop-down panel.
++
+By implementing the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/dev-plugins.html#included-in[
+Included In interface], plugins may add entries to the 'Included In' dropdown
+menu on the change screen.
+
+* Plugins can extend Gerrit screens with GWT controls.
+
+* Plugins can add custom settings screens.
+
+* Referencing groups in `project.config`.
++
+Plugins can refer to groups so that when they are renamed, the project
+config will also be updated in this section.
+
 
 Other
 ~~~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3401[Issue 3401]:
+Add option to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#sendemail.allowRegisterNewEmail[
+disable registration of new email addresses].
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2061[Issue 2061]
 Add Support for `git-upload-archive`.
@@ -233,7 +393,8 @@ changes and automatically abandon them.
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/database-setup.html#createdb_db2[
 DB2 database].
 
-* Add support for the
+* link:http://code.google.com/p/gerrit/issues/detail?id=3441[Issue 3441]:
+Add support for the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/database-setup.html#createdb_derby[
 Apache Derby database].
 
@@ -247,14 +408,32 @@ working.
 Setting `download.checkForHiddenChangeRefs` in the `gerrit.config` to true
 allows the download commands plugin to check for hidden change refs.
 
+* Add a new 'Maintain Server' global capability.
++
+Members of a group with the 'Maintain Server' capability may view caches, tasks,
+and queues, and invoke the index REST API on changes.
+
+
 Bug Fixes
 ---------
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3499[Issue 3499]:
+Fix syntax highlighting of raw string literals in go.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3643[Issue 3643]:
+Fix syntax highlighting of ES6 string templating using backticks.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3653[Issue 3653]:
 Correct timezone in sshd log after DST change.
 +
 When encountering a DST switch, the timezone wasn't updated until
 the server was reloaded.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3306[Issue 3306]:
+Allow admins to read, push and create on `refs/users/default`.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3212[Issue 3212]:
+Fix failure to run `init` when `--site-path` option is not explicitly given.
 
 * Make email validation case insensitive.
 +
@@ -272,6 +451,16 @@ intended to be pushed to Gerrit, and don't need a `Change-Id` line.
 +
 This also prevents changes from being accidentally uploaded, at least for
 projects that have the 'Require Change-Id' configuration enabled.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3444[Issue 3444]:
+download-commands plugin: Fix clone with commit-msg hook when project name
+contains '/'.
+
+* Include full ref names in `ref-updated` events.
++
+The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/json.html#refUpdate[
+refUpdate attribute] in `ref-updated` events did not include the full name
+of the ref, i.e. `master` instead of `refs/heads/master`.
 
 
 Upgrades

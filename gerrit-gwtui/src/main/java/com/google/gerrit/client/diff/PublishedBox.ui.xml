@@ -61,6 +61,11 @@ limitations under the License.
           <ui:attribute name='title'/>
           <div><ui:msg>Reply</ui:msg></div>
         </g:Button>
+        <g:Button ui:field='quote' styleName=''
+            title='Reply to this comment with quoting it'>
+          <ui:attribute name='title'/>
+          <div><ui:msg>Quote</ui:msg></div>
+        </g:Button>
         <g:Button ui:field='done' styleName=''
             title='Reply "Done" to this comment'>
           <ui:attribute name='title'/>

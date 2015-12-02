@@ -76,7 +76,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-class ReplyBox extends Composite {
+public class ReplyBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, ReplyBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
@@ -228,7 +228,7 @@ class ReplyBox extends Composite {
   void replyTo(MessageInfo msg) {
     if (msg.message() != null) {
       String t = message.getText();
-      String m = quote(msg);
+      String m = quote(removePatchSetHeaderLine(msg.message()));
       if (t == null || t.isEmpty()) {
         t = m;
       } else if (t.endsWith("\n\n")) {
@@ -238,20 +238,25 @@ class ReplyBox extends Composite {
       } else {
         t += "\n\n" + m;
       }
-      message.setText(t + "\n\n");
+      message.setText(t);
     }
   }
 
-  private static String quote(MessageInfo msg) {
-    String m = msg.message().trim();
-    if (m.startsWith("Patch Set ")) {
-      int i = m.indexOf('\n');
+  private static String removePatchSetHeaderLine(String msg) {
+    msg = msg.trim();
+    if (msg.startsWith("Patch Set ")) {
+      int i = msg.indexOf('\n');
       if (i > 0) {
-        m = m.substring(i + 1).trim();
+        msg = msg.substring(i + 1).trim();
       }
     }
+    return msg;
+  }
+
+  public static String quote(String msg) {
+    msg = msg.trim();
     StringBuilder quotedMsg = new StringBuilder();
-    for (String line : m.split("\\n")) {
+    for (String line : msg.split("\\n")) {
       line = line.trim();
       while (line.length() > 67) {
         int i = line.lastIndexOf(' ', 67);
@@ -267,7 +272,8 @@ class ReplyBox extends Composite {
       }
       quotedMsg.append(" > ").append(line).append("\n");
     }
-    return quotedMsg.toString().substring(0, quotedMsg.length() - 1); // remove last '\n'
+    quotedMsg.append("\n");
+    return quotedMsg.toString();
   }
 
   private void hide() {

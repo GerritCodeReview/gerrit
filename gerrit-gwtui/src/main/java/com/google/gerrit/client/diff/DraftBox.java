@@ -192,7 +192,7 @@ class DraftBox extends CommentBox {
     setRangeHighlight(edit);
     if (edit) {
       String msg = comment.message() != null
-          ? comment.message().trim()
+          ? comment.message()
           : "";
       editArea.setValue(msg);
       cancel.setVisible(!isNew());

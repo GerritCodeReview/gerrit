@@ -101,7 +101,7 @@ public class AvatarImage extends Image implements LoadHandler {
         && u.equals(Gerrit.getUserAccount().email())) {
       u = "self";
     }
-    RestApi api = new RestApi("accounts").id(u).view("avatar");
+    RestApi api = new RestApi("/accounts/").id(u).view("avatar");
     if (size > 0) {
       api.addParameter("s", size);
       setSize("", size + "px");

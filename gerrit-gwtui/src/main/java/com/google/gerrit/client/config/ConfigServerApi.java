@@ -30,25 +30,25 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class ConfigServerApi {
   /** map of the server wide capabilities (core & plugins). */
   public static void capabilities(AsyncCallback<NativeMap<CapabilityInfo>> cb) {
-    new RestApi("config/server/capabilities").get(cb);
+    new RestApi("/config/server/capabilities/").get(cb);
   }
 
   public static void topMenus(AsyncCallback<TopMenuList> cb) {
-    new RestApi("config/server/top-menus").get(cb);
+    new RestApi("/config/server/top-menus").get(cb);
   }
 
   public static void defaultPreferences(AsyncCallback<AccountPreferencesInfo> cb) {
-    new RestApi("config/server/preferences").get(cb);
+    new RestApi("/config/server/preferences").get(cb);
   }
 
   public static void serverInfo(AsyncCallback<ServerInfo> cb) {
-    new RestApi("config/server/info").get(cb);
+    new RestApi("/config/server/info").get(cb);
   }
 
   public static void confirmEmail(String token, AsyncCallback<VoidResult> cb) {
     EmailConfirmationInput input = EmailConfirmationInput.create();
     input.setToken(token);
-    new RestApi("config/server/email.confirm").put(input, cb);
+    new RestApi("/config/server/email.confirm").put(input, cb);
   }
 
   private static class EmailConfirmationInput extends JavaScriptObject {

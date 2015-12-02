@@ -25,7 +25,7 @@ import java.util.Set;
 
 /** List of changes available from {@code /changes/}. */
 public class ChangeList extends JsArray<ChangeInfo> {
-  private static final String URI = "changes";
+  private static final String URI = "/changes/";
 
   /** Run multiple queries in a single remote invocation. */
   public static void queryMultiple(

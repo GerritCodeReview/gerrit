@@ -23,7 +23,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class MemberList extends JsArray<AccountInfo> {
   public static void all(AccountGroup.UUID group,
       AsyncCallback<MemberList> callback) {
-    new RestApi("groups").id(group.get()).view("members").get(callback);
+    new RestApi("/groups/").id(group.get()).view("members").get(callback);
   }
 
   protected MemberList() {

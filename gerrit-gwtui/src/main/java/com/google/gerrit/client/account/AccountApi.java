@@ -35,7 +35,7 @@ import java.util.Set;
  */
 public class AccountApi {
   public static RestApi self() {
-    return accounts().view("self");
+    return new RestApi("/accounts/").view("self");
   }
 
   /** Retrieve the account edit preferences */
@@ -51,7 +51,7 @@ public class AccountApi {
 
   public static void suggest(String query, int limit,
       AsyncCallback<JsArray<AccountInfo>> cb) {
-    accounts()
+    new RestApi("/accounts/")
       .addParameter("q", query)
       .addParameter("n", limit)
       .background()
@@ -65,7 +65,7 @@ public class AccountApi {
 
   /** Retrieve the username */
   public static void getUsername(String account, AsyncCallback<NativeString> cb) {
-    accounts().id(account).view("username").get(cb);
+    new RestApi("/accounts/").id(account).view("username").get(cb);
   }
 
   /** Set the username */
@@ -73,33 +73,33 @@ public class AccountApi {
       AsyncCallback<NativeString> cb) {
     UsernameInput input = UsernameInput.create();
     input.username(username);
-    accounts().id(account).view("username").put(input, cb);
+    new RestApi("/accounts/").id(account).view("username").put(input, cb);
   }
 
   /** Retrieve email addresses */
   public static void getEmails(String account,
       AsyncCallback<JsArray<EmailInfo>> cb) {
-    accounts().id(account).view("emails").get(cb);
+    new RestApi("/accounts/").id(account).view("emails").get(cb);
   }
 
   /** Register a new email address */
   public static void registerEmail(String account, String email,
       AsyncCallback<EmailInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    accounts().id(account).view("emails").id(email)
+    new RestApi("/accounts/").id(account).view("emails").id(email)
         .ifNoneMatch().put(in, cb);
   }
 
   /** Retrieve SSH keys */
   public static void getSshKeys(String account,
       AsyncCallback<JsArray<SshKeyInfo>> cb) {
-    accounts().id(account).view("sshkeys").get(cb);
+    new RestApi("/accounts/").id(account).view("sshkeys").get(cb);
   }
 
   /** Add a new SSH keys */
   public static void addSshKey(String account, String sshPublicKey,
       AsyncCallback<SshKeyInfo> cb) {
-    accounts().id(account).view("sshkeys")
+    new RestApi("/accounts/").id(account).view("sshkeys")
         .post(sshPublicKey, cb);
   }
 
@@ -114,7 +114,7 @@ public class AccountApi {
       Set<Integer> sequenceNumbers, AsyncCallback<VoidResult> cb) {
     CallbackGroup group = new CallbackGroup();
     for (int seq : sequenceNumbers) {
-      accounts().id(account).view("sshkeys").id(seq)
+      new RestApi("/accounts/").id(account).view("sshkeys").id(seq)
           .delete(group.add(cb));
       cb = CallbackGroup.emptyCallback();
     }
@@ -124,7 +124,7 @@ public class AccountApi {
   /** Retrieve the HTTP password */
   public static void getHttpPassword(String account,
       AsyncCallback<NativeString> cb) {
-    accounts().id(account).view("password.http").get(cb);
+    new RestApi("/accounts/").id(account).view("password.http").get(cb);
   }
 
   /** Generate a new HTTP password */
@@ -132,13 +132,13 @@ public class AccountApi {
       AsyncCallback<NativeString> cb) {
     HttpPasswordInput in = HttpPasswordInput.create();
     in.generate(true);
-    accounts().id(account).view("password.http").put(in, cb);
+    new RestApi("/accounts/").id(account).view("password.http").put(in, cb);
   }
 
   /** Clear HTTP password */
   public static void clearHttpPassword(String account,
       AsyncCallback<VoidResult> cb) {
-    accounts().id(account).view("password.http").delete(cb);
+    new RestApi("/accounts/").id(account).view("password.http").delete(cb);
   }
 
   private static class HttpPasswordInput extends JavaScriptObject {
@@ -165,7 +165,7 @@ public class AccountApi {
 
   public static void addGpgKey(String account, String armored,
       AsyncCallback<NativeMap<GpgKeyInfo>> cb) {
-    accounts()
+    new RestApi("/accounts/")
       .id(account)
       .view("gpgkeys")
       .post(GpgKeysInput.add(armored), cb);
@@ -173,14 +173,10 @@ public class AccountApi {
 
   public static void deleteGpgKeys(String account,
       Iterable<String> fingerprints, AsyncCallback<NativeMap<GpgKeyInfo>> cb) {
-    accounts()
+    new RestApi("/accounts/")
       .id(account)
       .view("gpgkeys")
       .post(GpgKeysInput.delete(fingerprints), cb);
-  }
-
-  private static RestApi accounts() {
-    return new RestApi("accounts");
   }
 
   private static class GpgKeysInput extends JavaScriptObject {

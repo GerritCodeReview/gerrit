@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b48d34e_2ce7b3d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-02T22:02:04Z",
+      "side": 0,
+      "message": "I think that we have lost this else branch and now sending too much mails. When user has not checked the option CopySelfOnEmails before this change, he wouldn\u0027t get mail. In the new code, we have three options: enable, CC_ON_OWN_COMMENTS, disable. However, when user say enable, this means that he also said: do *not* CC_ON_OWN_COMMENTS. So that this must be removed from the list, but this doesn\u0027t happen in the new code anymore.",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 106,
+        "endChar": 43
+      },
+      "revId": "18f76a6190cfa2ec737ed6a285cb92997d950519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

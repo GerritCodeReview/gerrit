@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3b9d97d4_2db22d0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-02T01:44:07Z",
+      "side": 1,
+      "message": "Nit: is it worth mentioning that the rule is not even being used?",
+      "revId": "1ddcc882301c4c3d6236faac42a63fdd7c27f218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bbb8f3b_af9d797d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

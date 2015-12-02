@@ -27,7 +27,12 @@ limitations under the License.
       }
     </style>
     <template id="commentList" is="dom-repeat" items="{{_orderedComments}}" as="comment">
-      <gr-diff-comment comment="[[comment]]"></gr-diff-comment>
+      <gr-diff-comment
+          comment="{{comment}}"
+          change-num="[[changeNum]]"
+          patch-num="[[patchNum]]"
+          draft="[[comment.__draft]]"
+          editing="[[!comment.message]]"></gr-diff-comment>
     </template>
   </template>
   <script>
@@ -44,17 +49,31 @@ limitations under the License.
        * @event gr-diff-comment-thread-height-changed
        */
 
+      /**
+       * Fired when the thread should be discarded.
+       *
+       * @event gr-diff-comment-thread-discard
+       */
+
       properties: {
+        changeNum: String,
         comments: {
           type: Array,
+          value: function() { return []; },
           observer: '_commentsChanged',
         },
+        patchNum: String,
+
         _orderedComments: Array,
       },
 
       ready: function() {
         this.addEventListener('gr-diff-comment-height-changed',
             this._handleCommentHeightChange.bind(this));
+        this.addEventListener('gr-diff-comment-reply',
+            this._handleCommentReply.bind(this));
+        this.addEventListener('gr-diff-comment-discard',
+            this._handleCommentDiscard.bind(this));
       },
 
       _commentsChanged: function(comments) {
@@ -62,7 +81,6 @@ limitations under the License.
       },
 
       _sortedComments: function(comments) {
-        var comments = comments || [];
         comments.sort(function(c1, c2) {
           return util.parseDate(c1.updated) - util.parseDate(c2.updated);
         });
@@ -103,6 +121,37 @@ limitations under the License.
         // initial DOM stamp.
         this.fire('gr-diff-comment-thread-height-changed',
             {height: this.offsetHeight});
+      },
+
+      _handleCommentReply: function(e) {
+        console.log('should add reply...')
+      },
+
+      _handleCommentDiscard: function(e) {
+        var diffCommentEl = e.target;
+        var idx = this._indexOf(diffCommentEl.comment, this.comments);
+        if (idx == -1) {
+          throw Error('Cannot find comment ' +
+              JSON.stringify(diffCommentEl.comment));
+        }
+        this.comments.splice(idx, 1);
+        this._commentsChanged(this.comments);
+        if (this.comments.length == 0 && this.parentNode) {
+          this.parentNode.removeChild(this);
+        }
+        this.fire('gr-diff-comment-thread-height-changed',
+            {height: this.offsetHeight});
+      },
+
+      _indexOf: function(comment, arr) {
+        for (var i = 0; i < arr.length; i++) {
+          var c = arr[i];
+          if ((c.__draftID != null && c.__draftID == comment.__draftID) ||
+              (c.id != null && c.id == comment.id)) {
+            return i;
+          }
+        }
+        return -1;
       },
 
     });

@@ -17,6 +17,24 @@
       "revId": "38ef6fee0d2ed9fd989edf72ff0c43056f7fddbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60fcbc2b_9ecebd81",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/ResourceServletTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-02T17:37:18Z",
+      "side": 1,
+      "message": "This ticks the timestamp, which would generate a cache miss in the small file codepath.",
+      "parentUuid": "5b27ab98_e6e4ded1",
+      "revId": "38ef6fee0d2ed9fd989edf72ff0c43056f7fddbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

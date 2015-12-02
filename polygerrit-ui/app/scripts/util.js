@@ -47,3 +47,18 @@ util.shouldSupressKeyboardShortcut = function(e) {
          target.tagName == 'BUTTON' ||
          target.tagName == 'A';
 };
+
+util.getCookie = function(name) {
+  var key = name + "=";
+  var cookies = document.cookie.split(';');
+  for(var i = 0; i < cookies.length; i++) {
+    var c = cookies[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(key) == 0) {
+      return c.substring(key.length, c.length);
+    }
+  }
+  return '';
+};

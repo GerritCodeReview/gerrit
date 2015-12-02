@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "60fcbc2b_3e10c996",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-02T21:34:34Z",
+      "side": 1,
+      "message": "Well, almost.\n\nHard for me to care too much since this should get fixed the next time someone runs bower2buck",
+      "parentUuid": "60fcbc2b_beecd9e7",
+      "revId": "bd17635a0bd3a6515e3a125a85d15df2a95fc24a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60fcbc2b_dedfa525",
         "filename": "lib/js/BUCK",
         "patchSetId": 2

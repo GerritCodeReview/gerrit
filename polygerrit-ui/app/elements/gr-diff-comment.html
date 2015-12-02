@@ -15,6 +15,9 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-request.html">
 <link rel="import" href="gr-date-formatter.html">
 
 <dom-module id="gr-diff-comment">
@@ -24,6 +27,12 @@ limitations under the License.
         border: 1px solid #ddd;
         display: block;
       }
+      :host([disabled]) {
+        pointer-events: none;
+      }
+      :host([disabled]) .container {
+        opacity: .5;
+      }
       .header,
       .message,
       .actions {
@@ -31,32 +40,113 @@ limitations under the License.
       }
       .header {
         background-color: #eee;
+        display: flex;
         font-family: 'Open Sans', sans-serif;
       }
-      gr-date-formatter {
-        float: right;
+      .headerLeft {
+        flex: 1;
+      }
+      .authorName,
+      .draftLabel {
+        font-weight: bold;
+      }
+      .draftLabel {
+        color: #999;
+        display: none;
+      }
+      .date {
+        justify-content: flex-end;
         margin-left: 5px;
       }
-      .authorName {
-        font-weight: bold;
+      a.date:link,
+      a.date:visited {
+        color: #666;
+        text-decoration: none;
+      }
+      a.date:hover {
+        text-decoration: underline;
       }
       .message {
         white-space: pre-wrap;
       }
       .actions {
-        /** TODO: remove once the actions actually do something. **/
-        display: none;
+        display: flex;
         padding-top: 0;
       }
+      .action {
+        margin-right: 1em;
+      }
+      .action[disabled] {
+        opacity: .5;
+        pointer-events: none;
+      }
+      .danger {
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+      }
+      .editMessage {
+        display: none;
+        margin: .5em .7em;
+        width: calc(100% - 1.4em - 2px);
+      }
+      .danger .action {
+        margin-right: 0;
+      }
+      .container:not(.draft) .actions :not(.reply):not(.done) {
+        display: none;
+      }
+      .draft .reply,
+      .draft .done {
+        display: none;
+      }
+      .draft .draftLabel {
+        display: inline;
+      }
+      .draft:not(.editing) .save,
+      .draft:not(.editing) .cancel {
+        display: none;
+      }
+      .editing .message,
+      .editing .reply,
+      .editing .done,
+      .editing .edit {
+        display: none;
+      }
+      .editing .editMessage {
+        display: block;
+      }
     </style>
-    <div class="header" id="header">
-      <span class="authorName">[[comment.author.name]]</span>
-      <gr-date-formatter date-str="[[comment.updated]]"></gr-date-formatter>
-    </div>
-    <div class="message">[[comment.message]]</div>
-    <div class="actions">
-      <a class="reply" href="#" on-tap="_handleReply">Reply</a>
-      <a class="done" href="#" on-tap="_handleDone">Done</a>
+    <div class="container" id="container">
+      <div class="header" id="header">
+        <div class="headerLeft">
+          <span class="authorName">[[comment.author.name]]</span>
+          <span class="draftLabel">DRAFT</span>
+        </div>
+        <a class="date" href$="[[_computeLinkToComment(comment)]]" on-tap="_handleLinkTap">
+          <gr-date-formatter date-str="[[comment.updated]]"></gr-date-formatter>
+        </a>
+      </div>
+      <iron-autogrow-textarea
+          id="editTextarea"
+          class="editMessage"
+          disabled="{{disabled}}"
+          rows="4"
+          max-rows="4"
+          bind-value="{{_editDraft}}"></iron-autogrow-textarea>
+      <div class="message">[[comment.message]]</div>
+      <div class="actions">
+        <a class="action reply" href="#" on-tap="_handleReply">Reply</a>
+        <a class="action done" href="#" on-tap="_handleDone">Done</a>
+        <a class="action edit" href="#" on-tap="_handleEdit">Edit</a>
+        <a class="action save" href="#"
+            disabled$="[[_computeSaveDisabled(_editDraft)]]"
+            on-tap="_handleSave">Save</a>
+        <a class="action cancel" href="#" on-tap="_handleCancel">Cancel</a>
+        <div class="danger">
+          <a class="action discard" href="#" on-tap="_handleDiscard">Discard</a>
+        </div>
+      </div>
     </div>
   </template>
   <script>
@@ -84,17 +174,81 @@ limitations under the License.
        * @event gr-diff-comment-done
        */
 
+      /**
+       * Fired when this comment is discarded.
+       *
+       * @event gr-diff-comment-discard
+       */
+
       properties: {
-        comment: Object,
+        changeNum: String,
+        comment: {
+          type: Object,
+          notify: true,
+        },
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
         draft: {
           type: Boolean,
           value: false,
+          observer: '_draftChanged',
         },
+        editing: {
+          type: Boolean,
+          value: false,
+          observer: '_editingChanged',
+        },
+        patchNum: String,
+
+        _xhrPromise: Object,
+        _editDraft: String,
       },
 
       attached: function() {
-        this.fire('gr-diff-comment-height-changed',
+        this._heightChanged();
+      },
+
+      _heightChanged: function() {
+        this.async(function() {
+          this.fire('gr-diff-comment-height-changed',
             {height: this.offsetHeight});
+        }.bind(this));
+      },
+
+      _draftChanged: function(draft) {
+        this.$.container.classList.toggle('draft', draft);
+      },
+
+      _editingChanged: function(editing) {
+        this.$.container.classList.toggle('editing', editing);
+        if (editing) {
+          this.async(function() {
+            this.$.editTextarea.textarea.focus();
+          }.bind(this));
+        }
+        this._heightChanged();
+      },
+
+      _computeLinkToComment: function(comment) {
+        return '#' + comment.line;
+      },
+
+      _computeSaveDisabled: function(draft) {
+        return this._editDraft == null || this._editDraft.trim() == '';
+      },
+
+      _handleLinkTap: function(e) {
+        e.preventDefault();
+        var hash = this._computeLinkToComment(this.comment);
+        // Don't add the hash to the window history if it's already there.
+        // Otherwise you mess up expected back button behavior.
+        if (window.location.hash == hash) { return; }
+        // Change the URL but don’t trigger a nav event. Otherwise it will
+        // reload the page.
+        page.show(window.location.pathname + hash, null, false);
       },
 
       _handleReply: function(e) {
@@ -105,6 +259,89 @@ limitations under the License.
       _handleDone: function(e) {
         e.preventDefault();
         this.fire('gr-diff-comment-done');
+      },
+
+      _handleEdit: function(e) {
+        e.preventDefault();
+        this._editDraft = this.comment.message;
+        this.editing = true;
+      },
+
+      _handleSave: function(e) {
+        e.preventDefault();
+        this.comment.message = this._editDraft;
+        this.disabled = true;
+        var endpoint = this._restEndpoint(this.comment.id);
+        this._send('PUT', endpoint).then(function(req) {
+          this.disabled = false;
+          var comment = req.response;
+          comment.__draft = true;
+          // Maintain the ephemeral draft ID for identification by other
+          // elements.
+          if (this.comment.__draftID) {
+            comment.__draftID = this.comment.__draftID;
+          }
+          this.comment = comment;
+          this.editing = false;
+        }.bind(this)).catch(function(err) {
+          alert('Your draft couldn’t be saved. Check the console and contact ' +
+              'the PolyGerrit team for assistance.');
+          this.disabled = false;
+        }.bind(this));
+      },
+
+      _handleCancel: function(e) {
+        e.preventDefault();
+        if (this.comment.message == null || this.comment.message.length == 0) {
+          this.fire('gr-diff-comment-discard');
+          return;
+        }
+        this._editDraft = this.comment.message;
+        this.editing = false;
+      },
+
+      _handleDiscard: function(e) {
+        e.preventDefault();
+        if (!this.comment.__draft) {
+          throw Error('Cannot discard a non-draft comment.');
+        }
+        this.disabled = true;
+        var commentID = this.comment.id;
+        if (!commentID) {
+          this.fire('gr-diff-comment-discard');
+          return;
+        }
+        this._send('DELETE', this._restEndpoint(commentID)).then(function(req) {
+          this.fire('gr-diff-comment-discard', this.comment);
+        }.bind(this)).catch(function(err) {
+          alert('Your draft couldn’t be deleted. Check the console and ' +
+              'contact the PolyGerrit team for assistance.');
+          this.disabled = false;
+        }.bind(this));
+      },
+
+      _send: function(method, url) {
+        var xhr = document.createElement('iron-request');
+        this._xhrPromise = xhr.send({
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Gerrit-Auth': util.getCookie('XSRF_TOKEN'),
+          },
+          url: url,
+          body: this.comment,
+          jsonPrefix: ')]}\'',
+        });
+        return this._xhrPromise;
+      },
+
+      _restEndpoint: function(id) {
+        var path = '/changes/' + this.changeNum + '/revisions/' +
+            this.patchNum + '/drafts';
+        if (id) {
+          path += '/' + id;
+        }
+        return path;
       },
 
     });

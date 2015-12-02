@@ -20,6 +20,8 @@ limitations under the License.
 
 <script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../bower_components/page/page.js"></script>
+<script src="../scripts/util.js"></script>
 
 <link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="../elements/gr-diff-comment.html">
@@ -30,11 +32,27 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="draft">
+  <template>
+    <gr-diff-comment draft="true"></gr-diff-comment>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-diff-comment tests', function() {
     var element;
     setup(function() {
       element = fixture('basic');
+      element.comment = {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        line: 5,
+        message: 'is this a crossover episode!?',
+        updated: '2015-12-08 19:48:33.843000000',
+      }
     });
 
     test('proper event fires on reply', function(done) {
@@ -51,5 +69,185 @@ limitations under the License.
       MockInteractions.tap(element.$$('.done'));
     });
 
+    test('clicking on date link does not trigger nav', function() {
+      var showStub = sinon.stub(page, 'show');
+      var dateEl = element.$$('.date');
+      assert.ok(dateEl);
+      MockInteractions.tap(dateEl);
+      var dest = window.location.pathname + '#5';
+      assert(showStub.lastCall.calledWithExactly(dest, null, false),
+          'Should navigate to ' + dest + ' without triggering nav');
+      showStub.restore();
+    });
+  });
+
+  suite('gr-diff-comment draft tests', function() {
+    var element;
+    var server;
+
+    setup(function() {
+      element = fixture('draft');
+      element.changeNum = 42;
+      element.patchNum = 1;
+      element.comment = {
+        __draft: true,
+        __draftID: 'temp_draft_id',
+        path: '/path/to/file',
+        line: 5,
+      };
+
+      server = sinon.fakeServer.create();
+      server.respondWith(
+        'PUT',
+        '/changes/42/revisions/1/drafts',
+        [
+          201,
+          { 'Content-Type': 'application/json' },
+          ')]}\'\n{' +
+            '"id": "baf0414d_40572e03",' +
+            '"path": "/path/to/file",' +
+            '"line": 5,' +
+            '"updated": "2015-12-08 21:52:36.177000000",' +
+            '"message": "created!"' +
+          '}'
+        ]
+      );
+
+      server.respondWith(
+        'PUT',
+        /\/changes\/42\/revisions\/1\/drafts\/.+/,
+        [
+          200,
+          { 'Content-Type': 'application/json' },
+          ')]}\'\n{' +
+            '"id": "baf0414d_40572e03",' +
+            '"path": "/path/to/file",' +
+            '"line": 5,' +
+            '"updated": "2015-12-08 21:52:36.177000000",' +
+            '"message": "saved!"' +
+          '}'
+        ]
+      );
+    });
+
+    teardown(function() {
+      server.restore();
+    });
+
+    function isVisible(el) {
+      assert.ok(el);
+      return getComputedStyle(el).getPropertyValue('display') != 'none';
+    }
+
+    test('button visibility states', function() {
+      element.draft = true;
+      assert.isTrue(isVisible(element.$$('.edit')), 'edit is visible');
+      assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
+      assert.isFalse(isVisible(element.$$('.save')), 'save is not visible');
+      assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
+      assert.isFalse(isVisible(element.$$('.reply')), 'reply is not visible');
+      assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
+
+      element.editing = true;
+      assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible')
+      assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
+      assert.isTrue(isVisible(element.$$('.save')), 'save is visible');
+      assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
+      assert.isFalse(isVisible(element.$$('.reply')), 'reply is not visible');
+      assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
+
+      element.draft = false,
+      element.editing = false;
+      assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible')
+      assert.isFalse(isVisible(element.$$('.discard')),
+          'discard is not visible');
+      assert.isFalse(isVisible(element.$$('.save')), 'save is not visible');
+      assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
+      assert.isTrue(isVisible(element.$$('.reply')), 'edit is visible');
+      assert.isTrue(isVisible(element.$$('.done')), 'edit is visible');
+
+      element.draft = true;
+    });
+
+    test('draft creation/cancelation', function(done) {
+      assert.isFalse(element.editing);
+      MockInteractions.tap(element.$$('.edit'));
+      assert.isTrue(element.editing);
+
+      element._editDraft = '';
+      // Save should be disabled on an empty message.
+      var disabled = element.$$('.save').hasAttribute('disabled');
+      assert.isTrue(disabled, 'save button should be disabled.');
+      element._editDraft == '     ';
+      disabled = element.$$('.save').hasAttribute('disabled');
+      assert.isTrue(disabled, 'save button should be disabled.');
+
+      var numDiscardEvents = 0;
+      element.addEventListener('gr-diff-comment-discard', function(e) {
+        numDiscardEvents++;
+        if (numDiscardEvents == 2) {
+          done();
+        }
+      });
+      MockInteractions.tap(element.$$('.cancel'));
+      MockInteractions.tap(element.$$('.discard'));
+    });
+
+    test('draft saving/editing', function(done) {
+      element.draft = true;
+      MockInteractions.tap(element.$$('.edit'));
+      element._editDraft = 'good news, everyone!';
+      MockInteractions.tap(element.$$('.save'));
+      assert.isTrue(element.disabled,
+          'Element should be disabled when creating draft.');
+
+      server.respond();
+
+      element._xhrPromise.then(function(req) {
+        assert.isFalse(element.disabled,
+            'Element should be enabled when done creating draft.');
+        assert.equal(req.status, 201);
+        assert.equal(req.url, '/changes/42/revisions/1/drafts');
+        assert.equal(req.response.message, 'created!');
+        assert.isFalse(element.editing);
+      }).then(function() {
+        MockInteractions.tap(element.$$('.edit'));
+        element._editDraft = 'You’ll be delivering a package to Chapek 9, a ' +
+            'world where humans are killed on sight.';
+        MockInteractions.tap(element.$$('.save'));
+        assert.isTrue(element.disabled,
+            'Element should be disabled when updating draft.');
+        server.respond();
+
+        element._xhrPromise.then(function(req) {
+          assert.isFalse(element.disabled,
+              'Element should be enabled when done updating draft.');
+          assert.equal(req.status, 200);
+          assert.equal(req.url,
+              '/changes/42/revisions/1/drafts/baf0414d_40572e03');
+          assert.equal(req.response.message, 'saved!');
+          assert.isFalse(element.editing);
+          done();
+        });
+      });
+    });
+
+    test('proper event fires on done', function(done) {
+      element.addEventListener('gr-diff-comment-done', function(e) {
+        done();
+      });
+      MockInteractions.tap(element.$$('.done'));
+    });
+
+    test('clicking on date link does not trigger nav', function() {
+      var showStub = sinon.stub(page, 'show');
+      var dateEl = element.$$('.date');
+      assert.ok(dateEl);
+      MockInteractions.tap(dateEl);
+      var dest = window.location.pathname + '#5';
+      assert(showStub.lastCall.calledWithExactly(dest, null, false),
+          'Should navigate to ' + dest + ' without triggering nav');
+      showStub.restore();
+    });
   });
 </script>

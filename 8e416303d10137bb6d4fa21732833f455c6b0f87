@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60fcbc2b_5ef4b5b0",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-02T20:30:34Z",
+      "side": 1,
+      "message": "This is to force conversion of undefined to 0 or something?",
+      "range": {
+        "startLine": 400,
+        "startChar": 29,
+        "endLine": 400,
+        "endChar": 30
+      },
+      "revId": "8e416303d10137bb6d4fa21732833f455c6b0f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60fcbc2b_3ef9e9a8",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-02T20:30:34Z",
+      "side": 1,
+      "message": "So this means a 1ms delay? Does \"microtask timing\" not do what we want?",
+      "range": {
+        "startLine": 401,
+        "startChar": 22,
+        "endLine": 401,
+        "endChar": 25
+      },
+      "revId": "8e416303d10137bb6d4fa21732833f455c6b0f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b30efcd_c7f51eb0",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-02T20:30:34Z",
+      "side": 1,
+      "message": "Clearly I don\u0027t understand the vagaries of JS type coercion well enough because based on line 400 above I would expect this to be:\n\n if (+lineNum \u003c 1)",
+      "range": {
+        "startLine": 408,
+        "startChar": 12,
+        "endLine": 408,
+        "endChar": 26
+      },
+      "revId": "8e416303d10137bb6d4fa21732833f455c6b0f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

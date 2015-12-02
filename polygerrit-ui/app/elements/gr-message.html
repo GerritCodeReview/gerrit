@@ -130,7 +130,7 @@ limitations under the License.
                         items="[[_computeCommentsForFile(file)]]" as="comment">
                 <div class="commentContainer">
                   <a class="lineNum"
-                     href$="[[_computeDiffLineURL(file, changeNum, message._revision_number, comment)]]">
+                     href$="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]">
                      <template is="dom-if" if="[[comment.line]]">
                        Line <span>[[comment.line]]</span>:
                      </template>

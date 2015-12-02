@@ -46,6 +46,30 @@
       "revId": "7ec329c55e27a6a2a42ee45fe09f8e7d0b0df484",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b9d97d4_8df081c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-02T13:26:19Z",
+      "side": 1,
+      "message": "Unless it\u0027s possible to fix somehow?\n\nKhai, did using ProxyPass work for you too?",
+      "parentUuid": "5b27ab98_06b2da0d",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "7ec329c55e27a6a2a42ee45fe09f8e7d0b0df484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

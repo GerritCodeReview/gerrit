@@ -20,6 +20,7 @@ limitations under the License.
 
 <script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../bower_components/page/page.js"></script>
 <script src="../scripts/fake-app.js"></script>
 
 <link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
@@ -52,21 +53,27 @@ limitations under the License.
       assert.equal(changeList.selectedIndex, 0);
 
       MockInteractions.pressAndReleaseKeyOn(changeList, 74);  // 'j'
-      flushAsynchronousOperations();
       assert.equal(changeList.selectedIndex, 1);
       MockInteractions.pressAndReleaseKeyOn(changeList, 74);  // 'j'
-      flushAsynchronousOperations();
+
+      var showStub = sinon.stub(page, 'show');
       assert.equal(changeList.selectedIndex, 2);
+      MockInteractions.pressAndReleaseKeyOn(changeList, 13);  // 'enter'
+      assert(showStub.lastCall.calledWithExactly('/c/2/'),
+          'Should navigate to /c/2/');
+
       MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
-      flushAsynchronousOperations();
       assert.equal(changeList.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(changeList, 13);  // 'enter'
+      assert(showStub.lastCall.calledWithExactly('/c/1/'),
+          'Should navigate to /c/1/');
+
       MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
-      flushAsynchronousOperations();
       MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
-      flushAsynchronousOperations();
       MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
-      flushAsynchronousOperations();
       assert.equal(changeList.selectedIndex, 0);
+
+      showStub.restore();
     });
 
   });

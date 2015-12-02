@@ -7,8 +7,8 @@
     "polymer": "Polymer/polymer#1.2.2",
     "page": "visionmedia/page.js#1.6.4",
     "iron-ajax": "PolymerElements/iron-ajax#1.1.0",
-    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#1.0.3",
-    "iron-input": "PolymerElements/iron-input#1.0.6"
+    "iron-input": "PolymerElements/iron-input#1.0.6",
+    "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#1.1.0"
   },
   "devDependencies": {
     "web-component-tester": "*",

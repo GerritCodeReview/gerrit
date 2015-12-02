@@ -22,6 +22,30 @@
       "revId": "7ec329c55e27a6a2a42ee45fe09f8e7d0b0df484",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b27ab98_06b2da0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-02T07:06:39Z",
+      "side": 1,
+      "message": "Yes, that\u0027s correct. So we would say, that we don\u0027t support mod_rewrite any more, right?",
+      "parentUuid": "7bbb8f3b_afebb9d1",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "7ec329c55e27a6a2a42ee45fe09f8e7d0b0df484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

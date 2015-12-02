@@ -8,6 +8,7 @@
   docs = //Documentation:searchfree
   firefox = //:firefox
   gerrit = //:gerrit
+  gwtgerrit = //:gwtgerrit
   headless = //:headless
   polygerrit = //:polygerrit
   release = //:release

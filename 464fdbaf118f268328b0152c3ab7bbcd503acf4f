@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b30efcd_6700f244",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-02T22:13:30Z",
+      "side": 1,
+      "message": "But parseInt(\u0027abcd\u0027) is Nan and Nan \u003c 1 is false.",
+      "revId": "464fdbaf118f268328b0152c3ab7bbcd503acf4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

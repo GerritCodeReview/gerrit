@@ -21,7 +21,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /** Projects available from {@code /projects/}. */
 public class ProjectMap extends NativeMap<ProjectInfo> {
   public static void all(AsyncCallback<ProjectMap> callback) {
-    projects()
+    new RestApi("/projects/")
         .addParameterRaw("type", "ALL")
         .addParameterTrue("all")
         .addParameterTrue("d") // description
@@ -29,7 +29,7 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
   }
 
   public static void permissions(AsyncCallback<ProjectMap> callback) {
-    projects()
+    new RestApi("/projects/")
         .addParameterRaw("type", "PERMISSIONS")
         .addParameterTrue("all")
         .addParameterTrue("d") // description
@@ -37,7 +37,7 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
   }
 
   public static void parentCandidates(AsyncCallback<ProjectMap> callback) {
-    projects()
+    new RestApi("/projects/")
         .addParameterRaw("type", "PARENT_CANDIDATES")
         .addParameterTrue("all")
         .addParameterTrue("d") // description
@@ -45,7 +45,7 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
   }
 
   public static void suggest(String prefix, int limit, AsyncCallback<ProjectMap> cb) {
-    projects()
+    new RestApi("/projects/")
         .addParameter("p", prefix)
         .addParameter("n", limit)
         .addParameterRaw("type", "ALL")
@@ -55,7 +55,7 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
   }
 
   public static void match(String match, int limit, int start, AsyncCallback<ProjectMap> cb) {
-    RestApi call = projects();
+    RestApi call = new RestApi("/projects/");
     if (match != null) {
       if (match.startsWith("^")) {
         call.addParameter("r", match);
@@ -76,10 +76,6 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
 
   public static void match(String match, AsyncCallback<ProjectMap> cb) {
     match(match, 0, 0, cb);
-  }
-
-  private static RestApi projects() {
-    return new RestApi("projects");
   }
 
   protected ProjectMap() {

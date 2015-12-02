@@ -22,12 +22,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /** Groups available from {@code /groups/} or {@code /accounts/[id]/groups}. */
 public class GroupList extends JsArray<GroupInfo> {
   public static void my(AsyncCallback<GroupList> callback) {
-    new RestApi("accounts/self/groups").get(callback);
+    new RestApi("/accounts/self/groups").get(callback);
   }
 
   public static void included(AccountGroup.UUID group,
       AsyncCallback<GroupList> callback) {
-    new RestApi("groups").id(group.get()).view("groups").get(callback);
+    new RestApi("/groups/").id(group.get()).view("groups").get(callback);
   }
 
   protected GroupList() {

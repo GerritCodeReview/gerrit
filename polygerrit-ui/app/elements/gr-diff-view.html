@@ -314,6 +314,8 @@ limitations under the License.
       },
 
       _handleKey: function(e) {
+        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+
         switch(e.detail.combo) {
           case '[':
             this._navToFile(this._fileList, -1);

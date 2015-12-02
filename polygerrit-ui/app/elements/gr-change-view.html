@@ -213,6 +213,8 @@ limitations under the License.
       },
 
       _handleKey: function(e) {
+        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+
         switch(e.detail.combo) {
           case 'a':
             this._showReplyField();

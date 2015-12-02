@@ -38,3 +38,12 @@ util.escapeHTML = function(str) {
     return util.htmlEntityMap[s];
   });
 };
+
+util.shouldSupressKeyboardShortcut = function(e) {
+  var target = e.detail.keyboardEvent.target;
+  return target.tagName == 'INPUT' ||
+         target.tagName == 'TEXTAREA' ||
+         target.tagName == 'SELECT' ||
+         target.tagName == 'BUTTON' ||
+         target.tagName == 'A';
+};

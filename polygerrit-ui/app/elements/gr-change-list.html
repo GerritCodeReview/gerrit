@@ -84,6 +84,8 @@ limitations under the License.
       },
 
       _handleKey: function(e) {
+        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+
         var len = (this.changes && this.changes.length) || 0;
         switch(e.detail.combo) {
           case 'j':

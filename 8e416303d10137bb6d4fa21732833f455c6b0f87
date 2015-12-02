@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "60fcbc2b_7e165198",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-02T21:21:14Z",
+      "side": 1,
+      "message": "replaced with parseInt, which is more clear.",
+      "parentUuid": "60fcbc2b_5ef4b5b0",
+      "range": {
+        "startLine": 400,
+        "startChar": 29,
+        "endLine": 400,
+        "endChar": 30
+      },
+      "revId": "8e416303d10137bb6d4fa21732833f455c6b0f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60fcbc2b_3ef9e9a8",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7b30efcd_87140692",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-02T21:21:14Z",
+      "side": 1,
+      "message": "Yes to the ms. No, I assume because it take more than one microtask run loop spin to receive the resize events sent by the comment elements.",
+      "parentUuid": "60fcbc2b_3ef9e9a8",
+      "range": {
+        "startLine": 401,
+        "startChar": 22,
+        "endLine": 401,
+        "endChar": 25
+      },
+      "revId": "8e416303d10137bb6d4fa21732833f455c6b0f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b30efcd_c7f51eb0",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2015-12-02T20:30:34Z",
       "side": 1,
       "message": "Clearly I don\u0027t understand the vagaries of JS type coercion well enough because based on line 400 above I would expect this to be:\n\n if (+lineNum \u003c 1)",
+      "range": {
+        "startLine": 408,
+        "startChar": 12,
+        "endLine": 408,
+        "endChar": 26
+      },
+      "revId": "8e416303d10137bb6d4fa21732833f455c6b0f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b30efcd_a7190ac9",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-02T21:21:14Z",
+      "side": 1,
+      "message": "because (NaN \u003c 1) \u003d\u003d\u003d false",
+      "parentUuid": "7b30efcd_c7f51eb0",
       "range": {
         "startLine": 408,
         "startChar": 12,

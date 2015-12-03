@@ -44,7 +44,7 @@ java_library(
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
     '//lib:guava',
-    '//lib/jgit:jgit',
+    '@jgit//:jgit',
     '//lib/joda:joda-time',
     '//lib/log:api',
   ],

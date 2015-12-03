@@ -18,6 +18,7 @@ from optparse import OptionParser
 from os import makedirs, path, symlink
 from subprocess import check_call
 import sys
+import re
 
 opts = OptionParser()
 opts.add_option('-o', help='path to write WAR to')
@@ -28,6 +29,7 @@ args, ctx = opts.parse_args()
 
 war = args.tmp
 jars = set()
+basenames = set()
 
 def prune(l):
   return [j for e in l for j in e.split(':')]
@@ -36,10 +38,19 @@ def link_jars(libs, directory):
   makedirs(directory)
   for j in libs:
     if j not in jars:
+      # When jgit is consumed from its own cell,
+      # potential duplicates should be filtered.
+      # e.g. jsch.jar will be reached through:
+      # 1. /home/davido/projects/gerrit/buck-out/gen/lib/jsch.jar
+      # 2. /home/davido/projects/jgit/buck-out/gen/lib/jsch.jar
+      if (j.find('jgit/buck-out/gen/lib') > 0
+          and path.basename(j) in basenames):
+          continue
       jars.add(j)
       n = path.basename(j)
       if j.find('buck-out/gen/gerrit-') > 0:
         n = j[j.find('buck-out'):].split('/')[2] + '-' + n
+      basenames.add(n)
       symlink(j, path.join(directory, n))
 
 if args.lib:

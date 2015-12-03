@@ -1,0 +1,6 @@
+include_defs('//lib/maven.defs')
+
+define_license(name = 'Apache2.0')
+define_license(name = 'jgit')
+
+define_license(name = 'DO_NOT_DISTRIBUTE')

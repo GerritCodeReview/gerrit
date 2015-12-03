@@ -31,11 +31,11 @@ java_library(
     '//lib:gwtorm',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
-    '//lib/jgit:jgit',
     '//lib/log:api',
     '//lib/lucene:analyzers-common',
     '//lib/lucene:core-and-backward-codecs',
     '//lib/lucene:misc',
+    '@jgit//:jgit',
   ],
   visibility = ['PUBLIC'],
 )

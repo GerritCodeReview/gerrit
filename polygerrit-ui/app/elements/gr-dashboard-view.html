@@ -18,6 +18,17 @@ limitations under the License.
 
 <dom-module id="gr-dashboard-view">
   <template>
+    <style>
+      :host {
+        background-color: var(--view-background-color);
+        display: block;
+        margin: 0 1.25rem;
+      }
+      gr-change-list {
+        margin-top: 1em;
+        width: 100%;
+      }
+    </style>
     <iron-ajax id="xhr"
         auto
         url="/changes/"
@@ -25,6 +36,8 @@ limitations under the License.
         last-response="{{_results}}"
         json-prefix=")]}'"
         debounce-duration="300"></iron-ajax>
+    <gr-change-list groups="{{_results}}"
+        group-titles="[[_groupTitles]]"></gr-change-list>
   </template>
   <script>
   (function() {
@@ -35,6 +48,14 @@ limitations under the License.
 
       properties: {
         _results: Array,
+        _groupTitles: {
+          type: Array,
+          value: [
+            'Outgoing reviews',
+            'Incoming reviews',
+            'Recently Closed',
+          ],
+        },
       },
 
       _computeQueryParams: function() {

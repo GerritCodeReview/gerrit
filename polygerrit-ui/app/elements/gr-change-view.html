@@ -24,13 +24,16 @@ limitations under the License.
 <dom-module id="gr-change-view">
   <template>
     <style>
-      :host {
-        background-color: var(--view-background-color);
-        display: block;
-      }
       .container {
         margin: 1em 0;
         padding-top: 1em;
+      }
+      .container:not(.loading) {
+        background-color: var(--view-background-color);
+      }
+      .container.loading {
+        color: #666;
+        padding: 0;
       }
       h2 {
         padding: 0 var(--default-horizontal-margin);
@@ -65,67 +68,72 @@ limitations under the License.
         url="[[_computeDetailPath(changeNum)]]"
         params="[[_computeDetailQueryParams()]]"
         json-prefix=")]}'"
-        last-response="{{change}}"></iron-ajax>
+        last-response="{{change}}"
+        loading="{{_loading}}"></iron-ajax>
     <iron-ajax id="commentsXHR"
         url="[[_computeCommentsPath(changeNum)]]"
         json-prefix=")]}'"
         last-response="{{comments}}"></iron-ajax>
-
-    <div class="container">
-      <h2>
-        <a href$="[[_computeChangePath(change._number)]]">[[change._number]]</a><span>:</span>
-        <span>[[change.subject]]</span>
-      </h2>
-      <section class="changeInfo">
-        <table>
-          <tr>
-            <td class="changeInfo-label">Owner</td>
-            <td>[[change.owner.name]]</td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Reviewers</td>
-            <td>
-              <template is="dom-repeat"
-                        items="[[_computeReviewers(change.labels.Code-Review.all, change.owner)]]"
-                        as="reviewer">
-                <div>[[reviewer.name]]</div>
-              </template>
-            </td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Project</td>
-            <td>[[change.project]]</td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Branch</td>
-            <td>[[change.branch]]</td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Topic</td>
-            <td>[[change.topic]]</td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Strategy</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="changeInfo-label">Updated</td>
-            <td>
-              <gr-date-formatter
-                  date-str="[[change.updated]]"></gr-date-formatter>
-            </td>
-          </tr>
-        </table>
-      </section>
-      <section class="summary">[[_computeCurrentRevisionMessage(change)]]</section>
-      <gr-file-list change-num="[[changeNum]]"
-                    patch-num="[[_computePatchNum(change.current_revision)]]"
-                    revision="[[change.current_revision]]"
-                    comments="[[comments]]"></gr-file-list>
-      <gr-messages-list change-num="[[changeNum]]"
-                        messages="[[change.messages]]"
-                        comments="[[comments]]"></gr-messages-list>
-    </div>
+    <template is="dom-if" if="{{_loading}}">
+      <div class="container loading">Loading...</div>
+    </template>
+    <template is="dom-if" if="{{!_loading}}">
+      <div class="container">
+        <h2>
+          <a href$="[[_computeChangePath(change._number)]]">[[change._number]]</a><span>:</span>
+          <span>[[change.subject]]</span>
+        </h2>
+        <section class="changeInfo">
+          <table>
+            <tr>
+              <td class="changeInfo-label">Owner</td>
+              <td>[[change.owner.name]]</td>
+            </tr>
+            <tr>
+              <td class="changeInfo-label">Reviewers</td>
+              <td>
+                <template is="dom-repeat"
+                          items="[[_computeReviewers(change.labels.Code-Review.all, change.owner)]]"
+                          as="reviewer">
+                  <div>[[reviewer.name]]</div>
+                </template>
+              </td>
+            </tr>
+            <tr>
+              <td class="changeInfo-label">Project</td>
+              <td>[[change.project]]</td>
+            </tr>
+            <tr>
+              <td class="changeInfo-label">Branch</td>
+              <td>[[change.branch]]</td>
+            </tr>
+            <tr>
+              <td class="changeInfo-label">Topic</td>
+              <td>[[change.topic]]</td>
+            </tr>
+            <tr>
+              <td class="changeInfo-label">Strategy</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="changeInfo-label">Updated</td>
+              <td>
+                <gr-date-formatter
+                    date-str="[[change.updated]]"></gr-date-formatter>
+              </td>
+            </tr>
+          </table>
+        </section>
+        <section class="summary">[[_computeCurrentRevisionMessage(change)]]</section>
+        <gr-file-list change-num="[[changeNum]]"
+                      patch-num="[[_computePatchNum(change.current_revision)]]"
+                      revision="[[change.current_revision]]"
+                      comments="[[comments]]"></gr-file-list>
+        <gr-messages-list change-num="[[changeNum]]"
+                          messages="[[change.messages]]"
+                          comments="[[comments]]"></gr-messages-list>
+      </div>
+    </template>
   </template>
   <script>
   (function() {
@@ -152,8 +160,8 @@ limitations under the License.
           type: Object,
           observer: '_paramsChanged',
         },
-
         changeNum: Number,
+        _loading: Boolean,
       },
 
       keyBindings: {

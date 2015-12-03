@@ -128,7 +128,8 @@ def gen_classpath():
       continue
 
     m = java_library.match(p)
-    if m:
+    # Don't grab the cross-cell JGit libraries as source
+    if m and not m.group(1).startswith('org.eclipse.jgit'):
       src.add(m.group(1))
     else:
       lib.add(p)

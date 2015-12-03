@@ -1,0 +1,3 @@
+[cache]
+  mode = dir
+  dir = ~/.gerritcodereview/buck-cache/locally-built-artifacts

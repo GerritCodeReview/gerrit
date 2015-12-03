@@ -112,7 +112,8 @@ def gen_classpath():
   gwt_lib = set()
   plugins = set()
 
-  java_library = re.compile(r'[^/]+/gen/(.*)/lib__[^/]+__output/[^/]+[.]jar$')
+  # Classpath entries are absolute and not relaitive any more (cross-cell aware)
+  java_library = re.compile('.*/buck-out/gen/(.*)/lib__[^/]+__output/[^/]+[.]jar$')
   for p in _query_classpath(MAIN):
     if p.endswith('-src.jar'):
       # gwt_module() depends on -src.jar for Java to JavaScript compiles.
@@ -127,7 +128,8 @@ def gen_classpath():
       continue
 
     m = java_library.match(p)
-    if m:
+    # Don't grab the cross-cell JGit libraries as source
+    if m and not m.group(1).startswith('org.eclipse.jgit'):
       src.add(m.group(1))
     else:
       lib.add(p)

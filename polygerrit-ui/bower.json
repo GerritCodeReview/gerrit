@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "web-component-tester": "*",
-    "iron-test-helpers": "PolymerElements/iron-test-helpers"
+    "iron-test-helpers": "PolymerElements/iron-test-helpers",
+    "javascript-linkify": "*"
   }
 }

@@ -184,6 +184,30 @@
     },
     {
       "key": {
+        "uuid": "5b27ab98_268356bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-12-03T11:41:02Z",
+      "side": 1,
+      "message": "How would that interface look like in Gerrit?\n\n\u003e It just kind of feels wrong to implement let\u0027s say an S3 implementation of a large file repository against a JGit interface\n\nWhy?\n\n\n\nNote that this is not the first case that a JGit interface is exposed as an extension point. Check the lines 266-267: the PostReceiveHook and PreUploadHook are JGit interfaces.",
+      "parentUuid": "1b48d34e_2c8333bc",
+      "range": {
+        "startLine": 300,
+        "startChar": 33,
+        "endLine": 300,
+        "endChar": 52
+      },
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b48d34e_ccf8ef70",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 2

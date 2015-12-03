@@ -30,6 +30,8 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
@@ -42,9 +44,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -95,7 +100,7 @@ public class ChangeRebuilder {
   }
 
   public void rebuild(Change change, BatchRefUpdate bru,
-      BatchRefUpdate bruForDrafts, Repository changeRepo,
+      BatchRefUpdate bruAllUsers, Repository changeRepo,
       Repository allUsersRepo) throws NoSuchChangeException, IOException,
       OrmException {
     deleteRef(change, changeRepo);
@@ -169,14 +174,35 @@ public class ChangeRebuilder {
           draftUpdate = draftUpdateFactory.create(
               controlFactory.controlFor(change, user), e.when);
           draftUpdate.setPatchSetId(e.psId);
-          batchForDrafts = draftUpdate.openUpdateInBatch(bruForDrafts);
+          batchForDrafts = draftUpdate.openUpdateInBatch(bruAllUsers);
         }
         e.applyDraft(draftUpdate);
       }
       writeToBatch(batchForDrafts, draftUpdate, allUsersRepo);
-      synchronized(bruForDrafts) {
+      synchronized(bruAllUsers) {
         batchForDrafts.commit();
       }
+    }
+
+    createStarredChangesRefs(changeId, bruAllUsers, allUsersRepo);
+  }
+
+  private void createStarredChangesRefs(Change.Id changeId,
+      BatchRefUpdate bruAllUsers, Repository allUsersRepo)
+          throws IOException, OrmException {
+    ObjectId emptyTree = emptyTree(allUsersRepo);
+    for (StarredChange starred : dbProvider.get().starredChanges()
+        .byChange(changeId)) {
+      bruAllUsers.addCommand(new ReceiveCommand(ObjectId.zeroId(), emptyTree,
+          RefNames.refsStarredChanges(starred.getAccountId(), changeId)));
+    }
+  }
+
+  private static ObjectId emptyTree(Repository repo) throws IOException {
+    try (ObjectInserter oi = repo.newObjectInserter()) {
+      ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
+      oi.flush();
+      return id;
     }
   }
 

@@ -47,6 +47,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -184,6 +185,8 @@ public class CommentsTest extends GerritServerTests {
             .toInstance(GitReferenceUpdated.DISABLED);
         bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
           .toInstance(serverIdent);
+        bind(StarredChangesUtil.class)
+          .toProvider(Providers.<StarredChangesUtil> of(null));
       }
 
       @Provides

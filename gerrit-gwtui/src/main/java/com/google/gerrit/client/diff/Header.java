@@ -74,6 +74,8 @@ public class Header extends Composite {
   @UiField CheckBox reviewed;
   @UiField Element project;
   @UiField Element filePath;
+  @UiField Element fileNumber;
+  @UiField Element totalFileNumber;
 
   @UiField Element noDiff;
   @UiField FlowPanel linkPanel;
@@ -143,6 +145,9 @@ public class Header extends Composite {
       public void onSuccess(NativeMap<FileInfo> result) {
         JsArray<FileInfo> files = result.values();
         FileInfo.sortFileInfoByPath(files);
+        fileNumber.setInnerText(
+            Integer.toString(Natives.asList(files).indexOf(result.get(path)) + 1));
+        totalFileNumber.setInnerText(Integer.toString(files.length()));
         int index = 0; // TODO: Maybe use patchIndex.
         for (int i = 0; i < files.length(); i++) {
           if (path.equals(files.get(i).path())) {

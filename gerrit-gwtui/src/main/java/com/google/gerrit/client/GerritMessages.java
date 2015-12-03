@@ -36,4 +36,6 @@ public interface GerritMessages extends Messages {
   String cannotDownloadPlugin(String scriptPath);
 
   String parentUpdateFailed(String message);
+
+  String fileCount(int fileNumber, int totalFileNumber);
 }

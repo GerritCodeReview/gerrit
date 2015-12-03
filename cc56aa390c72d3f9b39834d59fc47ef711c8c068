@@ -160,6 +160,30 @@
     },
     {
       "key": {
+        "uuid": "1b48d34e_2c8333bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-12-03T08:16:55Z",
+      "side": 1,
+      "message": "I second Dariusz\u0027 point.\n\nIt also struck me as strange to directly bind against a JGit interface here. I understand that JGit needs some abstraction of the large file repository that can be used from the protocol implementation.\n\nStill I think we should decouple the interfaces exposed by this extension point from the interface used by the JGit implementation. It just kind of feels wrong to implement let\u0027s say an S3 implementation of a large file repository against a JGit interface.",
+      "parentUuid": "5b27ab98_c691a238",
+      "range": {
+        "startLine": 300,
+        "startChar": 33,
+        "endLine": 300,
+        "endChar": 52
+      },
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b48d34e_ccf8ef70",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 2

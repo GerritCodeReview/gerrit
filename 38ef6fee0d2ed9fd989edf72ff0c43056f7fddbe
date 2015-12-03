@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7bbb8f3b_0f064562",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-03T09:46:22Z",
+      "side": 1,
+      "message": "What bug?  Please describe it in the commit message.\n\nShould the fix be done in a separate commit?\n\nIs it a fix for the problem you said you\u0027d introduced with [1]?  If so, this fix needs to be on stable-2.12.\n\n[1] https://gerrit-review.googlesource.com/#/c/72669/",
+      "range": {
+        "startLine": 13,
+        "startChar": 67,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "38ef6fee0d2ed9fd989edf72ff0c43056f7fddbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b27ab98_e6e4ded1",
         "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/ResourceServletTest.java",
         "patchSetId": 5

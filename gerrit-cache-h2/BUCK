@@ -8,8 +8,8 @@ java_library(
     '//lib:guava',
     '//lib:h2',
     '//lib/guice:guice',
-    '//lib/jgit:jgit',
     '//lib/log:api',
+    '@jgit//:jgit',
   ],
   visibility = ['PUBLIC'],
 )

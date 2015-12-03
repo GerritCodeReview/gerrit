@@ -44,6 +44,7 @@ java_library(
     '//lib:mime-util',
     '//lib:pegdown',
     '//lib:protobuf',
+    '//lib:tukaani-xz',
     '//lib:velocity',
     '//lib/antlr:java_runtime',
     '//lib/auto:auto-value',
@@ -57,8 +58,6 @@ java_library(
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',
-    '//lib/jgit:jgit',
-    '//lib/jgit:jgit-archive',
     '//lib/joda:joda-time',
     '//lib/log:api',
     '//lib/log:jsonevent-layout',
@@ -70,6 +69,8 @@ java_library(
     '//lib/ow2:ow2-asm-tree',
     '//lib/ow2:ow2-asm-util',
     '//lib/prolog:runtime',
+    '@jgit//:jgit',
+    '@jgit//:jgit-archive',
   ],
   provided_deps = [
     '//lib:servlet-api-3_1',
@@ -96,12 +97,12 @@ TESTUTIL_DEPS = [
   '//lib:truth',
   '//lib/guice:guice',
   '//lib/guice:guice-servlet',
-  '//lib/jgit:jgit',
-  '//lib/jgit:junit',
   '//lib/joda:joda-time',
   '//lib/log:api',
   '//lib/log:impl_log4j',
   '//lib/log:log4j',
+  '@jgit//:jgit',
+  '@jgit//:junit',
 ]
 
 TESTUTIL = glob([

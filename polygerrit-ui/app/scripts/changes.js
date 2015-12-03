@@ -25,6 +25,13 @@ Changes.DiffType = {
   REWRITE: 'REWRITE',
 };
 
+Changes.Status = {
+  NEW: 'NEW',
+  MERGED: 'MERGED',
+  ABANDONED: 'ABANDONED',
+  DRAFT: 'DRAFT',
+};
+
 // Must be kept in sync with the ListChangesOption enum and protobuf.
 Changes.ListChangesOption = {
   LABELS: 0,

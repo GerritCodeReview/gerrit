@@ -16,20 +16,51 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="../styles/gr-change-list-styles.html">
 <link rel="import" href="gr-change-list-item.html">
 
 <dom-module id="gr-change-list">
   <template>
     <style>
       :host {
-        display: table;
-        border-collapse: collapse;
+        display: flex;
+        flex-direction: column;
+      }
+      .headerRow {
+        display: flex;
+      }
+      .topHeader,
+      .groupHeader {
+        border-bottom: 1px solid #eee;
+        font-weight: bold;
+        padding: .3em .5em;
+      }
+      .topHeader {
+        background-color: #ddd;
+        flex-shrink: 0;
       }
     </style>
-    <gr-change-list-item header></gr-change-list-item>
-    <template is="dom-repeat" items="{{changes}}" as="change">
-      <gr-change-list-item change="[[change]]"
-          selected="[[_isSelected(index)]]"></gr-change-list-item>
+    <style include="gr-change-list-styles"></style>
+    <div class="headerRow">
+      <span class="topHeader keyboard"></span> <!-- keyboard position indicator -->
+      <span class="topHeader subject">Subject</span>
+      <span class="topHeader status">Status</span>
+      <span class="topHeader owner">Owner</span>
+      <span class="topHeader project">Project</span>
+      <span class="topHeader branch">Branch</span>
+      <span class="topHeader updated">Updated</span>
+      <span class="topHeader size">Size</span>
+      <span class="topHeader codeReview" title="Code-Review">CR</span>
+      <span class="topHeader verified" title="Verified">V</span>
+    </div>
+    <template is="dom-repeat" items="{{groups}}" as="changeGroup" index-as="groupIndex">
+      <template is="dom-if" if="[[_groupTitle(groupIndex)]]">
+        <div class="groupHeader">[[_groupTitle(groupIndex)]]</div>
+      </template>
+      <template is="dom-repeat" items="[[changeGroup]]" as="change">
+        <gr-change-list-item change="[[change]]"
+            selected="[[_isSelected(groupIndex, index)]]"></gr-change-list-item>
+      </template>
     </template>
   </template>
 
@@ -53,12 +84,24 @@ limitations under the License.
          * An array of ChangeInfo objects to render.
          * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info
          */
-        changes: Array,
+        changes: {
+          type: Array,
+          observer: '_changesChanged',
+        },
+        /**
+         * ChangeInfo objects grouped into arrays. The groups and changes
+         * properties should not be used together.
+         */
+        groups: Array,
         keyEventTarget: {
           type: Object,
           value: function() {
             return document.body;
           }
+        },
+        groupTitles: {
+          type: Array,
+          value: [],
         },
         selectedIndex: {
           type: Number,
@@ -71,13 +114,22 @@ limitations under the License.
         'j k o enter': '_handleKey',
       },
 
-      _isSelected: function(index) {
+      _isSelected: function(groupIndex, index) {
         return index == this.selectedIndex;
+      },
+
+      _changesChanged: function(changes) {
+        this.groups = [changes];
+      },
+
+      _groupTitle: function(groupIndex) {
+        if (groupIndex > this.groupTitles.length - 1) { return null; }
+        return this.groupTitles[groupIndex];
       },
 
       _selectedIndexChanged: function(value) {
         // Don't re-render the entire list.
-        var changeEls = this._getNonHeaderListItems();
+        var changeEls = this._getListItems();
         for (var i = 0; i < changeEls.length; i++) {
           changeEls[i].toggleAttribute('selected', i == value);
         }
@@ -86,7 +138,11 @@ limitations under the License.
       _handleKey: function(e) {
         if (util.shouldSupressKeyboardShortcut(e)) { return; }
 
-        var len = (this.changes && this.changes.length) || 0;
+        if (this.groups == null) { return; }
+        var len = 0;
+        this.groups.forEach(function(group) {
+          len += group.length;
+        });
         switch(e.detail.combo) {
           case 'j':
             if (this.selectedIndex == len - 1) { return; }
@@ -104,16 +160,15 @@ limitations under the License.
       },
 
       _changeURLForIndex: function(index) {
-        var changeEls = this._getNonHeaderListItems();
+        var changeEls = this._getListItems();
         if (index < changeEls.length && changeEls[index]) {
           return changeEls[index].changeURL;
         }
         return '';
       },
 
-      _getNonHeaderListItems: function() {
-        return Polymer.dom(this.root).querySelectorAll(
-            'gr-change-list-item:not([header])');
+      _getListItems: function() {
+        return Polymer.dom(this.root).querySelectorAll('gr-change-list-item');
       },
 
     });

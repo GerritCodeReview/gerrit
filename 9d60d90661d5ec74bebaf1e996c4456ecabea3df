@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b48d34e_ec276ba2",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/ResourceServletTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-03T16:12:01Z",
+      "side": 1,
+      "message": "At some point we would like support other platforms as well. Just use another initialization of JimFS and let it to guess platform for you.",
+      "range": {
+        "startLine": 84,
+        "startChar": 29,
+        "endLine": 84,
+        "endChar": 49
+      },
+      "revId": "9d60d90661d5ec74bebaf1e996c4456ecabea3df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -195,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "5b27ab98_a6d106da",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-03T06:31:34Z",
+      "side": 1,
+      "message": "I\u0027m aware of it. The problem here (or the feature) is Buck\u0027s cache. Once rule is executed and rule key is calculated, next call will retrieve the artifact from the cache and not re-fetch it from local Maven repository. But, that applies not only to new introduced targets, jgit-lfs and jgit-lfs-server. Yet, in older JGit targets, like :jgit etc, SHA1 were removed. My suggestion include all of them or remove.\n\nIn recent changes, that relied on non-published JGit snapshots, Google\u0027s project members uploaded it to Google storage bucket. Can we ask them to do that? This would significanlty simplify verification of this change.\n\n| We had also tried local_jar but this was removed today since it\u0027s broken due to some changes in buck\n\nI know. My hope is that once cross-cell (project) support is landed in Buck we could provide better, simpler solution to changing third libraries workflow.",
+      "parentUuid": "1b48d34e_0c983737",
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b27ab98_e6b21ebe",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 2

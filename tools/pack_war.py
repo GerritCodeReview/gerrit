@@ -18,6 +18,7 @@ from optparse import OptionParser
 from os import chdir, makedirs, path, symlink
 from subprocess import check_call
 import sys
+import re
 
 opts = OptionParser()
 opts.add_option('-o', help='path to write WAR to')
@@ -30,8 +31,27 @@ war = args.tmp
 root = war[:war.index('buck-out')]
 jars = set()
 
+# TODO(davido): relocate from root directory of cell manually
+# $(classpath :cell-members) macro is broken:
+# https://github.com/facebook/buck/issues/544
+#
+regex = re.compile(r'(.*)/buck-out/gen/[^/]+[.]jar$')
+def fix_cell_root(j):
+  return j.replace('buck-out', 'lib/jgit/buck-out') if regex.match(j) else j
+
 def prune(l):
- return [j[j.find('buck-out'):] for e in l for j in e.split(':')]
+  t = []
+  for e in l:
+    for j in e.split(':'):
+       # TODO(davido): simplify this, when Buck bug is fixed
+       j = fix_cell_root(j)
+       if j.find('lib/jgit/buck-out/gen') > 0:
+         f = j.find('lib/jgit/buck-out/gen')
+         r = j[f:]
+         t.append(r)
+       elif j.find('buck-out'):
+         t.append(j[j.find('buck-out'):])
+  return t
 
 def link_jars(libs, directory):
   makedirs(directory)

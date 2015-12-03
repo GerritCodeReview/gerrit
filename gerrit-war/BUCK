@@ -24,7 +24,7 @@ java_library(
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib/log:api',
-    '//lib/jgit:jgit',
+    '@jgit//:jgit',
   ],
   provided_deps = ['//lib:servlet-api-3_1'],
   visibility = [

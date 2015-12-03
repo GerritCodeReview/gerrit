@@ -129,12 +129,15 @@ limitations under the License.
           type: String,
           computed: '_computeChangeURL(change._number)',
         },
-        showAvatar: Boolean,
+        showAvatar: {
+          type: Boolean,
+          value: false,
+        },
       },
 
       ready: function() {
         app.configReady.then(function(cfg) {
-          this.showAvatar = cfg && cfg.plugin && cfg.plugin.has_avatars;
+          this.showAvatar = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
         }.bind(this));
       },
 

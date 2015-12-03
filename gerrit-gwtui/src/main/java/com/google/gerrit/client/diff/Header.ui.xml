@@ -34,6 +34,11 @@ limitations under the License.
   .path {
     white-space: nowrap;
   }
+  .fileCount {
+    white-space: nowrap;
+    position: relative;
+    bottom: 4px;
+  }
   .navigation {
     position: absolute;
     top: 0;
@@ -69,6 +74,9 @@ limitations under the License.
     <div class='{style.navigation}'>
       <span ui:field='noDiff' class='{style.nodiff}'><ui:msg>No Differences</ui:msg></span>
       <g:FlowPanel ui:field='linkPanel' styleName='{style.linkPanel}'/>
+      <span class='{style.fileCount}'>
+        <ui:msg>File <span ui:field='fileNumber'/> of <span ui:field='totalFileNumber'/></ui:msg>
+      </span>
       <x:InlineHyperlink ui:field='prev' styleName='{res.style.goPrev}'/>
       <x:InlineHyperlink ui:field='up'
           styleName='{res.style.goUp}'

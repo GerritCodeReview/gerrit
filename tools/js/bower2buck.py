@@ -164,6 +164,11 @@ def collect_rules(packages):
     # e.g. 'PolymerElements/iron-ajax', is not found anywhere in this
     # bower.json, which only contains 'iron-ajax'. Build up a map of short name
     # to package name so we can resolve them later.
+    # TODO(dborowitz): We can do better:
+    #  - Infer 'user/package' from GitHub URLs (i.e. a simple subset of Bower's package
+    #    resolution logic).
+    #  - Resolve aliases using https://bower.herokuapp.com/packages/shortname
+    #    (not currently biting us but it might in the future.)
     for n, v in rule.deps.iteritems():
       p = get_package_name(n, v)
       old = packages.get(n)

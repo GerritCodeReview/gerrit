@@ -17,10 +17,10 @@ gwt_module(
   exported_deps = [
     '//gerrit-extension-api:client',
     '//gerrit-patch-jgit:client',
+    '//gerrit-patch-jgit:Edit',
     '//gerrit-reviewdb:client',
     '//lib:gwtjsonrpc',
     '//lib:gwtjsonrpc_src',
-    '//lib/jgit:Edit',
   ],
   provided_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
@@ -44,7 +44,7 @@ java_library(
     '//gerrit-reviewdb:server',
     '//lib:guava',
     '//lib:gwtjsonrpc',
-    '//lib/jgit:jgit',
+    '@jgit//:jgit',
   ],
   visibility = ['PUBLIC'],
 )

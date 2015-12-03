@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -41,7 +42,7 @@ public class ChangeCleanupConfig {
 
   @Inject
   ChangeCleanupConfig(@GerritServerConfig Config cfg,
-      @CanonicalWebUrl String canonicalWebUrl) {
+      @CanonicalWebUrl @Nullable String canonicalWebUrl) {
     scheduleConfig = new ScheduleConfig(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
     abandonIfMergeable =
@@ -61,7 +62,9 @@ public class ChangeCleanupConfig {
     if (Strings.isNullOrEmpty(abandonMessage)) {
       abandonMessage = DEFAULT_ABANDON_MESSAGE;
     }
-    abandonMessage = abandonMessage.replaceAll("\\$\\{URL\\}", webUrl);
+    if (!Strings.isNullOrEmpty(webUrl)) {
+      abandonMessage = abandonMessage.replaceAll("\\$\\{URL\\}", webUrl);
+    }
     return abandonMessage;
   }
 

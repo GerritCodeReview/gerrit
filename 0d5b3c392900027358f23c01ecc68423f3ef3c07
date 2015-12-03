@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a0407443_10ace4b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-03T18:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "001a2067_f3b05003",
+      "revId": "0d5b3c392900027358f23c01ecc68423f3ef3c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "001a2067_d3ad54ad",
         "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-03T17:43:25Z",
       "side": 1,
       "message": "So the default without \"value:\" is...undefined?",
+      "revId": "0d5b3c392900027358f23c01ecc68423f3ef3c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_53c9447e",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-03T18:01:09Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "001a2067_d3ad54ad",
       "revId": "0d5b3c392900027358f23c01ecc68423f3ef3c07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

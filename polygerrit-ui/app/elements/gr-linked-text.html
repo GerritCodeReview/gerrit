@@ -1,0 +1,49 @@
+<!-- Copyright (c) 2014 The Chromium Authors. All rights reserved.
+Use of this source code is governed by a BSD-style license that can be
+found in the LICENSE file. -->
+<script src="../bower_components/javascript-linkify/ba-linkify.min.js"></script>
+<script src="../scripts/linkify.js"></script>
+<dom-module id="gr-linked-text">
+  <template>
+    <style>
+      :host([pre]) {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+    </style>
+    <div id="output"></div>
+  </template>
+  <script>
+    Polymer({
+      is: 'gr-linked-text',
+
+      properties: {
+        text: {
+          type: String,
+          notify: true,
+          observer: '_linkifyText'
+        },
+        change: {
+          type: Object,
+          notify: true,
+          observer: '_parseChange'
+        }
+      },
+
+      _linkifyText: function(newValue) {
+        var parser = new LinkTextParser(function(text, href) {
+          if (href) {
+            var a = document.createElement('a');
+            a.href = href;
+            a.textContent = text;
+            a.target = '_blank';
+            output.appendChild(a);
+          } else {
+            output.appendChild(document.createTextNode(text));
+          }
+        });
+        parser.parse(newValue);
+      }
+    });
+  </script>
+</dom-module>

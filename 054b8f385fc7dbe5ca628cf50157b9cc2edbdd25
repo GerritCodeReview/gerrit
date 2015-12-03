@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7b30efcd_8787a6fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-03T16:02:03Z",
+      "side": 1,
+      "message": "Waste of time. Literally the only authors according to the log are me, Shawn, and some trivial cleanups by David Pletcher, who was on our team reporting to Shawn at the time but has since left the team.",
+      "parentUuid": "1b48d34e_6c3b7bc6",
+      "revId": "054b8f385fc7dbe5ca628cf50157b9cc2edbdd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b27ab98_e6593e3e",
         "filename": "gerrit-util-http/BUCK",
         "patchSetId": 1

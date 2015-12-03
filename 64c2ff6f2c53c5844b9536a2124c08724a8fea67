@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b30efcd_67555245",
+        "filename": "polygerrit-ui/app/test/gr-change-list-test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-03T14:26:24Z",
+      "side": 1,
+      "message": "Why is this necessary if no function calls from this script were added in this test?",
+      "revId": "64c2ff6f2c53c5844b9536a2124c08724a8fea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

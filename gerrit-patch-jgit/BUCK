@@ -9,10 +9,33 @@ gwt_module(
   gwt_xml = SRC + 'JGit.gwt.xml',
   deps = [
     '//lib:gwtjsonrpc',
-    '//lib/jgit:Edit',
+    ':Edit',
   ],
   provided_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
+)
+
+gwt_module(
+  name = 'Edit',
+  srcs = [':jgit_edit_src'],
+  deps = [':edit_src'],
+  visibility = ['PUBLIC'],
+)
+
+prebuilt_jar(
+  name = 'edit_src',
+  binary_jar = ':jgit_edit_src',
+)
+
+# TODO(davido): location macro is broken for cells @jgit//:jgit_src
+# https://github.com/facebook/buck/issues/544
+genrule(
+  name = 'jgit_edit_src',
+  cmd = 'unzip -qd $TMP $(location //lib/jgit:jgit_src) ' +
+    'org/eclipse/jgit/diff/Edit.java;' +
+    'cd $TMP;' +
+    'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
+  out = 'edit.src.zip',
 )
 
 java_library(
@@ -25,7 +48,7 @@ java_library(
   ],
   deps = [
     '//lib:gson',
-    '//lib/jgit:jgit',
+    '@jgit//:jgit',
   ],
   visibility = ['PUBLIC'],
 )
@@ -35,8 +58,8 @@ java_test(
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
     ':server',
-    '//lib/jgit:jgit',
     '//lib:junit',
+    '@jgit//:jgit',
   ],
   source_under_test = [':server'],
   visibility = ['//tools/eclipse:classpath'],

@@ -64,7 +64,7 @@ java_test(
     ':client',
     '//lib:junit',
     '//lib/gwt:user',
-    '//lib/jgit:jgit',
+    '@jgit//:jgit',
   ],
   source_under_test = [':client'],
   vm_args = ['-Xmx512m'],

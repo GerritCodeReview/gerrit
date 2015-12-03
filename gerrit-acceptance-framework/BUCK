@@ -14,9 +14,9 @@ DEPS = [
   '//lib/httpcomponents:httpclient',
   '//lib/httpcomponents:httpcore',
   '//lib/jetty:servlet',
-  '//lib/jgit:junit',
   '//lib/log:impl_log4j',
   '//lib/log:log4j',
+  '@jgit:junit',
 ]
 
 PROVIDED = [
@@ -29,10 +29,10 @@ PROVIDED = [
   '//gerrit-reviewdb:server',
   '//gerrit-server:server',
   '//lib:gson',
-  '//lib/jgit:jgit',
   '//lib:jsch',
   '//lib/mina:sshd',
   '//lib:servlet-api-3_1',
+  '@jgit//:jgit',
 ]
 
 java_binary(

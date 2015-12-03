@@ -18,6 +18,7 @@ from optparse import OptionParser
 from os import chdir, makedirs, path, symlink
 from subprocess import check_call
 import sys
+import re
 
 opts = OptionParser()
 opts.add_option('-o', help='path to write WAR to')
@@ -31,7 +32,22 @@ root = war[:war.index('buck-out')]
 jars = set()
 
 def prune(l):
- return [j[j.find('buck-out'):] for e in l for j in e.split(':')]
+  t = []
+  for e in l:
+    for j in e.split(':'):
+       # JGit is consumed from its own cell. That means,
+       # that the jgit artifacts are located not in root
+       # buck-out directory, but in cell's own buck-out.
+       # That's because every cell is separated container
+       # with its own buck-out directory, e.g. jgit.jar: 
+       # <gerrit-dir>/lib/jgit/buck-out/gen/jgit.jar
+       if j.find('lib/jgit/buck-out/gen') > 0:
+         f = j.find('lib/jgit/buck-out/gen')
+         r = j[f:]
+         t.append(r)
+       elif j.find('buck-out'):
+         t.append(j[j.find('buck-out'):])
+  return t
 
 def link_jars(libs, directory):
   makedirs(directory)

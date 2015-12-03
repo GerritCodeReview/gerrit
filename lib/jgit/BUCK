@@ -16,8 +16,8 @@ maven_jar(
     'META-INF/eclipse.inf',
     'about.html',
     'plugin.properties',
-  ],
-)
+   ],
+ )
 
 maven_jar(
   name = 'jgit-servlet',
@@ -39,16 +39,13 @@ maven_jar(
   sha1 = 'aae0cc90ab568182bdd1cb5a32bee5b44780e1a7',
   license = 'jgit',
   repository = REPO,
-  deps = [':jgit',
-    '//lib/commons:compress',
-    '//lib:tukaani-xz',
-  ],
+  deps = [':jgit'],
   unsign = True,
   exclude = [
     'about.html',
     'plugin.properties',
   ],
-)
+ )
 
 maven_jar(
   name = 'junit',
@@ -65,25 +62,4 @@ maven_jar(
   id = 'com.googlecode.javaewah:JavaEWAH:0.7.9',
   sha1 = 'eceaf316a8faf0e794296ebe158ae110c7d72a5a',
   license = 'Apache2.0',
-)
-
-gwt_module(
-  name = 'Edit',
-  srcs = [':jgit_edit_src'],
-  deps = [':edit_src'],
-  visibility = ['PUBLIC'],
-)
-
-prebuilt_jar(
-  name = 'edit_src',
-  binary_jar = ':jgit_edit_src',
-)
-
-genrule(
-  name = 'jgit_edit_src',
-  cmd = 'unzip -qd $TMP $(location :jgit_src) ' +
-    'org/eclipse/jgit/diff/Edit.java;' +
-    'cd $TMP;' +
-    'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
-  out = 'edit.src.zip',
 )

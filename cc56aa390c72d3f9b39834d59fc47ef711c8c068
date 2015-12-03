@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "1b48d34e_0c983737",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2015-12-03T00:32:49Z",
+      "side": 1,
+      "message": "we tried this and found that without SHA1 updates aren\u0027t downloaded if jgit is modified and rebuilt locally hence we reintroduced the hashes. \n\nWe had also tried local_jar but this was removed today since it\u0027s broken due to some changes in buck (https://gerrit-review.googlesource.com/#/c/72853/)",
+      "parentUuid": "1b48d34e_ccf8ef70",
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b27ab98_e6b21ebe",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 2

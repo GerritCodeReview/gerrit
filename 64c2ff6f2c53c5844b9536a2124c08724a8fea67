@@ -16,6 +16,24 @@
       "revId": "64c2ff6f2c53c5844b9536a2124c08724a8fea67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b30efcd_a7274af5",
+        "filename": "polygerrit-ui/app/test/gr-change-list-test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-03T14:46:52Z",
+      "side": 1,
+      "message": "Because the _handleKey function will be triggered by the tests below and shouldSupressKeyboardShortcut won\u0027t be defined unless it\u0027s pulled in here.",
+      "parentUuid": "7b30efcd_67555245",
+      "revId": "64c2ff6f2c53c5844b9536a2124c08724a8fea67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

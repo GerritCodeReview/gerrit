@@ -43,14 +43,14 @@ limitations under the License.
       assert.equal(element._computeChangeStatusString({mergeable: false}),
           'Merge Conflict');
 
-      assert.equal(element._computeCodeReviewClass(), '');
-      assert.equal(element._computeCodeReviewClass({}), '');
+      assert.equal(element._computeCodeReviewClass(), 'cell codeReview');
+      assert.equal(element._computeCodeReviewClass({}), 'cell codeReview');
       assert.equal(element._computeCodeReviewClass({approved: true, value: 1}),
-          'u-green');
+          'cell codeReview u-green u-monospace');
       assert.equal(element._computeCodeReviewClass({value: 1}),
-          'u-monospace u-green');
+          'cell codeReview u-green u-monospace');
       assert.equal(element._computeCodeReviewClass({value: -1}),
-          'u-monospace u-red');
+          'cell codeReview u-monospace u-red');
 
       assert.equal(element._computeCodeReviewLabel(), '');
       assert.equal(element._computeCodeReviewLabel({}), '');

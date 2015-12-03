@@ -21,19 +21,15 @@ limitations under the License.
   <template>
     <style>
       :host {
-        display: table-row;
+        display: flex;
       }
       :host([selected]) {
         background-color: #d8EdF9;
       }
-      th, td {
+      .cell {
         border-bottom: 1px solid #eee;
         padding: .3em .5em;
         vertical-align: top;
-      }
-      th {
-        background: #ddd;
-        text-align: left;
       }
       a {
         color: var(--default-text-color);
@@ -64,48 +60,34 @@ limitations under the License.
         color: #D32F2F;
       }
     </style>
-    <template is="dom-if" if="[[header]]">
-      <th></th> <!-- keyboard position indicator -->
-      <th>Subject</th>
-      <th>Status</th>
-      <th>Owner</th>
-      <th>Project</th>
-      <th>Branch</th>
-      <th>Updated</th>
-      <th>Size</th>
-      <th title="Code-Review">CR</th>
-      <th title="Verified">V</th>
-    </template>
-    <template is="dom-if" if="[[!header]]">
-      <td>
-        <span class="positionIndicator">&#x25b6;</span>
-      </td>
-      <td>
-        <a href$="[[changeURL]]">[[change.subject]]</a>
-      </td>
-      <td>[[_computeChangeStatusString(change)]]</td>
-      <td>
-        <template is="dom-if" if="[[showAvatar]]">
-          <img class="avatarImage" src$="[[_computeAvatarURL(change.owner)]]">
-        </template>
-        <a href$="[[_computeOwnerLink(change.owner.email)]]"
-           title$="[[_computeOwnerTitle(change.owner)]]">[[change.owner.name]]</a>
-      </td>
-      <td>
-        <a href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
-      </td>
-      <td>
-        <a href$="[[_computeProjectBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
-      </td>
-      <td><gr-date-formatter date-str="[[change.updated]]"></gr-date-formatter></td>
-      <td class="u-monospace">
-        <span class="u-green"><span>+</span>[[change.insertions]]</span>,
-        <span class="u-red"><span>-</span>[[change.deletions]]</span>
-      </td>
-      <td title="Code-Review"
-          class$="[[_computeCodeReviewClass(change.labels.Code-Review)]]">[[_computeCodeReviewLabel(change.labels.Code-Review)]]</td>
-      <td title="Verified" class="u-green">[[_computeVerifiedLabel(change.labels.Verified)]]</td>
-    </template>
+    <span class="cell keyboard">
+      <span class="positionIndicator">&#x25b6;</span>
+    </span>
+    <span class="cell subject">
+      <a href$="[[changeURL]]">[[change.subject]]</a>
+    </span>
+    <span class="cell status">[[_computeChangeStatusString(change)]]</span>
+    <span class="cell owner">
+      <template is="dom-if" if="[[showAvatar]]">
+        <img class="avatarImage" src$="[[_computeAvatarURL(change.owner)]]">
+      </template>
+      <a href$="[[_computeOwnerLink(change.owner.email)]]"
+         title$="[[_computeOwnerTitle(change.owner)]]">[[change.owner.name]]</a>
+    </span>
+    <span class="cell project">
+      <a href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
+    </span>
+    <span class="cell branch">
+      <a href$="[[_computeProjectBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
+    </span>
+    <span class="cell updated"><gr-date-formatter date-str="[[change.updated]]"></gr-date-formatter></span>
+    <span class="cell size u-monospace">
+      <span class="u-green"><span>+</span>[[change.insertions]]</span>,
+      <span class="u-red"><span>-</span>[[change.deletions]]</span>
+    </span>
+    <span title="Code-Review"
+        class$="[[_computeCodeReviewClass(change.labels.Code-Review)]]">[[_computeCodeReviewLabel(change.labels.Code-Review)]]</span>
+    <span class="cell verified u-green" title="Verified">[[_computeVerifiedLabel(change.labels.Verified)]]</span>
   </template>
   <script>
   (function() {
@@ -115,11 +97,6 @@ limitations under the License.
       is: 'gr-change-list-item',
 
       properties: {
-        header: {
-          type: Boolean,
-          reflectToAttribute: true,
-          value: false,
-        },
         selected: {
           type: Boolean,
           reflectToAttribute: true,
@@ -151,17 +128,24 @@ limitations under the License.
       },
 
       _computeCodeReviewClass: function(codeReview) {
-        if (!codeReview) { return ''; }
-        if (codeReview.approved) {
-          return 'u-green';
+        // Mimic a Set.
+        var classes = {
+          'cell': true,
+          'codeReview': true,
+        };
+        if (codeReview) {
+          if (codeReview.approved) {
+            classes['u-green'] = true;
+          }
+          if (codeReview.value == 1) {
+            classes['u-monospace'] = true;
+            classes['u-green'] = true;
+          } else if (codeReview.value == -1) {
+            classes['u-monospace'] = true;
+            classes['u-red'] = true;
+          }
         }
-        if (codeReview.value == 1) {
-          return 'u-monospace u-green';
-        }
-        if (codeReview.value == -1) {
-          return 'u-monospace u-red';
-        }
-        return '';
+        return Object.keys(classes).sort().join(' ');
       },
 
       _computeCodeReviewLabel: function(codeReview) {

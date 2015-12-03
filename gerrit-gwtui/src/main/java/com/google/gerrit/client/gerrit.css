@@ -638,6 +638,10 @@ a:hover {
   padding-right: 3px;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 
 /** PatchContentTable **/
 .patchContentTable {

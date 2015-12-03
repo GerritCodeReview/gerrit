@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1b48d34e_cc22af95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-03T16:04:29Z",
+      "side": 1,
+      "message": "Now, that we even have dev names, should be fine then.",
+      "parentUuid": "7b30efcd_8787a6fa",
+      "revId": "054b8f385fc7dbe5ca628cf50157b9cc2edbdd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b27ab98_e6593e3e",
         "filename": "gerrit-util-http/BUCK",
         "patchSetId": 1

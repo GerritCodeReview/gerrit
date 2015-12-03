@@ -52,6 +52,24 @@
       "revId": "cf43e1788faa2f896178850a5d0288779d837971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b9d97d4_ed0e657b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-03T09:50:03Z",
+      "side": 1,
+      "message": "Is this still a problem that needs to be fixed?\n\nAnd is it a Google-specific problem or do we also need to fix it on stable-2.12 before I do the final release of 2.12?",
+      "parentUuid": "db59db74_9a304de5",
+      "revId": "cf43e1788faa2f896178850a5d0288779d837971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

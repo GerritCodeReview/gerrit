@@ -60,6 +60,7 @@ public class AuthConfig {
   private final String cookiePath;
   private final boolean cookieSecure;
   private final SignedToken emailReg;
+  private final boolean allowRegisterNewEmail;
 
   @Inject
   AuthConfig(@GerritServerConfig final Config cfg)
@@ -90,7 +91,7 @@ public class AuthConfig {
     useContributorAgreements =
         cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
-
+    allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
 
     String key = cfg.getString("auth", null, "registerEmailPrivateKey");
     if (key != null && !key.isEmpty()) {
@@ -296,5 +297,9 @@ public class AuthConfig {
   public boolean isLdapAuthType() {
     return authType == AuthType.LDAP ||
         authType == AuthType.LDAP_BIND;
+  }
+
+  public boolean isAllowRegisterNewEmail() {
+    return allowRegisterNewEmail;
   }
 }

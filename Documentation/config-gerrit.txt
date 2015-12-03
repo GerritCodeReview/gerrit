@@ -482,6 +482,16 @@ editing gerrit.config and restarting the server.
 +
 Default is true.
 
+[[auth.allowRegisterNewEmail]]auth.allowRegisterNewEmail::
++
+Whether users are allowed to register new email addresses.
++
+In addition for the HTTP authentication type
+link:#auth.httpemailheader[auth.httpemailheader] must *not* be set to
+enable registration of new email addresses.
++
+By default, true.
+
 [[cache]]
 === Section cache
 
@@ -3176,16 +3186,6 @@ If false Gerrit will not send email messages, for any reason,
 and all other properties of section sendemail are ignored.
 +
 By default, true, allowing notifications to be sent.
-
-[[sendemail.allowRegisterNewEmail]]sendemail.allowRegisterNewEmail::
-+
-Whether users are allowed to register new email addresses.
-+
-In addition for the HTTP authentication type
-link:#auth.httpemailheader[auth.httpemailheader] must *not* be set to
-enable registration of new email addresses.
-+
-By default, true.
 
 [[sendemail.connectTimeout]]sendemail.connectTimeout::
 +

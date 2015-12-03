@@ -22,7 +22,7 @@
 
 [java]
   jar_spool_mode = direct_to_jar
-  src_roots = java, resources
+  src_roots = java, resources, src
 
 [project]
   ignore = .git, eclipse-out
@@ -34,3 +34,7 @@
 
 [test]
   excluded_labels = manual
+
+[repositories]
+  jgit = lib/jgit
+

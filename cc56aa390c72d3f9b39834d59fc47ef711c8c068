@@ -208,6 +208,30 @@
     },
     {
       "key": {
+        "uuid": "5b27ab98_668d4ee2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2015-12-03T12:14:55Z",
+      "side": 1,
+      "message": "How would the interface look like? Maybe along the lines of the interface in JGit, maybe different. The basic requirements are the same, of course:\n- provide an upload URL to upload a new large object\n- get the download URL to download an existing large object\n\nBut I could as well imagine more requirements for communication between Gerrit and a large file repository like e.g. deletion of large objects in case of repo deletion. I just don\u0027t think we can assume that the same interface is a good fit for both levels of abstraction.\n\n\u003e PostReceiveHook and PreUploadHook\n\nOne could argue that a higher level of abstraction could have some benefits here as well. But that\u0027s a different discussion.",
+      "parentUuid": "5b27ab98_268356bc",
+      "range": {
+        "startLine": 300,
+        "startChar": 33,
+        "endLine": 300,
+        "endChar": 52
+      },
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b48d34e_ccf8ef70",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 2

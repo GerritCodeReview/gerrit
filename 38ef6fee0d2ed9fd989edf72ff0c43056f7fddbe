@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "60fcbc2b_be56194f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-03T13:58:37Z",
+      "side": 1,
+      "message": "Yes we should put this in stable-2.12. Normally I have no problem putting tests and a bugfix in the same change, but if you don\u0027t think it\u0027s a good idea to cherry-pick the tests to stable-2.12 then I can split them up.",
+      "parentUuid": "7bbb8f3b_0f064562",
+      "range": {
+        "startLine": 13,
+        "startChar": 67,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "38ef6fee0d2ed9fd989edf72ff0c43056f7fddbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b27ab98_e6e4ded1",
         "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/ResourceServletTest.java",
         "patchSetId": 5
@@ -73,6 +97,24 @@
       "side": 1,
       "message": "Yes, but the test is only about large files :-)",
       "parentUuid": "60fcbc2b_9ecebd81",
+      "revId": "38ef6fee0d2ed9fd989edf72ff0c43056f7fddbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b30efcd_47584e7e",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/raw/ResourceServletTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-03T13:58:37Z",
+      "side": 1,
+      "message": "Exactly. You can tell this test is hitting the large file codepath because assertCacheHits(cache, 0, 2) on l. 252 would fail if it were hitting the small file codepath.",
+      "parentUuid": "5b27ab98_06c1fa02",
       "revId": "38ef6fee0d2ed9fd989edf72ff0c43056f7fddbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

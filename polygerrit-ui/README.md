@@ -18,10 +18,7 @@ nodejs.org](https://nodejs.org/en/download/).
 To test the local UI against gerrit-review.googlesource.com:
 
 ```sh
-cd polygerrit-ui
-npm install
-bower install
-go run server.go
+./run-server.sh
 ```
 
 Then visit http://localhost:8081

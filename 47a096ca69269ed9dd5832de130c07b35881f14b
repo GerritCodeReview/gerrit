@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bbb8f3b_4f004d44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-03T10:07:05Z",
+      "side": 1,
+      "message": "Can you also reproduce this problem on master?  I\u0027ve just tested it now and I\u0027m getting redirected to the login page.\n\nThis makes me wonder if it\u0027s already been fixed, in a different way, somewhere between stable-2.11 and master.\n\nOr, I\u0027m testing it wrong...",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 19,
+        "endChar": 26
+      },
+      "revId": "47a096ca69269ed9dd5832de130c07b35881f14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

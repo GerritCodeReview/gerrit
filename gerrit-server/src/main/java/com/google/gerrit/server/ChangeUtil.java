@@ -36,7 +36,6 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
@@ -186,7 +185,6 @@ public class ChangeUtil {
   private final ChangeInserter.Factory changeInserterFactory;
   private final GitRepositoryManager gitManager;
   private final GitReferenceUpdated gitRefUpdated;
-  private final ChangeIndexer indexer;
   private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final ChangeUpdate.Factory changeUpdateFactory;
@@ -201,7 +199,6 @@ public class ChangeUtil {
       ChangeInserter.Factory changeInserterFactory,
       GitRepositoryManager gitManager,
       GitReferenceUpdated gitRefUpdated,
-      ChangeIndexer indexer,
       BatchUpdate.Factory updateFactory,
       ChangeMessagesUtil changeMessagesUtil,
       ChangeUpdate.Factory changeUpdateFactory,
@@ -214,7 +211,6 @@ public class ChangeUtil {
     this.changeInserterFactory = changeInserterFactory;
     this.gitManager = gitManager;
     this.gitRefUpdated = gitRefUpdated;
-    this.indexer = indexer;
     this.updateFactory = updateFactory;
     this.changeMessagesUtil = changeMessagesUtil;
     this.changeUpdateFactory = changeUpdateFactory;
@@ -342,19 +338,6 @@ public class ChangeUtil {
       return commit.getFullMessage();
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeId, e);
-    }
-  }
-
-  // TODO(dborowitz): Delete after migrating DeleteDraftChange to BatchUpdate.
-  public void deleteDraftChangeInNewTransaction(Change change)
-      throws NoSuchChangeException, OrmException, IOException {
-    db.get().changes().beginTransaction(change.getId());
-    try {
-      deleteDraftChange(change);
-      db.get().commit();
-      indexer.delete(change.getId());
-    } finally {
-      db.get().rollback();
     }
   }
 

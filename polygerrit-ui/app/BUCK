@@ -23,7 +23,7 @@ genrule(
     'cd $TMP/polygerrit_ui',
     'cp $(location :processed_index) index.html',
     'mkdir -p {elements,bower_components/webcomponentsjs}',
-    'cp $(location :polygerrit) elements/gr-app.vulcanized.html',
+    'unzip -qd elements $(location :gr-app)',
     'cp -rp $SRCDIR/* .',
     'unzip -p $(location //polygerrit-ui:polygerrit_components) %s>%s' % (WEBJS, WEBJS),
     'cd $TMP',
@@ -45,10 +45,10 @@ genrule(
 )
 
 vulcanize(
-  name = 'polygerrit',
+  name = 'gr-app',
   app = 'elements/gr-app.html',
   srcs = APP_SRCS,
-  components = ['//polygerrit-ui:polygerrit_components'],
+  components = '//polygerrit-ui:polygerrit_components',
 )
 
 

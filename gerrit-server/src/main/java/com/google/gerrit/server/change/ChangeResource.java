@@ -22,7 +22,9 @@ import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -49,12 +51,20 @@ public class ChangeResource implements RestResource, HasETag {
     return control;
   }
 
+  IdentifiedUser getUser() {
+    return getControl().getUser().asIdentifiedUser();
+  }
+
   public Change.Id getId() {
     return getControl().getId();
   }
 
   public Change getChange() {
     return getControl().getChange();
+  }
+
+  public Project.NameKey getProject() {
+    return getChange().getProject();
   }
 
   public ChangeNotes getNotes() {

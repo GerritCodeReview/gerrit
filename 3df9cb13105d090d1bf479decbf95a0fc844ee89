@@ -70,6 +70,30 @@
       "revId": "3df9cb13105d090d1bf479decbf95a0fc844ee89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c033a81e_e1b726f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-04T16:45:16Z",
+      "side": 1,
+      "message": "Thanks. I somehow missed one important difference between websession cache and starred changes cache. While former is pure database backed, the later is scanning Git repository and thus needs more resources and time for initialization.",
+      "parentUuid": "c033a81e_c1b02204",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 3
+      },
+      "revId": "3df9cb13105d090d1bf479decbf95a0fc844ee89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e036ecdd_92e9fcd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-12-04T13:27:02Z",
+      "side": 1,
+      "message": "i suppose that was meant to be \"mostly feature-complete\" ...",
+      "revId": "054b8f385fc7dbe5ca628cf50157b9cc2edbdd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b48d34e_6c3b7bc6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "001a2067_5325c4ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2294,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-04T17:24:23Z",
+      "side": 1,
+      "message": "This method is already nightmarishly long, let\u0027s not make it worse. Factor out a private here.",
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_f333b034",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-04T17:24:23Z",
+      "side": 1,
+      "message": "This does not guarantee any ordering.\n\n(If you follow my suggestion below to use draftByChangeAuthor, that does guarantee ordering.)",
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_f04cc0c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-04T17:24:23Z",
+      "side": 1,
+      "message": "We specifically added draftByChangeAuthor so in PostReview we could do only one database lookup for PUBLISH_ALL_REVISIONS. You should probably use that here too.",
+      "range": {
+        "startLine": 2300,
+        "startChar": 53,
+        "endLine": 2300,
+        "endChar": 74
+      },
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_131f4c9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2302,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-04T17:24:23Z",
+      "side": 1,
+      "message": "Nit: space before :",
+      "range": {
+        "startLine": 2302,
+        "startChar": 35,
+        "endLine": 2302,
+        "endChar": 36
+      },
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_104864b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2308,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-04T17:24:23Z",
+      "side": 1,
+      "message": "!plcByPs.isEmpty()",
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_331a48aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2309,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-04T17:24:23Z",
+      "side": 1,
+      "message": "Do we need newlines here or something?",
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

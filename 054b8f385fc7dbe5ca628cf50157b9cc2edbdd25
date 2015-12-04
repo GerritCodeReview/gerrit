@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "8043704f_afd13921",
+        "filename": "gerrit-util-http/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-04T01:04:08Z",
+      "side": 1,
+      "message": "OK.  Let\u0027s get this submitted now and merged up to master.  If we decide to do this improvement on stable-2.12 it can still be done before final release.",
+      "parentUuid": "001a2067_33f928a9",
+      "revId": "054b8f385fc7dbe5ca628cf50157b9cc2edbdd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b27ab98_466932cb",
         "filename": "gerrit-util-http/BUCK",
         "patchSetId": 1

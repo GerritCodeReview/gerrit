@@ -205,6 +205,24 @@
       "revId": "6f992de680466bcd38c5ec5de5ea2211f6d6c032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_d3067463",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-04T15:20:06Z",
+      "side": 1,
+      "message": "Yes you\u0027re right. Corrected. I was thinking of the project name, not the branch name.",
+      "parentUuid": "a0407443_d0065c63",
+      "revId": "6f992de680466bcd38c5ec5de5ea2211f6d6c032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

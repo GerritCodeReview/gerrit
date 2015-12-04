@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a0407443_b003d851",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-04T15:05:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure I completely buy the encapsulation happening here. The reason you need to include the same styles in gr-change-list and gr-change-list-item is that those two elements are tightly coupled together: you reuse style names because you would only ever put a gr-change-list-item in a gr-change-list, never anywhere else. So that kind of raises the question of why they have to be in different files at all. If you\u0027ll pardon my Java analogy, gr-change-list-item would be like a private nested class inside gr-change-list.\n\n(This is just me getting the hang of webcomponents, no action required.)",
+      "parentUuid": "a0407443_f0e280f3",
+      "range": {
+        "startLine": 42,
+        "startChar": 28,
+        "endLine": 42,
+        "endChar": 37
+      },
+      "revId": "6f992de680466bcd38c5ec5de5ea2211f6d6c032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0407443_90ce9481",
         "filename": "polygerrit-ui/app/elements/gr-change-list.html",
         "patchSetId": 5
@@ -160,6 +184,24 @@
       "side": 1,
       "message": "See above.",
       "parentUuid": "a0407443_70efb0e2",
+      "revId": "6f992de680466bcd38c5ec5de5ea2211f6d6c032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_d0065c63",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-04T15:05:38Z",
+      "side": 1,
+      "message": "You seem to be arguing that 9em is ok above because \"Merge conflict\" is the longest possible string in that column, and that\u0027s fine. But there is no such upper bound to the length of a branch name.",
+      "parentUuid": "001a2067_b3ec18e8",
       "revId": "6f992de680466bcd38c5ec5de5ea2211f6d6c032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

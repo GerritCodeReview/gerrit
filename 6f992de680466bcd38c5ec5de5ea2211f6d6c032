@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a0407443_f0e280f3",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-04T03:46:58Z",
+      "side": 1,
+      "message": "This is actually not right. This was from https://www.polymer-project.org/1.0/docs/devguide/styling.html#styling-distributed-children-content but works only on Shady DOM and breaks the encapsulation of the elements. Moved to a shared stylesheet per https://www.polymer-project.org/1.0/docs/devguide/styling.html#style-modules",
+      "parentUuid": "001a2067_53f4a4b0",
+      "range": {
+        "startLine": 42,
+        "startChar": 28,
+        "endLine": 42,
+        "endChar": 37
+      },
+      "revId": "6f992de680466bcd38c5ec5de5ea2211f6d6c032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0407443_90ce9481",
         "filename": "polygerrit-ui/app/elements/gr-change-list.html",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-04T00:45:59Z",
       "side": 1,
       "message": "What does \u003e\u003e mean? Another thing that\u0027s hard to search for.",
+      "range": {
+        "startLine": 50,
+        "startChar": 26,
+        "endLine": 50,
+        "endChar": 28
+      },
+      "revId": "6f992de680466bcd38c5ec5de5ea2211f6d6c032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_d0df7c25",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-04T03:46:58Z",
+      "side": 1,
+      "message": "Nothing. It\u0027s supposed to be \u003e but it still worked o_O",
+      "parentUuid": "a0407443_90ce9481",
       "range": {
         "startLine": 50,
         "startChar": 26,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "001a2067_d3df9425",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-04T03:46:58Z",
+      "side": 1,
+      "message": "9em fits Merge Conflict. 9em \u003d 9 * \u003csize of font\u003e so in the case of a 13px font, 117px wide.",
+      "parentUuid": "a0407443_50f4acb0",
+      "revId": "6f992de680466bcd38c5ec5de5ea2211f6d6c032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0407443_70efb0e2",
         "filename": "polygerrit-ui/app/elements/gr-change-list.html",
         "patchSetId": 5
@@ -76,6 +142,24 @@
       "writtenOn": "2015-12-04T00:45:59Z",
       "side": 1,
       "message": "Should this be nowrap too? Sometimes there are slashes or hyphens in branch names.",
+      "revId": "6f992de680466bcd38c5ec5de5ea2211f6d6c032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_b3ec18e8",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-04T03:46:58Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "a0407443_70efb0e2",
       "revId": "6f992de680466bcd38c5ec5de5ea2211f6d6c032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

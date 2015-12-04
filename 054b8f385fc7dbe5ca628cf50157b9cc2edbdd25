@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "602afc7b_aeba57df",
+        "filename": "gerrit-util-http/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-04T00:16:29Z",
+      "side": 1,
+      "message": "How much effort it it going to take to do this?  It looks like Dave doesn\u0027t want to do it, so are you prepared to take it?\n\nOtherwise I\u0027ll just merge this on stable-2.12 and it can be improved later on master.",
+      "parentUuid": "5b27ab98_863faab7",
+      "revId": "054b8f385fc7dbe5ca628cf50157b9cc2edbdd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b27ab98_466932cb",
         "filename": "gerrit-util-http/BUCK",
         "patchSetId": 1

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0407443_d0309c2a",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-04T19:27:03Z",
+      "side": 1,
+      "message": "value: []",
+      "revId": "3870f27dbd3c2c61b047e800a7c6945e230b7dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_d37b14cd",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-04T19:27:03Z",
+      "side": 1,
+      "message": "use var j \u003d 0; ...\n\nfor/in is bad practice for arrays. https://google.github.io/styleguide/javascriptguide.xml?showone\u003dfor-in_loop#for-in_loop",
+      "revId": "3870f27dbd3c2c61b047e800a7c6945e230b7dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

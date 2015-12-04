@@ -14,37 +14,45 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-public class ReviewerResource extends ChangeResource {
+public class ReviewerResource implements RestResource {
   public static final TypeLiteral<RestView<ReviewerResource>> REVIEWER_KIND =
       new TypeLiteral<RestView<ReviewerResource>>() {};
 
   public static interface Factory {
-    ReviewerResource create(ChangeResource rsrc, IdentifiedUser user);
-    ReviewerResource create(ChangeResource rsrc, Account.Id id);
+    ReviewerResource create(ChangeResource change, Account.Id id);
   }
 
+  private final ChangeResource change;
   private final IdentifiedUser user;
 
   @AssistedInject
-  ReviewerResource(@Assisted ChangeResource rsrc,
-      @Assisted IdentifiedUser user) {
-    super(rsrc);
-    this.user = user;
+  ReviewerResource(IdentifiedUser.GenericFactory userFactory,
+      @Assisted ChangeResource change,
+      @Assisted Account.Id id) {
+    this.change = change;
+    this.user = userFactory.create(id);
   }
 
-  @AssistedInject
-  ReviewerResource(IdentifiedUser.GenericFactory userFactory,
-      @Assisted ChangeResource rsrc,
-      @Assisted Account.Id id) {
-    this(rsrc, userFactory.create(id));
+  public ChangeResource getChangeResource() {
+    return change;
+  }
+
+  public Change.Id getChangeId() {
+    return change.getId();
+  }
+
+  public Change getChange() {
+    return change.getChange();
   }
 
   public IdentifiedUser getReviewerUser() {
@@ -52,10 +60,18 @@ public class ReviewerResource extends ChangeResource {
   }
 
   /**
+   * @return the control for the caller's user (as opposed to the reviewer's
+   *     user as returned by {@link #getReviewerControl()}).
+   */
+  public ChangeControl getControl() {
+    return change.getControl();
+  }
+
+  /**
    * @return the control for the reviewer's user (as opposed to the caller's
    *     user as returned by {@link #getControl()}).
    */
-  public ChangeControl getUserControl() {
-    return getControl().forUser(user);
+  public ChangeControl getReviewerControl() {
+    return change.getControl().forUser(user);
   }
 }

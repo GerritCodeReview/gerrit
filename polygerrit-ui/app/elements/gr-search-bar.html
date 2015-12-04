@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 
 <dom-module id="gr-search-bar">
@@ -55,6 +56,10 @@ limitations under the License.
     Polymer({
       is: 'gr-search-bar',
 
+      behaviors: [
+        Polymer.IronA11yKeysBehavior
+      ],
+
       listeners: {
         'searchInput.keydown': '_inputKeyDownHandler',
         'searchButton.tap': '_preventDefaultAndNavigateToInputVal',
@@ -67,7 +72,17 @@ limitations under the License.
           notify: true,
           observer: '_valueChanged',
         },
+        keyEventTarget: {
+          type: Object,
+          value: function() {
+            return document.body;
+          }
+        },
         _inputVal: String,
+      },
+
+      keyBindings: {
+        '/': '_handleKey',
       },
 
       _valueChanged: function(value) {
@@ -86,6 +101,17 @@ limitations under the License.
         page.show('/q/' + this._inputVal);
       },
 
+      _handleKey: function(e) {
+        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+        e.preventDefault();
+        switch(e.detail.combo) {
+          case '/':
+            var s = this.$.searchInput;
+            s.focus();
+            s.setSelectionRange(0, s.value.length);
+            break;
+        }
+      },
     });
 
   })();

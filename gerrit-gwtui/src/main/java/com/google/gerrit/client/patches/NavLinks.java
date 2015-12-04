@@ -99,6 +99,7 @@ class NavLinks extends Composite {
 
     /* setup the cells */
     if (link != null) {
+      link.addStyleName(Gerrit.RESOURCES.css().nowrap());
       table.setWidget(0, nav.col, link);
     } else {
       table.clearCell(0, nav.col);

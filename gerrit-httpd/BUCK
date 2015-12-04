@@ -58,6 +58,8 @@ java_test(
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//gerrit-util-http:http',
+    '//gerrit-util-http:testutil',
+    '//lib:jimfs',
     '//lib:junit',
     '//lib:gson',
     '//lib:gwtorm',
@@ -69,6 +71,7 @@ java_test(
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
+    '//lib/joda:joda-time',
   ],
   source_under_test = [':httpd'],
   # TODO(sop) Remove after Buck supports Eclipse

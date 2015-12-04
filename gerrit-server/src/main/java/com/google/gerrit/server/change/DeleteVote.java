@@ -70,10 +70,9 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
   public Response<?> apply(VoteResource rsrc, Input input)
       throws RestApiException, UpdateException {
     ReviewerResource r = rsrc.getReviewer();
-    ChangeControl ctl = r.getControl();
     Change change = r.getChange();
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
-          change.getProject(), ctl.getUser().asIdentifiedUser(),
+          change.getProject(), rsrc.getReviewer().getControl().getUser(),
           TimeUtil.nowTs())) {
       bu.addOp(change.getId(),
           new Op(r.getReviewerUser().getAccountId(), rsrc.getLabel()));

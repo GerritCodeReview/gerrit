@@ -92,7 +92,11 @@ limitations under the License.
          * ChangeInfo objects grouped into arrays. The groups and changes
          * properties should not be used together.
          */
-        groups: Array,
+        groups: {
+          type: Array,
+          value: function() { return []; },
+          observer: '_groupsChanged',
+        },
         keyEventTarget: {
           type: Object,
           value: function() {
@@ -120,6 +124,21 @@ limitations under the License.
 
       _changesChanged: function(changes) {
         this.groups = [changes];
+      },
+
+      _groupsChanged: function(groups) {
+        for (var i = 0; i < groups.length; i++) {
+          for (var id in groups[i]) {
+            var change = groups[i][id];
+            if (change.labels && change.labels.hasOwnProperty('Code-Review')) {
+              // Transform Code-Review to Code_Review so it is a JS identifier
+              // that can be used in computed properties. This is a hack, but
+              // all has to change to support dynamic label sets anyway.
+              change.labels['Code_Review'] = change.labels['Code-Review'];
+              delete change.labels['Code-Review'];
+            }
+          }
+        }
       },
 
       _groupTitle: function(groupIndex) {

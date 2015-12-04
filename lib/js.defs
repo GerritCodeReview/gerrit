@@ -142,16 +142,28 @@ def vulcanize(
     extra_flags = [],
     visibility = ['PUBLIC']):
   genrule(
-    name = name,
+    name = '%s__vulcanized' % name,
     cmd = ' '.join([
-      'unzip', '-qd', '$SRCDIR',
-    ] + ['$(location %s)' % c for c in components] + [
+      'unzip', '-qd', '$SRCDIR', '$(location %s)' % components,
       '&&', run_npm_binary('//lib/js:vulcanize')
     ] + VULCANIZE_FLAGS + extra_flags + [
       '--out-html', '$OUT',
       '$SRCDIR/%s' % app,
     ]),
     srcs = srcs,
-    out = '%s.html' % name,
+    out = '%s.vulcanized.html' % name,
     visibility = visibility,
+  )
+
+  genrule(
+    name = name,
+    cmd = ' '.join([
+      'cd', '$TMP',
+      '&&', run_npm_binary('//lib/js:crisper'), '--always-write-script',
+      '--source', '$(location :%s__vulcanized)' % name,
+      '--html', '%s.vulcanized.html' % name,
+      '--js', '%s.js' % name,
+      '&&', 'zip', '$OUT', '%s.vulcanized.html' % name, '%s.js' % name,
+    ]),
+    out = '%s.vulcanized.zip',
   )

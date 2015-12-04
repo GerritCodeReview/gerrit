@@ -106,6 +106,11 @@ def main(args):
           '%s#%s:\n'
           'expected %s\n'
           'received %s\n') % (opts.p, opts.v, opts.s, sha1), file=sys.stderr)
+        try:
+          os.remove(cached)
+        except OSError as err:
+          if path.exists(cached):
+            print('error removing %s: %s' % (cached, err), file=sys.stderr)
         return 1
 
   shutil.copyfile(cached, outzip)

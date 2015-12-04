@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1449222876 +0100\nnonce AFd3BxveUymK+v80A4U62R6PHOYjTwGWvphrARdIuYC+iIh6X2hQb5W8/i1A2h6yXT5z8l1LD68V\n\n0000000000000000000000000000000000000000 03ce4dd15b559fda8125cb4df93e03d895ae2f9d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWYWLcAAoJEFG1/Zeg0O9Rw54H/2CQrk1Klepf7w4lbn7aR2sQ\n9/ekmLq7sw0LXPTSrtOmZJkTP+6rWYv8lkCXQdgTIFv4iYWv1I1tbnVhU7MRCA+q\nyXB7FZsz7iCcdpfsRyRns8JEy+CkBVK7cF5nsbPGVmoCPnp6UrUJQBvSXpytG/07\nVQnh4iEFc+wgCnEm2TsDHdX0omBEvS3mQGsZyklME0QiDyh0pRGgdZXy9M4rDJHe\nt97Hs7pkULD5+y5ciU0IYcOqjMpyONXFMlXGwrTNUGvBzB0cz/XesV25EzCemk32\nZrm0FZabPFFsDpb9OO27XGHvmx5yTMB3rENcl4klYUs+UwP5S5cQq/qWhzvSwmc\u003d\n\u003dSqZm\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8043704f_4f1bedbe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-04T13:33:56Z",
+      "side": 1,
+      "message": "Files\n\nOr name the variable fileCount?",
+      "range": {
+        "startLine": 78,
+        "startChar": 24,
+        "endLine": 78,
+        "endChar": 28
+      },
+      "revId": "03ce4dd15b559fda8125cb4df93e03d895ae2f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

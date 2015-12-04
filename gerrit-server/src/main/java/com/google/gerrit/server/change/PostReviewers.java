@@ -150,10 +150,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private PostResult putAccount(ReviewerResource rsrc) throws OrmException,
       IOException {
     Account member = rsrc.getReviewerUser().getAccount();
-    ChangeControl control = rsrc.getControl();
+    ChangeControl control = rsrc.getReviewerControl();
     PostResult result = new PostResult();
     if (isValidReviewer(member, control)) {
-      addReviewers(rsrc, result, ImmutableMap.of(member.getId(), control));
+      addReviewers(rsrc.getChangeResource(), result,
+          ImmutableMap.of(member.getId(), control));
     }
     return result;
   }

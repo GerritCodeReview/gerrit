@@ -68,7 +68,7 @@ public class ReviewerJson {
     for (ReviewerResource rsrc : rsrcs) {
       ReviewerInfo info = format(new ReviewerInfo(
           rsrc.getReviewerUser().getAccountId()),
-          rsrc.getUserControl());
+          rsrc.getReviewerControl());
       loader.put(info);
       infos.add(info);
     }

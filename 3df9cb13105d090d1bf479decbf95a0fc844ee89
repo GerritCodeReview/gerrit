@@ -23,6 +23,29 @@
       "revId": "3df9cb13105d090d1bf479decbf95a0fc844ee89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "403fb8e8_bdb09f02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-04T15:47:49Z",
+      "side": 1,
+      "message": "I\u0027m not convinced, that all these levels of indirections in injector injections only for that exotic case, that plugin is loaded during Gerrit start up time that expose own StarredChangesCache implementation?",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 3
+      },
+      "revId": "3df9cb13105d090d1bf479decbf95a0fc844ee89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

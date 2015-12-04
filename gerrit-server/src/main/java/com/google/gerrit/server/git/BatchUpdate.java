@@ -81,6 +81,26 @@ public class BatchUpdate implements AutoCloseable {
         CurrentUser user, Timestamp when);
   }
 
+  /** Order of execution of the various phases. */
+  public static enum Order {
+    /**
+     * Update the repository and execute all ref updates before touching the
+     * database.
+     * <p>
+     * The default and most common, as Gerrit does not behave well when a patch
+     * set has no corresponding ref in the repo.
+     */
+    REPO_BEFORE_DB,
+
+    /**
+     * Update the database before touching the repository.
+     * <p>
+     * Generally only used when deleting patch sets, which should be deleted
+     * first from the database (for the same reason as above.)
+     */
+    DB_BEFORE_REPO;
+  }
+
   public class Context {
     public Project.NameKey getProject() {
       return project;
@@ -204,6 +224,7 @@ public class BatchUpdate implements AutoCloseable {
   private RevWalk revWalk;
   private BatchRefUpdate batchRefUpdate;
   private boolean closeRepo;
+  private Order order;
 
   @AssistedInject
   BatchUpdate(GitRepositoryManager repoManager,
@@ -226,6 +247,7 @@ public class BatchUpdate implements AutoCloseable {
     this.user = user;
     this.when = when;
     tz = serverIdent.getTimeZone();
+    order = Order.REPO_BEFORE_DB;
   }
 
   @Override
@@ -244,6 +266,11 @@ public class BatchUpdate implements AutoCloseable {
     this.repo = checkNotNull(repo, "repo");
     this.revWalk = checkNotNull(revWalk, "revWalk");
     this.inserter = checkNotNull(inserter, "inserter");
+    return this;
+  }
+
+  public BatchUpdate setOrder(Order order) {
+    this.order = order;
     return this;
   }
 
@@ -292,8 +319,19 @@ public class BatchUpdate implements AutoCloseable {
 
   public void execute() throws UpdateException, RestApiException {
     try {
-      executeRefUpdates();
-      executeChangeOps();
+      switch (order) {
+        case REPO_BEFORE_DB:
+          executeRefUpdates();
+          executeChangeOps();
+          break;
+        case DB_BEFORE_REPO:
+          executeChangeOps();
+          executeRefUpdates();
+          break;
+        default:
+          throw new IllegalStateException("invalid execution order: " + order);
+      }
+
       reindexChanges();
 
       if (batchRefUpdate != null) {

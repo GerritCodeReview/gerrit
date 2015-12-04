@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "001a2067_b3889807",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-04T19:30:07Z",
+      "side": 1,
+      "message": "https://www.polymer-project.org/1.0/docs/devguide/properties.html#configure-values says:\n\n\"When initializing a property to an object or array value, use a function to ensure that each element gets its own copy of the value, rather than having an object or array shared across all instances of the element.\"\n\nAre you saying it\u0027s probably ok to use [] because we\u0027re never mutating it, just assigning over it?",
+      "parentUuid": "a0407443_d0309c2a",
+      "revId": "3870f27dbd3c2c61b047e800a7c6945e230b7dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "001a2067_d37b14cd",
         "filename": "polygerrit-ui/app/elements/gr-change-list.html",
         "patchSetId": 1

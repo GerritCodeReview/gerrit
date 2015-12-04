@@ -105,7 +105,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       }
       ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getId(), db);
       db.patchSetApprovals().delete(del);
-      update.removeReviewer(rsrc.getUser().getAccountId());
+      update.removeReviewer(rsrc.getReviewerUser().getAccountId());
 
       if (msg.length() > 0) {
         ChangeMessage changeMessage =
@@ -136,7 +136,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
 
   private Iterable<PatchSetApproval> approvals(ReviewDb db,
       ReviewerResource rsrc) throws OrmException {
-    final Account.Id user = rsrc.getUser().getAccountId();
+    final Account.Id user = rsrc.getReviewerUser().getAccountId();
     return Iterables.filter(
         approvalsUtil.byChange(db, rsrc.getNotes()).values(),
         new Predicate<PatchSetApproval>() {

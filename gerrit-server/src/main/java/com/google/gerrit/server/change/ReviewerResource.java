@@ -47,7 +47,7 @@ public class ReviewerResource extends ChangeResource {
     this(rsrc, userFactory.create(id));
   }
 
-  public IdentifiedUser getUser() {
+  public IdentifiedUser getReviewerUser() {
     return user;
   }
 

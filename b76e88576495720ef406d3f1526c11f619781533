@@ -177,6 +177,24 @@
       "revId": "b76e88576495720ef406d3f1526c11f619781533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "403fb8e8_3d9daf7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-04T15:43:15Z",
+      "side": 1,
+      "message": "The default cache is now only loaded if no plugin provides a StarredChangesCache implementation.\n\nDone",
+      "parentUuid": "db1d5bf8_facbe973",
+      "revId": "b76e88576495720ef406d3f1526c11f619781533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

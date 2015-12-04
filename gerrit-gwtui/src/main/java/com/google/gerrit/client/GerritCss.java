@@ -142,6 +142,7 @@ public interface GerritCss extends CssResource {
   String needsReview();
   String negscore();
   String noborder();
+  String nowrap();
   String pagingLink();
   String patchBrowserPopup();
   String patchBrowserPopupBody();

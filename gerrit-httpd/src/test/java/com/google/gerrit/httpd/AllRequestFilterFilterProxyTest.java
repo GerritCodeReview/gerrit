@@ -22,6 +22,8 @@ import static org.easymock.EasyMock.newCapture;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
+import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
 import com.google.inject.Key;
 import com.google.inject.util.Providers;
 
@@ -88,8 +90,8 @@ public class AllRequestFilterFilterProxyTest {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
-    HttpServletRequest req = ems.createMock(HttpServletRequest.class);
-    HttpServletResponse res = ems.createMock(HttpServletResponse.class);
+    HttpServletRequest req = new FakeHttpServletRequest();
+    HttpServletResponse res = new FakeHttpServletResponse();
 
     FilterChain chain = ems.createMock(FilterChain.class);
     chain.doFilter(req, res);
@@ -110,8 +112,8 @@ public class AllRequestFilterFilterProxyTest {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock("config", FilterConfig.class);
-    HttpServletRequest req = ems.createMock("req", HttpServletRequest.class);
-    HttpServletResponse res = ems.createMock("res", HttpServletResponse.class);
+    HttpServletRequest req = new FakeHttpServletRequest();
+    HttpServletResponse res = new FakeHttpServletResponse();
 
     FilterChain chain = ems.createMock("chain", FilterChain.class);
 
@@ -137,8 +139,8 @@ public class AllRequestFilterFilterProxyTest {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
-    HttpServletRequest req = ems.createMock(HttpServletRequest.class);
-    HttpServletResponse res = ems.createMock(HttpServletResponse.class);
+    HttpServletRequest req = new FakeHttpServletRequest();
+    HttpServletResponse res = new FakeHttpServletResponse();
 
     IMocksControl mockControl = ems.createStrictControl();
     FilterChain chain = mockControl.createMock(FilterChain.class);
@@ -169,8 +171,8 @@ public class AllRequestFilterFilterProxyTest {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
-    HttpServletRequest req = ems.createMock(HttpServletRequest.class);
-    HttpServletResponse res = ems.createMock(HttpServletResponse.class);
+    HttpServletRequest req = new FakeHttpServletRequest();
+    HttpServletResponse res = new FakeHttpServletResponse();
 
     IMocksControl mockControl = ems.createStrictControl();
     FilterChain chain = mockControl.createMock(FilterChain.class);
@@ -202,8 +204,8 @@ public class AllRequestFilterFilterProxyTest {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
-    HttpServletRequest req = ems.createMock(HttpServletRequest.class);
-    HttpServletResponse res = ems.createMock(HttpServletResponse.class);
+    HttpServletRequest req = new FakeHttpServletRequest();
+    HttpServletResponse res = new FakeHttpServletResponse();
 
     IMocksControl mockControl = ems.createStrictControl();
     FilterChain chain = mockControl.createMock(FilterChain.class);
@@ -242,10 +244,10 @@ public class AllRequestFilterFilterProxyTest {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
-    HttpServletRequest req1 = ems.createMock("req1", HttpServletRequest.class);
-    HttpServletRequest req2 = ems.createMock("req2", HttpServletRequest.class);
-    HttpServletResponse res1 = ems.createMock("res1", HttpServletResponse.class);
-    HttpServletResponse res2 = ems.createMock("res2", HttpServletResponse.class);
+    HttpServletRequest req1 = new FakeHttpServletRequest();
+    HttpServletRequest req2 = new FakeHttpServletRequest();
+    HttpServletResponse res1 = new FakeHttpServletResponse();
+    HttpServletResponse res2 = new FakeHttpServletResponse();
 
     IMocksControl mockControl = ems.createStrictControl();
     FilterChain chain = mockControl.createMock("chain", FilterChain.class);
@@ -294,12 +296,12 @@ public class AllRequestFilterFilterProxyTest {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
-    HttpServletRequest req1 = ems.createMock("req1", HttpServletRequest.class);
-    HttpServletRequest req2 = ems.createMock("req2", HttpServletRequest.class);
-    HttpServletRequest req3 = ems.createMock("req3", HttpServletRequest.class);
-    HttpServletResponse res1 = ems.createMock("res1", HttpServletResponse.class);
-    HttpServletResponse res2 = ems.createMock("res2", HttpServletResponse.class);
-    HttpServletResponse res3 = ems.createMock("res3", HttpServletResponse.class);
+    HttpServletRequest req1 = new FakeHttpServletRequest();
+    HttpServletRequest req2 = new FakeHttpServletRequest();
+    HttpServletRequest req3 = new FakeHttpServletRequest();
+    HttpServletResponse res1 = new FakeHttpServletResponse();
+    HttpServletResponse res2 = new FakeHttpServletResponse();
+    HttpServletResponse res3 = new FakeHttpServletResponse();
 
     Plugin plugin = ems.createMock(Plugin.class);
 

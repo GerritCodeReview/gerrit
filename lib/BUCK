@@ -188,6 +188,16 @@ maven_jar(
   license = 'protobuf',
 )
 
+# Test-only dependencies below.
+
+maven_jar(
+  name = 'jimfs',
+  id = 'com.google.jimfs:jimfs:1.0',
+  sha1 = 'edd65a2b792755f58f11134e76485a928aab4c97',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [':guava'],
+)
+
 maven_jar(
   name = 'junit',
   id = 'junit:junit:4.11',

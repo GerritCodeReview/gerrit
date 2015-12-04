@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "001a2067_33100897",
+        "filename": "gerrit-gpg/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-12-04T08:03:53Z",
+      "side": 1,
+      "message": "Not part of your change, but trailing whitespace here.",
+      "range": {
+        "startLine": 48,
+        "startChar": 29,
+        "endLine": 48,
+        "endChar": 31
+      },
+      "revId": "a7d5ac9c3224badc21e05427295b9d728312c908",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

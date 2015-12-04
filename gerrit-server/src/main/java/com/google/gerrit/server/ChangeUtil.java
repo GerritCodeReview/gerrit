@@ -344,57 +344,63 @@ public class ChangeUtil {
     }
   }
 
-  public void deleteDraftChange(Change change)
+  // TODO(dborowitz): Delete after migrating DeleteDraftChange to BatchUpdate.
+  public void deleteDraftChangeInNewTransaction(Change change)
       throws NoSuchChangeException, OrmException, IOException {
-    Change.Id changeId = change.getId();
-    if (change.getStatus() != Change.Status.DRAFT) {
-      throw new NoSuchChangeException(changeId);
-    }
-
-    ReviewDb db = this.db.get();
-    db.changes().beginTransaction(change.getId());
+    db.get().changes().beginTransaction(change.getId());
     try {
-      List<PatchSet> patchSets = db.patchSets().byChange(changeId).toList();
-      for (PatchSet ps : patchSets) {
-        if (!ps.isDraft()) {
-          throw new NoSuchChangeException(changeId);
-        }
-        db.accountPatchReviews().delete(
-            db.accountPatchReviews().byPatchSet(ps.getId()));
-      }
-
-      // No need to delete from notedb; draft patch sets will be filtered out.
-      db.patchComments().delete(db.patchComments().byChange(changeId));
-
-      db.patchSetApprovals().delete(db.patchSetApprovals().byChange(changeId));
-      db.patchSets().delete(patchSets);
-      db.changeMessages().delete(db.changeMessages().byChange(changeId));
-      starredChangesUtil.unstarAll(changeId);
-      db.changes().delete(Collections.singleton(change));
-
-      // Delete all refs at once.
-      try (Repository repo = gitManager.openRepository(change.getProject());
-          RevWalk rw = new RevWalk(repo)) {
-        String prefix = new PatchSet.Id(changeId, 1).toRefName();
-        prefix = prefix.substring(0, prefix.length() - 1);
-        BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
-        for (Ref ref : repo.getRefDatabase().getRefs(prefix).values()) {
-          ru.addCommand(
-              new ReceiveCommand(
-                ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
-        }
-        ru.execute(rw, NullProgressMonitor.INSTANCE);
-        for (ReceiveCommand cmd : ru.getCommands()) {
-          if (cmd.getResult() != ReceiveCommand.Result.OK) {
-            throw new IOException("failed: " + cmd + ": " + cmd.getResult());
-          }
-        }
-      }
-
-      db.commit();
+      deleteDraftChange(change);
+      db.get().commit();
       indexer.delete(change.getId());
     } finally {
-      db.rollback();
+      db.get().rollback();
+    }
+  }
+
+  public void deleteDraftChange(Change change)
+      throws NoSuchChangeException, OrmException, IOException {
+    ReviewDb db = this.db.get();
+    Change.Id changeId = change.getId();
+    if (change.getStatus() != Change.Status.DRAFT) {
+      // TODO(dborowitz): ResourceConflictException.
+      throw new NoSuchChangeException(changeId);
+    }
+    List<PatchSet> patchSets = db.patchSets().byChange(changeId).toList();
+    for (PatchSet ps : patchSets) {
+      if (!ps.isDraft()) {
+        // TODO(dborowitz): ResourceConflictException.
+        throw new NoSuchChangeException(changeId);
+      }
+      db.accountPatchReviews().delete(
+          db.accountPatchReviews().byPatchSet(ps.getId()));
+    }
+
+    // No need to delete from notedb; draft patch sets will be filtered out.
+    db.patchComments().delete(db.patchComments().byChange(changeId));
+
+    db.patchSetApprovals().delete(db.patchSetApprovals().byChange(changeId));
+    db.patchSets().delete(patchSets);
+    db.changeMessages().delete(db.changeMessages().byChange(changeId));
+    starredChangesUtil.unstarAll(changeId);
+    db.changes().delete(Collections.singleton(change));
+
+    // Delete all refs at once.
+    try (Repository repo = gitManager.openRepository(change.getProject());
+        RevWalk rw = new RevWalk(repo)) {
+      String prefix = new PatchSet.Id(changeId, 1).toRefName();
+      prefix = prefix.substring(0, prefix.length() - 1);
+      BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
+      for (Ref ref : repo.getRefDatabase().getRefs(prefix).values()) {
+        ru.addCommand(
+            new ReceiveCommand(
+              ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
+      }
+      ru.execute(rw, NullProgressMonitor.INSTANCE);
+      for (ReceiveCommand cmd : ru.getCommands()) {
+        if (cmd.getResult() != ReceiveCommand.Result.OK) {
+          throw new IOException("failed: " + cmd + ": " + cmd.getResult());
+        }
+      }
     }
   }
 

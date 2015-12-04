@@ -161,9 +161,9 @@ def vulcanize(
       'cd', '$TMP',
       '&&', run_npm_binary('//lib/js:crisper'), '--always-write-script',
       '--source', '$(location :%s__vulcanized)' % name,
-      '--html', '%s.vulcanized.html' % name,
+      '--html', '%s.html' % name,
       '--js', '%s.js' % name,
-      '&&', 'zip', '$OUT', '%s.vulcanized.html' % name, '%s.js' % name,
+      '&&', 'zip', '$OUT', '%s.html' % name, '%s.js' % name,
     ]),
     out = '%s.vulcanized.zip',
   )

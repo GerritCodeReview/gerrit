@@ -182,7 +182,7 @@ limitations under the License.
         _diff: Object,
         _fileList: {
           type: Array,
-          value: [],
+          value: function() { return []; },
         },
         _leftComments: Array,
         _patchNum: String,

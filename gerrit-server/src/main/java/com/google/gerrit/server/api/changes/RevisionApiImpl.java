@@ -183,7 +183,7 @@ class RevisionApiImpl implements RevisionApi {
   public void delete() throws RestApiException {
     try {
       deleteDraft.apply(revision, null);
-    } catch (OrmException | IOException e) {
+    } catch (UpdateException e) {
       throw new RestApiException("Cannot delete draft ps", e);
     }
   }

@@ -135,6 +135,7 @@ public class BatchUpdate implements AutoCloseable {
   public class ChangeContext extends Context {
     private final ChangeControl ctl;
     private final ChangeUpdate update;
+    private boolean deleted;
 
     private ChangeContext(ChangeControl ctl) {
       this.ctl = ctl;
@@ -155,6 +156,10 @@ public class BatchUpdate implements AutoCloseable {
 
     public Change getChange() {
       return update.getChange();
+    }
+
+    public void markDeleted() {
+      this.deleted = true;
     }
   }
 
@@ -356,7 +361,11 @@ public class BatchUpdate implements AutoCloseable {
           db.rollback();
         }
         ctx.getChangeUpdate().commit();
-        indexFutures.add(indexer.indexAsync(id));
+        if (ctx.deleted) {
+          indexFutures.add(indexer.deleteAsync(id));
+        } else {
+          indexFutures.add(indexer.indexAsync(id));
+        }
       }
     } catch (Exception e) {
       Throwables.propagateIfPossible(e, RestApiException.class);

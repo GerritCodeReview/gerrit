@@ -40,7 +40,7 @@ window.addEventListener('WebComponentsReady', function() {
     }
   });
 
-  page('/dashboard/*', loadUser, function(data) {
+  page('/dashboard/(.*)', loadUser, function(data) {
     if (app.loggedIn) {
       app.route = 'gr-dashboard-view';
       app.params = data.params;

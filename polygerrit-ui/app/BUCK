@@ -66,7 +66,7 @@ genrule(
   cmd = ' && '.join([
     'cd $TMP',
     'unzip -q $(location :test_components)',
-    'cp -rL $SRCDIR/* .',
+    'cp -r $SRCDIR/* .',
     'zip -r $OUT .',
   ]),
   srcs = APP_SRCS + glob(WCT_TEST_PATTERNS),

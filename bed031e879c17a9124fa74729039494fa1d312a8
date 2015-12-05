@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "001a2067_73fc4063",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "seems to make more sense to have the element able to encompass text instead of passing it within an attribtue, like\n\u003cgr-linked-text\u003e[[_computeCurrentRevisionMessage(change)]]\u003c/gr-linked-text\u003e\n\nCheck out the stuff on dom distribution — https://www.polymer-project.org/1.0/docs/devguide/local-dom.html#dom-distribution",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_10e4e4cf",
+        "filename": "polygerrit-ui/app/elements/gr-linked-text.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "This file should have a unit test added for it as well.",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_d062dc1a",
+        "filename": "polygerrit-ui/app/elements/gr-linked-text.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "Wrong license :)",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_b3f2d88e",
+        "filename": "polygerrit-ui/app/elements/gr-linked-text.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "\u0027use strict\u0027; before the Polymer constructor.",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_b05f584d",
+        "filename": "polygerrit-ui/app/elements/gr-linked-text.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "convention across the other components is to name observers _\u003cProperty name\u003eChanged\n\nso this would be _textChanged and below would be _changeChanged",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_905c5459",
+        "filename": "polygerrit-ui/app/elements/gr-linked-text.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_d3e554cc",
+        "filename": "polygerrit-ui/app/elements/gr-linked-text.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "doesn\u0027t this have to be this.$.output.appendChild(a)?",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_70d570d9",
+        "filename": "polygerrit-ui/app/scripts/linkify.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "single quotes.",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_50da6c0b",
+        "filename": "polygerrit-ui/app/scripts/linkify.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "I would define this as a constant on the LinkTextParser object, not its prototype.\n\nLinkTextParser.CUSTOM_LINKS \u003d ...",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_93efdcaa",
+        "filename": "polygerrit-ui/app/scripts/linkify.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "don\u0027t omit brackets. it\u0027s not consistent with the rest of the code.",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_30dfe8fb",
+        "filename": "polygerrit-ui/bower.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-05T21:40:34Z",
+      "side": 1,
+      "message": "these are developer deps so this should go above, but this file is obsolete. I’ll let dborowitz explain how one should add a new dependency",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

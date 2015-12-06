@@ -203,6 +203,24 @@
       "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_f30f3048",
+        "filename": "polygerrit-ui/bower.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-06T18:51:37Z",
+      "side": 1,
+      "message": "Read lib/js/BUCK and let me know if it needs clarification.",
+      "parentUuid": "a0407443_30dfe8fb",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -155,6 +155,23 @@
     },
     {
       "key": {
+        "uuid": "a0407443_f0e840a6",
+        "filename": "polygerrit-ui/app/scripts/linkify.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-06T18:51:01Z",
+      "side": 1,
+      "message": "This may (or may not) be fine for the MVP, but ultimately these need to come from the project config:\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-config (pardon the incorrectly formatted ConfigInfo docs)\n\nThe GWT UI has a cache of project configs to avoid fetching on every change.",
+      "revId": "bed031e879c17a9124fa74729039494fa1d312a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "001a2067_93efdcaa",
         "filename": "polygerrit-ui/app/scripts/linkify.js",
         "patchSetId": 5

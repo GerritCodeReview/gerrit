@@ -17,12 +17,16 @@ package com.google.gerrit.server.api.projects;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.project.BranchesCollection;
 import com.google.gerrit.server.project.CreateBranch;
 import com.google.gerrit.server.project.DeleteBranch;
+import com.google.gerrit.server.project.FileResource;
+import com.google.gerrit.server.project.FilesCollection;
+import com.google.gerrit.server.project.GetContent;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -38,6 +42,8 @@ public class BranchApiImpl implements BranchApi {
   private final BranchesCollection branches;
   private final CreateBranch.Factory createBranchFactory;
   private final DeleteBranch deleteBranch;
+  private final FilesCollection filesCollection;
+  private final GetContent getContent;
   private final String ref;
   private final ProjectResource project;
 
@@ -45,11 +51,15 @@ public class BranchApiImpl implements BranchApi {
   BranchApiImpl(BranchesCollection branches,
       CreateBranch.Factory createBranchFactory,
       DeleteBranch deleteBranch,
+      FilesCollection filesCollection,
+      GetContent getContent,
       @Assisted ProjectResource project,
       @Assisted String ref) {
     this.branches = branches;
     this.createBranchFactory = createBranchFactory;
     this.deleteBranch = deleteBranch;
+    this.filesCollection = filesCollection;
+    this.getContent = getContent;
     this.project = project;
     this.ref = ref;
   }
@@ -82,6 +92,17 @@ public class BranchApiImpl implements BranchApi {
       deleteBranch.apply(resource(), new DeleteBranch.Input());
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot delete branch", e);
+    }
+  }
+
+  @Override
+  public BinaryResult file(String path) throws RestApiException {
+    try {
+      FileResource resource = filesCollection.parse(resource(),
+        IdString.fromDecoded(path));
+      return getContent.apply(resource);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot retrieve file", e);
     }
   }
 

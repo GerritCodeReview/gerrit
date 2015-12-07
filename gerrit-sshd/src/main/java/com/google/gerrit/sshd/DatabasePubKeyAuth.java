@@ -27,10 +27,10 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.SshException;
-import org.apache.sshd.common.util.Buffer;
-import org.apache.sshd.server.PublickeyAuthenticator;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
+import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -195,7 +195,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
 
           try {
             byte[] bin = Base64.decodeBase64(line.getBytes(ISO_8859_1));
-            keys.add(new Buffer(bin).getRawPublicKey());
+            keys.add(new ByteArrayBuffer(bin).getRawPublicKey());
           } catch (RuntimeException | SshException e) {
             logBadKey(path, line, e);
           }

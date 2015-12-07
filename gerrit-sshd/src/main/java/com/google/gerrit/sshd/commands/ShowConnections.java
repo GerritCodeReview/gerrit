@@ -33,8 +33,8 @@ import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaAcceptor;
 import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.common.io.nio2.Nio2Acceptor;
+import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.server.Environment;
-import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
@@ -112,7 +112,7 @@ final class ShowConnections extends SshCommand {
         "Session", "Start", "Idle", "User", "Remote Host"));
     stdout.print("--------------------------------------------------------------\n");
     for (final IoSession io : list) {
-      ServerSession s = (ServerSession) ServerSession.getSession(io, true);
+      AbstractSession s = AbstractSession.getSession(io, true);
       SshSession sd = s != null ? s.getAttribute(SshSession.KEY) : null;
 
       final SocketAddress remoteAddress = io.getRemoteAddress();

@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Branch;
+
 import org.junit.Before;
 import org.junit.Test;
 

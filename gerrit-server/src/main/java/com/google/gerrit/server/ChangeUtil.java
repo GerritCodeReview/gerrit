@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeTriplet;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
@@ -53,19 +52,15 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -184,11 +179,9 @@ public class ChangeUtil {
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final GitRepositoryManager gitManager;
-  private final GitReferenceUpdated gitRefUpdated;
   private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final ChangeUpdate.Factory changeUpdateFactory;
-  private final StarredChangesUtil starredChangesUtil;
 
   @Inject
   ChangeUtil(Provider<CurrentUser> user,
@@ -198,11 +191,9 @@ public class ChangeUtil {
       RevertedSender.Factory revertedSenderFactory,
       ChangeInserter.Factory changeInserterFactory,
       GitRepositoryManager gitManager,
-      GitReferenceUpdated gitRefUpdated,
       BatchUpdate.Factory updateFactory,
       ChangeMessagesUtil changeMessagesUtil,
-      ChangeUpdate.Factory changeUpdateFactory,
-      StarredChangesUtil starredChangesUtil) {
+      ChangeUpdate.Factory changeUpdateFactory) {
     this.user = user;
     this.db = db;
     this.queryProvider = queryProvider;
@@ -210,11 +201,9 @@ public class ChangeUtil {
     this.revertedSenderFactory = revertedSenderFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.gitManager = gitManager;
-    this.gitRefUpdated = gitRefUpdated;
     this.updateFactory = updateFactory;
     this.changeMessagesUtil = changeMessagesUtil;
     this.changeUpdateFactory = changeUpdateFactory;
-    this.starredChangesUtil = starredChangesUtil;
   }
 
   public Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
@@ -341,34 +330,6 @@ public class ChangeUtil {
     }
   }
 
-  public void deleteOnlyDraftPatchSet(PatchSet patch, Change change)
-      throws NoSuchChangeException, OrmException, IOException {
-    PatchSet.Id patchSetId = patch.getId();
-    if (!patch.isDraft()) {
-      throw new NoSuchChangeException(patchSetId.getParentKey());
-    }
-
-    try (Repository repo = gitManager.openRepository(change.getProject())) {
-      RefUpdate update = repo.updateRef(patch.getRefName());
-      update.setForceUpdate(true);
-      update.disableRefLog();
-      switch (update.delete()) {
-        case NEW:
-        case FAST_FORWARD:
-        case FORCED:
-        case NO_CHANGE:
-          // Successful deletion.
-          break;
-        default:
-          throw new IOException("Failed to delete ref " + patch.getRefName() +
-              " in " + repo.getDirectory() + ": " + update.getResult());
-      }
-      gitRefUpdated.fire(change.getProject(), update, ReceiveCommand.Type.DELETE);
-    }
-
-    deleteOnlyDraftPatchSetPreserveRef(this.db.get(), patch);
-  }
-
   /**
    * Find changes matching the given identifier.
    *
@@ -422,22 +383,6 @@ public class ChangeUtil {
       ctls.add(cd.changeControl(user.get()));
     }
     return ctls;
-  }
-
-  private static void deleteOnlyDraftPatchSetPreserveRef(ReviewDb db,
-      PatchSet patch) throws NoSuchChangeException, OrmException {
-    PatchSet.Id patchSetId = patch.getId();
-    if (!patch.isDraft()) {
-      throw new NoSuchChangeException(patchSetId.getParentKey());
-    }
-
-    db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(patchSetId));
-    db.changeMessages().delete(db.changeMessages().byPatchSet(patchSetId));
-    // No need to delete from notedb; draft patch sets will be filtered out.
-    db.patchComments().delete(db.patchComments().byPatchSet(patchSetId));
-    db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(patchSetId));
-
-    db.patchSets().delete(Collections.singleton(patch));
   }
 
   public static PatchSet.Id nextPatchSetId(PatchSet.Id id) {

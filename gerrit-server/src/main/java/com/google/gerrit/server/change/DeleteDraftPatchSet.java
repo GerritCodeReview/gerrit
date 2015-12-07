@@ -19,7 +19,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -33,16 +32,18 @@ import com.google.gerrit.server.change.DeleteDraftPatchSet.Input;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -56,19 +57,19 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory updateFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ChangeUtil changeUtil;
+  private final Provider<DeleteDraftChangeOp> deleteChangeOpProvider;
   private final boolean allowDrafts;
 
   @Inject
   public DeleteDraftPatchSet(Provider<ReviewDb> db,
       BatchUpdate.Factory updateFactory,
       PatchSetInfoFactory patchSetInfoFactory,
-      ChangeUtil changeUtil,
+      Provider<DeleteDraftChangeOp> deleteChangeOpProvider,
       @GerritServerConfig Config cfg) {
     this.db = db;
     this.updateFactory = updateFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.changeUtil = changeUtil;
+    this.deleteChangeOpProvider = deleteChangeOpProvider;
     this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
   }
 
@@ -77,6 +78,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       throws RestApiException, UpdateException {
     try (BatchUpdate bu = updateFactory.create(
         db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+      bu.setOrder(BatchUpdate.Order.DB_BEFORE_REPO);
       bu.addOp(rsrc.getChange().getId(), new Op(rsrc.getPatchSet().getId()));
       bu.execute();
     }
@@ -86,6 +88,9 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   private class Op extends BatchUpdate.Op {
     private final PatchSet.Id psId;
 
+    private PatchSet patchSet;
+    private DeleteDraftChangeOp deleteChangeOp;
+
     private Op(PatchSet.Id psId) {
       this.psId = psId;
     }
@@ -93,7 +98,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     @Override
     public void updateChange(ChangeContext ctx)
         throws RestApiException, OrmException, IOException {
-      PatchSet patchSet = ctx.getDb().patchSets().get(psId);
+      patchSet = ctx.getDb().patchSets().get(psId);
       if (patchSet == null) {
         return; // Nothing to do.
       }
@@ -101,7 +106,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
         throw new ResourceConflictException("Patch set is not a draft");
       }
       if (!allowDrafts) {
-        throw new MethodNotAllowedException("draft workflow is disabled");
+        throw new MethodNotAllowedException("Draft workflow is disabled");
       }
       if (!ctx.getChangeControl().canDeleteDraft(ctx.getDb())) {
         throw new AuthException("Not permitted to delete this draft patch set");
@@ -111,21 +116,36 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       deleteOrUpdateDraftChange(ctx);
     }
 
-    private void deleteDraftPatchSet(PatchSet patchSet, ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException, IOException {
-      try {
-        changeUtil.deleteOnlyDraftPatchSet(patchSet, ctx.getChange());
-      } catch (NoSuchChangeException e) {
-        throw new ResourceNotFoundException(e.getMessage());
+    @Override
+    public void updateRepo(RepoContext ctx) throws IOException {
+      if (deleteChangeOp != null) {
+        deleteChangeOp.updateRepo(ctx);
+        return;
       }
+      ctx.getBatchRefUpdate().addCommand(
+          new ReceiveCommand(
+              ObjectId.fromString(patchSet.getRevision().get()),
+              ObjectId.zeroId(),
+              patchSet.getRefName()));
+    }
+
+    private void deleteDraftPatchSet(PatchSet patchSet, ChangeContext ctx)
+        throws OrmException {
+      ReviewDb db = ctx.getDb();
+      db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(psId));
+      db.changeMessages().delete(db.changeMessages().byPatchSet(psId));
+      // No need to delete from notedb; draft patch sets will be filtered out.
+      db.patchComments().delete(db.patchComments().byPatchSet(psId));
+      db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
+      db.patchSets().delete(Collections.singleton(patchSet));
     }
 
     private void deleteOrUpdateDraftChange(ChangeContext ctx)
-        throws OrmException, ResourceNotFoundException, IOException {
+        throws OrmException, RestApiException {
       Change c = ctx.getChange();
       if (Iterables.isEmpty(ctx.getDb().patchSets().byChange(c.getId()))) {
-        deleteDraftChange(c);
-        ctx.markDeleted();
+        deleteChangeOp = deleteChangeOpProvider.get();
+        deleteChangeOp.updateChange(ctx);
         return;
       }
       if (c.currentPatchSetId().equals(psId)) {
@@ -133,15 +153,6 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       }
       ChangeUtil.updated(c);
       ctx.getDb().changes().update(Collections.singleton(c));
-    }
-
-    private void deleteDraftChange(Change change)
-        throws OrmException, IOException, ResourceNotFoundException {
-      try {
-        changeUtil.deleteDraftChange(change);
-      } catch (NoSuchChangeException e) {
-        throw new ResourceNotFoundException(e.getMessage());
-      }
     }
 
     private PatchSetInfo previousPatchSetInfo(ChangeContext ctx)

@@ -16,6 +16,24 @@
       "revId": "d05cb8ba79867062c4b257eff58d4b0b7a0f03fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0a4f4ba_b0ad38ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-12-07T21:15:05Z",
+      "side": 1,
+      "message": "Restored to the original author. I felt that since this change has been pending for a while, I might be more familiar with it than Mani :) ?",
+      "parentUuid": "a07dd4ee_48a7ffce",
+      "revId": "d05cb8ba79867062c4b257eff58d4b0b7a0f03fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

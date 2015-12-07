@@ -22,6 +22,30 @@
       "revId": "451b342074cd791541114b6dc4bf40ba14f9dada",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40897839_8db02103",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2015-12-07T20:56:11Z",
+      "side": 1,
+      "message": "Yes apparently I wasn\u0027t working with Patchset 25 so I missed DavidO\u0027s changes... Reworked.",
+      "parentUuid": "40897839_6dacd5b2",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 8
+      },
+      "revId": "451b342074cd791541114b6dc4bf40ba14f9dada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

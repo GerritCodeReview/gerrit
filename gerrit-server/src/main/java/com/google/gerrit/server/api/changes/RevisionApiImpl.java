@@ -347,7 +347,7 @@ class RevisionApiImpl implements RevisionApi {
       return changes.id(revision.getChange().getId().get())
           .revision(revision.getPatchSet().getId().get())
           .draft(id);
-    } catch (IOException | OrmException e) {
+    } catch (UpdateException | OrmException e) {
       throw new RestApiException("Cannot create draft", e);
     }
   }

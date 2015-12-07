@@ -22,11 +22,10 @@ import com.google.gerrit.server.change.DeleteDraftComment;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.change.GetDraftComment;
 import com.google.gerrit.server.change.PutDraftComment;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import java.io.IOException;
 
 class DraftApiImpl implements DraftApi {
   interface Factory {
@@ -62,7 +61,7 @@ class DraftApiImpl implements DraftApi {
   public CommentInfo update(DraftInput in) throws RestApiException {
     try {
       return putDraft.apply(draft, in).value();
-    } catch (IOException | OrmException e) {
+    } catch (UpdateException | OrmException e) {
       throw new RestApiException("Cannot update draft", e);
     }
   }
@@ -71,7 +70,7 @@ class DraftApiImpl implements DraftApi {
   public void delete() throws RestApiException {
     try {
       deleteDraft.apply(draft, null);
-    } catch (IOException | OrmException e) {
+    } catch (UpdateException e) {
       throw new RestApiException("Cannot delete draft", e);
     }
   }

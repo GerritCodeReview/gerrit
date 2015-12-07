@@ -16,26 +16,31 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
-import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -44,7 +49,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final Provider<ReviewDb> db;
   private final DeleteDraftComment delete;
   private final PatchLineCommentsUtil plcUtil;
-  private final ChangeUpdate.Factory updateFactory;
+  private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
   private final PatchListCache patchListCache;
 
@@ -52,7 +57,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   PutDraftComment(Provider<ReviewDb> db,
       DeleteDraftComment delete,
       PatchLineCommentsUtil plcUtil,
-      ChangeUpdate.Factory updateFactory,
+      BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       PatchListCache patchListCache) {
     this.db = db;
@@ -65,9 +70,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
 
   @Override
   public Response<CommentInfo> apply(DraftCommentResource rsrc, DraftInput in) throws
-      BadRequestException, OrmException, IOException {
-    PatchLineComment c = rsrc.getComment();
-    ChangeUpdate update = updateFactory.create(rsrc.getControl());
+      RestApiException, UpdateException, OrmException {
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.apply(rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
@@ -78,34 +81,74 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       throw new BadRequestException("range endLine must be on the same line as the comment");
     }
 
-    if (in.path != null
-        && !in.path.equals(c.getKey().getParentKey().getFileName())) {
-      // Updating the path alters the primary key, which isn't possible.
-      // Delete then recreate the comment instead of an update.
-
-      plcUtil.deleteComments(db.get(), update, Collections.singleton(c));
-      c = new PatchLineComment(
-          new PatchLineComment.Key(
-              new Patch.Key(rsrc.getPatchSet().getId(), in.path),
-              c.getKey().get()),
-          c.getLine(),
-          rsrc.getAuthorId(),
-          c.getParentUuid(), TimeUtil.nowTs());
-      setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
-      plcUtil.insertComments(db.get(), update,
-          Collections.singleton(update(c, in)));
-    } else {
-      if (c.getRevId() == null) {
-        setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
-      }
-      plcUtil.updateComments(db.get(), update,
-          Collections.singleton(update(c, in)));
+    try (BatchUpdate bu = updateFactory.create(
+        db.get(), rsrc.getChange().getProject(), rsrc.getControl().getUser(),
+        TimeUtil.nowTs())) {
+      Op op = new Op(rsrc.getComment().getKey(), in);
+      bu.addOp(rsrc.getChange().getId(), op);
+      bu.execute();
+      return Response.ok(
+          commentJson.get().setFillAccounts(false).format(op.comment));
     }
-    update.commit();
-    return Response.ok(commentJson.get().setFillAccounts(false).format(c));
   }
 
-  private PatchLineComment update(PatchLineComment e, DraftInput in) {
+  private class Op extends BatchUpdate.Op {
+    private final PatchLineComment.Key key;
+    private final DraftInput in;
+
+    private PatchLineComment comment;
+
+    private Op(PatchLineComment.Key key, DraftInput in) {
+      this.key = key;
+      this.in = in;
+    }
+
+    @Override
+    public void updateChange(ChangeContext ctx)
+        throws ResourceNotFoundException, OrmException {
+      Optional<PatchLineComment> maybeComment =
+          plcUtil.get(ctx.getDb(), ctx.getChangeNotes(), key);
+      if (!maybeComment.isPresent()) {
+        // Disappeared out from under us. Can't easily fall back to insert,
+        // because the input might be missing required fields. Just give up.
+        throw new ResourceNotFoundException("comment not found: " + key);
+      }
+      comment = maybeComment.get();
+
+      PatchSet.Id psId = comment.getKey().getParentKey().getParentKey();
+      PatchSet ps = ctx.getDb().patchSets().get(psId);
+      if (ps == null) {
+        throw new ResourceNotFoundException("patch set not found: " + psId);
+      }
+      if (in.path != null
+          && !in.path.equals(comment.getKey().getParentKey().getFileName())) {
+        // Updating the path alters the primary key, which isn't possible.
+        // Delete then recreate the comment instead of an update.
+
+        plcUtil.deleteComments(
+            ctx.getDb(), ctx.getChangeUpdate(), Collections.singleton(comment));
+        comment = new PatchLineComment(
+            new PatchLineComment.Key(
+                new Patch.Key(psId, in.path),
+                comment.getKey().get()),
+            comment.getLine(),
+            ctx.getUser().getAccountId(),
+            comment.getParentUuid(), ctx.getWhen());
+        setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
+        plcUtil.insertComments(ctx.getDb(), ctx.getChangeUpdate(),
+            Collections.singleton(update(comment, in)));
+      } else {
+        if (comment.getRevId() == null) {
+          setCommentRevId(
+              comment, patchListCache, ctx.getChange(), ps);
+        }
+        plcUtil.updateComments(ctx.getDb(), ctx.getChangeUpdate(),
+            Collections.singleton(update(comment, in)));
+      }
+    }
+  }
+
+  private static PatchLineComment update(PatchLineComment e, DraftInput in) {
     if (in.side != null) {
       e.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     }

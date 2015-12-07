@@ -117,6 +117,10 @@ public class BatchUpdate implements AutoCloseable {
     public CurrentUser getUser() {
       return user;
     }
+
+    public Order getOrder() {
+      return order;
+    }
   }
 
   public class RepoContext extends Context {

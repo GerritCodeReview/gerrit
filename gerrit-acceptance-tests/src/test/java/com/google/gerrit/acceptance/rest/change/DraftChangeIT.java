@@ -50,7 +50,8 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     RestResponse response = deleteChange(changeId, adminSession);
-    assertThat(response.getEntityContent()).isEqualTo("Change is not a draft");
+    assertThat(response.getEntityContent())
+        .isEqualTo("Change is not a draft: " + c._number);
     response.assertConflict();
   }
 

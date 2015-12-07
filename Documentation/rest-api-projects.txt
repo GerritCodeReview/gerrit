@@ -2425,7 +2425,7 @@ points. For annotated tags, the revision of the tag object.
 tag points.
 |`message`|Only set for annotated tags.|The tag message. For signed tags, includes
 the signature.
-|`tagger`|Only set for annotated tags.|The tagger as a
+|`tagger`|Only set for annotated tags, if present in the tag.|The tagger as a
 link:rest-api-changes.html#git-person-info[GitPersonInfo] entity.
 |=========================
 

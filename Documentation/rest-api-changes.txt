@@ -3949,7 +3949,10 @@ created.
 The link:rest-api.html#timestamp[timestamp] of when the change was last
 updated.
 |`starred`            |not set if `false`|
-Whether the calling user has starred this change.
+Whether the calling user has starred this change with the default label.
+|`stars`              |optional|
+A list of star labels that are applied by the calling user to this
+change. The labels are lexicographically sorted.
 |`reviewed`           |not set if `false`|
 Whether the change was reviewed by the calling user.
 Only set if link:#reviewed[reviewed] is requested.

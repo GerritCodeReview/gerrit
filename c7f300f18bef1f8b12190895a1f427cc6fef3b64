@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1449487389 +0100\nnonce ALmjDBVAHm9HyBpGRt4sR5LghO7qbHN5C0xqBZnAYqQ/AKsm0Rtk+e5VstXTTX1pYuLdp7GcJ14i\n\n0000000000000000000000000000000000000000 be42cf06fc121446ccb7ae26496c6f166d2b0858 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWZWwdAAoJEFG1/Zeg0O9RJzgH/1OKdHmlpzr0i9eg66H/8Wih\n1jzPwFRl5JFewc9lrpSpeUICTMAMM5WuU4tb1Ca97fG7lM95u4iGmOpmbBPYFCVH\n+NH0yvCB2x8i0fQkJipKpD90PfKueU4JCRch7VLp0pHfDpUvNsybZngricEMzlGk\nuzoJ6nTj1OM8P4PtZ+smVqboora9qjlc7Ki8jmT6PgdwTxYnE/PIqI8a1guN9eWJ\n1K3FcJyhVqhy/1r93iFhj+cDyyB+7a59b/bDKHgfrJIwFUodMohXYLwRM6plAtf1\nxACR2/m1xPuQW39iooejaLmQ3nJ4s/C7MaEMwvqlicFq2qFZ+Itq4i7TCq3OGAc\u003d\n\u003d6lVr\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0407443_90efb4aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T15:40:24Z",
+      "side": 1,
+      "message": "Can this be async so it doesn\u0027t slow down server startup? Either a single short-lived thread or using the global WorkQueue",
+      "revId": "c7f300f18bef1f8b12190895a1f427cc6fef3b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_70fc5063",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T15:40:24Z",
+      "side": 1,
+      "message": "Optional: early return to reduce nesting.",
+      "revId": "c7f300f18bef1f8b12190895a1f427cc6fef3b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

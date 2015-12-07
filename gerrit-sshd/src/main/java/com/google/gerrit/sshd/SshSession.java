@@ -17,7 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 
-import org.apache.sshd.common.Session.AttributeKey;
+import org.apache.sshd.common.session.Session.AttributeKey;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;

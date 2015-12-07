@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static com.google.gerrit.gpg.testutil.TestKeys.allValidKeys;
@@ -33,8 +34,11 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
+import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -44,6 +48,7 @@ import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
@@ -65,6 +70,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -158,11 +164,53 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts()
         .self()
         .starChange(triplet);
-    assertThat(info(triplet).starred).isTrue();
+    ChangeInfo change = info(triplet);
+    assertThat(change.starred).isTrue();
+    assertThat(change.stars).contains(StarredChangesUtil.DEFAULT_LABEL);
+
     gApi.accounts()
         .self()
         .unstarChange(triplet);
-    assertThat(info(triplet).starred).isNull();
+    change = info(triplet);
+    assertThat(change.starred).isNull();
+    assertThat(change.stars).isNull();
+  }
+
+  @Test
+  public void starUnstarChangeWithLabels() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+
+    assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
+
+    gApi.accounts()
+        .self()
+        .setStars(triplet, new StarsInput(
+            new HashSet<>(Arrays.asList(
+                StarredChangesUtil.DEFAULT_LABEL, "red", "blue"))));
+    ChangeInfo change = info(triplet);
+    assertThat(change.starred).isTrue();
+    assertThat(change.stars).containsExactly(
+        "blue", StarredChangesUtil.DEFAULT_LABEL, "red").inOrder();
+    assertThat(gApi.accounts().self().getStars(triplet)).containsExactly(
+        "blue", StarredChangesUtil.DEFAULT_LABEL, "red").inOrder();
+
+    gApi.accounts()
+        .self()
+        .setStars(triplet, new StarsInput(
+            new HashSet<>(Arrays.asList("yellow")),
+            new HashSet<>(Arrays.asList(StarredChangesUtil.DEFAULT_LABEL, "blue"))));
+    change = info(triplet);
+    assertThat(change.starred).isNull();
+    assertThat(change.stars).containsExactly("red", "yellow").inOrder();
+    assertThat(gApi.accounts().self().getStars(triplet)).containsExactly(
+        "red", "yellow").inOrder();
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.accounts().id(Integer.toString((admin.id.get()))).getStars(triplet);
   }
 
   @Test

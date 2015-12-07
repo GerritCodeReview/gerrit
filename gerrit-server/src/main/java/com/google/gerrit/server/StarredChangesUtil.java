@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -99,12 +100,17 @@ public class StarredChangesUtil {
     return starredChangesCacheProvider.get().byAccount(accountId, label);
   }
 
+  public ImmutableMultimap<Change.Id, String> byAccount(Account.Id accountId) {
+    return starredChangesCacheProvider.get().byAccount(accountId);
+  }
+
   public Iterable<Account.Id> byChange(Change.Id changeId, String label) {
     return starredChangesCacheProvider.get().byChange(changeId, label);
   }
 
-  public void star(Account.Id accountId, Change.Id changeId,
-      Set<String> labelsToAdd, Set<String> labelsToRemove) throws OrmException {
+  public ImmutableSortedSet<String> star(Account.Id accountId,
+      Change.Id changeId, Set<String> labelsToAdd, Set<String> labelsToRemove)
+          throws OrmException {
     if (labelsToAdd == null) {
       labelsToAdd = Collections.emptySet();
     }
@@ -136,7 +142,11 @@ public class StarredChangesUtil {
       if (!DEFAULT_LABELS.containsAll(labelsToAdd)) {
         throw new OrmException("labeled stars not supported");
       }
-      return;
+      if (labelsToAdd.contains(DEFAULT_LABEL)) {
+        return DEFAULT_LABELS;
+      } else {
+        return ImmutableSortedSet.of();
+      }
     }
     try (Repository repo = repoManager.openMetadataRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
@@ -154,6 +164,7 @@ public class StarredChangesUtil {
       }
 
       starredChangesCacheProvider.get().star(accountId, changeId, labels);
+      return ImmutableSortedSet.copyOf(labels);
     } catch (IOException e) {
       throw new OrmException(
           String.format("Update stars on change %d for account %d failed",

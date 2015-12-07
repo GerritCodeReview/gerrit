@@ -18,9 +18,11 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
+import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.GpgException;
@@ -28,14 +30,17 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.StarredChanges;
+import com.google.gerrit.server.account.Stars;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 
 public class AccountApiImpl implements AccountApi {
   interface Factory {
@@ -47,6 +52,10 @@ public class AccountApiImpl implements AccountApi {
   private final AccountLoader.Factory accountLoaderFactory;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
+  private final Stars stars;
+  private final Stars.Create starCreate;
+  private final Stars.Get starsGet;
+  private final Stars.Post starsPost;
   private final CreateEmail.Factory createEmailFactory;
   private final GpgApiAdapter gpgApiAdapter;
 
@@ -55,6 +64,10 @@ public class AccountApiImpl implements AccountApi {
       ChangesCollection changes,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
+      Stars stars,
+      Stars.Create starCreate,
+      Stars.Get starsGet,
+      Stars.Post starsPost,
       CreateEmail.Factory createEmailFactory,
       GpgApiAdapter gpgApiAdapter,
       @Assisted AccountResource account) {
@@ -63,6 +76,10 @@ public class AccountApiImpl implements AccountApi {
     this.changes = changes;
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
+    this.stars = stars;
+    this.starCreate = starCreate;
+    this.starsGet = starsGet;
+    this.starsPost = starsPost;
     this.createEmailFactory = createEmailFactory;
     this.gpgApiAdapter = gpgApiAdapter;
   }
@@ -104,6 +121,39 @@ public class AccountApiImpl implements AccountApi {
           new StarredChanges.EmptyInput());
     } catch (OrmException e) {
       throw new RestApiException("Cannot unstar change", e);
+    }
+  }
+
+  @Override
+  public void setStars(String id, StarsInput input) throws RestApiException {
+    try {
+      try {
+        AccountResource.Star rsrc = stars.parse(account, IdString.fromUrl(id));
+        starsPost.apply(rsrc, input);
+      } catch (ResourceNotFoundException e) {
+        ChangeResource rsrc =
+            changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(id));
+        starCreate.setChange(rsrc);
+        starCreate.apply(account, input);
+      }
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot post stars", e);
+    }
+  }
+
+  @Override
+  public SortedSet<String> getStars(String id) throws RestApiException {
+    try {
+      try {
+        AccountResource.Star rsrc = stars.parse(account, IdString.fromUrl(id));
+        return starsGet.apply(rsrc);
+      } catch (ResourceNotFoundException e) {
+        // either change has no stars or it does not exist
+        changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(id));
+        return Collections.emptySortedSet();
+      }
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get stars", e);
     }
   }
 

@@ -1398,16 +1398,16 @@ The response is "`204 No Content`"
   HTTP/1.1 204 No Content
 ----
 
-[[get-starred-changes]]
-=== Get Starred Changes
+[[get-changes-with-default-star]]
+=== Get Changes With Default Star
 --
 'GET /accounts/link:#account-id[\{account-id\}]/starred.changes'
 --
 
-Gets the changes starred by the identified user account. This
-URL endpoint is functionally identical to the changes query
-`GET /changes/?q=is:starred`. The result is a list of
-link:rest-api-changes.html#change-info[ChangeInfo] entities.
+Gets the changes that were starred with the default star by the
+identified user account. This URL endpoint is functionally identical
+to the changes query `GET /changes/?q=is:starred`. The result is a list
+of link:rest-api-changes.html#change-info[ChangeInfo] entities.
 
 .Request
 ----
@@ -1432,6 +1432,9 @@ link:rest-api-changes.html#change-info[ChangeInfo] entities.
       "created": "2013-02-01 09:59:32.126000000",
       "updated": "2013-02-21 11:16:36.775000000",
       "starred": true,
+      "stars": [
+        "default"
+      ],
       "mergeable": true,
       "submittable": false,
       "insertions": 145,
@@ -1445,14 +1448,15 @@ link:rest-api-changes.html#change-info[ChangeInfo] entities.
 ----
 
 [[star-change]]
-=== Star Change
+=== Put Default Star On Change
 --
 'PUT /accounts/link:#account-id[\{account-id\}]/starred.changes/link:rest-api-changes.html#change-id[\{change-id\}]'
 --
 
-Star a change. Starred changes are returned for the search query
-`is:starred` or `starredby:USER` and automatically notify the user
-whenever updates are made to the change.
+Star a change with the default label. Changes starred with the default
+label are returned for the search query `is:starred` or `starredby:USER`
+and automatically notify the user whenever updates are made to the
+change.
 
 .Request
 ----
@@ -1465,12 +1469,12 @@ whenever updates are made to the change.
 ----
 
 [[unstar-change]]
-=== Unstar Change
+=== Remove Default Star From Change
 --
 'DELETE /accounts/link:#account-id[\{account-id\}]/starred.changes/link:rest-api-changes.html#change-id[\{change-id\}]'
 --
 
-Unstar a change. Removes the starred flag, stopping notifications.
+Remove the default star label from a change. This stops notifications.
 
 .Request
 ----
@@ -1480,6 +1484,132 @@ Unstar a change. Removes the starred flag, stopping notifications.
 .Response
 ----
   HTTP/1.1 204 No Content
+----
+
+[[get-starred-changes]]
+=== Get Starred Changes
+--
+'GET /accounts/link:#account-id[\{account-id\}]/stars.changes'
+--
+
+Gets the changes that were starred with any label by the identified
+user account. This URL endpoint is functionally identical to the
+changes query `GET /changes/?q=has:stars`. The result is a list of
+link:rest-api-changes.html#change-info[ChangeInfo] entities.
+
+.Request
+----
+  GET /a/accounts/self/stars.changes
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+      "project": "myProject",
+      "branch": "master",
+      "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+      "subject": "Implementing Feature X",
+      "status": "NEW",
+      "created": "2013-02-01 09:59:32.126000000",
+      "updated": "2013-02-21 11:16:36.775000000",
+      "stars": [
+        "ignore",
+        "risky"
+      ],
+      "mergeable": true,
+      "submittable": false,
+      "insertions": 145,
+      "deletions": 12,
+      "_number": 3965,
+      "owner": {
+        "name": "John Doe"
+      }
+    }
+  ]
+----
+
+[[get-star-labels]]
+=== Get Star Label From Change
+--
+'GET /accounts/link:#account-id[\{account-id\}]/stars.changes/link:rest-api-changes.html#change-id[\{change-id\}]'
+--
+
+Get star labels from a change.
+
+[NOTE] Labeled stars are only supported when notedb is enabled.
+
+.Request
+----
+  GET /a/accounts/self/stars.changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940 HTTP/1.0
+----
+
+As response the star labels that the user applied on the change are
+returned. The labels are lexicographically sorted.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]
+  [
+    "blue",
+    "green",
+    "red"
+  ]
+----
+
+[[star-change-with-label]]
+=== Update Star Label On Change
+--
+'POST /accounts/link:#account-id[\{account-id\}]/stars.changes/link:rest-api-changes.html#change-id[\{change-id\}]'
+--
+
+Update star labels on a change. The star labels to be added/removed
+must be specified in the request body as link:#star-input[StarInput]
+entity. Starred changes are returned for the search query `has:stars`.
+
+[NOTE] Labeled stars are only supported when notedb is enabled.
+
+.Request
+----
+  POST /a/accounts/self/stars.changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940 HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "add": [
+      "blue",
+      "red"
+    ],
+    "remove": [
+      "yellow"
+    ]
+  }
+----
+
+As response the star labels that the user applied on the change are
+returned. The labels are lexicographically sorted.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]
+  [
+    "blue",
+    "green",
+    "red"
+  ]
 ----
 
 [[ids]]
@@ -2031,6 +2161,18 @@ user.
 |`comment`       |optional|The comment of the SSH key.
 |`valid`         ||Whether the SSH key is valid.
 |=============================
+
+[[stars-input]]
+=== StarsInput
+The `StarsInput` entity contains star labels that should be added to
+or removed from a change.
+
+[options="header",cols="1,^1,5"]
+|========================
+|Field Name ||Description
+|`add`      |optional|List of labels to add to the change.
+|`remove`   |optional|List of labels to remove from the change.
+|========================
 
 [[username-input]]
 === UsernameInput

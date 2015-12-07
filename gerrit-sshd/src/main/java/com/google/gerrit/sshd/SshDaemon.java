@@ -41,36 +41,15 @@ import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSchException;
 
 import org.apache.mina.transport.socket.SocketSessionConfig;
-import org.apache.sshd.SshServer;
-import org.apache.sshd.common.Channel;
-import org.apache.sshd.common.Cipher;
-import org.apache.sshd.common.Compression;
-import org.apache.sshd.common.ForwardingFilter;
-import org.apache.sshd.common.KeyExchange;
-import org.apache.sshd.common.KeyPairProvider;
+import org.apache.sshd.common.BaseBuilder;
 import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.common.Random;
-import org.apache.sshd.common.RequestHandler;
-import org.apache.sshd.common.Session;
-import org.apache.sshd.common.Signature;
 import org.apache.sshd.common.SshdSocketAddress;
-import org.apache.sshd.common.cipher.AES128CBC;
-import org.apache.sshd.common.cipher.AES128CTR;
-import org.apache.sshd.common.cipher.AES192CBC;
-import org.apache.sshd.common.cipher.AES256CBC;
-import org.apache.sshd.common.cipher.AES256CTR;
-import org.apache.sshd.common.cipher.ARCFOUR128;
-import org.apache.sshd.common.cipher.ARCFOUR256;
-import org.apache.sshd.common.cipher.BlowfishCBC;
-import org.apache.sshd.common.cipher.CipherNone;
-import org.apache.sshd.common.cipher.TripleDESCBC;
-import org.apache.sshd.common.compression.CompressionNone;
-import org.apache.sshd.common.compression.CompressionZlib;
+import org.apache.sshd.common.channel.RequestHandler;
+import org.apache.sshd.common.cipher.Cipher;
+import org.apache.sshd.common.compression.BuiltinCompressions;
+import org.apache.sshd.common.compression.Compression;
 import org.apache.sshd.common.file.FileSystemFactory;
-import org.apache.sshd.common.file.FileSystemView;
-import org.apache.sshd.common.file.SshFile;
 import org.apache.sshd.common.forward.DefaultTcpipForwarderFactory;
-import org.apache.sshd.common.forward.TcpipServerChannel;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.IoAcceptor;
@@ -79,36 +58,31 @@ import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
-import org.apache.sshd.common.mac.HMACMD5;
-import org.apache.sshd.common.mac.HMACMD596;
-import org.apache.sshd.common.mac.HMACSHA1;
-import org.apache.sshd.common.mac.HMACSHA196;
-import org.apache.sshd.common.mac.HMACSHA256;
-import org.apache.sshd.common.mac.HMACSHA512;
-import org.apache.sshd.common.random.BouncyCastleRandom;
-import org.apache.sshd.common.random.JceRandom;
+import org.apache.sshd.common.kex.BuiltinDHFactories;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.random.JceRandomFactory;
+import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.common.session.ConnectionService;
-import org.apache.sshd.common.signature.SignatureDSA;
-import org.apache.sshd.common.signature.SignatureECDSA;
-import org.apache.sshd.common.signature.SignatureRSA;
-import org.apache.sshd.common.util.Buffer;
+import org.apache.sshd.common.session.Session;
 import org.apache.sshd.common.util.SecurityUtils;
+import org.apache.sshd.common.util.buffer.Buffer;
+import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
-import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.UserAuth;
-import org.apache.sshd.server.auth.UserAuthPublicKey;
+import org.apache.sshd.server.ServerBuilder;
+import org.apache.sshd.server.SshServer;
+import org.apache.sshd.server.auth.UserAuth;
+import org.apache.sshd.server.auth.UserAuthPublicKeyFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
-import org.apache.sshd.server.auth.gss.UserAuthGSS;
-import org.apache.sshd.server.channel.ChannelSession;
+import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
+import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
+import org.apache.sshd.server.forward.ForwardingFilter;
 import org.apache.sshd.server.global.CancelTcpipForwardHandler;
 import org.apache.sshd.server.global.KeepAliveHandler;
 import org.apache.sshd.server.global.NoMoreSessionsHandler;
 import org.apache.sshd.server.global.TcpipForwardHandler;
-import org.apache.sshd.server.kex.DHG1;
-import org.apache.sshd.server.kex.DHG14;
 import org.apache.sshd.server.session.SessionFactory;
 import org.bouncycastle.crypto.prng.RandomGenerator;
 import org.bouncycastle.crypto.prng.VMPCRandomGenerator;
@@ -122,6 +96,13 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
+import java.nio.file.FileStore;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.WatchService;
+import java.nio.file.attribute.UserPrincipalLookupService;
+import java.nio.file.spi.FileSystemProvider;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PublicKey;
@@ -130,8 +111,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -319,7 +300,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       @Override
       protected AbstractSession doCreateSession(IoSession ioSession)
           throws Exception {
-        return new GerritServerSession(server, ioSession);
+        return new GerritServerSession(getServer(), ioSession);
       }
     });
     setGlobalRequestHandlers(Arrays.<RequestHandler<ConnectionService>> asList(
@@ -365,7 +346,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       }
 
       log.info(String.format("Started Gerrit %s on %s",
-          version, addressList()));
+          getVersion(), addressList()));
     }
   }
 
@@ -379,7 +360,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       try {
         daemonAcceptor.close(true).await();
         log.info("Stopped Gerrit SSHD");
-      } catch (InterruptedException e) {
+      } catch (IOException e) {
         log.warn("Exception caught while closing", e);
       } finally {
         daemonAcceptor = null;
@@ -403,7 +384,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final List<PublicKey> keys = myHostKeys();
     final List<HostKey> r = new ArrayList<>();
     for (final PublicKey pub : keys) {
-      final Buffer buf = new Buffer();
+      final Buffer buf = new ByteArrayBuffer();
       buf.putRawPublicKey(pub);
       final byte[] keyBin = buf.getCompactData();
 
@@ -446,13 +427,18 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initProviderBouncyCastle(Config cfg) {
-    setKeyExchangeFactories(Arrays.<NamedFactory<KeyExchange>> asList(
-        new DHG14.Factory(), new DHG1.Factory()));
+    setKeyExchangeFactories(
+        NamedFactory.Utils.setUpTransformedFactories(true,
+            Collections.unmodifiableList(Arrays.asList(
+                BuiltinDHFactories.dhg14,
+                BuiltinDHFactories.dhg1
+            )),
+        ServerBuilder.DH2KEX));
     NamedFactory<Random> factory;
     if (cfg.getBoolean("sshd", null, "testUseInsecureRandom", false)) {
       factory = new InsecureBouncyCastleRandom.Factory();
     } else {
-      factory = new BouncyCastleRandom.Factory();
+      factory = SecurityUtils.getRandomFactory();
     }
     setRandomFactory(new SingletonRandomFactory(factory));
   }
@@ -480,6 +466,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     @Override
     public void fill(byte[] bytes, int start, int len) {
       random.nextBytes(bytes, start, len);
+    }
+
+    @Override
+    public void fill(byte[] bytes) {
+      random.nextBytes(bytes);
     }
 
     @Override
@@ -512,23 +503,19 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initProviderJce() {
-    setKeyExchangeFactories(Arrays
-        .<NamedFactory<KeyExchange>> asList(new DHG1.Factory()));
-    setRandomFactory(new SingletonRandomFactory(new JceRandom.Factory()));
+    setKeyExchangeFactories(
+        NamedFactory.Utils.setUpTransformedFactories(true,
+            Collections.unmodifiableList(Arrays.asList(
+                BuiltinDHFactories.dhg1
+            )),
+        ServerBuilder.DH2KEX));
+    setKeyExchangeFactories(ServerBuilder.setUpDefaultKeyExchanges(true));
+    setRandomFactory(new SingletonRandomFactory(JceRandomFactory.INSTANCE));
   }
 
   @SuppressWarnings("unchecked")
   private void initCiphers(final Config cfg) {
-    final List<NamedFactory<Cipher>> a = new LinkedList<>();
-    a.add(new AES128CBC.Factory());
-    a.add(new TripleDESCBC.Factory());
-    a.add(new BlowfishCBC.Factory());
-    a.add(new AES192CBC.Factory());
-    a.add(new AES256CBC.Factory());
-    a.add(new AES128CTR.Factory());
-    a.add(new AES256CTR.Factory());
-    a.add(new ARCFOUR256.Factory());
-    a.add(new ARCFOUR128.Factory());
+    final List<NamedFactory<Cipher>> a = BaseBuilder.setUpDefaultCiphers(true);
 
     for (Iterator<NamedFactory<Cipher>> i = a.iterator(); i.hasNext();) {
       final NamedFactory<Cipher> f = i.next();
@@ -548,12 +535,14 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     }
 
     a.add(null);
-    a.add(new CipherNone.Factory());
+    //a.add(new CipherNone.Factory());
     setCipherFactories(filter(cfg, "cipher",
         (NamedFactory<Cipher>[])a.toArray(new NamedFactory[a.size()])));
   }
 
-  private void initMacs(final Config cfg) {
+  private void initMacs(@SuppressWarnings("unused") Config cfg) {
+    // TODO(davido): activate filtering again
+    /*
     setMacFactories(filter(cfg, "mac",
         new HMACMD5.Factory(),
         new HMACSHA1.Factory(),
@@ -561,6 +550,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         new HMACSHA196.Factory(),
         new HMACSHA256.Factory(),
         new HMACSHA512.Factory()));
+        */
+    setMacFactories(BaseBuilder.setUpDefaultMacs(true));
   }
 
   @SafeVarargs
@@ -633,12 +624,15 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initSignatures() {
+    /*
     setSignatureFactories(Arrays.<NamedFactory<Signature>> asList(
         new SignatureDSA.Factory(),
         new SignatureRSA.Factory(),
         new SignatureECDSA.NISTP256Factory(),
         new SignatureECDSA.NISTP384Factory(),
         new SignatureECDSA.NISTP521Factory()));
+        */
+    setSignatureFactories(BaseBuilder.setUpDefaultSignatures(true));
   }
 
   private void initCompression(boolean enableCompression) {
@@ -646,7 +640,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         Lists.newArrayList();
 
     // Always support no compression over SSHD.
-    compressionFactories.add(new CompressionNone.Factory());
+    compressionFactories.add(BuiltinCompressions.none);
 
     // In the general case, we want to disable transparent compression, since
     // the majority of our data transfer is highly compressed Git pack files
@@ -661,17 +655,20 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     // receive-packs.
 
     if (enableCompression) {
-      compressionFactories.add(new CompressionZlib.Factory());
+      compressionFactories.add(BuiltinCompressions.zlib);
     }
 
     setCompressionFactories(compressionFactories);
   }
 
   private void initChannels() {
+    /*
     setChannelFactories(Arrays.<NamedFactory<Channel>> asList(
         new ChannelSession.Factory(), //
         new TcpipServerChannel.DirectTcpipFactory() //
         ));
+        */
+    setChannelFactories(ServerBuilder.DEFAULT_CHANNEL_FACTORIES);
   }
 
   private void initSubsystems() {
@@ -683,7 +680,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       String kerberosKeytab, String kerberosPrincipal) {
     List<NamedFactory<UserAuth>> authFactories = Lists.newArrayList();
     if (kerberosKeytab != null) {
-      authFactories.add(new UserAuthGSS.Factory());
+      authFactories.add(UserAuthGSSFactory.INSTANCE);
       log.info("Enabling kerberos with keytab " + kerberosKeytab);
       if (!new File(kerberosKeytab).canRead()) {
         log.error("Keytab " + kerberosKeytab +
@@ -706,7 +703,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       kerberosAuthenticator.setServicePrincipalName(kerberosPrincipal);
       setGSSAuthenticator(kerberosAuthenticator);
     }
-    authFactories.add(new UserAuthPublicKey.Factory());
+    authFactories.add(UserAuthPublicKeyFactory.INSTANCE);
     setUserAuthFactories(authFactories);
     setPublickeyAuthenticator(pubkey);
   }
@@ -729,7 +726,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       }
 
       @Override
-      public boolean canConnect(SshdSocketAddress address, Session session) {
+      public boolean canConnect(Type type, SshdSocketAddress address, Session session) {
           return false;
       }
     });
@@ -739,22 +736,79 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private void initFileSystemFactory() {
     setFileSystemFactory(new FileSystemFactory() {
       @Override
-      public FileSystemView createFileSystemView(Session session)
+      public FileSystem createFileSystem(Session session)
           throws IOException {
-        return new FileSystemView() {
+        return new FileSystem() {
           @Override
-          public SshFile getFile(SshFile baseDir, String file) {
+          public void close() throws IOException {
+            // TODO Auto-generated method stub
+
+          }
+
+          @Override
+          public Iterable<FileStore> getFileStores() {
+            // TODO Auto-generated method stub
             return null;
           }
 
           @Override
-          public SshFile getFile(String file) {
+          public Path getPath(String arg0, String... arg1) {
+            // TODO Auto-generated method stub
             return null;
           }
 
           @Override
-          public FileSystemView getNormalizedView() {
-            return this;
+          public PathMatcher getPathMatcher(String arg0) {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public Iterable<Path> getRootDirectories() {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public String getSeparator() {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public UserPrincipalLookupService getUserPrincipalLookupService() {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public boolean isOpen() {
+            // TODO Auto-generated method stub
+            return false;
+          }
+
+          @Override
+          public boolean isReadOnly() {
+            // TODO Auto-generated method stub
+            return false;
+          }
+
+          @Override
+          public WatchService newWatchService() throws IOException {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public FileSystemProvider provider() {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public Set<String> supportedFileAttributeViews() {
+            // TODO Auto-generated method stub
+            return null;
           }
         };
       }

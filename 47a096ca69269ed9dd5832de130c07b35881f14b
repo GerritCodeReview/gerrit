@@ -22,6 +22,30 @@
       "revId": "47a096ca69269ed9dd5832de130c07b35881f14b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_13b62cb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-12-07T15:47:31Z",
+      "side": 1,
+      "message": "After some discussion, we have finally decided to abandon this change and wait for stable-2.12 which has already fixed the bug.",
+      "parentUuid": "7bbb8f3b_4f004d44",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 19,
+        "endChar": 26
+      },
+      "revId": "47a096ca69269ed9dd5832de130c07b35881f14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

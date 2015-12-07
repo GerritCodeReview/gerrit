@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableSet;
@@ -40,18 +39,15 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
-import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
@@ -64,20 +60,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @BeforeClass
   public static void setTimeForTesting() {
-    final long clockStepMs = MILLISECONDS.convert(1, SECONDS);
-    final AtomicLong clockMs = new AtomicLong(
-        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
-    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
-      @Override
-      public long getMillis() {
-        return clockMs.getAndAdd(clockStepMs);
-      }
-    });
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
   }
 
   @AfterClass
   public static void restoreTime() {
-    DateTimeUtils.setCurrentMillisSystem();
+    TestTimeUtil.useSystemTime();
   }
 
   @Before

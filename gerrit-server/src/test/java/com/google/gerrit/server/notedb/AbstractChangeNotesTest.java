@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.inject.Scopes.SINGLETON;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
@@ -53,6 +52,7 @@ import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.TestChanges;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StandardKeyEncoder;
@@ -64,15 +64,11 @@ import com.google.inject.util.Providers;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
-import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
 import org.junit.Before;
 
 import java.sql.Timestamp;
 import java.util.TimeZone;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class AbstractChangeNotesTest extends GerritBaseTests {
   private static final TimeZone TZ =
@@ -93,7 +89,6 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
 
   private Injector injector;
   private String systemTimeZone;
-  private volatile long clockStepMs;
 
   @Inject private AllUsersNameProvider allUsers;
 
@@ -155,21 +150,12 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
 
   private void setTimeForTesting() {
     systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    clockStepMs = MILLISECONDS.convert(1, SECONDS);
-    final AtomicLong clockMs = new AtomicLong(
-        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
-
-    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
-      @Override
-      public long getMillis() {
-        return clockMs.getAndAdd(clockStepMs);
-      }
-    });
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
   }
 
   @After
   public void resetTime() {
-    DateTimeUtils.setCurrentMillisSystem();
+    TestTimeUtil.useSystemTime();
     System.setProperty("user.timezone", systemTimeZone);
   }
 

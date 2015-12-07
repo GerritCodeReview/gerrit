@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "001a2067_b3a41877",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 1952,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T17:02:28Z",
+      "side": 1,
+      "message": "Is there documentation anywhere of what these values mean?",
+      "revId": "f50619061f6d5a903626ad4d8f3f7438dcc5a833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_93a11c67",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/AccountPreferencesInfo.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T17:02:28Z",
+      "side": 1,
+      "message": "Why is the enum called EmailingStrategy but the field called emailStrategy? These should be consistent.",
+      "revId": "f50619061f6d5a903626ad4d8f3f7438dcc5a833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_70a7b081",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 25
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T17:02:28Z",
+      "side": 1,
+      "message": "Seems odd that the name of property is more descriptive than the actual property text. Why don\u0027t they match?",
+      "revId": "f50619061f6d5a903626ad4d8f3f7438dcc5a833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_50acac63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T17:02:28Z",
+      "side": 1,
+      "message": "Nit: long line",
+      "revId": "f50619061f6d5a903626ad4d8f3f7438dcc5a833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_73ce803b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T17:02:28Z",
+      "side": 1,
+      "message": "Nit: unnecessary apostrophe.",
+      "range": {
+        "startLine": 115,
+        "startChar": 64,
+        "endLine": 115,
+        "endChar": 65
+      },
+      "revId": "f50619061f6d5a903626ad4d8f3f7438dcc5a833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

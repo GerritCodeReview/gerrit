@@ -41,18 +41,18 @@ import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSchException;
 
 import org.apache.mina.transport.socket.SocketSessionConfig;
-import org.apache.sshd.SshServer;
-import org.apache.sshd.common.Channel;
-import org.apache.sshd.common.Cipher;
-import org.apache.sshd.common.Compression;
-import org.apache.sshd.common.ForwardingFilter;
-import org.apache.sshd.common.KeyExchange;
-import org.apache.sshd.common.KeyPairProvider;
+import org.apache.sshd.server.SshServer;
+import org.apache.sshd.common.channel.Channel;
+import org.apache.sshd.common.cipher.Cipher;
+import org.apache.sshd.common.compression.Compression;
+import org.apache.sshd.server.forward.ForwardingFilter;
+import org.apache.sshd.common.kex.KeyExchange;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.common.Random;
-import org.apache.sshd.common.RequestHandler;
-import org.apache.sshd.common.Session;
-import org.apache.sshd.common.Signature;
+import org.apache.sshd.common.random.Random;
+import org.apache.sshd.common.channel.RequestHandler;
+import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.signature.Signature;
 import org.apache.sshd.common.SshdSocketAddress;
 import org.apache.sshd.common.cipher.AES128CBC;
 import org.apache.sshd.common.cipher.AES128CTR;
@@ -67,10 +67,8 @@ import org.apache.sshd.common.cipher.TripleDESCBC;
 import org.apache.sshd.common.compression.CompressionNone;
 import org.apache.sshd.common.compression.CompressionZlib;
 import org.apache.sshd.common.file.FileSystemFactory;
-import org.apache.sshd.common.file.FileSystemView;
-import org.apache.sshd.common.file.SshFile;
 import org.apache.sshd.common.forward.DefaultTcpipForwarderFactory;
-import org.apache.sshd.common.forward.TcpipServerChannel;
+import org.apache.sshd.server.forward.TcpipServerChannel;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.IoAcceptor;
@@ -93,12 +91,12 @@ import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.signature.SignatureDSA;
 import org.apache.sshd.common.signature.SignatureECDSA;
 import org.apache.sshd.common.signature.SignatureRSA;
-import org.apache.sshd.common.util.Buffer;
+import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
-import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.UserAuth;
+import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
+import org.apache.sshd.server.auth.UserAuth;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSS;
@@ -132,7 +130,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.nio.file.FileStore;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.WatchService;
+import java.nio.file.attribute.UserPrincipalLookupService;
+import java.nio.file.spi.FileSystemProvider;
 
 /**
  * SSH daemon to communicate with Gerrit.
@@ -483,6 +489,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     }
 
     @Override
+    public void fill(byte[] bytes) {
+      random.nextBytes(bytes);
+    }
+
+    @Override
     public int random(int n) {
       if (n > 0) {
         if ((n & -n) == n) {
@@ -729,7 +740,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       }
 
       @Override
-      public boolean canConnect(SshdSocketAddress address, Session session) {
+      public boolean canConnect(Type type, SshdSocketAddress address, Session session) {
           return false;
       }
     });
@@ -739,22 +750,79 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private void initFileSystemFactory() {
     setFileSystemFactory(new FileSystemFactory() {
       @Override
-      public FileSystemView createFileSystemView(Session session)
+      public FileSystem createFileSystem(Session session)
           throws IOException {
-        return new FileSystemView() {
+        return new FileSystem() {
           @Override
-          public SshFile getFile(SshFile baseDir, String file) {
+          public void close() throws IOException {
+            // TODO Auto-generated method stub
+
+          }
+
+          @Override
+          public Iterable<FileStore> getFileStores() {
+            // TODO Auto-generated method stub
             return null;
           }
 
           @Override
-          public SshFile getFile(String file) {
+          public Path getPath(String arg0, String... arg1) {
+            // TODO Auto-generated method stub
             return null;
           }
 
           @Override
-          public FileSystemView getNormalizedView() {
-            return this;
+          public PathMatcher getPathMatcher(String arg0) {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public Iterable<Path> getRootDirectories() {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public String getSeparator() {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public UserPrincipalLookupService getUserPrincipalLookupService() {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public boolean isOpen() {
+            // TODO Auto-generated method stub
+            return false;
+          }
+
+          @Override
+          public boolean isReadOnly() {
+            // TODO Auto-generated method stub
+            return false;
+          }
+
+          @Override
+          public WatchService newWatchService() throws IOException {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public FileSystemProvider provider() {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+          @Override
+          public Set<String> supportedFileAttributeViews() {
+            // TODO Auto-generated method stub
+            return null;
           }
         };
       }

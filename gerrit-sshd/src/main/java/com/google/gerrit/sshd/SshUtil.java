@@ -21,11 +21,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.sshd.SshScope.Context;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.sshd.common.KeyPairProvider;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
-import org.apache.sshd.common.util.Buffer;
+import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Constants;
 

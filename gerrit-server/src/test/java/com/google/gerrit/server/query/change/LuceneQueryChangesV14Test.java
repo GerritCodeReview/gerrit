@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -25,6 +24,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -87,7 +87,7 @@ public class LuceneQueryChangesV14Test extends LuceneQueryChangesTest {
 
   @Test
   public void isReviewed() throws Exception {
-    clockStepMs = MILLISECONDS.convert(2, MINUTES);
+    TestTimeUtil.resetWithClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(newChange(repo, null, null, null, null));
     Change change2 = insert(newChange(repo, null, null, null, null));

@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.edit;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Optional;
@@ -53,6 +52,7 @@ import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gson.stream.JsonReader;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -61,9 +61,6 @@ import org.apache.commons.codec.binary.StringUtils;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
-import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -76,7 +73,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class ChangeEditIT extends AbstractDaemonTest {
 
@@ -109,20 +105,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @BeforeClass
   public static void setTimeForTesting() {
-    final long clockStepMs = MILLISECONDS.convert(1, SECONDS);
-    final AtomicLong clockMs = new AtomicLong(
-        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
-    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
-      @Override
-      public long getMillis() {
-        return clockMs.getAndAdd(clockStepMs);
-      }
-    });
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
   }
 
   @AfterClass
   public static void restoreTime() {
-    DateTimeUtils.setCurrentMillisSystem();
+    TestTimeUtil.useSystemTime();
   }
 
   @Before

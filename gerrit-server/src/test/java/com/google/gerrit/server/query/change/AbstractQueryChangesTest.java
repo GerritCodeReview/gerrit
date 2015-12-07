@@ -74,6 +74,7 @@ import com.google.gerrit.testutil.GerritServerTests;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -83,9 +84,6 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
-import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -94,7 +92,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Ignore
 public abstract class AbstractQueryChangesTest extends GerritServerTests {
@@ -129,7 +126,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   protected ReviewDb db;
   protected Account.Id userId;
   protected CurrentUser user;
-  protected volatile long clockStepMs;
 
   private String systemTimeZone;
 
@@ -185,21 +181,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Before
   public void setTimeForTesting() {
     systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    clockStepMs = 1;
-    final AtomicLong clockMs = new AtomicLong(
-        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
-
-    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
-      @Override
-      public long getMillis() {
-        return clockMs.getAndAdd(clockStepMs);
-      }
-    });
+    TestTimeUtil.setClockStep(1, MILLISECONDS);
   }
 
   @After
   public void resetTime() {
-    DateTimeUtils.setCurrentMillisSystem();
+    TestTimeUtil.useSystemTime();
     System.setProperty("user.timezone", systemTimeZone);
   }
 
@@ -697,7 +684,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void updateOrder() throws Exception {
-    clockStepMs = MILLISECONDS.convert(2, MINUTES);
+    TestTimeUtil.setClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
     List<ChangeInserter> inserters = Lists.newArrayList();
     List<Change> changes = Lists.newArrayList();
@@ -722,7 +709,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void updatedOrderWithMinuteResolution() throws Exception {
-    clockStepMs = MILLISECONDS.convert(2, MINUTES);
+    TestTimeUtil.setClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);
     Change change1 = insert(ins1);
@@ -876,16 +863,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byAge() throws Exception {
-    long thirtyHours = MILLISECONDS.convert(30, HOURS);
-    clockStepMs = thirtyHours;
+    long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
+    TestTimeUtil.setClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(newChange(repo, null, null, null, null));
     Change change2 = insert(newChange(repo, null, null, null, null));
-    clockStepMs = 0; // Queried by AgePredicate constructor.
+    // Queried by AgePredicate constructor.
+    TestTimeUtil.setClockStep(0, MILLISECONDS);
     long now = TimeUtil.nowMs();
     assertThat(lastUpdatedMs(change2) - lastUpdatedMs(change1))
-        .isEqualTo(thirtyHours);
-    assertThat(now - lastUpdatedMs(change2)).isEqualTo(thirtyHours);
+        .isEqualTo(thirtyHoursInMs);
+    assertThat(now - lastUpdatedMs(change2)).isEqualTo(thirtyHoursInMs);
     assertThat(TimeUtil.nowMs()).isEqualTo(now);
 
     assertQuery("-age:1d");
@@ -899,11 +887,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byBefore() throws Exception {
-    clockStepMs = MILLISECONDS.convert(30, HOURS);
+    TestTimeUtil.setClockStep(30, HOURS);
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(newChange(repo, null, null, null, null));
     Change change2 = insert(newChange(repo, null, null, null, null));
-    clockStepMs = 0;
+    TestTimeUtil.setClockStep(0, MILLISECONDS);
 
     assertQuery("before:2009-09-29");
     assertQuery("before:2009-09-30");
@@ -919,11 +907,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byAfter() throws Exception {
-    clockStepMs = MILLISECONDS.convert(30, HOURS);
+    TestTimeUtil.setClockStep(30, HOURS);
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(newChange(repo, null, null, null, null));
     Change change2 = insert(newChange(repo, null, null, null, null));
-    clockStepMs = 0;
+    TestTimeUtil.setClockStep(0, MILLISECONDS);
 
     assertQuery("after:2009-10-03");
     assertQuery("after:\"2009-10-01 20:59:59 -0400\"", change2);
@@ -1198,7 +1186,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reviewedBy() throws Exception {
-    clockStepMs = MILLISECONDS.convert(2, MINUTES);
+    TestTimeUtil.setClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(newChange(repo, null, null, null, null));
     Change change2 = insert(newChange(repo, null, null, null, null));

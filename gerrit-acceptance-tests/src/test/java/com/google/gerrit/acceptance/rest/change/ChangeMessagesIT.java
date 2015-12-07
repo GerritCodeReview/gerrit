@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -23,41 +22,28 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.TestTimeUtil;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
-import org.joda.time.DateTimeUtils.MillisProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RunWith(ConfigSuite.class)
 public class ChangeMessagesIT extends AbstractDaemonTest {
   private String systemTimeZone;
-  private volatile long clockStepMs;
 
   @Before
   public void setTimeForTesting() {
     systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    clockStepMs = MILLISECONDS.convert(1, SECONDS);
-    final AtomicLong clockMs = new AtomicLong(
-        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
-
-    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
-      @Override
-      public long getMillis() {
-        return clockMs.getAndAdd(clockStepMs);
-      }
-    });
+    TestTimeUtil.setClockStep(1, SECONDS);
   }
 
   @After
   public void resetTime() {
-    DateTimeUtils.setCurrentMillisSystem();
+    TestTimeUtil.useSystemTime();
     System.setProperty("user.timezone", systemTimeZone);
   }
 

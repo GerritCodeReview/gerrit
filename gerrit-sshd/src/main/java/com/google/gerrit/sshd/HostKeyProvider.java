@@ -19,8 +19,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-import org.apache.sshd.common.KeyPairProvider;
-import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
@@ -54,7 +53,7 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     if (Files.exists(objKey)) {
       if (stdKeys.isEmpty()) {
         SimpleGeneratorHostKeyProvider p = new SimpleGeneratorHostKeyProvider();
-        p.setPath(objKey.toAbsolutePath().toString());
+        p.setPath(objKey.toAbsolutePath());
         return p;
 
       } else {
@@ -73,8 +72,26 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
         throw new ProvisionException("Bouncy Castle Crypto not installed;"
             + " needed to read server host keys: " + stdKeys + "");
       }
+
+      // TODO(davido): clarify how to use both keys
+      if (Files.exists(rsaKey)) {
+        SimpleGeneratorHostKeyProvider keyProvider =
+            new SimpleGeneratorHostKeyProvider();
+        keyProvider.setAlgorithm("RSA");
+        keyProvider.setPath(rsaKey);
+        return keyProvider;
+      }
+
+      SimpleGeneratorHostKeyProvider keyProvider =
+          new SimpleGeneratorHostKeyProvider();
+      keyProvider.setAlgorithm("DSA");
+      keyProvider.setPath(dsaKey);
+      return keyProvider;
+
+      /*
       return new FileKeyPairProvider(stdKeys
           .toArray(new String[stdKeys.size()]));
+          */
     }
   }
 }

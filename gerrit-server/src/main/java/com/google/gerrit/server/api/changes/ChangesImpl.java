@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.CreateChange;
@@ -93,8 +94,7 @@ class ChangesImpl implements Changes {
     try {
       ChangeInfo out = createChange.apply(
           TopLevelResource.INSTANCE, in).value();
-      return api.create(changes.parse(TopLevelResource.INSTANCE,
-          IdString.fromUrl(out.changeId)));
+      return api.create(changes.parse(new Change.Id(out._number)));
     } catch (OrmException | IOException | InvalidChangeOperationException
         | UpdateException e) {
       throw new RestApiException("Cannot create change", e);

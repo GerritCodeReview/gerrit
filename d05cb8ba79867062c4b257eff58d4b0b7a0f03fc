@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a07dd4ee_48a7ffce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-07T21:11:17Z",
+      "side": 1,
+      "message": "Why was the author changed? You answered on DavidP question:\n\n\u003e\u003ePatch Set 22:\n\u003e\u003eHow much has this been reworked since the original author\u0027s\n\u003e\u003eversion?  I\u0027m wondering if it\u0027s appropriate to do a git \u003e\u003ecommit\n\u003e\u003e--amend --author on it?\n\u003eMy changes are mostly about resolving rebase conflicts.\n\nSo, please restore the original authors, or at least give him (or her?) the credits.",
+      "revId": "d05cb8ba79867062c4b257eff58d4b0b7a0f03fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

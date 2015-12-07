@@ -232,6 +232,30 @@
     },
     {
       "key": {
+        "uuid": "c0cf2871_a1d7be15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2015-12-07T10:26:33Z",
+      "side": 1,
+      "message": "I can imagine a future feature request for supporting different LFS backends for different projects in gerrit eg. some internal projects would use local file system storage, but main product projects that are developed across the world could use S3 storage.\n\nSince jgit implementation is repository agnostic, and IMO it should stay repository agnostic. Such kind of division should be implemented in Gerrit",
+      "parentUuid": "5b27ab98_668d4ee2",
+      "range": {
+        "startLine": 300,
+        "startChar": 33,
+        "endLine": 300,
+        "endChar": 52
+      },
+      "revId": "cc56aa390c72d3f9b39834d59fc47ef711c8c068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b48d34e_ccf8ef70",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 2

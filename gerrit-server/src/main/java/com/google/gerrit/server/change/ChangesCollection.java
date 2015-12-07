@@ -92,8 +92,11 @@ public class ChangesCollection implements
         }
       }
     }
-    if (ctls.size() != 1) {
+    if (ctls.isEmpty()) {
       throw new ResourceNotFoundException(id);
+    }
+    if (ctls.size() != 1) {
+      throw new ResourceNotFoundException("Multiple changes found for " + id);
     }
 
     ChangeControl ctl = ctls.get(0);

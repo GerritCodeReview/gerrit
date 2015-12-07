@@ -144,7 +144,7 @@ class InitSshd implements InitStep {
         System.err.print(" rsa(simple)...");
         System.err.flush();
         p = new SimpleGeneratorHostKeyProvider();
-        p.setPath(tmpkey.toAbsolutePath().toString());
+        p.setPath(tmpkey.toAbsolutePath());
         p.setAlgorithm("RSA");
         p.loadKeys(); // forces the key to generate.
         chmod(0600, tmpkey);

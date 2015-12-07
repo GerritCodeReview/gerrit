@@ -37,8 +37,8 @@ import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
 
 import org.apache.sshd.server.CommandFactory;
-import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
+import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
 import org.eclipse.jgit.lib.Config;
 
 import java.net.SocketAddress;

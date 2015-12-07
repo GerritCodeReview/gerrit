@@ -21,11 +21,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.sshd.SshScope.Context;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
-import org.apache.sshd.common.util.Buffer;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Constants;
 
@@ -59,7 +59,7 @@ public class SshUtil {
         throw new InvalidKeySpecException("No key string");
       }
       final byte[] bin = Base64.decodeBase64(Constants.encodeASCII(s));
-      return new Buffer(bin).getRawPublicKey();
+      return new ByteArrayBuffer(bin).getRawPublicKey();
     } catch (RuntimeException | SshException e) {
       throw new InvalidKeySpecException("Cannot parse key", e);
     }
@@ -96,7 +96,7 @@ public class SshUtil {
       }
 
       final PublicKey key =
-          new Buffer(Base64.decodeBase64(Constants.encodeASCII(strBuf
+          new ByteArrayBuffer(Base64.decodeBase64(Constants.encodeASCII(strBuf
               .toString()))).getRawPublicKey();
       if (key instanceof RSAPublicKey) {
         strBuf.insert(0, KeyPairProvider.SSH_RSA + " ");

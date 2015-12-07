@@ -28,12 +28,13 @@ import com.google.inject.Inject;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.server.session.ServerSession;
+import org.apache.sshd.common.session.AbstractSession;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +68,7 @@ final class CloseConnection extends SshCommand {
       boolean connectionFound = false;
       int id = (int) Long.parseLong(sessionId, 16);
       for (IoSession io : acceptor.getManagedSessions().values()) {
-        ServerSession serverSession =
-            (ServerSession) ServerSession.getSession(io, true);
+        AbstractSession serverSession = AbstractSession.getSession(io, true);
         SshSession sshSession =
             serverSession != null
                 ? serverSession.getAttribute(SshSession.KEY)
@@ -81,7 +81,7 @@ final class CloseConnection extends SshCommand {
             try {
               future.await();
               stdout.println("closed connection " + sessionId);
-            } catch (InterruptedException e) {
+            } catch (IOException e) {
               log.warn("Wait for connection to close interrupted: "
                   + e.getMessage());
             }

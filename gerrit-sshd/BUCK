@@ -32,6 +32,7 @@ java_library(
     '//lib/jgit:jgit-archive',
   ],
   provided_deps = [
+    '//lib/bouncycastle:bcpkix',
     '//lib/bouncycastle:bcprov',
   ],
   visibility = ['PUBLIC'],

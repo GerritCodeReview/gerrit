@@ -17,24 +17,33 @@
 @external .cm-s-night;
 @external .cm-s-twilight;
 @external .com-google-gerrit-client-diff-PublishedBox_BinderImpl_GenCss_style-name;
-@external .com-google-gerrit-client-diff-Resources-Style-message;
-@external .com-google-gerrit-client-diff-Resources-Style-date;
+@external .com-google-gerrit-client-diff-CommentBox-Style-message;
+@external .com-google-gerrit-client-diff-CommentBox-Style-date;
+@external .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-range;
 @external .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-rangeHighlight;
+@external .net-codemirror-lib-CodeMirror-Style-activeLine;
+@external .CodeMirror-linenumber;
 
 .cm-s-midnight .com-google-gerrit-client-diff-PublishedBox_BinderImpl_GenCss_style-name { color: black }
-.cm-s-midnight .com-google-gerrit-client-diff-Resources-Style-message { color: black }
-.cm-s-midnight .com-google-gerrit-client-diff-Resources-Style-date { color: black }
+.cm-s-midnight .com-google-gerrit-client-diff-CommentBox-Style-message { color: black }
+.cm-s-midnight .com-google-gerrit-client-diff-CommentBox-Style-date { color: black }
+.cm-s-midnight .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-range { color: #777 }
 .cm-s-midnight .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-rangeHighlight { color: #777 }
+.cm-s-midnight .net-codemirror-lib-CodeMirror-Style-activeLine .CodeMirror-linenumber { color: black }
 
 .cm-s-night .com-google-gerrit-client-diff-PublishedBox_BinderImpl_GenCss_style-name { color: black }
-.cm-s-night .com-google-gerrit-client-diff-Resources-Style-message { color: black }
-.cm-s-night .com-google-gerrit-client-diff-Resources-Style-date { color: black }
+.cm-s-night .com-google-gerrit-client-diff-CommentBox-Style-message { color: black }
+.cm-s-night .com-google-gerrit-client-diff-CommentBox-Style-date { color: black }
+.cm-s-night .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-range { color: #777 }
 .cm-s-night .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-rangeHighlight { color: #777 }
+.cm-s-night .net-codemirror-lib-CodeMirror-Style-activeLine .CodeMirror-linenumber { color: black }
 
 .cm-s-twilight .com-google-gerrit-client-diff-PublishedBox_BinderImpl_GenCss_style-name { color: black }
-.cm-s-twilight .com-google-gerrit-client-diff-Resources-Style-message { color: black }
-.cm-s-twilight .com-google-gerrit-client-diff-Resources-Style-date { color: black }
+.cm-s-twilight .com-google-gerrit-client-diff-CommentBox-Style-message { color: black }
+.cm-s-twilight .com-google-gerrit-client-diff-CommentBox-Style-date { color: black }
+.cm-s-twilight .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-range { color: #777 }
 .cm-s-twilight .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-rangeHighlight { color: #777 }
+.cm-s-twilight .net-codemirror-lib-CodeMirror-Style-activeLine .CodeMirror-linenumber { color: black }
 
 .commentWidgets {
   max-width: 650px;

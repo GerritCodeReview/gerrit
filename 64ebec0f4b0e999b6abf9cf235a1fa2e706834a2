@@ -1,0 +1,503 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0407443_10b624b0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/GetBlameIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Nit: blank line between members if they have @Inject",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_13cd0c3a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/GetBlameIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "What happened here?",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_f09a802e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/GetBlameIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Nit: indent continued lines by 4 spaces so this doesn\u0027t line up with the code block below.",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_d0977c04",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/GetBlameIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "In newly-written tests we generally prefer using the Truth library:\n\nhttp://google.github.io/truth/",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_b0a4f876",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/BlameInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Nit: max one blank line between members.",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_90a1f466",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Nit: wrap lines at 80 chars",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_70ce903b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_50d38cdd",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/common/DiffInfoTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Nit: blank line before method",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_30c8082a",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/common/DiffInfoTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Use Truth for assertions:\n\n assertThat(diff.getDiffLines()).hasSize(lines.size())",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_10cd043a",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/common/DiffInfoTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Unused?",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_f0c16004",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_d3be747e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_d0be5c7e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_b3bbf88c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_5376e4ba",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Is there a reason you have to pass in a whole ClickHandler here, which clutters up this method considerably, rather than just creating them within the body of diffTable.set?",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_93b8fc90",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Optional: save some space:\n\n PatchSet.Id rev \u003d base !\u003d null ? base : revision;",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_b0bbd88c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Move this up above line 262 then you can use it in the if condition.",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_7371e0c0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_337b68a3",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "This is probably just personal preference, but I would probably prefer using the email (or even just the part up to the @) in the short blame rather than a last name.",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_7071f0c0",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "I think this format string should go in a properties file somewhere, with placeholders that get filled in here.",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_13806caf",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Hm, is it not possible to style this part of the CodeMirror CSS with text-overflow: ellipsis?",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_5076ecba",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/annotation.css",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "This file and lint.js need to be consumed from the codemirror zip downloaded during the buck build process. Otherwise it doesn\u0027t get updated when we update the rest of CodeMirror. (Plus you would need to document the provenance and licensing of these files.)",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_f384d0c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Indent continued lines with 4 chars",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_307b68a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Optional: you could reduce the length of this throws clause by using RestApiException, which is a superclass of several of these.",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_108064af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Maybe a ResourceNotFoundException instead?",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_d381d4b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Nit: space between ) and {",
+      "range": {
+        "startLine": 130,
+        "startChar": 37,
+        "endLine": 130,
+        "endChar": 38
+      },
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_b38e58e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "ResourceNotFoundException, or some other subclass of RestApiException that avoids a 500 and a stack trace in the server logs.",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_938b5cd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Use InternalChangeQuery, it\u0027s intended for this kind of thing.",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0407443_f084c0c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetBlame.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T18:34:00Z",
+      "side": 1,
+      "message": "Note to future self: this is as far as I got.",
+      "revId": "64ebec0f4b0e999b6abf9cf235a1fa2e706834a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

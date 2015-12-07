@@ -35,6 +35,7 @@ public class ChangeInfo {
   public Timestamp created;
   public Timestamp updated;
   public Boolean starred;
+  public Collection<String> stars;
   public Boolean reviewed;
   public SubmitType submitType;
   public Boolean mergeable;

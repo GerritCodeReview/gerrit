@@ -89,6 +89,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
@@ -157,6 +158,7 @@ public class ChangeJson {
   private final ActionJson actionJson;
   private final GpgApiAdapter gpgApi;
   private final ChangeResource.Factory changeResourceFactory;
+  private final StarredChangesUtil starredChangesUtil;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -182,6 +184,7 @@ public class ChangeJson {
       ActionJson actionJson,
       GpgApiAdapter gpgApi,
       ChangeResource.Factory changeResourceFactory,
+      StarredChangesUtil starredChangesUtil,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -202,6 +205,7 @@ public class ChangeJson {
     this.actionJson = actionJson;
     this.gpgApi = gpgApi;
     this.changeResourceFactory = changeResourceFactory;
+    this.starredChangesUtil = starredChangesUtil;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -429,6 +433,13 @@ public class ChangeJson {
     out.starred = user.getStarredChanges().contains(in.getId())
         ? true
         : null;
+    if (user.isIdentifiedUser()) {
+      Set<String> stars =
+          starredChangesUtil.getLabels(user.getAccountId(), in.getId());
+      if (!stars.isEmpty()) {
+        out.stars = stars;
+      }
+    }
     if (in.getStatus().isOpen() && has(REVIEWED) && user.isIdentifiedUser()) {
       Account.Id accountId = user.getAccountId();
       out.reviewed = cd.reviewedBy().contains(accountId) ? true : null;

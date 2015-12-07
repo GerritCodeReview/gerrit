@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.AccountResource.CAPABILITY_KIND;
 import static com.google.gerrit.server.account.AccountResource.EMAIL_KIND;
 import static com.google.gerrit.server.account.AccountResource.SSH_KEY_KIND;
 import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KIND;
+import static com.google.gerrit.server.account.AccountResource.STAR_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -34,6 +35,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), EMAIL_KIND);
     DynamicMap.mapOf(binder(), SSH_KEY_KIND);
     DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
+    DynamicMap.mapOf(binder(), STAR_KIND);
 
     put(ACCOUNT_KIND).to(PutAccount.class);
     get(ACCOUNT_KIND).to(GetAccount.class);
@@ -78,6 +80,11 @@ public class Module extends RestApiModule {
     put(STARRED_CHANGE_KIND).to(StarredChanges.Put.class);
     delete(STARRED_CHANGE_KIND).to(StarredChanges.Delete.class);
     bind(StarredChanges.Create.class);
+
+    child(ACCOUNT_KIND, "stars.changes").to(Stars.class);
+    get(STAR_KIND).to(Stars.Get.class);
+    post(STAR_KIND).to(Stars.Post.class);
+    bind(Stars.Create.class);
 
     factory(CreateAccount.Factory.class);
     factory(CreateEmail.Factory.class);

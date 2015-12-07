@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -21,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 
 public interface AccountApi {
   AccountInfo get() throws RestApiException;
@@ -28,6 +30,8 @@ public interface AccountApi {
   String getAvatarUrl(int size) throws RestApiException;
   void starChange(String id) throws RestApiException;
   void unstarChange(String id) throws RestApiException;
+  void setStars(String id, StarsInput input) throws RestApiException;
+  SortedSet<String> getStars(String id) throws RestApiException;
   void addEmail(EmailInput input) throws RestApiException;
 
   Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException;
@@ -57,6 +61,16 @@ public interface AccountApi {
 
     @Override
     public void unstarChange(String id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setStars(String id, StarsInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SortedSet<String> getStars(String id) throws RestApiException {
       throw new NotImplementedException();
     }
 

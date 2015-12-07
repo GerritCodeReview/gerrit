@@ -22,6 +22,30 @@
       "revId": "6c6254cb2468b8865baa675abf58ecb939edb1fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001a2067_73a7a081",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraftComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-07T15:24:14Z",
+      "side": 1,
+      "message": "Race condition: there\u0027s a gap between the read that populated the RevisionResource and the transaction opened by BatchUpdate.\n\nMaybe this is overkill. In other places I have marked racy reads that are ok because we are just reading immutable fields, which I think is all we\u0027re doing here (specifically revision in setCommentRevId).",
+      "parentUuid": "40689802_95adc4ae",
+      "range": {
+        "startLine": 105,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 7
+      },
+      "revId": "6c6254cb2468b8865baa675abf58ecb939edb1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

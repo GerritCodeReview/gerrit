@@ -22,6 +22,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.inject.TypeLiteral;
 
+import java.util.Set;
+
 public class AccountResource implements RestResource {
   public static final TypeLiteral<RestView<AccountResource>> ACCOUNT_KIND =
       new TypeLiteral<RestView<AccountResource>>() {};
@@ -37,6 +39,9 @@ public class AccountResource implements RestResource {
 
   public static final TypeLiteral<RestView<StarredChange>> STARRED_CHANGE_KIND =
       new TypeLiteral<RestView<StarredChange>>() {};
+
+  public static final TypeLiteral<RestView<Star>> STAR_KIND =
+      new TypeLiteral<RestView<Star>>() {};
 
   private final IdentifiedUser user;
 
@@ -106,6 +111,26 @@ public class AccountResource implements RestResource {
 
     public Change getChange() {
       return change.getChange();
+    }
+  }
+
+  public static class Star extends AccountResource {
+    private final ChangeResource change;
+    private final Set<String> labels;
+
+    public Star(IdentifiedUser user, ChangeResource change,
+        Set<String> labels) {
+      super(user);
+      this.change = change;
+      this.labels = labels;
+    }
+
+    public Change getChange() {
+      return change.getChange();
+    }
+
+    public Set<String> getLabels() {
+      return labels;
     }
   }
 }

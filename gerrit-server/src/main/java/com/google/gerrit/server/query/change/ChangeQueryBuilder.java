@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
@@ -138,6 +139,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_REVIEWER = "reviewer";
   public static final String FIELD_REVIEWERIN = "reviewerin";
   public static final String FIELD_STARREDBY = "starredby";
+  public static final String FIELD_STARSBY = "starsby";
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_TOPIC = "topic";
   public static final String FIELD_TR = "tr";
@@ -177,6 +179,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ChangeIndex index;
     final IndexConfig indexConfig;
     final Provider<ListMembers> listMembers;
+    final StarredChangesUtil starredChangesUtil;
     final boolean allowsDrafts;
 
     private final Provider<CurrentUser> self;
@@ -208,6 +211,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         TrackingFooters trackingFooters,
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
+        StarredChangesUtil starredChangesUtil,
         @GerritServerConfig Config cfg) {
       this(db, queryProvider, rewriter, opFactories, userFactory, self,
           capabilityControlFactory, changeControlGenericFactory,
@@ -216,7 +220,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           projectCache, listChildProjects, submitStrategyFactory,
           conflictsCache, trackingFooters,
           indexes != null ? indexes.getSearchIndex() : null,
-          indexConfig, listMembers,
+          indexConfig, listMembers, starredChangesUtil,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
 
@@ -246,6 +250,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeIndex index,
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
+        StarredChangesUtil starredChangesUtil,
         boolean allowsDrafts) {
      this.db = db;
      this.queryProvider = queryProvider;
@@ -272,6 +277,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.index = index;
      this.indexConfig = indexConfig;
      this.listMembers = listMembers;
+     this.starredChangesUtil = starredChangesUtil;
      this.allowsDrafts = allowsDrafts;
     }
 
@@ -283,7 +289,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitStrategyFactory,
           conflictsCache, trackingFooters, index, indexConfig, listMembers,
-          allowsDrafts);
+          starredChangesUtil, allowsDrafts);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -417,6 +423,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> has(String value) throws QueryParseException {
     if ("star".equalsIgnoreCase(value)) {
       return new IsStarredByPredicate(args);
+    }
+
+    if ("stars".equalsIgnoreCase(value)) {
+      return new StarsByPredicate(args);
     }
 
     if ("draft".equalsIgnoreCase(value)) {

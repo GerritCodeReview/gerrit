@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "40897839_0defd1e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-08T15:06:13Z",
+      "side": 1,
+      "message": "Yes, there are several ways to fix this, and I picked one that seemed reasonably easy (my issues with the previous commit notwithstanding).",
+      "parentUuid": "8080d014_47f9aea7",
+      "revId": "715dc9a11c3154f69da3819b8117f327c3cda862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60775c0f_c6ba02e1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 2

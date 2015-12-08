@@ -2328,6 +2328,10 @@ public class ReceiveCommits {
             reject(inputCommand, "change is closed");
             return null;
           }
+        } else {
+          // Change was already submitted to a branch, close it.
+          //
+          markChangeMergedByPush(db, this, update);
         }
 
         db.commit();
@@ -2335,12 +2339,6 @@ public class ReceiveCommits {
         db.rollback();
       }
       update.commit();
-
-      if (mergedIntoRef != null) {
-        // Change was already submitted to a branch, close it.
-        //
-        markChangeMergedByPush(db, this, changeCtl);
-      }
 
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
@@ -2695,33 +2693,44 @@ public class ReceiveCommits {
     final String refName = cmd.getRefName();
     final Change.Id cid = psi.getParentKey();
 
-    final Change change = db.changes().get(cid);
-    final PatchSet ps = db.patchSets().get(psi);
-    if (change == null || ps == null) {
-      log.warn(project.getName() + " " + psi + " is missing");
-      return null;
-    }
+    ReplaceRequest result;
+    ChangeUpdate update;
+    db.changes().beginTransaction(cid);
+    try {
+      Change change = db.changes().get(cid);
+      PatchSet ps = db.patchSets().get(psi);
+      if (change == null || ps == null) {
+        log.warn(project.getName() + " " + psi + " is missing");
+        return null;
+      }
 
-    if (change.getStatus() == Change.Status.MERGED ||
-        change.getStatus() == Change.Status.ABANDONED ||
-        !change.getDest().get().equals(refName)) {
-      // If it's already merged or the commit is not aimed for
-      // this change's destination, don't make further updates.
-      //
-      return null;
-    }
+      if (change.getStatus() == Change.Status.MERGED ||
+          change.getStatus() == Change.Status.ABANDONED ||
+          !change.getDest().get().equals(refName)) {
+        // If it's already merged or the commit is not aimed for
+        // this change's destination, don't make further updates.
+        //
+        return null;
+      }
 
-    ReplaceRequest result = new ReplaceRequest(cid, commit, cmd, false);
-    result.change = change;
-    result.changeCtl = projectControl.controlFor(change);
-    result.newPatchSet = ps;
-    result.info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
-    result.mergedIntoRef = refName;
-    markChangeMergedByPush(db, result, result.changeCtl);
-    hooks.doChangeMergedHook(
-        change, user.getAccount(), result.newPatchSet, db, commit.getName());
+      result = new ReplaceRequest(cid, commit, cmd, false);
+      result.change = change;
+      result.changeCtl = projectControl.controlFor(change);
+      result.newPatchSet = ps;
+      result.info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
+      result.mergedIntoRef = refName;
+      update = updateFactory.create(result.changeCtl, ps.getCreatedOn());
+      markChangeMergedByPush(db, result, update);
+      hooks.doChangeMergedHook(
+          change, user.getAccount(), result.newPatchSet, db, commit.getName());
+      db.commit();
+    } finally {
+      db.rollback();
+    }
+    update.commit();
+    indexer.index(db, result.change);
     sendMergedEmail(result);
-    return change.getKey();
+    return result.change.getKey();
   }
 
   private Map<Change.Key, Change> openChangesByBranch(Branch.NameKey branch)
@@ -2734,53 +2743,43 @@ public class ReceiveCommits {
   }
 
   private void markChangeMergedByPush(ReviewDb db, final ReplaceRequest result,
-      ChangeControl control) throws OrmException, IOException {
+      ChangeUpdate update) throws OrmException {
     Change.Id id = result.change.getId();
     db.changes().beginTransaction(id);
     Change change;
 
-    ChangeUpdate update;
-    try {
-      change = db.changes().atomicUpdate(id, new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
-              change.setCurrentPatchSet(result.info);
-              change.setStatus(Change.Status.MERGED);
-              ChangeUtil.updated(change);
-            }
-            return change;
+    change = db.changes().atomicUpdate(id, new AtomicUpdate<Change>() {
+        @Override
+        public Change update(Change change) {
+          if (change.getStatus().isOpen()) {
+            change.setCurrentPatchSet(result.info);
+            change.setStatus(Change.Status.MERGED);
+            ChangeUtil.updated(change);
           }
-        });
-      String mergedIntoRef = result.mergedIntoRef;
-
-      StringBuilder msgBuf = new StringBuilder();
-      msgBuf.append("Change has been successfully pushed");
-      if (!mergedIntoRef.equals(change.getDest().get())) {
-        msgBuf.append(" into ");
-        if (mergedIntoRef.startsWith(Constants.R_HEADS)) {
-          msgBuf.append("branch ");
-          msgBuf.append(Repository.shortenRefName(mergedIntoRef));
-        } else {
-          msgBuf.append(mergedIntoRef);
+          return change;
         }
+      });
+    String mergedIntoRef = result.mergedIntoRef;
+
+    StringBuilder msgBuf = new StringBuilder();
+    msgBuf.append("Change has been successfully pushed");
+    if (!mergedIntoRef.equals(change.getDest().get())) {
+      msgBuf.append(" into ");
+      if (mergedIntoRef.startsWith(Constants.R_HEADS)) {
+        msgBuf.append("branch ");
+        msgBuf.append(Repository.shortenRefName(mergedIntoRef));
+      } else {
+        msgBuf.append(mergedIntoRef);
       }
-      msgBuf.append(".");
-      ChangeMessage msg = new ChangeMessage(
-          new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)),
-          user.getAccountId(), change.getLastUpdatedOn(),
-          result.info.getKey());
-      msg.setMessage(msgBuf.toString());
-
-      update = updateFactory.create(control, change.getLastUpdatedOn());
-
-      cmUtil.addChangeMessage(db, update, msg);
-      db.commit();
-    } finally {
-      db.rollback();
     }
-    indexer.index(db, change);
-    update.commit();
+    msgBuf.append(".");
+    ChangeMessage msg = new ChangeMessage(
+        new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)),
+        user.getAccountId(), change.getLastUpdatedOn(),
+        result.info.getKey());
+    msg.setMessage(msgBuf.toString());
+
+    cmUtil.addChangeMessage(db, update, msg);
   }
 
   private void sendMergedEmail(final ReplaceRequest result) {

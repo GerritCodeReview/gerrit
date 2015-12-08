@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a07dd4ee_481a9faa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-08T15:03:32Z",
+      "side": 1,
+      "message": "Are you sure that this was doing an index scan?\n\nThe old code delegated to ChangesCollection.parse(TopLevelResource, IdString) which invokes ChangeUtil.findChanges(String, CurrentUser), but this method already looks up the change directly if id is a legacy id.",
+      "revId": "2a0c8870f098e879059773b7d638d680c1d2c45f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

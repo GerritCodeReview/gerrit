@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "8080d014_271bdabf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-08T10:16:08Z",
+      "side": 1,
+      "message": "Done\n\nThe default starred-changes cache is now asynchronously loaded on startup if there is no plugin that provides a starred-changes cache.\n\nIt may happen that on startup a plugin provides a starred-changes cache and hence the default starred-changes cache is not instantiated, but then this plugin is unloaded during Gerrit runtime. In this case the default starred-changes cache is instantiated and synchronously loaded when it\u0027s needed for the first time.",
+      "parentUuid": "a0407443_90efb4aa",
+      "revId": "c7f300f18bef1f8b12190895a1f427cc6fef3b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0407443_70fc5063",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
         "patchSetId": 7
@@ -31,6 +49,24 @@
       "writtenOn": "2015-12-07T15:40:24Z",
       "side": 1,
       "message": "Optional: early return to reduce nesting.",
+      "revId": "c7f300f18bef1f8b12190895a1f427cc6fef3b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a07dd4ee_6815a386",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-08T10:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0407443_70fc5063",
       "revId": "c7f300f18bef1f8b12190895a1f427cc6fef3b64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

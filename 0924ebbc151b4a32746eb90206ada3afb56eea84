@@ -22,6 +22,30 @@
       "revId": "0924ebbc151b4a32746eb90206ada3afb56eea84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a07dd4ee_88e2d7f2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-08T06:58:24Z",
+      "side": 0,
+      "message": "I\u0027m second this question and add another one: Why trimming was removed?",
+      "parentUuid": "60775c0f_86b00a03",
+      "range": {
+        "startLine": 194,
+        "startChar": 6,
+        "endLine": 196,
+        "endChar": 15
+      },
+      "revId": "0924ebbc151b4a32746eb90206ada3afb56eea84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

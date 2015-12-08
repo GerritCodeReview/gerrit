@@ -125,10 +125,23 @@ class OAuthSessionOverOpenID {
     try {
       String claimedIdentifier = user.getClaimedIdentity();
       Account.Id actualId = accountManager.lookup(user.getExternalId());
-      // Use case 1: claimed identity was provided during handshake phase
+      Account.Id claimedId = null;
+
+      // We try to retrieve claimed identity.
+      // for some reason, for example staging instance
+      // it may deviate from the realy old OpenID identity.
+      // What we want to avoid in any event is t create new
+      // account instead of linking to the existing one.
+      // That why we query it here, not to lose linking mode.
       if (!Strings.isNullOrEmpty(claimedIdentifier)) {
-        Account.Id claimedId = accountManager.lookup(claimedIdentifier);
-        if (claimedId != null && actualId != null) {
+        claimedId = accountManager.lookup(claimedIdentifier);
+      }
+
+      // Use case 1: claimed identity was provided during handshake phase
+      // and user account exists for this identity
+      if (!Strings.isNullOrEmpty(claimedIdentifier) && claimedId != null) {
+        log.debug("Claimed identity is set");
+        if (actualId != null) {
           if (claimedId.equals(actualId)) {
             // Both link to the same account, that's what we expected.
           } else {
@@ -142,7 +155,7 @@ class OAuthSessionOverOpenID {
             rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
           }
-        } else if (claimedId != null && actualId == null) {
+        } else {
           // Claimed account already exists: link to it.
           //
           try {

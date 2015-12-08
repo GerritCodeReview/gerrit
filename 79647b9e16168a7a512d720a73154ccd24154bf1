@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a07dd4ee_c8568f50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 1019702
+      },
+      "writtenOn": "2015-12-08T14:04:58Z",
+      "side": 1,
+      "message": "Would it make sense to give some context in the message?  Users might want to know which branches would be merged.",
+      "range": {
+        "startLine": 1732,
+        "startChar": 34,
+        "endLine": 1732,
+        "endChar": 60
+      },
+      "revId": "79647b9e16168a7a512d720a73154ccd24154bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

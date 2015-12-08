@@ -16,6 +16,24 @@
       "revId": "2a0c8870f098e879059773b7d638d680c1d2c45f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40897839_2df48db0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-08T15:09:51Z",
+      "side": 1,
+      "message": "Good point, this is less of an optimization than I thought. But it does avoid a regex match and some allocations, so probably still worth it.",
+      "parentUuid": "a07dd4ee_481a9faa",
+      "revId": "2a0c8870f098e879059773b7d638d680c1d2c45f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

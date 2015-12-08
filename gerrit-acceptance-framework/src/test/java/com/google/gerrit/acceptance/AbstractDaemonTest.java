@@ -468,7 +468,8 @@ public abstract class AbstractDaemonTest {
   }
 
   protected Context setApiUserAnonymous() {
-    return atrScope.newContext(reviewDbProvider, null, anonymousUser.get());
+    return atrScope.set(
+        atrScope.newContext(reviewDbProvider, null, anonymousUser.get()));
   }
 
   protected static Gson newGson() {

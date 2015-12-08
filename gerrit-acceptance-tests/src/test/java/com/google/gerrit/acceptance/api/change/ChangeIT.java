@@ -792,6 +792,27 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(rev2.pushCertificate.key).isNull();
   }
 
+  @Test
+  public void anonymousRestApi() throws Exception {
+    setApiUserAnonymous();
+    PushOneCommit.Result r = createChange();
+
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.changeId).isEqualTo(r.getChangeId());
+
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    info = gApi.changes().id(triplet).get();
+    assertThat(info.changeId).isEqualTo(r.getChangeId());
+
+    info = gApi.changes().id(info._number).get();
+    assertThat(info.changeId).isEqualTo(r.getChangeId());
+
+    exception.expect(AuthException.class);
+    gApi.changes()
+        .id(triplet)
+        .current()
+        .review(ReviewInput.approve());
+  }
 
   private static Iterable<Account.Id> getReviewers(
       Collection<AccountInfo> r) {

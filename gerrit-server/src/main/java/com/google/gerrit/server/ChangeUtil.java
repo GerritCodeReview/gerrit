@@ -177,7 +177,7 @@ public class ChangeUtil {
     return subject;
   }
 
-  private final Provider<IdentifiedUser> user;
+  private final Provider<CurrentUser> user;
   private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -192,7 +192,7 @@ public class ChangeUtil {
   private final StarredChangesUtil starredChangesUtil;
 
   @Inject
-  ChangeUtil(Provider<IdentifiedUser> user,
+  ChangeUtil(Provider<CurrentUser> user,
       Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
       ChangeControl.GenericFactory changeControlFactory,
@@ -238,7 +238,7 @@ public class ChangeUtil {
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
-      PersonIdent authorIdent = user.get()
+      PersonIdent authorIdent = user.get().asIdentifiedUser()
           .newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
 
       if (commitToRevert.getParentCount() == 0) {

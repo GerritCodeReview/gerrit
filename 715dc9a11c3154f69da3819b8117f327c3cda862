@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8080d014_47f9aea7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-08T07:25:47Z",
+      "side": 1,
+      "message": "Thanks for tracking this down. I\u0027ve never seen this failure. Just to check my understanding: we are running all the tests methods in the same daemon instance and the tests interfere with each other. But we already create unique project name per test method.\n\nThe problem here is that the Lucene index is shared and the users are shared. May be we could create unique admin/user1, user2, ... per test method, like we create unique project names?\n\nAnother approach to fix that would be to honor (somehow?) project name for change id generation. That way the change ids wouldn\u0027t collide, even if those changes are created exactly in the same time.",
+      "revId": "715dc9a11c3154f69da3819b8117f327c3cda862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60775c0f_c6ba02e1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 2

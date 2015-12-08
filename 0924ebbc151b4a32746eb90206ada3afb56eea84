@@ -46,6 +46,30 @@
       "revId": "0924ebbc151b4a32746eb90206ada3afb56eea84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8080d014_67feb292",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-08T07:34:39Z",
+      "side": 0,
+      "message": "I didn\u0027t intend to remove the null check but only the trimming.\n\nThe trimming is removed so that the cursor can be placed at a new line below the quoted text. Otherwise the trimming would remove the appended new lines and the cursor would be at the end of the last line of the quoted text. Placing the cursor in a new line below the quoted text is the same what we do when replying to summary comments.\n\nFixed the null check with the new patch set.",
+      "parentUuid": "a07dd4ee_88e2d7f2",
+      "range": {
+        "startLine": 194,
+        "startChar": 6,
+        "endLine": 196,
+        "endChar": 15
+      },
+      "revId": "0924ebbc151b4a32746eb90206ada3afb56eea84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

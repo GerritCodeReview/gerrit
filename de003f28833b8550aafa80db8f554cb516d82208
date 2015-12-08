@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60775c0f_66aceeb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-08T01:32:19Z",
+      "side": 1,
+      "message": "Add a test for this case?",
+      "revId": "de003f28833b8550aafa80db8f554cb516d82208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

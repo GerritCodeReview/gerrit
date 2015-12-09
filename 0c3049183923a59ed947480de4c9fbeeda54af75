@@ -34,6 +34,24 @@
       "revId": "0c3049183923a59ed947480de4c9fbeeda54af75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a065d497_c815ef8a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.5.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T13:58:54Z",
+      "side": 1,
+      "message": "I would suggest another approach here (especially im light of: [1]): We should back port the sane working Buck version from master in all our major branches we still support. Today that would mean to bak port vey recent Buck upgrade to stable-2.12 and stable.-.2.11. This is high risk undertaken, i guess.\n\n[1] https://github.com/facebook/buck/issues/543",
+      "parentUuid": "c037286a_81e03aec",
+      "revId": "0c3049183923a59ed947480de4c9fbeeda54af75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

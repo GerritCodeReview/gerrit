@@ -783,7 +783,7 @@ public class ChangeData {
               .mergeStrategyName();
           mergeable = mergeabilityCache.get(
               ObjectId.fromString(ps.getRevision().get()),
-              ref, rec.type, mergeStrategy, c.getDest(), repo, db);
+              ref, rec.type, mergeStrategy, c.getDest(), repo);
         } catch (IOException e) {
           throw new OrmException(e);
         }

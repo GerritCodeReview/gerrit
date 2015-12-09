@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -23,7 +22,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.git.strategy.SubmitStrategy;
+import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -35,13 +34,10 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -49,6 +45,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -117,16 +114,10 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           try (Repository repo =
                 args.repoManager.openRepository(otherChange.getProject());
               CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-            RevFlag canMergeFlag = rw.newFlag("CAN_MERGE");
-            CodeReviewCommit commit =
-                rw.parseCommit(changeDataCache.getTestAgainst());
-            SubmitStrategy strategy = args.submitStrategyFactory.create(
-                submitType, db.get(), repo, rw, null, canMergeFlag,
-                getAlreadyAccepted(repo, rw, commit), otherChange.getDest(),
-                null);
-            CodeReviewCommit otherCommit = rw.parseCommit(other);
-            otherCommit.add(canMergeFlag);
-            conflicts = !strategy.dryRun(commit, otherCommit);
+            conflicts = !args.submitDryRun.dryRun(
+                submitType, repo, rw, otherChange.getDest(),
+                changeDataCache.getTestAgainst(), other,
+                getAlreadyAccepted(repo, rw));
             args.conflictsCache.put(conflictsKey, conflicts);
             return conflicts;
           } catch (IntegrationException | NoSuchProjectException
@@ -148,28 +139,21 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           return r.type;
         }
 
-        private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw,
-            CodeReviewCommit tip) throws IntegrationException {
-          Set<RevCommit> alreadyAccepted = Sets.newHashSet();
-
-          if (tip != null) {
-            alreadyAccepted.add(tip);
-          }
-
+        private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw)
+            throws IntegrationException {
           try {
-            for (ObjectId id : changeDataCache.getAlreadyAccepted(repo)) {
-              try {
-                alreadyAccepted.add(rw.parseCommit(id));
-              } catch (IncorrectObjectTypeException iote) {
-                // Not a commit? Skip over it.
-              }
+            Set<RevCommit> accepted = new HashSet<>();
+            SubmitDryRun.addCommits(
+                changeDataCache.getAlreadyAccepted(repo), rw, accepted);
+            ObjectId tip = changeDataCache.getTestAgainst();
+            if (tip != null) {
+              accepted.add(rw.parseCommit(tip));
             }
-          } catch (IOException e) {
+            return accepted;
+          } catch (OrmException | IOException e) {
             throw new IntegrationException(
                 "Failed to determine already accepted commits.", e);
           }
-
-          return alreadyAccepted;
         }
       });
       changePredicates.add(and(predicatesForOneChange));
@@ -226,7 +210,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
 
     private ObjectId testAgainst;
     private ProjectState projectState;
-    private Set<ObjectId> alreadyAccepted;
+    private Iterable<ObjectId> alreadyAccepted;
 
     ChangeDataCache(Change change, Provider<ReviewDb> db,
         ChangeData.Factory changeDataFactory, ProjectCache projectCache) {
@@ -257,17 +241,9 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       return projectState;
     }
 
-    Set<ObjectId> getAlreadyAccepted(Repository repo) {
+    Iterable<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
       if (alreadyAccepted == null) {
-        alreadyAccepted = Sets.newHashSet();
-        for (Ref r : repo.getAllRefs().values()) {
-          if (r.getName().startsWith(Constants.R_HEADS)
-              || r.getName().startsWith(Constants.R_TAGS)) {
-            if (r.getObjectId() != null) {
-              alreadyAccepted.add(r.getObjectId());
-            }
-          }
-        }
+        alreadyAccepted = SubmitDryRun.getAlreadyAccepted(repo);
       }
       return alreadyAccepted;
     }

@@ -76,7 +76,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
           change.getProject(), ctl.getUser().asIdentifiedUser(),
           TimeUtil.nowTs())) {
       bu.addOp(change.getId(),
-          new Op(r.getUser().getAccountId(), rsrc.getLabel()));
+          new Op(r.getReviewerUser().getAccountId(), rsrc.getLabel()));
       bu.execute();
     }
 

@@ -1,0 +1,254 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="gr-request.html">
+
+<dom-module id="gr-reply-dropdown">
+  <style>
+    :host {
+      display: inline-block;
+    }
+    :host([disabled]) {
+        pointer-events: none;
+    }
+    :host([disabled]) .dropdown-content {
+      opacity: .5;
+    }
+    .dropdown-content {
+      background-color: #fff;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+    }
+    button {
+      font: inherit;
+      background-color: #f1f2f3;
+      border: 1px solid #aaa;
+      border-radius: 2px;
+      padding: .2em .5em;
+    }
+    section {
+      border-top: 1px solid #ddd;
+      padding: .5em .75em;
+    }
+    .textareaContainer {
+      position: relative;
+    }
+    .message {
+      border: none;
+    }
+    .label:first-of-type {
+      margin-bottom: .25em;
+    }
+    .labelName {
+      display: inline-block;
+      text-align: right;
+      width: 6em;
+      margin-right: .5em;
+    }
+    iron-selector {
+      display: inline-flex;
+    }
+    iron-selector > button {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-left: none;
+      padding: .25em 0;
+      cursor: pointer;
+      width: 3em;
+      text-align: center;
+    }
+    iron-selector > button:first-of-type {
+      border-top-left-radius: 2px;
+      border-bottom-left-radius: 2px;
+      border-left: 1px solid #ddd;
+    }
+    iron-selector > button:last-of-type {
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 2px;
+    }
+    iron-selector > button.iron-selected {
+      background-color: #ddd;
+    }
+    .actionsContainer {
+      display: flex;
+    }
+    .action:link,
+    .action:visited {
+      color: #00e;
+    }
+    .danger {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+  </style>
+  <template>
+    <button id="trigger" on-tap="_showPopupTapHandler">Reply</button>
+    <iron-dropdown id="dropdown"
+        vertical-align="top"
+        vertical-offset="25"
+        horizontal-align="right">
+      <div class="dropdown-content">
+        <section class="textareaContainer">
+          <iron-autogrow-textarea
+              id="textarea"
+              class="message"
+              placeholder="Say something..."
+              disabled="{{disabled}}"
+              rows="1"
+              bind-value="{{_draft}}"></iron-autogrow-textarea>
+        </section>
+        <section>
+          <template is="dom-repeat"
+              items="[[_computeLabelArray(permittedLabels)]]" as="label">
+            <span class="labelName">[[label]]</span>
+            <iron-selector data-label$="[[label]]"
+                selected="[[_computeIndexOfDefaultLabelValue(labels, permittedLabels, label)]]">
+              <template is="dom-repeat"
+                  items="[[_computePermittedLabelValues(permittedLabels, label)]]"
+                  as="value">
+                <button data-value$="[[value]]">[[value]]</button>
+              </template>
+            </iron-selector>
+          </template>
+        </section>
+        <section class="actionsContainer">
+          <a class="action send" href="#" on-tap="_sendTapHandler">Send</a>
+          <div class="danger">
+            <a class="action cancel" href="#" on-tap="_cancelTapHandler">Cancel</a>
+          </div>
+        </section>
+      </div>
+    </iron-dropdown>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-reply-dropdown',
+
+      /**
+       * Fired when a reply is successfully sent.
+       *
+       * @event send
+       */
+
+      properties: {
+        changeNum: String,
+        patchNum: String,
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        labels: Object,
+        permittedLabels: Object,
+
+        _xhrPromise: Object,  // Used for testing.
+        _draft: String,
+      },
+
+      get opened() {
+        return this.$.dropdown.opened;
+      },
+
+      open: function() {
+        this.$.dropdown.open();
+        this.async(function() {
+          this.$.textarea.textarea.focus();
+        }.bind(this));
+      },
+
+      close: function() {
+        this.$.dropdown.close();
+      },
+
+      _computeLabelArray: function(labelsObj) {
+        return Object.keys(labelsObj).sort();
+      },
+
+      _computeIndexOfDefaultLabelValue: function(labels, permittedLabels,
+          labelName) {
+        for (var i = 0; i < permittedLabels[labelName].length; i++) {
+          var val = parseInt(permittedLabels[labelName][i], 10);
+          if (val == labels[labelName].default_value) {
+            return i;
+          }
+        }
+        return null;
+      },
+
+      _computePermittedLabelValues: function(permittedLabels, label) {
+        return permittedLabels[label];
+      },
+
+      _showPopupTapHandler: function(e) {
+        e.preventDefault();
+        this.open();
+      },
+
+      _cancelTapHandler: function(e) {
+        e.preventDefault();
+        this.$.dropdown.close();
+      },
+
+      _sendTapHandler: function(e) {
+        e.preventDefault();
+        var obj = {
+          drafts: 'PUBLISH_ALL_REVISIONS',
+          labels: {},
+        };
+        for (var label in this.permittedLabels) {
+          var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
+          var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
+          selectedVal = parseInt(selectedVal, 10);
+          obj.labels[label] = selectedVal;
+        }
+        if (this._draft != null) {
+          obj.message = this._draft;
+        }
+        this.disabled = true;
+        this._send(obj).then(function(req) {
+          this.fire('send', {bubbles: false});
+          this._draft = '';
+          this.disabled = false;
+          this.$.dropdown.close();
+        }.bind(this)).catch(function(err) {
+          alert('Oops. Something went wrong. Check the console and bug the ' +
+              'PolyGerrit team for assistance.');
+          throw err;
+        }.bind(this));
+      },
+
+      _send: function(payload) {
+        var xhr = document.createElement('gr-request');
+        this._xhrPromise = xhr.send({
+          method: 'POST',
+          url: Changes.baseURL(this.changeNum, this.patchNum) + '/review',
+          body: payload,
+        });
+
+        return this._xhrPromise;
+      },
+    });
+  })();
+  </script>
+</dom-module>

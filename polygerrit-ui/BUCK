@@ -8,6 +8,7 @@ bower_components(
     '//lib/js:iron-autogrow-textarea',
     '//lib/js:iron-dropdown',
     '//lib/js:iron-input',
+    '//lib/js:iron-selector',
     '//lib/js:page',
     '//lib/js:polymer',
   ],

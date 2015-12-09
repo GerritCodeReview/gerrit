@@ -18,6 +18,7 @@ import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.change.ReplyBox;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.Util;
@@ -143,17 +144,21 @@ class PublishedBox extends CommentBox {
     replyBox.setEdit(true);
   }
 
-  void addReplyBox() {
+  void addReplyBox(boolean quote) {
+    CommentInfo commentReply = CommentInfo.createReply(comment);
+    if (quote) {
+      commentReply.message(ReplyBox.quote(comment.message()));
+    }
     getCommentManager().addDraftBox(
       getCm().side(),
-      CommentInfo.createReply(comment)).setEdit(true);
+      commentReply).setEdit(true);
   }
 
   void doReply() {
     if (!Gerrit.isSignedIn()) {
       Gerrit.doSignIn(getCommentManager().getSideBySide().getToken());
     } else if (replyBox == null) {
-      addReplyBox();
+      addReplyBox(false);
     } else {
       openReplyBox();
     }
@@ -163,6 +168,15 @@ class PublishedBox extends CommentBox {
   void onReply(ClickEvent e) {
     e.stopPropagation();
     doReply();
+  }
+
+  @UiHandler("quote")
+  void onQuote(ClickEvent e) {
+    e.stopPropagation();
+    if (!Gerrit.isSignedIn()) {
+      Gerrit.doSignIn(getCommentManager().getSideBySide().getToken());
+    }
+    addReplyBox(true);
   }
 
   @UiHandler("done")

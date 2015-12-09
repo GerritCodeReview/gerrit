@@ -16,6 +16,24 @@
       "revId": "60a35952c7ed74538f0107468c2faf5a8fe82b40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20fd64c1_c4f3bec8",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-09T13:48:30Z",
+      "side": 1,
+      "message": "Yes, this could be similar to the check at line 18.\n\nI also thought it might be useful to limit this to plugins that are git submodules.",
+      "parentUuid": "8068d071_474d6ebf",
+      "revId": "60a35952c7ed74538f0107468c2faf5a8fe82b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

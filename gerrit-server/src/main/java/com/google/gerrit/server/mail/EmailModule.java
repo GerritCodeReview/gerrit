@@ -20,6 +20,7 @@ public class EmailModule extends FactoryModule {
   @Override
   protected void configure() {
     factory(AbandonedSender.Factory.class);
+    factory(DeleteVoteSender.Factory.class);
     factory(CommentSender.Factory.class);
     factory(RevertedSender.Factory.class);
     factory(RestoredSender.Factory.class);

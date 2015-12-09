@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8591c20f_3fab079b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteVoteSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-12-09T23:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c037286a_41cf927e",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d24881171bb594f3be6c333145e48fe6e0b24d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20fd64c1_44d58e0b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailModule.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2015-12-09T08:30:35Z",
       "side": 1,
       "message": "Not sure if these are supposed to be in alphabetical order.\n\n(Currently it\u0027s already out of order at Reverted/Restored).",
+      "revId": "d24881171bb594f3be6c333145e48fe6e0b24d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8591c20f_1fa643d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-12-09T23:12:14Z",
+      "side": 1,
+      "message": "put in alpha order, Done",
+      "parentUuid": "20fd64c1_44d58e0b",
       "revId": "d24881171bb594f3be6c333145e48fe6e0b24d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "052f928d_4bcac574",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteVote.vm",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-12-09T23:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c037286a_e1eee6e4",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d24881171bb594f3be6c333145e48fe6e0b24d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20fd64c1_24d29225",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteVote.vm",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2015-12-09T08:30:35Z",
       "side": 1,
       "message": "\"removed\"",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 21
+      },
+      "revId": "d24881171bb594f3be6c333145e48fe6e0b24d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "052f928d_2bbf79ce",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteVote.vm",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-12-09T23:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20fd64c1_24d29225",
       "range": {
         "startLine": 35,
         "startChar": 14,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c5149a35_b9b99fed",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6525ae9f_f6af20a3",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6525ae9f_d6ac24b1",
         "filename": "polygerrit-ui/.gitignore",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-09T16:08:25Z",
       "side": 1,
       "message": "?",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_f6d84047",
+        "filename": "polygerrit-ui/.gitignore",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "I’ve been keeping around a bower.json for debugging of unit tests. The way that the test runner works, it doesn\u0027t allow you to keep the dev console open (even in persistent (-p) mode, so I’ve been using bower to install into bower_components and running the go server pointed to /test/* to debug tests locally. It\u0027s a kludge and I didn\u0027t want to accidentally commit bower.json.",
+      "parentUuid": "6525ae9f_d6ac24b1",
       "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c5149a35_79c54764",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "gr-diff-comment-thread-reply isn\u0027t fired. i think you\u0027re thinking of gr-diff-comment-reply?",
+      "parentUuid": "6525ae9f_96b6acfb",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6525ae9f_76c55064",
         "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2015-12-09T16:08:25Z",
       "side": 1,
       "message": "Should there be some sort of assertion that this is a draft?",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_99b6dbfb",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6525ae9f_76c55064",
       "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "c5149a35_59ca8374",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "It should be set when creating the comment element. Would be nice if polymer had \"required\" attributes.",
+      "parentUuid": "6525ae9f_36bfd8ce",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6525ae9f_16c4dc64",
         "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2015-12-09T16:08:25Z",
       "side": 1,
       "message": "I am fine with alerts for unexpected errors but this one seems a little crazy. Why not just disable the save button?",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_39bfcfce",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6525ae9f_16c4dc64",
       "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "6525ae9f_76ee70e6",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "line and side are set in gr-diff-view when the draft is initially created. See _diffContainerTapHandler",
+      "parentUuid": "c5149a35_f9af17a3",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5149a35_19abeb9a",
         "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
         "patchSetId": 4
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "c5149a35_19c40b65",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "iron-request is a wrapper around XMLHttpRequest, which is designed to be used once and thrown away. if iron-request had a \"reset\" call or something equivalent I would use that.",
+      "parentUuid": "c5149a35_19abeb9a",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6525ae9f_56ca5474",
         "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
         "patchSetId": 4
@@ -149,6 +293,24 @@
       "writtenOn": "2015-12-09T16:08:25Z",
       "side": 1,
       "message": "In the not-too-distant future I would expect this to go in a common location like gr-ajax.html",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_f9d83747",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "yep. completely agree.",
+      "parentUuid": "6525ae9f_56ca5474",
       "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "6525ae9f_b6d2c823",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "Yeah. PITA.",
+      "parentUuid": "6525ae9f_b6b9a8ed",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5149a35_39a6afd4",
         "filename": "polygerrit-ui/app/test/gr-diff-comment-test.html",
         "patchSetId": 4
@@ -200,6 +380,24 @@
       "writtenOn": "2015-12-09T16:08:25Z",
       "side": 1,
       "message": "Should this be changeNum and patchNum rather than \\d+?",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_56f374ca",
+        "filename": "polygerrit-ui/app/test/gr-diff-comment-test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-09T17:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5149a35_39a6afd4",
       "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

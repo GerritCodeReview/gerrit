@@ -16,7 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-file-list.html">
 <link rel="import" href="gr-messages-list.html">
@@ -64,16 +64,14 @@ limitations under the License.
         padding: 0 var(--default-horizontal-margin) 10px;
       }
     </style>
-    <iron-ajax id="detailXHR"
+    <gr-ajax id="detailXHR"
         url="[[_computeDetailPath(changeNum)]]"
         params="[[_computeDetailQueryParams()]]"
-        json-prefix=")]}'"
         last-response="{{change}}"
-        loading="{{_loading}}"></iron-ajax>
-    <iron-ajax id="commentsXHR"
+        loading="{{_loading}}"></gr-ajax>
+    <gr-ajax id="commentsXHR"
         url="[[_computeCommentsPath(changeNum)]]"
-        json-prefix=")]}'"
-        last-response="{{comments}}"></iron-ajax>
+        last-response="{{comments}}"></gr-ajax>
     <template is="dom-if" if="{{_loading}}">
       <div class="container loading">Loading...</div>
     </template>

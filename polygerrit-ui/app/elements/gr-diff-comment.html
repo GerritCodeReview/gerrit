@@ -17,8 +17,8 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-request.html">
 <link rel="import" href="gr-date-formatter.html">
+<link rel="import" href="gr-request.html">
 
 <dom-module id="gr-diff-comment">
   <template>
@@ -321,16 +321,11 @@ limitations under the License.
       },
 
       _send: function(method, url) {
-        var xhr = document.createElement('iron-request');
+        var xhr = document.createElement('gr-request');
         this._xhrPromise = xhr.send({
           method: method,
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Gerrit-Auth': util.getCookie('XSRF_TOKEN'),
-          },
           url: url,
           body: this.comment,
-          jsonPrefix: ')]}\'',
         });
         return this._xhrPromise;
       },

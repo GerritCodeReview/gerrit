@@ -84,8 +84,8 @@ limitations under the License.
         margin-left: var(--default-horizontal-margin);
       }
     </style>
-    <gr-ajax auto url="/accounts/self/detail" response="{{account}}"></gr-ajax>
-    <gr-ajax auto url="/config/server/info" response="{{config}}"></gr-ajax>
+    <gr-ajax auto url="/accounts/self/detail" last-response="{{account}}"></gr-ajax>
+    <gr-ajax auto url="/config/server/info" last-response="{{config}}"></gr-ajax>
     <header role="banner">
       <a href="/" class="bigTitle">PolyGerrit</a>
       <div class="headerRightItems">

@@ -11,7 +11,7 @@ CORE = [
 # from the root(s) passed to audit. Filter dependencies to only
 # the ones that currently exist to allow buck to parse cleanly.
 # TODO(sop): buck should more lazily resolve deps
-def filter(names):
+def core_plugins(names):
   from os import path
   h, n = [], []
   for p in names:
@@ -20,7 +20,7 @@ def filter(names):
     else:
       n.append(p)
   return h, n
-HAVE, NEED = filter(CORE)
+HAVE, NEED = core_plugins(CORE)
 
 genrule(
   name = 'core',

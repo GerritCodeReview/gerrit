@@ -21,9 +21,8 @@ genrule(
   cmd = ' && '.join([
     'mkdir $TMP/polygerrit_ui',
     'cd $TMP/polygerrit_ui',
-    'cp $(location :processed_index) index.html',
     'mkdir -p {elements,bower_components/webcomponentsjs}',
-    'cp $(location :polygerrit) elements/gr-app.vulcanized.html',
+    'unzip -qd elements $(location :gr-app)',
     'cp -rp $SRCDIR/* .',
     'unzip -p $(location //polygerrit-ui:polygerrit_components) %s>%s' % (WEBJS, WEBJS),
     'cd $TMP',
@@ -31,24 +30,18 @@ genrule(
   ]),
   srcs = glob([
     'favicon.ico',
+    'index.html',
     'styles/**/*.css'
   ]),
   out = 'polygerrit_ui.zip',
   visibility = ['PUBLIC'],
 )
 
-genrule(
-  name = 'processed_index',
-  cmd = 'sed "s/gr-app.html/gr-app.vulcanized.html/g" $SRCS >$OUT',
-  srcs = ['index.html'],
-  out = 'index_processed.html',
-)
-
 vulcanize(
-  name = 'polygerrit',
+  name = 'gr-app',
   app = 'elements/gr-app.html',
   srcs = APP_SRCS,
-  components = ['//polygerrit-ui:polygerrit_components'],
+  components = '//polygerrit-ui:polygerrit_components',
 )
 
 
@@ -66,7 +59,7 @@ genrule(
   cmd = ' && '.join([
     'cd $TMP',
     'unzip -q $(location :test_components)',
-    'cp -rL $SRCDIR/* .',
+    'cp -r $SRCDIR/* .',
     'zip -r $OUT .',
   ]),
   srcs = APP_SRCS + glob(WCT_TEST_PATTERNS),

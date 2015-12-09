@@ -371,6 +371,43 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void topicChangeNotes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+
+    // initially topic is not set
+    ChangeNotes notes = newNotes(c);
+    notes = newNotes(c);
+    assertThat(notes.getChange().getTopic()).isNull();
+
+    // set topic
+    String topic = "myTopic";
+    update.setTopic(topic);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getChange().getTopic()).isEqualTo(topic);
+
+    // clear topic by setting empty string
+    update.setTopic("");
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getChange().getTopic()).isNull();
+
+    // set other topic
+    topic = "otherTopic";
+    update.setTopic(topic);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getChange().getTopic()).isEqualTo(topic);
+
+    // clear topic by setting null
+    update.setTopic(null);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getChange().getTopic()).isNull();
+  }
+
+  @Test
   public void emptyExceptSubject() throws Exception {
     ChangeUpdate update = newUpdate(newChange(), changeOwner);
     update.setSubject("Create change");

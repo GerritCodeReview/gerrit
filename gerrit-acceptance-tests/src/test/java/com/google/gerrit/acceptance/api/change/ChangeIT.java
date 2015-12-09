@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -50,6 +51,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -92,6 +94,30 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.owner.email).isNull();
     assertThat(c.owner.username).isNull();
     assertThat(c.owner.avatars).isNull();
+  }
+
+  @Test
+  public void getAmbiguous() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    String changeId = r1.getChangeId();
+    gApi.changes().id(changeId).get();
+
+    BranchInput b = new BranchInput();
+    b.revision = repo().getRef("HEAD").getObjectId().name();
+    gApi.projects()
+        .name(project.get())
+        .branch("other")
+        .create(b);
+
+    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, PushOneCommit.FILE_NAME,
+        PushOneCommit.FILE_CONTENT, changeId);
+    PushOneCommit.Result r2 = push2.to("refs/for/other");
+    assertThat(r2.getChangeId()).isEqualTo(changeId);
+
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage("Multiple changes found for " + changeId);
+    gApi.changes().id(changeId).get();
   }
 
   @Test
@@ -792,6 +818,27 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(rev2.pushCertificate.key).isNull();
   }
 
+  @Test
+  public void anonymousRestApi() throws Exception {
+    setApiUserAnonymous();
+    PushOneCommit.Result r = createChange();
+
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.changeId).isEqualTo(r.getChangeId());
+
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    info = gApi.changes().id(triplet).get();
+    assertThat(info.changeId).isEqualTo(r.getChangeId());
+
+    info = gApi.changes().id(info._number).get();
+    assertThat(info.changeId).isEqualTo(r.getChangeId());
+
+    exception.expect(AuthException.class);
+    gApi.changes()
+        .id(triplet)
+        .current()
+        .review(ReviewInput.approve());
+  }
 
   private static Iterable<Account.Id> getReviewers(
       Collection<AccountInfo> r) {

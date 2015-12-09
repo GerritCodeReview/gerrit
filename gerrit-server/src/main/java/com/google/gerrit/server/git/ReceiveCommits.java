@@ -101,6 +101,7 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
@@ -1795,6 +1796,16 @@ public class ReceiveCommits {
               ins.getChange().getId(),
               hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags))
                 .setRunHooks(false));
+          if (!Strings.isNullOrEmpty(magicBranch.topic)) {
+            bu.addOp(
+                ins.getChange().getId(),
+                new BatchUpdate.Op() {
+                  @Override
+                  public void updateChange(ChangeContext ctx) throws Exception {
+                    ctx.getChangeUpdate().setTopic(magicBranch.topic);
+                  }
+                });
+          }
         }
         bu.execute();
       }
@@ -2241,10 +2252,14 @@ public class ReceiveCommits {
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.labels;
         Set<String> hashtags = magicBranch.hashtags;
+        ChangeNotes notes = changeCtl.getNotes().load();
         if (!hashtags.isEmpty()) {
-          ChangeNotes notes = changeCtl.getNotes().load();
           hashtags.addAll(notes.getHashtags());
           update.setHashtags(hashtags);
+        }
+        if (magicBranch.topic != null
+            && !magicBranch.topic.equals(notes.getChange().getTopic())) {
+          update.setTopic(magicBranch.topic);
         }
       }
       recipients.add(getRecipientsFromFooters(accountResolver, newPatchSet, footerLines));

@@ -19,6 +19,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -177,7 +178,7 @@ public class ChangeUtil {
     return subject;
   }
 
-  private final Provider<IdentifiedUser> user;
+  private final Provider<CurrentUser> user;
   private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -192,7 +193,7 @@ public class ChangeUtil {
   private final StarredChangesUtil starredChangesUtil;
 
   @Inject
-  ChangeUtil(Provider<IdentifiedUser> user,
+  ChangeUtil(Provider<CurrentUser> user,
       Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
       ChangeControl.GenericFactory changeControlFactory,
@@ -238,7 +239,7 @@ public class ChangeUtil {
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
-      PersonIdent authorIdent = user.get()
+      PersonIdent authorIdent = user.get().asIdentifiedUser()
           .newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
 
       if (commitToRevert.getParentCount() == 0) {
@@ -439,10 +440,13 @@ public class ChangeUtil {
   public List<ChangeControl> findChanges(String id, CurrentUser user)
       throws OrmException {
     // Try legacy id
-    if (id.matches("^[1-9][0-9]*$")) {
+    if (!id.isEmpty() && id.charAt(0) != '0') {
+      Integer n = Ints.tryParse(id);
       try {
-        return ImmutableList.of(
-            changeControlFactory.controlFor(Change.Id.parse(id), user));
+        if (n != null) {
+          return ImmutableList.of(
+              changeControlFactory.controlFor(new Change.Id(n), user));
+        }
       } catch (NoSuchChangeException e) {
         return Collections.emptyList();
       }

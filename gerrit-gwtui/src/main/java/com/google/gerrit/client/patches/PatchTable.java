@@ -102,6 +102,10 @@ class PatchTable extends Composite {
     return i != null ? i : -1;
   }
 
+  int size() {
+    return patchMap.size();
+  }
+
   private Map<Patch.Key, Integer> patchMap() {
     if (patchMap == null) {
       patchMap = new HashMap<>();

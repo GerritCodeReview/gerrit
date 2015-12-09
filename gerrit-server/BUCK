@@ -98,6 +98,7 @@ TESTUTIL_DEPS = [
   '//lib/guice:guice-servlet',
   '//lib/jgit:jgit',
   '//lib/jgit:junit',
+  '//lib/joda:joda-time',
   '//lib/log:api',
   '//lib/log:impl_log4j',
   '//lib/log:log4j',
@@ -175,7 +176,6 @@ java_test(
     '//gerrit-common:annotations',
     '//gerrit-server/src/main/prolog:common',
     '//lib/antlr:java_runtime',
-    '//lib/joda:joda-time',
   ],
   source_under_test = [':server'],
 )
@@ -197,7 +197,6 @@ java_test(
     '//lib:guava',
     '//lib/dropwizard:dropwizard-core',
     '//lib/guice:guice-assistedinject',
-    '//lib/joda:joda-time',
     '//lib/prolog:runtime',
   ],
   source_under_test = [':server'],

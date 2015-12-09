@@ -34,6 +34,7 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -154,14 +155,16 @@ public class ListTags implements RestReadView<ProjectResource> {
       throws MissingObjectException, IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
     if (object instanceof RevTag) {
-      RevTag tag = (RevTag)object;
       // Annotated or signed tag
+      RevTag tag = (RevTag)object;
+      PersonIdent tagger = tag.getTaggerIdent();
       return new TagInfo(
           ref.getName(),
           tag.getName(),
           tag.getObject().getName(),
           tag.getFullMessage().trim(),
-          CommonConverters.toGitPerson(tag.getTaggerIdent()));
+          tagger != null ?
+              CommonConverters.toGitPerson(tag.getTaggerIdent()) : null);
     } else {
       // Lightweight tag
       return new TagInfo(

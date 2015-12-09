@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -35,7 +36,7 @@ import java.util.List;
 class NavLinks extends Composite {
   public enum Nav {
     PREV (0, '[', PatchUtil.C.previousFileHelp(), 0),
-    NEXT (3, ']', PatchUtil.C.nextFileHelp(), 1);
+    NEXT (4, ']', PatchUtil.C.nextFileHelp(), 1);
 
     public int col;      // Table Cell column to display link in
     public int key;      // key code shortcut to activate link
@@ -59,7 +60,7 @@ class NavLinks extends Composite {
   NavLinks(KeyCommandSet kcs, PatchSet.Id forPatch) {
     patchSetId = forPatch;
     keys = kcs;
-    table = new Grid(1, 4);
+    table = new Grid(1, 5);
     initWidget(table);
 
     final CellFormatter fmt = table.getCellFormatter();
@@ -68,6 +69,7 @@ class NavLinks extends Composite {
     fmt.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
     fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
     fmt.setHorizontalAlignment(0, 3, HasHorizontalAlignment.ALIGN_RIGHT);
+    fmt.setHorizontalAlignment(0, 4, HasHorizontalAlignment.ALIGN_RIGHT);
 
     final ChangeLink up = new ChangeLink("", patchSetId);
     SafeHtml.set(up, SafeHtml.asis(Util.C.upToChangeIconLink()));
@@ -77,6 +79,10 @@ class NavLinks extends Composite {
   void display(int patchIndex, PatchTable fileList,
       List<InlineHyperlink> links, List<WebLinkInfo> webLinks) {
     if (fileList != null) {
+      Label fileCountLabel =
+          new Label(Gerrit.M.fileCount(patchIndex + 1, fileList.size()));
+      fileCountLabel.setStyleName(Gerrit.RESOURCES.css().nowrap());
+      table.setWidget(0, 3, fileCountLabel);
       setupNav(Nav.PREV, fileList.getPreviousPatchLink(patchIndex));
       setupNav(Nav.NEXT, fileList.getNextPatchLink(patchIndex));
     } else {
@@ -99,6 +105,7 @@ class NavLinks extends Composite {
 
     /* setup the cells */
     if (link != null) {
+      link.addStyleName(Gerrit.RESOURCES.css().nowrap());
       table.setWidget(0, nav.col, link);
     } else {
       table.clearCell(0, nav.col);

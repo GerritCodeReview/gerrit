@@ -9,7 +9,7 @@ function LinkTextParser(callback) {
   Object.preventExtensions(this);
 }
 
-LinkTextParser.prototype.customLinks = [
+LinkTextParser.CUSTOM_LINKS = [
   {
     'pattern': /^(Change-Id: )(.+)$/mi,
     'url': 'https://gerrit.googlesource.com/gerrit/+/'
@@ -25,8 +25,9 @@ LinkTextParser.prototype.customLinks = [
 ]
 
 LinkTextParser.prototype.addText = function(text, href) {
-  if (!text)
+  if (!text) {
     return;
+  }
   this.callback(text, href);
 };
 
@@ -40,16 +41,18 @@ LinkTextParser.prototype.addBugText = function(text, tracker, bugId) {
 };
 
 LinkTextParser.prototype.parse = function(text) {
+  console.log(text);
   linkify(text, {
     callback: this.parseChunk.bind(this)
   });
 };
 
 LinkTextParser.prototype.parseChunk = function(text, href) {
-  if (href)
+  if (href) {
     this.addText(text, href);
-  else
-    this.parseLinks(text, this.customLinks);
+  } else {
+    this.parseLinks(text, LinkTextParser.CUSTOM_LINKS);
+  }
 };
 
 LinkTextParser.prototype.parseLinks = function(text, patterns) {
@@ -58,8 +61,9 @@ LinkTextParser.prototype.parseLinks = function(text, patterns) {
     var URL = patterns[i].url;
 
     var match = text.match(PATTERN);
-    if (!match)
+    if (!match){
       continue;
+    }
 
     var before = text.substr(0, match.index);
     this.addText(before);

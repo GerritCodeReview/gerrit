@@ -22,6 +22,8 @@ limitations under the License.
 <script src="../../bower_components/web-component-tester/browser.js"></script>
 <script src="../../bower_components/page/page.js"></script>
 <script src="../scripts/fake-app.js"></script>
+<script src="../scripts/changes.js"></script>
+<script src="../scripts/util.js"></script>
 
 <link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="../elements/gr-change-list.html">
@@ -32,47 +34,113 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="grouped">
+  <template>
+    <gr-change-list></gr-change-list>
+  </template>
+</test-fixture>
+
 <script>
-  suite('gr-change-list tests', function() {
-    var changeList;
+  suite('gr-change-list basic tests', function() {
+    var element;
 
     setup(function() {
-      changeList = fixture('basic');
+      element = fixture('basic');
     });
 
     test('keyboard shortcuts', function() {
-      changeList.changes = [
+      element.changes = [
         {_number: 0},
         {_number: 1},
         {_number: 2},
       ];
       flushAsynchronousOperations();
-      var changeListItems = Polymer.dom(changeList.root).querySelectorAll(
-          'gr-change-list-item:not([header])');
-      assert.equal(changeListItems.length, 3);
-      assert.equal(changeList.selectedIndex, 0);
+      var elementItems = Polymer.dom(element.root).querySelectorAll(
+          'gr-change-list-item');
+      assert.equal(elementItems.length, 3);
+      assert.equal(element.selectedIndex, 0);
 
-      MockInteractions.pressAndReleaseKeyOn(changeList, 74);  // 'j'
-      assert.equal(changeList.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(changeList, 74);  // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      assert.equal(element.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
 
       var showStub = sinon.stub(page, 'show');
-      assert.equal(changeList.selectedIndex, 2);
-      MockInteractions.pressAndReleaseKeyOn(changeList, 13);  // 'enter'
+      assert.equal(element.selectedIndex, 2);
+      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
       assert(showStub.lastCall.calledWithExactly('/c/2/'),
           'Should navigate to /c/2/');
 
-      MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
-      assert.equal(changeList.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(changeList, 13);  // 'enter'
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      assert.equal(element.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
       assert(showStub.lastCall.calledWithExactly('/c/1/'),
           'Should navigate to /c/1/');
 
-      MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
-      MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
-      MockInteractions.pressAndReleaseKeyOn(changeList, 75);  // 'k'
-      assert.equal(changeList.selectedIndex, 0);
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      assert.equal(element.selectedIndex, 0);
 
+      showStub.restore();
+    });
+
+  });
+
+  suite('gr-change-list groups', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('keyboard shortcuts', function() {
+      element.groups = [
+        [
+          {_number: 0},
+          {_number: 1},
+          {_number: 2},
+        ],
+        [
+          {_number: 3},
+          {_number: 4},
+          {_number: 5},
+        ],
+        [
+          {_number: 6},
+          {_number: 7},
+          {_number: 8},
+        ]
+      ];
+      element.groupTitles = ['Group 1', 'Group 2', 'Group 3'];
+      flushAsynchronousOperations();
+      var elementItems = Polymer.dom(element.root).querySelectorAll(
+          'gr-change-list-item');
+      assert.equal(elementItems.length, 9);
+      assert.equal(element.selectedIndex, 0);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      assert.equal(element.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+
+      var showStub = sinon.stub(page, 'show');
+      assert.equal(element.selectedIndex, 2);
+      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+      assert(showStub.lastCall.calledWithExactly('/c/2/'),
+          'Should navigate to /c/2/');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      assert.equal(element.selectedIndex, 1);
+      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+      assert(showStub.lastCall.calledWithExactly('/c/1/'),
+          'Should navigate to /c/1/');
+
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      assert.equal(element.selectedIndex, 4);
+      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+      assert(showStub.lastCall.calledWithExactly('/c/4/'),
+          'Should navigate to /c/4/');
       showStub.restore();
     });
 

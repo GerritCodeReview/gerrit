@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8068d071_474d6ebf",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T10:57:13Z",
+      "side": 1,
+      "message": "Would it make sense to check, if BUCK file is included? Otherwise when you add Maven plugin driven build only (e. g. github-plugin) this would fail.",
+      "revId": "60a35952c7ed74538f0107468c2faf5a8fe82b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -108,8 +108,6 @@ public abstract class SubmitStrategy {
 
   protected final Arguments args;
 
-  private PersonIdent refLogIdent;
-
   SubmitStrategy(Arguments args) {
     this.args = args;
   }
@@ -128,7 +126,6 @@ public abstract class SubmitStrategy {
    */
   public final MergeTip run(final CodeReviewCommit currentTip,
       final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
-    refLogIdent = null;
     checkState(args.caller != null);
     return _run(currentTip, toMerge);
   }
@@ -151,19 +148,6 @@ public abstract class SubmitStrategy {
    */
   public abstract boolean dryRun(CodeReviewCommit mergeTip,
       CodeReviewCommit toMerge) throws IntegrationException;
-
-  /**
-   * Returns the identity that should be used for reflog entries when updating
-   * the destination branch.
-   * <p>
-   * The reflog identity may only be set during {@link #run(CodeReviewCommit,
-   * Collection)}, and this method is invalid to call beforehand.
-   *
-   * @return the ref log identity, which may be {@code null}.
-   */
-  public final PersonIdent getRefLogIdent() {
-    return refLogIdent;
-  }
 
   /**
    * Returns all commits that have been newly created for the changes that are
@@ -193,15 +177,5 @@ public abstract class SubmitStrategy {
    */
   public boolean retryOnLockFailure() {
     return true;
-  }
-
-  /**
-   * Set the ref log identity if it wasn't set yet.
-   */
-  protected final void setRefLogIdent() {
-    if (refLogIdent == null) {
-      refLogIdent = args.identifiedUserFactory.create(
-          args.caller.getAccountId()).newRefLogIdent();
-    }
   }
 }

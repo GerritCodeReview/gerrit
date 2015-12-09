@@ -55,7 +55,6 @@ public class MergeAlways extends SubmitStrategy {
 
     args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
         mergeTip.getCurrentTip(), args.alreadyAccepted);
-    setRefLogIdent();
 
     return mergeTip;
   }

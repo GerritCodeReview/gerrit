@@ -168,7 +168,6 @@ public class MergeOp {
   private CodeReviewRevWalk rw;
   private RevFlag canMergeFlag;
   private ObjectInserter inserter;
-  private PersonIdent refLogIdent;
   private Map<Branch.NameKey, RefUpdate> pendingRefUpdates;
   private Map<Branch.NameKey, CodeReviewCommit> openBranches;
   private Map<Branch.NameKey, MergeTip> mergeTips;
@@ -428,8 +427,7 @@ public class MergeOp {
       for (Project.NameKey project : br.keySet()) {
         openRepository(project);
         for (Branch.NameKey branch : br.get(project)) {
-
-          RefUpdate update = updateBranch(branch);
+          RefUpdate update = updateBranch(branch, caller);
           pendingRefUpdates.remove(branch);
 
           setDestProject(branch);
@@ -475,7 +473,6 @@ public class MergeOp {
       toMerge.add(commit);
     }
     MergeTip mergeTip = strategy.run(branchTip, toMerge);
-    refLogIdent = strategy.getRefLogIdent();
     logDebug("Produced {} new commits", strategy.getNewCommits().size());
     commits.putAll(strategy.getNewCommits());
     return mergeTip;
@@ -721,8 +718,8 @@ public class MergeOp {
     }
   }
 
-  private RefUpdate updateBranch(Branch.NameKey destBranch)
-      throws IntegrationException {
+  private RefUpdate updateBranch(Branch.NameKey destBranch,
+      IdentifiedUser caller) throws IntegrationException {
     RefUpdate branchUpdate = getPendingRefUpdate(destBranch);
     CodeReviewCommit branchTip = getBranchTip(destBranch);
 
@@ -756,7 +753,8 @@ public class MergeOp {
       }
     }
 
-    branchUpdate.setRefLogIdent(refLogIdent);
+    branchUpdate.setRefLogIdent(
+        identifiedUserFactory.create(caller.getAccountId()).newRefLogIdent());
     branchUpdate.setForceUpdate(false);
     branchUpdate.setNewObjectId(currentTip);
     branchUpdate.setRefLogMessage("merged", true);

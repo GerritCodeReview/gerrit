@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1449589111 -0500\nnonce ALmjDBVonwooedreA7GvRmthzDHxG7lvTmuXfoFoF4iq34OQ3jZWr8X8zpOredaYM2eqonqF7cox\n\n0000000000000000000000000000000000000000 947971539fca39343aabb2df21eabb4d984a8825 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWZvl3AAoJEF/XxZqaEoiM/GUQAMBc4e/kCAnSXh8Cu3pH1rSZ\n2Twf2UyUazWtUVYvckcs8O0owudyBr6nfZn/GBsM9JXUsOrMJ9gU1KS1oCUizmKD\ngXXTytjBAMMVW5zdS67aXdcTj6kz2hcSuZc3/IRLnCYsuTS/W1BSTt/kPtBWrbPo\n+0QNBT7FBe/C64W+Js0oxSMoWL7qFpruriiN5P24h8zxuuwenTfUTQSJv64PDVDb\nCJLAG9a6ysaBWvcg9qhXSrYXhvTM90KPj0yM+VhzwauQhlpGmwbMNJ1HJeLhKgKe\nBrAifwZ3KNo4D0+vT9sZYvkLQaDMD9W8W3aFlaaL28Jo1J/KLN2K8GW0BkzSQP5H\nc53hTFHCWWq3yTKOwsVEVprNsvP1tAEiDgA61CHpM8FrGKuHRg+pAvlSGNQRg7qC\nVQH7jtzyyuc8fpSoRP5vjbJAhdVx92PU4JpQ7T08ZDvZaCzxTHR4Q+I5v7PtsWs9\nuWfZKxZMUgQp08nvjw5jE2xJkfJCqN9zTAFE5efyOoX5Fb//FSZAqugu1EqeZd1B\nlwxhC3XYplE3yIWrwtWtc0+CyYRP9ImKUsp/6movZMeL+9bHsea/1Lu2Jqp4Leqg\nhdfs7e3DyJxHbkapzfGPY3T/P7v6ofsuEqVaIKvr8PrvMyPXI5a6CN8eXagfGDyP\nxmrLrBfpyNS+wvpE8gkV\n\u003d/H+5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a065d497_08d22725",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-09T09:18:32Z",
+      "side": 1,
+      "message": "Make this public too?",
+      "revId": "7d866b755d57e3e202ff1def625573e31b54cd2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a065d497_28cfeb7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerResource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-09T09:18:32Z",
+      "side": 1,
+      "message": "There are 3 more callers of this method that need to be updated to the new name: PostReviewers, ReviewerJson and Votes.List\n\nBecause they are not updated the tests are currently failing.",
+      "revId": "7d866b755d57e3e202ff1def625573e31b54cd2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

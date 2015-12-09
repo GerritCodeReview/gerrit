@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8068d071_c7387e21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-09T09:39:04Z",
+      "side": 0,
+      "message": "DeleteDraftPatchSet is still using this method and hence the build fails.",
+      "revId": "b1d25f0a36916228755d38a7bc85a53c57f9f88c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

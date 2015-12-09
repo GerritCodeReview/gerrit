@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "052f928d_0bab9d9a",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-09T15:44:37Z",
+      "side": 1,
+      "message": "When I read this I thought it was referring to labels like Code-Review and Verified.  Only after looking at the tests and then earlier changes in the series I realised it\u0027s something else.\n\nMight be worth adding a brief example.",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 8
+      },
+      "revId": "db89e18122cc6b61b6343428cf906e841741c157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "052f928d_2ba659d4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-09T15:44:37Z",
+      "side": 1,
+      "message": "wrong indentation",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 69
+      },
+      "revId": "db89e18122cc6b61b6343428cf906e841741c157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

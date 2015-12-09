@@ -9,10 +9,16 @@ set if
 
 - the files in the commit,
 - the commit message,
+- the commit date,
 - the author of the commit and
 - the parents of the commit
 
 are all identical.
+
+In case only the commit date is different, a pushed commit is considered
+to be identical to the current patch set if
+
+- the commit has no child commit chained
 
 
 GERRIT

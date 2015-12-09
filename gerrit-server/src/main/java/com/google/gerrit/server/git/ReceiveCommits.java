@@ -1970,9 +1970,12 @@ public class ReceiveCommits {
             eq(newCommit.getFullMessage(), priorCommit.getFullMessage());
         final boolean parentsEq = parentsEqual(newCommit, priorCommit);
         final boolean authorEq = authorEqual(newCommit, priorCommit);
+        final boolean createdOnEq = createdOnEqual(newCommit, priorCommit);
+        final boolean isAtTip = isAtTip(newCommit, inputCommand);
+        final boolean commitTimeUpdatedAtTip = createdOnEq || isAtTip;
         final ObjectReader reader = rp.getRevWalk().getObjectReader();
 
-        if (messageEq && parentsEq && authorEq && !autoClose) {
+        if (messageEq && parentsEq && authorEq && commitTimeUpdatedAtTip && !autoClose) {
           addMessage(String.format(
               "(W) No changes between prior commit %s and new commit %s",
               reader.abbreviate(priorCommit).name(),
@@ -1993,6 +1996,9 @@ public class ReceiveCommits {
           }
           if (!parentsEq) {
             msg.append(", was rebased");
+          }
+          if (!createdOnEq && authorEq && messageEq && parentsEq) {
+            msg.append(", modification time changed");
           }
           addMessage(msg.toString());
         }
@@ -2111,7 +2117,11 @@ public class ReceiveCommits {
       switch (changeKind) {
         case TRIVIAL_REBASE:
         case NO_CHANGE:
-          msgs.append(": Patch Set " + priorPatchSet.get() + " was rebased");
+          if (parentsEqual(newCommit, revisions.inverse().get(priorPatchSet))) {
+            msgs.append(": Patch Set " + priorPatchSet.get() + " was unchanged");
+          } else {
+            msgs.append(": Patch Set " + priorPatchSet.get() + " was rebased");
+          }
           break;
         case NO_CODE_CHANGE:
           msgs.append(": Commit message was updated");
@@ -2353,6 +2363,10 @@ public class ReceiveCommits {
     return refsById;
   }
 
+  boolean isAtTip(RevCommit c, ReceiveCommand cmd) {
+    return c.name().equals(cmd.getNewId().name());
+  }
+
   static boolean parentsEqual(RevCommit a, RevCommit b) {
     if (a.getParentCount() != b.getParentCount()) {
       return false;
@@ -2363,6 +2377,10 @@ public class ReceiveCommits {
       }
     }
     return true;
+  }
+
+  static boolean createdOnEqual(RevCommit a, RevCommit b) {
+    return a.getCommitTime() == b.getCommitTime();
   }
 
   static boolean authorEqual(RevCommit a, RevCommit b) {

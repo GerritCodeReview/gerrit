@@ -59,8 +59,8 @@ public class MergeAlways extends SubmitStrategy {
     return mergeTip;
   }
 
-  @Override
-  public boolean dryRun(CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+  static boolean dryRun(SubmitDryRun.Arguments args,
+      CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
     return args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip,
         toMerge);

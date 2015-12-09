@@ -183,8 +183,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
     return newCommits;
   }
 
-  @Override
-  public boolean dryRun(CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+  static boolean dryRun(SubmitDryRun.Arguments args,
+      CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
     return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
         && args.mergeUtil.canCherryPick(args.mergeSorter, args.repo, mergeTip,

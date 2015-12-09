@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -27,8 +26,7 @@ public interface MergeabilityCache {
   public static class NotImplemented implements MergeabilityCache {
     @Override
     public boolean get(ObjectId commit, Ref intoRef, SubmitType submitType,
-        String mergeStrategy, Branch.NameKey dest, Repository repo,
-        ReviewDb db) {
+        String mergeStrategy, Branch.NameKey dest, Repository repo) {
       throw new UnsupportedOperationException("Mergeability checking disabled");
     }
 
@@ -40,7 +38,7 @@ public interface MergeabilityCache {
   }
 
   boolean get(ObjectId commit, Ref intoRef, SubmitType submitType,
-      String mergeStrategy, Branch.NameKey dest, Repository repo, ReviewDb db);
+      String mergeStrategy, Branch.NameKey dest, Repository repo);
 
   Boolean getIfPresent(ObjectId commit, Ref intoRef,
       SubmitType submitType, String mergeStrategy);

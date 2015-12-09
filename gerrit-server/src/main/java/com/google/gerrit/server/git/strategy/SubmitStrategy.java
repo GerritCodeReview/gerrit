@@ -134,21 +134,6 @@ public abstract class SubmitStrategy {
       Collection<CodeReviewCommit> toMerge) throws IntegrationException;
 
   /**
-   * Checks whether the given commit can be merged.
-   * <p>
-   * Implementations must ensure that invoking this method modifies neither the
-   * git repository nor the Gerrit database.
-   *
-   * @param mergeTip the merge tip.
-   * @param toMerge the commit that should be checked.
-   * @return {@code true} if the given commit can be merged, otherwise
-   *         {@code false}
-   * @throws IntegrationException
-   */
-  public abstract boolean dryRun(CodeReviewCommit mergeTip,
-      CodeReviewCommit toMerge) throws IntegrationException;
-
-  /**
    * Returns all commits that have been newly created for the changes that are
    * getting merged.
    * <p>

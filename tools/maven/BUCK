@@ -1,12 +1,14 @@
 include_defs('//VERSION')
 include_defs('//tools/maven/package.defs')
+include_defs('//tools/maven/repository.defs')
 
-URL = 'https://oss.sonatype.org/content/repositories/snapshots' \
-      if GERRIT_VERSION.endswith('-SNAPSHOT') else \
-        'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+if GERRIT_VERSION.endswith('-SNAPSHOT'):
+  URL = MAVEN_SNAPSHOT_URL
+else:
+  URL = MAVEN_RELEASE_URL
 
 maven_package(
-  repository = 'sonatype-nexus-staging',
+  repository = MAVEN_REPOSITORY,
   url = URL,
   version = GERRIT_VERSION,
   jar = {

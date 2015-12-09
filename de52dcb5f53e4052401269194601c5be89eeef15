@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a065d497_68e083eb",
+        "filename": "tools/maven/repository.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T10:53:38Z",
+      "side": 1,
+      "message": "Remove this prefix? Or may be replace it with REMOTE_?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 6
+      },
+      "revId": "de52dcb5f53e4052401269194601c5be89eeef15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a065d497_08ed47e2",
+        "filename": "tools/maven/repository.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T10:53:38Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "de52dcb5f53e4052401269194601c5be89eeef15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

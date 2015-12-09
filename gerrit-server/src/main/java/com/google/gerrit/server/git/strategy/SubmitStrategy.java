@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -79,23 +79,24 @@ public abstract class SubmitStrategy {
         Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
         ApprovalsUtil approvalsUtil, MergeUtil mergeUtil,
         ChangeIndexer indexer, IdentifiedUser caller) {
-      this.identifiedUserFactory = identifiedUserFactory;
-      this.serverIdent = serverIdent;
-      this.db = db;
-      this.batchUpdateFactory = batchUpdateFactory;
-      this.changeControlFactory = changeControlFactory;
+      this.identifiedUserFactory = checkNotNull(identifiedUserFactory);
+      this.serverIdent = checkNotNull(serverIdent);
+      this.db = checkNotNull(db);
+      this.batchUpdateFactory = checkNotNull(batchUpdateFactory);
+      this.changeControlFactory = checkNotNull(changeControlFactory);
 
-      this.repo = repo;
-      this.rw = rw;
-      this.inserter = inserter;
-      this.canMergeFlag = canMergeFlag;
-      this.alreadyAccepted = alreadyAccepted;
-      this.destBranch = destBranch;
-      this.approvalsUtil = approvalsUtil;
-      this.mergeUtil = mergeUtil;
-      this.indexer = indexer;
+      this.repo = checkNotNull(repo);
+      this.rw = checkNotNull(rw);
+      this.inserter = checkNotNull(inserter);
+      this.canMergeFlag = checkNotNull(canMergeFlag);
+      this.alreadyAccepted = checkNotNull(alreadyAccepted);
+      this.destBranch = checkNotNull(destBranch);
+      this.approvalsUtil = checkNotNull(approvalsUtil);
+      this.mergeUtil = checkNotNull(mergeUtil);
+      this.indexer = checkNotNull(indexer);
+      this.caller = checkNotNull(caller);
+
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
-      this.caller = caller;
     }
 
     BatchUpdate newBatchUpdate(Timestamp when) {
@@ -108,7 +109,7 @@ public abstract class SubmitStrategy {
   protected final Arguments args;
 
   SubmitStrategy(Arguments args) {
-    this.args = args;
+    this.args = checkNotNull(args);
   }
 
   /**
@@ -123,14 +124,7 @@ public abstract class SubmitStrategy {
    * @return the new merge tip.
    * @throws IntegrationException
    */
-  public final MergeTip run(final CodeReviewCommit currentTip,
-      final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
-    checkState(args.caller != null);
-    return _run(currentTip, toMerge);
-  }
-
-  /** @see #run(CodeReviewCommit, Collection) */
-  protected abstract MergeTip _run(CodeReviewCommit currentTip,
+  public abstract MergeTip run(CodeReviewCommit currentTip,
       Collection<CodeReviewCommit> toMerge) throws IntegrationException;
 
   /**

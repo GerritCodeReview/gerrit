@@ -61,7 +61,7 @@ public class CherryPick extends SubmitStrategy {
   }
 
   @Override
-  protected MergeTip _run(CodeReviewCommit branchTip,
+  public MergeTip run(CodeReviewCommit branchTip,
       Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);

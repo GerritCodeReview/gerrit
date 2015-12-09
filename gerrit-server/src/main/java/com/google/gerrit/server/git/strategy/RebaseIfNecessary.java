@@ -59,7 +59,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
   }
 
   @Override
-  protected MergeTip _run(final CodeReviewCommit branchTip,
+  public MergeTip run(final CodeReviewCommit branchTip,
       final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     List<CodeReviewCommit> sorted = sort(toMerge);

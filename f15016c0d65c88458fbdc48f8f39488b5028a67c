@@ -2,6 +2,159 @@
   "comments": [
     {
       "key": {
+        "uuid": "6525ae9f_f6af20a3",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "The change to this file should be reverted. Most likely you did a \"git commit -a --amend\" or similar after rebasing on master. But because submodules suck, that rebase on master didn\u0027t immediately run \"git submodule update\", so it left the submodule state alone. Submodules suck.",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_d6ac24b1",
+        "filename": "polygerrit-ui/.gitignore",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "?",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_96b6acfb",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "Document -reply as well",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_76c55064",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "Should there be some sort of assertion that this is a draft?",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_36bfd8ce",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "Does this need a value:?",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_16c4dc64",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "I am fine with alerts for unexpected errors but this one seems a little crazy. Why not just disable the save button?",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_f9af17a3",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "I don\u0027t see where comment.line is set. Am I missing something?\n\nWhile we\u0027re at it, what about comment.side? How do you handle comments on the base?",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_19abeb9a",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "Why create this element dynamically instead of declaring it in html?",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_56ca5474",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "In the not-too-distant future I would expect this to go in a common location like gr-ajax.html",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e00fccaf_6ab17705",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 4
@@ -13,6 +166,40 @@
       "writtenOn": "2015-12-09T04:11:06Z",
       "side": 1,
       "message": "\"due to\"",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_b6b9a8ed",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "On the one hand, seriously, JS doesn\u0027t do this for you?\n\nOn the other hand, I completely respect not wanting to pull in $random_framework just to get this.",
+      "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_39a6afd4",
+        "filename": "polygerrit-ui/app/test/gr-diff-comment-test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-09T16:08:25Z",
+      "side": 1,
+      "message": "Should this be changeNum and patchNum rather than \\d+?",
       "revId": "f15016c0d65c88458fbdc48f8f39488b5028a67c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

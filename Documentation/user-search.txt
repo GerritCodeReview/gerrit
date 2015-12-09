@@ -247,6 +247,16 @@ named exactly `Foo.java` and does not match `AbstractFoo.java`.
 Regular expression matching can be enabled by starting the string
 with `^`. In this mode `file:` is an alias of `path:` (see above).
 
+[[star]]
+star:'LABEL'::
++
+Matches any change that was starred by the current user with the label
+'LABEL'.
++
+E.g. if changes where work is still in progress were marked with a
+`wip` star, they could be found by 'star:wip'. 'star:default' is the
+same as 'has:star' and 'is:starred'.
+
 [[has]]
 has:draft::
 +

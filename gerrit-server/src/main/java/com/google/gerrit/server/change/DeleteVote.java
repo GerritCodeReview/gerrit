@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -33,6 +34,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.DeleteVote.Input;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
+import com.google.gerrit.server.mail.DeleteVoteSender;
+import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -40,10 +44,17 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class DeleteVote implements RestModifyView<VoteResource, Input> {
+  private static final Logger log = LoggerFactory.getLogger(DeleteVote.class);
+
   public static class Input {
   }
 
@@ -52,18 +63,24 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final ChangeHooks hooks;
+  private final DeleteVoteSender.Factory deleteVoteSenderFactory;
 
   @Inject
   DeleteVote(Provider<ReviewDb> db,
       BatchUpdate.Factory batchUpdateFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      IdentifiedUser.GenericFactory userFactory) {
+      IdentifiedUser.GenericFactory userFactory,
+      ChangeHooks hooks,
+      DeleteVoteSender.Factory deleteVoteSenderFactory) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.userFactory = userFactory;
+    this.hooks = hooks;
+    this.deleteVoteSenderFactory = deleteVoteSenderFactory;
   }
 
   @Override
@@ -84,6 +101,10 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
   private class Op extends BatchUpdate.Op {
     private final Account.Id accountId;
     private final String label;
+    private ChangeMessage changeMessage;
+    private Change change;
+    private PatchSet ps;
+    private Map<String, Short> categories = new HashMap<>();
 
     private Op(Account.Id accountId, String label) {
       this.accountId = accountId;
@@ -93,10 +114,10 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, AuthException, ResourceNotFoundException {
-      IdentifiedUser user = ctx.getUser().asIdentifiedUser();
-      Change change = ctx.getChange();
+      change = ctx.getChange();
       ChangeControl ctl = ctx.getControl();
       PatchSet.Id psId = change.currentPatchSetId();
+      ps = ctx.getDb().patchSets().get(change.currentPatchSetId());
 
       PatchSetApproval psa = null;
       StringBuilder msg = new StringBuilder();
@@ -111,6 +132,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
                 .append("\n");
             psa = a;
             a.setValue((short)0);
+            categories.put(a.getLabel(), a.getValue());
             ctx.getUpdate(psId).removeApprovalFor(a.getAccountId(), label);
             break;
           }
@@ -125,10 +147,10 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
       ctx.getDb().patchSetApprovals().update(Collections.singleton(psa));
 
       if (msg.length() > 0) {
-        ChangeMessage changeMessage =
+        changeMessage =
             new ChangeMessage(new ChangeMessage.Key(change.getId(),
                 ChangeUtil.messageUUID(ctx.getDb())),
-                user.getAccountId(),
+                ctx.getUser().asIdentifiedUser().getAccountId(),
                 ctx.getWhen(),
                 change.currentPatchSetId());
         changeMessage.setMessage(msg.toString());
@@ -136,6 +158,32 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
             changeMessage);
       }
       return true;
+    }
+
+    @Override
+    public void postUpdate(Context ctx) {
+      if (changeMessage == null) {
+        return;
+      }
+
+      IdentifiedUser user = ctx.getUser().asIdentifiedUser();
+      try {
+        ReplyToChangeSender cm = deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
+        if (user.getAccountId() != null) {
+          cm.setFrom(user.getAccountId());
+        }
+        cm.setChangeMessage(changeMessage);
+        cm.send();
+      } catch (Exception e) {
+        log.error("Cannot email update for change " + change.getId(), e);
+      }
+
+      try {
+        hooks.doCommentAddedHook(change, user.getAccount(), ps,
+            changeMessage.getMessage(), categories, ctx.getDb());
+      } catch (OrmException e) {
+        log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
+      }
     }
   }
 

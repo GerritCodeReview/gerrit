@@ -269,6 +269,7 @@ limitations under the License.
     }
 
     test('jump to line', function() {
+      window.scrollTo(0, 0);
       element._jumpToLine(-12849);
       assert.equal(window.scrollY, 0);
       element._jumpToLine('sup');

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a065d497_88bdb7d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T08:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c037286a_61d89647",
+      "range": {
+        "startLine": 15,
+        "startChar": 25,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "7f4aa89ac343be05c996c15619ee4d0fc9d2ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c037286a_81d59a0e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-09T08:24:39Z",
       "side": 1,
       "message": "\"it to\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 9,
+        "endLine": 38,
+        "endChar": 13
+      },
+      "revId": "7f4aa89ac343be05c996c15619ee4d0fc9d2ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a065d497_a8c2fb57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T08:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c037286a_81d59a0e",
       "range": {
         "startLine": 38,
         "startChar": 9,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8068d071_a7fd4a95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T08:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c037286a_21d28e25",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "7f4aa89ac343be05c996c15619ee4d0fc9d2ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20fd64c1_a4bd62d6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2015-12-09T08:24:39Z",
       "side": 1,
       "message": "setting",
+      "range": {
+        "startLine": 58,
+        "startChar": 40,
+        "endLine": 58,
+        "endChar": 48
+      },
+      "revId": "7f4aa89ac343be05c996c15619ee4d0fc9d2ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8068d071_47e32ef9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T08:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20fd64c1_a4bd62d6",
       "range": {
         "startLine": 58,
         "startChar": 40,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "8068d071_67e0b2eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T08:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20fd64c1_84c26658",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 22
+      },
+      "revId": "7f4aa89ac343be05c996c15619ee4d0fc9d2ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20fd64c1_c4c85e7e",
         "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OAuthSessionOverOpenID.java",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2015-12-09T08:24:39Z",
       "side": 1,
       "message": "to",
+      "range": {
+        "startLine": 133,
+        "startChar": 47,
+        "endLine": 133,
+        "endChar": 48
+      },
+      "revId": "7f4aa89ac343be05c996c15619ee4d0fc9d2ca85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8068d071_07ed36e2",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OAuthSessionOverOpenID.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T08:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20fd64c1_c4c85e7e",
       "range": {
         "startLine": 133,
         "startChar": 47,

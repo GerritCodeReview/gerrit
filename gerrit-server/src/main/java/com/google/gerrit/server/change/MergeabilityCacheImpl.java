@@ -26,32 +26,23 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
+import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -188,13 +179,11 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     private final EntryKey key;
     private final Branch.NameKey dest;
     private final Repository repo;
-    private final ReviewDb db;
 
-    Loader(EntryKey key, Branch.NameKey dest, Repository repo, ReviewDb db) {
+    Loader(EntryKey key, Branch.NameKey dest, Repository repo) {
       this.key = key;
       this.dest = dest;
       this.repo = repo;
-      this.db = db;
     }
 
     @Override
@@ -203,42 +192,13 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
       if (key.into.equals(ObjectId.zeroId())) {
         return true; // Assume yes on new branch.
       }
-      RefDatabase refDatabase = repo.getRefDatabase();
-      Iterable<Ref> refs = Iterables.concat(
-          refDatabase.getRefs(Constants.R_HEADS).values(),
-          refDatabase.getRefs(Constants.R_TAGS).values());
       try (CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-        RevFlag canMerge = rw.newFlag("CAN_MERGE");
-        CodeReviewCommit rev = rw.parseCommit(key.commit);
-        rev.add(canMerge);
-        CodeReviewCommit tip = rw.parseCommit(key.into);
-        Set<RevCommit> accepted = alreadyAccepted(rw, refs);
-        accepted.add(tip);
-        accepted.addAll(Arrays.asList(rev.getParents()));
-        return submitStrategyFactory.create(
-            key.submitType,
-            db,
-            repo,
-            rw,
-            null /*inserter*/,
-            canMerge,
-            accepted,
-            dest,
-            null).dryRun(tip, rev);
+        Set<RevCommit> accepted = SubmitDryRun.getAlreadyAccepted(repo, rw);
+        RevCommit c = rw.parseCommit(key.commit);
+        accepted.addAll(Arrays.asList(c.getParents()));
+        return submitDryRun.dryRun(
+            key.submitType, repo, rw, dest, key.into, key.commit, accepted);
       }
-    }
-
-    private Set<RevCommit> alreadyAccepted(RevWalk rw, Iterable<Ref> refs)
-        throws MissingObjectException, IOException {
-      Set<RevCommit> accepted = Sets.newHashSet();
-      for (Ref r : refs) {
-        try {
-          accepted.add(rw.parseCommit(r.getObjectId()));
-        } catch (IncorrectObjectTypeException nonCommit) {
-          // Not a commit? Skip over it.
-        }
-      }
-      return accepted;
     }
   }
 
@@ -251,24 +211,24 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     }
   }
 
-  private final SubmitStrategyFactory submitStrategyFactory;
+  private final SubmitDryRun submitDryRun;
   private final Cache<EntryKey, Boolean> cache;
 
   @Inject
   MergeabilityCacheImpl(
-      SubmitStrategyFactory submitStrategyFactory,
+      SubmitDryRun submitDryRun,
       @Named(CACHE_NAME) Cache<EntryKey, Boolean> cache) {
-    this.submitStrategyFactory = submitStrategyFactory;
+    this.submitDryRun = submitDryRun;
     this.cache = cache;
   }
 
   @Override
   public boolean get(ObjectId commit, Ref intoRef, SubmitType submitType,
-      String mergeStrategy, Branch.NameKey dest, Repository repo, ReviewDb db) {
+      String mergeStrategy, Branch.NameKey dest, Repository repo) {
     ObjectId into = intoRef != null ? intoRef.getObjectId() : ObjectId.zeroId();
     EntryKey key = new EntryKey(commit, into, submitType, mergeStrategy);
     try {
-      return cache.get(key, new Loader(key, dest, repo, db));
+      return cache.get(key, new Loader(key, dest, repo));
     } catch (ExecutionException e) {
       log.error(String.format("Error checking mergeability of %s into %s (%s)",
             key.commit.name(), key.into.name(), key.submitType.name()),

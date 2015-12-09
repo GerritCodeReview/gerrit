@@ -168,6 +168,23 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Reviewer: 1@gerrit\n");
   }
 
+  @Test
+  public void parseTopic() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Topic: Some Topic");
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Topic:");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Topic: Some Topic\n"
+        + "Topic: Other Topic");
+  }
+
   private RevCommit writeCommit(String body) throws Exception {
     return writeCommit(body, ChangeNoteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,

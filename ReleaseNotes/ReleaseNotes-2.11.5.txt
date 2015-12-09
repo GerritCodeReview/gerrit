@@ -9,6 +9,22 @@ https://gerrit-releases.storage.googleapis.com/gerrit-2.11.5.war]
 There are no schema changes from link:ReleaseNotes-2.11.4.html[2.11.4].
 
 
+Important Notes
+---------------
+
+*WARNING:* This release uses a forked version of buck.
+
+Buck was forked to cherry-pick an upstream fix for building on Mac OSX
+El Capitan.
+
+To build this release from source, the Google repository must be added to
+the remotes in the buck checkout:
+
+----
+ $ git remote add google https://gerrit.googlesource.com/buck
+----
+
+
 Bug Fixes
 ---------
 

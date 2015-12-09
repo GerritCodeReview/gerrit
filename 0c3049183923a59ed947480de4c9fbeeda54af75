@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8068d071_2754fa45",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.5.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-09T11:01:21Z",
+      "side": 1,
+      "message": "This is really annoying! Failing to add this, you get really confusing error, that a SHA1 is not a tree.",
+      "revId": "0c3049183923a59ed947480de4c9fbeeda54af75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

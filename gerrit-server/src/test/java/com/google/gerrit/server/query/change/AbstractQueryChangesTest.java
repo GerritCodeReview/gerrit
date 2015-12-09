@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -50,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
@@ -93,6 +95,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -248,6 +251,46 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("change:repo~otherbranch~" + k);
     assertQuery("repo~branch~I0000000000000000000000000000000000000000");
     assertQuery("change:repo~branch~I0000000000000000000000000000000000000000");
+  }
+
+  @Test
+  public void byStar() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    TestRepository<Repo> repo = createProject("repo");
+    ChangeInserter ins1 = newChange(repo, null, null, null, null);
+    Change change1 = ins1.getChange();
+    change1.setStatus(Change.Status.NEW);
+    insert(ins1);
+    ChangeInserter ins2 = newChange(repo, null, null, null, null);
+    Change change2 = ins2.getChange();
+    change2.setStatus(Change.Status.MERGED);
+    insert(ins2);
+    ChangeInserter ins3 = newChange(repo, null, null, null, null);
+    Change change3 = ins3.getChange();
+    change3.setStatus(Change.Status.MERGED);
+    insert(ins3);
+
+    gApi.accounts()
+    .self()
+    .setStars(change1.getId().toString(),
+        new StarsInput(new HashSet<>(Arrays.asList("red", "blue"))));
+    gApi.accounts()
+        .self()
+        .setStars(change2.getId().toString(),
+            new StarsInput(new HashSet<>(Arrays.asList(
+                StarredChangesUtil.DEFAULT_LABEL, "green", "blue"))));
+
+    // check labeled stars
+    assertQuery("has:stars", change2, change1);
+    assertQuery("star:red", change1);
+    assertQuery("star:blue", change2, change1);
+
+    // check default star
+    assertQuery("has:star", change2);
+    assertQuery("is:starred", change2);
+    assertQuery("starredby:self", change2);
+    assertQuery("star:default", change2);
   }
 
   @Test

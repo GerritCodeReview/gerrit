@@ -23,6 +23,9 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
+import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.IntegrationException;
@@ -31,6 +34,7 @@ import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
@@ -63,91 +67,199 @@ public class RebaseIfNecessary extends SubmitStrategy {
       final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     List<CodeReviewCommit> sorted = sort(toMerge);
-    while (!sorted.isEmpty()) {
-      CodeReviewCommit n = sorted.remove(0);
 
-      if (mergeTip.getCurrentTip() == null) {
-        // The branch is unborn. Take a fast-forward resolution to
-        // create the branch.
-        //
-        n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-        mergeTip.moveTipTo(n, n);
+    boolean first = true;
 
-      } else if (n.getParentCount() == 0) {
-        // Refuse to merge a root commit into an existing branch,
-        // we cannot obtain a delta for the rebase to apply.
-        //
-        n.setStatusCode(CommitMergeStatus.CANNOT_REBASE_ROOT);
-
-      } else if (n.getParentCount() == 1) {
-        if (args.mergeUtil.canFastForward(args.mergeSorter,
-            mergeTip.getCurrentTip(), args.rw, n)) {
-          n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-          mergeTip.moveTipTo(n, n);
-
+    try (BatchUpdate u = args.newBatchUpdate(TimeUtil.nowTs())) {
+      while (!sorted.isEmpty()) {
+        CodeReviewCommit n = sorted.remove(0);
+        Change.Id cid = n.change().getId();
+        if (first && branchTip == null) {
+          u.addOp(cid, new RebaseUnbornRootOp(mergeTip, n));
+        } else if (n.getParentCount() == 0) {
+          u.addOp(cid, new RebaseRootOp(n));
+        } else if (n.getParentCount() == 1) {
+          u.addOp(cid, new RebaseOneOp(mergeTip, n));
         } else {
-          try {
-            PatchSet newPatchSet = rebase(n, mergeTip);
-            List<PatchSetApproval> approvals = Lists.newArrayList();
-            for (PatchSetApproval a : args.approvalsUtil.byPatchSet(args.db,
-                n.getControl(), n.getPatchsetId())) {
-              approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
-            }
-            // rebaseChange.rebase() may already have copied some approvals,
-            // use upsert, not insert, to avoid constraint violation on database
-            args.db.patchSetApprovals().upsert(approvals);
-            CodeReviewCommit newTip = args.rw.parseCommit(
-                ObjectId.fromString(newPatchSet.getRevision().get()));
-            mergeTip.moveTipTo(newTip, newTip);
-            n.change().setCurrentPatchSet(
-                patchSetInfoFactory.get(args.rw, mergeTip.getCurrentTip(),
-                    newPatchSet.getId()));
-            mergeTip.getCurrentTip().copyFrom(n);
-            mergeTip.getCurrentTip().setControl(
-                args.changeControlFactory.controlFor(n.change(), args.caller));
-            mergeTip.getCurrentTip().setPatchsetId(newPatchSet.getId());
-            mergeTip.getCurrentTip().setStatusCode(
-                CommitMergeStatus.CLEAN_REBASE);
-            newCommits.put(newPatchSet.getId().getParentKey(),
-                mergeTip.getCurrentTip());
-          } catch (MergeConflictException e) {
-            n.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
-            throw new IntegrationException(
-                "Cannot rebase " + n.name() + ": " + e.getMessage(), e);
-          } catch (NoSuchChangeException | OrmException | IOException
-              | RestApiException | UpdateException e) {
-            throw new IntegrationException("Cannot rebase " + n.name(), e);
-          }
+          u.addOp(cid, new RebaseMultipleParentsOp(mergeTip, n));
         }
-
-      } else if (n.getParentCount() > 1) {
-        // There are multiple parents, so this is a merge commit. We
-        // don't want to rebase the merge as clients can't easily
-        // rebase their history with that merge present and replaced
-        // by an equivalent merge with a different first parent. So
-        // instead behave as though MERGE_IF_NECESSARY was configured.
-        //
-        try {
-          if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
-            mergeTip.moveTipTo(n, n);
-          } else {
-            PersonIdent myIdent = args.serverIdent.get();
-            mergeTip.moveTipTo(
-                args.mergeUtil.mergeOneCommit(myIdent, myIdent,
-                    args.repo, args.rw, args.inserter, args.canMergeFlag,
-                    args.destBranch, mergeTip.getCurrentTip(), n), n);
-          }
-          args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-              mergeTip.getCurrentTip(), args.alreadyAccepted);
-        } catch (IOException e) {
-          throw new IntegrationException("Cannot merge " + n.name(), e);
-        }
+        first = false;
       }
+      u.execute();
+    } catch (UpdateException e) {
+      if (e.getCause() instanceof IntegrationException) {
+        throw new IntegrationException(e.getCause().getMessage(), e);
+      }
+      throw new IntegrationException(
+          "Cannot rebase onto " + args.destBranch);
+    } catch (RestApiException e) {
+      throw new IntegrationException(
+          "Cannot rebase onto " + args.destBranch);
+    }
+    return mergeTip;
+  }
 
-      args.alreadyAccepted.add(mergeTip.getCurrentTip());
+  private class RebaseUnbornRootOp extends BatchUpdate.Op {
+    private final MergeTip mergeTip;
+    private final CodeReviewCommit toMerge;
+
+    private RebaseUnbornRootOp(MergeTip mergeTip,
+        CodeReviewCommit toMerge) {
+      this.mergeTip = mergeTip;
+      this.toMerge = toMerge;
     }
 
-    return mergeTip;
+    @Override
+    public void updateRepo(RepoContext ctx) {
+      // The branch is unborn. Take fast-forward resolution to create the
+      // branch.
+      toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
+      mergeTip.moveTipTo(toMerge, toMerge);
+      acceptMergeTip(mergeTip);
+    }
+  }
+
+  private static class RebaseRootOp extends BatchUpdate.Op {
+    private final CodeReviewCommit toMerge;
+
+    private RebaseRootOp(CodeReviewCommit toMerge) {
+      this.toMerge = toMerge;
+    }
+
+    @Override
+    public void updateRepo(RepoContext ctx) {
+      // Refuse to merge a root commit into an existing branch, we cannot obtain
+      // a delta for the cherry-pick to apply.
+      toMerge.setStatusCode(CommitMergeStatus.CANNOT_REBASE_ROOT);
+    }
+  }
+
+  private class RebaseOneOp extends BatchUpdate.Op {
+    private final MergeTip mergeTip;
+    private final CodeReviewCommit toMerge;
+
+    private RebaseChangeOp rebaseOp;
+
+    private RebaseOneOp(MergeTip mergeTip, CodeReviewCommit toMerge) {
+      this.mergeTip = mergeTip;
+      this.toMerge = toMerge;
+    }
+
+    @Override
+    public void updateRepo(RepoContext ctx)
+        throws IntegrationException, InvalidChangeOperationException,
+        RestApiException, IOException, OrmException {
+      // TODO(dborowitz): args.rw is needed because it's a CodeReviewRevWalk.
+      // When hoisting BatchUpdate into MergeOp, we will need to teach
+      // BatchUpdate how to produce CodeReviewRevWalks.
+      if (args.mergeUtil.canFastForward(args.mergeSorter,
+          mergeTip.getCurrentTip(), args.rw, toMerge)) {
+        toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
+        mergeTip.moveTipTo(toMerge, toMerge);
+        acceptMergeTip(mergeTip);
+        return;
+      }
+
+      rebaseOp = rebaseFactory.create(
+            toMerge.getControl(),
+            // Racy read of patch set is ok; see comments in RebaseChangeOp.
+            args.db.patchSets().get(toMerge.getPatchsetId()),
+            mergeTip.getCurrentTip().name())
+          .setCommitterIdent(args.serverIdent.get())
+          .setRunHooks(false)
+          .setValidatePolicy(CommitValidators.Policy.NONE);
+      try {
+        rebaseOp.updateRepo(ctx);
+      } catch (MergeConflictException e) {
+        toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
+        throw new IntegrationException(
+            "Cannot rebase " + toMerge.name() + ": " + e.getMessage(), e);
+      }
+    }
+
+    @Override
+    public void updateChange(ChangeContext ctx) throws NoSuchChangeException,
+        InvalidChangeOperationException, OrmException, IOException  {
+      if (rebaseOp == null) {
+        // Took the fast-forward option, nothing to do.
+        return;
+      }
+
+      rebaseOp.updateChange(ctx);
+      PatchSet newPatchSet = rebaseOp.getPatchSet();
+      List<PatchSetApproval> approvals = Lists.newArrayList();
+      for (PatchSetApproval a : args.approvalsUtil.byPatchSet(ctx.getDb(),
+          toMerge.getControl(), toMerge.getPatchsetId())) {
+        approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
+      }
+      // rebaseOp may already have copied some approvals; use upsert, not
+      // insert, to avoid constraint violation on database.
+      args.db.patchSetApprovals().upsert(approvals);
+
+      // TODO(dborowitz): Make RevWalk available via BatchUpdate.
+      CodeReviewCommit newTip = args.rw.parseCommit(
+          ObjectId.fromString(newPatchSet.getRevision().get()));
+      mergeTip.moveTipTo(newTip, newTip);
+      toMerge.change().setCurrentPatchSet(
+          patchSetInfoFactory.get(args.rw, mergeTip.getCurrentTip(),
+              newPatchSet.getId()));
+      mergeTip.getCurrentTip().copyFrom(toMerge);
+      mergeTip.getCurrentTip().setControl(
+          args.changeControlFactory.controlFor(toMerge.change(), args.caller));
+      mergeTip.getCurrentTip().setPatchsetId(newPatchSet.getId());
+      mergeTip.getCurrentTip().setStatusCode(
+          CommitMergeStatus.CLEAN_REBASE);
+      newCommits.put(newPatchSet.getId().getParentKey(),
+          mergeTip.getCurrentTip());
+      acceptMergeTip(mergeTip);
+    }
+
+    @Override
+    public void postUpdate(Context ctx) throws OrmException {
+      if (rebaseOp != null) {
+        rebaseOp.postUpdate(ctx);
+      }
+    }
+  }
+
+  private class RebaseMultipleParentsOp extends BatchUpdate.Op {
+    private final MergeTip mergeTip;
+    private final CodeReviewCommit toMerge;
+
+    private RebaseMultipleParentsOp(MergeTip mergeTip,
+        CodeReviewCommit toMerge) {
+      this.mergeTip = mergeTip;
+      this.toMerge = toMerge;
+    }
+
+    @Override
+    public void updateRepo(RepoContext ctx)
+        throws IntegrationException, IOException {
+      // There are multiple parents, so this is a merge commit. We don't want
+      // to rebase the merge as clients can't easily rebase their history with
+      // that merge present and replaced by an equivalent merge with a different
+      // first parent. So instead behave as though MERGE_IF_NECESSARY was
+      // configured.
+      if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)) {
+        mergeTip.moveTipTo(toMerge, toMerge);
+        acceptMergeTip(mergeTip);
+      } else {
+        PersonIdent myIdent = args.serverIdent.get();
+        // TODO(dborowitz): Can't use repo from ctx due to canMergeFlag.
+        CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
+            myIdent, myIdent, args.repo, args.rw, args.inserter,
+            args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(),
+            toMerge);
+        mergeTip.moveTipTo(newTip, toMerge);
+      }
+      args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
+          mergeTip.getCurrentTip(), args.alreadyAccepted);
+      acceptMergeTip(mergeTip);
+    }
+  }
+
+  private void acceptMergeTip(MergeTip mergeTip) {
+    args.alreadyAccepted.add(mergeTip.getCurrentTip());
   }
 
   private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
@@ -160,22 +272,6 @@ public class RebaseIfNecessary extends SubmitStrategy {
     } catch (IOException e) {
       throw new IntegrationException("Commit sorting failed", e);
     }
-  }
-
-  private PatchSet rebase(CodeReviewCommit n, MergeTip mergeTip)
-      throws RestApiException, UpdateException, OrmException {
-    RebaseChangeOp op = rebaseFactory.create(
-          n.getControl(),
-          args.db.patchSets().get(n.getPatchsetId()),
-          mergeTip.getCurrentTip().name())
-        .setCommitterIdent(args.serverIdent.get())
-        .setRunHooks(false)
-        .setValidatePolicy(CommitValidators.Policy.NONE);
-    try (BatchUpdate bu = args.newBatchUpdate(TimeUtil.nowTs())) {
-      bu.addOp(n.change().getId(), op);
-      bu.execute();
-    }
-    return op.getPatchSet();
   }
 
   @Override

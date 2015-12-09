@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -49,30 +50,44 @@ public class StarsByPredicate extends OrPredicate<ChangeData>
   }
 
   private final Arguments args;
+  private final String label;
   private final CurrentUser user;
 
   StarsByPredicate(Arguments args) throws QueryParseException {
-    this(args, args.getIdentifiedUser());
+    this(args, null);
   }
 
-  private StarsByPredicate(Arguments args, IdentifiedUser user) {
-    super(predicates(args.getSchema(),
-        args.starredChangesUtil.byAccount(user.getAccountId()).keySet()));
+  StarsByPredicate(Arguments args, String label) throws QueryParseException {
+    this(args, label, args.getIdentifiedUser());
+  }
+
+  private StarsByPredicate(Arguments args, String label, IdentifiedUser user) {
+    super(predicates(args.getSchema(), label != null
+        ? args.starredChangesUtil.byAccount(user.getAccountId(), label)
+        : args.starredChangesUtil.byAccount(user.getAccountId()).keySet()));
     this.args = args;
+    this.label = label;
     this.user = user;
   }
 
   @Override
   public boolean match(ChangeData object) {
-    return args.starredChangesUtil.byAccount(user.getAccountId()).keySet()
-        .contains(object.getId());
+    Multimap<Change.Id, String> byAccount =
+        args.starredChangesUtil.byAccount(user.getAccountId());
+    if (label != null) {
+      return byAccount.get(object.getId()).contains(label);
+    }
+
+    return byAccount.keySet().contains(object.getId());
   }
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
+    Set<Change.Id> changes = label != null
+        ? args.starredChangesUtil.byAccount(user.getAccountId(), label)
+        : args.starredChangesUtil.byAccount(user.getAccountId()).keySet();
     return ChangeDataResultSet.change(args.changeDataFactory, args.db,
-        args.db.get().changes().get(
-            args.starredChangesUtil.byAccount(user.getAccountId()).keySet()));
+        args.db.get().changes().get(changes));
   }
 
   @Override

@@ -16,6 +16,24 @@
       "revId": "0c3049183923a59ed947480de4c9fbeeda54af75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c037286a_81e03aec",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.5.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-09T13:52:01Z",
+      "side": 1,
+      "message": "It is annoying.  But without it, there wouldn\u0027t have been a 2.11.5 release during the hackathon :)",
+      "parentUuid": "8068d071_2754fa45",
+      "revId": "0c3049183923a59ed947480de4c9fbeeda54af75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

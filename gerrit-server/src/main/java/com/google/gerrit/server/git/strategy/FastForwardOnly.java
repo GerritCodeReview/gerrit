@@ -49,11 +49,6 @@ public class FastForwardOnly extends SubmitStrategy {
   }
 
   @Override
-  public boolean retryOnLockFailure() {
-    return false;
-  }
-
-  @Override
   public boolean dryRun(CodeReviewCommit mergeTip,
       CodeReviewCommit toMerge) throws IntegrationException {
     return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw,

@@ -35,7 +35,6 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -163,19 +162,5 @@ public abstract class SubmitStrategy {
    */
   public Map<Change.Id, CodeReviewCommit> getNewCommits() {
     return Collections.emptyMap();
-  }
-
-  /**
-   * Returns whether a merge that failed with {@link Result#LOCK_FAILURE} should
-   * be retried.
-   * <p>
-   * May be overridden by subclasses.
-   *
-   * @return {@code true} if a merge that failed with
-   *         {@link Result#LOCK_FAILURE} should be retried, otherwise
-   *         {@code false}
-   */
-  public boolean retryOnLockFailure() {
-    return true;
   }
 }

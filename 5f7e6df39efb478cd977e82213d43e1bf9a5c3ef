@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c5149a35_7921c7e3",
+        "filename": "polygerrit-ui/app/elements/gr-ajax.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T14:31:27Z",
+      "side": 1,
+      "message": "When JS emits an event (say a click event on a button or what have you), the event \"bubbles\" all the way up the DOM tree to the HTML tag. What this is saying is that the \u0027response\u0027 event never bubbles beyond the gr-ajax element, so you can\u0027t listen for it on an element that encompasses it like you can with click events.\n\nhttp://www.w3schools.com/jsref/event_bubbles.asp",
+      "parentUuid": "c5149a35_f94b97aa",
+      "range": {
+        "startLine": 87,
+        "startChar": 36,
+        "endLine": 87,
+        "endChar": 43
+      },
+      "revId": "5f7e6df39efb478cd977e82213d43e1bf9a5c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5149a35_d948d3b0",
         "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c5149a35_391b4fae",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T14:31:27Z",
+      "side": 1,
+      "message": "hm. not certain. i haven\u0027t seen it in practice but it may be possible.",
+      "parentUuid": "c5149a35_d948d3b0",
+      "range": {
+        "startLine": 52,
+        "startChar": 36,
+        "endLine": 52,
+        "endChar": 47
+      },
+      "revId": "5f7e6df39efb478cd977e82213d43e1bf9a5c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5149a35_b9551f47",
         "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2015-12-10T14:04:59Z",
       "side": 1,
       "message": "This is a function called by JS code that takes a method and URL and returns a JS promise. It almost feels like using a custom element type for this is unnecessary, and it could be a pure JS function somewhere in scripts/. (Delegating out to iron-request is an implementation detail.)",
+      "revId": "5f7e6df39efb478cd977e82213d43e1bf9a5c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_b62e48cd",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T14:31:27Z",
+      "side": 1,
+      "message": "True. I\u0027ve been battling with this type of balance myself. On the upside, this is an idiomatic wrapper around iron-request and you have html imports which are easy to deal with and de-duped in the same way ifdef\u0027d headers are, while JS is the more \u0027pure\u0027 way of dealing with things. It warrants more discussion.",
+      "parentUuid": "c5149a35_b9551f47",
       "revId": "5f7e6df39efb478cd977e82213d43e1bf9a5c3ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

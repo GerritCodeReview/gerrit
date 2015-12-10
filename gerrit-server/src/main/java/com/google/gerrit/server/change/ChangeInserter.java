@@ -230,9 +230,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   public void updateRepo(RepoContext ctx)
       throws ResourceConflictException, IOException {
     validate(ctx);
-    patchSetInfo = patchSetInfoFactory.get(
-        ctx.getRevWalk(), commit, patchSet.getId());
-    change.setCurrentPatchSet(patchSetInfo);
     if (!updateRef) {
       return;
     }
@@ -245,6 +242,10 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getChangeControl();
     ChangeUpdate update = ctx.getChangeUpdate();
+    patchSetInfo = patchSetInfoFactory.get(
+        ctx.getRevWalk(), commit, patchSet.getId());
+    change.setCurrentPatchSet(patchSetInfo);
+
     if (patchSet.getGroups() == null) {
       patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));
     }

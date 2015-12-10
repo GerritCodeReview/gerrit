@@ -144,7 +144,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
 
   @Override
   public void updateChange(ChangeContext ctx)
-      throws OrmException, InvalidChangeOperationException {
+      throws OrmException, InvalidChangeOperationException, IOException {
     patchSetInserter.updateChange(ctx);
     rebasedPatchSet = patchSetInserter.getPatchSet();
   }

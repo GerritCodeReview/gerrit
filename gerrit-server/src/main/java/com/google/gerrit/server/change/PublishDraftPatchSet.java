@@ -42,7 +42,6 @@ import com.google.gerrit.server.change.PublishDraftPatchSet.Input;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
-import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
@@ -155,7 +154,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     private PatchSet patchSet;
     private Change change;
     private boolean wasDraftChange;
-    private RevCommit commit;
     private PatchSetInfo patchSetInfo;
     private MailRecipients recipients;
 
@@ -165,27 +163,16 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     }
 
     @Override
-    public void updateRepo(RepoContext ctx)
-        throws RestApiException, OrmException, IOException {
-      PatchSet ps = patchSet;
-      if (ps == null) {
-        // Don't save in patchSet, since we're not in a transaction. Here we
-        // just need the revision, which is immutable.
-        ps = ctx.getDb().patchSets().get(psId);
-        if (ps == null) {
-          throw new ResourceNotFoundException(psId.toString());
-        }
-      }
-      commit = ctx.getRevWalk().parseCommit(
-          ObjectId.fromString(ps.getRevision().get()));
-      patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
-    }
-
-    @Override
     public void updateChange(ChangeContext ctx)
-        throws RestApiException, OrmException {
+        throws RestApiException, OrmException, IOException {
       if (!ctx.getChangeControl().canPublish(ctx.getDb())) {
         throw new AuthException("Cannot publish this draft patch set");
+      }
+      if (patchSet == null) {
+        patchSet = ctx.getDb().patchSets().get(psId);
+        if (patchSet == null) {
+          throw new ResourceNotFoundException(psId.toString());
+        }
       }
       saveChange(ctx);
       savePatchSet(ctx);
@@ -204,7 +191,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     private void savePatchSet(ChangeContext ctx)
         throws RestApiException, OrmException {
-      patchSet = ctx.getDb().patchSets().get(psId);
       if (!patchSet.isDraft()) {
         throw new ResourceConflictException("Patch set is not a draft");
       }
@@ -217,10 +203,15 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       ctx.getDb().patchSets().update(Collections.singleton(patchSet));
     }
 
-    private void addReviewers(ChangeContext ctx) throws OrmException {
+    private void addReviewers(ChangeContext ctx)
+        throws OrmException, IOException {
       LabelTypes labelTypes = ctx.getChangeControl().getLabelTypes();
       Collection<Account.Id> oldReviewers = approvalsUtil.getReviewers(
           ctx.getDb(), ctx.getChangeNotes()).values();
+      RevCommit commit = ctx.getRevWalk().parseCommit(
+          ObjectId.fromString(patchSet.getRevision().get()));
+      patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
+
       List<FooterLine> footerLines = commit.getFooterLines();
       recipients =
           getRecipientsFromFooters(accountResolver, patchSet, footerLines);

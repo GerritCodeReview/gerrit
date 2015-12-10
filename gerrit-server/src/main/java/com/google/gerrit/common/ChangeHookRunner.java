@@ -48,6 +48,7 @@ import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
+import com.google.gerrit.server.events.ReviewerDeletedEvent;
 import com.google.gerrit.server.events.TopicChangedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
@@ -200,6 +201,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     /** Path of the reviewer added hook. */
     private final Path reviewerAddedHook;
 
+    /** Path of the reviewer deleted hook. */
+    private final Path reviewerDeletedHook;
+
     /** Path of the topic changed hook. */
     private final Path topicChangedHook;
 
@@ -284,6 +288,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         changeRestoredHook = hook(config, hooksPath, "change-restored");
         refUpdatedHook = hook(config, hooksPath, "ref-updated");
         reviewerAddedHook = hook(config, hooksPath, "reviewer-added");
+        reviewerDeletedHook = hook(config, hooksPath, "reviewer-deleted");
         topicChangedHook = hook(config, hooksPath, "topic-changed");
         claSignedHook = hook(config, hooksPath, "cla-signed");
         refUpdateHook = hook(config, hooksPath, "ref-update");
@@ -640,6 +645,28 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       addArg(args, "--reviewer", getDisplayName(account));
 
       runHook(change.getProject(), reviewerAddedHook, args);
+    }
+
+    @Override
+    public void doReviewerDeletedHook(Change change, Account account,
+        PatchSet patchSet, ReviewDb db) throws OrmException {
+      ReviewerDeletedEvent event = new ReviewerDeletedEvent();
+      AccountState owner = accountCache.get(change.getOwner());
+
+      event.change = eventFactory.asChangeAttribute(db, change);
+      event.patchSet = asPatchSetAttribute(change, patchSet, db);
+      event.reviewer = eventFactory.asAccountAttribute(account);
+      fireEvent(change, event, db);
+
+      List<String> args = new ArrayList<>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--change-url", event.change.url);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--reviewer", getDisplayName(account));
+
+      runHook(change.getProject(), reviewerDeletedHook, args);
     }
 
     @Override

@@ -99,6 +99,7 @@ import com.google.gerrit.server.index.ReindexAfterUpdate;
 import com.google.gerrit.server.mail.AddKeySender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
+import com.google.gerrit.server.mail.DeleteReviewerSender;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
@@ -190,6 +191,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(AddReviewerSender.Factory.class);
+    factory(DeleteReviewerSender.Factory.class);
     factory(AddKeySender.Factory.class);
     factory(BatchUpdate.Factory.class);
     factory(CapabilityControl.Factory.class);

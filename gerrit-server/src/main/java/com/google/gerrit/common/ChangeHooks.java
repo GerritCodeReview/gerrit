@@ -144,6 +144,16 @@ public interface ChangeHooks {
       PatchSet patchSet, ReviewDb db) throws OrmException;
 
   /**
+   * Fire the Reviewer Deleted Hook
+   *
+   * @param change The change itself.
+   * @param patchSet The patchset that the reviewer was removed from.
+   * @param account The gerrit user who was removed as reviewer.
+   */
+  void doReviewerDeletedHook(Change change, Account account,
+      PatchSet patchSet, ReviewDb db) throws OrmException;
+
+  /**
    * Fire the Topic Changed Hook
    *
    * @param change The change itself.

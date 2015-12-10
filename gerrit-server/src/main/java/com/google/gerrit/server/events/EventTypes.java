@@ -33,6 +33,7 @@ public class EventTypes {
     registerClass(new RefUpdatedEvent());
     registerClass(new RefReceivedEvent());
     registerClass(new ReviewerAddedEvent());
+    registerClass(new ReviewerDeletedEvent());
     registerClass(new PatchSetCreatedEvent());
     registerClass(new TopicChangedEvent());
     registerClass(new ProjectCreatedEvent());

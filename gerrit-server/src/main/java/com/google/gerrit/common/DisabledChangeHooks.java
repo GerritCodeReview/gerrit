@@ -93,6 +93,11 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
   }
 
   @Override
+  public void doReviewerDeletedHook(Change change, Account account, PatchSet patchSet,
+      ReviewDb db) {
+  }
+
+  @Override
   public void doTopicChangedHook(Change change, Account account, String oldTopic,
       ReviewDb db) {
   }

@@ -52,13 +52,15 @@ public final class PatchSetInfo {
   protected List<ParentInfo> parents;
 
   /** SHA-1 of commit */
+  // TODO: Make this use RevId type
   protected String revId;
 
   protected PatchSetInfo() {
   }
 
-  public PatchSetInfo(final PatchSet.Id k) {
+  public PatchSetInfo(final PatchSet.Id k, RevId newRevId) {
     key = k;
+    revId = newRevId != null ? newRevId.get() : null;
   }
 
   public PatchSet.Id getKey() {

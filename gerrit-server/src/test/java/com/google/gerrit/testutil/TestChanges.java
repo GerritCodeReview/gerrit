@@ -85,7 +85,7 @@ public class TestChanges {
       GitRepositoryManager repoManager, NotesMigration migration, Change c,
       final AllUsersNameProvider allUsers, final IdentifiedUser user)
       throws OrmException {
-    return injector.createChildInjector(new FactoryModule() {
+    ChangeUpdate update = injector.createChildInjector(new FactoryModule() {
       @Override
       public void configure() {
         factory(ChangeUpdate.Factory.class);
@@ -96,6 +96,15 @@ public class TestChanges {
     }).getInstance(ChangeUpdate.Factory.class).create(
         stubChangeControl(repoManager, migration, c, allUsers, user),
         TimeUtil.nowTs(), Ordering.<String> natural());
+
+    // If we have a patch set then associate an arbitrary commit sha
+    // with that patch set, so we can test the Commit footer gets added
+    // to the note's commit message
+    if (c.currentPatchSetId() != null) {
+      update.setRevId(new RevId("beef"));
+    }
+
+    return update;
   }
 
   public static ChangeControl stubChangeControl(
@@ -115,8 +124,9 @@ public class TestChanges {
 
   public static void incrementPatchSet(Change change) {
     PatchSet.Id curr = change.currentPatchSetId();
+
     PatchSetInfo ps = new PatchSetInfo(new PatchSet.Id(
-        change.getId(), curr != null ? curr.get() + 1 : 1));
+        change.getId(), curr != null ? curr.get() + 1 : 1), null);
     ps.setSubject("Change subject");
     change.setCurrentPatchSet(ps);
   }

@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.base.Enums;
@@ -47,6 +48,7 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
@@ -80,6 +82,8 @@ class ChangeNotesParser implements AutoCloseable {
   NoteMap commentNoteMap;
   Change.Status status;
   String topic;
+  RevId currentRevId;
+  PatchSetInfo currentPatchSetInfo;
   Set<String> hashtags;
 
   private final Change.Id changeId;
@@ -162,8 +166,16 @@ class ChangeNotesParser implements AutoCloseable {
     if (topic == null) {
       topic = parseTopic(commit);
     }
-    parseHashtags(commit);
 
+    if (currentRevId == null) {
+      currentRevId = parseRevId(commit);
+
+      if (currentRevId != null) {
+        currentPatchSetInfo = new PatchSetInfo(psId, currentRevId);
+      }
+    }
+
+    parseHashtags(commit);
 
     if (submitRecords.isEmpty()) {
       // Only parse the most recent set of submit records; any older ones are
@@ -182,17 +194,25 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
-  private String parseTopic(RevCommit commit)
+  private String parseSingleFooter(RevCommit commit, FooterKey footerKey)
       throws ConfigInvalidException {
-    List<String> topicLines = commit.getFooterLines(FOOTER_TOPIC);
-    if (topicLines.isEmpty()) {
+    List<String> lines = commit.getFooterLines(footerKey);
+    if (lines.isEmpty()) {
       return null;
-    } else if (topicLines.size() > 1) {
-      throw expectedOneFooter(FOOTER_TOPIC, topicLines);
+    } else if (lines.size() > 1) {
+      throw expectedOneFooter(footerKey, lines);
     }
-    return topicLines.get(0);
+    return lines.get(0);
   }
 
+  private String parseTopic(RevCommit commit) throws ConfigInvalidException {
+    return parseSingleFooter(commit, FOOTER_TOPIC);
+  }
+
+  private RevId parseRevId(RevCommit commit) throws ConfigInvalidException {
+    String sha = parseSingleFooter(commit, FOOTER_COMMIT);
+    return sha != null ? new RevId(sha) : null;
+  }
 
   private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
     // Commits are parsed in reverse order and only the last set of hashtags should be used.

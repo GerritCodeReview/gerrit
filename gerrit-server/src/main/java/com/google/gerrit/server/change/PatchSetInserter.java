@@ -222,6 +222,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     patchSet.setRevision(new RevId(commit.name()));
     patchSet.setDraft(draft);
 
+    update.setRevId(patchSet.getRevision());
+
     if (groups != null) {
       patchSet.setGroups(groups);
     } else {

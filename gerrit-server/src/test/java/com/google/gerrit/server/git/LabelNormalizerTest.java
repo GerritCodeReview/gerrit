@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
@@ -112,7 +113,8 @@ public class LabelNormalizerTest {
         new Change.Id(1), userId,
         new Branch.NameKey(allProjects, "refs/heads/master"),
         TimeUtil.nowTs());
-    PatchSetInfo ps = new PatchSetInfo(new PatchSet.Id(change.getId(), 1));
+    PatchSetInfo ps = new PatchSetInfo(new PatchSet.Id(change.getId(), 1),
+                                       new RevId("beef"));
     ps.setSubject("Test change");
     change.setCurrentPatchSet(ps);
     db.changes().insert(ImmutableList.of(change));

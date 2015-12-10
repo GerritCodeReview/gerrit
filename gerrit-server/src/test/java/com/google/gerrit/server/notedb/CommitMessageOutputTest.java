@@ -49,6 +49,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertBodyEquals("Update patch set 1\n"
         + "\n"
         + "Patch-set: 1\n"
+        + "Commit: beef\n"
         + "Reviewer: Change Owner <1@gerrit>\n"
         + "CC: Other Account <2@gerrit>\n"
         + "Label: Code-Review=-1\n"
@@ -84,7 +85,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Just a little code change.\n"
         + "How about a new line\n"
         + "\n"
-        + "Patch-set: 1\n",
+        + "Patch-set: 1\n"
+        + "Commit: beef\n",
         update.getRevision());
   }
 
@@ -98,6 +100,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertBodyEquals("Update patch set 1\n"
         + "\n"
         + "Patch-set: 1\n"
+        + "Commit: beef\n"
         + "Label: -Code-Review\n",
         update.getRevision());
   }
@@ -122,6 +125,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-set: 1\n"
         + "Status: merged\n"
+        + "Commit: beef\n"
         + "Submitted-with: NOT_READY\n"
         + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
         + "Submitted-with: NEED: Code-Review\n"
@@ -159,7 +163,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Comment on the change.\n"
         + "\n"
-        + "Patch-set: 1\n",
+        + "Patch-set: 1\n"
+        + "Commit: beef\n",
         commit);
 
     PersonIdent author = commit.getAuthorIdent();
@@ -181,6 +186,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-set: 1\n"
         + "Status: merged\n"
+        + "Commit: beef\n"
         + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
         update.getRevision());
   }
@@ -195,6 +201,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertBodyEquals("Update patch set 1\n"
         + "\n"
         + "Patch-set: 1\n"
+        + "Commit: beef\n"
         + "Reviewer: Change Owner <1@gerrit>\n",
         update.getRevision());
   }
@@ -213,7 +220,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "\n"
         + "\n"
-        + "Patch-set: 1\n",
+        + "Patch-set: 1\n"
+        + "Commit: beef\n",
         update.getRevision());
   }
 
@@ -236,7 +244,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Testing paragraph 3\n"
         + "\n"
-        + "Patch-set: 1\n",
+        + "Patch-set: 1\n"
+        + "Commit: beef\n",
         update.getRevision());
   }
 

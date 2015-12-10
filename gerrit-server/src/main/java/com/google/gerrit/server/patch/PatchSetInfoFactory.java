@@ -59,12 +59,11 @@ public class PatchSetInfoFactory {
   public PatchSetInfo get(RevWalk rw, RevCommit src, PatchSet.Id psi)
       throws IOException {
     rw.parseBody(src);
-    PatchSetInfo info = new PatchSetInfo(psi);
+    PatchSetInfo info = new PatchSetInfo(psi, new RevId(src.getName()));
     info.setSubject(src.getShortMessage());
     info.setMessage(src.getFullMessage());
     info.setAuthor(toUserIdentity(src.getAuthorIdent()));
     info.setCommitter(toUserIdentity(src.getCommitterIdent()));
-    info.setRevId(src.getName());
     return info;
   }
 

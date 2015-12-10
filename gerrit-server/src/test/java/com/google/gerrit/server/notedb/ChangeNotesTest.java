@@ -400,6 +400,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void emptyChangeUpdate() throws Exception {
     ChangeUpdate update = newUpdate(newChange(), changeOwner);
+
+    // Tests set revId to "beef" by default
+    // unset it to get any empty change
+    update.setRevId(null);
     update.commit();
     assertThat(update.getRevision()).isNull();
   }
@@ -472,6 +476,24 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isNull();
+  }
+
+  @Test
+  public void commitChangeNotes() throws Exception {
+    Change c = newChange();
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setRevId(null);
+    update.commit();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getCurrentPatchSet()).isNull();
+
+    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update = newUpdate(c, changeOwner);
+    update.setRevId(revId);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getCurrentPatchSet().getRevId()).isEqualTo(revId.get());
   }
 
   @Test

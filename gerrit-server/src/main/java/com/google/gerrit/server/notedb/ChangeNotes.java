@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.config.AllUsersName;
@@ -125,6 +126,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private ImmutableSet<String> hashtags;
   NoteMap noteMap;
+  private PatchSetInfo currentPatchSetInfo;
 
   private final AllUsersName allUsers;
   private DraftCommentNotes draftCommentNotes;
@@ -245,6 +247,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return ChangeNoteUtil.changeRefName(getChangeId());
   }
 
+  public PatchSetInfo getCurrentPatchSet() {
+    return currentPatchSetInfo;
+  }
+
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     ObjectId rev = getRevision();
@@ -266,6 +272,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
       change.setTopic(Strings.emptyToNull(parser.topic));
+      currentPatchSetInfo = parser.currentPatchSetInfo;
 
       if (parser.hashtags != null) {
         hashtags = ImmutableSet.copyOf(parser.hashtags);

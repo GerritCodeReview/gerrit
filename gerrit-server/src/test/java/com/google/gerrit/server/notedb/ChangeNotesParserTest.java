@@ -185,6 +185,14 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Topic: Other Topic");
   }
 
+  @Test
+  public void parseCommit() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Commit: f11d66c4e8d1660f871b7ccf7df802a966975b85");
+  }
+
   private RevCommit writeCommit(String body) throws Exception {
     return writeCommit(body, ChangeNoteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,

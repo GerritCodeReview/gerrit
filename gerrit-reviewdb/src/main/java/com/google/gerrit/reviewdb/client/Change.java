@@ -470,6 +470,8 @@ public final class Change {
   @Column(id = 18, notNull = false)
   protected String submissionId;
 
+  private String revId;
+
   protected Change() {
   }
 
@@ -498,6 +500,7 @@ public final class Change {
     originalSubject = other.originalSubject;
     submissionId = other.submissionId;
     topic = other.topic;
+    revId = other.revId;
   }
 
   /** Legacy 32 bit integer identity for a change. */
@@ -573,6 +576,7 @@ public final class Change {
 
     currentPatchSetId = ps.getKey().get();
     subject = ps.getSubject();
+    revId = ps.getRevId();
 
     if (originalSubject == null) {
       // Newly created changes remember the first commit's subject.
@@ -602,6 +606,14 @@ public final class Change {
 
   public void setTopic(String topic) {
     this.topic = topic;
+  }
+
+  public void setRevId(final String s) {
+    revId = s;
+  }
+
+  public String getRevId() {
+    return revId;
   }
 
   @Override

@@ -19,6 +19,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMap;
@@ -95,6 +96,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final CommentsInNotesUtil commentsUtil;
   private List<PatchLineComment> comments;
   private String topic;
+  private String revId;
   private Set<String> hashtags;
   private String changeMessage;
   private ChangeNotes notes;
@@ -174,6 +176,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void fixStatus(Change.Status status) {
     this.status = status;
+  }
+
+  public String getRevId() {
+    return revId;
+  }
+
+  public void setRevId(String revId) {
+    this.revId = revId;
   }
 
   public void putApproval(String label, short value) {
@@ -427,6 +437,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (topic != null) {
       addFooter(msg, FOOTER_TOPIC, topic);
+    }
+
+    if (revId != null) {
+      addFooter(msg, FOOTER_COMMIT, revId);
     }
 
     if (hashtags != null) {

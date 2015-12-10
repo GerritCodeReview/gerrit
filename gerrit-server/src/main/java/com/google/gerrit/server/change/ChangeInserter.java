@@ -252,6 +252,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     db.changes().insert(Collections.singleton(change));
     update.setTopic(change.getTopic());
     update.fixStatus(change.getStatus());
+    update.setRevId(change.getRevId());
     LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
     approvalsUtil.addReviewers(db, update, labelTypes, change,
         patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());

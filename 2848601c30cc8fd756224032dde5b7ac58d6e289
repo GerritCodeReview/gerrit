@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8591c20f_1ff883a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-12-10T18:25:49Z",
+      "side": 1,
+      "message": "How is this beneficial? I\u0027d reuse as much code as possible from the actual run in a new design.\n\nThere are currently problems with the dry-run, such as:\nConsider 2 changes A and B which are both targeted at the same branch in a project having the FAST-FORWARD-ONLY strategy.\n\nThe dry run would detect for each of the changes it can be merged. When submitting them together (via topic) it fails as one of the changes cannot be integrated by forwarding only.\n\nThis problem could be caught if we use the actual run-path and pass around the right branch tips. What I am trying to say: Is this change making fixing that bug harder?\n\nFWIW Long term I\u0027d not try to separate the dry run path, but not even tell the class it\u0027s a dry run. The only difference would be if the single transaction which fell out of the machinery is actually committed to the database.",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "2848601c30cc8fd756224032dde5b7ac58d6e289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

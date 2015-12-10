@@ -251,6 +251,17 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     db.patchSets().insert(Collections.singleton(patchSet));
     db.changes().insert(Collections.singleton(change));
     update.setTopic(change.getTopic());
+
+    /* TODO: fixStatus is used here because the tests
+     * (byStatusClosed() in AbstractQueryChangesTest)
+     * insert changes that are already merged,
+     * and setStatus may not be used to set the Status to merged
+     *
+     * is it possible to make the tests use the merge code path,
+     * instead of setting the status directly?
+     */
+    update.fixStatus(change.getStatus());
+
     LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
     approvalsUtil.addReviewers(db, update, labelTypes, change,
         patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());

@@ -47,6 +47,7 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -194,9 +195,11 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     private void saveChange(ChangeContext ctx) throws OrmException {
       change = ctx.getChange();
+      ChangeUpdate update = ctx.getChangeUpdate();
       wasDraftChange = change.getStatus() == Change.Status.DRAFT;
       if (wasDraftChange) {
         change.setStatus(Change.Status.NEW);
+        update.setStatus(change.getStatus());
         ChangeUtil.updated(change);
         ctx.getDb().changes().update(Collections.singleton(change));
       }

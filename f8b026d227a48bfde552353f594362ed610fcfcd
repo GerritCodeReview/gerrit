@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c5149a35_19e3ebcb",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T17:29:57Z",
+      "side": 1,
+      "message": "Renaming to Code_Review would only be needed if you are referring to it using dot notation within the template itself. Are you saying change it for the sake of consistency?",
+      "parentUuid": "6525ae9f_965d8c55",
+      "revId": "f8b026d227a48bfde552353f594362ed610fcfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5149a35_79d427df",
         "filename": "polygerrit-ui/app/test/gr-reply-dropdown-test.html",
         "patchSetId": 6

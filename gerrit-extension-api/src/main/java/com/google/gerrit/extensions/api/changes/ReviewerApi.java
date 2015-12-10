@@ -22,4 +22,5 @@ public interface ReviewerApi {
 
   Map<String, Short> votes() throws RestApiException;
   void deleteVote(String label) throws RestApiException;
+  void deleteReviewer() throws RestApiException;
 }

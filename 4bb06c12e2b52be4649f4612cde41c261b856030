@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45934a18_5d17fb93",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-12-10T07:21:34Z",
+      "side": 1,
+      "message": "Please document that this the format is:\n\n  plugin-name:provider",
+      "range": {
+        "startLine": 472,
+        "startChar": 0,
+        "endLine": 473,
+        "endChar": 56
+      },
+      "revId": "4bb06c12e2b52be4649f4612cde41c261b856030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

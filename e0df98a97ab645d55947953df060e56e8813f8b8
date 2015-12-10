@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6525ae9f_36deb8fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2121,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-12-10T17:29:07Z",
+      "side": 1,
+      "message": "Maybe replace by?:\n\nif (isAtTip(newCommit, inputCommand)) {\n  msgs.append(\": Patch Set \" + priorPatchSet.get() + \" was unchanged\");\n} else {\n  msgs.append(\": Patch Set \" + priorPatchSet.get()\n      + \" was chained by \" + inputCommand.getNewId().name());\n}",
+      "range": {
+        "startLine": 2121,
+        "startChar": 12,
+        "endLine": 2121,
+        "endChar": 81
+      },
+      "revId": "e0df98a97ab645d55947953df060e56e8813f8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

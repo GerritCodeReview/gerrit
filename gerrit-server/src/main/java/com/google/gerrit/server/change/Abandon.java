@@ -38,6 +38,7 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -118,6 +119,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     public void updateChange(ChangeContext ctx) throws OrmException,
         ResourceConflictException {
       change = ctx.getChange();
+      ChangeUpdate update = ctx.getChangeUpdate();
       if (change == null || !change.getStatus().isOpen()) {
         throw new ResourceConflictException("change is " + status(change));
       } else if (change.getStatus() == Change.Status.DRAFT) {
@@ -129,8 +131,9 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       change.setLastUpdatedOn(ctx.getWhen());
       ctx.getDb().changes().update(Collections.singleton(change));
 
+      update.setStatus(change.getStatus());
       message = newMessage(ctx.getDb());
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getChangeUpdate(), message);
+      cmUtil.addChangeMessage(ctx.getDb(), update, message);
     }
 
     private ChangeMessage newMessage(ReviewDb db) throws OrmException {

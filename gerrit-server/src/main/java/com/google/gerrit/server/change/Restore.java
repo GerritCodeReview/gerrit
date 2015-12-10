@@ -38,6 +38,7 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -109,6 +110,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
         ResourceConflictException {
       caller = ctx.getUser().asIdentifiedUser();
       change = ctx.getChange();
+      ChangeUpdate update = ctx.getChangeUpdate();
       if (change == null || change.getStatus() != Status.ABANDONED) {
         throw new ResourceConflictException("change is " + status(change));
       }
@@ -116,9 +118,10 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       change.setStatus(Status.NEW);
       change.setLastUpdatedOn(ctx.getWhen());
       ctx.getDb().changes().update(Collections.singleton(change));
+      update.setStatus(change.getStatus());
 
       message = newMessage(ctx.getDb());
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getChangeUpdate(), message);
+      cmUtil.addChangeMessage(ctx.getDb(), update, message);
     }
 
     private ChangeMessage newMessage(ReviewDb db) throws OrmException {

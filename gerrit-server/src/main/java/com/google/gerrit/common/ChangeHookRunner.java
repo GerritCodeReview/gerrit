@@ -54,6 +54,7 @@ import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
+import com.google.gerrit.server.events.ReviewerDeletedEvent;
 import com.google.gerrit.server.events.TopicChangedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
@@ -183,6 +184,9 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
     /** Path of the reviewer added hook. */
     private final Optional<Path> reviewerAddedHook;
 
+    /** Path of the reviewer deleted hook. */
+    private final Optional<Path> reviewerDeletedHook;
+
     /** Path of the topic changed hook. */
     private final Optional<Path> topicChangedHook;
 
@@ -269,6 +273,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
         changeRestoredHook = hook(config, hooksPath, "change-restored");
         refUpdatedHook = hook(config, hooksPath, "ref-updated");
         reviewerAddedHook = hook(config, hooksPath, "reviewer-added");
+        reviewerDeletedHook = hook(config, hooksPath, "reviewer-deleted");
         topicChangedHook = hook(config, hooksPath, "topic-changed");
         claSignedHook = hook(config, hooksPath, "cla-signed");
         refUpdateHook = hook(config, hooksPath, "ref-update");
@@ -697,6 +702,70 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener,
       addArg(args, "--reviewer", getDisplayName(account));
 
       runHook(change.getProject(), reviewerAddedHook, args);
+    }
+
+    @Override
+    public void doReviewerDeletedHook(final Change change, Account account,
+      PatchSet patchSet, String comment, final Map<String, Short> approvals,
+      final Map<String, Short> oldApprovals, ReviewDb db) throws OrmException {
+
+      ReviewerDeletedEvent event = new ReviewerDeletedEvent(change);
+      event.change = changeAttributeSupplier(change);
+      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.reviewer = accountAttributeSupplier(account);
+      event.comment = comment;
+      event.approvals = Suppliers.memoize(
+          new Supplier<ApprovalAttribute[]>() {
+            @Override
+            public ApprovalAttribute[] get() {
+              LabelTypes labelTypes = projectCache.get(
+                  change.getProject()).getLabelTypes();
+              if (!approvals.isEmpty()) {
+                ApprovalAttribute[] r = new ApprovalAttribute[approvals.size()];
+                int i = 0;
+                for (Map.Entry<String, Short> approval : approvals.entrySet()) {
+                  r[i++] = getApprovalAttribute(labelTypes, approval,
+                      oldApprovals);
+                }
+                return r;
+              }
+              return null;
+            }
+          });
+
+      dispatcher.get().postEvent(change, event, db);
+
+      if (!reviewerDeletedHook.isPresent()) {
+        return;
+      }
+
+      List<String> args = new ArrayList<>();
+      ChangeAttribute c = event.change.get();
+      AccountState owner = accountCache.get(change.getOwner());
+
+      addArg(args, "--change", c.id);
+      addArg(args, "--change-url", c.url);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--project", c.project);
+      addArg(args, "--branch", c.branch);
+      addArg(args, "--reviewer", getDisplayName(account));
+      LabelTypes labelTypes = projectCache.get(
+          change.getProject()).getLabelTypes();
+      // append votes that were removed
+      for (Map.Entry<String, Short> approval : approvals.entrySet()) {
+        LabelType lt = labelTypes.byLabel(approval.getKey());
+        if (lt != null && approval.getValue() != null) {
+          addArg(args, "--" + lt.getName(), Short.toString(approval.getValue()));
+          if (oldApprovals != null && !oldApprovals.isEmpty()) {
+            Short oldValue = oldApprovals.get(approval.getKey());
+            if (oldValue != null) {
+              addArg(args, "--" + lt.getName() + "-oldValue",
+                  Short.toString(oldValue));
+            }
+          }
+        }
+      }
+      runHook(change.getProject(), reviewerDeletedHook, args);
     }
 
     @Override

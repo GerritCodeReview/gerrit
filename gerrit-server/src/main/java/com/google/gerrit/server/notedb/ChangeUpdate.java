@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -105,6 +106,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final CommentsInNotesUtil commentsUtil;
   private List<PatchLineComment> comments;
   private String topic;
+  private ObjectId commit;
   private Set<String> hashtags;
   private String changeMessage;
   private ChangeNotes notes;
@@ -357,6 +359,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.topic = Strings.nullToEmpty(topic);
   }
 
+  public void setCommit(ObjectId commit) {
+    checkArgument(commit != null);
+    this.commit = commit;
+  }
+
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
   }
@@ -432,12 +439,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) {
+  protected boolean onSave(CommitBuilder cb) {
     if (getRevision() != null && isEmpty()) {
       return false;
     }
-    commit.setAuthor(newIdent(getUser().getAccount(), when));
-    commit.setCommitter(new PersonIdent(serverIdent, when));
+    cb.setAuthor(newIdent(getUser().getAccount(), when));
+    cb.setCommitter(new PersonIdent(serverIdent, when));
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
@@ -470,6 +477,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (topic != null) {
       addFooter(msg, FOOTER_TOPIC, topic);
+    }
+
+    if (commit != null) {
+      addFooter(msg, FOOTER_COMMIT, commit.name());
     }
 
     if (hashtags != null) {
@@ -526,7 +537,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
     }
 
-    commit.setMessage(msg.toString());
+    cb.setMessage(msg.toString());
     return true;
   }
 
@@ -547,7 +558,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && submissionId == null
         && submitRecords == null
         && hashtags == null
-        && topic == null;
+        && topic == null
+        && commit == null;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

@@ -23,6 +23,30 @@
       "revId": "3bd9edf427d4f64d5d3dc80942261b357f590b0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0334cd5_6aea77cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-10T09:12:02Z",
+      "side": 1,
+      "message": "It\u0027s not the same. Hashtags are globally visible to all users.\nStar labels are per user. So if I mark a change as \u0027ignored\u0027 it doesn\u0027t mean that other users want to ignore it as well.\nYou can see star labels as private hashtags.",
+      "parentUuid": "45934a18_bd015f4b",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "3bd9edf427d4f64d5d3dc80942261b357f590b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

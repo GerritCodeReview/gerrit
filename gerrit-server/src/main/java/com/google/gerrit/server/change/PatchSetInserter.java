@@ -200,14 +200,13 @@ public class PatchSetInserter extends BatchUpdate.Op {
       throws ResourceConflictException, IOException {
     init();
     validate(ctx);
-    patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
     ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
         commit, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
   }
 
   @Override
   public void updateChange(ChangeContext ctx) throws OrmException,
-      InvalidChangeOperationException {
+      InvalidChangeOperationException, IOException {
     ChangeControl ctl = ctx.getChangeControl();
 
     change = ctx.getChange();
@@ -242,6 +241,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       changeMessage.setMessage(message);
     }
 
+    patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
     // TODO(dborowitz): Throw ResourceConflictException instead of using
     // AtomicUpdate.
     change = db.changes().atomicUpdate(id, new AtomicUpdate<Change>() {

@@ -29,13 +29,11 @@ limitations under the License.
         width: 100%;
       }
     </style>
-    <iron-ajax id="xhr"
+    <gr-ajax
         auto
         url="/changes/"
         params="[[_computeQueryParams()]]"
-        last-response="{{_results}}"
-        json-prefix=")]}'"
-        debounce-duration="300"></iron-ajax>
+        last-response="{{_results}}"></gr-ajax>
     <gr-change-list groups="{{_results}}"
         group-titles="[[_groupTitles]]"></gr-change-list>
   </template>

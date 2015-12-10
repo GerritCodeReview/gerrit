@@ -41,7 +41,7 @@ limitations under the License.
     test('value is propagated to _inputVal', function() {
       element.value = 'foo';
       assert.equal(element._inputVal, 'foo');
-    })
+    });
 
     test('tap on search button triggers nav', function(done) {
       sinon.stub(element, '_preventDefaultAndNavigateToInputVal', function() {

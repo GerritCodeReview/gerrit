@@ -16,32 +16,54 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-file-list.html">
 <link rel="import" href="gr-linked-text.html">
 <link rel="import" href="gr-messages-list.html">
+<link rel="import" href="gr-reply-dropdown.html">
 
 <dom-module id="gr-change-view">
   <template>
     <style>
       .container {
         margin: 1em 0;
-        padding-top: 1em;
       }
       .container:not(.loading) {
         background-color: var(--view-background-color);
       }
       .container.loading {
         color: #666;
-        padding: 0;
       }
-      h2 {
-        padding: 0 var(--default-horizontal-margin);
+      .headerContainer {
+        height: 4.1em;
+      }
+      .header {
+        background-color: var(--view-background-color);
+        display: flex;
+        max-width: var(--max-constrained-width);
+        padding: 1em var(--default-horizontal-margin);
+        white-space: nowrap;
+        width: 100%;
+        z-index: 1000;
+      }
+      .header.pinned {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        position: fixed;
+        top: 0;
+        transition: box-shadow 250ms linear;
+      }
+      .header h2 {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       section {
         margin: 10px 0;
         padding: 10px var(--default-horizontal-margin);
+      }
+      section:first-of-type {
+        margin-top: 0;
       }
       table {
         border-collapse: collapse;
@@ -65,80 +87,83 @@ limitations under the License.
         padding: 0 var(--default-horizontal-margin) 10px;
       }
     </style>
-    <iron-ajax id="detailXHR"
+    <gr-ajax id="detailXHR"
         url="[[_computeDetailPath(changeNum)]]"
         params="[[_computeDetailQueryParams()]]"
-        json-prefix=")]}'"
         last-response="{{change}}"
-        loading="{{_loading}}"></iron-ajax>
-    <iron-ajax id="commentsXHR"
+        loading="{{_loading}}"></gr-ajax>
+    <gr-ajax id="commentsXHR"
         url="[[_computeCommentsPath(changeNum)]]"
-        json-prefix=")]}'"
-        last-response="{{comments}}"></iron-ajax>
-    <template is="dom-if" if="{{_loading}}">
-      <div class="container loading">Loading...</div>
-    </template>
-    <template is="dom-if" if="{{!_loading}}">
-      <div class="container">
-        <h2>
-          <a href$="[[_computeChangePath(change._number)]]">[[change._number]]</a><span>:</span>
-          <span>[[change.subject]]</span>
-        </h2>
-        <section class="changeInfo">
-          <table>
-            <tr>
-              <td class="changeInfo-label">Owner</td>
-              <td>[[change.owner.name]]</td>
-            </tr>
-            <tr>
-              <td class="changeInfo-label">Reviewers</td>
-              <td>
-                <template is="dom-repeat"
-                          items="[[_computeReviewers(change.labels.Code-Review.all, change.owner)]]"
-                          as="reviewer">
-                  <div>[[reviewer.name]]</div>
-                </template>
-              </td>
-            </tr>
-            <tr>
-              <td class="changeInfo-label">Project</td>
-              <td>[[change.project]]</td>
-            </tr>
-            <tr>
-              <td class="changeInfo-label">Branch</td>
-              <td>[[change.branch]]</td>
-            </tr>
-            <tr>
-              <td class="changeInfo-label">Topic</td>
-              <td>[[change.topic]]</td>
-            </tr>
-            <tr>
-              <td class="changeInfo-label">Strategy</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td class="changeInfo-label">Updated</td>
-              <td>
-                <gr-date-formatter
-                    date-str="[[change.updated]]"></gr-date-formatter>
-              </td>
-            </tr>
-          </table>
-        </section>
-        <section class="summary">
-          <gr-linked-text pre>
-            [[_computeCurrentRevisionMessage(change)]]
-          </gr-linked-text>
-        </section>
-        <gr-file-list change-num="[[changeNum]]"
-                      patch-num="[[_computePatchNum(change.current_revision)]]"
-                      revision="[[change.current_revision]]"
-                      comments="[[comments]]"></gr-file-list>
-        <gr-messages-list change-num="[[changeNum]]"
-                          messages="[[change.messages]]"
-                          comments="[[comments]]"></gr-messages-list>
+        last-response="{{comments}}"></gr-ajax>
+    <div class="container loading" hidden$="{{!_loading}}">Loading...</div>
+    <div class="container" hidden$="{{_loading}}">
+      <div class="headerContainer">
+        <div class="header">
+          <h2>
+            <a href$="[[_computeChangePath(change._number)]]">[[change._number]]</a><span>:</span>
+            <span>[[change.subject]]</span>
+          </h2>
+          <gr-reply-dropdown id="replyDropdown"
+              change-num="[[changeNum]]"
+              patch-num="[[_computePatchNum(change.current_revision)]]"
+              labels="[[change.labels]]"
+              permitted-labels="[[change.permitted_labels]]"
+              on-send="_handleReplySent"
+              hidden$="[[!_loggedIn]]">Reply</gr-reply-dropdown>
+        </div>
       </div>
-    </template>
+      <section class="changeInfo">
+        <table>
+          <tr>
+            <td class="changeInfo-label">Owner</td>
+            <td>[[change.owner.name]]</td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Reviewers</td>
+            <td>
+              <template is="dom-repeat"
+                        items="[[_computeReviewers(change.labels, change.owner)]]"
+                        as="reviewer">
+                <div>[[reviewer.name]]</div>
+              </template>
+            </td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Project</td>
+            <td>[[change.project]]</td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Branch</td>
+            <td>[[change.branch]]</td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Topic</td>
+            <td>[[change.topic]]</td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Strategy</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="changeInfo-label">Updated</td>
+            <td>
+              <gr-date-formatter
+                  date-str="[[change.updated]]"></gr-date-formatter>
+            </td>
+          </tr>
+        </table>
+      </section>
+      <section class="summary">
+        <gr-linked-text>[[_computeCurrentRevisionMessage(change)]]</gr-linked-text>
+      </section>
+      <gr-file-list change-num="[[changeNum]]"
+                    patch-num="[[_computePatchNum(change.current_revision)]]"
+                    revision="[[change.current_revision]]"
+                    comments="[[comments]]"></gr-file-list>
+      <gr-messages-list change-num="[[changeNum]]"
+                        messages="[[change.messages]]"
+                        comments="[[comments]]"></gr-messages-list>
+    </div>
   </template>
   <script>
   (function() {
@@ -166,11 +191,49 @@ limitations under the License.
           observer: '_paramsChanged',
         },
         changeNum: Number,
+
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+        },
         _loading: Boolean,
+        _headerContainerEl: Object,
+        _headerEl: Object,
       },
 
       keyBindings: {
         'a u': '_handleKey',
+      },
+
+      ready: function() {
+        app.accountReady.then(function() {
+          this._loggedIn = app.loggedIn;
+        }.bind(this));
+      },
+
+      attached: function() {
+        window.addEventListener('scroll',
+            this._handleBodyScroll.bind(this));
+      },
+
+      _handleBodyScroll: function(e) {
+        var containerEl = this._headerContainerEl ||
+            this.$$('.headerContainer');
+
+        // Calculate where the header is relative to the window.
+        var top = containerEl.offsetTop;
+        for (var offsetParent = containerEl.offsetParent;
+             offsetParent;
+             offsetParent = offsetParent.offsetParent) {
+          top += offsetParent.offsetTop;
+        }
+
+        var el = this._headerEl || this.$$('.header');
+        el.classList.toggle('pinned', window.scrollY >= top);
+      },
+
+      _handleReplySent: function(e) {
+        this._reload();
       },
 
       _paramsChanged: function(value) {
@@ -180,8 +243,7 @@ limitations under the License.
           this.comments = null;
           return;
         }
-        this.$.detailXHR.generateRequest();
-        this.$.commentsXHR.generateRequest();
+        this._reload();
       },
 
       _computeChangePath: function(changeNum) {
@@ -218,7 +280,9 @@ limitations under the License.
             change.revisions[change.current_revision].commit.message;
       },
 
-      _computeReviewers: function(reviewers, owner) {
+      _computeReviewers: function(labels, owner) {
+        var reviewers =
+            (labels['Code-Review'] && labels['Code-Review'].all) || [];
         if (reviewers.length == 1) { return reviewers; }
         return reviewers.filter(function(reviewer) {
           return reviewer._account_id != owner._account_id;
@@ -227,10 +291,10 @@ limitations under the License.
 
       _handleKey: function(e) {
         if (util.shouldSupressKeyboardShortcut(e)) { return; }
-
+        e.preventDefault();
         switch(e.detail.combo) {
           case 'a':
-            this._showReplyField();
+            this.$.replyDropdown.open();
             break;
           case 'u':
             page.show('/');
@@ -238,8 +302,9 @@ limitations under the License.
         }
       },
 
-      _showReplyField: function() {
-        // TODO(andybons): Implement reply field.
+      _reload: function() {
+        this.$.detailXHR.generateRequest();
+        this.$.commentsXHR.generateRequest();
       },
 
     });

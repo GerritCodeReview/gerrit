@@ -15,14 +15,19 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="gr-ajax">
   <template>
     <iron-ajax id="xhr"
-        auto="{{auto}}"
-        url="{{url}}"
-        params="{{params}}"
+        auto="[[auto]]"
+        url="[[url]]"
+        params="[[params]]"
         json-prefix=")]}'"
+        last-response="{{lastResponse}}"
+        loading="{{loading}}"
+        on-response="_handleResponse"
+        on-error="_handleError"
         debounce-duration="300"></iron-ajax>
   </template>
   <script>
@@ -32,12 +37,31 @@ limitations under the License.
     Polymer({
       is: 'gr-ajax',
 
+      /**
+       * Fired when a response is received.
+       * This event does not have a gr- prefix in order to maintain a similar
+       * API to iron-ajax.
+       *
+       * @event response
+       */
+
+      /**
+       * Fired when an error is received.
+       * This event does not have a gr- prefix in order to maintain a similar
+       * API to iron-ajax.
+       *
+       * @event error
+       */
+
       hostAttributes: {
         hidden: true
       },
 
       properties: {
-        auto: Boolean,
+        auto: {
+          type: Boolean,
+          value: false,
+        },
         url: String,
         params: {
           type: Object,
@@ -45,23 +69,26 @@ limitations under the License.
             return {};
           },
         },
-        response: {
+        lastResponse: {
           type: Object,
+          notify: true,
+        },
+        loading: {
+          type: Boolean,
           notify: true,
         },
       },
 
-      listeners: {
-        'xhr.response': '_handleResponse',
-        'xhr.error': '_handleResponse',
+      generateRequest: function() {
+        return this.$.xhr.generateRequest();
       },
 
       _handleResponse: function(e, req) {
-        if (req.status >= 200 && req.status < 300) {
-          this.response = req.response;
-        } else {
-          this.response = {};
-        }
+        this.fire('response', req, {bubbles: false});
+      },
+
+      _handleError: function(e, req) {
+        this.fire('error', req, {bubbles: false});
       },
 
     });

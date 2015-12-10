@@ -224,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "c5149a35_396d8f0e",
+        "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T16:16:27Z",
+      "side": 1,
+      "message": "No. Removed.",
+      "parentUuid": "6525ae9f_16205cdc",
+      "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5149a35_19208bdc",
         "filename": "polygerrit-ui/app/test/gr-reply-dropdown-test.html",
         "patchSetId": 3

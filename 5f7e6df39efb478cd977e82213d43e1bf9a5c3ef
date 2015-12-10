@@ -128,6 +128,24 @@
       "revId": "5f7e6df39efb478cd977e82213d43e1bf9a5c3ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_768af005",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-10T14:36:18Z",
+      "side": 1,
+      "message": "Ok, I don\u0027t think it has to be done now; gr-request is strictly an improvement on iron-request. But agreed this is something we should keep in mind.",
+      "parentUuid": "6525ae9f_b62e48cd",
+      "revId": "5f7e6df39efb478cd977e82213d43e1bf9a5c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

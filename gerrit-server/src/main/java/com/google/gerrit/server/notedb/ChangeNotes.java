@@ -125,6 +125,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private ImmutableSet<String> hashtags;
   NoteMap noteMap;
+  private PatchSet currentPatchSet;
 
   private final AllUsersName allUsers;
   private DraftCommentNotes draftCommentNotes;
@@ -245,6 +246,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return ChangeNoteUtil.changeRefName(getChangeId());
   }
 
+  public PatchSet getCurrentPatchSet() {
+    return currentPatchSet;
+  }
+
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     ObjectId rev = getRevision();
@@ -266,6 +271,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
       change.setTopic(Strings.emptyToNull(parser.topic));
+      currentPatchSet = parser.getCurrentPatchSet();
 
       if (parser.hashtags != null) {
         hashtags = ImmutableSet.copyOf(parser.hashtags);

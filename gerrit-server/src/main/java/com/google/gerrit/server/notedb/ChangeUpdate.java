@@ -19,6 +19,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMap;
@@ -99,6 +100,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final CommentsInNotesUtil commentsUtil;
   private List<PatchLineComment> comments;
   private String topic;
+  private RevId revId;
   private Set<String> hashtags;
   private String changeMessage;
   private ChangeNotes notes;
@@ -342,6 +344,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.topic = Strings.nullToEmpty(topic);
   }
 
+  public void setRevId(RevId revId) {
+    this.revId = revId;
+  }
+
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
   }
@@ -448,6 +454,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_TOPIC, topic);
     }
 
+    if (revId != null) {
+      addFooter(msg, FOOTER_COMMIT, revId.get());
+    }
+
     if (hashtags != null) {
       addFooter(msg, FOOTER_HASHTAGS, Joiner.on(",").join(hashtags));
     }
@@ -516,7 +526,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && subject == null
         && submitRecords == null
         && hashtags == null
-        && topic == null;
+        && topic == null
+        && revId == null;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

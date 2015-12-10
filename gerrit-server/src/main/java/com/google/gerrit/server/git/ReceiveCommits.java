@@ -2253,6 +2253,7 @@ public class ReceiveCommits {
       ChangeUpdate update = updateFactory.create(
           changeCtl, newPatchSet.getCreatedOn());
       update.setPatchSetId(newPatchSet.getId());
+      update.setRevId(newPatchSet.getRevision());
 
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());

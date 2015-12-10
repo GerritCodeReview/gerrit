@@ -41,6 +41,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
@@ -472,6 +473,59 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isNull();
+  }
+
+  @Test
+  public void commitChangeNotesUnique() throws Exception {
+    // PatchSetId -> RevId must be a one to one mapping
+    Change c = newChange();
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.commit();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getCurrentPatchSet()).isNull();
+
+    // ps1
+    RevId revId = new RevId("beef");
+    update = newUpdate(c, changeOwner);
+    update.setRevId(revId);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getCurrentPatchSet().getRevision()).isEqualTo(revId);
+
+    // new revId for the same patch set, ps1
+    revId = new RevId("feedbeef");
+    update.setRevId(revId);
+    update.commit();
+    exception.expect(OrmException.class);
+    exception.expectMessage("Multiple revisions parsed for a single patch-set");
+    notes = newNotes(c);
+  }
+
+  @Test
+  public void commitChangeNotes() throws Exception {
+    Change c = newChange();
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.commit();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getCurrentPatchSet()).isNull();
+
+    // ps1
+    RevId revId = new RevId("beef");
+    update = newUpdate(c, changeOwner);
+    update.setRevId(revId);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getCurrentPatchSet().getRevision()).isEqualTo(revId);
+
+    // ps2
+    incrementPatchSet(c);
+    revId = new RevId("feedbeef");
+    update.setRevId(revId);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getCurrentPatchSet().getRevision()).isEqualTo(revId);
   }
 
   @Test

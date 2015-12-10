@@ -88,6 +88,12 @@ by actions made by the user in the Web UI such as cherry picking a commit or
 reverting a change.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
 `ChangeFooter.vm`.
 
+=== DeleteReviewer.vm
+
+The `DeleteReiewer.vm` template will determine the contents of the email related
+to a user removing a reviewer from a change.  It is a `ChangeEmail`: see
+`ChangeSubject.vm` and `ChangeFooter.vm`.
+
 === RegisterNewEmail.vm
 
 The `RegisterNewEmail.vm` template will determine the contents of the email

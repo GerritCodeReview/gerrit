@@ -9,6 +9,7 @@ function LinkTextParser(callback) {
   Object.preventExtensions(this);
 }
 
+//TODO(mmccoy): Move these patterns to gerrit project config (https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-config)
 LinkTextParser.CUSTOM_LINKS = [
   {
     'pattern': /^(Change-Id: )(.+)$/mi,
@@ -41,7 +42,6 @@ LinkTextParser.prototype.addBugText = function(text, tracker, bugId) {
 };
 
 LinkTextParser.prototype.parse = function(text) {
-  console.log(text);
   linkify(text, {
     callback: this.parseChunk.bind(this)
   });

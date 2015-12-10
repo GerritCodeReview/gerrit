@@ -14,19 +14,18 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteDraftChange.Input;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,50 +33,38 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
-import java.io.IOException;
-
 @Singleton
 public class DeleteDraftChange implements
     RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   public static class Input {
   }
 
-  protected final Provider<ReviewDb> dbProvider;
-  private final ChangeUtil changeUtil;
+  private final Provider<ReviewDb> db;
+  private final BatchUpdate.Factory updateFactory;
+  private final Provider<DeleteDraftChangeOp> opProvider;
   private final boolean allowDrafts;
 
   @Inject
-  public DeleteDraftChange(Provider<ReviewDb> dbProvider,
-      ChangeUtil changeUtil,
+  public DeleteDraftChange(Provider<ReviewDb> db,
+      BatchUpdate.Factory updateFactory,
+      Provider<DeleteDraftChangeOp> opProvider,
       @GerritServerConfig Config cfg) {
-    this.dbProvider = dbProvider;
-    this.changeUtil = changeUtil;
-    this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
+    this.db = db;
+    this.updateFactory = updateFactory;
+    this.opProvider = opProvider;
+    this.allowDrafts = DeleteDraftChangeOp.allowDrafts(cfg);
   }
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
-      throws ResourceConflictException, AuthException,
-      ResourceNotFoundException, MethodNotAllowedException,
-      OrmException, IOException {
-    if (rsrc.getChange().getStatus() != Status.DRAFT) {
-      throw new ResourceConflictException("Change is not a draft");
+      throws RestApiException, UpdateException {
+    try (BatchUpdate bu = updateFactory.create(
+        db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+      Change.Id id = rsrc.getChange().getId();
+      bu.setOrder(BatchUpdate.Order.DB_BEFORE_REPO);
+      bu.addOp(id, opProvider.get());
+      bu.execute();
     }
-
-    if (!rsrc.getControl().canDeleteDraft(dbProvider.get())) {
-      throw new AuthException("Not permitted to delete this draft change");
-    }
-
-    if (!allowDrafts) {
-      throw new MethodNotAllowedException("draft workflow is disabled");
-    }
-
-    try {
-      changeUtil.deleteDraftChange(rsrc.getChange());
-    } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(e.getMessage());
-    }
-
     return Response.none();
   }
 
@@ -88,7 +75,7 @@ public class DeleteDraftChange implements
         .setTitle("Delete draft change " + rsrc.getId())
         .setVisible(allowDrafts
             && rsrc.getChange().getStatus() == Status.DRAFT
-            && rsrc.getControl().canDeleteDraft(dbProvider.get()));
+            && rsrc.getControl().canDeleteDraft(db.get()));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }

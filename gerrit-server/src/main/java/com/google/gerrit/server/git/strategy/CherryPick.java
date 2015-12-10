@@ -202,7 +202,6 @@ public class CherryPick extends SubmitStrategy {
           args.changeControlFactory.controlFor(toMerge.change(), args.caller));
       mergeTip.moveTipTo(newCommit, newCommit);
       newCommits.put(c.getId(), newCommit);
-      setRefLogIdent();
     }
   }
 
@@ -242,7 +241,6 @@ public class CherryPick extends SubmitStrategy {
       }
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
           mergeTip.getCurrentTip(), args.alreadyAccepted);
-      setRefLogIdent();
     }
   }
 

@@ -126,6 +126,14 @@ Called whenever a reviewer is added to a change.
   reviewer-added --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --reviewer <reviewer>
 ====
 
+=== reviewer-deleted
+
+Called whenever a reviewer is removed from a change.
+
+====
+  reviewer-deleted --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --reviewer <reviewer> [--<approval category id> <score> --<approval category id> <score> ...]
+====
+
 === topic-changed
 
 Called whenever a change's topic is changed from the Web UI or via the REST API.

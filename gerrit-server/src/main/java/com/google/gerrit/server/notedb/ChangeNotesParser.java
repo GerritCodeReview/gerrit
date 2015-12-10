@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -58,6 +59,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -95,6 +97,7 @@ class ChangeNotesParser implements AutoCloseable {
   String subject;
   String originalSubject;
   String submissionId;
+  PatchSet.Id currentPatchSetId;
 
   private final Change.Id changeId;
   private final ObjectId tip;
@@ -104,6 +107,7 @@ class ChangeNotesParser implements AutoCloseable {
       Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
   private final List<ChangeMessage> allChangeMessages;
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
+  private final Map<PatchSet.Id, PatchSet> patchSets;
 
   ChangeNotesParser(Change change, ObjectId tip, RevWalk walk,
       GitRepositoryManager repoManager) throws RepositoryNotFoundException,
@@ -119,6 +123,11 @@ class ChangeNotesParser implements AutoCloseable {
     allChangeMessages = Lists.newArrayList();
     changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = ArrayListMultimap.create();
+    patchSets = Maps.newHashMap();
+  }
+
+  public PatchSet getCurrentPatchSet() {
+    return patchSets.get(currentPatchSetId);
   }
 
   @Override
@@ -177,7 +186,12 @@ class ChangeNotesParser implements AutoCloseable {
     if (status == null) {
       status = parseStatus(commit);
     }
+
     PatchSet.Id psId = parsePatchSetId(commit);
+    if (currentPatchSetId == null) {
+      currentPatchSetId = psId;
+    }
+
     Account.Id accountId = parseIdent(commit);
     ownerId = accountId;
     if (subject == null) {
@@ -191,6 +205,11 @@ class ChangeNotesParser implements AutoCloseable {
     parseHashtags(commit);
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
+    }
+
+    ObjectId currRev = parseRevision(commit);
+    if (currRev != null) {
+      parsePatchSet(psId, currRev);
     }
 
     if (submitRecords.isEmpty()) {
@@ -237,6 +256,35 @@ class ChangeNotesParser implements AutoCloseable {
       throw expectedOneFooter(footerKey, footerLines);
     }
     return footerLines.get(0);
+  }
+
+  private ObjectId parseRevision(RevCommit commit)
+      throws ConfigInvalidException {
+    String sha = parseOneFooter(commit, FOOTER_COMMIT);
+    if (sha == null) {
+      return null;
+    }
+    try {
+      return ObjectId.fromString(sha);
+    } catch (InvalidObjectIdException e) {
+      ConfigInvalidException cie = invalidFooter(FOOTER_COMMIT, sha);
+      cie.initCause(e);
+      throw cie;
+    }
+  }
+
+  private void parsePatchSet(PatchSet.Id psId, ObjectId rev)
+      throws ConfigInvalidException {
+    if (patchSets.containsKey(psId)) {
+      throw new ConfigInvalidException(
+          String.format(
+              "Multiple revisions parsed for patch set %s: %s and %s",
+              psId.get(), patchSets.get(psId).getRevision(), rev.name()));
+    } else {
+      PatchSet ps = new PatchSet(psId);
+      ps.setRevision(new RevId(rev.name()));
+      patchSets.put(psId, ps);
+    }
   }
 
   private void parseHashtags(RevCommit commit) throws ConfigInvalidException {

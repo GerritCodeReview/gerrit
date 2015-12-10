@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6525ae9f_16e3bccb",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-10T17:41:26Z",
+      "side": 1,
+      "message": "I\u0027m wrong. I was thinking this got postprocessed to Code_Review but that only happens within gr-change-list, not gr-change-view.",
+      "parentUuid": "c5149a35_19e3ebcb",
+      "revId": "f8b026d227a48bfde552353f594362ed610fcfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5149a35_79d427df",
         "filename": "polygerrit-ui/app/test/gr-reply-dropdown-test.html",
         "patchSetId": 6

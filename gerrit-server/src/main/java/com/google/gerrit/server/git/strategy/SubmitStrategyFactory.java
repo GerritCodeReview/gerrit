@@ -62,13 +62,13 @@ public class SubmitStrategyFactory {
   @Inject
   SubmitStrategyFactory(
       @GerritPersonIdent Provider<PersonIdent> myIdent,
-      final BatchUpdate.Factory batchUpdateFactory,
-      final ChangeControl.GenericFactory changeControlFactory,
-      final PatchSetInfoFactory patchSetInfoFactory,
-      final RebaseChangeOp.Factory rebaseFactory,
-      final ProjectCache projectCache,
-      final ApprovalsUtil approvalsUtil,
-      final MergeUtil.Factory mergeUtilFactory) {
+      BatchUpdate.Factory batchUpdateFactory,
+      ChangeControl.GenericFactory changeControlFactory,
+      PatchSetInfoFactory patchSetInfoFactory,
+      RebaseChangeOp.Factory rebaseFactory,
+      ProjectCache projectCache,
+      ApprovalsUtil approvalsUtil,
+      MergeUtil.Factory mergeUtilFactory) {
     this.myIdent = myIdent;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changeControlFactory = changeControlFactory;
@@ -101,7 +101,7 @@ public class SubmitStrategyFactory {
       case REBASE_IF_NECESSARY:
         return new RebaseIfNecessary(args, patchSetInfoFactory, rebaseFactory);
       default:
-        final String errorMsg = "No submit strategy for: " + submitType;
+        String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);
         throw new IntegrationException(errorMsg);
     }
@@ -109,7 +109,7 @@ public class SubmitStrategyFactory {
 
   private ProjectState getProject(Branch.NameKey branch)
       throws NoSuchProjectException {
-    final ProjectState p = projectCache.get(branch.getParentKey());
+    ProjectState p = projectCache.get(branch.getParentKey());
     if (p == null) {
       throw new NoSuchProjectException(branch.getParentKey());
     }

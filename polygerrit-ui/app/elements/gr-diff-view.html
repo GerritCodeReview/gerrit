@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-diff-comment-thread.html">
 
 <dom-module id="gr-diff-view">
@@ -106,45 +107,33 @@ limitations under the License.
         background-color: #9f9;
       }
     </style>
-    <iron-ajax id="changeDetailXHR"
+    <gr-ajax id="changeDetailXHR"
         auto
         url="[[_computeChangeDetailPath(_changeNum)]]"
         params="[[_computeChangeDetailQueryParams()]]"
-        json-prefix=")]}'"
-        last-response="{{_change}}"
-        debounce-duration="300"></iron-ajax>
-    <iron-ajax
-        id="diffXHR"
+        last-response="{{_change}}"></gr-ajax>
+    <gr-ajax id="diffXHR"
         url="[[_computeDiffPath(_changeNum, _patchNum, _path)]]"
-        json-prefix=")]}'"
-        on-response="_handleDiffResponse"></iron-ajax>
-    <iron-ajax
-        id="leftCommentsXHR"
+        on-response="_handleDiffResponse"></gr-ajax>
+    <gr-ajax id="leftCommentsXHR"
         url="[[_computeCommentsPath(_changeNum, _basePatchNum)]]"
         json-prefix=")]}'"
-        on-response="_handleLeftCommentsResponse"></iron-ajax>
-    <iron-ajax
-        id="rightCommentsXHR"
+        on-response="_handleLeftCommentsResponse"></gr-ajax>
+    <gr-ajax id="rightCommentsXHR"
         url="[[_computeCommentsPath(_changeNum, _patchNum)]]"
-        json-prefix=")]}'"
-        on-response="_handleRightCommentsResponse"></iron-ajax>
+        on-response="_handleRightCommentsResponse"></gr-ajax>
     <!-- TODO(andybons): This is populated in gr-change-view. Use that instead
          of incurring an extra ajax call. -->
-    <iron-ajax
-        id="filesXHR"
+    <gr-ajax id="filesXHR"
         url="[[_computeFilesPath(_changeNum, _patchNum)]]"
-        json-prefix=")]}'"
-        on-response="_handleFilesResponse"></iron-ajax>
-    <iron-ajax
-        id="leftDraftsXHR"
+        on-response="_handleFilesResponse"></gr-ajax>
+    <gr-ajax id="leftDraftsXHR"
         url="[[_computeDraftsPath(_changeNum, _basePatchNum)]]"
-        json-prefix=")]}'"
-        on-response="_handleLeftDraftsResponse"></iron-ajax>
-    <iron-ajax
-        id="rightDraftsXHR"
+        on-response="_handleLeftDraftsResponse"></gr-ajax>
+    <gr-ajax id="rightDraftsXHR"
         url="[[_computeDraftsPath(_changeNum, _patchNum)]]"
-        json-prefix=")]}'"
-        on-response="_handleRightDraftsResponse"></iron-ajax>
+        on-response="_handleRightDraftsResponse"></gr-ajax>
+
     <h3>
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span> — <span>[[params.path]]</span>
@@ -480,7 +469,7 @@ limitations under the License.
         el.comments = comments;
         el.changeNum = this._changeNum;
         // Assign the element's patchNum to the right side patchNum if the
-        // passed patchNum is 'PARENT' do to the odd behavior of the REST API.
+        // passed patchNum is 'PARENT' due to the odd behavior of the REST API.
         // Don't overwrite patchNum since 'PARENT' is used for other properties.
         el.patchNum = patchNum == 'PARENT' ? this._patchNum : patchNum;
 

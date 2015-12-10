@@ -15,7 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-change-list.html">
 
 <dom-module id="gr-change-list-view">
@@ -45,13 +45,11 @@ limitations under the License.
         display: none !important;
       }
     </style>
-    <iron-ajax
+    <gr-ajax
         auto
         url="/changes/"
         params="[[_computeQueryParams(query, offset)]]"
-        json-prefix=")]}'"
-        last-response="{{_changes}}"
-        debounce-duration="300"></iron-ajax>
+        last-response="{{_changes}}"></gr-ajax>
     <gr-change-list changes="{{_changes}}"></gr-change-list>
     <nav>
       <a href$="[[_computeNavLink(query, offset, -1)]]"

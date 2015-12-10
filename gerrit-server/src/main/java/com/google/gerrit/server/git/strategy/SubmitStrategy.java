@@ -29,7 +29,6 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeSorter;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Provider;
 
@@ -53,7 +52,6 @@ import java.util.Set;
  */
 public abstract class SubmitStrategy {
   static class Arguments {
-    protected final IdentifiedUser.GenericFactory identifiedUserFactory;
     protected final Provider<PersonIdent> serverIdent;
     protected final ReviewDb db;
     protected final BatchUpdate.Factory batchUpdateFactory;
@@ -67,19 +65,16 @@ public abstract class SubmitStrategy {
     protected final Branch.NameKey destBranch;
     protected final ApprovalsUtil approvalsUtil;
     protected final MergeUtil mergeUtil;
-    protected final ChangeIndexer indexer;
     protected final MergeSorter mergeSorter;
     protected final IdentifiedUser caller;
 
-    Arguments(IdentifiedUser.GenericFactory identifiedUserFactory,
-        Provider<PersonIdent> serverIdent, ReviewDb db,
+    Arguments(Provider<PersonIdent> serverIdent, ReviewDb db,
         BatchUpdate.Factory batchUpdateFactory,
         ChangeControl.GenericFactory changeControlFactory, Repository repo,
         CodeReviewRevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
         Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
         ApprovalsUtil approvalsUtil, MergeUtil mergeUtil,
-        ChangeIndexer indexer, IdentifiedUser caller) {
-      this.identifiedUserFactory = checkNotNull(identifiedUserFactory);
+        IdentifiedUser caller) {
       this.serverIdent = checkNotNull(serverIdent);
       this.db = checkNotNull(db);
       this.batchUpdateFactory = checkNotNull(batchUpdateFactory);
@@ -93,7 +88,6 @@ public abstract class SubmitStrategy {
       this.destBranch = checkNotNull(destBranch);
       this.approvalsUtil = checkNotNull(approvalsUtil);
       this.mergeUtil = checkNotNull(mergeUtil);
-      this.indexer = checkNotNull(indexer);
       this.caller = checkNotNull(caller);
 
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);

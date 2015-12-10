@@ -52,6 +52,7 @@ public final class PatchSetInfo {
   protected List<ParentInfo> parents;
 
   /** SHA-1 of commit */
+  // TODO: Make this use ObjectId type
   protected String revId;
 
   protected PatchSetInfo() {

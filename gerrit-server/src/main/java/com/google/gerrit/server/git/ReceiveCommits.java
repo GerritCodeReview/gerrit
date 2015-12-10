@@ -77,6 +77,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalCopier;
@@ -2243,6 +2244,7 @@ public class ReceiveCommits {
       ChangeUpdate update = updateFactory.create(changeCtl, createdOn);
       update.setSubject("Create patch set " + psId.get());
       update.setPatchSetId(psId);
+      update.setRevId(new RevId(newCommit.name()));
 
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());

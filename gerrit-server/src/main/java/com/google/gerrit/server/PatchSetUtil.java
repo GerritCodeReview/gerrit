@@ -36,6 +36,7 @@ import java.util.Collections;
 /** Utilities for manipulating patch sets. */
 @Singleton
 public class PatchSetUtil {
+  @SuppressWarnings("unused") // TODO(dborowitz): Read from notedb.
   private final NotesMigration migration;
 
   @Inject
@@ -82,10 +83,7 @@ public class PatchSetUtil {
     ps.setGroups(groups);
     ps.setPushCertificate(pushCertificate);
     db.patchSets().insert(Collections.singleton(ps));
-
-    if (migration.writeChanges()) {
-      // TODO(dborowitz): Write to notedb.
-    }
+    update.setRevId(ps.getRevision());
     return ps;
   }
 }

@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.base.Enums;
@@ -80,10 +81,12 @@ class ChangeNotesParser implements AutoCloseable {
   NoteMap commentNoteMap;
   Change.Status status;
   String topic;
+  RevId currentRevId;
   Set<String> hashtags;
   Timestamp createdOn;
   Timestamp lastUpdatedOn;
   Account.Id ownerId;
+  PatchSet.Id currentPatchSetId;
 
   private final Change.Id changeId;
   private final ObjectId tip;
@@ -93,6 +96,7 @@ class ChangeNotesParser implements AutoCloseable {
       Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
   private final List<ChangeMessage> allChangeMessages;
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
+  private final Map<PatchSet.Id, PatchSet> patchSets;
 
   ChangeNotesParser(Change change, ObjectId tip, RevWalk walk,
       GitRepositoryManager repoManager) throws RepositoryNotFoundException,
@@ -108,6 +112,11 @@ class ChangeNotesParser implements AutoCloseable {
     allChangeMessages = Lists.newArrayList();
     changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = ArrayListMultimap.create();
+    patchSets = Maps.newHashMap();
+  }
+
+  public PatchSet getCurrentPatchSet() {
+    return patchSets.get(currentPatchSetId);
   }
 
   @Override
@@ -162,15 +171,25 @@ class ChangeNotesParser implements AutoCloseable {
     if (status == null) {
       status = parseStatus(commit);
     }
+
     PatchSet.Id psId = parsePatchSetId(commit);
+    if (currentPatchSetId == null) {
+      currentPatchSetId = psId;
+    }
+
     Account.Id accountId = parseIdent(commit);
     ownerId = accountId;
     parseChangeMessage(psId, accountId, commit);
     if (topic == null) {
       topic = parseTopic(commit);
     }
-    parseHashtags(commit);
 
+    currentRevId = parseRevId(commit);
+    if (currentRevId != null) {
+      parsePatchSet(psId, currentRevId);
+    }
+
+    parseHashtags(commit);
 
     if (submitRecords.isEmpty()) {
       // Only parse the most recent set of submit records; any older ones are
@@ -189,17 +208,39 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
-  private String parseTopic(RevCommit commit)
+  private String parseSingleFooter(RevCommit commit, FooterKey footerKey)
       throws ConfigInvalidException {
-    List<String> topicLines = commit.getFooterLines(FOOTER_TOPIC);
-    if (topicLines.isEmpty()) {
+    List<String> lines = commit.getFooterLines(footerKey);
+    if (lines.isEmpty()) {
       return null;
-    } else if (topicLines.size() > 1) {
-      throw expectedOneFooter(FOOTER_TOPIC, topicLines);
+    } else if (lines.size() > 1) {
+      throw expectedOneFooter(footerKey, lines);
     }
-    return topicLines.get(0);
+    return lines.get(0);
   }
 
+  private String parseTopic(RevCommit commit) throws ConfigInvalidException {
+    return parseSingleFooter(commit, FOOTER_TOPIC);
+  }
+
+  private RevId parseRevId(RevCommit commit) throws ConfigInvalidException {
+    String sha = parseSingleFooter(commit, FOOTER_COMMIT);
+    return sha != null ? new RevId(sha) : null;
+  }
+
+  private void parsePatchSet(PatchSet.Id psId, RevId revId)
+      throws ConfigInvalidException {
+    if (patchSets.containsKey(psId)) {
+      throw new ConfigInvalidException(
+          String.format("Multiple revisions parsed for a single patch-set: "
+              + "%s and %s", patchSets.get(psId).getRevision(), revId));
+    }
+    else {
+      PatchSet ps = new PatchSet(psId);
+      ps.setRevision(revId);
+      patchSets.put(psId, ps);
+    }
+  }
 
   private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
     // Commits are parsed in reverse order and only the last set of hashtags should be used.

@@ -2,6 +2,115 @@
   "comments": [
     {
       "key": {
+        "uuid": "c5149a35_99eedbac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-12-10T18:35:22Z",
+      "side": 1,
+      "message": "I don\u0027t understand what is meant exactly by this fragment. Would split into separate sentences and consider rewriting the latter. You might want to consider reusing some of the wording from [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/47930/",
+      "range": {
+        "startLine": 15,
+        "startChar": 56,
+        "endLine": 17,
+        "endChar": 7
+      },
+      "revId": "e0df98a97ab645d55947953df060e56e8813f8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_f6e720d4",
+        "filename": "Documentation/error-no-changes-made.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-12-10T18:35:22Z",
+      "side": 1,
+      "message": "Would require a more detailed explanation, likely joined to the above new paragraph, or split into more than just one bullet.\n\nExplanations from the commit message for this change could be reused here. Then the commit message could be reduced in size, moving some of its information to here in doc. Of course the commit message should still remain comprehensive enough.",
+      "revId": "e0df98a97ab645d55947953df060e56e8813f8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_79fd475d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1973,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-12-10T18:35:22Z",
+      "side": 1,
+      "message": "Would rename this with a name similar to what I mention in my other related comment below.",
+      "range": {
+        "startLine": 1973,
+        "startChar": 22,
+        "endLine": 1973,
+        "endChar": 33
+      },
+      "revId": "e0df98a97ab645d55947953df060e56e8813f8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_76fd505d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1975,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-12-10T18:35:22Z",
+      "side": 1,
+      "message": "Not sure I understand this logic, or the names used.",
+      "range": {
+        "startLine": 1975,
+        "startChar": 22,
+        "endLine": 1975,
+        "endChar": 69
+      },
+      "revId": "e0df98a97ab645d55947953df060e56e8813f8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_19fc0b5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2001,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-12-10T18:35:22Z",
+      "side": 1,
+      "message": "Does this mean \u0027commit time\u0027, or \u0027commit date\u0027?",
+      "range": {
+        "startLine": 2001,
+        "startChar": 26,
+        "endLine": 2001,
+        "endChar": 43
+      },
+      "revId": "e0df98a97ab645d55947953df060e56e8813f8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6525ae9f_36deb8fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -18,6 +127,70 @@
         "startChar": 12,
         "endLine": 2121,
         "endChar": 81
+      },
+      "revId": "e0df98a97ab645d55947953df060e56e8813f8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_59028325",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2121,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-12-10T18:35:22Z",
+      "side": 1,
+      "message": "Not sure of \u0027was chained by\u0027 means.",
+      "parentUuid": "6525ae9f_36deb8fd",
+      "range": {
+        "startLine": 2121,
+        "startChar": 12,
+        "endLine": 2121,
+        "endChar": 81
+      },
+      "revId": "e0df98a97ab645d55947953df060e56e8813f8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_b6f1a88e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2366,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-12-10T18:35:22Z",
+      "side": 1,
+      "message": "Why not static?",
+      "revId": "e0df98a97ab645d55947953df060e56e8813f8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_d6e424d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2382,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-12-10T18:35:22Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this method be named commitTime[s]Equal, rather?",
+      "range": {
+        "startLine": 2382,
+        "startChar": 17,
+        "endLine": 2382,
+        "endChar": 26
       },
       "revId": "e0df98a97ab645d55947953df060e56e8813f8b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -46,6 +46,30 @@
       "revId": "03fe5ffe02db95c99219d93bb8de4b1722b4c5f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0334cd5_8a15eb8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-12-10T12:07:38Z",
+      "side": 1,
+      "message": "OK, will store the parent commit-ids instead of the boolean flag.",
+      "parentUuid": "967d7aef_8863b71d",
+      "range": {
+        "startLine": 660,
+        "startChar": 13,
+        "endLine": 660,
+        "endChar": 34
+      },
+      "revId": "03fe5ffe02db95c99219d93bb8de4b1722b4c5f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

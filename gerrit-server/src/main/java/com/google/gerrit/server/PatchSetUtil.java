@@ -28,6 +28,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.sql.Timestamp;
@@ -36,6 +37,7 @@ import java.util.Collections;
 /** Utilities for manipulating patch sets. */
 @Singleton
 public class PatchSetUtil {
+  @SuppressWarnings("unused") // TODO(dborowitz): Read from notedb.
   private final NotesMigration migration;
 
   @Inject
@@ -83,13 +85,11 @@ public class PatchSetUtil {
     ps.setPushCertificate(pushCertificate);
     db.patchSets().insert(Collections.singleton(ps));
 
+    update.setCommit(ObjectId.fromString(ps.getRevision().get()));
     if (!update.getChange().getSubject().equals(commit.getShortMessage())) {
       update.setSubject(commit.getShortMessage());
     }
 
-    if (migration.writeChanges()) {
-      // TODO(dborowitz): Write to notedb.
-    }
     return ps;
   }
 }

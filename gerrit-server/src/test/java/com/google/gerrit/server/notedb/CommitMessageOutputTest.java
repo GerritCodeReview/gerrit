@@ -89,6 +89,25 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void changeWithRevision() throws Exception {
+    Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Foo");
+    update.setCommit(
+        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    update.commit();
+    assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
+
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Foo\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Commit: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n",
+        update.getRevision());
+  }
+
+  @Test
   public void approvalTombstoneCommitFormat() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);

@@ -102,6 +102,19 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public class Context {
+    private Repository repoWrapper;
+
+    public Repository getRepository() throws IOException {
+      if (repoWrapper == null) {
+        repoWrapper = new ReadOnlyRepository(BatchUpdate.this.getRepository());
+      }
+      return repoWrapper;
+    }
+
+    public RevWalk getRevWalk() throws IOException {
+      return BatchUpdate.this.getRevWalk();
+    }
+
     public Project.NameKey getProject() {
       return project;
     }
@@ -124,19 +137,13 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public class RepoContext extends Context {
+    @Override
     public Repository getRepository() throws IOException {
-      initRepository();
-      return repo;
-    }
-
-    public RevWalk getRevWalk() throws IOException {
-      initRepository();
-      return revWalk;
+      return BatchUpdate.this.getRepository();
     }
 
     public ObjectInserter getInserter() throws IOException {
-      initRepository();
-      return inserter;
+      return BatchUpdate.this.getObjectInserter();
     }
 
     public BatchRefUpdate getBatchRefUpdate() throws IOException {

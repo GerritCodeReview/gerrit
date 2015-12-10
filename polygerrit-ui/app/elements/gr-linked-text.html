@@ -37,6 +37,7 @@ limitations under the License.
       },
 
       _contentChanged: function(newValue) {
+        console.log(newValue);
         var output = this.$.grLinkedContent;
         var parser = new LinkTextParser(function(text, href) {
           if (href) {

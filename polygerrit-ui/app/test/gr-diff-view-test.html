@@ -45,7 +45,6 @@ limitations under the License.
   </template>
 </test-fixture>
 
-
 <script>
   // Original diff:
   // Left side (side A):
@@ -101,7 +100,8 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
-      element._maybeRenderDiff({content: diffContent}, [], []);
+      element._renderDiff({content: diffContent}, [], [], [], []);
+      flushAsynchronousOperations();
     });
 
     test('ab content is the same for left and right sides', function() {
@@ -174,62 +174,79 @@ limitations under the License.
         assert.equal(els[i].style.left, '100ch');
       }
     });
-
   });
 
-  suite('comments', function() {
+  suite('comments and drafts', function() {
     var element;
 
-    setup(function() {
+    setup(function(done) {
       element = fixture('comments');
       element._patchNum = 1;
-      element._maybeRenderDiff({content: diffContent}, [], [
-        {
-          id: 'file_comment',
-          message: 'this is a file comment about the meaninglessness of life',
-          author: {
-            name: 'GLaDOS'
-          }
-        },
-        {
-          id: 'all_the_lemons',
-          line: 8,
-          message: 'MAKE LIFE TAKE THE LEMONS BACK',
-          author: {
-            name: 'Cave Johnson',
+      element._renderDiff({content: diffContent}, [], [
+          {
+            id: 'file_comment',
+            message: 'this is a file comment about the meaninglessness of life',
+            author: {
+              name: 'GLaDOS'
+            }
           },
-        }
-      ]);
+          {
+            id: 'all_the_lemons',
+            line: 8,
+            message: 'MAKE LIFE TAKE THE LEMONS BACK',
+            author: {
+              name: 'Cave Johnson',
+            }
+          }
+      ], [], []);
+
+      // On WebKit and Gecko, flushAsynchronousOperations isn't enough to allow
+      // the thread filler elements to properly render. Spin the runloop.
+      element.async(function() {
+        done();
+      }, 1);
     });
 
-    test('comment threads are rendered correctly', function(done) {
-      // On WebKit and Gecko, flushAsynchronousOperations isn't enough to allow
-      // the thread filler elements to properly render. Wait for the resize
-      // events that trigger their addition and check after the expected number
-      // come in.
-      var numEventsFired = 0;
-      element.addEventListener('gr-diff-comment-thread-height-changed',
-          function() {
-        numEventsFired++;
-        if (numEventsFired < 2) { return; }
-        assert.equal(numEventsFired, 2);
+    test('comment threads are rendered correctly', function() {
+      var threadEls = Polymer.dom(element.root).querySelectorAll(
+          'gr-diff-comment-thread[data-thread-id="thread-1-8"]');
+      assert.equal(threadEls.length, 1);
+      var fillerEls = Polymer.dom(element.root).querySelectorAll(
+          '.js-threadFiller[data-thread-id="thread-1-8"]');
+      assert.equal(fillerEls.length, 3);
 
-        var threadEls = Polymer.dom(element.root).querySelectorAll(
-            'gr-diff-comment-thread[data-thread-id="thread-1-8"]');
-        assert.equal(threadEls.length, 1);
-        var fillerEls = Polymer.dom(element.root).querySelectorAll(
-            '.js-threadFiller[data-thread-id="thread-1-8"]');
-        assert.equal(fillerEls.length, 3);
+      threadEls = Polymer.dom(element.root).querySelectorAll(
+          'gr-diff-comment-thread[data-thread-id="thread-1-FILE"]');
+      assert.equal(threadEls.length, 1);
+      fillerEls = Polymer.dom(element.root).querySelectorAll(
+          '.js-threadFiller[data-thread-id="thread-1-FILE"]');
+      assert.equal(fillerEls.length, 3);
+    });
 
-        threadEls = Polymer.dom(element.root).querySelectorAll(
-            'gr-diff-comment-thread[data-thread-id="thread-1-FILE"]');
-        assert.equal(threadEls.length, 1);
-        fillerEls = Polymer.dom(element.root).querySelectorAll(
-            '.js-threadFiller[data-thread-id="thread-1-FILE"]');
-        assert.equal(fillerEls.length, 3);
+    test('tapping a line with an existing thread', function() {
+      var threadEls = Polymer.dom(element.root).querySelectorAll(
+          'gr-diff-comment-thread[data-line-num="8"][data-patch-num="1"]');
+      assert.equal(threadEls.length, 1);
+      var lineEl = element.$$(
+          '.lineNum[data-line-num="8"][data-patch-num="1"]');
+      assert.ok(lineEl);
+      MockInteractions.tap(lineEl);
+      threadEls = Polymer.dom(element.root).querySelectorAll(
+          'gr-diff-comment-thread[data-line-num="8"][data-patch-num="1"]');
+      assert.equal(threadEls.length, 1);
+    });
 
-        done();
-      });
+    test('creating a draft', function() {
+      var threadEls = Polymer.dom(element.root).querySelectorAll(
+          'gr-diff-comment-thread[data-line-num="5"][data-patch-num="1"]');
+      assert.equal(threadEls.length, 0);
+      var lineEl = element.$$(
+          '.lineNum[data-line-num="5"][data-patch-num="1"]');
+      assert.ok(lineEl);
+      MockInteractions.tap(lineEl);
+      threadEls = Polymer.dom(element.root).querySelectorAll(
+          'gr-diff-comment-thread[data-line-num="5"][data-patch-num="1"]');
+      assert.equal(threadEls.length, 1);
     });
   });
 
@@ -242,7 +259,7 @@ limitations under the License.
       for (var i = 0; i < 300; i++) {
         longDiffContent[0].ab.push('');
       }
-      element._maybeRenderDiff({content: longDiffContent}, [], []);
+      element._renderDiff({content: longDiffContent}, [], [], [], []);
     });
 
     function isVisibleInWindow(el) {
@@ -252,6 +269,7 @@ limitations under the License.
     }
 
     test('jump to line', function() {
+      window.scrollTo(0, 0);
       element._jumpToLine(-12849);
       assert.equal(window.scrollY, 0);
       element._jumpToLine('sup');

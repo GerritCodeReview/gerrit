@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-reply-dropdown</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../scripts/changes.js"></script>
+<script src="../scripts/util.js"></script>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../elements/gr-reply-dropdown.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-reply-dropdown></gr-reply-dropdown>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-reply-dropdown tests', function() {
+    var element;
+    var server;
+
+    setup(function() {
+      element = fixture('basic');
+      element.changeNum = 42;
+      element.patchNum = 1;
+      element.labels = {
+        Verified: {
+          values: {
+            '-1': 'Fails',
+            ' 0': 'No score',
+            '+1': 'Verified'
+          },
+          default_value: 0
+        },
+        'Code-Review': {
+          values: {
+            '-2': 'Do not submit',
+            '-1': 'I would prefer that you didn\'t submit this',
+            ' 0': 'No score',
+            '+1': 'Looks good to me, but someone else must approve',
+            '+2': 'Looks good to me, approved'
+          },
+          default_value: 0
+        }
+      };
+      element.permittedLabels = {
+        'Code-Review': [
+          '-1',
+          ' 0',
+          '+1'
+        ],
+        Verified: [
+          '-1',
+          ' 0',
+          '+1'
+        ]
+      };
+
+      server = sinon.fakeServer.create();
+      server.respondWith(
+        'POST',
+        '/changes/42/revisions/1/review',
+        [
+          200,
+          { 'Content-Type': 'application/json' },
+          ')]}\'\n' +
+          '{' +
+            '"labels": {' +
+              '"Code-Review": -1,' +
+              '"Verified": -1' +
+            '}' +
+          '}'
+        ]
+      );
+
+      // Allow the elements created by dom-repeat to be stamped.
+      flushAsynchronousOperations();
+    });
+
+    teardown(function() {
+      server.restore();
+    });
+
+    test('open close', function() {
+      assert.isFalse(element.opened);
+      MockInteractions.tap(element.$.trigger);
+      assert.isTrue(element.opened);
+      element.close();
+      assert.isFalse(element.opened);
+      element.open();
+      assert.isTrue(element.opened);
+      MockInteractions.tap(element.$$('.cancel'));
+      assert.isFalse(element.opened);
+    });
+
+    test('label picker', function(done) {
+      assert.isFalse(element.opened);
+      MockInteractions.tap(element.$.trigger);
+      assert.isTrue(element.opened);
+      for (var label in element.permittedLabels) {
+        assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
+            label);
+      }
+      element._draft = 'I wholeheartedly disapprove';
+      MockInteractions.tap(element.$$(
+          'iron-selector[data-label="Code-Review"] > button[data-value="-1"]'));
+      MockInteractions.tap(element.$$(
+          'iron-selector[data-label="Verified"] > button[data-value="-1"]'));
+
+      // This is needed on non-Blink engines most likely due to the ways in
+      // which the dom-repeat elements are stamped.
+      element.async(function() {
+        MockInteractions.tap(element.$$('.send'));
+        assert.isTrue(element.disabled);
+
+        server.respond();
+
+        element._xhrPromise.then(function(req) {
+          assert.isFalse(element.disabled,
+              'Element should be enabled when done sending reply.');
+          assert.isFalse(element.opened);
+          assert.equal(req.status, 200);
+          assert.equal(req.url, '/changes/42/revisions/1/review');
+          var reqObj = JSON.parse(req.xhr.requestBody);
+          assert.deepEqual(reqObj, {
+            drafts: 'PUBLISH_ALL_REVISIONS',
+            labels: {
+              'Code-Review': -1,
+              'Verified': -1
+            },
+            message: 'I wholeheartedly disapprove'
+          });
+          assert.equal(req.response.labels['Code-Review'], -1);
+          assert.equal(req.response.labels['Verified'], -1);
+          assert.isFalse(element.opened);
+          done();
+        });
+      }, 1);
+    });
+
+  });
+</script>

@@ -44,14 +44,8 @@ public class FastForwardOnly extends SubmitStrategy {
 
     args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
         newMergeTipCommit, args.alreadyAccepted);
-    setRefLogIdent();
 
     return mergeTip;
-  }
-
-  @Override
-  public boolean retryOnLockFailure() {
-    return false;
   }
 
   @Override

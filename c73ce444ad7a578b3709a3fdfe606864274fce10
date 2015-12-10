@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5149a35_d931f32e",
+        "filename": "polygerrit-ui/app/elements/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-10T14:34:42Z",
+      "side": 1,
+      "message": "ISTM showAvatar could easily come from this. Do you have to do it this way to make sure _computeAvatarURL doesn\u0027t get called until after ready is called to make showAvatar defined?",
+      "revId": "c73ce444ad7a578b3709a3fdfe606864274fce10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

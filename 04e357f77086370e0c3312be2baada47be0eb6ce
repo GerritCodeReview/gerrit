@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6525ae9f_767310f4",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T16:09:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6525ae9f_361b58ae",
+      "range": {
+        "startLine": 126,
+        "startChar": 65,
+        "endLine": 126,
+        "endChar": 76
+      },
+      "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6525ae9f_f634c020",
         "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2015-12-10T14:33:12Z",
       "side": 1,
       "message": "Why are these styled like links rather than buttons?",
+      "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_f67de0c2",
+        "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T16:09:57Z",
+      "side": 1,
+      "message": "Consistency with other clickable items. Most likely will change as the UI patterns start to solidify.",
+      "parentUuid": "6525ae9f_f634c020",
       "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "6525ae9f_d67ae4c8",
+        "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T16:09:57Z",
+      "side": 1,
+      "message": "Yes that\u0027s on my todo list along with showing the drafts when you open the dropdown.",
+      "parentUuid": "c5149a35_592603fe",
+      "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6525ae9f_d631c42e",
         "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2015-12-10T14:33:12Z",
       "side": 1,
       "message": "A missing feature here is to make send a no-op and/or disabled if a) the message is empty and b) none of the labels were changed from their current value.",
+      "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6525ae9f_b68768f7",
+        "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T16:09:57Z",
+      "side": 1,
+      "message": "So it\u0027s actually a no-op on the server. Does that count? :)",
+      "parentUuid": "6525ae9f_d631c42e",
       "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "c5149a35_99849bf3",
+        "filename": "polygerrit-ui/app/elements/gr-request.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T16:09:57Z",
+      "side": 1,
+      "message": "Yep. Rebasing since the above change was landed...",
+      "parentUuid": "c5149a35_99525b5b",
+      "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6525ae9f_16205cdc",
         "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
         "patchSetId": 3
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "c5149a35_797307f4",
+        "filename": "polygerrit-ui/app/test/gr-diff-view-test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T16:09:57Z",
+      "side": 1,
+      "message": "Nope. Removed.",
+      "parentUuid": "6525ae9f_16205cdc",
+      "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5149a35_19208bdc",
         "filename": "polygerrit-ui/app/test/gr-reply-dropdown-test.html",
         "patchSetId": 3
@@ -121,6 +235,24 @@
       "writtenOn": "2015-12-10T14:33:12Z",
       "side": 1,
       "message": "Use something that looks more like the actual response type:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#set-review",
+      "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_597843cc",
+        "filename": "polygerrit-ui/app/test/gr-reply-dropdown-test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T16:09:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5149a35_19208bdc",
       "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

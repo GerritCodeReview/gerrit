@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.testutil.TestChanges;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -85,6 +86,24 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "How about a new line\n"
         + "\n"
         + "Patch-set: 1\n",
+        update.getRevision());
+  }
+
+  @Test
+  public void changeWithRevision() throws Exception {
+    Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Foo");
+    update.setRevId(new RevId("beef"));
+    update.commit();
+    assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
+
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Foo\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Commit: beef\n",
         update.getRevision());
   }
 

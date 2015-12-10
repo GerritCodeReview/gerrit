@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -320,6 +321,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
      */
     update.fixStatus(change.getStatus());
 
+    update.setRevId(new RevId(patchSetInfo.getRevId()));
     LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
     approvalsUtil.addReviewers(db, update, labelTypes, change,
         patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());

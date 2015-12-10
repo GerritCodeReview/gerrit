@@ -16,6 +16,24 @@
       "revId": "c73ce444ad7a578b3709a3fdfe606864274fce10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_1999ab5a",
+        "filename": "polygerrit-ui/app/elements/gr-message.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-10T15:51:42Z",
+      "side": 1,
+      "message": "Yes. we don\u0027t want it called until we know we want to show them or not.",
+      "parentUuid": "c5149a35_d931f32e",
+      "revId": "c73ce444ad7a578b3709a3fdfe606864274fce10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

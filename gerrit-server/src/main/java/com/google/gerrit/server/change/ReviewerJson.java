@@ -67,8 +67,8 @@ public class ReviewerJson {
     AccountLoader loader = accountLoaderFactory.create(true);
     for (ReviewerResource rsrc : rsrcs) {
       ReviewerInfo info = format(new ReviewerInfo(
-          rsrc.getUser().getAccountId()),
-          rsrc.getUserControl());
+          rsrc.getReviewerUser().getAccountId()),
+          rsrc.getReviewerControl());
       loader.put(info);
       infos.add(info);
     }

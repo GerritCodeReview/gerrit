@@ -116,7 +116,7 @@ limitations under the License.
       }
     </style>
     <div class$="[[_computeClass(expanded, showAvatar)]]">
-      <img class="avatar" src$="[[_computeAvatarURL(message.author)]]">
+      <img class="avatar" src$="[[_computeAvatarURL(message.author, showAvatar)]]">
       <div class="contentContainer">
         <div class="name" id="name">[[message.author.name]]</div>
         <div class="content">
@@ -223,8 +223,8 @@ limitations under the License.
         return classes.join(' ');
       },
 
-      _computeAvatarURL: function(author) {
-        if (!author) { return '' }
+      _computeAvatarURL: function(author, showAvatar) {
+        if (!showAvatar || !author) { return '' }
         return '/accounts/' + author.email + '/avatar?s=100';
       },
 

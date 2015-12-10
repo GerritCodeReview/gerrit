@@ -61,7 +61,6 @@ public class MergeIfNecessary extends SubmitStrategy {
 
     args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, branchTip,
         args.alreadyAccepted);
-    setRefLogIdent();
     return mergeTip;
   }
 

@@ -22,6 +22,7 @@ limitations under the License.
 <script src="../../bower_components/web-component-tester/browser.js"></script>
 <script src="../../bower_components/page/page.js"></script>
 <script src="../scripts/changes.js"></script>
+<script src="../scripts/fake-app.js"></script>
 <script src="../scripts/util.js"></script>
 
 <link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
@@ -41,7 +42,7 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('keyboard shortcuts', function(done) {
+    test('keyboard shortcuts', function() {
       var showStub = sinon.stub(page, 'show');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
@@ -49,13 +50,11 @@ limitations under the License.
           'Should navigate to /');
       showStub.restore();
 
-      // TODO(andybons): Actually test the effect once _showReplyField is
-      // implemented.
-      sinon.stub(element, '_showReplyField', function() {
-        element._showReplyField.restore();
-        done();
-      });
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      var dropdownEl = element.$.replyDropdown;
+      assert.isTrue(dropdownEl.opened);
+      dropdownEl.close();
+      assert.isFalse(dropdownEl.opened);
     });
 
   });

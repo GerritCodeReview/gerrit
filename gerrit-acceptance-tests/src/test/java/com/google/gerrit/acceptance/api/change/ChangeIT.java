@@ -710,6 +710,51 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.recommend());
+
+    // reviewer should be available here
+    ChangeInfo ci = gApi.changes().id(r.getChangeId()).get();
+    assertThat(ci.removableReviewers.size()).isEqualTo(1);
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .deleteReviewer();
+
+    // reviewer should be gone now
+    ci = gApi.changes().id(r.getChangeId()).get();
+    assertThat(ci.removableReviewers.size()).isEqualTo(0);
+  }
+
+  @Test
+  public void deleteReviewerNotPermitted() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("delete not permitted");
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .deleteReviewer();
+  }
+
+  @Test
   public void createEmptyChange() throws Exception {
     ChangeInput in = new ChangeInput();
     in.branch = Constants.MASTER;

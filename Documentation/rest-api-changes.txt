@@ -2326,7 +2326,7 @@ To confirm the addition of the reviewers, resend the request with the
 'DELETE /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]'
 --
 
-Deletes a reviewer from a change.
+Deletes a reviewer (along with her votes) from a change.
 
 .Request
 ----

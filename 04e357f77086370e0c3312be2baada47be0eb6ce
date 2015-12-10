@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "6525ae9f_76d430df",
+        "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-10T17:22:05Z",
+      "side": 1,
+      "message": "Personally, I like things you click on that result in state changes on the server to look more like buttons than hyperlinks. *shrug*",
+      "parentUuid": "6525ae9f_f67de0c2",
+      "revId": "04e357f77086370e0c3312be2baada47be0eb6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5149a35_592603fe",
         "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
         "patchSetId": 3

@@ -5,8 +5,10 @@ bower_components(
   deps = [
     '//lib/js:iron-a11y-keys-behavior',
     '//lib/js:iron-ajax',
+    '//lib/js:iron-autogrow-textarea',
     '//lib/js:iron-dropdown',
     '//lib/js:iron-input',
+    '//lib/js:iron-selector',
     '//lib/js:page',
     '//lib/js:polymer',
   ],

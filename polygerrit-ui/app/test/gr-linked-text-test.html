@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-linked-text</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../scripts/util.js"></script>
+
+<link rel="import" href="../elements/gr-linked-text.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-linked-text content="http://foo.bar/baz, Bug: 12345, Feature: 12345, Change-Id: 0987654321poiuytrewq"></gr-date-formatter>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-linked-text tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    function testParseAndLink(text, expected) {
+      assert.equal(element._contentChanged(text), expected);
+    }
+
+    test('Text was parsed and linked.', function() {
+
+      var linkText="https://code.google.com/p/gerrit/issues/detail?id=3650";
+      var linkTextLinked = "<a href=\"https://code.google.com/p/gerrit/issues/detail?id=3650\" target=\"_blank\">https://code.google.com/p/gerrit/issues/detail?id=3650</a>";
+
+      var bugText="Bug: 3650";
+      var bugTextLinked="Bug: <a href=\"https://code.google.com/p/gerrit/issues/detail?id=3650\" target=\"_blank\">3650</a>";
+
+      var featureText="Feature: 3650";
+      var featureTextLinked="Feature: <a href=\"https://code.google.com/p/gerrit/issues/detail?id=3650\" target=\"_blank\">3650</a>";
+
+      var changeIdText="Change-Id: I11d6a37f5e9b5df0486f6c922d8836dfa780e03e";
+      var changeIdTextLinekd = "<a href=\"https://gerrit.googlesource.com/gerrit/+/I11d6a37f5e9b5df0486f6c922d8836dfa780e03e\" target=\"_blank\">I11d6a37f5e9b5df0486f6c922d8836dfa780e03e</a>";
+
+      // Reguarly inline link
+      testParseAndLink(linkText, linkTextLinked);
+
+      // Bug: pattern
+      testParseAndLink(bugText, bugTextLinked);
+
+      // Feature: pattern
+      testParseAndLink(featureText, featureTextLinked);
+
+      // Change-Id: pattern
+      testParseAndLink(changeIdText, changeIdTextLinked);
+    });
+  });
+</script>

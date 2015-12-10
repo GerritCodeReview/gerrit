@@ -24,7 +24,7 @@ limitations under the License.
         word-wrap: break-word;
       }
     </style>
-    <content id="grLinkedContent"></content>
+    <div id="output"></div>
   </template>
   <script>
     'use strict';
@@ -32,12 +32,16 @@ limitations under the License.
     Polymer({
       is: 'gr-linked-text',
 
-      attached: function() {
-        this._contentChanged(this.textContent);
+      properties: {
+        content: {
+          type: String,
+          observer: '_contentChanged'
+        }
       },
 
       _contentChanged: function(newValue) {
-        var output = this.$.grLinkedContent;
+        console.log(newValue);
+        var output = this.$.output;
         var parser = new LinkTextParser(function(text, href) {
           if (href) {
             var a = document.createElement('a');

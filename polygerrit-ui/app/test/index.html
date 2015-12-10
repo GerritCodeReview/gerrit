@@ -31,10 +31,12 @@ limitations under the License.
     'gr-diff-comment-test.html',
     'gr-diff-comment-thread-test.html',
     'gr-diff-view-test.html',
+    'gr-linked-text-test.html',
+    'gr-reply-dropdown-test.html',
     'gr-search-bar-test.html',
   ].forEach(function(file) {
-      testFiles.push(file);
-      testFiles.push(file + '?dom=shadow');
+    testFiles.push(file);
+    testFiles.push(file + '?dom=shadow');
   });
 
   WCT.loadSuites(testFiles);

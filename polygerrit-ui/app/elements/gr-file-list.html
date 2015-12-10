@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-ajax.html">
 
 <dom-module id="gr-file-list">
   <template>
@@ -43,10 +44,9 @@ limitations under the License.
         width: 20px;
       }
     </style>
-    <iron-ajax id="xhr"
+    <gr-ajax id="xhr"
         url="[[_computeFilesURL(changeNum, revision)]]"
-        json-prefix=")]}'"
-        on-response="_handleResponse"></iron-ajax>
+        on-response="_handleResponse"></gr-ajax>
     <div class="tableContainer">
       <table>
         <tr>

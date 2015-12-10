@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1449569734 +0100\nnonce ALmjDBVj6Qe022DyV/ulM/OH004eOve8LlRB7U9dQApfyPlduxHUKiHEtbfj/+lc5b/Z1fRO5p6f\n\n0000000000000000000000000000000000000000 d84549fe54628a6345c7be9a935e0655f98fa7c6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWZq3GAAoJEFG1/Zeg0O9RDnsH/RkFe+DK4CD3quObMNRy5AHR\ntzM9uKU3sPMkjFBcIPXvKW85o7r3MBZJPlo7GhMG8JZMmK3LOSolmwFJyjeWwltr\nZT3WRNrombEtTw7fOQjhryStPzq8UHBXTs17+FwLcohO7iZbUmZTBSqqIGF/y35L\n2YzidSZ5ChqQmUc+5AE8HNJETnzKoTSO4i07xTRFS4NEf92/JaD1vdaOlM7zGATo\nVDjYxHMIZR3AkASaKHBcouEKzB3RcWzz2UnAlYkYT5XYT1g8qAP3w0lLBxz7Tq6z\nV8YgMuczt9JegdYtefi+7ShkriJoVmzDhLalYfUii7gyf8V3YFFCWIQJTDiIk1I\u003d\n\u003dHJB7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6525ae9f_36947824",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-10T14:59:17Z",
+      "side": 1,
+      "message": "I think these fields need to be volatile.",
+      "revId": "2ef8a642c83e0b86390d4a9280c37c580370b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_798ae705",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-10T14:59:17Z",
+      "side": 1,
+      "message": "What happens if this runs in a separate thread from the LifecycleManager and steps on the cache created there? I think you need double-checked locking.",
+      "revId": "2ef8a642c83e0b86390d4a9280c37c580370b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_598f2314",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-10T14:59:17Z",
+      "side": 1,
+      "message": "If you make load() idempotent and use proper locking, then you don\u0027t need to wait for this to complete, you can just call load() unconditionally.",
+      "revId": "2ef8a642c83e0b86390d4a9280c37c580370b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

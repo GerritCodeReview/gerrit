@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5149a35_f94b97aa",
+        "filename": "polygerrit-ui/app/elements/gr-ajax.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-10T14:04:59Z",
+      "side": 1,
+      "message": "What does \"bubble\" mean? I found this doc but it was not very helpful:\n\nhttps://www.polymer-project.org/1.0/docs/devguide/utility-functions.html",
+      "range": {
+        "startLine": 87,
+        "startChar": 36,
+        "endLine": 87,
+        "endChar": 43
+      },
+      "revId": "5f7e6df39efb478cd977e82213d43e1bf9a5c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_d948d3b0",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-10T14:04:59Z",
+      "side": 1,
+      "message": "Completely unrelated aside: is it not idiomatic and/or supported to do an empty element tag like \u003cgr-ajax/\u003e?",
+      "range": {
+        "startLine": 52,
+        "startChar": 36,
+        "endLine": 52,
+        "endChar": 47
+      },
+      "revId": "5f7e6df39efb478cd977e82213d43e1bf9a5c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5149a35_b9551f47",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-10T14:04:59Z",
+      "side": 1,
+      "message": "This is a function called by JS code that takes a method and URL and returns a JS promise. It almost feels like using a custom element type for this is unnecessary, and it could be a pure JS function somewhere in scripts/. (Delegating out to iron-request is an implementation detail.)",
+      "revId": "5f7e6df39efb478cd977e82213d43e1bf9a5c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

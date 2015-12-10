@@ -247,6 +247,27 @@ reviewer:: link:json.html#account[account attribute]
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
+=== Reviewer Deleted
+
+Sent when a reviewer is removed from a change.
+
+type:: "reviewer-deleted"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+reviewer:: link:json.html#account[account attribute]
+
+author:: link:json.html#account[account attribute]
+
+approvals:: All link:json.html#approval[approval attributes] removed.
+
+comment:: Review comment cover message.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 === Topic Changed
 
 Sent when the topic of a change has been changed.

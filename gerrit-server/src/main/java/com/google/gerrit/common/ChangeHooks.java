@@ -153,7 +153,22 @@ public interface ChangeHooks {
       PatchSet patchSet, ReviewDb db) throws OrmException;
 
   /**
-   * Fire the Topic Changed Hook.
+   * Fire the Reviewer Deleted Hook
+   *
+   * @param change The change itself.
+   * @param account The reviewer that was removed.
+   * @param patchSet The patchset that the reviewer was removed from.
+   * @param comment The comment given.
+   * @param approvals Map of label IDs to scores.
+   * @throws OrmException
+   */
+  void doReviewerDeletedHook(Change change, Account account,
+      PatchSet patchSet, String comment,
+      Map<String, Short> approvals, ReviewDb db)
+          throws OrmException;
+
+  /**
+   * Fire the Topic Changed Hook
    *
    * @param change The change itself.
    * @param account The gerrit user who changed the topic.

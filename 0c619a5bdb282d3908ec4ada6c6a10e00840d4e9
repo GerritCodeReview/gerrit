@@ -34,6 +34,24 @@
       "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0334cd5_4a89330a",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-11T06:56:13Z",
+      "side": 1,
+      "message": "I don\u0027t like to change versioned files to achieve such customization. I would like to be able to build the release without changing any code. Where do you stop? Would you call manipulating some documentation and Java files as \"cusromization\"? In fact that would mean building and maintaining your own fork. This is a nightmare. OpenStack guys did it once. And it took them years to solve that and come back nearly to the upstream Qulacom guys did it too. They would never ever be able to come even closer to upstream. They will forever remain with 2.4.2. I\u0027m not even sure, that they are already that far.",
+      "parentUuid": "052f928d_6b38e11d",
+      "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

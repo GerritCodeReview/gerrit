@@ -52,6 +52,24 @@
       "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8591c20f_3f16a795",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-11T07:01:36Z",
+      "side": 1,
+      "message": "\u003e In fact that would mean building and maintaining your own fork\n\nWhich is exactly what I am doing.\n\nJust to add a bit more context...  One of the problems we have with plugins is knowing what revision of the plugins have been built, and what version of Gerrit they were built against.\n\nThe intention here is to add wanted plugins as git submodules, fixed at known revisions, and build them into the released war file together with Gerrit.\n\nTogether with the previous commit, we can fork gerrit at a tagged version (or anywhere else for that matter), apply a couple of patches (set up our internal repo, add plugins, set VERSION) and release a custom war file.",
+      "parentUuid": "e0334cd5_4a89330a",
+      "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

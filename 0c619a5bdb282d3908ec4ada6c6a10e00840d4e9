@@ -16,6 +16,24 @@
       "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "052f928d_6b38e11d",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-11T06:51:27Z",
+      "side": 1,
+      "message": "\u003e This would require changing file that is under Git control.\n\nYes.\n\nThis is the same case as in the parent commit.  Gerrit is forked, and certain parameters are changed in that fork.\n\nWhy would we want to do that outside of git control?",
+      "parentUuid": "e0334cd5_0a7f3bbc",
+      "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

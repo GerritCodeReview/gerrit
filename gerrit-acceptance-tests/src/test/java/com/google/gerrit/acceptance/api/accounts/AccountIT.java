@@ -141,6 +141,19 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getByIntId() throws Exception {
+    AccountInfo info = gApi
+        .accounts()
+        .id("admin")
+        .get();
+    AccountInfo infoByIntId = gApi
+        .accounts()
+        .id(info._accountId)
+        .get();
+    assertThat(info.name).isEqualTo(infoByIntId.name);
+  }
+
+  @Test
   public void self() throws Exception {
     AccountInfo info = gApi
         .accounts()

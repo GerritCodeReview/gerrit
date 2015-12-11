@@ -17,7 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="gr-ajax.html">
-<link rel="import" href="gr-diff-comment-thread.html">
+<link rel="import" href="gr-diff.html">
 
 <dom-module id="gr-diff-view">
   <template>
@@ -36,116 +36,26 @@ limitations under the License.
         border-top: 1px solid #eee;
         width: 100%;
       }
-      .diffNumbers,
-      .diffContent {
-        vertical-align: top;
-      }
-      .diffContainer {
-        font-family: 'Source Code Pro', monospace;
-        white-space: pre;
-      }
-      .diffNumbers {
-        background-color: #eee;
-        color: #666;
-        padding: 0 .75em;
-        text-align: right;
-      }
-      .diffContent {
-        min-width: 80ch;
-        max-width: 120ch;
-        overflow: hidden;
-      }
-      .diffContainer.leftOnly .diffContent,
-      .diffContainer.rightOnly .diffContent {
-        overflow: visible;
-      }
-      .diffContainer.leftOnly .right,
-      .diffContainer.rightOnly .left {
-        display: none;
-      }
-      .ruler {
-        display: block;
-        background-color: #ddd;
-        height: 1.3em;
-        position: absolute;
-        top: 0;
-        width: 1px;
-      }
-      .lineNum:before,
-      .content:before {
-        /* To ensure the height is non-zero in these elements, a
-           zero-width space is set as its content. The character
-           itself doesn't matter. Just that there is something
-           there. */
-        content: '\200B';
-      }
-      .content {
-        position: relative;
-      }
-      .lineNum.blank,
-      .threadFiller--redLine {
-        border-right: 2px solid #F34D4D;
-        margin-right: 3px;
-      }
-
-      .lineNum:not(.blank) {
-        cursor: pointer;
-      }
-      .lineNum:hover {
-        text-decoration: underline;
-      }
-      .lightRed {
-        background-color: #ffecec;
-      }
-      .darkRed {
-        background-color: #faa;
-      }
-      .lightGreen {
-        background-color: #eaffea;
-      }
-      .darkGreen {
-        background-color: #9f9;
-      }
     </style>
     <gr-ajax id="changeDetailXHR"
         auto
         url="[[_computeChangeDetailPath(_changeNum)]]"
         params="[[_computeChangeDetailQueryParams()]]"
         last-response="{{_change}}"></gr-ajax>
-    <gr-ajax id="diffXHR"
-        url="[[_computeDiffPath(_changeNum, _patchNum, _path)]]"
-        on-response="_handleDiffResponse"></gr-ajax>
-    <gr-ajax id="leftCommentsXHR"
-        url="[[_computeCommentsPath(_changeNum, _basePatchNum)]]"
-        json-prefix=")]}'"
-        on-response="_handleLeftCommentsResponse"></gr-ajax>
-    <gr-ajax id="rightCommentsXHR"
-        url="[[_computeCommentsPath(_changeNum, _patchNum)]]"
-        on-response="_handleRightCommentsResponse"></gr-ajax>
-    <!-- TODO(andybons): This is populated in gr-change-view. Use that instead
-         of incurring an extra ajax call. -->
     <gr-ajax id="filesXHR"
-        url="[[_computeFilesPath(_changeNum, _patchNum)]]"
+        auto
+        url="[[_computeFilesPath(_changeNum, _patchRange.patchNum)]]"
         on-response="_handleFilesResponse"></gr-ajax>
-    <gr-ajax id="leftDraftsXHR"
-        url="[[_computeDraftsPath(_changeNum, _basePatchNum)]]"
-        on-response="_handleLeftDraftsResponse"></gr-ajax>
-    <gr-ajax id="rightDraftsXHR"
-        url="[[_computeDraftsPath(_changeNum, _patchNum)]]"
-        on-response="_handleRightDraftsResponse"></gr-ajax>
-
     <h3>
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
       <span>[[_change.subject]]</span> — <span>[[params.path]]</span>
     </h3>
-    <table class="mainContainer">
-      <tr class="diffContainer" id="diffContainer">
-        <td class="diffNumbers left" id="leftDiffNumbers"></td>
-        <td class="diffContent left" id="leftDiffContent"></td>
-        <td class="diffNumbers right" id="rightDiffNumbers"></td>
-        <td class="diffContent right" id="rightDiffContent"></td>
-      </tr>
-    </table>
+    <gr-diff id="diff"
+        change-num="[[_changeNum]]"
+        patch-range="[[_patchRange]]"
+        path="[[_path]]"
+        on-render="_handleDiffRender">
+    </gr-diff>
   </template>
   <script>
   (function() {
@@ -172,12 +82,7 @@ limitations under the License.
           type: Object,
           observer: '_paramsChanged',
         },
-        rulerWidth: {
-          type: Number,
-          value: 80,
-          observer: '_rulerWidthChanged',
-        },
-        _basePatchNum: String,
+        _patchRange: Object,
         _change: Object,
         _changeNum: String,
         _diff: Object,
@@ -185,220 +90,11 @@ limitations under the License.
           type: Array,
           value: function() { return []; },
         },
-        _leftComments: {
-          type: Array,
-          value: function() { return []; },
-        },
-        _leftDrafts: {
-          type: Array,
-          value: function() { return []; },
-        },
-        _patchNum: String,
         _path: String,
-        _rendered: Boolean,
-        _rightComments: {
-          type: Array,
-          value: function() { return []; },
-        },
-        _rightDrafts: {
-          type: Array,
-          value: function() { return []; },
-        },
-      },
-
-      listeners: {
-        'diffContainer.tap': '_diffContainerTapHandler',
       },
 
       keyBindings: {
         '[ ] u': '_handleKey',
-      },
-
-      _paramsChanged: function(value) {
-        this._changeNum = value.changeNum;
-        this._patchNum = value.patchNum;
-        this._basePatchNum = value.basePatchNum;
-        this._path = value.path;
-        if (!this._patchNum) {
-          this._change = null;
-          this._basePatchNum = null;
-          this._patchNum = null;
-          this._diff = null;
-          this._path = null;
-          this._leftComments = [];
-          this._rightComments = [];
-          this._leftDrafts = [];
-          this._rightDrafts = [];
-          this._rendered = false;
-          return;
-        }
-        // Assign the params here since a computed binding relying on
-        // `_basePatchNum` won't fire in the case where it's not defined.
-        this.$.diffXHR.params = this._diffQueryParams(this._basePatchNum);
-
-        var requestPromises = [];
-        requestPromises.push(this.$.diffXHR.generateRequest().completes);
-
-        if (this._basePatchNum) {
-          requestPromises.push(
-              this.$.leftCommentsXHR.generateRequest().completes);
-        }
-
-        requestPromises.push(
-            this.$.rightCommentsXHR.generateRequest().completes);
-        requestPromises.push(this.$.filesXHR.generateRequest().completes);
-
-        app.accountReady.then(function() {
-          if (app.loggedIn) {
-            if (this._basePatchNum) {
-              requestPromises.push(
-                  this.$.leftDraftsXHR.generateRequest().completes);
-            }
-            requestPromises.push(
-                this.$.rightDraftsXHR.generateRequest().completes);
-          }
-
-          Promise.all(requestPromises).then(function(requests) {
-            this._renderDiff(this._diff, this._leftComments,
-                this._rightComments, this._leftDrafts, this._rightDrafts);
-          }.bind(this), function(err) {
-            alert('Oops. Something went wrong. Check the console and bug the ' +
-                'PolyGerrit team for assistance.');
-            throw err;
-          });
-        }.bind(this));
-      },
-
-      _rulerWidthChanged: function(newValue, oldValue) {
-        if (newValue < 0) {
-          throw Error('ruler width must be greater than zero.');
-        }
-        if (oldValue == 0) {
-          this._renderRulerElements();
-        }
-        var remove = newValue == 0;
-        var rulerEls = Polymer.dom(this.root).querySelectorAll('.ruler');
-        for (var i = 0; i < rulerEls.length; i++) {
-          if (remove) {
-            rulerEls[i].parentNode.removeChild(rulerEls[i]);
-          } else {
-            rulerEls[i].style.left = newValue + 'ch';
-          }
-        }
-      },
-
-      _computeChangePath: function(changeNum) {
-        return '/c/' + changeNum;
-      },
-
-      _computeChangeDetailPath: function(changeNum) {
-        return '/changes/' + changeNum + '/detail';
-      },
-
-      _computeChangeDetailQueryParams: function() {
-        var options = Changes.listChangesOptionsToHex(
-            Changes.ListChangesOption.ALL_REVISIONS
-        );
-        return { O: options };
-      },
-
-      _computeDiffPath: function(changeNum, patchNum, path) {
-        return '/changes/' + changeNum + '/revisions/' + patchNum + '/files/' +
-            encodeURIComponent(path) + '/diff';
-      },
-
-      _computeCommentsPath: function(changeNum, patchNum) {
-        return '/changes/' + changeNum + '/revisions/' + patchNum + '/comments';
-      },
-
-      _computeFilesPath: function(changeNum, patchNum) {
-        return '/changes/' + changeNum + '/revisions/' + patchNum + '/files';
-      },
-
-      _computeDraftsPath: function(changeNum, patchNum) {
-        return '/changes/' + changeNum + '/revisions/' + patchNum + '/drafts';
-      },
-
-      _diffQueryParams: function(basePatchNum) {
-        var params =  {
-          context: 'ALL',
-          intraline: null
-        };
-        if (!!basePatchNum) {
-          params.base = basePatchNum;
-        }
-        return params;
-      },
-
-      _diffContainerTapHandler: function(e) {
-        var el = e.detail.sourceEvent.target;
-        // This tap handler only handles line number taps.
-        if (!el.classList.contains('lineNum')) { return; }
-
-        var leftSide = el.parentNode == this.$.leftDiffNumbers;
-        var rightSide = el.parentNode == this.$.rightDiffNumbers;
-        if (leftSide == rightSide) {
-          throw Error('Comment tap event cannot originate from both left and ' +
-              'right side');
-        }
-
-        // If a draft or comment is already present at that line, don’t do
-        // anything.
-        var lineNum = el.getAttribute('data-line-num');
-        var patchNum = el.getAttribute('data-patch-num');
-
-        var existingEl = this.$$('gr-diff-comment-thread' +
-            '[data-patch-num="' + patchNum + '"]' +
-            '[data-line-num="' + lineNum + '"]');
-        if (existingEl) {
-          // A comment or draft is already present at this line.
-          return;
-        }
-
-        var tempDraftID = Math.floor(Math.random() * Math.pow(10, 10)) + '';
-        var drafts = [{
-          __draft: true,
-          __draftID: tempDraftID,
-          path: this._path,
-          line: lineNum,
-        }];
-
-        // If the comment is on the left side of a side-by-side diff with the
-        // parent on the left and a patch with patchNum on the right, the patch
-        // number passed to the backend is the right side patchNum when mutating
-        // a draft. The property `side` is used to determine that it should be
-        // on the parent patch, which is inconsistent and why this looks weird.
-        var patchNum = this._patchNum;
-        if (leftSide && this._basePatchNum == null) {
-          drafts[0].side = 'PARENT';
-          patchNum = 'PARENT';
-        }
-
-        this._addThread(drafts, patchNum, lineNum);
-      },
-
-      _handleLeftCommentsResponse: function(e, req) {
-        this._leftComments = e.detail.response[this._path] || [];
-      },
-
-      _handleRightCommentsResponse: function(e, req) {
-        this._rightComments = e.detail.response[this._path] || [];
-      },
-
-      _handleLeftDraftsResponse: function(e, req) {
-        this._leftDrafts = e.detail.response[this._path] || [];
-      },
-
-      _handleRightDraftsResponse: function(e, req) {
-        this._rightDrafts = e.detail.response[this._path] || [];
-      },
-
-      _handleFilesResponse: function(e, req) {
-        this._fileList = Object.keys(e.detail.response).sort();
-      },
-
-      _handleDiffResponse: function(e, req) {
-        this._diff = e.detail.response;
       },
 
       _handleKey: function(e) {
@@ -419,6 +115,13 @@ limitations under the License.
         }
       },
 
+      _handleDiffRender: function() {
+        if (window.location.hash.length > 0) {
+          this.$.diff.scrollToLine(
+              parseInt(window.location.hash.substring(1), 10));
+        }
+      },
+
       _navToFile: function(fileList, direction) {
         if (fileList.length == 0) { return; }
 
@@ -427,328 +130,51 @@ limitations under the License.
           page.show(this._computeChangePath(this._changeNum));
           return;
         }
-        page.show(
-            this._diffURL(this._changeNum, this._patchNum, fileList[idx]));
+        page.show(this._diffURL(this._changeNum,
+                                this._patchRange.patchNum,
+                                fileList[idx]));
       },
 
       _diffURL: function(changeNum, patchNum, path) {
         return '/c/' + changeNum + '/' + patchNum + '/' + path;
       },
 
-      _threadID: function(patchNum, lineNum) {
-        return 'thread-' + patchNum + '-' + lineNum;
-      },
-
-      _renderCommentsAndDrafts: function(comments, drafts, patchNum) {
-        // Drafts and comments are combined here, with drafts annotated with a
-        // property.
-        var annotatedDrafts = drafts.map(function(d) {
-          d.__draft = true;
-          return d;
-        });
-        comments = comments.concat(annotatedDrafts);
-
-        // Group the comments and drafts by line number. Absence of a line
-        // number indicates a top-level file comment or draft.
-        var threads = {};
-
-        for (var i = 0; i < comments.length; i++) {
-          var line = comments[i].line || 'FILE';
-          if (threads[line] == null) {
-            threads[line] = []
-          }
-          threads[line].push(comments[i]);
-        }
-        for (var lineNum in threads) {
-          this._addThread(threads[lineNum], patchNum, lineNum);
-        }
-      },
-
-      _addThread: function(comments, patchNum, lineNum) {
-        var el = document.createElement('gr-diff-comment-thread');
-        el.comments = comments;
-        el.changeNum = this._changeNum;
-        // Assign the element's patchNum to the right side patchNum if the
-        // passed patchNum is 'PARENT' due to the odd behavior of the REST API.
-        // Don't overwrite patchNum since 'PARENT' is used for other properties.
-        el.patchNum = patchNum == 'PARENT' ? this._patchNum : patchNum;
-
-        var threadID = this._threadID(patchNum, lineNum);
-        el.setAttribute('data-thread-id', threadID);
-        el.setAttribute('data-line-num', lineNum);
-        el.setAttribute('data-patch-num', patchNum);
-
-        // Find the element that the thread should be appended after. In the
-        // case of a file comment, it will be appended after the first line.
-        // TODO: Show file comment above the file itself.
-        var fileComment = lineNum == 'FILE';
-        if (fileComment) {
-          lineNum = 1;
-        }
-        var contentEl = this.$$('.content' +
-            '[data-patch-num="' + patchNum + '"]' +
-            '[data-line-num="' + lineNum + '"]');
-        var rowNum = contentEl.getAttribute('data-row-num');
-        el.addEventListener('gr-diff-comment-thread-height-changed',
-            this._handleCommentThreadHeightChange.bind(this, rowNum, threadID));
-        Polymer.dom(contentEl.parentNode).insertBefore(
-            el, contentEl.nextSibling);
-      },
-
-      _handleCommentThreadHeightChange: function(rowNum, threadID, e) {
-        // Adjust the filler element heights if they're present in the DOM.
-        var els = Polymer.dom(this.root).querySelectorAll(
-            '.js-threadFiller[data-thread-id="' + threadID + '"]');
-        if (els.length > 0) {
-          for (var i = 0; i < els.length; i++) {
-            els[i].style.height = e.detail.height + 'px';
-          }
-          return;
-        }
-
-        // Create the filler elements if they're not already present.
-        var els = Polymer.dom(this.root).querySelectorAll(
-            '[data-row-num="' + rowNum + '"]');
-        for (var i = 0; i < els.length; i++) {
-          // Is this is the column with the comment? Skip if so.
-          if (els[i].nextSibling &&
-              els[i].nextSibling.tagName == 'GR-DIFF-COMMENT-THREAD') {
-            continue;
-          }
-          var fillerEl = document.createElement('div');
-          fillerEl.setAttribute('data-thread-id', threadID);
-          fillerEl.classList.add('js-threadFiller');
-          if (els[i].classList.contains('lineNum')) {
-            fillerEl.classList.add('threadFiller--redLine');
-          }
-          fillerEl.style.height = e.detail.height + 'px';
-          Polymer.dom(els[i].parentNode).insertBefore(
-              fillerEl, els[i].nextSibling);
-        }
-      },
-
-      _clearChildren: function(el) {
-        while (el.firstChild) {
-          el.removeChild(el.firstChild);
-        }
-      },
-
-      _renderDiff: function(
-          diff, leftComments, rightComments, leftDrafts, rightDrafts) {
-        if (this._rendered) {
-          this._clearChildren(this.$.leftDiffNumbers);
-          this._clearChildren(this.$.leftDiffContent);
-          this._clearChildren(this.$.rightDiffNumbers);
-          this._clearChildren(this.$.rightDiffContent);
-        }
-
-        this.$.diffContainer.classList.toggle('rightOnly',
-            diff.change_type == Changes.DiffType.ADDED);
-        this.$.diffContainer.classList.toggle('leftOnly',
-            diff.change_type == Changes.DiffType.DELETED);
-
-        var initialLineNum = 0 + (diff.content.skip || 0);
-        var ctx = {
-          rowNum: 0,
-          left: {
-            lineNum: initialLineNum,
-            content: '',
-            cssClass: '',
-          },
-          right: {
-            lineNum: initialLineNum,
-            content: '',
-            cssClass: '',
-          }
+      _paramsChanged: function(value) {
+        this._changeNum = value.changeNum;
+        this._patchRange = {
+          patchNum: value.patchNum,
+          basePatchNum: value.basePatchNum || 'PARENT',
         };
-        for (var i = 0; i < diff.content.length; i++) {
-          this._addDiffChunk(ctx, diff.content[i]);
-        }
+        this._path = value.path;
 
-        if (leftComments) {
-          this._renderCommentsAndDrafts(leftComments, leftDrafts,
-              this._basePatchNum);
-        }
-        if (rightComments) {
-          this._renderCommentsAndDrafts(rightComments, rightDrafts,
-              this._patchNum);
-        }
-
-        if (this.rulerWidth) {
-          this._renderRulerElements();
-        }
-
-        if (window.location.hash.length > 0) {
-          // Allow for the initial rendering to complete before scrolling to the
-          // appropriate line.
-          this.async(function() {
-            this._jumpToLine(parseInt(window.location.hash.substring(1), 10));
-          }.bind(this), 1);
-        }
-
-        this._rendered = true;
-      },
-
-      _jumpToLine: function(lineNum) {
-        if (isNaN(lineNum) || lineNum < 1) { return; }
-
-        var el = this.$$(
-            '.diffNumbers.right .lineNum[data-line-num="' + lineNum + '"]');
-        if (!el) { return; }
-
-        // Calculate where the line is relative to the window.
-        var top = el.offsetTop;
-        for (var offsetParent = el.offsetParent;
-             offsetParent;
-             offsetParent = offsetParent.offsetParent) {
-          top += offsetParent.offsetTop;
-        }
-
-        // Scroll the element to the middle of the window. Dividing by a third
-        // instead of half the inner height feels a bit better otherwise the
-        // element appears to be below the center of the window even when it
-        // isn't.
-        window.scrollTo(0, top - (window.innerHeight / 3) - el.offsetHeight);
-      },
-
-      _addDiffChunk: function(ctx, diffChunk) {
-        // Simplest case where both sides have the same content.
-        if (diffChunk.ab) {
-          for (var i = 0; i < diffChunk.ab.length; i++) {
-            ctx.left.lineNum++;
-            ctx.right.lineNum++;
-            ctx.left.content = ctx.right.content = diffChunk.ab[i];
-            ctx.left.cssClass = ctx.right.cssClass = null;
-            this._addRow(ctx);
-          }
+        // When navigating away from the page, there is a possibility that the
+        // patch number is no longer a part of the URL (say when navigating to
+        // the top-level change info view) and therefore undefined in `params`.
+        if (!this._patchRange.patchNum) {
           return;
         }
-
-        if (diffChunk.a) {
-          ctx.left.cssClass = 'lightRed';
-        } else {
-          delete(ctx.left.cssClass);
-        }
-        if (diffChunk.b) {
-          ctx.right.cssClass = 'lightGreen';
-        } else {
-          delete(ctx.right.cssClass);
-        }
-
-        var aLen = (diffChunk.a && diffChunk.a.length) || 0;
-        var bLen = (diffChunk.b && diffChunk.b.length) || 0;
-        var maxLen = Math.max(aLen, bLen);
-        for (var i = 0; i < maxLen; i++) {
-          if (diffChunk.a && i < diffChunk.a.length) {
-            ctx.left.lineNum++;
-            ctx.left.content = diffChunk.a[i];
-          } else {
-            delete(ctx.left.content);
-          }
-          if (diffChunk.b && i < diffChunk.b.length) {
-            ctx.right.lineNum++;
-            ctx.right.content = diffChunk.b[i];
-          } else {
-            delete(ctx.right.content);
-          }
-          this._addRow(ctx);
-        }
       },
 
-      _addRow: function(ctx) {
-        var leftLineNumEl = this._createElement('div', 'lineNum');
-        var leftColEl = this._createElement('div', 'content');
-        var rightLineNumEl = this._createElement('div', 'lineNum');
-        var rightColEl = this._createElement('div', 'content');
-
-        [leftColEl,
-         rightColEl,
-         leftLineNumEl,
-         rightLineNumEl].forEach(function(el) {
-          el.setAttribute('data-row-num', ctx.rowNum);
-        });
-
-        [leftLineNumEl, leftColEl].forEach(function(el) {
-          el.setAttribute('data-patch-num', this._basePatchNum || 'PARENT');
-        }.bind(this));
-
-        [rightLineNumEl, rightColEl].forEach(function(el) {
-          el.setAttribute('data-patch-num', this._patchNum);
-        }.bind(this));
-
-        if (ctx.left.content != null) {
-          leftLineNumEl.textContent = ctx.left.lineNum;
-          [leftLineNumEl, leftColEl].forEach(function(el) {
-            el.setAttribute('data-line-num', ctx.left.lineNum);
-          });
-        } else {
-          leftLineNumEl.classList.add('blank');
-        }
-        if (ctx.right.content != null) {
-          rightLineNumEl.textContent = ctx.right.lineNum;
-          [rightLineNumEl, rightColEl].forEach(function(el) {
-            el.setAttribute('data-line-num', ctx.right.lineNum);
-          });
-        } else {
-          rightLineNumEl.classList.add('blank');
-        }
-
-        // Content must be defined to prevent the HTML from showing 'undefined'.
-        // Additionally, a newline is used place of an empty string to ensure
-        // copy/paste works correctly.
-        ctx.left.content = ctx.left.content || '\n';
-        ctx.right.content = ctx.right.content || '\n';
-
-        if (!!ctx.left.cssClass) {
-          leftColEl.classList.add(ctx.left.cssClass);
-        }
-        if (!!ctx.right.cssClass) {
-          rightColEl.classList.add(ctx.right.cssClass);
-        }
-
-        var leftHTML = util.escapeHTML(ctx.left.content);
-        var rightHTML = util.escapeHTML(ctx.right.content);
-
-        // If the html is equivalent to the text then it didn't get highlighted
-        // or escaped. Use textContent which is faster than innerHTML.
-        if (ctx.left.content == leftHTML) {
-          leftColEl.textContent = ctx.left.content;
-        } else {
-          leftColEl.innerHTML = leftHTML;
-        }
-        if (ctx.right.content == rightHTML) {
-          rightColEl.textContent = ctx.right.content;
-        } else {
-          rightColEl.innerHTML = rightHTML;
-        }
-
-        this.$.leftDiffNumbers.appendChild(leftLineNumEl);
-        this.$.leftDiffContent.appendChild(leftColEl);
-        this.$.rightDiffNumbers.appendChild(rightLineNumEl);
-        this.$.rightDiffContent.appendChild(rightColEl);
-
-        ctx.rowNum++;
+      _computeChangePath: function(changeNum) {
+        return '/c/' + changeNum;
       },
 
-      _renderRulerElements: function() {
-        var contentEls = Polymer.dom(this.root).querySelectorAll('.content');
-        for (var i = 0; i < contentEls.length; i++) {
-          var rulerEl = this._createElement('i', 'ruler');
-          rulerEl.style.left = this.rulerWidth + 'ch';
-          contentEls[i].appendChild(rulerEl);
-        }
+      _computeChangeDetailPath: function(changeNum) {
+        return '/changes/' + changeNum + '/detail';
       },
 
-      _createElement: function(tagName, className) {
-        var el = document.createElement(tagName);
-        // When Shady DOM is being used, these classes are added to account for
-        // Polymer's polyfill behavior. In order to guarantee sufficient
-        // specificity within the CSS rules, these are added to every element.
-        // Since the Polymer DOM utility functions (which would do this
-        // automatically) are not being used for performance reasons, this is
-        // done manually.
-        el.className = 'style-scope gr-diff-view ' + className;
-        return el;
+      _computeChangeDetailQueryParams: function() {
+        return { O: Changes.listChangesOptionsToHex(
+            Changes.ListChangesOption.ALL_REVISIONS
+        )};
+      },
+
+      _computeFilesPath: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/files';
+      },
+
+      _handleFilesResponse: function(e, req) {
+        this._fileList = Object.keys(e.detail.response).sort();
       },
     });
   })();

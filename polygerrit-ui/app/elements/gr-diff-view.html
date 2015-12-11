@@ -112,21 +112,19 @@ limitations under the License.
         url="[[_computeChangeDetailPath(_changeNum)]]"
         params="[[_computeChangeDetailQueryParams()]]"
         last-response="{{_change}}"></gr-ajax>
+    <gr-ajax id="filesXHR"
+        url="[[_computeFilesPath(_changeNum, _patchNum)]]"
+        on-response="_handleFilesResponse"></gr-ajax>
+
     <gr-ajax id="diffXHR"
         url="[[_computeDiffPath(_changeNum, _patchNum, _path)]]"
         on-response="_handleDiffResponse"></gr-ajax>
     <gr-ajax id="leftCommentsXHR"
         url="[[_computeCommentsPath(_changeNum, _basePatchNum)]]"
-        json-prefix=")]}'"
         on-response="_handleLeftCommentsResponse"></gr-ajax>
     <gr-ajax id="rightCommentsXHR"
         url="[[_computeCommentsPath(_changeNum, _patchNum)]]"
         on-response="_handleRightCommentsResponse"></gr-ajax>
-    <!-- TODO(andybons): This is populated in gr-change-view. Use that instead
-         of incurring an extra ajax call. -->
-    <gr-ajax id="filesXHR"
-        url="[[_computeFilesPath(_changeNum, _patchNum)]]"
-        on-response="_handleFilesResponse"></gr-ajax>
     <gr-ajax id="leftDraftsXHR"
         url="[[_computeDraftsPath(_changeNum, _basePatchNum)]]"
         on-response="_handleLeftDraftsResponse"></gr-ajax>

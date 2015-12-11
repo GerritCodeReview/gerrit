@@ -1,0 +1,182 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-diff.html">
+
+<dom-module id="gr-diff-view-new">
+  <template>
+    <style>
+      :host {
+        background-color: var(--view-background-color);
+        display: block;
+      }
+      h3 {
+        margin-top: 1em;
+        padding: .75em var(--default-horizontal-margin);
+      }
+      .mainContainer {
+        border-bottom: 1px solid #eee;
+        border-collapse: collapse;
+        border-top: 1px solid #eee;
+        width: 100%;
+      }
+    </style>
+    <gr-ajax id="changeDetailXHR"
+        auto
+        url="[[_computeChangeDetailPath(_changeNum)]]"
+        params="[[_computeChangeDetailQueryParams()]]"
+        last-response="{{_change}}"></gr-ajax>
+    <gr-ajax id="filesXHR"
+        auto
+        url="[[_computeFilesPath(_changeNum, _patchRange.patchNum)]]"
+        on-response="_handleFilesResponse"></gr-ajax>
+    <h3>
+      <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
+      <span>[[_change.subject]]</span> — <span>[[params.path]]</span>
+    </h3>
+    <gr-diff id="diff"
+        change-num="[[_changeNum]]"
+        patch-range="[[_patchRange]]"
+        path="[[_path]]"
+        on-render="_handleDiffRender">
+    </gr-diff>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-diff-view-new',
+
+      behaviors: [
+        Polymer.IronA11yKeysBehavior
+      ],
+
+      properties: {
+        keyEventTarget: {
+          type: Object,
+          value: function() {
+            return document.body;
+          },
+        },
+        /**
+         * URL params passed from the router.
+         */
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
+        _patchRange: Object,
+        _change: Object,
+        _changeNum: String,
+        _diff: Object,
+        _fileList: {
+          type: Array,
+          value: function() { return []; },
+        },
+        _path: String,
+      },
+
+      keyBindings: {
+        '[ ] u': '_handleKey',
+      },
+
+      _handleKey: function(e) {
+        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+
+        switch(e.detail.combo) {
+          case '[':
+            this._navToFile(this._fileList, -1);
+            break;
+          case ']':
+            this._navToFile(this._fileList, 1);
+            break;
+          case 'u':
+            if (this._changeNum) {
+              page.show(this._computeChangePath(this._changeNum));
+            }
+            break;
+        }
+      },
+
+      _handleDiffRender: function() {
+        if (window.location.hash.length > 0) {
+          this.$.diff.scrollToLine(
+              parseInt(window.location.hash.substring(1), 10));
+        }
+      },
+
+      _navToFile: function(fileList, direction) {
+        if (fileList.length == 0) { return; }
+
+        var idx = fileList.indexOf(this._path) + direction;
+        if (idx < 0 || idx > fileList.length - 1) {
+          page.show(this._computeChangePath(this._changeNum));
+          return;
+        }
+        page.show(this._diffURL(this._changeNum,
+                                this._patchRange.patchNum,
+                                fileList[idx]));
+      },
+
+      _diffURL: function(changeNum, patchNum, path) {
+        return '/c/' + changeNum + '/' + patchNum + '/' + path;
+      },
+
+      _paramsChanged: function(value) {
+        this._changeNum = value.changeNum;
+        this._patchRange = {
+          patchNum: value.patchNum,
+          basePatchNum: value.basePatchNum || 'PARENT',
+        };
+        this._path = value.path;
+
+        // When navigating away from the page, there is a possibility that the
+        // patch number is no longer a part of the URL (say when navigating to
+        // the top-level change info view) and therefore undefined in `params`.
+        if (!this._patchRange.patchNum) {
+          return;
+        }
+      },
+
+      _computeChangePath: function(changeNum) {
+        return '/c/' + changeNum;
+      },
+
+      _computeChangeDetailPath: function(changeNum) {
+        return '/changes/' + changeNum + '/detail';
+      },
+
+      _computeChangeDetailQueryParams: function() {
+        return { O: Changes.listChangesOptionsToHex(
+            Changes.ListChangesOption.ALL_REVISIONS
+        )};
+      },
+
+      _computeFilesPath: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/files';
+      },
+
+      _handleFilesResponse: function(e, req) {
+        this._fileList = Object.keys(e.detail.response).sort();
+      },
+    });
+  })();
+  </script>
+</dom-module>

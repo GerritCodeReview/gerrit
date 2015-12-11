@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="gr-change-view.html">
 <link rel="import" href="gr-dashboard-view.html">
 <link rel="import" href="gr-diff-view.html">
+<link rel="import" href="gr-diff-view-new.html">
 <link rel="import" href="gr-search-bar.html">
 
 <script src="../bower_components/page/page.js"></script>
@@ -107,7 +108,7 @@ limitations under the License.
         <gr-change-view params="[[params]]"></gr-change-view>
       </template>
       <template is="dom-if" if="{{_showDiffView}}" restamp="true">
-        <gr-diff-view params="[[params]]"></gr-diff-view>
+        <gr-diff-view-new params="[[params]]"></gr-diff-view-new>
       </template>
     </main>
     <footer role="contentinfo">Powered by PolyGerrit</footer>
@@ -161,7 +162,7 @@ limitations under the License.
       },
 
       get loggedIn() {
-        return this.account && Object.keys(this.account).length > 0;
+        return !!(this.account && Object.keys(this.account).length > 0);
       },
 
       _accountChanged: function() {

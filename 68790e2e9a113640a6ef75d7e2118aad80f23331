@@ -34,6 +34,24 @@
       "revId": "68790e2e9a113640a6ef75d7e2118aad80f23331",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "052f928d_8b01cd4b",
+        "filename": "tools/maven/repository.defs",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-11T06:40:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8591c20f_bfe877d1",
+      "revId": "68790e2e9a113640a6ef75d7e2118aad80f23331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

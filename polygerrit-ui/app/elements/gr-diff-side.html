@@ -1,0 +1,317 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="gr-diff-side">
+  <template>
+    <style>
+      :host,
+      .container {
+        display: flex;
+      }
+      .content {
+        width: 80ch;
+      }
+      .lineNum:before,
+      .code:before {
+        /* To ensure the height is non-zero in these elements, a
+           zero-width space is set as its content. The character
+           itself doesn't matter. Just that there is something
+           there. */
+        content: '\200B';
+      }
+      .lineNum {
+        background-color: #eee;
+        color: #666;
+        padding: 0 .75em;
+        text-align: right;
+      }
+      .canComment .lineNum {
+        cursor: pointer;
+      }
+      .canComment .lineNum:hover {
+        background-color: #ccc;
+      }
+      .code {
+        white-space: pre;
+      }
+      .lightHighlight {
+        background-color: var(--light-highlight-color);
+      }
+      hl,
+      .darkHighlight {
+        background-color: var(--dark-highlight-color);
+      }
+      .br:after {
+        /* Line feed */
+        content: '\A';
+      }
+      .filler {
+        background: #eee;
+      }
+    </style>
+    <div class$="[[_computeContainerClass(canComment)]]">
+      <div class="numbers" id="numbers"></div>
+      <div class="content" id="content"></div>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    var CharCode = {
+      LESS_THAN: '<'.charCodeAt(0),
+      GREATER_THAN: '>'.charCodeAt(0),
+      AMPERSAND: '&'.charCodeAt(0),
+      SEMICOLON: ';'.charCodeAt(0),
+    };
+
+    Polymer({
+      is: 'gr-diff-side',
+
+      properties: {
+        canComment: {
+          type: Boolean,
+          value: false,
+        },
+        content: {
+          type: Array,
+          notify: true,
+          observer: '_render',
+        },
+        width: {
+          type: Number,
+          observer: '_widthChanged',
+        },
+
+        _lineFeedHTML: {
+          type: String,
+          value: '<span class="style-scope gr-diff-side br"></span>',
+          readOnly: true,
+        },
+        _highlightStartTag: {
+          type: String,
+          value: '<hl class="style-scope gr-diff-side">',
+          readOnly: true,
+        },
+        _highlightEndTag: {
+          type: String,
+          value: '</hl>',
+          readOnly: true,
+        },
+      },
+
+      scrollToLine: function(lineNum) {
+        if (isNaN(lineNum) || lineNum < 1) { return; }
+
+        var el = this.$$('.numbers .lineNum[data-line-num="' + lineNum + '"]');
+        if (!el) { return; }
+
+        // Calculate where the line is relative to the window.
+        var top = el.offsetTop;
+        for (var offsetParent = el.offsetParent;
+             offsetParent;
+             offsetParent = offsetParent.offsetParent) {
+          top += offsetParent.offsetTop;
+        }
+
+        // Scroll the element to the middle of the window. Dividing by a third
+        // instead of half the inner height feels a bit better otherwise the
+        // element appears to be below the center of the window even when it
+        // isn't.
+        window.scrollTo(0, top - (window.innerHeight / 3) - el.offsetHeight);
+      },
+
+      _widthChanged: function(width) {
+        this.$.content.style.width = width + 'ch';
+      },
+
+      _computeContainerClass: function(canComment) {
+        return 'container' + (canComment ? ' canComment' : '');
+      },
+
+      _clearChildren: function(el) {
+        while (el.firstChild) {
+          el.removeChild(el.firstChild);
+        }
+      },
+
+      _render: function(diff) {
+        this._clearChildren(this.$.numbers);
+        this._clearChildren(this.$.content);
+        for (var i = 0; i < diff.length; i++) {
+          switch (diff[i].type) {
+            case 'CODE':
+              this._renderCode(diff[i]);
+              break;
+            case 'FILLER':
+              this._renderFiller(diff[i]);
+              break;
+          }
+        }
+      },
+
+      _renderFiller: function(filler) {
+        var lineFillerEl = this._createElement('div', 'filler');
+        var fillerEl = this._createElement('div', 'filler');
+        var numLines = filler.numLines || 1;
+
+        lineFillerEl.textContent = '\n'.repeat(numLines);
+        for (var i = 0; i < numLines; i++) {
+          var newlineEl = this._createElement('span', 'br');
+          fillerEl.appendChild(newlineEl);
+        }
+        this.$.numbers.appendChild(lineFillerEl);
+        this.$.content.appendChild(fillerEl);
+      },
+
+      _renderCode: function(code) {
+        var lineNumEl = this._createElement('div', 'lineNum');
+        lineNumEl.setAttribute('data-line-num', code.lineNum);
+        var numLines = code.numLines || 1;
+        lineNumEl.textContent = code.lineNum + '\n'.repeat(numLines);
+
+        var contentEl = this._createElement('div', 'code');
+        contentEl.setAttribute('data-line-num', code.lineNum);
+
+        if (code.highlight) {
+          contentEl.classList.add(code.intraline.length > 0 ?
+              'lightHighlight' : 'darkHighlight');
+        }
+
+        var html = util.escapeHTML(code.content);
+        if (code.highlight && code.intraline.length > 0) {
+          html = this._addIntralineHighlights(code.content, html,
+              code.intraline);
+        }
+        if (numLines > 1) {
+          html = this._addNewLines(code.content, html, numLines);
+        }
+
+        // If the html is equivalent to the text then it didn't get highlighted
+        // or escaped. Use textContent which is faster than innerHTML.
+        if (code.content == html) {
+          contentEl.textContent = code.content;
+        } else {
+          contentEl.innerHTML = html;
+        }
+
+        this.$.numbers.appendChild(lineNumEl);
+        this.$.content.appendChild(contentEl);
+      },
+
+      // Advance `index` by the appropriate number of characters that would
+      // represent one source code character and return that index. For
+      // example, for source code '<span>' the escaped html string is
+      // '&lt;span&gt;'. Advancing from index 0 on the prior html string would
+      // return 4, since &lt; maps to one source code character ('<').
+      _advanceChar: function(html, index) {
+        // Any tags don't count as characters
+        while (index < html.length &&
+               html.charCodeAt(index) == CharCode.LESS_THAN) {
+          while (index < html.length &&
+                 html.charCodeAt(index) != CharCode.GREATER_THAN) {
+            index++;
+          }
+          index++;  // skip the ">" itself
+        }
+        // An HTML entity (e.g., &lt;) counts as one character.
+        if (index < html.length &&
+            html.charCodeAt(index) == CharCode.AMPERSAND) {
+          while (index < html.length &&
+                 html.charCodeAt(index) != CharCode.SEMICOLON) {
+            index++;
+          }
+        }
+        return index + 1;
+      },
+
+      _addIntralineHighlights: function(content, html, highlights) {
+        var startTag = this._highlightStartTag;
+        var endTag = this._highlightEndTag;
+
+        for (var i = 0; i < highlights.length; i++) {
+          var hl = highlights[i];
+
+          var htmlStartIndex = 0;
+          for (var j = 0; j < hl.startIndex; j++) {
+            htmlStartIndex = this._advanceChar(html, htmlStartIndex);
+          }
+
+          var htmlEndIndex = 0;
+          if (hl.endIndex != null) {
+            for (var j = 0; j < hl.endIndex; j++) {
+              htmlEndIndex = this._advanceChar(html, htmlEndIndex);
+            }
+          } else {
+            // If endIndex isn't present, continue to the end of the line.
+            htmlEndIndex = html.length;
+          }
+          // The start and end indices could be the same if a highlight is meant
+          // to start at the end of a line and continue onto the next one.
+          // Ignore it.
+          if (htmlStartIndex != htmlEndIndex) {
+            html = html.slice(0, htmlStartIndex) + startTag +
+                  html.slice(htmlStartIndex, htmlEndIndex) + endTag +
+                  html.slice(htmlEndIndex);
+          }
+        }
+        return html;
+      },
+
+      _addNewLines: function(content, html, numLines) {
+        var htmlIndex = 0;
+        var indices = [];
+        for (var i = 0; i < content.length; i++) {
+          if (i > 0 && i % this.width == 0) {
+            indices.push(htmlIndex);
+          }
+          htmlIndex = this._advanceChar(html, htmlIndex)
+        }
+        var result = html;
+        var linesLeft = numLines;
+        // Since the result string is being altered in place, start from the end
+        // of the string so that the insertion indices are not affected as the
+        // result string changes.
+        for (var i = indices.length - 1; i >= 0; i--) {
+          result = result.slice(0, indices[i]) + this._lineFeedHTML +
+              result.slice(indices[i]);
+          linesLeft--;
+        }
+        // numLines is the total number of lines this code block should take up.
+        // Fill in the remaining ones.
+        for (var i = 0; i < linesLeft; i++) {
+          result += this._lineFeedHTML;
+        }
+        return result;
+      },
+
+      _createElement: function(tagName, className) {
+        var el = document.createElement(tagName);
+        // When Shady DOM is being used, these classes are added to account for
+        // Polymer's polyfill behavior. In order to guarantee sufficient
+        // specificity within the CSS rules, these are added to every element.
+        // Since the Polymer DOM utility functions (which would do this
+        // automatically) are not being used for performance reasons, this is
+        // done manually.
+        el.classList.add('style-scope', 'gr-diff-side', className);
+        return el;
+      },
+    });
+  })();
+  </script>
+</dom-module>

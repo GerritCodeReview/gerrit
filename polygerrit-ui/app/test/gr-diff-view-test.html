@@ -22,6 +22,7 @@ limitations under the License.
 <script src="../../bower_components/web-component-tester/browser.js"></script>
 <script src="../../bower_components/page/page.js"></script>
 <script src="../scripts/changes.js"></script>
+<script src="../scripts/fake-app.js"></script>
 <script src="../scripts/util.js"></script>
 
 <link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
@@ -29,266 +30,26 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <gr-diff-view ruler-width="0"></gr-diff-view>
-  </template>
-</test-fixture>
-
-<test-fixture id="comments">
-  <template>
-    <gr-diff-view></gr-diff-view>
-  </template>
-</test-fixture>
-
-<test-fixture id="manylines">
-  <template>
     <gr-diff-view></gr-diff-view>
   </template>
 </test-fixture>
 
 <script>
-  // Original diff:
-  // Left side (side A):
-  // 1: if i < 5 { // "comments" &= \'fun\' && true
-  // 2:   println("i is less than five")
-  // 3: }
-  // 4:
-  // 5:
-  // 6: // Comment
-  // 7: foo
-  // 8: bar
-  // 9: Bad news: combustible lemons failed.
-  //
-  // Right side (side B):
-  // 1: if i < 5 { // "comments" &= \'fun\' && true
-  // 2:   println("i is less than five")
-  // 3: }
-  // 4:
-  // 5:
-  // 6: // Comment
-  // 7: baz
-  // 8: Bad news: combustible lemons failed.
-  //
-  var diffContent = [
-    {
-      ab: [
-        'if i < 5 { // "comments" &= \'fun\' && true',
-        '  println("i is less than five")',
-        '}',
-        '',
-        '',
-        '// Comment'
-      ]
-    },
-    {
-      a: [
-        'foo',
-        'bar'
-      ],
-      b: [
-        'baz',
-      ]
-    },
-    {
-      ab: [
-        'Bad news: combustible lemons failed.'
-      ]
-    }
-  ];
-
-  suite('<gr-diff-view>', function() {
+  suite('gr-diff-view tests', function() {
     var element;
 
     setup(function() {
       element = fixture('basic');
-      element._renderDiff({content: diffContent}, [], [], [], []);
-      flushAsynchronousOperations();
-    });
-
-    test('ab content is the same for left and right sides', function() {
-      for (var i = 0; i < diffContent[0].ab.length; i++) {
-        var leftEls = Polymer.dom(element.root).querySelectorAll(
-            '#leftDiffContent .content[data-line-num="' + (i + 1) + '"]');
-        assert.equal(leftEls.length, 1);
-        var rightEls = Polymer.dom(element.root).querySelectorAll(
-            '#rightDiffContent .content[data-line-num="' + (i + 1) + '"]');
-        assert.equal(rightEls.length, 1);
-        assert.equal(leftEls[0].textContent, rightEls[0].textContent);
-      }
-    });
-
-    test('all line number and content elements have same (non-zero) height',
-        function() {
-      var els = Polymer.dom(element.root).querySelectorAll('.lineNum, .content');
-      assert.isAbove(els.length, 0);
-      var offsetHeight = els.length > 0 && els[0].offsetHeight;
-      assert.isAbove(offsetHeight, 0);
-      for (var i = 0; i < els.length; i++) {
-        assert.equal(offsetHeight, els[i].offsetHeight);
-      }
-    });
-
-    test('content is properly escaped', function() {
-      var firstLineEls = Polymer.dom(element.root).querySelectorAll(
-        '#leftDiffContent .content[data-line-num="1"], ' +
-        '#rightDiffContent .content[data-line-num="1"]');
-      assert.equal(2, firstLineEls.length);
-      for (var i = 0; i < firstLineEls.length; i++) {
-        assert.equal(firstLineEls[i].innerHTML,
-            'if i &lt; 5 { // "comments" &amp;= \'fun\' &amp;&amp; true');
-      }
-    });
-
-    test('content and line numbers are correct for a/b edit', function() {
-      assert.equal(element.$$(
-          '#leftDiffContent .content[data-line-num="7"]').textContent, 'foo');
-      assert.equal(element.$$(
-          '#leftDiffContent .content[data-line-num="8"]').textContent, 'bar');
-      assert.equal(element.$$(
-          '#rightDiffContent .content[data-line-num="7"]').textContent, 'baz');
-      assert.equal(element.$$(
-          '#leftDiffContent .content[data-line-num="9"]').textContent,
-          element.$$(
-              '#rightDiffContent .content[data-line-num="8"]').textContent);
-    });
-
-    test('ruler width changes are applied correctly', function() {
-      assert.equal(element.rulerWidth, 0);
-      assert.equal(Polymer.dom(element.root).querySelectorAll('.ruler').length,
-          0);
-      element.rulerWidth = 80;
-      flushAsynchronousOperations();
-      var els = Polymer.dom(element.root).querySelectorAll('.ruler');
-      assert.isAbove(els.length, 0);
-      for (var i = 0; i < els.length; i++) {
-        assert.equal(els[i].style.left, '80ch');
-      }
-      element.rulerWidth = 0;
-      flushAsynchronousOperations();
-      assert.equal(Polymer.dom(element.root).querySelectorAll('.ruler').length,
-          0);
-      element.rulerWidth = 100;
-      flushAsynchronousOperations();
-      els = Polymer.dom(element.root).querySelectorAll('.ruler');
-      assert.isAbove(els.length, 0);
-      for (var i = 0; i < els.length; i++) {
-        assert.equal(els[i].style.left, '100ch');
-      }
-    });
-  });
-
-  suite('comments and drafts', function() {
-    var element;
-
-    setup(function(done) {
-      element = fixture('comments');
-      element._patchNum = 1;
-      element._renderDiff({content: diffContent}, [], [
-          {
-            id: 'file_comment',
-            message: 'this is a file comment about the meaninglessness of life',
-            author: {
-              name: 'GLaDOS'
-            }
-          },
-          {
-            id: 'all_the_lemons',
-            line: 8,
-            message: 'MAKE LIFE TAKE THE LEMONS BACK',
-            author: {
-              name: 'Cave Johnson',
-            }
-          }
-      ], [], []);
-
-      // On WebKit and Gecko, flushAsynchronousOperations isn't enough to allow
-      // the thread filler elements to properly render. Spin the runloop.
-      element.async(function() {
-        done();
-      }, 1);
-    });
-
-    test('comment threads are rendered correctly', function() {
-      var threadEls = Polymer.dom(element.root).querySelectorAll(
-          'gr-diff-comment-thread[data-thread-id="thread-1-8"]');
-      assert.equal(threadEls.length, 1);
-      var fillerEls = Polymer.dom(element.root).querySelectorAll(
-          '.js-threadFiller[data-thread-id="thread-1-8"]');
-      assert.equal(fillerEls.length, 3);
-
-      threadEls = Polymer.dom(element.root).querySelectorAll(
-          'gr-diff-comment-thread[data-thread-id="thread-1-FILE"]');
-      assert.equal(threadEls.length, 1);
-      fillerEls = Polymer.dom(element.root).querySelectorAll(
-          '.js-threadFiller[data-thread-id="thread-1-FILE"]');
-      assert.equal(fillerEls.length, 3);
-    });
-
-    test('tapping a line with an existing thread', function() {
-      var threadEls = Polymer.dom(element.root).querySelectorAll(
-          'gr-diff-comment-thread[data-line-num="8"][data-patch-num="1"]');
-      assert.equal(threadEls.length, 1);
-      var lineEl = element.$$(
-          '.lineNum[data-line-num="8"][data-patch-num="1"]');
-      assert.ok(lineEl);
-      MockInteractions.tap(lineEl);
-      threadEls = Polymer.dom(element.root).querySelectorAll(
-          'gr-diff-comment-thread[data-line-num="8"][data-patch-num="1"]');
-      assert.equal(threadEls.length, 1);
-    });
-
-    test('creating a draft', function() {
-      var threadEls = Polymer.dom(element.root).querySelectorAll(
-          'gr-diff-comment-thread[data-line-num="5"][data-patch-num="1"]');
-      assert.equal(threadEls.length, 0);
-      var lineEl = element.$$(
-          '.lineNum[data-line-num="5"][data-patch-num="1"]');
-      assert.ok(lineEl);
-      MockInteractions.tap(lineEl);
-      threadEls = Polymer.dom(element.root).querySelectorAll(
-          'gr-diff-comment-thread[data-line-num="5"][data-patch-num="1"]');
-      assert.equal(threadEls.length, 1);
-    });
-  });
-
-  suite('long diffs', function() {
-    var element;
-
-    setup(function() {
-      element = fixture('manylines');
-      var longDiffContent = [{ ab: [] }];
-      for (var i = 0; i < 300; i++) {
-        longDiffContent[0].ab.push('');
-      }
-      element._renderDiff({content: longDiffContent}, [], [], [], []);
-    });
-
-    function isVisibleInWindow(el) {
-      var rect = el.getBoundingClientRect();
-      return rect.top >= 0 && rect.left >= 0 &&
-          rect.bottom <= window.innerHeight && rect.right <= window.innerWidth;
-    }
-
-    test('jump to line', function() {
-      window.scrollTo(0, 0);
-      element._jumpToLine(-12849);
-      assert.equal(window.scrollY, 0);
-      element._jumpToLine('sup');
-      assert.equal(window.scrollY, 0);
-      // Use the left line numbers in this case because the viewport may be too
-      // thin for the right line number element to be visible. Since the content
-      // is the same for both sides, it should not make a difference.
-      var lineEl =
-          element.$$('.diffNumbers.left .lineNum[data-line-num="150"]');
-      assert.isFalse(isVisibleInWindow(lineEl),
-          'element should not be visible');
-      element._jumpToLine(150);
-      assert.isAbove(window.scrollY, 0);
-      assert.isTrue(isVisibleInWindow(lineEl), 'element should be visible');
+      element.$.changeDetailXHR.auto = false;
+      element.$.filesXHR.auto = false;
+      element.$.diff.auto = false;
     });
 
     test('keyboard shortcuts', function() {
       element._changeNum = '42';
-      element._patchNum = '10';
+      element._patchRange = {
+        patchNum: '10',
+      };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
 
@@ -349,5 +110,6 @@ limitations under the License.
         }, 1);
       }
     });
+
   });
 </script>

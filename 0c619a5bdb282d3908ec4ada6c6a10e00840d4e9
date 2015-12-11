@@ -70,6 +70,24 @@
       "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45934a18_1df7337f",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-11T07:12:38Z",
+      "side": 1,
+      "message": "If you think you should fork Gerrit to do something usefull for you, fine for you. Then include this patch in your own fork and keep upstream free from the idea and recommendation to fork gerrit and maintain the fork.",
+      "parentUuid": "8591c20f_3f16a795",
+      "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

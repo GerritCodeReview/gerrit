@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0334cd5_0a7f3bbc",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-11T06:47:57Z",
+      "side": 1,
+      "message": "This would require changing file that is under Git control. Can we instead check to see, if the file //USTOM_PLUGINS (or some such) exists, if yes, include_defs() it and use the content of the variable exposed there, say GERRIT_CUSTOM_PLUGIN_LIST (or something)? We had similar code in gerrit_plugin.bucklet to detect version.",
+      "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

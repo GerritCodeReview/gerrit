@@ -1,0 +1,118 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-diff-side.html">
+
+<dom-module id="gr-diff">
+  <template>
+    <style>
+      :host {
+        border-bottom: 1px solid #eee;
+        border-top: 1px solid #eee;
+        font-family: 'Source Code Pro', monospace;
+        display: flex;
+        white-space: pre;
+      }
+      gr-diff-side:nth-of-type(2) {
+        border-right: 1px solid #ddd;
+      }
+    </style>
+    <gr-ajax id="diffXHR"
+        auto="[[auto]]"
+        url="[[_computeDiffPath(changeNum, patchNum, path)]]"
+        params="[[_computeDiffQueryParams(basePatchNum)]]"
+        on-response="_handleDiffResponse"></gr-ajax>
+    <gr-diff-side
+        change-num="[[changeNum]]"
+        patch-num="[[basePatchNum]]"
+        diff-content="{{_diff.leftSide}}">
+    </gr-diff-side>
+    <gr-diff-side
+        change-num="[[changeNum]]"
+        patch-num="[[patchNum]]"
+        diff-content="{{_diff.rightSide}}">
+    </gr-diff-side>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-diff',
+
+      properties: {
+        auto: {
+          type: Boolean,
+          value: false,
+        },
+        changeNum: String,
+        patchNum: String,
+        basePatchNum: String,
+        path: String,
+        sideWidth: {
+          type: Number,
+          value: 80,
+        },
+
+        _diff: Object,
+      },
+
+      _computeDiffPath: function(changeNum, patchNum, path) {
+        return Changes.baseURL(changeNum, patchNum) + '/files/' +
+            encodeURIComponent(path) + '/diff';
+      },
+
+      _computeDiffQueryParams: function(basePatchNum) {
+        var params =  {
+          context: 'ALL',
+          intraline: null
+        };
+        if (basePatchNum != 'PARENT') {
+          params.base = basePatchNum;
+        }
+        return params;
+      },
+
+      _handleDiffResponse: function(e) {
+        var leftSide = [];
+        var rightSide = [];
+        for (var i = 0; i < e.detail.response.content.length; i++) {
+          var obj = e.detail.response.content[i];
+          if (obj.ab) {
+            for (var j = 0; j < obj.ab.length; j++) {
+              // Blank lines within a diff content array indicate a newline.
+              leftSide.push({
+                content: obj.ab[j] || '\n',
+              });
+              rightSide.push({
+                content: obj.ab[j] || '\n',
+              });
+            }
+          }
+        }
+        this._diff = {
+          leftSide: leftSide,
+          rightSide: rightSide,
+        };
+      },
+
+    });
+  })();
+  </script>
+</dom-module>

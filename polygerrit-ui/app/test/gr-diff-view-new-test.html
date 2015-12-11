@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-view-new</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../bower_components/page/page.js"></script>
+<script src="../scripts/changes.js"></script>
+<script src="../scripts/util.js"></script>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../elements/gr-diff-view-new.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-diff-view-new></gr-diff-view-new>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-diff-view-new tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+      element.$.changeDetailXHR.auto = false;
+      element.$.filesXHR.auto = false;
+      element.$.diff.auto = false;
+    });
+
+    test('keyboard shortcuts', function() {
+      element._changeNum = '42';
+      element._patchNum = '10';
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+
+      var showStub = sinon.stub(page, 'show');
+      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
+      assert(showStub.lastCall.calledWithExactly('/c/42'),
+          'Should navigate to /c/42');
+
+      pressAndReleaseKeyIdentifierOn(element, '\U+005D');  // ']'
+      assert(showStub.lastCall.calledWithExactly('/c/42/10/wheatley.md'),
+          'Should navigate to /c/42/10/wheatley.md');
+      element._path = 'wheatley.md';
+
+      pressAndReleaseKeyIdentifierOn(element, '\U+005B');  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/10/glados.txt'),
+          'Should navigate to /c/42/10/glados.txt');
+      element._path = 'glados.txt';
+
+      pressAndReleaseKeyIdentifierOn(element, '\U+005B');  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/10/chell.go'),
+          'Should navigate to /c/42/10/chell.go');
+      element._path = 'chell.go';
+
+      pressAndReleaseKeyIdentifierOn(element, '\U+005B');  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42'),
+          'Should navigate to /c/42');
+
+      showStub.restore();
+
+      // https://github.com/PolymerElements/iron-test-helpers/issues/33
+      function keyboardEventFor(type, keyIdentifier) {
+        var event = new CustomEvent(type, {
+          bubbles: true,
+          cancelable: true
+        });
+
+        event.keyIdentifier = keyIdentifier;
+
+        return event;
+      }
+
+      function keyEventOn(target, type, keyIdentifier) {
+        target.dispatchEvent(keyboardEventFor(type, keyIdentifier));
+      }
+
+      function keyDownOn(target, keyIdentifier) {
+        keyEventOn(target, 'keydown', keyIdentifier);
+      }
+
+      function keyUpOn(target, keyIdentifier) {
+        keyEventOn(target, 'keyup', keyIdentifier);
+      }
+
+      function pressAndReleaseKeyIdentifierOn(target, keyIdentifier) {
+        keyDownOn(target, keyIdentifier);
+        Polymer.Base.async(function() {
+          keyUpOn(target, keyIdentifier);
+        }, 1);
+      }
+    });
+
+  });
+</script>

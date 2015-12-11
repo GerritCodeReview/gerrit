@@ -1,0 +1,15 @@
+Notes:
+Don’t allow mutable events unless the user has logged in.
+No hover state on line numbers.
+
+Model:
+Since each side is managed by its own component, a model must be created from the diff content data that takes into account the following scenarios:
+Highlighting: Whether it’s a add or remove, and for intraline highlights, start and end indices of where a highlight occurs.
+For intraline highlights, whether the highlight is a continuation of a previous line or continues on to the following line as well.
+
+Line height: A line can span multiple if it’s longer than the width of the diff side.
+When the width updates, a re-render must happen.
+
+Blank fillers: A side may need to put in “filler” elements that are not copied when cut and paste happens.
+This would occur if one side’s diff chunk is larger than the other and the fillers must be in place to ensure proper lineup of lines following the chunk. Additionally, fillers are needed when a comment is added in order to take it into account.
+Note: account for the difference in fillers when a comment is added that have fillers overlapping with existing ones. Fillers can have an arbitrary height.

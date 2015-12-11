@@ -1,0 +1,141 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="gr-diff-side">
+  <template>
+    <style>
+      :host {
+        display: flex;
+      }
+      .numbers {
+        background-color: #eee;
+        color: #666;
+        padding: 0 .75em;
+        text-align: right;
+      }
+      .content {
+        width: 80ch;
+      }
+      .lineNum:before,
+      .line:before {
+        /* To ensure the height is non-zero in these elements, a
+           zero-width space is set as its content. The character
+           itself doesn't matter. Just that there is something
+           there. */
+        content: '\200B';
+      }
+    </style>
+    <gr-ajax id="commentsXHR"
+        url="[[_computeCommentsPath(changeNum, patchNum)]]"
+        on-response="_handleCommentsResponse"></gr-ajax>
+    <gr-ajax id="draftsXHR"
+        url="[[_computeDraftsPath(changeNum, patchNum)]]"
+        on-response="_handleLeftDraftsResponse"></gr-ajax>
+    <div class="numbers" id="numbers"></div>
+    <div class="content" id="content"></div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-diff-side',
+
+      properties: {
+        changeNum: String,
+        /**
+         * Can be empty if this side is at the parent revision.
+         */
+        // WHAT HAPPENS WHEN YOU HAVE LEFT SIDE COMMENTS?
+        patchNum: String,
+        diffContent: {
+          type: Object,
+          notify: true,
+          observer: '_diffContentChanged',
+        },
+        width: {
+          type: Number,
+          observer: '_widthChanged',
+        },
+      },
+
+      _computeCommentsPath: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/comments';
+      },
+
+      _computeDraftsPath: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/drafts';
+      },
+
+      _diffContentChanged: function(diff) {
+        this._render(diff);
+      },
+
+      _widthChanged: function(width) {
+        this.$.content.style.width = width + 'ch';
+      },
+
+      _clearChildren: function(el) {
+        while (el.firstChild) {
+          el.removeChild(el.firstChild);
+        }
+      },
+
+      _render: function(diff) {
+        this._clearChildren(this.$.numbers);
+        this._clearChildren(this.$.content);
+        for (var i = 0; i < diff.length; i++) {
+          this._renderLine(i + 1, diff[i]);
+        }
+      },
+
+      _renderLine: function(lineNum, line) {
+        var lineNumEl = this._createElement('div', 'lineNum');
+        lineNumEl.textContent = lineNum;
+
+        var contentEl = this._createElement('div', 'line');
+
+        var html = util.escapeHTML(line.content);
+
+        // If the html is equivalent to the text then it didn't get highlighted
+        // or escaped. Use textContent which is faster than innerHTML.
+        if (line.content == html) {
+          contentEl.textContent = line.content;
+        } else {
+          contentEl.innerHTML = html;
+        }
+
+        this.$.numbers.appendChild(lineNumEl);
+        this.$.content.appendChild(contentEl);
+      },
+
+      _createElement: function(tagName, className) {
+        var el = document.createElement(tagName);
+        // When Shady DOM is being used, these classes are added to account for
+        // Polymer's polyfill behavior. In order to guarantee sufficient
+        // specificity within the CSS rules, these are added to every element.
+        // Since the Polymer DOM utility functions (which would do this
+        // automatically) are not being used for performance reasons, this is
+        // done manually.
+        el.classList.add('style-scope', 'gr-diff-side', className);
+        return el;
+      },
+    });
+  })();
+  </script>
+</dom-module>

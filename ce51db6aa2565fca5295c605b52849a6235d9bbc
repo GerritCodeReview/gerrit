@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "052f928d_4b1c05b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-11T01:18:00Z",
+      "side": 1,
+      "message": "Any reason to not make them final and initialise them in the constructor?",
+      "range": {
+        "startLine": 18,
+        "startChar": 49,
+        "endLine": 19,
+        "endChar": 13
+      },
+      "revId": "ce51db6aa2565fca5295c605b52849a6235d9bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,9 +17,8 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="gr-ajax.html">
-<link rel="import" href="gr-diff-comment-thread.html">
 
-<dom-module id="gr-diff-view">
+<dom-module id="gr-diff-view-new">
   <template>
     <style>
       :host {
@@ -36,121 +35,14 @@ limitations under the License.
         border-top: 1px solid #eee;
         width: 100%;
       }
-      .diffNumbers,
-      .diffContent {
-        vertical-align: top;
-      }
-      .diffContainer {
-        font-family: 'Source Code Pro', monospace;
-        white-space: pre;
-      }
-      .diffNumbers {
-        background-color: #eee;
-        color: #666;
-        padding: 0 .75em;
-        text-align: right;
-      }
-      .diffContent {
-        min-width: 80ch;
-        max-width: 120ch;
-        overflow: hidden;
-      }
-      .diffContainer.leftOnly .diffContent,
-      .diffContainer.rightOnly .diffContent {
-        overflow: visible;
-      }
-      .diffContainer.leftOnly .right,
-      .diffContainer.rightOnly .left {
-        display: none;
-      }
-      .ruler {
-        display: block;
-        background-color: #ddd;
-        height: 1.3em;
-        position: absolute;
-        top: 0;
-        width: 1px;
-      }
-      .lineNum:before,
-      .content:before {
-        /* To ensure the height is non-zero in these elements, a
-           zero-width space is set as its content. The character
-           itself doesn't matter. Just that there is something
-           there. */
-        content: '\200B';
-      }
-      .content {
-        position: relative;
-      }
-      .lineNum.blank,
-      .threadFiller--redLine {
-        border-right: 2px solid #F34D4D;
-        margin-right: 3px;
-      }
-
-      .lineNum:not(.blank) {
-        cursor: pointer;
-      }
-      .lineNum:hover {
-        text-decoration: underline;
-      }
-      .lightRed {
-        background-color: #ffecec;
-      }
-      .darkRed {
-        background-color: #faa;
-      }
-      .lightGreen {
-        background-color: #eaffea;
-      }
-      .darkGreen {
-        background-color: #9f9;
-      }
     </style>
-    <gr-ajax id="changeDetailXHR"
-        auto
-        url="[[_computeChangeDetailPath(_changeNum)]]"
-        params="[[_computeChangeDetailQueryParams()]]"
-        last-response="{{_change}}"></gr-ajax>
-    <gr-ajax id="filesXHR"
-        url="[[_computeFilesPath(_changeNum, _patchNum)]]"
-        on-response="_handleFilesResponse"></gr-ajax>
-
-    <gr-ajax id="diffXHR"
-        url="[[_computeDiffPath(_changeNum, _patchNum, _path)]]"
-        on-response="_handleDiffResponse"></gr-ajax>
-    <gr-ajax id="leftCommentsXHR"
-        url="[[_computeCommentsPath(_changeNum, _basePatchNum)]]"
-        on-response="_handleLeftCommentsResponse"></gr-ajax>
-    <gr-ajax id="rightCommentsXHR"
-        url="[[_computeCommentsPath(_changeNum, _patchNum)]]"
-        on-response="_handleRightCommentsResponse"></gr-ajax>
-    <gr-ajax id="leftDraftsXHR"
-        url="[[_computeDraftsPath(_changeNum, _basePatchNum)]]"
-        on-response="_handleLeftDraftsResponse"></gr-ajax>
-    <gr-ajax id="rightDraftsXHR"
-        url="[[_computeDraftsPath(_changeNum, _patchNum)]]"
-        on-response="_handleRightDraftsResponse"></gr-ajax>
-
-    <h3>
-      <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
-      <span>[[_change.subject]]</span> — <span>[[params.path]]</span>
-    </h3>
-    <table class="mainContainer">
-      <tr class="diffContainer" id="diffContainer">
-        <td class="diffNumbers left" id="leftDiffNumbers"></td>
-        <td class="diffContent left" id="leftDiffContent"></td>
-        <td class="diffNumbers right" id="rightDiffNumbers"></td>
-        <td class="diffContent right" id="rightDiffContent"></td>
-      </tr>
-    </table>
   </template>
   <script>
   (function() {
     'use strict';
 
     Polymer({
-      is: 'gr-diff-view',
+      is: 'gr-diff-view-new',
 
       behaviors: [
         Polymer.IronA11yKeysBehavior
@@ -170,42 +62,18 @@ limitations under the License.
           type: Object,
           observer: '_paramsChanged',
         },
-        rulerWidth: {
-          type: Number,
-          value: 80,
-          observer: '_rulerWidthChanged',
-        },
+
         _basePatchNum: String,
         _change: Object,
         _changeNum: String,
+
         _diff: Object,
         _fileList: {
           type: Array,
           value: function() { return []; },
         },
-        _leftComments: {
-          type: Array,
-          value: function() { return []; },
-        },
-        _leftDrafts: {
-          type: Array,
-          value: function() { return []; },
-        },
         _patchNum: String,
         _path: String,
-        _rendered: Boolean,
-        _rightComments: {
-          type: Array,
-          value: function() { return []; },
-        },
-        _rightDrafts: {
-          type: Array,
-          value: function() { return []; },
-        },
-      },
-
-      listeners: {
-        'diffContainer.tap': '_diffContainerTapHandler',
       },
 
       keyBindings: {
@@ -223,11 +91,6 @@ limitations under the License.
           this._patchNum = null;
           this._diff = null;
           this._path = null;
-          this._leftComments = [];
-          this._rightComments = [];
-          this._leftDrafts = [];
-          this._rightDrafts = [];
-          this._rendered = false;
           return;
         }
         // Assign the params here since a computed binding relying on
@@ -242,47 +105,13 @@ limitations under the License.
               this.$.leftCommentsXHR.generateRequest().completes);
         }
 
-        requestPromises.push(
-            this.$.rightCommentsXHR.generateRequest().completes);
-        requestPromises.push(this.$.filesXHR.generateRequest().completes);
-
-        app.accountReady.then(function() {
-          if (app.loggedIn) {
-            if (this._basePatchNum) {
-              requestPromises.push(
-                  this.$.leftDraftsXHR.generateRequest().completes);
-            }
-            requestPromises.push(
-                this.$.rightDraftsXHR.generateRequest().completes);
-          }
-
-          Promise.all(requestPromises).then(function(requests) {
-            this._renderDiff(this._diff, this._leftComments,
-                this._rightComments, this._leftDrafts, this._rightDrafts);
-          }.bind(this), function(err) {
-            alert('Oops. Something went wrong. Check the console and bug the ' +
-                'PolyGerrit team for assistance.');
-            throw err;
-          });
-        }.bind(this));
-      },
-
-      _rulerWidthChanged: function(newValue, oldValue) {
-        if (newValue < 0) {
-          throw Error('ruler width must be greater than zero.');
-        }
-        if (oldValue == 0) {
-          this._renderRulerElements();
-        }
-        var remove = newValue == 0;
-        var rulerEls = Polymer.dom(this.root).querySelectorAll('.ruler');
-        for (var i = 0; i < rulerEls.length; i++) {
-          if (remove) {
-            rulerEls[i].parentNode.removeChild(rulerEls[i]);
-          } else {
-            rulerEls[i].style.left = newValue + 'ch';
-          }
-        }
+        Promise.all(requestPromises).then(function(requests) {
+          // Requests have completed.
+        }.bind(this), function(err) {
+          alert('Oops. Something went wrong. Check the console and bug the ' +
+              'PolyGerrit team for assistance.');
+          throw err;
+        });
       },
 
       _computeChangePath: function(changeNum) {
@@ -561,19 +390,6 @@ limitations under the License.
         };
         for (var i = 0; i < diff.content.length; i++) {
           this._addDiffChunk(ctx, diff.content[i]);
-        }
-
-        if (leftComments) {
-          this._renderCommentsAndDrafts(leftComments, leftDrafts,
-              this._basePatchNum);
-        }
-        if (rightComments) {
-          this._renderCommentsAndDrafts(rightComments, rightDrafts,
-              this._patchNum);
-        }
-
-        if (this.rulerWidth) {
-          this._renderRulerElements();
         }
 
         if (window.location.hash.length > 0) {

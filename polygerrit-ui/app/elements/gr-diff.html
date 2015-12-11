@@ -1,0 +1,388 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-diff-side.html">
+<link rel="import" href="gr-request.html">
+
+<dom-module id="gr-diff">
+  <template>
+    <style>
+      :host {
+        border-bottom: 1px solid #eee;
+        border-top: 1px solid #eee;
+        font-family: 'Source Code Pro', monospace;
+        display: flex;
+        white-space: pre;
+      }
+      gr-diff-side:first-of-type {
+        --light-highlight-color: #ffecec;
+        --dark-highlight-color: #faa;
+      }
+      gr-diff-side:last-of-type {
+        --light-highlight-color: #eaffea;
+        --dark-highlight-color: #9f9;
+        border-right: 1px solid #ddd;
+      }
+    </style>
+    <gr-ajax id="diffXHR"
+        url="[[_computeDiffPath(changeNum, patchRange.patchNum, path)]]"
+        params="[[_computeDiffQueryParams(patchRange.basePatchNum)]]"
+        last-response="{{_diffResponse}}"></gr-ajax>
+    <gr-ajax id="baseCommentsXHR"
+        url="[[_computeCommentsPath(changeNum, patchRange.basePatchNum)]]"></gr-ajax>
+    <gr-ajax id="commentsXHR"
+        url="[[_computeCommentsPath(changeNum, patchRange.patchNum)]]"></gr-ajax>
+    <gr-ajax id="baseDraftsXHR"
+        url="[[_computeDraftsPath(changeNum, patchRange.basePatchNum)]]"></gr-ajax>
+    <gr-ajax id="draftsXHR"
+        url="[[_computeDraftsPath(changeNum, patchRange.patchNum)]]"></gr-ajax>
+    <gr-diff-side id="leftDiff"
+        content="{{_diff.leftSide}}"
+        width="[[sideWidth]]"
+        can-comment="[[_loggedIn]]"></gr-diff-side>
+    <gr-diff-side id="rightDiff"
+        content="{{_diff.rightSide}}"
+        width="[[sideWidth]]"
+        can-comment="[[_loggedIn]]"></gr-diff-side>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-diff',
+
+      /**
+       * Fired when the diff is rendered.
+       *
+       * @event render
+       */
+
+      properties: {
+        changeNum: String,
+        /*
+         * A single object to encompass basePatchNum and patchNum is used
+         * so that both can be set at once without incremental observers
+         * firing after each property changes.
+         */
+        patchRange: Object,
+        path: String,
+        sideWidth: {
+          type: Number,
+          value: 80,
+        },
+        _comments: Array,
+        _baseComments: Array,
+        _drafts: Array,
+        _baseDrafts: Array,
+        _diffResponse: Object,
+        _diff: {
+          type: Object,
+          value: function() { return {}; },
+        },
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+        },
+        _diffRequestsPromise: Object,  // Used for testing.
+      },
+
+      observers: [
+        '_diffOptionsChanged(changeNum, patchRange, path)'
+      ],
+
+      ready: function() {
+        app.accountReady.then(function() {
+          this._loggedIn = app.loggedIn;
+        }.bind(this));
+      },
+
+      scrollToLine: function(lineNum) {
+        // TODO(andybons): Should this always be the right side?
+        this.$.rightDiff.scrollToLine(lineNum);
+      },
+
+      _diffOptionsChanged: function(changeNum, patchRange, path) {
+        var promises = [this.$.diffXHR.generateRequest().completes];
+
+        var basePatchNum = patchRange.basePatchNum;
+        var patchNum = patchRange.patchNum;
+
+        app.accountReady.then(function() {
+          promises.push(this._getCommentsAndDrafts(basePatchNum, app.loggedIn));
+          this._diffRequestsPromise = Promise.all(promises).then(function() {
+            this._allDataReceived();
+          }.bind(this)).catch(function(err) {
+            alert('Oops. Something went wrong. Check the console and bug the ' +
+                'PolyGerrit team for assistance.');
+            throw err;
+          });
+        }.bind(this));
+      },
+
+      _allDataReceived: function() {
+        this._processContent();
+
+        // Allow for the initial rendering to complete before firing the event.
+        this.async(function() {
+          this.fire('render', {bubbles: false});
+        }.bind(this), 1);
+      },
+
+      _getCommentsAndDrafts: function(basePatchNum, loggedIn) {
+        var promises = [];
+
+        function onlyParent(c) { return c.side == 'PARENT'; }
+        function withoutParent(c) { return c.side != 'PARENT'; }
+
+        var promises = [];
+        var commentsPromise = this.$.commentsXHR.generateRequest().completes;
+        promises.push(commentsPromise.then(function(req) {
+          var comments = req.response[this.path] || [];
+          if (basePatchNum == 'PARENT') {
+            this._baseComments = comments.filter(onlyParent);
+          }
+          this._comments = comments.filter(withoutParent);
+        }.bind(this)));
+
+        if (basePatchNum != 'PARENT') {
+          commentsPromise = this.$.baseCommentsXHR.generateRequest().completes;
+          promises.push(commentsPromise.then(function(req) {
+            this._baseComments =
+              (req.response[this.path] || []).filter(withoutParent);
+          }.bind(this)));
+        }
+
+        if (!loggedIn) {
+          this._baseDrafts = [];
+          this._drafts = [];
+          return Promise.all(promises);
+        }
+
+        var draftsPromise = this.$.draftsXHR.generateRequest().completes;
+        promises.push(draftsPromise.then(function(req) {
+          var drafts = req.response[this.path] || [];
+          if (basePatchNum == 'PARENT') {
+            this._baseDrafts = drafts.filter(onlyParent);
+          }
+          this._drafts = drafts.filter(withoutParent);
+        }.bind(this)));
+
+        if (basePatchNum != 'PARENT') {
+          draftsPromise = this.$baseDraftsXHR.generateRequest().completes;
+          promises.push(draftsPromise.then(function(req) {
+            this._baseDrafts =
+                (req.response[this.path] || []).filter(withoutParent);
+          }.bind(this)));
+        }
+
+        return Promise.all(promises);
+      },
+
+      _computeDiffPath: function(changeNum, patchNum, path) {
+        return Changes.baseURL(changeNum, patchNum) + '/files/' +
+            encodeURIComponent(path) + '/diff';
+      },
+
+      _computeCommentsPath: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/comments';
+      },
+
+      _computeDraftsPath: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/drafts';
+      },
+
+      _computeDiffQueryParams: function(basePatchNum) {
+        var params =  {
+          context: 'ALL',
+          intraline: null
+        };
+        if (basePatchNum != 'PARENT') {
+          params.base = basePatchNum;
+        }
+        return params;
+      },
+
+      _processContent: function() {
+        var leftSide = [];
+        var rightSide = [];
+        var initialLineNum = 0 + (this._diffResponse.content.skip || 0);
+        var ctx = {
+          left: {
+            lineNum: initialLineNum,
+          },
+          right: {
+            lineNum: initialLineNum,
+          }
+        };
+        for (var i = 0; i < this._diffResponse.content.length; i++) {
+          this._addDiffChunk(ctx, this._diffResponse.content[i], leftSide,
+              rightSide);
+        }
+        this._diff = {
+          leftSide: leftSide,
+          rightSide: rightSide,
+        };
+      },
+
+      _addDiffChunk: function(ctx, chunk, leftSide, rightSide) {
+        if (chunk.ab) {
+          for (var i = 0; i < chunk.ab.length; i++) {
+            var numLines = Math.ceil(chunk.ab[i].length / this.sideWidth);
+            // Blank lines within a diff content array indicate a newline.
+            leftSide.push({
+              type: 'CODE',
+              content: chunk.ab[i] || '\n',
+              numLines: numLines,
+              lineNum: ++ctx.left.lineNum,
+            });
+            rightSide.push({
+              type: 'CODE',
+              content: chunk.ab[i] || '\n',
+              numLines: numLines,
+              lineNum: ++ctx.right.lineNum,
+            });
+          }
+        }
+
+        var leftHighlights = [];
+        if (chunk.edit_a) {
+          leftHighlights =
+            this._normalizeIntralineHighlights(chunk.a, chunk.edit_a);
+        }
+        var rightHighlights = [];
+        if (chunk.edit_b) {
+          rightHighlights =
+              this._normalizeIntralineHighlights(chunk.b, chunk.edit_b);
+        }
+
+        var aLen = (chunk.a && chunk.a.length) || 0;
+        var bLen = (chunk.b && chunk.b.length) || 0;
+        var maxLen = Math.max(aLen, bLen);
+        for (var i = 0; i < maxLen; i++) {
+          var hasLeftContent = chunk.a && i < chunk.a.length;
+          var hasRightContent = chunk.b && i < chunk.b.length;
+          var leftContent = hasLeftContent ? chunk.a[i] : '';
+          var rightContent = hasRightContent ? chunk.b[i] : '';
+          var maxNumLines = this._maxLinesSpanned(leftContent, rightContent);
+          if (hasLeftContent) {
+            leftSide.push({
+              type: 'CODE',
+              content: leftContent || '\n',
+              numLines: maxNumLines,
+              lineNum: ++ctx.left.lineNum,
+              highlight: true,
+              intraline: leftHighlights.filter(function(hl) {
+                return hl.contentIndex == i;
+              }),
+            });
+          } else {
+            leftSide.push({
+              type: 'FILLER',
+              numLines: maxNumLines,
+            });
+          }
+          if (hasRightContent) {
+            rightSide.push({
+              type: 'CODE',
+              content: rightContent || '\n',
+              numLines: maxNumLines,
+              lineNum: ++ctx.right.lineNum,
+              highlight: true,
+              intraline: rightHighlights.filter(function(hl) {
+                return hl.contentIndex == i;
+              }),
+            });
+          } else {
+            rightSide.push({
+              type: 'FILLER',
+              numLines: maxNumLines,
+            });
+          }
+        }
+      },
+
+
+      // The `highlights` array consists of a list of <skip length, mark length>
+      // pairs, where the skip length is the number of characters between the
+      // end of the previous edit and the start of this edit, and the mark
+      // length is the number of edited characters following the skip. The start
+      // of the edits is from the beginning of the related diff content lines.
+      //
+      // Note that the implied newline character at the end of each line is
+      // included in the length calculation, and thus it is possible for the
+      // edits to span newlines.
+      //
+      // A line highlight object consists of three fields:
+      // - contentIndex: The index of the diffChunk `content` field (the line
+      //   being referred to).
+      // - startIndex: Where the highlight should begin.
+      // - endIndex: (optional) Where the highlight should end. If omitted, the
+      //   highlight is meant to be a continuation onto the next line.
+      _normalizeIntralineHighlights: function(content, highlights) {
+        var contentIndex = 0;
+        var idx = 0;
+        var normalized = [];
+        for (var i = 0; i < highlights.length; i++) {
+          var line = content[contentIndex] + '\n';
+          var hl = highlights[i];
+          var j = 0;
+          while (j < hl[0]) {
+            if (idx == line.length) {
+              idx = 0;
+              line = content[++contentIndex] + '\n';
+              continue;
+            }
+            idx++;
+            j++;
+          }
+          var lineHighlight = {
+            contentIndex: contentIndex,
+            startIndex: idx,
+          };
+
+          j = 0;
+          while (line && j < hl[1]) {
+            if (idx == line.length) {
+              idx = 0;
+              line = content[++contentIndex] + '\n';
+              normalized.push(lineHighlight);
+              lineHighlight = {
+                contentIndex: contentIndex,
+                startIndex: idx,
+              };
+              continue;
+            }
+            idx++;
+            j++;
+          }
+          lineHighlight.endIndex = idx;
+          normalized.push(lineHighlight);
+        }
+        return normalized;
+      },
+
+      _maxLinesSpanned: function(left, right) {
+        return Math.max(Math.ceil(left.length / this.sideWidth),
+                        Math.ceil(right.length / this.sideWidth));
+      },
+
+    });
+  })();
+  </script>
+</dom-module>

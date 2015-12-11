@@ -161,7 +161,7 @@ limitations under the License.
       },
 
       get loggedIn() {
-        return this.account && Object.keys(this.account).length > 0;
+        return !!(this.account && Object.keys(this.account).length > 0);
       },
 
       _accountChanged: function() {

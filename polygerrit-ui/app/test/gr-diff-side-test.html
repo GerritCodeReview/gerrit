@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-side</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../scripts/util.js"></script>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../elements/gr-diff-side.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-diff-side></gr-diff-side>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-diff-side tests', function() {
+    var element;
+
+    function isVisibleInWindow(el) {
+      var rect = el.getBoundingClientRect();
+      return rect.top >= 0 && rect.left >= 0 &&
+          rect.bottom <= window.innerHeight && rect.right <= window.innerWidth;
+    }
+
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('comments', function() {
+      assert.isFalse(element.$$('.container').classList.contains('canComment'));
+      element.canComment = true;
+      assert.isTrue(element.$$('.container').classList.contains('canComment'));
+      // TODO(andybons): Check for comment creation events firing/not firing
+      // when implemented.
+    });
+
+    test('scroll to line', function() {
+      var content = [];
+      for (var i = 0; i < 300; i++) {
+        content.push({
+          type: 'CODE',
+          content: 'All work and no play makes Jack a dull boy',
+          numLines: 1,
+          lineNum: i + 1,
+          highlight: false,
+          intraline: [],
+        });
+      }
+      element._render(content);
+
+      window.scrollTo(0, 0);
+      element.scrollToLine(-12849);
+      assert.equal(window.scrollY, 0);
+      element.scrollToLine('sup');
+      assert.equal(window.scrollY, 0);
+      var lineEl = element.$$('.numbers .lineNum[data-line-num="150"]');
+      assert.ok(lineEl);
+      assert.isFalse(isVisibleInWindow(lineEl),
+          'element should not be visible');
+      element.scrollToLine(150);
+      assert.isAbove(window.scrollY, 0);
+      assert.isTrue(isVisibleInWindow(lineEl), 'element should be visible');
+    });
+
+    test('intraline highlights', function() {
+      var content = '        <gr-linked-text content="' +
+          '[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>';
+      var html = util.escapeHTML(content);
+      var highlights = [
+        { startIndex: 0, endIndex: 33, },
+        { startIndex: 75 },
+      ];
+      var result = element._addIntralineHighlights(content, html, highlights);
+      var expected = element._highlightStartTag +
+          '        &lt;gr-linked-text content=&quot;' +
+          element._highlightEndTag +
+          '[[_computeCurrentRevisionMessage(change)]]' +
+          element._highlightStartTag +
+          '&quot;&gt;&lt;&#x2F;gr-linked-text&gt;' +
+          element._highlightEndTag;
+      assert.equal(result, expected);
+    });
+
+    test('newlines', function() {
+      element.width = 80;
+      var content = [{
+        type: 'CODE',
+        content: 'A'.repeat(50),
+        numLines: 1,
+        lineNum: 1,
+        highlight: false,
+        intraline: [],
+      }];
+      element._render(content);
+
+      var lineEl = element.$$('.numbers .lineNum[data-line-num="1"]');
+      assert.ok(lineEl);
+      var contentEl = element.$$('.content .code[data-line-num="1"]');
+      assert.ok(contentEl);
+      assert.equal(contentEl.innerHTML, 'A'.repeat(50));
+
+      content = [{
+        type: 'CODE',
+        content: 'A'.repeat(100),
+        numLines: 2,
+        lineNum: 1,
+        highlight: false,
+        intraline: [],
+      }];
+      element._render(content);
+
+      lineEl = element.$$('.numbers .lineNum[data-line-num="1"]');
+      assert.ok(lineEl);
+      contentEl = element.$$('.content .code[data-line-num="1"]');
+      assert.ok(contentEl);
+      assert.equal(contentEl.innerHTML,
+          'A'.repeat(80) + element._lineFeedHTML +
+          'A'.repeat(20) + element._lineFeedHTML);
+
+    });
+  });
+</script>

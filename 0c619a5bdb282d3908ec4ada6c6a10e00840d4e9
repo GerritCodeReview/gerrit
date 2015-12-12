@@ -88,6 +88,24 @@
       "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05beb2c6_139c4c7d",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2015-12-12T04:25:35Z",
+      "side": 1,
+      "message": "\u003e If you think you should fork Gerrit to do something usefull for\n \u003e you, fine for you. Then include this patch in your own fork and\n \u003e keep upstream free from the idea and recommendation to fork gerrit\n \u003e and maintain the fork.\n\nI don\u0027t understand. Why should the community resist someone maintaining a fork of Gerrit? If that\u0027s how they choose to use it, why should we care? Plenty of groups have forked Gerrit by now, making it easier for them to maintain their fork would (to me) make it easier for them to follow closer to the latest releases.\n\n \u003e Qulacom guys did it too. They would never ever be able to come\n \u003e even closer to upstream. They will forever remain with 2.4.2. I\u0027m\n \u003e not even sure, that they are already that far.\n\nWe\u0027re only about 200 commits behind 2.6.1. I would (and did) argue that our fork is behind upstream not because of the work that went into the fork, but because of the size and instability of the 2.6 and 2.8 releases.",
+      "parentUuid": "45934a18_1df7337f",
+      "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

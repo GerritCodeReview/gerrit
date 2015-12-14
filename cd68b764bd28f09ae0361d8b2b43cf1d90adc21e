@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05a4f285_43c5e663",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OAuthSessionOverOpenID.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1021532
+      },
+      "writtenOn": "2015-12-14T15:40:05Z",
+      "side": 1,
+      "message": "really",
+      "range": {
+        "startLine": 132,
+        "startChar": 33,
+        "endLine": 132,
+        "endChar": 38
+      },
+      "revId": "cd68b764bd28f09ae0361d8b2b43cf1d90adc21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

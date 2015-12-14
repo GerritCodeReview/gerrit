@@ -106,6 +106,24 @@
       "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05beb2c6_73c4a066",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-14T10:24:22Z",
+      "side": 1,
+      "message": "\u003e Why should the community resist someone maintaining a fork of Gerrit? If that\u0027s how they choose to use it, why should we care? Plenty of groups have forked Gerrit by now, making it easier for them to maintain their fork would (to me) make it easier for them to follow closer to the latest releases.\n\nThat was my reasoning for uploading the patch.",
+      "parentUuid": "05beb2c6_139c4c7d",
+      "revId": "0c619a5bdb282d3908ec4ada6c6a10e00840d4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

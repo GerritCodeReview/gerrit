@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8580e214_c7d2fe24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-12-14T17:35:24Z",
+      "side": 1,
+      "message": "(RFC) Another possible solution would be to hard code the order of submit types in the order they make most sense.\n\n    FF only / Merge Always\n    Merge if necessary \n    Rebase if necessary\n    Cherrypick\n\nBy having the Cherrypick type last, we don\u0027t run into problems with revisions being out of date.\nThe same reason puts rebase at the second last order.\nMerge if necessary is a weaker form of both either FF only or Merge Always.\n\nThe FF only and Merge Always are mutually exclusive within one submission though. (They could be resolved if you take topological order into account)",
+      "revId": "ee002b1eb729f0b648de15c6e0c82561001d6094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

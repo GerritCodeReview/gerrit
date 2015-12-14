@@ -46,6 +46,75 @@
       "revId": "fdf39b371d99b26fd18ba0dde3ccdc36c87fa124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5fefe6e_f204085d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-12-14T21:06:06Z",
+      "side": 1,
+      "message": "Is that fixable? E.g. I wonder if there\u0027s some setting for https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Access-Control-Allow-Origin that would allow it.\n\nWhat is the message in the js log when the cross-domain request attempt is requested?\n\nIIRC the reason googlesource.com puts documentation on gerrit-review.googlesource.com is to ensure there is one standard URL for each documentation page (which improves caching, makes it easier to share documentation links even if people visited documentation from a hidden host, etc). Does the same rationale apply to the search results page? Maybe one way to solve this would be to put the search on the same domain while still keeping the documentation itself on gerrit-review.googlesource.com.\n\nDoes the search use a POST or a GET request? I\u0027m surprised that the search runs into cross-origin request concerns: can the form be made into essentially a link to https://gerrit-review.googlesource.com/#/Documentation/myquery? Cross-domain links don\u0027t usually pose security problems.",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 67
+      },
+      "revId": "fdf39b371d99b26fd18ba0dde3ccdc36c87fa124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45726a21_e501b64a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1723,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-12-14T21:06:06Z",
+      "side": 1,
+      "message": "I was confused on first reading about which auto detection this is overriding.\n\nThe Documentation links at the top of the page use gerrit.docUrl, which is autodetected by making a request for /Documentation/index.html (allowing the client code to be independent of the server configuration). I was a little excited when I saw the change description, since I hoped it might turn off that request.\n\nWhat this overrides is not auto detection but just an internal check in the server about whether the feature is enabled. I wonder if it would be more intuitive to do something like\n\n  gerrit.disableDocSearchDropDown::\n  +\n  Disables the dropdown to choose between `Changes` and `Docs`\n  in the search box, even if Gerrit has been built with docs\n  built in. If this option is enabled, the only way to search\n  documentation from the UI is by visiting the Documentation\n  page.\n  +\n  This can be used in setups where documentation search is hosted\n  on a separate domain. In such a setup the `Docs` search in the\n  search box fails because it involves a forbidden cross-domain\n  request.\n  +\n  Defaults to `false`.",
+      "range": {
+        "startLine": 1723,
+        "startChar": 0,
+        "endLine": 1723,
+        "endChar": 50
+      },
+      "revId": "fdf39b371d99b26fd18ba0dde3ccdc36c87fa124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5fefe6e_d201044b",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-12-14T21:06:06Z",
+      "side": 1,
+      "message": "s/documentation search/documentation search from the search bar/?",
+      "range": {
+        "startLine": 1194,
+        "startChar": 0,
+        "endLine": 1194,
+        "endChar": 54
+      },
+      "revId": "fdf39b371d99b26fd18ba0dde3ccdc36c87fa124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

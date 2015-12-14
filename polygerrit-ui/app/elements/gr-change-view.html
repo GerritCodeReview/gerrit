@@ -153,13 +153,15 @@ limitations under the License.
         </table>
       </section>
       <section class="summary">[[_computeCurrentRevisionMessage(change)]]</section>
-      <gr-file-list change-num="[[changeNum]]"
-                    patch-num="[[_computePatchNum(change.current_revision)]]"
-                    revision="[[change.current_revision]]"
-                    comments="[[comments]]"></gr-file-list>
-      <gr-messages-list change-num="[[changeNum]]"
-                        messages="[[change.messages]]"
-                        comments="[[comments]]"></gr-messages-list>
+      <gr-file-list id="fileList"
+          change-num="[[changeNum]]"
+          patch-num="[[_computePatchNum(change.current_revision)]]"
+          revision="[[change.current_revision]]"
+          comments="[[comments]]"></gr-file-list>
+      <gr-messages-list
+          change-num="[[changeNum]]"
+          messages="[[change.messages]]"
+          comments="[[comments]]"></gr-messages-list>
     </div>
   </template>
   <script>
@@ -311,6 +313,7 @@ limitations under the License.
       _reload: function() {
         this.$.detailXHR.generateRequest();
         this.$.commentsXHR.generateRequest();
+        this.$.fileList.reload();
       },
 
     });

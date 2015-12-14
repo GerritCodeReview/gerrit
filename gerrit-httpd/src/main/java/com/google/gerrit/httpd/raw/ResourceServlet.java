@@ -75,6 +75,7 @@ public abstract class ResourceServlet extends HttpServlet {
         .put("gif", "image/gif")
         .put("htm", "text/html")
         .put("html", "text/html")
+        .put("ico", "image/x-icon")
         .put("jpeg", "image/jpeg")
         .put("jpg", "image/jpeg")
         .put("js", JS)
@@ -268,8 +269,7 @@ public abstract class ResourceServlet extends HttpServlet {
 
 
   private static boolean isUnreasonableName(String name) {
-    return name.length() < 1
-      || name.contains("\\") // no windows/dos style paths
+    return name.contains("\\") // no windows/dos style paths
       || name.startsWith("../") // no "../etc/passwd"
       || name.contains("/../") // no "foo/../etc/passwd"
       || name.contains("/./") // "foo/./foo" is insane to ask

@@ -51,6 +51,12 @@ public enum CommitMergeStatus {
   NO_SUBMIT_TYPE(""),
 
   /** */
+  MISMATCHED_SUBMIT_TYPE("Cannot mix submit types within a batch sumitted to a branch.\n"
+                         + "\n"
+                         + "You may submit changes one by one, or modify submit rules to"
+                         + " ensure changes have the same submit type."),
+
+  /** */
   MANUAL_RECURSIVE_MERGE("The change requires a local merge to resolve.\n"
                        + "\n"
                        + "Please merge (or rebase) the change locally and upload the resolution for review."),

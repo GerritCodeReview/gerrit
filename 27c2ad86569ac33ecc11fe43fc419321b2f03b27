@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45726a21_a5d5fe0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-12-14T17:19:39Z",
+      "side": 1,
+      "message": "iiuc, this is bogus. the idea of the loop above is that you may be removing multiple approvals (for different labels), but for a single user. consequently, you need to invoke the hook only exactly once.\n\nsimilarly, the emailReviewers function below would mail the same user multiple times, unless the list is de-duplicated elsewhere.",
+      "revId": "27c2ad86569ac33ecc11fe43fc419321b2f03b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5fefe6e_52fd1492",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-12-14T17:19:39Z",
+      "side": 1,
+      "message": "do i get it right that this is just an addition to the reviewers that still are on the change?",
+      "revId": "27c2ad86569ac33ecc11fe43fc419321b2f03b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5fefe6e_32ee90e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-12-14T17:19:39Z",
+      "side": 1,
+      "message": "\"new\" seems wrong.",
+      "revId": "27c2ad86569ac33ecc11fe43fc419321b2f03b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5fefe6e_72f818a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/DeleteReviewerSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-12-14T17:19:39Z",
+      "side": 1,
+      "message": "review[er]",
+      "revId": "27c2ad86569ac33ecc11fe43fc419321b2f03b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

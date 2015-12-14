@@ -242,7 +242,11 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
     info.reportBugText = cfg.getString("gerrit", null, "reportBugText");
     info.docUrl = getDocUrl(cfg);
-    info.docSearch = docSearcher.isAvailable();
+    if (cfg.getBoolean("gerrit", null, "autoDetectDocSearch", true)) {
+      info.docSearch = docSearcher.isAvailable();
+    } else {
+      info.docSearch = false;
+    }
     info.editGpgKeys = toBoolean(enableSignedPush
         && cfg.getBoolean("gerrit", null, "editGpgKeys", true));
     return info;

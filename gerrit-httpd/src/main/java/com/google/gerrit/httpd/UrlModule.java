@@ -21,7 +21,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
-import com.google.gerrit.httpd.raw.RobotsServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.httpd.rpc.access.AccessRestApiServlet;
@@ -104,8 +103,6 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
 
     filter("/Documentation/").through(QueryDocumentationFilter.class);
-
-    serve("/robots.txt").with(RobotsServlet.class);
   }
 
   private Key<HttpServlet> notFound() {

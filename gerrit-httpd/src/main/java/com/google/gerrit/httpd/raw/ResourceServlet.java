@@ -75,6 +75,7 @@ public abstract class ResourceServlet extends HttpServlet {
         .put("gif", "image/gif")
         .put("htm", "text/html")
         .put("html", "text/html")
+        .put("ico", "image/x-icon")
         .put("jpeg", "image/jpeg")
         .put("jpg", "image/jpeg")
         .put("js", JS)

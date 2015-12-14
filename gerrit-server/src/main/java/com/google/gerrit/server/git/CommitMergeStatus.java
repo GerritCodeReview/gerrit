@@ -51,6 +51,21 @@ public enum CommitMergeStatus {
   NO_SUBMIT_TYPE(""),
 
   /** */
+  MISMATCHED_SUBMIT_TYPE("Cannot mix submit types within a batch submitted to a"
+                         + " branch."
+                         + "\n"
+                         + "The Prolog submit type rules for this project"
+                         + " determined that different changes from this"
+                         + " batch with the same destination branch should be"
+                         + " submitted using different methods. This is not a"
+                         + " supported configuration --- please contact your"
+                         + " site administrator."
+                         + "\n"
+                         + "You may submit the changes one at a time in the"
+                         + " meantime."),
+
+
+  /** */
   MANUAL_RECURSIVE_MERGE("The change requires a local merge to resolve.\n"
                        + "\n"
                        + "Please merge (or rebase) the change locally and upload the resolution for review."),

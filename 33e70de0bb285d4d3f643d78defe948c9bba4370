@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8580e214_079c167d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-14T01:23:31Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "33e70de0bb285d4d3f643d78defe948c9bba4370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05beb2c6_93af7ca4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-14T01:23:31Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "33e70de0bb285d4d3f643d78defe948c9bba4370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05beb2c6_73abc099",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-14T01:23:31Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "33e70de0bb285d4d3f643d78defe948c9bba4370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05beb2c6_b3ac78b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-14T01:23:31Z",
+      "side": 1,
+      "message": "Both of these are now unused.",
+      "range": {
+        "startLine": 314,
+        "startChar": 4,
+        "endLine": 315,
+        "endChar": 53
+      },
+      "revId": "33e70de0bb285d4d3f643d78defe948c9bba4370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05beb2c6_d3b9f4ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-14T01:23:31Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "33e70de0bb285d4d3f643d78defe948c9bba4370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

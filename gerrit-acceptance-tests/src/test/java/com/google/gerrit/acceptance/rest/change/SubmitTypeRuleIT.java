@@ -20,6 +20,7 @@ import static com.google.gerrit.extensions.client.SubmitType.FAST_FORWARD_ONLY;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_ALWAYS;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_IF_NECESSARY;
 import static com.google.gerrit.extensions.client.SubmitType.REBASE_IF_NECESSARY;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -27,16 +28,20 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.TestSubmitRule;
+import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
+import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -48,6 +53,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SubmitTypeRuleIT extends AbstractDaemonTest {
+  @ConfigSuite.Default
+  public static Config submitWholeTopicEnabled() {
+    return submitWholeTopicEnabledConfig();
+  }
+
   private class RulesPl extends VersionedMetaData {
     private static final String FILENAME = "rules.pl";
 
@@ -184,6 +194,58 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     assertThat(log.get(0).getFullMessage())
         .contains("Change-Id: " + r.getChangeId());
     assertThat(log.get(0).getFullMessage()).contains("Reviewed-on: ");
+  }
+
+  @Test
+  public void mixingSubmitTypesAcrossBranchesSucceeds() throws Exception {
+    setRulesPl(SUBMIT_TYPE_FROM_SUBJECT);
+
+    PushOneCommit.Result r1 = createChange("master", "MERGE_IF_NECESSARY 1");
+
+    RevCommit initialCommit = r1.getCommit().getParent(0);
+    BranchInput bin = new BranchInput();
+    bin.revision = initialCommit.name();
+    gApi.projects().name(project.get()).branch("branch").create(bin);
+
+    testRepo.reset(initialCommit);
+    PushOneCommit.Result r2 = createChange("branch", "MERGE_ALWAYS 1");
+
+    gApi.changes().id(r1.getChangeId()).topic(name("topic"));
+    gApi.changes().id(r1.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r2.getChangeId()).topic(name("topic"));
+    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r2.getChangeId()).current().submit();
+
+    assertThat(log("master", 1).get(0).name()).isEqualTo(r1.getCommit().name());
+
+    List<RevCommit> branchLog = log("branch", 1);
+    assertThat(branchLog.get(0).getParents()).hasLength(2);
+    assertThat(branchLog.get(0).getParent(1).name())
+        .isEqualTo(r2.getCommit().name());
+  }
+
+  @Test
+  public void mixingSubmitTypesOnOneBranchFails() throws Exception {
+    setRulesPl(SUBMIT_TYPE_FROM_SUBJECT);
+
+    PushOneCommit.Result r1 = createChange("master", "CHERRY_PICK 1");
+    PushOneCommit.Result r2 = createChange("master", "MERGE_IF_NECESSARY 2");
+
+    gApi.changes().id(r1.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.approve());
+
+    try {
+      gApi.changes().id(r2.getChangeId()).current().submit();
+      fail("Expected ResourceConflictException");
+    } catch (ResourceConflictException e) {
+      assertThat(e).hasMessage("Merge Conflict");
+      Throwable t = e.getCause();
+      assertThat(t).isInstanceOf(IntegrationException.class);
+      assertThat(t.getMessage()).isEqualTo(
+          "Change " + r1.getChange().getId() + " has submit type CHERRY_PICK, "
+          + "but previously chose submit type MERGE_IF_NECESSARY from change "
+          + r2.getChange().getId() + " in the same batch");
+    }
   }
 
   private List<RevCommit> log(String commitish, int n) throws Exception {

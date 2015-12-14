@@ -70,6 +70,30 @@
       "revId": "03fe5ffe02db95c99219d93bb8de4b1722b4c5f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5fefe6e_b2d8c046",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-12-14T14:10:07Z",
+      "side": 1,
+      "message": "Turns out that the idea of storing the parent commit ids in the index and providing the is:merge predicate which will find those changes which have more than one parent commit is either not possible or I am missing something obvious.\n\nI tried with the following (multi-valued) field:\n\n  public static final FieldDef\u003cChangeData, Iterable\u003cString\u003e\u003e PARENT_COMMIT \u003d\n      new FieldDef.Repeatable\u003cChangeData, String\u003e(\n          \"parentcommit\", FieldType.EXACT, true) {\n\n        @Override\n        public Iterable\u003cString\u003e get(ChangeData input, FillArgs args)\n                    throws OrmException {\n          return getParentCommits(input);\n        }\n  };\n\nand the following index predicate:\n\n  public class IsMergePredicate extends IndexPredicate\u003cChangeData\u003e {\n\n    public IsMergePredicate() {\n      super(ChangeField.PARENT_COMMIT, \"1\");\n    }\n\n    @Override\n    public boolean match(ChangeData cd) throws OrmException {\n      return cd.getParentCommits().size() \u003e 1;\n    }\n\n    @Override\n    public int getCost() {\n      return 1;\n    }\n  }\n\nThe \"is:merge\" query finds nothing. When I debug I find that the query:\n\n \"is:merge\"\n\nis transformed into:\n\n  ((status:new OR status:draft) parentcommit:1)\n\nwhich, of course, will find nothing. On lucene level we would need something like:\n\n  ((status:new OR status:draft) COUNT(parentcommit) \u003e 1)\n\nas we want to find those changes which have more than one parent commit.\nWe are not searching for specific values here but just want to query on the number of values.\n\nDoes Lucene support that?\n\nI found a couple of questions, [1] and [2], on that topic and both suggest creating an int field which would contain the number of the values in the PARENT_COMMIT multi-valued field and querying on that int field. However, this would\nbe equivalent with storing just the count. Since storing the count is not of any bigger value than storing just the boolean (as David pointed out) I tend to stay with the current implementation.\n\n[1] http://stackoverflow.com/questions/27919702/make-multivalued-field-scoring-aware-of-field-values-count-with-lucene\n[2] http://grokbase.com/t/lucene/solr-user/117x4vqjrn/query-on-multi-valued-field\n\nthen the search for \"is:merge\" finds nothing.",
+      "parentUuid": "e0334cd5_8a15eb8b",
+      "range": {
+        "startLine": 660,
+        "startChar": 13,
+        "endLine": 660,
+        "endChar": 34
+      },
+      "revId": "03fe5ffe02db95c99219d93bb8de4b1722b4c5f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

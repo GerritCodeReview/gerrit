@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e5fefe6e_5216b495",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-12-14T19:45:50Z",
+      "side": 1,
+      "message": "Drop this word?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "ee002b1eb729f0b648de15c6e0c82561001d6094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8580e214_c7d2fe24",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -13,6 +36,47 @@
       "writtenOn": "2015-12-14T17:35:24Z",
       "side": 1,
       "message": "(RFC) Another possible solution would be to hard code the order of submit types in the order they make most sense.\n\n    FF only / Merge Always\n    Merge if necessary \n    Rebase if necessary\n    Cherrypick\n\nBy having the Cherrypick type last, we don\u0027t run into problems with revisions being out of date.\nThe same reason puts rebase at the second last order.\nMerge if necessary is a weaker form of both either FF only or Merge Always.\n\nThe FF only and Merge Always are mutually exclusive within one submission though. (They could be resolved if you take topological order into account)",
+      "revId": "ee002b1eb729f0b648de15c6e0c82561001d6094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45726a21_850ac266",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-12-14T19:45:50Z",
+      "side": 1,
+      "message": "Suppose we put cherry-pick last. Consider the following sequence of commits:\n\n  A -- B\n\nSuppose A has cherry-pick submit type and B has \u0027Merge if necessary\u0027 submit type. What happens when I try to submit B with its ancestors?",
+      "parentUuid": "8580e214_c7d2fe24",
+      "revId": "ee002b1eb729f0b648de15c6e0c82561001d6094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5fefe6e_7211389c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-12-14T19:45:50Z",
+      "side": 1,
+      "message": "s/sumitted/submitted/\n\nIt would be hard to act on this if the changes in the batch have the same topic --- the user has to realize they need to unset the topic before they can submit changes one at a time. Maybe we should focus on the \"please contact the server admin\" side of things? E.g. something like\n\n Cannot mix submit types within a batch submitted to a branch\n\n The Prolog submit type rules for this project determined\n that different changes from this batch with the same\n destination branch should be submitted using different\n methods. This is not a supported configuration --- please\n contact your site administrator.\n\n You may submit the changes one at a time in the meantime.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 73
+      },
       "revId": "ee002b1eb729f0b648de15c6e0c82561001d6094",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

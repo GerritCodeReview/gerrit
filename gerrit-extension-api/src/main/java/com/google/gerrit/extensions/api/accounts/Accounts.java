@@ -38,6 +38,11 @@ public interface Accounts {
   AccountApi id(String id) throws RestApiException;
 
   /**
+   * @see #id(String)
+   */
+  AccountApi id(int id) throws RestApiException;
+
+  /**
    * Look up the account of the current in-scope user.
    *
    * @see #id(String)
@@ -114,6 +119,11 @@ public interface Accounts {
   public class NotImplemented implements Accounts {
     @Override
     public AccountApi id(String id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccountApi id(int id) throws RestApiException {
       throw new NotImplementedException();
     }
 

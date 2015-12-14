@@ -43,16 +43,25 @@ limitations under the License.
       .status {
         width: 20px;
       }
+      .drafts {
+        color: #C62828;
+        font-weight: bold;
+      }
     </style>
-    <gr-ajax id="xhr"
+    <gr-ajax id="filesXHR"
         url="[[_computeFilesURL(changeNum, revision)]]"
         on-response="_handleResponse"></gr-ajax>
+    <gr-ajax id="draftsXHR"
+        url="[[_computeDraftsURL(changeNum, revision)]]"
+        last-response="{{_drafts}}"></gr-ajax>
+    </gr-ajax>
     <div class="tableContainer">
       <table>
         <tr>
           <th></th>
           <th></th>
           <th>Path</th>
+          <th>Comments</th>
           <th>Stats</th>
         </tr>
         <template is="dom-repeat" items="{{files}}" as="file">
@@ -62,6 +71,10 @@ limitations under the License.
             <td class="path">
               <a class="file"
                  href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">[[file.__path]]</a>
+            </td>
+            <td>
+              <span class="drafts">[[_computeDraftsString(_drafts, file.__path)]]</span>
+              <span class="comments">[[_computeCommentsString(comments, file.__path)]]</span>
             </td>
             <td>
               +<span>[[file.lines_inserted]]</span> lines,
@@ -81,28 +94,48 @@ limitations under the License.
 
       properties: {
         patchNum: Number,
-        changeNum: {
-          type: Number,
-          observer: '_changeNumOrRevisionChanged',
-        },
-        revision: {
-          type: String,
-          observer: '_changeNumOrRevisionChanged',
-        },
-        comments: {
-          type: Array,
-          value: function() { return []; },
-        },
+        changeNum: Number,
+        revision: String,
+        comments: Object,
+
+        _drafts: Object,
       },
 
-      _changeNumOrRevisionChanged: function() {
+      observers: [
+        '_changeNumOrRevisionChanged(changeNum, revision)',
+      ],
+
+      reload: function() {
         if (!!this.changeNum && !!this.revision) {
-          this.$.xhr.generateRequest();
+          this.$.filesXHR.generateRequest();
+          this.$.draftsXHR.generateRequest();
         }
       },
 
+      _changeNumOrRevisionChanged: function(changeNum, revision) {
+        this.reload();
+      },
+
       _computeFilesURL: function(changeNum, revision) {
-        return '/changes/' + changeNum + '/revisions/' + revision + '/files';
+        return Changes.baseURL(changeNum, revision) + '/files';
+      },
+
+      _computeCommentsString: function(comments, path) {
+        var num = (comments[path] || []).length;
+        if (num == 0) { return ''; }
+        if (num == 1) { return '1 comment'; }
+        if (num > 1) { return num + ' comments'; };
+      },
+
+      _computeDraftsURL: function(changeNum, revision) {
+        return Changes.baseURL(changeNum, revision) + '/drafts';
+      },
+
+      _computeDraftsString: function(drafts, path) {
+        var num = (drafts[path] || []).length;
+        if (num == 0) { return ''; }
+        if (num == 1) { return '1 draft'; }
+        if (num > 1) { return num + ' drafts'; };
       },
 
       _handleResponse: function(e, req) {

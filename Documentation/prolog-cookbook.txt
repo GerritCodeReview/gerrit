@@ -48,6 +48,13 @@ type.
 Prolog based submit type computes a submit type for each change. The computed
 submit type is shown on the change screen for each change.
 
+When submitting changes in a batch using "Submit including ancestors" or "Submit
+whole topic", submit type rules may not be used to mix submit types on a single
+branch, and trying to submit such a batch will fail. This avoids potentially
+confusing behavior and spurious submit failures. It is recommended to only use
+submit type rules to change submit types for an entire branch, which avoids this
+situation.
+
 == Prolog Language
 This document is not a complete Prolog tutorial.
 link:http://en.wikipedia.org/wiki/Prolog[This Wikipedia page on Prolog] is a
@@ -1005,30 +1012,6 @@ submit_type(T) :- gerrit:project_default_submit_type(T)
 The first `submit_type` predicate defines the `Fast Forward Only` submit type
 for `+refs/heads/stable.*+` branches. The second `submit_type` predicate returns
 the project's default submit type.
-
-=== Example 3: Don't require `Fast Forward Only` if only documentation was changed
-Like in the previous example we want the `Fast Forward Only` submit type for the
-`+refs/heads/stable*+` branches.  However, if only documentation was changed
-(only `+*.txt+` files), then we allow project's default submit type for such
-changes.
-
-`rules.pl`
-[source,prolog]
-----
-submit_type(fast_forward_only) :-
-    gerrit:commit_delta('(?<!\.txt)$'),
-    gerrit:change_branch(B), regex_matches('refs/heads/stable.*', B),
-    !.
-submit_type(T) :- gerrit:project_default_submit_type(T)
-----
-
-The `gerrit:commit_delta('(?<!\.txt)$')` succeeds if the change contains a file
-whose name doesn't end with `.txt` The rest of this rule is same like in the
-previous example.
-
-If all file names in the change end with `.txt`, then the
-`gerrit:commit_delta('(?<!\.txt)$')` will fail as no file name will match this
-regular expression.
 
 GERRIT
 ------

@@ -66,6 +66,13 @@ by core plugins:
 
 * TODO add more
 
+Changes
+~~~~~~~
+
+In order to avoid potentially confusing behavior, when submitting changes in a
+batch, submit type rules may not be used to mix submit types on a single branch,
+and trying to submit such a batch will fail.
+
 Bug Fixes
 ---------
 

@@ -1191,7 +1191,7 @@ Name of the link:config-gerrit.html#gerrit.allProjects[root project].
 Name of the link:config-gerrit.html#gerrit.allUsers[project in which
 meta data of all users is stored].
 |`doc_search`        ||
-Whether documentation search is available.
+Whether documentation search is available and enabled.
 |`doc_url`           |optional|
 Custom base URL where Gerrit server documentation is located.
 (Documentation may still be available at /Documentation relative to the

@@ -1718,6 +1718,19 @@ The name is relative to `gerrit.basePath`.
 +
 Defaults to `All-Users` if not set.
 
+[[gerrit.autoDetectDocSearch]]gerrit.autoDetectDocSearch::
++
+Whether to auto detect if doc search is available.
++
+If enabled and documentation is built with gerrit,
+there will be a dropdown to choose between `Changes` and `Docs`
+in the search box.
++
+Disable this option to always hide doc search even when it's
+built in.
++
+Defaults to `true`.
+
 [[gerrit.canonicalWebUrl]]gerrit.canonicalWebUrl::
 +
 The default URL for Gerrit to be accessed through.

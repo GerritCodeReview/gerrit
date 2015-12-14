@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-comment-list.html">
 <link rel="import" href="gr-date-formatter.html">
 
 <dom-module id="gr-message">
@@ -78,7 +79,7 @@ limitations under the License.
       .collapsed .message {
         display: inline;
       }
-      .collapsed .comments {
+      .collapsed gr-comment-list {
         display: none;
       }
       .collapsed .name,
@@ -88,31 +89,13 @@ limitations under the License.
       .expanded .name {
         cursor: pointer;
       }
-      .expanded .message,
-      .expanded .commentMessage {
+      .expanded .message {
         white-space: pre-wrap;
       }
       gr-date-formatter {
         position: absolute;
         right: var(--default-horizontal-margin);
         top: 10px;
-      }
-      .file {
-        border-top: 1px solid #ddd;
-        font-weight: bold;
-        margin: 10px 0 3px;
-        padding: 10px 0 5px;
-      }
-      .commentContainer {
-        display: flex;
-        margin: 5px 0;
-      }
-      .lineNum {
-        margin-right: 10px;
-        min-width: 75px;
-      }
-      .commentMessage {
-        flex: 1;
       }
     </style>
     <div class$="[[_computeClass(expanded, showAvatar)]]">
@@ -121,28 +104,10 @@ limitations under the License.
         <div class="name" id="name">[[message.author.name]]</div>
         <div class="content">
           <div class="message">[[message.message]]</div>
-          <div class="comments">
-            <template is="dom-repeat" items="{{files}}" as="file">
-              <div class="file">
-                <a href$="[[_computeFileDiffURL(file, changeNum, message._revision_number)]]">[[file]]</a>:
-              </div>
-              <template is="dom-repeat"
-                        items="[[_computeCommentsForFile(file)]]" as="comment">
-                <div class="commentContainer">
-                  <a class="lineNum"
-                     href$="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]">
-                     <template is="dom-if" if="[[comment.line]]">
-                       Line <span>[[comment.line]]</span>:
-                     </template>
-                     <template is="dom-if" if="[[!comment.line]]">
-                       File comment:
-                     </template>
-                  </a>
-                  <div class="commentMessage">[[comment.message]]</div>
-                </div>
-              </template>
-            </template>
-          </div>
+          <gr-comment-list
+              comments="[[comments]]"
+              change-num="[[changeNum]]"
+              patch-num="[[message._revision_number]]"></gr-comment-list>
         </div>
         <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
       </div>
@@ -185,24 +150,7 @@ limitations under the License.
       },
 
       _commentsChanged: function(value) {
-        this.files = Object.keys(value || {}).sort();
-        this.expanded = this.files.length > 0;
-      },
-
-      _computeFileDiffURL: function(file, changeNum, patchNum) {
-        return '/c/' + changeNum + '/' + patchNum + '/' + file;
-      },
-
-      _computeDiffLineURL: function(file, changeNum, patchNum, comment) {
-        var diffURL = this._computeFileDiffURL(file, changeNum, patchNum);
-        if (comment.line) {
-          diffURL += '#' + comment.line;
-        }
-        return diffURL;
-      },
-
-      _computeCommentsForFile: function(file) {
-        return this.comments[file];
+        this.expanded = Object.keys(value || {}).length > 0;
       },
 
       _tapHandler: function(e) {

@@ -1,0 +1,117 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="gr-comment-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .file {
+        border-top: 1px solid #ddd;
+        font-weight: bold;
+        margin: 10px 0 3px;
+        padding: 10px 0 5px;
+      }
+      .container {
+        display: flex;
+        margin: 5px 0;
+      }
+      .lineNum {
+        margin-right: .35em;
+        min-width: 7em;
+      }
+      .message {
+        flex: 1;
+        white-space: pre-wrap;
+      }
+    </style>
+    <template is="dom-repeat" items="{{_files}}" as="file">
+      <div class="file">
+        <a href$="[[_computeFileDiffURL(file, changeNum, patchNum)]]">[[file]]</a>:
+      </div>
+      <template is="dom-repeat"
+                items="[[_computeCommentsForFile(file)]]" as="comment">
+        <div class="container">
+          <a class="lineNum"
+             href$="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]">
+             <span hidden$="[[!comment.line]]">
+               <span>[[_computePatchDisplayName(comment)]]</span>
+               Line <span>[[comment.line]]</span>:
+             </span>
+             <span hidden$="[[comment.line]]">
+               File comment:
+             </span>
+          </a>
+          <div class="message">[[comment.message]]</div>
+        </div>
+      </template>
+    </template>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-comment-list',
+
+      properties: {
+        changeNum: Number,
+        comments: {
+          type: Object,
+          observer: '_commentsChanged',
+        },
+        patchNum: Number,
+
+        _files: Array,
+      },
+
+      _commentsChanged: function(value) {
+        this._files = Object.keys(value || {}).sort();
+      },
+
+      _computeFileDiffURL: function(file, changeNum, patchNum) {
+        return '/c/' + changeNum + '/' + patchNum + '/' + file;
+      },
+
+      _computeDiffLineURL: function(file, changeNum, patchNum, comment) {
+        var diffURL = this._computeFileDiffURL(file, changeNum, patchNum);
+        if (comment.line) {
+          // TODO(andybons): This is not correct if the comment is on the base.
+          diffURL += '#' + comment.line;
+        }
+        return diffURL;
+      },
+
+      _computeCommentsForFile: function(file) {
+        return this.comments[file];
+      },
+
+      _computePatchDisplayName: function(comment) {
+        if (comment.side == 'PARENT') {
+          return 'Base, ';
+        }
+        if (comment.patch_set != this.patchNum) {
+          return 'PS' + comment.patch_set + ', ';
+        }
+        return '';
+      }
+    });
+  })();
+  </script>
+</dom-module>

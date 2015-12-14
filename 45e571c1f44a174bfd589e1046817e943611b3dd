@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "65af6e62_26c47665",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-14T19:14:48Z",
+      "side": 1,
+      "message": "add more specificity of what is added, here. You already link to the bug below.",
+      "revId": "45e571c1f44a174bfd589e1046817e943611b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05a4f285_23fd4a93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-14T19:14:48Z",
+      "side": 1,
+      "message": "Feature: Issue 3650",
+      "revId": "45e571c1f44a174bfd589e1046817e943611b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05a4f285_63f342cb",
         "filename": "polygerrit-ui/app/scripts/linkify.js",
         "patchSetId": 6

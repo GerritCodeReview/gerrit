@@ -73,6 +73,8 @@ public class StaticModule extends ServletModule {
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
+  private static final String POLYGERRIT_INDEX_SERVLET =
+      "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
 
   private final GerritOptions options;
@@ -228,18 +230,21 @@ public class StaticModule extends ServletModule {
         // separate servlet.
       }
 
+      Key<HttpServlet> indexKey = named(POLYGERRIT_INDEX_SERVLET);
       for (String p : POLYGERRIT_INDEX_PATHS) {
         filter(p).through(XsrfCookieFilter.class);
-        serve(p).with(PolyGerritUiIndexServlet.class);
+        serve(p).with(indexKey);
       }
       serve("/*").with(PolyGerritUiServlet.class);
     }
 
     @Provides
     @Singleton
-    PolyGerritUiIndexServlet getPolyGerritUiIndexServlet(
+    @Named(POLYGERRIT_INDEX_SERVLET)
+    HttpServlet getPolyGerritUiIndexServlet(
         @Named(CACHE) Cache<Path, Resource> cache) {
-      return new PolyGerritUiIndexServlet(cache, polyGerritBasePath());
+      return new SingleFileServlet(
+          cache, polyGerritBasePath().resolve("index.html"), isDev());
     }
 
     @Provides
@@ -256,14 +261,17 @@ public class StaticModule extends ServletModule {
       return new BowerComponentsServlet(cache, getPaths().buckOut);
     }
 
+    private boolean isDev() {
+      return options.forcePolyGerritDev() || getPaths().warFs == null;
+    }
+
     private Path polyGerritBasePath() {
       Paths p = getPaths();
-      boolean forceDev = options.forcePolyGerritDev();
-      if (forceDev) {
+      if (options.forcePolyGerritDev()) {
         checkArgument(p.buckOut != null,
             "no buck-out directory found for PolyGerrit developer mode");
       }
-      return forceDev || p.warFs == null
+      return isDev()
           ? p.buckOut.getParent().resolve("polygerrit-ui").resolve("app")
           : p.warFs.getPath("/polygerrit_ui");
     }

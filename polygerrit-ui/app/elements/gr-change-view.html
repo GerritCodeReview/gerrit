@@ -188,6 +188,7 @@ limitations under the License.
           observer: '_paramsChanged',
         },
         changeNum: Number,
+        comments: Object,
 
         _loggedIn: {
           type: Boolean,
@@ -196,6 +197,7 @@ limitations under the License.
         _loading: Boolean,
         _headerContainerEl: Object,
         _headerEl: Object,
+        _scrollHandler: Function,
       },
 
       keyBindings: {
@@ -206,11 +208,15 @@ limitations under the License.
         app.accountReady.then(function() {
           this._loggedIn = app.loggedIn;
         }.bind(this));
+        this._scrollHandler = this._handleBodyScroll.bind(this);
       },
 
       attached: function() {
-        window.addEventListener('scroll',
-            this._handleBodyScroll.bind(this));
+        window.addEventListener('scroll', this._scrollHandler);
+      },
+
+      detached: function() {
+        window.removeEventListener('scroll', this._scrollHandler);
       },
 
       _handleBodyScroll: function(e) {
@@ -224,8 +230,11 @@ limitations under the License.
              offsetParent = offsetParent.offsetParent) {
           top += offsetParent.offsetTop;
         }
+        // The element may not be displayed yet, in which case do nothing.
+        if (top == 0) { return; }
 
         var el = this._headerEl || this.$$('.header');
+        this._headerEl = el;
         el.classList.toggle('pinned', window.scrollY >= top);
       },
 

@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-request.html">
 
 <dom-module id="gr-reply-dropdown">
@@ -85,6 +86,9 @@ limitations under the License.
     iron-selector > button.iron-selected {
       background-color: #ddd;
     }
+    .draftsContainer h3 {
+      margin-top: .25em;
+    }
     .actionsContainer {
       display: flex;
     }
@@ -99,6 +103,9 @@ limitations under the License.
     }
   </style>
   <template>
+    <gr-ajax id="draftsXHR"
+        url="[[_computeDraftsURL(changeNum)]]"
+        last-response="{{_drafts}}"></gr-ajax>
     <button id="trigger" on-tap="_showPopupTapHandler">Reply</button>
     <iron-dropdown id="dropdown"
         vertical-align="top"
@@ -127,6 +134,14 @@ limitations under the License.
               </template>
             </iron-selector>
           </template>
+        </section>
+        <section class="draftsContainer" hidden$="[[_computeHideDraftList(drafts)]]">
+          <h3>[[_computeDraftsTitle(_drafts)]]</h3>
+          <gr-comment-list
+              show-patch-num
+              comments="[[_drafts]]"
+              change-num="[[changeNum]]"
+              patch-num="[[patchNum]]"></gr-comment-list>
         </section>
         <section class="actionsContainer">
           <a class="action send" href="#" on-tap="_sendTapHandler">Send</a>
@@ -161,6 +176,7 @@ limitations under the License.
         labels: Object,
         permittedLabels: Object,
 
+        _drafts: Object,
         _xhrPromise: Object,  // Used for testing.
         _draft: String,
       },
@@ -170,6 +186,7 @@ limitations under the License.
       },
 
       open: function() {
+        this.$.draftsXHR.generateRequest();
         this.$.dropdown.open();
         this.async(function() {
           this.$.textarea.textarea.focus();
@@ -177,7 +194,26 @@ limitations under the License.
       },
 
       close: function() {
+        this._drafts = null;
         this.$.dropdown.close();
+      },
+
+      _computeDraftsURL: function(changeNum) {
+        return '/changes/' + changeNum + '/drafts';
+      },
+
+      _computeHideDraftList: function(drafts) {
+        return Object.keys(drafts || {}).length == 0;
+      },
+
+      _computeDraftsTitle: function(drafts) {
+        var total = 0;
+        for (var file in drafts) {
+          total += drafts[file].length;
+        }
+        if (total == 0) { return ''; }
+        if (total == 1) { return '1 Draft'; }
+        if (total > 1) { return total + ' Drafts'; };
       },
 
       _computeLabelArray: function(labelsObj) {

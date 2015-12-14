@@ -52,6 +52,24 @@
       "revId": "0c3049183923a59ed947480de4c9fbeeda54af75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8580e214_e7b622fc",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.5.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-14T10:28:29Z",
+      "side": 1,
+      "message": "Sorry, no, I don\u0027t want to backport all the patches that will be necessary to make the latest version of buck work on the stable branches.",
+      "parentUuid": "a065d497_c815ef8a",
+      "revId": "0c3049183923a59ed947480de4c9fbeeda54af75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

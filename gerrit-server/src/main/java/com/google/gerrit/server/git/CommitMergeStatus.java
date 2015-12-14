@@ -48,9 +48,6 @@ public enum CommitMergeStatus {
   REVISION_GONE(""),
 
   /** */
-  NO_SUBMIT_TYPE(""),
-
-  /** */
   MANUAL_RECURSIVE_MERGE("The change requires a local merge to resolve.\n"
                        + "\n"
                        + "Please merge (or rebase) the change locally and upload the resolution for review."),

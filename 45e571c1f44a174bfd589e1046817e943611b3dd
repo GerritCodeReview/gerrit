@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05a4f285_63f342cb",
+        "filename": "polygerrit-ui/app/scripts/linkify.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-14T19:13:25Z",
+      "side": 1,
+      "message": "wrong license.",
+      "revId": "45e571c1f44a174bfd589e1046817e943611b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05a4f285_43ee46e6",
+        "filename": "polygerrit-ui/app/scripts/linkify.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-14T19:13:25Z",
+      "side": 1,
+      "message": "space after //\nbreak into two lines.\ns/gerrit/Gerrit",
+      "revId": "45e571c1f44a174bfd589e1046817e943611b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65af6e62_06bffacd",
+        "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-14T19:13:25Z",
+      "side": 1,
+      "message": "set the content in setup so that it doesn\u0027t overflow here.",
+      "revId": "45e571c1f44a174bfd589e1046817e943611b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05a4f285_a3cffa7c",
+        "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-14T19:13:25Z",
+      "side": 1,
+      "message": "this seem superfluous. it\u0027s one line replacing another.",
+      "revId": "45e571c1f44a174bfd589e1046817e943611b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05a4f285_83d2fe23",
+        "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-14T19:13:25Z",
+      "side": 1,
+      "message": "\"Regular\"\n\nalso period at end of sentences.",
+      "revId": "45e571c1f44a174bfd589e1046817e943611b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

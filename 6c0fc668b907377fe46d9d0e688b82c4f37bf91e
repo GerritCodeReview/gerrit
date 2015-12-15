@@ -116,6 +116,30 @@
       "revId": "6c0fc668b907377fe46d9d0e688b82c4f37bf91e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05beb2c6_53424494",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2015-12-15T19:40:31Z",
+      "side": 1,
+      "message": "And really done now in PS12.",
+      "parentUuid": "5bafab61_66a34ec3",
+      "range": {
+        "startLine": 172,
+        "startChar": 13,
+        "endLine": 172,
+        "endChar": 19
+      },
+      "revId": "6c0fc668b907377fe46d9d0e688b82c4f37bf91e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

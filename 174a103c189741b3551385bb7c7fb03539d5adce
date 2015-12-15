@@ -22,6 +22,30 @@
       "revId": "174a103c189741b3551385bb7c7fb03539d5adce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e50fdeaf_aabe4fce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T21:26:10Z",
+      "side": 0,
+      "message": "No. Look at https://go-review.googlesource.com/17450, scroll down to Dec 7 3:02 PM. It says \"Russ Cox\\nRemoved Code-Review-2 by Russ Cox \u003crsc@golang.org\u003e\".\n\nThere are two users involved: the user doing the removal (A), and the user whose vote was removed (B). The user doing the removal (A) is already right there in the metadata. So it is a natural assumption that the second user listed is the second user involved, B. But no, instead we are listing A twice and B zero times. There is no way this is reasonable behavior.",
+      "parentUuid": "850c62c1_87aa6694",
+      "range": {
+        "startLine": 109,
+        "startChar": 58,
+        "endLine": 109,
+        "endChar": 77
+      },
+      "revId": "174a103c189741b3551385bb7c7fb03539d5adce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

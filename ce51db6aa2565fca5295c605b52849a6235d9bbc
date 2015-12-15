@@ -22,6 +22,30 @@
       "revId": "ce51db6aa2565fca5295c605b52849a6235d9bbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d50a32_6db07503",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T15:49:45Z",
+      "side": 1,
+      "message": "They can\u0027t be created until you have the MultiProgressMonitor passed into the processCommands method by an external caller.",
+      "parentUuid": "052f928d_4b1c05b5",
+      "range": {
+        "startLine": 18,
+        "startChar": 49,
+        "endLine": 19,
+        "endChar": 13
+      },
+      "revId": "ce51db6aa2565fca5295c605b52849a6235d9bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

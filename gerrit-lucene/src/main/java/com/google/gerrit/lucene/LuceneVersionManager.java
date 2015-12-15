@@ -51,6 +51,7 @@ public class LuceneVersionManager implements LifecycleListener {
       .getLogger(LuceneVersionManager.class);
 
   private static final String CHANGES_PREFIX = "changes_";
+  public static final String RUN_REINDEX = "No index versions ready; run java -jar <gerritwar> reindex";
 
   private static class Version {
     private final Schema<ChangeData> schema;
@@ -121,10 +122,10 @@ public class LuceneVersionManager implements LifecycleListener {
     }
 
     if (!Files.exists(sitePaths.index_dir)) {
-      throw new ProvisionException("No index versions ready; run Reindex");
+      throw new ProvisionException(RUN_REINDEX);
     } else if (!Files.exists(sitePaths.index_dir)) {
       log.warn("Not a directory: %s", sitePaths.index_dir.toAbsolutePath());
-      throw new ProvisionException("No index versions ready; run Reindex");
+      throw new ProvisionException(RUN_REINDEX);
     }
 
     TreeMap<Integer, Version> versions = scanVersions(cfg);
@@ -148,7 +149,7 @@ public class LuceneVersionManager implements LifecycleListener {
       }
     }
     if (search == null) {
-      throw new ProvisionException("No index versions ready; run Reindex");
+      throw new ProvisionException(RUN_REINDEX);
     }
 
     markNotReady(cfg, versions.values(), write);

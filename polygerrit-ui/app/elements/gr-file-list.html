@@ -49,10 +49,10 @@ limitations under the License.
       }
     </style>
     <gr-ajax id="filesXHR"
-        url="[[_computeFilesURL(changeNum, revision)]]"
+        url="[[_computeFilesURL(changeNum, patchNum)]]"
         on-response="_handleResponse"></gr-ajax>
     <gr-ajax id="draftsXHR"
-        url="[[_computeDraftsURL(changeNum, revision)]]"
+        url="[[_computeDraftsURL(changeNum, patchNum)]]"
         last-response="{{_drafts}}"></gr-ajax>
     </gr-ajax>
     <div class="tableContainer">
@@ -73,8 +73,8 @@ limitations under the License.
                  href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">[[file.__path]]</a>
             </td>
             <td>
-              <span class="drafts">[[_computeDraftsString(_drafts, file.__path)]]</span>
-              <span class="comments">[[_computeCommentsString(comments, file.__path)]]</span>
+              <span class="drafts">[[_computeDraftsString(_drafts, patchNum, file.__path)]]</span>
+              <span class="comments">[[_computeCommentsString(comments, patchNum, file.__path)]]</span>
             </td>
             <td>
               +<span>[[file.lines_inserted]]</span> lines,
@@ -93,46 +93,54 @@ limitations under the License.
       is: 'gr-file-list',
 
       properties: {
-        patchNum: Number,
-        changeNum: Number,
-        revision: String,
+        patchNum: String,
+        changeNum: String,
         comments: Object,
 
         _drafts: Object,
       },
 
       observers: [
-        '_changeNumOrRevisionChanged(changeNum, revision)',
+        '_changeNumOrPatchNumChanged(changeNum, patchNum)',
       ],
 
       reload: function() {
-        if (!!this.changeNum && !!this.revision) {
+        if (!!this.changeNum && !!this.patchNum) {
           this.$.filesXHR.generateRequest();
-          this.$.draftsXHR.generateRequest();
+          app.accountReady.then(function() {
+            if (!app.loggedIn) { return; }
+            this.$.draftsXHR.generateRequest();
+          });
         }
       },
 
-      _changeNumOrRevisionChanged: function(changeNum, revision) {
+      _changeNumOrPatchNumChanged: function(changeNum, patchNum) {
         this.reload();
       },
 
-      _computeFilesURL: function(changeNum, revision) {
-        return Changes.baseURL(changeNum, revision) + '/files';
+      _computeFilesURL: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/files';
       },
 
-      _computeCommentsString: function(comments, path) {
-        var num = (comments[path] || []).length;
+      _computeCommentsString: function(comments, patchNum, path) {
+        var patchComments = (comments[path] || []).filter(function(c) {
+          return c.patch_set == patchNum;
+        });
+        var num = patchComments.length;
         if (num == 0) { return ''; }
         if (num == 1) { return '1 comment'; }
         if (num > 1) { return num + ' comments'; };
       },
 
-      _computeDraftsURL: function(changeNum, revision) {
-        return Changes.baseURL(changeNum, revision) + '/drafts';
+      _computeDraftsURL: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/drafts';
       },
 
-      _computeDraftsString: function(drafts, path) {
-        var num = (drafts[path] || []).length;
+      _computeDraftsString: function(drafts, patchNum, path) {
+        var patchDrafts = (drafts[path] || []).filter(function(d) {
+          return d.patch_set == patchNum;
+        });
+        var num = patchDrafts.length;
         if (num == 0) { return ''; }
         if (num == 1) { return '1 draft'; }
         if (num > 1) { return num + ' drafts'; };

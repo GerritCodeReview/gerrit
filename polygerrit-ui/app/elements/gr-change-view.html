@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-file-list.html">
+<link rel="import" href="gr-linked-text.html">
 <link rel="import" href="gr-messages-list.html">
 <link rel="import" href="gr-reply-dropdown.html">
 
@@ -175,11 +176,13 @@ limitations under the License.
           </tr>
         </table>
       </section>
-      <section class="summary">[[_commitInfo.message]]</section>
+      <section class="summary">
+        <gr-linked-text content="[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>
+      </section>
       <gr-file-list id="fileList"
-          change-num="[[_changeNum]]"
-          patch-num="[[_patchNum]]"
-          comments="[[_comments]]"></gr-file-list>
+                change-num="[[_changeNum]]"
+                patch-num="[[_patchNum]]"
+                comments="[[_comments]]"></gr-file-list>
       <gr-messages-list
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"

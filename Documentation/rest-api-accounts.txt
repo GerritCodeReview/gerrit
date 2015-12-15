@@ -420,6 +420,43 @@ Deletes the HTTP password of an account.
   HTTP/1.1 204 No Content
 ----
 
+[[get-oauth-token]]
+=== Get OAuth Access Token
+--
+'GET /accounts/link:#account-id[\{account-id\}]/oauthtoken'
+--
+
+Returns a previously obtained OAuth access token.
+
+.Request
+----
+  GET /accounts/self/oauthtoken HTTP/1.1
+----
+
+As a response, an link:#oauth-token-info[OAuthTokenInfo] entity is returned
+that describes the OAuth access token.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+   )]}'
+    {
+      "username": "johndow",
+      "resource_host": "gerrit.example.org",
+      "access_token": "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOi",
+      "provider_id": "oauth-plugin:oauth-provider",
+      "expires_at": "922337203775807",
+      "type": "bearer"
+    }
+----
+
+If there is no token available, or the token has already expired,
+"`404 Not Found`" is returned as response. Requests to obtain an access
+token of another user are rejected with "`403 Forbidden`".
+
 [[list-account-emails]]
 === List Account Emails
 --
@@ -1898,6 +1935,22 @@ password directly. +
 If empty or not set and `generate` is false or not set, the HTTP
 password is deleted.
 |============================
+
+[[oauth-token-info]]
+=== OAuthTokenInfo
+The `OAuthTokenInfo` entity contains information about an OAuth access token.
+
+[options="header",cols="1,^1,5"]
+|========================
+|Field Name      ||Description
+|`username`      ||The owner of the OAuth access token.
+|`resource_host` ||The host of the Gerrit instance.
+|`access_token`  ||The actual token value.
+|`provider_id`   |optional|
+The identifier of the OAuth provider in the form `plugin-name:provider-name`.
+|`expires_at`    |optional|Time of expiration of this token in milliseconds.
+|`type`          ||The type of the OAuth access token, always `bearer`.
+|========================
 
 [[preferences-info]]
 === PreferencesInfo

@@ -27,16 +27,23 @@ public class OAuthToken {
    */
   private final long expiresAt;
 
+  /**
+   * The identifier of the OAuth provider that issued this token
+   * in the form <tt>"plugin-name:provider-name"</tt>, or {@code null}.
+   */
+  private final String providerId;
+
   public OAuthToken(String token, String secret, String raw) {
-    this(token, secret, raw, Long.MAX_VALUE);
+    this(token, secret, raw, Long.MAX_VALUE, null);
   }
 
   public OAuthToken(String token, String secret, String raw,
-      long expiresAt) {
+      long expiresAt, String providerId) {
     this.token = token;
     this.secret = secret;
     this.raw = raw;
     this.expiresAt = expiresAt;
+    this.providerId = providerId;
   }
 
   public String getToken() {
@@ -57,5 +64,9 @@ public class OAuthToken {
 
   public boolean isExpired() {
     return System.currentTimeMillis() > expiresAt;
+  }
+
+  public String getProviderId() {
+    return providerId;
   }
 }

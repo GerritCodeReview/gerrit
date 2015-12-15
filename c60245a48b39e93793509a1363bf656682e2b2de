@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "850c62c1_47ad8ea9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-15T21:27:08Z",
+      "side": 1,
+      "message": "Ah, yes, it is checked that the author/delete is the admin user.",
+      "range": {
+        "startLine": 486,
+        "startChar": 4,
+        "endLine": 486,
+        "endChar": 73
+      },
+      "revId": "c60245a48b39e93793509a1363bf656682e2b2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

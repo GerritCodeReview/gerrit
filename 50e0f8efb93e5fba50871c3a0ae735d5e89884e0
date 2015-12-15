@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5e9fafb_d1c94480",
+        "filename": "polygerrit-ui/app/test/gr-reply-dropdown-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T17:20:27Z",
+      "side": 1,
+      "message": "Remove debug logs.",
+      "revId": "50e0f8efb93e5fba50871c3a0ae735d5e89884e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

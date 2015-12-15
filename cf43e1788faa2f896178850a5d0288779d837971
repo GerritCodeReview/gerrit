@@ -106,6 +106,24 @@
       "revId": "cf43e1788faa2f896178850a5d0288779d837971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5e9fafb_11b7ccf9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T15:55:57Z",
+      "side": 1,
+      "message": "How is this beneficial? I\u0027d reuse as much code as possible from the actual run in a new design.",
+      "parentUuid": "c5e9fafb_b1a5a0c8",
+      "revId": "cf43e1788faa2f896178850a5d0288779d837971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

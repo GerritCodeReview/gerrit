@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5e9fafb_f1ed68e8",
+        "filename": "polygerrit-ui/app/elements/gr-comment-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T17:33:59Z",
+      "side": 1,
+      "message": "This seems like it could be off if the comment is on the base and the line numbers don\u0027t match.\n\nProbably current Gerrit is broken here too.",
+      "revId": "beac1efb989b5e7707c2f98817671c8fe743b12c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5e9fafb_31d3f02b",
+        "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T17:33:59Z",
+      "side": 1,
+      "message": "I don\u0027t see this attribute in gr-comment-list?",
+      "revId": "beac1efb989b5e7707c2f98817671c8fe743b12c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

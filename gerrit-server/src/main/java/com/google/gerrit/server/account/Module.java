@@ -60,6 +60,8 @@ public class Module extends RestApiModule {
     get(SSH_KEY_KIND).to(GetSshKey.class);
     delete(SSH_KEY_KIND).to(DeleteSshKey.class);
 
+    get(ACCOUNT_KIND, "oauthtoken").to(GetOAuthToken.class);
+
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);
 

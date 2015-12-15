@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "45d50a32_cdc9a980",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T16:47:50Z",
+      "side": 1,
+      "message": "\u003e As Edwin mentioned, this would presumably get a mention in the release notes.\n\nI updated prolog-cookbook.txt but there are currently no 2.13 release notes.",
+      "parentUuid": "8580e214_67fdd292",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "ee002b1eb729f0b648de15c6e0c82561001d6094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8580e214_c7d2fe24",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -143,6 +167,24 @@
     },
     {
       "key": {
+        "uuid": "45d50a32_edc4656a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T16:47:50Z",
+      "side": 1,
+      "message": "Jonathan is right, this is similar to the scenario in the commit description.",
+      "parentUuid": "45726a21_850ac266",
+      "revId": "ee002b1eb729f0b648de15c6e0c82561001d6094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5fefe6e_7211389c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
         "patchSetId": 1
@@ -154,6 +196,30 @@
       "writtenOn": "2015-12-14T19:45:50Z",
       "side": 1,
       "message": "s/sumitted/submitted/\n\nIt would be hard to act on this if the changes in the batch have the same topic --- the user has to realize they need to unset the topic before they can submit changes one at a time. Maybe we should focus on the \"please contact the server admin\" side of things? E.g. something like\n\n Cannot mix submit types within a batch submitted to a branch\n\n The Prolog submit type rules for this project determined\n that different changes from this batch with the same\n destination branch should be submitted using different\n methods. This is not a supported configuration --- please\n contact your site administrator.\n\n You may submit the changes one at a time in the meantime.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 73
+      },
+      "revId": "ee002b1eb729f0b648de15c6e0c82561001d6094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d50a32_0db7b1f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T16:47:50Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. Done.",
+      "parentUuid": "e5fefe6e_7211389c",
       "range": {
         "startLine": 54,
         "startChar": 0,

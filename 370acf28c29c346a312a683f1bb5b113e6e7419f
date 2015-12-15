@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5e9fafb_710bb86d",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T18:31:44Z",
+      "side": 1,
+      "message": "Why the indirection instead of just making _render the observer?",
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5e9fafb_31565052",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T18:31:44Z",
+      "side": 1,
+      "message": "As elsewhere, this is current Gerrit behavior. I think if you\u0027re just choosing one thing to jump to for #\u003cnumber\u003e it should be the RHS.\n\nMaybe there should be #L\u003cnumber\u003e and #R\u003cnumber\u003e so we can correctly link comments, but that\u0027s beyond the scope of this change.",
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5e9fafb_11534c62",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T18:31:44Z",
+      "side": 1,
+      "message": "Why do you need to do this using the completes promise from the XHR rather than setting on-response on the gr-ajax to a separate method that does this?\n\nBut that would only work if the completes promise on the gr-ajax fires after notifying its own internal listeners.",
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5e9fafb_5149d4b1",
+        "filename": "polygerrit-ui/app/test/gr-diff-side-test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T18:31:44Z",
+      "side": 1,
+      "message": "This is making some assumption about screen size, right? What if you have some crazy setup like a 4K monitor with no font scaling so you could reasonably get all 300 lines in one screen?",
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d50a32_ad41bd90",
+        "filename": "polygerrit-ui/app/test/gr-diff-side-test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T18:31:44Z",
+      "side": 1,
+      "message": "I\u0027m having a hard time verifying by looking at this that the output is correct.\n\nMaybe add some asserts that the slices of content are what you expect:\n\n assert.equal(\u0027        \u003cgr-linked-text content\u003d\"\u0027,\n     content.slice(highlights[0].startIndex, highlights[0].endIndex));\n\nand so on.",
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d50a32_8d4601a5",
+        "filename": "polygerrit-ui/app/test/gr-diff-test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T18:31:44Z",
+      "side": 1,
+      "message": "Confused, should this be (1|2)?",
+      "range": {
+        "startLine": 49,
+        "startChar": 35,
+        "endLine": 49,
+        "endChar": 38
+      },
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

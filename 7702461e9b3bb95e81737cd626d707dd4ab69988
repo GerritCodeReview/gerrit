@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c5e9fafb_d13ca412",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1023052
+      },
+      "writtenOn": "2015-12-15T17:52:14Z",
+      "side": 1,
+      "message": "The link parsing step does this, it turns: Feature: 3650 -\u003e Feature: \u003ca\u003eIssue 3650\u003c/a\u003e",
+      "parentUuid": "45d50a32_0dd0d11a",
+      "revId": "7702461e9b3bb95e81737cd626d707dd4ab69988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45d50a32_cdf2c9c6",
         "filename": "polygerrit-ui/app/scripts/link-text-parser.js",
         "patchSetId": 2

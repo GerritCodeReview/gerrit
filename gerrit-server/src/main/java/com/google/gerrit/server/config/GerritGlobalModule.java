@@ -21,6 +21,7 @@ import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
+import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
@@ -74,6 +75,7 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
+import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.ChangeJson;
@@ -191,6 +193,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(SectionSortCache.module());
     install(SubmitStrategy.module());
     install(TagCache.module());
+    install(OAuthTokenCache.module());
 
     install(new AccessControlModule());
     install(new CmdLineParserModule());
@@ -315,6 +318,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ProjectWebLink.class);
     DynamicSet.setOf(binder(), BranchWebLink.class);
     DynamicMap.mapOf(binder(), OAuthLoginProvider.class);
+    DynamicItem.itemOf(binder(), OAuthTokenEncrypter.class);
     DynamicSet.setOf(binder(), AccountExternalIdCreator.class);
     DynamicSet.setOf(binder(), WebUiPlugin.class);
 

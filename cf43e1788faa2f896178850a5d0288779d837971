@@ -88,6 +88,24 @@
       "revId": "cf43e1788faa2f896178850a5d0288779d837971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5e9fafb_b1a5a0c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T15:24:26Z",
+      "side": 1,
+      "message": "IMO it should have been exact instead of full text but it\u0027s not worth changing at this point. I will figure out where I left that change that fixes case normalization and get that to you soon.",
+      "parentUuid": "8580e214_67c4f266",
+      "revId": "cf43e1788faa2f896178850a5d0288779d837971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

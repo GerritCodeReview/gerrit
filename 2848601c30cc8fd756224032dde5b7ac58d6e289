@@ -22,6 +22,30 @@
       "revId": "2848601c30cc8fd756224032dde5b7ac58d6e289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5e9fafb_91aa9c94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T15:46:53Z",
+      "side": 1,
+      "message": "\u003e How is this beneficial? I\u0027d reuse as much code as possible from the actual run in a new design.\n\nI explained one way in which it\u0027s beneficial, which is that it avoids having to pass around the full dependency stack in callers. I will also point out that the body of the dry run methods did not change even though they went from non-static to static. So this is not actually sharing less code than before.\n\nThat said I see your point that there are issues with the current dry-run behavior. However, consider how this is actually used currently, namely indexing the mergeable bit for individual changes. Unfortunately the definition of that bit is not, \"if we clicked submit on this change, would it succeed\", it\u0027s \"if we attempted to integrate just this change by itself, would it succeed.\" Changing it to the former is a nonstarter because it would require indexing all changes in the ChangeSet any time a single one changed, potentially making every write operation _very_ slow. So it\u0027s a compromise.\n\nAnother thing I will mention is, like the rest of this series, the end goal is to convert MergeOp to use a single BatchUpdate per branch. I think once we do this, it will actually be easier to implement \"real\" dry-runs. Some pseudocode:\n\n boolean dryRun\n BatchUpdate bu \u003d new batch update\n for project in ChangeSet:\n   for change in project:\n     bu.addOp(opForSubmitType(change, dryRun))\n   if !dryRun:\n     bu.addOp(actuallyUpdateRefsAndSetChangeStatus)",
+      "parentUuid": "8591c20f_1ff883a2",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "2848601c30cc8fd756224032dde5b7ac58d6e289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

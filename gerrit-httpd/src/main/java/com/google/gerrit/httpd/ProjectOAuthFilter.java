@@ -126,41 +126,32 @@ class ProjectOAuthFilter implements Filter {
       throws IOException {
     AuthInfo authInfo = null;
 
-    // first check if there is a suitable git cookie; such cookies are
-    // expected to have names starting with the prefix git-
-    if (req.getCookies() != null) {
-      for (Cookie cookie: req.getCookies()) {
-        if (cookie.getName().startsWith(GIT_COOKIE_PREFIX)) {
-          authInfo = extractAuthInfo(cookie);
-          if (authInfo != null) {
-            break;
-          }
-        }
-      }
-    }
-
-    // if there is no suitable git cookie fall back to Basic authentication
-    if (authInfo == null) {
-      String hdr = req.getHeader(AUTHORIZATION);
-      if (hdr == null || !hdr.startsWith(BASIC)) {
-        // Allow an anonymous connection through, or it might be using a
-        // session cookie instead of basic authentication.
-        return true;
-      }
-
-      byte[] decoded = Base64.decodeBase64(hdr.substring(BASIC.length()));
-      String usernamePassword = new String(decoded, encoding(req));
-      int splitPos = usernamePassword.indexOf(':');
-      if (splitPos < 1) {
+    // first check if there is a BASIC authentication header
+    String hdr = req.getHeader(AUTHORIZATION);
+    if (hdr != null && hdr.startsWith(BASIC)) {
+      authInfo = extractAuthInfo(hdr, encoding(req));
+      if (authInfo == null) {
         rsp.sendError(SC_UNAUTHORIZED);
         return false;
       }
-
-      authInfo = new AuthInfo(usernamePassword.substring(0, splitPos),
-          usernamePassword.substring(splitPos + 1),
-          defaultAuthPlugin, defaultAuthProvider);
+    } else {
+      // if there is no BASIC authentication header, check if there is
+      // a cookie starting with the prefix "git-"
+      Cookie cookie = findGitCookie(req);
+      if (cookie != null) {
+        authInfo = extractAuthInfo(cookie);
+        if (authInfo == null) {
+          rsp.sendError(SC_UNAUTHORIZED);
+          return false;
+        }
+      } else {
+        // if there is no authentication information at all, it might be
+        // an anonymous connection, or there might be a session cookie
+        return true;
+      }
     }
 
+    // if there is authentication information but no secret => 401
     if (Strings.isNullOrEmpty(authInfo.tokenOrSecret)) {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
@@ -240,6 +231,19 @@ class ProjectOAuthFilter implements Filter {
     }
   }
 
+  private AuthInfo extractAuthInfo(String hdr, String encoding)
+      throws UnsupportedEncodingException {
+    byte[] decoded = Base64.decodeBase64(hdr.substring(BASIC.length()));
+    String usernamePassword = new String(decoded, encoding);
+    int splitPos = usernamePassword.indexOf(':');
+    if (splitPos < 1 || splitPos == usernamePassword.length() - 1) {
+      return null;
+    }
+    return new AuthInfo(usernamePassword.substring(0, splitPos),
+        usernamePassword.substring(splitPos + 1), defaultAuthPlugin,
+        defaultAuthProvider);
+  }
+
   private AuthInfo extractAuthInfo(Cookie cookie)
       throws UnsupportedEncodingException {
     String username = URLDecoder.decode(cookie.getName()
@@ -271,6 +275,18 @@ class ProjectOAuthFilter implements Filter {
 
   private static String encoding(HttpServletRequest req) {
     return MoreObjects.firstNonNull(req.getCharacterEncoding(), UTF_8.name());
+  }
+
+  private static Cookie findGitCookie(HttpServletRequest req) {
+    Cookie[] cookies = req.getCookies();
+    if (cookies != null) {
+      for (Cookie cookie : cookies) {
+        if (cookie.getName().startsWith(GIT_COOKIE_PREFIX)) {
+          return cookie;
+        }
+      }
+    }
+    return null;
   }
 
   private class AuthInfo {

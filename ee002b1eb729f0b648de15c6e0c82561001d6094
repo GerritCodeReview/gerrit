@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "8580e214_67fdd292",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-12-15T08:09:10Z",
+      "side": 1,
+      "message": "Edwin reminds me that this was supported until the series https://gerrit-review.googlesource.com/69381 --- e.g., see https://gerrit-review.googlesource.com/37754.\n\nThe proposed change only forbids multiple submit types per branch in the context of a batch that is being merged. In a way, it would be nicer to forbid multiple types per branch altogether though that would be more invasive. (The submit_type predicate is allowed to use arbitrary facts about the current change. It already avoids passing in the CurrentUser but I wouldn\u0027t be surprised if people are using other facts in the wild, like commit_message_matches, change_owner, or commit_delta.) Doing this in the context of a batch gives people a way out: submit a smaller batch of changes (good).\n\nAs Edwin mentioned, this would presumably get a mention in the release notes.\n\nCould the prolog cookbook get a warning? E.g.\n\n Warning: using different submit types for different changes\n within a single branch and project is discouraged. Changes\n with different submit types targeting the same branch\n cannot be submitted in a single batch using the \"submit\n whole topic\" or \"submit including ancestors\" button.\n\n In other words, submit type rules should not generally\n need to use prolog facts other than change_branch and\n change_project.",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "ee002b1eb729f0b648de15c6e0c82561001d6094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8580e214_c7d2fe24",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

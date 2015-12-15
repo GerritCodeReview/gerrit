@@ -115,44 +115,49 @@ limitations under the License.
       assert.isFalse(element.opened);
       MockInteractions.tap(element.$.trigger);
       assert.isTrue(element.opened);
-      for (var label in element.permittedLabels) {
-        assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
-            label);
-      }
-      element._draft = 'I wholeheartedly disapprove';
-      MockInteractions.tap(element.$$(
-          'iron-selector[data-label="Code-Review"] > button[data-value="-1"]'));
-      MockInteractions.tap(element.$$(
-          'iron-selector[data-label="Verified"] > button[data-value="-1"]'));
 
-      // This is needed on non-Blink engines most likely due to the ways in
-      // which the dom-repeat elements are stamped.
       element.async(function() {
-        MockInteractions.tap(element.$$('.send'));
-        assert.isTrue(element.disabled);
+        for (var label in element.permittedLabels) {
+          assert.ok(element.$$('iron-selector[data-label="' + label + '"]'),
+              label);
+        }
+        element._draft = 'I wholeheartedly disapprove';
+        MockInteractions.tap(element.$$(
+            'iron-selector[data-label="Code-Review"] > button[data-value="-1"]'));
+        MockInteractions.tap(element.$$(
+            'iron-selector[data-label="Verified"] > button[data-value="-1"]'));
 
-        server.respond();
+        // This is needed on non-Blink engines most likely due to the ways in
+        // which the dom-repeat elements are stamped.
+        element.async(function() {
+          MockInteractions.tap(element.$$('.send'));
+          assert.isTrue(element.disabled);
 
-        element._xhrPromise.then(function(req) {
-          assert.isFalse(element.disabled,
-              'Element should be enabled when done sending reply.');
-          assert.isFalse(element.opened);
-          assert.equal(req.status, 200);
-          assert.equal(req.url, '/changes/42/revisions/1/review');
-          var reqObj = JSON.parse(req.xhr.requestBody);
-          assert.deepEqual(reqObj, {
-            drafts: 'PUBLISH_ALL_REVISIONS',
-            labels: {
-              'Code-Review': -1,
-              'Verified': -1
-            },
-            message: 'I wholeheartedly disapprove'
+          server.respond();
+
+          element._xhrPromise.then(function(req) {
+            assert.isFalse(element.disabled,
+                'Element should be enabled when done sending reply.');
+            assert.isFalse(element.opened);
+            assert.equal(req.status, 200);
+            assert.equal(req.url, '/changes/42/revisions/1/review');
+            console.log(req.xhr.requestBody);
+            var reqObj = JSON.parse(req.xhr.requestBody);
+            console.log(reqObj, reqObj.labels)
+            assert.deepEqual(reqObj, {
+              drafts: 'PUBLISH_ALL_REVISIONS',
+              labels: {
+                'Code-Review': -1,
+                'Verified': -1
+              },
+              message: 'I wholeheartedly disapprove'
+            });
+            assert.equal(req.response.labels['Code-Review'], -1);
+            assert.equal(req.response.labels['Verified'], -1);
+            assert.isFalse(element.opened);
+            done();
           });
-          assert.equal(req.response.labels['Code-Review'], -1);
-          assert.equal(req.response.labels['Verified'], -1);
-          assert.isFalse(element.opened);
-          done();
-        });
+        }, 1);
       }, 1);
     });
 

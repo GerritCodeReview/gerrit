@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c5e9fafb_71e298f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1023052
+      },
+      "writtenOn": "2015-12-15T17:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5e9fafb_51d6741b",
+      "revId": "7702461e9b3bb95e81737cd626d707dd4ab69988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5e9fafb_71d97849",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-15T17:31:35Z",
       "side": 1,
       "message": "can you break these at ~70 lines? take a look at it in https://gerrit-review.googlesource.com/#/c/73321/2//COMMIT_MSG to see where the best place to break is.",
+      "revId": "7702461e9b3bb95e81737cd626d707dd4ab69988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5e9fafb_31ec10e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1023052
+      },
+      "writtenOn": "2015-12-15T17:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5e9fafb_71d97849",
       "revId": "7702461e9b3bb95e81737cd626d707dd4ab69988",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "c5e9fafb_9115fc89",
+        "filename": "polygerrit-ui/app/scripts/link-text-parser.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023052
+      },
+      "writtenOn": "2015-12-15T17:50:38Z",
+      "side": 1,
+      "message": "Its from https://github.com/cowboy/javascript-linkify, which reitveld source also pulls in a-la-carte.\n\nI couldn\u0027t get this working via BUCK deps because the github repo isn\u0027t bowerized, and doesn\u0027t have any release tags.  Another option is to fork the repo, bowerize it, and tag it with a release version.  The original repo has an year old issue open to bowerize: https://github.com/cowboy/javascript-linkify/issues/9\n\nYet another option is to instead use some other (maintained) thirt party library, eg https://www.npmjs.com/package/html-linkify\n\nLet me know what you\u0027d prefer.",
+      "parentUuid": "45d50a32_cdf2c9c6",
+      "revId": "7702461e9b3bb95e81737cd626d707dd4ab69988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45d50a32_adf77db4",
         "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
         "patchSetId": 2
@@ -81,6 +135,24 @@
       "writtenOn": "2015-12-15T17:31:35Z",
       "side": 1,
       "message": "output?",
+      "revId": "7702461e9b3bb95e81737cd626d707dd4ab69988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d50a32_2d05cd56",
+        "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1023052
+      },
+      "writtenOn": "2015-12-15T17:50:38Z",
+      "side": 1,
+      "message": "Done, thx!",
+      "parentUuid": "45d50a32_adf77db4",
       "revId": "7702461e9b3bb95e81737cd626d707dd4ab69988",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

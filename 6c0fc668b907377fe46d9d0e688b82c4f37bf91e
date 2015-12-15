@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e50fdeaf_ea9b2785",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-12-15T19:35:58Z",
+      "side": 1,
+      "message": "It may not be a branch, it could be refs/meta/config or some other special ref.  Also, eventually it may be another project even.",
+      "parentUuid": "9b404344_f033a0ef",
+      "revId": "6c0fc668b907377fe46d9d0e688b82c4f37bf91e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b988b33_fedcc134",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
         "patchSetId": 9

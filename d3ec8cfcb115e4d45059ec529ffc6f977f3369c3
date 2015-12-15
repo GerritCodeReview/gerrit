@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e50fdeaf_eac4476a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-12-15T20:00:08Z",
+      "side": 1,
+      "message": "Maybe you should have a createBranch() that takes the branch name (since it seems to be defaulting to the default project anyway)?",
+      "range": {
+        "startLine": 52,
+        "startChar": 64,
+        "endLine": 52,
+        "endChar": 76
+      },
+      "revId": "d3ec8cfcb115e4d45059ec529ffc6f977f3369c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_89aa7994",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-12-15T20:00:08Z",
+      "side": 1,
+      "message": "The condition \"equals()\" here should be outside of the assert so that errors can be better evaluated.  Same for the rest of the tests.",
+      "range": {
+        "startLine": 55,
+        "startChar": 48,
+        "endLine": 55,
+        "endChar": 53
+      },
+      "revId": "d3ec8cfcb115e4d45059ec529ffc6f977f3369c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_49ada1a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-12-15T20:00:08Z",
+      "side": 1,
+      "message": "Line 266 uses just plain old \"in\" for this, maybe we should be consistent?",
+      "range": {
+        "startLine": 211,
+        "startChar": 14,
+        "endLine": 211,
+        "endChar": 18
+      },
+      "revId": "d3ec8cfcb115e4d45059ec529ffc6f977f3369c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

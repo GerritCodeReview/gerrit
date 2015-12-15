@@ -61,7 +61,7 @@ window.addEventListener('WebComponentsReady', function() {
     page.redirect('/c/' + ctx.params[0]);
   });
 
-  page('/c/:changeNum', function(data) {
+  page('/c/:changeNum/:patchNum?', function(data) {
     app.route = 'gr-change-view';
     app.params = data.params;
   });

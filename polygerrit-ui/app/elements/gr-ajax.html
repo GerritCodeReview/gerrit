@@ -79,6 +79,13 @@ limitations under the License.
         },
       },
 
+      ready: function() {
+        // Used for debugging which element a request came from.
+        var headers = this.$.xhr.headers;
+        headers['x-requesting-element-id'] = this.id || 'gr-ajax (no id)';
+        this.$.xhr.headers = headers;
+      },
+
       generateRequest: function() {
         return this.$.xhr.generateRequest();
       },

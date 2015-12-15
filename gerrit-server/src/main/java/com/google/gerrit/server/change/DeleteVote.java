@@ -106,12 +106,14 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
           if (a.getLabel().equals(label)) {
             msg.append("Removed ")
                 .append(a.getLabel()).append(formatLabelValue(a.getValue()))
-                .append(" by ").append(userFactory.create(user.getAccountId())
+                .append(" by ").append(userFactory.create(a.getAccountId())
                     .getNameEmail())
                 .append("\n");
             psa = a;
             a.setValue((short)0);
             ctx.getChangeUpdate().setPatchSetId(psId);
+            // TODO(dborowitz): Support modifying other users' labels in notedb
+            // format.
             ctx.getChangeUpdate().removeApproval(label);
             break;
           }

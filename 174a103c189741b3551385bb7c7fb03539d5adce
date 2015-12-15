@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "850c62c1_87aa6694",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-15T21:15:35Z",
+      "side": 0,
+      "message": "\"Removed \u003cfoo\u003e by \u003cbar\u003e\"\n\nWhat /me (non native speaker) was triyng to say with this statement is \"WHO removed the vote\" and not whose vote was removed. If you remove my VRFY-1 blocking vote on Gerrit project all I want to know is that *you* removed my blocking vote and *not* that it was my bocking vote that wased removed. I know that I voted VRFY-1 on that change to block it. I think that what you are trying to say is that it wouldn\u0027t hurt to include this information in the message as well. So let\u0027s include both infos, instead of dropping the user who removed the vote.",
+      "range": {
+        "startLine": 109,
+        "startChar": 58,
+        "endLine": 109,
+        "endChar": 77
+      },
+      "revId": "174a103c189741b3551385bb7c7fb03539d5adce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

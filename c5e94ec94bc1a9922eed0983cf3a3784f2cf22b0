@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05a4f285_e3d5f20e",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T18:31:44Z",
+      "side": 1,
+      "message": "Aside, this is different from normal browser handling of #. If you navigate to foo.html#bar, then scroll around in the file, click a link, and press back, you\u0027ll end up where you came from, rather than jumping back to #bar, no?",
+      "revId": "c5e94ec94bc1a9922eed0983cf3a3784f2cf22b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

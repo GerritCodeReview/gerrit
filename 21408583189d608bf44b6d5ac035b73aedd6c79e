@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "850c62c1_87fca697",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-15T23:41:38Z",
+      "side": 1,
+      "message": "Wrap commit message to the red line marker.\n\nAdditionally it should be formed in this way:\n\n1st line \u003d\u003e headline without wrapping and within the red line\n2nd line \u003d\u003e empty\n3rd line and below \u003d\u003e message body wrapped on the red dashed line.",
+      "range": {
+        "startLine": 7,
+        "startChar": 72,
+        "endLine": 7,
+        "endChar": 105
+      },
+      "revId": "21408583189d608bf44b6d5ac035b73aedd6c79e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "850c62c1_67e2d2f7",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-15T23:41:38Z",
+      "side": 1,
+      "message": "Word wrap on the red dotted line.",
+      "range": {
+        "startLine": 54,
+        "startChar": 100,
+        "endLine": 54,
+        "endChar": 104
+      },
+      "revId": "21408583189d608bf44b6d5ac035b73aedd6c79e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

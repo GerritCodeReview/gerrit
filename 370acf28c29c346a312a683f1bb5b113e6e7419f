@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "45d50a32_cd8e4917",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-15T19:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5e9fafb_710bb86d",
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5e9fafb_31565052",
         "filename": "polygerrit-ui/app/elements/gr-diff.html",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-15T18:31:44Z",
       "side": 1,
       "message": "As elsewhere, this is current Gerrit behavior. I think if you\u0027re just choosing one thing to jump to for #\u003cnumber\u003e it should be the RHS.\n\nMaybe there should be #L\u003cnumber\u003e and #R\u003cnumber\u003e so we can correctly link comments, but that\u0027s beyond the scope of this change.",
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d50a32_ad93fd3c",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-15T19:54:31Z",
+      "side": 1,
+      "message": "Yeah I thought about that before. Good suggestion",
+      "parentUuid": "c5e9fafb_31565052",
       "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c5e9fafb_112c6cd3",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-15T19:54:31Z",
+      "side": 1,
+      "message": "This way we\u0027re returning a single promise that resolves when all comments and drafts have been fetched. Since base{Comments|Drafts} are not fetched in all cases, I would have to do this stuff with those, so I chose to do all of it here instead of separating it out the way you described.",
+      "parentUuid": "c5e9fafb_11534c62",
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5e9fafb_5149d4b1",
         "filename": "polygerrit-ui/app/test/gr-diff-side-test.html",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2015-12-15T18:31:44Z",
       "side": 1,
       "message": "This is making some assumption about screen size, right? What if you have some crazy setup like a 4K monitor with no font scaling so you could reasonably get all 300 lines in one screen?",
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d50a32_8d984158",
+        "filename": "polygerrit-ui/app/test/gr-diff-side-test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-15T19:54:31Z",
+      "side": 1,
+      "message": "True. Removed the assertion that lineEl is not visible.",
+      "parentUuid": "c5e9fafb_5149d4b1",
       "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "e50fdeaf_0ab79bf9",
+        "filename": "polygerrit-ui/app/test/gr-diff-side-test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-15T19:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45d50a32_ad41bd90",
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45d50a32_8d4601a5",
         "filename": "polygerrit-ui/app/test/gr-diff-test.html",
         "patchSetId": 7
@@ -98,6 +188,30 @@
       "writtenOn": "2015-12-15T18:31:44Z",
       "side": 1,
       "message": "Confused, should this be (1|2)?",
+      "range": {
+        "startLine": 49,
+        "startChar": 35,
+        "endLine": 49,
+        "endChar": 38
+      },
+      "revId": "370acf28c29c346a312a683f1bb5b113e6e7419f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_69b06503",
+        "filename": "polygerrit-ui/app/test/gr-diff-test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-15T19:54:31Z",
+      "side": 1,
+      "message": "Hm. Worked anyway which is odd. Fixed.",
+      "parentUuid": "45d50a32_8d4601a5",
       "range": {
         "startLine": 49,
         "startChar": 35,

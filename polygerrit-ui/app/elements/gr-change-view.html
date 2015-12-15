@@ -87,26 +87,26 @@ limitations under the License.
       }
     </style>
     <gr-ajax id="detailXHR"
-        url="[[_computeDetailPath(changeNum)]]"
+        url="[[_computeDetailPath(_changeNum)]]"
         params="[[_computeDetailQueryParams()]]"
-        last-response="{{change}}"
+        last-response="{{_change}}"
         loading="{{_loading}}"></gr-ajax>
     <gr-ajax id="commentsXHR"
-        url="[[_computeCommentsPath(changeNum)]]"
-        last-response="{{comments}}"></gr-ajax>
+        url="[[_computeCommentsPath(_changeNum)]]"
+        last-response="{{_comments}}"></gr-ajax>
     <div class="container loading" hidden$="{{!_loading}}">Loading...</div>
     <div class="container" hidden$="{{_loading}}">
       <div class="headerContainer">
         <div class="header">
           <h2>
-            <a href$="[[_computeChangePath(change._number)]]">[[change._number]]</a><span>:</span>
-            <span>[[change.subject]]</span>
+            <a href$="[[_computeChangePath(_change._number)]]">[[_change._number]]</a><span>:</span>
+            <span>[[_change.subject]]</span>
           </h2>
           <gr-reply-dropdown id="replyDropdown"
-              change-num="[[changeNum]]"
-              patch-num="[[_computePatchNum(change.current_revision)]]"
-              labels="[[change.labels]]"
-              permitted-labels="[[change.permitted_labels]]"
+              change-num="[[_changeNum]]"
+              patch-num="[[_patchNum]]"
+              labels="[[_change.labels]]"
+              permitted-labels="[[_change.permitted_labels]]"
               on-send="_handleReplySent"
               hidden$="[[!_loggedIn]]">Reply</gr-reply-dropdown>
         </div>
@@ -115,13 +115,13 @@ limitations under the License.
         <table>
           <tr>
             <td class="changeInfo-label">Owner</td>
-            <td>[[change.owner.name]]</td>
+            <td>[[_change.owner.name]]</td>
           </tr>
           <tr>
             <td class="changeInfo-label">Reviewers</td>
             <td>
               <template is="dom-repeat"
-                        items="[[_computeReviewers(change.labels, change.owner)]]"
+                        items="[[_computeReviewers(_change.labels, _change.owner)]]"
                         as="reviewer">
                 <div>[[reviewer.name]]</div>
               </template>
@@ -129,15 +129,15 @@ limitations under the License.
           </tr>
           <tr>
             <td class="changeInfo-label">Project</td>
-            <td>[[change.project]]</td>
+            <td>[[_change.project]]</td>
           </tr>
           <tr>
             <td class="changeInfo-label">Branch</td>
-            <td>[[change.branch]]</td>
+            <td>[[_change.branch]]</td>
           </tr>
           <tr>
             <td class="changeInfo-label">Topic</td>
-            <td>[[change.topic]]</td>
+            <td>[[_change.topic]]</td>
           </tr>
           <tr>
             <td class="changeInfo-label">Strategy</td>
@@ -147,21 +147,20 @@ limitations under the License.
             <td class="changeInfo-label">Updated</td>
             <td>
               <gr-date-formatter
-                  date-str="[[change.updated]]"></gr-date-formatter>
+                  date-str="[[_change.updated]]"></gr-date-formatter>
             </td>
           </tr>
         </table>
       </section>
-      <section class="summary">[[_computeCurrentRevisionMessage(change)]]</section>
+      <section class="summary">[[_computeCurrentRevisionMessage(_change)]]</section>
       <gr-file-list id="fileList"
-          change-num="[[changeNum]]"
-          patch-num="[[_computePatchNum(change.current_revision)]]"
-          revision="[[change.current_revision]]"
-          comments="[[comments]]"></gr-file-list>
+          change-num="[[_changeNum]]"
+          patch-num="[[_patchNum]]"
+          comments="[[_comments]]"></gr-file-list>
       <gr-messages-list
-          change-num="[[changeNum]]"
-          messages="[[change.messages]]"
-          comments="[[comments]]"></gr-messages-list>
+          change-num="[[_changeNum]]"
+          messages="[[_change.messages]]"
+          comments="[[_comments]]"></gr-messages-list>
     </div>
   </template>
   <script>
@@ -189,9 +188,14 @@ limitations under the License.
           type: Object,
           observer: '_paramsChanged',
         },
-        changeNum: Number,
-        comments: Object,
 
+        _comments: Object,
+        _change: {
+          type: Object,
+          observer: '_changeChanged',
+        },
+        _changeNum: String,
+        _patchNum: String,
         _loggedIn: {
           type: Boolean,
           value: false,
@@ -245,13 +249,20 @@ limitations under the License.
       },
 
       _paramsChanged: function(value) {
-        this.changeNum = value.changeNum;
-        if (!this.changeNum) {
-          this.change = null;
-          this.comments = null;
+        this._changeNum = value.changeNum;
+        this._patchNum = value.patchNum || null;
+        if (!this._changeNum) {
+          this._change = null;
+          this._comments = null;
           return;
         }
         this._reload();
+      },
+
+      _changeChanged: function(change) {
+        if (!change) { return; }
+        this._patchNum = this._patchNum ||
+            change.revisions[change.current_revision]._number;
       },
 
       _computeChangePath: function(changeNum) {
@@ -268,10 +279,6 @@ limitations under the License.
 
       _computeCommentsPath: function(changeNum) {
         return '/changes/' + changeNum + '/comments';
-      },
-
-      _computePatchNum: function(revision) {
-        return this.change && this.change.revisions[revision]._number;
       },
 
       _computeDetailQueryParams: function() {

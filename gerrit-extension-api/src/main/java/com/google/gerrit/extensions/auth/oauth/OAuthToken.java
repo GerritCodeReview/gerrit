@@ -21,10 +21,22 @@ public class OAuthToken {
   private final String secret;
   private final String raw;
 
+  /**
+   * Time of expiration of this token, or {@code Long#MAX_VALUE} if this
+   * token never expires, or time of expiration is unknown.
+   */
+  private final long expiresAt;
+
   public OAuthToken(String token, String secret, String raw) {
+    this(token, secret, raw, Long.MAX_VALUE);
+  }
+
+  public OAuthToken(String token, String secret, String raw,
+      long expiresAt) {
     this.token = token;
     this.secret = secret;
     this.raw = raw;
+    this.expiresAt = expiresAt;
   }
 
   public String getToken() {
@@ -37,5 +49,13 @@ public class OAuthToken {
 
   public String getRaw() {
     return raw;
+  }
+
+  public long getExpiresAt() {
+    return expiresAt;
+  }
+
+  public boolean isExpired() {
+    return System.currentTimeMillis() > expiresAt;
   }
 }

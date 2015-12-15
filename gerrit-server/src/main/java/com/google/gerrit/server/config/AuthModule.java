@@ -22,6 +22,7 @@ import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.InternalAuthBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.auth.oauth.OAuthRealm;
+import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 
@@ -45,6 +46,7 @@ public class AuthModule extends AbstractModule {
 
       case OAUTH:
         bind(Realm.class).to(OAuthRealm.class);
+        install(OAuthTokenCache.module());
         break;
 
       case CUSTOM_EXTENSION:

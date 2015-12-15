@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "45726a21_c52e7ace",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2015-12-15T14:44:41Z",
+      "side": 1,
+      "message": "don\u0027t forget that you can\u0027t generally forbid mixing at this point in time, as merges will be merged even if the submit type is cherry-pick. see also http://code.google.com/p/gerrit/issues/detail?id\u003d983",
+      "parentUuid": "8580e214_67fdd292",
+      "revId": "ee002b1eb729f0b648de15c6e0c82561001d6094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8580e214_c7d2fe24",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

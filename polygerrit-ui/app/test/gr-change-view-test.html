@@ -37,9 +37,25 @@ limitations under the License.
 <script>
   suite('gr-change-view tests', function() {
     var element;
+    var server;
 
     setup(function() {
       element = fixture('basic');
+      server = sinon.fakeServer.create();
+      // Eat any requests made by elements in this suite.
+      server.respondWith(
+        'GET',
+        /\/changes\/(.*)/,
+        [
+          200,
+          { 'Content-Type': 'application/json' },
+          ')]}\'\n{}',
+        ]
+      );
+    });
+
+    teardown(function() {
+      server.restore();
     });
 
     test('keyboard shortcuts', function() {
@@ -57,5 +73,49 @@ limitations under the License.
       assert.isFalse(dropdownEl.opened);
     });
 
+    test('patch num change', function(done) {
+      element._changeNum = '42';
+      element._patchNum = 2;
+      element._change = {
+        revisions: {
+          rev2: { _number: 1 },
+          rev1: { _number: 2 },
+          rev3: { _number: 3 },
+        },
+        current_revision: 'rev3',
+      };
+      flushAsynchronousOperations();
+      var selectEl = element.$$('.header select');
+      assert.ok(selectEl);
+      var optionEls =
+          Polymer.dom(element.root).querySelectorAll('.header option');
+      assert.equal(optionEls.length, 3);
+      assert.isFalse(
+          element.$$('.header option[value="1"]').hasAttribute('selected'));
+      assert.isTrue(
+          element.$$('.header option[value="2"]').hasAttribute('selected'));
+      assert.isFalse(
+          element.$$('.header option[value="3"]').hasAttribute('selected'));
+
+      var showStub = sinon.stub(page, 'show');
+
+      var numEvents = 0;
+      selectEl.addEventListener('change', function(e) {
+        numEvents++;
+        if (numEvents == 1) {
+          assert(showStub.lastCall.calledWithExactly('/c/42/1'),
+              'Should navigate to /c/42/1');
+          selectEl.value = '3';
+          element.fire('change', {}, {node: selectEl});
+        } else if (numEvents == 2) {
+          assert(showStub.lastCall.calledWithExactly('/c/42'),
+              'Should navigate to /c/42');
+          showStub.restore();
+          done();
+        }
+      });
+      selectEl.value = '1';
+      element.fire('change', {}, {node: selectEl});
+    });
   });
 </script>

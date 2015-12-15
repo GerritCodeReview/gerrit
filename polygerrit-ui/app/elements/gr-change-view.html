@@ -38,6 +38,7 @@ limitations under the License.
         height: 4.1em;
       }
       .header {
+        align-items: center;
         background-color: var(--view-background-color);
         display: flex;
         max-width: var(--max-constrained-width);
@@ -56,6 +57,9 @@ limitations under the License.
         flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+      .header gr-reply-dropdown {
+        margin-left: var(--default-horizontal-margin);
       }
       section {
         margin: 10px 0;
@@ -87,26 +91,38 @@ limitations under the License.
       }
     </style>
     <gr-ajax id="detailXHR"
-        url="[[_computeDetailPath(changeNum)]]"
+        url="[[_computeDetailPath(_changeNum)]]"
         params="[[_computeDetailQueryParams()]]"
-        last-response="{{change}}"
+        last-response="{{_change}}"
         loading="{{_loading}}"></gr-ajax>
     <gr-ajax id="commentsXHR"
-        url="[[_computeCommentsPath(changeNum)]]"
-        last-response="{{comments}}"></gr-ajax>
+        url="[[_computeCommentsPath(_changeNum)]]"
+        last-response="{{_comments}}"></gr-ajax>
+    <gr-ajax id="commitInfoXHR"
+        url="[[_computeCommitInfoPath(_changeNum, _patchNum)]]"
+        last-response="{{_commitInfo}}"></gr-ajax>
     <div class="container loading" hidden$="{{!_loading}}">Loading...</div>
     <div class="container" hidden$="{{_loading}}">
       <div class="headerContainer">
         <div class="header">
           <h2>
-            <a href$="[[_computeChangePath(change._number)]]">[[change._number]]</a><span>:</span>
-            <span>[[change.subject]]</span>
+            <a href$="[[_computeChangePath(_change._number)]]">[[_change._number]]</a><span>:</span>
+            <span>[[_change.subject]]</span>
           </h2>
+          <select on-change="_handlePatchChange">
+            <template is="dom-repeat" items="{{_allPatchNumbers}}" as="patchNumber">
+              <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchNum)]]">
+                Patch <span>[[patchNumber]]</span>
+                /
+                <span>[[_computeLatestPatchNum(_change)]]</span>
+              </option>
+            </template>
+          </select>
           <gr-reply-dropdown id="replyDropdown"
-              change-num="[[changeNum]]"
-              patch-num="[[_computePatchNum(change.current_revision)]]"
-              labels="[[change.labels]]"
-              permitted-labels="[[change.permitted_labels]]"
+              change-num="[[_changeNum]]"
+              patch-num="[[_patchNum]]"
+              labels="[[_change.labels]]"
+              permitted-labels="[[_change.permitted_labels]]"
               on-send="_handleReplySent"
               hidden$="[[!_loggedIn]]">Reply</gr-reply-dropdown>
         </div>
@@ -115,13 +131,13 @@ limitations under the License.
         <table>
           <tr>
             <td class="changeInfo-label">Owner</td>
-            <td>[[change.owner.name]]</td>
+            <td>[[_change.owner.name]]</td>
           </tr>
           <tr>
             <td class="changeInfo-label">Reviewers</td>
             <td>
               <template is="dom-repeat"
-                        items="[[_computeReviewers(change.labels, change.owner)]]"
+                        items="[[_computeReviewers(_change.labels, _change.owner)]]"
                         as="reviewer">
                 <div>[[reviewer.name]]</div>
               </template>
@@ -129,15 +145,15 @@ limitations under the License.
           </tr>
           <tr>
             <td class="changeInfo-label">Project</td>
-            <td>[[change.project]]</td>
+            <td>[[_change.project]]</td>
           </tr>
           <tr>
             <td class="changeInfo-label">Branch</td>
-            <td>[[change.branch]]</td>
+            <td>[[_change.branch]]</td>
           </tr>
           <tr>
             <td class="changeInfo-label">Topic</td>
-            <td>[[change.topic]]</td>
+            <td>[[_change.topic]]</td>
           </tr>
           <tr>
             <td class="changeInfo-label">Strategy</td>
@@ -147,21 +163,20 @@ limitations under the License.
             <td class="changeInfo-label">Updated</td>
             <td>
               <gr-date-formatter
-                  date-str="[[change.updated]]"></gr-date-formatter>
+                  date-str="[[_change.updated]]"></gr-date-formatter>
             </td>
           </tr>
         </table>
       </section>
-      <section class="summary">[[_computeCurrentRevisionMessage(change)]]</section>
+      <section class="summary">[[_commitInfo.message]]</section>
       <gr-file-list id="fileList"
-          change-num="[[changeNum]]"
-          patch-num="[[_computePatchNum(change.current_revision)]]"
-          revision="[[change.current_revision]]"
-          comments="[[comments]]"></gr-file-list>
+          change-num="[[_changeNum]]"
+          patch-num="[[_patchNum]]"
+          comments="[[_comments]]"></gr-file-list>
       <gr-messages-list
-          change-num="[[changeNum]]"
-          messages="[[change.messages]]"
-          comments="[[comments]]"></gr-messages-list>
+          change-num="[[_changeNum]]"
+          messages="[[_change.messages]]"
+          comments="[[_comments]]"></gr-messages-list>
     </div>
   </template>
   <script>
@@ -189,9 +204,19 @@ limitations under the License.
           type: Object,
           observer: '_paramsChanged',
         },
-        changeNum: Number,
-        comments: Object,
 
+        _comments: Object,
+        _change: {
+          type: Object,
+          observer: '_changeChanged',
+        },
+        _commitInfo: Object,
+        _changeNum: String,
+        _patchNum: String,
+        _allPatchNumbers: {
+          type: Array,
+          computed: '_computeAllPatchNumbers(_change)',
+        },
         _loggedIn: {
           type: Boolean,
           value: false,
@@ -240,18 +265,36 @@ limitations under the License.
         el.classList.toggle('pinned', window.scrollY >= top);
       },
 
+      _handlePatchChange: function(e) {
+        var patchNum = e.target.value;
+        var currentPatchNum =
+            this._change.revisions[this._change.current_revision]._number
+        if (patchNum == currentPatchNum) {
+          page.show(this._computeChangePath(this._changeNum));
+          return;
+        }
+        page.show(this._computeChangePath(this._changeNum) + '/' + patchNum);
+      },
+
       _handleReplySent: function(e) {
         this._reload();
       },
 
       _paramsChanged: function(value) {
-        this.changeNum = value.changeNum;
-        if (!this.changeNum) {
-          this.change = null;
-          this.comments = null;
+        this._changeNum = value.changeNum;
+        this._patchNum = value.patchNum;
+        if (!this._changeNum) {
+          this._change = null;
+          this._comments = null;
           return;
         }
         this._reload();
+      },
+
+      _changeChanged: function(change) {
+        if (!change) { return; }
+        this._patchNum = this._patchNum ||
+            change.revisions[change.current_revision]._number;
       },
 
       _computeChangePath: function(changeNum) {
@@ -262,30 +305,20 @@ limitations under the License.
         return '/changes/' + changeNum + '/detail';
       },
 
-      _computeCommitInfoPath: function(changeNum, commitHash) {
-        return '/changes/' + changeNum + '/revisions/' + commitHash + '/commit';
+      _computeCommitInfoPath: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/commit?links';
       },
 
       _computeCommentsPath: function(changeNum) {
         return '/changes/' + changeNum + '/comments';
       },
 
-      _computePatchNum: function(revision) {
-        return this.change && this.change.revisions[revision]._number;
-      },
-
       _computeDetailQueryParams: function() {
         var options = Changes.listChangesOptionsToHex(
-            Changes.ListChangesOption.CURRENT_REVISION,
-            Changes.ListChangesOption.CURRENT_COMMIT,
+            Changes.ListChangesOption.ALL_REVISIONS,
             Changes.ListChangesOption.CHANGE_ACTIONS
         );
         return { O: options };
-      },
-
-      _computeCurrentRevisionMessage: function(change) {
-        return change &&
-            change.revisions[change.current_revision].commit.message;
       },
 
       _computeReviewers: function(labels, owner) {
@@ -295,6 +328,22 @@ limitations under the License.
         return reviewers.filter(function(reviewer) {
           return reviewer._account_id != owner._account_id;
         });
+      },
+
+      _computeLatestPatchNum: function(change) {
+        return change.revisions[change.current_revision]._number;
+      },
+
+      _computeAllPatchNumbers: function(change) {
+        var patchNums = [];
+        for (var rev in change.revisions) {
+          patchNums.push(change.revisions[rev]._number);
+        }
+        return patchNums.sort();
+      },
+
+      _computePatchIndexIsSelected: function(index, patchNum) {
+         return this._allPatchNumbers[index] == patchNum;
       },
 
       _handleKey: function(e) {
@@ -311,9 +360,18 @@ limitations under the License.
       },
 
       _reload: function() {
-        this.$.detailXHR.generateRequest();
+        var detailCompletes = this.$.detailXHR.generateRequest().completes;
         this.$.commentsXHR.generateRequest();
-        this.$.fileList.reload();
+        if (this._patchNum) {
+          this.$.commitInfoXHR.generateRequest();
+          this.$.fileList.reload();
+        } else {
+          // The patch number is reliant on the change detail request.
+          detailCompletes.then(function() {
+            this.$.commitInfoXHR.generateRequest();
+            this.$.fileList.reload();
+          }.bind(this));
+        }
       },
 
     });

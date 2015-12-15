@@ -22,6 +22,30 @@
       "revId": "9afdd6236c01ec43b7d6847e7023685d8481e96d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5e9fafb_91c3bc5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2015-12-15T17:22:32Z",
+      "side": 1,
+      "message": "I really meant \u0027the latter\u0027 (as opposed to \u0027the former\u0027), to denote the aforementioned lib/local.defs file. Let me know if still unclear so this gets rewritten if need be.",
+      "parentUuid": "e5fefe6e_f2608814",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "9afdd6236c01ec43b7d6847e7023685d8481e96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

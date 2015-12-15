@@ -106,7 +106,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
           if (a.getLabel().equals(label)) {
             msg.append("Removed ")
                 .append(a.getLabel()).append(formatLabelValue(a.getValue()))
-                .append(" by ").append(userFactory.create(user.getAccountId())
+                .append(" by ").append(userFactory.create(a.getAccountId())
                     .getNameEmail())
                 .append("\n");
             psa = a;

@@ -124,6 +124,24 @@
       "revId": "cf43e1788faa2f896178850a5d0288779d837971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d50a32_4dadb9a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-15T15:58:05Z",
+      "side": 1,
+      "message": "X clipboard fail, sorry. Meant to paste https://gerrit-review.googlesource.com/73296",
+      "parentUuid": "c5e9fafb_11b7ccf9",
+      "revId": "cf43e1788faa2f896178850a5d0288779d837971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

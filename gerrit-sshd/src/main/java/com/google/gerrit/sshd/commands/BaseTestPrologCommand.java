@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.extensions.common.TestSubmitRuleInput;
+import com.google.gerrit.extensions.common.TestSubmitRuleInput.Filters;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -21,8 +23,6 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
-import com.google.gerrit.server.change.TestSubmitRule.Filters;
-import com.google.gerrit.server.change.TestSubmitRule.Input;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
@@ -34,7 +34,7 @@ import org.kohsuke.args4j.Option;
 import java.nio.ByteBuffer;
 
 abstract class BaseTestPrologCommand extends SshCommand {
-  private Input input = new Input();
+  private TestSubmitRuleInput input = new TestSubmitRuleInput();
 
   @Inject
   private ChangesCollection changes;
@@ -55,7 +55,7 @@ abstract class BaseTestPrologCommand extends SshCommand {
     input.filters = no ? Filters.SKIP : Filters.RUN;
   }
 
-  protected abstract RestModifyView<RevisionResource, Input> createView();
+  protected abstract RestModifyView<RevisionResource, TestSubmitRuleInput> createView();
 
   @Override
   protected final void run() throws UnloggedFailure {

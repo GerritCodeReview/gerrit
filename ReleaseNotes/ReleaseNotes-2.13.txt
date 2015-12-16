@@ -1,0 +1,78 @@
+Release notes for Gerrit 2.13
+=============================
+
+
+Gerrit 2.13 is now available:
+
+link:https://www.gerritcodereview.com/download/gerrit-2.13.war[
+https://www.gerritcodereview.com/download/gerrit-2.13.war]
+
+
+Important Notes
+---------------
+
+TODO
+
+
+Release Highlights
+------------------
+
+* Metrics interface.
+
+
+New Features
+------------
+
+Metrics
+~~~~~~~
+
+Metrics about Gerrit's internal state can be sent to external
+monitoring systems.
+
+The following metrics are supported:
+
+* HTTP responses
++
+TODO details here and in the others
+
+* REST API calls
+
+* SSH sessions
+
+* Caches
+
+* SQL connections
+
+* TODO add more
+
+
+Plugins can provide implementations of the metrics interface to
+report metrics to different monitoring systems. The following
+plugins are available:
+
+* JMX
+
+* Graphite
+
+* Elasticsearch
+
+
+Plugins can also provide metrics.  The following metrics are provided
+by core plugins:
+
+* Replication
+
+** Replication time
+
+* TODO add more
+
+Bug Fixes
+---------
+
+TODO
+
+
+Upgrades
+--------
+
+* Upgrade Lucene to 5.3.1

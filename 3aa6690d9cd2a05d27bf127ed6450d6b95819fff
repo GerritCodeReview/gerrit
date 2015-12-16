@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1450300733 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBWwXtEgrDbbJSAitLYC6tXEmWKeHJXGo8u5PV3b3rPhZyxw4uJ5SpF/CMINvoB7nzZiipIV\n\n0000000000000000000000000000000000000000 5d46ccd53c2ce4568e4e30f63c43b8914c2dd8ef refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWcdU9AAoJEF/XxZqaEoiMe64P/3pqTMhVBfKKUE9UZ1Ilpopy\nnUW4DmTdUGjNSFLdfUe4GSOSlzvpX1N+bMWParmrY+Dpd8KVOgV22EprZHZ2JUhW\nwLRltJLWPZNjfJ0DjPuswsn6kW9JqqaTjAr5GAyBlzPLUKSutm0nUSyhBHP3Qued\ndaoDAbgu3rtPBW5uc7R7tc65cAuXYRmfORHgpBoXTzWHnOCTMHAVoX/3o5RKC0F0\nk/A7GEaxAKWKvzxY4fgVB18M7s7MQ2MZRqH2o0G0Hlg3S5yaWONSXt4bXHAgoIzh\nlIhr1NTg15z7pHhXU/UTuXv3ptmMMjyAwMHW1xIegkYSXulIzC2joKVNXDDqa9JU\nGW8f9P4AinvxFM2DopNUFs6rqC/F/5dYXQ2wOp+jgnEWv4V1EV/6rQPfhLlaXOFN\noTDYpHvDhuCCdAYaeFK/1U8QXGpemNUP/nOf9Lu32kTldmMcfnhtdvPwzxA4Mupj\n3Jt4cV4w5XpAzFYbUATnjjcaPbgfdOTvGm6txai9mDMsnfg4wUX9/69h3SeHtzrR\nhIob6WkRUfdbFcU/QFkYLLPIce8N0nl/v95ro8KDxXDtDWf1srObhYBZAEfhvuf0\nm+J6lHsJGJdmJu9Vdyy7GiVsuEmsDcUrGaRdbD4ls3bSmkiRTpSCqy3GylQ02t0D\nCnjwZAmDeLTSR3aPDwVo\n\u003dY6di\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "45feeabd_650be66d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitTypeRuleIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-12-16T21:45:02Z",
+      "side": 1,
+      "message": "Could we reuse the `submitWithConflict` from If02698ef7fd5e6394050e6c9a54b5f73b41b687c such that we require the full error message.\n\nI am asking this because `assertThat(e).hasMessage(\"Merge Conflict\");` doesn\u0027t sound like it\u0027s very informative to the user. (user complains \"Merge Conflict cannot be reproduced with c git, it merges fine\").\n\nEdit: Oh I see, the cause is fine. But do we shove the cause to the users screen?",
+      "range": {
+        "startLine": 238,
+        "startChar": 6,
+        "endLine": 238,
+        "endChar": 61
+      },
+      "revId": "3aa6690d9cd2a05d27bf127ed6450d6b95819fff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

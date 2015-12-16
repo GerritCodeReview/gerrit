@@ -15,9 +15,9 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.change.TestSubmitRule.Input;
 import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
@@ -29,7 +29,7 @@ final class TestSubmitTypeCommand extends BaseTestPrologCommand {
   private Provider<TestSubmitType> view;
 
   @Override
-  protected RestModifyView<RevisionResource, Input> createView() {
+  protected RestModifyView<RevisionResource, TestSubmitRuleInput> createView() {
     return view.get();
   }
 }

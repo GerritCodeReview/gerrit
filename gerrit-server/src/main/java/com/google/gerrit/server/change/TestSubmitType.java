@@ -17,14 +17,14 @@ package com.google.gerrit.server.change;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.TestSubmitRuleInput;
+import com.google.gerrit.extensions.common.TestSubmitRuleInput.Filters;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
-import com.google.gerrit.server.change.TestSubmitRule.Filters;
-import com.google.gerrit.server.change.TestSubmitRule.Input;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -33,7 +33,8 @@ import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
-public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
+public class TestSubmitType
+    implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
@@ -51,10 +52,10 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public SubmitType apply(RevisionResource rsrc, Input input)
+  public SubmitType apply(RevisionResource rsrc, TestSubmitRuleInput input)
       throws AuthException, BadRequestException, OrmException {
     if (input == null) {
-      input = new Input();
+      input = new TestSubmitRuleInput();
     }
     if (input.rule != null && !rules.isProjectRulesEnabled()) {
       throw new AuthException("project rules are disabled");
@@ -71,13 +72,13 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new BadRequestException(String.format(
           "rule %s produced invalid result: %s",
-          evaluator.getSubmitRule(), rec));
+          evaluator.getSubmitRuleName(), rec));
     }
 
     return rec.type;
   }
 
-  static class Get implements RestReadView<RevisionResource> {
+  public static class Get implements RestReadView<RevisionResource> {
     private final TestSubmitType test;
 
     @Inject

@@ -14,10 +14,10 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitRule;
-import com.google.gerrit.server.change.TestSubmitRule.Input;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -29,7 +29,7 @@ final class TestSubmitRuleCommand extends BaseTestPrologCommand {
   private Provider<TestSubmitRule> view;
 
   @Override
-  protected RestModifyView<RevisionResource, Input> createView() {
+  protected RestModifyView<RevisionResource, TestSubmitRuleInput> createView() {
     return view.get();
   }
 }

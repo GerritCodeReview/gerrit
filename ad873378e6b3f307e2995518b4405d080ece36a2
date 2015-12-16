@@ -1,4 +1,120 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1450285151 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBXKHxvq46AqFbRoWiDnKyuWKooidGTPcbOpNszTlHnSkjZ4C0YQesmv17OzT9bvhAh8LAN0\n\n0000000000000000000000000000000000000000 ad873378e6b3f307e2995518b4405d080ece36a2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWcZhfAAoJEF/XxZqaEoiMc9YP/iCl+D74sn/E+7HSbHbSywAT\nDffJgbj2CSMPDqydJWGW2ZYr9LHsZNael3SddgTVJc/XinxFgQnYuvvVyW5KUP3R\nt+F0J73JqLORWgeYyGcLraVJUf+aqjFuH0d00kIeX6qNGXJQ5Qzm+2rKvay7ZewZ\nDK/xE3xBnt1x1dvMsBQzBYukKTc3H3M3v2DvrtGyHnesQwy8Vdlf5IskoJeqWsJD\nJMRjYtqjnvcFRNIdFlF6yKSTL+wxMyEn1sJYJOTo/T9cE5wxzpofDYR4FfFGzsGU\n0YuibwwKoEC4hMpLqHEm7oeexC2yIMCSuWiQfIKxwItSalOibPPOR25YNNK2v8Af\nu+sakTFWPc7IsWxS7SxRz+hjqURw5RZkOGFJhDK0v+b5q9ORBKLgnHdkPet5BnIc\ntX0D2xYssQgEaJ3hsKruyX77QJiNB2LefWR1TQwRnu7JoJQ/pNAhqu0Vlofhz0OK\natDCS4vrc0mDPlF8JIgFyk+GNk79NWp9Dc/kT9zhxbgcEu/PM+biAMukfoewRHDl\nlAnDnvKCu5YSF4U2kPwxBX7MWnFv4auvdjnGMFNR0aX4Uo/wT/Gb3/1X2gAoTsU4\nTw3lVnD5RU1hHKgmc0LBQQFXKqp4zwTSnY517/2LawiwSx3q2RWR5Xu3o5rdXuiu\nI2P7kU3sKj5Q7HYIA1X+\n\u003dRwYu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6503ee91_c62502f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-16T19:32:59Z",
+      "side": 1,
+      "message": "So we have two cases:\n\n* -Label\n* -Label John Doe \u003cjdoe@example.org\u003e\n\nWhere and how do we document Notedb format? Let say someone would take the meta data repository and would like to parse it on its own. The only option she would have is to re-investigate parsing the code. I would expect at very least, that the commit message mentions something about it.",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 16
+      },
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "850c62c1_677e52c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-16T19:32:59Z",
+      "side": 1,
+      "message": "Alternatively, just name this method:\n\n  parseRemoveApprovalLabelWithoutLeadingDash",
+      "range": {
+        "startLine": 320,
+        "startChar": 36,
+        "endLine": 320,
+        "endChar": 77
+      },
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "850c62c1_87982658",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-16T19:32:59Z",
+      "side": 1,
+      "message": "I would expect this line to be:\n\n  line \u003d line.substring(1);\n\nWhat you get must not be (only) the label, and naming things wrong is very confusing.",
+      "range": {
+        "startLine": 343,
+        "startChar": 6,
+        "endLine": 343,
+        "endChar": 39
+      },
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "850c62c1_c78e1e17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-16T19:32:59Z",
+      "side": 1,
+      "message": "label at this point is either a single string, or \"\u0027label\u0027 \u0027name\u0027 \u0027\u003cmail\u003e\u0027\" string. So what is the point to search for  it in curr, that was assigned from approvals, where only real labels are used?",
+      "range": {
+        "startLine": 344,
+        "startChar": 26,
+        "endLine": 344,
+        "endChar": 58
+      },
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6503ee91_a61a06a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-16T19:32:59Z",
+      "side": 1,
+      "message": "I was looking for similar missing method in PersonIndent class: toExternalStringWithoutTimestamp() or some such. I duscussed this with Jonathan, and he was agreed to add something like that. I was missing this in: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/72020/7/gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java@202",
+      "range": {
+        "startLine": 526,
+        "startChar": 14,
+        "endLine": 527,
+        "endChar": 19
+      },
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

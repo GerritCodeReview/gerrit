@@ -2538,6 +2538,9 @@ server to respond until the TCP connection times out.
 +
 Root of the tree containing all user accounts.  This is typically
 of the form `ou=people,dc=example,dc=com`.
++
+This setting may be added multiple times to specify more than
+one root.
 
 [[ldap.accountScope]]ldap.accountScope::
 +
@@ -2649,6 +2652,9 @@ Active Directory.
 +
 Root of the tree containing all group objects.  This is typically
 of the form `ou=groups,dc=example,dc=com`.
++
+This setting may be added multiple times to specify more than
+one root.
 
 [[ldap.groupScope]]ldap.groupScope::
 +

@@ -14,10 +14,12 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -28,6 +30,7 @@ import java.util.Set;
 
 public interface RevisionApi {
   void delete() throws RestApiException;
+
   void review(ReviewInput in) throws RestApiException;
 
   void submit() throws RestApiException;
@@ -64,6 +67,9 @@ public interface RevisionApi {
   BinaryResult patch() throws RestApiException;
 
   Map<String, ActionInfo> actions() throws RestApiException;
+
+  SubmitType submitType() throws RestApiException;
+  SubmitType testSubmitType(TestSubmitRuleInput in) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -192,6 +198,17 @@ public interface RevisionApi {
 
     @Override
     public Map<String, ActionInfo> actions() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SubmitType submitType() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SubmitType testSubmitType(TestSubmitRuleInput in)
+        throws RestApiException {
       throw new NotImplementedException();
     }
   }

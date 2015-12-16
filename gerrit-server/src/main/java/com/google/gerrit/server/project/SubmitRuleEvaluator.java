@@ -231,7 +231,8 @@ public class SubmitRuleEvaluator {
       // required for this change to be submittable. Each label will indicate
       // whether or not that is actually possible given the permissions.
       return ruleError(String.format("Submit rule '%s' for change %s of %s has "
-            + "no solution.", getSubmitRule(), cd.getId(), getProjectName()));
+            + "no solution.", getSubmitRuleName(), cd.getId(),
+            getProjectName()));
     }
 
     return resultsToSubmitRecord(getSubmitRule(), results);
@@ -410,13 +411,13 @@ public class SubmitRuleEvaluator {
 
     if (results.isEmpty()) {
       // Should never occur for a well written rule
-      return typeError("Submit rule '" + getSubmitRule() + "' for change "
+      return typeError("Submit rule '" + getSubmitRuleName() + "' for change "
           + cd.getId() + " of " + getProjectName() + " has no solution.");
     }
 
     Term typeTerm = results.get(0);
     if (!(typeTerm instanceof SymbolTerm)) {
-      return typeError("Submit rule '" + getSubmitRule() + "' for change "
+      return typeError("Submit rule '" + getSubmitRuleName() + "' for change "
           + cd.getId() + " of " + getProjectName()
           + " did not return a symbol.");
     }
@@ -607,6 +608,10 @@ public class SubmitRuleEvaluator {
   public Term getSubmitRule() {
     checkState(submitRule != null, "getSubmitRule() invalid before evaluation");
     return submitRule;
+  }
+
+  public String getSubmitRuleName() {
+    return submitRule != null ? submitRule.toString() : "<unknown rule>";
   }
 
   private void initPatchSet() throws OrmException {

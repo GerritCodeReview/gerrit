@@ -25,11 +25,12 @@ import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMa
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -87,8 +88,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private final AccountCache accountCache;
-  private final Map<String, Optional<Short>> approvals;
+  private final Map<String, Short> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers;
+  private final Multimap<Account.Id, String> removedApprovals;
   private Change.Status status;
   private String subject;
   private List<SubmitRecord> submitRecords;
@@ -163,6 +165,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.commentsUtil = commentsUtil;
     this.approvals = Maps.newTreeMap(labelNameComparator);
     this.reviewers = Maps.newLinkedHashMap();
+    this.removedApprovals =
+        MultimapBuilder.linkedHashKeys(1).arrayListValues(1).build();
     this.comments = Lists.newArrayList();
   }
 
@@ -177,11 +181,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void putApproval(String label, short value) {
-    approvals.put(label, Optional.of(value));
+    approvals.put(label, value);
   }
 
   public void removeApproval(String label) {
-    approvals.put(label, Optional.<Short> absent());
+    removeApprovalFor(getUser().getAccountId(), label);
+  }
+
+  public void removeApprovalFor(Account.Id reviewer, String label) {
+    removedApprovals.put(reviewer, label);
   }
 
   public void merge(Iterable<SubmitRecord> submitRecords) {
@@ -434,20 +442,22 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     for (Map.Entry<Account.Id, ReviewerStateInternal> e : reviewers.entrySet()) {
-      Account account = accountCache.get(e.getKey()).getAccount();
-      PersonIdent ident = newIdent(account, when);
-      addFooter(msg, e.getValue().getFooterKey())
-          .append(ident.getName())
-          .append(" <").append(ident.getEmailAddress()).append(">\n");
+      addFooter(msg, e.getValue().getFooterKey());
+      addIdent(msg, e.getKey()).append('\n');
     }
 
-    for (Map.Entry<String, Optional<Short>> e : approvals.entrySet()) {
-      if (!e.getValue().isPresent()) {
-        addFooter(msg, FOOTER_LABEL, '-', e.getKey());
-      } else {
-        addFooter(msg, FOOTER_LABEL, LabelVote.create(
-            e.getKey(), e.getValue().get()).formatWithEquals());
+    for (Map.Entry<String, Short> e : approvals.entrySet()) {
+      addFooter(msg, FOOTER_LABEL, LabelVote.create(
+          e.getKey(), e.getValue()).formatWithEquals());
+    }
+
+    for (Map.Entry<Account.Id, String> e : removedApprovals.entries()) {
+      addFooter(msg, FOOTER_LABEL).append('-').append(e.getValue());
+      Account.Id id = e.getKey();
+      if (!id.equals(ctl.getUser().getAccountId())) {
+        addIdent(msg.append(' '), id);
       }
+      msg.append('\n');
     }
 
     if (submitRecords != null) {
@@ -486,6 +496,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private boolean isEmpty() {
     return approvals.isEmpty()
+        && removedApprovals.isEmpty()
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()
@@ -507,6 +518,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       sb.append(value);
     }
     sb.append('\n');
+  }
+
+  private StringBuilder addIdent(StringBuilder sb, Account.Id accountId) {
+    Account account = accountCache.get(accountId).getAccount();
+    PersonIdent ident = newIdent(account, when);
+    sb.append(ident.getName()).append(" <").append(ident.getEmailAddress())
+        .append('>');
+    return sb;
   }
 
   private static String sanitizeFooter(String value) {

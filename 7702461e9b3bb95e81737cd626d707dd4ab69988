@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "c512dad7_c9f2b1c6",
+        "filename": "polygerrit-ui/app/scripts/link-text-parser.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-16T15:39:21Z",
+      "side": 1,
+      "message": "What you absolutely cannot do is slap a copyright header on this third-party code saying it belongs to Google ;)\n\nI have a weak preference for using a maintained, bowerized library. Failing that we can probably pull it in a la carte with correct copyright header (under the MIT license).",
+      "parentUuid": "c5e9fafb_9115fc89",
+      "revId": "7702461e9b3bb95e81737cd626d707dd4ab69988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45d50a32_adf77db4",
         "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
         "patchSetId": 2

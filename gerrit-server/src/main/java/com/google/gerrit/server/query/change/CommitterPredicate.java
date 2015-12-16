@@ -23,7 +23,7 @@ import com.google.gwtorm.server.OrmException;
 
 public class CommitterPredicate extends IndexPredicate<ChangeData>  {
   CommitterPredicate(String value) {
-    super(COMMITTER, FIELD_COMMITTER, value);
+    super(COMMITTER, FIELD_COMMITTER, value.toLowerCase());
   }
 
   @Override

@@ -55,6 +55,7 @@ limitations under the License.
         change-num="[[_changeNum]]"
         patch-range="[[_patchRange]]"
         path="[[_path]]"
+        available-patches="[[_computeAvailablePatches(_change.revisions)]]"
         on-render="_handleDiffRender">
     </gr-diff>
   </template>
@@ -154,6 +155,14 @@ limitations under the License.
         if (!this._patchRange.patchNum) {
           return;
         }
+      },
+
+      _computeAvailablePatches: function(revisions) {
+        var patchNums = [];
+        for (var rev in revisions) {
+          patchNums.push(revisions[rev]._number);
+        }
+        return patchNums.sort();
       },
 
       _computeChangePath: function(changeNum) {

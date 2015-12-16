@@ -243,6 +243,9 @@ public class SubIndex {
       } else if (isGenAvailableNowForCurrentSearcher()) {
         set(null);
         return true;
+      } else if (!reopenThread.isAlive()) {
+        setException(new IllegalStateException("NRT thread is dead"));
+        return true;
       }
       return false;
     }

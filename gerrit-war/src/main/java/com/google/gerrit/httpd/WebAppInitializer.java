@@ -292,7 +292,6 @@ public class WebAppInitializer extends GuiceServletContextListener
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(new DropWizardMetricMaker.RestModule());
-    modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(new DiffExecutorModule());
@@ -306,13 +305,12 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
-    switch (indexType) {
-      case LUCENE:
-        modules.add(new LuceneIndexModule());
-        break;
-      default:
-        throw new IllegalStateException("unsupported index.type = " + indexType);
-    }
+
+    // Index module shutdown must happen before work queue shutdown, otherwise
+    // work queue can get stuck waiting on index futures that will never return.
+    modules.add(createIndexModule());
+
+    modules.add(new WorkQueue.Module());
     modules.add(new CanonicalWebUrlModule() {
       @Override
       protected Class<? extends Provider<String>> provider() {
@@ -330,6 +328,15 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new GarbageCollectionModule());
     modules.add(new ChangeCleanupRunner.Module());
     return cfgInjector.createChildInjector(modules);
+  }
+
+  private Module createIndexModule() {
+    switch (indexType) {
+      case LUCENE:
+        return new LuceneIndexModule();
+      default:
+        throw new IllegalStateException("unsupported index.type = " + indexType);
+    }
   }
 
   private void initIndexType() {

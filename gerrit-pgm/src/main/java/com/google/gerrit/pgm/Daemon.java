@@ -333,6 +333,11 @@ public class Daemon extends SiteProgram {
     modules.add(SchemaVersionCheck.module());
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileCompressor.Module());
+
+    // Index module shutdown must happen before work queue shutdown, otherwise
+    // work queue can get stuck waiting on index futures that will never return.
+    modules.add(createIndexModule());
+
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());
@@ -351,7 +356,6 @@ public class Daemon extends SiteProgram {
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
-    modules.add(createIndexModule());
     if (MoreObjects.firstNonNull(httpd, true)) {
       modules.add(new CanonicalWebUrlModule() {
         @Override

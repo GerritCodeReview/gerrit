@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "850c62c1_e716c296",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-16T08:15:11Z",
+      "side": 1,
+      "message": "notedb tests are failing here:\n  Not true that \u003c{Code-Review\u003d1}\u003e is empty\n\nThis seems to be another bug, but it pops up after changing the test.",
+      "revId": "c60245a48b39e93793509a1363bf656682e2b2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "850c62c1_47ad8ea9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -18,6 +35,29 @@
         "startChar": 4,
         "endLine": 486,
         "endChar": 73
+      },
+      "revId": "c60245a48b39e93793509a1363bf656682e2b2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6503ee91_26d3b62b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-16T08:15:11Z",
+      "side": 1,
+      "message": "I think this is wrongly removing the approval of the calling user :-(",
+      "range": {
+        "startLine": 115,
+        "startChar": 12,
+        "endLine": 115,
+        "endChar": 56
       },
       "revId": "c60245a48b39e93793509a1363bf656682e2b2de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

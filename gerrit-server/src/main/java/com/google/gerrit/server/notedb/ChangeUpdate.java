@@ -452,11 +452,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     for (Map.Entry<Account.Id, String> e : removedApprovals.entries()) {
-      addFooter(msg, FOOTER_LABEL, '-', e.getValue());
+      addFooter(msg, FOOTER_LABEL).append('-').append(e.getValue());
       Account.Id id = e.getKey();
       if (!id.equals(ctl.getUser().getAccountId())) {
-        addIdent(msg.append(' '), id).append('\n');
+        addIdent(msg.append(' '), id);
       }
+      msg.append('\n');
     }
 
     if (submitRecords != null) {
@@ -495,6 +496,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private boolean isEmpty() {
     return approvals.isEmpty()
+        && removedApprovals.isEmpty()
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()

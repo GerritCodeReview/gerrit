@@ -317,7 +317,7 @@ class ChangeNotesParser implements AutoCloseable {
     Account.Id removedAccountId;
     int s = line.indexOf(' ');
     if (s > 0) {
-      label = line.substring(0, s); // Leading "-" already trimmed by caller.
+      label = line.substring(0, s); // Leading '-' already trimmed by caller.
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
       removedAccountId = parseIdent(ident);
@@ -331,16 +331,22 @@ class ChangeNotesParser implements AutoCloseable {
   private boolean isApprovalRemoved(PatchSet.Id psId, Account.Id accountId,
       String label) {
     Multimap<Account.Id, String> curr = removedApprovals.get(psId);
-    if (curr == null) {
-      return false;
-    }
-    return curr.containsEntry(accountId, label);
+    return curr != null && curr.containsEntry(accountId, label);
   }
 
   private void parseApproval(PatchSet.Id psId, Account.Id accountId,
       RevCommit commit, String line) throws ConfigInvalidException {
     Table<Account.Id, String, Optional<PatchSetApproval>> curr =
         approvals.get(psId);
+
+    if (line.startsWith("-")) {
+      String label = line.substring(1);
+      if (curr == null || !curr.contains(accountId, label)) {
+        parseRemoveApproval(psId, accountId, label);
+      }
+      return;
+    }
+
     if (curr == null) {
       curr = Tables.newCustomTable(
           Maps.<Account.Id, Map<String, Optional<PatchSetApproval>>>
@@ -353,32 +359,24 @@ class ChangeNotesParser implements AutoCloseable {
           });
       approvals.put(psId, curr);
     }
-
-    if (line.startsWith("-")) {
-      String label = line.substring(1);
-      if (!curr.contains(accountId, label)) {
-        parseRemoveApproval(psId, accountId, label);
-      }
-    } else {
-      LabelVote l;
-      try {
-        l = LabelVote.parseWithEquals(line);
-      } catch (IllegalArgumentException e) {
-        ConfigInvalidException pe =
-            parseException("invalid %s: %s", FOOTER_LABEL, line);
-        pe.initCause(e);
-        throw pe;
-      }
-      if (!curr.contains(accountId, l.label())
-          && !isApprovalRemoved(psId, accountId, l.label())) {
-        curr.put(accountId, l.label(), Optional.of(new PatchSetApproval(
-            new PatchSetApproval.Key(
-                psId,
-                accountId,
-                new LabelId(l.label())),
-            l.value(),
-            new Timestamp(commit.getCommitterIdent().getWhen().getTime()))));
-      }
+    LabelVote l;
+    try {
+      l = LabelVote.parseWithEquals(line);
+    } catch (IllegalArgumentException e) {
+      ConfigInvalidException pe =
+          parseException("invalid %s: %s", FOOTER_LABEL, line);
+      pe.initCause(e);
+      throw pe;
+    }
+    if (!curr.contains(accountId, l.label())
+        && !isApprovalRemoved(psId, accountId, l.label())) {
+      curr.put(accountId, l.label(), Optional.of(new PatchSetApproval(
+          new PatchSetApproval.Key(
+              psId,
+              accountId,
+              new LabelId(l.label())),
+          l.value(),
+          new Timestamp(commit.getCommitterIdent().getWhen().getTime()))));
     }
   }
 

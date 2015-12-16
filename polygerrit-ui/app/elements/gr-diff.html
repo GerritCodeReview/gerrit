@@ -17,12 +17,16 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-diff-side.html">
+<link rel="import" href="gr-patch-range-select.html">
 <link rel="import" href="gr-request.html">
 
 <dom-module id="gr-diff">
   <template>
     <style>
-      :host {
+      gr-patch-range-select {
+        margin: 0 var(--default-horizontal-margin) .75em;
+      }
+      .diffContainer {
         border-bottom: 1px solid #eee;
         border-top: 1px solid #eee;
         font-family: 'Source Code Pro', monospace;
@@ -51,14 +55,22 @@ limitations under the License.
         url="[[_computeDraftsPath(changeNum, patchRange.basePatchNum)]]"></gr-ajax>
     <gr-ajax id="draftsXHR"
         url="[[_computeDraftsPath(changeNum, patchRange.patchNum)]]"></gr-ajax>
-    <gr-diff-side id="leftDiff"
-        content="{{_diff.leftSide}}"
-        width="[[sideWidth]]"
-        can-comment="[[_loggedIn]]"></gr-diff-side>
-    <gr-diff-side id="rightDiff"
-        content="{{_diff.rightSide}}"
-        width="[[sideWidth]]"
-        can-comment="[[_loggedIn]]"></gr-diff-side>
+
+    <gr-patch-range-select
+        path="[[path]]"
+        change-num="[[changeNum]]"
+        patch-range="[[patchRange]]"
+        available-patches="[[availablePatches]]"></gr-patch-range-select>
+    <div class="diffContainer">
+      <gr-diff-side id="leftDiff"
+          content="{{_diff.leftSide}}"
+          width="[[sideWidth]]"
+          can-comment="[[_loggedIn]]"></gr-diff-side>
+      <gr-diff-side id="rightDiff"
+          content="{{_diff.rightSide}}"
+          width="[[sideWidth]]"
+          can-comment="[[_loggedIn]]"></gr-diff-side>
+    </div>
   </template>
   <script>
   (function() {
@@ -78,6 +90,7 @@ limitations under the License.
           type: Boolean,
           value: false,
         },
+        availablePatches: Array,
         changeNum: String,
         /*
          * A single object to encompass basePatchNum and patchNum is used

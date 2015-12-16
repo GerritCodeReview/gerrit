@@ -508,6 +508,10 @@ public class LuceneChangeIndex implements ChangeIndex {
           ChangeProtoField.CODEC.decode(cb.bytes, cb.offset, cb.length));
     } else {
       int id = doc.getField(idFieldName).numericValue().intValue();
+      log.warn(
+          "Cannot decode ChangeData from the protobuf-encoded index {} field value."
+              + "change-id:{} will be loaded from DB with a lower performance",
+          CHANGE_FIELD, id);
       cd = changeDataFactory.create(db.get(), new Change.Id(id));
     }
 

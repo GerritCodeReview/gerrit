@@ -41,6 +41,7 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
 
   private static final String BUCKLC = "buck";
   private static final String BUCKOUT = "buck-out";
+  private static final String ECLIPSE = "eclipse-out";
 
   private Path gen;
   private Path pluginRoot;
@@ -98,7 +99,7 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
       if (subPath.endsWith("plugins")) {
         pluginsIdx = idx;
       }
-      if (subPath.endsWith(BUCKOUT)) {
+      if (subPath.endsWith(BUCKOUT) || subPath.endsWith(ECLIPSE)) {
         buckOutIdx = idx;
       }
       idx++;
@@ -126,7 +127,8 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
         String gerritDirCandidate =
             partialPath.subpath(count - 2, count - 1).toString();
         if (pattern.matcher(gerritDirCandidate).matches()) {
-          if (partialPath.endsWith(gerritDirCandidate + "/" + BUCKOUT)) {
+          if (partialPath.endsWith(gerritDirCandidate + "/" + BUCKOUT) ||
+              partialPath.endsWith(gerritDirCandidate + "/" + ECLIPSE)) {
             return false;
           }
         }

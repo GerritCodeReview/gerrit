@@ -62,6 +62,30 @@
       "revId": "c60245a48b39e93793509a1363bf656682e2b2de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6503ee91_86fcaa97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-16T08:43:19Z",
+      "side": 1,
+      "message": "So in case, calling user !\u003d voting user we need to construct the ChangeUpdate with voting user to remove his vote.",
+      "parentUuid": "6503ee91_26d3b62b",
+      "range": {
+        "startLine": 115,
+        "startChar": 12,
+        "endLine": 115,
+        "endChar": 56
+      },
+      "revId": "c60245a48b39e93793509a1363bf656682e2b2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

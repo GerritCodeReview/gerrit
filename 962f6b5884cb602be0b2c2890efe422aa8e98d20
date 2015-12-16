@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1450211266 -0500\nnonce ALmjDBVy8ZYHEW8hOOgd1RkMzCW9sJ5bhxAW4woDD76Xzrn/k9ulxKRCAmsXf2idrujfwa+CW5du\n\n0000000000000000000000000000000000000000 dbfa736816024d6a830e3af28c46eca3533d4fbe refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWcHfCAAoJEF/XxZqaEoiMIn4QAMXMPcAfRV/iOlWFKAziC5P7\nEEkVsPGw70ydMBYLsBzn6Qqel3JY993wlrrWe5pjGorlzNx8Sn+/7dmeGFkYE5Gj\ng5s7HdZM1VCOOa7p6Imy7SEfqMT07E7sRlf9nH4xTmAjQlsfa1zhQyc5yYiuc5wH\n0EjIP07Ulsj7m+dQhY5T4+Y3lYukYq8gk++Va2SzlOdSMTvmtj6SVy1kFAuOi6AP\nvUzV/w60kkd4hyhv2+rds6mws80OMIXV3i0kscNIylfFiE1UeiiovwGGoG+d0G7m\nRMWkSa596EPz0NkAMpeSnET2o4um2JgJBw7pXPluo4XQnuGNrG+UR4s7Vhs2F2n0\nAyoc0xiBISyF51JV1SnMuRJ9LwZ4+AdyL8KccasabkBrlHqQqZb3eBBqhJizaV+V\nh1TCzoz8GgFphlPxRG0cUANqPLgHSCpPp4HGyMhM/SXZN7f4AbyvWVIPJkW+Kp6L\nZnEo61VvUb5/xvwERUGhD9rigEi7HmhV+qaFNObfNdw/5xnsx63rEv9hhvt6Dxeo\n3l5gyoV6v5LhF+uY5I+SfNkuG05fi50hhdsDXZL3O4fqhBPVdm4NEwsd+/YY//tp\nwcjH3RLpe7XdbP/HBE2Tcn67B8d/QApjm5MrDGK4sfIBM9pVcXdBSamlAWgzDvli\nP9ypP5T+oyhsTjbhYWR7\n\u003dZryL\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "850c62c1_c73cde12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitDryRun.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-16T12:57:21Z",
+      "side": 1,
+      "message": "[unrelated] What about refs/meta/config?",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 73
+      },
+      "revId": "962f6b5884cb602be0b2c2890efe422aa8e98d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6503ee91_06e9dad4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitDryRun.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-16T12:57:21Z",
+      "side": 1,
+      "message": "[optional] just call this \u0027run\u0027? The class name already implies that it\u0027s a dry run.",
+      "range": {
+        "startLine": 108,
+        "startChar": 17,
+        "endLine": 108,
+        "endChar": 23
+      },
+      "revId": "962f6b5884cb602be0b2c2890efe422aa8e98d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

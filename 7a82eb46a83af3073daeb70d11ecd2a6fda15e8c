@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "850c62c1_8746e6a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReadOnlyRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-16T13:44:09Z",
+      "side": 1,
+      "message": "[optional] Not needed, this checkNotNull is too late, if delegate is null the builder method above would have already failed with an NPE.",
+      "range": {
+        "startLine": 53,
+        "startChar": 20,
+        "endLine": 53,
+        "endChar": 32
+      },
+      "revId": "7a82eb46a83af3073daeb70d11ecd2a6fda15e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

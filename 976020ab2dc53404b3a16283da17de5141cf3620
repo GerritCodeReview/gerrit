@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "e50fdeaf_6ad97749",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-16T14:39:12Z",
+      "side": 1,
+      "message": "Maybe so but that can still put you in the same confusing situation, if you mix docs-only changes and code changes. Same thing as my second example below.\n\nThat said, if you set those rules because you think documentation changes are more likely to be one-offs and not mixed in a batch with other changes, maybe that\u0027s still useful.",
+      "parentUuid": "850c62c1_4708ee6e",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "976020ab2dc53404b3a16283da17de5141cf3620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "850c62c1_2705fa56",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2015-12-16T12:22:11Z",
       "side": 1,
       "message": "topological order?",
+      "range": {
+        "startLine": 76,
+        "startChar": 50,
+        "endLine": 76,
+        "endChar": 61
+      },
+      "revId": "976020ab2dc53404b3a16283da17de5141cf3620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_89c3995e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-16T14:39:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "850c62c1_2705fa56",
       "range": {
         "startLine": 76,
         "startChar": 50,

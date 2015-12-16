@@ -112,6 +112,11 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Label: Label2=1\n"
         + "Label: Label3=0\n"
         + "Label: Label4=-1\n");
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Label: -Label1\n"
+        + "Label: -Label1 Other Account <2@gerrit>\n");
     assertParseFails("Update change\n"
         + "\n"
         + "Patch-Set: 1\n"
@@ -124,6 +129,10 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-Set: 1\n"
         + "Label: X+Y\n");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Label: Label1 Other Account <2@gerrit>\n");
   }
 
   @Test

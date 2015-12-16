@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c512dad7_49dfe125",
+        "filename": "polygerrit-ui/app/scripts/ba-linkify.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-16T17:23:50Z",
+      "side": 1,
+      "message": "Put the full text of the MIT license in this comment.",
+      "revId": "89bedaf897c02ec985a6fedf5d70ef7a6c787e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

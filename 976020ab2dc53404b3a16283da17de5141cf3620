@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1450211266 -0500\nnonce ALmjDBVy8ZYHEW8hOOgd1RkMzCW9sJ5bhxAW4woDD76Xzrn/k9ulxKRCAmsXf2idrujfwa+CW5du\n\n0000000000000000000000000000000000000000 dbfa736816024d6a830e3af28c46eca3533d4fbe refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWcHfCAAoJEF/XxZqaEoiMIn4QAMXMPcAfRV/iOlWFKAziC5P7\nEEkVsPGw70ydMBYLsBzn6Qqel3JY993wlrrWe5pjGorlzNx8Sn+/7dmeGFkYE5Gj\ng5s7HdZM1VCOOa7p6Imy7SEfqMT07E7sRlf9nH4xTmAjQlsfa1zhQyc5yYiuc5wH\n0EjIP07Ulsj7m+dQhY5T4+Y3lYukYq8gk++Va2SzlOdSMTvmtj6SVy1kFAuOi6AP\nvUzV/w60kkd4hyhv2+rds6mws80OMIXV3i0kscNIylfFiE1UeiiovwGGoG+d0G7m\nRMWkSa596EPz0NkAMpeSnET2o4um2JgJBw7pXPluo4XQnuGNrG+UR4s7Vhs2F2n0\nAyoc0xiBISyF51JV1SnMuRJ9LwZ4+AdyL8KccasabkBrlHqQqZb3eBBqhJizaV+V\nh1TCzoz8GgFphlPxRG0cUANqPLgHSCpPp4HGyMhM/SXZN7f4AbyvWVIPJkW+Kp6L\nZnEo61VvUb5/xvwERUGhD9rigEi7HmhV+qaFNObfNdw/5xnsx63rEv9hhvt6Dxeo\n3l5gyoV6v5LhF+uY5I+SfNkuG05fi50hhdsDXZL3O4fqhBPVdm4NEwsd+/YY//tp\nwcjH3RLpe7XdbP/HBE2Tcn67B8d/QApjm5MrDGK4sfIBM9pVcXdBSamlAWgzDvli\nP9ypP5T+oyhsTjbhYWR7\n\u003dZryL\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "850c62c1_4708ee6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-16T12:22:11Z",
+      "side": 1,
+      "message": "It was also a use case to enable a strict project-level submit type such a fast-forward-only and then relax this for certain changes, e.g. allow merge-if-necessary when only documentation files are touched. But I\u0027m not sure how relevant this scenario is.",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "976020ab2dc53404b3a16283da17de5141cf3620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "850c62c1_2705fa56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-16T12:22:11Z",
+      "side": 1,
+      "message": "topological order?",
+      "range": {
+        "startLine": 76,
+        "startChar": 50,
+        "endLine": 76,
+        "endChar": 61
+      },
+      "revId": "976020ab2dc53404b3a16283da17de5141cf3620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

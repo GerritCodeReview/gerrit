@@ -197,6 +197,41 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void removeOtherUsersApprovals() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.putApproval("Not-For-Long", (short) 1);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    PatchSetApproval psa = Iterables.getOnlyElement(
+        notes.getApprovals().get(c.currentPatchSetId()));
+    assertThat(psa.getAccountId()).isEqualTo(otherUserId);
+    assertThat(psa.getLabel()).isEqualTo("Not-For-Long");
+    assertThat(psa.getValue()).isEqualTo((short) 1);
+
+    update = newUpdate(c, changeOwner);
+    update.removeApprovalFor(otherUserId, "Not-For-Long");
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getApprovals()).isEmpty();
+
+    // Add back approval on same label.
+    update = newUpdate(c, otherUser);
+    update.putApproval("Not-For-Long", (short) 2);
+    update.commit();
+
+    notes = newNotes(c);
+    psa = Iterables.getOnlyElement(
+        notes.getApprovals().get(c.currentPatchSetId()));
+    assertThat(psa.getAccountId()).isEqualTo(otherUserId);
+    assertThat(psa.getLabel()).isEqualTo("Not-For-Long");
+    assertThat(psa.getValue()).isEqualTo((short) 2);
+
+  }
+
+  @Test
   public void multipleReviewers() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);

@@ -470,9 +470,7 @@ public class ChangeIT extends AbstractDaemonTest {
       // notedb and this record stays even when all votes of that user have been
       // deleted, hence there is no dummy 0 approval left when a vote is
       // deleted.
-      // TODO(dborowitz): Support modifying other users' labels in notedb
-      // format.
-      //assertThat(m).isEmpty();
+      assertThat(m).isEmpty();
     } else {
       // When notedb is disabled there is a dummy 0 approval on the change so
       // that the user is still returned as CC when all votes of that user have

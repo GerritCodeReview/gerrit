@@ -23,7 +23,7 @@ import com.google.gwtorm.server.OrmException;
 
 public class AuthorPredicate extends IndexPredicate<ChangeData>  {
   AuthorPredicate(String value) {
-    super(AUTHOR, FIELD_AUTHOR, value);
+    super(AUTHOR, FIELD_AUTHOR, value.toLowerCase());
   }
 
   @Override

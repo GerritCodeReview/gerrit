@@ -71,13 +71,13 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new BadRequestException(String.format(
           "rule %s produced invalid result: %s",
-          evaluator.getSubmitRule(), rec));
+          evaluator.getSubmitRuleName(), rec));
     }
 
     return rec.type;
   }
 
-  static class Get implements RestReadView<RevisionResource> {
+  public static class Get implements RestReadView<RevisionResource> {
     private final TestSubmitType test;
 
     @Inject

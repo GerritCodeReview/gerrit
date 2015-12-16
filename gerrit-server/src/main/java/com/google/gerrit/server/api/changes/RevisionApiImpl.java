@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -54,6 +55,8 @@ import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.Reviewed;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.change.TestSubmitRule;
+import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -94,6 +97,8 @@ class RevisionApiImpl implements RevisionApi {
   private final Comments comments;
   private final CommentApiImpl.Factory commentFactory;
   private final GetRevisionActions revisionActions;
+  private final Provider<TestSubmitType> testSubmitType;
+  private final TestSubmitType.Get getSubmitType;
 
   @Inject
   RevisionApiImpl(Changes changes,
@@ -119,6 +124,8 @@ class RevisionApiImpl implements RevisionApi {
       Comments comments,
       CommentApiImpl.Factory commentFactory,
       GetRevisionActions revisionActions,
+      Provider<TestSubmitType> testSubmitType,
+      TestSubmitType.Get getSubmitType,
       @Assisted RevisionResource r) {
     this.changes = changes;
     this.cherryPick = cherryPick;
@@ -143,6 +150,8 @@ class RevisionApiImpl implements RevisionApi {
     this.comments = comments;
     this.commentFactory = commentFactory;
     this.revisionActions = revisionActions;
+    this.testSubmitType = testSubmitType;
+    this.getSubmitType = getSubmitType;
     this.revision = r;
   }
 
@@ -374,5 +383,24 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public Map<String, ActionInfo> actions() throws RestApiException {
     return revisionActions.apply(revision).value();
+  }
+
+  @Override
+  public SubmitType submitType() throws RestApiException {
+    try {
+      return getSubmitType.apply(revision);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get submit type", e);
+    }
+  }
+
+  @Override
+  public SubmitType testSubmitType(TestSubmitRule.Input in)
+      throws RestApiException {
+    try {
+      return testSubmitType.get().apply(revision, in);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot test submit type", e);
+    }
   }
 }

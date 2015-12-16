@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_EXTERNAL;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_MAILTO;
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_EXTERNAL;
 
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 

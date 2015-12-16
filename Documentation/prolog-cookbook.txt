@@ -999,7 +999,7 @@ default submit type as defined on the project settings page.
 submit_type(fast_forward_only) :-
     gerrit:change_branch(B), regex_matches('refs/heads/stable.*', B),
     !.
-submit_type(T) :- gerrit:project_default_submit_type(T)
+submit_type(T) :- gerrit:project_default_submit_type(T).
 ----
 
 The first `submit_type` predicate defines the `Fast Forward Only` submit type
@@ -1019,7 +1019,7 @@ submit_type(fast_forward_only) :-
     gerrit:commit_delta('(?<!\.txt)$'),
     gerrit:change_branch(B), regex_matches('refs/heads/stable.*', B),
     !.
-submit_type(T) :- gerrit:project_default_submit_type(T)
+submit_type(T) :- gerrit:project_default_submit_type(T).
 ----
 
 The `gerrit:commit_delta('(?<!\.txt)$')` succeeds if the change contains a file

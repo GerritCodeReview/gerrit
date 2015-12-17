@@ -17,6 +17,24 @@
       "revId": "f9beff251642ac37e78ddc71363bd78dcb0e7c82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a06230b_9cb5a5ef",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/SubmitTypeRuleIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T18:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "850c62c1_073d56b6",
+      "revId": "f9beff251642ac37e78ddc71363bd78dcb0e7c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

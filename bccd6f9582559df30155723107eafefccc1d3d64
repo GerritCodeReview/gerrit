@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "6503ee91_86b4aaa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-17T12:08:03Z",
+      "side": 1,
+      "message": "\u003e I guess this is much faster than scanning all projects at startup\n\nI also think so. Since the loading of this cache is done asynchronously, it will then not add to the startup time. It is just done during the time we anyway wait for the projects to be scanned.\n\nBut yes, we need to wait until the cache is fully loaded before we can serve changes for identified users. \n\nI don\u0027t have any numbers on how long this takes, of course it depends on how many users star changes. At the moment this feature seems to be not very popular (IIRC we have some hundreds of starred changes per host), but maybe this changes once we have labeled stars :-)",
+      "parentUuid": "6503ee91_a6afa655",
+      "range": {
+        "startLine": 31,
+        "startChar": 43,
+        "endLine": 32,
+        "endChar": 68
+      },
+      "revId": "bccd6f9582559df30155723107eafefccc1d3d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "850c62c1_278e1ae3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -37,6 +61,30 @@
       "writtenOn": "2015-12-17T11:26:38Z",
       "side": 1,
       "message": "Cache",
+      "range": {
+        "startLine": 41,
+        "startChar": 32,
+        "endLine": 41,
+        "endChar": 38
+      },
+      "revId": "bccd6f9582559df30155723107eafefccc1d3d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6503ee91_669ace30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-17T12:08:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "850c62c1_278e1ae3",
       "range": {
         "startLine": 41,
         "startChar": 32,

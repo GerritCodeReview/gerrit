@@ -26,6 +26,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -56,7 +57,13 @@ public class PatchFile {
         if (patchList.isAgainstParent()) {
           a = Text.EMPTY;
         } else {
-          a = Text.forCommit(reader, patchList.getOldId());
+          // for the initial commit, we have an empty tree for the a side
+          RevObject aObject = rw.parseAny(patchList.getOldId());
+          if (aObject instanceof RevCommit) {
+            a = Text.forCommit(reader, aObject);
+          } else {
+            a = Text.EMPTY;
+          }
         }
         b = Text.forCommit(reader, bCommit);
 

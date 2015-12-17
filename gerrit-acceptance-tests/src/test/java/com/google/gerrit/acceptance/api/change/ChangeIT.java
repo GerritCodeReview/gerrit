@@ -21,6 +21,7 @@ import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
@@ -238,6 +239,37 @@ public class ChangeIT extends AbstractDaemonTest {
         info.currentRevision).commit.committer;
     assertThat(committer.name).isEqualTo(admin.fullName);
     assertThat(committer.email).isEqualTo(admin.email);
+  }
+
+  @Test
+  public void voteOnBehalfOf() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    LabelType codeReviewType = Util.codeReview();
+    String forCodeReviewAs = Permission.forLabelAs(codeReviewType.getName());
+    String heads = "refs/heads/*";
+    AccountGroup.UUID owner =
+        SystemGroupBackend.getGroup(CHANGE_OWNER).getUUID();
+    Util.allow(cfg, forCodeReviewAs, -1, 1, owner, heads);
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result r = createChange();
+    RevisionApi revision = gApi.changes()
+        .id(r.getChangeId())
+        .current();
+
+    ReviewInput in = ReviewInput.recommend();
+    in.onBehalfOf = user.id.toString();
+    revision.review(in);
+
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+
+    LabelInfo codeReview = c.labels.get("Code-Review");
+    assertThat(codeReview.all).hasSize(1);
+    ApprovalInfo approval = codeReview.all.get(0);
+    assertThat(approval._accountId).isEqualTo(user.id.get());
+    assertThat(approval.value).isEqualTo(1);
   }
 
   @Test(expected = ResourceConflictException.class)

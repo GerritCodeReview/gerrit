@@ -60,15 +60,12 @@ public class SetPreferences implements RestModifyView<ConfigResource, Input> {
     }
 
     VersionedAccountPreferences p;
-    MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName);
-    try {
+    try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       p = VersionedAccountPreferences.forDefault();
       p.load(md);
       com.google.gerrit.server.account.SetPreferences.storeMyMenus(p, i.my);
       p.commit(md);
       return new PreferenceInfo(null, p, md.getRepository());
-    } finally {
-      md.close();
     }
   }
 }

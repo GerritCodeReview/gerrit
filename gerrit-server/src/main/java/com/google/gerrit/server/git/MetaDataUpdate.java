@@ -34,7 +34,7 @@ import org.eclipse.jgit.lib.Repository;
 import java.io.IOException;
 
 /** Helps with the updating of a {@link VersionedMetaData}. */
-public class MetaDataUpdate {
+public class MetaDataUpdate implements AutoCloseable {
   public static class User {
     private final InternalFactory factory;
     private final GitRepositoryManager mgr;
@@ -191,6 +191,7 @@ public class MetaDataUpdate {
   }
 
   /** Close the cached Repository handle. */
+  @Override
   public void close() {
     getRepository().close();
   }

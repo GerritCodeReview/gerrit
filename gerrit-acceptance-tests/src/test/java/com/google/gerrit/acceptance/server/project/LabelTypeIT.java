@@ -321,11 +321,8 @@ public class LabelTypeIT extends AbstractDaemonTest {
   }
 
   private void saveProjectConfig(ProjectConfig cfg) throws Exception {
-    MetaDataUpdate md = metaDataUpdateFactory.create(project);
-    try {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       cfg.commit(md);
-    } finally {
-      md.close();
     }
   }
 

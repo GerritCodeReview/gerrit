@@ -115,9 +115,8 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     Account.Id accountId = rsrc.getUser().getAccountId();
     AccountGeneralPreferences p;
     VersionedAccountPreferences versionedPrefs;
-    MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName);
     db.get().accounts().beginTransaction(accountId);
-    try {
+    try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       Account a = db.get().accounts().get(accountId);
       if (a == null) {
         throw new ResourceNotFoundException();
@@ -183,9 +182,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       cache.evict(accountId);
       return new GetPreferences.PreferenceInfo(
           p, versionedPrefs, md.getRepository());
-    } finally {
-      md.close();
-      db.get().rollback();
     }
   }
 

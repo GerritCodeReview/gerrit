@@ -100,8 +100,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     // state, force a cache flush now.
     //
     ProjectConfig config;
-    MetaDataUpdate md = metaDataUpdateFactory.create(projectName);
-    try {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       config = ProjectConfig.read(md);
 
       if (config.updateGroupNames(groupBackend)) {
@@ -115,8 +114,6 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
         projectCache.evict(config.getProject());
         pc = open();
       }
-    } finally {
-      md.close();
     }
 
     final RefControl metaConfigControl = pc.controlForRef(RefNames.REFS_CONFIG);

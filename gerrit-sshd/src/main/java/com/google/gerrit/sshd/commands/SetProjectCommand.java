@@ -124,41 +124,36 @@ final class SetProjectCommand extends SshCommand {
     String name = ctlProject.getName();
     final StringBuilder err = new StringBuilder();
 
-    try {
-      MetaDataUpdate md = metaDataUpdateFactory.create(nameKey);
-      try {
-        ProjectConfig config = ProjectConfig.read(md);
-        Project project = config.getProject();
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(nameKey)) {
+      ProjectConfig config = ProjectConfig.read(md);
+      Project project = config.getProject();
 
-        if (requireChangeID != null) {
-          project.setRequireChangeID(requireChangeID);
-        }
-        if (submitType != null) {
-          project.setSubmitType(submitType);
-        }
-        if (contentMerge != null) {
-          project.setUseContentMerge(contentMerge);
-        }
-        if (contributorAgreements != null) {
-          project.setUseContributorAgreements(contributorAgreements);
-        }
-        if (signedOffBy != null) {
-          project.setUseSignedOffBy(signedOffBy);
-        }
-        if (projectDescription != null) {
-          project.setDescription(projectDescription);
-        }
-        if (state != null) {
-          project.setState(state);
-        }
-        if (maxObjectSizeLimit != null) {
-          project.setMaxObjectSizeLimit(maxObjectSizeLimit);
-        }
-        md.setMessage("Project settings updated");
-        config.commit(md);
-      } finally {
-        md.close();
+      if (requireChangeID != null) {
+        project.setRequireChangeID(requireChangeID);
       }
+      if (submitType != null) {
+        project.setSubmitType(submitType);
+      }
+      if (contentMerge != null) {
+        project.setUseContentMerge(contentMerge);
+      }
+      if (contributorAgreements != null) {
+        project.setUseContributorAgreements(contributorAgreements);
+      }
+      if (signedOffBy != null) {
+        project.setUseSignedOffBy(signedOffBy);
+      }
+      if (projectDescription != null) {
+        project.setDescription(projectDescription);
+      }
+      if (state != null) {
+        project.setState(state);
+      }
+      if (maxObjectSizeLimit != null) {
+        project.setMaxObjectSizeLimit(maxObjectSizeLimit);
+      }
+      md.setMessage("Project settings updated");
+      config.commit(md);
     } catch (RepositoryNotFoundException notFound) {
       err.append("error: Project ").append(name).append(" not found\n");
     } catch (IOException | ConfigInvalidException e) {

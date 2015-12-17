@@ -93,40 +93,32 @@ public class ListAccess implements RestReadView<TopLevelResource> {
       throws ResourceNotFoundException, ResourceConflictException, IOException {
     Map<String, ProjectAccessInfo> access = Maps.newTreeMap();
     for (String p: projects) {
+      // Load the current configuration from the repository, ensuring it's the most
+      // recent version available. If it differs from what was in the project
+      // state, force a cache flush now.
+      //
       Project.NameKey projectName = new Project.NameKey(p);
-      ProjectControl pc = open(projectName);
-      ProjectConfig config;
+      try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
+        ProjectControl pc = open(projectName);
+        ProjectConfig config = ProjectConfig.read(md);
 
-      try {
-        // Load the current configuration from the repository, ensuring it's the most
-        // recent version available. If it differs from what was in the project
-        // state, force a cache flush now.
-        //
-        MetaDataUpdate md = metaDataUpdateFactory.create(projectName);
-        try {
-          config = ProjectConfig.read(md);
-
-          if (config.updateGroupNames(groupBackend)) {
-            md.setMessage("Update group names\n");
-            config.commit(md);
-            projectCache.evict(config.getProject());
-            pc = open(projectName);
-          } else if (config.getRevision() != null
-              && !config.getRevision().equals(
-                  pc.getProjectState().getConfig().getRevision())) {
-            projectCache.evict(config.getProject());
-            pc = open(projectName);
-          }
-        } catch (ConfigInvalidException e) {
-          throw new ResourceConflictException(e.getMessage());
-        } finally {
-          md.close();
+        if (config.updateGroupNames(groupBackend)) {
+          md.setMessage("Update group names\n");
+          config.commit(md);
+          projectCache.evict(config.getProject());
+          pc = open(projectName);
+        } else if (config.getRevision() != null
+            && !config.getRevision().equals(
+                pc.getProjectState().getConfig().getRevision())) {
+          projectCache.evict(config.getProject());
+          pc = open(projectName);
         }
+        access.put(p, new ProjectAccessInfo(pc, config));
+      } catch (ConfigInvalidException e) {
+        throw new ResourceConflictException(e.getMessage());
       } catch (RepositoryNotFoundException e) {
         throw new ResourceNotFoundException(p);
       }
-
-      access.put(p, new ProjectAccessInfo(pc, config));
     }
     return access;
   }

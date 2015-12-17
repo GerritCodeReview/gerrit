@@ -284,9 +284,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   }
 
   private void createProjectConfig(CreateProjectArgs args) throws IOException, ConfigInvalidException {
-    MetaDataUpdate md =
-        metaDataUpdateFactory.create(args.getProject());
-    try {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(args.getProject())) {
       ProjectConfig config = ProjectConfig.read(md);
       config.load(md);
 
@@ -321,8 +319,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
       md.setMessage("Created project\n");
       config.commit(md);
-    } finally {
-      md.close();
     }
     projectCache.onCreateProject(args.getProject());
     repoManager.setProjectDescription(args.getProject(),

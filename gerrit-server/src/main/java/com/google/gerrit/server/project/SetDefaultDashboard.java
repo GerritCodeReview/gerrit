@@ -84,39 +84,34 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
       }
     }
 
-    try {
-      MetaDataUpdate md = updateFactory.create(ctl.getProject().getNameKey());
-      try {
-        ProjectConfig config = ProjectConfig.read(md);
-        Project project = config.getProject();
-        if (inherited) {
-          project.setDefaultDashboard(input.id);
-        } else {
-          project.setLocalDefaultDashboard(input.id);
-        }
-
-        String msg = MoreObjects.firstNonNull(
-          Strings.emptyToNull(input.commitMessage),
-          input.id == null
-            ? "Removed default dashboard.\n"
-            : String.format("Changed default dashboard to %s.\n", input.id));
-        if (!msg.endsWith("\n")) {
-          msg += "\n";
-        }
-        md.setAuthor(ctl.getUser().asIdentifiedUser());
-        md.setMessage(msg);
-        config.commit(md);
-        cache.evict(ctl.getProject());
-
-        if (target != null) {
-          DashboardInfo info = get.get().apply(target);
-          info.isDefault = true;
-          return Response.ok(info);
-        }
-        return Response.none();
-      } finally {
-        md.close();
+    try (MetaDataUpdate md = updateFactory.create(ctl.getProject().getNameKey())) {
+      ProjectConfig config = ProjectConfig.read(md);
+      Project project = config.getProject();
+      if (inherited) {
+        project.setDefaultDashboard(input.id);
+      } else {
+        project.setLocalDefaultDashboard(input.id);
       }
+
+      String msg = MoreObjects.firstNonNull(
+        Strings.emptyToNull(input.commitMessage),
+        input.id == null
+          ? "Removed default dashboard.\n"
+          : String.format("Changed default dashboard to %s.\n", input.id));
+      if (!msg.endsWith("\n")) {
+        msg += "\n";
+      }
+      md.setAuthor(ctl.getUser().asIdentifiedUser());
+      md.setMessage(msg);
+      config.commit(md);
+      cache.evict(ctl.getProject());
+
+      if (target != null) {
+        DashboardInfo info = get.get().apply(target);
+        info.isDefault = true;
+        return Response.ok(info);
+      }
+      return Response.none();
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(ctl.getProject().getName());
     } catch (ConfigInvalidException e) {

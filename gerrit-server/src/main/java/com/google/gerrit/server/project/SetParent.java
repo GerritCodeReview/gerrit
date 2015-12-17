@@ -71,32 +71,27 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
       ResourceNotFoundException, UnprocessableEntityException, IOException {
     ProjectControl ctl = rsrc.getControl();
     validateParentUpdate(ctl, input.parent, checkIfAdmin);
-    try {
-      MetaDataUpdate md = updateFactory.create(rsrc.getNameKey());
-      try {
-        ProjectConfig config = ProjectConfig.read(md);
-        Project project = config.getProject();
-        project.setParentName(Strings.emptyToNull(input.parent));
+    try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
+      ProjectConfig config = ProjectConfig.read(md);
+      Project project = config.getProject();
+      project.setParentName(Strings.emptyToNull(input.parent));
 
-        String msg = Strings.emptyToNull(input.commitMessage);
-        if (msg == null) {
-          msg = String.format(
-              "Changed parent to %s.\n",
-              MoreObjects.firstNonNull(project.getParentName(),
-                  allProjects.get()));
-        } else if (!msg.endsWith("\n")) {
-          msg += "\n";
-        }
-        md.setAuthor(ctl.getUser().asIdentifiedUser());
-        md.setMessage(msg);
-        config.commit(md);
-        cache.evict(ctl.getProject());
-
-        Project.NameKey parentName = project.getParent(allProjects);
-        return parentName != null ? parentName.get() : "";
-      } finally {
-        md.close();
+      String msg = Strings.emptyToNull(input.commitMessage);
+      if (msg == null) {
+        msg = String.format(
+            "Changed parent to %s.\n",
+            MoreObjects.firstNonNull(project.getParentName(),
+                allProjects.get()));
+      } else if (!msg.endsWith("\n")) {
+        msg += "\n";
       }
+      md.setAuthor(ctl.getUser().asIdentifiedUser());
+      md.setMessage(msg);
+      config.commit(md);
+      cache.evict(ctl.getProject());
+
+      Project.NameKey parentName = project.getParent(allProjects);
+      return parentName != null ? parentName.get() : "";
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(rsrc.getName());
     } catch (ConfigInvalidException e) {

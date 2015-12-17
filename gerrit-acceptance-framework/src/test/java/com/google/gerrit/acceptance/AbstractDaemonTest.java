@@ -552,11 +552,8 @@ public abstract class AbstractDaemonTest {
 
   protected void saveProjectConfig(Project.NameKey p, ProjectConfig cfg)
       throws Exception {
-    MetaDataUpdate md = metaDataUpdateFactory.create(p);
-    try {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(p)) {
       cfg.commit(md);
-    } finally {
-      md.close();
     }
     projectCache.evict(cfg.getProject());
   }

@@ -145,17 +145,12 @@ final class AdminSetParent extends SshCommand {
         continue;
       }
 
-      try {
-        MetaDataUpdate md = metaDataUpdateFactory.create(nameKey);
-        try {
-          ProjectConfig config = ProjectConfig.read(md);
-          config.getProject().setParentName(newParentKey);
-          md.setMessage("Inherit access from "
-              + (newParentKey != null ? newParentKey.get() : allProjectsName.get()) + "\n");
-          config.commit(md);
-        } finally {
-          md.close();
-        }
+      try (MetaDataUpdate md = metaDataUpdateFactory.create(nameKey)) {
+        ProjectConfig config = ProjectConfig.read(md);
+        config.getProject().setParentName(newParentKey);
+        md.setMessage("Inherit access from "
+            + (newParentKey != null ? newParentKey.get() : allProjectsName.get()) + "\n");
+        config.commit(md);
       } catch (RepositoryNotFoundException notFound) {
         err.append("error: Project ").append(name).append(" not found\n");
       } catch (IOException | ConfigInvalidException e) {

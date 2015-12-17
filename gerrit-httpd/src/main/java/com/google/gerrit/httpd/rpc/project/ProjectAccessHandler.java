@@ -92,13 +92,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
-    final MetaDataUpdate md;
-    try {
-      md = metaDataUpdateFactory.create(projectName);
-    } catch (RepositoryNotFoundException notFound) {
-      throw new NoSuchProjectException(projectName);
-    }
-    try {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       ProjectConfig config = ProjectConfig.read(md, base);
       Set<String> toDelete = scanSectionNames(config);
 
@@ -163,8 +157,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
       return updateProjectConfig(projectControl, config, md,
           parentProjectUpdate);
-    } finally {
-      md.close();
+    } catch (RepositoryNotFoundException notFound) {
+      throw new NoSuchProjectException(projectName);
     }
   }
 

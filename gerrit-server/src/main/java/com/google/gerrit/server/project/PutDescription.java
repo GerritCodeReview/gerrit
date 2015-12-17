@@ -76,42 +76,37 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
       throw new AuthException("not project owner");
     }
 
-    try {
-      MetaDataUpdate md = updateFactory.create(resource.getNameKey());
-      try {
-        ProjectConfig config = ProjectConfig.read(md);
-        Project project = config.getProject();
-        project.setDescription(Strings.emptyToNull(input.description));
+    try (MetaDataUpdate md = updateFactory.create(resource.getNameKey())) {
+      ProjectConfig config = ProjectConfig.read(md);
+      Project project = config.getProject();
+      project.setDescription(Strings.emptyToNull(input.description));
 
-        String msg = MoreObjects.firstNonNull(
-          Strings.emptyToNull(input.commitMessage),
-          "Updated description.\n");
-        if (!msg.endsWith("\n")) {
-          msg += "\n";
-        }
-        md.setAuthor(user);
-        md.setMessage(msg);
-        ObjectId baseRev = config.getRevision();
-        ObjectId commitRev = config.commit(md);
-        // Only fire hook if project was actually changed.
-        if (!Objects.equals(baseRev, commitRev)) {
-          gitRefUpdated.fire(resource.getNameKey(), RefNames.REFS_CONFIG,
-              baseRev, commitRev);
-          hooks.doRefUpdatedHook(
-            new Branch.NameKey(resource.getNameKey(), RefNames.REFS_CONFIG),
-            baseRev, commitRev, user.getAccount());
-        }
-        cache.evict(ctl.getProject());
-        gitMgr.setProjectDescription(
-            resource.getNameKey(),
-            project.getDescription());
-
-        return Strings.isNullOrEmpty(project.getDescription())
-            ? Response.<String>none()
-            : Response.ok(project.getDescription());
-      } finally {
-        md.close();
+      String msg = MoreObjects.firstNonNull(
+        Strings.emptyToNull(input.commitMessage),
+        "Updated description.\n");
+      if (!msg.endsWith("\n")) {
+        msg += "\n";
       }
+      md.setAuthor(user);
+      md.setMessage(msg);
+      ObjectId baseRev = config.getRevision();
+      ObjectId commitRev = config.commit(md);
+      // Only fire hook if project was actually changed.
+      if (!Objects.equals(baseRev, commitRev)) {
+        gitRefUpdated.fire(resource.getNameKey(), RefNames.REFS_CONFIG,
+            baseRev, commitRev);
+        hooks.doRefUpdatedHook(
+          new Branch.NameKey(resource.getNameKey(), RefNames.REFS_CONFIG),
+          baseRev, commitRev, user.getAccount());
+      }
+      cache.evict(ctl.getProject());
+      gitMgr.setProjectDescription(
+          resource.getNameKey(),
+          project.getDescription());
+
+      return Strings.isNullOrEmpty(project.getDescription())
+          ? Response.<String>none()
+          : Response.ok(project.getDescription());
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(resource.getName());
     } catch (ConfigInvalidException e) {

@@ -83,13 +83,8 @@ public class RenameGroupOp extends DefaultQueueOp {
         continue;
       }
 
-      try {
-        MetaDataUpdate md = metaDataUpdateFactory.create(projectName);
-        try {
-          rename(md);
-        } finally {
-          md.close();
-        }
+      try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
+        rename(md);
       } catch (RepositoryNotFoundException noProject) {
         continue;
       } catch (ConfigInvalidException | IOException err) {

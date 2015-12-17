@@ -71,18 +71,15 @@ public class SetEditPreferences implements
     }
 
     Account.Id accountId = rsrc.getUser().getAccountId();
-    MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName);
 
     VersionedAccountPreferences prefs;
-    try {
+    try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       prefs = VersionedAccountPreferences.forUser(accountId);
       prefs.load(md);
       storeSection(prefs.getConfig(), UserConfigSections.EDIT, null,
           readFromGit(accountId, gitMgr, allUsersName, in),
           EditPreferencesInfo.defaults());
       prefs.commit(md);
-    } finally {
-      md.close();
     }
 
     return Response.none();

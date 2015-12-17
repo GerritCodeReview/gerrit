@@ -292,9 +292,7 @@ public class MergeOp implements AutoCloseable {
       throw new ResourceConflictException(
           "missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
-        .setPatchSet(patchSet)
-        .evaluate();
+    List<SubmitRecord> results = new SubmitRuleEvaluator(cd).evaluate();
     Optional<SubmitRecord> ok = findOkRecord(results);
     if (ok.isPresent()) {
       // Rules supplied a valid solution.

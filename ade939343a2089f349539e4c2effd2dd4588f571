@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1450348709 +0100\nnonce ALmjDBWHag2DUYF1SDAn4yRNsStPyHIzjdL9QknXyQpyBQ9AETsQT/fJQybC1OI1ym51gaQUNLJv\n\n0000000000000000000000000000000000000000 ade939343a2089f349539e4c2effd2dd4588f571 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWcpClAAoJEFG1/Zeg0O9R0bMH/08JP6Wi1S9DRk2b+MOpNxwJ\nmcm7zlQ984Vnvi0RRFbOVD7eTBP6vL2J2rgs0dCYNLxj3lcrfIQFO7pZyPlBkkbO\nAym4E63ezv9fXPyRYehzrO8Q3MLrjxAl1GXDXe/OmInpEreGPJhaCEOwGzcndY7p\n9NjxS2mlf0z2c14GCRav+1S7bjvIdq741o9L1AMcedTi5Tg+/zv3fdQxlOrtsVLk\n3l8Rs493cQ4OZGRRAX3e1YXXL4nEAhm9rDQtumXWBoQfGwiTtE5SM5+Rth7N1SAD\nHDA2kfyE7s/zr3pPgajfaCdeoHHQaK6TXqTjXcnk9BH7DmN6HzEP4XpTReVhdb0\u003d\n\u003dIr6S\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "850c62c1_877ee68d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T11:01:29Z",
+      "side": 1,
+      "message": "Isn\u0027t there the code to fix as well? Isn\u0027t this wrong pattern is used in schema upgrade for migration from db backend to git?",
+      "revId": "ade939343a2089f349539e4c2effd2dd4588f571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

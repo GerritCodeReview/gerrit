@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e50fdeaf_ca7743dd",
+        "filename": "polygerrit-ui/app/scripts/link-text-parser.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T16:12:23Z",
+      "side": 1,
+      "message": "Hard-coding these feels wrong, I would add another group in the pattern. Of course if this is going away in the near-medium future maybe it\u0027s not worth worrying about.",
+      "revId": "ffc5b70735be1b97f9b173ae1db8b982353386a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

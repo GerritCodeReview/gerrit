@@ -16,6 +16,24 @@
       "revId": "ffc5b70735be1b97f9b173ae1db8b982353386a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e50fdeaf_aa6c0f12",
+        "filename": "polygerrit-ui/app/scripts/link-text-parser.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T16:14:45Z",
+      "side": 1,
+      "message": "Let\u0027s just get this landed and we can work on pulling it from the config in the next patch?",
+      "parentUuid": "e50fdeaf_ca7743dd",
+      "revId": "ffc5b70735be1b97f9b173ae1db8b982353386a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

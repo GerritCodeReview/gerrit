@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2a06230b_3cf331c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T19:11:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6afc9b2b_3ebc49d6",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 91,
+        "endChar": 60
+      },
+      "revId": "d29fee89be87de9999593fab8847811b99e6fa99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4af7d747_bdb85fe7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 3
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "2521f686_e4c3fa5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T19:11:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4af7d747_bdb85fe7",
+      "range": {
+        "startLine": 135,
+        "startChar": 34,
+        "endLine": 135,
+        "endChar": 74
+      },
+      "revId": "d29fee89be87de9999593fab8847811b99e6fa99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6afc9b2b_7ec2d15f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 3
@@ -60,6 +108,30 @@
       "writtenOn": "2015-12-17T19:07:13Z",
       "side": 1,
       "message": "I think that Optional is left over of old approach where both addition of vote and its removal was stored in the same map. Now, that you\u0027ve separated the storage in different container you can eliminate all this Optional stuff and simplify things. As a rule of thumb: if a value always present and you never use absent(), don\u0027t use Optional.",
+      "range": {
+        "startLine": 344,
+        "startChar": 35,
+        "endLine": 344,
+        "endChar": 46
+      },
+      "revId": "d29fee89be87de9999593fab8847811b99e6fa99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2521f686_04d9f649",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T19:11:32Z",
+      "side": 1,
+      "message": "You\u0027re right, I got rid of Optional in ChangeUpdate but not in ChangeNotesParser. Done.",
+      "parentUuid": "6afc9b2b_7ec2d15f",
       "range": {
         "startLine": 344,
         "startChar": 35,

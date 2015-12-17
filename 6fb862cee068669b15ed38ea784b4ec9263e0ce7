@@ -23,6 +23,30 @@
       "revId": "6fb862cee068669b15ed38ea784b4ec9263e0ce7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_e920d5e2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitTypeRuleIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:10:58Z",
+      "side": 1,
+      "message": "No, because this message is not exposed to the user, they just get \"Merge Conflict\", which is dumb.\n\nThis experience has given me some ideas about how to improve that, though, which should also fix all the \"change is new\" errors and whatnot.",
+      "parentUuid": "45feeabd_4508ea6e",
+      "range": {
+        "startLine": 245,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 59
+      },
+      "revId": "6fb862cee068669b15ed38ea784b4ec9263e0ce7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

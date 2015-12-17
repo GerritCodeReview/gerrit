@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c512dad7_098569ed",
+        "filename": "polygerrit-ui/app/elements/gr-patch-range-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T16:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e50fdeaf_ea20c7e2",
+      "revId": "79692073a045baeed79015acfae9ab840fd0cf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e50fdeaf_0a531b62",
         "filename": "polygerrit-ui/app/elements/gr-patch-range-select.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-17T14:55:52Z",
       "side": 1,
       "message": "I would maybe expect tests for this functionality?",
+      "revId": "79692073a045baeed79015acfae9ab840fd0cf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_e97215ef",
+        "filename": "polygerrit-ui/app/elements/gr-patch-range-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T16:57:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e50fdeaf_0a531b62",
       "revId": "79692073a045baeed79015acfae9ab840fd0cf17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

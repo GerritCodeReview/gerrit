@@ -60,6 +60,11 @@ limitations under the License.
         /* Line feed */
         content: '\A';
       }
+      .tab:before {
+        color: #C62828;
+        /* >> character */
+        content: '\00BB';
+      }
       .filler {
         background: #eee;
       }
@@ -79,6 +84,8 @@ limitations under the License.
       AMPERSAND: '&'.charCodeAt(0),
       SEMICOLON: ';'.charCodeAt(0),
     };
+
+    var TAB_REGEX = /\t/g;
 
     Polymer({
       is: 'gr-diff-side',
@@ -201,6 +208,7 @@ limitations under the License.
         if (numLines > 1) {
           html = this._addNewLines(code.content, html, numLines);
         }
+        html = this._addTabIndicators(code.content, html);
 
         // If the html is equivalent to the text then it didn't get highlighted
         // or escaped. Use textContent which is faster than innerHTML.
@@ -298,6 +306,11 @@ limitations under the License.
           result += this._lineFeedHTML;
         }
         return result;
+      },
+
+      _addTabIndicators: function(content, html) {
+        return html.replace(TAB_REGEX,
+            '<span class="style-scope gr-diff-side tab">\t</span>');
       },
 
       _createElement: function(tagName, className) {

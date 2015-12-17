@@ -53,6 +53,24 @@
       "revId": "ade939343a2089f349539e4c2effd2dd4588f571",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25fd76c1_44646e27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-17T15:07:15Z",
+      "side": 1,
+      "message": "I found most uses of it with Eclipse\u0027s \"should be managed in try-with-resource\" warning when I made it auto-closeable, but actually this one wasn\u0027t warned.  There are a couple of others too, which I will follow up on tomorrow.",
+      "parentUuid": "850c62c1_27673afd",
+      "revId": "ade939343a2089f349539e4c2effd2dd4588f571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

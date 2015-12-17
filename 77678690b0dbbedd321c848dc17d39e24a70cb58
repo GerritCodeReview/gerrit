@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "45feeabd_052c32d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-17T10:56:39Z",
+      "side": 1,
+      "message": "Ah, I was thinking of BatchUpdate, which is auto-closeable.",
+      "parentUuid": "6503ee91_c6018221",
+      "range": {
+        "startLine": 96,
+        "startChar": 11,
+        "endLine": 96,
+        "endChar": 79
+      },
+      "revId": "77678690b0dbbedd321c848dc17d39e24a70cb58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45feeabd_851f0297",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
         "patchSetId": 1

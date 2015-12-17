@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e50fdeaf_8a1f0b97",
+        "filename": "polygerrit-ui/app/elements/gr-ajax.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T15:24:57Z",
+      "side": 1,
+      "message": "ready is a called during element initialization: https://www.polymer-project.org/1.0/docs/devguide/registering-elements.html#ready-method",
+      "parentUuid": "c512dad7_092c49d3",
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c512dad7_6935051a",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 4
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "e50fdeaf_6a35f719",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T15:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c512dad7_49324134",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 50
+      },
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e50fdeaf_4a323334",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T15:24:57Z",
+      "side": 1,
+      "message": "Have you made a point of it in code before? I\u0027m asking because if I’m ignoring you then I apologize.\n\nDone.",
+      "parentUuid": "c512dad7_6935051a",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c512dad7_292f0dcc",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 4
@@ -76,6 +142,24 @@
       "writtenOn": "2015-12-17T14:37:18Z",
       "side": 1,
       "message": "This is different from the current UI behavior, where if you select the latest patch set it still goes in the URL.\n\nThis is a feature in that it allows you to generate a permalink to the latest patch set (not that I feel that strongly about this particular feature).",
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_89983958",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T15:24:57Z",
+      "side": 1,
+      "message": "Currently if you\u0027re at the latest patch set you can\u0027t select the latest in the dropdown. You have to select another, then go back. We need a better way to get a permalink to the patch set itself.",
+      "parentUuid": "c512dad7_292f0dcc",
       "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "c512dad7_697e25c0",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T15:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e50fdeaf_6a4cd7c3",
+      "range": {
+        "startLine": 370,
+        "startChar": 31,
+        "endLine": 373,
+        "endChar": 11
+      },
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e50fdeaf_4a4913b2",
         "filename": "polygerrit-ui/app/test/gr-change-view-test.html",
         "patchSetId": 4
@@ -116,6 +224,24 @@
       "writtenOn": "2015-12-17T14:37:18Z",
       "side": 1,
       "message": "What\u0027s with the numbering?",
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_497b61ce",
+        "filename": "polygerrit-ui/app/test/gr-change-view-test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T15:24:57Z",
+      "side": 1,
+      "message": "Mistake. Fixed.",
+      "parentUuid": "e50fdeaf_4a4913b2",
       "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4af7d747_ddab2b91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T19:07:13Z",
+      "side": 0,
+      "message": "This was the only justification to use Optional: absent() usage in case of vote deletion.",
+      "range": {
+        "startLine": 326,
+        "startChar": 35,
+        "endLine": 326,
+        "endChar": 73
+      },
+      "revId": "b86ae4951f85bda97ceaeba574bb5d09c6f191ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

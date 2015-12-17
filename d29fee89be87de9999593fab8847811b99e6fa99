@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1450361235 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBXYdvKWa5OcY6I3Ej1HRiVAoDs1piJ3z/ZW5+KPOz7SZWe/07Dn3tFJafFZZXLsRuuLfvud\n\n0000000000000000000000000000000000000000 d29fee89be87de9999593fab8847811b99e6fa99 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWcsGTAAoJEF/XxZqaEoiMGhAP/3c0OozLGxXOKcVvKkAZ/4WT\nUVqvclMeOUh+JxyXvofmE0vviDXcKFTqDnsIDJzAaOBuY9KNcDgx+O0MUOHGwUND\nDraohrc7Tf8b9gcFD1alfFSL9fP4v2xjEvheFMqe3sV65zdRveirJzb/69KVV/vi\nw+3+rfwEDtk4eJ5q09EjGg7mVSqGcOUixAjYWLytAq8eP9/dXepw2TgG7i2u1fS3\nVc6jS2m7OcuaIZ5dMKXCf6tey2xAhogHe1mwYNWI1Rxm7WGnE5pbYieOLu+AJn4R\nuUA3XkqVA4Q+4wC/b6t0H+iliCo7ex/7FjTxwIU4XxPA4vq2Ib8FlmTThzr/r+j8\nxS/TrxetYGbWwl+Zl8tJEIC/iSeVvANdrpmie4TTNzYh2XcoenCSyPJ/RnHVfgpV\n2xuqKM7wrWZXaVR2lJDwU5TvMtf5r7AyAZNbbMkeOC5FLWZ+cbV/8dcwV4PW/yRo\nL4NIIqRGFIsG/VkSwKVv2EMnh5nDQqKUw/4KjNstn9ZDg/alW4z4F3PR2b3Hr1f+\nGmoyCCJ0u+37oN60evOQ7va47O5q27tvxYzDSyz7JH21VZMu+ZtbN6CZxFe7RLvn\nqQdok53t7V6o0TnLPWNnOkj0n8rdUE8nHuWl8ADYKZWkrZx5wzQ8CI3XL753SVuq\n8vzuhM0oe002+K5RiINF\n\u003dM513\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6afc9b2b_3ebc49d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T19:07:13Z",
+      "side": 1,
+      "message": "Table\u003cAccount.Id, String, PatchSetApproval\u003e\u003e",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 91,
+        "endChar": 60
+      },
+      "revId": "d29fee89be87de9999593fab8847811b99e6fa99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4af7d747_bdb85fe7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T19:07:13Z",
+      "side": 1,
+      "message": "After my other comments were addressed, this would just be:\n\n  for (PatchSetApproval psa : curr.values()) {",
+      "range": {
+        "startLine": 135,
+        "startChar": 34,
+        "endLine": 135,
+        "endChar": 74
+      },
+      "revId": "d29fee89be87de9999593fab8847811b99e6fa99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_7ec2d15f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T19:07:13Z",
+      "side": 1,
+      "message": "I think that Optional is left over of old approach where both addition of vote and its removal was stored in the same map. Now, that you\u0027ve separated the storage in different container you can eliminate all this Optional stuff and simplify things. As a rule of thumb: if a value always present and you never use absent(), don\u0027t use Optional.",
+      "range": {
+        "startLine": 344,
+        "startChar": 35,
+        "endLine": 344,
+        "endChar": 46
+      },
+      "revId": "d29fee89be87de9999593fab8847811b99e6fa99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

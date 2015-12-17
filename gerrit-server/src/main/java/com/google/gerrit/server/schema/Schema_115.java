@@ -131,12 +131,13 @@ public class Schema_115 extends SchemaVersion {
     try (Repository git = mgr.openRepository(allUsersName);
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
-      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-          allUsersName, git, bru);
-      md.getCommitBuilder().setAuthor(serverUser);
-      md.getCommitBuilder().setCommitter(serverUser);
 
       for (Map.Entry<Account.Id, DiffPreferencesInfo> e : imports.entrySet()) {
+        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
+            allUsersName, git, bru);
+        md.getCommitBuilder().setAuthor(serverUser);
+        md.getCommitBuilder().setCommitter(serverUser);
+
         VersionedAccountPreferences p =
             VersionedAccountPreferences.forUser(e.getKey());
         p.load(md);

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c512dad7_09532962",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitTypeRuleIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:11:39Z",
+      "side": 1,
+      "message": "Done.\n\n(I originally had it here because it was going to inherit from AbstractSubmit, which is in this package (but arguably shouldn\u0027t be). But that ended up not really making sense and I never moved it.)",
+      "parentUuid": "850c62c1_e7a5a279",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 49
+      },
+      "revId": "f5a252bdafb42dc3786c563f0610fa83b29dc506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "850c62c1_c7aa9e47",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitTypeRuleIT.java",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2015-12-17T08:03:10Z",
       "side": 1,
       "message": "Can\u0027t this be annotated with @NoHttpd?",
+      "revId": "f5a252bdafb42dc3786c563f0610fa83b29dc506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e50fdeaf_8a46eba4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitTypeRuleIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "850c62c1_c7aa9e47",
       "revId": "f5a252bdafb42dc3786c563f0610fa83b29dc506",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

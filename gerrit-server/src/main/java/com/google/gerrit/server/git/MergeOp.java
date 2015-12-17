@@ -333,9 +333,7 @@ public class MergeOp implements AutoCloseable {
     }
     List<SubmitRecord> results = cd.getSubmitRecords();
     if (results == null) {
-      results = new SubmitRuleEvaluator(cd)
-          .setPatchSet(patchSet)
-          .evaluate();
+      results = new SubmitRuleEvaluator(cd).evaluate();
       cd.setSubmitRecords(results);
     }
     if (findOkRecord(results).isPresent()) {

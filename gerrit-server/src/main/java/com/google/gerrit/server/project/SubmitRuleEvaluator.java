@@ -235,7 +235,9 @@ public class SubmitRuleEvaluator {
     try {
       if (!control.isDraftVisible(cd.db(), cd)) {
         return createRuleError("Patch set " + patchSet.getId() + " not found");
-      } else if (patchSet.isDraft()) {
+      }
+      initPatchSet();
+      if (patchSet.isDraft()) {
         return createRuleError("Cannot submit draft patch sets");
       } else {
         return createRuleError("Cannot submit draft changes");

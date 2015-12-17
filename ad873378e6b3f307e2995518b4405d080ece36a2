@@ -112,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "850c62c1_a7afaa55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T08:12:16Z",
+      "side": 1,
+      "message": "No. That\u0027s because how the \"voting on behalf of\" feature is implemented:\n\n  private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in) {\n  [...]\n    ChangeControl target \u003d caller.forUser(accounts.parse(in.onBehalfOf));\n    return new RevisionResource(changes.parse(target), rev.getPatchSet());\n  }\n\nWhat happens there is that the actualy voting takes place by real user and not the caller. We could do the same during removal, and perform the removal by the real user, and not the caller. This was my original suggestion. But in this case we would lose the fact that this vote was removed by another user. This rises the question, though: Why we don\u0027t care about losing the fact that voting was actually performed by another user (on behalf of) and do care not to lose the same fact during removal of votes? Why this assymetry?\n\nIn any event I added unit test to demonstrate, that voting on behalf of another user works as expected with both backends: database and Notedb: [1].\n\n* [1] https://gerrit-review.googlesource.com/73432",
+      "parentUuid": "850c62c1_27885a05",
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6503ee91_a61a06a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2

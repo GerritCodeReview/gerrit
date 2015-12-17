@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45feeabd_05531262",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-17T05:22:02Z",
+      "side": 1,
+      "message": "Should be in the footer, i.e. no blank line between this and Change-Id",
+      "revId": "9416f6b1eadaca8f517dadb1ba652a0555869089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

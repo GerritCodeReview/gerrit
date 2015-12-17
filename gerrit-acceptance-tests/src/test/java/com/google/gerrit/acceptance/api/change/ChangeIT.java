@@ -42,6 +42,7 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -84,6 +85,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.branch).isEqualTo("master");
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     assertThat(c.subject).isEqualTo("test commit");
+    assertThat(c.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     assertThat(c.mergeable).isTrue();
     assertThat(c.changeId).isEqualTo(r.getChangeId());
     assertThat(c.created).isEqualTo(c.updated);

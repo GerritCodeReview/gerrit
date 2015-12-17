@@ -56,7 +56,8 @@ public class PatchFile {
         if (patchList.isAgainstParent()) {
           a = Text.EMPTY;
         } else {
-          a = Text.forCommit(reader, patchList.getOldId());
+          RevCommit aCommit = rw.parseCommit(patchList.getOldId());
+          a = Text.forCommit(reader, aCommit);
         }
         b = Text.forCommit(reader, bCommit);
 

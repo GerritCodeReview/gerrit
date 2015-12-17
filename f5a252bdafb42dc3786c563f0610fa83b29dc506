@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1450301801 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBVdIFh5+fqDgMv3Iq3hlDRVPbOBGGmgozz5y4q7OLwjipRJTWiCMVVKNohWdFJ2U8TXJ8Ri\n\n0000000000000000000000000000000000000000 6fb862cee068669b15ed38ea784b4ec9263e0ce7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWcdlpAAoJEF/XxZqaEoiM2dgP/R70/XGQMPcletgbq53+JVOx\nW4jMKebTmzgckbehwsNHxD2t0R/b+oNOcNz1UFLSDUX9NfnkUQIGCLwfmJ53eSJS\naGVmUSCNrZrCOB5kwhJ7BzkrrEQMPrSojwblduG3ee+BEZsrHZlt5Wh5WEeyohnA\nwBxJ7K9NPTCjgZTvxDlD8pyQjqpfY/VsT0N/UinG5c+KC/35HiQnK4xuj+wzkwiV\nNDZJA/LeqdeN4eAcJzXWUkWOfR4dD+EirERTo6DdCD005+1IQ2mAUUC6cGhAVqPQ\nCFIJq7iFXt+G4FFj5JTNndJn8Ajwq37svhyzzjgh2R/GcAJBrKeaotmOppTzZbnl\ngqBlL5JogXI+/PFstFLwJzkpWP7Fi4YmPxQnkB2cUkdQTv1LesUeCcaQPA4RKSqp\nejHI+kXLPM1tkrIfpuD5ud9mkwv/yjE01Z8zcUb08CFd4NuIpXO4b60yAqqBCYEn\neW+KWD6sQHQ2Oz7OryhRkqJYSXSc4aFiEdLk4CqiMCu7FCkPpEWXrqk6K3QJsLp5\nw6XqibI/UaN7m83c23NkuaFAZ7ulmK7avutL1MFJZwESOT34qf1O8y3ubQXA52Sz\nS2QpTX4lTClVXlM2DkuapChtoLtRGB6ks91MDD5dEE+VupZ2vwJIleUFsleRz7E1\nLtjnt4w2rikw2RtKy1/i\n\u003dauDV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "850c62c1_e7a5a279",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitTypeRuleIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T08:03:10Z",
+      "side": 1,
+      "message": "Wrong package? This file only contains API tests (this also claimed in the commit message). Move it to com.google.gerrit.acceptance.api.change?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 49
+      },
+      "revId": "f5a252bdafb42dc3786c563f0610fa83b29dc506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "850c62c1_c7aa9e47",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitTypeRuleIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T08:03:10Z",
+      "side": 1,
+      "message": "Can\u0027t this be annotated with @NoHttpd?",
+      "revId": "f5a252bdafb42dc3786c563f0610fa83b29dc506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

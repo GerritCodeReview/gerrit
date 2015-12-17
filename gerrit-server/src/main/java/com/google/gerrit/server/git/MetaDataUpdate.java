@@ -89,6 +89,36 @@ public class MetaDataUpdate {
      * multiple commits to a single metadata ref, see
      * {@link VersionedMetaData#openUpdate(MetaDataUpdate)}.
      *
+     * Important: Create a new MetaDataUpdate instance for each update:
+     * <pre>
+     * <code>
+     *   try (Repository repo = repoMgr.openRepository(allUsersName);
+     *       RevWalk rw = new RevWalk(repo) {
+     *     BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
+     *     // WRONG: create the MetaDataUpdate instance here and reuse it for
+     *     //        all updates in the loop
+     *     for{@code (Map.Entry<Account.Id, DiffPreferencesInfo> e : diffPrefsFromDb)} {
+     *       // CORRECT: create a new MetaDataUpdate instance for each update
+     *       MetaDataUpdate md =
+     *           metaDataUpdateFactory.create(allUsersName, batchUpdate);
+     *       try {
+     *         md.setMessage("Import diff preferences from reviewdb\n");
+     *         VersionedAccountPreferences vPrefs =
+     *             VersionedAccountPreferences.forUser(e.getKey());
+     *         storeSection(vPrefs.getConfig(), UserConfigSections.DIFF, null,
+     *             e.getValue(), DiffPreferencesInfo.defaults());
+     *         vPrefs.commit(md);
+     *       } catch (ConfigInvalidException e) {
+     *         // TODO handle exception
+     *       } finally {
+     *         md.close();
+     *       }
+     *     }
+     *     batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+     *   }
+     * </code>
+     * </pre>
+     *
      * @param name project name.
      * @param repository GIT respository
      * @param user user for the update.

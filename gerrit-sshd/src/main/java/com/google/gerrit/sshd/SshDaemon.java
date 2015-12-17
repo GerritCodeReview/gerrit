@@ -155,8 +155,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Singleton
 public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
-  @SuppressWarnings("hiding") // Don't use AbstractCloseable's logger.
-  private static final Logger log = LoggerFactory.getLogger(SshDaemon.class);
+  private static final Logger sshDaemonLog =
+      LoggerFactory.getLogger(SshDaemon.class);
 
   public static enum SshSessionBackend {
     MINA,
@@ -364,7 +364,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         throw new IllegalStateException("Cannot bind to " + addressList(), e);
       }
 
-      log.info(String.format("Started Gerrit %s on %s",
+      sshDaemonLog.info(String.format("Started Gerrit %s on %s",
           version, addressList()));
     }
   }
@@ -378,9 +378,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     if (daemonAcceptor != null) {
       try {
         daemonAcceptor.close(true).await();
-        log.info("Stopped Gerrit SSHD");
+        sshDaemonLog.info("Stopped Gerrit SSHD");
       } catch (InterruptedException e) {
-        log.warn("Exception caught while closing", e);
+        sshDaemonLog.warn("Exception caught while closing", e);
       } finally {
         daemonAcceptor = null;
       }
@@ -411,7 +411,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         try {
           r.add(new HostKey(addr, keyBin));
         } catch (JSchException e) {
-          log.warn("Cannot format SSHD host key", e);
+          sshDaemonLog.warn("Cannot format SSHD host key", e);
         }
       }
     }
@@ -538,11 +538,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         final byte[] iv = new byte[c.getIVSize()];
         c.init(Cipher.Mode.Encrypt, key, iv);
       } catch (InvalidKeyException e) {
-        log.warn("Disabling cipher " + f.getName() + ": " + e.getMessage()
+        sshDaemonLog.warn("Disabling cipher " + f.getName() + ": " + e.getMessage()
             + "; try installing unlimited cryptography extension");
         i.remove();
       } catch (Exception e) {
-        log.warn("Disabling cipher " + f.getName() + ": " + e.getMessage());
+        sshDaemonLog.warn("Disabling cipher " + f.getName() + ": " + e.getMessage());
         i.remove();
       }
     }
@@ -608,7 +608,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           msg.append(avail[i].getName());
         }
         msg.append(" is supported");
-        log.error(msg.toString());
+        sshDaemonLog.error(msg.toString());
       } else if (add) {
         if (!def.contains(n)) {
           def.add(n);
@@ -684,9 +684,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     List<NamedFactory<UserAuth>> authFactories = Lists.newArrayList();
     if (kerberosKeytab != null) {
       authFactories.add(new UserAuthGSS.Factory());
-      log.info("Enabling kerberos with keytab " + kerberosKeytab);
+      sshDaemonLog.info("Enabling kerberos with keytab " + kerberosKeytab);
       if (!new File(kerberosKeytab).canRead()) {
-        log.error("Keytab " + kerberosKeytab +
+        sshDaemonLog.error("Keytab " + kerberosKeytab +
             " does not exist or is not readable; further errors are possible");
       }
       kerberosAuthenticator.setKeytabFile(kerberosKeytab);
@@ -698,9 +698,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           kerberosPrincipal = "host/localhost";
         }
       }
-      log.info("Using kerberos principal " + kerberosPrincipal);
+      sshDaemonLog.info("Using kerberos principal " + kerberosPrincipal);
       if (!kerberosPrincipal.startsWith("host/")) {
-        log.warn("Host principal does not start with host/ " +
+        sshDaemonLog.warn("Host principal does not start with host/ " +
             "which most SSH clients will supply automatically");
       }
       kerberosAuthenticator.setServicePrincipalName(kerberosPrincipal);

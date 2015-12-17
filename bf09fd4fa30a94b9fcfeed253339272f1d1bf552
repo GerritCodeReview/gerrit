@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2521f686_64d0ea1c",
+        "filename": "polygerrit-ui/app/scripts/link-text-parser.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T21:25:07Z",
+      "side": 1,
+      "message": "ITYM https://gerrit-review.googlesource.com/r/",
+      "revId": "bf09fd4fa30a94b9fcfeed253339272f1d1bf552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

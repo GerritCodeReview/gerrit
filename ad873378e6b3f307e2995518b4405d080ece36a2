@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c512dad7_694ce5c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:07:06Z",
+      "side": 1,
+      "message": "I can document it in the commit message but I have intentionally not been documenting it in Documentation/ so people don\u0027t try to depend on it while it\u0027s still in progress.",
+      "parentUuid": "6503ee91_c62502f1",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 16
+      },
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "850c62c1_677e52c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2
@@ -95,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c512dad7_2956ed51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:07:06Z",
+      "side": 1,
+      "message": "The reason we look in curr is to avoid storing a value in removedLabels if we\u0027re never going to use it because a new value for the label was added after the old value was removed.\n\nGood call that this doesn\u0027t make sense if it contains the name. Rewrote all of this so it should all be clearer and more correct.",
+      "parentUuid": "850c62c1_c78e1e17",
+      "range": {
+        "startLine": 344,
+        "startChar": 26,
+        "endLine": 344,
+        "endChar": 58
+      },
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "850c62c1_27885a05",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -142,6 +190,24 @@
       "side": 1,
       "message": "\u003e Why we don\u0027t care about losing the fact that\n \u003e voting was actually performed by another user (on behalf of)\n\nI would say, we care, but this is a bug.",
       "parentUuid": "850c62c1_a7afaa55",
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e50fdeaf_ca3ce312",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:07:06Z",
+      "side": 1,
+      "message": "What Edwin said.",
+      "parentUuid": "850c62c1_679ad230",
       "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

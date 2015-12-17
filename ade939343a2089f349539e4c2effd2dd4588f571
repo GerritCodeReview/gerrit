@@ -35,6 +35,24 @@
       "revId": "ade939343a2089f349539e4c2effd2dd4588f571",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "850c62c1_27673afd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-17T12:44:26Z",
+      "side": 1,
+      "message": "Good catch! I didn\u0027t see it because I was looking for callers of that create method, but Schema_115 instantiates MetaDataUpdate by invoking the constructor directly.\n\nDone in:\n  https://gerrit-review.googlesource.com/73434",
+      "parentUuid": "45feeabd_85982258",
+      "revId": "ade939343a2089f349539e4c2effd2dd4588f571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

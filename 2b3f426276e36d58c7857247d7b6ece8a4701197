@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1450368587 +0100\nnonce ALmjDBW+gXzQvotDS3I+tnvczrZzGLdEnhmX6k4iHcQvao11b0RaSrc95lgGGH3Ap/jZRt/eT35F\n\n0000000000000000000000000000000000000000 2b3f426276e36d58c7857247d7b6ece8a4701197 refs/for/stable-2.12\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWct5LAAoJEFG1/Zeg0O9Rj5AH/AtgPhWphgpfE1tJr387ntOi\nYaPPib9waceVtBNkOS/Boy+vDf7BNYqTPXZB/roxKXX+QhgV6EDrhIkl69EyNugG\ncORpDnZ10de2AB9BdkQVFcwc9RkdhsCKyJRQh0AUsSj63tFejPg3qzqdgFZSYYiX\nkYWcly5b/sOVyuUP7VNe5epWoiKd6PubBcOoqFBCDRjiT+/VTUnT/l7PwTGiUXM9\nux/nOMU5Ky6LwqT6tlmFUrxH6SCy+L+b1aZMLqLs/xlF6u1Y3WQc2qIc0859+NVK\nj+6gkK4ih1rZ+D2LNeWWAAYCoOvOgHFxI2IQeZ0nNCtBqGo3BzrLScc8CUXBfjg\u003d\n\u003doibP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4af7d747_3da56fc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T17:52:23Z",
+      "side": 1,
+      "message": "the or a.",
+      "range": {
+        "startLine": 60,
+        "startChar": 63,
+        "endLine": 60,
+        "endChar": 68
+      },
+      "revId": "2b3f426276e36d58c7857247d7b6ece8a4701197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_1eaaad90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T17:52:23Z",
+      "side": 1,
+      "message": "Do we really use this naming convention: aFoo?",
+      "range": {
+        "startLine": 61,
+        "startChar": 20,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "2b3f426276e36d58c7857247d7b6ece8a4701197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_feaee1a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T17:52:23Z",
+      "side": 1,
+      "message": "Use ternary operator?\n\n  a \u003d rev instanceof RevCommit ? Text.forCommit(reader, rev) : Text.EMPTY",
+      "range": {
+        "startLine": 62,
+        "startChar": 10,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "2b3f426276e36d58c7857247d7b6ece8a4701197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "45feeabd_45322a34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-17T10:53:15Z",
+      "side": 1,
+      "message": "Working on it...",
+      "parentUuid": "6503ee91_a6f6867f",
+      "range": {
+        "startLine": 101,
+        "startChar": 13,
+        "endLine": 103,
+        "endChar": 18
+      },
+      "revId": "77678690b0dbbedd321c848dc17d39e24a70cb58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25fd76c1_447b4ece",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
         "patchSetId": 1

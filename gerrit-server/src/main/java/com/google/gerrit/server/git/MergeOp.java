@@ -697,7 +697,7 @@ public class MergeOp implements AutoCloseable {
         continue;
       }
 
-      SubmitType st = getSubmitType(cd, ps);
+      SubmitType st = getSubmitType(cd);
       if (st == null) {
         logProblem(changeId, "No submit type for change");
         continue;
@@ -742,15 +742,10 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private SubmitType getSubmitType(ChangeData cd, PatchSet ps) {
+  private SubmitType getSubmitType(ChangeData cd) {
     try {
-      SubmitTypeRecord r = new SubmitRuleEvaluator(cd).setPatchSet(ps)
-          .getSubmitType();
-      if (r.status != SubmitTypeRecord.Status.OK) {
-        logError("Failed to get submit type for " + cd.getId());
-        return null;
-      }
-      return r.type;
+      SubmitTypeRecord str = cd.submitTypeRecord();
+      return str.isOk() ? str.type : null;
     } catch (OrmException e) {
       logError("Failed to get submit type for " + cd.getId(), e);
       return null;

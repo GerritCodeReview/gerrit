@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -26,7 +25,6 @@ import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -98,14 +96,14 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           if (!otherChange.getDest().equals(c.getDest())) {
             return false;
           }
-          SubmitType submitType = getSubmitType(object);
-          if (submitType == null) {
+          SubmitTypeRecord str = object.submitTypeRecord();
+          if (!str.isOk()) {
             return false;
           }
           ObjectId other = ObjectId.fromString(
               object.currentPatchSet().getRevision().get());
           ConflictKey conflictsKey =
-              new ConflictKey(changeDataCache.getTestAgainst(), other, submitType,
+              new ConflictKey(changeDataCache.getTestAgainst(), other, str.type,
                   changeDataCache.getProjectState().isUseContentMerge());
           Boolean conflicts = args.conflictsCache.getIfPresent(conflictsKey);
           if (conflicts != null) {
@@ -115,7 +113,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
                 args.repoManager.openRepository(otherChange.getProject());
               CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
             conflicts = !args.submitDryRun.run(
-                submitType, repo, rw, otherChange.getDest(),
+                str.type, repo, rw, otherChange.getDest(),
                 changeDataCache.getTestAgainst(), other,
                 getAlreadyAccepted(repo, rw));
             args.conflictsCache.put(conflictsKey, conflicts);
@@ -129,14 +127,6 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
         @Override
         public int getCost() {
           return 5;
-        }
-
-        private SubmitType getSubmitType(ChangeData cd) throws OrmException {
-          SubmitTypeRecord r = new SubmitRuleEvaluator(cd).getSubmitType();
-          if (r.status != SubmitTypeRecord.Status.OK) {
-            return null;
-          }
-          return r.type;
         }
 
         private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw)

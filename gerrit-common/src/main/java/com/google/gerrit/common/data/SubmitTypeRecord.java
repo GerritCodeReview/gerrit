@@ -56,6 +56,10 @@ public class SubmitTypeRecord {
     this.errorMessage = errorMessage;
   }
 
+  public boolean isOk() {
+    return status == Status.OK;
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

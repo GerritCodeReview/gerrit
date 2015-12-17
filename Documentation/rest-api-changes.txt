@@ -3953,6 +3953,9 @@ Whether the calling user has starred this change.
 |`reviewed`           |not set if `false`|
 Whether the change was reviewed by the calling user.
 Only set if link:#reviewed[reviewed] is requested.
+|`submit_type`        |optional|
+The link:project-configuration.html#submit_type[submit type] of the change. +
+Not set for merged changes.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
 Not set for merged changes, or if the change has not yet been tested.

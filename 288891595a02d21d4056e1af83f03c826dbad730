@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25fd76c1_847146ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_115.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-17T14:33:25Z",
+      "side": 1,
+      "message": "Doesn\u0027t it need to be closed?",
+      "revId": "288891595a02d21d4056e1af83f03c826dbad730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

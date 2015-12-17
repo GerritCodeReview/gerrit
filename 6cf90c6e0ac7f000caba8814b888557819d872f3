@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45feeabd_8546e2a4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-17T00:52:54Z",
+      "side": 1,
+      "message": "\"change-id\" implies that it\u0027s the Change-Id, i.e. `I\u003csha1\u003e`, but it\u0027s just an integer.",
+      "range": {
+        "startLine": 513,
+        "startChar": 17,
+        "endLine": 513,
+        "endChar": 29
+      },
+      "revId": "6cf90c6e0ac7f000caba8814b888557819d872f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45feeabd_654c06c4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-17T00:52:54Z",
+      "side": 1,
+      "message": "This seems overly verbose.",
+      "range": {
+        "startLine": 512,
+        "startChar": 9,
+        "endLine": 513,
+        "endChar": 79
+      },
+      "revId": "6cf90c6e0ac7f000caba8814b888557819d872f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

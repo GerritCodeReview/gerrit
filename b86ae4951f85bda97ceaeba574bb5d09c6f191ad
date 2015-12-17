@@ -45,6 +45,30 @@
       "revId": "b86ae4951f85bda97ceaeba574bb5d09c6f191ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "850c62c1_c7461e58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-17T13:22:32Z",
+      "side": 0,
+      "message": "I think it\u0027s okay.",
+      "parentUuid": "45feeabd_e5891611",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 5
+      },
+      "revId": "b86ae4951f85bda97ceaeba574bb5d09c6f191ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

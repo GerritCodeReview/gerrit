@@ -17,6 +17,24 @@
       "revId": "ade939343a2089f349539e4c2effd2dd4588f571",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45feeabd_85982258",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-17T11:18:48Z",
+      "side": 1,
+      "message": "Schema_115, which was included in stable-2.12.  So if it needs to be fixed, it should be uploaded there.",
+      "parentUuid": "850c62c1_877ee68d",
+      "revId": "ade939343a2089f349539e4c2effd2dd4588f571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

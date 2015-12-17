@@ -33,6 +33,24 @@
       "revId": "9416f6b1eadaca8f517dadb1ba652a0555869089",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e50fdeaf_0a2c3bd3",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T15:30:15Z",
+      "side": 1,
+      "message": "Not without linearly iterating through the string.\n\nI cached the regex since it shouldn\u0027t be reevaluated on each call, but I think a simple one should be fine. We can look at large diffs and measure.",
+      "parentUuid": "e50fdeaf_2a56df51",
+      "revId": "9416f6b1eadaca8f517dadb1ba652a0555869089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

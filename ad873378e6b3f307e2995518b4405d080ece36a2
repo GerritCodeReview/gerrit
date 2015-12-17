@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "6afc9b2b_5ec7156e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-17T19:07:13Z",
+      "side": 1,
+      "message": "Now, that I understand the reason not to document before we are done, I\u0027m fine without description.",
+      "parentUuid": "c512dad7_694ce5c3",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 16
+      },
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "850c62c1_677e52c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2

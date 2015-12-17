@@ -110,7 +110,6 @@ public class ReviewerJson {
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
       for (SubmitRecord rec : new SubmitRuleEvaluator(cd)
-          .setPatchSet(ps)
           .setFastEvalLabels(true)
           .setAllowDraft(true)
           .evaluate()) {

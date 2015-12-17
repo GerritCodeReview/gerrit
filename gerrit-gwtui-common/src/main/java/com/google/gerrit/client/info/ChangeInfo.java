@@ -19,6 +19,7 @@ import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -138,6 +139,15 @@ public class ChangeInfo extends JavaScriptObject {
   public final native int _number() /*-{ return this._number; }-*/;
   public final native boolean _more_changes()
   /*-{ return this._more_changes ? true : false; }-*/;
+
+  public final SubmitType submitType() {
+    String submitType = _submitType();
+    if (submitType == null) {
+      return null;
+    }
+    return SubmitType.valueOf(submitType);
+  }
+  private final native String _submitType() /*-{ return this.submit_type; }-*/;
 
   public final boolean submittable() {
     init();

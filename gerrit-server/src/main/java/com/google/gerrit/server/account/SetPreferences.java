@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -65,6 +64,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public Boolean useFlashClipboard;
     public String downloadScheme;
     public DownloadCommand downloadCommand;
+    public Boolean copySelfOnEmail;
     public DateFormat dateFormat;
     public TimeFormat timeFormat;
     public Boolean relativeDateInChangeTable;
@@ -73,7 +73,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public Boolean muteCommonPathPrefixes;
     public ReviewCategoryStrategy reviewCategoryStrategy;
     public DiffView diffView;
-    public EmailStrategy emailStrategy;
     public List<TopMenu.MenuItem> my;
     public Map<String, String> urlAliases;
   }
@@ -146,6 +145,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       if (i.downloadCommand != null) {
         p.setDownloadCommand(i.downloadCommand);
       }
+      if (i.copySelfOnEmail != null) {
+        p.setCopySelfOnEmails(i.copySelfOnEmail);
+      }
       if (i.dateFormat != null) {
         p.setDateFormat(i.dateFormat);
       }
@@ -169,9 +171,6 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.diffView != null) {
         p.setDiffView(i.diffView);
-      }
-      if (i.emailStrategy != null) {
-        p.setEmailStrategy(i.emailStrategy);
       }
 
       db.get().accounts().update(Collections.singleton(a));

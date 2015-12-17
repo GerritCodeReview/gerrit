@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c512dad7_092c49d3",
+        "filename": "polygerrit-ui/app/elements/gr-ajax.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:37:18Z",
+      "side": 1,
+      "message": "I might be missing something but I don\u0027t see this being used here?",
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_6935051a",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:37:18Z",
+      "side": 1,
+      "message": "\"Patch set\". I\u0027ve been lenient about this distinction in code, but here you\u0027re replicating an existing bit of UI.",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_49324134",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:37:18Z",
+      "side": 1,
+      "message": "If there are 50 patch sets, do you actually want to have the words \"patch set\" repeated 50 times in the select?",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 50
+      },
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c512dad7_292f0dcc",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:37:18Z",
+      "side": 1,
+      "message": "This is different from the current UI behavior, where if you select the latest patch set it still goes in the URL.\n\nThis is a feature in that it allows you to generate a permalink to the latest patch set (not that I feel that strongly about this particular feature).",
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e50fdeaf_6a4cd7c3",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:37:18Z",
+      "side": 1,
+      "message": "Factor this out into a local function var? Which you can call directly in one case and pass to then() in the other.",
+      "range": {
+        "startLine": 370,
+        "startChar": 31,
+        "endLine": 373,
+        "endChar": 11
+      },
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e50fdeaf_4a4913b2",
+        "filename": "polygerrit-ui/app/test/gr-change-view-test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:37:18Z",
+      "side": 1,
+      "message": "What\u0027s with the numbering?",
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

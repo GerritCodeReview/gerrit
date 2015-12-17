@@ -51,6 +51,24 @@
       "revId": "9416f6b1eadaca8f517dadb1ba652a0555869089",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e50fdeaf_ca8e2317",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T15:54:03Z",
+      "side": 1,
+      "message": "Agreed, this is fine. If we really want to go character-by-character we should probably combine all the _add* methods into a single loop as well. *shrug*",
+      "parentUuid": "e50fdeaf_0a2c3bd3",
+      "revId": "9416f6b1eadaca8f517dadb1ba652a0555869089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

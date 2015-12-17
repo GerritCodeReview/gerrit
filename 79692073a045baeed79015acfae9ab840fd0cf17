@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e50fdeaf_ea20c7e2",
+        "filename": "polygerrit-ui/app/elements/gr-patch-range-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:55:52Z",
+      "side": 1,
+      "message": "\"Patch set\"\n\nThough I wonder if this label is really necessary?",
+      "revId": "79692073a045baeed79015acfae9ab840fd0cf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e50fdeaf_0a531b62",
+        "filename": "polygerrit-ui/app/elements/gr-patch-range-select.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-17T14:55:52Z",
+      "side": 1,
+      "message": "I would maybe expect tests for this functionality?",
+      "revId": "79692073a045baeed79015acfae9ab840fd0cf17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

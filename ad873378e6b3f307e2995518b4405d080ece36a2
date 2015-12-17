@@ -130,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "850c62c1_679ad230",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-17T08:16:41Z",
+      "side": 1,
+      "message": "\u003e Why we don\u0027t care about losing the fact that\n \u003e voting was actually performed by another user (on behalf of)\n\nI would say, we care, but this is a bug.",
+      "parentUuid": "850c62c1_a7afaa55",
+      "revId": "ad873378e6b3f307e2995518b4405d080ece36a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6503ee91_a61a06a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2

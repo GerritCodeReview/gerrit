@@ -25,6 +25,7 @@
 
 [project]
   ignore = .git, eclipse-out
+  parallel_parsing = true
 
 [cache]
   mode = dir

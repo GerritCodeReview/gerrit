@@ -32,7 +32,6 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -682,7 +681,7 @@ public class MergeOp {
         continue;
       }
 
-      SubmitType st = getSubmitType(commit.getControl(), ps);
+      SubmitType st = getSubmitType(cd);
       if (st == null) {
         logError("No submit type for revision " + idstr + " of patch set "
             + ps.getId());
@@ -705,18 +704,11 @@ public class MergeOp {
     return new AutoValue_MergeOp_BranchBatch(submitType, toSubmit);
   }
 
-  private SubmitType getSubmitType(ChangeControl ctl, PatchSet ps) {
+  private SubmitType getSubmitType(ChangeData cd) {
     try {
-      ChangeData cd = changeDataFactory.create(db, ctl);
-      SubmitTypeRecord r = new SubmitRuleEvaluator(cd).setPatchSet(ps)
-          .getSubmitType();
-      if (r.status != SubmitTypeRecord.Status.OK) {
-        logError("Failed to get submit type for " + ctl.getChange().getKey());
-        return null;
-      }
-      return r.type;
+      return cd.submitType();
     } catch (OrmException e) {
-      logError("Failed to get submit type for " + ctl.getChange().getKey(), e);
+      logError("Failed to get submit type for " + cd.getId(), e);
       return null;
     }
   }

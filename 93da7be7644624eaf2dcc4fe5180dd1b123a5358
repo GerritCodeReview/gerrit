@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "e50fdeaf_2a881f05",
+        "filename": "polygerrit-ui/app/elements/gr-ajax.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-17T16:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e50fdeaf_6a7e17c0",
+      "revId": "93da7be7644624eaf2dcc4fe5180dd1b123a5358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c512dad7_6935051a",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 4

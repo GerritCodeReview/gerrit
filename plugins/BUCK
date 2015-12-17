@@ -6,6 +6,9 @@ CORE = [
   'reviewnotes',
   'singleusergroup'
 ]
+CUSTOM = [
+  # Add custom core plugins here
+]
 
 # buck audit parses and resolves all deps even if not reachable
 # from the root(s) passed to audit. Filter dependencies to only
@@ -20,7 +23,7 @@ def core_plugins(names):
     else:
       n.append(p)
   return h, n
-HAVE, NEED = core_plugins(CORE)
+HAVE, NEED = core_plugins(CORE + CUSTOM)
 
 genrule(
   name = 'core',

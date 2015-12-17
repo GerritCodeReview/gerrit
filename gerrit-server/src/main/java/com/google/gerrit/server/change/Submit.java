@@ -182,9 +182,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           rsrc.getPatchSet().getRevision().get()));
     }
 
-    try {
+    try (MergeOp op = mergeOpProvider.get()) {
       ReviewDb db = dbProvider.get();
-      mergeOpProvider.get().merge(db, change, caller, true);
+      op.merge(db, change, caller, true);
       change = db.changes().get(change.getId());
     } catch (NoSuchChangeException e) {
       throw new OrmException("Submission failed", e);

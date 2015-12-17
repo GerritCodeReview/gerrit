@@ -1819,8 +1819,8 @@ public class ReceiveCommits {
       throws OrmException, ResourceConflictException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
-    try {
-      mergeOpProvider.get().merge(db, rsrc.getChange(),
+    try (MergeOp op = mergeOpProvider.get()) {
+      op.merge(db, rsrc.getChange(),
           changeCtl.getUser().asIdentifiedUser(), false);
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);

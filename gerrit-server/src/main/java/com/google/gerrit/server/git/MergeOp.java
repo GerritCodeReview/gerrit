@@ -119,8 +119,32 @@ import java.util.Set;
  * marking it as conflicting, even if an earlier commit along that same line can
  * be merged cleanly.
  */
-public class MergeOp {
+public class MergeOp implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
+
+  private static class OpenRepo {
+    final Repository repo;
+    final CodeReviewRevWalk rw;
+    final RevFlag canMergeFlag;
+    final ObjectInserter ins;
+
+    OpenRepo(Repository repo) {
+      this.repo = repo;
+      rw = CodeReviewCommit.newRevWalk(repo);
+      rw.sort(RevSort.TOPO);
+      rw.sort(RevSort.COMMIT_TIME_DESC, true);
+      rw.setRetainBody(false);
+      canMergeFlag = rw.newFlag("CAN_MERGE");
+
+      ins = repo.newObjectInserter();
+    }
+
+    void close() {
+      ins.close();
+      rw.close();
+      repo.close();
+    }
+  }
 
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalsUtil;
@@ -145,6 +169,7 @@ public class MergeOp {
   private final Provider<SubmoduleOp> subOpProvider;
   private final TagCache tagCache;
 
+  private final Map<Project.NameKey, OpenRepo> openRepos;
   private final Map<Change.Id, List<SubmitRecord>> records;
   private final Map<Change.Id, CodeReviewCommit> commits;
 
@@ -163,10 +188,6 @@ public class MergeOp {
 
   private ProjectState destProject;
   private ReviewDb db;
-  private Repository repo;
-  private CodeReviewRevWalk rw;
-  private RevFlag canMergeFlag;
-  private ObjectInserter inserter;
   private Map<Branch.NameKey, RefUpdate> pendingRefUpdates;
   private Map<Branch.NameKey, CodeReviewCommit> openBranches;
   private Map<Branch.NameKey, MergeTip> mergeTips;
@@ -221,8 +242,30 @@ public class MergeOp {
     pendingRefUpdates = new HashMap<>();
     openBranches = new HashMap<>();
     pendingRefUpdates = new HashMap<>();
+    openRepos = new HashMap<>();
     records = new HashMap<>();
     mergeTips = new HashMap<>();
+  }
+
+  private OpenRepo openRepo(Project.NameKey project)
+      throws NoSuchProjectException, IOException {
+    OpenRepo repo = openRepos.get(project);
+    if (repo == null) {
+      try {
+        repo = new OpenRepo(repoManager.openRepository(project));
+      } catch (RepositoryNotFoundException e) {
+        throw new NoSuchProjectException(project);
+      }
+      openRepos.put(project, repo);
+    }
+    return repo;
+  }
+
+  @Override
+  public void close() {
+    for (OpenRepo repo : openRepos.values()) {
+      repo.close();
+    }
   }
 
   private void setDestProject(Branch.NameKey destBranch)
@@ -397,39 +440,37 @@ public class MergeOp {
       Multimap<Project.NameKey, Branch.NameKey> br = cs.branchesByProject();
       Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
       for (Project.NameKey project : br.keySet()) {
-        openRepository(project);
+        OpenRepo or = openRepo(project);
         for (Branch.NameKey branch : br.get(project)) {
           setDestProject(branch);
-          BranchBatch submitting = validateChangeList(cbb.get(branch));
+          BranchBatch submitting = validateChangeList(or, cbb.get(branch));
           toSubmit.put(branch, submitting);
 
-          SubmitStrategy strategy = createStrategy(
-              branch, submitting.submitType(), getBranchTip(branch), caller);
+          SubmitStrategy strategy = createStrategy(or, branch,
+              submitting.submitType(), getBranchTip(or, branch), caller);
           MergeTip mergeTip = preMerge(strategy, submitting.changes(),
-              getBranchTip(branch));
+              getBranchTip(or, branch));
           mergeTips.put(branch, mergeTip);
           updateChangeStatus(submitting.changes(), branch, true, caller);
-          inserter.flush();
+          or.ins.flush();
         }
-        closeRepository();
       }
       logDebug("Write out the new branch tips");
       SubmoduleOp subOp = subOpProvider.get();
       for (Project.NameKey project : br.keySet()) {
-        openRepository(project);
+        OpenRepo or = openRepo(project);
         for (Branch.NameKey branch : br.get(project)) {
-          RefUpdate update = updateBranch(branch, caller);
+          RefUpdate update = updateBranch(or, branch, caller);
           pendingRefUpdates.remove(branch);
 
           setDestProject(branch);
           BranchBatch submitting = toSubmit.get(branch);
           updateChangeStatus(submitting.changes(), branch, false, caller);
-          updateSubmoduleSubscriptions(subOp, branch, getBranchTip(branch));
+          updateSubmoduleSubscriptions(subOp, branch, getBranchTip(or, branch));
           if (update != null) {
             fireRefUpdated(branch, update);
           }
         }
-        closeRepository();
       }
 
       updateSuperProjects(subOp, br.values());
@@ -443,8 +484,6 @@ public class MergeOp {
       throw new IntegrationException("Cannot query the database", e);
     } catch (IOException e) {
       throw new IntegrationException("Cannot query the database", e);
-    } finally {
-      closeRepository();
     }
   }
 
@@ -466,47 +505,16 @@ public class MergeOp {
     return mergeTip;
   }
 
-  private SubmitStrategy createStrategy(Branch.NameKey destBranch,
-      SubmitType submitType, CodeReviewCommit branchTip, IdentifiedUser caller)
+  private SubmitStrategy createStrategy(OpenRepo or,
+      Branch.NameKey destBranch, SubmitType submitType,
+      CodeReviewCommit branchTip, IdentifiedUser caller)
       throws IntegrationException, NoSuchProjectException {
-    return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
-        canMergeFlag, getAlreadyAccepted(branchTip), destBranch, caller);
+    return submitStrategyFactory.create(submitType, db, or.repo, or.rw, or.ins,
+        or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller);
   }
 
-  private void openRepository(Project.NameKey name)
-      throws IntegrationException, NoSuchProjectException {
-    try {
-      repo = repoManager.openRepository(name);
-    } catch (RepositoryNotFoundException notFound) {
-      throw new NoSuchProjectException(name, notFound);
-    } catch (IOException err) {
-      String m = "Error opening repository \"" + name.get() + '"';
-      throw new IntegrationException(m, err);
-    }
-
-    rw = CodeReviewCommit.newRevWalk(repo);
-    rw.sort(RevSort.TOPO);
-    rw.sort(RevSort.COMMIT_TIME_DESC, true);
-    rw.setRetainBody(false);
-    canMergeFlag = rw.newFlag("CAN_MERGE");
-
-    inserter = repo.newObjectInserter();
-  }
-
-  private void closeRepository() {
-    if (inserter != null) {
-      inserter.close();
-    }
-    if (rw != null) {
-      rw.close();
-    }
-    if (repo != null) {
-      repo.close();
-    }
-  }
-
-  private RefUpdate getPendingRefUpdate(Branch.NameKey destBranch)
-      throws IntegrationException {
+  private RefUpdate getPendingRefUpdate(OpenRepo repo,
+      Branch.NameKey destBranch) throws IntegrationException {
 
     if (pendingRefUpdates.containsKey(destBranch)) {
       logDebug("Access cached open branch {}: {}", destBranch.get(),
@@ -515,11 +523,11 @@ public class MergeOp {
     }
 
     try {
-      RefUpdate branchUpdate = repo.updateRef(destBranch.get());
+      RefUpdate branchUpdate = repo.repo.updateRef(destBranch.get());
       CodeReviewCommit branchTip;
       if (branchUpdate.getOldObjectId() != null) {
-        branchTip = rw.parseCommit(branchUpdate.getOldObjectId());
-      } else if (Objects.equals(repo.getFullBranch(), destBranch.get())) {
+        branchTip = repo.rw.parseCommit(branchUpdate.getOldObjectId());
+      } else if (Objects.equals(repo.repo.getFullBranch(), destBranch.get())) {
         branchTip = null;
         branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
       } else {
@@ -536,18 +544,18 @@ public class MergeOp {
     }
   }
 
-  private CodeReviewCommit getBranchTip(Branch.NameKey destBranch)
-      throws IntegrationException {
+  private CodeReviewCommit getBranchTip(OpenRepo repo,
+      Branch.NameKey destBranch) throws IntegrationException {
     if (openBranches.containsKey(destBranch)) {
       return openBranches.get(destBranch);
     } else {
-      getPendingRefUpdate(destBranch);
+      getPendingRefUpdate(repo, destBranch);
       return openBranches.get(destBranch);
     }
   }
 
-  private Set<RevCommit> getAlreadyAccepted(CodeReviewCommit branchTip)
-      throws IntegrationException {
+  private Set<RevCommit> getAlreadyAccepted(OpenRepo or,
+      CodeReviewCommit branchTip) throws IntegrationException {
     Set<RevCommit> alreadyAccepted = new HashSet<>();
 
     if (branchTip != null) {
@@ -555,9 +563,10 @@ public class MergeOp {
     }
 
     try {
-      for (Ref r : repo.getRefDatabase().getRefs(Constants.R_HEADS).values()) {
+      for (Ref r : or.repo.getRefDatabase().getRefs(Constants.R_HEADS)
+          .values()) {
         try {
-          alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
+          alreadyAccepted.add(or.rw.parseCommit(r.getObjectId()));
         } catch (IncorrectObjectTypeException iote) {
           // Not a commit? Skip over it.
         }
@@ -577,11 +586,11 @@ public class MergeOp {
     abstract List<ChangeData> changes();
   }
 
-  private BranchBatch validateChangeList(
+  private BranchBatch validateChangeList(OpenRepo or,
       Collection<ChangeData> submitted) throws IntegrationException {
     logDebug("Validating {} changes", submitted.size());
     List<ChangeData> toSubmit = new ArrayList<>(submitted.size());
-    Multimap<ObjectId, PatchSet.Id> revisions = getRevisions(submitted);
+    Multimap<ObjectId, PatchSet.Id> revisions = getRevisions(or, submitted);
 
     SubmitType submitType = null;
     ChangeData choseSubmitTypeFrom = null;
@@ -642,7 +651,7 @@ public class MergeOp {
 
       CodeReviewCommit commit;
       try {
-        commit = rw.parseCommit(id);
+        commit = or.rw.parseCommit(id);
       } catch (IOException e) {
         logError("Invalid commit " + idstr + " on patch set " + ps.getId(), e);
         commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
@@ -657,7 +666,7 @@ public class MergeOp {
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(
-            repo, commit, destProject, destBranch, ps.getId());
+            or.repo, commit, destProject, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
         logDebug("Revision {} of patch set {} failed validation: {}",
             idstr, ps.getId(), mve.getStatus());
@@ -681,14 +690,14 @@ public class MergeOp {
             + "from change %s in the same batch",
             cd.getId(), st, submitType, choseSubmitTypeFrom.getId()));
       }
-      commit.add(canMergeFlag);
+      commit.add(or.canMergeFlag);
       toSubmit.add(cd);
     }
     logDebug("Submitting on this run: {}", toSubmit);
     return new AutoValue_MergeOp_BranchBatch(submitType, toSubmit);
   }
 
-  private Multimap<ObjectId, PatchSet.Id> getRevisions(
+  private Multimap<ObjectId, PatchSet.Id> getRevisions(OpenRepo or,
       Collection<ChangeData> cds) throws IntegrationException {
     try {
       List<String> refNames = new ArrayList<>(cds.size());
@@ -702,7 +711,7 @@ public class MergeOp {
       }
       Multimap<ObjectId, PatchSet.Id> revisions =
           HashMultimap.create(cds.size(), 1);
-      for (Map.Entry<String, Ref> e : repo.getRefDatabase().exactRef(
+      for (Map.Entry<String, Ref> e : or.repo.getRefDatabase().exactRef(
           refNames.toArray(new String[refNames.size()])).entrySet()) {
         revisions.put(
             e.getValue().getObjectId(), PatchSet.Id.fromRef(e.getKey()));
@@ -729,10 +738,10 @@ public class MergeOp {
     }
   }
 
-  private RefUpdate updateBranch(Branch.NameKey destBranch,
+  private RefUpdate updateBranch(OpenRepo or, Branch.NameKey destBranch,
       IdentifiedUser caller) throws IntegrationException {
-    RefUpdate branchUpdate = getPendingRefUpdate(destBranch);
-    CodeReviewCommit branchTip = getBranchTip(destBranch);
+    RefUpdate branchUpdate = getPendingRefUpdate(or, destBranch);
+    CodeReviewCommit branchTip = getBranchTip(or, destBranch);
 
     MergeTip mergeTip = mergeTips.get(destBranch);
 
@@ -756,7 +765,7 @@ public class MergeOp {
       try {
         ProjectConfig cfg =
             new ProjectConfig(destProject.getProject().getNameKey());
-        cfg.load(repo, currentTip);
+        cfg.load(or.repo, currentTip);
       } catch (Exception e) {
         throw new IntegrationException("Submit would store invalid"
             + " project configuration " + currentTip.name() + " for "
@@ -770,7 +779,7 @@ public class MergeOp {
     branchUpdate.setNewObjectId(currentTip);
     branchUpdate.setRefLogMessage("merged", true);
     try {
-      RefUpdate.Result result = branchUpdate.update(rw);
+      RefUpdate.Result result = branchUpdate.update(or.rw);
       logDebug("Update of {}: {}..{} returned status {}",
           branchUpdate.getName(), branchUpdate.getOldObjectId(),
           branchUpdate.getNewObjectId(), result);

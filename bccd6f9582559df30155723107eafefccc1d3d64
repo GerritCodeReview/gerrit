@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1450344690 +0100\nnonce ALmjDBXSS8lASJbMXzJJ4GzMfOKc3FDY1s1rXJcENZuA6NyePqb51a9AGVfNoIBZFxADDjbp+3Yl\n\n0000000000000000000000000000000000000000 fdcd8341052370c132d3428c6dcf607a69b39ac6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWcoDyAAoJEFG1/Zeg0O9RNNkH/jyTPjRUFJNa2egGu1aprnFw\nUJ0NIek1llnNrxQIz0Jb+F/MPCe546CR7yWV3ueFGvWNHbAa1mHmhuFG3zbmRSnw\nFJLg1If7mPJNc7JygZLTz3FUAtSaTVvIJRuCXIhbHjKaXVYTca4qad9uJVrvtk1d\ncn8hUqsTVHezSaKo9Q9/1Du1EdehFIWU+sBsECkaYnryHXrs/guTYaV0LzxvnbHs\n3Apth6NDy701+woyi7maZYeyvSBK/qb0KEUfIFyYG8mSXEvXURK4OkLzcqfwMJrz\njed+HaDJxs47BTvN6o1+tMXAooBMpgRjfm/nUTiFm2mZI31QO6sLnLG75BHHU4A\u003d\n\u003d9Zjh\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6503ee91_a6afa655",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-12-17T11:26:38Z",
+      "side": 1,
+      "message": "I guess this is much faster than scanning all projects at startup (which sometimes takes up to 5 minutes for our Gerrit server) but nevertheless I am curios if you measured how much time does it take to scan all refs/starred-chagnes/ ref namespace?",
+      "range": {
+        "startLine": 31,
+        "startChar": 43,
+        "endLine": 32,
+        "endChar": 68
+      },
+      "revId": "bccd6f9582559df30155723107eafefccc1d3d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "850c62c1_278e1ae3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-12-17T11:26:38Z",
+      "side": 1,
+      "message": "Cache",
+      "range": {
+        "startLine": 41,
+        "startChar": 32,
+        "endLine": 41,
+        "endChar": 38
+      },
+      "revId": "bccd6f9582559df30155723107eafefccc1d3d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

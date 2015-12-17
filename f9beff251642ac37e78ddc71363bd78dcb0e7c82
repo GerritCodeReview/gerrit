@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1450361493 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBWuK7QVkok4CmcTfcJu/mRptDL13RdvWYZbm71IPAawPB6RuICVuCjRrPf1GjGYYt8Kci8S\n\n0000000000000000000000000000000000000000 e27da9e514f79543e3f869c8077e74c516572982 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWcsKVAAoJEF/XxZqaEoiMxRsQAIPcabUuAYncwy2jZMiHFjRr\nDfsRqJZM6XaXS8TuS+18YCkM+TeI7M8dnCgAhBJIJkY7L9zJXa7GpRqhpZUfpjWw\nMFOxsIUpJpN/qSDG5JzIGrp4R+WQBR9KSf1AMW43UUXKBGAsVcius0csoS+UwgpJ\nrqQU8udnKkSIWsTCQXHtAvSUhhQJKZlmuA8dNqEO1Y/3TMB4G6k/mQQilkggGQox\npVElLYI/oIWOgLuS/qhc3aWFD43z6Pxwd7mIX9yu1g3Zn1cEAzhQjfvCtGXt+UJp\nRIQxsDROmxKoboMvusJ0nbyb/0f5y5G6a56svANyxyl4HY1W3IcDKvJhOMggrLIU\nJN91ifawxEbsm8JsIFetKN0+DcY7VIVlH/wH8COEryimn62+dzbRb2NbgaAyFoEZ\n1wtZAYJcSVQ+0IF/PH4LpHQzQZW9Ex+18G6tQKf/M4KxApCTKQCodzHGzcZkBFKq\nJcztueWdvMs5OsGHL9FToEjHbwZIriMnFL/Rftge/yrEZQwwKvSz9d5IlHPtFb+8\ng2ZxAqWWHhFkvHzKonMe4Xpbqu97Q6berRCU8gGQ2cks3XVVjBvSpnGgfpEO+UUA\n602Ymf1IIw24OrHwfSu6vrDivUhE6ltw/GIFitLW5GxFWlEXWnWfuVY8tazhSq8n\n2BVE90mBNUnrQUsMpD4z\n\u003dVW+0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "850c62c1_073d56b6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/SubmitTypeRuleIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-17T15:32:25Z",
+      "side": 1,
+      "message": "MetaDataUpdate now implements AutoClosable, so this code has a warning now.",
+      "revId": "f9beff251642ac37e78ddc71363bd78dcb0e7c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

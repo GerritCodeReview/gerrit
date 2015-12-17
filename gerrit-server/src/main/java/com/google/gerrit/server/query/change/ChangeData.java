@@ -26,6 +26,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -316,6 +317,7 @@ public class ChangeData {
   private List<ChangeMessage> messages;
   private List<SubmitRecord> submitRecords;
   private ChangedLines changedLines;
+  private SubmitType submitType;
   private Boolean mergeable;
   private Set<Account.Id> editsByUser;
   private Set<Account.Id> reviewedBy;
@@ -753,6 +755,15 @@ public class ChangeData {
     return submitRecords;
   }
 
+  public SubmitType submitType() throws OrmException {
+    if (submitType == null) {
+      SubmitTypeRecord rec = new SubmitRuleEvaluator(this).getSubmitType();
+      submitType = rec.status == SubmitTypeRecord.Status.OK
+          ? rec.type : null;
+    }
+    return submitType;
+  }
+
   public void setMergeable(Boolean mergeable) {
     this.mergeable = mergeable;
   }
@@ -772,18 +783,19 @@ public class ChangeData {
         }
         try (Repository repo = repoManager.openRepository(c.getProject())) {
           Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());
-          SubmitTypeRecord rec = new SubmitRuleEvaluator(this)
-              .getSubmitType();
-          if (rec.status != SubmitTypeRecord.Status.OK) {
-            throw new OrmException(
-                "Error in mergeability check: " + rec.errorMessage);
+          SubmitType st = submitType();
+          if (st == null) {
+            // If submit type rules are broken, it's definitely not mergeable.
+            // No need to log, as SubmitRuleEvaluator already did it for us.
+            return false;
+          } else {
+            String mergeStrategy = mergeUtilFactory
+                .create(projectCache.get(c.getProject()))
+                .mergeStrategyName();
+            mergeable = mergeabilityCache.get(
+                ObjectId.fromString(ps.getRevision().get()),
+                ref, st, mergeStrategy, c.getDest(), repo, db);
           }
-          String mergeStrategy = mergeUtilFactory
-              .create(projectCache.get(c.getProject()))
-              .mergeStrategyName();
-          mergeable = mergeabilityCache.get(
-              ObjectId.fromString(ps.getRevision().get()),
-              ref, rec.type, mergeStrategy, c.getDest(), repo, db);
         } catch (IOException e) {
           throw new OrmException(e);
         }

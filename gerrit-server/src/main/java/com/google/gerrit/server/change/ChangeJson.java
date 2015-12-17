@@ -403,10 +403,10 @@ public class ChangeJson {
     out.topic = in.getTopic();
     out.hashtags = ctl.getNotes().load().getHashtags();
     out.changeId = in.getKey().get();
-    // TODO(dborowitz): This gets the submit type, so we could include that in
-    // the response and avoid making a request to /submit_type from the UI.
-    out.mergeable = in.getStatus() == Change.Status.MERGED
-        ? null : cd.isMergeable();
+    if (in.getStatus() != Change.Status.MERGED) {
+      out.submitType = cd.submitType();
+      out.mergeable = cd.isMergeable();
+    }
     out.submittable = Submit.submittable(cd);
     ChangedLines changedLines = cd.changedLines();
     if (changedLines != null) {

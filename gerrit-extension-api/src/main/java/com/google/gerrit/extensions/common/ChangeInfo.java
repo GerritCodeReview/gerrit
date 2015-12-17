@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.client.SubmitType;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -35,6 +36,7 @@ public class ChangeInfo {
   public Timestamp updated;
   public Boolean starred;
   public Boolean reviewed;
+  public SubmitType submitType;
   public Boolean mergeable;
   public Boolean submittable;
   public Integer insertions;

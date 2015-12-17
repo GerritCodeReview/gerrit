@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25fd76c1_04531662",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-17T05:00:20Z",
+      "side": 1,
+      "message": "Initialisation to false is not necessary.",
+      "range": {
+        "startLine": 127,
+        "startChar": 30,
+        "endLine": 127,
+        "endChar": 38
+      },
+      "revId": "c9e3213d1e76cc0e76248cd5ed42c595863cddcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

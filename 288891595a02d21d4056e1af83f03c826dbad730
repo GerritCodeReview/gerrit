@@ -16,6 +16,24 @@
       "revId": "288891595a02d21d4056e1af83f03c826dbad730",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6503ee91_86cdca3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_115.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-17T14:39:25Z",
+      "side": 1,
+      "message": "Yes, it should be closed :(\n\nDone",
+      "parentUuid": "25fd76c1_847146ea",
+      "revId": "288891595a02d21d4056e1af83f03c826dbad730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

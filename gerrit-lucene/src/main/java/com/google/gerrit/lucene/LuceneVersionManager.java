@@ -113,6 +113,11 @@ public class LuceneVersionManager implements LifecycleListener {
 
   @Override
   public void start() {
+    String runReindex =
+      "No index versions ready; run java -jar " +
+      sitePaths.gerrit_war.toAbsolutePath() +
+      " reindex";
+
     FileBasedConfig cfg;
     try {
       cfg = loadGerritIndexConfig(sitePaths);
@@ -121,10 +126,10 @@ public class LuceneVersionManager implements LifecycleListener {
     }
 
     if (!Files.exists(sitePaths.index_dir)) {
-      throw new ProvisionException("No index versions ready; run Reindex");
+      throw new ProvisionException(runReindex);
     } else if (!Files.exists(sitePaths.index_dir)) {
       log.warn("Not a directory: %s", sitePaths.index_dir.toAbsolutePath());
-      throw new ProvisionException("No index versions ready; run Reindex");
+      throw new ProvisionException(runReindex);
     }
 
     TreeMap<Integer, Version> versions = scanVersions(cfg);
@@ -148,7 +153,7 @@ public class LuceneVersionManager implements LifecycleListener {
       }
     }
     if (search == null) {
-      throw new ProvisionException("No index versions ready; run Reindex");
+      throw new ProvisionException(runReindex);
     }
 
     markNotReady(cfg, versions.values(), write);

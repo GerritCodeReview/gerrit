@@ -182,7 +182,7 @@ public class LocalComments {
     PatchSet.Id psId =
         new PatchSet.Id(changeId, Integer.parseInt(elements[offset + 1]));
     path = atob(elements[offset + 2]);
-    side = (Side.PARENT.toString() == elements[offset + 3]) ? Side.PARENT
+    side = (Side.PARENT.toString().equals(elements[offset + 3])) ? Side.PARENT
         : Side.REVISION;
     range = null;
     if (elements[offset + 4].startsWith("R")) {

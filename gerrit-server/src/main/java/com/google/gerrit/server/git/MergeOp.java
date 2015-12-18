@@ -218,7 +218,6 @@ public class MergeOp implements AutoCloseable {
   private final TagCache tagCache;
 
   private final Map<Project.NameKey, OpenRepo> openRepos;
-  private final Map<Change.Id, List<SubmitRecord>> records;
   private final Map<Change.Id, CodeReviewCommit> commits;
 
   private static final String MACHINE_ID;
@@ -284,7 +283,6 @@ public class MergeOp implements AutoCloseable {
 
     commits = new HashMap<>();
     openRepos = new HashMap<>();
-    records = new HashMap<>();
   }
 
   private OpenRepo openRepo(Project.NameKey project)
@@ -312,7 +310,11 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
+  private static Optional<SubmitRecord> findOkRecord(
+      Collection<SubmitRecord> in) {
+    if (in == null) {
+      return Optional.absent();
+    }
     return Iterables.tryFind(in, new Predicate<SubmitRecord>() {
       @Override
       public boolean apply(SubmitRecord input) {
@@ -321,20 +323,23 @@ public class MergeOp implements AutoCloseable {
     });
   }
 
-  public static List<SubmitRecord> checkSubmitRule(ChangeData cd)
+  public static void checkSubmitRule(ChangeData cd)
       throws ResourceConflictException, OrmException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
       throw new ResourceConflictException(
           "missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
-        .setPatchSet(patchSet)
-        .evaluate();
-    Optional<SubmitRecord> ok = findOkRecord(results);
-    if (ok.isPresent()) {
+    List<SubmitRecord> results = cd.getSubmitRecords();
+    if (results == null) {
+      results = new SubmitRuleEvaluator(cd)
+          .setPatchSet(patchSet)
+          .evaluate();
+      cd.setSubmitRecords(results);
+    }
+    if (findOkRecord(results).isPresent()) {
       // Rules supplied a valid solution.
-      return ImmutableList.of(ok.get());
+      return;
     } else if (results.isEmpty()) {
       throw new IllegalStateException(String.format(
           "SubmitRuleEvaluator.evaluate for change %s " +
@@ -407,19 +412,18 @@ public class MergeOp implements AutoCloseable {
 
     StringBuilder msgbuf = new StringBuilder();
     List<Change.Id> problemChanges = new ArrayList<>();
-    for (Change.Id id : cs.ids()) {
+    for (ChangeData cd : cs.changes()) {
       try {
-        ChangeData cd = changeDataFactory.create(db, id);
         if (cd.change().getStatus() != Change.Status.NEW){
           throw new ResourceConflictException("Change " +
               cd.change().getChangeId() + " is in state " +
               cd.change().getStatus());
         } else {
-          records.put(cd.change().getId(), checkSubmitRule(cd));
+          checkSubmitRule(cd);
         }
       } catch (ResourceConflictException e) {
         msgbuf.append(e.getMessage() + "\n");
-        problemChanges.add(id);
+        problemChanges.add(cd.getId());
       }
     }
     String reason = msgbuf.toString();
@@ -448,6 +452,7 @@ public class MergeOp implements AutoCloseable {
     logDebug("Beginning integration of {}", change);
     try {
       ChangeSet cs = mergeSuperSet.completeChangeSet(db, change);
+      reloadChanges(cs);
       logDebug("Calculated to merge {}", cs);
       if (checkSubmitRules) {
         logDebug("Checking submit rules and state");
@@ -462,6 +467,13 @@ public class MergeOp implements AutoCloseable {
     } catch (IOException e) {
       // Anything before the merge attempt is an error
       throw new OrmException(e);
+    }
+  }
+
+  private static void reloadChanges(ChangeSet cs) throws OrmException {
+    // Reload changes in case index was stale.
+    for (ChangeData cd : cs.changes()) {
+      cd.reloadChange();
     }
   }
 
@@ -697,8 +709,6 @@ public class MergeOp implements AutoCloseable {
     try {
       List<String> refNames = new ArrayList<>(cds.size());
       for (ChangeData cd : cds) {
-        // Reload change in case index was stale.
-        cd.reloadChange();
         Change c = cd.change();
         if (c != null) {
           refNames.add(c.currentPatchSetId().toRefName());
@@ -1061,9 +1071,9 @@ public class MergeOp implements AutoCloseable {
     logDebug("Add approval for " + cd + " from user " + user);
     ChangeUpdate update = updateFactory.create(control, timestamp);
     update.putReviewer(user.getAccountId(), REVIEWER);
-    List<SubmitRecord> record = records.get(cd.change().getId());
-    if (record != null) {
-      update.merge(record);
+    Optional<SubmitRecord> okRecord = findOkRecord(cd.getSubmitRecords());
+    if (okRecord.isPresent()) {
+      update.merge(ImmutableList.of(okRecord.get()));
     }
     db.changes().beginTransaction(cd.change().getId());
     try {

@@ -18,7 +18,6 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.TypeLiteral;
 
@@ -26,9 +25,7 @@ import com.google.inject.TypeLiteral;
 public class DatabaseModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(
-        new TypeLiteral<Database<ReviewDb>>() {}).in(SINGLETON);
-    bind(new TypeLiteral<Database<ReviewDb>>() {}).toProvider(
+    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toProvider(
         ReviewDbDatabaseProvider.class).in(SINGLETON);
   }
 }

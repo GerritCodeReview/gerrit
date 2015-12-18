@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.testutil;
+package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.AccountAccess;
 import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
@@ -37,170 +37,141 @@ import com.google.gerrit.reviewdb.server.SubmoduleSubscriptionAccess;
 import com.google.gerrit.reviewdb.server.SystemConfigAccess;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.Access;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 
-/** ReviewDb that is disabled for testing. */
-public class DisabledReviewDb implements ReviewDb {
-  public static class Disabled extends RuntimeException {
-    private static final long serialVersionUID = 1L;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    private Disabled() {
-      super("ReviewDb is disabled for this test");
-    }
-  }
+public class ReviewDbWrapper implements ReviewDb {
+  private final ReviewDb db;
 
-  @Override
-  public void close() {
-    // Do nothing.
-  }
-
-  @Override
-  public void commit() {
-    throw new Disabled();
-  }
-
-  @Override
-  public void rollback() {
-    throw new Disabled();
-  }
-
-  @Override
-  public void updateSchema(StatementExecutor e) {
-    throw new Disabled();
-  }
-
-  @Override
-  public void pruneSchema(StatementExecutor e) {
-    throw new Disabled();
-  }
-
-  @Override
-  public Access<?, ?>[] allRelations() {
-    throw new Disabled();
-  }
-
-  @Override
   public SchemaVersionAccess schemaVersion() {
-    throw new Disabled();
+    return db.schemaVersion();
   }
 
-  @Override
   public SystemConfigAccess systemConfig() {
-    throw new Disabled();
+    return db.systemConfig();
   }
 
-  @Override
   public AccountAccess accounts() {
-    throw new Disabled();
+    return db.accounts();
   }
 
-  @Override
   public AccountExternalIdAccess accountExternalIds() {
-    throw new Disabled();
+    return db.accountExternalIds();
   }
 
-  @Override
   public AccountSshKeyAccess accountSshKeys() {
-    throw new Disabled();
+    return db.accountSshKeys();
   }
 
-  @Override
   public AccountGroupAccess accountGroups() {
-    throw new Disabled();
+    return db.accountGroups();
   }
 
-  @Override
   public AccountGroupNameAccess accountGroupNames() {
-    throw new Disabled();
+    return db.accountGroupNames();
   }
 
-  @Override
   public AccountGroupMemberAccess accountGroupMembers() {
-    throw new Disabled();
+    return db.accountGroupMembers();
   }
 
-  @Override
   public AccountGroupMemberAuditAccess accountGroupMembersAudit() {
-    throw new Disabled();
+    return db.accountGroupMembersAudit();
   }
 
-  @Override
   public StarredChangeAccess starredChanges() {
-    throw new Disabled();
+    return db.starredChanges();
   }
 
-  @Override
   public AccountProjectWatchAccess accountProjectWatches() {
-    throw new Disabled();
+    return db.accountProjectWatches();
   }
 
-  @Override
+  public void commit() throws OrmException {
+    db.commit();
+  }
+
   public AccountPatchReviewAccess accountPatchReviews() {
-    throw new Disabled();
+    return db.accountPatchReviews();
   }
 
-  @Override
+  public void rollback() throws OrmException {
+    db.rollback();
+  }
+
   public ChangeAccess changes() {
-    throw new Disabled();
+    return new ChangeAccessWrapper(db.changes());
   }
 
-  @Override
   public PatchSetApprovalAccess patchSetApprovals() {
-    throw new Disabled();
+    return db.patchSetApprovals();
   }
 
-  @Override
+  public void updateSchema(StatementExecutor e) throws OrmException {
+    db.updateSchema(e);
+  }
+
   public ChangeMessageAccess changeMessages() {
-    throw new Disabled();
+    return db.changeMessages();
   }
 
-  @Override
   public PatchSetAccess patchSets() {
-    throw new Disabled();
+    return new PatchSetAccessWrapper(db.patchSets());
   }
 
-  @Override
   public PatchLineCommentAccess patchComments() {
-    throw new Disabled();
+    return new PatchLineCommentAccessWrapper(db.patchComments());
   }
 
-  @Override
   public SubmoduleSubscriptionAccess submoduleSubscriptions() {
-    throw new Disabled();
+    return db.submoduleSubscriptions();
   }
 
-  @Override
   public AccountGroupByIdAccess accountGroupById() {
-    throw new Disabled();
+    return db.accountGroupById();
   }
 
-  @Override
   public AccountGroupByIdAudAccess accountGroupByIdAud() {
-    throw new Disabled();
+    return db.accountGroupByIdAud();
   }
 
-  @Override
-  public int nextAccountId() {
-    throw new Disabled();
+  public int nextAccountId() throws OrmException {
+    return db.nextAccountId();
   }
 
-  @Override
-  public int nextAccountGroupId() {
-    throw new Disabled();
+  public void pruneSchema(StatementExecutor e) throws OrmException {
+    db.pruneSchema(e);
   }
 
-  @Override
-  public int nextChangeId() {
-    throw new Disabled();
+  public int nextAccountGroupId() throws OrmException {
+    return db.nextAccountGroupId();
   }
 
-  @Override
-  public int nextChangeMessageId() {
-    throw new Disabled();
+  public int nextChangeId() throws OrmException {
+    return db.nextChangeId();
+  }
+
+  public int nextChangeMessageId() throws OrmException {
+    return db.nextChangeMessageId();
+  }
+
+  public Access<?, ?>[] allRelations() {
+    return db.allRelations();
+  }
+
+  public void close() {
+    db.close();
+  }
+
+  public ReviewDbWrapper(ReviewDb db) {
+    this.db = db;
   }
 
   @Override
   public JdbcSchema asJdbcSchema() {
-    throw new Disabled();
+    return (JdbcSchema) db;
   }
 }

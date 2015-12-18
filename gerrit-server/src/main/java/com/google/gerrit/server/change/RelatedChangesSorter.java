@@ -95,8 +95,10 @@ class RelatedChangesSorter {
     }
 
     List<PatchSetData> ancestors = walkAncestors(ctl, parents, start);
+    System.err.println("=== RelatedChangesSorter: " + ancestors.size() + " ancestors");
     List<PatchSetData> descendants =
         walkDescendants(ctl, children, start, otherPatchSetsOfStart, ancestors);
+    System.err.println("=== RelatedChangesSorter: " + descendants.size() + " descendants");
     List<PatchSetData> result =
         new ArrayList<>(ancestors.size() + descendants.size() - 1);
     result.addAll(Lists.reverse(descendants));

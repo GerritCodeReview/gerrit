@@ -54,7 +54,7 @@ class ScriptRunner {
 
   void run(final ReviewDb db) throws OrmException {
     try {
-      final JdbcSchema schema = (JdbcSchema) db;
+      final JdbcSchema schema = (JdbcSchema) db.asJdbcSchema();
       final Connection c = schema.getConnection();
       final SqlDialect dialect = schema.getDialect();
       try (Statement stmt = c.createStatement()) {

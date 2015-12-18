@@ -73,7 +73,7 @@ public class SchemaCreator {
 
   public void create(final ReviewDb db) throws OrmException, IOException,
       ConfigInvalidException {
-    final JdbcSchema jdbc = (JdbcSchema) db;
+    final JdbcSchema jdbc = (JdbcSchema) db.asJdbcSchema();
     try (JdbcExecutor e = new JdbcExecutor(jdbc)) {
       jdbc.updateSchema(e);
     }

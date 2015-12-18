@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.SystemConfig;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.Relation;
 import com.google.gwtorm.server.Schema;
@@ -124,4 +125,6 @@ public interface ReviewDb extends Schema {
    */
   @Sequence
   int nextChangeMessageId() throws OrmException;
+
+  JdbcSchema asJdbcSchema();
 }

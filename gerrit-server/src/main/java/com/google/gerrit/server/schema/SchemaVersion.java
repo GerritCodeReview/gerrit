@@ -79,7 +79,7 @@ public abstract class SchemaVersion {
     updateSchema(pending, ui, db);
     migrateData(pending, ui, curr, db);
 
-    JdbcSchema s = (JdbcSchema) db;
+    JdbcSchema s = (JdbcSchema) db.asJdbcSchema();
     final List<String> pruneList = Lists.newArrayList();
     s.pruneSchema(new StatementExecutor() {
       @Override
@@ -116,7 +116,7 @@ public abstract class SchemaVersion {
       v.preUpdateSchema(db);
     }
 
-    JdbcSchema s = (JdbcSchema) db;
+    JdbcSchema s = (JdbcSchema) db.asJdbcSchema();
     try (JdbcExecutor e = new JdbcExecutor(s)) {
       s.updateSchema(e);
     }
@@ -165,7 +165,7 @@ public abstract class SchemaVersion {
   /** Rename an existing table. */
   protected static void renameTable(ReviewDb db, String from, String to)
       throws OrmException {
-    JdbcSchema s = (JdbcSchema) db;
+    JdbcSchema s = (JdbcSchema) db.asJdbcSchema();
     try (JdbcExecutor e = new JdbcExecutor(s)) {
       s.renameTable(e, from, to);
     }
@@ -174,7 +174,7 @@ public abstract class SchemaVersion {
   /** Rename an existing column. */
   protected static void renameColumn(ReviewDb db, String table, String from, String to)
       throws OrmException {
-    JdbcSchema s = (JdbcSchema) db;
+    JdbcSchema s = (JdbcSchema) db.asJdbcSchema();
     try (JdbcExecutor e = new JdbcExecutor(s)) {
       s.renameField(e, table, from, to);
     }
@@ -189,17 +189,17 @@ public abstract class SchemaVersion {
 
   /** Open a new single statement. */
   protected static Statement newStatement(ReviewDb db) throws SQLException {
-    return ((JdbcSchema) db).getConnection().createStatement();
+    return ((JdbcSchema) db.asJdbcSchema()).getConnection().createStatement();
   }
 
   /** Open a new prepared statement. */
   protected static PreparedStatement prepareStatement(ReviewDb db, String sql)
       throws SQLException {
-    return ((JdbcSchema) db).getConnection().prepareStatement(sql);
+    return ((JdbcSchema) db.asJdbcSchema()).getConnection().prepareStatement(sql);
   }
 
   /** Open a new statement executor. */
   protected static JdbcExecutor newExecutor(ReviewDb db) throws OrmException {
-    return new JdbcExecutor(((JdbcSchema) db).getConnection());
+    return new JdbcExecutor(((JdbcSchema) db.asJdbcSchema()).getConnection());
   }
 }

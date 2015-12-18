@@ -15,24 +15,20 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.jdbc.JdbcSchema;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 
-import java.sql.SQLException;
-import java.sql.Statement;
+public class DatabaseWrapper implements SchemaFactory<ReviewDb>{
 
-public class Schema_107 extends SchemaVersion {
+  private final SchemaFactory<ReviewDb> db;
 
-  @Inject
-  Schema_107(Provider<Schema_106> prior) {
-    super(prior);
+  public DatabaseWrapper(SchemaFactory<ReviewDb> db) {
+    super();
+    this.db = db;
   }
 
-  @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
-    try (Statement stmt = ((JdbcSchema) db.asJdbcSchema()).getConnection().createStatement()) {
-      stmt.executeUpdate("UPDATE accounts set mute_common_path_prefixes = 'Y'");
-    }
+  public ReviewDb open() throws OrmException {
+    return new ReviewDbWrapper(db.open());
   }
+
 }

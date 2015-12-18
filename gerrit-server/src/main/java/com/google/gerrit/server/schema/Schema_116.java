@@ -31,7 +31,7 @@ public class Schema_116 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
     ui.message("Migrate user preference copySelfOnEmail to emailStrategy");
-    try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement()) {
+    try (Statement stmt = ((JdbcSchema) db.asJdbcSchema()).getConnection().createStatement()) {
       stmt.executeUpdate("UPDATE accounts SET "
           + "EMAIL_STRATEGY='ENABLED' "
           + "WHERE (COPY_SELF_ON_EMAIL='N')");

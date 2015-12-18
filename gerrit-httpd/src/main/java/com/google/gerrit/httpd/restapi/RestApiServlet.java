@@ -48,6 +48,7 @@ import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.ExtendedHttpAuditEvent;
+import com.google.gerrit.common.CurrentThreadExecution;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -202,6 +203,9 @@ public class RestApiServlet extends HttpServlet {
   @Override
   protected final void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
+    StringBuilder callerUrlBuff = CurrentThreadExecution.getCurrentCallStackLog();
+    callerUrlBuff.delete(0, callerUrlBuff.length());
+
     final long startNanos = System.nanoTime();
     long auditStartTs = TimeUtil.nowMs();
     res.setHeader("Content-Disposition", "attachment");
@@ -407,6 +411,18 @@ public class RestApiServlet extends HttpServlet {
       if (responseBytes != -1) {
         globals.metrics.responseBytes.record(metric, responseBytes);
       }
+
+      if (callerUrlBuff.length() > 0) {
+        callerUrlBuff.append(" - ");
+        callerUrlBuff.append(req.getRequestURI());
+        String queryParams = req.getQueryString();
+        if (queryParams != null) {
+          callerUrlBuff.append("?");
+          callerUrlBuff.append(queryParams);
+        }
+        log.info("{} - {}", callerUrlBuff, System.nanoTime() - startNanos);
+      }
+
       globals.metrics.serverLatency.record(
           metric,
           System.nanoTime() - startNanos,

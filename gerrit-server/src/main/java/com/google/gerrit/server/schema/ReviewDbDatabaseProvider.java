@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -25,7 +26,7 @@ import com.google.inject.name.Named;
 import javax.sql.DataSource;
 
 /** Provides the {@code Database<ReviewDb>} database handle. */
-final class ReviewDbDatabaseProvider implements Provider<Database<ReviewDb>> {
+final class ReviewDbDatabaseProvider implements Provider<SchemaFactory<ReviewDb>> {
   private final DataSource datasource;
 
   @Inject
@@ -34,9 +35,9 @@ final class ReviewDbDatabaseProvider implements Provider<Database<ReviewDb>> {
   }
 
   @Override
-  public Database<ReviewDb> get() {
+  public SchemaFactory<ReviewDb> get() {
     try {
-      return new Database<>(datasource, ReviewDb.class);
+      return new DatabaseWrapper(new Database<>(datasource, ReviewDb.class));
     } catch (OrmException e) {
       throw new ProvisionException("Cannot create ReviewDb", e);
     }

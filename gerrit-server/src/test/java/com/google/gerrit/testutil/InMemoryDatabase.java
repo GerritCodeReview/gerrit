@@ -20,6 +20,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.schema.ReviewDbWrapper;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.jdbc.Database;
@@ -104,7 +105,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
 
   @Override
   public ReviewDb open() throws OrmException {
-    return getDatabase().open();
+    return new ReviewDbWrapper(getDatabase().open());
   }
 
   /** Ensure the database schema has been created and initialized. */

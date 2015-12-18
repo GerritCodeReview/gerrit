@@ -34,7 +34,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -237,13 +236,11 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
       gApi.changes().id(r2.getChangeId()).current().submit();
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage("Merge Conflict");
-      Throwable t = e.getCause();
-      assertThat(t).isInstanceOf(IntegrationException.class);
-      assertThat(t.getMessage()).isEqualTo(
-          "Change " + r1.getChange().getId() + " has submit type CHERRY_PICK, "
-          + "but previously chose submit type MERGE_IF_NECESSARY from change "
-          + r2.getChange().getId() + " in the same batch");
+      assertThat(e).hasMessage(
+          "Failed to submit 2 changes due to the following problems:\n"
+          + "Change " + r1.getChange().getId() + ": Change has submit type "
+          + "CHERRY_PICK, but previously chose submit type MERGE_IF_NECESSARY "
+          + "from change " + r2.getChange().getId() + " in the same batch");
     }
   }
 

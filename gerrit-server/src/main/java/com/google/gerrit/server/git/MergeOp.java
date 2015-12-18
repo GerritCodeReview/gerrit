@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashBasedTable;
@@ -26,6 +27,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.hash.Hasher;
@@ -218,6 +220,7 @@ public class MergeOp implements AutoCloseable {
 
   private final Map<Project.NameKey, OpenRepo> openRepos;
   private final Map<Change.Id, CodeReviewCommit> commits;
+  private final Multimap<Change.Id, String> problems;
 
   private static final String MACHINE_ID;
   static {
@@ -280,6 +283,7 @@ public class MergeOp implements AutoCloseable {
 
     commits = new HashMap<>();
     openRepos = new HashMap<>();
+    problems = MultimapBuilder.linkedHashKeys().arrayListValues(1).build();
   }
 
   private OpenRepo openRepo(Project.NameKey project)
@@ -349,49 +353,15 @@ public class MergeOp implements AutoCloseable {
     for (SubmitRecord record : results) {
       switch (record.status) {
         case CLOSED:
-          throw new ResourceConflictException(String.format(
-              "change %s is closed", cd.getId()));
+          throw new ResourceConflictException("change is closed");
 
         case RULE_ERROR:
-          throw new ResourceConflictException(String.format(
-              "rule error for change %s: %s",
-              cd.getId(), record.errorMessage));
+          throw new ResourceConflictException(
+              "submit rule error: " + record.errorMessage);
 
         case NOT_READY:
-          StringBuilder msg = new StringBuilder();
-          msg.append(cd.getId() + ":");
-          for (SubmitRecord.Label lbl : record.labels) {
-            switch (lbl.status) {
-              case OK:
-              case MAY:
-                continue;
-
-              case REJECT:
-                msg.append(" blocked by ").append(lbl.label);
-                msg.append(";");
-                continue;
-
-              case NEED:
-                msg.append(" needs ").append(lbl.label);
-                msg.append(";");
-                continue;
-
-              case IMPOSSIBLE:
-                msg.append(" needs ").append(lbl.label)
-                .append(" (check project access)");
-                msg.append(";");
-                continue;
-
-              default:
-                throw new IllegalStateException(String.format(
-                    "Unsupported SubmitRecord.Label %s for %s in %s in %s",
-                    lbl.toString(),
-                    patchSet.getId(),
-                    cd.getId(),
-                    cd.change().getProject().get()));
-            }
-          }
-          throw new ResourceConflictException(msg.toString());
+          throw new ResourceConflictException(
+              describeLabels(cd, record.labels));
 
         default:
           throw new IllegalStateException(String.format(
@@ -404,31 +374,55 @@ public class MergeOp implements AutoCloseable {
     throw new IllegalStateException();
   }
 
-  private void checkSubmitRulesAndState(ChangeSet cs)
-      throws ResourceConflictException, OrmException {
+  private static String describeLabels(ChangeData cd,
+      List<SubmitRecord.Label> labels) throws OrmException {
+    List<String> labelResults = new ArrayList<>();
+    for (SubmitRecord.Label lbl : labels) {
+      switch (lbl.status) {
+        case OK:
+        case MAY:
+          break;
 
-    StringBuilder msgbuf = new StringBuilder();
-    List<Change.Id> problemChanges = new ArrayList<>();
+        case REJECT:
+          labelResults.add("blocked by " + lbl.label);
+          break;
+
+        case NEED:
+          labelResults.add("needs " + lbl.label);
+          break;
+
+        case IMPOSSIBLE:
+          labelResults.add(
+              "needs " + lbl.label + " (check project access)");
+          break;
+
+        default:
+          throw new IllegalStateException(String.format(
+              "Unsupported SubmitRecord.Label %s for %s in %s",
+              lbl,
+              cd.change().currentPatchSetId(),
+              cd.change().getProject()));
+      }
+    }
+    return Joiner.on("; ").join(labelResults);
+  }
+
+  private void checkSubmitRulesAndState(ChangeSet cs) {
     for (ChangeData cd : cs.changes()) {
       try {
-        if (cd.change().getStatus() != Change.Status.NEW){
-          throw new ResourceConflictException("Change " +
-              cd.change().getChangeId() + " is in state " +
-              cd.change().getStatus());
+        if (cd.change().getStatus() != Change.Status.NEW) {
+          problems.put(cd.getId(), "Change " + cd.getId() + " is "
+              + cd.change().getStatus().toString().toLowerCase());
         } else {
           checkSubmitRule(cd);
         }
       } catch (ResourceConflictException e) {
-        msgbuf.append(e.getMessage() + "\n");
-        problemChanges.add(cd.getId());
+        problems.put(cd.getId(), e.getMessage());
+      } catch (OrmException e) {
+        String msg = "Error checking submit rules for change";
+        log.warn(msg + " " + cd.getId(), e);
+        problems.put(cd.getId(), msg);
       }
-    }
-    String reason = msgbuf.toString();
-    if (!reason.isEmpty()) {
-        throw new ResourceConflictException("The change could not be " +
-            "submitted because it depends on change(s) " +
-            problemChanges.toString() + ", which could not be submitted " +
-            "because:\n" + reason);
     }
   }
 
@@ -454,6 +448,7 @@ public class MergeOp implements AutoCloseable {
       if (checkSubmitRules) {
         logDebug("Checking submit rules and state");
         checkSubmitRulesAndState(cs);
+        failFast(cs); // Done checks that don't involve opening repo.
       }
       try {
         integrateIntoHistory(cs, caller);
@@ -474,6 +469,19 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  private void failFast(ChangeSet cs) throws ResourceConflictException {
+    if (problems.isEmpty()) {
+      return;
+    }
+    String msg = "Failed to submit " + cs.size() + " change"
+        + (cs.size() > 1 ? "s" : "") + " due to the following problems:\n";
+    List<String> ps = new ArrayList<>(problems.keySet().size());
+    for (Change.Id id : problems.keySet()) {
+      ps.add("Change " + id + ": " + Joiner.on("; ").join(problems.get(id)));
+    }
+    throw new ResourceConflictException(msg + Joiner.on('\n').join(ps));
+  }
+
   private void integrateIntoHistory(ChangeSet cs, IdentifiedUser caller)
       throws IntegrationException, NoSuchChangeException,
       ResourceConflictException {
@@ -483,13 +491,17 @@ public class MergeOp implements AutoCloseable {
     try {
       Multimap<Project.NameKey, Branch.NameKey> br = cs.branchesByProject();
       Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
+      for (Branch.NameKey branch : cbb.keySet()) {
+        OpenRepo or = openRepo(branch.getParentKey());
+        toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
+      }
+      failFast(cs); // Done checks that don't involve running submit strategies.
+
       for (Project.NameKey project : br.keySet()) {
         OpenRepo or = openRepo(project);
         for (Branch.NameKey branch : br.get(project)) {
-          BranchBatch submitting = validateChangeList(or, cbb.get(branch));
-          toSubmit.put(branch, submitting);
-
           OpenBranch ob = or.getBranch(branch);
+          BranchBatch submitting = toSubmit.get(branch);
           SubmitStrategy strategy = createStrategy(or, branch,
               submitting.submitType(), ob.oldTip, caller);
           ob.mergeTip = preMerge(strategy, submitting.changes(), ob.oldTip);
@@ -497,6 +509,7 @@ public class MergeOp implements AutoCloseable {
           or.ins.flush();
         }
       }
+
       Set<Branch.NameKey> done =
           Sets.newHashSetWithExpectedSize(cbb.keySet().size());
       logDebug("Write out the new branch tips");
@@ -590,6 +603,17 @@ public class MergeOp implements AutoCloseable {
     abstract List<ChangeData> changes();
   }
 
+  private void logProblem(Change.Id id, Throwable t) {
+    String msg = "Error reading change";
+    log.error(msg + " " + id, t);
+    problems.put(id, msg);
+  }
+
+  private void logProblem(Change.Id id, String msg) {
+    log.error(msg + " " + id);
+    problems.put(id, msg);
+  }
+
   private BranchBatch validateChangeList(OpenRepo or,
       Collection<ChangeData> submitted) throws IntegrationException {
     logDebug("Validating {} changes", submitted.size());
@@ -599,22 +623,20 @@ public class MergeOp implements AutoCloseable {
     SubmitType submitType = null;
     ChangeData choseSubmitTypeFrom = null;
     for (ChangeData cd : submitted) {
+      Change.Id changeId = cd.getId();
       ChangeControl ctl;
       Change chg;
       try {
         ctl = cd.changeControl();
         chg = cd.change();
       } catch (OrmException e) {
-        throw new IntegrationException("Failed to validate changes", e);
-      }
-      Change.Id changeId = cd.getId();
-      if (chg.getStatus() != Change.Status.NEW) {
-        logDebug("Change {} is not new: {}", changeId, chg.getStatus());
+        logProblem(changeId, e);
         continue;
       }
       if (chg.currentPatchSetId() == null) {
-        logError("Missing current patch set on change " + changeId);
-        commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
+        String msg = "Missing current patch set on change";
+        logError(msg + " " + changeId);
+        problems.put(changeId, msg);
         continue;
       }
 
@@ -623,12 +645,12 @@ public class MergeOp implements AutoCloseable {
       try {
         ps = cd.currentPatchSet();
       } catch (OrmException e) {
-        throw new IntegrationException("Cannot query the database", e);
+        logProblem(changeId, e);
+        continue;
       }
       if (ps == null || ps.getRevision() == null
           || ps.getRevision().get() == null) {
-        logError("Missing patch set or revision on change " + changeId);
-        commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
+        logProblem(changeId, "Missing patch set or revision on change");
         continue;
       }
 
@@ -636,9 +658,8 @@ public class MergeOp implements AutoCloseable {
       ObjectId id;
       try {
         id = ObjectId.fromString(idstr);
-      } catch (IllegalArgumentException iae) {
-        logError("Invalid revision on patch set " + ps.getId());
-        commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
+      } catch (IllegalArgumentException e) {
+        logProblem(changeId, e);
         continue;
       }
 
@@ -647,9 +668,9 @@ public class MergeOp implements AutoCloseable {
         // want to merge the issue. We can't safely do that if the
         // tip is not reachable.
         //
-        logError("Revision " + idstr + " of patch set " + ps.getId()
-            + " does not match " + ps.getId().toRefName());
-        commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
+        logProblem(changeId, "Revision " + idstr + " of patch set "
+            + ps.getPatchSetId() + " does not match " + ps.getId().toRefName()
+            + " for change");
         continue;
       }
 
@@ -657,8 +678,7 @@ public class MergeOp implements AutoCloseable {
       try {
         commit = or.rw.parseCommit(id);
       } catch (IOException e) {
-        logError("Invalid commit " + idstr + " on patch set " + ps.getId(), e);
-        commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
+        logProblem(changeId, e);
         continue;
       }
 
@@ -672,27 +692,25 @@ public class MergeOp implements AutoCloseable {
         mergeValidators.validatePreMerge(
             or.repo, commit, or.project, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
-        logDebug("Revision {} of patch set {} failed validation: {}",
-            idstr, ps.getId(), mve.getStatus());
         commit.setStatusCode(mve.getStatus());
+        problems.put(changeId, mve.getStatus().toString());
         continue;
       }
 
       SubmitType st = getSubmitType(cd, ps);
       if (st == null) {
-        logError("No submit type for revision " + idstr + " of patch set "
-            + ps.getId());
-        throw new IntegrationException(
-            "No submit type for change " + cd.getId());
+        logProblem(changeId, "No submit type for change");
+        continue;
       }
       if (submitType == null) {
         submitType = st;
         choseSubmitTypeFrom = cd;
       } else if (st != submitType) {
-        throw new IntegrationException(String.format(
-            "Change %s has submit type %s, but previously chose submit type %s "
+        problems.put(changeId, String.format(
+            "Change has submit type %s, but previously chose submit type %s "
             + "from change %s in the same batch",
-            cd.getId(), st, submitType, choseSubmitTypeFrom.getId()));
+            st, submitType, choseSubmitTypeFrom.getId()));
+        continue;
       }
       commit.add(or.canMergeFlag);
       toSubmit.add(cd);

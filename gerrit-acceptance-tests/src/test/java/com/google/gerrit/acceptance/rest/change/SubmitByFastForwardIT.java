@@ -73,9 +73,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
     Change.Id id1 = change1.getPatchSetId().getParentKey();
     submitWithConflict(change2.getChangeId(),
-        "The change could not be submitted because it depends on change(s) [" +
-        id1 + "], which could not be submitted because:\n" +
-        id1 + ": needs Code-Review;");
+        "Failed to submit 2 changes due to the following problems:\n"
+        + "Change " + id1 + ": needs Code-Review");
 
     RevCommit head = getRemoteHead();
     assertThat(head.getId()).isEqualTo(oldHead.getId());

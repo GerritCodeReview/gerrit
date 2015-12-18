@@ -256,5 +256,15 @@ class RelatedChangesSorter {
     public int hashCode() {
       return Objects.hash(patchSet().getId(), commit());
     }
+
+    @Override
+    public boolean equals(Object o) {
+      if (!(o instanceof PatchSetData)) {
+        return false;
+      }
+      PatchSetData p = (PatchSetData) o;
+      return patchSet().getId().equals(p.patchSet().getId())
+          && commit().equals(p.commit());
+    }
   }
 }

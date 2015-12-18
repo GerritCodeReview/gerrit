@@ -197,7 +197,6 @@ public class MergeOp implements AutoCloseable {
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
-  private final ChangeData.Factory changeDataFactory;
   private final ChangeHooks hooks;
   private final ChangeIndexer indexer;
   private final ChangeMessagesUtil cmUtil;
@@ -239,7 +238,6 @@ public class MergeOp implements AutoCloseable {
   MergeOp(AccountCache accountCache,
       ApprovalsUtil approvalsUtil,
       ChangeControl.GenericFactory changeControlFactory,
-      ChangeData.Factory changeDataFactory,
       ChangeHooks hooks,
       ChangeIndexer indexer,
       ChangeMessagesUtil cmUtil,
@@ -261,7 +259,6 @@ public class MergeOp implements AutoCloseable {
     this.accountCache = accountCache;
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
-    this.changeDataFactory = changeDataFactory;
     this.hooks = hooks;
     this.indexer = indexer;
     this.cmUtil = cmUtil;
@@ -681,7 +678,7 @@ public class MergeOp implements AutoCloseable {
         continue;
       }
 
-      SubmitType st = getSubmitType(commit.getControl(), ps);
+      SubmitType st = getSubmitType(cd, ps);
       if (st == null) {
         logError("No submit type for revision " + idstr + " of patch set "
             + ps.getId());
@@ -727,18 +724,17 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private SubmitType getSubmitType(ChangeControl ctl, PatchSet ps) {
+  private SubmitType getSubmitType(ChangeData cd, PatchSet ps) {
     try {
-      ChangeData cd = changeDataFactory.create(db, ctl);
       SubmitTypeRecord r = new SubmitRuleEvaluator(cd).setPatchSet(ps)
           .getSubmitType();
       if (r.status != SubmitTypeRecord.Status.OK) {
-        logError("Failed to get submit type for " + ctl.getChange().getKey());
+        logError("Failed to get submit type for " + cd.getId());
         return null;
       }
       return r.type;
     } catch (OrmException e) {
-      logError("Failed to get submit type for " + ctl.getChange().getKey(), e);
+      logError("Failed to get submit type for " + cd.getId(), e);
       return null;
     }
   }

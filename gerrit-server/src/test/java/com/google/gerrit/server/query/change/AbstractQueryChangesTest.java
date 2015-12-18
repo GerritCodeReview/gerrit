@@ -35,6 +35,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -1157,6 +1158,31 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("commentby:" + userId.get(), change2, change1);
     assertQuery("commentby:" + user2);
+  }
+
+  @Test
+  public void byDraftBy() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(newChange(repo, null, null, null, null));
+    Change change2 = insert(newChange(repo, null, null, null, null));
+
+    DraftInput in = new DraftInput();
+    in.line = 1;
+    in.message = "nit: trailing whitespace";
+    in.path = Patch.COMMIT_MSG;
+    gApi.changes().id(change1.getId().get()).current().createDraft(in);
+
+    in = new DraftInput();
+    in.line = 2;
+    in.message = "nit: point in the end of the statement";
+    in.path = Patch.COMMIT_MSG;
+    gApi.changes().id(change2.getId().get()).current().createDraft(in);
+
+    int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
+        .getAccountId().get();
+
+    assertQuery("draftby:" + userId.get(), change2, change1);
+    assertQuery("draftby:" + user2);
   }
 
   @Test

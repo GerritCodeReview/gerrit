@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6afc9b2b_9efa3d8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-18T10:03:36Z",
+      "side": 1,
+      "message": "Yes, exactly. We should keep the existing logic as well whilst we are still on the old index version.",
+      "parentUuid": "6afc9b2b_fe038154",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 52
+      },
+      "revId": "9b0ead7685cd67e5a951f8918a3070598514a1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a0e2f27_77e9d0d5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
         "patchSetId": 2

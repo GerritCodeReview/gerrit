@@ -335,7 +335,7 @@ public abstract class OutgoingEmail {
       // If we have nobody to send this message to, then all of our
       // selection filters previously for this type of message were
       // unable to match a destination. Don't bother sending it.
-      log.info("Skipping delivery of email with no recipients");
+      log.warn("Skipping delivery of email with no recipients");
       return false;
     }
 

@@ -696,6 +696,24 @@ public class ChangeField {
         }
       };
 
+
+  /** Users who have draft comments on this change. */
+  public static final FieldDef<ChangeData, Iterable<Integer>> DRAFTBY =
+      new FieldDef.Repeatable<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_DRAFTBY, FieldType.INTEGER, false) {
+        @Override
+        public Iterable<Integer> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return ImmutableSet.copyOf(Iterables.transform(input.draftsByUser(),
+              new Function<Account.Id, Integer>() {
+            @Override
+            public Integer apply(Account.Id account) {
+              return account.get();
+            }
+          }));
+        }
+      };
+
   /**
    * Users the change was reviewed by since the last author update.
    * <p>

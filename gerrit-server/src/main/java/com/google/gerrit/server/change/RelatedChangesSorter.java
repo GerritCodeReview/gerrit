@@ -46,6 +46,7 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -102,7 +103,7 @@ class RelatedChangesSorter {
     System.err.println("=== RelatedChangesSorter: " + children.size() + " in children map");
     System.err.println("=== RelatedChangesSorter: " + children.keySet().size() + " keys in children map");
 
-    List<PatchSetData> ancestors = walkAncestors(ctl, parents, start);
+    Collection<PatchSetData> ancestors = walkAncestors(ctl, parents, start);
     System.err.println("=== RelatedChangesSorter: " + ancestors.size() + " ancestors");
     List<PatchSetData> descendants =
         walkDescendants(ctl, children, start, otherPatchSetsOfStart, ancestors);
@@ -137,15 +138,15 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private static List<PatchSetData> walkAncestors(ProjectControl ctl,
+  private static Collection<PatchSetData> walkAncestors(ProjectControl ctl,
       ListMultimap<PatchSetData, PatchSetData> parents, PatchSetData start)
       throws OrmException {
-    List<PatchSetData> result = new ArrayList<>();
+    LinkedHashSet<PatchSetData> result = new LinkedHashSet<>();
     Deque<PatchSetData> pending = new ArrayDeque<>();
     pending.add(start);
     while (!pending.isEmpty()) {
       PatchSetData psd = pending.remove();
-      if (!isVisible(psd, ctl)) {
+      if (result.contains(psd) || !isVisible(psd, ctl)) {
         continue;
       }
       result.add(psd);
@@ -157,7 +158,7 @@ class RelatedChangesSorter {
   private static List<PatchSetData> walkDescendants(ProjectControl ctl,
       ListMultimap<PatchSetData, PatchSetData> children,
       PatchSetData start, List<PatchSetData> otherPatchSetsOfStart,
-      List<PatchSetData> ancestors)
+      Iterable<PatchSetData> ancestors)
       throws OrmException {
     Set<Change.Id> alreadyEmittedChanges = new HashSet<>();
     addAllChangeIds(alreadyEmittedChanges, ancestors);

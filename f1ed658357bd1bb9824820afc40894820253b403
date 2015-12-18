@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6afc9b2b_de4fa5b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-18T11:23:03Z",
+      "side": 1,
+      "message": "Think this was unintentional: the Author was set by a local git setting and the Commiter by the Gerrit on-line edit :-)",
+      "parentUuid": "aa0bf316_98fa558d",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 37
+      },
+      "revId": "f1ed658357bd1bb9824820afc40894820253b403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa0bf316_783f8106",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-12-18T11:08:54Z",
       "side": 1,
       "message": "We should be able to get the actual path and filename.",
+      "range": {
+        "startLine": 55,
+        "startChar": 44,
+        "endLine": 55,
+        "endChar": 55
+      },
+      "revId": "f1ed658357bd1bb9824820afc40894820253b403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_9e591d88",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-18T11:23:03Z",
+      "side": 1,
+      "message": "Yep, apart from the executions from Eclipse :o)",
+      "parentUuid": "aa0bf316_783f8106",
       "range": {
         "startLine": 55,
         "startChar": 44,

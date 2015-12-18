@@ -15,65 +15,25 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.server.query.OperatorPredicate;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
-import com.google.gwtorm.server.ListResultSet;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
-    ChangeDataSource {
-  private final Arguments args;
+class HasDraftByPredicate extends IndexPredicate<ChangeData> {
   private final Account.Id accountId;
 
-  HasDraftByPredicate(Arguments args,
-      Account.Id accountId) {
-    super(ChangeQueryBuilder.FIELD_DRAFTBY, accountId.toString());
-    this.args = args;
+  HasDraftByPredicate(Account.Id accountId) {
+    super(ChangeField.DRAFTBY, accountId.toString());
     this.accountId = accountId;
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
-    return !args.plcUtil
-        .draftByChangeAuthor(args.db.get(), object.notes(), accountId)
-        .isEmpty();
-  }
-
-  @Override
-  public ResultSet<ChangeData> read() throws OrmException {
-    Set<Change.Id> ids = new HashSet<>();
-    for (PatchLineComment sc :
-        args.plcUtil.draftByAuthor(args.db.get(), accountId)) {
-      ids.add(sc.getKey().getParentKey().getParentKey().getParentKey());
-    }
-
-    List<ChangeData> r = new ArrayList<>(ids.size());
-    for (Change.Id id : ids) {
-      r.add(args.changeDataFactory.create(args.db.get(), id));
-    }
-    return new ListResultSet<>(r);
-  }
-
-  @Override
-  public boolean hasChange() {
-    return false;
-  }
-
-  @Override
-  public int getCardinality() {
-    return 20;
+  public boolean match(ChangeData cd) throws OrmException {
+    return cd.editsByUser().contains(accountId);
   }
 
   @Override
   public int getCost() {
-    return 0;
+    return 1;
   }
 }

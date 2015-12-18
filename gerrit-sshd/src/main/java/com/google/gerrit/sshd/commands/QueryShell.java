@@ -80,7 +80,7 @@ public class QueryShell {
     try {
       db = dbFactory.open();
       try {
-        connection = ((JdbcSchema) db).getConnection();
+        connection = ((JdbcSchema) db.asJdbcSchema()).getConnection();
         connection.setAutoCommit(true);
 
         statement = connection.createStatement();
@@ -106,7 +106,7 @@ public class QueryShell {
     try {
       db = dbFactory.open();
       try {
-        connection = ((JdbcSchema) db).getConnection();
+        connection = ((JdbcSchema) db.asJdbcSchema()).getConnection();
         connection.setAutoCommit(true);
 
         statement = connection.createStatement();

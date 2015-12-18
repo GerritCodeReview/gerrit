@@ -33,7 +33,7 @@ public class Schema_89 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException,
       SQLException {
-    SqlDialect dialect = ((JdbcSchema) db).getDialect();
+    SqlDialect dialect = ((JdbcSchema) db.asJdbcSchema()).getDialect();
     try (StatementExecutor e = newExecutor(db)) {
       dialect.dropIndex(e, "patch_set_approvals",
           "patch_set_approvals_openByUser");

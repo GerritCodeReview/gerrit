@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,18 +14,21 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.inject.Scopes.SINGLETON;
-
-import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.TypeLiteral;
 
-/** Loads the database with standard dependencies. */
-public class DatabaseModule extends FactoryModule {
-  @Override
-  protected void configure() {
-    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toProvider(
-        ReviewDbDatabaseProvider.class).in(SINGLETON);
+public class DatabaseWrapper implements SchemaFactory<ReviewDb>{
+
+  private final SchemaFactory<ReviewDb> db;
+
+  public DatabaseWrapper(SchemaFactory<ReviewDb> db) {
+    super();
+    this.db = db;
   }
+
+  public ReviewDb open() throws OrmException {
+    return new ReviewDbWrapper(db.open());
+  }
+
 }

@@ -146,6 +146,15 @@ public class RestApiServlet extends HttpServlet {
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
 
+  public static final ThreadLocal<StringBuilder> callerUrl =
+      new ThreadLocal<StringBuilder>() {
+          @Override protected StringBuilder initialValue() {
+              return new StringBuilder();
+      }
+  };
+
+  public static StringBuilder getCallerUrl() { return callerUrl.get(); }
+
   /**
    * Garbage prefix inserted before JSON output to prevent XSSI.
    * <p>
@@ -202,6 +211,15 @@ public class RestApiServlet extends HttpServlet {
   @Override
   protected final void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
+    StringBuilder callerUrlBuff = callerUrl.get();
+    callerUrlBuff.delete(0, callerUrlBuff.length());
+    callerUrlBuff.append(req.getRequestURI());
+    String queryParams = req.getQueryString();
+    if(queryParams != null) {
+      callerUrlBuff.append("?");
+      callerUrlBuff.append(queryParams);
+    }
+
     final long startNanos = System.nanoTime();
     long auditStartTs = TimeUtil.nowMs();
     res.setHeader("Content-Disposition", "attachment");
@@ -407,6 +425,7 @@ public class RestApiServlet extends HttpServlet {
       if (responseBytes != -1) {
         globals.metrics.responseBytes.record(metric, responseBytes);
       }
+      log.info("{} - {} nsec", callerUrlBuff,  System.nanoTime() - startNanos);
       globals.metrics.serverLatency.record(
           metric,
           System.nanoTime() - startNanos,

@@ -1252,9 +1252,6 @@ Only the change owner, a project owner, or an administrator may fix changes.
 [[edit-endpoints]]
 == Change Edit Endpoints
 
-These endpoints are considered to be unstable and can be changed in
-backwards incompatible way any time without notice.
-
 [[get-edit-detail]]
 === Get Change Edit Details
 --

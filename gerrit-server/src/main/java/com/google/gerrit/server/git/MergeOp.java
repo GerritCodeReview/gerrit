@@ -128,11 +128,13 @@ public class MergeOp implements AutoCloseable {
     final CodeReviewRevWalk rw;
     final RevFlag canMergeFlag;
     final ObjectInserter ins;
+    ProjectState project;
 
     private final Map<Branch.NameKey, OpenBranch> branches;
 
-    OpenRepo(Repository repo) {
+    OpenRepo(Repository repo, ProjectState project) {
       this.repo = repo;
+      this.project = project;
       rw = CodeReviewCommit.newRevWalk(repo);
       rw.sort(RevSort.TOPO);
       rw.sort(RevSort.COMMIT_TIME_DESC, true);
@@ -150,6 +152,10 @@ public class MergeOp implements AutoCloseable {
         branches.put(branch, ob);
       }
       return ob;
+    }
+
+    Project.NameKey getProjectName() {
+      return project.getProject().getNameKey();
     }
 
     void close() {
@@ -228,7 +234,6 @@ public class MergeOp implements AutoCloseable {
   private String staticSubmissionId;
   private String submissionId;
 
-  private ProjectState destProject;
   private ReviewDb db;
 
   @Inject
@@ -286,8 +291,12 @@ public class MergeOp implements AutoCloseable {
       throws NoSuchProjectException, IOException {
     OpenRepo repo = openRepos.get(project);
     if (repo == null) {
+      ProjectState projectState = projectCache.get(project);
+      if (projectState == null) {
+        throw new NoSuchProjectException(project);
+      }
       try {
-        repo = new OpenRepo(repoManager.openRepository(project));
+        repo = new OpenRepo(repoManager.openRepository(project), projectState);
       } catch (RepositoryNotFoundException e) {
         throw new NoSuchProjectException(project);
       }
@@ -300,15 +309,6 @@ public class MergeOp implements AutoCloseable {
   public void close() {
     for (OpenRepo repo : openRepos.values()) {
       repo.close();
-    }
-  }
-
-  private void setDestProject(Branch.NameKey destBranch)
-      throws IntegrationException {
-    destProject = projectCache.get(destBranch.getParentKey());
-    if (destProject == null) {
-      throw new IntegrationException(
-          "No such project: " + destBranch.getParentKey());
     }
   }
 
@@ -477,7 +477,6 @@ public class MergeOp implements AutoCloseable {
       for (Project.NameKey project : br.keySet()) {
         OpenRepo or = openRepo(project);
         for (Branch.NameKey branch : br.get(project)) {
-          setDestProject(branch);
           BranchBatch submitting = validateChangeList(or, cbb.get(branch));
           toSubmit.put(branch, submitting);
 
@@ -499,7 +498,6 @@ public class MergeOp implements AutoCloseable {
           OpenBranch ob = or.getBranch(branch);
           boolean updated = updateBranch(or, branch, caller);
 
-          setDestProject(branch);
           BranchBatch submitting = toSubmit.get(branch);
           updateChangeStatus(ob, submitting.changes(), false, caller);
           updateSubmoduleSubscriptions(ob, subOp);
@@ -663,7 +661,7 @@ public class MergeOp implements AutoCloseable {
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(
-            or.repo, commit, destProject, destBranch, ps.getId());
+            or.repo, commit, or.project, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
         logDebug("Revision {} of patch set {} failed validation: {}",
             idstr, ps.getId(), mve.getStatus());
@@ -755,13 +753,12 @@ public class MergeOp implements AutoCloseable {
     if (RefNames.REFS_CONFIG.equals(ob.update.getName())) {
       logDebug("Loading new configuration from {}", RefNames.REFS_CONFIG);
       try {
-        ProjectConfig cfg =
-            new ProjectConfig(destProject.getProject().getNameKey());
+        ProjectConfig cfg = new ProjectConfig(or.getProjectName());
         cfg.load(or.repo, currentTip);
       } catch (Exception e) {
         throw new IntegrationException("Submit would store invalid"
             + " project configuration " + currentTip.name() + " for "
-            + destProject.getProject().getName(), e);
+            + or.getProjectName(), e);
       }
     }
 
@@ -786,9 +783,9 @@ public class MergeOp implements AutoCloseable {
           }
 
           if (RefNames.REFS_CONFIG.equals(ob.update.getName())) {
-            Project p = destProject.getProject();
+            Project p = or.project.getProject();
             projectCache.evict(p);
-            destProject = projectCache.get(p.getNameKey());
+            or.project = projectCache.get(p.getNameKey());
             repoManager.setProjectDescription(
                 p.getNameKey(), p.getDescription());
           }

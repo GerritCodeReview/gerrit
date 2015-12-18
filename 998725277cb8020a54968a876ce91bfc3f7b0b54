@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a06230b_5c44bda0",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012702
+      },
+      "writtenOn": "2015-12-18T15:55:49Z",
+      "side": 1,
+      "message": "May be add a workaround for Gerrit trigger plugin older than 2.15.1 to modify Gerrit trigger configuration for branch \"\u003cbranch-name\u003e\" to be \"refs/*/\u003cbranch-name\u003e\".",
+      "revId": "998725277cb8020a54968a876ce91bfc3f7b0b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

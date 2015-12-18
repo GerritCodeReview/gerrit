@@ -29,6 +29,13 @@ link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
 *WARNING:* The Solr secondary index is no longer supported. With this release
 the only supported secondary index is Lucene.
 
+*WARNING:* The format of the `ref-updated` event has changed. Users of the
+link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[
+Jenkins Gerrit Trigger plugin] with jobs triggering on `ref-updated` should
+upgrade to at least
+link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger#GerritTrigger-Version2.15.1%28releasedSept142015%29[
+version 2.15.1].
+
 
 Release Highlights
 ------------------
@@ -456,11 +463,16 @@ projects that have the 'Require Change-Id' configuration enabled.
 download-commands plugin: Fix clone with commit-msg hook when project name
 contains '/'.
 
-* Include full ref names in `ref-updated` events.
+* Use full ref name in `refName` attribute of `ref-updated` events.
 +
 The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/json.html#refUpdate[
 refUpdate attribute] in `ref-updated` events did not include the full name
-of the ref, i.e. `master` instead of `refs/heads/master`.
+of the ref in the `refName` attibute, i.e. `master` was used instead of
+`refs/heads/master`.
++
+Support for the new format is added in
+link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger#GerritTrigger-Version2.15.1%28releasedSept142015%29[
+version 2.15.1 of the Jenkins Gerrit Trigger plugin].
 
 
 Upgrades

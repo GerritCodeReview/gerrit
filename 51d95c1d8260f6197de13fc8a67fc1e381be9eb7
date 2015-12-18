@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa0bf316_3820e9d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-12-18T23:40:21Z",
+      "side": 1,
+      "message": "log\u003cFoo\u003e sounds like it is only logging it to the appropriate channel, similar to like logError, logDebug etc at the end of this class.\n\nSo if this name is good, put these functions at the end of the file, or rename them?\n\n  collectProblem\n  addProblem\n  recordProblem\n  logAndRecordProblem ?",
+      "range": {
+        "startLine": 603,
+        "startChar": 15,
+        "endLine": 603,
+        "endChar": 25
+      },
+      "revId": "51d95c1d8260f6197de13fc8a67fc1e381be9eb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

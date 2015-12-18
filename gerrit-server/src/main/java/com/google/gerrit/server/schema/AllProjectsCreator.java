@@ -114,68 +114,69 @@ public class AllProjectsCreator {
 
   private void initAllProjects(Repository git)
       throws IOException, ConfigInvalidException {
-    MetaDataUpdate md = new MetaDataUpdate(
-        GitReferenceUpdated.DISABLED,
-        allProjectsName,
-        git);
-    md.getCommitBuilder().setAuthor(serverUser);
-    md.getCommitBuilder().setCommitter(serverUser);
-    md.setMessage(MoreObjects.firstNonNull(
-        Strings.emptyToNull(message),
-        "Initialized Gerrit Code Review " + Version.getVersion()));
+    try (MetaDataUpdate md = new MetaDataUpdate(
+          GitReferenceUpdated.DISABLED,
+          allProjectsName,
+          git)) {
+      md.getCommitBuilder().setAuthor(serverUser);
+      md.getCommitBuilder().setCommitter(serverUser);
+      md.setMessage(MoreObjects.firstNonNull(
+          Strings.emptyToNull(message),
+          "Initialized Gerrit Code Review " + Version.getVersion()));
 
-    ProjectConfig config = ProjectConfig.read(md);
-    Project p = config.getProject();
-    p.setDescription("Access inherited by all other projects.");
-    p.setRequireChangeID(InheritableBoolean.TRUE);
-    p.setUseContentMerge(InheritableBoolean.TRUE);
-    p.setUseContributorAgreements(InheritableBoolean.FALSE);
-    p.setUseSignedOffBy(InheritableBoolean.FALSE);
-    p.setEnableSignedPush(InheritableBoolean.FALSE);
+      ProjectConfig config = ProjectConfig.read(md);
+      Project p = config.getProject();
+      p.setDescription("Access inherited by all other projects.");
+      p.setRequireChangeID(InheritableBoolean.TRUE);
+      p.setUseContentMerge(InheritableBoolean.TRUE);
+      p.setUseContributorAgreements(InheritableBoolean.FALSE);
+      p.setUseSignedOffBy(InheritableBoolean.FALSE);
+      p.setEnableSignedPush(InheritableBoolean.FALSE);
 
-    AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
-    AccessSection all = config.getAccessSection(AccessSection.ALL, true);
-    AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
-    AccessSection tags = config.getAccessSection("refs/tags/*", true);
-    AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
-    AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
+      AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
+      AccessSection all = config.getAccessSection(AccessSection.ALL, true);
+      AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
+      AccessSection tags = config.getAccessSection("refs/tags/*", true);
+      AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
+      AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
 
-    grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
-    grant(config, all, Permission.READ, admin, anonymous);
+      grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
+      grant(config, all, Permission.READ, admin, anonymous);
 
-    if (batch != null) {
-      Permission priority = cap.getPermission(GlobalCapability.PRIORITY, true);
-      PermissionRule r = rule(config, batch);
-      r.setAction(Action.BATCH);
-      priority.add(r);
+      if (batch != null) {
+        Permission priority = cap.getPermission(GlobalCapability.PRIORITY, true);
+        PermissionRule r = rule(config, batch);
+        r.setAction(Action.BATCH);
+        priority.add(r);
 
-      Permission stream = cap.getPermission(GlobalCapability.STREAM_EVENTS, true);
-      stream.add(rule(config, batch));
+        Permission stream = cap.getPermission(GlobalCapability.STREAM_EVENTS, true);
+        stream.add(rule(config, batch));
+      }
+
+      LabelType cr = initCodeReviewLabel(config);
+      grant(config, heads, cr, -1, 1, registered);
+      grant(config, heads, cr, -2, 2, admin, owners);
+      grant(config, heads, Permission.CREATE, admin, owners);
+      grant(config, heads, Permission.PUSH, admin, owners);
+      grant(config, heads, Permission.SUBMIT, admin, owners);
+      grant(config, heads, Permission.FORGE_AUTHOR, registered);
+      grant(config, heads, Permission.FORGE_COMMITTER, admin, owners);
+      grant(config, heads, Permission.EDIT_TOPIC_NAME, true, admin, owners);
+
+      grant(config, tags, Permission.PUSH_TAG, admin, owners);
+      grant(config, tags, Permission.PUSH_SIGNED_TAG, admin, owners);
+
+      grant(config, magic, Permission.PUSH, registered);
+      grant(config, magic, Permission.PUSH_MERGE, registered);
+
+      meta.getPermission(Permission.READ, true).setExclusiveGroup(true);
+      grant(config, meta, Permission.READ, admin, owners);
+      grant(config, meta, cr, -2, 2, admin, owners);
+      grant(config, meta, Permission.PUSH, admin, owners);
+      grant(config, meta, Permission.SUBMIT, admin, owners);
+
+      config.commitToNewRef(md, RefNames.REFS_CONFIG);
     }
-
-    LabelType cr = initCodeReviewLabel(config);
-    grant(config, heads, cr, -1, 1, registered);
-    grant(config, heads, cr, -2, 2, admin, owners);
-    grant(config, heads, Permission.CREATE, admin, owners);
-    grant(config, heads, Permission.PUSH, admin, owners);
-    grant(config, heads, Permission.SUBMIT, admin, owners);
-    grant(config, heads, Permission.FORGE_AUTHOR, registered);
-    grant(config, heads, Permission.FORGE_COMMITTER, admin, owners);
-    grant(config, heads, Permission.EDIT_TOPIC_NAME, true, admin, owners);
-
-    grant(config, tags, Permission.PUSH_TAG, admin, owners);
-    grant(config, tags, Permission.PUSH_SIGNED_TAG, admin, owners);
-
-    grant(config, magic, Permission.PUSH, registered);
-    grant(config, magic, Permission.PUSH_MERGE, registered);
-
-    meta.getPermission(Permission.READ, true).setExclusiveGroup(true);
-    grant(config, meta, Permission.READ, admin, owners);
-    grant(config, meta, cr, -2, 2, admin, owners);
-    grant(config, meta, Permission.PUSH, admin, owners);
-    grant(config, meta, Permission.SUBMIT, admin, owners);
-
-    config.commitToNewRef(md, RefNames.REFS_CONFIG);
   }
 
   public static LabelType initCodeReviewLabel(ProjectConfig c) {

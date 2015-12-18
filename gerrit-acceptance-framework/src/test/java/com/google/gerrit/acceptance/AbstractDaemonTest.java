@@ -519,20 +519,22 @@ public abstract class AbstractDaemonTest {
 
   protected void setUseContributorAgreements(InheritableBoolean value)
       throws Exception {
-    MetaDataUpdate md = metaDataUpdateFactory.create(project);
-    ProjectConfig config = ProjectConfig.read(md);
-    config.getProject().setUseContributorAgreements(value);
-    config.commit(md);
-    projectCache.evict(config.getProject());
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig config = ProjectConfig.read(md);
+      config.getProject().setUseContributorAgreements(value);
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    }
   }
 
   protected void setUseSignedOffBy(InheritableBoolean value)
       throws Exception {
-    MetaDataUpdate md = metaDataUpdateFactory.create(project);
-    ProjectConfig config = ProjectConfig.read(md);
-    config.getProject().setUseSignedOffBy(value);
-    config.commit(md);
-    projectCache.evict(config.getProject());
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig config = ProjectConfig.read(md);
+      config.getProject().setUseSignedOffBy(value);
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    }
   }
 
   protected void deny(String permission, AccountGroup.UUID id, String ref)
@@ -566,17 +568,18 @@ public abstract class AbstractDaemonTest {
   protected void grant(String permission, Project.NameKey project, String ref,
       boolean force) throws RepositoryNotFoundException, IOException,
       ConfigInvalidException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(project);
-    md.setMessage(String.format("Grant %s on %s", permission, ref));
-    ProjectConfig config = ProjectConfig.read(md);
-    AccessSection s = config.getAccessSection(ref, true);
-    Permission p = s.getPermission(permission, true);
-    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
-    PermissionRule rule = new PermissionRule(config.resolve(adminGroup));
-    rule.setForce(force);
-    p.add(rule);
-    config.commit(md);
-    projectCache.evict(config.getProject());
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      md.setMessage(String.format("Grant %s on %s", permission, ref));
+      ProjectConfig config = ProjectConfig.read(md);
+      AccessSection s = config.getAccessSection(ref, true);
+      Permission p = s.getPermission(permission, true);
+      AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+      PermissionRule rule = new PermissionRule(config.resolve(adminGroup));
+      rule.setForce(force);
+      p.add(rule);
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    }
   }
 
   protected void blockRead(String ref) throws Exception {

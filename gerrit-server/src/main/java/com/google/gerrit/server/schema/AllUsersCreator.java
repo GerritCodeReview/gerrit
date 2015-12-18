@@ -75,29 +75,30 @@ public class AllUsersCreator {
 
   private void initAllUsers(Repository git)
       throws IOException, ConfigInvalidException {
-    MetaDataUpdate md = new MetaDataUpdate(
-        GitReferenceUpdated.DISABLED,
-        allUsersName,
-        git);
-    md.getCommitBuilder().setAuthor(serverUser);
-    md.getCommitBuilder().setCommitter(serverUser);
-    md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
+    try (MetaDataUpdate md = new MetaDataUpdate(
+          GitReferenceUpdated.DISABLED,
+          allUsersName,
+          git)) {
+      md.getCommitBuilder().setAuthor(serverUser);
+      md.getCommitBuilder().setCommitter(serverUser);
+      md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
 
-    ProjectConfig config = ProjectConfig.read(md);
-    Project project = config.getProject();
-    project.setDescription("Individual user settings and preferences.");
+      ProjectConfig config = ProjectConfig.read(md);
+      Project project = config.getProject();
+      project.setDescription("Individual user settings and preferences.");
 
-    AccessSection all = config.getAccessSection(RefNames.REFS_USERS + "*", true);
-    all.getPermission(Permission.READ, true).setExclusiveGroup(true);
+      AccessSection all = config.getAccessSection(RefNames.REFS_USERS + "*", true);
+      all.getPermission(Permission.READ, true).setExclusiveGroup(true);
 
-    AccessSection defaults = config.getAccessSection(RefNames.REFS_USERS_DEFAULT, true);
-    defaults.getPermission(Permission.READ, true).setExclusiveGroup(true);
-    grant(config, defaults, Permission.READ, admin);
-    defaults.getPermission(Permission.PUSH, true).setExclusiveGroup(true);
-    grant(config, defaults, Permission.PUSH, admin);
-    defaults.getPermission(Permission.CREATE, true).setExclusiveGroup(true);
-    grant(config, defaults, Permission.CREATE, admin);
+      AccessSection defaults = config.getAccessSection(RefNames.REFS_USERS_DEFAULT, true);
+      defaults.getPermission(Permission.READ, true).setExclusiveGroup(true);
+      grant(config, defaults, Permission.READ, admin);
+      defaults.getPermission(Permission.PUSH, true).setExclusiveGroup(true);
+      grant(config, defaults, Permission.PUSH, admin);
+      defaults.getPermission(Permission.CREATE, true).setExclusiveGroup(true);
+      grant(config, defaults, Permission.CREATE, admin);
 
-    config.commit(md);
+      config.commit(md);
+    }
   }
 }

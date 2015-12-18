@@ -30,11 +30,8 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class ChangeOwnerIT extends AbstractDaemonTest {
 
@@ -80,20 +77,20 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     approve(a, changeId);
   }
 
-  private void grantApproveToChangeOwner() throws IOException,
-      ConfigInvalidException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(project);
-    md.setMessage(String.format("Grant approve to change owner"));
-    ProjectConfig config = ProjectConfig.read(md);
-    AccessSection s = config.getAccessSection("refs/heads/*", true);
-    Permission p = s.getPermission(LABEL + "Code-Review", true);
-    PermissionRule rule = new PermissionRule(config
-        .resolve(SystemGroupBackend.getGroup(SystemGroupBackend.CHANGE_OWNER)));
-    rule.setMin(-2);
-    rule.setMax(+2);
-    p.add(rule);
-    config.commit(md);
-    projectCache.evict(config.getProject());
+  private void grantApproveToChangeOwner() throws Exception {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      md.setMessage(String.format("Grant approve to change owner"));
+      ProjectConfig config = ProjectConfig.read(md);
+      AccessSection s = config.getAccessSection("refs/heads/*", true);
+      Permission p = s.getPermission(LABEL + "Code-Review", true);
+      PermissionRule rule = new PermissionRule(config
+          .resolve(SystemGroupBackend.getGroup(SystemGroupBackend.CHANGE_OWNER)));
+      rule.setMin(-2);
+      rule.setMax(+2);
+      p.add(rule);
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    }
   }
 
   private String createMyChange() throws Exception {

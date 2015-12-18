@@ -196,10 +196,11 @@ public class LabelNormalizerTest {
   }
 
   private void save(ProjectConfig pc) throws Exception {
-    MetaDataUpdate md =
-        metaDataUpdateFactory.create(pc.getProject().getNameKey(), user);
-    pc.commit(md);
-    projectCache.evict(pc.getProject().getNameKey());
+    try(MetaDataUpdate md =
+        metaDataUpdateFactory.create(pc.getProject().getNameKey(), user)) {
+      pc.commit(md);
+      projectCache.evict(pc.getProject().getNameKey());
+    }
   }
 
   private PatchSetApproval psa(Account.Id accountId, String label, int value) {

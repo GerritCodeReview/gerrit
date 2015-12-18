@@ -249,17 +249,18 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
   private RevCommit commit(ProjectConfig cfg) throws IOException,
       MissingObjectException, IncorrectObjectTypeException {
-    MetaDataUpdate md = new MetaDataUpdate(
-        GitReferenceUpdated.DISABLED,
-        cfg.getProject().getNameKey(),
-        db);
-    util.tick(5);
-    util.setAuthorAndCommitter(md.getCommitBuilder());
-    md.setMessage("Edit\n");
-    cfg.commit(md);
+    try (MetaDataUpdate md = new MetaDataUpdate(
+          GitReferenceUpdated.DISABLED,
+          cfg.getProject().getNameKey(),
+          db)) {
+      util.tick(5);
+      util.setAuthorAndCommitter(md.getCommitBuilder());
+      md.setMessage("Edit\n");
+      cfg.commit(md);
 
-    Ref ref = db.getRef(RefNames.REFS_CONFIG);
-    return util.getRevWalk().parseCommit(ref.getObjectId());
+      Ref ref = db.getRef(RefNames.REFS_CONFIG);
+      return util.getRevWalk().parseCommit(ref.getObjectId());
+    }
   }
 
   private void update(RevCommit rev) throws Exception {

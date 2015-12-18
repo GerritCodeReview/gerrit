@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "aa0bf316_58c71d6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-18T00:20:37Z",
+      "side": 1,
+      "message": "\"a\" refers to \"Side A\".",
+      "parentUuid": "4af7d747_3da56fc0",
+      "range": {
+        "startLine": 60,
+        "startChar": 63,
+        "endLine": 60,
+        "endChar": 68
+      },
+      "revId": "2b3f426276e36d58c7857247d7b6ece8a4701197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6afc9b2b_1eaaad90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2015-12-17T17:52:23Z",
       "side": 1,
       "message": "Do we really use this naming convention: aFoo?",
+      "range": {
+        "startLine": 61,
+        "startChar": 20,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "2b3f426276e36d58c7857247d7b6ece8a4701197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_38bc69d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-18T00:20:37Z",
+      "side": 1,
+      "message": "Per previous comment, the \"a\" refers to side A.",
+      "parentUuid": "6afc9b2b_1eaaad90",
       "range": {
         "startLine": 61,
         "startChar": 20,

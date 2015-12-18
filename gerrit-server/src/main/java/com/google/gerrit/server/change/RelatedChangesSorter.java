@@ -65,6 +65,7 @@ class RelatedChangesSorter {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<String, PatchSetData> byId = collectById(in);
+    System.err.println("=== RelatedChangesSorter: " + byId.size() + " total revisions");
     PatchSetData start = byId.get(startPs.getRevision().get());
     checkArgument(start != null, "%s not found in %s", startPs, in);
     ProjectControl ctl = start.data().changeControl().getProjectControl();
@@ -78,8 +79,10 @@ class RelatedChangesSorter {
     // All other patch sets of the same change as startPs.
     List<PatchSetData> otherPatchSetsOfStart = new ArrayList<>();
 
+    int np = 0;
     for (ChangeData cd : in) {
       for (PatchSet ps : cd.patchSets()) {
+        np++;
         PatchSetData thisPsd = checkNotNull(byId.get(ps.getRevision().get()));
         if (cd.getId().equals(start.id()) && !ps.getId().equals(start.psId())) {
           otherPatchSetsOfStart.add(thisPsd);
@@ -93,10 +96,17 @@ class RelatedChangesSorter {
         }
       }
     }
+    System.err.println("=== RelatedChangesSorter: " + np + " patch sets total");
+    System.err.println("=== RelatedChangesSorter: " + parents.size() + " entries in parent map");
+    System.err.println("=== RelatedChangesSorter: " + parents.keySet().size() + " keys in parent map");
+    System.err.println("=== RelatedChangesSorter: " + children.size() + " in children map");
+    System.err.println("=== RelatedChangesSorter: " + children.keySet().size() + " keys in children map");
 
     List<PatchSetData> ancestors = walkAncestors(ctl, parents, start);
+    System.err.println("=== RelatedChangesSorter: " + ancestors.size() + " ancestors");
     List<PatchSetData> descendants =
         walkDescendants(ctl, children, start, otherPatchSetsOfStart, ancestors);
+    System.err.println("=== RelatedChangesSorter: " + descendants.size() + " descendants");
     List<PatchSetData> result =
         new ArrayList<>(ancestors.size() + descendants.size() - 1);
     result.addAll(Lists.reverse(descendants));

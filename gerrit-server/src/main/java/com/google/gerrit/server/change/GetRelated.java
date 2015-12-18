@@ -74,6 +74,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     List<ChangeData> cds = queryProvider.get()
         .enforceVisibility(true)
         .byProjectGroups(rsrc.getChange().getProject(), groups);
+    System.err.println("=== GetRelated: " + cds.size() + " input ChangeDatas");
     if (cds.isEmpty()) {
       return Collections.emptyList();
     } if (cds.size() == 1
@@ -86,6 +87,8 @@ public class GetRelated implements RestReadView<RevisionResource> {
     PatchSet basePs = isEdit
         ? rsrc.getEdit().get().getBasePatchSet()
         : rsrc.getPatchSet();
+    List<PatchSetData> sorted = sorter.sort(cds, basePs);
+    System.err.println("=== GetRelated: " + sorted.size() + " total PatchSetDatas");
     for (PatchSetData d : sorter.sort(cds, basePs)) {
       PatchSet ps = d.patchSet();
       RevCommit commit;

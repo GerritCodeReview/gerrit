@@ -79,7 +79,7 @@ public class SchemaCreatorTest {
       IOException {
     // Initially the schema should be empty.
     String[] types = {"TABLE", "VIEW"};
-    try (JdbcSchema d = (JdbcSchema) db.open();
+    try (JdbcSchema d = (JdbcSchema) db.open().asJdbcSchema();
         ResultSet rs = d.getConnection().getMetaData()
           .getTables(null, null, null, types)) {
       assertFalse(rs.next());

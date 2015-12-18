@@ -93,6 +93,30 @@
       "revId": "f1ed658357bd1bb9824820afc40894820253b403",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_f8527163",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-18T11:29:44Z",
+      "side": 1,
+      "message": "IIRC the site path is available when running in Eclipse.  I\u0027m sure I was able to debug [1] in Eclipse for example.\n\n[1] https://gerrit-review.googlesource.com/#/c/50887/",
+      "parentUuid": "6afc9b2b_9e591d88",
+      "range": {
+        "startLine": 55,
+        "startChar": 44,
+        "endLine": 55,
+        "endChar": 55
+      },
+      "revId": "f1ed658357bd1bb9824820afc40894820253b403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

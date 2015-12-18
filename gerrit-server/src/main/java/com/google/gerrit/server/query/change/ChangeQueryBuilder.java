@@ -420,7 +420,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("draft".equalsIgnoreCase(value)) {
-      return new HasDraftByPredicate(args, self());
+      return new HasDraftByPredicate(self());
     }
 
     if ("edit".equalsIgnoreCase(value)) {
@@ -687,7 +687,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Set<Account.Id> m = parseAccount(who);
     List<HasDraftByPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new HasDraftByPredicate(args, id));
+      p.add(new HasDraftByPredicate(id));
     }
     return Predicate.or(p);
   }

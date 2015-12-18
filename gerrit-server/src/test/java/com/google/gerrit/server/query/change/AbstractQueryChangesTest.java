@@ -287,6 +287,28 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byStatusDraft() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    ChangeInserter ins1 = newChange(repo, null, null, null, null);
+    Change change1 = ins1.getChange();
+    change1.setStatus(Change.Status.NEW);
+    insert(ins1);
+    ChangeInserter ins2 = newChange(repo, null, null, null, null);
+    Change change2 = ins2.getChange();
+    change2.setStatus(Change.Status.DRAFT);
+    insert(ins2);
+
+    Change[] expected = new Change[] {change2};
+    assertQuery("status:draft", expected);
+    assertQuery("status:DRAFT", expected);
+    assertQuery("status:d", expected);
+    assertQuery("status:dr", expected);
+    assertQuery("status:dra", expected);
+    assertQuery("status:draf", expected);
+    assertQuery("is:draft", expected);
+  }
+
+  @Test
   public void byStatusClosed() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);

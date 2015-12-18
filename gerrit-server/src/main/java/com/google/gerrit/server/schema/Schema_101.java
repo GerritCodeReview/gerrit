@@ -57,8 +57,8 @@ public class Schema_101 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui)
       throws OrmException, SQLException {
-    conn = ((JdbcSchema) db).getConnection();
-    dialect = ((JdbcSchema) db).getDialect();
+    conn = ((JdbcSchema) db.asJdbcSchema()).getConnection();
+    dialect = ((JdbcSchema) db.asJdbcSchema()).getDialect();
     Map<String, PrimaryKey> corrections = findPKUpdates();
     if (corrections.isEmpty()) {
       return;

@@ -380,7 +380,7 @@ public class BaseInit extends SiteProgram {
           System.err.flush();
 
         } else if (ui.yesno(true, "%s\nExecute now", msg)) {
-          try (JdbcSchema db = (JdbcSchema) schema.open();
+          try (JdbcSchema db = schema.open().asJdbcSchema();
               JdbcExecutor e = new JdbcExecutor(db)) {
             for (String sql : pruneList) {
               e.execute(sql);

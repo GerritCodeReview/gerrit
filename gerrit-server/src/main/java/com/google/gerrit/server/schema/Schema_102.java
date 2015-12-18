@@ -36,7 +36,7 @@ public class Schema_102 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui)
       throws OrmException, SQLException {
-    JdbcSchema schema = (JdbcSchema) db;
+    JdbcSchema schema = (JdbcSchema) db.asJdbcSchema();
     SqlDialect dialect = schema.getDialect();
     try (StatementExecutor e = newExecutor(db)) {
       // Drop left over indexes that were missed to be removed in schema 84.

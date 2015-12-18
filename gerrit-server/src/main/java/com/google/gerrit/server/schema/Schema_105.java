@@ -40,7 +40,7 @@ public class Schema_105 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui)
       throws SQLException, OrmException {
-    JdbcSchema schema = (JdbcSchema) db;
+    JdbcSchema schema = (JdbcSchema) db.asJdbcSchema();
     SqlDialect dialect = schema.getDialect();
 
     Map<String, OrmException> errors = new HashMap<>();

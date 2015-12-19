@@ -70,6 +70,30 @@
       "revId": "a093f127d4be3864523b39f6c4eb7267081bc613",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_58927d40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/dropwizard/BucketedHistogram.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-12-19T15:58:53Z",
+      "side": 1,
+      "message": "No. This is an instance of double checked locking. Use a new object.\n\nStupid findbugs.",
+      "parentUuid": "8a0e2f27_374918b9",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 24
+      },
+      "revId": "a093f127d4be3864523b39f6c4eb7267081bc613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

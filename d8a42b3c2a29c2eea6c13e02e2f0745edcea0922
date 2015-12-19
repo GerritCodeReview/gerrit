@@ -47,6 +47,30 @@
       "revId": "d8a42b3c2a29c2eea6c13e02e2f0745edcea0922",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a06230b_fc8029e3",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-19T23:43:09Z",
+      "side": 1,
+      "message": "If I\u0027m understanding you correctly I think that\u0027s right.\n\nThe version in our maven bucket was generated with npm_pack.py, see https://gerrit-review.googlesource.com/72303",
+      "parentUuid": "aa0bf316_d87d6dc1",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "d8a42b3c2a29c2eea6c13e02e2f0745edcea0922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

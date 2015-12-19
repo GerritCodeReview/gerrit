@@ -23,6 +23,30 @@
       "revId": "d8a42b3c2a29c2eea6c13e02e2f0745edcea0922",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_d87d6dc1",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1020422
+      },
+      "writtenOn": "2015-12-19T23:31:05Z",
+      "side": 1,
+      "message": "var gerrit-version \u003d \u0027GRRIT\u0027\nvar npmjs-version\u003d \u0027http://registry.npmjs.org/crisper/-/crisper-2.0.1.tgz\u0027\nvar deps-of-npmjs-version \u003d [\n  \u0027command-line-args\u0027,\n  \u0027dom5\u0027\n]\n\n// I find\ngerrit-version \u003d\u003d npmjs-version + deps-of-npmjs-version\n\n// Right?",
+      "parentUuid": "aa0bf316_f88031e3",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "d8a42b3c2a29c2eea6c13e02e2f0745edcea0922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

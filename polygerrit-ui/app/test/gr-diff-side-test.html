@@ -65,7 +65,7 @@ limitations under the License.
           intraline: [],
         });
       }
-      element._render(content);
+      element.content = content;
 
       window.scrollTo(0, 0);
       element.scrollToLine(-12849);
@@ -113,7 +113,7 @@ limitations under the License.
         highlight: false,
         intraline: [],
       }];
-      element._render(content);
+      element.content = content;
 
       var lineEl = element.$$('.numbers .lineNum[data-line-num="1"]');
       assert.ok(lineEl);
@@ -129,7 +129,7 @@ limitations under the License.
         highlight: false,
         intraline: [],
       }];
-      element._render(content);
+      element.content = content;
 
       lineEl = element.$$('.numbers .lineNum[data-line-num="1"]');
       assert.ok(lineEl);
@@ -139,6 +139,49 @@ limitations under the License.
           'A'.repeat(80) + element._lineFeedHTML +
           'A'.repeat(20) + element._lineFeedHTML);
 
+    });
+
+    test('diff context', function() {
+      var content = [
+        {type: 'CODE', hidden: true, content: '<!DOCTYPE html>'},
+        {type: 'CODE', hidden: true, content: '<meta charset="utf-8">'},
+        {type: 'CODE', hidden: true, content: '<title>My great page</title>'},
+        {type: 'CODE', hidden: true, content: '<style>'},
+        {type: 'CODE', hidden: true, content: '  *,'},
+        {type: 'CODE', hidden: true, content: '  *:before,'},
+        {type: 'CODE', hidden: true, content: '  *:after {'},
+        {type: 'CODE', hidden: true, content: '    box-sizing: border-box;'},
+        {type: 'CONTEXT_CONTROL', numLines: 8, start: 0, end: 8},
+        {type: 'CODE', hidden: false, content: '  }'},
+      ];
+      element.content = content;
+
+      // Only the context elements and the following code line elements should
+      // be present in the DOM.
+      var contextEls =
+          Polymer.dom(element.root).querySelectorAll('.contextControl');
+      assert.equal(contextEls.length, 2);
+      var codeLineEls =
+          Polymer.dom(element.root).querySelectorAll('.lineNum, .code');
+      assert.equal(codeLineEls.length, 2);
+
+      for (var i = 0; i <= 8; i++) {
+        element.content[i].hidden = false;
+      }
+      element.renderLineIndexRange(0, 8);
+      element.hideElementsWithIndex(8);
+
+      contextEls =
+          Polymer.dom(element.root).querySelectorAll('.contextControl');
+      for (var i = 0; i < contextEls.length; i++) {
+        assert.isTrue(contextEls[i].hasAttribute('hidden'));
+      }
+
+      codeLineEls =
+          Polymer.dom(element.root).querySelectorAll('.lineNum, .code');
+
+      // Nine lines should now be present in the DOM.
+      assert.equal(codeLineEls.length, 9 * 2);
     });
   });
 </script>

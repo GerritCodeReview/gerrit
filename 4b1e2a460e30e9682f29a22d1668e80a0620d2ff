@@ -16,6 +16,24 @@
       "revId": "4b1e2a460e30e9682f29a22d1668e80a0620d2ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a06230b_1c9cf550",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-19T18:54:53Z",
+      "side": 1,
+      "message": "No, ReviewDbs from the request scoped Provider\u003cReviewDb\u003e are closed by the high level request handling code, and double-closing them can cause errors. Only ReviewDbs from a SchemaFactory should be closed.",
+      "parentUuid": "8a0e2f27_f7528063",
+      "revId": "4b1e2a460e30e9682f29a22d1668e80a0620d2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

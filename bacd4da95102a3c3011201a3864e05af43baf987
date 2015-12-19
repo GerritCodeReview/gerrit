@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a0e2f27_d74f7cb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-19T12:36:44Z",
+      "side": 1,
+      "message": "This block should be indented one more level.",
+      "range": {
+        "startLine": 171,
+        "startChar": 6,
+        "endLine": 180,
+        "endChar": 7
+      },
+      "revId": "bacd4da95102a3c3011201a3864e05af43baf987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_788d411e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-19T12:36:44Z",
+      "side": 1,
+      "message": "There\u0027s an extra space in the message here.",
+      "range": {
+        "startLine": 514,
+        "startChar": 78,
+        "endLine": 515,
+        "endChar": 14
+      },
+      "revId": "bacd4da95102a3c3011201a3864e05af43baf987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

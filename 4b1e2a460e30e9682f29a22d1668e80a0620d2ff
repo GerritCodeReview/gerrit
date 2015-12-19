@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a0e2f27_f7528063",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-19T12:32:44Z",
+      "side": 1,
+      "message": "while you\u0027re in here should this db also be in try-with-resource?",
+      "revId": "4b1e2a460e30e9682f29a22d1668e80a0620d2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

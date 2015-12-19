@@ -66,7 +66,22 @@ limitations under the License.
         content: '\00BB';
       }
       .filler {
-        background: #eee;
+        background-color: #eee;
+      }
+      .contextControl {
+        background-color: #fef;
+      }
+      .contextControl a:link,
+      .contextControl a:visited {
+        display: block;
+        text-decoration: none;
+      }
+      .numbers .contextControl {
+        padding: 0 .75em;
+        text-align: right;
+      }
+      .content .contextControl {
+        text-align: center;
       }
     </style>
     <div class$="[[_computeContainerClass(canComment)]]">
@@ -90,6 +105,12 @@ limitations under the License.
     Polymer({
       is: 'gr-diff-side',
 
+      /**
+       * Fired when an expand context control is clicked.
+       *
+       * @event expand-context
+       */
+
       properties: {
         canComment: {
           type: Boolean,
@@ -98,7 +119,7 @@ limitations under the License.
         content: {
           type: Array,
           notify: true,
-          observer: '_render',
+          observer: '_contentChanged',
         },
         width: {
           type: Number,
@@ -143,8 +164,24 @@ limitations under the License.
         window.scrollTo(0, top - (window.innerHeight / 3) - el.offsetHeight);
       },
 
+      showLineIndexRange: function(startIndex, endIndex) {
+        this._render(this.content, false, startIndex, endIndex);
+      },
+
+      hideElementsWithIndex: function(index) {
+        var els = Polymer.dom(this.root).querySelectorAll(
+            '[data-index="' + index + '"]');
+        for (var i = 0; i < els.length; i++) {
+          els[i].setAttribute('hidden', null);
+        }
+      },
+
       _widthChanged: function(width) {
         this.$.content.style.width = width + 'ch';
+      },
+
+      _contentChanged: function(diff) {
+        this._render(diff, true, 0, diff.length - 1);
       },
 
       _computeContainerClass: function(canComment) {
@@ -157,24 +194,66 @@ limitations under the License.
         }
       },
 
-      _render: function(diff) {
-        this._clearChildren(this.$.numbers);
-        this._clearChildren(this.$.content);
-        for (var i = 0; i < diff.length; i++) {
+      _handleContextControlClick: function(context, e) {
+        e.preventDefault();
+        this.fire('expand-context', {bubbles: false, context: context});
+      },
+
+      _render: function(diff, reset, startIndex, endIndex) {
+        if (reset) {
+          this._clearChildren(this.$.numbers);
+          this._clearChildren(this.$.content);
+        }
+
+        var beforeLineEl;
+        var beforeContentEl;
+        if (endIndex != diff.length -1) {
+          beforeLineEl = this.$$('.numbers [data-index="' + endIndex + '"]');
+          beforeContentEl = this.$$('.content [data-index="' + endIndex + '"]');
+        }
+
+        for (var i = startIndex; i <= endIndex; i++) {
+          if (diff[i].hidden) { continue; }
+
           switch (diff[i].type) {
             case 'CODE':
-              this._renderCode(diff[i]);
+              this._renderCode(diff[i], i, beforeLineEl, beforeContentEl);
               break;
             case 'FILLER':
-              this._renderFiller(diff[i]);
+              this._renderFiller(diff[i], i, beforeLineEl, beforeContentEl);
+              break;
+            case 'CONTEXT_CONTROL':
+              this._renderContextControl(diff[i], i, beforeLineEl,
+                  beforeContentEl);
               break;
           }
         }
       },
 
-      _renderFiller: function(filler) {
+      _renderContextControl: function(control, index, beforeLineEl,
+          beforeContentEl) {
+        var lineEl = this._createElement('div', 'contextControl');
+        lineEl.setAttribute('data-index', index);
+        lineEl.textContent = '@@';
+        var contentEl = this._createElement('div', 'contextControl');
+        contentEl.setAttribute('data-index', index);
+        var a = this._createElement('a');
+        a.href = '#';
+        a.textContent = 'Show ' + control.numLines + ' common lines...';
+        a.addEventListener('click',
+            this._handleContextControlClick.bind(this, control));
+        contentEl.appendChild(a);
+
+        this.$.numbers.insertBefore(lineEl, beforeLineEl);
+        this.$.content.insertBefore(contentEl, beforeContentEl);
+      },
+
+      _renderFiller: function(filler, index, beforeLineEl,
+          beforeContentEl) {
         var lineFillerEl = this._createElement('div', 'filler');
+        lineFillerEl.setAttribute('data-index', index);
         var fillerEl = this._createElement('div', 'filler');
+        fillerEl.setAttribute('data-index', index);
         var numLines = filler.numLines || 1;
 
         lineFillerEl.textContent = '\n'.repeat(numLines);
@@ -182,18 +261,22 @@ limitations under the License.
           var newlineEl = this._createElement('span', 'br');
           fillerEl.appendChild(newlineEl);
         }
-        this.$.numbers.appendChild(lineFillerEl);
-        this.$.content.appendChild(fillerEl);
+
+        this.$.numbers.insertBefore(lineFillerEl, beforeLineEl);
+        this.$.content.insertBefore(fillerEl, beforeContentEl);
       },
 
-      _renderCode: function(code) {
+      _renderCode: function(code, index, beforeLineEl,
+          beforeContentEl) {
         var lineNumEl = this._createElement('div', 'lineNum');
         lineNumEl.setAttribute('data-line-num', code.lineNum);
+        lineNumEl.setAttribute('data-index', index);
         var numLines = code.numLines || 1;
         lineNumEl.textContent = code.lineNum + '\n'.repeat(numLines);
 
         var contentEl = this._createElement('div', 'code');
         contentEl.setAttribute('data-line-num', code.lineNum);
+        contentEl.setAttribute('data-index', index);
 
         if (code.highlight) {
           contentEl.classList.add(code.intraline.length > 0 ?
@@ -218,8 +301,8 @@ limitations under the License.
           contentEl.innerHTML = html;
         }
 
-        this.$.numbers.appendChild(lineNumEl);
-        this.$.content.appendChild(contentEl);
+        this.$.numbers.insertBefore(lineNumEl, beforeLineEl);
+        this.$.content.insertBefore(contentEl, beforeContentEl);
       },
 
       // Advance `index` by the appropriate number of characters that would
@@ -321,7 +404,10 @@ limitations under the License.
         // Since the Polymer DOM utility functions (which would do this
         // automatically) are not being used for performance reasons, this is
         // done manually.
-        el.classList.add('style-scope', 'gr-diff-side', className);
+        el.classList.add('style-scope', 'gr-diff-side');
+        if (!!className) {
+          el.classList.add(className);
+        }
         return el;
       },
     });

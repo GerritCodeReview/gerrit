@@ -71,7 +71,7 @@ limitations under the License.
       <template is="dom-if" if="[[showAvatar]]">
         <img class="avatarImage" src$="[[_computeAvatarURL(change.owner)]]">
       </template>
-      <a href$="[[_computeOwnerLink(change.owner.email)]]"
+      <a href$="[[_computeOwnerLink(change.owner)]]"
          title$="[[_computeOwnerTitle(change.owner)]]">[[change.owner.name]]</a>
     </span>
     <a class="cell project" href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
@@ -179,12 +179,13 @@ limitations under the License.
 
       _computeAvatarURL: function(owner) {
         if (!owner) { return ''; }
-        return '/accounts/' + owner.email + '/avatar?s=32'
+        return '/accounts/' + owner._account_id + '/avatar?s=32'
       },
 
-      _computeOwnerLink: function(email) {
-        if (!email) { return ''; }
-        return '/q/owner:' + encodeURIComponent(email) + '+status:open';
+      _computeOwnerLink: function(owner) {
+        if (!owner) { return ''; }
+        var ownerID = owner.email || owner._account_id;
+        return '/q/owner:' + encodeURIComponent(ownerID) + '+status:open';
       },
 
       _computeOwnerTitle: function(owner) {

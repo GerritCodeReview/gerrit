@@ -173,7 +173,7 @@ limitations under the License.
 
       _computeAvatarURL: function(author, showAvatar) {
         if (!showAvatar || !author) { return '' }
-        return '/accounts/' + author.email + '/avatar?s=100';
+        return '/accounts/' + author._account_id + '/avatar?s=100';
       },
 
     });

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ad0e3e3_ecd96b48",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-20T21:00:12Z",
+      "side": 1,
+      "message": "You can just say `version: String,` here",
+      "revId": "08d8a697bd3d76a6e659ecc86ebf593cd4cbcb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

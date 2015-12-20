@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6afc9b2b_3ef44975",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-20T18:25:06Z",
+      "side": 1,
+      "message": "It looks that all your code adds trailing commas. Added in PS 2.",
+      "revId": "9989ea79627877818468d59f7efffd0493b3086a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

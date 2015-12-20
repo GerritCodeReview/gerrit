@@ -86,6 +86,7 @@ limitations under the License.
     </style>
     <gr-ajax auto url="/accounts/self/detail" last-response="{{account}}"></gr-ajax>
     <gr-ajax auto url="/config/server/info" last-response="{{config}}"></gr-ajax>
+    <gr-ajax auto url="/config/server/version" last-response="{{version}}"></gr-ajax>
     <header role="banner">
       <a href="/" class="bigTitle">PolyGerrit</a>
       <div class="headerRightItems">
@@ -110,7 +111,21 @@ limitations under the License.
         <gr-diff-view params="[[params]]"></gr-diff-view>
       </template>
     </main>
-    <footer role="contentinfo">Powered by PolyGerrit</footer>
+    <footer role="contentinfo">
+      Powered by <a href="https://www.gerritcodereview.com/" target="_blank">Gerrit Code Review</a>
+      (<span>[[version]]</span>)
+      <span hidden$="[[!config.gerrit.report_bug_url]]">
+        |
+        <a href$="[[config.gerrit.report_bug_url]]" target="_blank">
+          <span hidden$="[[!config.gerrit.report_bug_text]]">
+            [[config.gerrit.report_bug_text]]
+          </span>
+          <span hidden$="[[config.gerrit.report_bug_text]]">
+            Report Bug
+          </span>
+        </a>
+      </span>
+    </footer>
   </template>
   <script>
   (function() {
@@ -148,6 +163,7 @@ limitations under the License.
             }.bind(this));
           },
         },
+        version: String,
         constrained: {
           type: Boolean,
           value: false,

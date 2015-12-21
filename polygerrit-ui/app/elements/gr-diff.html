@@ -83,15 +83,27 @@ limitations under the License.
 
     <div class="diffContainer">
       <gr-diff-side id="leftDiff"
+          change-num="[[changeNum]]"
+          patch-num="[[patchRange.basePatchNum]]"
+          path="[[path]]"
           content="{{_diff.leftSide}}"
           width="[[sideWidth]]"
           can-comment="[[_loggedIn]]"
-          on-expand-context="_handleExpandContext"></gr-diff-side>
+          on-expand-context="_handleExpandContext"
+          on-thread-height-change="_handleThreadHeightChange"
+          on-add-draft="_handleAddDraft"
+          on-remove-thread="_handleRemoveThread"></gr-diff-side>
       <gr-diff-side id="rightDiff"
+          change-num="[[changeNum]]"
+          patch-num="[[patchRange.patchNum]]"
+          path="[[path]]"
           content="{{_diff.rightSide}}"
           width="[[sideWidth]]"
           can-comment="[[_loggedIn]]"
-          on-expand-context="_handleExpandContext"></gr-diff-side>
+          on-expand-context="_handleExpandContext"
+          on-thread-height-change="_handleThreadHeightChange"
+          on-add-draft="_handleAddDraft"
+          on-remove-thread="_handleRemoveThread"></gr-diff-side>
     </div>
   </template>
   <script>
@@ -125,15 +137,29 @@ limitations under the License.
           type: Number,
           value: 80,
         },
-        _comments: Array,
         _context: {
           type: Number,
           value: 10,
           observer: '_contextChanged',
         },
         _baseComments: Array,
+        _comments: Array,
         _drafts: Array,
         _baseDrafts: Array,
+        /**
+         * Base (left side) comments and drafts grouped by line number.
+         */
+        _groupedBaseComments: {
+          type: Object,
+          value: function() { return {}; },
+        },
+        /**
+         * Comments and drafts (right side) grouped by line number.
+         */
+        _groupedComments: {
+          type: Object,
+          value: function() { return {}; },
+        },
         _diffResponse: Object,
         _diff: {
           type: Object,
@@ -190,11 +216,12 @@ limitations under the License.
       },
 
       _render: function() {
+        this._groupCommentsAndDrafts();
         this._processContent();
 
         // Allow for the initial rendering to complete before firing the event.
         this.async(function() {
-          this.fire('render', {bubbles: false});
+          this.fire('render', null, {bubbles: false});
         }.bind(this), 1);
       },
 
@@ -273,10 +300,11 @@ limitations under the License.
       },
 
       _handleContextSelectChange: function(e) {
-        if (e.target.value == 'ALL') {
+        var selectEl = Polymer.dom(e).rootTarget;
+        if (selectEl.value == 'ALL') {
           this._context = Infinity;
         } else {
-          this._context = parseInt(e.target.value, 10);
+          this._context = parseInt(selectEl.value, 10);
         }
         this._render();
       },
@@ -300,6 +328,84 @@ limitations under the License.
 
         this.$.leftDiff.renderLineIndexRange(ctx.start, ctx.end);
         this.$.rightDiff.renderLineIndexRange(ctx.start, ctx.end);
+      },
+
+      _handleThreadHeightChange: function(e) {
+        var index = e.detail.index;
+        var diffEl = Polymer.dom(e).rootTarget;
+        var otherSide = diffEl == this.$.leftDiff ?
+            this.$.rightDiff : this.$.leftDiff;
+
+        var threadHeight = e.detail.height;
+        var otherSideHeight;
+        if (otherSide.content[index].type == 'COMMENT_THREAD') {
+          otherSideHeight = otherSide.getRowNaturalHeight(index);
+        } else {
+          otherSideHeight = otherSide.getRowHeight(index);
+        }
+        var maxHeight = Math.max(threadHeight, otherSideHeight);
+        this.$.leftDiff.setRowHeight(index, maxHeight);
+        this.$.rightDiff.setRowHeight(index, maxHeight);
+      },
+
+      _handleAddDraft: function(e) {
+        var insertIndex = e.detail.index + 1;
+        var diffEl = Polymer.dom(e).rootTarget;
+        var content = diffEl.content;
+        if (content[insertIndex] &&
+            content[insertIndex].type == 'COMMENT_THREAD') {
+          // A thread is already here. Do nothing.
+          return;
+        }
+        var comment = {
+          type: 'COMMENT_THREAD',
+          comments: [{
+            __draft: true,
+            __draftID: Math.random().toString(36),
+            line: e.detail.line,
+            path: this.path,
+          }]
+        };
+        if (content[insertIndex] &&
+            content[insertIndex].type == 'FILLER') {
+          content[insertIndex] = comment;
+          diffEl.rowUpdated(insertIndex);
+        } else {
+          content.splice(insertIndex, 0, comment);
+          diffEl.rowInserted(insertIndex);
+        }
+
+        var otherSide = diffEl == this.$.leftDiff ?
+            this.$.rightDiff : this.$.leftDiff;
+        if (otherSide.content[insertIndex] == null ||
+            otherSide.content[insertIndex].type != 'COMMENT_THREAD') {
+          otherSide.content.splice(insertIndex, 0, {
+            type: 'FILLER',
+          });
+          otherSide.rowInserted(insertIndex);
+        }
+      },
+
+      _handleRemoveThread: function(e) {
+        var diffEl = Polymer.dom(e).rootTarget;
+        var otherSide = diffEl == this.$.leftDiff ?
+            this.$.rightDiff : this.$.leftDiff;
+        var index = e.detail.index;
+
+        if (otherSide.content[index].type == 'FILLER') {
+          otherSide.content.splice(index, 1);
+          otherSide.rowRemoved(index);
+          diffEl.content.splice(index, 1);
+          diffEl.rowRemoved(index);
+        } else if (otherSide.content[index].type == 'COMMENT_THREAD') {
+          diffEl.content[index] = {type: 'FILLER'};
+          diffEl.rowUpdated(index);
+          var height = otherSide.setRowNaturalHeight(index);
+          diffEl.setRowHeight(index, height);
+        } else {
+          throw Error('A thread cannot be opposite anything but filler or ' +
+              'another thread');
+        }
       },
 
       _processContent: function() {
@@ -328,10 +434,36 @@ limitations under the License.
           ctx.diffChunkIndex = i;
           this._addDiffChunk(ctx, content[i], leftSide, rightSide);
         }
+
         this._diff = {
           leftSide: leftSide,
           rightSide: rightSide,
         };
+      },
+
+      _groupCommentsAndDrafts: function() {
+        this._baseDrafts.forEach(function(d) { d.__draft = true; });
+        this._drafts.forEach(function(d) { d.__draft = true; });
+        var allLeft = this._baseComments.concat(this._baseDrafts);
+        var allRight = this._comments.concat(this._drafts);
+
+        var leftByLine = {};
+        var rightByLine = {};
+        var mapFunc = function(byLine) {
+          return function(c) {
+            // File comments/drafts are grouped with line 1 for now.
+            var line = c.line || 1;
+            if (byLine[line] == null) {
+              byLine[line] = [];
+            }
+            byLine[line].push(c);
+          }
+        };
+        allLeft.forEach(mapFunc(leftByLine));
+        allRight.forEach(mapFunc(rightByLine));
+
+        this._groupedBaseComments = leftByLine;
+        this._groupedComments = rightByLine;
       },
 
       _addContextControl: function(ctx, leftSide, rightSide) {
@@ -389,6 +521,8 @@ limitations under the License.
             numLines: numLines,
             lineNum: ++ctx.right.lineNum,
           });
+
+          this._addCommentsIfPresent(ctx, leftSide, rightSide);
         }
         if (ctx.lastNumLinesHidden > 0) {
           this._addContextControl(ctx, leftSide, rightSide);
@@ -455,9 +589,33 @@ limitations under the License.
               numLines: maxNumLines,
             });
           }
+          this._addCommentsIfPresent(ctx, leftSide, rightSide);
         }
       },
 
+      _addCommentsIfPresent: function(ctx, leftSide, rightSide) {
+        var leftComments = this._groupedBaseComments[ctx.left.lineNum];
+        var rightComments = this._groupedComments[ctx.right.lineNum];
+        if (leftComments) {
+          leftSide.push({
+            type: 'COMMENT_THREAD',
+            comments: leftComments,
+          });
+        }
+        if (rightComments) {
+          rightSide.push({
+            type: 'COMMENT_THREAD',
+            comments: rightComments,
+          });
+        }
+        if (leftComments && !rightComments) {
+          rightSide.push({ type: 'FILLER' });
+        } else if (!leftComments && rightComments) {
+          leftSide.push({ type: 'FILLER' });
+        }
+        delete(this._groupedBaseComments[ctx.left.lineNum]);
+        delete(this._groupedComments[ctx.right.lineNum]);
+      },
 
       // The `highlights` array consists of a list of <skip length, mark length>
       // pairs, where the skip length is the number of characters between the

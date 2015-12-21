@@ -115,10 +115,7 @@ limitations under the License.
       },
 
       _computeCommentsString: function(comments, patchNum, path) {
-        var patchComments = (comments[path] || []).filter(function(c) {
-          return c.patch_set == patchNum;
-        });
-        var num = patchComments.length;
+        var num = (comments[path] || []).length;
         if (num == 0) { return ''; }
         if (num == 1) { return '1 comment'; }
         if (num > 1) { return num + ' comments'; };
@@ -129,10 +126,7 @@ limitations under the License.
       },
 
       _computeDraftsString: function(drafts, patchNum, path) {
-        var patchDrafts = (drafts[path] || []).filter(function(d) {
-          return d.patch_set == patchNum;
-        });
-        var num = patchDrafts.length;
+        var num = (drafts[path] || []).length;
         if (num == 0) { return ''; }
         if (num == 1) { return '1 draft'; }
         if (num > 1) { return num + ' drafts'; };

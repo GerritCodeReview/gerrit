@@ -33,6 +33,12 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="comments">
+  <template>
+    <gr-diff></gr-diff>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-diff tests', function() {
     var element;
@@ -54,7 +60,39 @@ limitations under the License.
           JSON.stringify({
             change_type: 'MODIFIED',
             content: [
-              {ab: ['doin some codez and stuffs']},
+              {
+                ab: [
+                  '<!DOCTYPE html>',
+                  '<meta charset="utf-8">',
+                  '<title>My great page</title>',
+                  '<style>',
+                  '  *,',
+                  '  *:before,',
+                  '  *:after {',
+                  '    box-sizing: border-box;',
+                  '  }',
+                  '</style>',
+                  '<header>',
+                ]
+              },
+              {
+                a: [
+                  '  Welcome ',
+                  '  to the wooorld of tomorrow!',
+                ],
+                b: [
+                  '  Hello, world!',
+                ],
+              },
+              {
+                ab: [
+                  '</header>',
+                  '<body>',
+                  'Leela: This is the only place the ship can’t hear us, so ',
+                  'everyone pretend to shower.',
+                  'Fry: Same as every day. Got it.',
+                ]
+              },
             ]
           }),
         ]
@@ -113,7 +151,7 @@ limitations under the License.
                   email: 'dborowitz@google.com',
                 },
                 id: '001a2067_f30f3048',
-                line: 17,
+                line: 12,
                 message: 'What on earth are you thinking, here?',
                 updated: '2015-12-12 02:51:37.973000000',
               },
@@ -138,7 +176,7 @@ limitations under the License.
                 },
                 id: 'a0407443_30dfe8fb',
                 in_reply_to: '001a2067_f30f3048',
-                line: 17,
+                line: 12,
                 message: '¯\\_(ツ)_/¯',
                 updated: '2015-12-12 18:50:21.627000000',
               },
@@ -185,6 +223,20 @@ limitations under the License.
         done();
       });
     });
+
+    test('comment rendering', function(done) {
+      element._context = Infinity;
+      element.patchRange = {
+        basePatchNum: 1,
+        patchNum: 2,
+      };
+
+      server.respond();
+      element.async(function() {
+        debugger
+        done()
+      }, 1);
+    }),
 
     test('intraline normalization', function() {
       // The content and highlights are in the format returned by the Gerrit
@@ -341,4 +393,6 @@ limitations under the License.
       assert.equal(leftContext.end, 19);
     });
   });
+
+
 </script>

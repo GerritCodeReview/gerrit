@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-diff-comment-thread.html">
 
 <dom-module id="gr-diff-side">
   <template>
@@ -111,6 +112,24 @@ limitations under the License.
        * @event expand-context
        */
 
+      /**
+       * Fired when a thread's height is changed.
+       *
+       * @event thread-height-change
+       */
+
+      /**
+       * Fired when a draft should be added.
+       *
+       * @event add-draft
+       */
+
+      /**
+       * Fired when a thread is removed.
+       *
+       * @event remove-thread
+       */
+
       properties: {
         canComment: {
           type: Boolean,
@@ -125,6 +144,9 @@ limitations under the License.
           type: Number,
           observer: '_widthChanged',
         },
+        changeNum: String,
+        patchNum: String,
+        path: String,
 
         _lineFeedHTML: {
           type: String,
@@ -141,6 +163,33 @@ limitations under the License.
           value: '</hl>',
           readOnly: true,
         },
+      },
+
+      listeners: {
+        'tap': '_tapHandler',
+      },
+
+      rowInserted: function(index) {
+        this.renderLineIndexRange(index, index);
+        this._updateDOMIndices();
+      },
+
+      rowRemoved: function(index) {
+        var removedEls = Polymer.dom(this.root).querySelectorAll(
+            '[data-index="' + index + '"]');
+        for (var i = 0; i < removedEls.length; i++) {
+          removedEls[i].parentNode.removeChild(removedEls[i]);
+        }
+        this._updateDOMIndices();
+      },
+
+      rowUpdated: function(index) {
+        var removedEls = Polymer.dom(this.root).querySelectorAll(
+            '[data-index="' + index + '"]');
+        for (var i = 0; i < removedEls.length; i++) {
+          removedEls[i].parentNode.removeChild(removedEls[i]);
+        }
+        this.renderLineIndexRange(index, index);
       },
 
       scrollToLine: function(lineNum) {
@@ -176,6 +225,70 @@ limitations under the License.
         }
       },
 
+      getRowHeight: function(index) {
+        var row = this.content[index];
+        // Filler elements should not be taken into account when determining
+        // height calculations.
+        if (row.type == 'FILLER') {
+          return 0;
+        }
+        if (row.height != null) {
+          return row.height;
+        }
+
+        var selector = '[data-index="' + index + '"]'
+        var els = Polymer.dom(this.root).querySelectorAll(selector);
+        if (els.length != 2) {
+          throw Error('Rows should only consist of two elements');
+        }
+        return Math.max(els[0].offsetHeight, els[1].offsetHeight);
+      },
+
+      getRowNaturalHeight: function(index) {
+        var contentEl = this.$$('.content [data-index="' + index + '"]');
+        return contentEl.naturalHeight || contentEl.offsetHeight;
+      },
+
+      setRowNaturalHeight: function(index) {
+        var lineEl = this.$$('.numbers [data-index="' + index + '"]');
+        var contentEl = this.$$('.content [data-index="' + index + '"]');
+        contentEl.style.height = null;
+        var height = contentEl.offsetHeight;
+        lineEl.style.offsetHeight = height + 'px';
+        this.content[index].height = height;
+        return height;
+      },
+
+      setRowHeight: function(index, height) {
+        var selector = '[data-index="' + index + '"]';
+        var els = Polymer.dom(this.root).querySelectorAll(selector);
+        for (var i = 0; i < els.length; i++) {
+          els[i].style.height = height + 'px';
+        }
+        this.content[index].height = height;
+      },
+
+      _updateDOMIndices: function() {
+        // There is no way to select elements with a data-index greater than a
+        // given value. For now, just update all DOM elements.
+        var lineEls = Polymer.dom(this.root).querySelectorAll(
+            '.numbers [data-index]');
+        var contentEls = Polymer.dom(this.root).querySelectorAll(
+            '.content [data-index]');
+        if (lineEls.length != contentEls.length) {
+          throw Error(
+              'There must be the same number of line and content elements');
+        }
+        var index = 0;
+        for (var i = 0; i < this.content.length; i++) {
+          if (this.content[i].hidden) { continue; }
+
+          lineEls[index].setAttribute('data-index', i);
+          contentEls[index].setAttribute('data-index', i);
+          index++;
+        }
+      },
+
       _widthChanged: function(width) {
         this.$.content.style.width = width + 'ch';
       },
@@ -188,6 +301,21 @@ limitations under the License.
         return 'container' + (canComment ? ' canComment' : '');
       },
 
+      _tapHandler: function(e) {
+        var lineEl = Polymer.dom(e).rootTarget;
+        if (!this.canComment || !lineEl.classList.contains('lineNum')) {
+          return;
+        }
+
+        e.preventDefault();
+        var index = parseInt(lineEl.getAttribute('data-index'), 10);
+        var line = parseInt(lineEl.getAttribute('data-line-num'), 10);
+        this.fire('add-draft', {
+          index: index,
+          line: line
+        }, {bubbles: false});
+      },
+
       _clearChildren: function(el) {
         while (el.firstChild) {
           el.removeChild(el.firstChild);
@@ -196,7 +324,7 @@ limitations under the License.
 
       _handleContextControlClick: function(context, e) {
         e.preventDefault();
-        this.fire('expand-context', {bubbles: false, context: context});
+        this.fire('expand-context', {context: context}, {bubbles: false});
       },
 
       _render: function(diff, reset, startIndex, endIndex) {
@@ -210,6 +338,14 @@ limitations under the License.
         if (endIndex != diff.length - 1) {
           beforeLineEl = this.$$('.numbers [data-index="' + endIndex + '"]');
           beforeContentEl = this.$$('.content [data-index="' + endIndex + '"]');
+          if (!beforeLineEl && !beforeContentEl) {
+            // `endIndex` may be present within the model, but not in the DOM.
+            // Insert it before its successive element.
+            beforeLineEl = this.$$(
+                '.numbers [data-index="' + (endIndex + 1) + '"]');
+            beforeContentEl = this.$$(
+                '.content [data-index="' + (endIndex + 1) + '"]');
+          }
         }
 
         for (var i = startIndex; i <= endIndex; i++) {
@@ -226,8 +362,51 @@ limitations under the License.
               this._renderContextControl(diff[i], i, beforeLineEl,
                   beforeContentEl);
               break;
+            case 'COMMENT_THREAD':
+              this._renderCommentThread(diff[i], i, beforeLineEl,
+                  beforeContentEl);
+              break;
           }
         }
+      },
+
+      _handleCommentThreadHeightChange: function(e) {
+        var threadEl = Polymer.dom(e).rootTarget;
+        var index = parseInt(threadEl.getAttribute('data-index'), 10);
+        this.content[index].height = e.detail.height;
+        var lineEl = this.$$('.numbers [data-index="' + index + '"]');
+        lineEl.style.height = e.detail.height + 'px';
+        this.fire('thread-height-change', {
+          index: index,
+          height: e.detail.height,
+        }, {bubbles: false});
+      },
+
+      _handleCommentThreadDiscard: function(e) {
+        var threadEl = Polymer.dom(e).rootTarget;
+        var index = parseInt(threadEl.getAttribute('data-index'), 10);
+        this.fire('remove-thread', {index: index}, {bubbles: false});
+      },
+
+      _renderCommentThread: function(thread, index, beforeLineEl,
+          beforeContentEl) {
+        var lineEl = this._createElement('div', 'commentThread');
+        lineEl.classList.add('filler');
+        lineEl.setAttribute('data-index', index);
+        var threadEl = document.createElement('gr-diff-comment-thread');
+        threadEl.addEventListener('height-change',
+            this._handleCommentThreadHeightChange.bind(this));
+        threadEl.addEventListener('discard',
+            this._handleCommentThreadDiscard.bind(this));
+        threadEl.setAttribute('data-index', index);
+        threadEl.changeNum = this.changeNum;
+        threadEl.patchNum = this.patchNum;
+        threadEl.path = this.path;
+        threadEl.comments = thread.comments;
+        threadEl.showActions = this.canComment;
+
+        this.$.numbers.insertBefore(lineEl, beforeLineEl);
+        this.$.content.insertBefore(threadEl, beforeContentEl);
       },
 
       _renderContextControl: function(control, index, beforeLineEl,

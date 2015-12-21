@@ -105,7 +105,8 @@ limitations under the License.
         <gr-dashboard-view params="[[params]]"></gr-dashboard-view>
       </template>
       <template is="dom-if" if="{{_showChangeView}}" restamp="true">
-        <gr-change-view params="[[params]]"></gr-change-view>
+        <gr-change-view server-config="[[config]]"
+            params="[[params]]"></gr-change-view>
       </template>
       <template is="dom-if" if="{{_showDiffView}}" restamp="true">
         <gr-diff-view params="[[params]]"></gr-diff-view>

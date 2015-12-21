@@ -183,5 +183,26 @@ limitations under the License.
       // Nine lines should now be present in the DOM.
       assert.equal(codeLineEls.length, 9 * 2);
     });
+
+    test('tap line to add a draft', function() {
+      var numAddDraftEvents = 0;
+      var fireMock = sinon.stub(element, 'fire', function(eventName) {
+        if (eventName == 'add-draft') {
+          numAddDraftEvents++;
+        }
+      });
+      element.content = [{type: 'CODE', content: '<!DOCTYPE html>'}];
+      element.canComment = false;
+      flushAsynchronousOperations();
+
+      var lineEl = element.$$('.lineNum');
+      assert.ok(lineEl);
+      MockInteractions.tap(lineEl);
+      assert.equal(numAddDraftEvents, 0);
+
+      element.canComment = true;
+      MockInteractions.tap(lineEl);
+      assert.equal(numAddDraftEvents, 1);
+    });
   });
 </script>

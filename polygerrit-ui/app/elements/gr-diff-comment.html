@@ -23,7 +23,7 @@ limitations under the License.
   <template>
     <style>
       :host {
-        border: 1px solid #ddd;
+        background-color: #ffd;
         display: block;
       }
       :host([disabled]) {
@@ -38,8 +38,8 @@ limitations under the License.
         padding: .5em .7em;
       }
       .header {
-        background-color: #eee;
         display: flex;
+        padding-bottom: 0;
         font-family: 'Open Sans', sans-serif;
       }
       .headerLeft {
@@ -113,6 +113,7 @@ limitations under the License.
         display: none;
       }
       .editing .editMessage {
+        background-color: #fff;
         display: block;
       }
     </style>
@@ -134,7 +135,7 @@ limitations under the License.
           max-rows="4"
           bind-value="{{_editDraft}}"></iron-autogrow-textarea>
       <div class="message">[[comment.message]]</div>
-      <div class="actions">
+      <div class="actions" hidden$="[[!showActions]]">
         <a class="action reply" href="#" on-tap="_handleReply">Reply</a>
         <a class="action done" href="#" on-tap="_handleDone">Done</a>
         <a class="action edit" href="#" on-tap="_handleEdit">Edit</a>
@@ -158,25 +159,25 @@ limitations under the License.
       /**
        * Fired when the height of the comment changes.
        *
-       * @event gr-diff-comment-height-changed
+       * @event height-change
        */
 
       /**
        * Fired when the Reply action is triggered.
        *
-       * @event gr-diff-comment-reply
+       * @event reply
        */
 
       /**
        * Fired when the Done action is triggered.
        *
-       * @event gr-diff-comment-done
+       * @event done
        */
 
       /**
        * Fired when this comment is discarded.
        *
-       * @event gr-diff-comment-discard
+       * @event discard
        */
 
       properties: {
@@ -201,19 +202,46 @@ limitations under the License.
           observer: '_editingChanged',
         },
         patchNum: String,
+        showActions: Boolean,
 
         _xhrPromise: Object,  // Used for testing.
         _editDraft: String,
+      },
+
+      ready: function() {
+        this._editDraft = (this.comment && this.comment.message) || '';
       },
 
       attached: function() {
         this._heightChanged();
       },
 
+      save: function() {
+        this.comment.message = this._editDraft;
+        this.disabled = true;
+        var endpoint = this._restEndpoint(this.comment.id);
+        this._send('PUT', endpoint).then(function(req) {
+          this.disabled = false;
+          var comment = req.response;
+          comment.__draft = true;
+          // Maintain the ephemeral draft ID for identification by other
+          // elements.
+          if (this.comment.__draftID) {
+            comment.__draftID = this.comment.__draftID;
+          }
+          this.comment = comment;
+          this.editing = false;
+        }.bind(this)).catch(function(err) {
+          alert('Your draft couldn’t be saved. Check the console and contact ' +
+              'the PolyGerrit team for assistance.');
+          this.disabled = false;
+        }.bind(this));
+      },
+
       _heightChanged: function() {
         this.async(function() {
-          this.fire('gr-diff-comment-height-changed',
-            {height: this.offsetHeight});
+          this.fire('height-change', {height: this.offsetHeight},
+              {bubbles: false});
         }.bind(this));
       },
 
@@ -252,12 +280,12 @@ limitations under the License.
 
       _handleReply: function(e) {
         e.preventDefault();
-        this.fire('gr-diff-comment-reply');
+        this.fire('reply', {comment: this.comment}, {bubbles: false});
       },
 
       _handleDone: function(e) {
         e.preventDefault();
-        this.fire('gr-diff-comment-done');
+        this.fire('done', {comment: this.comment}, {bubbles: false});
       },
 
       _handleEdit: function(e) {
@@ -268,31 +296,13 @@ limitations under the License.
 
       _handleSave: function(e) {
         e.preventDefault();
-        this.comment.message = this._editDraft;
-        this.disabled = true;
-        var endpoint = this._restEndpoint(this.comment.id);
-        this._send('PUT', endpoint).then(function(req) {
-          this.disabled = false;
-          var comment = req.response;
-          comment.__draft = true;
-          // Maintain the ephemeral draft ID for identification by other
-          // elements.
-          if (this.comment.__draftID) {
-            comment.__draftID = this.comment.__draftID;
-          }
-          this.comment = comment;
-          this.editing = false;
-        }.bind(this)).catch(function(err) {
-          alert('Your draft couldn’t be saved. Check the console and contact ' +
-              'the PolyGerrit team for assistance.');
-          this.disabled = false;
-        }.bind(this));
+        this.save();
       },
 
       _handleCancel: function(e) {
         e.preventDefault();
         if (this.comment.message == null || this.comment.message.length == 0) {
-          this.fire('gr-diff-comment-discard');
+          this.fire('discard', null, {bubbles: false});
           return;
         }
         this._editDraft = this.comment.message;
@@ -307,11 +317,11 @@ limitations under the License.
         this.disabled = true;
         var commentID = this.comment.id;
         if (!commentID) {
-          this.fire('gr-diff-comment-discard');
+          this.fire('discard', null, {bubbles: false});
           return;
         }
         this._send('DELETE', this._restEndpoint(commentID)).then(function(req) {
-          this.fire('gr-diff-comment-discard', this.comment);
+          this.fire('discard', null, {bubbles: false});
         }.bind(this)).catch(function(err) {
           alert('Your draft couldn’t be deleted. Check the console and ' +
               'contact the PolyGerrit team for assistance.');

@@ -33,6 +33,12 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="comments">
+  <template>
+    <gr-diff></gr-diff>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-diff tests', function() {
     var element;
@@ -54,7 +60,39 @@ limitations under the License.
           JSON.stringify({
             change_type: 'MODIFIED',
             content: [
-              {ab: ['doin some codez and stuffs']},
+              {
+                ab: [
+                  '<!DOCTYPE html>',
+                  '<meta charset="utf-8">',
+                  '<title>My great page</title>',
+                  '<style>',
+                  '  *,',
+                  '  *:before,',
+                  '  *:after {',
+                  '    box-sizing: border-box;',
+                  '  }',
+                  '</style>',
+                  '<header>',
+                ]
+              },
+              {
+                a: [
+                  '  Welcome ',
+                  '  to the wooorld of tomorrow!',
+                ],
+                b: [
+                  '  Hello, world!',
+                ],
+              },
+              {
+                ab: [
+                  '</header>',
+                  '<body>',
+                  'Leela: This is the only place the ship can’t hear us, so ',
+                  'everyone pretend to shower.',
+                  'Fry: Same as every day. Got it.',
+                ]
+              },
             ]
           }),
         ]
@@ -113,7 +151,7 @@ limitations under the License.
                   email: 'dborowitz@google.com',
                 },
                 id: '001a2067_f30f3048',
-                line: 17,
+                line: 12,
                 message: 'What on earth are you thinking, here?',
                 updated: '2015-12-12 02:51:37.973000000',
               },
@@ -138,7 +176,7 @@ limitations under the License.
                 },
                 id: 'a0407443_30dfe8fb',
                 in_reply_to: '001a2067_f30f3048',
-                line: 17,
+                line: 12,
                 message: '¯\\_(ツ)_/¯',
                 updated: '2015-12-12 18:50:21.627000000',
               },
@@ -185,6 +223,96 @@ limitations under the License.
         done();
       });
     });
+
+    test('comment rendering', function(done) {
+      element._context = Infinity;
+      element._loggedIn = true;
+      element.patchRange = {
+        basePatchNum: 1,
+        patchNum: 2,
+      };
+
+      server.respond();
+
+      // Allow events to fire and the threads to render.
+      element.async(function() {
+        var leftThreadEls =
+            Polymer.dom(element.$.leftDiff.root).querySelectorAll(
+                'gr-diff-comment-thread');
+        assert.equal(leftThreadEls.length, 1);
+        assert.equal(leftThreadEls[0].comments.length, 1);
+
+        var rightThreadEls =
+            Polymer.dom(element.$.rightDiff.root).querySelectorAll(
+                'gr-diff-comment-thread');
+        assert.equal(rightThreadEls.length, 1);
+        assert.equal(rightThreadEls[0].comments.length, 2);
+
+        var index = leftThreadEls[0].getAttribute('data-index');
+        var leftFillerEls =
+            Polymer.dom(element.$.leftDiff.root).querySelectorAll(
+                '.commentThread.filler[data-index="' + index + '"]');
+        assert.equal(leftFillerEls.length, 1);
+        var rightFillerEls =
+            Polymer.dom(element.$.rightDiff.root).querySelectorAll(
+                '[data-index="' + index + '"]');
+        assert.equal(rightFillerEls.length, 2);
+
+        for (var i = 0; i < rightFillerEls.length; i++) {
+          assert.isTrue(rightFillerEls[i].classList.contains('filler'));
+        }
+        var originalHeight = rightFillerEls[0].offsetHeight;
+        assert.equal(rightFillerEls[1].offsetHeight, originalHeight);
+        assert.equal(leftThreadEls[0].offsetHeight, originalHeight);
+        assert.equal(leftFillerEls[0].offsetHeight, originalHeight);
+
+        // Create a comment on the opposite side of the first comment.
+        var rightLineEL = element.$.rightDiff.$$(
+              '.lineNum[data-index="' + (index - 1) + '"');
+        assert.ok(rightLineEL);
+        MockInteractions.tap(rightLineEL);
+        element.async(function() {
+          var newThreadEls =
+            Polymer.dom(element.$.rightDiff.root).querySelectorAll(
+                '[data-index="' + index + '"]');
+          assert.equal(newThreadEls.length, 2);
+          for (var i = 0; i < newThreadEls.length; i++) {
+            assert.isTrue(
+                newThreadEls[i].classList.contains('commentThread') ||
+                newThreadEls[i].tagName == 'GR-DIFF-COMMENT-THREAD');
+          }
+          var newHeight = newThreadEls[0].offsetHeight
+          assert.equal(newThreadEls[1].offsetHeight, newHeight);
+          assert.equal(leftFillerEls[0].offsetHeight, newHeight);
+          assert.equal(leftThreadEls[0].offsetHeight, newHeight);
+
+          // The editing mode height of the right comment will be greater than
+          // the non-editing mode height of the left comment.
+          assert.isAbove(newHeight, originalHeight);
+
+          // Discard the right thread and ensure the left comment heights are
+          // back to their original values.
+          newThreadEls[1].addEventListener('discard', function() {
+            rightFillerEls =
+                Polymer.dom(element.$.rightDiff.root).querySelectorAll(
+                    '[data-index="' + index + '"]');
+            assert.equal(rightFillerEls.length, 2);
+
+            for (var i = 0; i < rightFillerEls.length; i++) {
+              assert.isTrue(rightFillerEls[i].classList.contains('filler'));
+            }
+            var originalHeight = rightFillerEls[0].offsetHeight;
+            assert.equal(rightFillerEls[1].offsetHeight, originalHeight);
+            assert.equal(leftThreadEls[0].offsetHeight, originalHeight);
+            assert.equal(leftFillerEls[0].offsetHeight, originalHeight);
+            done()
+          });
+          var commentEl = newThreadEls[1].$$('gr-diff-comment');
+          commentEl.fire('discard', null, {bubbles: false});
+
+        }, 1);
+      }, 1);
+    }),
 
     test('intraline normalization', function() {
       // The content and highlights are in the format returned by the Gerrit
@@ -341,4 +469,6 @@ limitations under the License.
       assert.equal(leftContext.end, 19);
     });
   });
+
+
 </script>

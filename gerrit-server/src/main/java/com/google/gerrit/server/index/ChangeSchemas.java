@@ -31,7 +31,7 @@ import java.util.Map;
 /** Secondary index schemas for changes. */
 public class ChangeSchemas {
   static final Schema<ChangeData> V25 = schema(
-      ChangeField.LEGACY_ID2,
+      ChangeField.LEGACY_ID,
       ChangeField.ID,
       ChangeField.STATUS,
       ChangeField.PROJECT,

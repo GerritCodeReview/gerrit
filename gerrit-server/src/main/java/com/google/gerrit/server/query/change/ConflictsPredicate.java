@@ -77,7 +77,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       List<Predicate<ChangeData>> predicatesForOneChange =
           Lists.newArrayListWithCapacity(5);
       predicatesForOneChange.add(
-          not(new LegacyChangeIdPredicate(args.getSchema(), c.getId())));
+          not(new LegacyChangeIdPredicate(c.getId())));
       predicatesForOneChange.add(
           new ProjectPredicate(c.getProject().get()));
       predicatesForOneChange.add(

@@ -65,18 +65,7 @@ import java.util.Set;
  * characters.
  */
 public class ChangeField {
-  @Deprecated
   /** Legacy change ID. */
-  public static final FieldDef<ChangeData, Integer> LEGACY_ID =
-      new FieldDef.Single<ChangeData, Integer>("_id",
-          FieldType.INTEGER, true) {
-        @Override
-        public Integer get(ChangeData input, FillArgs args) {
-          return input.getId().get();
-        }
-      };
-
-  /** Legacy change ID without underscore prefix. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID2 =
       new FieldDef.Single<ChangeData, Integer>("legacy_id",
           FieldType.INTEGER, true) {
@@ -158,30 +147,6 @@ public class ChangeField {
             return null;
           }
           return c.getDest().get();
-        }
-      };
-
-  @Deprecated
-  /** Topic, a short annotation on the branch. */
-  public static final FieldDef<ChangeData, String> LEGACY_TOPIC2 =
-      new FieldDef.Single<ChangeData, String>(
-          "topic2", FieldType.EXACT, false) {
-        @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return getTopic(input);
-        }
-      };
-
-  @Deprecated
-  /** Topic, a short annotation on the branch. */
-  public static final FieldDef<ChangeData, String> LEGACY_TOPIC3 =
-      new FieldDef.Single<ChangeData, String>(
-          "topic3", FieldType.PREFIX, false) {
-        @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return getTopic(input);
         }
       };
 
@@ -402,23 +367,6 @@ public class ChangeField {
           }
           allApprovals.addAll(distinctApprovals);
           return allApprovals;
-        }
-      };
-
-  /** Set true if the change has a non-zero label score. */
-  @Deprecated
-  public static final FieldDef<ChangeData, String> LEGACY_REVIEWED =
-      new FieldDef.Single<ChangeData, String>(
-          "reviewed", FieldType.EXACT, false) {
-        @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
-          for (PatchSetApproval a : input.currentApprovals()) {
-            if (a.getValue() != 0) {
-              return "1";
-            }
-          }
-          return null;
         }
       };
 

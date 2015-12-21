@@ -33,8 +33,7 @@ class CommentPredicate extends IndexPredicate<ChangeData> {
   public boolean match(ChangeData object) throws OrmException {
     try {
       Predicate<ChangeData> p = Predicate.and(
-          new LegacyChangeIdPredicate(index.getSchema(), object.getId()),
-          this);
+          new LegacyChangeIdPredicate(object.getId()), this);
       for (ChangeData cData
           : index.getSource(p, QueryOptions.oneResult()).read()) {
         if (cData.getId().equals(object.getId())) {

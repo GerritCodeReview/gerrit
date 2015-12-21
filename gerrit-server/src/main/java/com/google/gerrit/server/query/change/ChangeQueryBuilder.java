@@ -379,8 +379,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> change(String query) throws QueryParseException {
     if (PAT_LEGACY_ID.matcher(query).matches()) {
-      return new LegacyChangeIdPredicate(
-          args.getSchema(), Change.Id.parse(query));
+      return new LegacyChangeIdPredicate(Change.Id.parse(query));
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return new ChangeIdPredicate(parseChangeId(query));
     }
@@ -403,7 +402,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> status(String statusName) {
     if ("reviewed".equalsIgnoreCase(statusName)) {
-      return IsReviewedPredicate.create(args.getSchema());
+      return IsReviewedPredicate.create();
     } else {
       return ChangeStatusPredicate.parse(statusName);
     }
@@ -444,7 +443,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewed".equalsIgnoreCase(value)) {
-      return IsReviewedPredicate.create(args.getSchema());
+      return IsReviewedPredicate.create();
     }
 
     if ("owner".equalsIgnoreCase(value)) {
@@ -518,18 +517,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> topic(String name) {
-    return new ExactTopicPredicate(args.getSchema(), name);
+    return new ExactTopicPredicate(name);
   }
 
   @Operator
   public Predicate<ChangeData> intopic(String name) {
     if (name.startsWith("^")) {
-      return new RegexTopicPredicate(args.getSchema(), name);
+      return new RegexTopicPredicate(name);
     }
     if (name.isEmpty()) {
-      return new ExactTopicPredicate(args.getSchema(), name);
+      return new ExactTopicPredicate(name);
     }
-    return new FuzzyTopicPredicate(args.getSchema(), name, args.index);
+    return new FuzzyTopicPredicate(name, args.index);
   }
 
   @Operator
@@ -870,7 +869,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> reviewedby(String who)
       throws QueryParseException, OrmException {
-    return IsReviewedPredicate.create(args.getSchema(), parseAccount(who));
+    return IsReviewedPredicate.create(parseAccount(who));
   }
 
   @Operator

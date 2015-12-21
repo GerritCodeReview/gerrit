@@ -14,18 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.index.ChangeField.LEGACY_REVIEWED;
 import static com.google.gerrit.server.index.ChangeField.REVIEWEDBY;
 
-import com.google.common.base.Optional;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.index.ChangeField;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 import java.util.ArrayList;
@@ -37,34 +31,16 @@ class IsReviewedPredicate extends IndexPredicate<ChangeData> {
   private static final Account.Id NOT_REVIEWED =
       new Account.Id(ChangeField.NOT_REVIEWED);
 
-  @SuppressWarnings("deprecation")
-  static Predicate<ChangeData> create(Schema<ChangeData> schema) {
-    if (getField(schema) == LEGACY_REVIEWED) {
-      return new LegacyIsReviewedPredicate();
-    }
+  static Predicate<ChangeData> create() {
     return Predicate.not(new IsReviewedPredicate(NOT_REVIEWED));
   }
 
-  @SuppressWarnings("deprecation")
-  static Predicate<ChangeData> create(Schema<ChangeData> schema,
-      Collection<Account.Id> ids) throws QueryParseException {
-    if (getField(schema) == LEGACY_REVIEWED) {
-      throw new QueryParseException("Only is:reviewed is supported");
-    }
+  static Predicate<ChangeData> create(Collection<Account.Id> ids) {
     List<Predicate<ChangeData>> predicates = new ArrayList<>(ids.size());
     for (Account.Id id : ids) {
       predicates.add(new IsReviewedPredicate(id));
     }
     return Predicate.or(predicates);
-  }
-
-  @SuppressWarnings("deprecation")
-  private static FieldDef<ChangeData, ?> getField(Schema<ChangeData> schema) {
-    Optional<FieldDef<ChangeData, ?>> f =
-        schema.getField(REVIEWEDBY, LEGACY_REVIEWED);
-    checkState(f.isPresent(), "Schema %s missing field %s",
-        schema.getVersion(), REVIEWEDBY.getName());
-    return f.get();
   }
 
   private final Account.Id id;

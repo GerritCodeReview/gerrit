@@ -52,6 +52,24 @@
       "revId": "ac4b08298c605c43c14ec8a37591d0ad0d72ce6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_1eb06daf",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-21T08:16:45Z",
+      "side": 1,
+      "message": "on-line edit default columns was set to 100 ... possibly a default value to change in Gerrit? ;-) Now I changed it to 80 and see going over the \"red line\" too :-)",
+      "parentUuid": "aa0bf316_787421d8",
+      "revId": "ac4b08298c605c43c14ec8a37591d0ad0d72ce6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

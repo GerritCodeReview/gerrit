@@ -14,7 +14,7 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.gerrit.server.index.ChangeField.LEGACY_ID2;
+import static com.google.gerrit.server.index.ChangeField.LEGACY_ID;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
@@ -51,11 +51,11 @@ import java.util.List;
 public class QueryBuilder {
 
   public static Term idTerm(ChangeData cd) {
-    return intTerm(LEGACY_ID2.getName(), cd.getId().get());
+    return intTerm(LEGACY_ID.getName(), cd.getId().get());
   }
 
   public static Term idTerm(Change.Id id) {
-    return intTerm(LEGACY_ID2.getName(), id.get());
+    return intTerm(LEGACY_ID.getName(), id.get());
   }
 
   private final org.apache.lucene.util.QueryBuilder queryBuilder;

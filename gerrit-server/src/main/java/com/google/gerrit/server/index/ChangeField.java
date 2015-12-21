@@ -66,7 +66,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Legacy change ID without underscore prefix. */
-  public static final FieldDef<ChangeData, Integer> LEGACY_ID2 =
+  public static final FieldDef<ChangeData, Integer> LEGACY_ID =
       new FieldDef.Single<ChangeData, Integer>("legacy_id",
           FieldType.INTEGER, true) {
         @Override

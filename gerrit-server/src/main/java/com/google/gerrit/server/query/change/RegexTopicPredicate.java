@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.server.index.ChangeField.FUZZY_TOPIC;
+
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.RegexPredicate;
-import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
 
 import dk.brics.automaton.RegExp;
@@ -25,8 +26,8 @@ import dk.brics.automaton.RunAutomaton;
 class RegexTopicPredicate extends RegexPredicate<ChangeData> {
   private final RunAutomaton pattern;
 
-  RegexTopicPredicate(Schema<ChangeData> schema, String re) {
-    super(FuzzyTopicPredicate.topicField(schema), re);
+  RegexTopicPredicate(String re) {
+    super(FUZZY_TOPIC, re);
 
     if (re.startsWith("^")) {
       re = re.substring(1);

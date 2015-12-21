@@ -17,44 +17,21 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.ChangeField.EXACT_TOPIC;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.ChangeField;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
 
 class ExactTopicPredicate extends IndexPredicate<ChangeData> {
-  @SuppressWarnings("deprecation")
-  static FieldDef<ChangeData, ?> topicField(Schema<ChangeData> schema) {
-    if (schema == null) {
-      return ChangeField.LEGACY_TOPIC2;
-    }
-    if (schema.hasField(EXACT_TOPIC)) {
-      return schema.getFields().get(EXACT_TOPIC.getName());
-    }
-    if (schema.hasField(ChangeField.LEGACY_TOPIC2)) {
-      return schema.getFields().get(ChangeField.LEGACY_TOPIC2.getName());
-    }
-    // Not exact, but we cannot do any better.
-    return schema.getFields().get(ChangeField.LEGACY_TOPIC3.getName());
+  ExactTopicPredicate(String topic) {
+    super(EXACT_TOPIC, topic);
   }
 
-  ExactTopicPredicate(Schema<ChangeData> schema, String topic) {
-    super(topicField(schema), topic);
-  }
-
-  @SuppressWarnings("deprecation")
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change();
     if (change == null) {
       return false;
     }
-    String t = change.getTopic();
-    if (t == null && getField() == ChangeField.LEGACY_TOPIC2) {
-      t = "";
-    }
-    return getValue().equals(t);
+    return getValue().equals(change.getTopic());
   }
 
   @Override

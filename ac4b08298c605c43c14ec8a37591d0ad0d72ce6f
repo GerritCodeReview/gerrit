@@ -34,6 +34,24 @@
       "revId": "ac4b08298c605c43c14ec8a37591d0ad0d72ce6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_787421d8",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-21T00:33:10Z",
+      "side": 1,
+      "message": "...if you set the columns preference at more than 80 :)\n\nhttp://imgur.com/bcv59QJ",
+      "parentUuid": "6afc9b2b_bef05986",
+      "revId": "ac4b08298c605c43c14ec8a37591d0ad0d72ce6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

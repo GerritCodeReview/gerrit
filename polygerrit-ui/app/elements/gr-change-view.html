@@ -91,7 +91,6 @@ limitations under the License.
         border-bottom: 1px solid #ddd;
         font-family: 'Source Code Pro', Menlo, 'Lucida Console', Monaco, monospace;
         overflow-x: auto;
-        white-space: pre-wrap;
       }
       gr-file-list {
         padding: 0 var(--default-horizontal-margin) 10px;
@@ -177,7 +176,7 @@ limitations under the License.
         </table>
       </section>
       <section class="summary">
-        <gr-linked-text content="[[_commitInfo.message]]"></gr-linked-text>
+        <gr-linked-text pre content="[[_commitInfo.message]]"></gr-linked-text>
       </section>
       <gr-file-list id="fileList"
           change-num="[[_changeNum]]"

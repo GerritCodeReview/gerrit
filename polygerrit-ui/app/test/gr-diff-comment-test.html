@@ -56,14 +56,14 @@ limitations under the License.
     });
 
     test('proper event fires on reply', function(done) {
-      element.addEventListener('gr-diff-comment-reply', function(e) {
+      element.addEventListener('reply', function(e) {
         done();
       });
       MockInteractions.tap(element.$$('.reply'));
     });
 
     test('proper event fires on done', function(done) {
-      element.addEventListener('gr-diff-comment-done', function(e) {
+      element.addEventListener('done', function(e) {
         done();
       });
       MockInteractions.tap(element.$$('.done'));
@@ -140,6 +140,11 @@ limitations under the License.
     }
 
     test('button visibility states', function() {
+      element.showActions = false;
+      assert.isTrue(element.$$('.actions').hasAttribute('hidden'));
+      element.showActions = true;
+      assert.isFalse(element.$$('.actions').hasAttribute('hidden'));
+
       element.draft = true;
       assert.isTrue(isVisible(element.$$('.edit')), 'edit is visible');
       assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
@@ -183,7 +188,7 @@ limitations under the License.
       assert.isTrue(disabled, 'save button should be disabled.');
 
       var numDiscardEvents = 0;
-      element.addEventListener('gr-diff-comment-discard', function(e) {
+      element.addEventListener('discard', function(e) {
         numDiscardEvents++;
         if (numDiscardEvents == 2) {
           done();
@@ -230,13 +235,6 @@ limitations under the License.
           done();
         });
       });
-    });
-
-    test('proper event fires on done', function(done) {
-      element.addEventListener('gr-diff-comment-done', function(e) {
-        done();
-      });
-      MockInteractions.tap(element.$$('.done'));
     });
 
     test('clicking on date link does not trigger nav', function() {

@@ -25,15 +25,30 @@ limitations under the License.
         max-width: 50em;
         white-space: normal;
       }
+      gr-diff-comment {
+        border-left: 1px solid #ddd;
+      }
+      gr-diff-comment:first-of-type {
+        border-top: 1px solid #ddd;
+      }
+      gr-diff-comment:last-of-type {
+        border-bottom: 1px solid #ddd;
+      }
     </style>
-    <template id="commentList" is="dom-repeat" items="{{_orderedComments}}" as="comment">
-      <gr-diff-comment
-          comment="{{comment}}"
-          change-num="[[changeNum]]"
-          patch-num="[[patchNum]]"
-          draft="[[comment.__draft]]"
-          editing="[[!comment.message]]"></gr-diff-comment>
-    </template>
+    <div id="container">
+      <template id="commentList" is="dom-repeat" items="{{_orderedComments}}" as="comment">
+        <gr-diff-comment
+            comment="{{comment}}"
+            change-num="[[changeNum]]"
+            patch-num="[[patchNum]]"
+            draft="[[comment.__draft]]"
+            editing="[[!comment.message]]"
+            on-height-change="_handleCommentHeightChange"
+            on-reply="_handleCommentReply"
+            on-discard="_handleCommentDiscard"
+            on-done="_handleCommentDone"></gr-diff-comment>
+      </template>
+    </div>
   </template>
   <script>
   (function() {
@@ -46,13 +61,13 @@ limitations under the License.
       /**
        * Fired when the height of the thread changes.
        *
-       * @event gr-diff-comment-thread-height-changed
+       * @event height-changed
        */
 
       /**
        * Fired when the thread should be discarded.
        *
-       * @event gr-diff-comment-thread-discard
+       * @event discard
        */
 
       properties: {
@@ -63,26 +78,26 @@ limitations under the License.
           observer: '_commentsChanged',
         },
         patchNum: String,
+        path: String,
 
+        _lastHeight: Number,
         _orderedComments: Array,
       },
 
-      ready: function() {
-        this.addEventListener('gr-diff-comment-height-changed',
-            this._handleCommentHeightChange.bind(this));
-        this.addEventListener('gr-diff-comment-reply',
-            this._handleCommentReply.bind(this));
-        this.addEventListener('gr-diff-comment-discard',
-            this._handleCommentDiscard.bind(this));
+      get naturalHeight() {
+        return this.$.container.offsetHeight;
       },
 
       _commentsChanged: function(comments) {
         this._orderedComments = this._sortedComments(comments);
+        this.async(this._heightChanged.bind(this), 1);
       },
 
       _sortedComments: function(comments) {
         comments.sort(function(c1, c2) {
-          return util.parseDate(c1.updated) - util.parseDate(c2.updated);
+          var c1Date = c1.__date || util.parseDate(c1.updated);
+          var c2Date = c2.__date || util.parseDate(c2.updated);
+          return c1Date - c2Date;
         });
 
         var commentIDToReplies = {};
@@ -116,15 +131,50 @@ limitations under the License.
       },
 
       _handleCommentHeightChange: function(e) {
-        // TODO: This fires for each comment on initialization. Optimize to only
-        // fire the top level "thread height has changed" event once during
-        // initial DOM stamp.
-        this.fire('gr-diff-comment-thread-height-changed',
-            {height: this.offsetHeight});
+        this._heightChanged();
       },
 
       _handleCommentReply: function(e) {
-        console.log('should add reply...')
+        var comment = e.detail.comment;
+        this.comments.push(this._newReply(comment.id, comment.line, this.path));
+        this._commentsChanged(this.comments);
+      },
+
+      _handleCommentDone: function(e) {
+        var comment = e.detail.comment;
+        var reply = this._newReply(comment.id, comment.line, this.path, 'Done');
+        this.comments.push(reply);
+        this._commentsChanged(this.comments);
+
+        // Allow the reply to render in the dom-repeat.
+        this.async(function() {
+          var commentEls =
+              Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
+          for (var i = 0; i < commentEls.length; i++) {
+            if (commentEls[i].comment.__draftID == reply.__draftID) {
+              commentEls[i].save();
+              return;
+            }
+          }
+        }.bind(this), 1);
+      },
+
+      _newReply: function(inReplyTo, line, path, opt_message) {
+        // TODO(andybons): These ad-hoc properties should be masked by a
+        // lightweight model class:
+        // https://code.google.com/p/gerrit/issues/detail?id=3729
+        var c = {
+          __draft: true,
+          __draftID: Math.random().toString(36),
+          __date: new Date(),
+          line: line,
+          path: path,
+          in_reply_to: inReplyTo,
+        };
+        if (opt_message != null) {
+          c.message = opt_message;
+        }
+        return c;
       },
 
       _handleCommentDiscard: function(e) {
@@ -136,11 +186,19 @@ limitations under the License.
         }
         this.comments.splice(idx, 1);
         this._commentsChanged(this.comments);
-        if (this.comments.length == 0 && this.parentNode) {
-          this.parentNode.removeChild(this);
+        if (this.comments.length == 0) {
+          this.fire('discard', null, {bubbles: false});
+          return;
         }
-        this.fire('gr-diff-comment-thread-height-changed',
-            {height: this.offsetHeight});
+      },
+
+      _heightChanged: function() {
+        // Account for 1px border at top and bottom.
+        var height = this.$.container.offsetHeight + 2;
+        if (height == this._lastHeight) { return; }
+
+        this.fire('height-changed', {height: height}, {bubbles: false});
+        this._lastHeight = height;
       },
 
       _indexOf: function(comment, arr) {

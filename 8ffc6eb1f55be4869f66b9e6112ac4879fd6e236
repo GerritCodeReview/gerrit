@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa0bf316_f8bb918b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-21T23:22:20Z",
+      "side": 1,
+      "message": "Does undefined have the behavior we intend here instead? ISTR computed bindings not getting evaluated when arguments are undefined...",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "8ffc6eb1f55be4869f66b9e6112ac4879fd6e236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

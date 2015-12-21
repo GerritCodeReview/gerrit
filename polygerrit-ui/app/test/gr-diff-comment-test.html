@@ -21,6 +21,7 @@ limitations under the License.
 <script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
 <script src="../../bower_components/page/page.js"></script>
+<script src="../scripts/fake-app.js"></script>
 <script src="../scripts/util.js"></script>
 
 <link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
@@ -56,14 +57,14 @@ limitations under the License.
     });
 
     test('proper event fires on reply', function(done) {
-      element.addEventListener('gr-diff-comment-reply', function(e) {
+      element.addEventListener('reply', function(e) {
         done();
       });
       MockInteractions.tap(element.$$('.reply'));
     });
 
     test('proper event fires on done', function(done) {
-      element.addEventListener('gr-diff-comment-done', function(e) {
+      element.addEventListener('done', function(e) {
         done();
       });
       MockInteractions.tap(element.$$('.done'));
@@ -183,7 +184,7 @@ limitations under the License.
       assert.isTrue(disabled, 'save button should be disabled.');
 
       var numDiscardEvents = 0;
-      element.addEventListener('gr-diff-comment-discard', function(e) {
+      element.addEventListener('discard', function(e) {
         numDiscardEvents++;
         if (numDiscardEvents == 2) {
           done();
@@ -233,7 +234,7 @@ limitations under the License.
     });
 
     test('proper event fires on done', function(done) {
-      element.addEventListener('gr-diff-comment-done', function(e) {
+      element.addEventListener('done', function(e) {
         done();
       });
       MockInteractions.tap(element.$$('.done'));

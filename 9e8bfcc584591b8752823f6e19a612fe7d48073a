@@ -22,6 +22,30 @@
       "revId": "9e8bfcc584591b8752823f6e19a612fe7d48073a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_be42993e",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-21T19:37:24Z",
+      "side": 1,
+      "message": "You are right: if not set (which is the default), no link should be displayed.\n\nFixed.",
+      "parentUuid": "2ad0e3e3_0c0ab76d",
+      "range": {
+        "startLine": 117,
+        "startChar": 18,
+        "endLine": 117,
+        "endChar": 46
+      },
+      "revId": "9e8bfcc584591b8752823f6e19a612fe7d48073a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

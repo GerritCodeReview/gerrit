@@ -1,0 +1,440 @@
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
+<link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-request.html">
+
+<dom-module id="gr-reviewer-list">
+  <style>
+    :host {
+      display: block;
+    }
+    :host([disabled]) {
+      opacity: .8;
+      pointer-events: none;
+    }
+    .autocompleteContainer {
+      position: relative;
+    }
+    .inputContainer {
+      display: flex;
+      margin-top: .25em;
+    }
+    .inputContainer input {
+      flex: 1;
+      font: inherit;
+    }
+    .dropdown {
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+      position: absolute;
+      left: 0;
+      top: 100%;
+    }
+    .account {
+      cursor: pointer;
+      padding: .5em .75em;
+    }
+    .account[selected] {
+      background-color: #ccc;
+    }
+    .remove,
+    .cancel {
+      color: #999;
+    }
+    .remove {
+      font-size: .9em;
+    }
+    .cancel {
+      font-size: 2em;
+      line-height: 1;
+      padding: 0 .15em;
+      text-decoration: none;
+    }
+  </style>
+  <template>
+    <gr-ajax id="autocompleteXHR"
+        url="[[_computeAutocompleteURL(change)]]"
+        params="[[_computeAutocompleteParams(_inputVal)]]"
+        on-response="_handleResponse"></gr-ajax>
+
+    <template is="dom-repeat" items="[[_reviewers]]" as="reviewer">
+      <div class="reviewer">
+        <span>[[reviewer.name]]</span>
+        <span hidden$="[[!reviewer.email]]">
+          (<span>[[reviewer.email]]</span>)
+        </span>
+        <a class="remove"
+            href="#"
+            data-account-id$="[[reviewer._account_id]]"
+            on-tap="_handleRemoveTap"
+            hidden$="[[_computeCannotRemoveReviewer(reviewer, mutable)]]">remove</a>
+      </div>
+    </template>
+    <div class="controlsContainer" hidden$="[[!mutable]]">
+      <div class="autocompleteContainer" hidden$="[[!_showInput]]">
+        <div class="inputContainer">
+          <input is="iron-input" type="email" id="input"
+              bind-value="{{_inputVal}}" disabled$="[[disabled]]">
+          <a href="#" class="cancel" on-tap="_handleCancelTap">×</a>
+        </div>
+        <div class="dropdown" hidden$="[[_hideAutocomplete]]">
+          <template is="dom-repeat" items="[[_autocompleteData]]" as="account">
+            <div class="account"
+                data-index$="[[index]]"
+                on-mouseenter="_handleMouseEnterItem"
+                on-tap="_handleItemTap"
+                selected$="[[_computeSelected(index, _selectedIndex)]]">
+              <span>[[account.name]]</span>
+              <span hidden$="[[!account.email]]">
+                (<span>[[account.email]]</span>)
+              </span>
+            </div>
+          </template>
+        </div>
+      </div>
+      <a href="#" class="addReviewer" on-tap="_handleAddTap"
+          hidden$="[[_showInput]]">Add reviewer</a>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-reviewer-list',
+
+      behaviors: [
+        Polymer.IronA11yKeysBehavior
+      ],
+
+      properties: {
+        change: Object,
+        mutable: {
+          type: Boolean,
+          value: false,
+        },
+        keyEventTarget: {
+          type: Object,
+          value: function() {
+            return this;
+          },
+        },
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        suggestFrom: {
+          type: Number,
+          value: 3,
+        },
+
+        _reviewers: {
+          type: Array,
+          value: function() { return []; },
+        },
+        _autocompleteData: {
+          type: Array,
+          value: function() { return []; },
+          observer: '_autocompleteDataChanged',
+        },
+        _inputVal: {
+          type: String,
+          value: '',
+          observer: '_inputValChanged',
+        },
+        _inputRequestHandle: Number,
+        _inputRequestTimeout: {
+          type: Number,
+          value: 250,
+        },
+        _showInput: {
+          type: Boolean,
+          value: false,
+        },
+        _hideAutocomplete: {
+          type: Boolean,
+          value: true,
+          observer: '_hideAutocompleteChanged',
+        },
+        _selectedIndex: {
+          type: Number,
+          value: 0,
+        },
+        _boundBodyClickHandler: {
+          type: Function,
+          value: function() {
+            return this._handleBodyClick.bind(this);
+          },
+        },
+
+        // Used for testing.
+        _lastAutocompleteRequest: Object,
+        _xhrPromise: Object,
+      },
+
+      keyBindings: {
+        'up down esc enter': '_handleKey',
+      },
+
+      observers: [
+        '_reviewersChanged(change.reviewers.*, change.owner)',
+      ],
+
+      detached: function() {
+        this._clearInputRequestHandle();
+      },
+
+      _clearInputRequestHandle: function() {
+        if (this._inputRequestHandle != null) {
+          this.cancelAsync(this._inputRequestHandle);
+          this._inputRequestHandle = null;
+        }
+      },
+
+      _reviewersChanged: function(changeRecord, owner) {
+        var result = [];
+        var reviewers = changeRecord.base;
+        for (var key in reviewers) {
+          if (key == 'REVIEWER' || key == 'CC') {
+            result = result.concat(reviewers[key]);
+          }
+        }
+        this._reviewers = result.filter(function(reviewer) {
+          return reviewer._account_id != owner._account_id;
+        });
+      },
+
+      _computeCannotRemoveReviewer: function(reviewer, mutable) {
+        if (!mutable) { return true; }
+
+        for (var i = 0; i < this.change.removable_reviewers.length; i++) {
+          if (this.change.removable_reviewers[i]._account_id ==
+              reviewer._account_id) {
+            return false;
+          }
+        }
+        return true;
+      },
+
+      _computeAutocompleteURL: function(change) {
+        return '/changes/' + change._number + '/suggest_reviewers';
+      },
+
+      _computeAutocompleteParams: function(inputVal) {
+        return {
+          n: 10,  // Return max 10 results
+          q: inputVal,
+        };
+      },
+
+      _computeSelected: function(index, selectedIndex) {
+        return index == selectedIndex;
+      },
+
+      _handleResponse: function(e) {
+        this._autocompleteData = e.detail.response.map(function(result) {
+          return result.account;
+        }).filter(function(account) {
+          for (var i = 0; i < this._reviewers.length; i++) {
+            if (account._account_id == this.change.owner._account_id ||
+                account._account_id == this._reviewers[i]._account_id) {
+              return false;
+            }
+          }
+          return true;
+        }, this);
+      },
+
+      _handleBodyClick: function(e) {
+        var eventPath = Polymer.dom(e).path;
+        for (var i = 0; i < eventPath.length; i++) {
+          if (eventPath[i] == this) {
+            return;
+          }
+        }
+        this._selectedIndex = -1;
+        this._autocompleteData = [];
+      },
+
+      _handleRemoveTap: function(e) {
+        e.preventDefault();
+        var target = Polymer.dom(e).rootTarget;
+        var accountID = parseInt(target.getAttribute('data-account-id'), 10);
+        this._send('DELETE', this._restEndpoint(accountID)).then(function(req) {
+          var reviewers = this.change.reviewers;
+          ['REVIEWER', 'CC'].forEach(function(type) {
+            reviewers[type] = reviewers[type] || [];
+            for (var i = 0; i < reviewers[type].length; i++) {
+              if (reviewers[type][i]._account_id == accountID) {
+                this.splice('change.reviewers.' + type, i, 1);
+                break;
+              }
+            }
+          }, this);
+        }.bind(this)).catch(function(err) {
+          alert('Oops. Something went wrong. Check the console and bug the ' +
+              'PolyGerrit team for assistance.');
+          throw err;
+        }.bind(this));
+      },
+
+      _handleAddTap: function(e) {
+        e.preventDefault();
+        this._showInput = true;
+        this.$.input.focus();
+      },
+
+      _handleCancelTap: function(e) {
+        e.preventDefault();
+        this._showInput = false;
+        this._selectedIndex = 0;
+        this._inputVal = '';
+        this._autocompleteData = [];
+      },
+
+      _handleMouseEnterItem: function(e) {
+        this._selectedIndex =
+            parseInt(Polymer.dom(e).rootTarget.getAttribute('data-index'), 10);
+      },
+
+      _handleItemTap: function(e) {
+        var accountEl;
+        var eventPath = Polymer.dom(e).path;
+        for (var i = 0; i < eventPath.length; i++) {
+          if (eventPath[i].classList.contains('account')) {
+            accountEl = eventPath[i];
+            break;
+          }
+        }
+        this._selectedIndex =
+            parseInt(accountEl.getAttribute('data-index'), 10);
+        this._sendAddRequest();
+      },
+
+      _autocompleteDataChanged: function(data) {
+        this._hideAutocomplete = data.length == 0;
+      },
+
+      _hideAutocompleteChanged: function(hidden) {
+        if (hidden) {
+          document.body.removeEventListener('click',
+              this._boundBodyClickHandler);
+          this._selectedIndex = -1;
+        } else {
+          document.body.addEventListener('click', this._boundBodyClickHandler);
+          this._selectedIndex = 0;
+        }
+      },
+
+      _inputValChanged: function(val) {
+        var sendRequest = function() {
+          if (this.disabled || val == null || val.trim().length == 0) {
+            return;
+          }
+          if (val.length <= this.suggestFrom) {
+            this._clearInputRequestHandle();
+            this._hideAutocomplete = true;
+            this._selectedIndex = -1;
+            return;
+          }
+          this._lastAutocompleteRequest =
+              this.$.autocompleteXHR.generateRequest();
+        }.bind(this);
+
+        this._clearInputRequestHandle();
+        if (this._inputRequestTimeout == 0) {
+          sendRequest();
+        } else {
+          this._inputRequestHandle =
+              this.async(sendRequest, this._inputRequestTimeout);
+        }
+      },
+
+      _handleKey: function(e) {
+        if (this._hideAutocomplete) { return; }
+        e.preventDefault();
+
+        switch (e.detail.combo) {
+          case 'up':
+            this._selectedIndex = Math.max(this._selectedIndex - 1, 0);
+            break;
+          case 'down':
+            this._selectedIndex = Math.min(this._selectedIndex + 1,
+                                           this._autocompleteData.length - 1);
+            break;
+          case 'esc':
+            this._hideAutocomplete = true;
+            break;
+          case 'enter':
+            this._sendAddRequest();
+            break;
+        }
+      },
+
+      _sendAddRequest: function() {
+        this._clearInputRequestHandle();
+
+        // TODO(andybons): Support groups and non-email types.
+        var account = this._autocompleteData[this._selectedIndex];
+        if (account) {
+          this._inputVal = account.email;
+        }
+        this._autocompleteData = [];
+        this._send('POST', this._restEndpoint()).then(function(req) {
+          this.change.reviewers['CC'] = this.change.reviewers['CC'] || [];
+          req.response.reviewers.forEach(function(r) {
+            this.push('change.removable_reviewers', r);
+            this.push('change.reviewers.CC', r);
+          }, this);
+          this._inputVal = '';
+          this.$.input.focus();
+        }.bind(this)).catch(function(err) {
+          // TODO(andybons): Use the message returned by the server.
+          alert('Unable to add ' + this._inputVal + ' as a reviewer. ' +
+              'Are you sure the email is right?');
+          throw err;
+        }.bind(this));
+      },
+
+      _send: function(method, url) {
+        this.disabled = true;
+        var request = document.createElement('gr-request');
+        this._xhrPromise = request.send({
+          method: method,
+          url: url,
+          body: {reviewer: this._inputVal},
+        });
+        var enableEl = function() { this.disabled = false; }.bind(this);
+        this._xhrPromise.then(enableEl).catch(enableEl);
+        return this._xhrPromise;
+      },
+
+      _restEndpoint: function(id) {
+        var path = '/changes/' + this.change._number + '/reviewers';
+        if (id) {
+          path += '/' + id;
+        }
+        return path;
+      },
+    });
+  })();
+  </script>
+</dom-module>

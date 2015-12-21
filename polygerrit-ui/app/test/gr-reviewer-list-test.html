@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-reviewer-list</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../scripts/util.js"></script>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../elements/gr-reviewer-list.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-reviewer-list></gr-reviewer-list>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-reviewer-list tests', function() {
+    var element;
+    var server;
+
+    setup(function() {
+      element = fixture('basic');
+
+      server = sinon.fakeServer.create();
+      server.respondWith(
+        'GET',
+        /\/changes\/42\/suggest_reviewers\?n=10&q=andy(.*)/,
+        [
+          200,
+          { 'Content-Type': 'application/json' },
+          ')]}\'\n' +
+          JSON.stringify([
+            {
+              account: {
+                _account_id: 1021482,
+                name: "Andrew Bonventre",
+                email: "andybons@chromium.org",
+              }
+            },
+            {
+              account: {
+                _account_id: 1021863,
+                name: "Andrew Bonventre",
+                email: "andybons@google.com",
+              }
+            }
+          ]),
+        ]
+      );
+      server.respondWith(
+        'POST',
+        '/changes/42/reviewers',
+        [
+          200,
+          { 'Content-Type': 'application/json'},
+          ')]}\'\n' +
+          JSON.stringify({
+            reviewers: [{
+              _account_id: 1021482,
+              approvals: {
+                'Code-Review': ' 0'
+              },
+              email: 'andybons@chromium.org',
+              name: 'Andrew Bonventre',
+            }]
+          }),
+        ]
+      );
+      server.respondWith(
+        'DELETE',
+        '/changes/42/reviewers/1021482',
+        [
+          204,
+          { 'Content-Type': 'application/json'},
+          ')]}\'\n{}',
+        ]
+      );
+    });
+
+    teardown(function() {
+      server.restore();
+    });
+
+    test('controls hidden on immutable element', function() {
+      element.mutable = false;
+      assert.isTrue(element.$$('.controlsContainer').hasAttribute('hidden'));
+      element.mutable = true;
+      assert.isFalse(element.$$('.controlsContainer').hasAttribute('hidden'));
+    });
+
+    test('show/hide input', function() {
+      element.mutable = true;
+      assert.isFalse(element.$$('.addReviewer').hasAttribute('hidden'));
+      assert.isTrue(
+          element.$$('.autocompleteContainer').hasAttribute('hidden'));
+      assert.notEqual(document.activeElement.id, 'input');
+      MockInteractions.tap(element.$$('.addReviewer'));
+      assert.isTrue(element.$$('.addReviewer').hasAttribute('hidden'));
+      assert.isFalse(
+          element.$$('.autocompleteContainer').hasAttribute('hidden'));
+      assert.equal(document.activeElement.id, 'input');
+    });
+
+    test('only show remove for removable reviewers', function() {
+      element.mutable = true;
+      element.change = {
+        owner: {
+          _account_id: 1,
+        },
+        reviewers: {
+          'REVIEWER': [
+            {
+              _account_id: 2,
+              name: 'Bojack Horseman',
+              email: 'SecretariatRulez96@hotmail.com',
+            },
+            {
+              _account_id: 3,
+              name: 'Pinky Penguin',
+            },
+          ],
+          'CC': [
+            {
+              _account_id: 4,
+              name: 'Diane Nguyen',
+              email: 'macarthurfellow2B@juno.com',
+            },
+          ]
+        },
+        removable_reviewers: [
+          {
+            _account_id: 3,
+            name: 'Pinky Penguin',
+          },
+          {
+            _account_id: 4,
+            name: 'Diane Nguyen',
+            email: 'macarthurfellow2B@juno.com',
+          },
+        ]
+      };
+      flushAsynchronousOperations();
+      var removeEls =
+          Polymer.dom(element.root).querySelectorAll('.reviewer > .remove');
+      assert.equal(removeEls.length, 3);
+      Array.from(removeEls).forEach(function(el) {
+        var accountID = parseInt(el.getAttribute('data-account-id'), 10);
+        assert.ok(accountID);
+        if (accountID == 2) {
+          assert.isTrue(el.hasAttribute('hidden'));
+        } else {
+          assert.isFalse(el.hasAttribute('hidden'));
+        }
+      });
+    });
+
+    test('autocomplete starts at >= 4 chars', function() {
+      element._inputRequestTimeout = 0;
+      element._mutable = true;
+      var genRequestStub = sinon.stub(
+        element.$.autocompleteXHR,
+        'generateRequest',
+        function() {
+          assert(false, 'generateRequest should not be called for input ' +
+              'lengths of less than 4 chars');
+      });
+      element._inputVal = 'foo';
+      flushAsynchronousOperations();
+      genRequestStub.restore();
+    });
+
+    test('add/remove reviewer flow', function(done) {
+      element.change = {
+        _number: 42,
+        reviewers: {},
+        removable_reviewers: [],
+        owner: { _account_id: 0 },
+      };
+      element._inputRequestTimeout = 0;
+      element._mutable = true;
+      MockInteractions.tap(element.$$('.addReviewer'));
+      flushAsynchronousOperations();
+      element._inputVal = 'andy';
+      server.respond();
+
+      element._lastAutocompleteRequest.completes.then(function() {
+        flushAsynchronousOperations();
+        assert.isFalse(element.$$('.dropdown').hasAttribute('hidden'));
+        var itemEls = Polymer.dom(element.root).querySelectorAll('.account');
+        assert.equal(itemEls.length, 2);
+        assert.isTrue(itemEls[0].hasAttribute('selected'));
+        assert.isFalse(itemEls[1].hasAttribute('selected'));
+
+        MockInteractions.pressAndReleaseKeyOn(element, 40); // 'down'
+        assert.isFalse(itemEls[0].hasAttribute('selected'));
+        assert.isTrue(itemEls[1].hasAttribute('selected'));
+
+        MockInteractions.pressAndReleaseKeyOn(element, 38); // 'up'
+        assert.isTrue(itemEls[0].hasAttribute('selected'));
+        assert.isFalse(itemEls[1].hasAttribute('selected'));
+
+        MockInteractions.pressAndReleaseKeyOn(element, 27); // 'esc'
+        assert.isTrue(element.$$('.dropdown').hasAttribute('hidden'));
+
+        element._inputVal = 'andyb';
+        server.respond();
+
+        element._lastAutocompleteRequest.completes.then(function() {
+          assert.isFalse(element.$$('.dropdown').hasAttribute('hidden'));
+          var itemEls = Polymer.dom(element.root).querySelectorAll('.account');
+          assert.equal(itemEls.length, 2);
+          assert.isTrue(itemEls[0].hasAttribute('selected'));
+          assert.isFalse(itemEls[1].hasAttribute('selected'));
+          MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
+          assert.isTrue(element.disabled);
+          server.respond();
+
+          element._xhrPromise.then(function() {
+            assert.isFalse(element.disabled);
+            flushAsynchronousOperations();
+            var reviewerEls =
+                Polymer.dom(element.root).querySelectorAll('.reviewer');
+            assert.equal(reviewerEls.length, 1);
+            MockInteractions.tap(element.$$('.reviewer > .remove'));
+            flushAsynchronousOperations();
+            assert.isTrue(element.disabled);
+            server.respond();
+
+            element._xhrPromise.then(function() {
+              flushAsynchronousOperations();
+              assert.isFalse(element.disabled);
+              var reviewerEls =
+                Polymer.dom(element.root).querySelectorAll('.reviewer');
+              assert.equal(reviewerEls.length, 0);
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+</script>

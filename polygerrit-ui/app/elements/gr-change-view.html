@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="gr-linked-text.html">
 <link rel="import" href="gr-messages-list.html">
 <link rel="import" href="gr-reply-dropdown.html">
+<link rel="import" href="gr-reviewer-list.html">
 
 <dom-module id="gr-change-view">
   <template>
@@ -82,6 +83,9 @@ limitations under the License.
         padding: 2px 5px;
         vertical-align: top;
       }
+      gr-reviewer-list {
+        min-width: 25em;
+      }
       .changeInfo-label {
         font-weight: bold;
         text-align: right;
@@ -138,16 +142,19 @@ limitations under the License.
         <table>
           <tr>
             <td class="changeInfo-label">Owner</td>
-            <td>[[_change.owner.name]]</td>
+            <td>
+              <span>[[_change.owner.name]]</span>
+              <span hidden$="[[!_change.owner.email]]">
+                (<span>[[_change.owner.email]]</span>)
+              </span>
+            </td>
           </tr>
           <tr>
             <td class="changeInfo-label">Reviewers</td>
             <td>
-              <template is="dom-repeat"
-                        items="[[_computeReviewers(_change.labels, _change.owner)]]"
-                        as="reviewer">
-                <div>[[reviewer.name]]</div>
-              </template>
+              <gr-reviewer-list
+                  change="[[_change]]"
+                  mutable="[[_loggedIn]]"></gr-reviewer-list>
             </td>
           </tr>
           <tr>
@@ -326,15 +333,6 @@ limitations under the License.
             Changes.ListChangesOption.CHANGE_ACTIONS
         );
         return { O: options };
-      },
-
-      _computeReviewers: function(labels, owner) {
-        var reviewers =
-            (labels['Code-Review'] && labels['Code-Review'].all) || [];
-        if (reviewers.length == 1) { return reviewers; }
-        return reviewers.filter(function(reviewer) {
-          return reviewer._account_id != owner._account_id;
-        });
       },
 
       _computeLatestPatchNum: function(change) {

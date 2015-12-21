@@ -73,7 +73,7 @@ limitations under the License.
                  href$="[[_computeDiffURL(changeNum, patchNum, file.__path)]]">[[file.__path]]</a>
             </td>
             <td>
-              <span class="drafts">[[_computeDraftsString(_drafts, patchNum, file.__path)]]</span>
+              <span class="drafts">[[_computeDraftsString(_drafts, file.__path)]]</span>
               <span class="comments">[[_computeCommentsString(comments, patchNum, file.__path)]]</span>
             </td>
             <td>
@@ -128,11 +128,8 @@ limitations under the License.
         return Changes.baseURL(changeNum, patchNum) + '/drafts';
       },
 
-      _computeDraftsString: function(drafts, patchNum, path) {
-        var patchDrafts = (drafts[path] || []).filter(function(d) {
-          return d.patch_set == patchNum;
-        });
-        var num = patchDrafts.length;
+      _computeDraftsString: function(drafts, path) {
+        var num = (drafts[path] || []).length;
         if (num == 0) { return ''; }
         if (num == 1) { return '1 draft'; }
         if (num > 1) { return num + ' drafts'; };

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6afc9b2b_be6bb9c0",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-21T18:01:54Z",
+      "side": 1,
+      "message": "URL: done\nText: where can I find it?",
+      "parentUuid": "8a0e2f27_f78040e3",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 92
+      },
+      "revId": "08d8a697bd3d76a6e659ecc86ebf593cd4cbcb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ad0e3e3_ecd96b48",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2015-12-20T21:00:12Z",
       "side": 1,
       "message": "You can just say `version: String,` here",
+      "revId": "08d8a697bd3d76a6e659ecc86ebf593cd4cbcb61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_9e68fdc4",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-21T18:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ad0e3e3_ecd96b48",
       "revId": "08d8a697bd3d76a6e659ecc86ebf593cd4cbcb61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

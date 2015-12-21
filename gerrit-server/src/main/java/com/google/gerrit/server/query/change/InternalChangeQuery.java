@@ -214,7 +214,7 @@ public class InternalChangeQuery {
 
   public List<ChangeData> byTopicOpen(String topic)
       throws OrmException {
-    return query(and(new ExactTopicPredicate(schema(indexes), topic), open()));
+    return query(and(new ExactTopicPredicate(topic), open()));
   }
 
   public List<ChangeData> byCommit(ObjectId id) throws OrmException {

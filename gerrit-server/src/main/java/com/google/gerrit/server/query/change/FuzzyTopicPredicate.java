@@ -15,15 +15,11 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.index.ChangeField.FUZZY_TOPIC;
-import static com.google.gerrit.server.index.ChangeField.LEGACY_TOPIC2;
-import static com.google.gerrit.server.index.ChangeField.LEGACY_TOPIC3;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -31,18 +27,11 @@ import com.google.gwtorm.server.OrmException;
 class FuzzyTopicPredicate extends IndexPredicate<ChangeData> {
   private final ChangeIndex index;
 
-  @SuppressWarnings("deprecation")
-  static FieldDef<ChangeData, ?> topicField(Schema<ChangeData> schema) {
-    return schema.getField(FUZZY_TOPIC, LEGACY_TOPIC3, LEGACY_TOPIC2).get();
-  }
-
-  FuzzyTopicPredicate(Schema<ChangeData> schema, String topic,
-      ChangeIndex index) {
-    super(topicField(schema), topic);
+  FuzzyTopicPredicate(String topic, ChangeIndex index) {
+    super(FUZZY_TOPIC, topic);
     this.index = index;
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   public boolean match(final ChangeData cd) throws OrmException {
     Change change = cd.change();
@@ -53,21 +42,14 @@ class FuzzyTopicPredicate extends IndexPredicate<ChangeData> {
     if (t == null) {
       return false;
     }
-    if (getField() == FUZZY_TOPIC || getField() == LEGACY_TOPIC3) {
-      try {
-        Predicate<ChangeData> thisId =
-            new LegacyChangeIdPredicate(index.getSchema(), cd.getId());
-        Iterable<ChangeData> results =
-            index.getSource(and(thisId, this), QueryOptions.oneResult()).read();
-        return !Iterables.isEmpty(results);
-      } catch (QueryParseException e) {
-        throw new OrmException(e);
-      }
+    try {
+      Predicate<ChangeData> thisId = new LegacyChangeIdPredicate(cd.getId());
+      Iterable<ChangeData> results =
+          index.getSource(and(thisId, this), QueryOptions.oneResult()).read();
+      return !Iterables.isEmpty(results);
+    } catch (QueryParseException e) {
+      throw new OrmException(e);
     }
-    if (getField() == LEGACY_TOPIC2) {
-      return t.equals(getValue());
-    }
-    return false;
   }
 
   @Override

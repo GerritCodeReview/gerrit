@@ -14,32 +14,17 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.index.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.ChangeField.LEGACY_ID2;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.ChangeField;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.Schema;
 
 /** Predicate over change number (aka legacy ID or Change.Id). */
 public class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> {
   private final Change.Id id;
 
-  @SuppressWarnings("deprecation")
-  public static FieldDef<ChangeData, ?> idField(Schema<ChangeData> schema) {
-    if (schema == null) {
-      return ChangeField.LEGACY_ID2;
-    } else if (schema.hasField(LEGACY_ID2)) {
-      return schema.getFields().get(LEGACY_ID2.getName());
-    } else {
-      return schema.getFields().get(LEGACY_ID.getName());
-    }
-  }
-
-  LegacyChangeIdPredicate(Schema<ChangeData> schema, Change.Id id) {
-    super(idField(schema), ChangeQueryBuilder.FIELD_CHANGE, id.toString());
+  LegacyChangeIdPredicate(Change.Id id) {
+    super(LEGACY_ID2, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
     this.id = id;
   }
 

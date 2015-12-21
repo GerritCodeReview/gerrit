@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
+import static com.google.gerrit.server.index.ChangeField.LEGACY_ID2;
 import static com.google.gerrit.server.index.IndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriter.OPEN_STATUSES;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -54,7 +55,6 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gerrit.server.query.change.LegacyChangeIdPredicate;
 import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
@@ -236,7 +236,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.useDocValuesForSorting = schema.getVersion() >= 15;
-    this.idSortField = sortFieldName(LegacyChangeIdPredicate.idField(schema));
+    this.idSortField = sortFieldName(LEGACY_ID2);
 
     CustomMappingAnalyzer analyzer =
         new CustomMappingAnalyzer(new StandardAnalyzer(CharArraySet.EMPTY_SET),
@@ -271,9 +271,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (useDocValuesForSorting) {
       return new SearcherFactory();
     }
-    @SuppressWarnings("deprecation")
     final Map<String, UninvertingReader.Type> mapping = ImmutableMap.of(
-        ChangeField.LEGACY_ID.getName(), UninvertingReader.Type.INTEGER,
+        // TODO(dborowitz): Remove; this is dead code anyway.
+        "_id", UninvertingReader.Type.INTEGER,
         ChangeField.UPDATED.getName(), UninvertingReader.Type.LONG);
     return new SearcherFactory() {
       @Override
@@ -312,7 +312,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void replace(ChangeData cd) throws IOException {
-    Term id = QueryBuilder.idTerm(schema, cd);
+    Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
     try {
       if (cd.change().getStatus().isOpen()) {
@@ -331,7 +331,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void delete(Change.Id id) throws IOException {
-    Term idTerm = QueryBuilder.idTerm(schema, id);
+    Term idTerm = QueryBuilder.idTerm(id);
     try {
       Futures.allAsList(
           openIndex.delete(idTerm),
@@ -367,7 +367,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     setReady(sitePaths, schema.getVersion(), ready);
   }
 
-  @SuppressWarnings("deprecation")
   private Sort getSort() {
     if (useDocValuesForSorting) {
       return new Sort(
@@ -378,7 +377,8 @@ public class LuceneChangeIndex implements ChangeIndex {
           new SortField(
             ChangeField.UPDATED.getName(), SortField.Type.LONG, true),
           new SortField(
-            ChangeField.LEGACY_ID.getName(), SortField.Type.INT, true));
+            // TODO(dborowitz): Remove; this is dead code anyway.
+            "_id", SortField.Type.INT, true));
     }
   }
 
@@ -434,7 +434,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         List<ChangeData> result =
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);
         Set<String> fields = fields(opts);
-        String idFieldName = idFieldName();
+        String idFieldName = LEGACY_ID2.getName();
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searchers[sd.shardIndex].doc(sd.doc, fields);
@@ -474,27 +474,19 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  @SuppressWarnings("deprecation")
   private Set<String> fields(QueryOptions opts) {
     if (schemaHasRequestedField(ChangeField.LEGACY_ID2, opts.fields())
-        || schemaHasRequestedField(ChangeField.CHANGE, opts.fields())
-        || schemaHasRequestedField(ChangeField.LEGACY_ID, opts.fields())) {
+        || schemaHasRequestedField(ChangeField.CHANGE, opts.fields())) {
       return opts.fields();
     }
     // Request the numeric ID field even if the caller did not request it,
     // otherwise we can't actually construct a ChangeData.
-    return Sets.union(opts.fields(), ImmutableSet.of(idFieldName()));
+    return Sets.union(opts.fields(), ImmutableSet.of(LEGACY_ID2.getName()));
   }
 
   private boolean schemaHasRequestedField(FieldDef<ChangeData, ?> field,
       Set<String> requested) {
     return schema.hasField(field) && requested.contains(field.getName());
-  }
-
-  @SuppressWarnings("deprecation")
-  private String idFieldName() {
-    return schema.getField(ChangeField.LEGACY_ID2, ChangeField.LEGACY_ID).get()
-        .getName();
   }
 
   private ChangeData toChangeData(Document doc, Set<String> fields,
@@ -602,7 +594,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     return result;
   }
 
-  @SuppressWarnings("deprecation")
   private void add(Document doc, Values<ChangeData> values) {
     String name = values.getField().getName();
     FieldType<?> type = values.getField().getType();
@@ -610,7 +601,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     if (useDocValuesForSorting) {
       FieldDef<ChangeData, ?> f = values.getField();
-      if (f == ChangeField.LEGACY_ID || f == ChangeField.LEGACY_ID2) {
+      if (f == ChangeField.LEGACY_ID2) {
         int v = (Integer) getOnlyElement(values.getValues());
         doc.add(new NumericDocValuesField(sortFieldName(f), v));
       } else if (f == ChangeField.UPDATED) {

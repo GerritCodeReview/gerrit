@@ -35,8 +35,8 @@ java_library(
     '//gerrit-server:constants',
     '//lib:args4j',
     '//lib:guava',
-    '//lib/lucene:analyzers-common',
-    '//lib/lucene:core-and-backward-codecs',
+    '//lib/lucene:lucene-analyzers-common',
+    '//lib/lucene:lucene-core',
   ],
   visibility = ['//tools/eclipse:classpath'],
 )

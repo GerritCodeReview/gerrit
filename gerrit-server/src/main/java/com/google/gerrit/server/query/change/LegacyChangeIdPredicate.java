@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.index.ChangeField.LEGACY_ID2;
+import static com.google.gerrit.server.index.ChangeField.LEGACY_ID;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -24,7 +24,7 @@ public class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> {
   private final Change.Id id;
 
   LegacyChangeIdPredicate(Change.Id id) {
-    super(LEGACY_ID2, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
+    super(LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
     this.id = id;
   }
 

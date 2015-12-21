@@ -17,7 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
-import static com.google.gerrit.server.index.ChangeField.LEGACY_ID2;
+import static com.google.gerrit.server.index.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.IndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriter.OPEN_STATUSES;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -134,7 +134,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String UPDATED_SORT_FIELD =
       sortFieldName(ChangeField.UPDATED);
   private static final String ID_SORT_FIELD =
-      sortFieldName(ChangeField.LEGACY_ID2);
+      sortFieldName(ChangeField.LEGACY_ID);
 
   private static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
       "_", " ", ".", " ");
@@ -388,7 +388,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         List<ChangeData> result =
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);
         Set<String> fields = fields(opts);
-        String idFieldName = LEGACY_ID2.getName();
+        String idFieldName = LEGACY_ID.getName();
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searchers[sd.shardIndex].doc(sd.doc, fields);
@@ -429,13 +429,13 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private Set<String> fields(QueryOptions opts) {
-    if (schemaHasRequestedField(ChangeField.LEGACY_ID2, opts.fields())
+    if (schemaHasRequestedField(ChangeField.LEGACY_ID, opts.fields())
         || schemaHasRequestedField(ChangeField.CHANGE, opts.fields())) {
       return opts.fields();
     }
     // Request the numeric ID field even if the caller did not request it,
     // otherwise we can't actually construct a ChangeData.
-    return Sets.union(opts.fields(), ImmutableSet.of(LEGACY_ID2.getName()));
+    return Sets.union(opts.fields(), ImmutableSet.of(LEGACY_ID.getName()));
   }
 
   private boolean schemaHasRequestedField(FieldDef<ChangeData, ?> field,
@@ -556,7 +556,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     FieldDef<ChangeData, ?> f = values.getField();
 
     // Add separate DocValues fields for those fields needed for sorting.
-    if (f == ChangeField.LEGACY_ID2) {
+    if (f == ChangeField.LEGACY_ID) {
       int v = (Integer) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(sortFieldName(f), v));
     } else if (f == ChangeField.UPDATED) {

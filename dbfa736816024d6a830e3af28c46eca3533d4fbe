@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa0bf316_b8f07986",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-21T20:50:26Z",
+      "side": 1,
+      "message": "I think this is broken because a new ChangeUpdate immediately makes a defensive copy of the change. Prior to this, we were updating the change before making that copy.",
+      "revId": "dbfa736816024d6a830e3af28c46eca3533d4fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

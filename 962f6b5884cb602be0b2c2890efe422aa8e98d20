@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "aa0bf316_18e2c5bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitDryRun.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-21T20:14:57Z",
+      "side": 1,
+      "message": "Might be a bug, but I don\u0027t think it\u0027s much of an issue in practice. The point of alreadyAccepted IIUC is to have MergeSorter avoid trying to create merges for any changes that are already merged into a different branch, which mostly applies when you\u0027re merging in changes from another branch. There isn\u0027t really \"another branch\" in play when you\u0027re submitting changes to refs/meta/config, because you don\u0027t typically mix history between that ref and other refs.\n\nThat said this might be kind of broken if people are trying to review changes on refs/foo/bar and possibly merging in history from refs/foo/baz, since we don\u0027t consider those in this set. Perhaps the more correct thing to do here would be to exclude certain reserved ref spaces (e.g. refs/changes/* and refs/users/*) and include everything else. But then again, this is probably not the only way that reviewing changes in arbitrary ref spaces is broken.",
+      "parentUuid": "850c62c1_c73cde12",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 73
+      },
+      "revId": "962f6b5884cb602be0b2c2890efe422aa8e98d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6503ee91_06e9dad4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitDryRun.java",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2015-12-16T12:57:21Z",
       "side": 1,
       "message": "[optional] just call this \u0027run\u0027? The class name already implies that it\u0027s a dry run.",
+      "range": {
+        "startLine": 108,
+        "startChar": 17,
+        "endLine": 108,
+        "endChar": 23
+      },
+      "revId": "962f6b5884cb602be0b2c2890efe422aa8e98d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_f8e6f1d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitDryRun.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-21T20:14:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6503ee91_06e9dad4",
       "range": {
         "startLine": 108,
         "startChar": 17,

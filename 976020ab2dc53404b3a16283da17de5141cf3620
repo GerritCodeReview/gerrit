@@ -22,6 +22,30 @@
       "revId": "976020ab2dc53404b3a16283da17de5141cf3620",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e2f27_77d310fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-21T20:14:57Z",
+      "side": 0,
+      "message": "Good catch, done.",
+      "parentUuid": "850c62c1_a741ea90",
+      "range": {
+        "startLine": 216,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 26
+      },
+      "revId": "976020ab2dc53404b3a16283da17de5141cf3620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

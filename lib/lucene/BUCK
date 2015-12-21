@@ -2,19 +2,8 @@ include_defs('//lib/maven.defs')
 
 VERSION = '5.3.1'
 
-# core and backward-codecs both provide
-# META-INF/services/org.apache.lucene.codecs.Codec, so they must be merged.
-merge_maven_jars(
-  name = 'core-and-backward-codecs',
-  srcs = [
-    ':backward-codecs_jar',
-    ':core_jar',
-  ],
-  visibility = ['PUBLIC'],
-)
-
 maven_jar(
-  name = 'core_jar',
+  name = 'lucene-core',
   id = 'org.apache.lucene:lucene-core:' + VERSION,
   sha1 = '36860653d7e09790ada96aeb1970b4ca396ac5d7',
   license = 'Apache2.0',
@@ -22,15 +11,14 @@ maven_jar(
     'META-INF/LICENSE.txt',
     'META-INF/NOTICE.txt',
   ],
-  visibility = [],
 )
 
 maven_jar(
-  name = 'analyzers-common',
+  name = 'lucene-analyzers-common',
   id = 'org.apache.lucene:lucene-analyzers-common:' + VERSION,
   sha1 = 'bd804dbc1b8f7941018926e940d20d1016b36c4c',
   license = 'Apache2.0',
-  deps = [':core-and-backward-codecs'],
+  deps = [':lucene-core'],
   exclude = [
     'META-INF/LICENSE.txt',
     'META-INF/NOTICE.txt',
@@ -38,24 +26,11 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'backward-codecs_jar',
-  id = 'org.apache.lucene:lucene-backward-codecs:' + VERSION,
-  sha1 = '380603f537317a78f9d9b7421bc2ac87586cb9a1',
-  license = 'Apache2.0',
-  deps = [':core_jar'],
-  exclude = [
-    'META-INF/LICENSE.txt',
-    'META-INF/NOTICE.txt',
-  ],
-  visibility = [],
-)
-
-maven_jar(
-  name = 'misc',
+  name = 'lucene-misc',
   id = 'org.apache.lucene:lucene-misc:' + VERSION,
   sha1 = '7891bbc18b372135c2a52b471075b0bdf5f110ec',
   license = 'Apache2.0',
-  deps = [':core-and-backward-codecs'],
+  deps = [':lucene-core'],
   exclude = [
     'META-INF/LICENSE.txt',
     'META-INF/NOTICE.txt',
@@ -63,11 +38,11 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'queryparser',
+  name = 'lucene-queryparser',
   id = 'org.apache.lucene:lucene-queryparser:' + VERSION,
   sha1 = 'bef0e2ac5b196dbab9d0b7c8cc8196b7ef5dd056',
   license = 'Apache2.0',
-  deps = [':core-and-backward-codecs'],
+  deps = [':lucene-core'],
   exclude = [
     'META-INF/LICENSE.txt',
     'META-INF/NOTICE.txt',

@@ -11,7 +11,7 @@ java_library(
     '//gerrit-server:server',
     '//lib:gwtorm',
     '//lib:guava',
-    '//lib/lucene:core-and-backward-codecs',
+    '//lib/lucene:lucene-core',
   ],
   visibility = ['PUBLIC'],
 )
@@ -33,9 +33,9 @@ java_library(
     '//lib/guice:guice-assistedinject',
     '//lib/jgit:jgit',
     '//lib/log:api',
-    '//lib/lucene:analyzers-common',
-    '//lib/lucene:core-and-backward-codecs',
-    '//lib/lucene:misc',
+    '//lib/lucene:lucene-analyzers-common',
+    '//lib/lucene:lucene-core',
+    '//lib/lucene:lucene-misc',
   ],
   visibility = ['PUBLIC'],
 )

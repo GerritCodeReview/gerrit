@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aa9c35f_449bae8d",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-21T19:16:24Z",
+      "side": 1,
+      "message": "Don\u0027t use dom-if, use hidden$\u003d\"[[...]]\"",
+      "revId": "8cf40ae06660cdda32fedc27fe096bc90d2735df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2aa9c35f_e4abba90",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-21T23:48:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a0e2f27_979b4436",
+      "revId": "9ffbc77d4b77df072580203aee7a0185225a3a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a0e2f27_77c8b02e",
         "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2ad0e3e3_6c449ba1",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-21T23:48:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a0e2f27_77c8b02e",
+      "revId": "9ffbc77d4b77df072580203aee7a0185225a3a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa0bf316_98b255ac",
         "filename": "polygerrit-ui/app/elements/gr-diff.html",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2015-12-21T23:36:48Z",
       "side": 1,
       "message": "I guess this is pretty minimal, but I would almost rather just not give the option here and instead respect the user preference you fetch from the server (even if you don\u0027t write it back yet).",
+      "revId": "9ffbc77d4b77df072580203aee7a0185225a3a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ad0e3e3_0c4957b8",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-21T23:48:05Z",
+      "side": 1,
+      "message": "Eventually this will go within a diff preference pane like it currently is with Gerrit.",
+      "parentUuid": "aa0bf316_98b255ac",
       "revId": "9ffbc77d4b77df072580203aee7a0185225a3a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "bf09fd4fa30a94b9fcfeed253339272f1d1bf552",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa9c35f_24aa3291",
+        "filename": "polygerrit-ui/app/scripts/link-text-parser.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-21T19:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2521f686_64d0ea1c",
+      "revId": "bf09fd4fa30a94b9fcfeed253339272f1d1bf552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

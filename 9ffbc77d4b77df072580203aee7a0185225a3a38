@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a0e2f27_979b4436",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-21T23:36:48Z",
+      "side": 1,
+      "message": "The only time this method is called with true is from _contentChanged; maybe just moved these two lines into that method?",
+      "revId": "9ffbc77d4b77df072580203aee7a0185225a3a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e2f27_77c8b02e",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-21T23:36:48Z",
+      "side": 1,
+      "message": "Can fit on the previous line?",
+      "revId": "9ffbc77d4b77df072580203aee7a0185225a3a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_98b255ac",
+        "filename": "polygerrit-ui/app/elements/gr-diff.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-21T23:36:48Z",
+      "side": 1,
+      "message": "I guess this is pretty minimal, but I would almost rather just not give the option here and instead respect the user preference you fetch from the server (even if you don\u0027t write it back yet).",
+      "revId": "9ffbc77d4b77df072580203aee7a0185225a3a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eabb2b9e_6a4477a1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-21T13:50:48Z",
+      "side": 0,
+      "message": "Why is this removed?",
+      "range": {
+        "startLine": 1071,
+        "startChar": 14,
+        "endLine": 1073,
+        "endChar": 44
+      },
+      "revId": "cdbfc32fb73ed04fc5e0326e4071fab27da628de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eabb2b9e_0a493bb8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-21T13:50:48Z",
+      "side": 0,
+      "message": "Don\u0027t we still need this?",
+      "range": {
+        "startLine": 1076,
+        "startChar": 10,
+        "endLine": 1076,
+        "endChar": 60
+      },
+      "revId": "cdbfc32fb73ed04fc5e0326e4071fab27da628de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

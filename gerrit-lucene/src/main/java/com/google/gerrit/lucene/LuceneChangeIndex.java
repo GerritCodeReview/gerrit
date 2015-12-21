@@ -15,7 +15,6 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.ChangeField.LEGACY_ID2;
@@ -74,8 +73,6 @@ import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
@@ -92,7 +89,6 @@ import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.uninverting.UninvertingReader;
 import org.apache.lucene.util.BytesRef;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -137,6 +133,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       ChangeField.REVIEWEDBY.getName();
   private static final String UPDATED_SORT_FIELD =
       sortFieldName(ChangeField.UPDATED);
+  private static final String ID_SORT_FIELD =
+      sortFieldName(ChangeField.LEGACY_ID2);
 
   private static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
       "_", " ", ".", " ");
@@ -206,18 +204,6 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final QueryBuilder queryBuilder;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
-  private final String idSortField;
-
-  /**
-   * Whether to use DocValues for range/sorted numeric fields.
-   * <p>
-   * Lucene 5 removed support for sorting based on normal numeric fields, so we
-   * use the newer API for more strongly typed numeric fields in newer schema
-   * versions. These fields also are not stored, so we need to store auxiliary
-   * stored-only field for them as well.
-   */
-  // TODO(dborowitz): Delete when we delete support for pre-Lucene-5.0 schemas.
-  private final boolean useDocValuesForSorting;
 
   @AssistedInject
   LuceneChangeIndex(
@@ -235,8 +221,6 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
-    this.useDocValuesForSorting = schema.getVersion() >= 15;
-    this.idSortField = sortFieldName(LEGACY_ID2);
 
     CustomMappingAnalyzer analyzer =
         new CustomMappingAnalyzer(new StandardAnalyzer(CharArraySet.EMPTY_SET),
@@ -251,7 +235,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     GerritIndexWriterConfig closedConfig =
         new GerritIndexWriterConfig(cfg, "changes_closed");
 
-    SearcherFactory searcherFactory = newSearcherFactory();
+    SearcherFactory searcherFactory = new SearcherFactory();
     if (cfg.getBoolean("index", "lucene", "testInmemory", false)) {
       openIndex = new SubIndex(new RAMDirectory(), "ramOpen", openConfig,
           searcherFactory);
@@ -265,26 +249,6 @@ public class LuceneChangeIndex implements ChangeIndex {
       closedIndex = new SubIndex(dir.resolve(CHANGES_CLOSED), closedConfig,
           searcherFactory);
     }
-  }
-
-  private SearcherFactory newSearcherFactory() {
-    if (useDocValuesForSorting) {
-      return new SearcherFactory();
-    }
-    final Map<String, UninvertingReader.Type> mapping = ImmutableMap.of(
-        // TODO(dborowitz): Remove; this is dead code anyway.
-        "_id", UninvertingReader.Type.INTEGER,
-        ChangeField.UPDATED.getName(), UninvertingReader.Type.LONG);
-    return new SearcherFactory() {
-      @Override
-      public IndexSearcher newSearcher(IndexReader reader, IndexReader previousReader)
-          throws IOException {
-        checkState(reader instanceof DirectoryReader,
-            "expected DirectoryReader, found %s", reader.getClass().getName());
-        return new IndexSearcher(
-            UninvertingReader.wrap((DirectoryReader) reader, mapping));
-      }
-    };
   }
 
   @Override
@@ -358,8 +322,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, queryBuilder.toQuery(p), opts,
-        getSort());
+    return new QuerySource(indexes, queryBuilder.toQuery(p), opts, getSort());
   }
 
   @Override
@@ -368,18 +331,9 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private Sort getSort() {
-    if (useDocValuesForSorting) {
-      return new Sort(
-          new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),
-          new SortField(idSortField, SortField.Type.LONG, true));
-    } else {
-      return new Sort(
-          new SortField(
-            ChangeField.UPDATED.getName(), SortField.Type.LONG, true),
-          new SortField(
-            // TODO(dborowitz): Remove; this is dead code anyway.
-            "_id", SortField.Type.INT, true));
-    }
+    return new Sort(
+        new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),
+        new SortField(ID_SORT_FIELD, SortField.Type.LONG, true));
   }
 
   public SubIndex getOpenChangesIndex() {
@@ -599,15 +553,15 @@ public class LuceneChangeIndex implements ChangeIndex {
     FieldType<?> type = values.getField().getType();
     Store store = store(values.getField());
 
-    if (useDocValuesForSorting) {
-      FieldDef<ChangeData, ?> f = values.getField();
-      if (f == ChangeField.LEGACY_ID2) {
-        int v = (Integer) getOnlyElement(values.getValues());
-        doc.add(new NumericDocValuesField(sortFieldName(f), v));
-      } else if (f == ChangeField.UPDATED) {
-        long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
-        doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
-      }
+    FieldDef<ChangeData, ?> f = values.getField();
+
+    // Add separate DocValues fields for those fields needed for sorting.
+    if (f == ChangeField.LEGACY_ID2) {
+      int v = (Integer) getOnlyElement(values.getValues());
+      doc.add(new NumericDocValuesField(sortFieldName(f), v));
+    } else if (f == ChangeField.UPDATED) {
+      long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
+      doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
     }
 
     if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {

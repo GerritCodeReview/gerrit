@@ -38,19 +38,6 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'backward-codecs_jar',
-  id = 'org.apache.lucene:lucene-backward-codecs:' + VERSION,
-  sha1 = '380603f537317a78f9d9b7421bc2ac87586cb9a1',
-  license = 'Apache2.0',
-  deps = [':core_jar'],
-  exclude = [
-    'META-INF/LICENSE.txt',
-    'META-INF/NOTICE.txt',
-  ],
-  visibility = [],
-)
-
-maven_jar(
   name = 'misc',
   id = 'org.apache.lucene:lucene-misc:' + VERSION,
   sha1 = '7891bbc18b372135c2a52b471075b0bdf5f110ec',

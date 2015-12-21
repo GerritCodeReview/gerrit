@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aa0bf316_58ff1d55",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-21T21:55:27Z",
+      "side": 0,
+      "message": "The real question is why was this in the callback body rather than on line 1060 in this version ;)",
+      "parentUuid": "eabb2b9e_6a4477a1",
+      "range": {
+        "startLine": 1071,
+        "startChar": 14,
+        "endLine": 1073,
+        "endChar": 44
+      },
+      "revId": "cdbfc32fb73ed04fc5e0326e4071fab27da628de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eabb2b9e_0a493bb8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 1

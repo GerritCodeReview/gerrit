@@ -31,6 +31,12 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="withComment">
+  <template>
+    <gr-diff-comment-thread></gr-diff-comment-thread>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-diff-comment-thread tests', function() {
     var element;
@@ -111,6 +117,112 @@ limitations under the License.
         }
       ]);
     });
+  });
 
+  suite('comment action tests', function() {
+    var element;
+    var server;
+
+    setup(function() {
+      element = fixture('withComment');
+      element.comments = [{
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        line: 5,
+        message: 'is this a crossover episode!?',
+        updated: '2015-12-08 19:48:33.843000000',
+      }];
+      flushAsynchronousOperations();
+
+      server = sinon.fakeServer.create();
+      // Eat any requests made by elements in this suite.
+      server.respondWith(
+        'PUT',
+        '/changes/41/1/drafts',
+        [
+          201,
+          { 'Content-Type': 'application/json' },
+          ')]}\'\n' + JSON.stringify({
+            id: "7afa4931_de3d65bd",
+            path: '/path/to/file.txt',
+            line: 5,
+            in_reply_to: 'baf0414d_60047215',
+            updated: '2015-12-21 02:01:10.850000000',
+            message: 'Done'
+          }),
+        ]
+      );
+
+      server.respondWith(
+        'DELETE',
+        '/changes/41/1/drafts/baf0414d_60047215',
+        [
+          204,
+          {},
+          '',
+        ]
+      );
+    });
+
+    test('reply', function(done) {
+      var commentEl = element.$$('gr-diff-comment');
+      assert.ok(commentEl);
+      commentEl.addEventListener('reply', function() {
+        var drafts = element.comments.filter(function(c) {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 1);
+        assert.notOk(drafts[0].message, 'message should be empty');
+        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+        done();
+      });
+      commentEl.fire('reply', {comment: commentEl.comment}, {bubbles: false});
+    });
+
+    test('done', function(done) {
+      element.changeNum = '42';
+      element.patchNum = '1';
+      var commentEl = element.$$('gr-diff-comment');
+      assert.ok(commentEl);
+      commentEl.addEventListener('done', function() {
+        server.respond();
+        var drafts = element.comments.filter(function(c) {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 1);
+        assert.equal(drafts[0].message, 'Done');
+        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+        done();
+      });
+      commentEl.fire('done', {comment: commentEl.comment}, {bubbles: false});
+    });
+
+    test('discard', function(done) {
+      element.changeNum = '42';
+      element.patchNum = '1';
+      element.comments.push(element._newReply(
+        element.comments[0].id,
+        element.comments[0].line,
+        element.comments[0].path,
+        'it’s pronouced jiff, not giff'));
+      element._commentsChanged(element.comments);
+      flushAsynchronousOperations();
+
+      var draftEl =
+          Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
+      assert.ok(draftEl);
+      draftEl.addEventListener('discard', function() {
+        server.respond();
+        var drafts = element.comments.filter(function(c) {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 0);
+        done();
+      });
+      draftEl.fire('discard', null, {bubbles: false});
+    });
   });
 </script>

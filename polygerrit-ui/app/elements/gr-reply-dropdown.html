@@ -289,7 +289,7 @@ limitations under the License.
         }
         this.disabled = true;
         this._send(obj).then(function(req) {
-          this.fire('send', {bubbles: false});
+          this.fire('send', null, {bubbles: false});
           this._draft = '';
           this.disabled = false;
           this.$.dropdown.close();

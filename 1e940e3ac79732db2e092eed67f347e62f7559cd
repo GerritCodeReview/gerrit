@@ -71,6 +71,30 @@
       "revId": "1e940e3ac79732db2e092eed67f347e62f7559cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_de868585",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/StarsByPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-22T11:54:35Z",
+      "side": 1,
+      "message": "\u003e | This would be possible, but we wanted to avoid reindexing the\n \u003e whole change whenever any user stars/unstars a change.\n \u003e \n \u003e Why? Note, that by refactoring REST API handlers to use\n \u003e BatchUpdate.Op we already reindex quite some stuff totally in vain,\n \u003e that doesn\u0027t need to be reindexed at all, right? Check my pending\n \u003e DraftBy search operator fix to make it use the secondary index.\n \u003e Unless I\u0027m missing something obvious there, DELETE and PUT draft\n \u003e comments would cause reindexing of change in vain, because this\n \u003e step is not optional in BatchUpdate.Op and there is no field in\n \u003e secondary index that reflects existence of \"Drafts By User\". So why\n \u003e would we want to do optimization by avoiding to reindex something\n \u003e that really needed to be reindexed, because it\u0027s would be used by\n \u003e star search operator, when we already reindex stuff today, that\n \u003e doesn\u0027t need to be reindexed at all?\n\nSo you think it\u0027s better to add it to the existing index instead of having the in-memory cache or having a separate index?\n\n \u003e \n \u003e | It uses an in-memory cache to look up the stars, isn\u0027t this as\n \u003e good as using the secondary index?\n \u003e \n \u003e Sure, but it would do this only in case of Notedb, right? \n\nNo, the in-memory cache is also used when review DB is used, in this case it\u0027s just populated from the review DB and not from NoteDB.\n\n \u003e Let\n \u003e assume that database backend would survive in the wild for many\n \u003e years, this would mean that expensive star change retrieval would\n \u003e still need to happen by reading the database. Note, that to render\n \u003e the list of change star changes need to be retrieved.",
+      "parentUuid": "eabb2b9e_aa910f06",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 3
+      },
+      "revId": "1e940e3ac79732db2e092eed67f347e62f7559cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

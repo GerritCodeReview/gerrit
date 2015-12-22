@@ -23,6 +23,30 @@
       "revId": "7517c70825499587870e1d07eea3ed8762209638",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_f81f114c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReadOnlyRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-22T16:15:25Z",
+      "side": 1,
+      "message": "Generally speaking, so it can be programmatically renamed.",
+      "parentUuid": "aa0bf316_d8356dd0",
+      "range": {
+        "startLine": 37,
+        "startChar": 27,
+        "endLine": 37,
+        "endChar": 67
+      },
+      "revId": "7517c70825499587870e1d07eea3ed8762209638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

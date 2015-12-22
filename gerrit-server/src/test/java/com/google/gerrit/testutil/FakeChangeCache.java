@@ -12,17 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.testutil;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.server.git.ChangeCache;
 
+import java.util.Collections;
 import java.util.List;
 
-public interface ChangeCache {
-  List<Change> get(Project.NameKey name);
+public class FakeChangeCache implements ChangeCache {
 
-  Change get(Change.Id id);
+  @Override
+  public List<Change> get(NameKey name) {
+    return Collections.emptyList();
+  }
 
-  void evict(Change.Id id);
+  @Override
+  public Change get(Id id) {
+    return null;
+  }
+
+  @Override
+  public void evict(Id id) {
+  }
+
 }

@@ -58,7 +58,8 @@ limitations under the License.
         loading="{{_loading}}"></gr-ajax>
     <div class="loading" hidden$="{{!_loading}}">Loading...</div>
     <div hidden$="{{_loading}}">
-      <gr-change-list changes="{{_changes}}"></gr-change-list>
+      <gr-change-list changes="{{_changes}}"
+          show-star="[[loggedIn]]"></gr-change-list>
       <nav>
         <a href$="[[_computeNavLink(query, offset, -1)]]"
            hidden$="[[_hidePrevArrow(offset)]]">&larr; Prev</a>
@@ -83,6 +84,11 @@ limitations under the License.
         params: {
           type: Object,
           observer: '_paramsChanged',
+        },
+
+        loggedIn: {
+          type: Boolean,
+          value: false,
         },
 
         /**

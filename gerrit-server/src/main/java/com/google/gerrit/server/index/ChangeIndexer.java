@@ -23,6 +23,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -93,11 +94,13 @@ public class ChangeIndexer {
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService executor;
+  private final ChangeCache changeCache;
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
+      ChangeCache changeCache,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
     this.executor = executor;
@@ -106,12 +109,14 @@ public class ChangeIndexer {
     this.context = context;
     this.index = index;
     this.indexes = null;
+    this.changeCache = changeCache;
   }
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
+      ChangeCache changeCache,
       @Assisted ListeningExecutorService executor,
       @Assisted IndexCollection indexes) {
     this.executor = executor;
@@ -120,6 +125,7 @@ public class ChangeIndexer {
     this.context = context;
     this.index = null;
     this.indexes = indexes;
+    this.changeCache = changeCache;
   }
 
   /**
@@ -129,6 +135,7 @@ public class ChangeIndexer {
    * @return future for the indexing task.
    */
   public CheckedFuture<?, IOException> indexAsync(Change.Id id) {
+    changeCache.evict(id);
     return executor != null
         ? submit(new IndexTask(id))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
@@ -154,6 +161,7 @@ public class ChangeIndexer {
    * @param cd change to index.
    */
   public void index(ChangeData cd) throws IOException {
+    changeCache.evict(cd.getId());
     for (ChangeIndex i : getWriteIndexes()) {
       i.replace(cd);
     }
@@ -176,6 +184,7 @@ public class ChangeIndexer {
    * @return future for the deleting task.
    */
   public CheckedFuture<?, IOException> deleteAsync(Change.Id id) {
+    changeCache.evict(id);
     return executor != null
         ? submit(new DeleteTask(id))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
@@ -187,6 +196,7 @@ public class ChangeIndexer {
    * @param id change ID to delete.
    */
   public void delete(Change.Id id) throws IOException {
+    changeCache.evict(id);
     new DeleteTask(id).call();
   }
 

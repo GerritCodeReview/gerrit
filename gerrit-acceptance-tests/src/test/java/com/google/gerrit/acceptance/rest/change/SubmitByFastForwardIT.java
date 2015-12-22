@@ -100,9 +100,10 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertThat(info.enabled).isNull();
 
     submitWithConflict(change2.getChangeId(),
-        "Cannot merge " + change2.getCommitId().name() + "\n" +
-        "Project policy requires all submissions to be a fast-forward.\n\n" +
-        "Please rebase the change locally and upload again for review.");
+        "Failed to submit 1 change due to the following problems:\n" +
+        "Change " + change2.getChange().getId() + ": Project policy requires " +
+        "all submissions to be a fast-forward. Please rebase the change " +
+        "locally and upload again for review.");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);
   }

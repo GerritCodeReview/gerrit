@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.base.Supplier;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class TopicChangedEvent extends ChangeEvent {
-  public AccountAttribute changer;
+  public Supplier<AccountAttribute> changer;
   public String oldTopic;
 
   public TopicChangedEvent() {

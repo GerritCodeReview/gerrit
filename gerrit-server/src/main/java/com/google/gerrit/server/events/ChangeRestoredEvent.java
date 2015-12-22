@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.base.Supplier;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class ChangeRestoredEvent extends PatchSetEvent {
-  public AccountAttribute restorer;
+  public Supplier<AccountAttribute> restorer;
   public String reason;
 
   public ChangeRestoredEvent () {

@@ -176,6 +176,13 @@ Supported events:
   function must return true to allow the operation to continue, or
   false to prevent it.
 
+* `comment`: Invoked when a DOM element that represents a comment is
+  created. This DOM element is passed as argument. This DOM element
+  contains nested elements that Gerrit uses to format the comment. The
+  DOM structure may differ between comment types such as inline
+  comments, file-level comments and summary comments, and it may change
+  with new Gerrit versions.
+
 [[self_onAction]]
 === self.onAction()
 Register a JavaScript callback to be invoked when the user clicks

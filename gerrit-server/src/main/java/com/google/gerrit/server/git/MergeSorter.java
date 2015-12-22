@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevCommitList;

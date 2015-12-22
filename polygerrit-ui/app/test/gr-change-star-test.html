@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-change-star</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../bower_components/page/page.js"></script>
+<script src="../scripts/fake-app.js"></script>
+<script src="../scripts/util.js"></script>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../elements/gr-change-star.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-change-star></gr-change-star>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-change-star tests', function() {
+    var element;
+    var server;
+
+    setup(function() {
+      element = fixture('basic');
+      element.change = {
+        _number: 2,
+        starred: true,
+      };
+
+      server = sinon.fakeServer.create();
+      server.respondWith(
+        'PUT',
+        '/accounts/self/starred.changes/2',
+        [
+          204,
+          { 'Content-Type': 'application/json' },
+          ''
+        ]
+      );
+
+      server.respondWith(
+        'DELETE',
+        '/accounts/self/starred.changes/2',
+        [
+          204,
+          { 'Content-Type': 'application/json' },
+          ''
+        ]
+      );
+    });
+
+    teardown(function() {
+      server.restore();
+    });
+
+    function isVisible(el) {
+      assert.ok(el);
+      return getComputedStyle(el).getPropertyValue('display') != 'none';
+    }
+
+    test('star visibility states', function() {
+      element.set('change.starred', true);
+      assert.isTrue(isVisible(element.$$('.star')), 'star is visible');
+      assert.isFalse(isVisible(element.$$('.unstar')), 'unstar is not visible');
+
+      element.set('change.starred', false);
+      assert.isTrue(isVisible(element.$$('.unstar')), 'unstar is visible');
+      assert.isFalse(isVisible(element.$$('.star')), 'star is not visible');
+    });
+
+    test('starring', function(done) {
+      element.set('change.starred', false);
+      MockInteractions.tap(element.$$('button'));
+
+      server.respond();
+
+      element._xhrPromise.then(function(req) {
+        assert.equal(req.status, 204);
+        assert.equal(req.url, '/accounts/self/starred.changes/2');
+        assert.equal(element.change.starred, true);
+        done();
+      });
+    });
+
+    test('unstarring', function(done) {
+      element.set('change.starred', true);
+      MockInteractions.tap(element.$$('button'));
+
+      server.respond();
+
+      element._xhrPromise.then(function(req) {
+        assert.equal(req.status, 204);
+        assert.equal(req.url, '/accounts/self/starred.changes/2');
+        assert.equal(element.change.starred, false);
+        done();
+      });
+    });
+  });
+</script>

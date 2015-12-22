@@ -179,6 +179,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -270,6 +271,9 @@ public class ReceiveCommits {
         public RestApiException apply(Exception input) {
           if (input instanceof RestApiException) {
             return (RestApiException) input;
+          } else if ((input instanceof ExecutionException)
+              && (input.getCause() instanceof RestApiException)) {
+            return (RestApiException) input.getCause();
           }
           return new RestApiException("Error inserting change/patchset", input);
         }
@@ -844,6 +848,9 @@ public class ReceiveCommits {
         f.checkedGet();
       }
       magicBranch.cmd.setResult(OK);
+    } catch (ResourceConflictException e) {
+      addMessage(e.getMessage());
+      reject(magicBranch.cmd, "conflict");
     } catch (RestApiException err) {
       log.error("Can't insert change/patchset for " + project.getName()
           + ". " + err.getMessage(), err);

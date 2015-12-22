@@ -181,9 +181,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     if (isSubmitWholeTopicEnabled()) {
       submitWithConflict(change1b.getChangeId(),
-          "Cannot merge " + change3.getCommit().name() + "\n" +
-          "Change could not be merged due to a path conflict.\n\n" +
-          "Please rebase the change locally " +
+          "Failed to submit 5 changes due to the following problems:\n" +
+          "Change " + change3.getChange().getId() + ": Change could not be " +
+          "merged due to a path conflict. Please rebase the change locally " +
           "and upload the rebased commit for review.");
     } else {
       submit(change1b.getChangeId());
@@ -296,7 +296,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "a.txt", "1", "a-topic-here");
     approve(change3b.getChangeId());
 
-    submitWithConflict(change3a.getChangeId(), "Merge Conflict");
+    String cnt = isSubmitWholeTopicEnabled() ? "2 changes" : "1 change";
+    submitWithConflict(change3a.getChangeId(),
+        "Failed to submit " + cnt + " due to the following problems:\n"
+        + "Change " + change3a.getChange().getId() + ": depends on change that"
+        + " was not submitted");
 
     RevCommit tipbranch = getRemoteLog(project, "branch").get(0);
     assertThat(tipbranch.getShortMessage()).isEqualTo(

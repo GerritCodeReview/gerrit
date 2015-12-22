@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -117,7 +116,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         push("refs/for/master%submit", "other change", "a.txt", "other content");
     r.assertErrorStatus();
     r.assertChange(Change.Status.NEW, null);
-    r.assertMessage(CommitMergeStatus.PATH_CONFLICT.getMessage());
+    r.assertMessage("Change " + r.getChange().getId()
+        + ": change could not be merged due to a path conflict.");
   }
 
   @Test

@@ -29,7 +29,7 @@ public class MergeAlways extends SubmitStrategy {
   }
 
   @Override
-  protected MergeTip _run(CodeReviewCommit branchTip,
+  public MergeTip run(CodeReviewCommit branchTip,
       Collection<CodeReviewCommit> toMerge) throws IntegrationException {
   List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     MergeTip mergeTip;
@@ -59,8 +59,8 @@ public class MergeAlways extends SubmitStrategy {
     return mergeTip;
   }
 
-  @Override
-  public boolean dryRun(CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+  static boolean dryRun(SubmitDryRun.Arguments args,
+      CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
     return args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip,
         toMerge);

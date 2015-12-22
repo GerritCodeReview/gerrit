@@ -143,7 +143,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
               continue;
             }
             if (cache.get(commit, other, SubmitType.CHERRY_PICK, strategy,
-                change.getDest(), git, db.get())) {
+                change.getDest(), git)) {
               result.mergeableInto.add(other.getName().substring(prefixLen));
             }
           }
@@ -166,7 +166,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       final Ref ref, SubmitType type, String strategy, Repository git,
       Boolean old) throws OrmException, IOException {
     final boolean mergeable =
-        cache.get(commit, ref, type, strategy, change.getDest(), git, db.get());
+        cache.get(commit, ref, type, strategy, change.getDest(), git);
     if (!Objects.equals(mergeable, old)) {
       // TODO(dborowitz): Include cache info in ETag somehow instead.
       ChangeUtil.bumpRowVersionNotLastUpdatedOn(change.getId(), db.get());

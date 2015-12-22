@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -29,7 +29,6 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeSorter;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Provider;
 
@@ -53,7 +52,6 @@ import java.util.Set;
  */
 public abstract class SubmitStrategy {
   static class Arguments {
-    protected final IdentifiedUser.GenericFactory identifiedUserFactory;
     protected final Provider<PersonIdent> serverIdent;
     protected final ReviewDb db;
     protected final BatchUpdate.Factory batchUpdateFactory;
@@ -67,35 +65,32 @@ public abstract class SubmitStrategy {
     protected final Branch.NameKey destBranch;
     protected final ApprovalsUtil approvalsUtil;
     protected final MergeUtil mergeUtil;
-    protected final ChangeIndexer indexer;
     protected final MergeSorter mergeSorter;
     protected final IdentifiedUser caller;
 
-    Arguments(IdentifiedUser.GenericFactory identifiedUserFactory,
-        Provider<PersonIdent> serverIdent, ReviewDb db,
+    Arguments(Provider<PersonIdent> serverIdent, ReviewDb db,
         BatchUpdate.Factory batchUpdateFactory,
         ChangeControl.GenericFactory changeControlFactory, Repository repo,
         CodeReviewRevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
         Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
         ApprovalsUtil approvalsUtil, MergeUtil mergeUtil,
-        ChangeIndexer indexer, IdentifiedUser caller) {
-      this.identifiedUserFactory = identifiedUserFactory;
-      this.serverIdent = serverIdent;
-      this.db = db;
-      this.batchUpdateFactory = batchUpdateFactory;
-      this.changeControlFactory = changeControlFactory;
+        IdentifiedUser caller) {
+      this.serverIdent = checkNotNull(serverIdent);
+      this.db = checkNotNull(db);
+      this.batchUpdateFactory = checkNotNull(batchUpdateFactory);
+      this.changeControlFactory = checkNotNull(changeControlFactory);
 
-      this.repo = repo;
-      this.rw = rw;
-      this.inserter = inserter;
-      this.canMergeFlag = canMergeFlag;
-      this.alreadyAccepted = alreadyAccepted;
-      this.destBranch = destBranch;
-      this.approvalsUtil = approvalsUtil;
-      this.mergeUtil = mergeUtil;
-      this.indexer = indexer;
+      this.repo = checkNotNull(repo);
+      this.rw = checkNotNull(rw);
+      this.inserter = checkNotNull(inserter);
+      this.canMergeFlag = checkNotNull(canMergeFlag);
+      this.alreadyAccepted = checkNotNull(alreadyAccepted);
+      this.destBranch = checkNotNull(destBranch);
+      this.approvalsUtil = checkNotNull(approvalsUtil);
+      this.mergeUtil = checkNotNull(mergeUtil);
+      this.caller = checkNotNull(caller);
+
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
-      this.caller = caller;
     }
 
     BatchUpdate newBatchUpdate(Timestamp when) {
@@ -108,7 +103,7 @@ public abstract class SubmitStrategy {
   protected final Arguments args;
 
   SubmitStrategy(Arguments args) {
-    this.args = args;
+    this.args = checkNotNull(args);
   }
 
   /**
@@ -123,30 +118,8 @@ public abstract class SubmitStrategy {
    * @return the new merge tip.
    * @throws IntegrationException
    */
-  public final MergeTip run(final CodeReviewCommit currentTip,
-      final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
-    checkState(args.caller != null);
-    return _run(currentTip, toMerge);
-  }
-
-  /** @see #run(CodeReviewCommit, Collection) */
-  protected abstract MergeTip _run(CodeReviewCommit currentTip,
+  public abstract MergeTip run(CodeReviewCommit currentTip,
       Collection<CodeReviewCommit> toMerge) throws IntegrationException;
-
-  /**
-   * Checks whether the given commit can be merged.
-   * <p>
-   * Implementations must ensure that invoking this method modifies neither the
-   * git repository nor the Gerrit database.
-   *
-   * @param mergeTip the merge tip.
-   * @param toMerge the commit that should be checked.
-   * @return {@code true} if the given commit can be merged, otherwise
-   *         {@code false}
-   * @throws IntegrationException
-   */
-  public abstract boolean dryRun(CodeReviewCommit mergeTip,
-      CodeReviewCommit toMerge) throws IntegrationException;
 
   /**
    * Returns all commits that have been newly created for the changes that are

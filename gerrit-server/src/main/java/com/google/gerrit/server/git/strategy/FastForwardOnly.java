@@ -28,7 +28,7 @@ public class FastForwardOnly extends SubmitStrategy {
   }
 
   @Override
-  protected MergeTip _run(final CodeReviewCommit branchTip,
+  public MergeTip run(final CodeReviewCommit branchTip,
       final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(
@@ -48,9 +48,9 @@ public class FastForwardOnly extends SubmitStrategy {
     return mergeTip;
   }
 
-  @Override
-  public boolean dryRun(CodeReviewCommit mergeTip,
-      CodeReviewCommit toMerge) throws IntegrationException {
+  static boolean dryRun(SubmitDryRun.Arguments args,
+      CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+      throws IntegrationException {
     return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw,
         toMerge);
   }

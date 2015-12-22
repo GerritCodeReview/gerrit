@@ -48,7 +48,7 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
+import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
@@ -171,7 +171,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
     final Provider<ListChildProjects> listChildProjects;
-    final SubmitStrategyFactory submitStrategyFactory;
+    final SubmitDryRun submitDryRun;
     final ConflictsCache conflictsCache;
     final TrackingFooters trackingFooters;
     final ChangeIndex index;
@@ -203,7 +203,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ProjectCache projectCache,
         Provider<ListChildProjects> listChildProjects,
         IndexCollection indexes,
-        SubmitStrategyFactory submitStrategyFactory,
+        SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
         IndexConfig indexConfig,
@@ -213,7 +213,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
-          projectCache, listChildProjects, submitStrategyFactory,
+          projectCache, listChildProjects, submitDryRun,
           conflictsCache, trackingFooters,
           indexes != null ? indexes.getSearchIndex() : null,
           indexConfig, listMembers,
@@ -240,7 +240,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
         Provider<ListChildProjects> listChildProjects,
-        SubmitStrategyFactory submitStrategyFactory,
+        SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
         ChangeIndex index,
@@ -266,7 +266,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.repoManager = repoManager;
      this.projectCache = projectCache;
      this.listChildProjects = listChildProjects;
-     this.submitStrategyFactory = submitStrategyFactory;
+     this.submitDryRun = submitDryRun;
      this.conflictsCache = conflictsCache;
      this.trackingFooters = trackingFooters;
      this.index = index;
@@ -281,7 +281,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
-          projectCache, listChildProjects, submitStrategyFactory,
+          projectCache, listChildProjects, submitDryRun,
           conflictsCache, trackingFooters, index, indexConfig, listMembers,
           allowsDrafts);
     }

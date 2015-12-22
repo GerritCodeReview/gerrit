@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashBasedTable;
@@ -26,6 +27,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
@@ -127,9 +130,13 @@ public class MergeOp implements AutoCloseable {
     final CodeReviewRevWalk rw;
     final RevFlag canMergeFlag;
     final ObjectInserter ins;
+    ProjectState project;
 
-    OpenRepo(Repository repo) {
+    private final Map<Branch.NameKey, OpenBranch> branches;
+
+    OpenRepo(Repository repo, ProjectState project) {
       this.repo = repo;
+      this.project = project;
       rw = CodeReviewCommit.newRevWalk(repo);
       rw.sort(RevSort.TOPO);
       rw.sort(RevSort.COMMIT_TIME_DESC, true);
@@ -137,6 +144,20 @@ public class MergeOp implements AutoCloseable {
       canMergeFlag = rw.newFlag("CAN_MERGE");
 
       ins = repo.newObjectInserter();
+      branches = Maps.newHashMapWithExpectedSize(1);
+    }
+
+    OpenBranch getBranch(Branch.NameKey branch) throws IntegrationException {
+      OpenBranch ob = branches.get(branch);
+      if (ob == null) {
+        ob = new OpenBranch(this, branch);
+        branches.put(branch, ob);
+      }
+      return ob;
+    }
+
+    Project.NameKey getProjectName() {
+      return project.getProject().getNameKey();
     }
 
     void close() {
@@ -146,10 +167,38 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  private static class OpenBranch {
+    final Branch.NameKey name;
+    final RefUpdate update;
+    final CodeReviewCommit oldTip;
+    MergeTip mergeTip;
+
+    OpenBranch(OpenRepo or, Branch.NameKey name) throws IntegrationException {
+      this.name = name;
+      try {
+        update = or.repo.updateRef(name.get());
+        if (update.getOldObjectId() != null) {
+          oldTip = or.rw.parseCommit(update.getOldObjectId());
+        } else if (Objects.equals(or.repo.getFullBranch(), name.get())) {
+          oldTip = null;
+          update.setExpectedOldObjectId(ObjectId.zeroId());
+        } else {
+          throw new IntegrationException("The destination branch "
+              + name + " does not exist anymore.");
+        }
+      } catch (IOException e) {
+        throw new IntegrationException("Cannot open branch " + name, e);
+      }
+    }
+
+    CodeReviewCommit getCurrentTip() {
+      return mergeTip != null ? mergeTip.getCurrentTip() : oldTip;
+    }
+  }
+
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
-  private final ChangeData.Factory changeDataFactory;
   private final ChangeHooks hooks;
   private final ChangeIndexer indexer;
   private final ChangeMessagesUtil cmUtil;
@@ -170,8 +219,8 @@ public class MergeOp implements AutoCloseable {
   private final TagCache tagCache;
 
   private final Map<Project.NameKey, OpenRepo> openRepos;
-  private final Map<Change.Id, List<SubmitRecord>> records;
   private final Map<Change.Id, CodeReviewCommit> commits;
+  private final Multimap<Change.Id, String> problems;
 
   private static final String MACHINE_ID;
   static {
@@ -186,17 +235,12 @@ public class MergeOp implements AutoCloseable {
   private String staticSubmissionId;
   private String submissionId;
 
-  private ProjectState destProject;
   private ReviewDb db;
-  private Map<Branch.NameKey, RefUpdate> pendingRefUpdates;
-  private Map<Branch.NameKey, CodeReviewCommit> openBranches;
-  private Map<Branch.NameKey, MergeTip> mergeTips;
 
   @Inject
   MergeOp(AccountCache accountCache,
       ApprovalsUtil approvalsUtil,
       ChangeControl.GenericFactory changeControlFactory,
-      ChangeData.Factory changeDataFactory,
       ChangeHooks hooks,
       ChangeIndexer indexer,
       ChangeMessagesUtil cmUtil,
@@ -218,7 +262,6 @@ public class MergeOp implements AutoCloseable {
     this.accountCache = accountCache;
     this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
-    this.changeDataFactory = changeDataFactory;
     this.hooks = hooks;
     this.indexer = indexer;
     this.cmUtil = cmUtil;
@@ -239,20 +282,20 @@ public class MergeOp implements AutoCloseable {
     this.tagCache = tagCache;
 
     commits = new HashMap<>();
-    pendingRefUpdates = new HashMap<>();
-    openBranches = new HashMap<>();
-    pendingRefUpdates = new HashMap<>();
     openRepos = new HashMap<>();
-    records = new HashMap<>();
-    mergeTips = new HashMap<>();
+    problems = MultimapBuilder.linkedHashKeys().arrayListValues(1).build();
   }
 
   private OpenRepo openRepo(Project.NameKey project)
       throws NoSuchProjectException, IOException {
     OpenRepo repo = openRepos.get(project);
     if (repo == null) {
+      ProjectState projectState = projectCache.get(project);
+      if (projectState == null) {
+        throw new NoSuchProjectException(project);
+      }
       try {
-        repo = new OpenRepo(repoManager.openRepository(project));
+        repo = new OpenRepo(repoManager.openRepository(project), projectState);
       } catch (RepositoryNotFoundException e) {
         throw new NoSuchProjectException(project);
       }
@@ -268,16 +311,11 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void setDestProject(Branch.NameKey destBranch)
-      throws IntegrationException {
-    destProject = projectCache.get(destBranch.getParentKey());
-    if (destProject == null) {
-      throw new IntegrationException(
-          "No such project: " + destBranch.getParentKey());
+  private static Optional<SubmitRecord> findOkRecord(
+      Collection<SubmitRecord> in) {
+    if (in == null) {
+      return Optional.absent();
     }
-  }
-
-  private static Optional<SubmitRecord> findOkRecord(Collection<SubmitRecord> in) {
     return Iterables.tryFind(in, new Predicate<SubmitRecord>() {
       @Override
       public boolean apply(SubmitRecord input) {
@@ -286,20 +324,23 @@ public class MergeOp implements AutoCloseable {
     });
   }
 
-  public static List<SubmitRecord> checkSubmitRule(ChangeData cd)
+  public static void checkSubmitRule(ChangeData cd)
       throws ResourceConflictException, OrmException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
       throw new ResourceConflictException(
           "missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
-        .setPatchSet(patchSet)
-        .evaluate();
-    Optional<SubmitRecord> ok = findOkRecord(results);
-    if (ok.isPresent()) {
+    List<SubmitRecord> results = cd.getSubmitRecords();
+    if (results == null) {
+      results = new SubmitRuleEvaluator(cd)
+          .setPatchSet(patchSet)
+          .evaluate();
+      cd.setSubmitRecords(results);
+    }
+    if (findOkRecord(results).isPresent()) {
       // Rules supplied a valid solution.
-      return ImmutableList.of(ok.get());
+      return;
     } else if (results.isEmpty()) {
       throw new IllegalStateException(String.format(
           "SubmitRuleEvaluator.evaluate for change %s " +
@@ -312,49 +353,15 @@ public class MergeOp implements AutoCloseable {
     for (SubmitRecord record : results) {
       switch (record.status) {
         case CLOSED:
-          throw new ResourceConflictException(String.format(
-              "change %s is closed", cd.getId()));
+          throw new ResourceConflictException("change is closed");
 
         case RULE_ERROR:
-          throw new ResourceConflictException(String.format(
-              "rule error for change %s: %s",
-              cd.getId(), record.errorMessage));
+          throw new ResourceConflictException(
+              "submit rule error: " + record.errorMessage);
 
         case NOT_READY:
-          StringBuilder msg = new StringBuilder();
-          msg.append(cd.getId() + ":");
-          for (SubmitRecord.Label lbl : record.labels) {
-            switch (lbl.status) {
-              case OK:
-              case MAY:
-                continue;
-
-              case REJECT:
-                msg.append(" blocked by ").append(lbl.label);
-                msg.append(";");
-                continue;
-
-              case NEED:
-                msg.append(" needs ").append(lbl.label);
-                msg.append(";");
-                continue;
-
-              case IMPOSSIBLE:
-                msg.append(" needs ").append(lbl.label)
-                .append(" (check project access)");
-                msg.append(";");
-                continue;
-
-              default:
-                throw new IllegalStateException(String.format(
-                    "Unsupported SubmitRecord.Label %s for %s in %s in %s",
-                    lbl.toString(),
-                    patchSet.getId(),
-                    cd.getId(),
-                    cd.change().getProject().get()));
-            }
-          }
-          throw new ResourceConflictException(msg.toString());
+          throw new ResourceConflictException(
+              describeLabels(cd, record.labels));
 
         default:
           throw new IllegalStateException(String.format(
@@ -367,32 +374,55 @@ public class MergeOp implements AutoCloseable {
     throw new IllegalStateException();
   }
 
-  private void checkSubmitRulesAndState(ChangeSet cs)
-      throws ResourceConflictException, OrmException {
+  private static String describeLabels(ChangeData cd,
+      List<SubmitRecord.Label> labels) throws OrmException {
+    List<String> labelResults = new ArrayList<>();
+    for (SubmitRecord.Label lbl : labels) {
+      switch (lbl.status) {
+        case OK:
+        case MAY:
+          break;
 
-    StringBuilder msgbuf = new StringBuilder();
-    List<Change.Id> problemChanges = new ArrayList<>();
-    for (Change.Id id : cs.ids()) {
-      try {
-        ChangeData cd = changeDataFactory.create(db, id);
-        if (cd.change().getStatus() != Change.Status.NEW){
-          throw new ResourceConflictException("Change " +
-              cd.change().getChangeId() + " is in state " +
-              cd.change().getStatus());
-        } else {
-          records.put(cd.change().getId(), checkSubmitRule(cd));
-        }
-      } catch (ResourceConflictException e) {
-        msgbuf.append(e.getMessage() + "\n");
-        problemChanges.add(id);
+        case REJECT:
+          labelResults.add("blocked by " + lbl.label);
+          break;
+
+        case NEED:
+          labelResults.add("needs " + lbl.label);
+          break;
+
+        case IMPOSSIBLE:
+          labelResults.add(
+              "needs " + lbl.label + " (check project access)");
+          break;
+
+        default:
+          throw new IllegalStateException(String.format(
+              "Unsupported SubmitRecord.Label %s for %s in %s",
+              lbl,
+              cd.change().currentPatchSetId(),
+              cd.change().getProject()));
       }
     }
-    String reason = msgbuf.toString();
-    if (!reason.isEmpty()) {
-        throw new ResourceConflictException("The change could not be " +
-            "submitted because it depends on change(s) " +
-            problemChanges.toString() + ", which could not be submitted " +
-            "because:\n" + reason);
+    return Joiner.on("; ").join(labelResults);
+  }
+
+  private void checkSubmitRulesAndState(ChangeSet cs) {
+    for (ChangeData cd : cs.changes()) {
+      try {
+        if (cd.change().getStatus() != Change.Status.NEW) {
+          problems.put(cd.getId(), "Change " + cd.getId() + " is "
+              + cd.change().getStatus().toString().toLowerCase());
+        } else {
+          checkSubmitRule(cd);
+        }
+      } catch (ResourceConflictException e) {
+        problems.put(cd.getId(), e.getMessage());
+      } catch (OrmException e) {
+        String msg = "Error checking submit rules for change";
+        log.warn(msg + " " + cd.getId(), e);
+        problems.put(cd.getId(), msg);
+      }
     }
   }
 
@@ -413,10 +443,12 @@ public class MergeOp implements AutoCloseable {
     logDebug("Beginning integration of {}", change);
     try {
       ChangeSet cs = mergeSuperSet.completeChangeSet(db, change);
+      reloadChanges(cs);
       logDebug("Calculated to merge {}", cs);
       if (checkSubmitRules) {
         logDebug("Checking submit rules and state");
         checkSubmitRulesAndState(cs);
+        failFast(cs); // Done checks that don't involve opening repo.
       }
       try {
         integrateIntoHistory(cs, caller);
@@ -430,6 +462,26 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  private static void reloadChanges(ChangeSet cs) throws OrmException {
+    // Reload changes in case index was stale.
+    for (ChangeData cd : cs.changes()) {
+      cd.reloadChange();
+    }
+  }
+
+  private void failFast(ChangeSet cs) throws ResourceConflictException {
+    if (problems.isEmpty()) {
+      return;
+    }
+    String msg = "Failed to submit " + cs.size() + " change"
+        + (cs.size() > 1 ? "s" : "") + " due to the following problems:\n";
+    List<String> ps = new ArrayList<>(problems.keySet().size());
+    for (Change.Id id : problems.keySet()) {
+      ps.add("Change " + id + ": " + Joiner.on("; ").join(problems.get(id)));
+    }
+    throw new ResourceConflictException(msg + Joiner.on('\n').join(ps));
+  }
+
   private void integrateIntoHistory(ChangeSet cs, IdentifiedUser caller)
       throws IntegrationException, NoSuchChangeException,
       ResourceConflictException {
@@ -439,43 +491,49 @@ public class MergeOp implements AutoCloseable {
     try {
       Multimap<Project.NameKey, Branch.NameKey> br = cs.branchesByProject();
       Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
+      for (Branch.NameKey branch : cbb.keySet()) {
+        OpenRepo or = openRepo(branch.getParentKey());
+        toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
+      }
+      failFast(cs); // Done checks that don't involve running submit strategies.
+
       for (Project.NameKey project : br.keySet()) {
         OpenRepo or = openRepo(project);
         for (Branch.NameKey branch : br.get(project)) {
-          setDestProject(branch);
-          BranchBatch submitting = validateChangeList(or, cbb.get(branch));
-          toSubmit.put(branch, submitting);
-
+          OpenBranch ob = or.getBranch(branch);
+          BranchBatch submitting = toSubmit.get(branch);
           SubmitStrategy strategy = createStrategy(or, branch,
-              submitting.submitType(), getBranchTip(or, branch), caller);
-          MergeTip mergeTip = preMerge(strategy, submitting.changes(),
-              getBranchTip(or, branch));
-          mergeTips.put(branch, mergeTip);
-          updateChangeStatus(submitting.changes(), branch, true, caller);
+              submitting.submitType(), ob.oldTip, caller);
+          ob.mergeTip = preMerge(strategy, submitting.changes(), ob.oldTip);
+          updateChangeStatus(ob, submitting.changes(), true, caller);
           or.ins.flush();
         }
       }
+
+      Set<Branch.NameKey> done =
+          Sets.newHashSetWithExpectedSize(cbb.keySet().size());
       logDebug("Write out the new branch tips");
       SubmoduleOp subOp = subOpProvider.get();
       for (Project.NameKey project : br.keySet()) {
         OpenRepo or = openRepo(project);
         for (Branch.NameKey branch : br.get(project)) {
-          RefUpdate update = updateBranch(or, branch, caller);
-          pendingRefUpdates.remove(branch);
+          OpenBranch ob = or.getBranch(branch);
+          boolean updated = updateBranch(or, branch, caller);
 
-          setDestProject(branch);
           BranchBatch submitting = toSubmit.get(branch);
-          updateChangeStatus(submitting.changes(), branch, false, caller);
-          updateSubmoduleSubscriptions(subOp, branch, getBranchTip(or, branch));
-          if (update != null) {
-            fireRefUpdated(branch, update);
+          updateChangeStatus(ob, submitting.changes(), false, caller);
+          updateSubmoduleSubscriptions(ob, subOp);
+          if (updated) {
+            fireRefUpdated(ob);
           }
+          done.add(branch);
         }
       }
 
       updateSuperProjects(subOp, br.values());
-      checkState(pendingRefUpdates.isEmpty(), "programmer error: "
-          + "pending ref update list not emptied");
+      checkState(done.equals(cbb.keySet()), "programmer error: did not process"
+          + " all branches in input set.\nExpected: %s\nActual: %s",
+          done, cbb.keySet());
     } catch (NoSuchProjectException noProject) {
       logWarn("Project " + noProject.project() + " no longer exists, "
           + "abandoning open changes");
@@ -513,47 +571,6 @@ public class MergeOp implements AutoCloseable {
         or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller);
   }
 
-  private RefUpdate getPendingRefUpdate(OpenRepo repo,
-      Branch.NameKey destBranch) throws IntegrationException {
-
-    if (pendingRefUpdates.containsKey(destBranch)) {
-      logDebug("Access cached open branch {}: {}", destBranch.get(),
-          openBranches.get(destBranch));
-      return pendingRefUpdates.get(destBranch);
-    }
-
-    try {
-      RefUpdate branchUpdate = repo.repo.updateRef(destBranch.get());
-      CodeReviewCommit branchTip;
-      if (branchUpdate.getOldObjectId() != null) {
-        branchTip = repo.rw.parseCommit(branchUpdate.getOldObjectId());
-      } else if (Objects.equals(repo.repo.getFullBranch(), destBranch.get())) {
-        branchTip = null;
-        branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
-      } else {
-        throw new IntegrationException("The destination branch "
-            + destBranch.get() + " does not exist anymore.");
-      }
-
-      logDebug("Opened branch {}: {}", destBranch.get(), branchTip);
-      pendingRefUpdates.put(destBranch, branchUpdate);
-      openBranches.put(destBranch, branchTip);
-      return branchUpdate;
-    } catch (IOException e) {
-      throw new IntegrationException("Cannot open branch", e);
-    }
-  }
-
-  private CodeReviewCommit getBranchTip(OpenRepo repo,
-      Branch.NameKey destBranch) throws IntegrationException {
-    if (openBranches.containsKey(destBranch)) {
-      return openBranches.get(destBranch);
-    } else {
-      getPendingRefUpdate(repo, destBranch);
-      return openBranches.get(destBranch);
-    }
-  }
-
   private Set<RevCommit> getAlreadyAccepted(OpenRepo or,
       CodeReviewCommit branchTip) throws IntegrationException {
     Set<RevCommit> alreadyAccepted = new HashSet<>();
@@ -586,6 +603,17 @@ public class MergeOp implements AutoCloseable {
     abstract List<ChangeData> changes();
   }
 
+  private void logProblem(Change.Id id, Throwable t) {
+    String msg = "Error reading change";
+    log.error(msg + " " + id, t);
+    problems.put(id, msg);
+  }
+
+  private void logProblem(Change.Id id, String msg) {
+    log.error(msg + " " + id);
+    problems.put(id, msg);
+  }
+
   private BranchBatch validateChangeList(OpenRepo or,
       Collection<ChangeData> submitted) throws IntegrationException {
     logDebug("Validating {} changes", submitted.size());
@@ -595,22 +623,20 @@ public class MergeOp implements AutoCloseable {
     SubmitType submitType = null;
     ChangeData choseSubmitTypeFrom = null;
     for (ChangeData cd : submitted) {
+      Change.Id changeId = cd.getId();
       ChangeControl ctl;
       Change chg;
       try {
         ctl = cd.changeControl();
         chg = cd.change();
       } catch (OrmException e) {
-        throw new IntegrationException("Failed to validate changes", e);
-      }
-      Change.Id changeId = cd.getId();
-      if (chg.getStatus() != Change.Status.NEW) {
-        logDebug("Change {} is not new: {}", changeId, chg.getStatus());
+        logProblem(changeId, e);
         continue;
       }
       if (chg.currentPatchSetId() == null) {
-        logError("Missing current patch set on change " + changeId);
-        commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
+        String msg = "Missing current patch set on change";
+        logError(msg + " " + changeId);
+        problems.put(changeId, msg);
         continue;
       }
 
@@ -619,12 +645,12 @@ public class MergeOp implements AutoCloseable {
       try {
         ps = cd.currentPatchSet();
       } catch (OrmException e) {
-        throw new IntegrationException("Cannot query the database", e);
+        logProblem(changeId, e);
+        continue;
       }
       if (ps == null || ps.getRevision() == null
           || ps.getRevision().get() == null) {
-        logError("Missing patch set or revision on change " + changeId);
-        commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
+        logProblem(changeId, "Missing patch set or revision on change");
         continue;
       }
 
@@ -632,9 +658,8 @@ public class MergeOp implements AutoCloseable {
       ObjectId id;
       try {
         id = ObjectId.fromString(idstr);
-      } catch (IllegalArgumentException iae) {
-        logError("Invalid revision on patch set " + ps.getId());
-        commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
+      } catch (IllegalArgumentException e) {
+        logProblem(changeId, e);
         continue;
       }
 
@@ -643,9 +668,9 @@ public class MergeOp implements AutoCloseable {
         // want to merge the issue. We can't safely do that if the
         // tip is not reachable.
         //
-        logError("Revision " + idstr + " of patch set " + ps.getId()
-            + " does not match " + ps.getId().toRefName());
-        commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
+        logProblem(changeId, "Revision " + idstr + " of patch set "
+            + ps.getPatchSetId() + " does not match " + ps.getId().toRefName()
+            + " for change");
         continue;
       }
 
@@ -653,8 +678,7 @@ public class MergeOp implements AutoCloseable {
       try {
         commit = or.rw.parseCommit(id);
       } catch (IOException e) {
-        logError("Invalid commit " + idstr + " on patch set " + ps.getId(), e);
-        commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
+        logProblem(changeId, e);
         continue;
       }
 
@@ -666,29 +690,27 @@ public class MergeOp implements AutoCloseable {
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(
-            or.repo, commit, destProject, destBranch, ps.getId());
+            or.repo, commit, or.project, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
-        logDebug("Revision {} of patch set {} failed validation: {}",
-            idstr, ps.getId(), mve.getStatus());
         commit.setStatusCode(mve.getStatus());
+        problems.put(changeId, mve.getStatus().toString());
         continue;
       }
 
-      SubmitType st = getSubmitType(commit.getControl(), ps);
+      SubmitType st = getSubmitType(cd, ps);
       if (st == null) {
-        logError("No submit type for revision " + idstr + " of patch set "
-            + ps.getId());
-        throw new IntegrationException(
-            "No submit type for change " + cd.getId());
+        logProblem(changeId, "No submit type for change");
+        continue;
       }
       if (submitType == null) {
         submitType = st;
         choseSubmitTypeFrom = cd;
       } else if (st != submitType) {
-        throw new IntegrationException(String.format(
-            "Change %s has submit type %s, but previously chose submit type %s "
+        problems.put(changeId, String.format(
+            "Change has submit type %s, but previously chose submit type %s "
             + "from change %s in the same batch",
-            cd.getId(), st, submitType, choseSubmitTypeFrom.getId()));
+            st, submitType, choseSubmitTypeFrom.getId()));
+        continue;
       }
       commit.add(or.canMergeFlag);
       toSubmit.add(cd);
@@ -702,8 +724,6 @@ public class MergeOp implements AutoCloseable {
     try {
       List<String> refNames = new ArrayList<>(cds.size());
       for (ChangeData cd : cds) {
-        // Reload change in case index was stale.
-        cd.reloadChange();
         Change c = cd.change();
         if (c != null) {
           refNames.add(c.currentPatchSetId().toRefName());
@@ -722,104 +742,97 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private SubmitType getSubmitType(ChangeControl ctl, PatchSet ps) {
+  private SubmitType getSubmitType(ChangeData cd, PatchSet ps) {
     try {
-      ChangeData cd = changeDataFactory.create(db, ctl);
       SubmitTypeRecord r = new SubmitRuleEvaluator(cd).setPatchSet(ps)
           .getSubmitType();
       if (r.status != SubmitTypeRecord.Status.OK) {
-        logError("Failed to get submit type for " + ctl.getChange().getKey());
+        logError("Failed to get submit type for " + cd.getId());
         return null;
       }
       return r.type;
     } catch (OrmException e) {
-      logError("Failed to get submit type for " + ctl.getChange().getKey(), e);
+      logError("Failed to get submit type for " + cd.getId(), e);
       return null;
     }
   }
 
-  private RefUpdate updateBranch(OpenRepo or, Branch.NameKey destBranch,
+  private boolean updateBranch(OpenRepo or, Branch.NameKey destBranch,
       IdentifiedUser caller) throws IntegrationException {
-    RefUpdate branchUpdate = getPendingRefUpdate(or, destBranch);
-    CodeReviewCommit branchTip = getBranchTip(or, destBranch);
-
-    MergeTip mergeTip = mergeTips.get(destBranch);
-
-    CodeReviewCommit currentTip =
-        mergeTip != null ? mergeTip.getCurrentTip() : null;
-    if (Objects.equals(branchTip, currentTip)) {
+    OpenBranch ob = or.getBranch(destBranch);
+    CodeReviewCommit currentTip = ob.getCurrentTip();
+    if (Objects.equals(ob.oldTip, currentTip)) {
       if (currentTip != null) {
         logDebug("Branch already at merge tip {}, no update to perform",
             currentTip.name());
       } else {
         logDebug("Both branch and merge tip are nonexistent, no update");
       }
-      return null;
+      return false;
     } else if (currentTip == null) {
       logDebug("No merge tip, no update to perform");
-      return null;
+      return false;
     }
 
-    if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
+    if (RefNames.REFS_CONFIG.equals(ob.update.getName())) {
       logDebug("Loading new configuration from {}", RefNames.REFS_CONFIG);
       try {
-        ProjectConfig cfg =
-            new ProjectConfig(destProject.getProject().getNameKey());
+        ProjectConfig cfg = new ProjectConfig(or.getProjectName());
         cfg.load(or.repo, currentTip);
       } catch (Exception e) {
         throw new IntegrationException("Submit would store invalid"
             + " project configuration " + currentTip.name() + " for "
-            + destProject.getProject().getName(), e);
+            + or.getProjectName(), e);
       }
     }
 
-    branchUpdate.setRefLogIdent(
+    ob.update.setRefLogIdent(
         identifiedUserFactory.create(caller.getAccountId()).newRefLogIdent());
-    branchUpdate.setForceUpdate(false);
-    branchUpdate.setNewObjectId(currentTip);
-    branchUpdate.setRefLogMessage("merged", true);
+    ob.update.setForceUpdate(false);
+    ob.update.setNewObjectId(currentTip);
+    ob.update.setRefLogMessage("merged", true);
     try {
-      RefUpdate.Result result = branchUpdate.update(or.rw);
+      RefUpdate.Result result = ob.update.update(or.rw);
       logDebug("Update of {}: {}..{} returned status {}",
-          branchUpdate.getName(), branchUpdate.getOldObjectId(),
-          branchUpdate.getNewObjectId(), result);
+          ob.update.getName(), ob.update.getOldObjectId(),
+          ob.update.getNewObjectId(), result);
       switch (result) {
         case NEW:
         case FAST_FORWARD:
-          if (branchUpdate.getResult() == RefUpdate.Result.FAST_FORWARD) {
+          if (ob.update.getResult() == RefUpdate.Result.FAST_FORWARD) {
             tagCache.updateFastForward(destBranch.getParentKey(),
-                branchUpdate.getName(),
-                branchUpdate.getOldObjectId(),
+                ob.update.getName(),
+                ob.update.getOldObjectId(),
                 currentTip);
           }
 
-          if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
-            Project p = destProject.getProject();
+          if (RefNames.REFS_CONFIG.equals(ob.update.getName())) {
+            Project p = or.project.getProject();
             projectCache.evict(p);
-            destProject = projectCache.get(p.getNameKey());
+            or.project = projectCache.get(p.getNameKey());
             repoManager.setProjectDescription(
                 p.getNameKey(), p.getDescription());
           }
 
-          return branchUpdate;
+          return true;
 
         case LOCK_FAILURE:
-          throw new IntegrationException("Failed to lock " + branchUpdate.getName());
+          throw new IntegrationException(
+              "Failed to lock " + ob.update.getName());
         default:
-          throw new IOException(branchUpdate.getResult().name()
-              + '\n' + branchUpdate);
+          throw new IOException(
+              ob.update.getResult().name() + '\n' + ob.update);
       }
     } catch (IOException e) {
-      throw new IntegrationException("Cannot update " + branchUpdate.getName(), e);
+      throw new IntegrationException("Cannot update " + ob.update.getName(), e);
     }
   }
 
-  private void fireRefUpdated(Branch.NameKey destBranch,
-      RefUpdate branchUpdate) {
-    logDebug("Firing ref updated hooks for {}", branchUpdate.getName());
-    gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
-    hooks.doRefUpdatedHook(destBranch, branchUpdate,
-        getAccount(mergeTips.get(destBranch).getCurrentTip()));
+  private void fireRefUpdated(OpenBranch ob) {
+    logDebug("Firing ref updated hooks for {}", ob.name);
+    gitRefUpdated.fire(ob.name.getParentKey(), ob.update);
+    hooks.doRefUpdatedHook(ob.name, ob.update,
+        getAccount(ob.mergeTip.getCurrentTip()));
   }
 
   private Account getAccount(CodeReviewCommit codeReviewCommit) {
@@ -840,17 +853,16 @@ public class MergeOp implements AutoCloseable {
     return "";
   }
 
-  private void updateChangeStatus(List<ChangeData> submitted,
-      Branch.NameKey destBranch, boolean dryRun, IdentifiedUser caller)
-      throws NoSuchChangeException, IntegrationException, ResourceConflictException,
-      OrmException {
+  private void updateChangeStatus(OpenBranch ob, List<ChangeData> submitted,
+      boolean dryRun, IdentifiedUser caller) throws NoSuchChangeException,
+      IntegrationException, ResourceConflictException, OrmException {
     if (!dryRun) {
       logDebug("Updating change status for {} changes", submitted.size());
     } else {
       logDebug("Checking change state for {} changes in a dry run",
           submitted.size());
     }
-    MergeTip mergeTip = mergeTips.get(destBranch);
+
     for (ChangeData cd : submitted) {
       Change c = cd.change();
       CodeReviewCommit commit = commits.get(c.getId());
@@ -876,8 +888,8 @@ public class MergeOp implements AutoCloseable {
       logDebug("Status of change {} ({}) on {}: {}", c.getId(), commit.name(),
           c.getDest(), s);
       // If mergeTip is null merge failed and mergeResultRev will not be read.
-      ObjectId mergeResultRev =
-          mergeTip != null ? mergeTip.getMergeResults().get(commit) : null;
+      ObjectId mergeResultRev = ob.mergeTip != null
+          ? ob.mergeTip.getMergeResults().get(commit) : null;
       // The change notes must be forcefully reloaded so that the SUBMIT
       // approval that we added earlier is visible
       commit.notes().reload();
@@ -949,14 +961,14 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void updateSubmoduleSubscriptions(SubmoduleOp subOp,
-      Branch.NameKey destBranch, CodeReviewCommit branchTip) {
-    MergeTip mergeTip = mergeTips.get(destBranch);
+  private void updateSubmoduleSubscriptions(OpenBranch ob, SubmoduleOp subOp) {
+    CodeReviewCommit branchTip = ob.oldTip;
+    MergeTip mergeTip = ob.mergeTip;
     if (mergeTip != null
         && (branchTip == null || branchTip != mergeTip.getCurrentTip())) {
-      logDebug("Updating submodule subscriptions for branch {}", destBranch);
+      logDebug("Updating submodule subscriptions for branch {}", ob.name);
       try {
-        subOp.updateSubmoduleSubscriptions(db, destBranch);
+        subOp.updateSubmoduleSubscriptions(db, ob.name);
       } catch (SubmoduleException e) {
         logError("The submodule subscriptions were not updated according"
             + "to the .gitmodules files", e);
@@ -1073,9 +1085,9 @@ public class MergeOp implements AutoCloseable {
     logDebug("Add approval for " + cd + " from user " + user);
     ChangeUpdate update = updateFactory.create(control, timestamp);
     update.putReviewer(user.getAccountId(), REVIEWER);
-    List<SubmitRecord> record = records.get(cd.change().getId());
-    if (record != null) {
-      update.merge(record);
+    Optional<SubmitRecord> okRecord = findOkRecord(cd.getSubmitRecords());
+    if (okRecord.isPresent()) {
+      update.merge(ImmutableList.of(okRecord.get()));
     }
     db.changes().beginTransaction(cd.change().getId());
     try {

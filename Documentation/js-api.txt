@@ -176,6 +176,9 @@ Supported events:
   function must return true to allow the operation to continue, or
   false to prevent it.
 
+* `comment`: Invoked when a comment is displayed. The DOM element that
+  contains the comment is passed as argument.
+
 [[self_onAction]]
 === self.onAction()
 Register a JavaScript callback to be invoked when the user clicks

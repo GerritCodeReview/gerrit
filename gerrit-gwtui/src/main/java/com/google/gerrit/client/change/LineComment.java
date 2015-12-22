@@ -15,6 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -82,6 +83,7 @@ class LineComment extends Composite {
     if (info.message() != null) {
       message.setInnerSafeHtml(clp.apply(new SafeHtmlBuilder()
           .append(info.message().trim()).wikify()));
+      ApiGlue.fireEvent("comment", message);
     }
   }
 

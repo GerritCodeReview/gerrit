@@ -21,6 +21,7 @@ import com.google.gerrit.client.info.AccountPreferencesInfo;
 import com.google.gerrit.client.info.ServerInfo;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 
@@ -293,6 +294,13 @@ public class ApiGlue {
     JsArray<JavaScriptObject> h = getEventHandlers(event);
     for (int i = 0; i < h.length(); i++) {
       invoke(h.get(i), a);
+    }
+  }
+
+  public static final void fireEvent(String event, Element e) {
+    JsArray<JavaScriptObject> h = getEventHandlers(event);
+    for (int i = 0; i < h.length(); i++) {
+      invoke(h.get(i), e);
     }
   }
 

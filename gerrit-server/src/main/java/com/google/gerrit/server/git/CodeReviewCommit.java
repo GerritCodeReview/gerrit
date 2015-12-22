@@ -20,6 +20,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 

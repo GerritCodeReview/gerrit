@@ -27,7 +27,6 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.RebaseSorter;

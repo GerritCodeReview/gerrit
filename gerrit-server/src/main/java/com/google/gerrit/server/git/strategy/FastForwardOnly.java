@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
 

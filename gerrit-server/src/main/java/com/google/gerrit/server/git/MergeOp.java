@@ -60,6 +60,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
+import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.validators.MergeValidationException;

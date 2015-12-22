@@ -1716,9 +1716,9 @@ public class ReceiveCommits {
 
   private class CreateRequest {
     final RevCommit commit;
-    final Change change;
     final ReceiveCommand cmd;
     final ChangeInserter ins;
+    Change change;
     boolean created;
     Collection<String> groups;
 
@@ -1808,6 +1808,7 @@ public class ReceiveCommits {
         bu.execute();
       }
       created = true;
+      change = ins.getChange();
 
       if (magicBranch != null && magicBranch.submit) {
         submit(projectControl.controlFor(change), ps);

@@ -23,6 +23,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -93,11 +94,13 @@ public class ChangeIndexer {
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService executor;
+  private final ChangeCache changeCache;
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
+      ChangeCache changeCache,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
     this.executor = executor;
@@ -106,12 +109,14 @@ public class ChangeIndexer {
     this.context = context;
     this.index = index;
     this.indexes = null;
+    this.changeCache = changeCache;
   }
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
+      ChangeCache changeCache,
       @Assisted ListeningExecutorService executor,
       @Assisted IndexCollection indexes) {
     this.executor = executor;
@@ -120,6 +125,7 @@ public class ChangeIndexer {
     this.context = context;
     this.index = null;
     this.indexes = indexes;
+    this.changeCache = changeCache;
   }
 
   /**
@@ -157,6 +163,7 @@ public class ChangeIndexer {
     for (ChangeIndex i : getWriteIndexes()) {
       i.replace(cd);
     }
+    changeCache.evict(cd.getId());
   }
 
   /**
@@ -188,6 +195,7 @@ public class ChangeIndexer {
    */
   public void delete(Change.Id id) throws IOException {
     new DeleteTask(id).call();
+    changeCache.evict(id);
   }
 
   private Collection<ChangeIndex> getWriteIndexes() {

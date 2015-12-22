@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1450733797 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBVSb08r0XXyGkMzvzWV86sRJc1ib6uRCA/oUeZ8jHcMAkCqLyQe+EX0jKXjulFD7xDV1n6r\n\n0000000000000000000000000000000000000000 8a1cef198a3c86d23bb49caa42f793e517f843e8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWeHDlAAoJEF/XxZqaEoiM/ikP+wUAHtb7rArp1+8W5r+47XzO\nLMInmeT/HhTkKbE4PrjyvwvUrbOnXTt3D8NqC8h/bWG52LEPHle1Ht6mVyN822Uq\n+G6+t6VbiGdHvwEkFcXyrhl0hurYMAH6ka9kHFclnOZRC0pcuQscnO8+VJRixy9H\nLxLQt9ZuoTtQb9WOx7wzKwPfu06zpmG4+RP9Jvu1RHgMWN3fq1C/8AzlQQTUPDGV\nhdlvrZzkhaAtegWihtev0hgUlnCFQZrmY5URd6oihDpffWxy0Tkvu+k5SO+RHkiZ\nsJQkCUv40Hky6NkOjw8t0c65aD3MuYHo6XF2yvpKN101x9g9F6/yhbftBA+xdYg6\nyXJILaWON8kPb5sR1ydAiy+Ca9J4SDhkiRhb5xAxwVmqkr4+/XfIur+8WF0w16BP\nwvEoXVG1cMjc/s+i+hoygiLr3FpiNWc01RK5dJYA0UMxdjw7ADJIuyLvoRufVzCn\nv7PXdObP0BmkZCyIvG7y6ZYwRPSjxiFEr7cmh7S0Xq8EUKxE0dN/jSHgt1Lt82UR\ns9J/mrxUPNwsIh90yYCv382xjVeNmwVJo+B5HdN02+FY3p4cf1j1GgD+wX0hXoUR\nh2tHk5rbtS27NPvisEER6MGGep46aZSLUI64vRNRbbvwl5TwjzJFlfPNy5KpRw1j\nsHKzPuACudt59cOwHu74\n\u003dRLpy\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa0bf316_d8356dd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReadOnlyRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-12-22T04:11:27Z",
+      "side": 1,
+      "message": "Any reason to get this programmatically instead of just putting \"ReadOnlyRepository\" literally in the string?",
+      "range": {
+        "startLine": 37,
+        "startChar": 27,
+        "endLine": 37,
+        "endChar": 67
+      },
+      "revId": "7517c70825499587870e1d07eea3ed8762209638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -106,7 +106,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       public void onEvent(Event event) {
         if (event instanceof ChangeMergedEvent) {
           ChangeMergedEvent changeMergedEvent = (ChangeMergedEvent) event;
-          mergeResults.put(changeMergedEvent.change.number,
+          mergeResults.put(changeMergedEvent.change.get().number,
               changeMergedEvent.newRev);
         }
       }

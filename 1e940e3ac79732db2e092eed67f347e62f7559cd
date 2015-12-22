@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1450354092 +0100\nnonce ALmjDBWAR6yZjU5U+Cl7vHn8J4GaWiPvMc7Q68/LogLq0LnOTRrqJ2EbXu9xWNkysf3ajJe85+Sf\n\n0000000000000000000000000000000000000000 1e940e3ac79732db2e092eed67f347e62f7559cd refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWcqWsAAoJEFG1/Zeg0O9ROmEIAKPMpAd2oe5IkkSENKLtFS/y\noYFqCma1gEifUj0xN/Im+n0YaS0/mRFNQ+p8vHS/UIAcuwd/Bao8s3GWlW4QYdQ2\nLo0N36yjmZMzO+B5cPJXiojj0V1ls+bKpq0YUCajvugE/pp4JlqjfMuEBTBTd40X\nfgKDpJ35Bn3i3HItcYXjLJ1mahASXgh73M/0Vsa1WgWJI/VrLLJzCedy2jmFuVOE\nkAJMcw7tHXMQgBKQdL6UXxKEhdTR8pSLObAhPsdAd8JV2L3vEr9fZ87e/ssA73vw\nO9Mg7NlPOu/rirrQz1Gb45gH88bxSmwRPmxf9wLBW151UdvCQLh+T7kRzq2n7kQ\u003d\n\u003dq05s\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6afc9b2b_be3619b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/StarsByPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-22T10:19:44Z",
+      "side": 1,
+      "message": "Currently, the star predicate doesn\u0027t use secondary index. It would be a trivial change to fix that, add new field like EditBy or DraftBy, that i recently added. The only prerequisite for that would be to reindex the change once it was starred or unstarred, using StarredChangesUtil.byChange(id). However after adding star:label it\u0027s not obvious to me, how to make this search operator use secondary index. So may be we should split them in two different search operators, one that uses secondary index and another that doesn\u0027t?",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 3
+      },
+      "revId": "1e940e3ac79732db2e092eed67f347e62f7559cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

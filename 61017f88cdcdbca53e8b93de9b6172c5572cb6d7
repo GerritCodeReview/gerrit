@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eabb2b9e_aa3fcfad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-22T20:15:24Z",
+      "side": 1,
+      "message": "This would skip firing of the stream events. The question is if we could identify if there is no hook and not listeners registered, the initialization of the data can be skipped.",
+      "range": {
+        "startLine": 380,
+        "startChar": 6,
+        "endLine": 380,
+        "endChar": 32
+      },
+      "revId": "61017f88cdcdbca53e8b93de9b6172c5572cb6d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

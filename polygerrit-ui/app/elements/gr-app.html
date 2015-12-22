@@ -99,7 +99,8 @@ limitations under the License.
     </header>
     <main>
       <template is="dom-if" if="{{_showChangeListView}}" restamp="true">
-        <gr-change-list-view params="[[params]]"></gr-change-list-view>
+        <gr-change-list-view params="[[params]]"
+            logged-in="[[loggedIn(account)]]"></gr-change-list-view>
       </template>
       <template is="dom-if" if="{{_showDashboardView}}" restamp="true">
         <gr-dashboard-view params="[[params]]"></gr-dashboard-view>
@@ -177,14 +178,14 @@ limitations under the License.
         },
       },
 
-      get loggedIn() {
+      loggedIn: function() {
         return !!(this.account && Object.keys(this.account).length > 0);
       },
 
       _accountChanged: function() {
         this._resolveAccountReady();
-        this.$.accountContainer.classList.toggle('loggedIn', this.loggedIn);
-        this.$.accountContainer.classList.toggle('loggedOut', !this.loggedIn);
+        this.$.accountContainer.classList.toggle('loggedIn', this.loggedIn());
+        this.$.accountContainer.classList.toggle('loggedOut', !this.loggedIn());
       },
 
       _configChanged: function(config) {

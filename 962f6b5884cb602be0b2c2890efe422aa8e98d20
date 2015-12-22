@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "6afc9b2b_de29e55a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitDryRun.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-22T10:03:57Z",
+      "side": 1,
+      "message": "\u003e Might be a bug, but I don\u0027t think it\u0027s much of an issue in\n \u003e practice. The point of alreadyAccepted IIUC is to have MergeSorter\n \u003e avoid trying to create merges for any changes that are already\n \u003e merged into a different branch, which mostly applies when you\u0027re\n \u003e merging in changes from another branch. \n\nAh, I wasn\u0027t clear that this was the only purpose. Then I\u0027m not worrying about it.",
+      "parentUuid": "aa0bf316_18e2c5bf",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 73
+      },
+      "revId": "962f6b5884cb602be0b2c2890efe422aa8e98d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6503ee91_06e9dad4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitDryRun.java",
         "patchSetId": 3

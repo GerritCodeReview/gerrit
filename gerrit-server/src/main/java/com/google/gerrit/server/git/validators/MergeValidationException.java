@@ -14,19 +14,18 @@
 
 package com.google.gerrit.server.git.validators;
 
-import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.validators.ValidationException;
 
+/**
+ * Exception that occurs during a validation step before merging changes.
+ * <p>
+ * Used by {@link MergeValidationListener}s provided by plugins. Messages should
+ * be considered human-readable.
+ */
 public class MergeValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;
-  private final CommitMergeStatus status;
 
-  public MergeValidationException(CommitMergeStatus status) {
-    super(status.toString());
-    this.status = status;
-  }
-
-  public CommitMergeStatus getStatus() {
-    return status;
+  public MergeValidationException(String msg) {
+    super(msg);
   }
 }

@@ -65,36 +65,7 @@ public enum CommitMergeStatus {
   /** */
   NOT_FAST_FORWARD("Project policy requires all submissions to be a fast-forward.\n"
                   + "\n"
-                  + "Please rebase the change locally and upload again for review."),
-
-  /** */
-  INVALID_PROJECT_CONFIGURATION("Change contains an invalid project configuration."),
-
-  /** */
-  INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_PERMITTED(
-      "Change contains an invalid project configuration:\n"
-          + "One of the plugin configuration parameters has a value that is not permitted."),
-
-  /** */
-  INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_EDITABLE(
-      "Change contains an invalid project configuration:\n"
-          + "One of the plugin configuration parameters is not editable."),
-
-  /** */
-  INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND(
-      "Change contains an invalid project configuration:\n"
-          + "Parent project does not exist."),
-
-  /** */
-  INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT(
-      "Change contains an invalid project configuration:\n"
-          + "The root project cannot have a parent."),
-
-  /** */
-  SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN(
-      "Change contains a project configuration that changes the parent project.\n"
-          + "The change must be submitted by a Gerrit administrator.");
-
+                  + "Please rebase the change locally and upload again for review.");
 
   private String message;
 

@@ -691,8 +691,7 @@ public class MergeOp implements AutoCloseable {
         mergeValidators.validatePreMerge(
             or.repo, commit, or.project, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
-        commit.setStatusCode(mve.getStatus());
-        problems.put(changeId, mve.getStatus().toString());
+        problems.put(changeId, mve.getMessage());
         continue;
       }
 
@@ -880,12 +879,6 @@ public class MergeOp implements AutoCloseable {
         case MANUAL_RECURSIVE_MERGE:
         case CANNOT_CHERRY_PICK_ROOT:
         case NOT_FAST_FORWARD:
-        case INVALID_PROJECT_CONFIGURATION:
-        case INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_PERMITTED:
-        case INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_EDITABLE:
-        case INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND:
-        case INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT:
-        case SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN:
           // TODO(dborowitz): Reformat these messages to be more appropriate for
           // short problem descriptions.
           problems.put(id,

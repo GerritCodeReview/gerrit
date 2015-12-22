@@ -30,7 +30,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -75,6 +74,26 @@ public class MergeValidators {
 
   public static class ProjectConfigValidator implements
       MergeValidationListener {
+    private static final String INVALID_CONFIG =
+        "Change contains an invalid project configuration.";
+    private static final String PARENT_NOT_FOUND =
+        "Change contains an invalid project configuration:\n"
+        + "Parent project does not exist.";
+    private static final String PLUGIN_VALUE_NOT_EDITABLE =
+        "Change contains an invalid project configuration:\n"
+        + "One of the plugin configuration parameters is not editable.";
+    private static final String PLUGIN_VALUE_NOT_PERMITTED =
+        "Change contains an invalid project configuration:\n"
+        + "One of the plugin configuration parameters has a value that is not"
+        + " permitted.";
+    private static final String ROOT_NO_PARENT =
+        "Change contains an invalid project configuration:\n"
+        + "The root project cannot have a parent.";
+    private static final String SET_BY_ADMIN =
+        "Change contains a project configuration that changes the parent"
+        + " project.\n"
+        + "The change must be submitted by a Gerrit administrator.";
+
     private final AllProjectsName allProjectsName;
     private final ReviewDb db;
     private final ProjectCache projectCache;
@@ -119,27 +138,23 @@ public class MergeValidators {
           if (oldParent == null) {
             // update of the 'All-Projects' project
             if (newParent != null) {
-              throw new MergeValidationException(CommitMergeStatus.
-                  INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT);
+              throw new MergeValidationException(ROOT_NO_PARENT);
             }
           } else {
             if (!oldParent.equals(newParent)) {
               PatchSetApproval psa =
                   approvalsUtil.getSubmitter(db, commit.notes(), patchSetId);
               if (psa == null) {
-                throw new MergeValidationException(CommitMergeStatus.
-                    SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN);
+                throw new MergeValidationException(SET_BY_ADMIN);
               }
               final IdentifiedUser submitter =
                   identifiedUserFactory.create(psa.getAccountId());
               if (!submitter.getCapabilities().canAdministrateServer()) {
-                throw new MergeValidationException(CommitMergeStatus.
-                    SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN);
+                throw new MergeValidationException(SET_BY_ADMIN);
               }
 
               if (projectCache.get(newParent) == null) {
-                throw new MergeValidationException(CommitMergeStatus.
-                    INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND);
+                throw new MergeValidationException(PARENT_NOT_FOUND);
               }
             }
           }
@@ -155,19 +170,16 @@ public class MergeValidators {
 
             if ((value == null ? oldValue != null : !value.equals(oldValue)) &&
                 !configEntry.isEditable(destProject)) {
-              throw new MergeValidationException(CommitMergeStatus.
-                  INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_EDITABLE);
+              throw new MergeValidationException(PLUGIN_VALUE_NOT_EDITABLE);
             }
 
             if (ProjectConfigEntry.Type.LIST.equals(configEntry.getType())
                 && value != null && !configEntry.getPermittedValues().contains(value)) {
-              throw new MergeValidationException(CommitMergeStatus.
-                  INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_PERMITTED);
+              throw new MergeValidationException(PLUGIN_VALUE_NOT_PERMITTED);
             }
           }
         } catch (ConfigInvalidException | IOException e) {
-          throw new MergeValidationException(CommitMergeStatus.
-              INVALID_PROJECT_CONFIGURATION);
+          throw new MergeValidationException(INVALID_CONFIG);
         }
       }
     }

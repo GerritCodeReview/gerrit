@@ -18,6 +18,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.cache.CacheModule;
@@ -37,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class SearchingChangeCacheImpl
@@ -44,6 +46,7 @@ public class SearchingChangeCacheImpl
   private static final Logger log =
       LoggerFactory.getLogger(SearchingChangeCacheImpl.class);
   static final String ID_CACHE = "changes";
+  static final String ID_CACHE_SINGLE = "changes_by_id";
 
   public static Module module() {
     return new CacheModule() {
@@ -55,16 +58,26 @@ public class SearchingChangeCacheImpl
             new TypeLiteral<List<Change>>() {})
           .maximumWeight(0)
           .loader(Loader.class);
+
+        cache(ID_CACHE_SINGLE,
+            Change.Id.class,
+            Change.class)
+          .maximumWeight(1024)
+          .expireAfterWrite(5, TimeUnit.MINUTES)
+          .loader(SingleChangeLoader.class);
       }
     };
   }
 
   private final LoadingCache<Project.NameKey, List<Change>> cache;
+  private final LoadingCache<Id, Change> cacheById;
 
   @Inject
   SearchingChangeCacheImpl(
-      @Named(ID_CACHE) LoadingCache<Project.NameKey, List<Change>> cache) {
+      @Named(ID_CACHE) LoadingCache<Project.NameKey, List<Change>> cache,
+      @Named(ID_CACHE_SINGLE) LoadingCache<Change.Id, Change> cacheById) {
     this.cache = cache;
+    this.cacheById = cacheById;
   }
 
   @Override
@@ -101,6 +114,25 @@ public class SearchingChangeCacheImpl
         return Collections.unmodifiableList(
             ChangeData.asChanges(queryProvider.get().byProject(key)));
       }
+    }
+  }
+
+  @Override
+  public Change get(Id id) {
+    try {
+      return cacheById.get(id);
+    } catch (ExecutionException e) {
+      log.error("Cannot retrieve change with id " + id, e);
+      return null;
+    }
+  }
+
+  @Override
+  public void evict(Id id) {
+    Change change = cacheById.getIfPresent(id);
+    if (change != null) {
+      cacheById.invalidate(id);
+      cache.invalidate(change.getProject());
     }
   }
 }

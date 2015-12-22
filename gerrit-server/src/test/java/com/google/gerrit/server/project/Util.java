@@ -56,13 +56,16 @@ import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeAccountCache;
+import com.google.gerrit.testutil.FakeChangeCache;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -309,6 +312,7 @@ public class Util {
         bind(GitRepositoryManager.class).toInstance(repoManager);
         bind(PatchListCache.class).toProvider(nullProvider);
         bind(Realm.class).to(FakeRealm.class);
+        bind(ChangeCache.class).to(FakeChangeCache.class);
 
         factory(CapabilityControl.Factory.class);
         factory(ChangeControl.AssistedFactory.class);

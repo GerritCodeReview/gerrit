@@ -22,6 +22,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -42,13 +43,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
+public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener, ChangeCache {
   private static final Logger log = LoggerFactory.getLogger(SearchingChangeCacheImpl.class);
   static final String ID_CACHE = "changes";
+  static final String ID_CACHE_SINGLE = "changes_by_id";
 
   public static class Module extends CacheModule {
     private final boolean slave;
@@ -71,6 +74,10 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
             .maximumWeight(0)
             .loader(Loader.class);
 
+        cache(ID_CACHE_SINGLE, Change.Id.class, Change.class)
+            .expireAfterWrite(2, TimeUnit.MINUTES)
+            .loader(SingleChangeLoader.class);
+
         bind(SearchingChangeCacheImpl.class);
         DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
             .to(SearchingChangeCacheImpl.class);
@@ -90,13 +97,16 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
   }
 
   private final LoadingCache<Project.NameKey, List<CachedChange>> cache;
+  private final LoadingCache<Id, Change> cacheById;
   private final ChangeData.Factory changeDataFactory;
 
   @Inject
   SearchingChangeCacheImpl(
       @Named(ID_CACHE) LoadingCache<Project.NameKey, List<CachedChange>> cache,
+      @Named(ID_CACHE_SINGLE) LoadingCache<Change.Id, Change> cacheById,
       ChangeData.Factory changeDataFactory) {
     this.cache = cache;
+    this.cacheById = cacheById;
     this.changeDataFactory = changeDataFactory;
   }
 
@@ -129,7 +139,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
   @Override
   public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
     if (event.getRefName().startsWith(RefNames.REFS_CHANGES)) {
-      cache.invalidate(new Project.NameKey(event.getProjectName()));
+      evict(Change.Id.fromRef(event.getRefName()));
     }
   }
 
@@ -159,6 +169,25 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
         }
         return Collections.unmodifiableList(result);
       }
+    }
+  }
+
+  @Override
+  public void evict(Change.Id id) {
+    Change change = cacheById.getIfPresent(id);
+    if (change != null) {
+      cacheById.invalidate(id);
+      cache.invalidate(change.getProject());
+    }
+  }
+
+  @Override
+  public Change get(Change.Id id) {
+    try {
+      return cacheById.get(id);
+    } catch (ExecutionException e) {
+      log.error("Cannot retrieve change with id " + id, e);
+      return null;
     }
   }
 }

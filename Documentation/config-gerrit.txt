@@ -782,6 +782,23 @@ this cache should be disabled in an multi-master/multi-slave setup.
 The cache should be flushed whenever the database changes table is modified
 outside of Gerrit.
 
+cache `"changes_by_id"`::
++
+Used for preventing multiple SQL queries for the same change in a single
+short-lived screen. The size of `memoryLimit` determines the number of changes
+that will be cached. There is no benefit in having a large cache for changes
+because their volatility is quite high.
++
+Default value is 0 (disabled). It is disabled by default because changes are
+updated quite often, and the cache hit is typically low.
+However, this cache needs to be enabled when the number of SQL queries per minute
+becomes too high due to a high volume of incoming hits to the change details screen.
++
+The cache should be flushed whenever the database changes table is modified
+outside of Gerrit.
+The cache *MUST BE DISABLED* when performing the migration (online or offline)
+to NoteDb.
+
 cache `"diff"`::
 +
 Each item caches the differences between two commits, at both the

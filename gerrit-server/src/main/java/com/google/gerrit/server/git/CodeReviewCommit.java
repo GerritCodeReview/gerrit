@@ -26,7 +26,6 @@ import com.google.gerrit.server.project.ChangeControl;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -61,33 +60,6 @@ public class CodeReviewCommit extends RevCommit {
 
   public static CodeReviewRevWalk newRevWalk(ObjectReader reader) {
     return new CodeReviewRevWalk(reader);
-  }
-
-  static CodeReviewCommit revisionGone(ChangeControl ctl) {
-    return error(ctl, CommitMergeStatus.REVISION_GONE);
-  }
-
-  static CodeReviewCommit noPatchSet(ChangeControl ctl) {
-    return error(ctl, CommitMergeStatus.NO_PATCH_SET);
-  }
-
-  /**
-   * Create an error commit.
-   * <p>
-   * Should only be used for error statuses such that there is no possible
-   * non-zero commit on which we could call {@link
-   * #setStatusCode(CommitMergeStatus)}, enumerated in the methods above.
-   *
-   * @param ctl control for change that caused this error
-   * @param s status
-   * @return new commit instance
-   */
-  private static CodeReviewCommit error(ChangeControl ctl,
-      CommitMergeStatus s) {
-    CodeReviewCommit r = new CodeReviewCommit(ObjectId.zeroId());
-    r.setControl(ctl);
-    r.statusCode = s;
-    return r;
   }
 
   public static class CodeReviewRevWalk extends RevWalk {

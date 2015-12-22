@@ -42,12 +42,6 @@ public enum CommitMergeStatus {
   MISSING_DEPENDENCY(""),
 
   /** */
-  NO_PATCH_SET(""),
-
-  /** */
-  REVISION_GONE(""),
-
-  /** */
   MANUAL_RECURSIVE_MERGE("The change requires a local merge to resolve.\n"
                        + "\n"
                        + "Please merge (or rebase) the change locally and upload the resolution for review."),

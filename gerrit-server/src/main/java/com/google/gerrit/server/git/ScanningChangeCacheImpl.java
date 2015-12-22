@@ -15,11 +15,13 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.SearchingChangeCacheImpl.ID_CACHE;
+import static com.google.gerrit.server.git.SearchingChangeCacheImpl.ID_CACHE_SINGLE;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -62,16 +64,25 @@ public class ScanningChangeCacheImpl implements ChangeCache {
             new TypeLiteral<List<Change>>() {})
           .maximumWeight(0)
           .loader(Loader.class);
+
+        cache(ID_CACHE_SINGLE,
+            Change.Id.class,
+            Change.class)
+          .maximumWeight(1024)
+          .loader(SingleChangeLoader.class);
       }
     };
   }
 
   private final LoadingCache<Project.NameKey, List<Change>> cache;
+  private final LoadingCache<Id, Change> cacheById;
 
   @Inject
   ScanningChangeCacheImpl(
-      @Named(ID_CACHE) LoadingCache<Project.NameKey, List<Change>> cache) {
+      @Named(ID_CACHE) LoadingCache<Project.NameKey, List<Change>> cache,
+      @Named(ID_CACHE_SINGLE) LoadingCache<Change.Id, Change> cacheById) {
     this.cache = cache;
+    this.cacheById = cacheById;
   }
 
   @Override
@@ -102,7 +113,6 @@ public class ScanningChangeCacheImpl implements ChangeCache {
         return scan(repo, ctx.getReviewDbProvider().get());
       }
     }
-
   }
 
   public static List<Change> scan(Repository repo, ReviewDb db)
@@ -123,5 +133,24 @@ public class ScanningChangeCacheImpl implements ChangeCache {
       Iterables.addAll(changes, db.changes().get(batch));
     }
     return changes;
+  }
+
+  @Override
+  public Change get(Id id) {
+    try {
+      return cacheById.get(id);
+    } catch (ExecutionException e) {
+      log.error("Cannot retrieve change with id " + id, e);
+      return null;
+    }
+  }
+
+  @Override
+  public void evict(Id id) {
+    Change change = get(id);
+    if (change != null) {
+      cacheById.invalidate(id);
+      cache.invalidate(change.getProject());
+    }
   }
 }

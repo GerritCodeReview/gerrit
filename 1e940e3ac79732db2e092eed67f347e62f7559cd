@@ -95,6 +95,30 @@
       "revId": "1e940e3ac79732db2e092eed67f347e62f7559cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_be83b973",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/StarsByPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-22T12:00:34Z",
+      "side": 1,
+      "message": "One complication with the starred changes is that we must be able to do lookup by both, user and change.\n\n a) Find all changes that were starred by a user.\n b) Find all users that have starred a change.",
+      "parentUuid": "6afc9b2b_de868585",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 3
+      },
+      "revId": "1e940e3ac79732db2e092eed67f347e62f7559cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

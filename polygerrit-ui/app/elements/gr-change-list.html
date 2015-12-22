@@ -42,6 +42,7 @@ limitations under the License.
     <style include="gr-change-list-styles"></style>
     <div class="headerRow">
       <span class="topHeader keyboard"></span> <!-- keyboard position indicator -->
+      <span class="topHeader star" hidden$="[[!showStar]]"></span>
       <span class="topHeader subject">Subject</span>
       <span class="topHeader status">Status</span>
       <span class="topHeader owner">Owner</span>
@@ -57,7 +58,7 @@ limitations under the License.
         <div class="groupHeader">[[_groupTitle(groupIndex)]]</div>
       </template>
       <template is="dom-repeat" items="[[changeGroup]]" as="change">
-        <gr-change-list-item change="[[change]]"></gr-change-list-item>
+        <gr-change-list-item change="[[change]]" show-star="[[showStar]]"></gr-change-list-item>
       </template>
     </template>
   </template>
@@ -99,6 +100,10 @@ limitations under the License.
           type: Number,
           value: 0,
           observer: '_selectedIndexChanged',
+        },
+        showStar: {
+          type: Boolean,
+          value: false,
         },
         _boundKeyHandler: {
           type: Function,

@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../styles/gr-change-list-styles.html">
 <link rel="import" href="gr-account-link.html">
+<link rel="import" href="gr-change-star.html">
 <link rel="import" href="gr-date-formatter.html">
 
 <dom-module id="gr-change-list-item">
@@ -60,6 +61,9 @@ limitations under the License.
     <span class="cell keyboard">
       <span class="positionIndicator">&#x25b6;</span>
     </span>
+    <span class="cell star" hidden$="[[!showStar]]">
+      <gr-change-star change="{{change}}"></gr-change-star>
+    </span>
     <a class="cell subject" href$="[[changeURL]]">[[change.subject]]</a>
     <span class="cell status">[[_computeChangeStatusString(change)]]</span>
     <span class="cell owner">
@@ -93,6 +97,10 @@ limitations under the License.
         changeURL: {
           type: String,
           computed: '_computeChangeURL(change._number)',
+        },
+        showStar: {
+          type: Boolean,
+          value: false,
         },
       },
 

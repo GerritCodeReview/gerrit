@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-change-actions.html">
+<link rel="import" href="gr-change-star.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-file-list.html">
 <link rel="import" href="gr-linked-text.html">
@@ -149,6 +150,7 @@ limitations under the License.
       <div class="headerContainer">
         <div class="header">
           <span class="header-title">
+            <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
             <a href$="[[_computeChangePath(_change._number)]]">[[_change._number]]</a><span>:</span>
             <span>[[_change.subject]]</span>
             <span class="changeStatus">[[_computeChangeStatus(_change.status)]]</span>

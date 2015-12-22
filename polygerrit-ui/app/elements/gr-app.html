@@ -99,7 +99,8 @@ limitations under the License.
     </header>
     <main>
       <template is="dom-if" if="{{_showChangeListView}}" restamp="true">
-        <gr-change-list-view params="[[params]]"></gr-change-list-view>
+        <gr-change-list-view params="[[params]]"
+            logged-in="[[_computeLoggedIn(account)]]"></gr-change-list-view>
       </template>
       <template is="dom-if" if="{{_showDashboardView}}" restamp="true">
         <gr-dashboard-view params="[[params]]"></gr-dashboard-view>
@@ -203,6 +204,10 @@ limitations under the License.
         e.preventDefault();
         page.show('/login/' + encodeURIComponent(
             window.location.pathname + window.location.hash));
+      },
+
+      _computeLoggedIn: function(account) { // argument used for binding update only
+        return this.loggedIn;
       },
 
     });

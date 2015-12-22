@@ -73,14 +73,7 @@ public class SubmitRuleEvaluator {
   }
 
   public static SubmitTypeRecord defaultTypeError() {
-    return createTypeError(DEFAULT_MSG);
-  }
-
-  public static SubmitTypeRecord createTypeError(String err) {
-    SubmitTypeRecord rec = new SubmitTypeRecord();
-    rec.status = SubmitTypeRecord.Status.RULE_ERROR;
-    rec.errorMessage = err;
-    return rec;
+    return SubmitTypeRecord.error(DEFAULT_MSG);
   }
 
   /**
@@ -386,15 +379,17 @@ public class SubmitRuleEvaluator {
     try {
       if (control.getChange().getStatus() == Change.Status.DRAFT
           && !control.isDraftVisible(cd.db(), cd)) {
-        return createTypeError("Patch set " + patchSet.getId() + " not found");
+        return SubmitTypeRecord.error(
+            "Patch set " + patchSet.getId() + " not found");
       }
       if (patchSet.isDraft() && !control.isDraftVisible(cd.db(), cd)) {
-        return createTypeError("Patch set " + patchSet.getId() + " not found");
+        return SubmitTypeRecord.error(
+            "Patch set " + patchSet.getId() + " not found");
       }
     } catch (OrmException err) {
       String msg = "Cannot read patch set " + patchSet.getId();
       log.error(msg, err);
-      return createTypeError(msg);
+      return SubmitTypeRecord.error(msg);
     }
 
     List<Term> results;
@@ -446,7 +441,7 @@ public class SubmitRuleEvaluator {
       }
       return defaultTypeError();
     } else {
-      return createTypeError(err);
+      return SubmitTypeRecord.error(err);
     }
   }
 

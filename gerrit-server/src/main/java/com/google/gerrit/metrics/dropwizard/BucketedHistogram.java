@@ -34,6 +34,7 @@ abstract class BucketedHistogram implements BucketedMetric {
   protected final Field<?>[] fields;
   protected final HistogramImpl total;
   private final Map<Object, HistogramImpl> cells;
+  private final Object lock = new Object();
 
   BucketedHistogram(DropWizardMetricMaker metrics, String name,
       Description desc, Field<?>... fields) {
@@ -67,7 +68,7 @@ abstract class BucketedHistogram implements BucketedMetric {
       return c;
     }
 
-    synchronized (cells) {
+    synchronized (lock) {
       c = cells.get(key);
       if (c == null) {
         c = metrics.newHistogramImpl(submetric(key));

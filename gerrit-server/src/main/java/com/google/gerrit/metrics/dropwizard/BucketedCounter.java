@@ -35,6 +35,7 @@ abstract class BucketedCounter implements BucketedMetric {
   protected final Field<?>[] fields;
   protected final CounterImpl total;
   private final Map<Object, CounterImpl> cells;
+  private final Object lock = new Object();
 
   BucketedCounter(DropWizardMetricMaker metrics,
       String name, Description desc, Field<?>... fields) {
@@ -69,7 +70,7 @@ abstract class BucketedCounter implements BucketedMetric {
       return c;
     }
 
-    synchronized (cells) {
+    synchronized (lock) {
       c = cells.get(key);
       if (c == null) {
         c = metrics.newCounterImpl(submetric(key), isRate);

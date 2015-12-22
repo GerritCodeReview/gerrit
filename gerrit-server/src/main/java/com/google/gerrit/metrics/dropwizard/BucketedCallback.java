@@ -38,6 +38,7 @@ abstract class BucketedCallback<V> implements BucketedMetric {
   private final V zero;
   private final Map<Object, ValueGauge> cells;
   protected volatile Runnable trigger;
+  private final Object lock = new Object();
 
   BucketedCallback(DropWizardMetricMaker metrics, MetricRegistry registry,
       String name, Class<V> valueType, Description desc, Field<?>... fields) {
@@ -94,7 +95,7 @@ abstract class BucketedCallback<V> implements BucketedMetric {
       return c;
     }
 
-    synchronized (cells) {
+    synchronized (lock) {
       c = cells.get(key);
       if (c == null) {
         c = new ValueGauge();

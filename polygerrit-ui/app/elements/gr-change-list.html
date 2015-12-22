@@ -43,6 +43,7 @@ limitations under the License.
     <style include="gr-change-list-styles"></style>
     <div class="headerRow">
       <span class="topHeader keyboard"></span> <!-- keyboard position indicator -->
+      <span class="topHeader star" hidden$="[[!_loggedIn]]"></span>
       <span class="topHeader subject">Subject</span>
       <span class="topHeader status">Status</span>
       <span class="topHeader owner">Owner</span>
@@ -112,10 +113,20 @@ limitations under the License.
           value: 0,
           observer: '_selectedIndexChanged',
         },
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+        },
       },
 
       keyBindings: {
         'j k o enter': '_handleKey',
+      },
+
+      ready: function() {
+        app.accountReady.then(function() {
+          this._loggedIn = app.loggedIn;
+        }.bind(this));
       },
 
       _isSelected: function(groupIndex, index) {

@@ -14,15 +14,24 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.cache.CacheLoader;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-import java.util.List;
+class SingleChangeLoader extends CacheLoader<Change.Id, Change> {
+  private final Provider<ReviewDb> db;
 
-public interface ChangeCache {
-  List<Change> get(Project.NameKey name);
+  @Inject
+  public SingleChangeLoader(Provider<ReviewDb> db) {
+    super();
+    this.db = db;
+  }
 
-  Change get(Change.Id id);
-
-  void evict(Change.Id id);
+  @Override
+  public Change load(Id id) throws Exception {
+    return db.get().changes().get(id);
+  }
 }

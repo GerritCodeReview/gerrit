@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.common.data.LabelType;
@@ -174,46 +175,46 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     private final DynamicSet<EventListener> unrestrictedListeners;
 
     /** Path of the new patchset hook. */
-    private final Path patchsetCreatedHook;
+    private final Optional<Path> patchsetCreatedHook;
 
     /** Path of the draft published hook. */
-    private final Path draftPublishedHook;
+    private final Optional<Path> draftPublishedHook;
 
     /** Path of the new comments hook. */
-    private final Path commentAddedHook;
+    private final Optional<Path> commentAddedHook;
 
     /** Path of the change merged hook. */
-    private final Path changeMergedHook;
+    private final Optional<Path> changeMergedHook;
 
     /** Path of the merge failed hook. */
-    private final Path mergeFailedHook;
+    private final Optional<Path> mergeFailedHook;
 
     /** Path of the change abandoned hook. */
-    private final Path changeAbandonedHook;
+    private final Optional<Path> changeAbandonedHook;
 
     /** Path of the change restored hook. */
-    private final Path changeRestoredHook;
+    private final Optional<Path> changeRestoredHook;
 
     /** Path of the ref updated hook. */
-    private final Path refUpdatedHook;
+    private final Optional<Path> refUpdatedHook;
 
     /** Path of the reviewer added hook. */
-    private final Path reviewerAddedHook;
+    private final Optional<Path> reviewerAddedHook;
 
     /** Path of the topic changed hook. */
-    private final Path topicChangedHook;
+    private final Optional<Path> topicChangedHook;
 
     /** Path of the cla signed hook. */
-    private final Path claSignedHook;
+    private final Optional<Path> claSignedHook;
 
     /** Path of the update hook. */
-    private final Path refUpdateHook;
+    private final Optional<Path> refUpdateHook;
 
     /** Path of the hashtags changed hook */
-    private final Path hashtagsChangedHook;
+    private final Optional<Path> hashtagsChangedHook;
 
     /** Path of the project created hook. */
-    private final Path projectCreatedHook;
+    private final Optional<Path> projectCreatedHook;
 
     private final String anonymousCowardName;
 
@@ -297,10 +298,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
               .build());
     }
 
-    private static Path hook(Config config, Path path, String name) {
+    private static Optional<Path> hook(Config config, Path path, String name) {
       String setting = name.replace("-", "") + "hook";
       String value = config.getString("hooks", null, setting);
-      return path.resolve(value != null ? value : name);
+      Path p = path.resolve(value != null ? value : name);
+      return Files.exists(p) ? Optional.of(p) : Optional.<Path>absent();
     }
 
     @Override
@@ -352,6 +354,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public HookResult doRefUpdateHook(Project project, String refname,
         Account uploader, ObjectId oldId, ObjectId newId) {
+      if (!refUpdateHook.isPresent()) {
+        return null;
+      }
 
       List<String> args = new ArrayList<>();
       addArg(args, "--project", project.getName());
@@ -365,6 +370,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
     @Override
     public void doProjectCreatedHook(Project.NameKey project, String headName) {
+      if (!projectCreatedHook.isPresent()) {
+        return;
+      }
+
       ProjectCreatedEvent event = new ProjectCreatedEvent();
       event.projectName = project.get();
       event.headName = headName;
@@ -387,6 +396,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doPatchsetCreatedHook(Change change, PatchSet patchSet,
           ReviewDb db) throws OrmException {
+      if (!patchsetCreatedHook.isPresent()) {
+        return;
+      }
+
       PatchSetCreatedEvent event = new PatchSetCreatedEvent();
       AccountState uploader = accountCache.get(patchSet.getUploader());
       AccountState owner = accountCache.get(change.getOwner());
@@ -415,6 +428,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doDraftPublishedHook(Change change, PatchSet patchSet,
           ReviewDb db) throws OrmException {
+      if (!draftPublishedHook.isPresent()) {
+        return;
+      }
+
       DraftPublishedEvent event = new DraftPublishedEvent();
       AccountState uploader = accountCache.get(patchSet.getUploader());
       AccountState owner = accountCache.get(change.getOwner());
@@ -442,6 +459,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doCommentAddedHook(Change change, Account account,
           PatchSet patchSet, String comment, Map<String, Short> approvals,
           ReviewDb db) throws OrmException {
+      if (!commentAddedHook.isPresent()) {
+        return;
+      }
+
       CommentAddedEvent event = new CommentAddedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -486,6 +507,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeMergedHook(Change change, Account account,
         PatchSet patchSet, ReviewDb db, String mergeResultRev)
         throws OrmException {
+      if (!changeMergedHook.isPresent()) {
+        return;
+      }
+
       ChangeMergedEvent event = new ChangeMergedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -513,6 +538,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doMergeFailedHook(Change change, Account account,
           PatchSet patchSet, String reason,
           ReviewDb db) throws OrmException {
+      if (!mergeFailedHook.isPresent()) {
+        return;
+      }
+
       MergeFailedEvent event = new MergeFailedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -540,6 +569,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeAbandonedHook(Change change, Account account,
           PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
+      if (!changeAbandonedHook.isPresent()) {
+        return;
+      }
+
       ChangeAbandonedEvent event = new ChangeAbandonedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -567,6 +600,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeRestoredHook(Change change, Account account,
           PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
+      if (!changeRestoredHook.isPresent()) {
+        return;
+      }
+
       ChangeRestoredEvent event = new ChangeRestoredEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -600,6 +637,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doRefUpdatedHook(Branch.NameKey refName, ObjectId oldId,
         ObjectId newId, Account account) {
+      if (!refUpdatedHook.isPresent()) {
+        return;
+      }
+
       RefUpdatedEvent event = new RefUpdatedEvent();
 
       if (account != null) {
@@ -623,6 +664,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doReviewerAddedHook(Change change, Account account,
         PatchSet patchSet, ReviewDb db) throws OrmException {
+      if (!reviewerAddedHook.isPresent()) {
+        return;
+      }
+
       ReviewerAddedEvent event = new ReviewerAddedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -646,6 +691,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doTopicChangedHook(Change change, Account account,
         String oldTopic, ReviewDb db)
             throws OrmException {
+      if (!topicChangedHook.isPresent()) {
+        return;
+      }
+
       TopicChangedEvent event = new TopicChangedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -678,6 +727,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doHashtagsChangedHook(Change change, Account account,
         Set<String> added, Set<String> removed, Set<String> hashtags, ReviewDb db)
             throws OrmException {
+      if (!hashtagsChangedHook.isPresent()) {
+        return;
+      }
+
       HashtagsChangedEvent event = new HashtagsChangedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
@@ -715,6 +768,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
     @Override
     public void doClaSignupHook(Account account, String claName) {
+      if (!claSignedHook.isPresent()) {
+        return;
+      }
+
       if (account != null) {
         List<String> args = new ArrayList<>();
         addArg(args, "--submitter", getDisplayName(account));
@@ -851,27 +908,27 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
    * @param hook the hook to execute.
    * @param args Arguments to use to run the hook.
    */
-  private synchronized void runHook(Project.NameKey project, Path hook,
+  private synchronized void runHook(Project.NameKey project, Optional<Path> hook,
       List<String> args) {
-    if (project != null && Files.exists(hook)) {
-      hookQueue.execute(new AsyncHookTask(project, hook, args));
+    if (project != null && hook.isPresent()) {
+      hookQueue.execute(new AsyncHookTask(project, hook.get(), args));
     }
   }
 
-  private synchronized void runHook(Path hook, List<String> args) {
-    if (Files.exists(hook)) {
-      hookQueue.execute(new AsyncHookTask(null, hook, args));
+  private synchronized void runHook(Optional<Path> hook, List<String> args) {
+    if (hook.isPresent()) {
+      hookQueue.execute(new AsyncHookTask(null, hook.get(), args));
     }
   }
 
   private HookResult runSyncHook(Project.NameKey project,
-      Path hook, List<String> args) {
+      Optional<Path> hook, List<String> args) {
 
-    if (!Files.exists(hook)) {
+    if (!hook.isPresent()) {
       return null;
     }
 
-    SyncHookTask syncHook = new SyncHookTask(project, hook, args);
+    SyncHookTask syncHook = new SyncHookTask(project, hook.get(), args);
     FutureTask<HookResult> task = new FutureTask<>(syncHook);
 
     syncHookThreadPool.execute(task);
@@ -881,10 +938,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     try {
       return task.get(syncHookTimeout, TimeUnit.SECONDS);
     } catch (TimeoutException e) {
-      message = "Synchronous hook timed out "  + hook.toAbsolutePath();
+      message = "Synchronous hook timed out "  + hook.get().toAbsolutePath();
       log.error(message);
     } catch (Exception e) {
-      message = "Error running hook " + hook.toAbsolutePath();
+      message = "Error running hook " + hook.get().toAbsolutePath();
       log.error(message, e);
     }
 

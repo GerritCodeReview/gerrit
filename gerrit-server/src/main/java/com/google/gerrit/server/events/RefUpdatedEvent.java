@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.base.Supplier;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 
 public class RefUpdatedEvent extends RefEvent {
-  public AccountAttribute submitter;
-  public RefUpdateAttribute refUpdate;
+  public Supplier<AccountAttribute> submitter;
+  public Supplier<RefUpdateAttribute> refUpdate;
 
   public RefUpdatedEvent() {
     super("ref-updated");
@@ -28,11 +29,11 @@ public class RefUpdatedEvent extends RefEvent {
 
   @Override
   public Project.NameKey getProjectNameKey() {
-    return new Project.NameKey(refUpdate.project);
+    return new Project.NameKey(refUpdate.get().project);
   }
 
   @Override
   public String getRefName() {
-    return refUpdate.refName;
+    return refUpdate.get().refName;
   }
 }

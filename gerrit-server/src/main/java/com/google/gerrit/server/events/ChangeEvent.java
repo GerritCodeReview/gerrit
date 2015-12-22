@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.base.Supplier;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.data.ChangeAttribute;
 
 public abstract class ChangeEvent extends RefEvent {
-  public ChangeAttribute change;
+  public Supplier<ChangeAttribute> change;
 
   protected ChangeEvent(String type) {
     super(type);
@@ -28,15 +29,15 @@ public abstract class ChangeEvent extends RefEvent {
 
   @Override
   public Project.NameKey getProjectNameKey() {
-    return new Project.NameKey(change.project);
+    return new Project.NameKey(change.get().project);
   }
 
   @Override
   public String getRefName() {
-    return RefNames.fullName(change.branch);
+    return RefNames.fullName(change.get().branch);
   }
 
   public Change.Key getChangeKey() {
-    return new Change.Key(change.id);
+    return new Change.Key(change.get().id);
   }
 }

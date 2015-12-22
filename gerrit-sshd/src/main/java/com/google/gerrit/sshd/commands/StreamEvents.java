@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Supplier;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.EventSource;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -30,12 +31,17 @@ import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.StreamCommandExecutor;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -63,7 +69,7 @@ final class StreamEvents extends BaseCommand {
   private final LinkedBlockingQueue<Event> queue =
       new LinkedBlockingQueue<>(MAX_EVENTS);
 
-  private final Gson gson = new Gson();
+  private Gson gson;
 
   /** Special event to notify clients they missed other events. */
   private static final class DroppedOutputEvent extends Event {
@@ -139,6 +145,10 @@ final class StreamEvents extends BaseCommand {
 
     stdout = toPrintWriter(out);
     source.addEventListener(listener, currentUser);
+
+    gson = new GsonBuilder()
+        .registerTypeAdapter(Supplier.class, new SupplierSerializer())
+        .create();
   }
 
   @Override
@@ -245,6 +255,15 @@ final class StreamEvents extends BaseCommand {
   private void flush() {
     synchronized (stdout) {
       stdout.flush();
+    }
+  }
+
+  private static class SupplierSerializer
+      implements JsonSerializer<Supplier<?>> {
+    @Override
+    public JsonElement serialize(Supplier<?> src, Type typeOfSrc,
+        JsonSerializationContext context) {
+      return context.serialize(src.get());
     }
   }
 }

@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-change-star.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-file-list.html">
 <link rel="import" href="gr-linked-text.html">
@@ -143,6 +144,8 @@ limitations under the License.
       <div class="headerContainer">
         <div class="header">
           <h2>
+            <gr-change-star change="{{_change}}"
+                hidden$="[[!_loggedIn]]" ></gr-change-star>
             <a href$="[[_computeChangePath(_change._number)]]">[[_change._number]]</a><span>:</span>
             <span>[[_change.subject]]</span>
             <span class="changeStatus">[[_computeChangeStatus(_change.status)]]</span>

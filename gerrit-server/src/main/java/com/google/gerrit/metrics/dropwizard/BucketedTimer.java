@@ -34,6 +34,7 @@ abstract class BucketedTimer implements BucketedMetric {
   protected final Field<?>[] fields;
   protected final TimerImpl total;
   private final Map<Object, TimerImpl> cells;
+  private final Object lock = new Object();
 
   BucketedTimer(DropWizardMetricMaker metrics, String name,
       Description desc, Field<?>... fields) {
@@ -67,7 +68,7 @@ abstract class BucketedTimer implements BucketedMetric {
       return c;
     }
 
-    synchronized (cells) {
+    synchronized (lock) {
       c = cells.get(key);
       if (c == null) {
         c = metrics.newTimerImpl(submetric(key));

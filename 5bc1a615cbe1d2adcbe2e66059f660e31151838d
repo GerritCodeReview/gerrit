@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6afc9b2b_deb4453d",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-22T21:51:14Z",
+      "side": 1,
+      "message": "It\u0027s now set before the request has been issued for instant user feedback. In case of error, it is reverted. Is there any common error handling (I think alerts are not the way to go).",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_beb1794b",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-22T21:51:14Z",
+      "side": 1,
+      "message": "An empty JSON object is expected - server fails otherwise.",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

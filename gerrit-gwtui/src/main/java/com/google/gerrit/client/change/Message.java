@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
@@ -96,6 +97,7 @@ class Message extends Composite {
       summary.setInnerText(msg);
       message.setInnerSafeHtml(history.getCommentLinkProcessor()
         .apply(new SafeHtmlBuilder().append(msg).wikify()));
+      ApiGlue.fireEvent("comment", message);
     } else {
       reply.getElement().getStyle().setVisibility(Visibility.HIDDEN);
     }

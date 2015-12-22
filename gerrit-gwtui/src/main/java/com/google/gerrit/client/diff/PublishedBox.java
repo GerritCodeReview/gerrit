@@ -18,6 +18,7 @@ import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.change.ReplyBox;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
@@ -100,6 +101,7 @@ class PublishedBox extends CommentBox {
       summary.setInnerText(msg);
       message.setInnerSafeHtml(clp.apply(
           new SafeHtmlBuilder().append(msg).wikify()));
+      ApiGlue.fireEvent("comment", message);
     }
 
     fix.setVisible(open);

@@ -23,6 +23,30 @@
       "revId": "a6adb9a2521d80d7d22c58c87012707da4c3a04b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_18fac52a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-22T17:37:28Z",
+      "side": 1,
+      "message": "I don\u0027t think the performance thing is actually an issue in practice but I agree this is not the best API design. Tweaked to return the SubmitTypeRecord instead.",
+      "parentUuid": "eabb2b9e_2a867fd0",
+      "range": {
+        "startLine": 762,
+        "startChar": 23,
+        "endLine": 762,
+        "endChar": 27
+      },
+      "revId": "a6adb9a2521d80d7d22c58c87012707da4c3a04b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

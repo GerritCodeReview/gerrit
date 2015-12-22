@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "aa0bf316_d81c4d5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/CommentPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-22T16:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a0e2f27_d7b89c91",
+      "revId": "238b052090fe1c7972f7892f3db6a984aa634a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a0e2f27_b7b52898",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2015-12-22T03:16:56Z",
       "side": 1,
       "message": "Unnecessary wrap?",
+      "revId": "238b052090fe1c7972f7892f3db6a984aa634a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e2f27_b79408f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-22T16:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a0e2f27_b7b52898",
       "revId": "238b052090fe1c7972f7892f3db6a984aa634a42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

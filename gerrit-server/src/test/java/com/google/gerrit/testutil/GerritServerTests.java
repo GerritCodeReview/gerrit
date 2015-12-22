@@ -14,6 +14,7 @@
 
 package com.google.gerrit.testutil;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.notedb.NotesMigration;
 
 import org.eclipse.jgit.lib.Config;
@@ -23,7 +24,7 @@ import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
-import java.util.Arrays;
+import java.util.List;
 
 @RunWith(ConfigSuite.class)
 public class GerritServerTests extends GerritBaseTests {
@@ -34,10 +35,9 @@ public class GerritServerTests extends GerritBaseTests {
   private String configName;
 
   public static boolean isNoteDbTestEnabled() {
-    final String[] RUN_FLAGS = {"yes", "y", "true"};
+    List<String> runValues = ImmutableList.of("yes", "y", "true", "1");
     String value = System.getenv("GERRIT_ENABLE_NOTEDB");
-    return value != null &&
-        Arrays.asList(RUN_FLAGS).contains(value.toLowerCase());
+    return value != null && runValues.contains(value.toLowerCase());
   }
 
   @Rule

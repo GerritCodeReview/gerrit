@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -48,16 +49,20 @@ public class ChangeControl {
   public static class GenericFactory {
     private final ProjectControl.GenericFactory projectControl;
     private final Provider<ReviewDb> db;
+    private final ChangeCache changeCache;
 
     @Inject
-    GenericFactory(ProjectControl.GenericFactory p, Provider<ReviewDb> d) {
+    GenericFactory(ProjectControl.GenericFactory p,
+                   Provider<ReviewDb> d,
+                   ChangeCache c) {
       projectControl = p;
       db = d;
+      changeCache = c;
     }
 
     public ChangeControl controlFor(Change.Id changeId, CurrentUser user)
-        throws NoSuchChangeException, OrmException {
-      Change change = db.get().changes().get(changeId);
+        throws NoSuchChangeException {
+      Change change = changeCache.get(changeId);
       if (change == null) {
         throw new NoSuchChangeException(changeId);
       }
@@ -79,7 +84,7 @@ public class ChangeControl {
 
     public ChangeControl validateFor(Change.Id changeId, CurrentUser user)
         throws NoSuchChangeException, OrmException {
-      Change change = db.get().changes().get(changeId);
+      Change change = changeCache.get(changeId);
       if (change == null) {
         throw new NoSuchChangeException(changeId);
       }

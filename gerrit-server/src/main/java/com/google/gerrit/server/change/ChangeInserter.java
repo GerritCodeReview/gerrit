@@ -84,7 +84,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   private final RefControl refControl;
   private final IdentifiedUser user;
-  private final Change change;
   private final PatchSet patchSet;
   private final RevCommit commit;
 
@@ -101,6 +100,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private boolean updateRef;
 
   // Fields set during the insertion process.
+  private Change change;
   private ChangeMessage changeMessage;
   private PatchSetInfo patchSetInfo;
 
@@ -230,9 +230,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   public void updateRepo(RepoContext ctx)
       throws ResourceConflictException, IOException {
     validate(ctx);
-    patchSetInfo = patchSetInfoFactory.get(
-        ctx.getRevWalk(), commit, patchSet.getId());
-    change.setCurrentPatchSet(patchSetInfo);
     if (!updateRef) {
       return;
     }
@@ -242,9 +239,14 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   @Override
   public void updateChange(ChangeContext ctx) throws OrmException, IOException {
+    change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getChangeControl();
     ChangeUpdate update = ctx.getChangeUpdate();
+    patchSetInfo = patchSetInfoFactory.get(
+        ctx.getRevWalk(), commit, patchSet.getId());
+    ctx.getChange().setCurrentPatchSet(patchSetInfo);
+
     if (patchSet.getGroups() == null) {
       patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));
     }

@@ -33,6 +33,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -72,7 +73,7 @@ public class Schema_108 extends SchemaVersion {
         : openByProject.asMap().entrySet()) {
       try (Repository repo = repoManager.openRepository(e.getKey());
           RevWalk rw = new RevWalk(repo)) {
-        updateProjectGroups(db, repo, rw, (Set<Change.Id>) e.getValue());
+        updateProjectGroups(db, repo, rw, (Set<Change.Id>) e.getValue(), ui);
       } catch (IOException err) {
         throw new OrmException(err);
       }
@@ -84,7 +85,8 @@ public class Schema_108 extends SchemaVersion {
   }
 
   private static void updateProjectGroups(ReviewDb db, Repository repo,
-      RevWalk rw, Set<Change.Id> changes) throws OrmException, IOException {
+      RevWalk rw, Set<Change.Id> changes, UpdateUI ui)
+          throws OrmException, IOException {
     // Match sorting in ReceiveCommits.
     rw.reset();
     rw.sort(RevSort.TOPO);
@@ -92,7 +94,7 @@ public class Schema_108 extends SchemaVersion {
 
     RefDatabase refdb = repo.getRefDatabase();
     for (Ref ref : refdb.getRefs(Constants.R_HEADS).values()) {
-      RevCommit c = maybeParseCommit(rw, ref.getObjectId());
+      RevCommit c = maybeParseCommit(rw, ref.getObjectId(), ui);
       if (c != null) {
         rw.markUninteresting(c);
       }
@@ -110,7 +112,7 @@ public class Schema_108 extends SchemaVersion {
       PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
       if (psId != null && changes.contains(psId.getParentKey())) {
         patchSetsBySha.put(id, psId);
-        RevCommit c = maybeParseCommit(rw, id);
+        RevCommit c = maybeParseCommit(rw, id, ui);
         if (c != null) {
           rw.markStart(c);
         }
@@ -175,12 +177,16 @@ public class Schema_108 extends SchemaVersion {
     return openByProject;
   }
 
-  private static RevCommit maybeParseCommit(RevWalk rw, ObjectId id)
+  private static RevCommit maybeParseCommit(RevWalk rw, ObjectId id, UpdateUI ui)
       throws IOException {
-    if (id == null) {
-      return null;
+    if (id != null) {
+      try {
+        RevObject obj = rw.parseAny(id);
+        return (obj instanceof RevCommit) ? (RevCommit) obj : null;
+      } catch (MissingObjectException moe) {
+        ui.message("Missing object: " + id.getName() + "\n");
+      }
     }
-    RevObject obj = rw.parseAny(id);
-    return (obj instanceof RevCommit) ? (RevCommit) obj : null;
+    return null;
   }
 }

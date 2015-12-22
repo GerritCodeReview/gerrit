@@ -15,7 +15,7 @@ Important Notes
   java -jar gerrit.war init -d site_path
 ----
 
-*WARNING:* To use online reindexing when upgrading to 2.12.x the server must
+*WARNING:* To use online reindexing when upgrading to 2.12.x, the server must
 first be upgraded to 2.8 (or 2.9) and then through 2.10 and 2.11 to 2.12.x. If
 reindexing will be done offline, you may ignore this warning and upgrade directly
 to 2.12.x.
@@ -24,10 +24,19 @@ to 2.12.x.
 Bouncy Castle Crypto, new versions of the libraries will be downloaded. The old
 libraries should be manually removed from site's `lib` folder to prevent the
 startup failure described in
-link:https://code.google.com/p/gerrit/issues/detail?id=3084[Issue 3084].
+link:https://code.google.com/p/gerrit/issues/detail?id=3084[issue 3084].
 
 *WARNING:* The Solr secondary index is no longer supported. With this release
 the only supported secondary index is Lucene.
+
+*WARNING:* The format of the `ref-updated` event has changed. Users of the
+link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[
+Jenkins Gerrit Trigger plugin] with jobs triggering on `ref-updated` should
+upgrade to at least
+link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger#GerritTrigger-Version2.15.1%28releasedSept142015%29[
+version 2.15.1]. If an upgrade of the plugin is not possible, a workaround is
+to change the branch configuration to type `Path` with a pattern like
+`refs/*/master` instead of `Plain` and `master`.
 
 
 Release Highlights
@@ -36,7 +45,7 @@ Release Highlights
 This release includes the following new features. See the sections below for
 further details.
 
-* New change submission workflows, "Submit Whole Topic" and "Submitted Together".
+* New change submission workflows: 'Submit Whole Topic' and 'Submitted Together'.
 
 * Support for GPG Keys and signed pushes.
 
@@ -47,7 +56,7 @@ New Features
 New Change Submission Workflows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* New "Submit Whole Topic" setting.
+* New 'Submit Whole Topic' setting.
 +
 When the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#change.submitWholeTopic[
@@ -64,7 +73,7 @@ will also be submitted.
 * The merge queue is removed.
 +
 Changes that cannot be submitted due to missing dependencies will no longer
-enter the "Submitted, Merge Pending" state.
+enter the 'Submitted, Merge Pending' state.
 
 
 GPG Keys and Signed Pushes
@@ -88,7 +97,7 @@ with direct access to the `All-Users` repository.
 
 * Administrators may also configure
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#receive.certNonceSeed[
-`receive.certNonceSeed`]
+`receive.certNonceSeed`] and
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#receive.certNonceSlop[
 `receive.certNonceSlop`].
 
@@ -107,14 +116,14 @@ name or email address.
 
 * Add `from:` search operator to match by owner of change or author of comments.
 
-* Add `commentby:` search operator to search byt author of comments.
+* Add `commentby:` search operator to search by author of comments.
 
 * Change the `topic:` search operator to search by the exact topic name.
 
 * Add `intopic:` search operator to search by topics containing the search term.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3291[Issue 3291]:
-Add `has:edit` search operator to match changes that have change edits on them.
+Add `has:edit` search operator to match changes that have edit revisions on them.
 
 * Allow configuration of maximum query size.
 +
@@ -123,8 +132,8 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/conf
 
 * Expose Lucene index writers for plugins.
 +
-Plugins can now be written to allow runtime reconfiguration of various Lucene
-performance related parameters.
+Plugins can now reconfigure various Lucene performance related parameters
+at runtime.
 
 * Make Lucene index writers auto-commit writers.
 +
@@ -274,7 +283,7 @@ Changes
 Set Review]: Add an option to omit duplicate comments.
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-changes.html#get-safe-content[
-Download Content]: Downloads the content of a file from a certain revision, in a
+Download Content]: Download the content of a file from a certain revision, in a
 safe format that poses no risk for inadvertent execution of untrusted code.
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-changes.html#submitted-together[
@@ -289,7 +298,7 @@ Config
 ^^^^^^
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-config.html#get-info[
-Get Server Info]: Returns information about the Gerrit server configuration.
+Get Server Info]: Return information about the Gerrit server configuration.
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-config.html#confirm-email[
 Confirm Email]: Confirm that the user owns an email address.
@@ -304,7 +313,7 @@ List Groups]: Add option to suggest groups.
 This allows group auto-completion to be used in a plugin's UI.
 
 *  link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/rest-api-groups.html#get-audit-log[
-Get Audit Log]: Gets the audit log of a Gerrit internal group, showing member
+Get Audit Log]: Get the audit log of a Gerrit internal group, showing member
 additions, removals, and the user who made the change.
 
 
@@ -444,7 +453,7 @@ case insensitive according to
 link:https://tools.ietf.org/html/rfc1035#section-3.1[RFC 1035 section 3.1].
 And in practice, even the local-part is typically case insensitive also.
 
-* commit-msg hook: Don't add Change-Id line on temporary commits.
+* `commit-msg` hook: Don't add `Change-Id` line on temporary commits.
 +
 Commits created with `git commit --fixup` or `git commit --squash` are not
 intended to be pushed to Gerrit, and don't need a `Change-Id` line.
@@ -456,12 +465,20 @@ projects that have the 'Require Change-Id' configuration enabled.
 download-commands plugin: Fix clone with commit-msg hook when project name
 contains '/'.
 
-* Include full ref names in `ref-updated` events.
+* Use full ref name in `refName` attribute of `ref-updated` events.
 +
 The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/json.html#refUpdate[
 refUpdate attribute] in `ref-updated` events did not include the full name
-of the ref, i.e. `master` instead of `refs/heads/master`.
-
+of the ref in the `refName` attribute, i.e. `master` was used instead of
+`refs/heads/master`.
++
+Support for the new format is added in
+link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger#GerritTrigger-Version2.15.1%28releasedSept142015%29[
+version 2.15.1 of the Jenkins Gerrit Trigger plugin].
++
+Users who are unable to upgrade the plugin may instead change the
+trigger's branch configuration to type `Path` with a pattern like
+`refs/*/master` instead of `Plain` and `master`.
 
 Upgrades
 --------

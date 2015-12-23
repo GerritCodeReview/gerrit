@@ -216,8 +216,8 @@ maven_jar(
 
 maven_jar(
   name = 'truth',
-  id = 'com.google.truth:truth:0.27',
-  sha1 = 'bd17774d2dc0fffa884d42c07d2537e86c67acd6',
+  id = 'com.google.truth:truth:0.28',
+  sha1 = '0a388c7877c845ff4b8e19689dda5ac9d34622c4',
   license = 'DO_NOT_DISTRIBUTE',
   exported_deps = [
     ':guava',

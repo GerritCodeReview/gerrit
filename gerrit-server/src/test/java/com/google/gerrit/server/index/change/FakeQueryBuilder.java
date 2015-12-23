@@ -28,7 +28,8 @@ public class FakeQueryBuilder extends ChangeQueryBuilder {
         new ChangeQueryBuilder.Arguments(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, indexes, null, null, null, null, null, null,
-            null, null, null));
+            null, null, null),
+        null);
   }
 
   @Operator

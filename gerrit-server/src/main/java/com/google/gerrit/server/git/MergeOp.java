@@ -230,6 +230,7 @@ public class MergeOp implements AutoCloseable {
   private ListMultimap<RecipientType, Account.Id> accountsToNotify;
   private Set<Project.NameKey> allProjects;
   private boolean dryrun;
+  private final ChangeCache changeCache;
 
   @Inject
   MergeOp(
@@ -242,7 +243,8 @@ public class MergeOp implements AutoCloseable {
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
       MergeOpRepoManager orm,
-      NotifyUtil notifyUtil) {
+      NotifyUtil notifyUtil,
+      ChangeCache changeCache) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -253,6 +255,7 @@ public class MergeOp implements AutoCloseable {
     this.subOpFactory = subOpFactory;
     this.orm = orm;
     this.notifyUtil = notifyUtil;
+    this.changeCache = changeCache;
   }
 
   @Override
@@ -428,6 +431,7 @@ public class MergeOp implements AutoCloseable {
       }
       try {
         integrateIntoHistory(cs);
+        evictCache(cs);
       } catch (IntegrationException e) {
         logError("Error from integrateIntoHistory", e);
         throw new ResourceConflictException(e.getMessage(), e);
@@ -435,6 +439,12 @@ public class MergeOp implements AutoCloseable {
     } catch (IOException e) {
       // Anything before the merge attempt is an error
       throw new OrmException(e);
+    }
+  }
+
+  private void evictCache(ChangeSet cs) {
+    for(Change.Id changeId : cs.ids()) {
+      changeCache.evict(changeId);
     }
   }
 

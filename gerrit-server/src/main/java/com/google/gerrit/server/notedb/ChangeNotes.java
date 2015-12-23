@@ -50,6 +50,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
@@ -103,14 +104,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final Args args;
     private final Provider<InternalChangeQuery> queryProvider;
     private final ProjectCache projectCache;
+    private final ChangeCache changeCache;
 
     @VisibleForTesting
     @Inject
     public Factory(
-        Args args, Provider<InternalChangeQuery> queryProvider, ProjectCache projectCache) {
+        Args args,
+        Provider<InternalChangeQuery> queryProvider,
+        ProjectCache projectCache,
+        ChangeCache changeCache) {
       this.args = args;
       this.queryProvider = queryProvider;
       this.projectCache = projectCache;
+      this.changeCache = changeCache;
     }
 
     public ChangeNotes createChecked(ReviewDb db, Change c) throws OrmException {
@@ -157,7 +163,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private Change loadChangeFromDb(ReviewDb db, Project.NameKey project, Change.Id changeId)
         throws OrmException {
       checkArgument(project != null, "project is required");
-      Change change = readOneReviewDbChange(db, changeId);
+      Change change = changeCache.get(changeId);
 
       if (change == null) {
         if (args.migration.readChanges()) {

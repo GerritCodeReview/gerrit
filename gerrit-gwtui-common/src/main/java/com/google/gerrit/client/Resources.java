@@ -24,6 +24,9 @@ public interface Resources extends ClientBundle {
   @Source("note_add.png")
   ImageResource addFileComment();
 
+  @Source("tag_blue_add.png")
+  ImageResource addHashtag();
+
   @Source("user_add.png")
   ImageResource addUser();
 
@@ -57,6 +60,9 @@ public interface Resources extends ClientBundle {
 
   @Source("tick.png")
   ImageResource greenCheck();
+
+  @Source("tag_blue.png")
+  ImageResource hashtag();
 
   @Source("lightbulb.png")
   ImageResource info();

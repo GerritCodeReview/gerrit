@@ -18,6 +18,7 @@ limitations under the License.
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style gss='false'>
     button.openAdd {
@@ -47,6 +48,7 @@ limitations under the License.
       font-weight: bold;
     }
 
+    .addHashtag,
     .cancel {
       float: right;
     }
@@ -54,14 +56,10 @@ limitations under the License.
   <g:HTMLPanel>
     <div>
       <span ui:field='hashtagsText'/>
-      <g:Button ui:field='openForm'
-         title='Add hashtags to this change'
-         styleName='{res.style.button}'
-         addStyleNames='{style.openAdd}'
-         visible='false'>
-       <ui:attribute name='title'/>
-       <div><ui:msg>Add #...</ui:msg></div>
-      </g:Button>
+      <g:Image ui:field='addHashtagIcon'
+        resource='{ico.addHashtag}'
+        styleName='{style.addHashtag}'
+        title='Add Hashtag'/>
     </div>
     <div ui:field='form' style='display: none' aria-hidden='true'>
       <c:NpTextBox ui:field='hashtagTextBox' styleName='{style.hashtagTextBox}'/>

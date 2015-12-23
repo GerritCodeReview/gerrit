@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa4d3ba_b0ab7891",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-23T21:52:38Z",
+      "side": 1,
+      "message": "At the moment, these buttons are just hidden, but the place is still reserved in the list because of the fixed cell width. If I would hide the cell, the logged-in code would need to be copied to gr-change-list{-item}.",
+      "revId": "644ac73be5dfb75bd45fc86b7128f239b8e66bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -141,7 +141,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener, Ch
   @Override
   public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
     if (event.getRefName().startsWith(RefNames.REFS_CHANGES)) {
-      cache.invalidate(new Project.NameKey(event.getProjectName()));
+      evict(Change.Id.fromRef(event.getRefName()));
     }
   }
 

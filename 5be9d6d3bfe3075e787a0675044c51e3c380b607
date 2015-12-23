@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eabb2b9e_8a4d2b4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-23T14:44:09Z",
+      "side": 1,
+      "message": "Actually my first implementation was on ChangeData :-) but then I realised that was a much more complex cache for the problems you mentioned.\n\nI decided to start with this one, which has a smaller benefit but a much smaller risk and impact on the code base. Can be then extended later on ...",
+      "parentUuid": "eabb2b9e_ca5323ef",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eabb2b9e_0a5a9b07",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "eabb2b9e_4a8f33a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-23T14:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eabb2b9e_0a5a9b07",
+      "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eabb2b9e_6a6557c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
         "patchSetId": 6
@@ -53,6 +95,30 @@
       "writtenOn": "2015-12-23T14:34:25Z",
       "side": 1,
       "message": "Why not to use cacheById.getIfPresent(key): [1] instead of cacheById.get(key)? That way you would avoid loading the entry in cache just to evict it again.\n\n* [1] http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/cache/Cache.html#getIfPresent%28java.lang.Object%29\n* [2] http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/cache/LoadingCache.html#get%28K%29",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_9e023d8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-23T14:44:09Z",
+      "side": 1,
+      "message": "Good point :-) let me doing it in the next patch-set.",
+      "parentUuid": "eabb2b9e_6a6557c0",
       "range": {
         "startLine": 132,
         "startChar": 4,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "6afc9b2b_7ec77197",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SingleChangeLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-23T14:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6afc9b2b_de08c5b3",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eabb2b9e_2a5f5ff8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SingleChangeLoader.java",
         "patchSetId": 6
@@ -99,6 +189,24 @@
       "writtenOn": "2015-12-23T14:34:25Z",
       "side": 1,
       "message": "Not needed.",
+      "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eabb2b9e_aa4a6f2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SingleChangeLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-23T14:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eabb2b9e_2a5f5ff8",
       "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1450805845 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBX8T6u0BBAXX7JOyFZnC8CBoNsaFn3ei4TxrFGPhbi0+K1VVVYE5LHYpl6Oo/YTiAjYm+rE\n\n0000000000000000000000000000000000000000 0faef4bd9725fb215389dd1072176fba0ef0fd5e refs/for/master%topic\u003dchange-data-submit-type\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWeYpVAAoJEF/XxZqaEoiM3aUP/3xANOhoRw7Mh8m+vXYy4jFs\ne9DU1UKg9W5nmSWfSInDIACBtF1Rn3EfQQw5xwUGVk9gftvPEbwDHPsjh+cDQ0QS\nu4MoKamY1iK3vu76z59yj0IarNgqDRh8kT92ivh3VV1J2/3ZB6H3AruSOFV/GIAB\n6TMEs+fCUZPI+Qqkx+ga1L2OqRFQL543Uq8KOXQUfPA/xrO35ujd6dka8S4AwKZS\nxt4tjyylX7IrRrndUnRj5E9/m+eEcOKQ+/t51bC5aGIsrCYomo7GBfPqc9ksoBHq\naHpgh0rqw2qS2uN0iT/f0Y6qQYsNRjhVKMn/cZpZUuojnBfgRv4du0STOpMvSTWh\n5J3nNB4oCafCWE8jOdEmZbineMsQ18V8wSR1b89K/zXM46XceRUZO1mk58nA5O8a\n0NQW/YHSh/DBB4wOTRPzU3ne3R6bed4pzHuNAcx8HMIY89/NX+eD5g8jK5FP0/XT\n8+bsGTVpne6urtFOq+ReewcoLD9cM51vl1sTeLMSJFn0ycz/Jis2JVn8fLTASyoT\nSCKw2dqU34YAnshkuMYWZGzCucrR7MPjxbQztKVt9xet5nWNPEQcXe17r3stQ8VT\nGxfAZUuVVLTF0tvbZtxSgohbpvHjxGi/P+kzjXX+8i68EoBd8gMbDyqiXMDELFRA\nZZItt6jsSj+9gE4MHhIG\n\u003dwxsT\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6afc9b2b_1e498d0f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3955,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-12-23T07:26:33Z",
+      "side": 1,
+      "message": "or when the submit rule failed.",
+      "range": {
+        "startLine": 3955,
+        "startChar": 0,
+        "endLine": 3955,
+        "endChar": 27
+      },
+      "revId": "ace3210a622f6affb5755716b6262e7f79325b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Enums;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
@@ -416,19 +418,24 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   private final Arguments args;
+  private final ChangeCache changeCache;
 
   @Inject
-  ChangeQueryBuilder(Arguments args) {
+  ChangeQueryBuilder(Arguments args, ChangeCache changeCache) {
     super(mydef);
     this.args = args;
+    this.changeCache = changeCache;
     setupDynamicOperators();
   }
 
   @VisibleForTesting
   protected ChangeQueryBuilder(
-      Definition<ChangeData, ? extends QueryBuilder<ChangeData>> def, Arguments args) {
+      Definition<ChangeData, ? extends QueryBuilder<ChangeData>> def,
+      Arguments args,
+      ChangeCache changeCache) {
     super(def);
     this.args = args;
+    this.changeCache = changeCache;
   }
 
   private void setupDynamicOperators() {
@@ -443,7 +450,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public ChangeQueryBuilder asUser(CurrentUser user) {
-    return new ChangeQueryBuilder(builderDef, args.asUser(user));
+    return new ChangeQueryBuilder(builderDef, args.asUser(user), changeCache);
   }
 
   @Operator
@@ -1173,7 +1180,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private List<Change> parseChange(String value) throws OrmException, QueryParseException {
     if (PAT_LEGACY_ID.matcher(value).matches()) {
-      return asChanges(args.queryProvider.get().byLegacyChangeId(Change.Id.parse(value)));
+      return ImmutableList.of(changeCache.get(Change.Id.parse(value)));
     } else if (PAT_CHANGE_ID.matcher(value).matches()) {
       List<Change> changes = asChanges(args.queryProvider.get().byKeyPrefix(parseChangeId(value)));
       if (changes.isEmpty()) {

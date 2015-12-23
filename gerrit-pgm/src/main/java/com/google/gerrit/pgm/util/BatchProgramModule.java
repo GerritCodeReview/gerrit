@@ -56,6 +56,7 @@ import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
@@ -135,6 +136,7 @@ public class BatchProgramModule extends FactoryModule {
     // As Reindex is a batch program, don't assume the index is available for
     // the change cache.
     bind(SearchingChangeCacheImpl.class).toProvider(Providers.<SearchingChangeCacheImpl>of(null));
+    bind(ChangeCache.class).toProvider(Providers.<ChangeCache>of(null));
 
     bind(new TypeLiteral<ImmutableSet<GroupReference>>() {})
         .annotatedWith(AdministrateServerGroups.class)

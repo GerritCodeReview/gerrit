@@ -50,6 +50,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
@@ -103,14 +104,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final Args args;
     private final Provider<InternalChangeQuery> queryProvider;
     private final ProjectCache projectCache;
+    private final ChangeCache changeCache;
 
     @VisibleForTesting
     @Inject
     public Factory(
-        Args args, Provider<InternalChangeQuery> queryProvider, ProjectCache projectCache) {
+        Args args,
+        Provider<InternalChangeQuery> queryProvider,
+        ProjectCache projectCache,
+        ChangeCache changeCache) {
       this.args = args;
       this.queryProvider = queryProvider;
       this.projectCache = projectCache;
+      this.changeCache = changeCache;
     }
 
     public ChangeNotes createChecked(ReviewDb db, Change c) throws OrmException {
@@ -177,6 +183,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public ChangeNotes create(ReviewDb db, Project.NameKey project, Change.Id changeId)
         throws OrmException {
       return new ChangeNotes(args, loadChangeFromDb(db, project, changeId)).load();
+    }
+
+    public ChangeNotes loadByLegacyId(Change.Id changeId) throws OrmException {
+      return new ChangeNotes(args, changeCache.get(changeId)).load();
     }
 
     public ChangeNotes createWithAutoRebuildingDisabled(

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aaa4d3ba_30a068b0",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-23T21:50:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca9d8771_51a5f4be",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2aa9c35f_a4cce28c",
         "filename": "polygerrit-ui/app/elements/gr-change-star.html",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "aaa4d3ba_50a5ecbe",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-23T21:50:16Z",
+      "side": 1,
+      "message": "They are used in the tests.",
+      "parentUuid": "2aa9c35f_a4cce28c",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2aa9c35f_44e96ed5",
         "filename": "polygerrit-ui/app/elements/gr-change-star.html",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-12-23T01:45:36Z",
       "side": 1,
       "message": "use on-tap, not on-click. it has the same semantics as on-click but is more friendly on mobile.",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_70aaf091",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-23T21:50:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aa9c35f_44e96ed5",
       "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "eabb2b9e_2ac3dfb0",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-23T21:50:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aa9c35f_e4d2da2a",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6afc9b2b_beb1794b",
         "filename": "polygerrit-ui/app/elements/gr-change-star.html",
         "patchSetId": 1
@@ -122,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "eabb2b9e_cab7a33f",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-23T21:50:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca9d8771_31a070b0",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2aa9c35f_84cf6681",
         "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
         "patchSetId": 1
@@ -133,6 +223,24 @@
       "writtenOn": "2015-12-23T01:45:36Z",
       "side": 1,
       "message": "since .keyboard and .star have the same width, combine them:\n\n```\n.keyboard,\n.star {\n  width: 2em;\n}\n```",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eabb2b9e_eab4e73c",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-23T21:50:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aa9c35f_84cf6681",
       "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

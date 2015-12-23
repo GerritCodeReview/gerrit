@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca9d8771_119b6c8e",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-23T01:29:11Z",
+      "side": 1,
+      "message": "When you say \"comment is displayed\" what exactly do you mean? When it is initially rendered?",
+      "revId": "769ace059f5250c5eaca9736f32520dc1c8f99a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

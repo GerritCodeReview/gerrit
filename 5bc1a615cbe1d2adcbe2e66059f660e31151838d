@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "ca9d8771_51a5f4be",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-23T01:45:36Z",
+      "side": 1,
+      "message": "s/[[change]]/{{change}}",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa9c35f_a4cce28c",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-23T01:45:36Z",
+      "side": 1,
+      "message": "the star and unstar classes aren\u0027t being used.",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa9c35f_44e96ed5",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-23T01:45:36Z",
+      "side": 1,
+      "message": "use on-tap, not on-click. it has the same semantics as on-click but is more friendly on mobile.",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6afc9b2b_deb4453d",
         "filename": "polygerrit-ui/app/elements/gr-change-star.html",
         "patchSetId": 1
@@ -19,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "2aa9c35f_e4d2da2a",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-23T01:45:36Z",
+      "side": 1,
+      "message": "Alerts are the way to go for now until we have a common error notification mechanism.",
+      "parentUuid": "6afc9b2b_deb4453d",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6afc9b2b_beb1794b",
         "filename": "polygerrit-ui/app/elements/gr-change-star.html",
         "patchSetId": 1
@@ -30,6 +99,40 @@
       "writtenOn": "2015-12-22T21:51:14Z",
       "side": 1,
       "message": "An empty JSON object is expected - server fails otherwise.",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca9d8771_31a070b0",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-23T01:45:36Z",
+      "side": 1,
+      "message": "since this potentially alters the change object, two-way binding should be used: {{_change}} instead of [[_change]]",
+      "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa9c35f_84cf6681",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-23T01:45:36Z",
+      "side": 1,
+      "message": "since .keyboard and .star have the same width, combine them:\n\n```\n.keyboard,\n.star {\n  width: 2em;\n}\n```",
       "revId": "5bc1a615cbe1d2adcbe2e66059f660e31151838d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

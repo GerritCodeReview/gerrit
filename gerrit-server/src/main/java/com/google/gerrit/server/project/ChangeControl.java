@@ -59,6 +59,12 @@ public class ChangeControl {
       return controlFor(notesFactory.create(db, project, changeId), user);
     }
 
+    public ChangeControl controlForLegacyId(
+        ReviewDb db, Project.NameKey project, Change.Id legacyChangeId, CurrentUser user)
+        throws OrmException {
+      return controlFor(notesFactory.loadByLegacyId(db, project, legacyChangeId), user);
+    }
+
     public ChangeControl controlFor(ReviewDb db, Change change, CurrentUser user)
         throws OrmException {
       final Project.NameKey projectKey = change.getProject();

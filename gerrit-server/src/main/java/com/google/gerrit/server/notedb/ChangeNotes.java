@@ -50,6 +50,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
@@ -103,14 +104,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final Args args;
     private final Provider<InternalChangeQuery> queryProvider;
     private final ProjectCache projectCache;
+    private final ChangeCache changeCache;
 
     @VisibleForTesting
     @Inject
     public Factory(
-        Args args, Provider<InternalChangeQuery> queryProvider, ProjectCache projectCache) {
+        Args args,
+        Provider<InternalChangeQuery> queryProvider,
+        ProjectCache projectCache,
+        @Nullable ChangeCache changeCache) {
       this.args = args;
       this.queryProvider = queryProvider;
       this.projectCache = projectCache;
+      this.changeCache = changeCache;
     }
 
     public ChangeNotes createChecked(ReviewDb db, Change c) throws OrmException {
@@ -119,7 +125,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes createChecked(ReviewDb db, Project.NameKey project, Change.Id changeId)
         throws OrmException {
-      Change change = readOneReviewDbChange(db, changeId);
+      Change change = loadChangeFromCacheOrDb(db, project, changeId);
       if (change == null) {
         if (!args.migration.readChanges()) {
           throw new NoSuchChangeException(changeId);
@@ -154,6 +160,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return change;
     }
 
+    private Change loadChangeFromCacheOrDb(ReviewDb db, Project.NameKey project, Change.Id changeId)
+        throws OrmException {
+      if (changeCache != null) {
+        return changeCache.get(changeId);
+      }
+      return loadChangeFromDb(db, project, changeId);
+    }
+
     private Change loadChangeFromDb(ReviewDb db, Project.NameKey project, Change.Id changeId)
         throws OrmException {
       checkArgument(project != null, "project is required");
@@ -176,12 +190,21 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes create(ReviewDb db, Project.NameKey project, Change.Id changeId)
         throws OrmException {
-      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId)).load();
+      return new ChangeNotes(args, loadChangeFromCacheOrDb(db, project, changeId)).load();
+    }
+
+    public ChangeNotes loadByLegacyId(
+        ReviewDb db, Project.NameKey project, Change.Id legacyChangeId) throws OrmException {
+      if (changeCache != null) {
+        return new ChangeNotes(args, changeCache.get(legacyChangeId)).load();
+      }
+      return create(db, project, legacyChangeId);
     }
 
     public ChangeNotes createWithAutoRebuildingDisabled(
         ReviewDb db, Project.NameKey project, Change.Id changeId) throws OrmException {
-      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId), true, false, null)
+      return new ChangeNotes(
+              args, loadChangeFromCacheOrDb(db, project, changeId), true, false, null)
           .load();
     }
 
@@ -320,7 +343,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
       PrimaryStorage defaultStorage = args.migration.changePrimaryStorage();
       for (Change.Id id : ids) {
-        Change change = readOneReviewDbChange(db, id);
+        Change change = loadChangeFromCacheOrDb(db, project, id);
         if (change == null) {
           if (defaultStorage == PrimaryStorage.REVIEW_DB) {
             log.warn("skipping change {} found in project {} but not in ReviewDb", id, project);

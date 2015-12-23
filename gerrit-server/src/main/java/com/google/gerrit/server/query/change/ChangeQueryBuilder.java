@@ -52,6 +52,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
@@ -416,19 +417,24 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   private final Arguments args;
+  private final ChangeCache changeCache;
 
   @Inject
-  ChangeQueryBuilder(Arguments args) {
+  ChangeQueryBuilder(Arguments args, ChangeCache changeCache) {
     super(mydef);
     this.args = args;
+    this.changeCache = changeCache;
     setupDynamicOperators();
   }
 
   @VisibleForTesting
   protected ChangeQueryBuilder(
-      Definition<ChangeData, ? extends QueryBuilder<ChangeData>> def, Arguments args) {
+      Definition<ChangeData, ? extends QueryBuilder<ChangeData>> def,
+      Arguments args,
+      ChangeCache changeCache) {
     super(def);
     this.args = args;
+    this.changeCache = changeCache;
   }
 
   private void setupDynamicOperators() {
@@ -443,7 +449,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public ChangeQueryBuilder asUser(CurrentUser user) {
-    return new ChangeQueryBuilder(builderDef, args.asUser(user));
+    return new ChangeQueryBuilder(builderDef, args.asUser(user), changeCache);
   }
 
   @Operator
@@ -547,7 +553,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("watched".equalsIgnoreCase(value)) {
-      return new IsWatchedByPredicate(args, false);
+      return new IsWatchedByPredicate(args, changeCache, false);
     }
 
     if ("visible".equalsIgnoreCase(value)) {
@@ -821,7 +827,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       // changes visible to that user. The exception is if one of the users is
       // the caller of this method, in which case visibility is already being
       // checked at the top level.
-      p.add(new IsWatchedByPredicate(args.asUser(id), !id.equals(callerId)));
+      p.add(new IsWatchedByPredicate(args.asUser(id), changeCache, !id.equals(callerId)));
     }
     return Predicate.or(p);
   }
@@ -1173,7 +1179,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private List<Change> parseChange(String value) throws OrmException, QueryParseException {
     if (PAT_LEGACY_ID.matcher(value).matches()) {
-      return asChanges(args.queryProvider.get().byLegacyChangeId(Change.Id.parse(value)));
+      return asChanges(changeCache.get(Change.Id.parse(value)));
     } else if (PAT_CHANGE_ID.matcher(value).matches()) {
       List<Change> changes = asChanges(args.queryProvider.get().byKeyPrefix(parseChangeId(value)));
       if (changes.isEmpty()) {

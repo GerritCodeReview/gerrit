@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eabb2b9e_ca5323ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-23T14:34:25Z",
+      "side": 1,
+      "message": "Another interesting change cache would be:\n\n  ChangeData getChangeData(Change.Id id);\n  void evictChangeData(Change.Id id);\n\nThe implementation should be probably thread local, by defining the key to be a tuple: (Thread, Change.Id). This is needed, to prevent, that two different mutation requests for the same change would interfere with each other. The complication here, Indexing is done asynchronously and thus the ChangeData would be loaded in different thread. This way, Mails, Hooks and StreamEvents code paths that are using the same thread, wouldn\u0027t benefit from the ChangeData instances created in different thread. Cache invalidation shouldn\u0027t be an issue, the idea is to set up evicting mechanism, that guarantees, that after a call (SSH, REST, Git, ...) is done, the ChangeData entries for this thread are invalidated.",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eabb2b9e_0a5a9b07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScanningChangeCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-23T14:34:25Z",
+      "side": 1,
+      "message": "The same comment here.",
+      "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eabb2b9e_6a6557c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-23T14:34:25Z",
+      "side": 1,
+      "message": "Why not to use cacheById.getIfPresent(key): [1] instead of cacheById.get(key)? That way you would avoid loading the entry in cache just to evict it again.\n\n* [1] http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/cache/Cache.html#getIfPresent%28java.lang.Object%29\n* [2] http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/cache/LoadingCache.html#get%28K%29",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6afc9b2b_de08c5b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SingleChangeLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-23T14:34:25Z",
+      "side": 1,
+      "message": "Package visible?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eabb2b9e_2a5f5ff8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SingleChangeLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-23T14:34:25Z",
+      "side": 1,
+      "message": "Not needed.",
+      "revId": "5be9d6d3bfe3075e787a0675044c51e3c380b607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

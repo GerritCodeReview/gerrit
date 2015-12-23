@@ -24,6 +24,9 @@ public interface Resources extends ClientBundle {
   @Source("note_add.png")
   ImageResource addFileComment();
 
+  @Source("user_add.png")
+  ImageResource addUser();
+
   // derived from resultset_next.png
   @Source("resultset_down_gray.png")
   ImageResource arrowDown();

@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
@@ -35,18 +36,21 @@ class IsWatchedByPredicate extends AndPredicate<ChangeData> {
 
   private final CurrentUser user;
 
-  IsWatchedByPredicate(ChangeQueryBuilder.Arguments args,
+  IsWatchedByPredicate(
+      ChangeQueryBuilder.Arguments args,
+      ChangeCache changeCache,
       boolean checkIsVisible) throws QueryParseException {
-    super(filters(args, checkIsVisible));
+    super(filters(changeCache, args, checkIsVisible));
     this.user = args.getUser();
   }
 
   private static List<Predicate<ChangeData>> filters(
+      ChangeCache changeCache,
       ChangeQueryBuilder.Arguments args,
       boolean checkIsVisible) throws QueryParseException {
     CurrentUser user = args.getUser();
     List<Predicate<ChangeData>> r = Lists.newArrayList();
-    ChangeQueryBuilder builder = new ChangeQueryBuilder(args);
+    ChangeQueryBuilder builder = new ChangeQueryBuilder(args, changeCache);
     for (AccountProjectWatch w : user.getNotificationFilters()) {
       Predicate<ChangeData> f = null;
       if (w.getFilter() != null) {

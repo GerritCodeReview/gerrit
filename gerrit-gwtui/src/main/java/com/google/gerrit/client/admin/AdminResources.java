@@ -24,12 +24,19 @@ public interface AdminResources extends ClientBundle {
   @Source("admin.css")
   AdminCss css();
 
+  /**
+   * unknown origin
+   * TODO replace icons
+   */
   @Source("deleteNormal.png")
   ImageResource deleteNormal();
 
   @Source("deleteHover.png")
   ImageResource deleteHover();
 
-  @Source("undoNormal.png")
+  /**
+   * silk icons (CC-BY3.0): http://famfamfam.com/lab/icons/silk/
+   */
+  @Source("arrow_undo.png")
   ImageResource undoNormal();
 }

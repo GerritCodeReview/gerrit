@@ -18,42 +18,75 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
 public interface Resources extends ClientBundle {
-  @Source("addFileComment.png")
+  /**
+   * silk icons (CC-BY3.0): http://famfamfam.com/lab/icons/silk/
+   */
+  @Source("note_add.png")
   ImageResource addFileComment();
 
-  @Source("arrowDown.png")
+  // derived from resultset_next.png
+  @Source("resultset_down_gray.png")
   ImageResource arrowDown();
 
-  @Source("arrowRight.png")
+  // derived from resultset_next.png
+  @Source("resultset_next_gray.png")
   ImageResource arrowRight();
 
-  @Source("arrowUp.png")
+  // derived from resultset_next.png
+  @Source("resultset_up_gray.png")
   ImageResource arrowUp();
 
-  @Source("deleteHover.png")
-  ImageResource deleteHover();
-
-  @Source("deleteNormal.png")
-  ImageResource deleteNormal();
-
-  @Source("diffy26.png")
-  ImageResource gerritAvatar26();
-
-  @Source("downloadIcon.png")
+  @Source("page_white_put.png")
   ImageResource downloadIcon();
 
-  @Source("draftComments.png")
+  // derived from comment.png
+  @Source("comment_draft.png")
   ImageResource draftComments();
 
-  @Source("editText.png")
+  @Source("page_edit.png")
   ImageResource edit();
 
-  @Source("editUndo.png")
+  @Source("arrow_undo.png")
   ImageResource editUndo();
 
-  @Source("gear.png")
+  @Source("cog.png")
   ImageResource gear();
 
+  @Source("tick.png")
+  ImageResource greenCheck();
+
+  @Source("lightbulb.png")
+  ImageResource info();
+
+  @Source("find.png")
+  ImageResource queryIcon();
+
+  @Source("lock.png")
+  ImageResource readOnly();
+
+  @Source("cross.png")
+  ImageResource redNot();
+
+  @Source("disk.png")
+  ImageResource save();
+
+  @Source("star.png")
+  ImageResource starFilled();
+
+  // derived from star.png
+  @Source("star-open.png")
+  ImageResource starOpen();
+
+  @Source("exclamation.png")
+  ImageResource warning();
+
+  @Source("help.png")
+  ImageResource question();
+
+  /**
+   * tango icon library (public domain):
+   * http://tango.freedesktop.org/Tango_Icon_Library
+   */
   @Source("goNext.png")
   ImageResource goNext();
 
@@ -63,48 +96,25 @@ public interface Resources extends ClientBundle {
   @Source("goUp.png")
   ImageResource goUp();
 
-  @Source("greenCheck.png")
-  ImageResource greenCheck();
-
-  @Source("info.png")
-  ImageResource info();
-
   @Source("listAdd.png")
   ImageResource listAdd();
 
-  @Source("mediaFloppy.png")
-  ImageResource save();
-
+  // derived from important.png
   @Source("merge.png")
   ImageResource merge();
 
-  @Source("queryIcon.png")
-  ImageResource queryIcon();
-
-  @Source("readOnly.png")
-  ImageResource readOnly();
-
-  @Source("redNot.png")
-  ImageResource redNot();
-
+  /**
+   * contributed by the artist under Apache2.0
+   */
   @Source("sideBySideDiff.png")
   ImageResource sideBySideDiff();
-
-  @Source("starFilled.png")
-  ImageResource starFilled();
-
-  @Source("starOpen.png")
-  ImageResource starOpen();
-
-  @Source("undoNormal.png")
-  ImageResource undoNormal();
 
   @Source("unifiedDiff.png")
   ImageResource unifiedDiff();
 
-  @Source("warning.png")
-  ImageResource warning();
-
-  @Source("question.png")
-  ImageResource question();
+  /**
+   * contributed by the artist under CC-BY3.0
+   */
+  @Source("diffy26.png")
+  ImageResource gerritAvatar26();
 }

@@ -25,6 +25,10 @@ interface Resources extends ClientBundle {
   @Source("CommentBox.css") CommentBox.Style style();
   @Source("Scrollbar.css") Scrollbar.Style scrollbarStyle();
 
+  /**
+   * tango icon library (public domain):
+   * http://tango.freedesktop.org/Tango_Icon_Library
+   */
   @Source("goPrev.png") ImageResource goPrev();
   @Source("goNext.png") ImageResource goNext();
   @Source("goUp.png") ImageResource goUp();

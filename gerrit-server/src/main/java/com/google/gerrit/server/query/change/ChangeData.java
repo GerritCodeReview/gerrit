@@ -707,7 +707,7 @@ public class ChangeData {
       if (change != null) {
         changeControl = changeControlFactory.controlFor(db, change, user);
       } else {
-        changeControl = changeControlFactory.controlFor(db, project(), legacyId, user);
+        changeControl = changeControlFactory.controlForLegacyId(db, project(), legacyId, user);
       }
     } catch (NoSuchChangeException e) {
       throw new OrmException(e);

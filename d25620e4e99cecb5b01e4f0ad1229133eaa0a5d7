@@ -139,6 +139,30 @@
       "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_f0cc208e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-24T10:32:33Z",
+      "side": 1,
+      "message": "The problem is not the breakages we know about :-) but all the ones we don\u0027t know about because it implemented in other plugins used internally by other companies.\n\nMy suggestion was to define an extra interface that contains the wantsEvent(Class\u003c? extends Event). In the reviewers plugin the code would be:\n\n    @Override\n    public boolean wantsEvent(Class\u003c? extends Event\u003e clazz) eventClass) {\n      return PatchSetCreatedEvent.isAssignableFrom(clazz);\n    }",
+      "parentUuid": "aaa4d3ba_70c11056",
+      "range": {
+        "startLine": 24,
+        "startChar": 9,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

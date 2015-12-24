@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aaa4d3ba_90d59416",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-24T09:50:07Z",
+      "side": 1,
+      "message": "Good point. The split can be done, once we agree on the rest.",
+      "parentUuid": "aaa4d3ba_f0b500ee",
+      "range": {
+        "startLine": 184,
+        "startChar": 18,
+        "endLine": 184,
+        "endChar": 32
+      },
+      "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aaa4d3ba_10c2845e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 2
@@ -82,6 +106,30 @@
       "writtenOn": "2015-12-24T09:32:47Z",
       "side": 1,
       "message": "Breaking change :-( I don\u0027t really like to break all existing plugins unless we really have to.\n\nWhy don\u0027t we make a \"backward compatible\" change  by simply checking if there are listeners available to manage that type of event?\n\nSomething like boolean wantsEvent(Class\u003c? extends Event\u003e) ? It could be a new Interface that new plugins will implement. For existing plugins, we can only assume that if they are listening, they can potentially want to comsume evenrything.",
+      "range": {
+        "startLine": 24,
+        "startChar": 9,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_70c11056",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-24T09:50:07Z",
+      "side": 1,
+      "message": "My statement that it breaks all plugins was wrong. 3 lines must be changed to adjust reviewers plugin. Personally I don\u0027t care to break some plugins. I don\u0027t see how such intrusive change can be done in backwards compatible way. Your suggestion wouldn\u0027t work, because of the current design of event system. There is no way to implement wantsEvent(Class\u003c? extends Event\u003e) method. For example, onEvent implementation of reviewers plugin is:\n\n  @Override\n  public void onEvent(Event event) {\n    if (!(event instanceof PatchSetCreatedEvent)) {\n      return;\n    }",
+      "parentUuid": "aaa4d3ba_50bc0cd7",
       "range": {
         "startLine": 24,
         "startChar": 9,

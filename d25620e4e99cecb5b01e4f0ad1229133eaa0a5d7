@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa4d3ba_f0b500ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-24T09:32:47Z",
+      "side": 1,
+      "message": "Like the use of Optional\u003c\u003e but I suspect this is more a beautify / refactoring rather than a functional change related to this topic. Do we really need it for this change? Can we split this into two changes? \n1) Refactoring\n2) Functional change",
+      "range": {
+        "startLine": 184,
+        "startChar": 18,
+        "endLine": 184,
+        "endChar": 32
+      },
+      "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_10c2845e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-24T09:32:47Z",
+      "side": 1,
+      "message": "Like the change, but again is more a small local refactoring.",
+      "range": {
+        "startLine": 616,
+        "startChar": 6,
+        "endLine": 617,
+        "endChar": 50
+      },
+      "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_30c7886f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-24T09:32:47Z",
+      "side": 1,
+      "message": "As \"minimal change\" why not just moving this change into a method called isHookPresent(project, hook) and call it from all the doXXXHook() methods? I know isn\u0027t nice as your change but has a much more limited impact on the code base.",
+      "range": {
+        "startLine": 1026,
+        "startChar": 4,
+        "endLine": 1026,
+        "endChar": 46
+      },
+      "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_50bc0cd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-24T09:32:47Z",
+      "side": 1,
+      "message": "Breaking change :-( I don\u0027t really like to break all existing plugins unless we really have to.\n\nWhy don\u0027t we make a \"backward compatible\" change  by simply checking if there are listeners available to manage that type of event?\n\nSomething like boolean wantsEvent(Class\u003c? extends Event\u003e) ? It could be a new Interface that new plugins will implement. For existing plugins, we can only assume that if they are listening, they can potentially want to comsume evenrything.",
+      "range": {
+        "startLine": 24,
+        "startChar": 9,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

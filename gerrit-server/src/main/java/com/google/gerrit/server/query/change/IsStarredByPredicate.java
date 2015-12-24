@@ -16,8 +16,10 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -25,6 +27,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,15 +50,20 @@ class IsStarredByPredicate extends OrPredicate<ChangeData> implements
 
   private final Arguments args;
   private final CurrentUser user;
+  private final ChangeCache changeCache;
 
-  IsStarredByPredicate(Arguments args) throws QueryParseException {
-    this(args, args.getIdentifiedUser());
+  IsStarredByPredicate(Arguments args,
+      ChangeCache changeCache) throws QueryParseException {
+    this(args, changeCache, args.getIdentifiedUser());
   }
 
-  private IsStarredByPredicate(Arguments args, IdentifiedUser user) {
+  private IsStarredByPredicate(Arguments args,
+      ChangeCache changeCache,
+      IdentifiedUser user) {
     super(predicates(user.getStarredChanges()));
     this.args = args;
     this.user = user;
+    this.changeCache = changeCache;
   }
 
   @Override
@@ -66,7 +74,18 @@ class IsStarredByPredicate extends OrPredicate<ChangeData> implements
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
     return ChangeDataResultSet.change(args.changeDataFactory, args.db,
-        args.db.get().changes().get(user.getStarredChanges()));
+        getChanges(user.getStarredChanges()));
+  }
+
+  private Set<Change> getChanges(Set<Id> starredChangesIds) {
+    HashSet<Change> changes = new HashSet<>();
+    for (Id id : starredChangesIds) {
+      Change change = changeCache.get(id);
+      if(change != null) {
+        changes.add(change);
+      }
+    }
+    return changes;
   }
 
   @Override

@@ -421,7 +421,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> has(String value) throws QueryParseException {
     if ("star".equalsIgnoreCase(value)) {
-      return new IsStarredByPredicate(args);
+      return new IsStarredByPredicate(args, changeCache);
     }
 
     if ("draft".equalsIgnoreCase(value)) {
@@ -437,7 +437,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> is(String value) throws QueryParseException {
     if ("starred".equalsIgnoreCase(value)) {
-      return new IsStarredByPredicate(args);
+      return new IsStarredByPredicate(args, changeCache);
     }
 
     if ("watched".equalsIgnoreCase(value)) {
@@ -651,12 +651,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> starredby(String who)
       throws QueryParseException, OrmException {
     if ("self".equals(who)) {
-      return new IsStarredByPredicate(args);
+      return new IsStarredByPredicate(args, changeCache);
     }
     Set<Account.Id> m = parseAccount(who);
     List<IsStarredByPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new IsStarredByPredicate(args.asUser(id)));
+      p.add(new IsStarredByPredicate(args.asUser(id), changeCache));
     }
     return Predicate.or(p);
   }

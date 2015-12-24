@@ -27,7 +27,7 @@ import java.util.Set;
 
 abstract class ChangeDataResultSet<T> extends AbstractResultSet<ChangeData> {
   static ResultSet<ChangeData> change(final ChangeData.Factory factory,
-      final Provider<ReviewDb> db, final ResultSet<Change> rs) {
+      final Provider<ReviewDb> db, final Iterable<Change> rs) {
     return new ChangeDataResultSet<Change>(rs, true) {
       @Override
       ChangeData convert(Change t) {
@@ -46,10 +46,10 @@ abstract class ChangeDataResultSet<T> extends AbstractResultSet<ChangeData> {
     };
   }
 
-  private final ResultSet<T> source;
+  private final Iterable<T> source;
   private final boolean unique;
 
-  ChangeDataResultSet(ResultSet<T> source, boolean unique) {
+  ChangeDataResultSet(Iterable<T> source, boolean unique) {
     this.source = source;
     this.unique = unique;
   }
@@ -117,7 +117,6 @@ abstract class ChangeDataResultSet<T> extends AbstractResultSet<ChangeData> {
 
   @Override
   public void close() {
-    source.close();
   }
 
   abstract ChangeData convert(T t);

@@ -22,6 +22,30 @@
       "revId": "501db2475611d12f6d4e9f64fd673d675d1f2dbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa0bf316_981c9547",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-24T18:07:32Z",
+      "side": 0,
+      "message": "Good catch, thank you. I think this was a bad rebase.",
+      "parentUuid": "eabb2b9e_cafec31d",
+      "range": {
+        "startLine": 339,
+        "startChar": 6,
+        "endLine": 339,
+        "endChar": 35
+      },
+      "revId": "501db2475611d12f6d4e9f64fd673d675d1f2dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

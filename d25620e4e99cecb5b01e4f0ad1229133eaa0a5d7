@@ -163,6 +163,30 @@
       "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_500a4c6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-25T10:46:09Z",
+      "side": 1,
+      "message": "| The problem is not the breakages we know about :-)\n\nWhy it\u0027s a problem? There is a compilation error, and it\u0027s trivial to fix those errors, add get() invocation, done.\n\n| My suggestion was to define an extra interface that contains the wantsEvent(Class\u003c? extends Event)\n\nThis can\u0027t work. MetricListener that was added in gerrit core recently already consumes all events, but it only use getType() and don\u0027t care about the actual data, so you can already stop here. Moreover, when a plugin consumes event from type foo, it could still benefit from memoized supplier pattern:\n\n  class FooEvent {\n    public Supplier\u003cBar\u003e bar;\n    public Supplier\u003cBaz\u003e baz;\n    [...]\n  }\n\nby using only bar attribute, the plugin would call bar.get() but not (!) baz.get() and thus the data retrieval for baz attribute would never be invoked, and the data wouldn\u0027t be retrieved in vain.",
+      "parentUuid": "aaa4d3ba_f0cc208e",
+      "range": {
+        "startLine": 24,
+        "startChar": 9,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

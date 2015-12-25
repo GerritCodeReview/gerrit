@@ -187,6 +187,30 @@
       "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eabb2b9e_aa54afa5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-12-25T10:49:44Z",
+      "side": 1,
+      "message": "| Breaking change :-( I don\u0027t really like to break all existing plugins unless we really have to.\n\nHere is the fix for reviewers plugin: [1].\n\n* [1] https://gerrit-review.googlesource.com/73551",
+      "parentUuid": "aaa4d3ba_f0cc208e",
+      "range": {
+        "startLine": 24,
+        "startChar": 9,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "d25620e4e99cecb5b01e4f0ad1229133eaa0a5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

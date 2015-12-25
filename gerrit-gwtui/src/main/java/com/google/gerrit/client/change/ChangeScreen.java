@@ -45,7 +45,6 @@ import com.google.gerrit.client.projects.ConfigInfoCache.Entry;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -1055,33 +1054,16 @@ public class ChangeScreen extends Screen {
         }));
   }
 
-  private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
-    if (canSubmit) {
-      if (status == Change.Status.NEW) {
-        statusText.setInnerText(Util.C.readyToSubmit());
-      }
+  private void renderSubmitType(Change.Status status, boolean canSubmit,
+      SubmitType submitType) {
+    if (canSubmit && status == Change.Status.NEW) {
+      statusText.setInnerText(changeInfo.mergeable()
+          ? Util.C.readyToSubmit()
+          : Util.C.mergeConflict());
     }
-    ChangeApi.revision(changeId.get(), revision)
-      .view("submit_type")
-      .get(new AsyncCallback<NativeString>() {
-        @Override
-        public void onSuccess(NativeString result) {
-          if (canSubmit) {
-            if (status == Change.Status.NEW) {
-              statusText.setInnerText(changeInfo.mergeable()
-                  ? Util.C.readyToSubmit()
-                  : Util.C.mergeConflict());
-            }
-          }
-          setVisible(notMergeable, !changeInfo.mergeable());
-
-          renderSubmitType(result.asString());
-        }
-
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      });
+    setVisible(notMergeable, !changeInfo.mergeable());
+    submitActionText.setInnerText(
+        com.google.gerrit.client.admin.Util.toLongString(submitType));
   }
 
   private RevisionInfo resolveRevisionToDisplay(ChangeInfo info) {
@@ -1243,7 +1225,7 @@ public class ChangeScreen extends Screen {
 
     if (current && info.status().isOpen()) {
       quickApprove.set(info, revision, replyAction);
-      loadSubmitType(info.status(), isSubmittable(info));
+      renderSubmitType(info.status(), isSubmittable(info), info.submitType());
     } else {
       quickApprove.setVisible(false);
     }
@@ -1346,16 +1328,6 @@ public class ChangeScreen extends Screen {
       sb.append('\n').append(problem);
     }
     return sb.toString();
-  }
-
-  private void renderSubmitType(String action) {
-    try {
-      SubmitType type = SubmitType.valueOf(action);
-      submitActionText.setInnerText(
-          com.google.gerrit.client.admin.Util.toLongString(type));
-    } catch (IllegalArgumentException e) {
-      submitActionText.setInnerText(action);
-    }
   }
 
   private void renderActionTextDate(ChangeInfo info) {

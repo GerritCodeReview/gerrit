@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -104,11 +103,12 @@ public class MergeSuperSet {
         for (Change.Id cId : pc.get(project)) {
           ChangeData cd = changeDataFactory.create(db, cId);
 
-          SubmitTypeRecord r = new SubmitRuleEvaluator(cd).getSubmitType();
-          if (r.status != SubmitTypeRecord.Status.OK) {
-            logErrorAndThrow("Failed to get submit type for " + cd.getId());
+          SubmitTypeRecord str = cd.submitTypeRecord();
+          if (!str.isOk()) {
+            logErrorAndThrow("Failed to get submit type for " + cd.getId()
+                + ": " + str.errorMessage);
           }
-          if (r.type == SubmitType.CHERRY_PICK) {
+          if (str.type == SubmitType.CHERRY_PICK) {
             ret.add(cd);
             continue;
           }

@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -106,9 +105,9 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "other content");
     submitWithConflict(change2.getChangeId(),
-        "Cannot merge " + change2.getCommitId().name() + "\n" +
-        "Change could not be merged due to a path conflict.\n\n" +
-        "Please rebase the change locally and " +
+        "Failed to submit 1 change due to the following problems:\n" +
+        "Change " + change2.getChange().getId() + ": Change could not be " +
+        "merged due to a path conflict. Please rebase the change locally and " +
         "upload the rebased commit for review.");
 
     assertThat(getRemoteHead()).isEqualTo(oldHead);
@@ -151,9 +150,9 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change3 =
         createChange("Change 3", "b.txt", "different content");
     submitWithConflict(change3.getChangeId(),
-        "Cannot merge " + change3.getCommitId().name() + "\n" +
-        "Change could not be merged due to a path conflict.\n\n" +
-        "Please rebase the change locally and " +
+        "Failed to submit 1 change due to the following problems:\n" +
+        "Change " + change3.getChange().getId() + ": Change could not be " +
+        "merged due to a path conflict. Please rebase the change locally and " +
         "upload the rebased commit for review.");
 
     assertThat(getRemoteHead()).isEqualTo(oldHead);
@@ -227,15 +226,13 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     // Submit fails; change3 contains the delta "b1" -> "b2", which cannot be
     // applied against tip.
     submitWithConflict(change3.getChangeId(),
-        "Cannot merge " + change3.getCommitId().name() + "\n" +
-        "Change could not be merged due to a path conflict.\n\n" +
-        "Please rebase the change locally and " +
+        "Failed to submit 1 change due to the following problems:\n" +
+        "Change " + change3.getChange().getId() + ": Change could not be " +
+        "merged due to a path conflict. Please rebase the change locally and " +
         "upload the rebased commit for review.");
 
     ChangeInfo info3 = get(change3.getChangeId(), ListChangesOption.MESSAGES);
     assertThat(info3.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(Iterables.getLast(info3.messages).message.toLowerCase())
-        .contains("path conflict");
 
     // Tip has not changed.
     List<RevCommit> log = getRemoteLog();

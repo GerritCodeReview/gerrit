@@ -32,15 +32,33 @@ public class SubmitTypeRecord {
   }
 
   public static SubmitTypeRecord OK(SubmitType type) {
-    SubmitTypeRecord r = new SubmitTypeRecord();
-    r.status = Status.OK;
-    r.type = type;
-    return r;
+    return new SubmitTypeRecord(Status.OK, type, null);
   }
 
-  public Status status;
-  public SubmitType type;
-  public String errorMessage;
+  public static SubmitTypeRecord error(String err) {
+    return new SubmitTypeRecord(SubmitTypeRecord.Status.RULE_ERROR, null, err);
+  }
+
+  /** Status enum value of the record. */
+  public final Status status;
+
+  /** Submit type of the record; never null if {@link #status} is {@code OK}. */
+  public final SubmitType type;
+
+  /**
+   * Submit type of the record; always null if {@link #status} is {@code OK}.
+   */
+  public final String errorMessage;
+
+  private SubmitTypeRecord(Status status, SubmitType type, String errorMessage) {
+    this.status = status;
+    this.type = type;
+    this.errorMessage = errorMessage;
+  }
+
+  public boolean isOk() {
+    return status == Status.OK;
+  }
 
   @Override
   public String toString() {

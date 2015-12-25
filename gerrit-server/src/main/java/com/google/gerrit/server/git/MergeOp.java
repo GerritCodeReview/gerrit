@@ -18,9 +18,12 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -57,12 +60,12 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
+import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -333,9 +336,7 @@ public class MergeOp implements AutoCloseable {
     }
     List<SubmitRecord> results = cd.getSubmitRecords();
     if (results == null) {
-      results = new SubmitRuleEvaluator(cd)
-          .setPatchSet(patchSet)
-          .evaluate();
+      results = new SubmitRuleEvaluator(cd).evaluate();
       cd.setSubmitRecords(results);
     }
     if (findOkRecord(results).isPresent()) {
@@ -497,17 +498,17 @@ public class MergeOp implements AutoCloseable {
       }
       failFast(cs); // Done checks that don't involve running submit strategies.
 
+      for (Branch.NameKey branch : cbb.keySet()) {
+        OpenRepo or = openRepo(branch.getParentKey());
+        OpenBranch ob = or.getBranch(branch);
+        BranchBatch submitting = toSubmit.get(branch);
+        SubmitStrategy strategy = createStrategy(or, branch,
+            submitting.submitType(), ob.oldTip, caller);
+        ob.mergeTip = preMerge(strategy, submitting.changes(), ob.oldTip);
+      }
+      checkMergeStrategyResults(cs, toSubmit.values());
       for (Project.NameKey project : br.keySet()) {
-        OpenRepo or = openRepo(project);
-        for (Branch.NameKey branch : br.get(project)) {
-          OpenBranch ob = or.getBranch(branch);
-          BranchBatch submitting = toSubmit.get(branch);
-          SubmitStrategy strategy = createStrategy(or, branch,
-              submitting.submitType(), ob.oldTip, caller);
-          ob.mergeTip = preMerge(strategy, submitting.changes(), ob.oldTip);
-          updateChangeStatus(ob, submitting.changes(), true, caller);
-          or.ins.flush();
-        }
+        openRepo(project).ins.flush();
       }
 
       Set<Branch.NameKey> done =
@@ -521,7 +522,7 @@ public class MergeOp implements AutoCloseable {
           boolean updated = updateBranch(or, branch, caller);
 
           BranchBatch submitting = toSubmit.get(branch);
-          updateChangeStatus(ob, submitting.changes(), false, caller);
+          updateChangeStatus(ob, submitting.changes(), caller);
           updateSubmoduleSubscriptions(ob, subOp);
           if (updated) {
             fireRefUpdated(ob);
@@ -692,12 +693,11 @@ public class MergeOp implements AutoCloseable {
         mergeValidators.validatePreMerge(
             or.repo, commit, or.project, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
-        commit.setStatusCode(mve.getStatus());
-        problems.put(changeId, mve.getStatus().toString());
+        problems.put(changeId, mve.getMessage());
         continue;
       }
 
-      SubmitType st = getSubmitType(cd, ps);
+      SubmitType st = getSubmitType(cd);
       if (st == null) {
         logProblem(changeId, "No submit type for change");
         continue;
@@ -742,15 +742,10 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private SubmitType getSubmitType(ChangeData cd, PatchSet ps) {
+  private SubmitType getSubmitType(ChangeData cd) {
     try {
-      SubmitTypeRecord r = new SubmitRuleEvaluator(cd).setPatchSet(ps)
-          .getSubmitType();
-      if (r.status != SubmitTypeRecord.Status.OK) {
-        logError("Failed to get submit type for " + cd.getId());
-        return null;
-      }
-      return r.type;
+      SubmitTypeRecord str = cd.submitTypeRecord();
+      return str.isOk() ? str.type : null;
     } catch (OrmException e) {
       logError("Failed to get submit type for " + cd.getId(), e);
       return null;
@@ -853,112 +848,111 @@ public class MergeOp implements AutoCloseable {
     return "";
   }
 
-  private void updateChangeStatus(OpenBranch ob, List<ChangeData> submitted,
-      boolean dryRun, IdentifiedUser caller) throws NoSuchChangeException,
-      IntegrationException, ResourceConflictException, OrmException {
-    if (!dryRun) {
-      logDebug("Updating change status for {} changes", submitted.size());
-    } else {
-      logDebug("Checking change state for {} changes in a dry run",
-          submitted.size());
-    }
+  private Iterable<ChangeData> flattenBatches(Collection<BranchBatch> batches) {
+    return FluentIterable.from(batches)
+        .transformAndConcat(new Function<BranchBatch, List<ChangeData>>() {
+          @Override
+          public List<ChangeData> apply(BranchBatch batch) {
+            return batch.changes();
+          }
+        });
+  }
 
-    for (ChangeData cd : submitted) {
-      Change c = cd.change();
-      CodeReviewCommit commit = commits.get(c.getId());
+  private void checkMergeStrategyResults(ChangeSet cs,
+      Collection<BranchBatch> batches) throws ResourceConflictException {
+    for (ChangeData cd : flattenBatches(batches)) {
+      Change.Id id = cd.getId();
+      CodeReviewCommit commit = commits.get(id);
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
       if (s == null) {
-        // Shouldn't ever happen, but leave the change alone. We'll pick
-        // it up on the next pass.
-        //
-        logDebug("Submitted change {} did not appear in set of new commits"
-            + " produced by merge strategy", c.getId());
+        problems.put(id,
+            "internal error: change not processed by merge strategy");
         continue;
       }
+      switch (s) {
+        case CLEAN_MERGE:
+        case CLEAN_REBASE:
+        case CLEAN_PICK:
+        case ALREADY_MERGED:
+          break; // Merge strategy accepted this change.
 
-      if (!dryRun) {
-        try {
-          setApproval(cd, caller);
-        } catch (IOException e) {
-          throw new OrmException(e);
-        }
-      }
+        case PATH_CONFLICT:
+        case REBASE_MERGE_CONFLICT:
+        case MANUAL_RECURSIVE_MERGE:
+        case CANNOT_CHERRY_PICK_ROOT:
+        case NOT_FAST_FORWARD:
+          // TODO(dborowitz): Reformat these messages to be more appropriate for
+          // short problem descriptions.
+          problems.put(id,
+              CharMatcher.is('\n').collapseFrom(s.getMessage(), ' '));
+          break;
 
-      String txt = s.getMessage();
-      logDebug("Status of change {} ({}) on {}: {}", c.getId(), commit.name(),
-          c.getDest(), s);
-      // If mergeTip is null merge failed and mergeResultRev will not be read.
-      ObjectId mergeResultRev = ob.mergeTip != null
-          ? ob.mergeTip.getMergeResults().get(commit) : null;
-      // The change notes must be forcefully reloaded so that the SUBMIT
-      // approval that we added earlier is visible
-      commit.notes().reload();
-      try {
-        ChangeMessage msg;
-        switch (s) {
-          case CLEAN_MERGE:
-            if (!dryRun) {
-              setMerged(c, message(c, txt + getByAccountName(commit)),
-                  mergeResultRev);
-            }
-            break;
+        case MISSING_DEPENDENCY:
+          problems.put(id, "depends on change that was not submitted");
+          break;
 
-          case CLEAN_REBASE:
-          case CLEAN_PICK:
-            if (!dryRun) {
-              setMerged(c, message(c, txt + " as " + commit.name()
-                  + getByAccountName(commit)), mergeResultRev);
-            }
-            break;
-
-          case ALREADY_MERGED:
-            if (!dryRun) {
-              setMerged(c, null, mergeResultRev);
-            }
-            break;
-
-          case PATH_CONFLICT:
-          case REBASE_MERGE_CONFLICT:
-          case MANUAL_RECURSIVE_MERGE:
-          case CANNOT_CHERRY_PICK_ROOT:
-          case NOT_FAST_FORWARD:
-          case INVALID_PROJECT_CONFIGURATION:
-          case INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_PERMITTED:
-          case INVALID_PROJECT_CONFIGURATION_PLUGIN_VALUE_NOT_EDITABLE:
-          case INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND:
-          case INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT:
-          case SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN:
-            setNew(commit.notes(), message(c, txt));
-            throw new ResourceConflictException("Cannot merge " + commit.name()
-                + "\n" + s.getMessage());
-
-          case MISSING_DEPENDENCY:
-            logDebug("Change {} is missing dependency", c.getId());
-            throw new IntegrationException(
-                "Cannot merge " + commit.name() + "\n" + s.getMessage());
-
-          case REVISION_GONE:
-            logDebug("Commit not found for change {}", c.getId());
-            msg = new ChangeMessage(
-                new ChangeMessage.Key(
-                    c.getId(),
-                    ChangeUtil.messageUUID(db)),
-                null,
-                TimeUtil.nowTs(),
-                c.currentPatchSetId());
-            msg.setMessage("Failed to read commit for this patch set");
-            setNew(commit.notes(), msg);
-            throw new IntegrationException(msg.getMessage());
-
-          default:
-            msg = message(c, "Unspecified merge failure: " + s.name());
-            setNew(commit.notes(), msg);
-            throw new IntegrationException(msg.getMessage());
-        }
-      } catch (OrmException | IOException err) {
-        logWarn("Error updating change status for " + c.getId(), err);
+        default:
+          problems.put(id, "unspecified merge failure: " + s);
+          break;
       }
     }
+    failFast(cs);
+  }
+
+  private void updateChangeStatus(OpenBranch ob, List<ChangeData> submitted,
+      IdentifiedUser caller) throws ResourceConflictException {
+    List<Change.Id> problemChanges = new ArrayList<>(submitted.size());
+    logDebug("Updating change status for {} changes", submitted.size());
+
+    for (ChangeData cd : submitted) {
+      Change.Id id = cd.getId();
+      try {
+        Change c = cd.change();
+        CodeReviewCommit commit = commits.get(id);
+        CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
+        logDebug("Status of change {} ({}) on {}: {}", id, commit.name(),
+            c.getDest(), s);
+        checkState(s != null,
+            "status not set for change %s; expected to previously fail fast",
+            id);
+        setApproval(cd, caller);
+
+        ObjectId mergeResultRev = ob.mergeTip != null
+            ? ob.mergeTip.getMergeResults().get(commit) : null;
+        String txt = s.getMessage();
+
+        // The change notes must be forcefully reloaded so that the SUBMIT
+        // approval that we added earlier is visible
+        commit.notes().reload();
+        if (s == CommitMergeStatus.CLEAN_MERGE) {
+          setMerged(c, message(c, txt + getByAccountName(commit)),
+              mergeResultRev);
+        } else if (s == CommitMergeStatus.CLEAN_REBASE
+            || s == CommitMergeStatus.CLEAN_PICK) {
+          setMerged(c, message(c, txt + " as " + commit.name()
+              + getByAccountName(commit)), mergeResultRev);
+        } else if (s == CommitMergeStatus.ALREADY_MERGED) {
+          setMerged(c, null, mergeResultRev);
+        } else {
+          throw new IllegalStateException("unexpected status " + s +
+              " for change " + c.getId() + "; expected to previously fail fast");
+        }
+      } catch (OrmException | IOException err) {
+        logWarn("Error updating change status for " + id, err);
+        problemChanges.add(id);
+      }
+    }
+
+    if (problemChanges.isEmpty()) {
+      return;
+    }
+    StringBuilder msg = new StringBuilder("Error updating status of change");
+    if (problemChanges.size() == 1) {
+      msg.append(' ').append(problemChanges.iterator().next());
+    } else {
+      msg.append('s').append(Joiner.on(", ").join(problemChanges));
+    }
+    throw new ResourceConflictException(msg.toString());
   }
 
   private void updateSubmoduleSubscriptions(OpenBranch ob, SubmoduleOp subOp) {
@@ -1198,69 +1192,6 @@ public class MergeOp implements AutoCloseable {
         update.putApproval(e.getKey(), e.getValue().get());
       } else {
         update.removeApproval(e.getKey());
-      }
-    }
-  }
-
-  private ChangeControl changeControl(Change c) throws NoSuchChangeException {
-    return changeControlFactory.controlFor(
-        c, identifiedUserFactory.create(c.getOwner()));
-  }
-
-  private void setNew(ChangeNotes notes, final ChangeMessage msg)
-      throws NoSuchChangeException, IOException {
-    Change c = notes.getChange();
-
-    Change change = null;
-    ChangeUpdate update = null;
-    try {
-      db.changes().beginTransaction(c.getId());
-      try {
-        change = db.changes().atomicUpdate(
-            c.getId(),
-            new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change c) {
-            if (c.getStatus().isOpen()) {
-              c.setStatus(Change.Status.NEW);
-              ChangeUtil.updated(c);
-            }
-            return c;
-          }
-        });
-        ChangeControl control = changeControl(change);
-
-        //TODO(yyonas): atomic change is not propagated.
-        update = updateFactory.create(control, c.getLastUpdatedOn());
-        if (msg != null) {
-          cmUtil.addChangeMessage(db, update, msg);
-        }
-        db.commit();
-      } finally {
-        db.rollback();
-      }
-    } catch (OrmException err) {
-      logWarn("Cannot record merge failure message", err);
-    }
-    if (update != null) {
-      update.commit();
-    }
-    indexer.index(db, change);
-
-    PatchSetApproval submitter = null;
-    try {
-      submitter = approvalsUtil.getSubmitter(
-          db, notes, notes.getChange().currentPatchSetId());
-    } catch (Exception e) {
-      logError("Cannot get submitter for change " + notes.getChangeId(), e);
-    }
-    if (submitter != null) {
-      try {
-        hooks.doMergeFailedHook(c,
-            accountCache.get(submitter.getAccountId()).getAccount(),
-            db.patchSets().get(c.currentPatchSetId()), msg.getMessage(), db);
-      } catch (OrmException ex) {
-        logError("Cannot run hook for merge failed " + c.getId(), ex);
       }
     }
   }

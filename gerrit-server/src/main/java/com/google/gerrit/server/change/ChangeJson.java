@@ -58,6 +58,7 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -403,10 +404,13 @@ public class ChangeJson {
     out.topic = in.getTopic();
     out.hashtags = ctl.getNotes().load().getHashtags();
     out.changeId = in.getKey().get();
-    // TODO(dborowitz): This gets the submit type, so we could include that in
-    // the response and avoid making a request to /submit_type from the UI.
-    out.mergeable = in.getStatus() == Change.Status.MERGED
-        ? null : cd.isMergeable();
+    if (in.getStatus() != Change.Status.MERGED) {
+      SubmitTypeRecord str = cd.submitTypeRecord();
+      if (str.isOk()) {
+        out.submitType = str.type;
+      }
+      out.mergeable = cd.isMergeable();
+    }
     out.submittable = Submit.submittable(cd);
     ChangedLines changedLines = cd.changedLines();
     if (changedLines != null) {

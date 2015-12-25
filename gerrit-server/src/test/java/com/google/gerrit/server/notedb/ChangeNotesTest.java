@@ -904,7 +904,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.upsertComment(commentForPS);
     update.commit();
 
-    assertThat(newNotes(c).getComments()).containsExactly(
+    assertThat(newNotes(c).getComments()).containsExactlyEntriesIn(
         ImmutableMultimap.of(
             new RevId(rev1), commentForBase,
             new RevId(rev2), commentForPS));
@@ -939,7 +939,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.upsertComment(comment2);
     update.commit();
 
-    assertThat(newNotes(c).getComments()).containsExactly(
+    assertThat(newNotes(c).getComments()).containsExactlyEntriesIn(
         ImmutableMultimap.of(
           new RevId(rev), comment1,
           new RevId(rev), comment2)).inOrder();
@@ -974,7 +974,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.upsertComment(comment2);
     update.commit();
 
-    assertThat(newNotes(c).getComments()).containsExactly(
+    assertThat(newNotes(c).getComments()).containsExactlyEntriesIn(
         ImmutableMultimap.of(
           new RevId(rev), comment1,
           new RevId(rev), comment2)).inOrder();
@@ -1012,7 +1012,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.upsertComment(comment2);
     update.commit();
 
-    assertThat(newNotes(c).getComments()).containsExactly(
+    assertThat(newNotes(c).getComments()).containsExactlyEntriesIn(
         ImmutableMultimap.of(
           new RevId(rev1), comment1,
           new RevId(rev2), comment2));
@@ -1038,7 +1038,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).containsExactly(
+    assertThat(notes.getDraftComments(otherUserId)).containsExactlyEntriesIn(
         ImmutableMultimap.of(new RevId(rev), comment1));
     assertThat(notes.getComments()).isEmpty();
 
@@ -1050,7 +1050,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).isEmpty();
-    assertThat(notes.getComments()).containsExactly(
+    assertThat(notes.getComments()).containsExactlyEntriesIn(
         ImmutableMultimap.of(new RevId(rev), comment1));
   }
 
@@ -1082,7 +1082,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).containsExactly(
+    assertThat(notes.getDraftComments(otherUserId)).containsExactlyEntriesIn(
         ImmutableMultimap.of(
           new RevId(rev), comment1,
           new RevId(rev), comment2)).inOrder();
@@ -1096,9 +1096,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).containsExactly(
+    assertThat(notes.getDraftComments(otherUserId)).containsExactlyEntriesIn(
         ImmutableMultimap.of(new RevId(rev), comment2));
-    assertThat(notes.getComments()).containsExactly(
+    assertThat(notes.getComments()).containsExactlyEntriesIn(
         ImmutableMultimap.of(new RevId(rev), comment1));
   }
 
@@ -1131,7 +1131,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).containsExactly(
+    assertThat(notes.getDraftComments(otherUserId)).containsExactlyEntriesIn(
         ImmutableMultimap.of(
             new RevId(rev1), baseComment,
             new RevId(rev2), psComment));
@@ -1149,7 +1149,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).isEmpty();
-    assertThat(notes.getComments()).containsExactly(
+    assertThat(notes.getComments()).containsExactlyEntriesIn(
         ImmutableMultimap.of(
             new RevId(rev1), baseComment,
             new RevId(rev2), psComment));
@@ -1259,7 +1259,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.upsertComment(comment);
     update.commit();
 
-    assertThat(newNotes(c).getComments()).containsExactly(
+    assertThat(newNotes(c).getComments()).containsExactlyEntriesIn(
         ImmutableMultimap.of(new RevId(rev), comment));
   }
 
@@ -1280,7 +1280,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.upsertComment(comment);
     update.commit();
 
-    assertThat(newNotes(c).getComments()).containsExactly(
+    assertThat(newNotes(c).getComments()).containsExactlyEntriesIn(
         ImmutableMultimap.of(new RevId(rev), comment));
   }
 

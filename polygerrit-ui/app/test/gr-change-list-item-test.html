@@ -71,17 +71,6 @@ limitations under the License.
       assert.equal(element._computeVerifiedLabel({}), '');
       assert.equal(element._computeVerifiedLabel({approved: true}), '✓');
 
-
-      assert.equal(element._computeOwnerLink('andybons+gerrit@gmail.com'),
-          '/q/owner:andybons%2Bgerrit%40gmail.com+status:open');
-
-      assert.equal(element._computeOwnerTitle(
-          {
-            name: 'Andrew Bonventre',
-            email: 'andybons+gerrit@gmail.com'
-          }),
-          'Andrew Bonventre <andybons+gerrit@gmail.com>');
-
       // TODO(andybons): _computeProjectURL once it's not a constant.
 
       assert.equal(element._computeProjectBranchURL(

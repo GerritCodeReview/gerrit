@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-file-list.html">
@@ -138,7 +139,7 @@ limitations under the License.
         <table>
           <tr>
             <td class="changeInfo-label">Owner</td>
-            <td>[[_change.owner.name]]</td>
+            <td><gr-account-link account="[[_change.owner]]"></gr-account-link></td>
           </tr>
           <tr>
             <td class="changeInfo-label">Reviewers</td>
@@ -146,7 +147,7 @@ limitations under the License.
               <template is="dom-repeat"
                         items="[[_computeReviewers(_change.labels, _change.owner)]]"
                         as="reviewer">
-                <div>[[reviewer.name]]</div>
+                <gr-account-link account="[[reviewer]]"></gr-account-link>
               </template>
             </td>
           </tr>

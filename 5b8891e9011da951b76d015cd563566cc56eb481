@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eabb2b9e_cae4833c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-27T00:27:21Z",
+      "side": 1,
+      "message": "DB variable isn\u0027t used anywhere?",
+      "range": {
+        "startLine": 456,
+        "startChar": 13,
+        "endLine": 456,
+        "endChar": 52
+      },
+      "revId": "5b8891e9011da951b76d015cd563566cc56eb481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

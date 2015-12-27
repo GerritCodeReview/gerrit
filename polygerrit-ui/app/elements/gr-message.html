@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-comment-list.html">
 <link rel="import" href="gr-date-formatter.html">
 
@@ -29,14 +30,9 @@ limitations under the License.
       :host(:not([expanded])) {
         cursor: pointer;
       }
-      .avatar {
-        border-radius: 50%;
+      [is="gr-avatar"] {
         position: absolute;
         left: var(--default-horizontal-margin);
-      }
-      :not(.hideAvatar):not(.showAvatar) .avatar,
-      .hideAvatar .avatar {
-        display: none;
       }
       .collapsed .contentContainer {
         color: #777;
@@ -57,17 +53,13 @@ limitations under the License.
         margin-left: 0;
         padding: 10px 75px 10px 0;
       }
-      .collapsed .avatar {
+      .collapsed [is="gr-avatar"] {
         top: 8px;
-      }
-      .expanded .avatar {
-        top: 12px;
-      }
-      .collapsed .avatar {
         height: 1.75em;
         width: 1.75em;
       }
-      .expanded .avatar {
+      .expanded [is="gr-avatar"] {
+        top: 12px;
         height: 2.5em;
         width: 2.5em;
       }
@@ -99,7 +91,7 @@ limitations under the License.
       }
     </style>
     <div class$="[[_computeClass(expanded, showAvatar)]]">
-      <img class="avatar" src$="[[_computeAvatarURL(message.author, showAvatar)]]">
+      <img is="gr-avatar" account="[[message.author]]" size="100">
       <div class="contentContainer">
         <div class="name" id="name">[[message.author.name]]</div>
         <div class="content">
@@ -145,7 +137,8 @@ limitations under the License.
 
       ready: function() {
         app.configReady.then(function(cfg) {
-          this.showAvatar = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+          this.showAvatar = !!(cfg && cfg.plugin && cfg.plugin.has_avatars) &&
+              this.message && this.message.author;
         }.bind(this));
       },
 
@@ -169,11 +162,6 @@ limitations under the License.
         classes.push(expanded ? 'expanded' : 'collapsed');
         classes.push(showAvatar ? 'showAvatar' : 'hideAvatar');
         return classes.join(' ');
-      },
-
-      _computeAvatarURL: function(author, showAvatar) {
-        if (!showAvatar || !author) { return '' }
-        return '/accounts/' + author._account_id + '/avatar?s=100';
       },
 
     });

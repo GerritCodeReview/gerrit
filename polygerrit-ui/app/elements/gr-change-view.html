@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-file-list.html">
@@ -171,10 +172,8 @@ limitations under the License.
           <tr>
             <td class="changeInfo-label">Owner</td>
             <td>
-              <span>[[_change.owner.name]]</span>
-              <span hidden$="[[!_change.owner.email]]">
-                (<span>[[_change.owner.email]]</span>)
-              </span>
+              <gr-account-link account="[[_change.owner]]"
+                  show-email="true"></gr-account-link>
             </td>
           </tr>
           <tr>
@@ -220,8 +219,8 @@ limitations under the License.
                   <div class="labelValue">
                     <span class$="[[label.className]]">
                       <span>[[label.value]]</span>
-                      <span>[[label.accountName]]</span>
-                      <span hidden$="[[!label.accountEmail]]">([[label.accountEmail]])</span>
+                      <gr-account-link account="[[label.account]]"
+                          show-email="true"></gr-account-link>
                     </span>
                   </div>
                 </template>
@@ -433,8 +432,7 @@ limitations under the License.
             result.push({
               value: labelValPrefix + label.value,
               className: labelClassName,
-              accountName: label.name,
-              accountEmail: label.email,
+              account: label,
             });
           }
         });

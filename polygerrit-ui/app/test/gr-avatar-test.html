@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-avatar</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../scripts/fake-app.js"></script>
+
+<link rel="import" href="../elements/gr-avatar.html">
+
+<test-fixture id="basic">
+  <template>
+    <img is="gr-avatar">
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-avatar tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('computed fields', function() {
+      assert.equal(element._computeAvatarURL(
+          {
+            _account_id: 123
+          }),
+          '/accounts/123/avatar?s=16');
+    });
+
+    test('dom for existing account', function() {
+      assert.isTrue(element.hasAttribute('hidden'), 'element not hidden initially');
+      element.hidden = false;
+      assert.isFalse(element.hasAttribute('hidden'), 'element hidden');
+
+      element.size = 64;
+      element.account = {
+        _account_id: 123
+      };
+
+      assert.equal(element.getAttribute('src'), '/accounts/123/avatar?s=64');
+    });
+
+    test('dom for non available account', function() {
+      assert.isTrue(element.hasAttribute('hidden'), 'element not hidden initially');
+      element.account = undefined;
+      assert.isFalse(element.hasAttribute('src'), 'src not set');
+    });
+
+  });
+</script>

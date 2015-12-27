@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../styles/gr-change-list-styles.html">
+<link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-date-formatter.html">
 
 <dom-module id="gr-change-list-item">
@@ -45,12 +46,6 @@ limitations under the License.
       :host([selected]) .positionIndicator {
         visibility: visible;
       }
-      .avatarImage {
-        border-radius: 50%;
-        height: 1.3em;
-        vertical-align: -.3em;
-        width: 1.3em;
-      }
       .u-monospace {
         font-family: var(--monospace-font-family);
       }
@@ -68,11 +63,7 @@ limitations under the License.
     <a class="cell subject" href$="[[changeURL]]">[[change.subject]]</a>
     <span class="cell status">[[_computeChangeStatusString(change)]]</span>
     <span class="cell owner">
-      <template is="dom-if" if="[[showAvatar]]">
-        <img class="avatarImage" src$="[[_computeAvatarURL(change.owner)]]">
-      </template>
-      <a href$="[[_computeOwnerLink(change.owner)]]"
-         title$="[[_computeOwnerTitle(change.owner)]]">[[change.owner.name]]</a>
+      <gr-account-link account="[[change.owner]]"></gr-account-link>
     </span>
     <a class="cell project" href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
     <a class="cell branch" href$="[[_computeProjectBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
@@ -102,16 +93,6 @@ limitations under the License.
           type: String,
           computed: '_computeChangeURL(change._number)',
         },
-        showAvatar: {
-          type: Boolean,
-          value: false,
-        },
-      },
-
-      ready: function() {
-        app.configReady.then(function(cfg) {
-          this.showAvatar = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-        }.bind(this));
       },
 
       _computeChangeURL: function(changeNum) {
@@ -175,26 +156,6 @@ limitations under the License.
           return '✓';
         }
         return ''
-      },
-
-      _computeAvatarURL: function(owner) {
-        if (!owner) { return ''; }
-        return '/accounts/' + owner._account_id + '/avatar?s=32'
-      },
-
-      _computeOwnerLink: function(owner) {
-        if (!owner) { return ''; }
-        var ownerID = owner.email || owner._account_id;
-        return '/q/owner:' + encodeURIComponent(ownerID) + '+status:open';
-      },
-
-      _computeOwnerTitle: function(owner) {
-        if (!owner || !owner.name) { return ''; }
-        var result = util.escapeHTML(owner.name);
-        if (owner.email) {
-          result += ' <' + util.escapeHTML(owner.email) + '>';
-        }
-        return result;
       },
 
       _computeProjectURL: function(project) {

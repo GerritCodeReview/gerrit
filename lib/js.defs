@@ -144,7 +144,7 @@ def vulcanize(
   genrule(
     name = '%s__vulcanized' % name,
     cmd = ' '.join([
-      'unzip', '-qd', '$SRCDIR', '$(location %s)' % components,
+      'unzip', '-o', '-qd', '$SRCDIR', '$(location %s)' % components,
       '&&', run_npm_binary('//lib/js:vulcanize')
     ] + VULCANIZE_FLAGS + extra_flags + [
       '--out-html', '$OUT',

@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
+import com.google.gerrit.server.git.MergeOp.CommitStatus;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,10 +50,10 @@ public class SubmitStrategyFactory {
   public SubmitStrategy create(SubmitType submitType, ReviewDb db,
       Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
-      Branch.NameKey destBranch, IdentifiedUser caller)
+      Branch.NameKey destBranch, IdentifiedUser caller, CommitStatus commits)
       throws IntegrationException, NoSuchProjectException {
-    SubmitStrategy.Arguments args = argsFactory.create(destBranch, rw, caller,
-        inserter, repo, canMergeFlag, db, alreadyAccepted);
+    SubmitStrategy.Arguments args = argsFactory.create(destBranch, commits, rw,
+        caller, inserter, repo, canMergeFlag, db, alreadyAccepted);
     if (args.project == null) {
       throw new NoSuchProjectException(destBranch.getParentKey());
     }

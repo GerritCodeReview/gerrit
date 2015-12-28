@@ -41,16 +41,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RebaseIfNecessary extends SubmitStrategy {
-  private final Map<Change.Id, CodeReviewCommit> newCommits;
 
   RebaseIfNecessary(SubmitStrategy.Arguments args) {
     super(args);
-    this.newCommits = new HashMap<>();
   }
 
   @Override
@@ -199,8 +195,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
       mergeTip.getCurrentTip().setPatchsetId(newPatchSet.getId());
       mergeTip.getCurrentTip().setStatusCode(
           CommitMergeStatus.CLEAN_REBASE);
-      newCommits.put(newPatchSet.getId().getParentKey(),
-          mergeTip.getCurrentTip());
+      args.commits.put(mergeTip.getCurrentTip());
       acceptMergeTip(mergeTip);
     }
 
@@ -261,11 +256,6 @@ public class RebaseIfNecessary extends SubmitStrategy {
     } catch (IOException e) {
       throw new IntegrationException("Commit sorting failed", e);
     }
-  }
-
-  @Override
-  public Map<Change.Id, CodeReviewCommit> getNewCommits() {
-    return newCommits;
   }
 
   static boolean dryRun(SubmitDryRun.Arguments args,

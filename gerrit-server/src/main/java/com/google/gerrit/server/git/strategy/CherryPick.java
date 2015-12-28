@@ -43,16 +43,12 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CherryPick extends SubmitStrategy {
-  private final Map<Change.Id, CodeReviewCommit> newCommits;
 
   CherryPick(SubmitStrategy.Arguments args) {
     super(args);
-    this.newCommits = new HashMap<>();
   }
 
   @Override
@@ -196,7 +192,7 @@ public class CherryPick extends SubmitStrategy {
       newCommit.setControl(
           args.changeControlFactory.controlFor(toMerge.change(), args.caller));
       mergeTip.moveTipTo(newCommit, newCommit);
-      newCommits.put(c.getId(), newCommit);
+      args.commits.put(newCommit);
     }
   }
 
@@ -236,11 +232,6 @@ public class CherryPick extends SubmitStrategy {
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
           mergeTip.getCurrentTip(), args.alreadyAccepted);
     }
-  }
-
-  @Override
-  public Map<Change.Id, CodeReviewCommit> getNewCommits() {
-    return newCommits;
   }
 
   static boolean dryRun(SubmitDryRun.Arguments args,

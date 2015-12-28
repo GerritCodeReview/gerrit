@@ -16,6 +16,40 @@
       "revId": "644ac73be5dfb75bd45fc86b7128f239b8e66bf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa9c35f_24f8f2a0",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-28T16:41:37Z",
+      "side": 1,
+      "message": "I would use one button here with spans enclosed that are shown/hidden according to the class on the button itself. This way if someone is using their keyboard to toggle a star it won\u0027t lose focus when the star is changed. This would also solve the confusion of only having classes for testing.",
+      "revId": "644ac73be5dfb75bd45fc86b7128f239b8e66bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca9d8771_b1ab8091",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-28T16:41:37Z",
+      "side": 1,
+      "message": "newline after ,",
+      "revId": "644ac73be5dfb75bd45fc86b7128f239b8e66bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "aaa4d3ba_d08abc00",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-28T18:29:44Z",
+      "side": 1,
+      "message": "Good point! I have changed it, but I still need classes for testing if the correct span is visible. Please let me know if there is a better solution (I think testing the content is not really good since this could be changed easily by frontend designers...).",
+      "parentUuid": "2aa9c35f_24f8f2a0",
+      "revId": "644ac73be5dfb75bd45fc86b7128f239b8e66bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca9d8771_b1ab8091",
         "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2015-12-28T16:41:37Z",
       "side": 1,
       "message": "newline after ,",
+      "revId": "644ac73be5dfb75bd45fc86b7128f239b8e66bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_f087c0f5",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-28T18:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca9d8771_b1ab8091",
       "revId": "644ac73be5dfb75bd45fc86b7128f239b8e66bf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

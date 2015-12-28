@@ -68,12 +68,27 @@ limitations under the License.
       .header gr-reply-dropdown {
         margin-left: var(--default-horizontal-margin);
       }
+      .changeStatus {
+        color: #666;
+      }
+      .statusMerged:before {
+        content: '(Merged)';
+      }
+      .statusDraft:before {
+        content: '(Draft)';
+      }
+      .statusAbandoned:before {
+        content: '(Abandoned)';
+      }
       section {
         margin: 10px 0;
         padding: 10px var(--default-horizontal-margin);
       }
-      section:first-of-type {
+      /* Strong specificity here is needed due to
+         https://github.com/Polymer/polymer/issues/2531 */
+      .container section.changeInfo {
         margin-top: 0;
+        padding-top: 0;
       }
       table {
         border-collapse: collapse;
@@ -114,6 +129,7 @@ limitations under the License.
           <h2>
             <a href$="[[_computeChangePath(_change._number)]]">[[_change._number]]</a><span>:</span>
             <span>[[_change.subject]]</span>
+            <span class$="[[_computeStatusClass(_change.status)]]"></span>
           </h2>
           <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
           <select id="patchSetSelect" on-change="_handlePatchChange">
@@ -306,6 +322,25 @@ limitations under the License.
 
       _computeChangePath: function(changeNum) {
         return '/c/' + changeNum;
+      },
+
+      _computeStatusClass: function(status) {
+        var result = ['changeStatus'];
+        switch (status) {
+          case Changes.Status.MERGED:
+            result.push('statusMerged');
+            break;
+          case Changes.Status.DRAFT:
+            result.push('statusDraft');
+            break;
+          case Changes.Status.ABANDONED:
+            result.push('statusAbandoned');
+            break;
+          case Changes.Status.NEW:
+            result.push('statusNew');
+            break;
+        }
+        return result.join(' ');
       },
 
       _computeDetailPath: function(changeNum) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aa9c35f_040a966d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-28T21:53:21Z",
+      "side": 1,
+      "message": "We don\u0027t have a failing test case but I\u0027m pretty sure this is broken: you shouldn\u0027t close the repo until the batch is committed.\n\nI think this can be fixed by removing this try-with-resources and adding update.close() to the implementation of BatchMetaDataUpdate#close()",
+      "revId": "eafb9bcd5af6926fa8b9c6b09d4723077ad4148c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

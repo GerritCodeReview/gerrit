@@ -225,6 +225,18 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/egit/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[emoticons]]
+=== emoticons
+
+This plugin allows users to see emoticons in comments as images.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/emoticons[
+Project] |
+link:https://gerrit.googlesource.com/plugins/emoticons/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/emoticons/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[force-draft]]
 === force-draft
 

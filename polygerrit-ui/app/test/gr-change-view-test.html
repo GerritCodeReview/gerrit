@@ -41,6 +41,8 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
+      element.$.configXHR.auto = false;
+
       server = sinon.fakeServer.create();
       // Eat any requests made by elements in this suite.
       server.respondWith(

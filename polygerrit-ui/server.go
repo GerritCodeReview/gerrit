@@ -50,6 +50,7 @@ func main() {
 	http.HandleFunc("/changes/", handleRESTProxy)
 	http.HandleFunc("/accounts/", handleRESTProxy)
 	http.HandleFunc("/config/", handleRESTProxy)
+	http.HandleFunc("/projects/", handleRESTProxy)
 	http.HandleFunc("/accounts/self/detail", handleAccountDetail)
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))

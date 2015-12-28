@@ -39,47 +39,54 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
+      element.config = {
+        ph: {
+          match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',
+          link: 'https://code.google.com/p/gerrit/issues/detail?id=$2'
+        },
+        changeid: {
+          'match': '(I[0-9a-f]{8,40})',
+          'link': '#/q/$1'
+        }
+      };
       testStrings = [
         {
           'text': 'https://code.google.com/p/gerrit/issues/detail?id=3650',
-          'linkedText': '<a href=\"https://code.google.com/p/gerrit/issues/detail?id=3650\" target=\"_blank\">https://code.google.com/p/gerrit/issues/detail?id=3650</a>'
+          'linkedText': '<a href="https://code.google.com/p/gerrit/issues/detail?id=3650" target="_blank">https://code.google.com/p/gerrit/issues/detail?id=3650</a>'
         },
         {
-          'text': 'Bug: 3650',
-          'linkedText': 'Bug: <a href=\"https://code.google.com/p/gerrit/issues/detail?id=3650\" target=\"_blank\">Issue 3650</a>'
+          'text': 'Issue 3650',
+          'linkedText': '<a href="https://code.google.com/p/gerrit/issues/detail?id=3650" target="_blank">Issue 3650</a>'
         },
         {
-          'text': 'Feature: 3650',
-          'linkedText': 'Feature: <a href=\"https://code.google.com/p/gerrit/issues/detail?id=3650\" target=\"_blank\">Issue 3650</a>'
+          'text': 'bug 3650',
+          'linkedText': '<a href="https://code.google.com/p/gerrit/issues/detail?id=3650" target="_blank">bug 3650</a>'
         },
         {
           'text': 'Change-Id: I11d6a37f5e9b5df0486f6c922d8836dfa780e03e',
-          'linkedText': 'Change-Id: <a href=\"https://gerrit.googlesource.com/gerrit/+/I11d6a37f5e9b5df0486f6c922d8836dfa780e03e\" target=\"_blank\">I11d6a37f5e9b5df0486f6c922d8836dfa780e03e</a>'
+          'linkedText': 'Change-Id: <a href="/q/I11d6a37f5e9b5df0486f6c922d8836dfa780e03e" target="_blank">I11d6a37f5e9b5df0486f6c922d8836dfa780e03e</a>'
         }
       ];
     });
 
     test('URL pattern was parsed and linked.', function() {
       // Reguar inline link.
-      element._contentChanged(testStrings[0].text)
+      element._contentChanged(testStrings[0].text, element.config);
       assert.equal(element.$.output.innerHTML, testStrings[0].linkedText);
     });
 
     test('Bug pattern was parsed and linked', function() {
-      // "Bug:" pattern.
-      element._contentChanged(testStrings[1].text)
+      // "Issue/Bug" pattern.
+      element._contentChanged(testStrings[1].text, element.config);
       assert.equal(element.$.output.innerHTML, testStrings[1].linkedText);
-    });
 
-    test('Feature pattern was parsed and linked', function() {
-      // "Feature:" pattern.
-      element._contentChanged(testStrings[2].text)
+      element._contentChanged(testStrings[2].text, element.config);
       assert.equal(element.$.output.innerHTML, testStrings[2].linkedText);
     });
 
     test('Change-Id pattern was parsed and linked', function() {
       // "Change-Id:" pattern.
-      element._contentChanged(testStrings[3].text)
+      element._contentChanged(testStrings[3].text, element.config);
       assert.equal(element.$.output.innerHTML, testStrings[3].linkedText);
     });
   });

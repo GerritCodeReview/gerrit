@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2aa9c35f_c4dc7e3b",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-28T19:17:25Z",
+      "side": 1,
+      "message": "dropdown-content is a class used specifically by iron-dropdown. normally it would be camelCase",
+      "parentUuid": "aaa213bd_40d0ce21",
+      "range": {
+        "startLine": 47,
+        "startChar": 7,
+        "endLine": 47,
+        "endChar": 23
+      },
+      "revId": "726fe4676aab9455ea3edce599d4a07751ec994c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aaa4d3ba_107444d7",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2aa9c35f_e4d97a48",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-28T19:17:25Z",
+      "side": 1,
+      "message": "Changes.baseURL is the REST API base URL.",
+      "parentUuid": "aaa4d3ba_107444d7",
+      "range": {
+        "startLine": 254,
+        "startChar": 15,
+        "endLine": 254,
+        "endChar": 62
+      },
+      "revId": "726fe4676aab9455ea3edce599d4a07751ec994c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aaa4d3ba_307948d0",
         "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-12-28T19:13:47Z",
       "side": 1,
       "message": "I prefer to use typesafe comparison (\u003d\u003d\u003d), but I\u0027m not sure how you handle it for PolyGerrit.",
+      "range": {
+        "startLine": 258,
+        "startChar": 20,
+        "endLine": 258,
+        "endChar": 22
+      },
+      "revId": "726fe4676aab9455ea3edce599d4a07751ec994c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa9c35f_84e686ff",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-28T19:17:25Z",
+      "side": 1,
+      "message": "all other code is using \u0027\u003d\u003d\u0027, so right now I’d like to remain consistent.",
+      "parentUuid": "aaa4d3ba_307948d0",
       "range": {
         "startLine": 258,
         "startChar": 20,

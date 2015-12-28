@@ -50,6 +50,8 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   protected final Date when;
   protected PatchSet.Id psId;
 
+  private BatchMetaDataUpdate batch;
+
   AbstractChangeUpdate(NotesMigration migration,
       GitRepositoryManager repoManager,
       MetaDataUpdate.User updateFactory, ChangeControl ctl,
@@ -116,12 +118,15 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   public BatchMetaDataUpdate openUpdateInBatch(BatchRefUpdate bru)
       throws IOException {
     if (migration.writeChanges()) {
-      load();
-      Project.NameKey p = getProjectName();
-      MetaDataUpdate md = updateFactory.create(
-          p, repoManager.openMetadataRepository(p), getUser(), bru);
-      md.setAllowEmpty(true);
-      return super.openUpdate(md);
+      if (batch == null) {
+        load();
+        Project.NameKey p = getProjectName();
+        MetaDataUpdate md = updateFactory.create(
+            p, repoManager.openMetadataRepository(p), getUser(), bru);
+        md.setAllowEmpty(true);
+        batch = super.openUpdate(md);
+      }
+      return batch;
     }
     return new BatchMetaDataUpdate() {
       @Override

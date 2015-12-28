@@ -68,12 +68,19 @@ limitations under the License.
       .header gr-reply-dropdown {
         margin-left: var(--default-horizontal-margin);
       }
+      .changeStatus {
+        color: #999;
+        text-transform: capitalize;
+      }
       section {
         margin: 10px 0;
         padding: 10px var(--default-horizontal-margin);
       }
-      section:first-of-type {
+      /* Strong specificity here is needed due to
+         https://github.com/Polymer/polymer/issues/2531 */
+      .container section.changeInfo {
         margin-top: 0;
+        padding-top: 0;
       }
       table {
         border-collapse: collapse;
@@ -114,6 +121,7 @@ limitations under the License.
           <h2>
             <a href$="[[_computeChangePath(_change._number)]]">[[_change._number]]</a><span>:</span>
             <span>[[_change.subject]]</span>
+            <span class="changeStatus">[[_computeChangeStatus(_change.status)]]</span>
           </h2>
           <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
           <select id="patchSetSelect" on-change="_handlePatchChange">
@@ -306,6 +314,13 @@ limitations under the License.
 
       _computeChangePath: function(changeNum) {
         return '/c/' + changeNum;
+      },
+
+      _computeChangeStatus: function(status) {
+        if (status == Changes.Status.NEW) {
+          return '';
+        }
+        return '(' + status.toLowerCase() + ')';
       },
 
       _computeDetailPath: function(changeNum) {

@@ -27,6 +27,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -200,6 +201,43 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  public static class CommitStatus {
+    private final Map<Change.Id, CodeReviewCommit> commits = new HashMap<>();
+    private final Multimap<Change.Id, String> problems =
+        MultimapBuilder.linkedHashKeys().arrayListValues(1).build();
+
+    public CodeReviewCommit get(Change.Id changeId) {
+      return commits.get(changeId);
+    }
+
+    public void put(CodeReviewCommit c) {
+      commits.put(c.change().getId(), c);
+    }
+
+    public void problem(Change.Id id, String problem) {
+      problems.put(id, problem);
+    }
+
+    public void logProblem(Change.Id id, Throwable t) {
+      String msg = "Error reading change";
+      log.error(msg + " " + id, t);
+      problems.put(id, msg);
+    }
+
+    public void logProblem(Change.Id id, String msg) {
+      log.error(msg + " " + id);
+      problems.put(id, msg);
+    }
+
+    boolean isOk() {
+      return problems.isEmpty();
+    }
+
+    ImmutableMultimap<Change.Id, String> getProblems() {
+      return ImmutableMultimap.copyOf(problems);
+    }
+  }
+
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -221,10 +259,9 @@ public class MergeOp implements AutoCloseable {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<SubmoduleOp> subOpProvider;
   private final TagCache tagCache;
+  private final CommitStatus commits;
 
   private final Map<Project.NameKey, OpenRepo> openRepos;
-  private final Map<Change.Id, CodeReviewCommit> commits;
-  private final Multimap<Change.Id, String> problems;
 
   private static final String MACHINE_ID;
   static {
@@ -285,7 +322,6 @@ public class MergeOp implements AutoCloseable {
     this.subOpProvider = subOpProvider;
     this.tagCache = tagCache;
 
-    commits = new HashMap<>();
     openRepos = new HashMap<>();
     problems = MultimapBuilder.treeKeys(
         Ordering.natural().onResultOf(new Function<Change.Id, Integer>() {
@@ -294,6 +330,7 @@ public class MergeOp implements AutoCloseable {
             return in.get();
           }
         })).arrayListValues(1).build();
+    commits = new CommitStatus();
   }
 
   private OpenRepo openRepo(Project.NameKey project)
@@ -419,17 +456,17 @@ public class MergeOp implements AutoCloseable {
     for (ChangeData cd : cs.changes()) {
       try {
         if (cd.change().getStatus() != Change.Status.NEW) {
-          problems.put(cd.getId(), "Change " + cd.getId() + " is "
+          commits.problem(cd.getId(), "Change " + cd.getId() + " is "
               + cd.change().getStatus().toString().toLowerCase());
         } else {
           checkSubmitRule(cd);
         }
       } catch (ResourceConflictException e) {
-        problems.put(cd.getId(), e.getMessage());
+        commits.problem(cd.getId(), e.getMessage());
       } catch (OrmException e) {
         String msg = "Error checking submit rules for change";
         log.warn(msg + " " + cd.getId(), e);
-        problems.put(cd.getId(), msg);
+        commits.problem(cd.getId(), msg);
       }
     }
   }
@@ -478,11 +515,12 @@ public class MergeOp implements AutoCloseable {
   }
 
   private void failFast(ChangeSet cs) throws ResourceConflictException {
-    if (problems.isEmpty()) {
+    if (commits.isOk()) {
       return;
     }
     String msg = "Failed to submit " + cs.size() + " change"
         + (cs.size() > 1 ? "s" : "") + " due to the following problems:\n";
+    Multimap<Change.Id, String> problems = commits.getProblems();
     List<String> ps = new ArrayList<>(problems.keySet().size());
     for (Change.Id id : problems.keySet()) {
       ps.add("Change " + id + ": " + Joiner.on("; ").join(problems.get(id)));
@@ -560,15 +598,12 @@ public class MergeOp implements AutoCloseable {
         strategy.getClass().getSimpleName(), submitted.size(), submitted);
     List<CodeReviewCommit> toMerge = new ArrayList<>(submitted.size());
     for (ChangeData cd : submitted) {
-      CodeReviewCommit commit = commits.get(cd.change().getId());
+      CodeReviewCommit commit = commits.get(cd.getId());
       checkState(commit != null,
           "commit for %s not found by validateChangeList", cd.change().getId());
       toMerge.add(commit);
     }
-    MergeTip mergeTip = strategy.run(branchTip, toMerge);
-    logDebug("Produced {} new commits", strategy.getNewCommits().size());
-    commits.putAll(strategy.getNewCommits());
-    return mergeTip;
+    return strategy.run(branchTip, toMerge);
   }
 
   private SubmitStrategy createStrategy(OpenRepo or,
@@ -576,7 +611,8 @@ public class MergeOp implements AutoCloseable {
       CodeReviewCommit branchTip, IdentifiedUser caller)
       throws IntegrationException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, or.repo, or.rw, or.ins,
-        or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller);
+        or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller,
+        commits);
   }
 
   private Set<RevCommit> getAlreadyAccepted(OpenRepo or,
@@ -611,17 +647,6 @@ public class MergeOp implements AutoCloseable {
     abstract List<ChangeData> changes();
   }
 
-  private void logProblem(Change.Id id, Throwable t) {
-    String msg = "Error reading change";
-    log.error(msg + " " + id, t);
-    problems.put(id, msg);
-  }
-
-  private void logProblem(Change.Id id, String msg) {
-    log.error(msg + " " + id);
-    problems.put(id, msg);
-  }
-
   private BranchBatch validateChangeList(OpenRepo or,
       Collection<ChangeData> submitted) throws IntegrationException {
     logDebug("Validating {} changes", submitted.size());
@@ -638,13 +663,13 @@ public class MergeOp implements AutoCloseable {
         ctl = cd.changeControl();
         chg = cd.change();
       } catch (OrmException e) {
-        logProblem(changeId, e);
+        commits.logProblem(changeId, e);
         continue;
       }
       if (chg.currentPatchSetId() == null) {
         String msg = "Missing current patch set on change";
         logError(msg + " " + changeId);
-        problems.put(changeId, msg);
+        commits.problem(changeId, msg);
         continue;
       }
 
@@ -653,12 +678,12 @@ public class MergeOp implements AutoCloseable {
       try {
         ps = cd.currentPatchSet();
       } catch (OrmException e) {
-        logProblem(changeId, e);
+        commits.logProblem(changeId, e);
         continue;
       }
       if (ps == null || ps.getRevision() == null
           || ps.getRevision().get() == null) {
-        logProblem(changeId, "Missing patch set or revision on change");
+        commits.logProblem(changeId, "Missing patch set or revision on change");
         continue;
       }
 
@@ -667,7 +692,7 @@ public class MergeOp implements AutoCloseable {
       try {
         id = ObjectId.fromString(idstr);
       } catch (IllegalArgumentException e) {
-        logProblem(changeId, e);
+        commits.logProblem(changeId, e);
         continue;
       }
 
@@ -676,7 +701,7 @@ public class MergeOp implements AutoCloseable {
         // want to merge the issue. We can't safely do that if the
         // tip is not reachable.
         //
-        logProblem(changeId, "Revision " + idstr + " of patch set "
+        commits.logProblem(changeId, "Revision " + idstr + " of patch set "
             + ps.getPatchSetId() + " does not match " + ps.getId().toRefName()
             + " for change");
         continue;
@@ -686,34 +711,34 @@ public class MergeOp implements AutoCloseable {
       try {
         commit = or.rw.parseCommit(id);
       } catch (IOException e) {
-        logProblem(changeId, e);
+        commits.logProblem(changeId, e);
         continue;
       }
 
       // TODO(dborowitz): Consider putting ChangeData in CodeReviewCommit.
       commit.setControl(ctl);
       commit.setPatchsetId(ps.getId());
-      commits.put(changeId, commit);
+      commits.put(commit);
 
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(
             or.repo, commit, or.project, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
-        problems.put(changeId, mve.getMessage());
+        commits.problem(changeId, mve.getMessage());
         continue;
       }
 
       SubmitType st = getSubmitType(cd);
       if (st == null) {
-        logProblem(changeId, "No submit type for change");
+        commits.logProblem(changeId, "No submit type for change");
         continue;
       }
       if (submitType == null) {
         submitType = st;
         choseSubmitTypeFrom = cd;
       } else if (st != submitType) {
-        problems.put(changeId, String.format(
+        commits.problem(changeId, String.format(
             "Change has submit type %s, but previously chose submit type %s "
             + "from change %s in the same batch",
             st, submitType, choseSubmitTypeFrom.getId()));
@@ -872,7 +897,7 @@ public class MergeOp implements AutoCloseable {
       CodeReviewCommit commit = commits.get(id);
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
       if (s == null) {
-        problems.put(id,
+        commits.problem(id,
             "internal error: change not processed by merge strategy");
         continue;
       }
@@ -890,16 +915,16 @@ public class MergeOp implements AutoCloseable {
         case NOT_FAST_FORWARD:
           // TODO(dborowitz): Reformat these messages to be more appropriate for
           // short problem descriptions.
-          problems.put(id,
+          commits.problem(id,
               CharMatcher.is('\n').collapseFrom(s.getMessage(), ' '));
           break;
 
         case MISSING_DEPENDENCY:
-          problems.put(id, "depends on change that was not submitted");
+          commits.problem(id, "depends on change that was not submitted");
           break;
 
         default:
-          problems.put(id, "unspecified merge failure: " + s);
+          commits.problem(id, "unspecified merge failure: " + s);
           break;
       }
     }

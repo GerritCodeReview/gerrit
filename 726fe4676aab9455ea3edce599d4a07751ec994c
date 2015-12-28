@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa213bd_40d0ce21",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-28T19:13:47Z",
+      "side": 1,
+      "message": "Is there any rule for camelcase vs. dash-style?",
+      "range": {
+        "startLine": 47,
+        "startChar": 7,
+        "endLine": 47,
+        "endChar": 23
+      },
+      "revId": "726fe4676aab9455ea3edce599d4a07751ec994c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_107444d7",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-28T19:13:47Z",
+      "side": 1,
+      "message": "Changes.baseURL(changeNum, patchNum) + \u0027/path\u0027",
+      "range": {
+        "startLine": 254,
+        "startChar": 15,
+        "endLine": 254,
+        "endChar": 62
+      },
+      "revId": "726fe4676aab9455ea3edce599d4a07751ec994c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_307948d0",
+        "filename": "polygerrit-ui/app/elements/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-28T19:13:47Z",
+      "side": 1,
+      "message": "I prefer to use typesafe comparison (\u003d\u003d\u003d), but I\u0027m not sure how you handle it for PolyGerrit.",
+      "range": {
+        "startLine": 258,
+        "startChar": 20,
+        "endLine": 258,
+        "endChar": 22
+      },
+      "revId": "726fe4676aab9455ea3edce599d4a07751ec994c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

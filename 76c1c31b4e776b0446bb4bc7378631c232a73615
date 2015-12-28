@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aa9c35f_44108e9f",
+        "filename": "lib/js.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-28T21:15:14Z",
+      "side": 1,
+      "message": "I think a better fix is to use $TMPDIR instead of $SRCDIR here (and below), since I believe that is guaranteed to be empty when the command runs.",
+      "revId": "76c1c31b4e776b0446bb4bc7378631c232a73615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

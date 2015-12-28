@@ -72,8 +72,12 @@ limitations under the License.
       assert.equal(element._computeVerifiedLabel({approved: true}), '✓');
 
 
-      assert.equal(element._computeOwnerLink('andybons+gerrit@gmail.com'),
+      assert.equal(element._computeOwnerLink(
+          { email: 'andybons+gerrit@gmail.com' }),
           '/q/owner:andybons%2Bgerrit%40gmail.com+status:open');
+
+      assert.equal(element._computeOwnerLink({ _account_id: 42 }),
+          '/q/owner:42+status:open');
 
       assert.equal(element._computeOwnerTitle(
           {
@@ -82,7 +86,8 @@ limitations under the License.
           }),
           'Andrew Bonventre <andybons+gerrit@gmail.com>');
 
-      // TODO(andybons): _computeProjectURL once it's not a constant.
+      assert.equal(element._computeProjectURL('combustible-stuff'),
+          '/projects/combustible-stuff,dashboards/default');
 
       assert.equal(element._computeProjectBranchURL(
           'combustible-stuff', 'lemons'),

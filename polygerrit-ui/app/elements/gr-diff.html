@@ -23,8 +23,13 @@ limitations under the License.
 <dom-module id="gr-diff">
   <template>
     <style>
-      gr-patch-range-select {
+      .header {
+        display: flex;
         margin: 0 var(--default-horizontal-margin) .75em;
+      }
+      .contextControl {
+        flex: 1;
+        text-align: right;
       }
       .diffContainer {
         border-bottom: 1px solid #eee;
@@ -35,12 +40,12 @@ limitations under the License.
         white-space: pre;
       }
       gr-diff-side:first-of-type {
-        --light-highlight-color: #ffecec;
-        --dark-highlight-color: #faa;
+        --light-highlight-color: #fee;
+        --dark-highlight-color: #ffd4d4;
       }
       gr-diff-side:last-of-type {
-        --light-highlight-color: #eaffea;
-        --dark-highlight-color: #9f9;
+        --light-highlight-color: #efe;
+        --dark-highlight-color: #d4ffd4;
         border-right: 1px solid #ddd;
       }
     </style>
@@ -57,20 +62,37 @@ limitations under the License.
     <gr-ajax id="draftsXHR"
         url="[[_computeDraftsPath(changeNum, patchRange.patchNum)]]"></gr-ajax>
 
-    <gr-patch-range-select
-        path="[[path]]"
-        change-num="[[changeNum]]"
-        patch-range="[[patchRange]]"
-        available-patches="[[availablePatches]]"></gr-patch-range-select>
+    <div class="header">
+      <gr-patch-range-select
+          path="[[path]]"
+          change-num="[[changeNum]]"
+          patch-range="[[patchRange]]"
+          available-patches="[[availablePatches]]"></gr-patch-range-select>
+      <div class="contextControl">
+        Context:
+          <select id="contextSelect" on-change="_handleContextSelectChange">
+            <option value="3">3 lines</option>
+            <option value="10">10 lines</option>
+            <option value="25">25 lines</option>
+            <option value="50">50 lines</option>
+            <option value="75">75 lines</option>
+            <option value="100">100 lines</option>
+            <option value="ALL">Whole file</option>
+          </select>
+      </div>
+    </div>
+
     <div class="diffContainer">
       <gr-diff-side id="leftDiff"
           content="{{_diff.leftSide}}"
           width="[[sideWidth]]"
-          can-comment="[[_loggedIn]]"></gr-diff-side>
+          can-comment="[[_loggedIn]]"
+          on-expand-context="_handleExpandContext"></gr-diff-side>
       <gr-diff-side id="rightDiff"
           content="{{_diff.rightSide}}"
           width="[[sideWidth]]"
-          can-comment="[[_loggedIn]]"></gr-diff-side>
+          can-comment="[[_loggedIn]]"
+          on-expand-context="_handleExpandContext"></gr-diff-side>
     </div>
   </template>
   <script>
@@ -105,6 +127,11 @@ limitations under the License.
           value: 80,
         },
         _comments: Array,
+        _context: {
+          type: Number,
+          value: 10,
+          observer: '_contextChanged',
+        },
         _baseComments: Array,
         _drafts: Array,
         _baseDrafts: Array,
@@ -135,6 +162,14 @@ limitations under the License.
         this.$.rightDiff.scrollToLine(lineNum);
       },
 
+      _contextChanged: function(context) {
+        if (context == Infinity) {
+          this.$.contextSelect.value = 'ALL';
+        } else {
+          this.$.contextSelect.value = context;
+        }
+      },
+
       _diffOptionsChanged: function(changeNum, patchRange, path) {
         if (!this.auto) { return; }
 
@@ -146,7 +181,7 @@ limitations under the License.
         app.accountReady.then(function() {
           promises.push(this._getCommentsAndDrafts(basePatchNum, app.loggedIn));
           this._diffRequestsPromise = Promise.all(promises).then(function() {
-            this._allDataReceived();
+            this._render();
           }.bind(this)).catch(function(err) {
             alert('Oops. Something went wrong. Check the console and bug the ' +
                 'PolyGerrit team for assistance.');
@@ -155,7 +190,7 @@ limitations under the License.
         }.bind(this));
       },
 
-      _allDataReceived: function() {
+      _render: function() {
         this._processContent();
 
         // Allow for the initial rendering to complete before firing the event.
@@ -238,11 +273,43 @@ limitations under the License.
         return params;
       },
 
+      _handleContextSelectChange: function(e) {
+        if (e.target.value == 'ALL') {
+          this._context = Infinity;
+        } else {
+          this._context = parseInt(e.target.value, 10);
+        }
+        this._render();
+      },
+
+      _handleExpandContext: function(e) {
+        var ctx = e.detail.context;
+        var contextControlIndex = -1;
+        for (var i = ctx.start; i <= ctx.end; i++) {
+          this._diff.leftSide[i].hidden = false;
+          this._diff.rightSide[i].hidden = false;
+          if (this._diff.leftSide[i].type == 'CONTEXT_CONTROL' &&
+              this._diff.rightSide[i].type == 'CONTEXT_CONTROL') {
+            contextControlIndex = i;
+          }
+        }
+        this._diff.leftSide[contextControlIndex].hidden = true;
+        this._diff.rightSide[contextControlIndex].hidden = true;
+
+        this.$.leftDiff.hideElementsWithIndex(contextControlIndex);
+        this.$.rightDiff.hideElementsWithIndex(contextControlIndex);
+
+        this.$.leftDiff.renderLineIndexRange(ctx.start, ctx.end);
+        this.$.rightDiff.renderLineIndexRange(ctx.start, ctx.end);
+      },
+
       _processContent: function() {
         var leftSide = [];
         var rightSide = [];
         var initialLineNum = 0 + (this._diffResponse.content.skip || 0);
         var ctx = {
+          hidingLines: false,
+          lastNumLinesHidden: 0,
           left: {
             lineNum: initialLineNum,
           },
@@ -250,9 +317,17 @@ limitations under the License.
             lineNum: initialLineNum,
           }
         };
-        for (var i = 0; i < this._diffResponse.content.length; i++) {
-          this._addDiffChunk(ctx, this._diffResponse.content[i], leftSide,
-              rightSide);
+        var content = this._diffResponse.content;
+        for (var i = 0; i < content.length; i++) {
+          if (i == 0) {
+            ctx.skipRange = [0, this._context];
+          } else if (i == content.length - 1) {
+            ctx.skipRange = [this._context, 0];
+          } else {
+            ctx.skipRange = [this._context, this._context];
+          }
+          ctx.diffChunkIndex = i;
+          this._addDiffChunk(ctx, content[i], leftSide, rightSide);
         }
         this._diff = {
           leftSide: leftSide,
@@ -260,24 +335,71 @@ limitations under the License.
         };
       },
 
+      _addContextControl: function(ctx, leftSide, rightSide) {
+        var numLinesHidden = ctx.lastNumLinesHidden;
+        var leftStart = leftSide.length - numLinesHidden;
+        var leftEnd = leftSide.length;
+        var rightStart = rightSide.length - numLinesHidden;
+        var rightEnd = rightSide.length;
+        if (leftStart != rightStart || leftEnd != rightEnd) {
+          throw Error(
+              'Left and right ranges for context control should be equal:' +
+              'Left: [' + leftStart + ', ' + leftEnd + '] ' +
+              'Right: ['+ rightStart + ', ' + rightEnd + ']');
+        }
+        var obj = {
+          type: 'CONTEXT_CONTROL',
+          numLines: numLinesHidden,
+          start: leftStart,
+          end: leftEnd,
+        };
+        // NOTE: Be careful, here. This object is meant to be immutable. If the
+        // object is altered within one side's array it will reflect the
+        // alterations in another.
+        leftSide.push(obj);
+        rightSide.push(obj);
+      },
+
+      _addCommonDiffChunk: function(ctx, chunk, leftSide, rightSide) {
+        for (var i = 0; i < chunk.ab.length; i++) {
+          var numLines = Math.ceil(chunk.ab[i].length / this.sideWidth);
+          var hidden = i >= ctx.skipRange[0] &&
+              i < chunk.ab.length - ctx.skipRange[1];
+          if (ctx.hidingLines && hidden == false) {
+            // No longer hiding lines. Add a context control.
+            this._addContextControl(ctx, leftSide, rightSide);
+            ctx.lastNumLinesHidden = 0;
+          }
+          ctx.hidingLines = hidden;
+          if (hidden) {
+            ctx.lastNumLinesHidden++;
+          }
+
+          // Blank lines within a diff content array indicate a newline.
+          leftSide.push({
+            type: 'CODE',
+            hidden: hidden,
+            content: chunk.ab[i] || '\n',
+            numLines: numLines,
+            lineNum: ++ctx.left.lineNum,
+          });
+          rightSide.push({
+            type: 'CODE',
+            hidden: hidden,
+            content: chunk.ab[i] || '\n',
+            numLines: numLines,
+            lineNum: ++ctx.right.lineNum,
+          });
+        }
+        if (ctx.lastNumLinesHidden > 0) {
+          this._addContextControl(ctx, leftSide, rightSide);
+        }
+      },
+
       _addDiffChunk: function(ctx, chunk, leftSide, rightSide) {
         if (chunk.ab) {
-          for (var i = 0; i < chunk.ab.length; i++) {
-            var numLines = Math.ceil(chunk.ab[i].length / this.sideWidth);
-            // Blank lines within a diff content array indicate a newline.
-            leftSide.push({
-              type: 'CODE',
-              content: chunk.ab[i] || '\n',
-              numLines: numLines,
-              lineNum: ++ctx.left.lineNum,
-            });
-            rightSide.push({
-              type: 'CODE',
-              content: chunk.ab[i] || '\n',
-              numLines: numLines,
-              lineNum: ++ctx.right.lineNum,
-            });
-          }
+          this._addCommonDiffChunk(ctx, chunk, leftSide, rightSide);
+          return;
         }
 
         var leftHighlights = [];

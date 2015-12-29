@@ -264,5 +264,81 @@ limitations under the License.
         }
       ]);
     });
+
+    test('context', function() {
+      element._context = 3;
+      element._diffResponse = {
+        content: [
+          {
+            ab: [
+              '<!DOCTYPE html>',
+              '<meta charset="utf-8">',
+              '<title>My great page</title>',
+              '<style>',
+              '  *,',
+              '  *:before,',
+              '  *:after {',
+              '    box-sizing: border-box;',
+              '  }',
+              '</style>',
+              '<header>',
+            ]
+          },
+          {
+            a: [
+              '  Welcome ',
+              '  to the wooorld of tomorrow!',
+            ],
+            b: [
+              '  Hello, world!',
+            ],
+          },
+          {
+            ab: [
+              '</header>',
+              '<body>',
+              'Leela: This is the only place the ship can’t hear us, so ',
+              'everyone pretend to shower.',
+              'Fry: Same as every day. Got it.',
+            ]
+          },
+        ]
+      };
+      element._processContent();
+
+      // First eight lines should be hidden on both sides.
+      for (var i = 0; i < 8; i++) {
+        assert.isTrue(element._diff.leftSide[i].hidden);
+        assert.isTrue(element._diff.rightSide[i].hidden);
+      }
+      // A context control should be at index 8 on both sides.
+      var leftContext = element._diff.leftSide[8];
+      var rightContext = element._diff.rightSide[8];
+      assert.deepEqual(leftContext, rightContext);
+      assert.equal(leftContext.numLines, 8);
+      assert.equal(leftContext.start, 0);
+      assert.equal(leftContext.end, 8);
+
+      // Line indices 9-16 should be shown.
+      for (var i = 9; i <= 16; i++) {
+        // notOk (falsy) because the `hidden` attribute may not be present.
+        assert.notOk(element._diff.leftSide[i].hidden);
+        assert.notOk(element._diff.rightSide[i].hidden);
+      }
+
+      // Lines at indices 17 and 18 should be hidden.
+      assert.isTrue(element._diff.leftSide[17].hidden);
+      assert.isTrue(element._diff.rightSide[17].hidden);
+      assert.isTrue(element._diff.leftSide[18].hidden);
+      assert.isTrue(element._diff.rightSide[18].hidden);
+
+      // Context control at index 19.
+      leftContext = element._diff.leftSide[19];
+      rightContext = element._diff.rightSide[19];
+      assert.deepEqual(leftContext, rightContext);
+      assert.equal(leftContext.numLines, 2);
+      assert.equal(leftContext.start, 17);
+      assert.equal(leftContext.end, 19);
+    });
   });
 </script>

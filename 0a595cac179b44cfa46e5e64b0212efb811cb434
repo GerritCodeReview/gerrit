@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "2aa9c35f_044936b8",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T01:53:15Z",
+      "side": 1,
+      "message": "The component itself shouldn\u0027t care how wide it is, the width is based its environment (and will get more complicated on mobile).",
+      "parentUuid": "0a931f6b_4bf385c6",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a931f6b_6bf841a2",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 1
@@ -53,6 +71,24 @@
       "writtenOn": "2015-12-29T01:19:07Z",
       "side": 1,
       "message": "Ok, but this clearly needs to go in its own component soon :)",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa9c35f_244eb2c1",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T01:53:15Z",
+      "side": 1,
+      "message": "agreed.",
+      "parentUuid": "0a931f6b_6bf841a2",
       "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "2aa9c35f_c4523e64",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T01:53:15Z",
+      "side": 1,
+      "message": "You can extend native elements, which is what iron-input decided to do:\nhttps://www.polymer-project.org/1.0/docs/devguide/registering-elements.html#type-extension",
+      "parentUuid": "0a931f6b_8bdc8d3a",
+      "range": {
+        "startLine": 93,
+        "startChar": 17,
+        "endLine": 93,
+        "endChar": 32
+      },
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a0e2f27_9716a434",
         "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
         "patchSetId": 1
@@ -93,6 +153,24 @@
       "writtenOn": "2015-12-29T01:19:07Z",
       "side": 1,
       "message": "I realize this will be empty (non-null) in the not-logged-in case, but nonetheless I think it would be clearer if you had:\n\n if (!this._mutable) { return true; }",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca9d8771_51f334c6",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T01:53:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a0e2f27_9716a434",
       "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "2aa9c35f_845c4678",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T01:53:15Z",
+      "side": 1,
+      "message": "changed to use config.",
+      "parentUuid": "8a0e2f27_37f5983a",
+      "range": {
+        "startLine": 336,
+        "startChar": 27,
+        "endLine": 336,
+        "endChar": 28
+      },
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a0e2f27_57f00c4a",
         "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
         "patchSetId": 1
@@ -133,6 +235,24 @@
       "writtenOn": "2015-12-29T01:19:07Z",
       "side": 1,
       "message": "Tangential: in general, how do we handle canceling XHR request when we navigate away from the view that generated them?",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa9c35f_44264ef8",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T01:53:15Z",
+      "side": 1,
+      "message": "there is a `detached` function we can use to handle cleanup. added that case.",
+      "parentUuid": "8a0e2f27_57f00c4a",
       "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -162,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "ca9d8771_91dcbc3a",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T01:53:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a0e2f27_17fa942a",
+      "range": {
+        "startLine": 349,
+        "startChar": 8,
+        "endLine": 352,
+        "endChar": 9
+      },
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a931f6b_cbe69500",
         "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
         "patchSetId": 1
@@ -179,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "ca9d8771_71f838a2",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T01:53:15Z",
+      "side": 1,
+      "message": "nope it\u0027s a good idea.",
+      "parentUuid": "0a931f6b_cbe69500",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a931f6b_abd94949",
         "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
         "patchSetId": 1
@@ -190,6 +352,24 @@
       "writtenOn": "2015-12-29T01:19:07Z",
       "side": 1,
       "message": "Is cancelAsync(null) allowed? Elsewhere, this is protected by a !\u003d null check",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca9d8771_b1d9c049",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T01:53:15Z",
+      "side": 1,
+      "message": "no it\u0027s not. good catch.\n\ndone via consolidating into common func.",
+      "parentUuid": "0a931f6b_abd94949",
       "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

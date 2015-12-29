@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa213bd_80ddb636",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-29T19:29:05Z",
+      "side": 1,
+      "message": "I would prefer \u0027×\u0027 here too.",
+      "range": {
+        "startLine": 87,
+        "startChar": 74,
+        "endLine": 87,
+        "endChar": 80
+      },
+      "revId": "cee13a2c80a998c86c5f98723f11b5e8eac4207a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_10d364fd",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-29T19:29:05Z",
+      "side": 1,
+      "message": "This must be a closing \u0027a\u0027 element.",
+      "range": {
+        "startLine": 87,
+        "startChar": 82,
+        "endLine": 87,
+        "endChar": 86
+      },
+      "revId": "cee13a2c80a998c86c5f98723f11b5e8eac4207a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa213bd_a0f79ab0",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-29T19:29:05Z",
+      "side": 1,
+      "message": "If you change it to use \u0027_account_id\u0027 (see comment below), you need to use a normal text input here.",
+      "range": {
+        "startLine": 93,
+        "startChar": 39,
+        "endLine": 93,
+        "endChar": 44
+      },
+      "revId": "cee13a2c80a998c86c5f98723f11b5e8eac4207a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_30d86817",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-29T19:29:05Z",
+      "side": 1,
+      "message": "var i",
+      "range": {
+        "startLine": 256,
+        "startChar": 26,
+        "endLine": 256,
+        "endChar": 27
+      },
+      "revId": "cee13a2c80a998c86c5f98723f11b5e8eac4207a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa213bd_c0f29ec2",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-29T19:29:05Z",
+      "side": 1,
+      "message": "Better use \u0027_account_id\u0027 here - otherwise bots without mail address cannot be added.",
+      "range": {
+        "startLine": 398,
+        "startChar": 35,
+        "endLine": 398,
+        "endChar": 40
+      },
+      "revId": "cee13a2c80a998c86c5f98723f11b5e8eac4207a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

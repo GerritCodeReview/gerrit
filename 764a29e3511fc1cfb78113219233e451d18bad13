@@ -16,6 +16,24 @@
       "revId": "764a29e3511fc1cfb78113219233e451d18bad13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca9d8771_11e9acd6",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T01:34:33Z",
+      "side": 1,
+      "message": "correct. if you look at the observer I have it set to look at both the config and content before making a change based on the text.",
+      "parentUuid": "0a931f6b_6b0f617d",
+      "revId": "764a29e3511fc1cfb78113219233e451d18bad13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

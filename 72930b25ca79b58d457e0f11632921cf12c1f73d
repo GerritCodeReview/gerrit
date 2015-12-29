@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a931f6b_ab006949",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:42:03Z",
+      "side": 1,
+      "message": "What\u0027s the difference between stopPropagation and preventDefault?",
+      "revId": "72930b25ca79b58d457e0f11632921cf12c1f73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_cbfdb588",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:42:03Z",
+      "side": 1,
+      "message": "You don\u0027t necessarily need to expand this comment in the code, but can you explain a little more what this means?",
+      "revId": "72930b25ca79b58d457e0f11632921cf12c1f73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e2f27_b7088809",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:42:03Z",
+      "side": 1,
+      "message": "Well but you could skip the setAttribute calls for the earlier ones. Maybe that would just be premature optimization though.",
+      "revId": "72930b25ca79b58d457e0f11632921cf12c1f73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_0b3fbd06",
+        "filename": "polygerrit-ui/app/test/gr-diff-comment-thread-test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:42:03Z",
+      "side": 1,
+      "message": "Not seeing the \"and discard\" part of this one.",
+      "range": {
+        "startLine": 170,
+        "startChar": 16,
+        "endLine": 170,
+        "endChar": 27
+      },
+      "revId": "72930b25ca79b58d457e0f11632921cf12c1f73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_ebfa718d",
+        "filename": "polygerrit-ui/app/test/gr-diff-comment-thread-test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:42:03Z",
+      "side": 1,
+      "message": "drafts[0].message?\n\nAlso check the in_reply_to",
+      "revId": "72930b25ca79b58d457e0f11632921cf12c1f73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

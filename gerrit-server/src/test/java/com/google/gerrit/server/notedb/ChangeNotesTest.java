@@ -408,7 +408,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void topicChangeNotes() throws Exception {
     Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
 
     // initially topic is not set
     ChangeNotes notes = newNotes(c);
@@ -417,12 +416,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // set topic
     String topic = "myTopic";
+    ChangeUpdate update = newUpdate(c, changeOwner);
     update.setTopic(topic);
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isEqualTo(topic);
 
     // clear topic by setting empty string
+    update = newUpdate(c, changeOwner);
     update.setTopic("");
     update.commit();
     notes = newNotes(c);
@@ -430,12 +431,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // set other topic
     topic = "otherTopic";
+    update = newUpdate(c, changeOwner);
     update.setTopic(topic);
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isEqualTo(topic);
 
     // clear topic by setting null
+    update = newUpdate(c, changeOwner);
     update.setTopic(null);
     update.commit();
     notes = newNotes(c);

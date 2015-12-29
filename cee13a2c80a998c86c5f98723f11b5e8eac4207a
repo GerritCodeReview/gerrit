@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "2aa9c35f_a4306225",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T19:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaa4d3ba_10d364fd",
+      "range": {
+        "startLine": 87,
+        "startChar": 82,
+        "endLine": 87,
+        "endChar": 86
+      },
+      "revId": "cee13a2c80a998c86c5f98723f11b5e8eac4207a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa9c35f_8433e631",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T19:43:55Z",
+      "side": 1,
+      "message": "x doesn\u0027t provide a large enough tap target given the current font size.\n\nAs these move to be more pill-like (as the current UI is) then I\u0027ll revisit this.",
+      "parentUuid": "aaa213bd_80ddb636",
+      "range": {
+        "startLine": 87,
+        "startChar": 74,
+        "endLine": 87,
+        "endChar": 80
+      },
+      "revId": "cee13a2c80a998c86c5f98723f11b5e8eac4207a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aaa213bd_a0f79ab0",
         "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
         "patchSetId": 2
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "ca9d8771_b100e049",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T19:43:55Z",
+      "side": 1,
+      "message": "what is written is correct. the predicate declares the var.",
+      "parentUuid": "aaa4d3ba_30d86817",
+      "range": {
+        "startLine": 256,
+        "startChar": 26,
+        "endLine": 256,
+        "endChar": 27
+      },
+      "revId": "cee13a2c80a998c86c5f98723f11b5e8eac4207a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aaa213bd_c0f29ec2",
         "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
         "patchSetId": 2
@@ -105,6 +177,30 @@
       "writtenOn": "2015-12-29T19:29:05Z",
       "side": 1,
       "message": "Better use \u0027_account_id\u0027 here - otherwise bots without mail address cannot be added.",
+      "range": {
+        "startLine": 398,
+        "startChar": 35,
+        "endLine": 398,
+        "endChar": 40
+      },
+      "revId": "cee13a2c80a998c86c5f98723f11b5e8eac4207a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca9d8771_d1fd6488",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T19:43:55Z",
+      "side": 1,
+      "message": "This I would roll into the TODO above to be better about supporting more generic types.",
+      "parentUuid": "aaa213bd_c0f29ec2",
       "range": {
         "startLine": 398,
         "startChar": 35,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca9d8771_d1e64400",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T02:02:01Z",
+      "side": 1,
+      "message": "stopPropagation prevents the event from bubbling up the DOM (what bubbles: false SHOULD do) — https://github.com/Polymer/polymer/issues/3226\n\npreventDefault says \"whatever you were going to do with this event, don\u0027t do that.\" so if you have an on-tap handler on a link going to http://google.com and you preventDefault in the handler, it won\u0027t navigate to google.com",
+      "parentUuid": "0a931f6b_ab006949",
+      "revId": "72930b25ca79b58d457e0f11632921cf12c1f73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a931f6b_cbfdb588",
         "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ca9d8771_f1e348ed",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T02:02:01Z",
+      "side": 1,
+      "message": "I need to revisit this since learning about https://www.polymer-project.org/1.0/docs/devguide/properties.html#array-mutation (see above)",
+      "parentUuid": "0a931f6b_cbfdb588",
+      "revId": "72930b25ca79b58d457e0f11632921cf12c1f73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a0e2f27_b7088809",
         "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2015-12-29T01:42:03Z",
       "side": 1,
       "message": "Well but you could skip the setAttribute calls for the earlier ones. Maybe that would just be premature optimization though.",
+      "revId": "72930b25ca79b58d457e0f11632921cf12c1f73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca9d8771_1110cc9e",
+        "filename": "polygerrit-ui/app/elements/gr-diff-side.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2015-12-29T02:02:01Z",
+      "side": 1,
+      "message": "I initially did that, but figured the latter for now.",
+      "parentUuid": "8a0e2f27_b7088809",
       "revId": "72930b25ca79b58d457e0f11632921cf12c1f73d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

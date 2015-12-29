@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aaa4d3ba_90675426",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-29T18:40:11Z",
+      "side": 1,
+      "message": "If I understand the concept correctly, it gets modified inside gr-change-star: change.starred gets updated on a click.",
+      "parentUuid": "8a0e2f27_f71f204c",
+      "range": {
+        "startLine": 70,
+        "startChar": 30,
+        "endLine": 70,
+        "endChar": 40
+      },
+      "revId": "cd8e856d3f2ccdb3847507dcc9b5416b4e0747d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a0e2f27_d71c1c5a",
         "filename": "polygerrit-ui/app/elements/gr-change-list.html",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2015-12-29T00:48:50Z",
       "side": 1,
       "message": "Would we not want to omit the whole column when the user is not logged in?",
+      "revId": "cd8e856d3f2ccdb3847507dcc9b5416b4e0747d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_b0645822",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-12-29T18:40:11Z",
+      "side": 1,
+      "message": "I have added a comment in an earlier PS. It would need to copy the logged-in callback to gr-change-list{-item].\n\n  ready: function() {\n    app.accountReady.then(function() {\n      this._loggedIn \u003d app.loggedIn;\n    }.bind(this));\n  },\n\nI will do that unless there is a better idea how to do that.",
+      "parentUuid": "8a0e2f27_d71c1c5a",
       "revId": "cd8e856d3f2ccdb3847507dcc9b5416b4e0747d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

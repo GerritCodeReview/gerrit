@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a0e2f27_f71f204c",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T00:48:50Z",
+      "side": 1,
+      "message": "[[change]]? This never gets modified within gr-change-star so I don\u0027t think we need a two-way binding.",
+      "range": {
+        "startLine": 70,
+        "startChar": 30,
+        "endLine": 70,
+        "endChar": 40
+      },
+      "revId": "cd8e856d3f2ccdb3847507dcc9b5416b4e0747d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e2f27_d71c1c5a",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T00:48:50Z",
+      "side": 1,
+      "message": "Would we not want to omit the whole column when the user is not logged in?",
+      "revId": "cd8e856d3f2ccdb3847507dcc9b5416b4e0747d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_2bee39df",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T00:48:50Z",
+      "side": 1,
+      "message": "[[_change]]?",
+      "range": {
+        "startLine": 116,
+        "startChar": 36,
+        "endLine": 116,
+        "endChar": 47
+      },
+      "revId": "cd8e856d3f2ccdb3847507dcc9b5416b4e0747d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

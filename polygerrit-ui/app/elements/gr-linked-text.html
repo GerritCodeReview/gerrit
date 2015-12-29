@@ -34,15 +34,18 @@ limitations under the License.
       is: 'gr-linked-text',
 
       properties: {
-        content: {
-          type: String,
-          observer: '_contentChanged'
-        }
+        content: String,
+        config: Object,
       },
 
-      _contentChanged: function(newValue) {
+      observers: [
+        '_contentChanged(content, config)',
+      ],
+
+      _contentChanged: function(content, config) {
         var output = this.$.output;
-        var parser = new GrLinkTextParser(function(text, href) {
+        output.textContent = '';
+        var parser = new GrLinkTextParser(config, function(text, href) {
           if (href) {
             var a = document.createElement('a');
             a.href = href;
@@ -53,7 +56,7 @@ limitations under the License.
             output.appendChild(document.createTextNode(text));
           }
         });
-        parser.parse(newValue);
+        parser.parse(content);
       }
     });
   </script>

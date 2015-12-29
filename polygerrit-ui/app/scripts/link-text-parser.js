@@ -14,42 +14,19 @@
 
 'use strict';
 
-function GrLinkTextParser(callback) {
+function GrLinkTextParser(linkConfig, callback) {
+  this.linkConfig = linkConfig;
   this.callback = callback;
   Object.preventExtensions(this);
 }
 
-// TODO(mmccoy): Move these patterns to Gerrit project config
-// (https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-config)
-GrLinkTextParser.CUSTOM_LINKS = [
-  {
-    'pattern': /^(Change-Id: )(.+)$/mi,
-    'url': 'https://gerrit-review.googlesource.com/r/'
-  },
-  {
-    'pattern': /^(Feature: )Issue ?(.+)$/mi,
-    'url': 'https://code.google.com/p/gerrit/issues/detail?id='
-  },
-  {
-    'pattern': /^(Bug: )Issue ?(.+)$/mi,
-    'url': 'https://code.google.com/p/gerrit/issues/detail?id='
-  }
-];
+GrLinkTextParser.SUB_REGEX = /\$(\d+)/;
 
 GrLinkTextParser.prototype.addText = function(text, href) {
   if (!text) {
     return;
   }
   this.callback(text, href);
-};
-
-GrLinkTextParser.prototype.addBugText = function(text, tracker, bugID) {
-  if (tracker) {
-    var href = tracker.url + encodeURIComponent(bugID);
-    this.addText(text, href);
-    return;
-  }
-  this.addText(text);
 };
 
 GrLinkTextParser.prototype.parse = function(text) {
@@ -62,30 +39,28 @@ GrLinkTextParser.prototype.parseChunk = function(text, href) {
   if (href) {
     this.addText(text, href);
   } else {
-    this.parseLinks(text, GrLinkTextParser.CUSTOM_LINKS);
+    this.parseLinks(text, this.linkConfig);
   }
 };
 
 GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
-  for (var i = patterns.length - 1; i >= 0; i--) {
-    var PATTERN = patterns[i].pattern;
-    var URL = patterns[i].url;
+  for (var p in patterns) {
+    var pattern = new RegExp(patterns[p].match);
+    var match = text.match(pattern);
+    if (!match) { continue; }
 
-    var match = text.match(PATTERN);
-    if (!match){
-      continue;
+    var link = patterns[p].link;
+    var subMatch = link.match(GrLinkTextParser.SUB_REGEX);
+    link = link.replace(GrLinkTextParser.SUB_REGEX, match[subMatch[1]]);
+
+    // PolyGerrit doesn't use hash-based navigation like GWT. Account for this.
+    if (link[0] == '#') {
+      link = link.substr(1);
     }
-
     var before = text.substr(0, match.index);
     this.addText(before);
-    this.addText(match[1]);
     text = text.substr(match.index + match[0].length);
-    if (match[1] !== 'Change-Id: ') {
-      this.addBugText('Issue ' + match[2], patterns[i], match[2]);
-    } else {
-      this.addBugText(match[2], patterns[i], match[2]);
-    };
-
-  };
+    this.addText(match[0], link);
+  }
   this.addText(text);
 };

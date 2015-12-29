@@ -107,6 +107,11 @@ limitations under the License.
     <gr-ajax id="commitInfoXHR"
         url="[[_computeCommitInfoPath(_changeNum, _patchNum)]]"
         last-response="{{_commitInfo}}"></gr-ajax>
+    <!-- TODO(andybons): Cache the project config. -->
+    <gr-ajax id="configXHR"
+        auto
+        url="[[_computeProjectConfigPath(_change.project)]]"
+        last-response="{{_projectConfig}}"></gr-ajax>
     <div class="container loading" hidden$="{{!_loading}}">Loading...</div>
     <div class="container" hidden$="{{_loading}}">
       <div class="headerContainer">
@@ -176,7 +181,9 @@ limitations under the License.
         </table>
       </section>
       <section class="summary">
-        <gr-linked-text pre content="[[_commitInfo.message]]"></gr-linked-text>
+        <gr-linked-text pre
+            content="[[_commitInfo.message]]"
+            config="[[_projectConfig.commentlinks]]"></gr-linked-text>
       </section>
       <gr-file-list id="fileList"
           change-num="[[_changeNum]]"
@@ -233,6 +240,7 @@ limitations under the License.
         _loading: Boolean,
         _headerContainerEl: Object,
         _headerEl: Object,
+        _projectConfig: Object,
         _scrollHandler: Function,
       },
 
@@ -318,6 +326,10 @@ limitations under the License.
 
       _computeCommentsPath: function(changeNum) {
         return '/changes/' + changeNum + '/comments';
+      },
+
+      _computeProjectConfigPath: function(project) {
+        return '/projects/' + project + '/config';
       },
 
       _computeDetailQueryParams: function() {

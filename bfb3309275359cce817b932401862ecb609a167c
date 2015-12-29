@@ -34,6 +34,24 @@
       "revId": "bfb3309275359cce817b932401862ecb609a167c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_0b109d9e",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:23:06Z",
+      "side": 1,
+      "message": "I was actually talking about just for generating the class names, but this works too.\n\nEventually we could conceivably want to apply different styles to the different statuses, as opposed to just different text. But maybe YAGNI, so I appreciate the shorter version.",
+      "parentUuid": "ca9d8771_b1d2a029",
+      "revId": "bfb3309275359cce817b932401862ecb609a167c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

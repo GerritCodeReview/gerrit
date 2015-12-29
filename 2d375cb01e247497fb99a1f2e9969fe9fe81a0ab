@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0a931f6b_4b0aa56e",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:26:55Z",
+      "side": 1,
+      "message": "The problem with local storage is then you have to worry more about cache eviction. Caching it in a JS var at least has the advantage that you can clear it and reload the config by just refreshing the page.",
+      "parentUuid": "2aa9c35f_a4faa28c",
+      "revId": "2d375cb01e247497fb99a1f2e9969fe9fe81a0ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a0e2f27_3726b8a5",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 1

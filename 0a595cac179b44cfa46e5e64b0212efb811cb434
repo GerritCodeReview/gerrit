@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a0e2f27_f7fe001d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:19:07Z",
+      "side": 1,
+      "message": "Somewhat surprised there isn\u0027t already an iron component for a little dropdown select box kind of thing. But OTOH I\u0027m somewhat pleased with how easy it was to roll your own.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_4bf385c6",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:19:07Z",
+      "side": 1,
+      "message": "Why here instead of in :host in the element definition?",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_6bf841a2",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:19:07Z",
+      "side": 1,
+      "message": "Ok, but this clearly needs to go in its own component soon :)",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_8bdc8d3a",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:19:07Z",
+      "side": 1,
+      "message": "I haven\u0027t noticed this before: what does this mean? How is it different from saying \u003ciron-input ...\u003e?",
+      "range": {
+        "startLine": 93,
+        "startChar": 17,
+        "endLine": 93,
+        "endChar": 32
+      },
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e2f27_9716a434",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:19:07Z",
+      "side": 1,
+      "message": "I realize this will be empty (non-null) in the not-logged-in case, but nonetheless I think it would be clearer if you had:\n\n if (!this._mutable) { return true; }",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e2f27_37f5983a",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:19:07Z",
+      "side": 1,
+      "message": "Believe it or not this value is configurable, and comes from the response to /config/server/info:\n\n $ curl -s https://gerrit-review.googlesource.com/config/server/info | sed -n \u00272,$p\u0027 | jq .suggest.from\n 3",
+      "range": {
+        "startLine": 336,
+        "startChar": 27,
+        "endLine": 336,
+        "endChar": 28
+      },
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e2f27_57f00c4a",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:19:07Z",
+      "side": 1,
+      "message": "Tangential: in general, how do we handle canceling XHR request when we navigate away from the view that generated them?",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e2f27_17fa942a",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:19:07Z",
+      "side": 1,
+      "message": "Factor into a local function? Not sure if it\u0027ll actually improve readability",
+      "range": {
+        "startLine": 349,
+        "startChar": 8,
+        "endLine": 352,
+        "endChar": 9
+      },
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_cbe69500",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:19:07Z",
+      "side": 1,
+      "message": "There is already an observer for _hideAutocomplete, could this assignment go in the body of that? Or does that mess with the observer dispatch stuff?",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_abd94949",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T01:19:07Z",
+      "side": 1,
+      "message": "Is cancelAsync(null) allowed? Elsewhere, this is protected by a !\u003d null check",
+      "revId": "0a595cac179b44cfa46e5e64b0212efb811cb434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

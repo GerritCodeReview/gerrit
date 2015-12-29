@@ -111,5 +111,24 @@ limitations under the License.
       }
     });
 
+    test('jump to file dropdown', function() {
+      element._changeNum = '42';
+      element._patchRange = {
+        patchNum: '10',
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+      flushAsynchronousOperations();
+      var linkEls =
+          Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
+      assert.equal(linkEls.length, 3);
+      assert.isFalse(linkEls[0].hasAttribute('selected'));
+      assert.isTrue(linkEls[1].hasAttribute('selected'));
+      assert.isFalse(linkEls[2].hasAttribute('selected'));
+      assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
+      assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
+      assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
+    });
+
   });
 </script>

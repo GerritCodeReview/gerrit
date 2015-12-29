@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-diff.html">
 
@@ -29,6 +30,56 @@ limitations under the License.
       h3 {
         margin-top: 1em;
         padding: .75em var(--default-horizontal-margin);
+      }
+      .jumpToFileContainer {
+        display: inline-block;
+      }
+      .downArrow {
+        display: inline-block;
+        font-size: .6em;
+        vertical-align: middle;
+      }
+      .dropdown-trigger {
+        color: #00e;
+        cursor: pointer;
+        padding: 0;
+      }
+      .dropdown-content {
+        background-color: #fff;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+      }
+      .dropdown-content a {
+        cursor: pointer;
+        display: block;
+        font-weight: normal;
+        padding: .3em .5em;
+      }
+      .dropdown-content a:before {
+        color: #ccc;
+        content: attr(data-key-nav);
+        display: inline-block;
+        margin-right: .5em;
+        width: .3em;
+      }
+      .dropdown-content a:hover {
+        background-color: #00e;
+        color: #fff;
+      }
+      .dropdown-content a[selected] {
+        color: #000;
+        font-weight: bold;
+        pointer-events: none;
+        text-decoration: none;
+      }
+      .dropdown-content a[selected]:hover {
+        background-color: #fff;
+        color: #000;
+      }
+      button {
+        background: none;
+        border: none;
+        font: inherit;
+        padding: .3em 0;
       }
       .mainContainer {
         border-bottom: 1px solid #eee;
@@ -48,7 +99,23 @@ limitations under the License.
         on-response="_handleFilesResponse"></gr-ajax>
     <h3>
       <a href$="[[_computeChangePath(_changeNum)]]">[[_changeNum]]</a><span>:</span>
-      <span>[[_change.subject]]</span> — <span>[[params.path]]</span>
+      <span>[[_change.subject]]</span> —
+      <div class="jumpToFileContainer">
+        <button class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
+          <span>[[_path]]</span>
+          <span class="downArrow">&#9660;</span>
+        </button>
+        <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="25">
+          <div class="dropdown-content">
+            <template is="dom-repeat" items="[[_fileList]]" as="path">
+              <a href$="[[_computeFileURL(_changeNum, _patchRange.patchNum, path)]]"
+                 selected$="[[_computeFileSelected(path, _path)]]"
+                 data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
+                 on-tap="_handleFileTap">[[path]]</a>
+            </template>
+          </div>
+        </iron-dropdown>
+      </div>
     </h3>
     <gr-diff id="diff"
         auto
@@ -183,8 +250,35 @@ limitations under the License.
         return Changes.baseURL(changeNum, patchNum) + '/files';
       },
 
+      _computeFileURL: function(changeNum, patchNum, path) {
+        return '/c/' + changeNum + '/' + patchNum + '/' + path;
+      },
+
+      _computeFileSelected: function(path, currentPath) {
+        return path == currentPath;
+      },
+
+      _computeKeyNav: function(path, selectedPath, fileList) {
+        var selectedIndex = fileList.indexOf(selectedPath);
+        if (fileList.indexOf(path) == selectedIndex - 1) {
+          return '[';
+        }
+        if (fileList.indexOf(path) == selectedIndex + 1) {
+          return ']';
+        }
+        return '';
+      },
+
+      _handleFileTap: function(e) {
+        this.$.dropdown.close();
+      },
+
       _handleFilesResponse: function(e, req) {
         this._fileList = Object.keys(e.detail.response).sort();
+      },
+
+      _showDropdownTapHandler: function(e) {
+        this.$.dropdown.open();
       },
     });
   })();

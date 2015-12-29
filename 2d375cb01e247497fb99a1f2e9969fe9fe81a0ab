@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a931f6b_ebcc318e",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T00:41:27Z",
+      "side": 1,
+      "message": "So this generates an extra request on each change screen load. As I think I mentioned before, the GWT UI has a global cache of project configs to avoid this. Maybe leave a TODO to do something like that? I figure it won\u0027t be pretty because of the whole \"global\" part.",
+      "revId": "2d375cb01e247497fb99a1f2e9969fe9fe81a0ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0e2f27_3726b8a5",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-12-29T00:41:27Z",
+      "side": 1,
+      "message": "I think we can start the configXHR request before the commit info and file list has reloaded, to avoid another sequential call here. You just can\u0027t linkify the text until the request has finished.",
+      "revId": "2d375cb01e247497fb99a1f2e9969fe9fe81a0ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

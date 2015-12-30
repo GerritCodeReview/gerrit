@@ -46,6 +46,10 @@ public enum ListChangesOption {
   /** Set the reviewed boolean for the caller. */
   REVIEWED(11),
 
+  /** Not used anymore, kept for backward compatibility */
+  @Deprecated
+  DRAFT_COMMENTS(12),
+
   /** Include download commands for the caller. */
   DOWNLOAD_COMMANDS(13),
 

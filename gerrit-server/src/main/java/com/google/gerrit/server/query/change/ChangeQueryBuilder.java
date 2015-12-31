@@ -50,6 +50,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.group.ListMembers;
+import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexCollection;
@@ -419,7 +420,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("draft".equalsIgnoreCase(value)) {
-      return new HasDraftByPredicate(args, self());
+      return draftby(self());
     }
 
     if ("edit".equalsIgnoreCase(value)) {
@@ -684,11 +685,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> draftby(String who) throws QueryParseException,
       OrmException {
     Set<Account.Id> m = parseAccount(who);
-    List<HasDraftByPredicate> p = Lists.newArrayListWithCapacity(m.size());
+    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new HasDraftByPredicate(args, id));
+      p.add(draftby(id));
     }
     return Predicate.or(p);
+  }
+
+  private Predicate<ChangeData> draftby(Account.Id who) {
+    return args.getSchema().hasField(ChangeField.DRAFTBY)
+        ? new HasDraftByPredicate(who)
+        : new HasDraftByLegacyPredicate(args, who);
   }
 
   @Operator

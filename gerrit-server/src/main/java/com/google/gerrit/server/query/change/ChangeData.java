@@ -320,6 +320,7 @@ public class ChangeData {
   private Boolean mergeable;
   private Set<Account.Id> editsByUser;
   private Set<Account.Id> reviewedBy;
+  private Set<Account.Id> draftsByUser;
   private PersonIdent author;
   private PersonIdent committer;
 
@@ -820,6 +821,20 @@ public class ChangeData {
       }
     }
     return editsByUser;
+  }
+
+  public Set<Account.Id> draftsByUser() throws OrmException {
+    if (draftsByUser == null) {
+      Change c = change();
+      if (c == null) {
+        return Collections.emptySet();
+      }
+      draftsByUser = new HashSet<>();
+      for (PatchLineComment sc : plcUtil.draftByChange(db, notes)) {
+        draftsByUser.add(sc.getAuthor());
+      }
+    }
+    return draftsByUser;
   }
 
   public Set<Account.Id> reviewedBy() throws OrmException {

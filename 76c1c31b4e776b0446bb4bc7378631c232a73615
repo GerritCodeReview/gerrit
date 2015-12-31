@@ -34,6 +34,24 @@
       "revId": "76c1c31b4e776b0446bb4bc7378631c232a73615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eac16b6d_3ab981eb",
+        "filename": "lib/js.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-12-31T05:32:46Z",
+      "side": 1,
+      "message": "$TMP not $TMPDIR. See $TMP in the genrule() just a few lines down.",
+      "parentUuid": "aaa4d3ba_d061dc10",
+      "revId": "76c1c31b4e776b0446bb4bc7378631c232a73615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

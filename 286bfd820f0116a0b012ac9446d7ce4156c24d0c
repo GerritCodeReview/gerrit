@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa4d3ba_10fa8465",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-12-31T16:45:47Z",
+      "side": 1,
+      "message": "The PluginMetricMaker registers its LifecycleListener in the root injector, we need then to add it to the serverManager explicitly otherwise it is never invoked and then crashes the replication plugin after a restart.",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 27
+      },
+      "revId": "286bfd820f0116a0b012ac9446d7ce4156c24d0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eac16b6d_3ae741fe",
+        "filename": "gerrit-patch-jgit/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-12-31T17:42:54Z",
+      "side": 1,
+      "message": "Was buck fixed?",
+      "revId": "9e2a8bef8d9b88b3ddbe5484dfbe5c00383aaf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a931f6b_4b97052f",
+        "filename": "tools/pack_war.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-12-31T17:42:54Z",
+      "side": 1,
+      "message": "Ready to simplify?",
+      "revId": "9e2a8bef8d9b88b3ddbe5484dfbe5c00383aaf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -179,6 +179,7 @@ public class ServerPlugin extends Plugin {
   private void startPlugin(PluginGuiceEnvironment env) throws Exception {
     Injector root = newRootInjector(env);
     serverManager = new LifecycleManager();
+    serverManager.add(root);
 
     AutoRegisterModules auto = null;
     if (sysModule == null && sshModule == null && httpModule == null) {

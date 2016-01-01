@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.base.Supplier;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class DraftPublishedEvent extends PatchSetEvent {
-  public AccountAttribute uploader;
+  public Supplier<AccountAttribute> uploader;
 
   public DraftPublishedEvent() {
     super("draft-published");

@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.base.Supplier;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class ChangeMergedEvent extends PatchSetEvent {
-  public AccountAttribute submitter;
+  public Supplier<AccountAttribute> submitter;
   public String newRev;
 
   public ChangeMergedEvent() {

@@ -61,6 +61,7 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -92,6 +93,7 @@ public class EventFactory {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeKindCache changeKindCache;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final SchemaFactory<ReviewDb> schema;
 
   @Inject
   EventFactory(AccountCache accountCache,
@@ -102,7 +104,8 @@ public class EventFactory {
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       ChangeKindCache changeKindCache,
-      Provider<InternalChangeQuery> queryProvider) {
+      Provider<InternalChangeQuery> queryProvider,
+      SchemaFactory<ReviewDb> schema) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
@@ -112,12 +115,30 @@ public class EventFactory {
     this.approvalsUtil = approvalsUtil;
     this.changeKindCache = changeKindCache;
     this.queryProvider = queryProvider;
+    this.schema = schema;
   }
 
   /**
    * Create a ChangeAttribute for the given change suitable for serialization to
    * JSON.
    *
+   * @param change
+   * @return object suitable for serialization to JSON
+   */
+  public ChangeAttribute asChangeAttribute(Change change) {
+    try (ReviewDb db = schema.open()) {
+      return asChangeAttribute(db, change);
+    } catch (OrmException e) {
+      log.error("Cannot open database connection", e);
+      return new ChangeAttribute();
+    }
+  }
+
+  /**
+   * Create a ChangeAttribute for the given change suitable for serialization to
+   * JSON.
+   *
+   * @param db Review database
    * @param change
    * @return object suitable for serialization to JSON
    */
@@ -426,6 +447,19 @@ public class EventFactory {
    * Create a PatchSetAttribute for the given patchset suitable for
    * serialization to JSON.
    *
+   * @param patchSet
+   * @return object suitable for serialization to JSON
+   */
+  public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk,
+      PatchSet patchSet) {
+    return asPatchSetAttribute(revWalk, patchSet);
+  }
+
+  /**
+   * Create a PatchSetAttribute for the given patchset suitable for
+   * serialization to JSON.
+   *
+   * @param db Review database
    * @param patchSet
    * @return object suitable for serialization to JSON
    */

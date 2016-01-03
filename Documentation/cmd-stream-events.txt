@@ -26,12 +26,27 @@ link:access-control.html#capability_streamEvents[the 'Stream Events' global capa
 == SCRIPTING
 This command is intended to be used in scripts.
 
+== OPTIONS
+--subscribe|-s::
+	Type of the event to subscribe to.  Multiple --subscribe options
+	may be specified to subscribe to multiple events. When this option
+	is provided, only subscribed events are consumed and all other
+	events are ignored. When this option is omitted, all events are
+	consumed.
+
 == EXAMPLES
 
 ====
   $ ssh -p 29418 review.example.com gerrit stream-events
   {"type":"comment-added",change:{"project":"tools/gerrit", ...}, ...}
   {"type":"comment-added",change:{"project":"tools/gerrit", ...}, ...}
+====
+
+Only subscribe to speific event types:
+
+====
+  $ ssh -p 29418 review.example.com gerrit stream-events \
+      -s draft-published -s patchset-created -s ref-replicated
 ====
 
 == SCHEMA

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa213bd_808136e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-03T00:54:04Z",
+      "side": 1,
+      "message": "Why was this commented out?",
+      "range": {
+        "startLine": 716,
+        "startChar": 6,
+        "endLine": 717,
+        "endChar": 64
+      },
+      "revId": "2605168713139277fafa809f9fe0f98f4715f117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

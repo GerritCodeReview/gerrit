@@ -447,12 +447,18 @@ public class EventFactory {
    * Create a PatchSetAttribute for the given patchset suitable for
    * serialization to JSON.
    *
+   * @param revWalk
    * @param patchSet
    * @return object suitable for serialization to JSON
    */
   public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk,
       PatchSet patchSet) {
-    return asPatchSetAttribute(revWalk, patchSet);
+    try (ReviewDb db = schema.open()) {
+      return asPatchSetAttribute(db, revWalk, patchSet);
+    } catch (OrmException e) {
+      log.error("Cannot open database connection", e);
+      return new PatchSetAttribute();
+    }
   }
 
   /**

@@ -22,6 +22,30 @@
       "revId": "5b8891e9011da951b76d015cd563566cc56eb481",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa213bd_607e32be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-03T00:54:04Z",
+      "side": 1,
+      "message": "Indeed, missed to pass in the db handle to the method:\n\n  try (ReviewDb db \u003d schema.open()) {\n      return asPatchSetAttribute(db, revWalk, patchSet);\n      [...]",
+      "parentUuid": "eabb2b9e_cae4833c",
+      "range": {
+        "startLine": 456,
+        "startChar": 13,
+        "endLine": 456,
+        "endChar": 52
+      },
+      "revId": "5b8891e9011da951b76d015cd563566cc56eb481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

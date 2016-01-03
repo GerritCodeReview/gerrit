@@ -40,6 +40,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -166,11 +167,13 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
   private PatchSet rebase(CodeReviewCommit n, MergeTip mergeTip)
       throws RestApiException, UpdateException, OrmException {
+    PersonIdent committer = args.caller.newCommitterIdent(
+        new Date(), args.serverIdent.get().getTimeZone());
     RebaseChangeOp op = rebaseFactory.create(
           n.getControl(),
           args.db.patchSets().get(n.getPatchsetId()),
           mergeTip.getCurrentTip().name())
-        .setCommitterIdent(args.serverIdent.get())
+        .setCommitterIdent(committer)
         .setRunHooks(false)
         .setValidatePolicy(CommitValidators.Policy.NONE);
     try (BatchUpdate bu = args.newBatchUpdate(TimeUtil.nowTs())) {

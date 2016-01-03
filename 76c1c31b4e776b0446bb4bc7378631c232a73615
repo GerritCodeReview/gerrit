@@ -70,6 +70,24 @@
       "revId": "76c1c31b4e776b0446bb4bc7378631c232a73615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eac16b6d_9a9bed5a",
+        "filename": "lib/js.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-01-03T16:37:26Z",
+      "side": 1,
+      "message": "Right, sorry. I failed to read the old version. Someone else wrote to $SRCDIR in the genrule().\n\nIts not OK to write to $SRCDIR in a genrule(). You can only write to $TMP and $OUT. $SRCDIR is supposed to be an immutable collection of input files given to you from the srcs list. The fact that this rule writes to $SRCDIR is bad.\n\nIt looks like the second part run_npm_binary() fails because it needs the contents of $TMP and $SRCDIR merged together in the same directory tree.\n\nThe correct way to do that is copy $SRCDIR contents recursively into $TMP to merge with the output of the unzip in $TMP, and then start run_npm_binary() on $TMP.\n\nMaybe:\n\n  cmd \u003d \u0027 \u0027.join([\n      \u0027(cd $SRCDIR; tar c .) | (cd $TMP; tar x)\u0027,\n      \u0027\u0026\u0026\u0027, \u0027unzip -qd $TMP $(location %s)\u0027 % components,\n      \u0027\u0026\u0026\u0027, run_npm_binary(\u0027//lib/js:vulcanize\u0027)\n    ] + VULCANIZE_FLAGS + extra_flags + [\n      \u0027--out-html\u0027, \u0027$OUT\u0027,\n      \u0027$TMP/%s\u0027 % app,\n    ]),",
+      "parentUuid": "aaa4d3ba_f0b260ac",
+      "revId": "76c1c31b4e776b0446bb4bc7378631c232a73615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

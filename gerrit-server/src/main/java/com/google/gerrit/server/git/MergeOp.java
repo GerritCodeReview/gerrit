@@ -404,7 +404,7 @@ public class MergeOp {
           setDestProject(branch);
 
           ListMultimap<SubmitType, ChangeData> submitting =
-              validateChangeList(cbb.get(branch));
+              validateChangeList(cbb.get(branch), caller);
           toSubmit.put(branch, submitting);
 
           Set<SubmitType> submitTypes = new HashSet<>(submitting.keySet());
@@ -586,7 +586,8 @@ public class MergeOp {
   }
 
   private ListMultimap<SubmitType, ChangeData> validateChangeList(
-      Collection<ChangeData> submitted) throws IntegrationException {
+      Collection<ChangeData> submitted, IdentifiedUser caller)
+    throws IntegrationException {
     logDebug("Validating {} changes", submitted.size());
     ListMultimap<SubmitType, ChangeData> toSubmit = ArrayListMultimap.create();
 
@@ -680,7 +681,7 @@ public class MergeOp {
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(
-            repo, commit, destProject, destBranch, ps.getId());
+            repo, commit, destProject, destBranch, ps.getId(), caller);
       } catch (MergeValidationException mve) {
         logDebug("Revision {} of patch set {} failed validation: {}",
             idstr, ps.getId(), mve.getStatus());

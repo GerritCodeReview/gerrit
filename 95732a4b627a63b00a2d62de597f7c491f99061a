@@ -22,6 +22,30 @@
       "revId": "95732a4b627a63b00a2d62de597f7c491f99061a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_908af4d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-03T12:29:55Z",
+      "side": 1,
+      "message": "I will leave this to David.",
+      "parentUuid": "aaa213bd_c0dcde0c",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 53
+      },
+      "revId": "95732a4b627a63b00a2d62de597f7c491f99061a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

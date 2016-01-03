@@ -88,6 +88,24 @@
       "revId": "76c1c31b4e776b0446bb4bc7378631c232a73615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_b087f8c8",
+        "filename": "lib/js.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-03T16:38:36Z",
+      "side": 1,
+      "message": "| I do not feel good just to blindly replace this since I do not understand what is done here exactly...\n\nWell, actually its quite easy to see what\u0027s going on here, just ask Buck. As with any build toolchain, use verbose dump output to decompose the command to its parts, including macros and variabls resolution; you need two different commands:\n\n* buck targets --json polygerrit-ui/app:gr-app__vulcanized\n* buck build polygerrit-ui/app:gr-app__vulcanized --verbose 42\n\nWhile the former command wouldn\u0027t resolve the vars and macros, the latter would resolve everything. IOW, it boils down to this command: [1]. The mirrored directory tree is combined from existing input files and content of (extracted) polygerrit_components.bower_components.zip file. So the correct fix would be to extract the zip file into temp directory (as pointed out by other reviewers) to guarantee that it is always extracted in empty target directory and avoid collisions and outdated files, followed by forced linking this directory to virtual source tree mirrored by Buck. So what you want is:\n\n  cmd \u003d \u0027 \u0027.join([\n      \u0027unzip\u0027, \u0027-qd\u0027, \u0027$TMP\u0027, \u0027$(location %s)\u0027 % components,\n      \u0027\u0026\u0026\u0027, \u0027ln\u0027, \u0027-s\u0027, \u0027-f\u0027, \u0027-t\u0027, \u0027$SRCDIR\u0027, \u0027$TMP/bower_components\u0027,\n      \u0027\u0026\u0026\u0027, run_npm_binary(\u0027//lib/js:vulcanize\u0027)\n    ] + VULCANIZE_FLAGS + extra_flags + [\n  [...]\n\n* [1] http://paste.openstack.org/show/482922",
+      "parentUuid": "aaa4d3ba_f0b260ac",
+      "revId": "76c1c31b4e776b0446bb4bc7378631c232a73615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

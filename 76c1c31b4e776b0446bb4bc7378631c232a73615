@@ -52,6 +52,24 @@
       "revId": "76c1c31b4e776b0446bb4bc7378631c232a73615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_f0b260ac",
+        "filename": "lib/js.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-03T11:43:21Z",
+      "side": 1,
+      "message": "When I replace the $SRCDIR in this line with $TMP, build does not fail. If I also replace the $SRCDIR on line 151, it fails, see message below.\n\nI do not feel good just to blindly replace this since I do not understand what is done here exactly...\n\nERROR finding /my_gerrit_checkout_folder/buck-out/gen/polygerrit-ui/app/gr-app__vulcanized__tmp/elements/gr-app.html\n{ [Error: ENOENT, open \u0027/my_gerrit_checkout_folder/buck-out/gen/polygerrit-ui/app/gr-app__vulcanized__tmp/elements/gr-app.html\u0027]\n  errno: -2,\n  code: \u0027ENOENT\u0027,\n  path: \u0027/my_gerrit_checkout_folder/buck-out/gen/polygerrit-ui/app/gr-app__vulcanized__tmp/elements/gr-app.html\u0027 }Traceback (most recent call last):\n  File \"/my_gerrit_checkout_folder/buck-out/gen/tools/js/run_npm_binary.pex/.bootstrap/_twitter_common_python/pex.py\", line 223, in execute\n    self.execute_entry(entry_point, args)\n  File \"/my_gerrit_checkout_folder/buck-out/gen/tools/js/run_npm_binary.pex/.bootstrap/_twitter_common_python/pex.py\", line 271, in execute_entry\n    runner(entry_point)\n  File \"/my_gerrit_checkout_folder/buck-out/gen/tools/js/run_npm_binary.pex/.bootstrap/_twitter_common_python/pex.py\", line 288, in execute_module\n    runpy.run_module(module_name, run_name\u003d\u0027__main__\u0027)\n  File \"/usr/lib/python2.7/runpy.py\", line 180, in run_module\n    fname, loader, pkg_name)\n  File \"/usr/lib/python2.7/runpy.py\", line 72, in _run_code\n    exec code in run_globals\n  File \"tools/js/run_npm_binary.py\", line 91, in \u003cmodule\u003e\n  File \"tools/js/run_npm_binary.py\", line 87, in main\n  File \"/usr/lib/python2.7/subprocess.py\", line 540, in check_call\n    raise CalledProcessError(retcode, cmd)\nCalledProcessError: Command \u0027[\u0027/my_gerrit_checkout_folder/buck-out/gen/lib/js/vulcanize/vulcanize@1.14.0-91eac280d031b5bbcafb5f86bb6ed30515fa2564/package/bin/vulcanize\u0027, \u0027--inline-scripts\u0027, \u0027--inline-css\u0027, \u0027--strip-comments\u0027, \u0027--out-html\u0027, \u0027/my_gerrit_checkout_folder/buck-out/gen/polygerrit-ui/app/gr-app__vulcanized/gr-app.vulcanized.html\u0027, \u0027/my_gerrit_checkout_folder/buck-out/gen/polygerrit-ui/app/gr-app__vulcanized__tmp/elements/gr-app.html\u0027]\u0027 returned non-zero exit status 1",
+      "parentUuid": "eac16b6d_3ab981eb",
+      "revId": "76c1c31b4e776b0446bb4bc7378631c232a73615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

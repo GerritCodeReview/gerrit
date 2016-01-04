@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "2aa9c35f_24b0f2af",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-04T16:36:42Z",
+      "side": 1,
+      "message": "I would put a property on both gr-change-list and gr-change-list-item that indicates whether the star should be shown, then pass in the logged-in value to gr-change-list-view from gr-app and connect it that way.",
+      "parentUuid": "aaa4d3ba_b0645822",
+      "revId": "cd8e856d3f2ccdb3847507dcc9b5416b4e0747d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a931f6b_2bee39df",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 3

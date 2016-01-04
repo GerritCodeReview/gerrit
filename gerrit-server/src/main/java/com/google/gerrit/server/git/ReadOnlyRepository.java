@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -54,6 +55,11 @@ class ReadOnlyRepository extends Repository {
     this.delegate = delegate;
     this.refdb = new RefDb(delegate.getRefDatabase());
     this.objdb = new ObjDb(delegate.getObjectDatabase());
+  }
+
+  @Override
+  public AttributesNodeProvider createAttributesNodeProvider() {
+    throw new UnsupportedOperationException(MSG);
   }
 
   @Override

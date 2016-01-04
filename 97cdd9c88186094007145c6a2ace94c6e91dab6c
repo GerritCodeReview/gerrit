@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa4d3ba_b03538d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-04T17:45:35Z",
+      "side": 1,
+      "message": "I tracked this down: [1]. Waiting for the new Buck version to rebase this change.\n\n* [1] https://github.com/facebook/buck/pull/595",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 50
+      },
+      "revId": "97cdd9c88186094007145c6a2ace94c6e91dab6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -21,6 +21,11 @@ limitations under the License.
 <dom-module id="gr-change-list-view">
   <template>
     <style>
+      .loading {
+        margin-top: 1em;
+        color: #666;
+        background-color: #f1f2f3;
+      }
       :host {
         background-color: var(--view-background-color);
         display: block;
@@ -49,14 +54,18 @@ limitations under the License.
         auto
         url="/changes/"
         params="[[_computeQueryParams(query, offset)]]"
-        last-response="{{_changes}}"></gr-ajax>
-    <gr-change-list changes="{{_changes}}"></gr-change-list>
-    <nav>
-      <a href$="[[_computeNavLink(query, offset, -1)]]"
-         hidden$="[[_hidePrevArrow(offset)]]">&larr; Prev</a>
-      <a href$="[[_computeNavLink(query, offset, 1)]]"
-         hidden$="[[_hideNextArrow(_changes.length)]]">Next &rarr;</a>
-    </nav>
+        last-response="{{_changes}}"
+        loading="{{_loading}}"></gr-ajax>
+    <div class="loading" hidden$="{{!_loading}}">Loading...</div>
+    <div hidden$="{{_loading}}">
+      <gr-change-list changes="{{_changes}}"></gr-change-list>
+      <nav>
+        <a href$="[[_computeNavLink(query, offset, -1)]]"
+           hidden$="[[_hidePrevArrow(offset)]]">&larr; Prev</a>
+        <a href$="[[_computeNavLink(query, offset, 1)]]"
+           hidden$="[[_hideNextArrow(_changes.length)]]">Next &rarr;</a>
+      </nav>
+    </div>
   </template>
   <script>
   (function() {
@@ -80,6 +89,7 @@ limitations under the License.
          * Change objects loaded from the server.
          */
         _changes: Array,
+        _loading: Boolean,
       },
 
       _paramsChanged: function(value) {

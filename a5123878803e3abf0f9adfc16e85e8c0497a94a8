@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca9d8771_71f9186d",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-04T22:10:44Z",
+      "side": 1,
+      "message": "place this below the :host block. stuff on the host typically goes before anything else (to remain consistent)",
+      "revId": "a5123878803e3abf0f9adfc16e85e8c0497a94a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca9d8771_51f41476",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-04T22:10:44Z",
+      "side": 1,
+      "message": "specify a default value of true here. otherwise on initial load it will show the empty change list before the ajax request fires off, setting it to true.\n\n_loading: {\n  type: Boolean,\n  value: true,\n},",
+      "revId": "a5123878803e3abf0f9adfc16e85e8c0497a94a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

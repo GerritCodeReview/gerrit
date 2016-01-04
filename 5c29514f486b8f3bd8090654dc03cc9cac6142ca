@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa4d3ba_f016e034",
+        "filename": "lib/jgit/lib",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-04T23:53:46Z",
+      "side": 1,
+      "message": "This (and the other symlink) breaks `buck test` and `buck build //...`.",
+      "revId": "5c29514f486b8f3bd8090654dc03cc9cac6142ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

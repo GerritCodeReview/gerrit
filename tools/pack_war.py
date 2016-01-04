@@ -15,7 +15,7 @@
 
 from __future__ import print_function
 from optparse import OptionParser
-from os import chdir, makedirs, path, symlink
+from os import makedirs, path, symlink
 from subprocess import check_call
 import sys
 
@@ -27,23 +27,20 @@ opts.add_option('--tmp', help='temporary directory')
 args, ctx = opts.parse_args()
 
 war = args.tmp
-root = war[:war.index('buck-out')]
 jars = set()
 
 def prune(l):
- return [j[j.find('buck-out'):] for e in l for j in e.split(':')]
+  return [j for e in l for j in e.split(':')]
 
 def link_jars(libs, directory):
   makedirs(directory)
-  while not path.isfile('.buckconfig'):
-    chdir('..')
   for j in libs:
     if j not in jars:
       jars.add(j)
       n = path.basename(j)
-      if j.startswith('buck-out/gen/gerrit-'):
-        n = j.split('/')[2] + '-' + n
-      symlink(path.join(root, j), path.join(directory, n))
+      if j.find('buck-out/gen/gerrit-') > 0:
+        n = j[j.find('buck-out'):].split('/')[2] + '-' + n
+      symlink(j, path.join(directory, n))
 
 if args.lib:
   link_jars(prune(args.lib), path.join(war, 'WEB-INF', 'lib'))

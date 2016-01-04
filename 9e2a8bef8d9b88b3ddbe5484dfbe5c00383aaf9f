@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "aaa213bd_00fac665",
+        "filename": "gerrit-patch-jgit/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-04T00:05:30Z",
+      "side": 1,
+      "message": "Done. Thanks for merging my fix in JGit Buck implementation.",
+      "parentUuid": "eac16b6d_3ae741fe",
+      "revId": "9e2a8bef8d9b88b3ddbe5484dfbe5c00383aaf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a931f6b_4b97052f",
         "filename": "tools/pack_war.py",
         "patchSetId": 3
@@ -65,6 +83,24 @@
       "writtenOn": "2016-01-03T00:38:09Z",
       "side": 1,
       "message": "I would have to look into this again, but another pending patch in Buck wasn\u0027t merged yet: [1]. One unit test is still failing there, but i was able to make the cross cell build of JGit in Gerrit work by patching Buck with: [1] and aplying this change in gerrit tree and issuing:\n\n  buck build --config repositories.jgit\u003dpath/to/dev/jgit\n\nHow cool is that? ;)\n\n* [1] https://github.com/facebook/buck/pull/558",
+      "parentUuid": "0a931f6b_4b97052f",
+      "revId": "9e2a8bef8d9b88b3ddbe5484dfbe5c00383aaf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa4d3ba_50588c3e",
+        "filename": "tools/pack_war.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-04T00:05:30Z",
+      "side": 1,
+      "message": "\u003e Ready to simplify?\n\nUnfortunately not. It\u0027s still broken. I filed new issue: [1] and updated the comment above on line 36 to reference the right issue.\n\n* [1] https://github.com/facebook/buck/issues/594",
       "parentUuid": "0a931f6b_4b97052f",
       "revId": "9e2a8bef8d9b88b3ddbe5484dfbe5c00383aaf9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

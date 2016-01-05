@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ea096bde_ba9af187",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-05T20:30:32Z",
+      "side": 1,
+      "message": "That seems brittle to me. Someone may remove it noticing that loggedIn doesn\u0027t take an argument and not know the ramifications.\n\nI would create a _computeLoggedIn function that takes the account as a param.",
+      "parentUuid": "4aefd732_3dafefa0",
+      "range": {
+        "startLine": 103,
+        "startChar": 34,
+        "endLine": 103,
+        "endChar": 41
+      },
+      "revId": "acbfa55a5e385a5e554cd139953afc519c4d1ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6af49b02_5eb635fa",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2016-01-05T19:46:50Z",
       "side": 1,
       "message": "I have changed the ES6 getter to a normal function since it looks like ES6 getters are not supported in bindings.",
+      "revId": "acbfa55a5e385a5e554cd139953afc519c4d1ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca0ca7f0_b99aff87",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-05T20:30:32Z",
+      "side": 1,
+      "message": "I’m assuming you’ll also update the other uses of this function?",
+      "parentUuid": "6af49b02_5eb635fa",
       "revId": "acbfa55a5e385a5e554cd139953afc519c4d1ad7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

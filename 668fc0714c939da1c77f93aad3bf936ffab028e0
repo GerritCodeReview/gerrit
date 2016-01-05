@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca0ca7f0_59b643fa",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-05T22:27:30Z",
+      "side": 1,
+      "message": "i think img tags are inline already. is this needed?",
+      "revId": "668fc0714c939da1c77f93aad3bf936ffab028e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea096bde_bac1515c",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-05T22:27:30Z",
+      "side": 1,
+      "message": "the hidden property is actually a part of the html5 spec, so this isn\u0027t needed. You’ll still have to set it to false in ready() to get the same effect, though.",
+      "revId": "668fc0714c939da1c77f93aad3bf936ffab028e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca0ca7f0_19accba8",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-05T22:27:30Z",
+      "side": 1,
+      "message": "_updateAvatarSrc",
+      "revId": "668fc0714c939da1c77f93aad3bf936ffab028e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca0ca7f0_79b987ea",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-05T22:27:30Z",
+      "side": 1,
+      "message": "_compute* is used for computed bindings. can you roll this into _updateAvatarSrc?",
+      "revId": "668fc0714c939da1c77f93aad3bf936ffab028e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea096bde_dac08555",
+        "filename": "polygerrit-ui/app/elements/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-05T22:27:30Z",
+      "side": 1,
+      "message": "[is\u003d\"gr-avatar\"] to remain consistent.",
+      "revId": "668fc0714c939da1c77f93aad3bf936ffab028e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea096bde_3ad6e120",
+        "filename": "polygerrit-ui/app/elements/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-05T22:27:30Z",
+      "side": 1,
+      "message": "four-space indent on continuing lines and \u0026\u0026 goes on previous line.",
+      "revId": "668fc0714c939da1c77f93aad3bf936ffab028e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

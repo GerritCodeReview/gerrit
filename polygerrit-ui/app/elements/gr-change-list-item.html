@@ -161,11 +161,11 @@ limitations under the License.
         if (codeReview.approved) {
           return '✓';
         }
-        if (codeReview.value == 1) {
-          return '+1';
+        if (codeReview.value > 0) {
+          return '+' + codeReview.value;
         }
-        if (codeReview.value == -1) {
-          return '-1';
+        if (codeReview.value < 0) {
+          return codeReview.value;
         }
         return '';
       },
@@ -189,9 +189,12 @@ limitations under the License.
       },
 
       _computeOwnerTitle: function(owner) {
-        if (!owner) { return ''; }
-        // TODO: Is this safe from XSS attacks?
-        return owner.name + ' <' + owner.email + '>';
+        if (!owner || !owner.name) { return ''; }
+        var result = util.escapeHTML(owner.name);
+        if (owner.email) {
+          result += ' <' + util.escapeHTML(owner.email) + '>';
+        }
+        return result;
       },
 
       _computeProjectURL: function(project) {

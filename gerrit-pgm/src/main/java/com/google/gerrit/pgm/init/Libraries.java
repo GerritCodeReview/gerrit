@@ -44,6 +44,7 @@ class Libraries {
   /* final */LibraryDownloader bouncyCastleSSL;
   /* final */LibraryDownloader db2Driver;
   /* final */LibraryDownloader db2DriverLicense;
+  /* final */LibraryDownloader hanaDriver;
   /* final */LibraryDownloader mysqlDriver;
   /* final */LibraryDownloader oracleDriver;
 

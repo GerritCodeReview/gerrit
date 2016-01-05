@@ -35,5 +35,6 @@ public class DataSourceModule extends AbstractModule {
      */
     bind(DataSourceType.class).annotatedWith(Names.named("maxdb")).to(MaxDb.class);
     bind(DataSourceType.class).annotatedWith(Names.named("sap db")).to(MaxDb.class);
+    bind(DataSourceType.class).annotatedWith(Names.named("hana")).to(HANA.class);
   }
 }

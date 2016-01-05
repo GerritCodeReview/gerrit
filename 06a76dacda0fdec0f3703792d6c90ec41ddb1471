@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a59c3e9_64d3ca30",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-05T15:17:23Z",
+      "side": 1,
+      "message": "Two previous properties have documentation and the second property is separated with a blank line. Can we be consistent here?",
+      "revId": "06a76dacda0fdec0f3703792d6c90ec41ddb1471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

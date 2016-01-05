@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -74,6 +75,11 @@ class ReadOnlyRepository extends Repository {
   @Override
   public StoredConfig getConfig() {
     return delegate.getConfig();
+  }
+
+  @Override
+  public AttributesNodeProvider createAttributesNodeProvider() {
+    return delegate.createAttributesNodeProvider();
   }
 
   @Override

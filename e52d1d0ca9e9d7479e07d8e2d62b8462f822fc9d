@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea340b68_e2e826d5",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-05T16:49:41Z",
+      "side": 1,
+      "message": "The actual set of label states is somewhat more complicated, there is:\n\n* \"approved\": usually the maximum label value, e.g. Code-Review+2\n* \"recommended\": usually 0 \u003c x \u003c max, e.g. Code-Review+1\n* \"disliked\": usually min \u003c x \u003c 0, e.g. Code-Review-1\n* \"rejected\": usually the minimum value, e.g. Code-Review-2\n\nIn the change list we distinguish between these 4 states by using check/X for the max/min values and numbers for the intervening values.\n\n(I say \"usually\" above because things can get fairly weird if you have labels with no negative values, or more complicated submit rules.)",
+      "revId": "e52d1d0ca9e9d7479e07d8e2d62b8462f822fc9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

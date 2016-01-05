@@ -97,6 +97,21 @@ limitations under the License.
         font-weight: bold;
         text-align: right;
       }
+      .labelValue:not(:first-of-type) {
+        margin-top: .25em;
+      }
+      .labelValue .approved,
+      .labelValue .notApproved {
+        display: inline-block;
+        padding: .1em .3em;
+        border-radius: 3px;
+      }
+      .approved {
+        background-color: #d4ffd4;
+      }
+      .notApproved {
+        background-color: #ffd4d4;
+      }
       .summary {
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
@@ -194,6 +209,25 @@ limitations under the License.
                   date-str="[[_change.updated]]"></gr-date-formatter>
             </td>
           </tr>
+          <template is="dom-repeat"
+              items="[[_computeLabelNames(_change.labels)]]" as="labelName">
+            <tr>
+              <td class="changeInfo-label">[[labelName]]</td>
+              <td>
+                <template is="dom-repeat"
+                    items="[[_computeLabelValues(labelName, _change.labels)]]"
+                    as="label">
+                  <div class="labelValue">
+                    <span class$="[[label.className]]">
+                      <span>[[label.value]]</span>
+                      <span>[[label.accountName]]</span>
+                      <span hidden$="[[!label.accountEmail]]">([[label.accountEmail]])</span>
+                    </span>
+                  </div>
+                </template>
+              </td>
+            </tr>
+          </template>
         </table>
       </section>
       <section class="summary">
@@ -378,6 +412,33 @@ limitations under the License.
 
       _computePatchIndexIsSelected: function(index, patchNum) {
          return this._allPatchSets[index] == patchNum;
+      },
+
+      _computeLabelNames: function(labels) {
+        return Object.keys(labels).sort();
+      },
+
+      _computeLabelValues: function(labelName, labels) {
+        var result = [];
+        labels[labelName].all.forEach(function(label) {
+          if (label.value != labels[labelName].default_value) {
+            var labelClassName;
+            var labelValPrefix = '';
+            if (label.value > 0) {
+              labelValPrefix = '+'
+              labelClassName = 'approved';
+            } else if (label.value < 0) {
+              labelClassName = 'notApproved';
+            }
+            result.push({
+              value: labelValPrefix + label.value,
+              className: labelClassName,
+              accountName: label.name,
+              accountEmail: label.email,
+            });
+          }
+        });
+        return result;
       },
 
       _handleKey: function(e) {

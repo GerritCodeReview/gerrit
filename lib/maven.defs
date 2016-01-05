@@ -16,7 +16,6 @@ GERRIT = 'GERRIT:'
 GERRIT_API = 'GERRIT_API:'
 MAVEN_CENTRAL = 'MAVEN_CENTRAL:'
 MAVEN_LOCAL = 'MAVEN_LOCAL:'
-STAGING = 'STAGING:'
 
 def define_license(name):
   n = 'LICENSE-' + name

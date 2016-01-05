@@ -20,7 +20,6 @@ REPO_ROOTS = {
   'GERRIT_API': 'https://gerrit-api.commondatastorage.googleapis.com/release',
   'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
   'MAVEN_LOCAL': 'file://' + path.expanduser('~/.m2/repository'),
-  'STAGING': 'https://oss.sonatype.org/content/repositories/comgooglegerrit-1081',
 }
 
 

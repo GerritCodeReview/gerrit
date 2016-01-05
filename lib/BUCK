@@ -35,7 +35,6 @@ maven_jar(
   bin_sha1 = '26a2459f543ed78977535f92e379dc0d6cdde8bb',
   src_sha1 = '9524088d6e46e299b12791cb1a63c4ba6a478b96',
   license = 'Apache2.0',
-  repository = STAGING,
 )
 
 java_library(

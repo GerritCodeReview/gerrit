@@ -16,6 +16,24 @@
       "revId": "65b73323a90b6f710b478fe61e95c3395093853e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea340b68_82da7a3b",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-05T18:32:51Z",
+      "side": 1,
+      "message": "Thing is that you can shoot yourself in the foot by doing setAttribute (which this is just a wrapper around).",
+      "parentUuid": "aaea131e_80fe9681",
+      "revId": "65b73323a90b6f710b478fe61e95c3395093853e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

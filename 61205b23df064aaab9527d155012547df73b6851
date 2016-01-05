@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1450854983 +0100\nnonce ALmjDBU4BWmHfICqMjY58nDTE7UYxOwdxgCajtOTx9I5fnUYgr77lIA17MHIFxaPlWtkCz5ZQC8L\n\n0000000000000000000000000000000000000000 61205b23df064aaab9527d155012547df73b6851 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWekpHAAoJEFG1/Zeg0O9R/WQIAKUlltYaoItTslas4aVksseW\nsxQA2zXpkiuPlZlL64iH2fdyRSBQjbRUDMazMS9Ug8oTpSq2TLyo1Q4hREC/8CsM\nRjLuERCmV0yf8Dj4LEREnsdMdh5fzu0HTBiebxLH3fQsSaFmvT4eRg+B3o+LesYX\nFeDvQMqk+1no0g7hmGM4GZKWxcufJm6o0EWHCE7vSLy9T9AKezamOwj9M1iyDwdx\n0xyU0Mo0B79tmkdwB9qEy818NMIcTAzMMZ2c4y8qgpqkKDmHeYkH9VVrTeyZnOP3\noZp4FbrRW/Dj+Jo2hqU861Z5zcn9Tu6EuwNswllzgP7d5GdlkByPhTE/ch3vIZg\u003d\n\u003depPz\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea340b68_e23ee608",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-05T19:36:59Z",
+      "side": 1,
+      "message": "Is this intentionally vague, so we don\u0027t tie ourself to a particular DOM representation? Or should we be more specific?\n\n* Is the comment in the body of this element, or might there be nesting?\n* Will the comment text always be within an element having a specific class name?\n\nI guess there are really no guarantees about the structure if there are multiple comments present...maybe that should be mentioned as well?",
+      "range": {
+        "startLine": 180,
+        "startChar": 11,
+        "endLine": 180,
+        "endChar": 27
+      },
+      "revId": "61205b23df064aaab9527d155012547df73b6851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

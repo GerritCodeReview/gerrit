@@ -34,6 +34,7 @@ import com.google.inject.Singleton;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Locale;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -63,6 +64,7 @@ class HttpAuthFilter implements Filter {
   private final String displaynameHeader;
   private final String emailHeader;
   private final String externalIdHeader;
+  private final boolean userNameToLowerCase;
 
   @Inject
   HttpAuthFilter(final DynamicItem<WebSession> webSession,
@@ -83,6 +85,7 @@ class HttpAuthFilter implements Filter {
     displaynameHeader = emptyToNull(authConfig.getHttpDisplaynameHeader());
     emailHeader = emptyToNull(authConfig.getHttpEmailHeader());
     externalIdHeader = emptyToNull(authConfig.getHttpExternalIdHeader());
+    userNameToLowerCase = authConfig.isUserNameToLowerCase();
   }
 
   @Override
@@ -136,7 +139,8 @@ class HttpAuthFilter implements Filter {
   }
 
   String getRemoteUser(HttpServletRequest req) {
-    return RemoteUserUtil.getRemoteUser(req, loginHeader);
+    String remoteUser = RemoteUserUtil.getRemoteUser(req, loginHeader);
+    return userNameToLowerCase ? remoteUser.toLowerCase(Locale.US) : remoteUser;
   }
 
   String getRemoteDisplayname(HttpServletRequest req) {

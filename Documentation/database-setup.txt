@@ -147,6 +147,50 @@ Visit SAP MaxDB's link:http://maxdb.sap.com/documentation/[documentation] for fu
 information regarding using SAP MaxDB.
 
 
+[[createdb_hana]]
+=== SAP HANA
+
+SAP HANA is a supported database for running Gerrit Code Review. However it is
+recommended only for environments where you intend to run Gerrit on an existing
+HANA installation to reduce administrative overhead.
+
+In the HANA studio or the SAP HANA Web-based Development Workbench create a user
+'GERRIT2' with the role 'RESTRICTED_USER_JDBC_ACCESS' and a password
+<secret password>. This will also create an associated schema on the database.
+As this user would be required to change the password upon first login you might
+want to to disable the password lifetime check by executing
+'ALTER USER GERRIT2 DISABLE PASSWORD LIFETIME'. 
+
+To run Gerrit on HANA, you need to obtain the HANA JDBC driver. It can be found
+as described
+link:http://help.sap.com/saphelp_hanaplatform/helpdata/en/ff/15928cf5594d78b841fbbe649f04b4/frameset.htm[here].
+It needs to be stored in the 'lib' folder of the review site.
+
+In the following sample database section it is assumed that HANA is running on
+the host 'hana.host' with the instance number 00 where a schema/user GERRIT2 was created :
+
+In $site_path/etc/gerrit.config:
+
+----
+[database]
+        type = hana
+        instance = 00
+        hostname = hana.host
+        username = GERRIT2
+
+----
+
+In $site_path/etc/secure.config:
+
+----
+[database]
+        password = <secret password>
+----
+
+Visit SAP HANA's link:http://help.sap.com/hana_appliance/[documentation] for further
+information regarding using SAP HANA.
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

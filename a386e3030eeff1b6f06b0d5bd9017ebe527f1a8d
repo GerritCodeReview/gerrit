@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaea131e_c09a5e89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-05T15:04:45Z",
+      "side": 1,
+      "message": "remove this.",
+      "revId": "a386e3030eeff1b6f06b0d5bd9017ebe527f1a8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

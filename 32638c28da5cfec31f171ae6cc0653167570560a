@@ -45,6 +45,30 @@
       "revId": "32638c28da5cfec31f171ae6cc0653167570560a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aefd732_ddc08b55",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-05T20:51:18Z",
+      "side": 1,
+      "message": "Good point. Another option would be to strip all dependent stuff, (preserving the license) and keep our version of depdendcies. That would be consequent with what was done with autovalue library.",
+      "parentUuid": "0af95ffe_dba9b39d",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 24
+      },
+      "revId": "32638c28da5cfec31f171ae6cc0653167570560a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

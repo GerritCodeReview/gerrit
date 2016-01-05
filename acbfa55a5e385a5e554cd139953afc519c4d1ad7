@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4aefd732_3dafefa0",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-05T19:46:50Z",
+      "side": 1,
+      "message": "I pass here the unused argument \u0027account\u0027 in order to get updated once \u0027account\u0027 gets changed and thus the user is logged in.",
+      "range": {
+        "startLine": 103,
+        "startChar": 34,
+        "endLine": 103,
+        "endChar": 41
+      },
+      "revId": "acbfa55a5e385a5e554cd139953afc519c4d1ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6af49b02_5eb635fa",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-05T19:46:50Z",
+      "side": 1,
+      "message": "I have changed the ES6 getter to a normal function since it looks like ES6 getters are not supported in bindings.",
+      "revId": "acbfa55a5e385a5e554cd139953afc519c4d1ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -228,13 +228,20 @@ limitations under the License.
 
     .hashtagName {
       display: inline-block;
+      height: 15px;
       margin-bottom: 2px;
-      padding: 1px 3px 0px 3px;
+      padding: 1px 3px 1px 3px;
       border-radius: 5px;
       -webkit-border-radius: 5px;
       background: #E2F5FF;
       border: 1px solid #579FDA;
       white-space: nowrap;
+    }
+
+    .hashtagName a,
+    .hashtagName button {
+      position: relative;
+      top: -4px;
     }
 
     .hashtagName button {
@@ -244,6 +251,11 @@ limitations under the License.
       border: 0;
       background-color: transparent;
       white-space: nowrap;
+    }
+
+    .hashtagIcon img {
+      position: relative;
+      top: 4px;
     }
 
     .headerButtons button {

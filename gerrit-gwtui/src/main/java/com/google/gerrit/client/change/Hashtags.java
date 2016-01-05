@@ -26,6 +26,7 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -34,9 +35,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.StatusCodeException;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -93,7 +95,7 @@ public class Hashtags extends Composite {
   }
 
   @UiField Element hashtagsText;
-  @UiField Button openForm;
+  @UiField Image addHashtagIcon;
   @UiField Element form;
   @UiField Element error;
   @UiField NpTextBox hashtagTextBox;
@@ -116,6 +118,15 @@ public class Hashtags extends Composite {
         }
       }
     });
+
+    addHashtagIcon.addDomHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            onOpenForm();
+          }
+        },
+        ClickEvent.getType());
   }
 
   void init(ChangeScreen.Style style){
@@ -126,18 +137,13 @@ public class Hashtags extends Composite {
     canEdit = info.hasActions() && info.actions().containsKey("hashtags");
     this.changeId = info.legacyId();
     display(info);
-    openForm.setVisible(canEdit);
-  }
-
-  @UiHandler("openForm")
-  void onOpenForm(@SuppressWarnings("unused") ClickEvent e) {
-    onOpenForm();
+    addHashtagIcon.setVisible(canEdit);
   }
 
   void onOpenForm() {
     UIObject.setVisible(form, true);
     UIObject.setVisible(error, false);
-    openForm.setVisible(false);
+    addHashtagIcon.setVisible(false);
     hashtagTextBox.setFocus(true);
   }
 
@@ -167,7 +173,13 @@ public class Hashtags extends Composite {
           .setAttribute("href",
               "#" + PageLinks.toChangeQuery("hashtag:\"" + hashtagName + "\""))
           .setAttribute("role", "listitem")
-          .append("#").append(hashtagName)
+          .openSpan()
+            .setStyleName(style.hashtagIcon())
+            .append(new ImageResourceRenderer().render(
+                Gerrit.RESOURCES.hashtag()))
+          .closeSpan()
+          .append(" ")
+          .append(hashtagName)
           .closeAnchor();
       if (canEdit) {
         html.openElement("button")
@@ -186,7 +198,7 @@ public class Hashtags extends Composite {
 
   @UiHandler("cancel")
   void onCancel(@SuppressWarnings("unused") ClickEvent e) {
-    openForm.setVisible(true);
+    addHashtagIcon.setVisible(true);
     UIObject.setVisible(form, false);
     hashtagTextBox.setFocus(false);
   }

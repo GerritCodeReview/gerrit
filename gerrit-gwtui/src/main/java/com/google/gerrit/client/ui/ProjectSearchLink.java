@@ -27,6 +27,7 @@ public class ProjectSearchLink extends InlineHyperlink {
     super(" ", PageLinks.toProjectDefaultDashboard(projectName));
     setTitle(Util.C.projectListQueryLink());
     final Image image = new Image(Gerrit.RESOURCES.queryIcon());
+    image.setStyleName(Gerrit.RESOURCES.css().queryIcon());
     DOM.insertBefore(getElement(), image.getElement(),
         DOM.getFirstChild(getElement()));
   }

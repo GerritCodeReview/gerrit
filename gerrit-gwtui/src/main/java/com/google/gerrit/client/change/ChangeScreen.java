@@ -115,6 +115,7 @@ public class ChangeScreen extends Screen {
   interface Style extends CssResource {
     String avatar();
     String hashtagName();
+    String hashtagIcon();
     String highlight();
     String labelName();
     String label_may();

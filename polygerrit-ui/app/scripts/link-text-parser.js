@@ -20,8 +20,6 @@ function GrLinkTextParser(linkConfig, callback) {
   Object.preventExtensions(this);
 }
 
-GrLinkTextParser.SUB_REGEX = /\$(\d+)/;
-
 GrLinkTextParser.prototype.addText = function(text, href) {
   if (!text) {
     return;
@@ -45,22 +43,23 @@ GrLinkTextParser.prototype.parseChunk = function(text, href) {
 
 GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
   for (var p in patterns) {
-    var pattern = new RegExp(patterns[p].match);
-    var match = text.match(pattern);
-    if (!match) { continue; }
+    console.log(patterns[p].match)
+    var pattern = new RegExp(patterns[p].match, 'g');
 
-    var link = patterns[p].link;
-    var subMatch = link.match(GrLinkTextParser.SUB_REGEX);
-    link = link.replace(GrLinkTextParser.SUB_REGEX, match[subMatch[1]]);
+    var match;
+    while (match = pattern.exec(text)) {
+      var link = match[0].replace(pattern, patterns[p].link);
 
-    // PolyGerrit doesn't use hash-based navigation like GWT. Account for this.
-    if (link[0] == '#') {
-      link = link.substr(1);
+      // PolyGerrit doesn't use hash-based navigation like GWT.
+      // Account for this.
+      if (link[0] == '#') {
+        link = link.substr(1);
+      }
+      var before = text.substr(0, match.index);
+      this.addText(before);
+      text = text.substr(match.index + match[0].length);
+      this.addText(match[0], link);
     }
-    var before = text.substr(0, match.index);
-    this.addText(before);
-    text = text.substr(match.index + match[0].length);
-    this.addText(match[0], link);
   }
   this.addText(text);
 };

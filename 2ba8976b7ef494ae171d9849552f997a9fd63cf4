@@ -70,6 +70,30 @@
       "revId": "2ba8976b7ef494ae171d9849552f997a9fd63cf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea340b68_e29a6689",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-01-05T02:55:50Z",
+      "side": 1,
+      "message": "I\u0027m updating closure-compiler in\nhttps://gerrit-review.googlesource.com/#/c/73610/",
+      "parentUuid": "c5149a35_99013b4c",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 59
+      },
+      "revId": "2ba8976b7ef494ae171d9849552f997a9fd63cf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0af95ffe_dba9b39d",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-01-05T20:47:41Z",
+      "side": 1,
+      "message": "Should this be DO_NOT_DISTRIBUTE?\n\nSince it\u0027s a shaded jar, the license isn\u0027t generated correctly any more (e.g., it doesn\u0027t include the args4j license).  But IIUC the compiler isn\u0027t part of the generated output, hence the suggestion of DO_NOT_DISTRIBUTE.",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 24
+      },
+      "revId": "32638c28da5cfec31f171ae6cc0653167570560a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

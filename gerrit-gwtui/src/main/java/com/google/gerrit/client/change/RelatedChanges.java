@@ -184,6 +184,7 @@ public class RelatedChanges extends TabPanel {
       setTabEnabled(tabInfo, false);
     }
     getTab(Tab.RELATED_CHANGES).setShowIndirectAncestors(true);
+    getTab(Tab.RELATED_CHANGES).setShowSubmittable(true);
     getTab(Tab.CHERRY_PICKS).setShowBranches(true);
     getTab(Tab.SAME_TOPIC).setShowBranches(true);
     getTab(Tab.SAME_TOPIC).setShowProjects(true);

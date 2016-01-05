@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4aefd732_3dd6cf20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-05T21:08:35Z",
+      "side": 1,
+      "message": "Strictly speaking you are right, according to the definition of maven-shade-plugin plugin: \"This plugin provides the capability to package the artifact in an uber-jar, including its dependencies and to shade - i.e. rename - the packages of some of the dependencies.\" However, we can also call it non rellocated shaded jar after the name of the plugin. Also note, that the rellocation step is optional, and may be omitted: [1]. IOW you would still use shaded plugin, and create ueber-jar or shaded jar without shading/rellocation.\n\n* [1] https://maven.apache.org/plugins/maven-shade-plugin/examples/class-relocation.html",
+      "parentUuid": "0af95ffe_1bacbba8",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "32638c28da5cfec31f171ae6cc0653167570560a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0af95ffe_dba9b39d",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 3

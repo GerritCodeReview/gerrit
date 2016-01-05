@@ -34,6 +34,24 @@
       "revId": "65b73323a90b6f710b478fe61e95c3395093853e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaea131e_0049e6b8",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-05T18:33:53Z",
+      "side": 1,
+      "message": "Yeah you can always shoot yourself in the foot if you aren\u0027t using the framework, but said wrapper could at least try to prevent you from shooting yourself in the foot.",
+      "parentUuid": "ea340b68_82da7a3b",
+      "revId": "65b73323a90b6f710b478fe61e95c3395093853e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

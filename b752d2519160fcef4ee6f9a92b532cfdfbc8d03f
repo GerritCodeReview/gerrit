@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a5a77de_45afaa9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-05T07:45:20Z",
+      "side": 1,
+      "message": "Nit: too lon line. I wouldn\u0027t formulate this way. One can get impression, that our toolchain is broken, and that the duplicate dependencies are already there before this change. I would rather explain, that now, closure-compiler is shaded jar and includes all its dependency:\n\n  $ jar tf /home/davido/.gerritcodereview/buck-cache/downloaded-artifacts/closure-compiler-v20141120.jar-369618bf5a96f73e32655dc48919c0f97558d3b1 | grep args4j | wc -l\n  0\n  $ jar tf /home/davido/.gerritcodereview/buck-cache/downloaded-artifacts/closure-compiler-v20151216.jar-b5cd14a356cd9079791ba10b6d9623ef4ae4df6e  | grep args4j | wc -l\n  76",
+      "revId": "b752d2519160fcef4ee6f9a92b532cfdfbc8d03f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

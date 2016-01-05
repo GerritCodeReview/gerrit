@@ -117,6 +117,30 @@
       "revId": "32638c28da5cfec31f171ae6cc0653167570560a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6af49b02_7ee7b1fc",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-05T21:36:01Z",
+      "side": 1,
+      "message": "Yes. My suggestion was for the record. As pointed out by Jonathan, we don\u0027t ship this artifact.",
+      "parentUuid": "ea096bde_1aacbda8",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 24
+      },
+      "revId": "32638c28da5cfec31f171ae6cc0653167570560a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

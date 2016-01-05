@@ -53,6 +53,9 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   public static class Repo extends InMemoryRepository {
     private Repo(Project.NameKey name) {
       super(new Description(name));
+      // TODO(dborowitz): Allow atomic transactions when this is supported:
+      // https://git.eclipse.org/r/#/c/61841/2/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java@313
+      setPerformsAtomicTransactions(false);
     }
 
     @Override

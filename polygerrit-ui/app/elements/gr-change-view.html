@@ -387,7 +387,7 @@ limitations under the License.
       },
 
       _computeProjectConfigPath: function(project) {
-        return '/projects/' + project + '/config';
+        return '/projects/' + encodeURIComponent(project) + '/config';
       },
 
       _computeDetailQueryParams: function() {

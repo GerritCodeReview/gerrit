@@ -111,12 +111,18 @@ limitations under the License.
       assert.isFalse(element.$$('.addReviewer').hasAttribute('hidden'));
       assert.isTrue(
           element.$$('.autocompleteContainer').hasAttribute('hidden'));
-      assert.notEqual(document.activeElement.id, 'input');
+      var activeEl = document.activeElement.shadowRoot ?
+          document.activeElement.shadowRoot.activeElement :
+          document.activeElement;
+      assert.notEqual(activeEl.id, 'input');
       MockInteractions.tap(element.$$('.addReviewer'));
       assert.isTrue(element.$$('.addReviewer').hasAttribute('hidden'));
       assert.isFalse(
           element.$$('.autocompleteContainer').hasAttribute('hidden'));
-      assert.equal(document.activeElement.id, 'input');
+      activeEl = document.activeElement.shadowRoot ?
+          document.activeElement.shadowRoot.activeElement :
+          document.activeElement;
+      assert.equal(activeEl.id, 'input');
     });
 
     test('only show remove for removable reviewers', function() {

@@ -65,29 +65,38 @@ limitations under the License.
         {
           'text': 'Change-Id: I11d6a37f5e9b5df0486f6c922d8836dfa780e03e',
           'linkedText': 'Change-Id: <a href="/q/I11d6a37f5e9b5df0486f6c922d8836dfa780e03e" target="_blank">I11d6a37f5e9b5df0486f6c922d8836dfa780e03e</a>'
-        }
+        },
+        {
+          'text': 'Issue 3650\nIssue 3450',
+          'linkedText': '<a href="https://code.google.com/p/gerrit/issues/detail?id=3650" target="_blank">Issue 3650</a>\n<a href="https://code.google.com/p/gerrit/issues/detail?id=3450" target="_blank">Issue 3450</a>',
+        },
       ];
     });
 
     test('URL pattern was parsed and linked.', function() {
       // Reguar inline link.
-      element._contentChanged(testStrings[0].text, element.config);
+      element.content = testStrings[0].text;
       assert.equal(element.$.output.innerHTML, testStrings[0].linkedText);
     });
 
     test('Bug pattern was parsed and linked', function() {
       // "Issue/Bug" pattern.
-      element._contentChanged(testStrings[1].text, element.config);
+      element.content = testStrings[1].text;
       assert.equal(element.$.output.innerHTML, testStrings[1].linkedText);
 
-      element._contentChanged(testStrings[2].text, element.config);
+      element.content = testStrings[2].text;
       assert.equal(element.$.output.innerHTML, testStrings[2].linkedText);
     });
 
     test('Change-Id pattern was parsed and linked', function() {
       // "Change-Id:" pattern.
-      element._contentChanged(testStrings[3].text, element.config);
+      element.content = testStrings[3].text;
       assert.equal(element.$.output.innerHTML, testStrings[3].linkedText);
+    });
+
+    test('Multiple matches', function() {
+      element.content = testStrings[4].text;
+      assert.equal(element.$.output.innerHTML, testStrings[4].linkedText);
     });
   });
 </script>

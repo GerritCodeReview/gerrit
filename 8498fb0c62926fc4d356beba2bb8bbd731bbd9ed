@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6af49b02_1ee4adc7",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-06T19:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a18b72c_d5a97c9d",
+      "range": {
+        "startLine": 56,
+        "startChar": 81,
+        "endLine": 56,
+        "endChar": 85
+      },
+      "revId": "8498fb0c62926fc4d356beba2bb8bbd731bbd9ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a1703fe_949f0478",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2016-01-06T19:13:53Z",
       "side": 1,
       "message": "you can just say show-email, not show-email\u003d\"true\"",
+      "revId": "8498fb0c62926fc4d356beba2bb8bbd731bbd9ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6af49b02_7ef17189",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-06T19:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a1703fe_949f0478",
       "revId": "8498fb0c62926fc4d356beba2bb8bbd731bbd9ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

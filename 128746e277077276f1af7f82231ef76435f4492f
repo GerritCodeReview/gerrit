@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a1703fe_b4c1605c",
+        "filename": "polygerrit-ui/app/elements/gr-account-link.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-06T19:36:47Z",
+      "side": 1,
+      "message": "Only underline text. Otherwise you get this unsightly underline creeping under the avatar.",
+      "revId": "128746e277077276f1af7f82231ef76435f4492f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

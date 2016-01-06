@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6af49b02_1e65cd1c",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-06T19:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea096bde_9a9f2d78",
+      "revId": "779abf339cf1f8c721319e3736d4f8f5f179bfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea096bde_daa9a59d",
         "filename": "polygerrit-ui/app/elements/gr-change-star.html",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "6af49b02_7e621116",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-06T19:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea096bde_daa9a59d",
+      "revId": "779abf339cf1f8c721319e3736d4f8f5f179bfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea096bde_faa469c5",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2016-01-05T21:25:12Z",
       "side": 1,
       "message": "hide this based on the _loggedIn attribute. negating the need for the star element itself needing to know if it\u0027s logged in",
+      "revId": "779abf339cf1f8c721319e3736d4f8f5f179bfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6af49b02_5e5f5552",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-06T19:03:14Z",
+      "side": 1,
+      "message": "I thought about this as well, but decided to handle it inside \u0027gr-change-star\u0027. This way \u0027gr-change-star\u0027 can be used anywhere without passing the logged-in property through every element. Since it is an inline element, it gets hidden nicely in this case. If you think this should be changed, I will of course do it.",
+      "parentUuid": "ea096bde_faa469c5",
       "revId": "779abf339cf1f8c721319e3736d4f8f5f179bfd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

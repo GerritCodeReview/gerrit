@@ -29,7 +29,7 @@ public class ForcePushIT extends AbstractDaemonTest {
 
   @Test
   public void forcePushNotAllowed() throws Exception {
-    ObjectId initial = repo().getRef(HEAD).getLeaf().getObjectId();
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
     PushOneCommit push1 =
         pushFactory.create(db, admin.getIdent(), testRepo, "change1", "a.txt", "content");
     PushOneCommit.Result r1 = push1.to("refs/heads/master");
@@ -49,7 +49,7 @@ public class ForcePushIT extends AbstractDaemonTest {
 
   @Test
   public void forcePushAllowed() throws Exception {
-    ObjectId initial = repo().getRef(HEAD).getLeaf().getObjectId();
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
     grant(Permission.PUSH, project, "refs/*", true);
     PushOneCommit push1 =
         pushFactory.create(db, admin.getIdent(), testRepo, "change1", "a.txt", "content");

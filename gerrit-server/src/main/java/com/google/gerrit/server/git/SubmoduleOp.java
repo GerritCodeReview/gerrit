@@ -229,12 +229,12 @@ public class SubmoduleOp {
     boolean sameAuthorForAll = true;
 
     try (Repository pdb = repoManager.openRepository(subscriber.getParentKey())) {
-      if (pdb.getRef(subscriber.get()) == null) {
+      if (pdb.exactRef(subscriber.get()) == null) {
         throw new SubmoduleException(
             "The branch was probably deleted from the subscriber repository");
       }
 
-      DirCache dc = readTree(pdb, pdb.getRef(subscriber.get()));
+      DirCache dc = readTree(pdb, pdb.exactRef(subscriber.get()));
       DirCacheEditor ed = dc.editor();
 
       for (SubmoduleSubscription s : updates) {
@@ -308,7 +308,7 @@ public class SubmoduleOp {
       ObjectId tree = dc.writeTree(oi);
 
       ObjectId currentCommitId =
-          pdb.getRef(subscriber.get()).getObjectId();
+          pdb.exactRef(subscriber.get()).getObjectId();
 
       CommitBuilder commit = new CommitBuilder();
       commit.setTreeId(tree);

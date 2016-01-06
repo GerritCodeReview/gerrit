@@ -27,7 +27,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
-import org.eclipse.jgit.util.FS;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -96,7 +95,7 @@ class InitContainer implements InitStep {
         try (InputStream in = Files.newInputStream(myWar)) {
           Files.createDirectories(siteWar.getParent());
 
-          LockFile lf = new LockFile(siteWar.toFile(), FS.DETECTED);
+          LockFile lf = new LockFile(siteWar.toFile());
           if (!lf.lock()) {
             throw new IOException("Cannot lock " + siteWar);
           }

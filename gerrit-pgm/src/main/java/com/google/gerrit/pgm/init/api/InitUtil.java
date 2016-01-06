@@ -21,7 +21,6 @@ import com.google.gerrit.common.Die;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 
 import java.io.ByteArrayInputStream;
@@ -162,7 +161,7 @@ public class InitUtil {
     }
 
     Files.createDirectories(dst.getParent());
-    LockFile lf = new LockFile(dst.toFile(), FS.DETECTED);
+    LockFile lf = new LockFile(dst.toFile());
     if (!lf.lock()) {
       throw new IOException("Cannot lock " + dst);
     }

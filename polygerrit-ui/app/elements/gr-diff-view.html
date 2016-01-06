@@ -120,6 +120,7 @@ limitations under the License.
     <gr-diff id="diff"
         auto
         change-num="[[_changeNum]]"
+        prefs="{{prefs}}"
         patch-range="[[_patchRange]]"
         path="[[_path]]"
         available-patches="[[_computeAvailablePatches(_change.revisions)]]"
@@ -138,6 +139,10 @@ limitations under the License.
       ],
 
       properties: {
+        prefs: {
+          type: Object,
+          notify: true,
+        },
         keyEventTarget: {
           type: Object,
           value: function() {

@@ -15,6 +15,7 @@
 package com.google.gerrit.client.change;
 
 import static com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_MAC_ENTER;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
@@ -43,8 +44,8 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -123,12 +124,13 @@ public class ReplyBox extends Composite {
     }
 
     addDomHandler(
-      new KeyPressHandler() {
+      new KeyDownHandler() {
         @Override
-        public void onKeyPress(KeyPressEvent e) {
+        public void onKeyDown(KeyDownEvent e) {
           e.stopPropagation();
-          if ((e.getCharCode() == '\n' || e.getCharCode() == KEY_ENTER)
-              && e.isControlKeyDown()) {
+          if ((e.getNativeKeyCode() == KEY_ENTER
+              || e.getNativeKeyCode() == KEY_MAC_ENTER)
+              && (e.isControlKeyDown() || e.isMetaKeyDown())) {
             e.preventDefault();
             if (post.isEnabled()) {
               onPost(null);
@@ -136,7 +138,7 @@ public class ReplyBox extends Composite {
           }
         }
       },
-      KeyPressEvent.getType());
+      KeyDownEvent.getType());
   }
 
   @Override

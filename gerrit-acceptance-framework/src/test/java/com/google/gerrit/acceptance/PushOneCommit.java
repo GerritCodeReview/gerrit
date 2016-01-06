@@ -176,7 +176,7 @@ public class PushOneCommit {
     }
     commitBuilder.message(subject)
       .author(i)
-      .committer(new PersonIdent(i, testRepo.getClock()));
+      .committer(new PersonIdent(i, testRepo.getDate()));
   }
 
   public Result to(String ref) throws Exception {

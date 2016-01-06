@@ -93,7 +93,7 @@ public class DefaultSecureStore extends SecureStore {
     if (FileUtil.modified(sec)) {
       final byte[] out = Constants.encode(sec.toText());
       final File path = sec.getFile();
-      final LockFile lf = new LockFile(path, FS.DETECTED);
+      final LockFile lf = new LockFile(path);
       if (!lf.lock()) {
         throw new IOException("Cannot lock " + path);
       }

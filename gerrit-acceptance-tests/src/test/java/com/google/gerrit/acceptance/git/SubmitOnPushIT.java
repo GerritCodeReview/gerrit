@@ -107,7 +107,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Test
   public void submitOnPushMergeConflict() throws Exception {
-    ObjectId objectId = repo().getRef("HEAD").getObjectId();
+    ObjectId objectId = repo().exactRef("HEAD").getObjectId();
     push("refs/heads/master", "one change", "a.txt", "some content");
     testRepo.reset(objectId);
 
@@ -123,7 +123,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Test
   public void submitOnPushSuccessfulMerge() throws Exception {
     String master = "refs/heads/master";
-    ObjectId objectId = repo().getRef("HEAD").getObjectId();
+    ObjectId objectId = repo().exactRef("HEAD").getObjectId();
     push(master, "one change", "a.txt", "some content");
     testRepo.reset(objectId);
 
@@ -233,7 +233,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   private void assertCommit(Project.NameKey project, String branch) throws IOException {
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {
-      RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
+      RevCommit c = rw.parseCommit(r.exactRef(branch).getObjectId());
       assertThat(c.getShortMessage()).isEqualTo(PushOneCommit.SUBJECT);
       assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
       assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
@@ -244,7 +244,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   private void assertMergeCommit(String branch, String subject) throws IOException {
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {
-      RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
+      RevCommit c = rw.parseCommit(r.exactRef(branch).getObjectId());
       assertThat(c.getParentCount()).isEqualTo(2);
       assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
       assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
@@ -256,7 +256,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   private void assertTag(Project.NameKey project, String branch,
       PushOneCommit.Tag tag) throws IOException {
     try (Repository repo = repoManager.openRepository(project)) {
-      Ref tagRef = repo.getRef(tag.name);
+      Ref tagRef = repo.findRef(tag.name);
       assertThat(tagRef).isNotNull();
       ObjectId taggedCommit = null;
       if (tag instanceof PushOneCommit.AnnotatedTag) {
@@ -273,7 +273,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       } else {
         taggedCommit = tagRef.getObjectId();
       }
-      ObjectId headCommit = repo.getRef(branch).getObjectId();
+      ObjectId headCommit = repo.exactRef(branch).getObjectId();
       assertThat(taggedCommit).isNotNull();
       assertThat(taggedCommit).isEqualTo(headCommit);
     }

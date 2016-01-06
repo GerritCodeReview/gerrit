@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -24,7 +25,7 @@ import com.google.gerrit.server.project.BanCommit;
 import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
 
 public class BanCommitIT extends AbstractDaemonTest {
@@ -44,9 +45,11 @@ public class BanCommitIT extends AbstractDaemonTest {
     assertThat(info.alreadyBanned).isNull();
     assertThat(info.ignored).isNull();
 
-    PushResult pushResult = pushHead(testRepo, "refs/heads/master", false);
-    assertThat(pushResult.getRemoteUpdate("refs/heads/master").getMessage())
-        .startsWith("contains banned commit");
+    RemoteRefUpdate u = pushHead(testRepo, "refs/heads/master", false)
+        .getRemoteUpdate("refs/heads/master");
+    assertThat(u).isNotNull();
+    assertThat(u.getStatus()).isEqualTo(REJECTED_OTHER_REASON);
+    assertThat(u.getMessage()).startsWith("contains banned commit");
   }
 
   @Test

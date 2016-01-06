@@ -115,7 +115,10 @@ limitations under the License.
       },
 
       _computeCommentsString: function(comments, patchNum, path) {
-        var num = (comments[path] || []).length;
+        var patchComments = (comments[path] || []).filter(function(c) {
+          return c.patch_set == patchNum;
+        });
+        var num = patchComments.length;
         if (num == 0) { return ''; }
         if (num == 1) { return '1 comment'; }
         if (num > 1) { return num + ' comments'; };

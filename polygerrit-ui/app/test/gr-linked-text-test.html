@@ -35,7 +35,6 @@ limitations under the License.
 <script>
   suite('gr-linked-text tests', function() {
     var element;
-    var testStrings;
 
     setup(function() {
       element = fixture('basic');
@@ -49,54 +48,66 @@ limitations under the License.
           'link': '#/q/$1'
         }
       };
-      testStrings = [
-        {
-          'text': 'https://code.google.com/p/gerrit/issues/detail?id=3650',
-          'linkedText': '<a href="https://code.google.com/p/gerrit/issues/detail?id=3650" target="_blank">https://code.google.com/p/gerrit/issues/detail?id=3650</a>'
-        },
-        {
-          'text': 'Issue 3650',
-          'linkedText': '<a href="https://code.google.com/p/gerrit/issues/detail?id=3650" target="_blank">Issue 3650</a>'
-        },
-        {
-          'text': 'bug 3650',
-          'linkedText': '<a href="https://code.google.com/p/gerrit/issues/detail?id=3650" target="_blank">bug 3650</a>'
-        },
-        {
-          'text': 'Change-Id: I11d6a37f5e9b5df0486f6c922d8836dfa780e03e',
-          'linkedText': 'Change-Id: <a href="/q/I11d6a37f5e9b5df0486f6c922d8836dfa780e03e" target="_blank">I11d6a37f5e9b5df0486f6c922d8836dfa780e03e</a>'
-        },
-        {
-          'text': 'Issue 3650\nIssue 3450',
-          'linkedText': '<a href="https://code.google.com/p/gerrit/issues/detail?id=3650" target="_blank">Issue 3650</a>\n<a href="https://code.google.com/p/gerrit/issues/detail?id=3450" target="_blank">Issue 3450</a>',
-        },
-      ];
     });
 
     test('URL pattern was parsed and linked.', function() {
       // Reguar inline link.
-      element.content = testStrings[0].text;
-      assert.equal(element.$.output.innerHTML, testStrings[0].linkedText);
+      var url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+      element.content = url;
+      var linkEl = element.$.output.childNodes[0];
+      assert.equal(linkEl.target, '_blank');
+      assert.equal(linkEl.href, url);
+      assert.equal(linkEl.textContent, url);
     });
 
     test('Bug pattern was parsed and linked', function() {
       // "Issue/Bug" pattern.
-      element.content = testStrings[1].text;
-      assert.equal(element.$.output.innerHTML, testStrings[1].linkedText);
+      element.content = 'Issue 3650';
 
-      element.content = testStrings[2].text;
-      assert.equal(element.$.output.innerHTML, testStrings[2].linkedText);
+      var linkEl = element.$.output.childNodes[0];
+      var url = 'https://code.google.com/p/gerrit/issues/detail?id=3650';
+      assert.equal(linkEl.target, '_blank');
+      assert.equal(linkEl.href, url);
+      assert.equal(linkEl.textContent, 'Issue 3650');
+
+      element.content = 'Bug 3650';
+      linkEl = element.$.output.childNodes[0];
+      assert.equal(linkEl.target, '_blank');
+      assert.equal(linkEl.href, url);
+      assert.equal(linkEl.textContent, 'Bug 3650');
     });
 
     test('Change-Id pattern was parsed and linked', function() {
       // "Change-Id:" pattern.
-      element.content = testStrings[3].text;
-      assert.equal(element.$.output.innerHTML, testStrings[3].linkedText);
+      var changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e'
+      var prefix = 'Change-Id: ';
+      element.content = prefix + changeID;
+
+      var textNode = element.$.output.childNodes[0];
+      var linkEl = element.$.output.childNodes[1];
+      assert.equal(textNode.textContent, prefix);
+      var url = '/q/' + changeID;
+      assert.equal(linkEl.target, '_blank');
+      // Since url is a path, the host is added automatically.
+      assert.isTrue(linkEl.href.endsWith(url));
+      assert.equal(linkEl.textContent, changeID);
     });
 
     test('Multiple matches', function() {
-      element.content = testStrings[4].text;
-      assert.equal(element.$.output.innerHTML, testStrings[4].linkedText);
+      element.content = 'Issue 3650\nIssue 3450';
+      var linkEl1 = element.$.output.childNodes[0];
+      var newlineNode = element.$.output.childNodes[1];
+      var linkEl2 = element.$.output.childNodes[2];
+
+      assert.equal(linkEl1.target, '_blank');
+      assert.equal(linkEl1.href,
+          'https://code.google.com/p/gerrit/issues/detail?id=3650');
+      assert.equal(linkEl1.textContent, 'Issue 3650');
+
+      assert.equal(linkEl2.target, '_blank');
+      assert.equal(linkEl2.href,
+          'https://code.google.com/p/gerrit/issues/detail?id=3450');
+      assert.equal(linkEl2.textContent, 'Issue 3450');
     });
   });
 </script>

@@ -102,8 +102,9 @@ limitations under the License.
       element.patchNum = '1';
       element.reload();
       server.respond();
-
+      flushAsynchronousOperations();
       element.async(function() {
+        console.log(element,element.files);
         var filenames = element.files.map(function(f) {
           return f.__path;
         });

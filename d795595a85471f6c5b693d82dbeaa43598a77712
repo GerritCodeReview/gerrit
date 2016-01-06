@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a1703fe_94c6e46f",
+        "filename": "polygerrit-ui/app/elements/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-06T22:32:26Z",
+      "side": 1,
+      "message": "Maybe it\u0027s not idiomatic JS but I would have just done this with num starting at 0 and incrementing it in a for loop.",
+      "revId": "d795595a85471f6c5b693d82dbeaa43598a77712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

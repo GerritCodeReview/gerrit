@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a1703fe_74b988ea",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-06T19:29:51Z",
+      "side": 1,
+      "message": "the star is far too small.\n\nfor both states:\n\n  font-size: .95em;\n  margin-right: .25em;\n\ninactive state:\n\n  color: #666;\n\nactive state:\n\n  color: #fbc02d;",
+      "revId": "86d77ffc7e52af3794b763bf260220735c0bcc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a18b72c_75b988ea",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-06T19:29:51Z",
+      "side": 1,
+      "message": "_handleStarTap to be consistent with the tap handler",
+      "revId": "86d77ffc7e52af3794b763bf260220735c0bcc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a1703fe_34af10a1",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-06T19:29:51Z",
+      "side": 1,
+      "message": "throw the err here.\n\nthrow err;",
+      "revId": "86d77ffc7e52af3794b763bf260220735c0bcc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a1703fe_54b60cfa",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-06T19:29:51Z",
+      "side": 1,
+      "message": "you can keep this on one line. the rest of the file goes over 80 chars easily",
+      "revId": "86d77ffc7e52af3794b763bf260220735c0bcc78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

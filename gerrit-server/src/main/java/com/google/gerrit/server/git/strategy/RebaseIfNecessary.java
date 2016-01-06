@@ -32,7 +32,6 @@ import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -47,16 +46,10 @@ import java.util.List;
 import java.util.Map;
 
 public class RebaseIfNecessary extends SubmitStrategy {
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final RebaseChangeOp.Factory rebaseFactory;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
 
-  RebaseIfNecessary(SubmitStrategy.Arguments args,
-      PatchSetInfoFactory patchSetInfoFactory,
-      RebaseChangeOp.Factory rebaseFactory) {
+  RebaseIfNecessary(SubmitStrategy.Arguments args) {
     super(args);
-    this.patchSetInfoFactory = patchSetInfoFactory;
-    this.rebaseFactory = rebaseFactory;
     this.newCommits = new HashMap<>();
   }
 
@@ -158,7 +151,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
         return;
       }
 
-      rebaseOp = rebaseFactory.create(
+      rebaseOp = args.rebaseFactory.create(
             toMerge.getControl(),
             // Racy read of patch set is ok; see comments in RebaseChangeOp.
             args.db.patchSets().get(toMerge.getPatchsetId()),
@@ -199,7 +192,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
           ObjectId.fromString(newPatchSet.getRevision().get()));
       mergeTip.moveTipTo(newTip, newTip);
       toMerge.change().setCurrentPatchSet(
-          patchSetInfoFactory.get(args.rw, mergeTip.getCurrentTip(),
+          args.patchSetInfoFactory.get(args.rw, mergeTip.getCurrentTip(),
               newPatchSet.getId()));
       mergeTip.getCurrentTip().copyFrom(toMerge);
       mergeTip.getCurrentTip().setControl(

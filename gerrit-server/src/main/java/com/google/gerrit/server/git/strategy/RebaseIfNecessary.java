@@ -38,7 +38,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -164,7 +163,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
             // Racy read of patch set is ok; see comments in RebaseChangeOp.
             args.db.patchSets().get(toMerge.getPatchsetId()),
             mergeTip.getCurrentTip().name())
-          .setCommitterIdent(args.serverIdent.get())
+          .setCommitterIdent(args.serverIdent)
           .setRunHooks(false)
           .setValidatePolicy(CommitValidators.Policy.NONE);
       try {
@@ -243,12 +242,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
         mergeTip.moveTipTo(toMerge, toMerge);
         acceptMergeTip(mergeTip);
       } else {
-        PersonIdent myIdent = args.serverIdent.get();
         // TODO(dborowitz): Can't use repo from ctx due to canMergeFlag.
         CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
-            myIdent, myIdent, args.repo, args.rw, args.inserter,
-            args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(),
-            toMerge);
+            args.serverIdent, args.serverIdent, args.repo, args.rw,
+            args.inserter, args.canMergeFlag, args.destBranch,
+            mergeTip.getCurrentTip(), toMerge);
         mergeTip.moveTipTo(newTip, toMerge);
       }
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,

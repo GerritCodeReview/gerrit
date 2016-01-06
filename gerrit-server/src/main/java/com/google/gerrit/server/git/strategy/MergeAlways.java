@@ -43,11 +43,10 @@ public class MergeAlways extends SubmitStrategy {
     }
     while (!sorted.isEmpty()) {
       CodeReviewCommit mergedFrom = sorted.remove(0);
-      PersonIdent serverIdent = args.serverIdent.get();
       PersonIdent caller = args.caller.newCommitterIdent(
-          serverIdent.getWhen(), serverIdent.getTimeZone());
+          args.serverIdent.getWhen(), args.serverIdent.getTimeZone());
       CodeReviewCommit newTip =
-          args.mergeUtil.mergeOneCommit(caller, serverIdent,
+          args.mergeUtil.mergeOneCommit(caller, args.serverIdent,
               args.repo, args.rw, args.inserter, args.canMergeFlag,
               args.destBranch, mergeTip.getCurrentTip(), mergedFrom);
       mergeTip.moveTipTo(newTip, mergedFrom);

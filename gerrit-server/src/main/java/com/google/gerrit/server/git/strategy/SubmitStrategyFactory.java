@@ -86,7 +86,7 @@ public class SubmitStrategyFactory {
       throws IntegrationException, NoSuchProjectException {
     ProjectState project = getProject(destBranch);
     SubmitStrategy.Arguments args = new SubmitStrategy.Arguments(
-        myIdent, db, batchUpdateFactory, changeControlFactory,
+        myIdent.get(), db, batchUpdateFactory, changeControlFactory,
         repo, rw, inserter, canMergeFlag, alreadyAccepted,
         destBranch,approvalsUtil, mergeUtilFactory.create(project), caller);
     switch (submitType) {

@@ -30,7 +30,6 @@ import com.google.gerrit.server.git.MergeSorter;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -52,7 +51,7 @@ import java.util.Set;
  */
 public abstract class SubmitStrategy {
   static class Arguments {
-    protected final Provider<PersonIdent> serverIdent;
+    protected final PersonIdent serverIdent;
     protected final ReviewDb db;
     protected final BatchUpdate.Factory batchUpdateFactory;
     protected final ChangeControl.GenericFactory changeControlFactory;
@@ -68,7 +67,7 @@ public abstract class SubmitStrategy {
     protected final MergeSorter mergeSorter;
     protected final IdentifiedUser caller;
 
-    Arguments(Provider<PersonIdent> serverIdent, ReviewDb db,
+    Arguments(PersonIdent serverIdent, ReviewDb db,
         BatchUpdate.Factory batchUpdateFactory,
         ChangeControl.GenericFactory changeControlFactory, Repository repo,
         CodeReviewRevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,

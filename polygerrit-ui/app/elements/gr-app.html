@@ -87,6 +87,9 @@ limitations under the License.
     <gr-ajax auto url="/accounts/self/detail" last-response="{{account}}"></gr-ajax>
     <gr-ajax auto url="/config/server/info" last-response="{{config}}"></gr-ajax>
     <gr-ajax auto url="/config/server/version" last-response="{{version}}"></gr-ajax>
+    <gr-ajax id="diffPreferencesXHR"
+        url="/accounts/self/preferences.diff"
+        last-response="{{_diffPreferences}}"></gr-ajax>
     <header role="banner">
       <a href="/" class="bigTitle">PolyGerrit</a>
       <div class="headerRightItems">
@@ -109,7 +112,7 @@ limitations under the License.
             params="[[params]]"></gr-change-view>
       </template>
       <template is="dom-if" if="{{_showDiffView}}" restamp="true">
-        <gr-diff-view params="[[params]]"></gr-diff-view>
+        <gr-diff-view prefs="{{_diffPreferences}}" params="[[params]]"></gr-diff-view>
       </template>
     </main>
     <footer role="contentinfo">
@@ -175,6 +178,8 @@ limitations under the License.
           type: String,
           observer: '_routeChanged',
         },
+
+        _diffPreferences: Object,
       },
 
       get loggedIn() {
@@ -185,6 +190,13 @@ limitations under the License.
         this._resolveAccountReady();
         this.$.accountContainer.classList.toggle('loggedIn', this.loggedIn);
         this.$.accountContainer.classList.toggle('loggedOut', !this.loggedIn);
+        if (this.loggedIn) {
+          this.$.diffPreferencesXHR.generateRequest();
+        } else {
+          this._diffPreferences = {
+            context: 10,
+          };
+        }
       },
 
       _configChanged: function(config) {

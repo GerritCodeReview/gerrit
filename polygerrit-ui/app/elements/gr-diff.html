@@ -68,7 +68,7 @@ limitations under the License.
           change-num="[[changeNum]]"
           patch-range="[[patchRange]]"
           available-patches="[[availablePatches]]"></gr-patch-range-select>
-      <div class="contextControl">
+      <div class="contextControl" hidden$="[[!prefs.context]]" hidden>
         Context:
           <select id="contextSelect" on-change="_handleContextSelectChange">
             <option value="3">3 lines</option>
@@ -77,7 +77,7 @@ limitations under the License.
             <option value="50">50 lines</option>
             <option value="75">75 lines</option>
             <option value="100">100 lines</option>
-            <option value="ALL">Whole file</option>
+            <option value="-1">Whole file</option>
           </select>
       </div>
     </div>
@@ -138,10 +138,18 @@ limitations under the License.
           type: Number,
           value: 80,
         },
-        _context: {
-          type: Number,
-          value: 10,
-          observer: '_contextChanged',
+        prefs: {
+          type: Object,
+          notify: true,
+        },
+        _prefsReady: {
+          type: Object,
+          readOnly: true,
+          value: function() {
+            return new Promise(function(resolve) {
+              this._resolvePrefsReady = resolve;
+            }.bind(this));
+          },
         },
         _baseComments: Array,
         _comments: Array,
@@ -170,11 +178,17 @@ limitations under the License.
           type: Boolean,
           value: false,
         },
+        _initialRenderComplete: {
+          type: Boolean,
+          value: false,
+        },
         _diffRequestsPromise: Object,  // Used for testing.
+        _diffPreferencesPromise: Object,  // Used for testing.
       },
 
       observers: [
-        '_diffOptionsChanged(changeNum, patchRange, path)'
+        '_prefsChanged(prefs.*)',
+        '_diffOptionsChanged(changeNum, patchRange, path)',
       ],
 
       ready: function() {
@@ -188,18 +202,25 @@ limitations under the License.
         this.$.rightDiff.scrollToLine(lineNum);
       },
 
-      _contextChanged: function(context) {
-        if (context == Infinity) {
-          this.$.contextSelect.value = 'ALL';
-        } else {
-          this.$.contextSelect.value = context;
+      _prefsChanged: function(changeRecord) {
+        var prefs = changeRecord.base;
+
+        this.$.contextSelect.value = prefs.context;
+
+        if (this._initialRenderComplete) {
+          this._render();
         }
+
+        this._resolvePrefsReady(prefs);
       },
 
       _diffOptionsChanged: function(changeNum, patchRange, path) {
         if (!this.auto) { return; }
 
-        var promises = [this.$.diffXHR.generateRequest().completes];
+        var promises = [
+          this._prefsReady,
+          this.$.diffXHR.generateRequest().completes
+        ];
 
         var basePatchNum = patchRange.basePatchNum;
         var patchNum = patchRange.patchNum;
@@ -224,6 +245,8 @@ limitations under the License.
         this.async(function() {
           this.fire('render', null, {bubbles: false});
         }.bind(this), 1);
+
+        this._initialRenderComplete = true;
       },
 
       _getCommentsAndDrafts: function(basePatchNum, loggedIn) {
@@ -302,12 +325,28 @@ limitations under the License.
 
       _handleContextSelectChange: function(e) {
         var selectEl = Polymer.dom(e).rootTarget;
-        if (selectEl.value == 'ALL') {
-          this._context = Infinity;
-        } else {
-          this._context = parseInt(selectEl.value, 10);
-        }
-        this._render();
+        this.set('prefs.context', parseInt(selectEl.value, 10));
+
+        app.accountReady.then(function() {
+          if (!this._loggedIn) { return; }
+
+          this._diffPreferencesPromise =
+              this._saveDiffPreferences().catch(function(err) {
+            alert('Oops. Something went wrong. Check the console and bug the ' +
+                  'PolyGerrit team for assistance.');
+            throw err;
+          });
+        }.bind(this));
+      },
+
+      _saveDiffPreferences: function() {
+        var xhr = document.createElement('gr-request');
+        this._diffPreferencesPromise = xhr.send({
+          method: 'PUT',
+          url: '/accounts/self/preferences.diff',
+          body: this.prefs,
+        });
+        return this._diffPreferencesPromise;
       },
 
       _handleExpandContext: function(e) {
@@ -424,13 +463,18 @@ limitations under the License.
           }
         };
         var content = this._diffResponse.content;
+        var context = this.prefs.context;
+        if (context == -1) {
+          // Show the entire file.
+          context = Infinity;
+        }
         for (var i = 0; i < content.length; i++) {
           if (i == 0) {
-            ctx.skipRange = [0, this._context];
+            ctx.skipRange = [0, context];
           } else if (i == content.length - 1) {
-            ctx.skipRange = [this._context, 0];
+            ctx.skipRange = [context, 0];
           } else {
-            ctx.skipRange = [this._context, this._context];
+            ctx.skipRange = [context, context];
           }
           ctx.diffChunkIndex = i;
           this._addDiffChunk(ctx, content[i], leftSide, rightSide);

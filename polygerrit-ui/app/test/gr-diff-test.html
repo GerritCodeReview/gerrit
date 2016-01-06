@@ -48,6 +48,9 @@ limitations under the License.
       element = fixture('basic');
       element.changeNum = 42;
       element.path = 'sieve.go';
+      element.prefs = {
+        context: 10,
+      };
 
       server = sinon.fakeServer.create();
       server.respondWith(
@@ -184,6 +187,18 @@ limitations under the License.
           }),
         ]
       );
+
+      server.respondWith(
+        'PUT',
+        '/accounts/self/preferences.diff',
+        [
+          200,
+          { 'Content-Type': 'application/json' },
+          ')]}\'\n' +
+          JSON.stringify({ context: 25 }),
+        ]
+      );
+
     });
 
     teardown(function() {
@@ -225,7 +240,7 @@ limitations under the License.
     });
 
     test('comment rendering', function(done) {
-      element._context = Infinity;
+      element.prefs.context = -1;
       element._loggedIn = true;
       element.patchRange = {
         basePatchNum: 1,
@@ -394,7 +409,7 @@ limitations under the License.
     });
 
     test('context', function() {
-      element._context = 3;
+      element.prefs.context = 3;
       element._diffResponse = {
         content: [
           {
@@ -468,7 +483,26 @@ limitations under the License.
       assert.equal(leftContext.start, 17);
       assert.equal(leftContext.end, 19);
     });
-  });
 
+    test('save context', function(done) {
+      element._loggedIn = false;
+
+      var contextSelectEl = element.$.contextSelect;
+      assert.ok(contextSelectEl);
+      contextSelectEl.value = '50';
+      element.fire('change', {}, {node: contextSelectEl});
+      assert.isTrue(element._diffPreferencesPromise == null);
+
+      element._loggedIn = true;
+      contextSelectEl.value = '25';
+      element.fire('change', {}, {node: contextSelectEl});
+      server.respond();
+
+      element._diffPreferencesPromise.then(function(req) {
+        assert.equal(req.xhr.requestBody, JSON.stringify(element.prefs));
+        done();
+      });
+    });
+  });
 
 </script>

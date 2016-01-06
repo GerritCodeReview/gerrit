@@ -17,6 +17,24 @@
       "revId": "a5dfc613459666728d3872340f5523e32aa8e856",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a1d7b1a_b69a0888",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-06T15:51:37Z",
+      "side": 1,
+      "message": "Yes, this commit fixes this class of deprecation warnings in the whole tree including submodules.",
+      "parentUuid": "4aefd732_fd48e7b6",
+      "revId": "a5dfc613459666728d3872340f5523e32aa8e856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

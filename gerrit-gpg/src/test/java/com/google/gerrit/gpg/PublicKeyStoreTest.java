@@ -149,7 +149,7 @@ public class PublicKeyStoreTest {
         RevWalk rw = new RevWalk(reader)) {
       NoteMap notes = NoteMap.read(
           reader, tr.getRevWalk().parseCommit(
-            tr.getRepository().getRef(REFS_GPG_KEYS).getObjectId()));
+            tr.getRepository().exactRef(REFS_GPG_KEYS).getObjectId()));
       String contents = new String(
           reader.open(notes.get(keyObjectId(key1.getKeyId()))).getBytes(),
           UTF_8);

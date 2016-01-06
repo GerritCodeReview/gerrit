@@ -102,7 +102,7 @@ public class AccountIT extends AbstractDaemonTest {
   @After
   public void clearPublicKeyStore() throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      Ref ref = repo.getRef(REFS_GPG_KEYS);
+      Ref ref = repo.exactRef(REFS_GPG_KEYS);
       if (ref != null) {
         RefUpdate ru = repo.updateRef(REFS_GPG_KEYS);
         ru.setForceUpdate(true);

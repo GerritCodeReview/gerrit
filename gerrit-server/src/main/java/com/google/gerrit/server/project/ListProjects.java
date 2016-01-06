@@ -507,7 +507,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     Ref[] result = new Ref[showBranch.size()];
     try (Repository git = repoManager.openRepository(projectName)) {
       for (int i = 0; i < showBranch.size(); i++) {
-        Ref ref = git.getRef(showBranch.get(i));
+        Ref ref = git.findRef(showBranch.get(i));
         if (ref != null
           && ref.getObjectId() != null
           && (projectControl.controlForRef(ref.getLeaf().getName()).isVisible())

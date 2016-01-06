@@ -692,6 +692,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return Predicate.or(p);
   }
 
+  @SuppressWarnings("deprecation")
   private Predicate<ChangeData> draftby(Account.Id who) {
     return args.getSchema().hasField(ChangeField.DRAFTBY)
         ? new HasDraftByPredicate(who)

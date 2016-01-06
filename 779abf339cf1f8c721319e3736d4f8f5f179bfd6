@@ -104,6 +104,24 @@
       "revId": "779abf339cf1f8c721319e3736d4f8f5f179bfd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a1703fe_b49a0088",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-06T19:07:24Z",
+      "side": 1,
+      "message": "_loggedIn is already declared in this element, so all you have to do is say\n\nhidden$\u003d\"[[!_loggedIn]]\"\u003e\n\nWhich means you don\u0027t need extra code in gr-change-star that duplicates the same stuff here.",
+      "parentUuid": "6af49b02_5e5f5552",
+      "revId": "779abf339cf1f8c721319e3736d4f8f5f179bfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

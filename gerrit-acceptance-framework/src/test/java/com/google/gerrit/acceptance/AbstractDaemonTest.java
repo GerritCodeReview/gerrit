@@ -397,7 +397,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected TestRepository<?>.CommitBuilder amendBuilder() throws Exception {
-    ObjectId head = repo().getRef("HEAD").getObjectId();
+    ObjectId head = repo().exactRef("HEAD").getObjectId();
     TestRepository<?>.CommitBuilder b = testRepo.amendRef("HEAD");
     Optional<String> id = GitUtil.getChangeId(testRepo, head);
     // TestRepository behaves like "git commit --amend -m foo", which does not

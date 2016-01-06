@@ -258,7 +258,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
       md.setMessage("Edit\n");
       cfg.commit(md);
 
-      Ref ref = db.getRef(RefNames.REFS_CONFIG);
+      Ref ref = db.exactRef(RefNames.REFS_CONFIG);
       return util.getRevWalk().parseCommit(ref.getObjectId());
     }
   }

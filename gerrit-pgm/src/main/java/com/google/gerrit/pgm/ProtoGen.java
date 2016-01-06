@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.schema.java.JavaSchemaModel;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.kohsuke.args4j.Option;
 
@@ -39,7 +38,7 @@ public class ProtoGen extends AbstractProgram {
 
   @Override
   public int run() throws Exception {
-    LockFile lock = new LockFile(file.getAbsoluteFile(), FS.DETECTED);
+    LockFile lock = new LockFile(file.getAbsoluteFile());
     if (!lock.lock()) {
       throw die("Cannot lock " + file);
     }

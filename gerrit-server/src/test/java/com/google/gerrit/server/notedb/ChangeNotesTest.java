@@ -559,12 +559,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       batch1 = update1.openUpdateInBatch(bru);
       batch1.write(update1, new CommitBuilder());
       batch1.commit();
-      assertThat(repo.getRef(update1.getRefName())).isNull();
+      assertThat(repo.exactRef(update1.getRefName())).isNull();
 
       batch2 = update2.openUpdateInBatch(bru);
       batch2.write(update2, new CommitBuilder());
       batch2.commit();
-      assertThat(repo.getRef(update2.getRefName())).isNull();
+      assertThat(repo.exactRef(update2.getRefName())).isNull();
     } finally {
       if (batch1 != null) {
         batch1.close();
@@ -586,8 +586,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(cmds.get(0).getResult()).isEqualTo(ReceiveCommand.Result.OK);
     assertThat(cmds.get(1).getResult()).isEqualTo(ReceiveCommand.Result.OK);
 
-    assertThat(repo.getRef(update1.getRefName())).isNotNull();
-    assertThat(repo.getRef(update2.getRefName())).isNotNull();
+    assertThat(repo.exactRef(update1.getRefName())).isNotNull();
+    assertThat(repo.exactRef(update2.getRefName())).isNotNull();
   }
 
   @Test

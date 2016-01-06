@@ -106,7 +106,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).get();
 
     BranchInput b = new BranchInput();
-    b.revision = repo().getRef("HEAD").getObjectId().name();
+    b.revision = repo().exactRef("HEAD").getObjectId().name();
     gApi.projects()
         .name(project.get())
         .branch("other")

@@ -128,7 +128,7 @@ public class ReplyBox extends Composite {
         public void onKeyPress(KeyPressEvent e) {
           e.stopPropagation();
           if ((e.getCharCode() == '\n' || e.getCharCode() == KEY_ENTER)
-              && e.isControlKeyDown()) {
+              && (e.isControlKeyDown() || e.isMetaKeyDown())) {
             e.preventDefault();
             if (post.isEnabled()) {
               onPost(null);

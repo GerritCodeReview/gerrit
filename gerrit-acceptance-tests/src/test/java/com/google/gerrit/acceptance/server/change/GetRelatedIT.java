@@ -163,7 +163,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     // 2,2---1,2---3,1
 
     // Create two commits and push.
-    ObjectId initial = repo().getRef("HEAD").getObjectId();
+    ObjectId initial = repo().exactRef("HEAD").getObjectId();
     RevCommit c1_1 = commitBuilder()
         .add("a.txt", "1")
         .message("subject: 1")

@@ -255,7 +255,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         repoManager.openRepository(new Project.NameKey(c.project))) {
       String refName = new PatchSet.Id(new Change.Id(c._number), expectedNum)
           .toRefName();
-      Ref ref = repo.getRef(refName);
+      Ref ref = repo.exactRef(refName);
       assertThat(ref).named(refName).isNotNull();
       assertThat(ref.getObjectId()).isEqualTo(expectedId);
     }
@@ -347,7 +347,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.markStart(rw.parseCommit(
-          repo.getRef("refs/heads/" + branch).getObjectId()));
+          repo.exactRef("refs/heads/" + branch).getObjectId()));
       return Lists.newArrayList(rw);
     }
   }
@@ -358,7 +358,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   private RevCommit getHead(Repository repo, String name) throws IOException {
     try (RevWalk rw = new RevWalk(repo)) {
-      return rw.parseCommit(repo.getRef(name).getObjectId());
+      return rw.parseCommit(repo.exactRef(name).getObjectId());
     }
   }
 

@@ -377,7 +377,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void mergeable() throws Exception {
-    ObjectId initial = repo().getRef(HEAD).getLeaf().getObjectId();
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 
     PushOneCommit push1 =
         pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,

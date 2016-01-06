@@ -61,7 +61,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     testRepo = new TestRepository<>(
         (InMemoryRepository) repoManager.openRepository(project));
     tip = testRepo.getRevWalk().parseCommit(
-        testRepo.getRepository().getRef("HEAD").getObjectId());
+        testRepo.getRepository().exactRef("HEAD").getObjectId());
     adminId = admin.getId();
     checker = checkerProvider.get();
   }
@@ -180,7 +180,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
     assertThat(p.outcome).isEqualTo("Repaired patch set ref");
 
-    assertThat(testRepo.getRepository().getRef(refName).getObjectId().name())
+    assertThat(testRepo.getRepository().exactRef(refName).getObjectId().name())
         .isEqualTo(ps.getRevision().get());
   }
 
@@ -310,7 +310,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   public void missingDestRef() throws Exception {
     String ref = "refs/heads/master";
     // Detach head so we're allowed to delete ref.
-    testRepo.reset(testRepo.getRepository().getRef(ref).getObjectId());
+    testRepo.reset(testRepo.getRepository().exactRef(ref).getObjectId());
     RefUpdate ru = testRepo.getRepository().updateRef(ref);
     ru.setForceUpdate(true);
     assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);

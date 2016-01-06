@@ -104,13 +104,13 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       // master-tag -> master
       RefUpdate mtu = repo.updateRef("refs/tags/master-tag");
       mtu.setExpectedOldObjectId(ObjectId.zeroId());
-      mtu.setNewObjectId(repo.getRef("refs/heads/master").getObjectId());
+      mtu.setNewObjectId(repo.exactRef("refs/heads/master").getObjectId());
       assertThat(mtu.update()).isEqualTo(RefUpdate.Result.NEW);
 
       // branch-tag -> branch
       RefUpdate btu = repo.updateRef("refs/tags/branch-tag");
       btu.setExpectedOldObjectId(ObjectId.zeroId());
-      btu.setNewObjectId(repo.getRef("refs/heads/branch").getObjectId());
+      btu.setNewObjectId(repo.exactRef("refs/heads/branch").getObjectId());
       assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
     }
   }

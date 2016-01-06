@@ -194,7 +194,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   private RevCommit getRemoteHead() throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      return rw.parseCommit(repo.getRef("refs/heads/master").getObjectId());
+      return rw.parseCommit(repo.exactRef("refs/heads/master").getObjectId());
     }
   }
 

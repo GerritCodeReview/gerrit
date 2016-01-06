@@ -316,18 +316,17 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   @Override
-  public void setProjectDescription(final Project.NameKey name,
-      final String description) {
+  public void setProjectDescription(Project.NameKey name, String description) {
     // Update git's description file, in case gitweb is being used
     //
     try (Repository e = openRepository(name)) {
-      final String old = getProjectDescription(e);
+      String old = getProjectDescription(e);
       if ((old == null && description == null)
           || (old != null && old.equals(description))) {
         return;
       }
 
-      final LockFile f = new LockFile(new File(e.getDirectory(), "description"), FS.DETECTED);
+      LockFile f = new LockFile(new File(e.getDirectory(), "description"));
       if (f.lock()) {
         String d = description;
         if (d != null) {

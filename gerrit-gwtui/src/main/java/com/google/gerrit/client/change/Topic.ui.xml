@@ -22,11 +22,11 @@ limitations under the License.
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style gss='false'>
-    .show { cursor: pointer; }
+    .edit { cursor: pointer; }
     .edit, .cancel { float: right; }
   </ui:style>
   <g:HTMLPanel>
-    <div ui:field='show' styleName='{style.show}'>
+    <div ui:field='show'>
       <x:InlineHyperlink ui:field='text'
           title='Search for changes on this topic'/>
       <g:Image ui:field='editIcon'

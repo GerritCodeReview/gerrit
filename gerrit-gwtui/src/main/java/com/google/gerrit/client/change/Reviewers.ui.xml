@@ -33,6 +33,7 @@ limitations under the License.
 
     .addReviewer,
     .cancel {
+      cursor: pointer;
       float: right;
     }
   </ui:style>

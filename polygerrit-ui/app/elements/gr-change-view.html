@@ -421,7 +421,7 @@ limitations under the License.
       _computeLabelValues: function(labelName, labels) {
         var result = [];
         labels[labelName].all.forEach(function(label) {
-          if (label.value != labels[labelName].default_value) {
+          if (label.value && label.value != labels[labelName].default_value) {
             var labelClassName;
             var labelValPrefix = '';
             if (label.value > 0) {

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "aab8533e_b0f95873",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-07T18:00:48Z",
+      "side": 1,
+      "message": "Looking at the code, it\u0027s:\n\n  private void updateSubmissionId(Change change) {\n    Hasher h \u003d Hashing.sha1().newHasher();\n    h.putLong(Thread.currentThread().getId())\n        .putUnencodedChars(MACHINE_ID);\n    staticSubmissionId \u003d h.hash().toString().substring(0, 8);\n    submissionId \u003d change.getId().get() + \"-\" + TimeUtil.nowMs() +\n        \"-\" + staticSubmissionId;\n  }\n\nHow is this useful information to expose in REST API? Instead you should extract timestamp and convert it to sane format.",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 49
+      },
+      "revId": "9cfd417fc73bd15768d090ce438dac6c7c8e9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cab10759_11acaca8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

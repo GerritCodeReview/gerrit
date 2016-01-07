@@ -23,6 +23,30 @@
       "revId": "61205b23df064aaab9527d155012547df73b6851",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaaecbf8_f209287a",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-07T07:52:54Z",
+      "side": 1,
+      "message": "\u003e Is this intentionally vague, so we don\u0027t tie ourself to a\n \u003e particular DOM representation?\n\nYes. I don\u0027t want to make the DOM structure part of our API.\n\n \u003e Or should we be more specific?\n\n \u003e * Is the comment in the body of this element, or might there be\n \u003e nesting?\n\nThere is some nesting, e.g. Gerrit uses \u003cp\u003e tags to format paragraphs in the comment.\n\n \u003e * Will the comment text always be within an element having a\n \u003e specific class name?\n\nNo, there is no single element that contains the whole plain comment text.\n\n \u003e I guess there are really no guarantees about the structure if there\n \u003e are multiple comments present...maybe that should be mentioned as\n \u003e well?\n\nDone",
+      "parentUuid": "ea340b68_e23ee608",
+      "range": {
+        "startLine": 180,
+        "startChar": 11,
+        "endLine": 180,
+        "endChar": 27
+      },
+      "revId": "61205b23df064aaab9527d155012547df73b6851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

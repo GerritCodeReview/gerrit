@@ -163,6 +163,30 @@
       "revId": "779abf339cf1f8c721319e3736d4f8f5f179bfd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaaecbf8_f26da809",
+        "filename": "polygerrit-ui/app/test/gr-change-star-test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-07T17:05:38Z",
+      "side": 1,
+      "message": "Have changed it here as well to 2016.",
+      "parentUuid": "0a123f0e_53fbc492",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "779abf339cf1f8c721319e3736d4f8f5f179bfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

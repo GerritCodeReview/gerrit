@@ -713,8 +713,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
-      event.patchSet = null;//patchSetAttributeSupplier(change, patchSet, db);
-      event.reviewer = null;//accountAttributeSupplier(account);
+      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.reviewer = accountAttributeSupplier(account);
 
       fireEvent(change, event, db);
 

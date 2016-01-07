@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a123f0e_33dd6835",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T04:14:02Z",
+      "side": 1,
+      "message": "Same problem here.",
+      "range": {
+        "startLine": 1104,
+        "startChar": 40,
+        "endLine": 1104,
+        "endChar": 44
+      },
+      "revId": "ff9cca448bf59495512a7a9a57ad057b27470803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cab10759_51cd9486",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T04:14:02Z",
+      "side": 1,
+      "message": "And here.",
+      "range": {
+        "startLine": 1104,
+        "startChar": 55,
+        "endLine": 1104,
+        "endChar": 60
+      },
+      "revId": "ff9cca448bf59495512a7a9a57ad057b27470803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a123f0e_d3f7d4af",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T04:14:02Z",
+      "side": 1,
+      "message": "This is rendered as a \" in the generated html.",
+      "range": {
+        "startLine": 1104,
+        "startChar": 28,
+        "endLine": 1104,
+        "endChar": 34
+      },
+      "revId": "ff9cca448bf59495512a7a9a57ad057b27470803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

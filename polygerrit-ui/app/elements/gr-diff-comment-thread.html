@@ -76,7 +76,6 @@ limitations under the License.
         comments: {
           type: Array,
           value: function() { return []; },
-          observer: '_commentsChanged',
         },
         patchNum: String,
         path: String,
@@ -90,8 +89,13 @@ limitations under the License.
         return this.$.container.offsetHeight;
       },
 
-      _commentsChanged: function(comments) {
-        this._orderedComments = this._sortedComments(comments);
+      observers: [
+        '_commentsChanged(comments.splices)',
+      ],
+
+      _commentsChanged: function(changeRecord) {
+        console.log(changeRecord)
+        this._orderedComments = this._sortedComments(this.comments);
       },
 
       _sortedComments: function(comments) {
@@ -191,8 +195,7 @@ limitations under the License.
           throw Error('Cannot find comment ' +
               JSON.stringify(diffCommentEl.comment));
         }
-        this.comments.splice(idx, 1);
-        this._commentsChanged(this.comments);
+        this.splice('comments', idx, 1);
         if (this.comments.length == 0) {
           this.fire('discard', null, {bubbles: false});
           return;

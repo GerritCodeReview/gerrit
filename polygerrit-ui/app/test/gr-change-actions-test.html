@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-change-actions</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../scripts/changes.js"></script>
+<script src="../scripts/util.js"></script>
+
+<link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="../elements/gr-change-actions.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-change-actions></gr-change-actions>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-change-actions tests', function() {
+    var element;
+    var server;
+
+    setup(function() {
+      element = fixture('basic');
+      server = sinon.fakeServer.create();
+
+      server.respondWith(
+        'GET',
+        '/changes/42/revisions/2/actions',
+        [
+          200,
+          { 'Content-Type': 'application/json' },
+          ')]}\'\n' +
+          JSON.stringify({
+            cherrypick: {
+              method: 'POST',
+              label: 'Cherry Pick',
+              title: 'Cherry pick change to a different branch',
+              enabled: true
+            },
+            rebase: {
+              method: 'POST',
+              label: 'Rebase',
+              title: 'Rebase onto tip of branch or parent change'
+            },
+            submit: {
+              method: 'POST',
+              label: 'Submit',
+              title: 'Submit patch set 1 into master',
+              enabled: true
+            }
+          }),
+        ]
+      );
+
+      server.respondWith(
+        'POST',
+        '/changes/42/revisions/2/submit',
+        [
+          200,
+          { 'Content-Type': 'application/json' },
+          ')]}\'\n{}',  // The response is not used by the element.
+        ]
+      );
+    });
+
+    test('submit button shows', function(done) {
+      element.changeNum = '42';
+      element.patchNum = '2';
+      element.reload();
+
+      server.respond();
+
+      element.async(function() {
+        var buttonEls = Polymer.dom(element.root).querySelectorAll('button');
+        assert.equal(buttonEls.length, 1);
+        assert.isFalse(element.hidden);
+        done();
+      }, 1);
+    });
+
+    test('submit change', function(done) {
+      element.changeNum = '42';
+      element.patchNum = '2';
+      element.reload();
+
+      server.respond();
+
+      element.async(function() {
+        var submitButton = element.$$('button[data-action-key="submit"]');
+        assert.ok(submitButton);
+        MockInteractions.tap(submitButton);
+        server.respond();
+
+        // Upon success it should fire the reload-change event.
+        element.addEventListener('reload-change', function(e) {
+          done();
+        });
+      }, 1);
+    });
+  });
+</script>

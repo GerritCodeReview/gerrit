@@ -1,0 +1,138 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-request.html">
+
+<dom-module id="gr-change-actions">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      button {
+        background-color: #448aff;
+        border: none;
+        border-radius: 2px;
+        color: #fff;
+        cursor: pointer;
+        font: inherit;
+        padding: .5em .75em;
+      }
+      button[disabled] {
+        opacity: .5;
+      }
+    </style>
+    <gr-ajax id="actionsXHR"
+        url="[[_computeActionsPath(changeNum, patchNum)]]"
+        last-response="{{_actions}}"
+        loading="{{_loading}}"></gr-ajax>
+    <div>
+      <template is="dom-repeat" items="[[_computeActionValues(_actions)]]" as="action">
+        <button title$="[[action.title]]"
+            hidden$="[[!action.enabled]]"
+            data-action-key$="[[action.__key]]"
+            disabled$="[[_loading]]"
+            on-tap="_handleActionTap">[[action.label]]</button>
+      </template>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gr-change-actions',
+
+      /**
+       * Fired when the change should be reloaded.
+       *
+       * @event reload-change
+       */
+
+      properties: {
+        changeNum: String,
+        patchNum: String,
+        _actions: {
+          type: Object,
+          observer: '_actionsChanged',
+        },
+        _loading: {
+          type: Boolean,
+          value: false,
+        },
+      },
+
+      reload: function() {
+        if (!!this.changeNum && !!this.patchNum) {
+          this.$.actionsXHR.generateRequest();
+        }
+      },
+
+      _actionsChanged: function(actions) {
+        this.hidden = actions.submit == null;
+      },
+
+      _computeActionsPath: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/actions';
+      },
+
+      _computeActionValues: function(actions) {
+        var result = [];
+        for (var a in actions) {
+          // TODO(andybons): Add the rest of the actions.
+          if (a != 'submit') { continue; }
+          actions[a].__key = a;
+          result.push(actions[a]);
+        }
+        return result;
+      },
+
+      _handleActionTap: function(e) {
+        e.preventDefault();
+        var el = Polymer.dom(e).rootTarget;
+        var key = el.getAttribute('data-action-key');
+        if (key == 'submit') {
+          this._submitChange('/' + key, this._actions[key]);
+        }
+      },
+
+      _submitChange: function(endpoint, action) {
+        this._send(action.method, { wait_for_merge: true }, endpoint).then(
+          function() {
+            this.fire('reload-change', null, {bubbles: false});
+          }.bind(this)).catch(function(err) {
+            alert('Oops. Something went wrong. Check the console and bug the ' +
+                'PolyGerrit team for assistance.');
+            throw err;
+        });
+      },
+
+      _send: function(method, payload, actionEndpoint) {
+        var xhr = document.createElement('gr-request');
+        this._xhrPromise = xhr.send({
+          method: method,
+          url: Changes.baseURL(this.changeNum, this.patchNum) + actionEndpoint,
+          body: payload,
+        });
+
+        return this._xhrPromise;
+      },
+    });
+  })();
+  </script>
+</dom-module>

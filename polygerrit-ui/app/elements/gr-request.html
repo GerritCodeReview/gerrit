@@ -34,8 +34,10 @@ limitations under the License.
 
       send: function(options) {
         options.headers = options.headers || {};
-        options.headers['content-type'] =
-            options.headers['content-type'] || 'application/json';
+        if (options.body != null) {
+          options.headers['content-type'] =
+              options.headers['content-type'] || 'application/json';
+        }
         options.headers['x-gerrit-auth'] = options.headers['x-gerrit-auth'] ||
             util.getCookie('XSRF_TOKEN');
         options.jsonPrefix = options.jsonPrefix || ')]}\'';

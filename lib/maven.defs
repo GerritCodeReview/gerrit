@@ -147,31 +147,3 @@ def maven_jar(
       source_jar = ':%s__download_src' % name if srcjar else None,
       visibility = visibility,
     )
-
-
-def merge_maven_jars(
-    name,
-    srcs,
-    visibility = []):
-
-  def cmd(jars):
-    return ('$(location //tools:merge_jars) $OUT '
-            + ' '.join(['$(location %s)' % j for j in jars]))
-
-  genrule(
-    name = '%s__merged_bin' % name,
-    cmd = cmd(['%s__download_bin' % s for s in srcs]),
-    out = '%s__merged.jar' % name,
-  )
-  genrule(
-    name = '%s__merged_src' % name,
-    cmd = cmd(['%s__download_src' % s for s in srcs]),
-    # tools/eclipse/project.py requires -src.jar suffix.
-    out = '%s__merged-src.jar' % name,
-  )
-  prebuilt_jar(
-    name = name,
-    binary_jar = ':%s__merged_bin' % name,
-    source_jar = ':%s__merged_src' % name,
-    visibility = visibility,
-  )

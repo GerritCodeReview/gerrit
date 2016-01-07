@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.lucene.LuceneChangeIndex;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
@@ -26,6 +27,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /** Initialize the {@code index} configuration section. */
 @Singleton
@@ -34,6 +38,7 @@ class InitIndex implements InitStep {
   private final Section index;
   private final SitePaths site;
   private final InitFlags initFlags;
+  private final Section gerrit;
 
   @Inject
   InitIndex(ConsoleUI ui,
@@ -42,6 +47,7 @@ class InitIndex implements InitStep {
       InitFlags initFlags) {
     this.ui = ui;
     this.index = sections.get("index", null);
+    this.gerrit = sections.get("gerrit", null);
     this.site = site;
     this.initFlags = initFlags;
   }
@@ -51,9 +57,9 @@ class InitIndex implements InitStep {
     ui.header("Index");
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
-    if (site.isNew && type == IndexType.LUCENE) {
       LuceneChangeIndex.setReady(
           site, ChangeSchemas.getLatest().getVersion(), true);
+    if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
     } else {
       final String message = String.format(
         "\nThe index must be %sbuilt before starting Gerrit:\n"
@@ -61,6 +67,15 @@ class InitIndex implements InitStep {
         site.isNew ? "" : "re");
       ui.message(message);
       initFlags.autoStart = false;
+    }
+  }
+
+  private boolean isEmptySite() {
+    try (DirectoryStream<Path> files =
+        Files.newDirectoryStream(site.resolve(gerrit.get("basePath")))) {
+      return Iterables.isEmpty(files);
+    } catch (IOException e) {
+      return true;
     }
   }
 

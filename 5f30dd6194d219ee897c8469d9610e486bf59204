@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a123f0e_53e464f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T04:21:47Z",
+      "side": 1,
+      "message": "Upload to stable-2.11?",
+      "range": {
+        "startLine": 13,
+        "startChar": 46,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "5f30dd6194d219ee897c8469d9610e486bf59204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cab10759_91ed3ce4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T04:21:47Z",
+      "side": 1,
+      "message": "Use email address format including the name?  I.e.\n\n Reported-By: Steffen Gebert \u003csteffen@steffen-gebert.de\u003e",
+      "revId": "5f30dd6194d219ee897c8469d9610e486bf59204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "cab10759_d1f7c4af",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T04:32:29Z",
+      "side": 1,
+      "message": "I would have thought the copyright date should match the commit\u0027s author date, which in this case is 2015.",
+      "parentUuid": "6af49b02_7e621116",
+      "revId": "779abf339cf1f8c721319e3736d4f8f5f179bfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea096bde_faa469c5",
         "filename": "polygerrit-ui/app/elements/gr-change-view.html",
         "patchSetId": 6

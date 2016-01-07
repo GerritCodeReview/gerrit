@@ -16,6 +16,24 @@
       "revId": "0afa6e6a0945dc17db72b35d5830b78a886703b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a18b72c_b5e840d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-07T14:29:13Z",
+      "side": 1,
+      "message": "I could go either way, and this way seemed like less work.\n\nWe could also maybe at this point move SubmitStrategyFactory to SubmitStrategy.Factory, at which point SubmitStrategy.Arguments is a sibling in the same file. There is really very little left in SubmitStrategyFactory.java at this point.",
+      "parentUuid": "aab8533e_f009207a",
+      "revId": "0afa6e6a0945dc17db72b35d5830b78a886703b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

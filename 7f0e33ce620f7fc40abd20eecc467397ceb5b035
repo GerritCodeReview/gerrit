@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a123f0e_53cd8486",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T02:43:31Z",
+      "side": 1,
+      "message": "Would be better to mention stream-events in the subject",
+      "revId": "7f0e33ce620f7fc40abd20eecc467397ceb5b035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cab10759_b1c1605c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T02:43:31Z",
+      "side": 1,
+      "message": "\"it is\" or \"it\u0027s\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "7f0e33ce620f7fc40abd20eecc467397ceb5b035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cab10759_91c6dc6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T02:43:31Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 11,
+        "startChar": 57,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "7f0e33ce620f7fc40abd20eecc467397ceb5b035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cab10759_f1bbe8dd",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T02:43:31Z",
+      "side": 1,
+      "message": "emitted",
+      "range": {
+        "startLine": 33,
+        "startChar": 41,
+        "endLine": 33,
+        "endChar": 49
+      },
+      "revId": "7f0e33ce620f7fc40abd20eecc467397ceb5b035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cab10759_d1c06455",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T02:43:31Z",
+      "side": 1,
+      "message": "emitted",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "7f0e33ce620f7fc40abd20eecc467397ceb5b035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a123f0e_73d08022",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T02:43:31Z",
+      "side": 1,
+      "message": "specific",
+      "range": {
+        "startLine": 45,
+        "startChar": 18,
+        "endLine": 45,
+        "endChar": 25
+      },
+      "revId": "7f0e33ce620f7fc40abd20eecc467397ceb5b035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cab10759_31d61021",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamEvents.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T02:43:31Z",
+      "side": 1,
+      "message": "I think it would be better to remove this part.",
+      "range": {
+        "startLine": 62,
+        "startChar": 37,
+        "endLine": 62,
+        "endChar": 60
+      },
+      "revId": "7f0e33ce620f7fc40abd20eecc467397ceb5b035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

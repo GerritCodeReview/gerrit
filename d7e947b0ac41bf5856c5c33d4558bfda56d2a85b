@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aab8533e_30956804",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-07T22:51:08Z",
+      "side": 1,
+      "message": "psa.isSubmit()\n\nYou could also consider to move this function to ChangeData, in case someone else would need it, something like:\n\n  Optional\u003cPatchSetApproval\u003e getSubmitApproval() { ...\n\nSo that the code here would be:\n\n  Optional\u003cPatchSetApproval\u003e s \u003d cd.getSubmitApproval();\n  return s.isPresent() ? s.get().getGranted() : null;",
+      "range": {
+        "startLine": 661,
+        "startChar": 10,
+        "endLine": 661,
+        "endChar": 49
+      },
+      "revId": "d7e947b0ac41bf5856c5c33d4558bfda56d2a85b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

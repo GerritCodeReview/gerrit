@@ -171,7 +171,7 @@ limitations under the License.
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
       commentEl.addEventListener('reply', function() {
-        var drafts = element.comments.filter(function(c) {
+        var drafts = element._orderedComments.filter(function(c) {
           return c.__draft == true;
         });
         assert.equal(drafts.length, 1);
@@ -189,7 +189,7 @@ limitations under the License.
       assert.ok(commentEl);
       commentEl.addEventListener('done', function() {
         server.respond();
-        var drafts = element.comments.filter(function(c) {
+        var drafts = element._orderedComments.filter(function(c) {
           return c.__draft == true;
         });
         assert.equal(drafts.length, 1);
@@ -203,12 +203,11 @@ limitations under the License.
     test('discard', function(done) {
       element.changeNum = '42';
       element.patchNum = '1';
-      element.comments.push(element._newReply(
+      element.push('comments', element._newReply(
         element.comments[0].id,
         element.comments[0].line,
         element.comments[0].path,
         'it’s pronouced jiff, not giff'));
-      element._commentsChanged(element.comments);
       flushAsynchronousOperations();
 
       var draftEl =

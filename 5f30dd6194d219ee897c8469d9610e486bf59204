@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cab10759_d14d04c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T08:36:03Z",
+      "side": 1,
+      "message": "This is usually the case, but we already have a number of commits on stable-2.11 since 2.11.5 and I plan to release 2.11.6 in the next week or so.",
+      "parentUuid": "aab8533e_f04800b7",
+      "range": {
+        "startLine": 13,
+        "startChar": 46,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "5f30dd6194d219ee897c8469d9610e486bf59204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cab10759_91ed3ce4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

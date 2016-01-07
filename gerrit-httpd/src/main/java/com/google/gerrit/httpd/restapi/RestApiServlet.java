@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.math.RoundingMode.CEILING;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
@@ -346,6 +347,11 @@ public class RestApiServlet extends HttpServlet {
       } else if (result instanceof Response.Redirect) {
         CacheHeaders.setNotCacheable(res);
         res.sendRedirect(((Response.Redirect) result).location());
+        return;
+      } else if (result instanceof Response.Accepted) {
+        CacheHeaders.setNotCacheable(res);
+        res.setStatus(SC_ACCEPTED);
+        res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted)result).location());
         return;
       } else {
         CacheHeaders.setNotCacheable(res);

@@ -844,6 +844,34 @@ The response is the streamed output of the garbage collection.
   done.
 ----
 
+==== Asynchronous Execution
+
+The option `async` allows to schedule a background task that asynchronously
+executes a Git garbage collection.
+
+The `Location` header of the response refers to the link:rest-api-config.html#get-task[background task]
+which allows to inspect the progress of its execution. In case of asynchronous
+execution the `show_progress` option is ignored.
+
+.Request
+----
+  POST /projects/plugins%2Freplication/gc HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "async": true
+  }
+----
+
+The response is empty.
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+  Location: https:<host>/a/config/server/tasks/383a0602
+----
+
 [[ban-commit]]
 === Ban Commit
 --
@@ -2212,6 +2240,8 @@ collection.
 Whether progress information should be shown.
 |`aggressive`    |`false` if not set|
 Whether an aggressive garbage collection should be done.
+|`async`         |`false` if not set|
+Whether the garbage collection should run asynchronously.
 |=============================
 
 [[head-input]]

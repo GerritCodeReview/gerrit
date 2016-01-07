@@ -36,6 +36,11 @@ public abstract class Response<T> {
     return new Impl<>(201, value);
   }
 
+  /** HTTP 202 Accepted: accepted as background task. */
+  public static Accepted accepted(String location) {
+    return new Accepted(location);
+  }
+
   /** HTTP 204 No Content: typically used when the resource is deleted. */
   @SuppressWarnings("unchecked")
   public static <T> Response<T> none() {
@@ -166,6 +171,35 @@ public abstract class Response<T> {
     @Override
     public String toString() {
       return String.format("[302 Redirect] %s", location);
+    }
+  }
+
+  /** Accepted as task for asynchronous execution. */
+  public static final class Accepted {
+    private final String location;
+
+    private Accepted(String url) {
+      this.location = url;
+    }
+
+    public String location() {
+      return location;
+    }
+
+    @Override
+    public int hashCode() {
+      return location.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return o instanceof Accepted
+        && ((Accepted) o).location.equals(location);
+    }
+
+    @Override
+    public String toString() {
+      return String.format("[202 Accepted] %s", location);
     }
   }
 }

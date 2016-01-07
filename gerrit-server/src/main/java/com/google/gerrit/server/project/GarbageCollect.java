@@ -20,13 +20,19 @@ import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.GarbageCollect.Input;
+import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
@@ -42,22 +48,61 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
   public static class Input {
     public boolean showProgress;
     public boolean aggressive;
+    public boolean async;
   }
 
   private final boolean canGC;
-  private GarbageCollection.Factory garbageCollectionFactory;
+  private final GarbageCollection.Factory garbageCollectionFactory;
+  private final WorkQueue workQueue;
+  private final Provider<String> canonicalUrl;
 
   @Inject
-  GarbageCollect(
-      GitRepositoryManager repoManager,
-      GarbageCollection.Factory garbageCollectionFactory) {
+  GarbageCollect(GitRepositoryManager repoManager,
+      GarbageCollection.Factory garbageCollectionFactory, WorkQueue workQueue,
+      @CanonicalWebUrl Provider<String> canonicalUrl) {
+    this.workQueue = workQueue;
+    this.canonicalUrl = canonicalUrl;
     this.canGC = repoManager instanceof LocalDiskRepositoryManager;
     this.garbageCollectionFactory = garbageCollectionFactory;
   }
 
-  @SuppressWarnings("resource")
   @Override
-  public BinaryResult apply(final ProjectResource rsrc, final Input input) {
+  public Object apply(ProjectResource rsrc, Input input) {
+    Project.NameKey project = rsrc.getNameKey();
+    if (input.async) {
+      return applyAsync(project, input);
+    } else {
+      return applySync(project, input);
+    }
+  }
+
+  private Response.Accepted applyAsync(final Project.NameKey project, final Input input) {
+    Runnable job = new Runnable() {
+      @Override
+      public void run() {
+       runGC(project, input, null);
+      }
+
+      @Override
+      public String toString() {
+        return "Run " + (input.aggressive ? "aggressive " : "")
+            + "garbage collection on project " + project.get();
+      }
+    };
+
+    @SuppressWarnings("unchecked")
+    WorkQueue.Task<Void> task =
+        (WorkQueue.Task<Void>) workQueue.getDefaultQueue().submit(job);
+
+    String location = canonicalUrl.get() + "a/config/server/tasks/"
+            + IdGenerator.format(task.getTaskId());
+
+    return Response.accepted(location);
+  }
+
+  @SuppressWarnings("resource")
+  private BinaryResult applySync(final Project.NameKey project,
+      final Input input) {
     return new BinaryResult() {
       @Override
       public void writeTo(OutputStream out) throws IOException {
@@ -69,10 +114,8 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
           }
         };
         try {
-          GarbageCollectionResult result =
-              garbageCollectionFactory.create().run(
-                  Collections.singletonList(rsrc.getNameKey()), input.aggressive,
-                  input.showProgress ? writer : null);
+          PrintWriter progressWriter = input.showProgress ? writer : null;
+          GarbageCollectionResult result = runGC(project, input, progressWriter);
           String msg = "Garbage collection completed successfully.";
           if (result.hasErrors()) {
             for (GarbageCollectionResult.Error e : result.getErrors()) {
@@ -102,6 +145,13 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
     }.setContentType("text/plain")
      .setCharacterEncoding(UTF_8)
      .disableGzip();
+  }
+
+  GarbageCollectionResult runGC(Project.NameKey project,
+      Input input, PrintWriter progressWriter) {
+    return garbageCollectionFactory.create().run(
+        Collections.singletonList(project), input.aggressive,
+        progressWriter);
   }
 
   @Override

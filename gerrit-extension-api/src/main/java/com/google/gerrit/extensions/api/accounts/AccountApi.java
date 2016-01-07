@@ -25,6 +25,7 @@ import java.util.Map;
 public interface AccountApi {
   AccountInfo get() throws RestApiException;
 
+  String getAvatarUrl() throws RestApiException;
   void starChange(String id) throws RestApiException;
   void unstarChange(String id) throws RestApiException;
   void addEmail(EmailInput input) throws RestApiException;
@@ -41,6 +42,11 @@ public interface AccountApi {
   public class NotImplemented implements AccountApi {
     @Override
     public AccountInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public String getAvatarUrl() throws RestApiException {
       throw new NotImplementedException();
     }
 

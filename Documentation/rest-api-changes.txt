@@ -1084,6 +1084,7 @@ describes the submitted/merged change.
     "status": "MERGED",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
+    "submitted": "2013-02-21 11:16:36.615000000",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -1658,6 +1659,7 @@ Only the change owner, a project owner, or an administrator may fix changes.
     "status": "MERGED",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
+    "submitted": "2013-02-21 11:16:36.615000000",
     "mergeable": true,
     "insertions": 34,
     "deletions": 101,
@@ -3945,6 +3947,9 @@ created.
 |`updated`            ||
 The link:rest-api.html#timestamp[timestamp] of when the change was last
 updated.
+|`submitted`          ||
+The link:rest-api.html#timestamp[timestamp] of when the change was
+submitted.
 |`starred`            |not set if `false`|
 Whether the calling user has starred this change.
 |`reviewed`           |not set if `false`|

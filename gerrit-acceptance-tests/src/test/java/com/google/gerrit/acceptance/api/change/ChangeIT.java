@@ -725,6 +725,25 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitted() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .info().submitted).isNull();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .submit();
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .info().submitted).isNotNull();
+  }
+
+  @Test
   public void check() throws Exception {
     // TODO(dborowitz): Re-enable when ConsistencyChecker supports notedb.
     assume().that(notesMigration.enabled()).isFalse();

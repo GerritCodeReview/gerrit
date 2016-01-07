@@ -331,11 +331,14 @@ limitations under the License.
 
       _send: function(method, url) {
         var xhr = document.createElement('gr-request');
-        this._xhrPromise = xhr.send({
+        var opts = {
           method: method,
           url: url,
-          body: this.comment,
-        });
+        };
+        if (method == 'PUT' || method == 'POST') {
+          opts.body = this.comment;
+        }
+        this._xhrPromise = xhr.send(opts);
         return this._xhrPromise;
       },
 

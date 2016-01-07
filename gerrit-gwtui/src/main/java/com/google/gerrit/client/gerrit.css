@@ -1167,6 +1167,70 @@ a:hover.downloadLink {
   margin-bottom: 10px;
 }
 
+.oauthInfoBlock {
+  margin-bottom: 10px;
+}
+.oauthToken {
+  font-family: monospace;
+  font-size: small;
+  width: 40em;
+}
+.oauthToken span {
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 38em;
+}
+.oauthExpires {
+  font-family: monospace;
+  font-size: small;
+  width: 40em;
+}
+.oauthPanel {
+  margin-top: 10px;
+  border: 1px solid trimColor;
+  padding: 5px 5px 5px 5px;
+}
+.oauthPanelNetRCHeading {
+  margin-top: 5px;
+  margin-left: 1em;
+  white-space: nowrap;
+}
+.oauthPanelNetRCEntry {
+  margin-top: 5px;
+  margin-left: 2em;
+  font-family: monospace;
+  font-size: small;
+  width: 80em;
+}
+.oauthPanelNetRCEntry span {
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 78em;
+}
+.oauthPanelCookieHeading {
+  margin-top: 15px;
+  margin-left: 1em;
+  white-space: nowrap;
+}
+.oauthPanelCookieEntry {
+  margin-top: 5px;
+  margin-left: 2em;
+  font-family: monospace;
+  font-size: small;  
+  width: 80em;
+}
+.oauthPanelCookieEntry span {
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 78em;
+}
+
 
 /** CommentedActionDialog **/
 .commentedActionDialog .gwt-DisclosurePanel .header td {

@@ -143,6 +143,14 @@ public interface GerritCss extends CssResource {
   String negscore();
   String noborder();
   String nowrap();
+  String oauthExpires();
+  String oauthInfoBlock();
+  String oauthPanel();
+  String oauthPanelCookieEntry();
+  String oauthPanelCookieHeading();
+  String oauthPanelNetRCEntry();
+  String oauthPanelNetRCHeading();
+  String oauthToken();
   String pagingLink();
   String patchBrowserPopup();
   String patchBrowserPopupBody();

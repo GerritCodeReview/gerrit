@@ -47,6 +47,10 @@ public abstract class SettingsScreen extends MenuScreen {
     if (Gerrit.info().auth().isHttpPasswordSettingsEnabled()) {
       linkByGerrit(Util.C.tabHttpAccess(), PageLinks.SETTINGS_HTTP_PASSWORD);
     }
+    if (Gerrit.info().auth().isOAuth()
+        && Gerrit.info().auth().isGitBasicAuth()) {
+      linkByGerrit(Util.C.tabOAuthToken(), PageLinks.SETTINGS_OAUTH_TOKEN);
+    }
     if (Gerrit.info().gerrit().editGpgKeys()) {
       linkByGerrit(Util.C.tabGpgKeys(), PageLinks.SETTINGS_GPGKEYS);
     }

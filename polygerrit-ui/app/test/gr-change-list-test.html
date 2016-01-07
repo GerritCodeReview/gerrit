@@ -59,6 +59,7 @@ limitations under the License.
           'gr-change-list-item');
       assert.equal(elementItems.length, 3);
       assert.equal(element.selectedIndex, 0);
+      assert.isTrue(elementItems[0].selected);
 
       MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
       assert.equal(element.selectedIndex, 1);

@@ -105,6 +105,14 @@ public interface GerritCss extends CssResource {
   String menuScreenMenuBar();
   String needsReview();
   String negscore();
+  String oauthExpires();
+  String oauthInfoBlock();
+  String oauthPanel();
+  String oauthPanelCookieEntry();
+  String oauthPanelCookieHeading();
+  String oauthPanelNetRCEntry();
+  String oauthPanelNetRCHeading();
+  String oauthToken();
   String pagingLink();
   String patchSetActions();
   String pluginProjectConfigInheritedValue();

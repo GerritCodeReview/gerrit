@@ -417,11 +417,15 @@ limitations under the License.
       _send: function(method, url) {
         this.disabled = true;
         var request = document.createElement('gr-request');
-        this._xhrPromise = request.send({
+        var opts = {
           method: method,
           url: url,
           body: {reviewer: this._inputVal},
-        });
+        };
+        if (method == 'DELETE') {
+          delete opts.body;
+        }
+        this._xhrPromise = request.send(opts);
         var enableEl = function() { this.disabled = false; }.bind(this);
         this._xhrPromise.then(enableEl).catch(enableEl);
         return this._xhrPromise;

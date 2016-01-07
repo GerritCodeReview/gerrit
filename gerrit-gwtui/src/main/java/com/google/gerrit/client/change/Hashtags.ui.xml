@@ -50,6 +50,7 @@ limitations under the License.
 
     .addHashtag,
     .cancel {
+      cursor: pointer;
       float: right;
     }
   </ui:style>

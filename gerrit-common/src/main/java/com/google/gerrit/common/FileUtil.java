@@ -88,7 +88,9 @@ public class FileUtil {
 
   public static Path mkdirsOrDie(Path p, String errMsg) {
     try {
-      Files.createDirectories(p);
+      if (!Files.isDirectory(p)) {
+        Files.createDirectories(p);
+      }
       return p;
     } catch (IOException e) {
       throw new Die(errMsg + ": " + p, e);

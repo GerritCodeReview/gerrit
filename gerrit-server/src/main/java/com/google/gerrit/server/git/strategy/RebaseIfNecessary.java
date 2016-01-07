@@ -61,6 +61,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
     this.newCommits = new HashMap<>();
   }
 
+  private PersonIdent getSubmitterIdent() {
+    PersonIdent serverIdent = args.serverIdent.get();
+    return args.caller.newCommitterIdent(
+        serverIdent.getWhen(), serverIdent.getTimeZone());
+  }
+
   @Override
   public MergeTip run(final CodeReviewCommit branchTip,
       final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
@@ -164,7 +170,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
             // Racy read of patch set is ok; see comments in RebaseChangeOp.
             args.db.patchSets().get(toMerge.getPatchsetId()),
             mergeTip.getCurrentTip().name())
-          .setCommitterIdent(args.serverIdent.get())
+          .setCommitterIdent(getSubmitterIdent())
           .setRunHooks(false)
           .setValidatePolicy(CommitValidators.Policy.NONE);
       try {
@@ -243,7 +249,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
         mergeTip.moveTipTo(toMerge, toMerge);
         acceptMergeTip(mergeTip);
       } else {
-        PersonIdent myIdent = args.serverIdent.get();
+        PersonIdent myIdent = getSubmitterIdent();
         // TODO(dborowitz): Can't use repo from ctx due to canMergeFlag.
         CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
             myIdent, myIdent, args.repo, args.rw, args.inserter,

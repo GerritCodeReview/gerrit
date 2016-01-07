@@ -32,6 +32,7 @@ public class ChangeInfo {
   public String changeId;
   public String subject;
   public ChangeStatus status;
+  public String submissionId;
   public Timestamp created;
   public Timestamp updated;
   public Boolean starred;

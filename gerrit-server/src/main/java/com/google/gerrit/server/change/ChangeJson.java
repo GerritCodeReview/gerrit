@@ -419,6 +419,7 @@ public class ChangeJson {
     }
     out.subject = in.getSubject();
     out.status = in.getStatus().asChangeStatus();
+    out.submissionId = in.getSubmissionId();
     out.owner = accountLoader.get(in.getOwner());
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();

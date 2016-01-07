@@ -34,6 +34,24 @@
       "revId": "0afa6e6a0945dc17db72b35d5830b78a886703b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aab8533e_70625016",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-07T14:42:59Z",
+      "side": 1,
+      "message": "+1. Sounds sane to me.",
+      "parentUuid": "4a18b72c_b5e840d4",
+      "revId": "0afa6e6a0945dc17db72b35d5830b78a886703b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

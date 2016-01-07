@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cab10759_11acaca8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T02:30:48Z",
+      "side": 1,
+      "message": "Should be:\n\n Bug: Issue 3579\n\nto get the automatic hyperlinking.",
+      "revId": "9cfd417fc73bd15768d090ce438dac6c7c8e9121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

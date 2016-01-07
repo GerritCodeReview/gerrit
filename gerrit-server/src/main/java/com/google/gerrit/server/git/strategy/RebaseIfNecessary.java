@@ -58,6 +58,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
     this.newCommits = new HashMap<>();
   }
 
+  private PersonIdent getSubmitterIdent() {
+    PersonIdent serverIdent = args.serverIdent.get();
+    return args.caller.newCommitterIdent(
+        serverIdent.getWhen(), serverIdent.getTimeZone());
+  }
+
   @Override
   protected MergeTip _run(final CodeReviewCommit branchTip,
       final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
@@ -132,7 +138,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
           if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
             mergeTip.moveTipTo(n, n);
           } else {
-            PersonIdent myIdent = args.serverIdent.get();
+            PersonIdent myIdent = getSubmitterIdent();
             mergeTip.moveTipTo(
                 args.mergeUtil.mergeOneCommit(myIdent, myIdent,
                     args.repo, args.rw, args.inserter, args.canMergeFlag,
@@ -170,7 +176,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
           n.getControl(),
           args.db.patchSets().get(n.getPatchsetId()),
           mergeTip.getCurrentTip().name())
-        .setCommitterIdent(args.serverIdent.get())
+        .setCommitterIdent(getSubmitterIdent())
         .setRunHooks(false)
         .setValidatePolicy(CommitValidators.Policy.NONE);
     try (BatchUpdate bu = args.newBatchUpdate(TimeUtil.nowTs())) {

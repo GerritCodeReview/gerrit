@@ -68,7 +68,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertSubmitter(change2.getChangeId(), 1);
     assertSubmitter(change2.getChangeId(), 2);
     assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
-    assertPersonEquals(serverIdent.get(), head.getCommitterIdent());
+    assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
   }
 
   @Test

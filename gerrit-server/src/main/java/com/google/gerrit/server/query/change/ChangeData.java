@@ -18,6 +18,7 @@ import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -724,6 +725,20 @@ public class ChangeData {
       allApprovals = approvalsUtil.byChange(db, notes());
     }
     return allApprovals;
+  }
+
+  /**
+   * @return The submit ('SUBM') approval label
+   * @throws OrmException an error occurred reading the database.
+   */
+  public Optional<PatchSetApproval> getSubmitApproval()
+    throws OrmException {
+    for (PatchSetApproval psa : currentApprovals()) {
+      if (psa.isSubmit()) {
+        return Optional.fromNullable(psa);
+      }
+    }
+    return Optional.absent();
   }
 
   public SetMultimap<ReviewerStateInternal, Account.Id> reviewers()

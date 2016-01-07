@@ -34,6 +34,14 @@ import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class ChangeResource implements RestResource, HasETag {
+  /**
+   * JSON format version number for ETag computations.
+   * <p>
+   * Should be bumped on any JSON format change (new fields, etc.) so that
+   * otherwise unmodified changes get new ETags.
+   */
+  public static final int JSON_FORMAT_VERSION = 1;
+
   public static final TypeLiteral<RestView<ChangeResource>> CHANGE_KIND =
       new TypeLiteral<RestView<ChangeResource>>() {};
 
@@ -74,7 +82,8 @@ public class ChangeResource implements RestResource, HasETag {
   // This includes all information relevant for ETag computation
   // unrelated to the UI.
   public void prepareETag(Hasher h, CurrentUser user) {
-    h.putLong(getChange().getLastUpdatedOn().getTime())
+    h.putInt(JSON_FORMAT_VERSION)
+      .putLong(getChange().getLastUpdatedOn().getTime())
       .putInt(getChange().getRowVersion())
       .putInt(user.isIdentifiedUser() ? user.getAccountId().get() : 0);
 

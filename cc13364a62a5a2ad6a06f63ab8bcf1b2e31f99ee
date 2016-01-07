@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a123f0e_d3c07455",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T02:34:53Z",
+      "side": 1,
+      "message": "Can you elaborate a bit?  IIUC we only have one server identity.  Or is that not the case with Google\u0027s multi master implementation?",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "cc13364a62a5a2ad6a06f63ab8bcf1b2e31f99ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

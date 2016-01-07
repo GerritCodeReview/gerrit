@@ -22,6 +22,53 @@
       "revId": "cc13364a62a5a2ad6a06f63ab8bcf1b2e31f99ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaaecbf8_d2f7c4af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-07T07:27:17Z",
+      "side": 1,
+      "message": "I think Dave meant that the timestamp in the created instances may differ in the same call stack.",
+      "parentUuid": "0a123f0e_d3c07455",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "cc13364a62a5a2ad6a06f63ab8bcf1b2e31f99ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aab8533e_90141494",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-07T07:27:17Z",
+      "side": 1,
+      "message": "Well, if i understand the code correctly, the personIdent.get() call is not optional, and thus we wouldn\u0027t waste anything. So that\u0027s actually the reason to already create PersonIdent instance in SubmitStrategyFactory and pass in to SubmitStrategy.Arguments ctor instead of passing the provider and call p.get() in different submit strategy implementations.",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "cc13364a62a5a2ad6a06f63ab8bcf1b2e31f99ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -58,8 +58,7 @@ limitations under the License.
         <div class="groupHeader">[[_groupTitle(groupIndex)]]</div>
       </template>
       <template is="dom-repeat" items="[[changeGroup]]" as="change">
-        <gr-change-list-item change="[[change]]"
-            selected="[[_isSelected(groupIndex, index)]]"></gr-change-list-item>
+        <gr-change-list-item change="[[change]]"></gr-change-list-item>
       </template>
     </template>
   </template>
@@ -118,10 +117,6 @@ limitations under the License.
         'j k o enter': '_handleKey',
       },
 
-      _isSelected: function(groupIndex, index) {
-        return index == this.selectedIndex;
-      },
-
       _changesChanged: function(changes) {
         this.groups = [changes];
       },
@@ -139,6 +134,11 @@ limitations under the License.
             }
           }
         }
+
+        // Allow for the elements to render before resetting the selectedIndex.
+        this.async(function() {
+          this._selectedIndexChanged(0);
+        }.bind(this), 1);
       },
 
       _groupTitle: function(groupIndex) {

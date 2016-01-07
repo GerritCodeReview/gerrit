@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aab8533e_f04800b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-01-07T08:34:16Z",
+      "side": 1,
+      "message": "Could do, however I thought our support policy was only patching master + last stable.",
+      "parentUuid": "0a123f0e_53e464f6",
+      "range": {
+        "startLine": 13,
+        "startChar": 46,
+        "endLine": 14,
+        "endChar": 38
+      },
+      "revId": "5f30dd6194d219ee897c8469d9610e486bf59204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cab10759_91ed3ce4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

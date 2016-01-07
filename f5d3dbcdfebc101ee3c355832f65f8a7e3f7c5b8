@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aab8533e_d0f85c6c",
+        "filename": "polygerrit-ui/app/elements/gr-diff-comment-thread.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-07T18:31:48Z",
+      "side": 1,
+      "message": "Is it obvious why changeRecord isn\u0027t used here? Leave a comment? According to the doc:\n\nThe value received by the observer for the splices path of an array is a change records with the following properties: \"indexSplices\", \"keySplices\".",
+      "revId": "f5d3dbcdfebc101ee3c355832f65f8a7e3f7c5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

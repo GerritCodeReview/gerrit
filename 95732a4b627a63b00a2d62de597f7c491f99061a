@@ -46,6 +46,30 @@
       "revId": "95732a4b627a63b00a2d62de597f7c491f99061a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cab10759_11d30c31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-07T02:45:47Z",
+      "side": 1,
+      "message": "Let\u0027s move this to stable-2.12 so it can go into 2.12.1\n\nBut before releasing 2.12.1 we should check if any other plugins need to be updated.",
+      "parentUuid": "aaa4d3ba_908af4d1",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 53
+      },
+      "revId": "95732a4b627a63b00a2d62de597f7c491f99061a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

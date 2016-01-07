@@ -18,6 +18,7 @@ import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -29,6 +30,7 @@ import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -724,6 +726,20 @@ public class ChangeData {
       allApprovals = approvalsUtil.byChange(db, notes());
     }
     return allApprovals;
+  }
+
+  /**
+   * @return The submit ('SUBM') approval label
+   * @throws OrmException an error occurred reading the database.
+   */
+  public Optional<PatchSetApproval> getSubmitApproval()
+    throws OrmException {
+    for (PatchSetApproval psa : currentApprovals()) {
+      if (psa.getLabelId().equals(LabelId.SUBMIT)) {
+        return Optional.fromNullable(psa);
+      }
+    }
+    return Optional.absent();
   }
 
   public SetMultimap<ReviewerStateInternal, Account.Id> reviewers()

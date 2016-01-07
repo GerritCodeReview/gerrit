@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="gr-ajax.html">
+<link rel="import" href="gr-change-actions.html">
 <link rel="import" href="gr-date-formatter.html">
 <link rel="import" href="gr-file-list.html">
 <link rel="import" href="gr-linked-text.html">
@@ -111,6 +112,9 @@ limitations under the License.
       }
       .notApproved {
         background-color: #ffd4d4;
+      }
+      gr-change-actions {
+        margin-top: 1em;
       }
       .summary {
         border-top: 1px solid #ddd;
@@ -229,6 +233,10 @@ limitations under the License.
             </tr>
           </template>
         </table>
+        <gr-change-actions id="actions"
+            change-num="[[_changeNum]]"
+            patch-num="[[_patchNum]]"
+            on-reload-change="_reload"></gr-change-actions>
       </section>
       <section class="summary">
         <gr-linked-text pre
@@ -457,16 +465,17 @@ limitations under the License.
       _reload: function() {
         var detailCompletes = this.$.detailXHR.generateRequest().completes;
         this.$.commentsXHR.generateRequest();
-        var reloadCommitInfoAndFileList = function() {
+        var reloadPatchNumDependentResources = function() {
           this.$.commitInfoXHR.generateRequest();
+          this.$.actions.reload();
           this.$.fileList.reload();
         }.bind(this);
 
         if (this._patchNum) {
-          reloadCommitInfoAndFileList();
+          reloadPatchNumDependentResources();
         } else {
           // The patch number is reliant on the change detail request.
-          detailCompletes.then(reloadCommitInfoAndFileList);
+          detailCompletes.then(reloadPatchNumDependentResources);
         }
       },
 

@@ -249,7 +249,9 @@ limitations under the License.
           }
         }
 
-        for (var i = 0; i < permittedLabels[labelName].length; i++) {
+        var len = permittedLabels[labelName] != null ?
+            permittedLabels[labelName].length : 0;
+        for (var i = 0; i < len; i++) {
           var val = parseInt(permittedLabels[labelName][i], 10);
           if (val == labelValue) {
             return i;

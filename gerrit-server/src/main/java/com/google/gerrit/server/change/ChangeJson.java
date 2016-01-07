@@ -79,6 +79,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -109,6 +110,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import org.apache.commons.net.ntp.TimeStamp;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -432,6 +434,7 @@ public class ChangeJson {
     }
 
     out.labels = labelsFor(ctl, cd, has(LABELS), has(DETAILED_LABELS));
+    out.submitted = getSubmittedOn(cd);
 
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
@@ -649,6 +652,17 @@ public class ChangeJson {
         addApproval(e.getValue().label(), approvalInfo(accountId, value, date));
       }
     }
+  }
+
+  private Timestamp getSubmittedOn(ChangeData cd)
+      throws OrmException {
+
+    for (PatchSetApproval psa : cd.approvals().values()) {
+      if (psa.getLabelId().equals(LabelId.SUBMIT)) {
+        return psa.getGranted();
+      }
+    }
+    return null;
   }
 
   private Map<String, LabelWithStatus> labelsForClosedChange(ChangeData cd,

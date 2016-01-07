@@ -1084,6 +1084,7 @@ describes the submitted/merged change.
     "status": "MERGED",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
+    "submitted": "2013-02-21 11:16:36.615000000",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -1658,6 +1659,7 @@ Only the change owner, a project owner, or an administrator may fix changes.
     "status": "MERGED",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
+    "submitted": "2013-02-21 11:16:36.615000000",
     "mergeable": true,
     "insertions": 34,
     "deletions": 101,
@@ -3939,6 +3941,9 @@ The `refs/heads/` prefix is omitted.
 The subject of the change (header line of the commit message).
 |`status`             ||
 The status of the change (`NEW`, `MERGED`, `ABANDONED`, `DRAFT`).
+|`submitted`          ||
+The link:rest-api.html#timestamp[timestamp] of when the change was
+submitted.
 |`created`            ||
 The link:rest-api.html#timestamp[timestamp] of when the change was
 created.

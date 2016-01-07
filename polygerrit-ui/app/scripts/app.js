@@ -32,12 +32,22 @@ window.addEventListener('WebComponentsReady', function() {
   }
 
   // Routes.
-  page('/', loadUser, function() {
+  page('/', loadUser, function(data) {
+    // For backward compatibility with GWT links.
+    if (data.hash != null) {
+      page.redirect(data.hash);
+      return;
+    }
     if (app.loggedIn) {
       page.redirect('/dashboard/self');
     } else {
       page.redirect('/q/status:open');
     }
+  });
+
+  page('/#/(.*)', function(data, next) {
+    console.log(data)
+    next();
   });
 
   page('/dashboard/(.*)', loadUser, function(data) {

@@ -34,6 +34,24 @@
       "revId": "b5fe48088c1a9f769856a46b54f66e03af602ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aac6306_cc244fed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T18:49:12Z",
+      "side": 1,
+      "message": "Oh don\u0027t even get me started on AbstractQueryChangesTest.",
+      "parentUuid": "eaaecbf8_3239f0cd",
+      "revId": "b5fe48088c1a9f769856a46b54f66e03af602ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

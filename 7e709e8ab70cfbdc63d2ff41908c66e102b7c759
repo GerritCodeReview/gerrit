@@ -63,6 +63,24 @@
       "revId": "7e709e8ab70cfbdc63d2ff41908c66e102b7c759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aac6306_ccf72fb0",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T14:45:55Z",
+      "side": 1,
+      "message": "Not surprised this was \"one of the most-asked-for features in Polymer\".",
+      "parentUuid": "0aa79f24_0bd3dd30",
+      "revId": "7e709e8ab70cfbdc63d2ff41908c66e102b7c759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

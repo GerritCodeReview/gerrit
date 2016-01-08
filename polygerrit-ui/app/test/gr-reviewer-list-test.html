@@ -123,6 +123,11 @@ limitations under the License.
       assert.isFalse(
           element.$$('.autocompleteContainer').hasAttribute('hidden'));
       assert.equal(getActiveElement().id, 'input');
+      MockInteractions.pressAndReleaseKeyOn(element, 27); // 'esc'
+      assert.isFalse(element.$$('.addReviewer').hasAttribute('hidden'));
+      assert.isTrue(
+          element.$$('.autocompleteContainer').hasAttribute('hidden'));
+      assert.equal(getActiveElement().id, 'addReviewer');
     });
 
     test('only show remove for removable reviewers', function() {

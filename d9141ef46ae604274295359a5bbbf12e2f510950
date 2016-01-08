@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eaaecbf8_b27680b6",
+        "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-08T09:44:00Z",
+      "side": 0,
+      "message": "Nice animated gif communication in this thread ;-)",
+      "revId": "d9141ef46ae604274295359a5bbbf12e2f510950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

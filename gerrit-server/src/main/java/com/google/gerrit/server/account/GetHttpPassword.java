@@ -36,6 +36,7 @@ public class GetHttpPassword implements RestReadView<AccountResource> {
   public String apply(AccountResource rsrc) throws AuthException,
       ResourceNotFoundException {
     if (self.get() != rsrc.getUser()
+        && self.get().getUserName() != rsrc.getUser().getUserName()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to get http password");
     }

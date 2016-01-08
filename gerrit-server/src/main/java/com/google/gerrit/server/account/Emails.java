@@ -56,6 +56,7 @@ public class Emails implements
   public AccountResource.Email parse(AccountResource rsrc, IdString id)
       throws ResourceNotFoundException {
     if (self.get() != rsrc.getUser()
+        && self.get().getUserName() != rsrc.getUser().getUserName()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new ResourceNotFoundException();
     }

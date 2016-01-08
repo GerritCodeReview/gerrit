@@ -83,6 +83,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
       IOException,
       ConfigInvalidException {
     if (self.get() != rsrc.getUser()
+        && self.get().getUserName() != rsrc.getUser().getUserName()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }

@@ -16,6 +16,24 @@
       "revId": "b5fe48088c1a9f769856a46b54f66e03af602ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaaecbf8_3239f0cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-08T15:51:55Z",
+      "side": 1,
+      "message": "I\u0027m definitely making the assumption that it\u0027s not possible to insert changes that are already merged, and that this is something that is only ever done by the tests[1].\n\nI do agree that it\u0027s a little shady though and that it\u0027s probably more correct to fix the test suite.\nI\u0027ll send a new patchset with a TODO.\n\n[1]: https://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java#317",
+      "parentUuid": "0aa79f24_6be701fd",
+      "revId": "b5fe48088c1a9f769856a46b54f66e03af602ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

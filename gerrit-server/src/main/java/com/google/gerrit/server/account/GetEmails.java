@@ -15,12 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.Collections;
@@ -29,21 +24,9 @@ import java.util.List;
 
 @Singleton
 public class GetEmails implements RestReadView<AccountResource> {
-  private final Provider<CurrentUser> self;
-
-  @Inject
-  public GetEmails(Provider<CurrentUser> self) {
-    this.self = self;
-  }
 
   @Override
-  public List<EmailInfo> apply(AccountResource rsrc) throws AuthException,
-      OrmException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
-      throw new AuthException("not allowed to list email addresses");
-    }
-
+  public List<EmailInfo> apply(AccountResource rsrc) {
     List<EmailInfo> emails = Lists.newArrayList();
     for (String email : rsrc.getUser().getEmailAddresses()) {
       if (email != null) {

@@ -119,7 +119,7 @@ public class CapabilityControl {
   /** @return true if the user can view all accounts. */
   public boolean canViewAllAccounts() {
     return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS)
-      || canAdministrateServer();
+      || canModifyAccount() || canAdministrateServer();
   }
 
   /** @return true if the user can view the server caches. */

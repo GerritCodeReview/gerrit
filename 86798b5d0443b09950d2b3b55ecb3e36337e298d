@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0aa79f24_4b5a057c",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-08T15:35:00Z",
+      "side": 1,
+      "message": "To be honest I haven\u0027t thought much about the structure of how actions are going to be shown within the UI because this was something I didn\u0027t know was a blocker until yesterday. As that thinking solidifies then it will be reflected in this, but the original intent was to have any action that can be made on a change/patch within this component.",
+      "parentUuid": "2aac6306_ec094b7a",
+      "revId": "86798b5d0443b09950d2b3b55ecb3e36337e298d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2aac6306_cc0e0f80",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-01-08T15:24:42Z",
       "side": 1,
       "message": "wait_for_merge is deprecated and has no effect, you can just omit it.",
+      "range": {
+        "startLine": 115,
+        "startChar": 36,
+        "endLine": 115,
+        "endChar": 56
+      },
+      "revId": "86798b5d0443b09950d2b3b55ecb3e36337e298d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aac6306_6cfefb84",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-08T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aac6306_cc0e0f80",
       "range": {
         "startLine": 115,
         "startChar": 36,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0aa79f24_ab2569eb",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-08T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aa79f24_eb4811b7",
+      "range": {
+        "startLine": 240,
+        "startChar": 12,
+        "endLine": 240,
+        "endChar": 35
+      },
+      "revId": "86798b5d0443b09950d2b3b55ecb3e36337e298d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aa79f24_cb4d55c5",
         "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2016-01-08T15:24:42Z",
       "side": 1,
       "message": "Unrelated/accidental squash?",
+      "revId": "86798b5d0443b09950d2b3b55ecb3e36337e298d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aac6306_ac3e2307",
+        "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-08T15:35:00Z",
+      "side": 1,
+      "message": "Nope. Is noted in the change description why this was made.",
+      "parentUuid": "0aa79f24_cb4d55c5",
       "revId": "86798b5d0443b09950d2b3b55ecb3e36337e298d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

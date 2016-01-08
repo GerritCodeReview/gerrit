@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a48e34e_0cd67720",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-08T21:09:38Z",
+      "side": 1,
+      "message": "Since you have removed the \u0027title\u0027 for verified, you probably want to remove it here too.",
+      "range": {
+        "startLine": 84,
+        "startChar": 10,
+        "endLine": 84,
+        "endChar": 29
+      },
+      "revId": "89eece7478c907cad89c35d6c5cdf738e8807325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a48e34e_2cd33331",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-08T21:09:38Z",
+      "side": 1,
+      "message": "Most other methods use early-return:\n\n if (!verified) { return \u0027\u0027; }",
+      "revId": "89eece7478c907cad89c35d6c5cdf738e8807325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

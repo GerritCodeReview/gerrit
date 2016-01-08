@@ -45,10 +45,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Schema_115 extends SchemaVersion {
   private final GitRepositoryManager mgr;
@@ -72,54 +75,73 @@ public class Schema_115 extends SchemaVersion {
     Map<Account.Id, DiffPreferencesInfo> imports = new HashMap<>();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
         ResultSet rs = stmt.executeQuery(
-          "SELECT "
-          + "id, "
-          + "context, "
-          + "expand_all_comments, "
-          + "hide_line_numbers, "
-          + "hide_top_menu, "
-          + "ignore_whitespace, "
-          + "intraline_difference, "
-          + "line_length, "
-          + "manual_review, "
-          + "render_entire_file, "
-          + "retain_header, "
-          + "show_line_endings, "
-          + "show_tabs, "
-          + "show_whitespace_errors, "
-          + "skip_deleted, "
-          + "skip_uncommented, "
-          + "syntax_highlighting, "
-          + "tab_size, "
-          + "theme, "
-          + "hide_empty_pane, "
-          + "auto_hide_diff_table_header "
-          + "FROM account_diff_preferences")) {
+          "SELECT * FROM account_diff_preferences")) {
+        Set<String> availableColumns = getColumns(rs);
         while (rs.next()) {
-          Account.Id accountId = new Account.Id(rs.getInt(1));
+          Account.Id accountId = new Account.Id(rs.getInt("id"));
           DiffPreferencesInfo prefs = new DiffPreferencesInfo();
-          prefs.context = (int)rs.getShort(2);
-          prefs.expandAllComments = toBoolean(rs.getString(3));
-          prefs.hideLineNumbers = toBoolean(rs.getString(4));
-          prefs.hideTopMenu = toBoolean(rs.getString(5));
-          // Enum with char as value
-          prefs.ignoreWhitespace = toWhitespace(rs.getString(6));
-          prefs.intralineDifference = toBoolean(rs.getString(7));
-          prefs.lineLength = rs.getInt(8);
-          prefs.manualReview = toBoolean(rs.getString(9));
-          prefs.renderEntireFile = toBoolean(rs.getString(10));
-          prefs.retainHeader = toBoolean(rs.getString(11));
-          prefs.showLineEndings = toBoolean(rs.getString(12));
-          prefs.showTabs = toBoolean(rs.getString(13));
-          prefs.showWhitespaceErrors = toBoolean(rs.getString(14));
-          prefs.skipDeleted = toBoolean(rs.getString(15));
-          prefs.skipUncommented = toBoolean(rs.getString(16));
-          prefs.syntaxHighlighting = toBoolean(rs.getString(17));
-          prefs.tabSize = rs.getInt(18);
-          // Enum with name as values; can be null
-          prefs.theme = toTheme(rs.getString(19));
-          prefs.hideEmptyPane = toBoolean(rs.getString(20));
-          prefs.autoHideDiffTableHeader = toBoolean(rs.getString(21));
+          if (availableColumns.contains("context")) {
+            prefs.context = (int)rs.getShort("context");
+          }
+          if (availableColumns.contains("expand_all_comments")) {
+            prefs.expandAllComments = toBoolean(rs.getString("expand_all_comments"));
+          }
+          if (availableColumns.contains("hide_line_numbers")) {
+            prefs.hideLineNumbers = toBoolean(rs.getString("hide_line_numbers"));
+          }
+          if (availableColumns.contains("hide_top_menu")) {
+            prefs.hideTopMenu = toBoolean(rs.getString("hide_top_menu"));
+          }
+          if (availableColumns.contains("ignore_whitespace")) {
+            // Enum with char as value
+            prefs.ignoreWhitespace = toWhitespace(rs.getString("ignore_whitespace"));
+          }
+          if (availableColumns.contains("intraline_difference")) {
+            prefs.intralineDifference = toBoolean(rs.getString("intraline_difference"));
+          }
+          if (availableColumns.contains("line_length")) {
+            prefs.lineLength = rs.getInt("line_length");
+          }
+          if (availableColumns.contains("manual_review")) {
+            prefs.manualReview = toBoolean(rs.getString("manual_review"));
+          }
+          if (availableColumns.contains("render_entire_file")) {
+            prefs.renderEntireFile = toBoolean(rs.getString("render_entire_file"));
+          }
+          if (availableColumns.contains("retain_header")) {
+            prefs.retainHeader = toBoolean(rs.getString("retain_header"));
+          }
+          if (availableColumns.contains("show_line_endings")) {
+            prefs.showLineEndings = toBoolean(rs.getString("show_line_endings"));
+          }
+          if (availableColumns.contains("show_tabs")) {
+            prefs.showTabs = toBoolean(rs.getString("show_tabs"));
+          }
+          if (availableColumns.contains("show_whitespace_errors")) {
+            prefs.showWhitespaceErrors = toBoolean(rs.getString("show_whitespace_errors"));
+          }
+          if (availableColumns.contains("skip_deleted")) {
+            prefs.skipDeleted = toBoolean(rs.getString("skip_deleted"));
+          }
+          if (availableColumns.contains("skip_uncommented")) {
+            prefs.skipUncommented = toBoolean(rs.getString("skip_uncommented"));
+          }
+          if (availableColumns.contains("syntax_highlighting")) {
+            prefs.syntaxHighlighting = toBoolean(rs.getString("syntax_highlighting"));
+          }
+          if (availableColumns.contains("tab_size")) {
+            prefs.tabSize = rs.getInt("tab_size");
+          }
+          if (availableColumns.contains("theme")) {
+            // Enum with name as values; can be null
+            prefs.theme = toTheme(rs.getString("theme"));
+          }
+          if (availableColumns.contains("hide_empty_pane")) {
+            prefs.hideEmptyPane = toBoolean(rs.getString("hide_empty_pane"));
+          }
+          if (availableColumns.contains("auto_hide_diff_table_header")) {
+            prefs.autoHideDiffTableHeader = toBoolean(rs.getString("auto_hide_diff_table_header"));
+          }
           imports.put(accountId, prefs);
         }
     }
@@ -149,6 +171,16 @@ public class Schema_115 extends SchemaVersion {
     } catch (ConfigInvalidException | IOException ex) {
       throw new OrmException(ex);
     }
+  }
+
+  private Set<String> getColumns(ResultSet rs) throws SQLException {
+    ResultSetMetaData metaData = rs.getMetaData();
+    int columnCount = metaData.getColumnCount();
+    Set<String> columns = new HashSet<>(columnCount);
+    for (int i = 1; i <= columnCount; i++) {
+      columns.add(metaData.getColumnLabel(i).toLowerCase());
+    }
+    return columns;
   }
 
   private static Theme toTheme(String v) {

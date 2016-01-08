@@ -60,7 +60,8 @@ public class MergeValidators {
       CodeReviewCommit commit,
       ProjectState destProject,
       Branch.NameKey destBranch,
-      PatchSet.Id patchSetId)
+      PatchSet.Id patchSetId,
+      IdentifiedUser caller)
       throws MergeValidationException {
     List<MergeValidationListener> validators = Lists.newLinkedList();
 
@@ -68,7 +69,8 @@ public class MergeValidators {
     validators.add(projectConfigValidatorFactory.create());
 
     for (MergeValidationListener validator : validators) {
-      validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId);
+      validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId,
+          caller);
     }
   }
 
@@ -124,7 +126,8 @@ public class MergeValidators {
         final CodeReviewCommit commit,
         final ProjectState destProject,
         final Branch.NameKey destBranch,
-        final PatchSet.Id patchSetId)
+        final PatchSet.Id patchSetId,
+        IdentifiedUser caller)
         throws MergeValidationException {
       if (RefNames.REFS_CONFIG.equals(destBranch.get())) {
         final Project.NameKey newParent;
@@ -200,10 +203,12 @@ public class MergeValidators {
         CodeReviewCommit commit,
         ProjectState destProject,
         Branch.NameKey destBranch,
-        PatchSet.Id patchSetId)
+        PatchSet.Id patchSetId,
+        IdentifiedUser caller)
         throws MergeValidationException {
       for (MergeValidationListener validator : mergeValidationListeners) {
-        validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId);
+        validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId,
+            caller);
       }
     }
   }

@@ -37,6 +37,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -51,6 +52,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
   RebaseIfNecessary(SubmitStrategy.Arguments args) {
     super(args);
     this.newCommits = new HashMap<>();
+  }
+
+  private PersonIdent getSubmitterIdent() {
+    return args.caller.newCommitterIdent(
+        args.serverIdent.getWhen(),
+        args.serverIdent.getTimeZone());
   }
 
   @Override
@@ -156,7 +163,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
             // Racy read of patch set is ok; see comments in RebaseChangeOp.
             args.db.patchSets().get(toMerge.getPatchsetId()),
             mergeTip.getCurrentTip().name())
-          .setCommitterIdent(args.serverIdent)
+          .setCommitterIdent(getSubmitterIdent())
           .setRunHooks(false)
           .setValidatePolicy(CommitValidators.Policy.NONE);
       try {

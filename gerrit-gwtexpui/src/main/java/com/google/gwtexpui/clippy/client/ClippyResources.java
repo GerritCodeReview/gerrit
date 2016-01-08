@@ -30,6 +30,6 @@ public interface ClippyResources extends ClientBundle {
   @DoNotEmbed
   DataResource swf();
 
-  @Source("clipboard-16.png")
+  @Source("page_white_copy.png")
   ImageResource clipboard();
 }

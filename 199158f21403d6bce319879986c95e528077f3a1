@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eaaecbf8_b25de032",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-08T10:47:12Z",
+      "side": 0,
+      "message": "The seems to be the conflicts with: I8a26183dd60a2f2fd4e7478e43de258a781b3126",
+      "revId": "199158f21403d6bce319879986c95e528077f3a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

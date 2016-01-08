@@ -120,7 +120,42 @@ limitations under the License.
               ['/COMMIT_MSG', 'file_added_in_rev2.txt', 'myfile.txt']);
           done();
         }, 1);
-      }, 1)
+      }, 1);
+    });
+
+    test('comment filtering', function() {
+      var comments = {
+        '/COMMIT_MSG': [
+          { patch_set: 1, message: 'Done' },
+          { patch_set: 1, message: 'oh hay' },
+          { patch_set: 2, message: 'hello' },
+        ],
+        'myfile.txt': [
+          { patch_set: 1, message: 'good news!' },
+          { patch_set: 2, message: 'wat!?' },
+          { patch_set: 2, message: 'hi' },
+        ],
+      };
+      assert.equal(
+          element._computeCommentsString(comments, '1', '/COMMIT_MSG'),
+          '2 comments');
+      assert.equal(
+          element._computeCommentsString(comments, '1', 'myfile.txt'),
+          '1 comment');
+      assert.equal(
+          element._computeCommentsString(comments, '1',
+              'file_added_in_rev2.txt'),
+          '');
+      assert.equal(
+          element._computeCommentsString(comments, '2', '/COMMIT_MSG'),
+          '1 comment');
+      assert.equal(
+          element._computeCommentsString(comments, '2', 'myfile.txt'),
+          '2 comments');
+      assert.equal(
+          element._computeCommentsString(comments, '2',
+              'file_added_in_rev2.txt'),
+          '');
     });
   });
 </script>

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aac6306_ec094b7a",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T15:24:42Z",
+      "side": 1,
+      "message": "We talked briefly about the change/patch set actions distinction: it exists in the REST API, but everything is shoved together into one area in the UI.\n\nIs the intent for this component to contain buttons for both change and patch set actions? If so, I think \"change-actions\" is a reasonable name, as it\u0027s all actions available on the change screen. But if not, if this component is only for patch set actions, maybe it should be named as such.",
+      "revId": "86798b5d0443b09950d2b3b55ecb3e36337e298d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aac6306_cc0e0f80",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T15:24:42Z",
+      "side": 1,
+      "message": "wait_for_merge is deprecated and has no effect, you can just omit it.",
+      "range": {
+        "startLine": 115,
+        "startChar": 36,
+        "endLine": 115,
+        "endChar": 56
+      },
+      "revId": "86798b5d0443b09950d2b3b55ecb3e36337e298d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aa79f24_eb4811b7",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T15:24:42Z",
+      "side": 1,
+      "message": "The GWT UI doesn\u0027t do anything special when not logged in, it\u0027s just that /changes/X/detail and /changes/X/revisions/Y/actions will typically return empty action lists in that case.\n\nIt\u0027s reasonable to expect that state-changing methods (POST etc.) are just not going to work when you\u0027re logged out. But conceivably there could be a plugin that provides an action button with method \u003d \"GET\" that works when logged out:\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#action-info\n\nThat\u0027s a long justification for why I think you can just remove this.",
+      "range": {
+        "startLine": 240,
+        "startChar": 12,
+        "endLine": 240,
+        "endChar": 35
+      },
+      "revId": "86798b5d0443b09950d2b3b55ecb3e36337e298d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aa79f24_cb4d55c5",
+        "filename": "polygerrit-ui/app/elements/gr-reply-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T15:24:42Z",
+      "side": 1,
+      "message": "Unrelated/accidental squash?",
+      "revId": "86798b5d0443b09950d2b3b55ecb3e36337e298d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

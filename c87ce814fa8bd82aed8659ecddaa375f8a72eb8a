@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aac6306_4ccdff86",
+        "filename": "gerrit-sshd/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-01-08T13:11:00Z",
+      "side": 1,
+      "message": "I\u0027m guessing this is required because of how we load the SSH host keys now?  (I hope it\u0027s only required for using the OpenSSH-style keys, and not the serialized key pairs...",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "c87ce814fa8bd82aed8659ecddaa375f8a72eb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aa79f24_4bcde586",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2016-01-08T13:11:00Z",
+      "side": 1,
+      "message": "I\u0027d assume most of these TODOs can go away, since we actually don\u0027t want to allow SCP/SFTP...",
+      "range": {
+        "startLine": 723,
+        "startChar": 0,
+        "endLine": 723,
+        "endChar": 46
+      },
+      "revId": "c87ce814fa8bd82aed8659ecddaa375f8a72eb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

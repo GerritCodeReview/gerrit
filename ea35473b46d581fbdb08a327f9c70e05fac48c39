@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0aa79f24_ebf2d1c1",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-08T13:32:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aab8533e_307288b9",
+      "revId": "ea35473b46d581fbdb08a327f9c70e05fac48c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaaecbf8_328bb0d9",
         "filename": "polygerrit-ui/app/elements/gr-change-star.html",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-08T10:31:31Z",
       "side": 1,
       "message": "Can be removed new because of fix in I41d544a3c.",
+      "revId": "ea35473b46d581fbdb08a327f9c70e05fac48c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aac6306_ecf2ebc1",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-08T13:32:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaaecbf8_328bb0d9",
       "revId": "ea35473b46d581fbdb08a327f9c70e05fac48c39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaaecbf8_b22b206f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-08T16:22:37Z",
+      "side": 1,
+      "message": "Unless I\u0027m mistaken this implements your original plan.\nWe set the Commit trailer for a new change, and for any new patchset, which should be the minimum to establish a mapping between patchset id and commit, assuming no inline comments have been made.\n\nI think the advantage of your original plan is that it requires less modification where gerrit is concerned, and is also less noisy than including the commit sha everywhere.\n\nFor the tools using the format it doesn\u0027t matter too much which approach we take in my opinion, we just need some way to map between patchset id and commit.\n\nSomething I\u0027ve sadly just noticed is that this RFC isn\u0027t sufficient, since you can create new patchsets via the web interface. If you\u0027re happy with this RFC in principal though, then I will gladly send a patch with that issue addressed.",
+      "parentUuid": "2aac6306_2cdd1335",
+      "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eaaecbf8_b244c052",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-08T14:23:39Z",
+      "side": 1,
+      "message": "I already said it in another thread: we should adapt mandatory \"Test Plan:\" section in the commit message from Buck\u0027s FB team.\n\n  Test Plan:\n  run this (new) unit test\n\nor if you can\u0027t (why actually not?) provide a test, explain other means how to test your change.",
+      "parentUuid": "eaaecbf8_726c18d9",
+      "revId": "56c94828a6237ec506b27b794381d93743926909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aa79f24_6bd0a122",
         "filename": "polygerrit-ui/app/scripts/app.js",
         "patchSetId": 1

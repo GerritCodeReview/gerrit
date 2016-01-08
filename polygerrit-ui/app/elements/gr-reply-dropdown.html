@@ -37,10 +37,11 @@ limitations under the License.
       box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
     }
     button {
-      font: inherit;
       background-color: #f1f2f3;
       border: 1px solid #aaa;
       border-radius: 2px;
+      cursor: pointer;
+      font: inherit;
       padding: .2em .5em;
     }
     section {
@@ -53,22 +54,18 @@ limitations under the License.
     iron-autogrow-textarea {
       padding: 0;
     }
-    /* https://github.com/PolymerElements/iron-autogrow-textarea/pull/61 */
-    iron-autogrow-textarea::shadow #mirror,
-    iron-autogrow-textarea::shadow textarea {
-      white-space: pre-wrap;
-    }
     .message {
       border: none;
     }
-    .label:first-of-type {
-      margin-bottom: .25em;
+    .labelContainer:not(:first-of-type) {
+      margin-top: .5em;
     }
     .labelName {
       display: inline-block;
       text-align: right;
-      width: 6em;
+      width: 7em;
       margin-right: .5em;
+      white-space: nowrap;
     }
     iron-selector {
       display: inline-flex;
@@ -132,15 +129,17 @@ limitations under the License.
         <section>
           <template is="dom-repeat"
               items="[[_computeLabelArray(permittedLabels)]]" as="label">
-            <span class="labelName">[[label]]</span>
-            <iron-selector data-label$="[[label]]"
-                selected="[[_computeIndexOfLabelValue(labels, permittedLabels, label, _account)]]">
-              <template is="dom-repeat"
-                  items="[[_computePermittedLabelValues(permittedLabels, label)]]"
-                  as="value">
-                <button data-value$="[[value]]">[[value]]</button>
-              </template>
-            </iron-selector>
+            <div class="labelContainer">
+              <span class="labelName">[[label]]</span>
+              <iron-selector data-label$="[[label]]"
+                  selected="[[_computeIndexOfLabelValue(labels, permittedLabels, label, _account)]]">
+                <template is="dom-repeat"
+                    items="[[_computePermittedLabelValues(permittedLabels, label)]]"
+                    as="value">
+                  <button data-value$="[[value]]">[[value]]</button>
+                </template>
+              </iron-selector>
+            </div>
           </template>
         </section>
         <section class="draftsContainer" hidden$="[[_computeHideDraftList(_drafts)]]">
@@ -151,9 +150,9 @@ limitations under the License.
               patch-num="[[patchNum]]"></gr-comment-list>
         </section>
         <section class="actionsContainer">
-          <a class="action send" href="#" on-tap="_sendTapHandler">Send</a>
+          <button class="action send" on-tap="_sendTapHandler">Send</button>
           <div class="danger">
-            <a class="action cancel" href="#" on-tap="_cancelTapHandler">Cancel</a>
+            <button class="action cancel" on-tap="_cancelTapHandler">Cancel</button>
           </div>
         </section>
       </div>

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cab10759_11378c20",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-08T00:51:28Z",
+      "side": 1,
+      "message": "If this is not needed, remove it?  Or should it be marked with a TODO like L544?",
+      "range": {
+        "startLine": 627,
+        "startChar": 4,
+        "endLine": 634,
+        "endChar": 10
+      },
+      "revId": "ffa19242623e4349f10688ee34dd03b340ed448e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a123f0e_9378bccd",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-08T00:51:28Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 665,
+        "startChar": 4,
+        "endLine": 670,
+        "endChar": 10
+      },
+      "revId": "ffa19242623e4349f10688ee34dd03b340ed448e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

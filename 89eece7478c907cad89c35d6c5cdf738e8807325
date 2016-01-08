@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2a48e34e_6ccd3b87",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-08T21:35:41Z",
+      "side": 1,
+      "message": "Thanks, I missed it: restored. Done.",
+      "parentUuid": "2a48e34e_0cd67720",
+      "range": {
+        "startLine": 84,
+        "startChar": 10,
+        "endLine": 84,
+        "endChar": 29
+      },
+      "revId": "89eece7478c907cad89c35d6c5cdf738e8807325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a48e34e_2cd33331",
         "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-01-08T21:09:38Z",
       "side": 1,
       "message": "Most other methods use early-return:\n\n if (!verified) { return \u0027\u0027; }",
+      "revId": "89eece7478c907cad89c35d6c5cdf738e8807325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca3667c7_e9c03555",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-08T21:35:41Z",
+      "side": 1,
+      "message": "I wanted to harmonize both class and value computation, but only harmonized class computation in ps1. Fixed in new patch set.",
+      "parentUuid": "2a48e34e_2cd33331",
       "revId": "89eece7478c907cad89c35d6c5cdf738e8807325",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

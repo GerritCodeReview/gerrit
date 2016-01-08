@@ -45,7 +45,6 @@ limitations under the License.
         display: flex;
         max-width: var(--max-constrained-width);
         padding: 1em var(--default-horizontal-margin);
-        white-space: nowrap;
         width: 100%;
         z-index: 1000;
       }
@@ -55,10 +54,13 @@ limitations under the License.
         top: 0;
         transition: box-shadow 250ms linear;
       }
-      .header h2 {
+      .header-title {
         flex: 1;
+        font-size: 1.2em;
+        font-weight: bold;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .patchSelectLabel {
         margin-left: var(--default-horizontal-margin);
@@ -142,11 +144,11 @@ limitations under the License.
     <div class="container" hidden$="{{_loading}}">
       <div class="headerContainer">
         <div class="header">
-          <h2>
+          <span class="header-title">
             <a href$="[[_computeChangePath(_change._number)]]">[[_change._number]]</a><span>:</span>
             <span>[[_change.subject]]</span>
             <span class="changeStatus">[[_computeChangeStatus(_change.status)]]</span>
-          </h2>
+          </span>
           <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
           <select id="patchSetSelect" on-change="_handlePatchChange">
             <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">
@@ -420,7 +422,8 @@ limitations under the License.
 
       _computeLabelValues: function(labelName, labels) {
         var result = [];
-        labels[labelName].all.forEach(function(label) {
+        var approvals = labels[labelName].all || [];
+        approvals.forEach(function(label) {
           if (label.value && label.value != labels[labelName].default_value) {
             var labelClassName;
             var labelValPrefix = '';

@@ -92,6 +92,7 @@ public class AvatarImage extends Image implements LoadHandler {
 
   private void loadAvatar(AccountInfo account, int size, boolean addPopup) {
     if (!Gerrit.info().plugin().hasAvatars()) {
+      setVisible(false);
       return;
     }
 

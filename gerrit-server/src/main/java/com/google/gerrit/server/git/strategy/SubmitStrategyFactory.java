@@ -17,25 +17,14 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.RebaseChangeOp;
-import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -50,33 +39,11 @@ public class SubmitStrategyFactory {
   private static final Logger log = LoggerFactory
       .getLogger(SubmitStrategyFactory.class);
 
-  private final Provider<PersonIdent> myIdent;
-  private final BatchUpdate.Factory batchUpdateFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final RebaseChangeOp.Factory rebaseFactory;
-  private final ProjectCache projectCache;
-  private final ApprovalsUtil approvalsUtil;
-  private final MergeUtil.Factory mergeUtilFactory;
+  private final SubmitStrategy.Arguments.Factory argsFactory;
 
   @Inject
-  SubmitStrategyFactory(
-      @GerritPersonIdent Provider<PersonIdent> myIdent,
-      BatchUpdate.Factory batchUpdateFactory,
-      ChangeControl.GenericFactory changeControlFactory,
-      PatchSetInfoFactory patchSetInfoFactory,
-      RebaseChangeOp.Factory rebaseFactory,
-      ProjectCache projectCache,
-      ApprovalsUtil approvalsUtil,
-      MergeUtil.Factory mergeUtilFactory) {
-    this.myIdent = myIdent;
-    this.batchUpdateFactory = batchUpdateFactory;
-    this.changeControlFactory = changeControlFactory;
-    this.patchSetInfoFactory = patchSetInfoFactory;
-    this.rebaseFactory = rebaseFactory;
-    this.projectCache = projectCache;
-    this.approvalsUtil = approvalsUtil;
-    this.mergeUtilFactory = mergeUtilFactory;
+  SubmitStrategyFactory(SubmitStrategy.Arguments.Factory argsFactory) {
+    this.argsFactory = argsFactory;
   }
 
   public SubmitStrategy create(SubmitType submitType, ReviewDb db,
@@ -84,14 +51,14 @@ public class SubmitStrategyFactory {
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
       Branch.NameKey destBranch, IdentifiedUser caller)
       throws IntegrationException, NoSuchProjectException {
-    ProjectState project = getProject(destBranch);
-    SubmitStrategy.Arguments args = new SubmitStrategy.Arguments(
-        myIdent, db, batchUpdateFactory, changeControlFactory,
-        repo, rw, inserter, canMergeFlag, alreadyAccepted,
-        destBranch,approvalsUtil, mergeUtilFactory.create(project), caller);
+    SubmitStrategy.Arguments args = argsFactory.create(destBranch, rw, caller,
+        inserter, repo, canMergeFlag, db, alreadyAccepted);
+    if (args.project == null) {
+      throw new NoSuchProjectException(destBranch.getParentKey());
+    }
     switch (submitType) {
       case CHERRY_PICK:
-        return new CherryPick(args, patchSetInfoFactory);
+        return new CherryPick(args);
       case FAST_FORWARD_ONLY:
         return new FastForwardOnly(args);
       case MERGE_ALWAYS:
@@ -99,20 +66,11 @@ public class SubmitStrategyFactory {
       case MERGE_IF_NECESSARY:
         return new MergeIfNecessary(args);
       case REBASE_IF_NECESSARY:
-        return new RebaseIfNecessary(args, patchSetInfoFactory, rebaseFactory);
+        return new RebaseIfNecessary(args);
       default:
         String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);
         throw new IntegrationException(errorMsg);
     }
-  }
-
-  private ProjectState getProject(Branch.NameKey branch)
-      throws NoSuchProjectException {
-    ProjectState p = projectCache.get(branch.getParentKey());
-    if (p == null) {
-      throw new NoSuchProjectException(branch.getParentKey());
-    }
-    return p;
   }
 }

@@ -17,11 +17,14 @@ package com.google.gerrit.server.git.strategy;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -29,8 +32,13 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeSorter;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.inject.Provider;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.inject.Module;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -51,46 +59,87 @@ import java.util.Set;
  * commits should be merged.
  */
 public abstract class SubmitStrategy {
+  public static Module module() {
+    return new FactoryModule() {
+      @Override
+      protected void configure() {
+        factory(SubmitStrategy.Arguments.Factory.class);
+      }
+    };
+  }
+
   static class Arguments {
-    protected final Provider<PersonIdent> serverIdent;
-    protected final ReviewDb db;
-    protected final BatchUpdate.Factory batchUpdateFactory;
-    protected final ChangeControl.GenericFactory changeControlFactory;
+    interface Factory {
+      Arguments create(
+          Branch.NameKey destBranch,
+          CodeReviewRevWalk rw,
+          IdentifiedUser caller,
+          ObjectInserter inserter,
+          Repository repo,
+          RevFlag canMergeFlag,
+          ReviewDb db,
+          Set<RevCommit> alreadyAccepted);
+    }
 
-    protected final Repository repo;
-    protected final CodeReviewRevWalk rw;
-    protected final ObjectInserter inserter;
-    protected final RevFlag canMergeFlag;
-    protected final Set<RevCommit> alreadyAccepted;
-    protected final Branch.NameKey destBranch;
-    protected final ApprovalsUtil approvalsUtil;
-    protected final MergeUtil mergeUtil;
-    protected final MergeSorter mergeSorter;
-    protected final IdentifiedUser caller;
+    final ApprovalsUtil approvalsUtil;
+    final BatchUpdate.Factory batchUpdateFactory;
+    final ChangeControl.GenericFactory changeControlFactory;
+    final PatchSetInfoFactory patchSetInfoFactory;
+    final ProjectCache projectCache;
+    final PersonIdent serverIdent;
+    final RebaseChangeOp.Factory rebaseFactory;
 
-    Arguments(Provider<PersonIdent> serverIdent, ReviewDb db,
+    final Branch.NameKey destBranch;
+    final CodeReviewRevWalk rw;
+    final IdentifiedUser caller;
+    final ObjectInserter inserter;
+    final Repository repo;
+    final RevFlag canMergeFlag;
+    final ReviewDb db;
+    final Set<RevCommit> alreadyAccepted;
+
+    final ProjectState project;
+    final MergeSorter mergeSorter;
+    final MergeUtil mergeUtil;
+
+    @AssistedInject
+    Arguments(
+        ApprovalsUtil approvalsUtil,
         BatchUpdate.Factory batchUpdateFactory,
-        ChangeControl.GenericFactory changeControlFactory, Repository repo,
-        CodeReviewRevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
-        Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
-        ApprovalsUtil approvalsUtil, MergeUtil mergeUtil,
-        IdentifiedUser caller) {
-      this.serverIdent = checkNotNull(serverIdent);
-      this.db = checkNotNull(db);
-      this.batchUpdateFactory = checkNotNull(batchUpdateFactory);
-      this.changeControlFactory = checkNotNull(changeControlFactory);
+        ChangeControl.GenericFactory changeControlFactory,
+        MergeUtil.Factory mergeUtilFactory,
+        PatchSetInfoFactory patchSetInfoFactory,
+        @GerritPersonIdent PersonIdent serverIdent,
+        ProjectCache projectCache,
+        RebaseChangeOp.Factory rebaseFactory,
+        @Assisted Branch.NameKey destBranch,
+        @Assisted CodeReviewRevWalk rw,
+        @Assisted IdentifiedUser caller,
+        @Assisted ObjectInserter inserter,
+        @Assisted Repository repo,
+        @Assisted RevFlag canMergeFlag,
+        @Assisted ReviewDb db,
+        @Assisted Set<RevCommit> alreadyAccepted) {
+      this.approvalsUtil = approvalsUtil;
+      this.batchUpdateFactory = batchUpdateFactory;
+      this.changeControlFactory = changeControlFactory;
+      this.patchSetInfoFactory = patchSetInfoFactory;
+      this.projectCache = projectCache;
+      this.rebaseFactory = rebaseFactory;
 
-      this.repo = checkNotNull(repo);
-      this.rw = checkNotNull(rw);
-      this.inserter = checkNotNull(inserter);
-      this.canMergeFlag = checkNotNull(canMergeFlag);
-      this.alreadyAccepted = checkNotNull(alreadyAccepted);
-      this.destBranch = checkNotNull(destBranch);
-      this.approvalsUtil = checkNotNull(approvalsUtil);
-      this.mergeUtil = checkNotNull(mergeUtil);
-      this.caller = checkNotNull(caller);
+      this.serverIdent = serverIdent;
+      this.destBranch = destBranch;
+      this.rw = rw;
+      this.caller = caller;
+      this.inserter = inserter;
+      this.repo = repo;
+      this.canMergeFlag = canMergeFlag;
+      this.db = db;
+      this.alreadyAccepted = alreadyAccepted;
 
+      this.project = projectCache.get(destBranch.getParentKey());
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
+      this.mergeUtil = mergeUtilFactory.create(project);
     }
 
     BatchUpdate newBatchUpdate(Timestamp when) {

@@ -86,6 +86,7 @@ import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
@@ -175,6 +176,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
     install(SectionSortCache.module());
+    install(SubmitStrategy.module());
     install(TagCache.module());
 
     install(new AccessControlModule());

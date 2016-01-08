@@ -33,7 +33,6 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
@@ -49,13 +48,10 @@ import java.util.List;
 import java.util.Map;
 
 public class CherryPick extends SubmitStrategy {
-  private final PatchSetInfoFactory patchSetInfoFactory;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
 
-  CherryPick(SubmitStrategy.Arguments args,
-      PatchSetInfoFactory patchSetInfoFactory) {
+  CherryPick(SubmitStrategy.Arguments args) {
     super(args);
-    this.patchSetInfoFactory = patchSetInfoFactory;
     this.newCommits = new HashMap<>();
   }
 
@@ -150,7 +146,7 @@ public class CherryPick extends SubmitStrategy {
           args.mergeUtil.createCherryPickCommitMessage(toMerge);
 
       PersonIdent committer = args.caller.newCommitterIdent(
-          ctx.getWhen(), args.serverIdent.get().getTimeZone());
+          ctx.getWhen(), args.serverIdent.getTimeZone());
       try {
         newCommit = args.mergeUtil.createCherryPickFromCommit(
             args.repo, args.inserter, mergeTip.getCurrentTip(), toMerge,
@@ -158,7 +154,7 @@ public class CherryPick extends SubmitStrategy {
         ctx.addRefUpdate(
             new ReceiveCommand(ObjectId.zeroId(), newCommit, psId.toRefName()));
         patchSetInfo =
-            patchSetInfoFactory.get(ctx.getRevWalk(), newCommit, psId);
+            args.patchSetInfoFactory.get(ctx.getRevWalk(), newCommit, psId);
       } catch (MergeConflictException mce) {
         // Keep going in the case of a single merge failure; the goal is to
         // cherry-pick as many commits as possible.
@@ -230,8 +226,7 @@ public class CherryPick extends SubmitStrategy {
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)) {
         mergeTip.moveTipTo(toMerge, toMerge);
       } else {
-        PersonIdent myIdent =
-            new PersonIdent(args.serverIdent.get(), ctx.getWhen());
+        PersonIdent myIdent = new PersonIdent(args.serverIdent, ctx.getWhen());
         CodeReviewCommit result = args.mergeUtil.mergeOneCommit(myIdent,
             myIdent, args.repo, args.rw, args.inserter,
             args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(),

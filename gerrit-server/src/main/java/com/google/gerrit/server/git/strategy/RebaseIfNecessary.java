@@ -32,13 +32,11 @@ import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -48,16 +46,10 @@ import java.util.List;
 import java.util.Map;
 
 public class RebaseIfNecessary extends SubmitStrategy {
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final RebaseChangeOp.Factory rebaseFactory;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
 
-  RebaseIfNecessary(SubmitStrategy.Arguments args,
-      PatchSetInfoFactory patchSetInfoFactory,
-      RebaseChangeOp.Factory rebaseFactory) {
+  RebaseIfNecessary(SubmitStrategy.Arguments args) {
     super(args);
-    this.patchSetInfoFactory = patchSetInfoFactory;
-    this.rebaseFactory = rebaseFactory;
     this.newCommits = new HashMap<>();
   }
 
@@ -159,12 +151,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
         return;
       }
 
-      rebaseOp = rebaseFactory.create(
+      rebaseOp = args.rebaseFactory.create(
             toMerge.getControl(),
             // Racy read of patch set is ok; see comments in RebaseChangeOp.
             args.db.patchSets().get(toMerge.getPatchsetId()),
             mergeTip.getCurrentTip().name())
-          .setCommitterIdent(args.serverIdent.get())
+          .setCommitterIdent(args.serverIdent)
           .setRunHooks(false)
           .setValidatePolicy(CommitValidators.Policy.NONE);
       try {
@@ -200,7 +192,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
           ObjectId.fromString(newPatchSet.getRevision().get()));
       mergeTip.moveTipTo(newTip, newTip);
       toMerge.change().setCurrentPatchSet(
-          patchSetInfoFactory.get(args.rw, mergeTip.getCurrentTip(),
+          args.patchSetInfoFactory.get(args.rw, mergeTip.getCurrentTip(),
               newPatchSet.getId()));
       mergeTip.getCurrentTip().copyFrom(toMerge);
       mergeTip.getCurrentTip().setControl(
@@ -243,12 +235,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
         mergeTip.moveTipTo(toMerge, toMerge);
         acceptMergeTip(mergeTip);
       } else {
-        PersonIdent myIdent = args.serverIdent.get();
         // TODO(dborowitz): Can't use repo from ctx due to canMergeFlag.
         CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
-            myIdent, myIdent, args.repo, args.rw, args.inserter,
-            args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(),
-            toMerge);
+            args.serverIdent, args.serverIdent, args.repo, args.rw,
+            args.inserter, args.canMergeFlag, args.destBranch,
+            mergeTip.getCurrentTip(), toMerge);
         mergeTip.moveTipTo(newTip, toMerge);
       }
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,

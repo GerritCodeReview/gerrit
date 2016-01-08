@@ -16,6 +16,24 @@
       "revId": "56421ea73b53d22c606bfe1feb5e335f632170e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aa79f24_eb1f719d",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-08T15:37:59Z",
+      "side": 1,
+      "message": "Yeah. Ideally we could autogenerate model classes from the Documentation (or vice versa) that handle this default stuff.",
+      "parentUuid": "0aa79f24_0b50fd59",
+      "revId": "56421ea73b53d22c606bfe1feb5e335f632170e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

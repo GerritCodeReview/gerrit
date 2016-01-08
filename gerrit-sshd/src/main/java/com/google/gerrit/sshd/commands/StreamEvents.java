@@ -38,10 +38,13 @@ import com.google.gson.JsonSerializer;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -54,6 +57,10 @@ final class StreamEvents extends BaseCommand {
 
   /** Number of events to write before yielding off the thread. */
   private static final int BATCH_SIZE = 32;
+
+  @Option(name = "--subscribe", aliases = {"-s"}, metaVar = "SUBSCRIBE",
+      usage = "subscribe to specific stream-events")
+  private List<String> subscribedToEvents = new ArrayList<>();
 
   @Inject
   private IdentifiedUser currentUser;
@@ -87,7 +94,10 @@ final class StreamEvents extends BaseCommand {
   private final EventListener listener = new EventListener() {
     @Override
     public void onEvent(final Event event) {
-      offer(event);
+      if (subscribedToEvents.isEmpty()
+          || subscribedToEvents.contains(event.getType())) {
+        offer(event);
+      }
     }
   };
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aa79f24_0b011d4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T15:03:27Z",
+      "side": 1,
+      "message": "This was surprising to me so I checked the code and ChangeJson.java:1049 is definitely lazily creating the list for each label.",
+      "revId": "4650e05e5c1427a0ac39c2ccc2d39cdd6ef79186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

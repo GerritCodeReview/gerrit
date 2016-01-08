@@ -27,7 +27,7 @@ import org.kohsuke.args4j.Option;
 
 import java.util.concurrent.TimeUnit;
 
-class GetAvatar implements RestReadView<AccountResource> {
+public class GetAvatar implements RestReadView<AccountResource> {
   private final DynamicItem<AvatarProvider> avatarProvider;
 
   @Option(name = "--size", aliases = {"-s"},

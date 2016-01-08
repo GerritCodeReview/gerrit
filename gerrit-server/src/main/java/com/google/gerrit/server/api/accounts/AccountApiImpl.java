@@ -27,6 +27,7 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.CreateEmail;
+import com.google.gerrit.server.account.GetAvatar;
 import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
@@ -45,6 +46,7 @@ public class AccountApiImpl implements AccountApi {
   private final AccountResource account;
   private final ChangesCollection changes;
   private final AccountLoader.Factory accountLoaderFactory;
+  private final GetAvatar getAvatar;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
   private final CreateEmail.Factory createEmailFactory;
@@ -53,6 +55,7 @@ public class AccountApiImpl implements AccountApi {
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
       ChangesCollection changes,
+      GetAvatar getAvatar,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
       CreateEmail.Factory createEmailFactory,
@@ -61,6 +64,7 @@ public class AccountApiImpl implements AccountApi {
     this.account = account;
     this.accountLoaderFactory = ailf;
     this.changes = changes;
+    this.getAvatar = getAvatar;
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
     this.createEmailFactory = createEmailFactory;
@@ -78,6 +82,11 @@ public class AccountApiImpl implements AccountApi {
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse change", e);
     }
+  }
+
+  @Override
+  public String getAvatarUrl() throws RestApiException {
+    return getAvatar.apply(account).location();
   }
 
   @Override

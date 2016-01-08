@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aac6306_2cdd1335",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T14:43:15Z",
+      "side": 1,
+      "message": "So you\u0027ve correctly identified an issue, which is that we don\u0027t currently have a way in notedb to map patch set IDs to commit SHA-1s. That is simply not implemented yet.\n\nThat said, requiring both \"Commit\" and \"Patch-set\" fields on every commit (which IIUC is what this change is proposing) seems like unnecessary repetition. My original plan was to include the \"Commit\" footer only on the commit that created the patch set. But we could just as easily require \"Commit\" everywhere and have \"Patch-set\" only on the original commit. At the end of the day you have to read all the history and then you have a bimap of patch set ID \u003c-\u003e commit SHA-1.\n\nWhat do you think? Does one approach or the other make it easier for git-appraise?",
+      "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

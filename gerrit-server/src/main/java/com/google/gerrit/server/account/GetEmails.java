@@ -41,7 +41,7 @@ public class GetEmails implements RestReadView<AccountResource> {
       OrmException {
     if (self.get() != rsrc.getUser()
         && self.get().getUserName() != rsrc.getUser().getUserName()
-        && !self.get().getCapabilities().canModifyAccount()) {
+        && !self.get().getCapabilities().canViewAllAccounts()) {
       throw new AuthException("not allowed to list email addresses");
     }
 

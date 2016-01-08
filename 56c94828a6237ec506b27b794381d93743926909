@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "eaaecbf8_726c18d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-08T14:19:30Z",
+      "side": 1,
+      "message": "Can you mention how to test it?",
+      "revId": "56c94828a6237ec506b27b794381d93743926909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aa79f24_6bd0a122",
         "filename": "polygerrit-ui/app/scripts/app.js",
         "patchSetId": 1

@@ -103,13 +103,13 @@ limitations under the License.
                 selected$="[[_computeSelected(index, _selectedIndex)]]">
               <span>[[account.name]]</span>
               <span hidden$="[[!account.email]]">
-                (<span>[[account.email]]</span>)
+                ([[account.email]])
               </span>
             </div>
           </template>
         </div>
       </div>
-      <a href="#" class="addReviewer" on-tap="_handleAddTap"
+      <a href="#" id="addReviewer" class="addReviewer" on-tap="_handleAddTap"
           hidden$="[[_showInput]]">Add reviewer</a>
     </div>
   </template>
@@ -304,10 +304,7 @@ limitations under the License.
 
       _handleCancelTap: function(e) {
         e.preventDefault();
-        this._showInput = false;
-        this._selectedIndex = 0;
-        this._inputVal = '';
-        this._autocompleteData = [];
+        this._cancel();
       },
 
       _handleMouseEnterItem: function(e) {
@@ -369,7 +366,14 @@ limitations under the License.
       },
 
       _handleKey: function(e) {
-        if (this._hideAutocomplete) { return; }
+        if (this._hideAutocomplete) {
+          if (e.detail.combo == 'esc') {
+            e.preventDefault();
+            this._cancel();
+          }
+          return;
+        }
+
         e.preventDefault();
 
         switch (e.detail.combo) {
@@ -387,6 +391,14 @@ limitations under the License.
             this._sendAddRequest();
             break;
         }
+      },
+
+      _cancel: function() {
+        this._showInput = false;
+        this._selectedIndex = 0;
+        this._inputVal = '';
+        this._autocompleteData = [];
+        this.$.addReviewer.focus();
       },
 
       _sendAddRequest: function() {

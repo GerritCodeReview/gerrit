@@ -34,6 +34,24 @@
       "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aac6306_2c53536a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T16:24:31Z",
+      "side": 1,
+      "message": "Glad we\u0027re on the same page, and sorry I didn\u0027t actually read the code :)\n\nGo ahead and implement this. Thanks for the contribution.",
+      "parentUuid": "eaaecbf8_b22b206f",
+      "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

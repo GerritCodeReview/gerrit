@@ -34,7 +34,7 @@ window.addEventListener('WebComponentsReady', function() {
   // Routes.
   page('/', loadUser, function(data) {
     // For backward compatibility with GWT links.
-    if (data.hash != null) {
+    if (data.hash) {
       page.redirect(data.hash);
       return;
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aa79f24_6be701fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T14:32:08Z",
+      "side": 1,
+      "message": "This seems a little shady to me because if you create a merged change then you\u0027re missing the submit records, which notedb expects to be there, which is why we have that check.\n\nBut I\u0027ve got to admit, this one-line change is probably easier than fixing the tests to do the right thing.\n\nDo you mind leaving a TODO for me to investigate whether we can fix tests to not do this?",
+      "revId": "b5fe48088c1a9f769856a46b54f66e03af602ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

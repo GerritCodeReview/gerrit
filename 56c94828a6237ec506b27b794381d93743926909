@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aa79f24_6bd0a122",
+        "filename": "polygerrit-ui/app/scripts/app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-08T13:04:02Z",
+      "side": 1,
+      "message": "Can we make it more explicit?\n\nif (data.hash !\u003d null \u0026\u0026 data.hash.length \u003e 0) {",
+      "revId": "56c94828a6237ec506b27b794381d93743926909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

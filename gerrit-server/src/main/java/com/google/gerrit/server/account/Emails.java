@@ -55,7 +55,7 @@ public class Emails implements
   @Override
   public AccountResource.Email parse(AccountResource rsrc, IdString id)
       throws ResourceNotFoundException {
-    if (self.get() != rsrc.getUser()
+    if (!self.get().equals(rsrc.getUser())
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new ResourceNotFoundException();
     }

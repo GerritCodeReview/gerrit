@@ -61,7 +61,7 @@ public class SetDiffPreferences implements
   public DiffPreferencesInfo apply(AccountResource rsrc, DiffPreferencesInfo in)
       throws AuthException, BadRequestException, ConfigInvalidException,
       RepositoryNotFoundException, IOException, OrmException {
-    if (self.get() != rsrc.getUser()
+    if (!self.get().equals(rsrc.getUser())
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("restricted to members of Modify Accounts");
     }

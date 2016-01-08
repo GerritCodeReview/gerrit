@@ -50,7 +50,7 @@ public class DeleteSshKey implements
   @Override
   public Response<?> apply(AccountResource.SshKey rsrc, Input input)
       throws AuthException, OrmException {
-    if (self.get() != rsrc.getUser()
+    if (!self.get().equals(rsrc.getUser())
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to delete SSH keys");
     }

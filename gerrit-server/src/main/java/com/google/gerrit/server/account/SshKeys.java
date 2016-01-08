@@ -54,7 +54,7 @@ public class SshKeys implements
   @Override
   public AccountResource.SshKey parse(AccountResource rsrc, IdString id)
       throws ResourceNotFoundException, OrmException {
-    if (self.get() != rsrc.getUser()
+    if (!self.get().equals(rsrc.getUser())
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new ResourceNotFoundException();
     }

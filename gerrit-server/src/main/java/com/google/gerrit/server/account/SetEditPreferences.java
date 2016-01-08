@@ -61,7 +61,7 @@ public class SetEditPreferences implements
   public Response<?> apply(AccountResource rsrc, EditPreferencesInfo in)
       throws AuthException, BadRequestException, RepositoryNotFoundException,
       IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
+    if (!self.get().equals(rsrc.getUser())
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("restricted to members of Modify Accounts");
     }

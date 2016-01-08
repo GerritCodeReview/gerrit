@@ -51,7 +51,7 @@ public class PutPreferred implements
   @Override
   public Response<String> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException, OrmException {
-    if (self.get() != rsrc.getUser()
+    if (!self.get().equals(rsrc.getUser())
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to set preferred email address");
     }

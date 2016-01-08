@@ -44,7 +44,7 @@ public class GetSshKeys implements RestReadView<AccountResource> {
   @Override
   public List<SshKeyInfo> apply(AccountResource rsrc) throws AuthException,
       OrmException {
-    if (self.get() != rsrc.getUser()
+    if (!self.get().equals(rsrc.getUser())
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to get SSH keys");
     }

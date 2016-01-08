@@ -52,7 +52,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
   @Override
   public DiffPreferencesInfo apply(AccountResource rsrc)
       throws AuthException, ConfigInvalidException, IOException {
-    if (self.get() != rsrc.getUser()
+    if (!self.get().equals(rsrc.getUser())
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }

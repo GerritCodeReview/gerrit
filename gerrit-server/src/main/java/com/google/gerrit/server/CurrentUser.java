@@ -118,4 +118,28 @@ public abstract class CurrentUser {
   public boolean isInternalUser() {
     return false;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final CurrentUser other = (CurrentUser) obj;
+    if ((this.getUserName() == null) ? (other.getUserName() != null) :
+        !this.getUserName().equals(other.getUserName())) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+      int hash = 3;
+      hash = 53 * hash +
+          (this.getUserName() != null ? this.getUserName().hashCode() : 0);
+      return hash;
+  }
 }

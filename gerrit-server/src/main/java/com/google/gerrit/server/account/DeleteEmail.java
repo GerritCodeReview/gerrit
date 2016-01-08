@@ -54,7 +54,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   public Response<?> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
       ResourceConflictException, MethodNotAllowedException, OrmException {
-    if (self.get() != rsrc.getUser()
+    if (!self.get().equals(rsrc.getUser())
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to delete email address");
     }

@@ -55,6 +55,7 @@ public class SshKeys implements
   public AccountResource.SshKey parse(AccountResource rsrc, IdString id)
       throws ResourceNotFoundException, OrmException {
     if (self.get() != rsrc.getUser()
+        && self.get().getUserName() != rsrc.getUser().getUserName()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new ResourceNotFoundException();
     }

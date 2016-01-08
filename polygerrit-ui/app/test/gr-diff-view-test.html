@@ -45,6 +45,37 @@ limitations under the License.
       element.$.diff.auto = false;
     });
 
+    // https://github.com/PolymerElements/iron-test-helpers/issues/33
+    function keyboardEventFor(type, keyIdentifier) {
+      var event = new CustomEvent(type, {
+        bubbles: true,
+        cancelable: true
+      });
+
+      event.keyIdentifier = keyIdentifier;
+
+      return event;
+    }
+
+    function keyEventOn(target, type, keyIdentifier) {
+      target.dispatchEvent(keyboardEventFor(type, keyIdentifier));
+    }
+
+    function keyDownOn(target, keyIdentifier) {
+      keyEventOn(target, 'keydown', keyIdentifier);
+    }
+
+    function keyUpOn(target, keyIdentifier) {
+      keyEventOn(target, 'keyup', keyIdentifier);
+    }
+
+    function pressAndReleaseKeyIdentifierOn(target, keyIdentifier) {
+      keyDownOn(target, keyIdentifier);
+      Polymer.Base.async(function() {
+        keyUpOn(target, keyIdentifier);
+      }, 1);
+    }
+
     test('keyboard shortcuts', function() {
       element._changeNum = '42';
       element._patchRange = {
@@ -78,37 +109,41 @@ limitations under the License.
           'Should navigate to /c/42');
 
       showStub.restore();
+    });
 
-      // https://github.com/PolymerElements/iron-test-helpers/issues/33
-      function keyboardEventFor(type, keyIdentifier) {
-        var event = new CustomEvent(type, {
-          bubbles: true,
-          cancelable: true
-        });
+    test('keyboard shortcuts with patch range', function() {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: '5',
+        patchNum: '10',
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
 
-        event.keyIdentifier = keyIdentifier;
+      var showStub = sinon.stub(page, 'show');
 
-        return event;
-      }
+      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
+      assert(showStub.lastCall.calledWithExactly('/c/42'),
+          'Should navigate to /c/42');
 
-      function keyEventOn(target, type, keyIdentifier) {
-        target.dispatchEvent(keyboardEventFor(type, keyIdentifier));
-      }
+      pressAndReleaseKeyIdentifierOn(element, '\U+005D');  // ']'
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10/wheatley.md'),
+          'Should navigate to /c/42/5..10/wheatley.md');
+      element._path = 'wheatley.md';
 
-      function keyDownOn(target, keyIdentifier) {
-        keyEventOn(target, 'keydown', keyIdentifier);
-      }
+      pressAndReleaseKeyIdentifierOn(element, '\U+005B');  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10/glados.txt'),
+          'Should navigate to /c/42/5..10/glados.txt');
+      element._path = 'glados.txt';
 
-      function keyUpOn(target, keyIdentifier) {
-        keyEventOn(target, 'keyup', keyIdentifier);
-      }
+      pressAndReleaseKeyIdentifierOn(element, '\U+005B');  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42/5..10/chell.go'),
+          'Should navigate to /c/42/5..10/chell.go');
+      element._path = 'chell.go';
 
-      function pressAndReleaseKeyIdentifierOn(target, keyIdentifier) {
-        keyDownOn(target, keyIdentifier);
-        Polymer.Base.async(function() {
-          keyUpOn(target, keyIdentifier);
-        }, 1);
-      }
+      pressAndReleaseKeyIdentifierOn(element, '\U+005B');  // '['
+      assert(showStub.lastCall.calledWithExactly('/c/42'),
+          'Should navigate to /c/42');
     });
 
     test('jump to file dropdown', function() {
@@ -128,7 +163,32 @@ limitations under the License.
       assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
       assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
       assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
+      assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/chell.go');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/glados.txt');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/10/wheatley.md');
     });
 
+    test('jump to file dropdown with patch range', function() {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: '5',
+        patchNum: '10',
+      };
+      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+      element._path = 'glados.txt';
+      flushAsynchronousOperations();
+      var linkEls =
+          Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
+      assert.equal(linkEls.length, 3);
+      assert.isFalse(linkEls[0].hasAttribute('selected'));
+      assert.isTrue(linkEls[1].hasAttribute('selected'));
+      assert.isFalse(linkEls[2].hasAttribute('selected'));
+      assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
+      assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
+      assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
+      assert.equal(linkEls[0].getAttribute('href'), '/c/42/5..10/chell.go');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/5..10/glados.txt');
+      assert.equal(linkEls[2].getAttribute('href'), '/c/42/5..10/wheatley.md');
+    });
   });
 </script>

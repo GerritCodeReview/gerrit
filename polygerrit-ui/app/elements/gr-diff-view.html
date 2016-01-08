@@ -108,7 +108,7 @@ limitations under the License.
         <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="25">
           <div class="dropdown-content">
             <template is="dom-repeat" items="[[_fileList]]" as="path">
-              <a href$="[[_computeFileURL(_changeNum, _patchRange.patchNum, path)]]"
+              <a href$="[[_computeDiffURL(_changeNum, _patchRange, path)]]"
                  selected$="[[_computeFileSelected(path, _path)]]"
                  data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
                  on-tap="_handleFileTap">[[path]]</a>
@@ -204,13 +204,9 @@ limitations under the License.
           page.show(this._computeChangePath(this._changeNum));
           return;
         }
-        page.show(this._diffURL(this._changeNum,
-                                this._patchRange.patchNum,
-                                fileList[idx]));
-      },
-
-      _diffURL: function(changeNum, patchNum, path) {
-        return '/c/' + changeNum + '/' + patchNum + '/' + path;
+        page.show(this._computeDiffURL(this._changeNum,
+                                       this._patchRange,
+                                       fileList[idx]));
       },
 
       _paramsChanged: function(value) {
@@ -227,6 +223,15 @@ limitations under the License.
         if (!this._patchRange.patchNum) {
           return;
         }
+      },
+
+      _computeDiffURL: function(changeNum, patchRange, path) {
+        var patchStr = patchRange.patchNum;
+        if (patchRange.basePatchNum != null &&
+            patchRange.basePatchNum != 'PARENT') {
+          patchStr = patchRange.basePatchNum + '..' + patchRange.patchNum;
+        }
+        return '/c/' + changeNum + '/' + patchStr + '/' + path;
       },
 
       _computeAvailablePatches: function(revisions) {
@@ -253,10 +258,6 @@ limitations under the License.
 
       _computeFilesPath: function(changeNum, patchNum) {
         return Changes.baseURL(changeNum, patchNum) + '/files';
-      },
-
-      _computeFileURL: function(changeNum, patchNum, path) {
-        return '/c/' + changeNum + '/' + patchNum + '/' + path;
       },
 
       _computeFileSelected: function(path, currentPath) {

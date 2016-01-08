@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aa79f24_0b50fd59",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-08T15:29:53Z",
+      "side": 1,
+      "message": "Can you leave a comment saying that these defaults should match the defaults in gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java? Sadly this is one of the benefits of code sharing between backend and frontend that we lose when not using GWT.\n\nLonger term I think we should document the defaults at https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#diff-preferences-info or something.",
+      "revId": "56421ea73b53d22c606bfe1feb5e335f632170e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

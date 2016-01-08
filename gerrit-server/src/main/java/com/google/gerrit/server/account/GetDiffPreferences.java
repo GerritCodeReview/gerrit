@@ -54,8 +54,8 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
       throws AuthException, ConfigInvalidException, IOException {
     if (self.get() != rsrc.getUser()
         && self.get().getUserName() != rsrc.getUser().getUserName()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("restricted to administrator");
+        && !self.get().getCapabilities().canViewAllAccounts()) {
+      throw new AuthException("not allowed to get user diff preferences");
     }
 
     Account.Id id = rsrc.getUser().getAccountId();

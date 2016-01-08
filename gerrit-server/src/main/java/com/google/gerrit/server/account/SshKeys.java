@@ -56,7 +56,7 @@ public class SshKeys implements
       throws ResourceNotFoundException, OrmException {
     if (self.get() != rsrc.getUser()
         && self.get().getUserName() != rsrc.getUser().getUserName()
-        && !self.get().getCapabilities().canModifyAccount()) {
+        && !self.get().getCapabilities().canViewAllAccounts()) {
       throw new ResourceNotFoundException();
     }
     return parse(rsrc.getUser(), id);

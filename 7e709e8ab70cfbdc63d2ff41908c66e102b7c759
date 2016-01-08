@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aa79f24_0bd3dd30",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-08T02:32:40Z",
+      "side": 1,
+      "message": "got rid of this since you can do compound bindings since 1.2:\nhttps://blog.polymer-project.org/releases/2015/11/02/release-1.2.0/",
+      "revId": "7e709e8ab70cfbdc63d2ff41908c66e102b7c759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

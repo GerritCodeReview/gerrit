@@ -6,12 +6,6 @@ python_binary(
 )
 
 python_binary(
-  name = 'merge_jars',
-  main = 'merge_jars.py',
-  visibility = ['PUBLIC'],
-)
-
-python_binary(
   name = 'pack_war',
   main = 'pack_war.py',
   deps = [':util'],

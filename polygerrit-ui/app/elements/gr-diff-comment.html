@@ -132,8 +132,8 @@ limitations under the License.
           class="editMessage"
           disabled="{{disabled}}"
           rows="4"
-          max-rows="4"
-          bind-value="{{_editDraft}}"></iron-autogrow-textarea>
+          bind-value="{{_editDraft}}"
+          on-keyup="_handleTextareaKeyup"></iron-autogrow-textarea>
       <div class="message">[[comment.message]]</div>
       <div class="actions" hidden$="[[!showActions]]">
         <a class="action reply" href="#" on-tap="_handleReply">Reply</a>
@@ -265,6 +265,12 @@ limitations under the License.
 
       _computeSaveDisabled: function(draft) {
         return draft == null || draft.trim() == '';
+      },
+
+      _handleTextareaKeyup: function(e) {
+        // TODO(andybons): This isn't always true, but I can't currently think
+        // of a better metric.
+        this._heightChanged();
       },
 
       _handleLinkTap: function(e) {

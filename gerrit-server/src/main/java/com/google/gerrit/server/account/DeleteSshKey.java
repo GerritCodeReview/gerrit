@@ -51,6 +51,7 @@ public class DeleteSshKey implements
   public Response<?> apply(AccountResource.SshKey rsrc, Input input)
       throws AuthException, OrmException {
     if (self.get() != rsrc.getUser()
+        && self.get().getUserName() != rsrc.getUser().getUserName()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to delete SSH keys");
     }

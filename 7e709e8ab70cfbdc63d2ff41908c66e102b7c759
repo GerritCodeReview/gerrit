@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0aa79f24_abe8c9d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-08T13:22:30Z",
+      "side": 1,
+      "message": "bad joke. go with it ;)",
+      "parentUuid": "cab10759_b18cc023",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "7e709e8ab70cfbdc63d2ff41908c66e102b7c759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aa79f24_0bd3dd30",
         "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
         "patchSetId": 1

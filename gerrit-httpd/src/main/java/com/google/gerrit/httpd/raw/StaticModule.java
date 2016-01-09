@@ -214,15 +214,6 @@ public class StaticModule extends ServletModule {
     public void configureServlets() {
       Path buckOut = getPaths().buckOut;
       if (buckOut != null) {
-        RebuildBowerComponentsFilter rebuildFilter =
-            new RebuildBowerComponentsFilter(buckOut);
-        for (String p : POLYGERRIT_INDEX_PATHS) {
-          // Rebuilding bower_components once per load on the index request,
-          // is sufficient, since it will finish building before attempting to
-          // access any bower_components resources. Plus it saves contention and
-          // extraneous buck builds.
-          filter(p).through(rebuildFilter);
-        }
         serve("/bower_components/*").with(BowerComponentsServlet.class);
       } else {
         // In the war case, bower_components are either inlined by vulcanize, or
@@ -258,7 +249,12 @@ public class StaticModule extends ServletModule {
     @Singleton
     BowerComponentsServlet getBowerComponentsServlet(
         @Named(CACHE) Cache<Path, Resource> cache) {
-      return new BowerComponentsServlet(cache, getPaths().buckOut);
+      try {
+        return new BowerComponentsServlet(cache, getPaths().buckOut);
+      } catch (IOException e) {
+        throw new ProvisionException(
+            "Error initializing bower component servlet", e);
+      }
     }
 
     private boolean isDev() {

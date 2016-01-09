@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aa79f24_ebf3f18c",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-09T15:28:59Z",
+      "side": 1,
+      "message": "You have to update the header row in gr-change-list.html to use the label class instead of the ones you removed. The top header is misaligned with this change.",
+      "revId": "03df4239f6e62ca58d388567a46e86647d0906b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

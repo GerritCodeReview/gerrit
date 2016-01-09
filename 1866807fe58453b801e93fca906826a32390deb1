@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aac6306_6c8b9b06",
+        "filename": "polygerrit-ui/app/elements/gr-dashboard-view.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-09T15:56:54Z",
+      "side": 1,
+      "message": "since this is a boolean attribute, you only need to say show-star",
+      "revId": "1866807fe58453b801e93fca906826a32390deb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

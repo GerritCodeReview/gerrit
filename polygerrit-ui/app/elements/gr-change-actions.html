@@ -34,6 +34,7 @@ limitations under the License.
         padding: .5em .75em;
       }
       button[disabled] {
+        background-color: #555961;
         opacity: .5;
       }
     </style>
@@ -44,9 +45,8 @@ limitations under the License.
     <div>
       <template is="dom-repeat" items="[[_computeActionValues(_actions)]]" as="action">
         <button title$="[[action.title]]"
-            hidden$="[[!action.enabled]]"
+            disabled$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
-            disabled$="[[_loading]]"
             on-tap="_handleActionTap">[[action.label]]</button>
       </template>
     </div>

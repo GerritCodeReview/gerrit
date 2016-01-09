@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import static com.google.gerrit.server.git.strategy.MarkCleanMergesOp.anyChangeId;
+
+import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
-
-import org.eclipse.jgit.lib.PersonIdent;
+import com.google.gerrit.server.git.UpdateException;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,33 +37,41 @@ public class MergeIfNecessary extends SubmitStrategy {
       Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     List<CodeReviewCommit> sorted =
         args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
-    MergeTip mergeTip;
-    if (branchTip == null) {
-      // The branch is unborn. Take a fast-forward resolution to
-      // create the branch.
-      mergeTip = new MergeTip(sorted.get(0), toMerge);
-      branchTip = sorted.remove(0);
-    } else {
-      mergeTip = new MergeTip(branchTip, toMerge);
-      branchTip =
-          args.mergeUtil.getFirstFastForward(branchTip, args.rw, sorted);
-    }
-    mergeTip.moveTipTo(branchTip, branchTip);
+    MergeTip mergeTip = new MergeTip(branchTip, toMerge);
+    try (BatchUpdate u = args.newBatchUpdate(TimeUtil.nowTs())) {
+      // Start with the first fast-forward. This may create the branch if it did
+      // not exist.
+      CodeReviewCommit firstFastForward;
+      if (branchTip == null) {
+        firstFastForward = sorted.remove(0);
+      } else {
+        firstFastForward =
+            args.mergeUtil.getFirstFastForward(branchTip, args.rw, sorted);
+        mergeTip = new MergeTip(branchTip, toMerge);
+      }
+      if (!firstFastForward.equals(branchTip)) {
+        u.addOp(firstFastForward.change().getId(),
+            new FastForwardOp(mergeTip, firstFastForward));
+      }
 
-    // For every other commit do a pair-wise merge.
-    while (!sorted.isEmpty()) {
-      CodeReviewCommit mergedFrom = sorted.remove(0);
-      PersonIdent caller = args.caller.newCommitterIdent(
-          args.serverIdent.getWhen(), args.serverIdent.getTimeZone());
-      branchTip =
-          args.mergeUtil.mergeOneCommit(caller, args.serverIdent,
-              args.repo, args.rw, args.inserter, args.canMergeFlag,
-              args.destBranch, branchTip, mergedFrom);
-      mergeTip.moveTipTo(branchTip, mergedFrom);
-    }
+      // For every other commit do a pair-wise merge.
+      while (!sorted.isEmpty()) {
+        CodeReviewCommit n = sorted.remove(0);
+        u.addOp(n.change().getId(), new MergeOneOp(args, mergeTip, n));
+      }
+      u.addOp(anyChangeId(toMerge), new MarkCleanMergesOp(args, mergeTip));
 
-    args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, branchTip,
-        args.alreadyAccepted);
+      u.execute();
+    } catch (UpdateException e) {
+      if (e.getCause() instanceof IntegrationException) {
+        throw new IntegrationException(e.getCause().getMessage(), e);
+      }
+      throw new IntegrationException(
+          "Cannot merge into " + args.destBranch);
+    } catch (RestApiException e) {
+      throw new IntegrationException(
+          "Cannot merge into " + args.destBranch);
+    }
     return mergeTip;
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aac6306_cc9baf59",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-09T15:35:44Z",
+      "side": 1,
+      "message": "\u003e80 chars",
+      "revId": "a5f1ae287672feb5247a9142ea46c3d9ae37e14e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

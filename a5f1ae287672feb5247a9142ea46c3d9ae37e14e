@@ -16,6 +16,24 @@
       "revId": "a5f1ae287672feb5247a9142ea46c3d9ae37e14e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a48e34e_ec0e8b7f",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-09T15:41:44Z",
+      "side": 1,
+      "message": "I can break it if you like. In another change, you told me that I do not need to break after 80 chars [1] so I thought you prefer to keep it compact ;).\n\n[1] https://gerrit-review.googlesource.com/#/c/73540/8/polygerrit-ui/app/elements/gr-change-view.html",
+      "parentUuid": "2aac6306_cc9baf59",
+      "revId": "a5f1ae287672feb5247a9142ea46c3d9ae37e14e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

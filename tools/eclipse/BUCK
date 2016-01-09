@@ -25,6 +25,7 @@ java_library(
     '//lib/gwt:javax-validation_src',
     '//lib/jetty:servlets',
     '//lib/prolog:compiler_lib',
+    '//polygerrit-ui:polygerrit_components',
     '//Documentation:index_lib',
   ] + scan_plugins(),
 )

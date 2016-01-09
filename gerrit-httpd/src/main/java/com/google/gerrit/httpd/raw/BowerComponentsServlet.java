@@ -18,12 +18,38 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.launcher.GerritLauncher;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 class BowerComponentsServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;
 
-  static Path getZipPath(Path buckOut) {
+  private final Path zip;
+  private final Path bowerComponents;
+
+  BowerComponentsServlet(Cache<Path, Resource> cache, Path buckOut)
+      throws IOException {
+    super(cache, true);
+    zip = getZipPath(buckOut);
+    if (zip == null || !Files.exists(zip)) {
+      bowerComponents = null;
+    } else {
+      bowerComponents = GerritLauncher
+          .newZipFileSystem(zip)
+          .getPath("bower_components/");
+    }
+  }
+
+  @Override
+  protected Path getResourcePath(String pathInfo) throws IOException {
+    if (bowerComponents == null) {
+      throw new IOException("No polymer components found: " + zip
+          + ". Run `buck build //polygerrit-ui:polygerrit_components`?");
+    }
+    return bowerComponents.resolve(pathInfo);
+  }
+
+  private static Path getZipPath(Path buckOut) {
     if (buckOut == null) {
       return null;
     }
@@ -31,18 +57,5 @@ class BowerComponentsServlet extends ResourceServlet {
         .resolve("polygerrit-ui")
         .resolve("polygerrit_components")
         .resolve("polygerrit_components.bower_components.zip");
-  }
-
-  private final Path zip;
-
-  BowerComponentsServlet(Cache<Path, Resource> cache, Path buckOut) {
-    super(cache, true);
-    this.zip = getZipPath(buckOut);
-  }
-
-  @Override
-  protected Path getResourcePath(String pathInfo) throws IOException {
-    return GerritLauncher.getZipFileSystem(zip)
-        .getPath("bower_components/" + pathInfo);
   }
 }

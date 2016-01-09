@@ -18,7 +18,7 @@ limitations under the License.
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-request.html">
 
-<dom-module id="gr-change-actions">
+<dom-module id="gr-revision-actions">
   <template>
     <style>
       :host {
@@ -38,10 +38,14 @@ limitations under the License.
         opacity: .5;
       }
     </style>
+    <gr-ajax id="actionsXHR"
+        url="[[_computeActionsPath(changeNum, patchNum)]]"
+        last-response="{{_actions}}"
+        loading="{{_loading}}"></gr-ajax>
     <div>
-      <template is="dom-repeat" items="[[_computeActionValues(actions)]]" as="action">
+      <template is="dom-repeat" items="[[_computeActionValues(_actions)]]" as="action">
         <button title$="[[action.title]]"
-            hidden$="[[!action.enabled]]"
+            disabled$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
             on-tap="_handleActionTap">[[action.label]]</button>
       </template>
@@ -52,7 +56,7 @@ limitations under the License.
     'use strict';
 
     Polymer({
-      is: 'gr-change-actions',
+      is: 'gr-revision-actions',
 
       /**
        * Fired when the change should be reloaded.
@@ -61,23 +65,37 @@ limitations under the License.
        */
 
       properties: {
-        actions: {
+        changeNum: String,
+        patchNum: String,
+        _actions: {
           type: Object,
           observer: '_actionsChanged',
         },
-        changeNum: String,
+        _loading: {
+          type: Boolean,
+          value: false,
+        },
+      },
+
+      reload: function() {
+        if (!!this.changeNum && !!this.patchNum) {
+          this.$.actionsXHR.generateRequest();
+        }
       },
 
       _actionsChanged: function(actions) {
-        this.hidden = actions.abandon == null && actions.restore == null;
+        this.hidden = actions.submit == null;
+      },
+
+      _computeActionsPath: function(changeNum, patchNum) {
+        return Changes.baseURL(changeNum, patchNum) + '/actions';
       },
 
       _computeActionValues: function(actions) {
         var result = [];
         for (var a in actions) {
-          // TODO(davido): Add the rest of the actions.
-          // Some of them need a popup dialog
-          if (a != 'abandon' && a != 'restore') { continue; }
+          // TODO(andybons): Add the rest of the actions.
+          if (a != 'submit') { continue; }
           actions[a].__key = a;
           result.push(actions[a]);
         }
@@ -88,10 +106,12 @@ limitations under the License.
         e.preventDefault();
         var el = Polymer.dom(e).rootTarget;
         var key = el.getAttribute('data-action-key');
-        this._fireAction('/' + key, this.actions[key]);
+        if (key == 'submit') {
+          this._submitChange('/' + key, this._actions[key]);
+        }
       },
 
-      _fireAction: function(endpoint, action) {
+      _submitChange: function(endpoint, action) {
         this._send(action.method, {}, endpoint).then(
           function() {
             this.fire('reload-change', null, {bubbles: false});
@@ -106,7 +126,7 @@ limitations under the License.
         var xhr = document.createElement('gr-request');
         this._xhrPromise = xhr.send({
           method: method,
-          url: Changes.baseURL(this.changeNum) + actionEndpoint,
+          url: Changes.baseURL(this.changeNum, this.patchNum) + actionEndpoint,
           body: payload,
         });
 

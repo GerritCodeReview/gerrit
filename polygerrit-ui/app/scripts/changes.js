@@ -89,5 +89,9 @@ Changes.listChangesOptionsToHex = function() {
 };
 
 Changes.baseURL = function(changeNum, patchNum) {
-  return '/changes/' + changeNum + '/revisions/' + patchNum;
+  var v = '/changes/' + changeNum;
+  if (patchNum) {
+    v += '/revisions/' + patchNum;
+  }
+  return v;
 };

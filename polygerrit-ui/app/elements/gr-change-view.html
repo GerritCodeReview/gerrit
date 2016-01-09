@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="gr-messages-list.html">
 <link rel="import" href="gr-reply-dropdown.html">
 <link rel="import" href="gr-reviewer-list.html">
+<link rel="import" href="gr-revision-actions.html">
 
 <dom-module id="gr-change-view">
   <template>
@@ -116,6 +117,9 @@ limitations under the License.
         background-color: #ffd4d4;
       }
       gr-change-actions {
+        margin-top: 1em;
+      }
+      gr-revision-actions {
         margin-top: 1em;
       }
       .summary {
@@ -235,10 +239,14 @@ limitations under the License.
             </tr>
           </template>
         </table>
-        <gr-change-actions id="actions"
+        <gr-change-actions id="changeActions"
+            change-num="[[_changeNum]]"
+            actions="[[_change.actions]]"
+            on-reload-change="_reload"></gr-change-actions>
+        <gr-revision-actions id="revisionActions"
             change-num="[[_changeNum]]"
             patch-num="[[_patchNum]]"
-            on-reload-change="_reload"></gr-change-actions>
+            on-reload-change="_reload"></gr-revision-actions>
       </section>
       <section class="summary">
         <gr-linked-text pre
@@ -472,7 +480,7 @@ limitations under the License.
         this.$.commentsXHR.generateRequest();
         var reloadPatchNumDependentResources = function() {
           this.$.commitInfoXHR.generateRequest();
-          this.$.actions.reload();
+          this.$.revisionActions.reload();
           this.$.fileList.reload();
         }.bind(this);
 

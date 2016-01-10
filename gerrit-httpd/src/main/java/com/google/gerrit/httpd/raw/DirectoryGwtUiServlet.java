@@ -22,19 +22,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 
-class DeveloperGwtUiServlet extends ResourceServlet {
+class DirectoryGwtUiServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;
 
   private static final FileTime NOW = FileTime.fromMillis(TimeUtil.nowMs());
 
   private final Path ui;
 
-  DeveloperGwtUiServlet(Cache<Path, Resource> cache, Path unpackedWar)
-      throws IOException {
+  DirectoryGwtUiServlet(Cache<Path, Resource> cache, Path unpackedWar,
+      boolean dev) throws IOException {
     super(cache, false);
     ui = unpackedWar.resolve("gerrit_ui");
-    Files.createDirectory(ui);
-    ui.toFile().deleteOnExit();
+    if (!Files.exists(ui)) {
+      Files.createDirectory(ui);
+    }
+    if (dev) {
+      ui.toFile().deleteOnExit();
+    }
   }
 
   @Override

@@ -179,7 +179,11 @@ public class StaticModule extends ServletModule {
     }
 
     private Path webappSourcePath(String name) {
-      return getPaths().buckOut.resolveSibling("gerrit-war").resolve("src")
+      Paths p = getPaths();
+      if (p.unpackedWar != null) {
+        return p.unpackedWar.resolve(name);
+      }
+      return p.buckOut.resolveSibling("gerrit-war").resolve("src")
           .resolve("main").resolve("webapp").resolve(name);
     }
   }
@@ -190,7 +194,7 @@ public class StaticModule extends ServletModule {
       serveRegex("^/gerrit_ui/(?!rpc/)(.*)$")
           .with(Key.get(HttpServlet.class, Names.named(GWT_UI_SERVLET)));
       Paths p = getPaths();
-      if (p.warFs == null && p.buckOut != null) {
+      if (p.isDev()) {
         filter("/").through(new RecompileGwtUiFilter(p.buckOut, p.unpackedWar));
       }
     }
@@ -204,7 +208,7 @@ public class StaticModule extends ServletModule {
       if (p.warFs != null) {
         return new WarGwtUiServlet(cache, p.warFs);
       } else {
-        return new DeveloperGwtUiServlet(cache, p.unpackedWar);
+        return new DirectoryGwtUiServlet(cache, p.unpackedWar, p.isDev());
       }
     }
   }
@@ -235,7 +239,8 @@ public class StaticModule extends ServletModule {
     HttpServlet getPolyGerritUiIndexServlet(
         @Named(CACHE) Cache<Path, Resource> cache) {
       return new SingleFileServlet(
-          cache, polyGerritBasePath().resolve("index.html"), isDev());
+          cache, polyGerritBasePath().resolve("index.html"),
+          getPaths().isDev());
     }
 
     @Provides
@@ -252,19 +257,20 @@ public class StaticModule extends ServletModule {
       return new BowerComponentsServlet(cache, getPaths().buckOut);
     }
 
-    private boolean isDev() {
-      return options.forcePolyGerritDev() || getPaths().warFs == null;
-    }
-
     private Path polyGerritBasePath() {
       Paths p = getPaths();
       if (options.forcePolyGerritDev()) {
         checkArgument(p.buckOut != null,
             "no buck-out directory found for PolyGerrit developer mode");
       }
-      return isDev()
-          ? p.buckOut.getParent().resolve("polygerrit-ui").resolve("app")
-          : p.warFs.getPath("/polygerrit_ui");
+
+      if (p.isDev()) {
+        return p.buckOut.getParent().resolve("polygerrit-ui").resolve("app");
+      }
+
+      return p.warFs != null
+          ? p.warFs.getPath("/polygerrit_ui")
+          : p.unpackedWar.resolve("polygerrit_ui");
     }
   }
 
@@ -272,19 +278,41 @@ public class StaticModule extends ServletModule {
     private final FileSystem warFs;
     private final Path buckOut;
     private final Path unpackedWar;
+    private final boolean development;
 
     private Paths() {
       try {
-        warFs = getDistributionArchive();
+        File launcherLoadedFrom = getLauncherLoadedFrom();
+        if (launcherLoadedFrom != null
+            && launcherLoadedFrom.getName().endsWith(".jar")) {
+          // Special case: unpacked war archive deployed in container.
+          // The path is something like:
+          // <container>/<gerrit>/WEB-INF/lib/launcher.jar
+          // Switch to exploded war case with <container>/webapp>/<gerrit>
+          // root directory
+          warFs = null;
+          unpackedWar = java.nio.file.Paths.get(launcherLoadedFrom
+              .getParentFile()
+              .getParentFile()
+              .getParentFile()
+              .toURI());
+          buckOut = null;
+          development = false;
+          return;
+        }
+        warFs = getDistributionArchive(launcherLoadedFrom);
         if (warFs == null) {
           buckOut = getDeveloperBuckOut();
           unpackedWar = makeWarTempDir();
+          development = true;
         } else if (options.forcePolyGerritDev()) {
           buckOut = getDeveloperBuckOut();
           unpackedWar = null;
+          development = true;
         } else {
           buckOut = null;
           unpackedWar = null;
+          development = false;
         }
       } catch (IOException e) {
         throw new ProvisionException(
@@ -292,7 +320,14 @@ public class StaticModule extends ServletModule {
       }
     }
 
-    private FileSystem getDistributionArchive() throws IOException {
+    private FileSystem getDistributionArchive(File war) throws IOException {
+      if (war == null) {
+        return null;
+      }
+      return GerritLauncher.getZipFileSystem(war.toPath());
+    }
+
+    private File getLauncherLoadedFrom() {
       File war;
       try {
         war = GerritLauncher.getDistributionArchive();
@@ -307,7 +342,11 @@ public class StaticModule extends ServletModule {
           throw pe;
         }
       }
-      return GerritLauncher.getZipFileSystem(war.toPath());
+      return war;
+    }
+
+    private boolean isDev() {
+      return development;
     }
 
     private Path getDeveloperBuckOut() {

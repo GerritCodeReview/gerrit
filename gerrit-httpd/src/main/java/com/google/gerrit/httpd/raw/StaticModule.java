@@ -59,15 +59,37 @@ public class StaticModule extends ServletModule {
   private final FileSystem warFs;
   private final Path buckOut;
   private final Path unpackedWar;
+  private final boolean development;
 
   public StaticModule() {
+    File launcherLoadedFrom = getLauncherLoadedFrom();
+    if (launcherLoadedFrom != null
+        && launcherLoadedFrom.getName().endsWith(".jar")) {
+      // Special case: unpacked war archive deployed in container.
+      // The path is something like:
+      // <container>/<gerrit>/WEB-INF/lib/launcher.jar
+      // Switch to exploded war case with <container>/webapp>/<gerrit>
+      // root directory
+      warFs = null;
+      unpackedWar = java.nio.file.Paths.get(launcherLoadedFrom
+          .getParentFile()
+          .getParentFile()
+          .getParentFile()
+          .toURI());
+      buckOut = null;
+      development = false;
+      return;
+    }
+
     warFs = getDistributionArchive();
     if (warFs == null) {
       buckOut = getDeveloperBuckOut();
       unpackedWar = makeWarTempDir();
+      development = true;
     } else {
       buckOut = null;
       unpackedWar = null;
+      development = false;
     }
   }
 
@@ -91,7 +113,7 @@ public class StaticModule extends ServletModule {
   private void serveGwtUi() {
     serveRegex("^/gerrit_ui/(?!rpc/)(.*)$")
         .with(Key.get(HttpServlet.class, Names.named(GWT_UI_SERVLET)));
-    if (warFs == null) {
+    if (development) {
       filter("/").through(new RecompileGwtUiFilter(buckOut, unpackedWar));
     }
   }
@@ -123,7 +145,7 @@ public class StaticModule extends ServletModule {
     if (warFs != null) {
       return new WarGwtUiServlet(cache, warFs);
     } else {
-      return new DeveloperGwtUiServlet(cache, unpackedWar);
+      return new DirectoryGwtUiServlet(cache, unpackedWar, development);
     }
   }
 
@@ -161,6 +183,9 @@ public class StaticModule extends ServletModule {
   }
 
   private Path webappSourcePath(String name) {
+    if (unpackedWar != null) {
+      return unpackedWar.resolve(name);
+    }
     return buckOut.resolveSibling("gerrit-war").resolve("src").resolve("main")
         .resolve("webapp").resolve(name);
   }
@@ -172,6 +197,22 @@ public class StaticModule extends ServletModule {
   private static FileSystem getDistributionArchive() {
     try {
       return GerritLauncher.getDistributionArchiveFileSystem();
+    } catch (IOException e) {
+      if ((e instanceof FileNotFoundException)
+          && GerritLauncher.NOT_ARCHIVED.equals(e.getMessage())) {
+        return null;
+      } else {
+        ProvisionException pe =
+            new ProvisionException("Error reading gerrit.war");
+        pe.initCause(e);
+        throw pe;
+      }
+    }
+  }
+
+  private static File getLauncherLoadedFrom() {
+    try {
+      return GerritLauncher.getDistributionArchive();
     } catch (IOException e) {
       if ((e instanceof FileNotFoundException)
           && GerritLauncher.NOT_ARCHIVED.equals(e.getMessage())) {

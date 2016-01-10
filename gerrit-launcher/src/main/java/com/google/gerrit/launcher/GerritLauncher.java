@@ -103,6 +103,29 @@ public final class GerritLauncher {
     return invokeProgram(cl, argv);
   }
 
+  public static int daemonStart(final String[] argv) throws Exception{
+    final ClassLoader cl = libClassLoader(false);
+    Thread.currentThread().setContextClassLoader(cl);
+
+    String[] daemonArgv = new String[argv.length + 2];
+    daemonArgv[0] = "daemon";
+    daemonArgv[1] = "--start-only";
+    for (int i = 0; i < argv.length; i++) {
+      daemonArgv[i + 2] = argv[i];
+    }
+    return invokeProgram(cl, daemonArgv);
+  }
+
+  public static int daemonStop(final String[] argv) throws Exception {
+    String[] daemonArgv = new String[argv.length + 2];
+    daemonArgv[0] = "daemon";
+    daemonArgv[1] = "--stop-only";
+    for (int i = 0; i < argv.length; i++) {
+      daemonArgv[i + 2] = argv[i];
+    }
+    return invokeProgram(Thread.currentThread().getContextClassLoader(), daemonArgv);
+  }
+
   private static boolean isProlog(String cn) {
     return "PrologShell".equals(cn) || "Rulec".equals(cn);
   }

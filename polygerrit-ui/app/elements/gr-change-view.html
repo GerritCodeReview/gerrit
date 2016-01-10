@@ -430,7 +430,9 @@ limitations under the License.
 
       _computeLabelValues: function(labelName, labels) {
         var result = [];
-        var approvals = labels[labelName].all || [];
+        var t = labels[labelName];
+        if (!t) { return; }
+        var approvals = t.all || [];
         approvals.forEach(function(label) {
           if (label.value && label.value != labels[labelName].default_value) {
             var labelClassName;

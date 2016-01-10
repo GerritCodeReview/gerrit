@@ -235,7 +235,9 @@ limitations under the License.
 
       _computeIndexOfLabelValue: function(
           labels, permittedLabels, labelName, account) {
-        var labelValue = labels[labelName].default_value;
+        var t = labels[labelName];
+        if (!t) { return; }
+        var labelValue = t.default_value;
 
         // Is there an existing vote for the current user? If so, use that.
         var votes = labels[labelName];

@@ -16,6 +16,24 @@
       "revId": "bc34eea218da9698f3af77392d357e3201b9a9c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca3667c7_093ae909",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-11T07:55:59Z",
+      "side": 0,
+      "message": "This doesn\u0027t work (unless i\u0027m missing something). The method bound this way is never invoked:\n\n  \u003cbutton title$\u003d\"[[action.title]]\"\n      disabled$\u003d\"[[_computeDisabled(loading, action.enabled)]]\"",
+      "parentUuid": "ca3667c7_c948d1b7",
+      "revId": "bc34eea218da9698f3af77392d357e3201b9a9c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

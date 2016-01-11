@@ -218,6 +218,10 @@ public class PushOneCommit {
     this.force = force;
   }
 
+  public void noParents() {
+    commitBuilder.noParents();
+  }
+
   public class Result {
     private final String ref;
     private final PushResult result;

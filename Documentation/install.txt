@@ -170,6 +170,46 @@ To install Gerrit into an existing servlet container instead of using
 the embedded Jetty server, see
 link:install-j2ee.html[J2EE installation].
 
+[[installation_on_windows]]
+== Installation on Windows
+
+To initialize new site ssh-keygen command must be available, so either
+run the init command from some Linux-like environment for Windows like
+the link:https://git-for-windows.github.io/[Git Bash] or add directory
+with ssh-keygen to the PATH environment variable in regular Windows
+Command Prompt:
+
+====
+  PATH=%PATH%;c:\Program Files\Git\usr\bin
+====
+
+To run the daemon, either run the gerrit.sh script or just execute:
+
+====
+  java.exe -jar gerrit.war daemon --console-log
+====
+
+To stop the daemon press Ctrl+C.
+
+=== Install the daemon as Windows Service
+
+To install Gerrit as Windows Service use the
+link:http://commons.apache.org/proper/commons-daemon/procrun.html[Apache
+Commons Daemon Procrun].
+
+Sample install command:
+
+====
+  prunsrv.exe //IS//Gerrit --DisplayName="Gerrit Code Review" --Startup=auto ^
+        --Jvm="C:\Program Files\Java\jre1.8.0_65\bin\server\jvm.dll" ^
+        --Classpath=C:\MY\GERRIT\SITE\bin\gerrit.war ^
+        --LogPath=C:\MY\GERRIT\SITE\logs ^
+        --StartPath=C:\MY\GERRIT\SITE ^
+        --StartMode=jvm --StopMode=jvm ^
+        --StartClass=com.google.gerrit.launcher.GerritLauncher --StartMethod=daemonStart ^
+        --StopClass=com.google.gerrit.launcher.GerritLauncher --StopMethod=daemonStop ^
+        ++DependsOn=postgresql-x64-9.4
+====
 
 [[customize]]
 == Site Customization

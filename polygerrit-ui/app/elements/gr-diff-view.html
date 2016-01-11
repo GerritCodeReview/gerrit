@@ -15,7 +15,6 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-diff.html">
@@ -134,20 +133,10 @@ limitations under the License.
     Polymer({
       is: 'gr-diff-view',
 
-      behaviors: [
-        Polymer.IronA11yKeysBehavior
-      ],
-
       properties: {
         prefs: {
           type: Object,
           notify: true,
-        },
-        keyEventTarget: {
-          type: Object,
-          value: function() {
-            return document.body;
-          },
         },
         /**
          * URL params passed from the router.
@@ -165,23 +154,31 @@ limitations under the License.
           value: function() { return []; },
         },
         _path: String,
+        _boundKeyHandler: {
+          type: Function,
+          value: function() { return this._handleKey.bind(this); },
+        }
       },
 
-      keyBindings: {
-        '[ ] u': '_handleKey',
+      attached: function() {
+        document.body.addEventListener('keydown', this._boundKeyHandler);
+      },
+
+      detached: function() {
+        document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
       _handleKey: function(e) {
         if (util.shouldSupressKeyboardShortcut(e)) { return; }
 
-        switch(e.detail.combo) {
-          case '[':
+        switch(e.keyCode) {
+          case 219:  // '['
             this._navToFile(this._fileList, -1);
             break;
-          case ']':
+          case 221:  // ']'
             this._navToFile(this._fileList, 1);
             break;
-          case 'u':
+          case 85:  // 'u'
             if (this._changeNum) {
               page.show(this._computeChangePath(this._changeNum));
             }

@@ -15,7 +15,6 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-request.html">
@@ -117,21 +116,11 @@ limitations under the License.
     Polymer({
       is: 'gr-reviewer-list',
 
-      behaviors: [
-        Polymer.IronA11yKeysBehavior
-      ],
-
       properties: {
         change: Object,
         mutable: {
           type: Boolean,
           value: false,
-        },
-        keyEventTarget: {
-          type: Object,
-          value: function() {
-            return this;
-          },
         },
         disabled: {
           type: Boolean,
@@ -181,21 +170,26 @@ limitations under the License.
             return this._handleBodyClick.bind(this);
           },
         },
+        _boundKeyHandler: {
+          type: Function,
+          value: function() { return this._handleKey.bind(this); },
+        },
 
         // Used for testing.
         _lastAutocompleteRequest: Object,
         _xhrPromise: Object,
       },
 
-      keyBindings: {
-        'up down esc enter': '_handleKey',
-      },
-
       observers: [
         '_reviewersChanged(change.reviewers.*, change.owner)',
       ],
 
+      attached: function() {
+        this.addEventListener('keydown', this._boundKeyHandler);
+      },
+
       detached: function() {
+        this.removeEventListener('keydown', this._boundKeyHandler);
         this._clearInputRequestHandle();
       },
 
@@ -364,7 +358,7 @@ limitations under the License.
 
       _handleKey: function(e) {
         if (this._hideAutocomplete) {
-          if (e.detail.combo == 'esc') {
+          if (e.keyCode == 27) {  // 'esc'
             e.preventDefault();
             this._cancel();
           }
@@ -373,18 +367,18 @@ limitations under the License.
 
         e.preventDefault();
 
-        switch (e.detail.combo) {
-          case 'up':
+        switch (e.keyCode) {
+          case 38:  // 'up':
             this._selectedIndex = Math.max(this._selectedIndex - 1, 0);
             break;
-          case 'down':
+          case 40:  // 'down'
             this._selectedIndex = Math.min(this._selectedIndex + 1,
                                            this._autocompleteData.length - 1);
             break;
-          case 'esc':
+          case 27:  // 'esc'
             this._hideAutocomplete = true;
             break;
-          case 'enter':
+          case 13:  // 'enter'
             this._sendAddRequest();
             break;
         }

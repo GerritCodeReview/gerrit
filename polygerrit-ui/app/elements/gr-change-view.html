@@ -15,7 +15,6 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-ajax.html">
 <link rel="import" href="gr-change-actions.html">
@@ -261,17 +260,7 @@ limitations under the License.
     Polymer({
       is: 'gr-change-view',
 
-      behaviors: [
-        Polymer.IronA11yKeysBehavior
-      ],
-
       properties: {
-        keyEventTarget: {
-          type: Object,
-          value: function() {
-            return document.body;
-          },
-        },
         /**
          * URL params passed from the router.
          */
@@ -302,10 +291,10 @@ limitations under the License.
         _headerEl: Object,
         _projectConfig: Object,
         _scrollHandler: Function,
-      },
-
-      keyBindings: {
-        'a u': '_handleKey',
+        _boundKeyHandler: {
+          type: Function,
+          value: function() { return this._handleKey.bind(this); },
+        }
       },
 
       ready: function() {
@@ -317,10 +306,12 @@ limitations under the License.
 
       attached: function() {
         window.addEventListener('scroll', this._scrollHandler);
+        document.body.addEventListener('keydown', this._boundKeyHandler);
       },
 
       detached: function() {
         window.removeEventListener('scroll', this._scrollHandler);
+        document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
       _handleBodyScroll: function(e) {
@@ -453,11 +444,11 @@ limitations under the License.
       _handleKey: function(e) {
         if (util.shouldSupressKeyboardShortcut(e)) { return; }
         e.preventDefault();
-        switch(e.detail.combo) {
-          case 'a':
+        switch(e.keyCode) {
+          case 65:  // 'a'
             this.$.replyDropdown.open();
             break;
-          case 'u':
+          case 85:  // 'u'
             page.show('/');
             break;
         }

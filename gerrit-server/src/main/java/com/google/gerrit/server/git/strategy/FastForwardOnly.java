@@ -14,9 +14,16 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import static com.google.gerrit.server.git.strategy.MarkCleanMergesOp.anyChangeId;
+
+import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeTip;
+import com.google.gerrit.server.git.UpdateException;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,24 +34,46 @@ public class FastForwardOnly extends SubmitStrategy {
   }
 
   @Override
-  public MergeTip run(final CodeReviewCommit branchTip,
-      final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
+  public MergeTip run(CodeReviewCommit branchTip,
+      Collection<CodeReviewCommit> toMerge) throws IntegrationException {
+    List<CodeReviewCommit> sorted =
+        args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     MergeTip mergeTip = new MergeTip(branchTip, toMerge);
-    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(
-        args.mergeSorter, toMerge);
-    final CodeReviewCommit newMergeTipCommit =
-        args.mergeUtil.getFirstFastForward(branchTip, args.rw, sorted);
-    mergeTip.moveTipTo(newMergeTipCommit, newMergeTipCommit);
+    try (BatchUpdate u = args.newBatchUpdate(TimeUtil.nowTs())) {
+      CodeReviewCommit newTipCommit =
+          args.mergeUtil.getFirstFastForward(branchTip, args.rw, sorted);
+      if (!newTipCommit.equals(branchTip)) {
+        u.addOp(newTipCommit.change().getId(),
+            new FastForwardOp(mergeTip, newTipCommit));
+      }
+      while (!sorted.isEmpty()) {
+        CodeReviewCommit n = sorted.remove(0);
+        u.addOp(n.change().getId(), new NotFastForwardOp(n));
+      }
+      u.addOp(anyChangeId(toMerge), new MarkCleanMergesOp(args, mergeTip));
 
-    while (!sorted.isEmpty()) {
-      final CodeReviewCommit n = sorted.remove(0);
-      n.setStatusCode(CommitMergeStatus.NOT_FAST_FORWARD);
+      u.execute();
+    } catch (RestApiException | UpdateException e) {
+      if (e.getCause() instanceof IntegrationException) {
+        throw new IntegrationException(e.getCause().getMessage(), e);
+      }
+      throw new IntegrationException(
+          "Cannot fast-forward into " + args.destBranch);
+    }
+    return mergeTip;
+  }
+
+  private static class NotFastForwardOp extends BatchUpdate.Op {
+    private final CodeReviewCommit toMerge;
+
+    private NotFastForwardOp(CodeReviewCommit toMerge) {
+      this.toMerge = toMerge;
     }
 
-    args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-        newMergeTipCommit, args.alreadyAccepted);
-
-    return mergeTip;
+    @Override
+    public void updateRepo(RepoContext ctx) {
+      toMerge.setStatusCode(CommitMergeStatus.NOT_FAST_FORWARD);
+    }
   }
 
   static boolean dryRun(SubmitDryRun.Arguments args,

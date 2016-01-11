@@ -210,8 +210,8 @@ public class OutputStreamQuery {
           if (includePatchSets) {
             if (includeFiles) {
               eventFactory.addPatchSets(c, d.patches(),
-                includeApprovals ? d.approvals().asMap() : null,
-                includeFiles, d.change(), labelTypes);
+                  includeApprovals ? d.approvals().asMap() : null,
+                  includeFiles, d.change(), labelTypes);
             } else {
               eventFactory.addPatchSets(c, d.patches(),
                   includeApprovals ? d.approvals().asMap() : null,

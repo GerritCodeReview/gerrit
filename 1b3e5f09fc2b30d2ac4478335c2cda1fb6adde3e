@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e7fe066f_72a498c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-01-11T22:38:01Z",
+      "side": 1,
+      "message": "(nit) unnecessary dependency. Could rebase to avoid it.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 70
+      },
+      "revId": "1b3e5f09fc2b30d2ac4478335c2cda1fb6adde3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7fe066f_129f0c79",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
         "patchSetId": 4

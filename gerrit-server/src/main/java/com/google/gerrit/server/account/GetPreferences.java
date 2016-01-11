@@ -84,8 +84,8 @@ public class GetPreferences implements RestReadView<AccountResource> {
       ConfigInvalidException {
     if (self.get() != rsrc.getUser()
         && self.get().getUserName() != rsrc.getUser().getUserName()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("restricted to administrator");
+        && !self.get().getCapabilities().canModifyAccount()) {
+      throw new AuthException("restricted to members of Modify Accounts");
     }
     Account a = db.get().accounts().get(rsrc.getUser().getAccountId());
     if (a == null) {

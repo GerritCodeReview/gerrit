@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aa79f24_4b05e525",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-11T02:18:06Z",
+      "side": 1,
+      "message": "IMHO we should still build this once at startup.",
+      "revId": "eb6fcc106fbbab06d0ed3b3a7f8a135410d57224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

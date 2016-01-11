@@ -1083,6 +1083,9 @@ Retrieves the user's preferences.
 As result the account preferences of the user are returned as a
 link:#preferences-info[PreferencesInfo] entity.
 
+Users with Administrator or ModifyAccounts access can retrieve
+another user's preference.
+
 .Response
 ----
   HTTP/1.1 200 OK

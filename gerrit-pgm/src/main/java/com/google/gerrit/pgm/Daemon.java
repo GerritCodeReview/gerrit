@@ -124,7 +124,7 @@ public class Daemon extends SiteProgram {
   private boolean sshd = true;
 
   @Option(name = "--disable-sshd", usage = "Disable the internal SSH daemon")
-  void setDisableSshd(@SuppressWarnings("unused")  boolean arg) {
+  void setDisableSshd(@SuppressWarnings("unused") boolean arg) {
     sshd = false;
   }
 
@@ -149,6 +149,9 @@ public class Daemon extends SiteProgram {
   @Option(name = "--init", aliases = {"-i"},
       usage = "Init site before starting the daemon")
   private boolean doInit;
+
+  @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)
+  private boolean stopOnly;
 
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
@@ -180,6 +183,10 @@ public class Daemon extends SiteProgram {
 
   @Override
   public int run() throws Exception {
+    if (stopOnly) {
+      RuntimeShutdown.manualShutdown();
+      return 0;
+    }
     if (doInit) {
       try {
         new Init(getSitePath()).run();
@@ -213,14 +220,7 @@ public class Daemon extends SiteProgram {
         @Override
         public void run() {
           log.info("caught shutdown, cleaning up");
-          if (runId != null) {
-            try {
-              Files.delete(runFile);
-            } catch (IOException err) {
-              log.warn("failed to delete " + runFile, err);
-            }
-          }
-          manager.stop();
+          stop();
         }
       });
 
@@ -312,6 +312,13 @@ public class Daemon extends SiteProgram {
 
   @VisibleForTesting
   public void stop() {
+    if (runId != null) {
+      try {
+        Files.delete(runFile);
+      } catch (IOException err) {
+        log.warn("failed to delete " + runFile, err);
+      }
+    }
     manager.stop();
   }
 

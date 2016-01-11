@@ -35,10 +35,6 @@ public class GetUsername implements RestReadView<AccountResource> {
   @Override
   public String apply(AccountResource rsrc) throws AuthException,
       ResourceNotFoundException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("not allowed to get username");
-    }
     String username = rsrc.getUser().getAccount().getUserName();
     if (username == null) {
       throw new ResourceNotFoundException();

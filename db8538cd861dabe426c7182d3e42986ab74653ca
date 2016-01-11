@@ -52,6 +52,24 @@
       "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca3667c7_e9e115bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-11T12:49:03Z",
+      "side": 1,
+      "message": "No worries, I\u0027m glad the RFC matches your original plan. :)\n\nWorking a little more on this, I\u0027ve noticed something that seems inconsistent and thought I should raise it here:\n\ncommit message update to patch set 1 via cli:\n\n    commit 467ad806b7caf92e43759872a0419e1e20769372\n    Author: Richard Ipsum \u003c1000000@gerrit\u003e\n    Date:   Mon Jan 11 12:22:22 2016 +0000\n\n        Update patch set 2\n\n        Uploaded patch set 2: Commit message was updated.\n\n        Patch-set: 2\n\nsubsequent commit message update to patch set 2 via web interface:\n\n    commit 1f05ebe246a23f9b8a8826c27513900301451caf\n    Author: Richard Ipsum \u003c1000000@gerrit\u003e\n    Date:   Mon Jan 11 12:23:53 2016 +0000\n\n        Update patch set 2\n\n        Patch set 3: Commit message was updated.\n\n        Patch-set: 2\n\nWe seem to get different results for the same operation based on whether it\u0027s performed via the web interface or via the command line, in particular I would have expected the Patch-set trailer to be set to \u00273\u0027 in the commit produced by the web interface update, so to be clear I\u0027d have expected,\n\n    commit 1f05ebe246a23f9b8a8826c27513900301451caf\n    Author: Richard Ipsum \u003c1000000@gerrit\u003e\n    Date:   Mon Jan 11 12:23:53 2016 +0000\n\n        Update patch set 3\n\n        Patch set 3: Commit message was updated.\n\n        Patch-set: 3\n\nI have a fix for this, if you agree with me that it\u0027s inconsistent then shall I send the fix as a separate change?",
+      "parentUuid": "2aac6306_2c53536a",
+      "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

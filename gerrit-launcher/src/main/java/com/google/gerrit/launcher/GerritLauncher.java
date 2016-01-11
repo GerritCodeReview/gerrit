@@ -55,6 +55,8 @@ public final class GerritLauncher {
   private static final String pkg = "com.google.gerrit.pgm";
   public static final String NOT_ARCHIVED = "NOT_ARCHIVED";
 
+  private static ClassLoader daemonClassLoader;
+
   public static void main(final String[] argv) throws Exception {
     System.exit(mainImpl(argv));
   }
@@ -101,6 +103,44 @@ public final class GerritLauncher {
     final ClassLoader cl = libClassLoader(isProlog(programClassName(argv[0])));
     Thread.currentThread().setContextClassLoader(cl);
     return invokeProgram(cl, argv);
+  }
+
+  public static void daemonStart(final String[] argv) throws Exception {
+    if (daemonClassLoader != null) {
+      throw new IllegalStateException(
+        "daemonStart can be called only once per JVM instance");
+    }
+    final ClassLoader cl = libClassLoader(false);
+    Thread.currentThread().setContextClassLoader(cl);
+
+    daemonClassLoader = cl;
+
+    String[] daemonArgv = new String[argv.length + 1];
+    daemonArgv[0] = "daemon";
+    for (int i = 0; i < argv.length; i++) {
+      daemonArgv[i + 1] = argv[i];
+    }
+    int res = invokeProgram(cl, daemonArgv);
+    if (res != 0) {
+      throw new Exception("Unexpected return value: " + res);
+    }
+  }
+
+  public static void daemonStop(final String[] argv) throws Exception {
+    if (daemonClassLoader == null) {
+      throw new IllegalStateException(
+        "daemonStop can be called only after call to daemonStop");
+    }
+    String[] daemonArgv = new String[argv.length + 2];
+    daemonArgv[0] = "daemon";
+    daemonArgv[1] = "--stop-only";
+    for (int i = 0; i < argv.length; i++) {
+      daemonArgv[i + 2] = argv[i];
+    }
+    int res = invokeProgram(daemonClassLoader, daemonArgv);
+    if (res != 0) {
+      throw new Exception("Unexpected return value: " + res);
+    }
   }
 
   private static boolean isProlog(String cn) {

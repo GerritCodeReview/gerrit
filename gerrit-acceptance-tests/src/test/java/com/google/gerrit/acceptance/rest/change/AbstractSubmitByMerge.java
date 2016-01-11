@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -83,5 +84,38 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
         "Please rebase the change locally " +
         "and upload the rebased commit for review.");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void submitMultipleCommitsToEmptyRepoAsFastForward() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    approve(change1.getChangeId());
+    submit(change2.getChangeId());
+    assertThat(getRemoteHead().getId()).isEqualTo(change2.getCommitId());
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void submitMultipleCommitsToEmptyRepoWithOneMerge() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+    PushOneCommit.Result change1 = pushFactory.create(
+          db, admin.getIdent(), testRepo, "Change 1", "a", "a")
+        .to("refs/for/master/" + name("topic"));
+
+    PushOneCommit push2 = pushFactory.create(
+          db, admin.getIdent(), testRepo, "Change 2", "b", "b");
+    push2.noParents();
+    PushOneCommit.Result change2 = push2.to("refs/for/master/" + name("topic"));
+    change2.assertOkStatus();
+
+    approve(change1.getChangeId());
+    submit(change2.getChangeId());
+
+    RevCommit head = getRemoteHead();
+    assertThat(head.getParents()).hasLength(2);
+    assertThat(head.getParent(0)).isEqualTo(change1.getCommit());
+    assertThat(head.getParent(1)).isEqualTo(change2.getCommit());
   }
 }

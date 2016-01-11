@@ -49,6 +49,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -146,16 +147,8 @@ public class BatchUpdate implements AutoCloseable {
       return BatchUpdate.this.getObjectInserter();
     }
 
-    private BatchRefUpdate getBatchRefUpdate() throws IOException {
-      initRepository();
-      if (batchRefUpdate == null) {
-        batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
-      }
-      return batchRefUpdate;
-    }
-
-    public void addRefUpdate(ReceiveCommand cmd) throws IOException {
-      getBatchRefUpdate().addCommand(cmd);
+    public void addRefUpdate(ReceiveCommand cmd) {
+      commands.add(cmd);
     }
 
     public TimeZone getTimeZone() {
@@ -213,6 +206,39 @@ public class BatchUpdate implements AutoCloseable {
     public abstract Change getChange();
   }
 
+  private static class ChainedReceiveCommands {
+    private final Map<String, ReceiveCommand> commands = new LinkedHashMap<>();
+
+    private boolean isEmpty() {
+      return commands.isEmpty();
+    }
+
+    private void add(ReceiveCommand cmd) {
+      checkArgument(!cmd.getOldId().equals(cmd.getNewId()),
+          "ref update is a no-op: %s", cmd);
+      ReceiveCommand old = commands.get(cmd.getRefName());
+      if (old == null) {
+        commands.put(cmd.getRefName(), cmd);
+        return;
+      }
+      checkArgument(old.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED,
+          "cannot chain ref update %s after update %s with result %s",
+          cmd, old, old.getResult());
+      checkArgument(cmd.getOldId().equals(old.getNewId()),
+          "cannot chain ref update %s after update %s with different new ID");
+      commands.put(cmd.getRefName(), new ReceiveCommand(
+          old.getOldId(), cmd.getNewId(), cmd.getRefName()));
+    }
+
+    private void addTo(BatchRefUpdate bru) {
+      checkState(!isEmpty(), "no commands to add");
+      for (ReceiveCommand cmd : commands.values()) {
+        bru.addCommand(cmd);
+      }
+    }
+  }
+
+
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
   private final ChangeIndexer indexer;
@@ -233,6 +259,7 @@ public class BatchUpdate implements AutoCloseable {
   private Repository repo;
   private ObjectInserter inserter;
   private RevWalk revWalk;
+  private ChainedReceiveCommands commands = new ChainedReceiveCommands();
   private BatchRefUpdate batchRefUpdate;
   private boolean closeRepo;
   private Order order;
@@ -376,11 +403,12 @@ public class BatchUpdate implements AutoCloseable {
       throw new UpdateException(e);
     }
 
-    if (repo == null || batchRefUpdate == null
-        || batchRefUpdate.getCommands().isEmpty()) {
+    if (repo == null || commands.isEmpty()) {
       return;
     }
     inserter.flush();
+    batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
+    commands.addTo(batchRefUpdate);
     batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
     boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {

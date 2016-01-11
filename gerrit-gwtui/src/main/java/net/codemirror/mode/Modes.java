@@ -55,6 +55,7 @@ public interface Modes extends ClientBundle {
   @Source("scheme.js") @DoNotEmbed DataResource scheme();
   @Source("shell.js") @DoNotEmbed DataResource shell();
   @Source("smalltalk.js") @DoNotEmbed DataResource smalltalk();
+  @Source("swift.js") @DoNotEmbed DataResource swift();
   @Source("soy.js") @DoNotEmbed DataResource soy();
   @Source("sql.js") @DoNotEmbed DataResource sql();
   @Source("stex.js") @DoNotEmbed DataResource stex();

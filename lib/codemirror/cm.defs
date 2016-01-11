@@ -78,6 +78,7 @@ CM_MODES = [
   'soy',
   'sql',
   'stex',
+  'swift',
   'tcl',
   'velocity',
   'verilog',

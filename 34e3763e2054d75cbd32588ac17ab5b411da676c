@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "672a167c_4ec8937c",
+        "filename": "polygerrit-ui/app/elements/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-11T16:50:41Z",
+      "side": 0,
+      "message": "Can the dependency on this polymer component be now removed?",
+      "revId": "34e3763e2054d75cbd32588ac17ab5b411da676c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

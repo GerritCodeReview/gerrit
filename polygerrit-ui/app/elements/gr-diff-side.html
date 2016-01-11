@@ -396,8 +396,8 @@ limitations under the License.
         threadEl.addEventListener('discard',
             this._handleCommentThreadDiscard.bind(this));
         threadEl.setAttribute('data-index', index);
-        threadEl.changeNum = this.changeNum;
-        threadEl.patchNum = this.patchNum;
+        threadEl.changeNum =  this.changeNum;
+        threadEl.patchNum = thread.patchNum || this.patchNum;
         threadEl.path = this.path;
         threadEl.comments = thread.comments;
         threadEl.showActions = this.canComment;

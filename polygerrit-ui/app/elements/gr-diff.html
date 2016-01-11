@@ -397,6 +397,7 @@ limitations under the License.
           // A thread is already here. Do nothing.
           return;
         }
+
         var comment = {
           type: 'COMMENT_THREAD',
           comments: [{
@@ -406,6 +407,12 @@ limitations under the License.
             path: this.path,
           }]
         };
+        if (diffEl == this.$.leftDiff &&
+            this.patchRange.basePatchNum == 'PARENT') {
+          comment.comments[0].side = 'PARENT';
+          comment.patchNum = this.patchRange.patchNum;
+        }
+
         if (content[insertIndex] &&
             content[insertIndex].type == 'FILLER') {
           content[insertIndex] = comment;
@@ -642,10 +649,14 @@ limitations under the License.
         var leftComments = this._groupedBaseComments[ctx.left.lineNum];
         var rightComments = this._groupedComments[ctx.right.lineNum];
         if (leftComments) {
-          leftSide.push({
+          var thread = {
             type: 'COMMENT_THREAD',
             comments: leftComments,
-          });
+          };
+          if (this.patchRange.basePatchNum == 'PARENT') {
+            thread.patchNum = this.patchRange.patchNum;
+          }
+          leftSide.push(thread);
         }
         if (rightComments) {
           rightSide.push({

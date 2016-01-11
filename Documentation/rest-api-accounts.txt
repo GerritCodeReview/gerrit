@@ -1083,6 +1083,14 @@ Retrieves the user's preferences.
 As result the account preferences of the user are returned as a
 link:#preferences-info[PreferencesInfo] entity.
 
+Users may only retrieve the preferences for their own account,
+unless they are an
+link:access-control.html#administrators[Administrator] or a member
+of a group that is granted the
+link:access-control.html#capability_modifyAccount[ModifyAccount]
+capability, in which case they can retrieve the preferences for
+any account.
+
 .Response
 ----
   HTTP/1.1 200 OK

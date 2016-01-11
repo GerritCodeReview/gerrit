@@ -44,6 +44,7 @@ import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -210,6 +211,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     ChangeControl ctl = ctx.getChangeControl();
 
     change = ctx.getChange();
+    ChangeUpdate update = ctx.getChangeUpdate();
+
     Change.Id id = change.getId();
     final PatchSet.Id currentPatchSetId = change.currentPatchSetId();
     if (!change.getStatus().isOpen() && !allowClosed) {
@@ -222,6 +225,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     patchSet.setUploader(firstNonNull(uploader, ctl.getChange().getOwner()));
     patchSet.setRevision(new RevId(commit.name()));
     patchSet.setDraft(draft);
+
+    update.setPatchSetId(patchSet.getId());
 
     if (groups != null) {
       patchSet.setGroups(groups);

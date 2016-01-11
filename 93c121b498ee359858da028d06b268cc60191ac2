@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "672a167c_0ef72bb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-01-11T19:29:32Z",
+      "side": 0,
+      "message": "i.e., please remove this entire block",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "93c121b498ee359858da028d06b268cc60191ac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

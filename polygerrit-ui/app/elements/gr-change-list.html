@@ -15,7 +15,6 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="../styles/gr-change-list-styles.html">
 <link rel="import" href="gr-change-list-item.html">
 
@@ -70,10 +69,6 @@ limitations under the License.
     Polymer({
       is: 'gr-change-list',
 
-      behaviors: [
-        Polymer.IronA11yKeysBehavior
-      ],
-
       hostAttributes: {
         tabindex: 0,
       },
@@ -96,12 +91,6 @@ limitations under the License.
           value: function() { return []; },
           observer: '_groupsChanged',
         },
-        keyEventTarget: {
-          type: Object,
-          value: function() {
-            return document.body;
-          }
-        },
         groupTitles: {
           type: Array,
           value: function() { return []; },
@@ -111,10 +100,18 @@ limitations under the License.
           value: 0,
           observer: '_selectedIndexChanged',
         },
+        _boundKeyHandler: {
+          type: Function,
+          value: function() { return this._handleKey.bind(this); },
+        }
       },
 
-      keyBindings: {
-        'j k o enter': '_handleKey',
+      attached: function() {
+        document.body.addEventListener('keydown', this._boundKeyHandler);
+      },
+
+      detached: function() {
+        document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
       _changesChanged: function(changes) {
@@ -164,17 +161,17 @@ limitations under the License.
         this.groups.forEach(function(group) {
           len += group.length;
         });
-        switch(e.detail.combo) {
-          case 'j':
+        switch(e.keyCode) {
+          case 74:  // 'j'
             if (this.selectedIndex == len - 1) { return; }
             this.selectedIndex += 1;
             break;
-          case 'k':
+          case 75:  // 'k'
             if (this.selectedIndex == 0) { return; }
             this.selectedIndex -= 1;
             break;
-          case 'o':
-          case 'enter':
+          case 79:  // 'o'
+          case 13:  // 'enter'
             page.show(this._changeURLForIndex(this.selectedIndex));
             break;
         }

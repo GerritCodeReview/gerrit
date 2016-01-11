@@ -3,7 +3,6 @@ include_defs('//lib/js.defs')
 bower_components(
   name = 'polygerrit_components',
   deps = [
-    '//lib/js:iron-a11y-keys-behavior',
     '//lib/js:iron-ajax',
     '//lib/js:iron-autogrow-textarea',
     '//lib/js:iron-dropdown',

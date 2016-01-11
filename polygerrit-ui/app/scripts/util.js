@@ -40,7 +40,7 @@ util.escapeHTML = function(str) {
 };
 
 util.shouldSupressKeyboardShortcut = function(e) {
-  var target = e.detail.keyboardEvent.target;
+  var target = e.detail ? e.detail.keyboardEvent : e.target;
   return target.tagName == 'INPUT' ||
          target.tagName == 'TEXTAREA' ||
          target.tagName == 'SELECT' ||

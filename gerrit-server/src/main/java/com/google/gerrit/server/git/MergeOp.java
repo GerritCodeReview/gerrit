@@ -31,6 +31,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.hash.Hasher;
@@ -286,7 +287,13 @@ public class MergeOp implements AutoCloseable {
 
     commits = new HashMap<>();
     openRepos = new HashMap<>();
-    problems = MultimapBuilder.linkedHashKeys().arrayListValues(1).build();
+    problems = MultimapBuilder.treeKeys(
+        Ordering.natural().onResultOf(new Function<Change.Id, Integer>() {
+          @Override
+          public Integer apply(Change.Id in) {
+            return in.get();
+          }
+        })).arrayListValues(1).build();
   }
 
   private OpenRepo openRepo(Project.NameKey project)

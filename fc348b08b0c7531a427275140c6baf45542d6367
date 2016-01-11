@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c714a235_59c8437c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-11T17:40:53Z",
+      "side": 1,
+      "message": "Not quite true, there is a test to merge a single change to an empty branch. I still need to add test cases for merging multiple changes into an empty branch.",
+      "revId": "fc348b08b0c7531a427275140c6baf45542d6367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

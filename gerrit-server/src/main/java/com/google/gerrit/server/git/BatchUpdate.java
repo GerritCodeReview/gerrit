@@ -146,7 +146,7 @@ public class BatchUpdate implements AutoCloseable {
       return BatchUpdate.this.getObjectInserter();
     }
 
-    public BatchRefUpdate getBatchRefUpdate() throws IOException {
+    private BatchRefUpdate getBatchRefUpdate() throws IOException {
       initRepository();
       if (batchRefUpdate == null) {
         batchRefUpdate = repo.getRefDatabase().newBatchUpdate();

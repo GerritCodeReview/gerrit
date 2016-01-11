@@ -104,7 +104,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     prefix = prefix.substring(0, prefix.length() - 1);
     for (Ref ref
         : ctx.getRepository().getRefDatabase().getRefs(prefix).values()) {
-      ctx.getBatchRefUpdate().addCommand(
+      ctx.addRefUpdate(
           new ReceiveCommand(
             ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
     }

@@ -122,7 +122,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
         deleteChangeOp.updateRepo(ctx);
         return;
       }
-      ctx.getBatchRefUpdate().addCommand(
+      ctx.addRefUpdate(
           new ReceiveCommand(
               ObjectId.fromString(patchSet.getRevision().get()),
               ObjectId.zeroId(),

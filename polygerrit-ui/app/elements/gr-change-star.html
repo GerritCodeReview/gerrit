@@ -24,22 +24,24 @@ limitations under the License.
         display: inline;
       }
       .starButton {
-        font-size: .95em;
+        font-size: 1.1em;
+        vertical-align: -1px;
         margin-right: .25em;
         cursor: pointer;
         background-color: transparent;
         border-color: transparent;
       }
+      .unstar:hover,
       .star {
-        color: #fbc02d;
+        color: #ffac33;
       }
       .unstar {
-        color: #666;
+        color: #697882;
       }
     </style>
     <button class="starButton" on-tap="_handleStarTap">
       <span class="star" hidden$="[[!change.starred]]">&#9733;</span>
-      <span class="unstar" hidden$="[[change.starred]]">&#9734;</span>
+      <span class="unstar" hidden$="[[change.starred]]">&#9733;</span>
     </button>
   </template>
   <script>

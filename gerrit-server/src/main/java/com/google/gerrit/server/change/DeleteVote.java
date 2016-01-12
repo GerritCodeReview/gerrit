@@ -111,8 +111,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
                 .append("\n");
             psa = a;
             a.setValue((short)0);
-            ctx.getUpdate().setPatchSetId(psId);
-            ctx.getUpdate().removeApprovalFor(a.getAccountId(), label);
+            ctx.getUpdate(psId).removeApprovalFor(a.getAccountId(), label);
             break;
           }
         } else {
@@ -133,7 +132,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
                 ctx.getWhen(),
                 change.currentPatchSetId());
         changeMessage.setMessage(msg.toString());
-        cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(),
+        cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId),
             changeMessage);
       }
     }

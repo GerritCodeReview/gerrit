@@ -83,7 +83,8 @@ public class SetHashtagsOp extends BatchUpdate.Op {
     if (!ctx.getControl().canEditHashtags()) {
       throw new AuthException("Editing hashtags not permitted");
     }
-    ChangeUpdate update = ctx.getUpdate();
+    change = ctx.getChange();
+    ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     ChangeNotes notes = update.getChangeNotes().load();
 
     Set<String> existingHashtags = notes.getHashtags();
@@ -110,7 +111,6 @@ public class SetHashtagsOp extends BatchUpdate.Op {
       update.setHashtags(updated);
     }
 
-    change = update.getChange();
     updatedHashtags = ImmutableSortedSet.copyOf(updated);
   }
 

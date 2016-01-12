@@ -167,7 +167,6 @@ public class CherryPick extends SubmitStrategy {
         // Merge conflict; don't update change.
         return;
       }
-      ctx.getUpdate().setPatchSetId(psId);
       PatchSet ps = new PatchSet(psId);
       ps.setCreatedOn(ctx.getWhen());
       ps.setUploader(args.caller.getAccountId());
@@ -183,7 +182,7 @@ public class CherryPick extends SubmitStrategy {
       for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
           args.db, toMerge.getControl(), toMerge.getPatchsetId())) {
         approvals.add(new PatchSetApproval(ps.getId(), a));
-        ctx.getUpdate().putApproval(a.getLabel(), a.getValue());
+        ctx.getUpdate(psId).putApproval(a.getLabel(), a.getValue());
       }
       args.db.patchSetApprovals().insert(approvals);
 

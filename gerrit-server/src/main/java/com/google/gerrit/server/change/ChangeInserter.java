@@ -242,10 +242,10 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getControl();
-    ChangeUpdate update = ctx.getUpdate();
     patchSetInfo = patchSetInfoFactory.get(
         ctx.getRevWalk(), commit, patchSet.getId());
     ctx.getChange().setCurrentPatchSet(patchSetInfo);
+    ChangeUpdate update = ctx.getUpdate(patchSet.getId());
 
     if (patchSet.getGroups() == null) {
       patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));

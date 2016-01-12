@@ -24,6 +24,9 @@ limitations under the License.
       :host {
         display: block;
       }
+      button:before {
+        content: attr(data-label);
+      }
       button {
         background-color: #448aff;
         border: none;
@@ -33,8 +36,12 @@ limitations under the License.
         font: inherit;
         padding: .5em .75em;
       }
-      button[disabled] {
+      button[loading] {
+        cursor: wait;
         opacity: .5;
+      }
+      button[loading]:before {
+        content: attr(data-loading-label);
       }
     </style>
     <gr-ajax id="actionsXHR"
@@ -46,8 +53,11 @@ limitations under the License.
         <button title$="[[action.title]]"
             hidden$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
+            data-label$="[[action.label]]"
+            data-loading-label$="[[_computeLoadingLabel(action.label)]]"
             disabled$="[[_loading]]"
-            on-tap="_handleActionTap">[[action.label]]</button>
+            loading$="[[_loading]]"
+            on-tap="_handleActionTap"></button>
       </template>
     </div>
   </template>
@@ -100,6 +110,12 @@ limitations under the License.
           result.push(actions[a]);
         }
         return result;
+      },
+
+      _computeLoadingLabel: function(label) {
+        return {
+          'Submit': 'Submitting...',
+        }[label];
       },
 
       _handleActionTap: function(e) {

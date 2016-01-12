@@ -281,6 +281,7 @@ public class MergeOp implements AutoCloseable {
   }
   private Timestamp ts;
   private String submissionId;
+  private IdentifiedUser caller;
 
   private ReviewDb db;
 
@@ -482,6 +483,7 @@ public class MergeOp implements AutoCloseable {
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
       boolean checkSubmitRules) throws NoSuchChangeException,
       OrmException, ResourceConflictException {
+    this.caller = caller;
     updateSubmissionId(change);
     this.db = db;
     logDebug("Beginning integration of {}", change);
@@ -495,7 +497,7 @@ public class MergeOp implements AutoCloseable {
         failFast(cs); // Done checks that don't involve opening repo.
       }
       try {
-        integrateIntoHistory(cs, caller);
+        integrateIntoHistory(cs);
       } catch (IntegrationException e) {
         logError("Merge Conflict", e);
         throw new ResourceConflictException("Merge Conflict", e);
@@ -527,7 +529,7 @@ public class MergeOp implements AutoCloseable {
     throw new ResourceConflictException(msg + Joiner.on('\n').join(ps));
   }
 
-  private void integrateIntoHistory(ChangeSet cs, IdentifiedUser caller)
+  private void integrateIntoHistory(ChangeSet cs)
       throws IntegrationException, NoSuchChangeException,
       ResourceConflictException {
     logDebug("Beginning merge attempt on {}", cs);
@@ -547,7 +549,7 @@ public class MergeOp implements AutoCloseable {
         OpenBranch ob = or.getBranch(branch);
         BranchBatch submitting = toSubmit.get(branch);
         SubmitStrategy strategy = createStrategy(or, branch,
-            submitting.submitType(), ob.oldTip, caller);
+            submitting.submitType(), ob.oldTip);
         ob.mergeTip = preMerge(strategy, submitting.changes(), ob.oldTip);
       }
       checkMergeStrategyResults(cs, toSubmit.values());
@@ -563,10 +565,10 @@ public class MergeOp implements AutoCloseable {
         OpenRepo or = openRepo(project);
         for (Branch.NameKey branch : br.get(project)) {
           OpenBranch ob = or.getBranch(branch);
-          boolean updated = updateBranch(or, branch, caller);
+          boolean updated = updateBranch(or, branch);
 
           BranchBatch submitting = toSubmit.get(branch);
-          updateChangeStatus(ob, submitting.changes(), caller);
+          updateChangeStatus(ob, submitting.changes());
           updateSubmoduleSubscriptions(ob, subOp);
           if (updated) {
             fireRefUpdated(ob);
@@ -607,7 +609,7 @@ public class MergeOp implements AutoCloseable {
 
   private SubmitStrategy createStrategy(OpenRepo or,
       Branch.NameKey destBranch, SubmitType submitType,
-      CodeReviewCommit branchTip, IdentifiedUser caller)
+      CodeReviewCommit branchTip)
       throws IntegrationException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, or.repo, or.rw, or.ins,
         or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller,
@@ -783,8 +785,8 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private boolean updateBranch(OpenRepo or, Branch.NameKey destBranch,
-      IdentifiedUser caller) throws IntegrationException {
+  private boolean updateBranch(OpenRepo or, Branch.NameKey destBranch)
+      throws IntegrationException {
     OpenBranch ob = or.getBranch(destBranch);
     CodeReviewCommit currentTip = ob.getCurrentTip();
     if (Objects.equals(ob.oldTip, currentTip)) {
@@ -930,8 +932,8 @@ public class MergeOp implements AutoCloseable {
     failFast(cs);
   }
 
-  private void updateChangeStatus(OpenBranch ob, List<ChangeData> submitted,
-      IdentifiedUser caller) throws ResourceConflictException {
+  private void updateChangeStatus(OpenBranch ob, List<ChangeData> submitted)
+      throws ResourceConflictException {
     List<Change.Id> problemChanges = new ArrayList<>(submitted.size());
     logDebug("Updating change status for {} changes", submitted.size());
 
@@ -946,7 +948,7 @@ public class MergeOp implements AutoCloseable {
         checkState(s != null,
             "status not set for change %s; expected to previously fail fast",
             id);
-        setApproval(cd, caller);
+        setApproval(cd);
 
         ObjectId mergeResultRev = ob.mergeTip != null
             ? ob.mergeTip.getMergeResults().get(commit) : null;
@@ -1099,24 +1101,23 @@ public class MergeOp implements AutoCloseable {
     });
   }
 
-  private void setApproval(ChangeData cd, IdentifiedUser user)
-      throws OrmException, IOException {
+  private void setApproval(ChangeData cd) throws OrmException, IOException {
     Timestamp timestamp = TimeUtil.nowTs();
     ChangeControl control = cd.changeControl();
     PatchSet.Id psId = cd.currentPatchSet().getId();
     PatchSet.Id psIdNewRev = commits.get(cd.change().getId())
         .change().currentPatchSetId();
 
-    logDebug("Add approval for " + cd + " from user " + user);
+    logDebug("Add approval for " + cd);
     ChangeUpdate update = updateFactory.create(control, timestamp);
-    update.putReviewer(user.getAccountId(), REVIEWER);
+    update.putReviewer(caller.getAccountId(), REVIEWER);
     Optional<SubmitRecord> okRecord = findOkRecord(cd.getSubmitRecords());
     if (okRecord.isPresent()) {
       update.merge(ImmutableList.of(okRecord.get()));
     }
     db.changes().beginTransaction(cd.change().getId());
     try {
-      BatchMetaDataUpdate batch = approve(control, psId, user,
+      BatchMetaDataUpdate batch = approve(control, psId, caller,
           update, timestamp);
       batch.write(update, new CommitBuilder());
 
@@ -1128,8 +1129,7 @@ public class MergeOp implements AutoCloseable {
         // Create a new ChangeUpdate instance because we need to store meta data
         // on another patch set (psIdNewRev).
         update = updateFactory.create(control, timestamp);
-        batch = approve(control, psIdNewRev, user,
-            update, timestamp);
+        batch = approve(control, psIdNewRev, caller, update, timestamp);
         // Write update commit after all normalized label commits.
         batch.write(update, new CommitBuilder());
       }

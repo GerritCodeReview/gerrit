@@ -73,8 +73,9 @@ limitations under the License.
       <span class="u-red"><span>-</span>[[change.deletions]]</span>
     </span>
     <span title="Code-Review"
-        class$="[[_computeCodeReviewClass(change.labels.Code_Review)]]">[[_computeCodeReviewLabel(change.labels.Code_Review)]]</span>
-    <span class="cell verified u-green" title="Verified">[[_computeVerifiedLabel(change.labels.Verified)]]</span>
+        class$="[[_computeLabelClass(change.labels.Code_Review)]]">[[_computeLabelValue(change.labels.Code_Review)]]</span>
+    <span title="Verified"
+        class$="[[_computeLabelClass(change.labels.Verified)]]">[[_computeLabelValue(change.labels.Verified)]]</span>
   </template>
   <script>
   (function() {
@@ -116,46 +117,45 @@ limitations under the License.
         return '';
       },
 
-      _computeCodeReviewClass: function(codeReview) {
+      _computeLabelClass: function(label) {
         // Mimic a Set.
         var classes = {
           'cell': true,
-          'codeReview': true,
+          'label': true,
         };
-        if (codeReview) {
-          if (codeReview.approved) {
+        if (label) {
+          if (label.approved) {
             classes['u-green'] = true;
           }
-          if (codeReview.value == 1) {
+          if (label.value == 1) {
             classes['u-monospace'] = true;
             classes['u-green'] = true;
-          } else if (codeReview.value == -1) {
+          } else if (label.value == -1) {
             classes['u-monospace'] = true;
+            classes['u-red'] = true;
+          }
+          if (label.rejected) {
             classes['u-red'] = true;
           }
         }
         return Object.keys(classes).sort().join(' ');
       },
 
-      _computeCodeReviewLabel: function(codeReview) {
-        if (!codeReview) { return ''; }
-        if (codeReview.approved) {
+      _computeLabelValue: function(label) {
+        if (!label) { return ''; }
+        if (label.approved) {
           return '✓';
         }
-        if (codeReview.value > 0) {
-          return '+' + codeReview.value;
+        if (label.rejected) {
+          return '✕';
         }
-        if (codeReview.value < 0) {
-          return codeReview.value;
+        if (label.value > 0) {
+          return '+' + label.value;
+        }
+        if (label.value < 0) {
+          return label.value;
         }
         return '';
-      },
-
-      _computeVerifiedLabel: function(verified) {
-        if (verified && verified.approved) {
-          return '✓';
-        }
-        return ''
       },
 
       _computeProjectURL: function(project) {

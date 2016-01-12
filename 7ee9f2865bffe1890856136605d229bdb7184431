@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87a70abf_8f049560",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-12T21:16:15Z",
+      "side": 1,
+      "message": "The problem with this approach could be that while revision actions require its own REST call to retrieve the actions, change actions are using existing response from GET /changes/\u003cid\u003e/detail. Alternative approaches would be to merge them into one change-and-revision-actions element, and\n\n* 1. pass in change action and retrieve revision actions in combined element\n* 2. or retrieve both revision actions in addition to change actions (that are already retrieved), and path in two separate actions lists: changeAction, revisionAction to combined element (that\u0027s what old UI is doing now)",
+      "parentUuid": "67e056e1_5e4895b3",
+      "revId": "7ee9f2865bffe1890856136605d229bdb7184431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67e056e1_7e4d51c2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

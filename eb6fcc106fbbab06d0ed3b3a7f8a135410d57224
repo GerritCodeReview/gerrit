@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87a70abf_0f3ee508",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-12T22:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47db5239_5da41bc5",
+      "revId": "eb6fcc106fbbab06d0ed3b3a7f8a135410d57224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aa79f24_4b05e525",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
         "patchSetId": 3
@@ -90,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "e79a8677_3243109c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-12T22:03:00Z",
+      "side": 1,
+      "message": "\u003e So I guess my suggestion would be, let\u0027s make sure bower_components.zip gets built when you generate an Eclipse project.\n\nDone.",
+      "parentUuid": "47db5239_3d9f4f79",
+      "revId": "eb6fcc106fbbab06d0ed3b3a7f8a135410d57224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67e056e1_7ea9d199",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
         "patchSetId": 3
@@ -101,6 +137,24 @@
       "writtenOn": "2016-01-12T14:52:34Z",
       "side": 1,
       "message": "Or just store zipFs.getPath(\"bower_components\") as an instance field and return path.resolve(pathInfo).",
+      "revId": "eb6fcc106fbbab06d0ed3b3a7f8a135410d57224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e79a8677_524894b3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-12T22:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67e056e1_7ea9d199",
       "revId": "eb6fcc106fbbab06d0ed3b3a7f8a135410d57224",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

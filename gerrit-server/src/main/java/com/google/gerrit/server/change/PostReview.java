@@ -358,7 +358,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         change.setLastUpdatedOn(ctx.getWhen());
       }
       ps = ctx.getDb().patchSets().get(psId);
-      ctx.getUpdate().setPatchSetId(psId);
       boolean dirty = false;
       dirty |= insertComments(ctx);
       dirty |= updateLabels(ctx);
@@ -466,8 +465,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           }
           break;
       }
-      plcUtil.deleteComments(ctx.getDb(), ctx.getUpdate(), del);
-      plcUtil.upsertComments(ctx.getDb(), ctx.getUpdate(), ups);
+      ChangeUpdate u = ctx.getUpdate(psId);
+      // TODO(dborowitz): Currently doesn't work for PUBLISH_ALL_REVISIONS with
+      // notedb.
+      plcUtil.deleteComments(ctx.getDb(), u, del);
+      plcUtil.upsertComments(ctx.getDb(), u, ups);
       comments.addAll(ups);
       return !del.isEmpty() || !ups.isEmpty();
     }
@@ -513,7 +515,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchSetApproval> ups = Lists.newArrayList();
       Map<String, PatchSetApproval> current = scanLabels(ctx, del);
 
-      ChangeUpdate update = ctx.getUpdate();
+      ChangeUpdate update = ctx.getUpdate(psId);
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       for (Map.Entry<String, Short> ent : labels.entrySet()) {
         String name = ent.getKey();
@@ -644,7 +646,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           "Patch Set %d:%s",
           psId.get(),
           buf.toString()));
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(), message);
+      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), message);
       return true;
     }
 

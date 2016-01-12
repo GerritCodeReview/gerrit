@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -101,6 +102,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     @Override
     public void updateChange(ChangeContext ctx) throws OrmException {
       change = ctx.getChange();
+      ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       newTopicName = Strings.nullToEmpty(input.topic);
       oldTopicName = Strings.nullToEmpty(change.getTopic());
       if (oldTopicName.equals(newTopicName)) {
@@ -116,7 +118,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
             oldTopicName, newTopicName);
       }
       change.setTopic(Strings.emptyToNull(newTopicName));
-      ctx.getUpdate().setTopic(change.getTopic());
+      update.setTopic(change.getTopic());
       ChangeUtil.updated(change);
       ctx.getDb().changes().update(Collections.singleton(change));
 
@@ -127,7 +129,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
           caller.getAccountId(), ctx.getWhen(),
           change.currentPatchSetId());
       cmsg.setMessage(summary);
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(), cmsg);
+      cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
     }
 
     @Override

@@ -97,7 +97,7 @@ public class DeleteDraftComment
       PatchLineComment c = maybeComment.get();
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);
       plcUtil.deleteComments(
-          ctx.getDb(), ctx.getUpdate(), Collections.singleton(c));
+          ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
     }
   }
 }

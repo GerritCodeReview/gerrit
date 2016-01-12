@@ -182,7 +182,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     private void saveChange(ChangeContext ctx) throws OrmException {
       change = ctx.getChange();
-      ChangeUpdate update = ctx.getUpdate();
+      ChangeUpdate update = ctx.getUpdate(psId);
       wasDraftChange = change.getStatus() == Change.Status.DRAFT;
       if (wasDraftChange) {
         change.setStatus(Change.Status.NEW);
@@ -219,7 +219,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       recipients =
           getRecipientsFromFooters(accountResolver, patchSet, footerLines);
       recipients.remove(ctx.getUser().getAccountId());
-      approvalsUtil.addReviewers(ctx.getDb(), ctx.getUpdate(), labelTypes,
+      approvalsUtil.addReviewers(ctx.getDb(), ctx.getUpdate(psId), labelTypes,
           change, patchSet, patchSetInfo, recipients.getReviewers(),
           oldReviewers);
     }

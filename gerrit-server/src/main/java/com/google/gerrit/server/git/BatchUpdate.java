@@ -25,11 +25,14 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -54,6 +57,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.TreeMap;
 
 /**
  * Context for a set of updates that should be applied for a site.
@@ -159,20 +163,27 @@ public class BatchUpdate implements AutoCloseable {
 
   public class ChangeContext extends Context {
     private final ChangeControl ctl;
-    private final ChangeUpdate update;
+    private final Map<PatchSet.Id, ChangeUpdate> updates;
+
     private boolean deleted;
 
     private ChangeContext(ChangeControl ctl) {
       this.ctl = ctl;
-      this.update = changeUpdateFactory.create(ctl, when);
+      updates = new TreeMap<>(ReviewDbUtil.intKeyOrdering());
     }
 
-    public ChangeUpdate getUpdate() {
-      return update;
+    public ChangeUpdate getUpdate(PatchSet.Id psId) {
+      ChangeUpdate u = updates.get(psId);
+      if (u == null) {
+        u = changeUpdateFactory.create(ctl, when);
+        u.setPatchSetId(psId);
+        updates.put(psId, u);
+      }
+      return u;
     }
 
     public ChangeNotes getNotes() {
-      return update.getChangeNotes();
+      return ctl.getNotes();
     }
 
     public ChangeControl getControl() {
@@ -180,7 +191,7 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     public Change getChange() {
-      return update.getChange();
+      return ctl.getChange();
     }
 
     public void markDeleted() {
@@ -523,7 +534,18 @@ public class BatchUpdate implements AutoCloseable {
         } finally {
           db.rollback();
         }
-        ctx.getUpdate().commit();
+
+        BatchMetaDataUpdate bmdu = null;
+        for (ChangeUpdate u : ctx.updates.values()) {
+          if (bmdu == null) {
+            bmdu = u.openUpdate();
+          }
+          u.writeCommit(bmdu);
+        }
+        if (bmdu != null) {
+          bmdu.commit();
+        }
+
         if (ctx.deleted) {
           indexFutures.add(indexer.deleteAsync(id));
         } else {

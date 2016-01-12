@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87a70abf_afd3192f",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-12T19:37:47Z",
+      "side": 1,
+      "message": "Both \u0027hidden\u0027 and \u0027showAvatar\u0027 are required because I cannot use \u0027hidden\u0027 in the \u0027dom-if\u0027 template element if-binding.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 41
+      },
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

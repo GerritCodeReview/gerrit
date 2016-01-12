@@ -15,13 +15,15 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class ChangeRestoredEvent extends PatchSetEvent {
+  public static final String TYPE = "change-restored";
   public Supplier<AccountAttribute> restorer;
   public String reason;
 
-  public ChangeRestoredEvent () {
-    super("change-restored");
+  public ChangeRestoredEvent (Change change) {
+    super(TYPE, change);
   }
 }

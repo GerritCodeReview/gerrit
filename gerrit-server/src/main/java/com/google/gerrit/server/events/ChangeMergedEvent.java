@@ -15,13 +15,15 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class ChangeMergedEvent extends PatchSetEvent {
+  public static final String TYPE = "change-merged";
   public Supplier<AccountAttribute> submitter;
   public String newRev;
 
-  public ChangeMergedEvent() {
-    super("change-merged");
+  public ChangeMergedEvent(Change change) {
+    super(TYPE, change);
   }
 }

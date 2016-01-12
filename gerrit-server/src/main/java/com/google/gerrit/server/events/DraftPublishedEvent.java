@@ -15,12 +15,14 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class DraftPublishedEvent extends PatchSetEvent {
+  public static final String TYPE = "draft-published";
   public Supplier<AccountAttribute> uploader;
 
-  public DraftPublishedEvent() {
-    super("draft-published");
+  public DraftPublishedEvent(Change change) {
+    super(TYPE, change);
   }
 }

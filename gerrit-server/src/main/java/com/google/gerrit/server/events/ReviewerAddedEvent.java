@@ -15,12 +15,14 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class ReviewerAddedEvent extends PatchSetEvent {
+  public static final String TYPE = "reviewer-added";
   public Supplier<AccountAttribute> reviewer;
 
-  public ReviewerAddedEvent() {
-    super("reviewer-added");
+  public ReviewerAddedEvent(Change change) {
+    super(TYPE, change);
   }
 }

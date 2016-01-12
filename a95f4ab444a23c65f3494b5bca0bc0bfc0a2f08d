@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a70b2e17_98fb7591",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-12T03:05:23Z",
+      "side": 1,
+      "message": "I agree. One of the OKRs this quarter will be to begin on a consistent style guide for the look and feel of things. Loading indicators, button states, etc.",
+      "parentUuid": "a70b2e17_1810859c",
+      "revId": "a95f4ab444a23c65f3494b5bca0bc0bfc0a2f08d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c714a235_99e25beb",
         "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-12T02:55:46Z",
       "side": 1,
       "message": "This is not always the label. For example on this series it will say \"Submit including parents.\" Is it possible to key on the action name instead?",
+      "revId": "a95f4ab444a23c65f3494b5bca0bc0bfc0a2f08d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c714a235_7911c7a3",
+        "filename": "polygerrit-ui/app/elements/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-12T03:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c714a235_99e25beb",
       "revId": "a95f4ab444a23c65f3494b5bca0bc0bfc0a2f08d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

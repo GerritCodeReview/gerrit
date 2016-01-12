@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "47db5239_5da41bc5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T14:52:34Z",
+      "side": 1,
+      "message": "I think it\u0027s less code if you just do this in the constructor and have it throw IOException. That will bubble up as a ProvisionException from the @Provides method in StaticModule, which is fine.",
+      "revId": "eb6fcc106fbbab06d0ed3b3a7f8a135410d57224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aa79f24_4b05e525",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
         "patchSetId": 3
@@ -31,6 +48,41 @@
       "side": 1,
       "message": "Not according to the documentation:\n\n  Run a test server:\n  \n  ```sh\n  buck build polygerrit \u0026\u0026 \\\n  java -jar buck-out/gen/polygerrit/polygerrit.war daemon\n\nthat guarantees, that the file is there.\n\nBut the point is: the build toolchain should always try to separate concerns: either you are bothering about your deps or your are developing interactively your application and try to offer optimized change-[compile]-re-deploy cycle. You should never ever mix these modes and try to do all this in one run.\n\nI also don\u0027t buy the correctness argument. With the current toolchain, when I change JGit version and reload polygerrit in browser, then this change wouldn\u0027t be reflected. The definition of this mode is: the build is disabled, because we are developoing Javascript application and thanks Buck, that maintains for us mirrored soure tree in buck-out directory, we don\u0027t have to do anything.\n\nWhat if a new javascript source file is added? Would this change be reflected, without stopping the runnig container and re-invoking:\n\n  buck build polygerrit \u0026\u0026 \\\n  java -jar buck-out/gen/polygerrit/polygerrit.war daemon\n\n?",
       "parentUuid": "0aa79f24_4b05e525",
+      "revId": "eb6fcc106fbbab06d0ed3b3a7f8a135410d57224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47db5239_3d9f4f79",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T14:52:34Z",
+      "side": 1,
+      "message": "\u003e Not according to the documentation:\n \u003e \n \u003e Run a test server:\n \u003e \n \u003e ```sh\n \u003e buck build polygerrit \u0026\u0026 \\\n \u003e java -jar buck-out/gen/polygerrit/polygerrit.war daemon\n \u003e \n \u003e that guarantees, that the file is there.\n\nYes, you\u0027re correct that if you run buck build prior to launching the daemon that this will always be there. Where this is less than optimal is if you\u0027re running form Eclipse, since you don\u0027t have to build polygerrit.war to launch gerrit-daemon.\n\nBut you also generally expect that if your deps change, you have to rebuild your Eclipse project to have Eclipse pick them up. So I guess my suggestion would be, let\u0027s make sure bower_components.zip gets built when you generate an Eclipse project.\n\n \u003e You should never ever\n \u003e mix these modes and try to do all this in one run.\n\nI see what you\u0027re saying, but all I was doing here is exactly what RecompileGwtUiFilter was doing. That will indeed pick up new dependency changes in the gwtui code.\n\n \u003e What if a new javascript source file is added? Would this change be\n \u003e reflected, without stopping the runnig container and re-invoking:\n \u003e \n \u003e buck build polygerrit \u0026\u0026 \\\n \u003e java -jar buck-out/gen/polygerrit/polygerrit.war daemon\n \u003e \n \u003e ?\n\nUnless you pass --polygerrit-dev, this will only serve the vulcanized app from the war. But with yes, with --polygerrit-dev, it will find new files, because PolyGerritUiModule#polyGerritBasePath() returns a Path to the actual polygerrit-ui/app directory in your client (and PolyGerritUiServlet always has the refresh bit set to true).",
+      "parentUuid": "2a48e34e_ac7803cd",
+      "revId": "eb6fcc106fbbab06d0ed3b3a7f8a135410d57224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e056e1_7ea9d199",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T14:52:34Z",
+      "side": 1,
+      "message": "Or just store zipFs.getPath(\"bower_components\") as an instance field and return path.resolve(pathInfo).",
       "revId": "eb6fcc106fbbab06d0ed3b3a7f8a135410d57224",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

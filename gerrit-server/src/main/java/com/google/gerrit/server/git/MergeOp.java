@@ -279,7 +279,7 @@ public class MergeOp implements AutoCloseable {
     }
     MACHINE_ID = id;
   }
-  private String staticSubmissionId;
+  private Timestamp ts;
   private String submissionId;
 
   private ReviewDb db;
@@ -474,9 +474,9 @@ public class MergeOp implements AutoCloseable {
     Hasher h = Hashing.sha1().newHasher();
     h.putLong(Thread.currentThread().getId())
         .putUnencodedChars(MACHINE_ID);
-    staticSubmissionId = h.hash().toString().substring(0, 8);
-    submissionId = change.getId().get() + "-" + TimeUtil.nowMs() +
-        "-" + staticSubmissionId;
+    ts = TimeUtil.nowTs();
+    submissionId = change.getId().get() + "-" + ts.getTime() +
+        "-" + h.hash().toString().substring(0, 8);
   }
 
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,

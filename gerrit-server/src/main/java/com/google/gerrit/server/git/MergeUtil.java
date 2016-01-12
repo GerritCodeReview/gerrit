@@ -663,7 +663,7 @@ public class MergeUtil {
 
       CodeReviewCommit c;
       while ((c = (CodeReviewCommit) rw.next()) != null) {
-        if (c.getPatchsetId() != null) {
+        if (c.getPatchsetId() != null && c.getStatusCode() == null) {
           c.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
         }
       }

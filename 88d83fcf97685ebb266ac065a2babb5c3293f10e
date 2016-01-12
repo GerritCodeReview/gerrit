@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47db5239_7d4d57c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T21:47:33Z",
+      "side": 1,
+      "message": "This method is based on MergeOp#updateBranch",
+      "revId": "88d83fcf97685ebb266ac065a2babb5c3293f10e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47db5239_9d514363",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T21:47:33Z",
+      "side": 1,
+      "message": "This method is based on MergeOp#updateChangeStatus",
+      "revId": "88d83fcf97685ebb266ac065a2babb5c3293f10e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e056e1_be4ef9bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T21:47:33Z",
+      "side": 1,
+      "message": "This method is based on MergeOp#setApproval",
+      "revId": "88d83fcf97685ebb266ac065a2babb5c3293f10e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e056e1_de5bc57c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T21:47:33Z",
+      "side": 1,
+      "message": "This method is based on MergeOp#approve",
+      "revId": "88d83fcf97685ebb266ac065a2babb5c3293f10e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e056e1_fe588182",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T21:47:33Z",
+      "side": 1,
+      "message": "This method is based on MergeOp#setMerged",
+      "revId": "88d83fcf97685ebb266ac065a2babb5c3293f10e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47db5239_bd4effbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T21:47:33Z",
+      "side": 1,
+      "message": "This block came from MergeOp#updateBranch",
+      "revId": "88d83fcf97685ebb266ac065a2babb5c3293f10e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47db5239_dd5bcb7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T21:47:33Z",
+      "side": 1,
+      "message": "This block came from MergeOp#setMerged",
+      "revId": "88d83fcf97685ebb266ac065a2babb5c3293f10e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

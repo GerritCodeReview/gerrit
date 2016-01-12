@@ -83,6 +83,9 @@ limitations under the License.
         display: flex;
         margin-left: var(--default-horizontal-margin);
       }
+      .feedback {
+        color: #b71c1c;
+      }
     </style>
     <gr-ajax auto url="/accounts/self/detail" last-response="{{account}}"></gr-ajax>
     <gr-ajax auto url="/config/server/info" last-response="{{config}}"></gr-ajax>
@@ -117,7 +120,7 @@ limitations under the License.
     </main>
     <footer role="contentinfo">
       Powered by <a href="https://www.gerritcodereview.com/" target="_blank">Gerrit Code Review</a>
-      (<span>[[version]]</span>)
+      ([[version]])
       <span hidden$="[[!config.gerrit.report_bug_url]]">
         |
         <a href$="[[config.gerrit.report_bug_url]]" target="_blank">
@@ -129,6 +132,10 @@ limitations under the License.
           </span>
         </a>
       </span>
+      |
+      <a class="feedback" href="http://goo.gl/forms/ETHmIH2Kga" target="_blank">
+        PolyGerrit Feedback
+      </a>
     </footer>
   </template>
   <script>

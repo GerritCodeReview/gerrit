@@ -93,6 +93,23 @@
       "revId": "d92229c8f9179aeb295ace5d5e3d801ec40b4167",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27157e84_a47fe2b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-12T11:11:15Z",
+      "side": 1,
+      "message": "Could be done inline?\n\n ctx.getChangeUpdate().setPatchSetId(patchSet.getId());",
+      "revId": "d92229c8f9179aeb295ace5d5e3d801ec40b4167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

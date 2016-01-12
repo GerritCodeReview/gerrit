@@ -24,23 +24,25 @@ limitations under the License.
         display: inline;
       }
       .starButton {
-        font-size: .95em;
+        font-size: 1.2em;
+        vertical-align: middle;
         margin-right: .25em;
+        color: #697882;
         cursor: pointer;
         background-color: transparent;
         border-color: transparent;
       }
-      .star {
-        color: #fbc02d;
+      .starButton:before {
+        content: '★';
+        position: relative;
+        top: -.09em;
       }
-      .unstar {
-        color: #666;
+      .starButton:hover,
+      .starButton--active {
+        color: #ffac33;
       }
     </style>
-    <button class="starButton" on-tap="_handleStarTap">
-      <span class="star" hidden$="[[!change.starred]]">&#9733;</span>
-      <span class="unstar" hidden$="[[change.starred]]">&#9734;</span>
-    </button>
+    <button class$="[[_computeStarClass(change.starred)]]" on-tap="_handleStarTap"></button>
   </template>
   <script>
   (function() {
@@ -56,6 +58,14 @@ limitations under the License.
         },
 
         _xhrPromise: Object,  // Used for testing.
+      },
+
+      _computeStarClass: function(starred) {
+        var classes = ['starButton'];
+        if (starred) {
+          classes.push('starButton--active');
+        }
+        return classes.join(' ');
       },
 
       _handleStarTap: function() {

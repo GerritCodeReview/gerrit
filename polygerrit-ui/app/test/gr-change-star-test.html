@@ -71,19 +71,16 @@ limitations under the License.
       server.restore();
     });
 
-    function isVisible(el) {
-      assert.ok(el);
-      return getComputedStyle(el).getPropertyValue('display') != 'none';
-    }
-
     test('star visibility states', function() {
       element.set('change.starred', true);
-      assert.isTrue(isVisible(element.$$('.star')), 'star is visible');
-      assert.isFalse(isVisible(element.$$('.unstar')), 'unstar is not visible');
+      assert.isTrue(element.$$('button').classList.contains('starButton'));
+      assert.isTrue(
+          element.$$('button').classList.contains('starButton--active'));
 
       element.set('change.starred', false);
-      assert.isTrue(isVisible(element.$$('.unstar')), 'unstar is visible');
-      assert.isFalse(isVisible(element.$$('.star')), 'star is not visible');
+      assert.isTrue(element.$$('button').classList.contains('starButton'));
+      assert.isFalse(
+          element.$$('button').classList.contains('starButton--active'));
     });
 
     test('starring', function(done) {

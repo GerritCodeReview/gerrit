@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7a40ebb_d0b71cf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-12T17:08:32Z",
+      "side": 1,
+      "message": "Is this needed? Wasn\u0027t mergeTip already set above in line 40 to the same value?",
+      "revId": "3a4101c896285527669cc2fd16cf99a3fb894762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7fe066f_52c2345d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
         "patchSetId": 2

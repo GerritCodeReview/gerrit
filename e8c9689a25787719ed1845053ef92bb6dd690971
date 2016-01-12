@@ -16,6 +16,24 @@
       "revId": "e8c9689a25787719ed1845053ef92bb6dd690971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4716f290_4510aa9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-01-12T08:16:56Z",
+      "side": 1,
+      "message": "Sorry, this call does not take the includeFiles and change arguments. But should it, like we do in line 280?",
+      "parentUuid": "27157e84_0443569b",
+      "revId": "e8c9689a25787719ed1845053ef92bb6dd690971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

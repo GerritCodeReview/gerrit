@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1452612331 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBXCgCE0DbDFXkDBoi4t34h0Qxx0stb9PWrxMRdqEX4lzlx+HYj13og16h5BrEe52hHnrpZ9\n\n0000000000000000000000000000000000000000 3fd27f2236747b0637f2faf2cc0829e4f066a08e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWlRrrAAoJEF/XxZqaEoiMGyUQANlgbYHd+0WPKwoYkC1lNnj3\n5TCJkNHZl5NPmjLwwV5Ux95zLzig0tUrVsVywTkGz5LBDyy0l+PpHp65oRhysPWR\njA+RLcKH3Ee1pEBwWBGVg4S+JuYsNx7m+dh2LhI8CSQCQKfK0EwhMHGZ2zEzEbBw\nyrVTcYHMOfWY9mMpcf0DAf9Lg9aV9GGih9BPcGbUGyCFHS0Z+N8Q9tKFstSJB1ht\n5rnruYKTM9MY3ksajwhBivD7UcP+oqEU7Z4woJqsrqVlzOPgmqI4VdyI8rwCGUKS\nMMpom4urAjPtG4BYyVIG6MmoTKn9sV6Sey67lJxuFnClPUoHuAnHO5KX+CMsgUX2\nFLWzvLq1z49UiKvI0TRBG8Lx3M+Ekdc5Jdvq5qtfrgkwTu1uo/zwF2dV2rK3yPme\nKMhwWlza/KSW5meU+X2zafvf8lCr1//WmEoX7TpsOVut4CKjXlfTVwMxvWeOQTFs\nzFmg9lgfYbzE0rWko7HBGK5d7vEsJD5ZDaM8fRo7SG5gt+L/S75V9kJvk168WYVa\nQR8CvJmeIr3vY72m8unmdLYR5B3J/og/bslB5ljeflPcTt5xMTxLnjlCced3UQwf\ndWbbmLPKoc3ZM7IygW18VIQpMLKoVyWDdmsatdwO48iWGEB74IXAaveJgCZ38tkb\nke0+mlJJkmWqQhAFWSA0\n\u003dTGGU\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e056e1_5ebdf5d0",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T15:29:36Z",
+      "side": 1,
+      "message": "Only merge conflict during the rebase was here.",
+      "revId": "3fd27f2236747b0637f2faf2cc0829e4f066a08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

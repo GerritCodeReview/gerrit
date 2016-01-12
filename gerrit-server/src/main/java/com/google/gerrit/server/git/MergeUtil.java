@@ -74,7 +74,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -83,6 +82,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Utility methods used during the merge process.
+ * <p>
+ * <strong>Note:</strong> Unless otherwise specified, the methods in this class
+ * <strong>do not</strong> flush {@link ObjectInserter}s. Callers that want to
+ * read back objects before flushing should use {@link
+ * ObjectInserter#newReader()}. This is already the default behavior of {@code
+ * BatchUpdate}.
+ */
 public class MergeUtil {
   private static final Logger log = LoggerFactory.getLogger(MergeUtil.class);
   private static final String R_HEADS_MASTER =
@@ -191,7 +199,7 @@ public class MergeUtil {
       mergeCommit.setAuthor(originalCommit.getAuthorIdent());
       mergeCommit.setCommitter(cherryPickCommitterIdent);
       mergeCommit.setMessage(commitMsg);
-      return rw.parseCommit(commit(inserter, mergeCommit));
+      return rw.parseCommit(inserter.insert(mergeCommit));
     } else {
       throw new MergeConflictException("merge conflict");
     }
@@ -540,7 +548,7 @@ public class MergeUtil {
     mergeCommit.setMessage(msgbuf.toString());
 
     CodeReviewCommit mergeResult =
-        rw.parseCommit(commit(inserter, mergeCommit));
+        rw.parseCommit(inserter.insert(mergeCommit));
     mergeResult.setControl(n.getControl());
     return mergeResult;
   }
@@ -629,14 +637,6 @@ public class MergeUtil {
       }
     });
     return (ThreeWayMerger) m;
-  }
-
-  public ObjectId commit(final ObjectInserter inserter,
-      final CommitBuilder mergeCommit) throws IOException,
-      UnsupportedEncodingException {
-    ObjectId id = inserter.insert(mergeCommit);
-    inserter.flush();
-    return id;
   }
 
   public void markCleanMerges(final RevWalk rw,

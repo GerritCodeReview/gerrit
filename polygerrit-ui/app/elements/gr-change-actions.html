@@ -43,6 +43,10 @@ limitations under the License.
       button[loading]:before {
         content: attr(data-loading-label);
       }
+      button[disabled] {
+        background-color: #555961;
+        opacity: .5;
+      }
     </style>
     <gr-ajax id="actionsXHR"
         url="[[_computeActionsPath(changeNum, patchNum)]]"
@@ -51,11 +55,10 @@ limitations under the License.
     <div>
       <template is="dom-repeat" items="[[_computeActionValues(_actions)]]" as="action">
         <button title$="[[action.title]]"
-            hidden$="[[!action.enabled]]"
+            disabled$="[[!action.enabled]]"
             data-action-key$="[[action.__key]]"
             data-label$="[[action.label]]"
             data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
-            disabled$="[[_loading]]"
             on-tap="_handleActionTap"></button>
       </template>
     </div>

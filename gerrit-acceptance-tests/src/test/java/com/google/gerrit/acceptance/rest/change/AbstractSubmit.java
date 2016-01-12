@@ -211,7 +211,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     SubmitInput subm = new SubmitInput();
     RestResponse r =
         adminSession.post("/changes/" + changeId + "/submit", subm);
-    assertThat(r.getStatusCode()).isEqualTo(expectedStatus);
+    assertThat(r.getStatusCode())
+        .named("Status code [" + r.getEntityContent() + "]")
+        .isEqualTo(expectedStatus);
     if (expectedStatus == HttpStatus.SC_OK) {
       checkArgument(msg == null, "msg must be null for successful submits");
       ChangeInfo change =

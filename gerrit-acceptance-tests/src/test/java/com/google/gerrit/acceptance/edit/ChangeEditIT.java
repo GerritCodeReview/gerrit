@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.edit;
 
+import static org.junit.Assert.fail;
+
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -36,6 +38,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -673,11 +676,25 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   private void assertUnchangedMessage(Optional<ChangeEdit> edit, String message)
-      throws Exception {
-    exception.expect(UnchangedCommitMessageException.class);
-    exception.expectMessage(
-        "New commit message cannot be same as existing commit message");
-    modifier.modifyMessage(edit.get(), message);
+      throws AuthException, InvalidChangeOperationException, IOException {
+
+    String expectedMsg = "New commit message cannot be same as existing commit message";
+    boolean caught = false;
+    String exceptionMsg = "";
+    try {
+      modifier.modifyMessage(edit.get(), message);
+    } catch (UnchangedCommitMessageException e) {
+      caught = true;
+      exceptionMsg = e.getMessage();
+    }
+
+    if (caught == false) {
+      fail("UnchangedCommitMessageException was not caught");
+    }
+    else if (!exceptionMsg.equals(expectedMsg)) {
+      fail(String.format("UnchangedCommitMessageException message Expected: '%s', Actual: '%s'",
+          expectedMsg, exceptionMsg));
+    }
   }
 
   @Test

@@ -40,7 +40,6 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -674,19 +673,15 @@ public class MergeUtil {
     }
   }
 
-  public Set<Change.Id> findUnmergedChanges(List<ChangeData> cds,
+  public Set<Change.Id> findUnmergedChanges(Set<Change.Id> expected,
       CodeReviewRevWalk rw, RevFlag canMergeFlag, CodeReviewCommit oldTip,
       CodeReviewCommit mergeTip) throws IntegrationException {
-    Set<Change.Id> expected = Sets.newHashSetWithExpectedSize(cds.size());
-    for (ChangeData cd : cds) {
-      expected.add(cd.getId());
-    }
     if (mergeTip == null) {
       return expected;
     }
 
     try {
-      Set<Change.Id> found = Sets.newHashSetWithExpectedSize(cds.size());
+      Set<Change.Id> found = Sets.newHashSetWithExpectedSize(expected.size());
       rw.resetRetain(canMergeFlag);
       rw.sort(RevSort.TOPO);
       rw.markStart(mergeTip);

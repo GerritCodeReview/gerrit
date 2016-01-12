@@ -20,7 +20,9 @@ limitations under the License.
   <template>
     <style>
       :host {
+        display: inline-block;
         border-radius: 50%;
+        background-size: cover;
       }
     </style>
   </template>
@@ -31,14 +33,12 @@ limitations under the License.
     Polymer({
       is: 'gr-avatar',
 
-      extends: 'img',
-
       properties: {
         account: {
           type: Object,
           observer: '_accountChanged',
         },
-        size: {
+        imageSize: {
           type: Number,
           value: 16,
         },
@@ -50,27 +50,30 @@ limitations under the License.
 
       ready: function() {
         app.configReady.then(function(cfg) {
-          var showAvatar = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-          if (showAvatar) {
+          var hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+          if (hasAvatars) {
             this.hidden = false;
-            this.updateAvatarSrc(this.account); // src needs to be set if avatar becomes visible
+            this._updateAvatarURL(this.account); // src needs to be set if avatar becomes visible
           }
         }.bind(this));
       },
 
       _accountChanged: function(account) {
-        this.updateAvatarSrc(account);
+        this._updateAvatarURL(account);
       },
 
-      updateAvatarSrc: function(account) {
+      _updateAvatarURL: function(account) {
         if (!this.hidden && account) {
-          this.setAttribute('src', this._buildAvatarURL(account));
+          var url = this._buildAvatarURL(this.account);
+          if (url) {
+            this.style.backgroundImage = 'url("' + url + '")';
+          }
         }
       },
 
       _buildAvatarURL: function(account) {
         if (!account) { return ''; }
-        return '/accounts/' + account._account_id + '/avatar?s=' + this.size;
+        return '/accounts/' + account._account_id + '/avatar?s=' + this.imageSize;
       },
 
     });

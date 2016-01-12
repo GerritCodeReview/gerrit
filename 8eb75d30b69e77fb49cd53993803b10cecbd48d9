@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7fe066f_92aadc8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-01-12T00:56:34Z",
+      "side": 1,
+      "message": "This phrase talks about \u0027emails\u0027 --- probably from copy/paste of another change description? I\u0027d just drop it. The rest of the sentence is clear enough on its own.",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 13,
+        "endChar": 16
+      },
+      "revId": "8eb75d30b69e77fb49cd53993803b10cecbd48d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

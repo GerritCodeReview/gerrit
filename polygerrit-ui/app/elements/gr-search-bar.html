@@ -67,7 +67,20 @@ limitations under the License.
           notify: true,
           observer: '_valueChanged',
         },
+
         _inputVal: String,
+        _boundKeyHandler: {
+          type: Function,
+          value: function() { return this._handleKey.bind(this); },
+        }
+      },
+
+      attached: function() {
+        document.body.addEventListener('keydown', this._boundKeyHandler);
+      },
+
+      detached: function() {
+        document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
       _valueChanged: function(value) {
@@ -86,6 +99,17 @@ limitations under the License.
         page.show('/q/' + this._inputVal);
       },
 
+      _handleKey: function(e) {
+        if (util.shouldSupressKeyboardShortcut(e)) { return; }
+        e.preventDefault();
+        switch(e.keyCode) {
+          case 191:  // '/'
+            var s = this.$.searchInput;
+            s.focus();
+            s.setSelectionRange(0, s.value.length);
+            break;
+        }
+      },
     });
 
   })();

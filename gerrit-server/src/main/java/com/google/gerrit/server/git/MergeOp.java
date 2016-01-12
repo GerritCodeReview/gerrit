@@ -326,22 +326,28 @@ public class MergeOp implements AutoCloseable {
     commits = new CommitStatus();
   }
 
+  private OpenRepo getRepo(Project.NameKey project) {
+    OpenRepo or = openRepos.get(project);
+    checkState(or != null, "repo not yet opened: %s", project);
+    return or;
+  }
+
   private OpenRepo openRepo(Project.NameKey project)
       throws NoSuchProjectException, IOException {
-    OpenRepo repo = openRepos.get(project);
-    if (repo == null) {
-      ProjectState projectState = projectCache.get(project);
-      if (projectState == null) {
-        throw new NoSuchProjectException(project);
-      }
-      try {
-        repo = new OpenRepo(repoManager.openRepository(project), projectState);
-      } catch (RepositoryNotFoundException e) {
-        throw new NoSuchProjectException(project);
-      }
-      openRepos.put(project, repo);
+    checkState(!openRepos.containsKey(project),
+        "repo already opened: %s", project);
+    ProjectState projectState = projectCache.get(project);
+    if (projectState == null) {
+      throw new NoSuchProjectException(project);
     }
-    return repo;
+    try {
+      OpenRepo or =
+          new OpenRepo(repoManager.openRepository(project), projectState);
+      openRepos.put(project, or);
+      return or;
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchProjectException(project);
+    }
   }
 
   @Override
@@ -474,8 +480,7 @@ public class MergeOp implements AutoCloseable {
   }
 
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
-      boolean checkSubmitRules) throws NoSuchChangeException,
-      OrmException, ResourceConflictException {
+      boolean checkSubmitRules) throws OrmException, ResourceConflictException {
     this.caller = caller;
     updateSubmissionId(change);
     this.db = db;
@@ -523,22 +528,22 @@ public class MergeOp implements AutoCloseable {
   }
 
   private void integrateIntoHistory(ChangeSet cs)
-      throws IntegrationException, NoSuchChangeException,
-      ResourceConflictException {
+      throws IntegrationException, ResourceConflictException {
     logDebug("Beginning merge attempt on {}", cs);
     Map<Branch.NameKey, BranchBatch> toSubmit = new HashMap<>();
     logDebug("Perform the merges");
     try {
       Multimap<Project.NameKey, Branch.NameKey> br = cs.branchesByProject();
       Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
+      openRepos(br.keySet());
       for (Branch.NameKey branch : cbb.keySet()) {
-        OpenRepo or = openRepo(branch.getParentKey());
-        toSubmit.put(branch, validateChangeList(or, cbb.get(branch), caller));
+        OpenRepo or = getRepo(branch.getParentKey());
+        toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
       }
       failFast(cs); // Done checks that don't involve running submit strategies.
 
       for (Branch.NameKey branch : cbb.keySet()) {
-        OpenRepo or = openRepo(branch.getParentKey());
+        OpenRepo or = getRepo(branch.getParentKey());
         OpenBranch ob = or.getBranch(branch);
         BranchBatch submitting = toSubmit.get(branch);
         SubmitStrategy strategy = createStrategy(or, branch,
@@ -547,7 +552,7 @@ public class MergeOp implements AutoCloseable {
       }
       checkMergeStrategyResults(cs, toSubmit.values());
       for (Project.NameKey project : br.keySet()) {
-        openRepo(project).ins.flush();
+        getRepo(project).ins.flush();
       }
 
       Set<Branch.NameKey> done =
@@ -555,7 +560,7 @@ public class MergeOp implements AutoCloseable {
       logDebug("Write out the new branch tips");
       SubmoduleOp subOp = subOpProvider.get();
       for (Project.NameKey project : br.keySet()) {
-        OpenRepo or = openRepo(project);
+        OpenRepo or = getRepo(project);
         for (Branch.NameKey branch : br.get(project)) {
           OpenBranch ob = or.getBranch(branch);
           boolean updated = updateBranch(or, branch);
@@ -574,10 +579,6 @@ public class MergeOp implements AutoCloseable {
       checkState(done.equals(cbb.keySet()), "programmer error: did not process"
           + " all branches in input set.\nExpected: %s\nActual: %s",
           done, cbb.keySet());
-    } catch (NoSuchProjectException noProject) {
-      logWarn("Project " + noProject.project() + " no longer exists, "
-          + "abandoning open changes");
-      abandonAllOpenChanges(noProject.project());
     } catch (OrmException e) {
       throw new IntegrationException("Cannot query the database", e);
     } catch (IOException e) {
@@ -602,8 +603,7 @@ public class MergeOp implements AutoCloseable {
 
   private SubmitStrategy createStrategy(OpenRepo or,
       Branch.NameKey destBranch, SubmitType submitType,
-      CodeReviewCommit branchTip)
-      throws IntegrationException, NoSuchProjectException {
+      CodeReviewCommit branchTip) throws IntegrationException {
     return submitStrategyFactory.create(submitType, db, or.repo, or.rw, or.ins,
         or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller,
         commits);
@@ -642,8 +642,7 @@ public class MergeOp implements AutoCloseable {
   }
 
   private BranchBatch validateChangeList(OpenRepo or,
-      Collection<ChangeData> submitted, IdentifiedUser caller)
-      throws IntegrationException {
+      Collection<ChangeData> submitted) throws IntegrationException {
     logDebug("Validating {} changes", submitted.size());
     List<ChangeData> toSubmit = new ArrayList<>(submitted.size());
     Multimap<ObjectId, PatchSet.Id> revisions = getRevisions(or, submitted);
@@ -1210,19 +1209,33 @@ public class MergeOp implements AutoCloseable {
         });
   }
 
-  private void abandonAllOpenChanges(Project.NameKey destProject)
-      throws NoSuchChangeException {
+  private void openRepos(Collection<Project.NameKey> projects)
+      throws IntegrationException {
+    for (Project.NameKey project : projects) {
+      try {
+        openRepo(project);
+      } catch (NoSuchProjectException noProject) {
+        logWarn("Project " + noProject.project() + " no longer exists, "
+            + "abandoning open changes");
+        abandonAllOpenChanges(noProject.project());
+      } catch (IOException e) {
+        throw new IntegrationException("Error opening project " + project, e);
+      }
+    }
+  }
+
+  private void abandonAllOpenChanges(Project.NameKey destProject) {
     try {
       for (ChangeData cd : internalChangeQuery.byProjectOpen(destProject)) {
         abandonOneChange(cd.change());
       }
-    } catch (IOException | OrmException e) {
-      logWarn("Cannot abandon changes for deleted project ", e);
+    } catch (NoSuchChangeException | IOException | OrmException e) {
+      logWarn("Cannot abandon changes for deleted project " + destProject, e);
     }
   }
 
   private void abandonOneChange(Change change) throws OrmException,
-    NoSuchChangeException,  IOException {
+      NoSuchChangeException, IOException {
     db.changes().beginTransaction(change.getId());
 
     //TODO(dborowitz): support InternalUser in ChangeUpdate

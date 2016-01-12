@@ -14,20 +14,17 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.IntegrationException;
 
-import java.io.IOException;
-
-class FastForwardOp extends SubmitStrategyOp {
-  FastForwardOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
+/**
+ * Operation for a change that is implicitly integrated by integrating another
+ * commit.
+ * <p>
+ * Updates the change status and message based on {@link
+ * CodeReviewCommit#getStatusCode()}, but does not touch the repository.
+ */
+class ImplicitIntegrateOp extends SubmitStrategyOp {
+  ImplicitIntegrateOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
     super(args, toMerge);
-  }
-
-  @Override
-  public void updateRepoImpl(RepoContext ctx)
-      throws IntegrationException, IOException {
-    args.mergeTip.moveTipTo(toMerge, toMerge);
   }
 }

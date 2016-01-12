@@ -30,7 +30,7 @@ limitations under the License.
       :host(:not([expanded])) {
         cursor: pointer;
       }
-      [is="gr-avatar"] {
+      gr-avatar {
         position: absolute;
         left: var(--default-horizontal-margin);
       }
@@ -53,12 +53,12 @@ limitations under the License.
         margin-left: 0;
         padding: 10px 75px 10px 0;
       }
-      .collapsed [is="gr-avatar"] {
+      .collapsed gr-avatar {
         top: 8px;
         height: 1.75em;
         width: 1.75em;
       }
-      .expanded [is="gr-avatar"] {
+      .expanded gr-avatar {
         top: 12px;
         height: 2.5em;
         width: 2.5em;
@@ -92,7 +92,7 @@ limitations under the License.
       }
     </style>
     <div class$="[[_computeClass(expanded, showAvatar)]]">
-      <img is="gr-avatar" account="[[message.author]]" size="100">
+      <gr-avatar account="[[message.author]]"></gr-avatar>
       <div class="contentContainer">
         <div class="name" id="name">[[message.author.name]]</div>
         <div class="content">

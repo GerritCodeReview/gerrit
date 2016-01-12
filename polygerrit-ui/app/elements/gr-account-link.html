@@ -30,7 +30,7 @@ limitations under the License.
       a:hover span {
         text-decoration: underline;
       }
-      img {
+      gr-avatar {
         height: 1.3em;
         width: 1.3em;
         vertical-align: -.3em;
@@ -39,7 +39,7 @@ limitations under the License.
     <span>
       <a href$="[[_computeOwnerLink(account)]]"
          title$="[[_computeAccountTitle(account)]]">
-        <img is="gr-avatar" account="[[account]]" size="[[avatarSize]]">
+        <gr-avatar account="[[account]]"></gr-avatar>
         <span>[[account.name]]</span>
         <span hidden$="[[!_computeShowEmail(showEmail, account)]]">
           (<span>[[account.email]]</span>)
@@ -56,10 +56,6 @@ limitations under the License.
 
       properties: {
         account: Object,
-        avatarSize: {
-          type: Number,
-          value: 32,
-        },
         showEmail: {
           type: Boolean,
           value: false,

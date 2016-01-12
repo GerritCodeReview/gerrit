@@ -20,7 +20,9 @@ limitations under the License.
   <template>
     <style>
       :host {
+        display: inline-block;
         border-radius: 50%;
+        background-size: 100%;
       }
     </style>
   </template>
@@ -31,16 +33,10 @@ limitations under the License.
     Polymer({
       is: 'gr-avatar',
 
-      extends: 'img',
-
       properties: {
         account: {
           type: Object,
           observer: '_accountChanged',
-        },
-        size: {
-          type: Number,
-          value: 16,
         },
       },
 
@@ -53,24 +49,26 @@ limitations under the License.
           var showAvatar = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
           if (showAvatar) {
             this.hidden = false;
-            this.updateAvatarSrc(this.account); // src needs to be set if avatar becomes visible
+            this._updateAvatarURL(this.account); // src needs to be set if avatar becomes visible
           }
         }.bind(this));
       },
 
       _accountChanged: function(account) {
-        this.updateAvatarSrc(account);
+        this._updateAvatarURL(account);
       },
 
-      updateAvatarSrc: function(account) {
+      _updateAvatarURL: function(account) {
         if (!this.hidden && account) {
-          this.setAttribute('src', this._buildAvatarURL(account));
+          var url = this._buildAvatarURL(this.account);
+          this.style.backgroundImage = 'url("' + url + '")';
         }
       },
 
       _buildAvatarURL: function(account) {
         if (!account) { return ''; }
-        return '/accounts/' + account._account_id + '/avatar?s=' + this.size;
+        var size = parseInt(this.getComputedStyleValue('height')) * 2; // *2: for HiDPI support
+        return '/accounts/' + account._account_id + '/avatar?s=' + size;
       },
 
     });

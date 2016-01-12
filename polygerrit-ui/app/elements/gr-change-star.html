@@ -21,25 +21,28 @@ limitations under the License.
   <template>
     <style>
       :host {
-        display: inline;
+        display: inline-block;
       }
       .starButton {
-        font-size: .95em;
-        margin-right: .25em;
-        cursor: pointer;
         background-color: transparent;
         border-color: transparent;
+        cursor: pointer;
+        font-size: 1.2em;
+        vertical-align: -.2em;
+        margin-right: .25em;
+        width: 1.2em;
+        outline: none;
       }
-      .star {
-        color: #fbc02d;
+      .starButton svg {
+        fill: #aab8c2;
       }
-      .unstar {
-        color: #666;
+      .starButton-active svg {
+        fill: #ffac33;
       }
     </style>
-    <button class="starButton" on-tap="_handleStarTap">
-      <span class="star" hidden$="[[!change.starred]]">&#9733;</span>
-      <span class="unstar" hidden$="[[change.starred]]">&#9734;</span>
+    <button class$="[[_computeStarClass(change.starred)]]" on-tap="_handleStarTap">
+      <!-- Public Domain image from the Noun Project: https://thenounproject.com/search/?q=star&i=25969 -->
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path d="M26.439,95.601c-5.608,2.949-9.286,0.276-8.216-5.968l4.5-26.237L3.662,44.816c-4.537-4.423-3.132-8.746,3.137-9.657  l26.343-3.829L44.923,7.46c2.804-5.682,7.35-5.682,10.154,0l11.78,23.87l26.343,3.829c6.27,0.911,7.674,5.234,3.138,9.657  L77.277,63.397l4.501,26.237c1.07,6.244-2.608,8.916-8.216,5.968L50,83.215L26.439,95.601z"></path></svg>
     </button>
   </template>
   <script>
@@ -56,6 +59,14 @@ limitations under the License.
         },
 
         _xhrPromise: Object,  // Used for testing.
+      },
+
+      _computeStarClass: function(starred) {
+        var classes = ['starButton'];
+        if (starred) {
+          classes.push('starButton-active');
+        }
+        return classes.join(' ');
       },
 
       _handleStarTap: function() {

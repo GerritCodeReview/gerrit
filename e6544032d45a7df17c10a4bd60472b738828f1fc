@@ -23,6 +23,30 @@
       "revId": "e6544032d45a7df17c10a4bd60472b738828f1fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47db5239_5dbdfbd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/FastForwardOnly.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T17:16:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7216ee4_a8d69b1f",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 5
+      },
+      "revId": "e6544032d45a7df17c10a4bd60472b738828f1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

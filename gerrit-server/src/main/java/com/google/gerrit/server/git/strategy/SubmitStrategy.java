@@ -139,7 +139,8 @@ public abstract class SubmitStrategy {
       this.db = db;
       this.alreadyAccepted = alreadyAccepted;
 
-      this.project = projectCache.get(destBranch.getParentKey());
+      this.project = checkNotNull(projectCache.get(destBranch.getParentKey()),
+            "project not found: %s", destBranch.getParentKey());
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
       this.mergeUtil = mergeUtilFactory.create(project);
     }

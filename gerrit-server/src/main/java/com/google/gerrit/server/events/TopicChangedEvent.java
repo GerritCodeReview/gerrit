@@ -15,13 +15,15 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class TopicChangedEvent extends ChangeEvent {
+  public static final String TYPE = "topic-changed";
   public Supplier<AccountAttribute> changer;
   public String oldTopic;
 
-  public TopicChangedEvent() {
-    super("topic-changed");
+  public TopicChangedEvent(Change change) {
+    super(TYPE, change);
   }
 }

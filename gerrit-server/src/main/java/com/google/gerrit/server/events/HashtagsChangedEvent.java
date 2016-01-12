@@ -15,15 +15,17 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class HashtagsChangedEvent extends ChangeEvent {
+  public static final String TYPE = "hashtags-changed";
   public Supplier<AccountAttribute> editor;
   public String[] added;
   public String[] removed;
   public String[] hashtags;
 
-  public HashtagsChangedEvent () {
-    super("hashtags-changed");
+  public HashtagsChangedEvent (Change change) {
+    super(TYPE, change);
   }
 }

@@ -35,7 +35,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -47,7 +46,6 @@ import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -62,7 +60,7 @@ public class Reviewers extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Element reviewersText;
-  @UiField Image addReviewerIcon;
+  @UiField Button openForm;
   @UiField Button addMe;
   @UiField Element form;
   @UiField Element error;
@@ -94,14 +92,6 @@ public class Reviewers extends Composite {
     });
 
     initWidget(uiBinder.createAndBindUi(this));
-    addReviewerIcon.addDomHandler(
-        new ClickHandler() {
-          @Override
-          public void onClick(ClickEvent event) {
-            onOpenForm();
-          }
-        },
-        ClickEvent.getType());
   }
 
   void init(ChangeScreen.Style style, Element ccText) {
@@ -113,13 +103,18 @@ public class Reviewers extends Composite {
     this.changeId = info.legacyId();
     display(info);
     reviewerSuggestOracle.setChange(changeId);
-    addReviewerIcon.setVisible(Gerrit.isSignedIn());
+    openForm.setVisible(Gerrit.isSignedIn());
+  }
+
+  @UiHandler("openForm")
+  void onOpenForm(@SuppressWarnings("unused") ClickEvent e) {
+    onOpenForm();
   }
 
   void onOpenForm() {
     UIObject.setVisible(form, true);
     UIObject.setVisible(error, false);
-    addReviewerIcon.setVisible(false);
+    openForm.setVisible(false);
     suggestBox.setFocus(true);
   }
 
@@ -136,7 +131,7 @@ public class Reviewers extends Composite {
 
   @UiHandler("cancel")
   void onCancel(@SuppressWarnings("unused") ClickEvent e) {
-    addReviewerIcon.setVisible(true);
+    openForm.setVisible(true);
     UIObject.setVisible(form, false);
     suggestBox.setFocus(false);
   }

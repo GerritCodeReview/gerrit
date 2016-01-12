@@ -19,9 +19,26 @@ limitations under the License.
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:u='urn:import:com.google.gerrit.client.ui'>
-  <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style gss='false'>
+    button.openAdd {
+      margin: 3px 3px 0 0;
+      float: right;
+      color: rgba(0, 0, 0, 0.15);
+      background-color: #f5f5f5;
+      background-image: none;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      box-sizing: content-box;
+    }
+    button.openAdd div {
+      width: auto;
+      color: #444;
+    }
+
     .suggestBox {
       margin-bottom: 2px;
     }
@@ -31,7 +48,6 @@ limitations under the License.
       font-weight: bold;
     }
 
-    .addReviewer,
     .cancel {
       cursor: pointer;
       float: right;
@@ -40,10 +56,14 @@ limitations under the License.
   <g:HTMLPanel>
     <div>
       <span ui:field='reviewersText'/>
-      <g:Image ui:field='addReviewerIcon'
-          resource='{ico.addUser}'
-          styleName='{style.addReviewer}'
-          title='Add Reviewer'/>
+      <g:Button ui:field='openForm'
+         title='Add reviewers to this change'
+         styleName='{res.style.button}'
+         addStyleNames='{style.openAdd}'
+         visible='false'>
+       <ui:attribute name='title'/>
+       <div><ui:msg>Add&#8230;</ui:msg></div>
+      </g:Button>
     </div>
     <div ui:field='form' style='display: none' aria-hidden='true'>
       <u:RemoteSuggestBox ui:field='suggestBox' styleName='{style.suggestBox}'/>

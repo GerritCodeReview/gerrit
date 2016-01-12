@@ -27,9 +27,6 @@ public interface Resources extends ClientBundle {
   @Source("tag_blue_add.png")
   ImageResource addHashtag();
 
-  @Source("user_add.png")
-  ImageResource addUser();
-
   // derived from resultset_next.png
   @Source("resultset_down_gray.png")
   ImageResource arrowDown();

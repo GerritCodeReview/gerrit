@@ -172,12 +172,15 @@ limitations under the License.
 
         switch(e.keyCode) {
           case 219:  // '['
+            e.preventDefault();
             this._navToFile(this._fileList, -1);
             break;
           case 221:  // ']'
+            e.preventDefault();
             this._navToFile(this._fileList, 1);
             break;
           case 85:  // 'u'
+            e.preventDefault();
             if (this._changeNum) {
               page.show(this._computeChangePath(this._changeNum));
             }

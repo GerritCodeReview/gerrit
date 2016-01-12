@@ -24,11 +24,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -164,11 +166,20 @@ public class BatchUpdate implements AutoCloseable {
 
     private ChangeContext(ChangeControl ctl) {
       this.ctl = ctl;
-      this.update = changeUpdateFactory.create(ctl, when);
+      this.update = newChangeUpdate();
     }
 
     public ChangeUpdate getChangeUpdate() {
       return update;
+    }
+
+    public ChangeUpdate newChangeUpdate() {
+      return changeUpdateFactory.create(ctl, when);
+    }
+
+    public ChangeUpdate newChangeUpdate(Account.Id accountId) {
+      return changeUpdateFactory.create(
+          ctl.forUser(userFactory.create(accountId)));
     }
 
     public ChangeNotes getChangeNotes() {
@@ -337,6 +348,7 @@ public class BatchUpdate implements AutoCloseable {
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
   private final ChangeIndexer indexer;
+  private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final GitReferenceUpdated gitRefUpdated;
@@ -363,6 +375,7 @@ public class BatchUpdate implements AutoCloseable {
   BatchUpdate(GitRepositoryManager repoManager,
       ChangeIndexer indexer,
       ChangeControl.GenericFactory changeControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
       ChangeUpdate.Factory changeUpdateFactory,
       GitReferenceUpdated gitRefUpdated,
       @GerritPersonIdent PersonIdent serverIdent,
@@ -374,6 +387,7 @@ public class BatchUpdate implements AutoCloseable {
     this.repoManager = repoManager;
     this.indexer = indexer;
     this.changeControlFactory = changeControlFactory;
+    this.userFactory = userFactory;
     this.changeUpdateFactory = changeUpdateFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.project = project;

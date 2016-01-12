@@ -154,6 +154,12 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     patchSetInserter.postUpdate(ctx);
   }
 
+  public RevCommit getRebasedCommit() {
+    checkState(rebasedCommit != null,
+        "getRebasedCommit() only valid after updateRepo");
+    return rebasedCommit;
+  }
+
   public PatchSet getPatchSet() {
     checkState(rebasedPatchSet != null,
         "getPatchSet() only valid after executing update");

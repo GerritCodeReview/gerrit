@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27157e84_0443569b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-01-12T08:13:01Z",
+      "side": 1,
+      "message": "Hmm. The fact you\u0027re using the full version of addPatchSets() here which also takes approvals, includeFiles and change arguments makes me think whether I should have used the version that takes all arguments in stable-2.11, too. Any opinion on that?",
+      "revId": "e8c9689a25787719ed1845053ef92bb6dd690971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

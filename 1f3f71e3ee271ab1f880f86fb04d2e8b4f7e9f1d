@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "67e056e1_9e04dd60",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-12T20:11:06Z",
+      "side": 1,
+      "message": "What are you getting out of having it be inline-flex?",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e056e1_fefb218f",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-12T20:11:06Z",
+      "side": 1,
+      "message": "In gr-message you hide the gr-avatar based on logic outside this element. I would do the same for gr-account-link. It seems weird to have the image hide itself depending on a global config. I’d rather have the config passed through to the enclosing element and then hide it there.",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e056e1_be01994f",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-12T20:11:06Z",
+      "side": 1,
+      "message": "instead of having it be an img tag, why not have an inline-block with the background set?",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87a70abf_afd3192f",
         "filename": "polygerrit-ui/app/elements/gr-avatar.html",
         "patchSetId": 1
@@ -19,6 +70,24 @@
         "endLine": 61,
         "endChar": 41
       },
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e056e1_defe6582",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-12T20:11:06Z",
+      "side": 1,
+      "message": "Could you explain this a bit more?",
+      "parentUuid": "87a70abf_afd3192f",
       "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

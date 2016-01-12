@@ -165,5 +165,5 @@ def vulcanize(
       '--js', '%s.js' % name,
       '&&', 'zip', '$OUT', '%s.html' % name, '%s.js' % name,
     ]),
-    out = '%s.vulcanized.zip',
+    out = '%s.vulcanized.zip' % name,
   )

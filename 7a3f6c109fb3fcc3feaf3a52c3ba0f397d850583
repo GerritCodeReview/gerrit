@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e056e1_5e0b3570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T19:06:38Z",
+      "side": 1,
+      "message": "Bad rebase.",
+      "revId": "7a3f6c109fb3fcc3feaf3a52c3ba0f397d850583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

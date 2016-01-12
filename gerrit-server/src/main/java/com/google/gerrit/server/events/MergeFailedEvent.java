@@ -15,13 +15,15 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class MergeFailedEvent extends PatchSetEvent {
+  static final String TYPE = "merge-failed";
   public Supplier<AccountAttribute> submitter;
   public String reason;
 
-  public MergeFailedEvent() {
-    super("merge-failed");
+  public MergeFailedEvent(Change change) {
+    super(TYPE, change);
   }
 }

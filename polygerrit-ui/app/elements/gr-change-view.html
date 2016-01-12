@@ -445,12 +445,14 @@ limitations under the License.
 
       _handleKey: function(e) {
         if (util.shouldSupressKeyboardShortcut(e)) { return; }
-        e.preventDefault();
+
         switch(e.keyCode) {
           case 65:  // 'a'
+            e.preventDefault();
             this.$.replyDropdown.open();
             break;
           case 85:  // 'u'
+            e.preventDefault();
             page.show('/');
             break;
         }

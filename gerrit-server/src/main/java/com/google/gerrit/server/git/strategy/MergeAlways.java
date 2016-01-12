@@ -14,16 +14,10 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import static com.google.gerrit.server.git.strategy.MarkCleanMergesOp.anyChangeId;
-
-import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.git.MergeTip;
-import com.google.gerrit.server.git.UpdateException;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,33 +27,22 @@ public class MergeAlways extends SubmitStrategy {
   }
 
   @Override
-  public MergeTip run(CodeReviewCommit branchTip,
+  public List<SubmitStrategyOp> buildOps(
       Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     List<CodeReviewCommit> sorted =
         args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
-    MergeTip mergeTip = new MergeTip(branchTip, toMerge);
-    try (BatchUpdate u = args.newBatchUpdate(TimeUtil.nowTs())) {
-      if (branchTip == null) {
-        // The branch is unborn. Take a fast-forward resolution to
-        // create the branch.
-        CodeReviewCommit first = sorted.remove(0);
-        u.addOp(first.change().getId(), new FastForwardOp(mergeTip, first));
-      }
-      while (!sorted.isEmpty()) {
-        CodeReviewCommit n = sorted.remove(0);
-        u.addOp(n.change().getId(), new MergeOneOp(args, mergeTip, n));
-      }
-      u.addOp(anyChangeId(toMerge), new MarkCleanMergesOp(args, mergeTip));
-
-      u.execute();
-    } catch (RestApiException | UpdateException e) {
-      if (e.getCause() instanceof IntegrationException) {
-        throw new IntegrationException(e.getCause().getMessage(), e);
-      }
-      throw new IntegrationException(
-          "Cannot merge into " + args.destBranch);
+    List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
+    if (args.mergeTip.getInitialTip() == null) {
+      // The branch is unborn. Take a fast-forward resolution to
+      // create the branch.
+      CodeReviewCommit first = sorted.remove(0);
+      ops.add(new FastForwardOp(args, first));
     }
-    return mergeTip;
+    while (!sorted.isEmpty()) {
+      CodeReviewCommit n = sorted.remove(0);
+      ops.add(new MergeOneOp(args, n));
+    }
+    return ops;
   }
 
   static boolean dryRun(SubmitDryRun.Arguments args,

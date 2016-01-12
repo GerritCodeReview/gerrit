@@ -15,16 +15,13 @@
 package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -32,7 +29,6 @@ import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
-import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
@@ -41,6 +37,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -52,86 +49,65 @@ public class CherryPick extends SubmitStrategy {
   }
 
   @Override
-  public MergeTip run(CodeReviewCommit branchTip,
-      Collection<CodeReviewCommit> toMerge) throws IntegrationException {
-    MergeTip mergeTip = new MergeTip(branchTip, toMerge);
+  public List<SubmitStrategyOp> buildOps(
+      Collection<CodeReviewCommit> toMerge) {
     List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
+    List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     boolean first = true;
-    try (BatchUpdate u = args.newBatchUpdate(TimeUtil.nowTs())) {
-      while (!sorted.isEmpty()) {
-        CodeReviewCommit n = sorted.remove(0);
-        Change.Id cid = n.change().getId();
-        if (first && branchTip == null) {
-          u.addOp(cid, new CherryPickUnbornRootOp(mergeTip, n));
-        } else if (n.getParentCount() == 0) {
-          u.addOp(cid, new CherryPickRootOp(n));
-        } else if (n.getParentCount() == 1) {
-          u.addOp(cid, new CherryPickOneOp(mergeTip, n));
-        } else {
-          u.addOp(cid, new CherryPickMultipleParentsOp(mergeTip, n));
-        }
-        first = false;
+    while (!sorted.isEmpty()) {
+      CodeReviewCommit n = sorted.remove(0);
+      if (first && args.mergeTip.getInitialTip() == null) {
+        ops.add(new CherryPickUnbornRootOp(n));
+      } else if (n.getParentCount() == 0) {
+        ops.add(new CherryPickRootOp(n));
+      } else if (n.getParentCount() == 1) {
+        ops.add(new CherryPickOneOp(n));
+      } else {
+        ops.add(new CherryPickMultipleParentsOp(n));
       }
-      u.execute();
-    } catch (UpdateException | RestApiException e) {
-      throw new IntegrationException(
-          "Cannot cherry-pick onto " + args.destBranch);
+      first = false;
     }
-    // TODO(dborowitz): When BatchUpdate is hoisted out of CherryPick,
-    // SubmitStrategy should probably no longer return MergeTip, instead just
-    // mutating a single shared MergeTip passed in from the caller.
-    return mergeTip;
+    return ops;
   }
 
-  private static class CherryPickUnbornRootOp extends BatchUpdate.Op {
-    private final MergeTip mergeTip;
-    private final CodeReviewCommit toMerge;
-
-    private CherryPickUnbornRootOp(MergeTip mergeTip,
-        CodeReviewCommit toMerge) {
-      this.mergeTip = mergeTip;
-      this.toMerge = toMerge;
+  private class CherryPickUnbornRootOp extends SubmitStrategyOp {
+    private CherryPickUnbornRootOp(CodeReviewCommit toMerge) {
+      super(CherryPick.this.args, toMerge);
     }
 
     @Override
-    public void updateRepo(RepoContext ctx) {
+    protected void updateRepoImpl(RepoContext ctx) {
       // The branch is unborn. Take fast-forward resolution to create the
       // branch.
-      mergeTip.moveTipTo(toMerge, toMerge);
+      args.mergeTip.moveTipTo(toMerge, toMerge);
       toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
     }
   }
 
-  private static class CherryPickRootOp extends BatchUpdate.Op {
-    private final CodeReviewCommit toMerge;
-
+  private class CherryPickRootOp extends SubmitStrategyOp {
     private CherryPickRootOp(CodeReviewCommit toMerge) {
-      this.toMerge = toMerge;
+      super(CherryPick.this.args, toMerge);
     }
 
     @Override
-    public void updateRepo(RepoContext ctx) {
+    public void updateRepoImpl(RepoContext ctx) {
       // Refuse to merge a root commit into an existing branch, we cannot obtain
       // a delta for the cherry-pick to apply.
       toMerge.setStatusCode(CommitMergeStatus.CANNOT_CHERRY_PICK_ROOT);
     }
   }
 
-  private class CherryPickOneOp extends BatchUpdate.Op {
-    private final MergeTip mergeTip;
-    private final CodeReviewCommit toMerge;
-
+  private class CherryPickOneOp extends SubmitStrategyOp {
     private PatchSet.Id psId;
     private CodeReviewCommit newCommit;
     private PatchSetInfo patchSetInfo;
 
-    private CherryPickOneOp(MergeTip mergeTip, CodeReviewCommit n) {
-      this.mergeTip = mergeTip;
-      this.toMerge = n;
+    private CherryPickOneOp(CodeReviewCommit toMerge) {
+      super(CherryPick.this.args, toMerge);
     }
 
     @Override
-    public void updateRepo(RepoContext ctx) throws IOException {
+    protected void updateRepoImpl(RepoContext ctx) throws IOException {
       // If there is only one parent, a cherry-pick can be done by taking the
       // delta relative to that one parent and redoing that on the current merge
       // tip.
@@ -145,23 +121,32 @@ public class CherryPick extends SubmitStrategy {
           ctx.getWhen(), args.serverIdent.getTimeZone());
       try {
         newCommit = args.mergeUtil.createCherryPickFromCommit(
-            args.repo, args.inserter, mergeTip.getCurrentTip(), toMerge,
+            args.repo, args.inserter, args.mergeTip.getCurrentTip(), toMerge,
             committer, cherryPickCmtMsg, args.rw);
-        ctx.addRefUpdate(
-            new ReceiveCommand(ObjectId.zeroId(), newCommit, psId.toRefName()));
-        patchSetInfo =
-            args.patchSetInfoFactory.get(ctx.getRevWalk(), newCommit, psId);
       } catch (MergeConflictException mce) {
         // Keep going in the case of a single merge failure; the goal is to
         // cherry-pick as many commits as possible.
         toMerge.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
+        return;
       } catch (MergeIdenticalTreeException mie) {
         toMerge.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
+        return;
       }
+      // Initial copy doesn't have new patch set ID since change hasn't been
+      // updated yet.
+      newCommit.copyFrom(toMerge);
+      newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
+      args.mergeTip.moveTipTo(newCommit, newCommit);
+      args.commits.put(newCommit);
+
+      ctx.addRefUpdate(
+          new ReceiveCommand(ObjectId.zeroId(), newCommit, psId.toRefName()));
+      patchSetInfo =
+          args.patchSetInfoFactory.get(ctx.getRevWalk(), newCommit, psId);
     }
 
     @Override
-    public void updateChange(ChangeContext ctx) throws OrmException,
+    public void updateChangeImpl(ChangeContext ctx) throws OrmException,
          NoSuchChangeException {
       if (newCommit == null) {
         // Merge conflict; don't update change.
@@ -172,41 +157,33 @@ public class CherryPick extends SubmitStrategy {
       ps.setUploader(args.caller.getAccountId());
       ps.setRevision(new RevId(newCommit.getId().getName()));
 
-      Change c = toMerge.change();
+      Change c = ctx.getChange();
       ps.setGroups(GroupCollector.getCurrentGroups(args.db, c));
       args.db.patchSets().insert(Collections.singleton(ps));
       c.setCurrentPatchSet(patchSetInfo);
       args.db.changes().update(Collections.singletonList(c));
 
       List<PatchSetApproval> approvals = Lists.newArrayList();
+      // Copy approvals from original patch set.
       for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
-          args.db, toMerge.getControl(), toMerge.getPatchsetId())) {
+          args.db, ctx.getControl(), toMerge.getPatchsetId())) {
         approvals.add(new PatchSetApproval(ps.getId(), a));
         ctx.getUpdate(psId).putApproval(a.getLabel(), a.getValue());
       }
       args.db.patchSetApprovals().insert(approvals);
 
-      newCommit.copyFrom(toMerge);
-      newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
-      newCommit.setControl(
-          args.changeControlFactory.controlFor(toMerge.change(), args.caller));
-      mergeTip.moveTipTo(newCommit, newCommit);
-      args.commits.put(newCommit);
+      newCommit.setControl(ctx.getControl());
+      newCommit.setPatchsetId(c.currentPatchSetId());
     }
   }
 
-  private class CherryPickMultipleParentsOp extends BatchUpdate.Op {
-    private final MergeTip mergeTip;
-    private final CodeReviewCommit toMerge;
-
-    private CherryPickMultipleParentsOp(MergeTip mergeTip,
-        CodeReviewCommit toMerge) {
-      this.mergeTip = mergeTip;
-      this.toMerge = toMerge;
+  private class CherryPickMultipleParentsOp extends SubmitStrategyOp {
+    private CherryPickMultipleParentsOp(CodeReviewCommit toMerge) {
+      super(CherryPick.this.args, toMerge);
     }
 
     @Override
-    public void updateRepo(RepoContext ctx)
+    public void updateRepoImpl(RepoContext ctx)
         throws IntegrationException, IOException {
       if (args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)) {
         // One or more dependencies were not met. The status was already marked
@@ -218,6 +195,7 @@ public class CherryPick extends SubmitStrategy {
       // with that merge present and replaced by an equivalent merge with a
       // different first parent. So instead behave as though MERGE_IF_NECESSARY
       // was configured.
+      MergeTip mergeTip = args.mergeTip;
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)) {
         mergeTip.moveTipTo(toMerge, toMerge);
       } else {

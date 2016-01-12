@@ -14,16 +14,10 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import static com.google.gerrit.server.git.strategy.MarkCleanMergesOp.anyChangeId;
-
-import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.git.MergeTip;
-import com.google.gerrit.server.git.UpdateException;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,42 +27,28 @@ public class MergeIfNecessary extends SubmitStrategy {
   }
 
   @Override
-  public MergeTip run(CodeReviewCommit branchTip,
+  public List<SubmitStrategyOp> buildOps(
       Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     List<CodeReviewCommit> sorted =
         args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
-    MergeTip mergeTip = new MergeTip(branchTip, toMerge);
-    try (BatchUpdate u = args.newBatchUpdate(TimeUtil.nowTs())) {
-      // Start with the first fast-forward. This may create the branch if it did
-      // not exist.
-      CodeReviewCommit firstFastForward;
-      if (branchTip == null) {
-        firstFastForward = sorted.remove(0);
-      } else {
-        firstFastForward =
-            args.mergeUtil.getFirstFastForward(branchTip, args.rw, sorted);
-      }
-      if (!firstFastForward.equals(branchTip)) {
-        u.addOp(firstFastForward.change().getId(),
-            new FastForwardOp(mergeTip, firstFastForward));
-      }
-
-      // For every other commit do a pair-wise merge.
-      while (!sorted.isEmpty()) {
-        CodeReviewCommit n = sorted.remove(0);
-        u.addOp(n.change().getId(), new MergeOneOp(args, mergeTip, n));
-      }
-      u.addOp(anyChangeId(toMerge), new MarkCleanMergesOp(args, mergeTip));
-
-      u.execute();
-    } catch (RestApiException | UpdateException e) {
-      if (e.getCause() instanceof IntegrationException) {
-        throw new IntegrationException(e.getCause().getMessage(), e);
-      }
-      throw new IntegrationException(
-          "Cannot merge into " + args.destBranch);
+    List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
+    CodeReviewCommit firstFastForward;
+    if (args.mergeTip.getInitialTip() == null) {
+      firstFastForward = sorted.remove(0);
+    } else {
+      firstFastForward = args.mergeUtil.getFirstFastForward(
+          args.mergeTip.getInitialTip(), args.rw, sorted);
     }
-    return mergeTip;
+    if (!firstFastForward.equals(args.mergeTip.getInitialTip())) {
+      ops.add(new FastForwardOp(args, firstFastForward));
+    }
+
+    // For every other commit do a pair-wise merge.
+    while (!sorted.isEmpty()) {
+      CodeReviewCommit n = sorted.remove(0);
+      ops.add(new MergeOneOp(args, n));
+    }
+    return ops;
   }
 
   static boolean dryRun(SubmitDryRun.Arguments args,

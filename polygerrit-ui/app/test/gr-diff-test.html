@@ -29,7 +29,7 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <gr-diff auto></gr-diff>
+    <gr-diff></gr-diff>
   </template>
 </test-fixture>
 
@@ -211,6 +211,7 @@ limitations under the License.
         patchNum: 1,
       };
 
+      element.reload();
       server.respond();
 
       element._diffRequestsPromise.then(function() {
@@ -228,6 +229,7 @@ limitations under the License.
         patchNum: 2,
       };
 
+      element.reload();
       server.respond();
 
       element._diffRequestsPromise.then(function() {
@@ -247,6 +249,7 @@ limitations under the License.
         patchNum: 2,
       };
 
+      element.reload();
       server.respond();
 
       // Allow events to fire and the threads to render.

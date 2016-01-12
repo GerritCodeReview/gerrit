@@ -56,8 +56,8 @@ limitations under the License.
         params="[[_computeQueryParams(query, offset)]]"
         last-response="{{_changes}}"
         loading="{{_loading}}"></gr-ajax>
-    <div class="loading" hidden$="{{!_loading}}">Loading...</div>
-    <div hidden$="{{_loading}}">
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden$="[[_loading]]" hidden>
       <gr-change-list changes="{{_changes}}"></gr-change-list>
       <nav>
         <a href$="[[_computeNavLink(query, offset, -1)]]"

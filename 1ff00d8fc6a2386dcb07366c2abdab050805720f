@@ -23,6 +23,30 @@
       "revId": "1ff00d8fc6a2386dcb07366c2abdab050805720f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47db5239_bdd8bf43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T18:07:02Z",
+      "side": 1,
+      "message": "No, that\u0027s the whole point.\n\nIf old is A-\u003eB and cmd is B-\u003eC, then the thing we want to have in the command map after add(cmd) is A-\u003eC, i.e. old.getOldId()-\u003ecmd.getNewId().",
+      "parentUuid": "a7a40ebb_f0cd0088",
+      "range": {
+        "startLine": 230,
+        "startChar": 10,
+        "endLine": 230,
+        "endChar": 24
+      },
+      "revId": "1ff00d8fc6a2386dcb07366c2abdab050805720f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

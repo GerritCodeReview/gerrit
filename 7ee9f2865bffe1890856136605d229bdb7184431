@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e056e1_5e4895b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-12T20:18:54Z",
+      "side": 1,
+      "message": "Can you generalize to a single element that encompasses a group of actions instead of duplicating the code into two different elements? This way we could either pass in a single set of both revision and patch actions or have two different sections for revision and patch-level actions.",
+      "revId": "7ee9f2865bffe1890856136605d229bdb7184431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e056e1_7e4d51c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-12T20:18:54Z",
+      "side": 1,
+      "message": "I’d like to have one primary action called out with the rest deemphasized. Having a string of blue buttons is too distracting.",
+      "revId": "7ee9f2865bffe1890856136605d229bdb7184431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47db5239_bd019f4f",
+        "filename": "polygerrit-ui/app/elements/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-12T20:18:54Z",
+      "side": 1,
+      "message": "merge these:\n\ngr-change-actions,\ngr-revision-actions {\n  margin-top: 1em;\n}",
+      "revId": "7ee9f2865bffe1890856136605d229bdb7184431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

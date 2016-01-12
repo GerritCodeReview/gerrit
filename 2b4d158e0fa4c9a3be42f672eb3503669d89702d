@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e79a8677_b2d3802f",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-12T18:48:58Z",
+      "side": 0,
+      "message": "Looks like you have fixed an issue right in this change. Dave, thanks for rebasing.",
+      "range": {
+        "startLine": 60,
+        "startChar": 32,
+        "endLine": 60,
+        "endChar": 38
+      },
+      "revId": "2b4d158e0fa4c9a3be42f672eb3503669d89702d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

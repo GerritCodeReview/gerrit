@@ -292,7 +292,10 @@ limitations under the License.
         _headerContainerEl: Object,
         _headerEl: Object,
         _projectConfig: Object,
-        _scrollHandler: Function,
+        _boundScrollHandler: {
+          type: Function,
+          value: function() { return this._handleBodyScroll.bind(this); },
+        },
         _boundKeyHandler: {
           type: Function,
           value: function() { return this._handleKey.bind(this); },
@@ -303,16 +306,15 @@ limitations under the License.
         app.accountReady.then(function() {
           this._loggedIn = app.loggedIn;
         }.bind(this));
-        this._scrollHandler = this._handleBodyScroll.bind(this);
       },
 
       attached: function() {
-        window.addEventListener('scroll', this._scrollHandler);
+        window.addEventListener('scroll', this._boundScrollHandler);
         document.body.addEventListener('keydown', this._boundKeyHandler);
       },
 
       detached: function() {
-        window.removeEventListener('scroll', this._scrollHandler);
+        window.removeEventListener('scroll', this._boundScrollHandler);
         document.body.removeEventListener('keydown', this._boundKeyHandler);
       },
 
@@ -333,6 +335,12 @@ limitations under the License.
         var el = this._headerEl || this.$$('.header');
         this._headerEl = el;
         el.classList.toggle('pinned', window.scrollY >= top);
+      },
+
+      _resetHeaderEl: function() {
+        var el = this._headerEl || this.$$('.header');
+        this._headerEl = el;
+        el.classList.remove('pinned');
       },
 
       _handlePatchChange: function(e) {
@@ -445,12 +453,14 @@ limitations under the License.
 
       _handleKey: function(e) {
         if (util.shouldSupressKeyboardShortcut(e)) { return; }
-        e.preventDefault();
+
         switch(e.keyCode) {
           case 65:  // 'a'
+            e.preventDefault();
             this.$.replyDropdown.open();
             break;
           case 85:  // 'u'
+            e.preventDefault();
             page.show('/');
             break;
         }
@@ -471,6 +481,7 @@ limitations under the License.
           // The patch number is reliant on the change detail request.
           detailCompletes.then(reloadPatchNumDependentResources);
         }
+        this._resetHeaderEl();
       },
 
     });

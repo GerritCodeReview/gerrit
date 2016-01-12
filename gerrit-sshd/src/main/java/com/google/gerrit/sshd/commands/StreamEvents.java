@@ -80,15 +80,14 @@ final class StreamEvents extends BaseCommand {
 
   /** Special event to notify clients they missed other events. */
   private static final class DroppedOutputEvent extends Event {
+    private final static String TYPE = "dropped-output";
     public DroppedOutputEvent() {
-      super("dropped-output");
+      super(TYPE);
     }
   }
 
-  private static final DroppedOutputEvent droppedOutputEvent = new DroppedOutputEvent();
-
   static {
-    EventTypes.registerClass(droppedOutputEvent);
+    EventTypes.register(DroppedOutputEvent.TYPE, DroppedOutputEvent.class);
   }
 
   private final EventListener listener = new EventListener() {
@@ -118,7 +117,7 @@ final class StreamEvents extends BaseCommand {
     }
   };
 
-  /** True if {@link #droppedOutputEvent} needs to be sent. */
+  /** True if {@link DroppedOutputEvent} needs to be sent. */
   private volatile boolean dropped;
 
   /** Lock to protect {@link #queue}, {@link #task}, {@link #done}. */
@@ -229,7 +228,7 @@ final class StreamEvents extends BaseCommand {
       }
 
       if (dropped) {
-        write(droppedOutputEvent);
+        write(new DroppedOutputEvent());
         dropped = false;
       }
 

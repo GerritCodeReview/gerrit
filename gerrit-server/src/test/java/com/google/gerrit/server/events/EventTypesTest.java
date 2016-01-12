@@ -20,12 +20,14 @@ import org.junit.Test;
 
 public class EventTypesTest {
   public static class TestEvent extends Event {
+    private static final String TYPE = "test-event";
     public TestEvent() {
-      super("test-event");
+      super(TYPE);
     }
   }
 
   public static class AnotherTestEvent extends Event {
+    private static final String TYPE = "another-test-event";
     public AnotherTestEvent() {
       super("another-test-event");
     }
@@ -33,10 +35,10 @@ public class EventTypesTest {
 
   @Test
   public void testEventTypeRegistration() {
-    EventTypes.registerClass(new TestEvent());
-    EventTypes.registerClass(new AnotherTestEvent());
-    assertThat(EventTypes.getClass("test-event")).isEqualTo(TestEvent.class);
-    assertThat(EventTypes.getClass("another-test-event"))
+    EventTypes.register(TestEvent.TYPE, TestEvent.class);
+    EventTypes.register(AnotherTestEvent.TYPE, AnotherTestEvent.class);
+    assertThat(EventTypes.getClass(TestEvent.TYPE)).isEqualTo(TestEvent.class);
+    assertThat(EventTypes.getClass(AnotherTestEvent.TYPE))
       .isEqualTo(AnotherTestEvent.class);
   }
 

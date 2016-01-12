@@ -17,11 +17,12 @@ package com.google.gerrit.server.events;
 import com.google.gerrit.reviewdb.client.Project;
 
 public class ProjectCreatedEvent extends ProjectEvent {
+  static final String TYPE = "project-created";
   public String projectName;
   public String headName;
 
   public ProjectCreatedEvent() {
-    super("project-created");
+    super(TYPE);
   }
 
   @Override

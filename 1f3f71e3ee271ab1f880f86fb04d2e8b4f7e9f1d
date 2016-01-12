@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e79a8677_32edd0e1",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-12T20:32:55Z",
+      "side": 1,
+      "message": "It does not resize to outer element size when using \u0027inline\u0027 (since we are using avatar image sizes bigger than the resulting img-element). I have tried a lot of things here, but is the only solution I have found.",
+      "parentUuid": "67e056e1_9e04dd60",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67e056e1_fefb218f",
         "filename": "polygerrit-ui/app/elements/gr-avatar.html",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e79a8677_52f254c4",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-12T20:32:55Z",
+      "side": 1,
+      "message": "In \u0027gr-message\u0027 I need to hide it for one some special case (when server supports avatars, but no account is attached to message (which is the case for change submit/merge messages)).\n\nI think it\u0027s quite handy when you can place an avatar at any place and you do not need to care if server supports avatars. I see a lot more places where we can display avatars (e.g. account-dropdown top-right and add-reviewer-dropdown in change-view).",
+      "parentUuid": "67e056e1_fefb218f",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67e056e1_be01994f",
         "filename": "polygerrit-ui/app/elements/gr-avatar.html",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-01-12T20:11:06Z",
       "side": 1,
       "message": "instead of having it be an img tag, why not have an inline-block with the background set?",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87a70abf_0f1185a4",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-12T20:32:55Z",
+      "side": 1,
+      "message": "See comment above. It\u0027s because we use larger images than img-elements. I think this is a good practice for nicer display on HiDPI displays (thought I have not done this initially - it was there before my refactoring).",
+      "parentUuid": "67e056e1_be01994f",
       "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
       "side": 1,
       "message": "Could you explain this a bit more?",
       "parentUuid": "87a70abf_afd3192f",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e79a8677_72f758b3",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-12T20:32:55Z",
+      "side": 1,
+      "message": "See \u003c\u0027template is\u003d\"dom-if\" if\u003d\"[[showAvatar]]\"\u003e above. There I cannot write \u0027...if\u003d\"[[hidden]]\"...\u0027.",
+      "parentUuid": "67e056e1_defe6582",
       "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

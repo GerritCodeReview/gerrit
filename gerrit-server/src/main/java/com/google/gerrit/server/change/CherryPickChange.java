@@ -132,7 +132,12 @@ public class CherryPickChange {
     String destinationBranch = RefNames.shortName(ref);
     IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
-        CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(git)) {
+        // This inserter and revwalk *must* be passed to any BatchUpdates
+        // created later on, to ensure the cherry-picked commit is flushed
+        // before patch sets are updated.
+        ObjectInserter oi = git.newObjectInserter();
+        CodeReviewRevWalk revWalk =
+          CodeReviewCommit.newRevWalk(oi.newReader())) {
       Ref destRef = git.getRefDatabase().exactRef(ref);
       if (destRef == null) {
         throw new InvalidChangeOperationException(String.format(
@@ -156,7 +161,7 @@ public class CherryPickChange {
           ChangeIdUtil.insertId(message, computedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
-      try (ObjectInserter oi = git.newObjectInserter()) {
+      try {
         ProjectState projectState = refControl.getProjectControl().getProjectState();
         cherryPickCommit =
             mergeUtilFactory.create(projectState).createCherryPickFromCommit(git, oi, mergeTip,

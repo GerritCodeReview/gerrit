@@ -77,6 +77,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -126,19 +127,21 @@ public class MergeOp implements AutoCloseable {
     ProjectState project;
     BatchUpdate update;
 
+    private final ObjectReader reader;
     private final Map<Branch.NameKey, OpenBranch> branches;
 
     OpenRepo(Repository repo, ProjectState project) {
       this.repo = repo;
       this.project = project;
-      rw = CodeReviewCommit.newRevWalk(repo);
+      ins = repo.newObjectInserter();
+      reader = ins.newReader();
+      rw = CodeReviewCommit.newRevWalk(reader);
       rw.sort(RevSort.TOPO);
       rw.sort(RevSort.COMMIT_TIME_DESC, true);
       rw.setRetainBody(false);
       canMergeFlag = rw.newFlag("CAN_MERGE");
       rw.retainOnReset(canMergeFlag);
 
-      ins = repo.newObjectInserter();
       branches = Maps.newHashMapWithExpectedSize(1);
     }
 
@@ -167,8 +170,9 @@ public class MergeOp implements AutoCloseable {
       if (update != null) {
         update.close();
       }
-      ins.close();
       rw.close();
+      reader.close();
+      ins.close();
       repo.close();
     }
   }

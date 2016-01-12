@@ -48,12 +48,10 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.ChangeModifiedException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -213,8 +211,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getChangeUpdate();
 
-    Change.Id id = change.getId();
-    final PatchSet.Id currentPatchSetId = change.currentPatchSetId();
     if (!change.getStatus().isOpen() && !allowClosed) {
       throw new InvalidChangeOperationException(String.format(
           "Change %s is closed", change.getId()));
@@ -247,30 +243,12 @@ public class PatchSetInserter extends BatchUpdate.Op {
     }
 
     patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
-    // TODO(dborowitz): Throw ResourceConflictException instead of using
-    // AtomicUpdate.
-    change = db.changes().atomicUpdate(id, new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        if (change.getStatus().isClosed() && !allowClosed) {
-          return null;
-        }
-        if (!change.currentPatchSetId().equals(currentPatchSetId)) {
-          return null;
-        }
-        if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
-          change.setStatus(Change.Status.NEW);
-        }
-        change.setCurrentPatchSet(patchSetInfo);
-        ChangeUtil.updated(change);
-        return change;
-      }
-    });
-    if (change == null) {
-      throw new ChangeModifiedException(String.format(
-          "Change %s was modified", id));
+    if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
+      change.setStatus(Change.Status.NEW);
     }
-
+    change.setCurrentPatchSet(patchSetInfo);
+    ChangeUtil.updated(change);
+    db.changes().update(Collections.singleton(change));
     approvalCopier.copy(db, ctl, patchSet);
     if (changeMessage != null) {
       cmUtil.addChangeMessage(db, ctx.getChangeUpdate(), changeMessage);

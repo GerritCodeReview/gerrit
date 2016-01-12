@@ -16,6 +16,24 @@
       "revId": "199158f21403d6bce319879986c95e528077f3a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7216ee4_88aab78b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-12T01:17:53Z",
+      "side": 0,
+      "message": "I\u0027m not sure if you\u0027re pointing out a problem or not.  As far as I can see, this block doesn\u0027t exist on master.  There\u0027s only one call to setCommitterIdent, and it\u0027s at line 167 on the right.",
+      "parentUuid": "eaaecbf8_b25de032",
+      "revId": "199158f21403d6bce319879986c95e528077f3a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

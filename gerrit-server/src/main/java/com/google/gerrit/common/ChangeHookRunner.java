@@ -394,7 +394,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doPatchsetCreatedHook(Change change,
         PatchSet patchSet, ReviewDb db) throws OrmException {
-      PatchSetCreatedEvent event = new PatchSetCreatedEvent();
+      PatchSetCreatedEvent event = new PatchSetCreatedEvent(change);
       Supplier<AccountState> uploader =
           getAccountSupplier(patchSet.getUploader());
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
@@ -431,7 +431,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doDraftPublishedHook(Change change, PatchSet patchSet,
           ReviewDb db) throws OrmException {
-      DraftPublishedEvent event = new DraftPublishedEvent();
+      DraftPublishedEvent event = new DraftPublishedEvent(change);
       Supplier<AccountState> uploader =
           getAccountSupplier(patchSet.getUploader());
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
@@ -467,7 +467,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doCommentAddedHook(final Change change, Account account,
           PatchSet patchSet, String comment, final Map<String, Short> approvals,
           ReviewDb db) throws OrmException {
-      CommentAddedEvent event = new CommentAddedEvent();
+      CommentAddedEvent event = new CommentAddedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
@@ -528,7 +528,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeMergedHook(Change change, Account account,
         PatchSet patchSet, ReviewDb db, String mergeResultRev)
         throws OrmException {
-      ChangeMergedEvent event = new ChangeMergedEvent();
+      ChangeMergedEvent event = new ChangeMergedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
@@ -563,7 +563,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doMergeFailedHook(Change change, Account account,
           PatchSet patchSet, String reason,
           ReviewDb db) throws OrmException {
-      MergeFailedEvent event = new MergeFailedEvent();
+      MergeFailedEvent event = new MergeFailedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
@@ -598,7 +598,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeAbandonedHook(Change change, Account account,
           PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
-      ChangeAbandonedEvent event = new ChangeAbandonedEvent();
+      ChangeAbandonedEvent event = new ChangeAbandonedEvent(change);
       AccountState owner = accountCache.get(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
@@ -633,7 +633,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeRestoredHook(Change change, Account account,
           PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
-      ChangeRestoredEvent event = new ChangeRestoredEvent();
+      ChangeRestoredEvent event = new ChangeRestoredEvent(change);
       AccountState owner = accountCache.get(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
@@ -709,7 +709,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doReviewerAddedHook(Change change, Account account,
         PatchSet patchSet, ReviewDb db) throws OrmException {
-      ReviewerAddedEvent event = new ReviewerAddedEvent();
+      ReviewerAddedEvent event = new ReviewerAddedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
@@ -739,7 +739,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doTopicChangedHook(Change change, Account account,
         String oldTopic, ReviewDb db)
             throws OrmException {
-      TopicChangedEvent event = new TopicChangedEvent();
+      TopicChangedEvent event = new TopicChangedEvent(change);
       AccountState owner = accountCache.get(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
@@ -778,7 +778,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doHashtagsChangedHook(Change change, Account account,
         Set<String> added, Set<String> removed, Set<String> hashtags, ReviewDb db)
             throws OrmException {
-      HashtagsChangedEvent event = new HashtagsChangedEvent();
+      HashtagsChangedEvent event = new HashtagsChangedEvent(change);
       AccountState owner = accountCache.get(change.getOwner());
 
       event.change = changeAttributeSupplier(change);

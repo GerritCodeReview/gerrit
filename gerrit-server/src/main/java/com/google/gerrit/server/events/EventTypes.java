@@ -22,30 +22,31 @@ public class EventTypes {
   private static final Map<String, Class<?>> typesByString = new HashMap<>();
 
   static {
-    registerClass(new ChangeAbandonedEvent());
-    registerClass(new ChangeMergedEvent());
-    registerClass(new ChangeRestoredEvent());
-    registerClass(new CommentAddedEvent());
-    registerClass(new CommitReceivedEvent());
-    registerClass(new DraftPublishedEvent());
-    registerClass(new HashtagsChangedEvent());
-    registerClass(new MergeFailedEvent());
-    registerClass(new RefUpdatedEvent());
-    registerClass(new RefReceivedEvent());
-    registerClass(new ReviewerAddedEvent());
-    registerClass(new PatchSetCreatedEvent());
-    registerClass(new TopicChangedEvent());
-    registerClass(new ProjectCreatedEvent());
+    register(ChangeAbandonedEvent.TYPE, ChangeAbandonedEvent.class);
+    register(ChangeMergedEvent.TYPE, ChangeMergedEvent.class);
+    register(ChangeRestoredEvent.TYPE, ChangeRestoredEvent.class);
+    register(CommentAddedEvent.TYPE, CommentAddedEvent.class);
+    register(CommitReceivedEvent.TYPE, CommitReceivedEvent.class);
+    register(DraftPublishedEvent.TYPE, DraftPublishedEvent.class);
+    register(HashtagsChangedEvent.TYPE, HashtagsChangedEvent.class);
+    register(MergeFailedEvent.TYPE, MergeFailedEvent.class);
+    register(RefUpdatedEvent.TYPE, RefUpdatedEvent.class);
+    register(RefReceivedEvent.TYPE, RefReceivedEvent.class);
+    register(ReviewerAddedEvent.TYPE, ReviewerAddedEvent.class);
+    register(PatchSetCreatedEvent.TYPE, PatchSetCreatedEvent.class);
+    register(TopicChangedEvent.TYPE, TopicChangedEvent.class);
+    register(ProjectCreatedEvent.TYPE, ProjectCreatedEvent.class);
   }
 
-  /** Register an event.
+  /**
+   * Register an event type and associated class.
    *
-   *  @param event The event to register.
-   *  registered.
+   * @param eventType The event type to register.
+   * @param eventClass The event class to register.
    **/
-  public static void registerClass(Event event) {
-    String type = event.getType();
-    typesByString.put(type, event.getClass());
+  public static void register(String eventType,
+      Class<? extends Event> eventClass) {
+    typesByString.put(eventType, eventClass);
   }
 
   /** Get the class for an event type.

@@ -21,6 +21,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class CommitReceivedEvent extends RefEvent {
+  static final String TYPE = "commit-received";
   public ReceiveCommand command;
   public Project project;
   public String refName;
@@ -28,7 +29,7 @@ public class CommitReceivedEvent extends RefEvent {
   public IdentifiedUser user;
 
   public CommitReceivedEvent() {
-    super("commit-received");
+    super(TYPE);
   }
 
   public CommitReceivedEvent(ReceiveCommand command, Project project,

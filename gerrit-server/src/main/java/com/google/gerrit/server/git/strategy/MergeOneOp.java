@@ -14,34 +14,25 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.git.MergeTip;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 
-class MergeOneOp extends BatchUpdate.Op {
-  private final SubmitStrategy.Arguments args;
-  private final MergeTip mergeTip;
-  private final CodeReviewCommit toMerge;
-
-  MergeOneOp(SubmitStrategy.Arguments args, MergeTip mergeTip,
-      CodeReviewCommit toMerge) {
-    this.args = args;
-    this.mergeTip = mergeTip;
-    this.toMerge = toMerge;
+class MergeOneOp extends SubmitStrategyOp {
+  MergeOneOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
+    super(args, toMerge);
   }
 
   @Override
-  public void updateRepo(RepoContext ctx)
+  public void updateRepoImpl(RepoContext ctx)
       throws IntegrationException, IOException {
     PersonIdent caller = ctx.getUser().asIdentifiedUser().newCommitterIdent(
         ctx.getWhen(), ctx.getTimeZone());
-    if (mergeTip.getCurrentTip() == null) {
+    if (args.mergeTip.getCurrentTip() == null) {
       throw new IllegalStateException("cannot merge commit " + toMerge.name()
           + " onto a null tip; expected at least one fast-forward prior to"
           + " this operation");
@@ -52,7 +43,7 @@ class MergeOneOp extends BatchUpdate.Op {
     CodeReviewCommit merged =
         args.mergeUtil.mergeOneCommit(caller, args.serverIdent,
             ctx.getRepository(), args.rw, ctx.getInserter(), args.canMergeFlag,
-            args.destBranch, mergeTip.getCurrentTip(), toMerge);
-    mergeTip.moveTipTo(merged, toMerge);
+            args.destBranch, args.mergeTip.getCurrentTip(), toMerge);
+    args.mergeTip.moveTipTo(merged, toMerge);
   }
 }

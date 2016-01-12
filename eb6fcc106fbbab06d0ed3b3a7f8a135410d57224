@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "87a70abf_cfe5bdf6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-12T20:16:56Z",
+      "side": 1,
+      "message": "\u003e Where this is less than optimal is if you\u0027re running form Eclipse, since you don\u0027t have to build polygerrit.war to launch gerrit-daemon.\n\nYes. You are right. I missed this or only thought about the documentation that mentioned `buck build polygerrit` prior to invoking polygerrit application in embedded Jetty and assumed that you are either working on new UI without eclipse or server code (with regular daemon launcher and old UI), but this was not general simplifcation, because once the new UI is the current UI and the old UI gone, this would be normal workflow to work from eclipse (without prior buck invocation).\n\nMy suggestion would be then to offer short cut workflow that only ensures, that `buck build polygerrit` was called once and never again.\n\n\u003e I see what you\u0027re saying, but all I was doing here is exactly what RecompileGwtUiFilter was doing. That will indeed pick up new dependency changes in the gwtui code.\n\nSure, all what I was saying is that we could offer better workflow, when we would ignore the dependency for the debug session, to do exactly in the same way we are offering in SDM debug session, where we\u0027ve compiled the app only once and never again.\n\n\u003e Unless you pass --polygerrit-dev, this will only serve the vulcanized app from the war. But with yes, with --polygerrit-dev, it will find new files, because PolyGerritUiModule#polyGerritBasePath() returns a Path to the actual polygerrit-ui/app directory in your client (and PolyGerritUiServlet always has the refresh bit set to true).\n\nThanks, for clarification. I missed this important line:\n\n  return isDev()\n    ? p.buckOut.getParent().resolve(\"polygerrit-ui\").resolve(\"app\")\n\nwhere you are inducing the source path from the buck-out.",
+      "parentUuid": "47db5239_3d9f4f79",
+      "revId": "eb6fcc106fbbab06d0ed3b3a7f8a135410d57224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67e056e1_7ea9d199",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
         "patchSetId": 3

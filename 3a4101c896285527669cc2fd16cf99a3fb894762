@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "67e056e1_5ef255c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T17:16:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7a40ebb_d0b71cf6",
+      "revId": "3a4101c896285527669cc2fd16cf99a3fb894762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7fe066f_52c2345d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
         "patchSetId": 2
@@ -31,6 +49,30 @@
       "writtenOn": "2016-01-12T04:41:41Z",
       "side": 1,
       "message": "Use a single catch block?",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 5
+      },
+      "revId": "3a4101c896285527669cc2fd16cf99a3fb894762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e056e1_3eed89e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T17:16:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7fe066f_52c2345d",
       "range": {
         "startLine": 65,
         "startChar": 6,

@@ -66,7 +66,7 @@ public class EmailMerge implements Runnable, RequestContext {
     this.submitter = submitter;
   }
 
-  void sendAsync() {
+  public void sendAsync() {
     sendEmailsExecutor.submit(this);
   }
 

@@ -52,6 +52,24 @@
       "revId": "e8c9689a25787719ed1845053ef92bb6dd690971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27157e84_844e26bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-01-12T08:50:45Z",
+      "side": 1,
+      "message": "Ah, ok. And I just saw there are fewer overloads of addPatchSets() than there used to be in stable-2.11 (i.e. you have to pass the \"approvals\" argument).\n\nSo I think this is fine for the merge. However, I see some general room for improvement in this method. I\u0027ll probably send a follow-up patch.",
+      "parentUuid": "e7fe066f_f2e528f6",
+      "revId": "e8c9689a25787719ed1845053ef92bb6dd690971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

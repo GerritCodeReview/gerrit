@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7a40ebb_70a9109a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-12T16:34:01Z",
+      "side": 1,
+      "message": "I prefer the icon, which is why I was adding it in the first place. But I don\u0027t have a strong opinion about this and don\u0027t mind switching back to a button with text.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "c7e4ba4cec2d342ab5b360f253e71a05dbcae593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

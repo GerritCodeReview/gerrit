@@ -322,8 +322,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.createEdit(change, getCurrentPatchSet(changeId)))
         .isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertUnchangedMessage(edit, edit.get().getEditCommit().getFullMessage());
-    assertUnchangedMessage(edit, edit.get().getEditCommit().getFullMessage() + "\n\n");
     String msg = String.format("New commit message\n\nChange-Id: %s\n",
         change.getKey());
     assertThat(modifier.modifyMessage(edit.get(), msg)).isEqualTo(
@@ -670,14 +668,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     List<ApprovalInfo> approvals = info.labels.get(cr).all;
     assertThat(approvals).hasSize(1);
     assertThat(approvals.get(0).value).isEqualTo(1);
-  }
-
-  private void assertUnchangedMessage(Optional<ChangeEdit> edit, String message)
-      throws Exception {
-    exception.expect(UnchangedCommitMessageException.class);
-    exception.expectMessage(
-        "New commit message cannot be same as existing commit message");
-    modifier.modifyMessage(edit.get(), message);
   }
 
   @Test

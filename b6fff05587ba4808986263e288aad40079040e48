@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47db5239_9dadc3a8",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-item.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-12T15:13:10Z",
+      "side": 1,
+      "message": "This change is strictly better than before so we can check it in as is, but this still doesn\u0027t support labels whose range goes beyond +/-2.",
+      "revId": "b6fff05587ba4808986263e288aad40079040e48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

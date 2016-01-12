@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27157e84_a43a4206",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-12T10:34:32Z",
+      "side": 1,
+      "message": "thanks, fixed in new patch set.",
+      "parentUuid": "a7216ee4_28c3cb64",
+      "range": {
+        "startLine": 14,
+        "startChar": 69,
+        "endLine": 14,
+        "endChar": 77
+      },
+      "revId": "d92229c8f9179aeb295ace5d5e3d801ec40b4167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7fe066f_32c33065",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-12T01:21:55Z",
       "side": 1,
       "message": "Shouldn\u0027t this also be 3?",
+      "range": {
+        "startLine": 42,
+        "startChar": 19,
+        "endLine": 42,
+        "endChar": 20
+      },
+      "revId": "d92229c8f9179aeb295ace5d5e3d801ec40b4167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27157e84_84374620",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-12T10:34:32Z",
+      "side": 1,
+      "message": "The commit describes the existing behaviour, rather than the behaviour as it will be with this fix applied. Without this patch the update made via the web does not yield an incremented value in the Patch-set trailer.",
+      "parentUuid": "e7fe066f_32c33065",
       "range": {
         "startLine": 42,
         "startChar": 19,

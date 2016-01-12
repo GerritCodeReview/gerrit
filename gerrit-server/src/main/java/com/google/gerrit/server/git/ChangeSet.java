@@ -18,6 +18,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
@@ -30,6 +31,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -38,17 +41,16 @@ import java.util.Set;
  * This class is not thread safe.
  */
 public class ChangeSet {
-  private final ImmutableCollection<ChangeData> changeData;
+  private final ImmutableMap<Change.Id, ChangeData> changeData;
 
   public ChangeSet(Iterable<ChangeData> changes) {
-    Set<Change.Id> ids = new HashSet<>();
-    ImmutableSet.Builder<ChangeData> cdb = ImmutableSet.builder();
+    Map<Change.Id, ChangeData> cds = new LinkedHashMap<>();
     for (ChangeData cd : changes) {
-      if (ids.add(cd.getId())) {
-        cdb.add(cd);
+      if (!cds.containsKey(cd.getId())) {
+        cds.put(cd.getId(), cd);
       }
     }
-    changeData = cdb.build();
+    changeData = ImmutableMap.copyOf(cds);
   }
 
   public ChangeSet(ChangeData change) {
@@ -56,16 +58,16 @@ public class ChangeSet {
   }
 
   public ImmutableSet<Change.Id> ids() {
-    ImmutableSet.Builder<Change.Id> ret = ImmutableSet.builder();
-    for (ChangeData cd : changeData) {
-      ret.add(cd.getId());
-    }
-    return ret.build();
+    return changeData.keySet();
+  }
+
+  public ImmutableMap<Change.Id, ChangeData> changesById() {
+    return changeData;
   }
 
   public Set<PatchSet.Id> patchIds() throws OrmException {
     Set<PatchSet.Id> ret = new HashSet<>();
-    for (ChangeData cd : changeData) {
+    for (ChangeData cd : changeData.values()) {
       ret.add(cd.change().currentPatchSetId());
     }
     return ret;
@@ -75,7 +77,7 @@ public class ChangeSet {
       throws OrmException {
     SetMultimap<Project.NameKey, Branch.NameKey> ret =
         HashMultimap.create();
-    for (ChangeData cd : changeData) {
+    for (ChangeData cd : changeData.values()) {
       ret.put(cd.change().getProject(), cd.change().getDest());
     }
     return ret;
@@ -85,7 +87,7 @@ public class ChangeSet {
       throws OrmException {
     ListMultimap<Project.NameKey, Change.Id> ret =
         ArrayListMultimap.create();
-    for (ChangeData cd : changeData) {
+    for (ChangeData cd : changeData.values()) {
       ret.put(cd.change().getProject(), cd.getId());
     }
     return ret;
@@ -95,14 +97,14 @@ public class ChangeSet {
       throws OrmException {
     ListMultimap<Branch.NameKey, ChangeData> ret =
         ArrayListMultimap.create();
-    for (ChangeData cd : changeData) {
+    for (ChangeData cd : changeData.values()) {
       ret.put(cd.change().getDest(), cd);
     }
     return ret;
   }
 
   public ImmutableCollection<ChangeData> changes() {
-    return changeData;
+    return changeData.values();
   }
 
   public int size() {

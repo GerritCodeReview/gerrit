@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7fe066f_d2cd8488",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-12T05:08:18Z",
+      "side": 1,
+      "message": "Prefix this with `link:`",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 34
+      },
+      "revId": "6e3989b3733a260c9a45d5377d65d54cd20c4db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7216ee4_e8d09324",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-12T05:08:18Z",
+      "side": 1,
+      "message": "Prefix this with `link:` and wrap the line.",
+      "range": {
+        "startLine": 195,
+        "startChar": 45,
+        "endLine": 195,
+        "endChar": 105
+      },
+      "revId": "6e3989b3733a260c9a45d5377d65d54cd20c4db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7fe066f_32e850d1",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-12T05:08:18Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "6e3989b3733a260c9a45d5377d65d54cd20c4db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

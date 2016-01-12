@@ -34,25 +34,35 @@ import java.util.Map;
  * merge failed or another error state.
  */
 public class MergeTip {
+  private CodeReviewCommit initialTip;
   private CodeReviewCommit branchTip;
   private Map<ObjectId, ObjectId> mergeResults;
 
   /**
-   * @param initial Tip before the merge operation; may be null, indicating an
-   *     unborn branch.
-   * @param toMerge List of CodeReview commits to be merged in merge operation;
-   *     may not be null or empty.
+   * @param initialTip tip before the merge operation; may be null, indicating
+   *     an unborn branch.
+   * @param toMerge list of commits to be merged in merge operation; may not be
+   *     null or empty.
    */
-  public MergeTip(@Nullable CodeReviewCommit initial,
+  public MergeTip(@Nullable CodeReviewCommit initialTip,
       Collection<CodeReviewCommit> toMerge) {
     checkNotNull(toMerge, "toMerge may not be null");
     checkArgument(!toMerge.isEmpty(), "toMerge may not be empty");
+    this.initialTip = initialTip;
+    this.branchTip = initialTip;
     this.mergeResults = Maps.newHashMap();
-    this.branchTip = initial;
     // Assume fast-forward merge until opposite is proven.
     for (CodeReviewCommit commit : toMerge) {
       mergeResults.put(commit.copy(), commit.copy());
     }
+  }
+
+  /**
+   * @return the initial tip of the branch before the merge operation started;
+   *     may be null, indicating a previously unborn branch.
+   */
+  public CodeReviewCommit getInitialTip() {
+    return initialTip;
   }
 
   /**

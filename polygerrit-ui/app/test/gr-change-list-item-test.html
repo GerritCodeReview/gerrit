@@ -52,25 +52,25 @@ limitations under the License.
       assert.equal(element._computeChangeStatusString({status: 'DRAFT'}),
           'Draft');
 
-      assert.equal(element._computeCodeReviewClass(), 'cell codeReview');
-      assert.equal(element._computeCodeReviewClass({}), 'cell codeReview');
-      assert.equal(element._computeCodeReviewClass({approved: true, value: 1}),
-          'cell codeReview u-green u-monospace');
-      assert.equal(element._computeCodeReviewClass({value: 1}),
-          'cell codeReview u-green u-monospace');
-      assert.equal(element._computeCodeReviewClass({value: -1}),
-          'cell codeReview u-monospace u-red');
+      assert.equal(element._computeLabelClass(), 'cell label');
+      assert.equal(element._computeLabelClass({}), 'cell label');
+      assert.equal(element._computeLabelClass({approved: true, value: 1}),
+          'cell label u-green u-monospace');
+      assert.equal(element._computeLabelClass({rejected: true, value: -1}),
+          'cell label u-monospace u-red');
+      assert.equal(element._computeLabelClass({value: 1}),
+          'cell label u-green u-monospace');
+      assert.equal(element._computeLabelClass({value: -1}),
+          'cell label u-monospace u-red');
 
-      assert.equal(element._computeCodeReviewLabel(), '');
-      assert.equal(element._computeCodeReviewLabel({}), '');
-      assert.equal(element._computeCodeReviewLabel({approved: true, value: 1}),
+      assert.equal(element._computeLabelValue(), '');
+      assert.equal(element._computeLabelValue({}), '');
+      assert.equal(element._computeLabelValue({approved: true, value: 1}),
           '✓');
-      assert.equal(element._computeCodeReviewLabel({value: 1}), '+1');
-      assert.equal(element._computeCodeReviewLabel({value: -1}), '-1');
-
-      assert.equal(element._computeVerifiedLabel(), '');
-      assert.equal(element._computeVerifiedLabel({}), '');
-      assert.equal(element._computeVerifiedLabel({approved: true}), '✓');
+      assert.equal(element._computeLabelValue({value: 1}), '+1');
+      assert.equal(element._computeLabelValue({value: -1}), '-1');
+      assert.equal(element._computeLabelValue({approved: true}), '✓');
+      assert.equal(element._computeLabelValue({rejected: true}), '✕');
 
       assert.equal(element._computeProjectURL('combustible-stuff'),
           '/projects/combustible-stuff,dashboards/default');

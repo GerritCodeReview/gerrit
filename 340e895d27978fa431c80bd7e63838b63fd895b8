@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27157e84_0491963b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-12T11:11:15Z",
+      "side": 1,
+      "message": "Mention that this problem only applies for edits and only in \"Notedb contextt\"? May be:\n\n  Inline-Edit: Patch set id mismatch in notedb context",
+      "revId": "340e895d27978fa431c80bd7e63838b63fd895b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4716f290_c5581a83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-12T11:11:15Z",
+      "side": 1,
+      "message": "Nit: too short line, compared with 72 line below this section.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "340e895d27978fa431c80bd7e63838b63fd895b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27157e84_847c66c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-12T11:11:15Z",
+      "side": 1,
+      "message": "This is because, in ReceiveCommits, PatchSetInserter is not used. Und there, PatchSetId is set:\n\n  update.setPatchSetId(newPatchSet.getId());",
+      "revId": "340e895d27978fa431c80bd7e63838b63fd895b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

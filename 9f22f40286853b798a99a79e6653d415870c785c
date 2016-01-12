@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7216ee4_e8e533f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1769,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-12T10:19:33Z",
+      "side": 1,
+      "message": "Setting this to false prevents the ref-updated event from being sent for refs/changes/x on the first patch set of a new change.  Issue 3767.",
+      "revId": "9f22f40286853b798a99a79e6653d415870c785c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c79d8271_7110389e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T02:09:01Z",
+      "side": 1,
+      "message": "This is no longer used.",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "bdc46cc16241fa1368da3856c7398ac13d899f3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79d8271_9104bc60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T02:09:01Z",
+      "side": 1,
+      "message": "Eclipse is not showing any warning, but these are not actually thrown, as far as I can see.  Removing the declarations doesn\u0027t cause compilation errors.",
+      "range": {
+        "startLine": 40,
+        "startChar": 53,
+        "endLine": 41,
+        "endChar": 18
+      },
+      "revId": "bdc46cc16241fa1368da3856c7398ac13d899f3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

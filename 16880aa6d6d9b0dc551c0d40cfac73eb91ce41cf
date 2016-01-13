@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "47db5239_5d6fbb00",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-13T19:19:23Z",
+      "side": 1,
+      "message": "Yeah I was thinking about this and I agree with you.",
+      "parentUuid": "e79a8677_b2e2a0bc",
+      "revId": "16880aa6d6d9b0dc551c0d40cfac73eb91ce41cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e79a8677_f2ec28b1",
         "filename": "polygerrit-ui/app/elements/gr-change-star.html",
         "patchSetId": 1
@@ -65,6 +83,24 @@
         "endLine": 41,
         "endChar": 19
       },
+      "revId": "16880aa6d6d9b0dc551c0d40cfac73eb91ce41cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e056e1_be7c39c4",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-13T19:19:23Z",
+      "side": 1,
+      "message": "This is a style taken from previous CSS style guides I’ve followed in the past: modifiers are indicated with a --.\n\nhttps://gist.github.com/andybons/b82f6bdf358d01cbd5d4\n\nI’m not sure this is the right approach given that this is a component anyway.",
+      "parentUuid": "e79a8677_f2ec28b1",
       "revId": "16880aa6d6d9b0dc551c0d40cfac73eb91ce41cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

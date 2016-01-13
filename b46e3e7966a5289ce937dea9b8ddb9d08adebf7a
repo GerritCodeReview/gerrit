@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c79d8271_71c2f85d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T00:09:50Z",
+      "side": 1,
+      "message": "In tests it\u0027s enough to just declare throws Exception.",
+      "range": {
+        "startLine": 679,
+        "startChar": 6,
+        "endLine": 679,
+        "endChar": 72
+      },
+      "revId": "b46e3e7966a5289ce937dea9b8ddb9d08adebf7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79d8271_51bdf4d0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T00:09:50Z",
+      "side": 1,
+      "message": "nit: the `else if` should be on the same line as the closing } of the previous block.",
+      "range": {
+        "startLine": 693,
+        "startChar": 4,
+        "endLine": 694,
+        "endChar": 11
+      },
+      "revId": "b46e3e7966a5289ce937dea9b8ddb9d08adebf7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79d8271_31c8707c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T00:09:50Z",
+      "side": 1,
+      "message": "Use the assertThat helper for this check.",
+      "range": {
+        "startLine": 694,
+        "startChar": 9,
+        "endLine": 696,
+        "endChar": 37
+      },
+      "revId": "b46e3e7966a5289ce937dea9b8ddb9d08adebf7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a40ebb_500b2c70",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T00:09:50Z",
+      "side": 1,
+      "message": "The usual pattern is to put the fail immediately after the call that was expected to throw, in this case after line 685.  Then we don\u0027t need the `caught` flag.",
+      "range": {
+        "startLine": 691,
+        "startChar": 4,
+        "endLine": 697,
+        "endChar": 5
+      },
+      "revId": "b46e3e7966a5289ce937dea9b8ddb9d08adebf7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

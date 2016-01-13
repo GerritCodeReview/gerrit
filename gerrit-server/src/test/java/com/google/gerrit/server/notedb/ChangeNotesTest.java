@@ -43,7 +43,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -494,8 +493,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     BatchMetaDataUpdate batch = update1.openUpdate();
     try {
-      batch.write(update1, new CommitBuilder());
-      batch.write(update2, new CommitBuilder());
+      update1.writeCommit(batch);
+      update2.writeCommit(batch);
       batch.commit();
     } finally {
       batch.close();
@@ -587,12 +586,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
     try {
       batch1 = update1.openUpdateInBatch(bru);
-      batch1.write(update1, new CommitBuilder());
+      update1.writeCommit(batch1);
       batch1.commit();
       assertThat(repo.exactRef(update1.getRefName())).isNull();
 
       batch2 = update2.openUpdateInBatch(bru);
-      batch2.write(update2, new CommitBuilder());
+      update2.writeCommit(batch2);
       batch2.commit();
       assertThat(repo.exactRef(update2.getRefName())).isNull();
     } finally {

@@ -22,6 +22,29 @@
       "revId": "5daa603bb1624dcee9c46d2373ed00088076b4d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79d8271_d15ba47c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutUsername.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T06:32:42Z",
+      "side": 1,
+      "message": "Is this relevant here?\n\nA user can\u0027t set their own username via REST; they need to already have a username to be able to use the REST API in the first place.  And it\u0027s not possible to change an existing username AFAIK.",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 67
+      },
+      "revId": "5daa603bb1624dcee9c46d2373ed00088076b4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

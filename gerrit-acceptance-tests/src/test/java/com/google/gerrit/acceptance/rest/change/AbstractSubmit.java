@@ -289,6 +289,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change());
     PatchSetApproval submitter = approvalsUtil.getSubmitter(
         db, cn, new PatchSet.Id(cn.getChangeId(), psId));
+    assertThat(submitter).isNotNull();
     assertThat(submitter.isSubmit()).isTrue();
     assertThat(submitter.getAccountId()).isEqualTo(admin.getId());
   }

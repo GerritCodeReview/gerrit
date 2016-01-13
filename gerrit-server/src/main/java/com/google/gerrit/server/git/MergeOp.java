@@ -501,7 +501,7 @@ public class MergeOp implements AutoCloseable {
       Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
       for (Branch.NameKey branch : cbb.keySet()) {
         OpenRepo or = openRepo(branch.getParentKey());
-        toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
+        toSubmit.put(branch, validateChangeList(or, cbb.get(branch), caller));
       }
       failFast(cs); // Done checks that don't involve running submit strategies.
 
@@ -623,7 +623,8 @@ public class MergeOp implements AutoCloseable {
   }
 
   private BranchBatch validateChangeList(OpenRepo or,
-      Collection<ChangeData> submitted) throws IntegrationException {
+      Collection<ChangeData> submitted, IdentifiedUser caller)
+      throws IntegrationException {
     logDebug("Validating {} changes", submitted.size());
     List<ChangeData> toSubmit = new ArrayList<>(submitted.size());
     Multimap<ObjectId, PatchSet.Id> revisions = getRevisions(or, submitted);
@@ -698,7 +699,7 @@ public class MergeOp implements AutoCloseable {
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(
-            or.repo, commit, or.project, destBranch, ps.getId());
+            or.repo, commit, or.project, destBranch, ps.getId(), caller);
       } catch (MergeValidationException mve) {
         problems.put(changeId, mve.getMessage());
         continue;

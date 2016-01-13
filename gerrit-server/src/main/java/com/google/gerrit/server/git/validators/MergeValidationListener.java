@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.validators;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.ProjectState;
 
@@ -37,12 +38,14 @@ public interface MergeValidationListener {
    * @param destProject the destination project
    * @param destBranch the destination branch
    * @param patchSetId the patch set ID
+   * @param caller the user who initiated the merge request
    * @throws MergeValidationException if the commit fails to validate
    */
   void onPreMerge(Repository repo,
       CodeReviewCommit commit,
       ProjectState destProject,
       Branch.NameKey destBranch,
-      PatchSet.Id patchSetId)
+      PatchSet.Id patchSetId,
+      IdentifiedUser caller)
       throws MergeValidationException;
 }

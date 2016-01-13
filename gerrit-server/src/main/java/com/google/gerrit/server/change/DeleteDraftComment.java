@@ -85,7 +85,7 @@ public class DeleteDraftComment
     public void updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException {
       Optional<PatchLineComment> maybeComment =
-          plcUtil.get(ctx.getDb(), ctx.getChangeNotes(), key);
+          plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
       if (!maybeComment.isPresent()) {
         return; // Nothing to do.
       }
@@ -97,7 +97,7 @@ public class DeleteDraftComment
       PatchLineComment c = maybeComment.get();
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);
       plcUtil.deleteComments(
-          ctx.getDb(), ctx.getChangeUpdate(), Collections.singleton(c));
+          ctx.getDb(), ctx.getUpdate(), Collections.singleton(c));
     }
   }
 }

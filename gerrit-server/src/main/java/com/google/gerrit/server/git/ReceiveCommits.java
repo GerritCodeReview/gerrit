@@ -1807,7 +1807,7 @@ public class ReceiveCommits {
                 new BatchUpdate.Op() {
                   @Override
                   public void updateChange(ChangeContext ctx) throws Exception {
-                    ctx.getChangeUpdate().setTopic(magicBranch.topic);
+                    ctx.getUpdate().setTopic(magicBranch.topic);
                   }
                 });
           }

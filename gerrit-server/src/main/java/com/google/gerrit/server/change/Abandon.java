@@ -119,7 +119,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     public void updateChange(ChangeContext ctx) throws OrmException,
         ResourceConflictException {
       change = ctx.getChange();
-      ChangeUpdate update = ctx.getChangeUpdate();
+      ChangeUpdate update = ctx.getUpdate();
       if (change == null || !change.getStatus().isOpen()) {
         throw new ResourceConflictException("change is " + status(change));
       } else if (change.getStatus() == Change.Status.DRAFT) {

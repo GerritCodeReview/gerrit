@@ -95,7 +95,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
         throws OrmException, AuthException, ResourceNotFoundException {
       IdentifiedUser user = ctx.getUser().asIdentifiedUser();
       Change change = ctx.getChange();
-      ChangeControl ctl = ctx.getChangeControl();
+      ChangeControl ctl = ctx.getControl();
       PatchSet.Id psId = change.currentPatchSetId();
 
       PatchSetApproval psa = null;
@@ -111,8 +111,8 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
                 .append("\n");
             psa = a;
             a.setValue((short)0);
-            ctx.getChangeUpdate().setPatchSetId(psId);
-            ctx.getChangeUpdate().removeApprovalFor(a.getAccountId(), label);
+            ctx.getUpdate().setPatchSetId(psId);
+            ctx.getUpdate().removeApprovalFor(a.getAccountId(), label);
             break;
           }
         } else {
@@ -133,7 +133,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
                 ctx.getWhen(),
                 change.currentPatchSetId());
         changeMessage.setMessage(msg.toString());
-        cmUtil.addChangeMessage(ctx.getDb(), ctx.getChangeUpdate(),
+        cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(),
             changeMessage);
       }
     }

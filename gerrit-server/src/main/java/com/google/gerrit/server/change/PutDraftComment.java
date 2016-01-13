@@ -107,7 +107,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     public void updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException {
       Optional<PatchLineComment> maybeComment =
-          plcUtil.get(ctx.getDb(), ctx.getChangeNotes(), key);
+          plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
       if (!maybeComment.isPresent()) {
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.
@@ -126,7 +126,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         // Delete then recreate the comment instead of an update.
 
         plcUtil.deleteComments(
-            ctx.getDb(), ctx.getChangeUpdate(), Collections.singleton(comment));
+            ctx.getDb(), ctx.getUpdate(), Collections.singleton(comment));
         comment = new PatchLineComment(
             new PatchLineComment.Key(
                 new Patch.Key(psId, in.path),
@@ -135,14 +135,14 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
             ctx.getUser().getAccountId(),
             comment.getParentUuid(), ctx.getWhen());
         setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
-        plcUtil.insertComments(ctx.getDb(), ctx.getChangeUpdate(),
+        plcUtil.insertComments(ctx.getDb(), ctx.getUpdate(),
             Collections.singleton(update(comment, in)));
       } else {
         if (comment.getRevId() == null) {
           setCommentRevId(
               comment, patchListCache, ctx.getChange(), ps);
         }
-        plcUtil.updateComments(ctx.getDb(), ctx.getChangeUpdate(),
+        plcUtil.updateComments(ctx.getDb(), ctx.getUpdate(),
             Collections.singleton(update(comment, in)));
       }
     }

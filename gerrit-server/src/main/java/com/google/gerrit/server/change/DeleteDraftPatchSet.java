@@ -108,7 +108,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       if (!allowDrafts) {
         throw new MethodNotAllowedException("Draft workflow is disabled");
       }
-      if (!ctx.getChangeControl().canDeleteDraft(ctx.getDb())) {
+      if (!ctx.getControl().canDeleteDraft(ctx.getDb())) {
         throw new AuthException("Not permitted to delete this draft patch set");
       }
 

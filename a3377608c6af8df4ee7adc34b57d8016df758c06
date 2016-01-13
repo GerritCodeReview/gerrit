@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a7a40ebb_9004b460",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T00:16:04Z",
+      "side": 0,
+      "message": "Actually, yes, it would be better to just remove these two lines and the helper method below, and then add a new test that does the same as updateMessageNoChange but adds \"\\n\\n\" onto the message.",
+      "parentUuid": "e79a8677_f2b428f4",
+      "revId": "a3377608c6af8df4ee7adc34b57d8016df758c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c79d8271_119a8c88",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 1

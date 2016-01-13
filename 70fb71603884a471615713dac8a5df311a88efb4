@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67d5b629_96a86c98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-13T21:54:41Z",
+      "side": 1,
+      "message": "Well, it\u0027s not correct to say it \"stores them in the LabelNormalizer\" because that is a pure function that takes some approvals as input and produces normalized approvals as output.\n\nInside the approve method it reads them from the db, normalizes them, and writes them back out to the db. That\u0027s what it was doing prior to this change, and that\u0027s what it\u0027s doing now.",
+      "parentUuid": "27981e85_6ca93b9a",
+      "range": {
+        "startLine": 1091,
+        "startChar": 6,
+        "endLine": 1092,
+        "endChar": 58
+      },
+      "revId": "70fb71603884a471615713dac8a5df311a88efb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c4a27f_59ab2392",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-01-13T21:49:24Z",
       "side": 1,
       "message": "Here we save the approvals loaded from psId for psIdNewRev, but in the old code we loaded the approvals of psIdNewRev from the database. \nAre you saying we don\u0027t need to load the approvals for psIdNewRev because they anyway will be the same as for psId (since the second patch set was created by the merge strategy and we copied over all approvals from the patch set that the user submitted)?",
+      "revId": "70fb71603884a471615713dac8a5df311a88efb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ca3a91_f399f094",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-13T21:54:41Z",
+      "side": 1,
+      "message": "\u003e Are you saying we don\u0027t need to load the approvals for psIdNewRev because they anyway will be the same as for psId\n\nNot only that, *by definition* the approvals for the new PS are the same as the old PS.\n\nBut this actually brings up a really good point. CherryPick and RebaseIfNecessary actually copy the approvals verbatim as well. They shouldn\u0027t need to, it gets taken care of here.",
+      "parentUuid": "c7c4a27f_59ab2392",
       "revId": "70fb71603884a471615713dac8a5df311a88efb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

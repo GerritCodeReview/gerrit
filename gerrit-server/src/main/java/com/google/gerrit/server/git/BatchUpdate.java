@@ -167,15 +167,15 @@ public class BatchUpdate implements AutoCloseable {
       this.update = changeUpdateFactory.create(ctl, when);
     }
 
-    public ChangeUpdate getChangeUpdate() {
+    public ChangeUpdate getUpdate() {
       return update;
     }
 
-    public ChangeNotes getChangeNotes() {
+    public ChangeNotes getNotes() {
       return update.getChangeNotes();
     }
 
-    public ChangeControl getChangeControl() {
+    public ChangeControl getControl() {
       return ctl;
     }
 
@@ -523,7 +523,7 @@ public class BatchUpdate implements AutoCloseable {
         } finally {
           db.rollback();
         }
-        ctx.getChangeUpdate().commit();
+        ctx.getUpdate().commit();
         if (ctx.deleted) {
           indexFutures.add(indexer.deleteAsync(id));
         } else {

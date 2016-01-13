@@ -116,7 +116,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
             oldTopicName, newTopicName);
       }
       change.setTopic(Strings.emptyToNull(newTopicName));
-      ctx.getChangeUpdate().setTopic(change.getTopic());
+      ctx.getUpdate().setTopic(change.getTopic());
       ChangeUtil.updated(change);
       ctx.getDb().changes().update(Collections.singleton(change));
 
@@ -127,7 +127,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
           caller.getAccountId(), ctx.getWhen(),
           change.currentPatchSetId());
       cmsg.setMessage(summary);
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getChangeUpdate(), cmsg);
+      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(), cmsg);
     }
 
     @Override

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c79d8271_3116b09d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T02:03:44Z",
+      "side": 1,
+      "message": "Instead of doing this in all the places where it\u0027s needed (and potentially missing some now, or later) what about overriding the equals() method of the IdentifiedUser class?\n\nAlternatively, make a helper method that does the comparison, making the necessary code less verbose?",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 75,
+        "endChar": 67
+      },
+      "revId": "5daa603bb1624dcee9c46d2373ed00088076b4d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

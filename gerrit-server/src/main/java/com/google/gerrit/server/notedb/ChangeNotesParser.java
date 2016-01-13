@@ -81,6 +81,8 @@ class ChangeNotesParser implements AutoCloseable {
   Change.Status status;
   String topic;
   Set<String> hashtags;
+  Timestamp createdOn;
+  Timestamp lastUpdatedOn;
 
   private final Change.Id changeId;
   private final ObjectId tip;
@@ -153,6 +155,10 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void parse(RevCommit commit) throws ConfigInvalidException {
+    if (lastUpdatedOn == null) {
+      lastUpdatedOn = getCommitTime(commit);
+    }
+    createdOn = getCommitTime(commit);
     if (status == null) {
       status = parseStatus(commit);
     }
@@ -291,7 +297,7 @@ class ChangeNotesParser implements AutoCloseable {
     ChangeMessage changeMessage = new ChangeMessage(
         new ChangeMessage.Key(psId.getParentKey(), commit.name()),
         accountId,
-        new Timestamp(commit.getCommitterIdent().getWhen().getTime()),
+        getCommitTime(commit),
         psId);
     changeMessage.setMessage(changeMsgString);
     changeMessagesByPatchSet.put(psId, changeMessage);
@@ -348,7 +354,7 @@ class ChangeNotesParser implements AutoCloseable {
               accountId,
               new LabelId(l.label())),
           l.value(),
-          new Timestamp(commit.getCommitterIdent().getWhen().getTime()))));
+          getCommitTime(commit))));
     }
   }
 
@@ -514,6 +520,10 @@ class ChangeNotesParser implements AutoCloseable {
     if (!expr) {
       throw invalidFooter(footer, actual);
     }
+  }
+
+  private static Timestamp getCommitTime(RevCommit commit) {
+    return new Timestamp(commit.getCommitterIdent().getWhen().getTime());
   }
 
   private ConfigInvalidException parseException(String fmt, Object... args) {

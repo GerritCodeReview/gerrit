@@ -399,9 +399,19 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void emptyChangeUpdate() throws Exception {
-    ChangeUpdate update = newUpdate(newChange(), changeOwner);
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
     update.commit();
-    assertThat(update.getRevision()).isNull();
+
+    // the initial empty update creates a commit which is needed to track the
+    // creation time of the change
+    ObjectId revision = update.getRevision();
+    assertThat(revision).isNotNull();
+
+    // any further empty update doesn't create a new commit
+    update = newUpdate(c, changeOwner);
+    update.commit();
+    assertThat(update.getRevision()).isEqualTo(revision);
   }
 
   @Test
@@ -472,6 +482,39 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isNull();
+  }
+
+  @Test
+  public void createdOnChangeNotes() throws Exception {
+    Change c = newChange();
+    newUpdate(c, changeOwner).commit();
+
+    Timestamp createdOn = newNotes(c).getChange().getCreatedOn();
+    assertThat(createdOn).isNotNull();
+
+    // an update doesn't effect the createdOn timestamp
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("topic"); // change something to get a new commit
+    update.commit();
+    assertThat(newNotes(c).getChange().getCreatedOn()).isEqualTo(createdOn);
+  }
+
+  @Test
+  public void lastUpdatedOnChangeNotes() throws Exception {
+    Change c = newChange();
+    newUpdate(c, changeOwner).commit();
+
+    ChangeNotes notes = newNotes(c);
+    Timestamp lastUpdatedOn = notes.getChange().getLastUpdatedOn();
+    assertThat(lastUpdatedOn).isNotNull();
+    assertThat(lastUpdatedOn).isEqualTo(notes.getChange().getCreatedOn());
+
+    // an update creates a new lastUpdatedOn timestamp
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("topic"); // change something to get a new commit
+    update.commit();
+    assertThat(newNotes(c).getChange().getLastUpdatedOn())
+        .isGreaterThan(lastUpdatedOn);
   }
 
   @Test

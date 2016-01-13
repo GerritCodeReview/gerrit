@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "47db5239_7d2637f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-13T14:45:39Z",
+      "side": 1,
+      "message": "I like option 2.",
+      "parentUuid": "87a70abf_8f049560",
+      "revId": "7ee9f2865bffe1890856136605d229bdb7184431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67e056e1_7e4d51c2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

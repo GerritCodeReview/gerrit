@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27981e85_6ca93b9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-13T21:49:24Z",
+      "side": 1,
+      "message": "Not sure if I understand this reuse of LabelNormalizer correctly.\n\nHere we invoke the approve method with psId. Inside the approve method it then loads the approvals for this patch set (psId) from the db and stores them in the LabelNormalizer.",
+      "range": {
+        "startLine": 1091,
+        "startChar": 6,
+        "endLine": 1092,
+        "endChar": 58
+      },
+      "revId": "70fb71603884a471615713dac8a5df311a88efb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_59ab2392",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-13T21:49:24Z",
+      "side": 1,
+      "message": "Here we save the approvals loaded from psId for psIdNewRev, but in the old code we loaded the approvals of psIdNewRev from the database. \nAre you saying we don\u0027t need to load the approvals for psIdNewRev because they anyway will be the same as for psId (since the second patch set was created by the merge strategy and we copied over all approvals from the patch set that the user submitted)?",
+      "revId": "70fb71603884a471615713dac8a5df311a88efb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

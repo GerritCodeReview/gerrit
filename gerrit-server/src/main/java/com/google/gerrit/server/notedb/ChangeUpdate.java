@@ -24,13 +24,16 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMap;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Table;
+import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -88,9 +91,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private final AccountCache accountCache;
-  private final Map<String, Short> approvals;
+  private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers;
-  private final Multimap<Account.Id, String> removedApprovals;
   private Change.Status status;
   private String subject;
   private List<SubmitRecord> submitRecords;
@@ -163,10 +165,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.draftUpdateFactory = draftUpdateFactory;
     this.accountCache = accountCache;
     this.commentsUtil = commentsUtil;
-    this.approvals = Maps.newTreeMap(labelNameComparator);
+    this.approvals = TreeBasedTable.create(
+        labelNameComparator,
+        Ordering.natural().onResultOf(new Function<Account.Id, Integer>() {
+          @Override
+          public Integer apply(Account.Id in) {
+            return in.get();
+          }
+        }));
     this.reviewers = Maps.newLinkedHashMap();
-    this.removedApprovals =
-        MultimapBuilder.linkedHashKeys(1).arrayListValues(1).build();
     this.comments = Lists.newArrayList();
   }
 
@@ -181,7 +188,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void putApproval(String label, short value) {
-    approvals.put(label, value);
+    putApprovalFor(getUser().getAccountId(), label, value);
+  }
+
+  public void putApprovalFor(Account.Id reviewer, String label, short value) {
+    approvals.put(label, reviewer, Optional.of(value));
   }
 
   public void removeApproval(String label) {
@@ -189,7 +200,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void removeApprovalFor(Account.Id reviewer, String label) {
-    removedApprovals.put(reviewer, label);
+    approvals.put(label, reviewer, Optional.<Short> absent());
   }
 
   public void merge(Iterable<SubmitRecord> submitRecords) {
@@ -446,14 +457,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addIdent(msg, e.getKey()).append('\n');
     }
 
-    for (Map.Entry<String, Short> e : approvals.entrySet()) {
-      addFooter(msg, FOOTER_LABEL, LabelVote.create(
-          e.getKey(), e.getValue()).formatWithEquals());
-    }
-
-    for (Map.Entry<Account.Id, String> e : removedApprovals.entries()) {
-      addFooter(msg, FOOTER_LABEL).append('-').append(e.getValue());
-      Account.Id id = e.getKey();
+    for (Table.Cell<String, Account.Id, Optional<Short>> c
+        : approvals.cellSet()) {
+      addFooter(msg, FOOTER_LABEL);
+      if (!c.getValue().isPresent()) {
+        msg.append('-').append(c.getRowKey());
+      } else {
+        msg.append(LabelVote.create(
+            c.getRowKey(), c.getValue().get()).formatWithEquals());
+      }
+      Account.Id id = c.getColumnKey();
       if (!id.equals(ctl.getUser().getAccountId())) {
         addIdent(msg.append(' '), id);
       }
@@ -496,7 +509,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private boolean isEmpty() {
     return approvals.isEmpty()
-        && removedApprovals.isEmpty()
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()

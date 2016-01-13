@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
@@ -27,6 +28,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -228,7 +230,35 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psa.getAccountId()).isEqualTo(otherUserId);
     assertThat(psa.getLabel()).isEqualTo("Not-For-Long");
     assertThat(psa.getValue()).isEqualTo((short) 2);
+  }
 
+  @Test
+  public void putOtherUsersApprovals() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 1);
+    update.putApprovalFor(otherUser.getAccountId(), "Code-Review", (short) -1);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    List<PatchSetApproval> approvals = Ordering.natural().onResultOf(
+        new Function<PatchSetApproval, Integer>() {
+          @Override
+          public Integer apply(PatchSetApproval in) {
+            return in.getAccountId().get();
+          }
+        }).sortedCopy(notes.getApprovals().get(c.currentPatchSetId()));
+    assertThat(approvals).hasSize(2);
+
+    assertThat(approvals.get(0).getAccountId())
+        .isEqualTo(changeOwner.getAccountId());
+    assertThat(approvals.get(0).getLabel()).isEqualTo("Code-Review");
+    assertThat(approvals.get(0).getValue()).isEqualTo((short) 1);
+
+    assertThat(approvals.get(1).getAccountId())
+        .isEqualTo(otherUser.getAccountId());
+    assertThat(approvals.get(1).getLabel()).isEqualTo("Code-Review");
+    assertThat(approvals.get(1).getValue()).isEqualTo((short) -1);
   }
 
   @Test

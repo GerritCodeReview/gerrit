@@ -27,7 +27,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -87,9 +86,8 @@ class ChangeNotesParser implements AutoCloseable {
   private final ObjectId tip;
   private final RevWalk walk;
   private final Repository repo;
-  private final Map<PatchSet.Id, Table<Account.Id, String, PatchSetApproval>>
-      approvals;
-  private final Map<PatchSet.Id, Multimap<Account.Id, String>> removedApprovals;
+  private final Map<PatchSet.Id,
+      Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
   private final List<ChangeMessage> allChangeMessages;
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
@@ -102,7 +100,6 @@ class ChangeNotesParser implements AutoCloseable {
     this.repo =
         repoManager.openMetadataRepository(ChangeNotes.getProjectName(change));
     approvals = Maps.newHashMap();
-    removedApprovals = Maps.newHashMap();
     reviewers = Maps.newLinkedHashMap();
     allPastReviewers = Lists.newArrayList();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
@@ -130,9 +127,11 @@ class ChangeNotesParser implements AutoCloseable {
       buildApprovals() {
     Multimap<PatchSet.Id, PatchSetApproval> result =
         ArrayListMultimap.create(approvals.keySet().size(), 3);
-    for (Table<?, ?, PatchSetApproval> curr : approvals.values()) {
-      for (PatchSetApproval psa : curr.values()) {
-        result.put(psa.getPatchSetId(), psa);
+    for (Table<?, ?, Optional<PatchSetApproval>> curr : approvals.values()) {
+      for (Optional<PatchSetApproval> psa : curr.values()) {
+        if (psa.isPresent()) {
+          result.put(psa.get().getPatchSetId(), psa.get());
+        }
       }
     }
     for (Collection<PatchSetApproval> v : result.asMap().values()) {
@@ -315,92 +314,98 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
-  private void parseAddApproval(PatchSet.Id psId, Account.Id accountId,
+  private void parseAddApproval(PatchSet.Id psId, Account.Id committerId,
       RevCommit commit, String line) throws ConfigInvalidException {
+    Account.Id accountId;
+    String labelVoteStr;
+    int s = line.indexOf(' ');
+    if (s > 0) {
+      labelVoteStr = line.substring(0, s);
+      PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
+      checkFooter(ident != null, FOOTER_LABEL, line);
+      accountId = parseIdent(ident);
+    } else {
+      labelVoteStr = line;
+      accountId = committerId;
+    }
+
     LabelVote l;
     try {
-      l = LabelVote.parseWithEquals(line);
+      l = LabelVote.parseWithEquals(labelVoteStr);
     } catch (IllegalArgumentException e) {
       ConfigInvalidException pe =
           parseException("invalid %s: %s", FOOTER_LABEL, line);
       pe.initCause(e);
       throw pe;
     }
-    if (isApprovalRemoved(psId, accountId, l.label())) {
-      return;
-    }
 
-    Table<Account.Id, String, PatchSetApproval> curr = approvals.get(psId);
+    Table<Account.Id, String, Optional<PatchSetApproval>> curr =
+        getApprovalsTableIfNoVotePresent(psId, accountId, l.label());
     if (curr != null) {
-      if (curr.contains(accountId, l.label())) {
-        return;
-      }
-    } else {
-      curr = newApprovalsTable();
-      approvals.put(psId, curr);
+      curr.put(accountId, l.label(), Optional.of(new PatchSetApproval(
+          new PatchSetApproval.Key(
+              psId,
+              accountId,
+              new LabelId(l.label())),
+          l.value(),
+          new Timestamp(commit.getCommitterIdent().getWhen().getTime()))));
     }
-    curr.put(accountId, l.label(), new PatchSetApproval(
-        new PatchSetApproval.Key(
-            psId,
-            accountId,
-            new LabelId(l.label())),
-        l.value(),
-        new Timestamp(commit.getCommitterIdent().getWhen().getTime())));
   }
 
-  private static Table<Account.Id, String, PatchSetApproval>
-      newApprovalsTable() {
-    return Tables.newCustomTable(
-          Maps.<Account.Id, Map<String, PatchSetApproval>>
+  private void parseRemoveApproval(PatchSet.Id psId, Account.Id committerId,
+      String line) throws ConfigInvalidException {
+    Account.Id accountId;
+    String label;
+    int s = line.indexOf(' ');
+    if (s > 0) {
+      label = line.substring(1, s);
+      PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
+      checkFooter(ident != null, FOOTER_LABEL, line);
+      accountId = parseIdent(ident);
+    } else {
+      label = line.substring(1);
+      accountId = committerId;
+    }
+
+    try {
+      LabelType.checkNameInternal(label);
+    } catch (IllegalArgumentException e) {
+      ConfigInvalidException pe =
+          parseException("invalid %s: %s", FOOTER_LABEL, line);
+      pe.initCause(e);
+      throw pe;
+    }
+
+    Table<Account.Id, String, Optional<PatchSetApproval>> curr =
+        getApprovalsTableIfNoVotePresent(psId, accountId, label);
+    if (curr != null) {
+      curr.put(accountId, label, Optional.<PatchSetApproval> absent());
+    }
+  }
+
+  private Table<Account.Id, String, Optional<PatchSetApproval>>
+      getApprovalsTableIfNoVotePresent(PatchSet.Id psId, Account.Id accountId,
+        String label) {
+
+    Table<Account.Id, String, Optional<PatchSetApproval>> curr =
+        approvals.get(psId);
+    if (curr != null) {
+      if (curr.contains(accountId, label)) {
+        return null;
+      }
+    } else {
+      curr = Tables.newCustomTable(
+          Maps.<Account.Id, Map<String, Optional<PatchSetApproval>>>
               newHashMapWithExpectedSize(2),
-          new Supplier<Map<String, PatchSetApproval>>() {
+          new Supplier<Map<String, Optional<PatchSetApproval>>>() {
             @Override
-            public Map<String, PatchSetApproval> get() {
+            public Map<String, Optional<PatchSetApproval>> get() {
               return Maps.newLinkedHashMap();
             }
           });
-  }
-
-  private void parseRemoveApproval(PatchSet.Id psId, Account.Id accountId,
-      String line) throws ConfigInvalidException {
-    Multimap<Account.Id, String> curr = removedApprovals.get(psId);
-    if (curr == null) {
-      curr = HashMultimap.create(1, 1);
-      removedApprovals.put(psId, curr);
+      approvals.put(psId, curr);
     }
-    String label;
-    Account.Id removedAccountId;
-    line = line.substring(1);
-    int s = line.indexOf(' ');
-    if (s > 0) {
-      label = line.substring(0, s);
-      PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
-      checkFooter(ident != null, FOOTER_LABEL, line);
-      removedAccountId = parseIdent(ident);
-    } else {
-      label = line;
-      removedAccountId = accountId;
-    }
-
-    Table<Account.Id, String, PatchSetApproval> added = approvals.get(psId);
-    if (added != null && added.contains(accountId, label)) {
-      return;
-    }
-
-    try {
-      curr.put(removedAccountId, LabelType.checkNameInternal(label));
-    } catch (IllegalArgumentException e) {
-      ConfigInvalidException pe =
-          parseException("invalid %s: %s", FOOTER_LABEL, line);
-      pe.initCause(e);
-      throw pe;
-    }
-  }
-
-  private boolean isApprovalRemoved(PatchSet.Id psId, Account.Id accountId,
-      String label) {
-    Multimap<Account.Id, String> curr = removedApprovals.get(psId);
-    return curr != null && curr.containsEntry(accountId, label);
+    return curr;
   }
 
   private void parseSubmitRecords(List<String> lines)

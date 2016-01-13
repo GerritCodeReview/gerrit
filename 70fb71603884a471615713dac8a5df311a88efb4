@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "27981e85_acaa438b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-13T22:02:46Z",
+      "side": 1,
+      "message": "Yes, but now the approve method is called only once for the first patch set, and not anymore for the second patch set. Instead for the second patch set we save the approvals that have been loaded for the first patch set. Knowing that these are the same approvals this makes sense now.",
+      "parentUuid": "67d5b629_96a86c98",
+      "range": {
+        "startLine": 1091,
+        "startChar": 6,
+        "endLine": 1092,
+        "endChar": 58
+      },
+      "revId": "70fb71603884a471615713dac8a5df311a88efb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c4a27f_59ab2392",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "\u003e Are you saying we don\u0027t need to load the approvals for psIdNewRev because they anyway will be the same as for psId\n\nNot only that, *by definition* the approvals for the new PS are the same as the old PS.\n\nBut this actually brings up a really good point. CherryPick and RebaseIfNecessary actually copy the approvals verbatim as well. They shouldn\u0027t need to, it gets taken care of here.",
       "parentUuid": "c7c4a27f_59ab2392",
+      "revId": "70fb71603884a471615713dac8a5df311a88efb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_8cad87a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-13T22:02:46Z",
+      "side": 1,
+      "message": "Agreed, it\u0027s better to do the approval copying only here.",
+      "parentUuid": "07ca3a91_f399f094",
       "revId": "70fb71603884a471615713dac8a5df311a88efb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

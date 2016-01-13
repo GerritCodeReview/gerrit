@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e79a8677_12fb6c69",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-13T19:16:06Z",
+      "side": 1,
+      "message": "When you always use a \"filled\" star, it looks a bit heavier in the UI. IMHO it\u0027s clearer when an \"empty\" star is used for \"unstared\" changes, but I\u0027m ok with this change ;)",
+      "range": {
+        "startLine": 36,
+        "startChar": 18,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "16880aa6d6d9b0dc551c0d40cfac73eb91ce41cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e79a8677_b2e2a0bc",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-13T19:16:06Z",
+      "side": 1,
+      "message": "I like the idea of using a hover effect.\nWhen using the same color for :hover and \u0027active\u0027, the feedback after \u0027deleting\u0027 (\"unstar\") a change is IMHO not optimal. The star stays yellow as long as the user hovers it. I would prefer some other hover color.",
+      "range": {
+        "startLine": 40,
+        "startChar": 7,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "16880aa6d6d9b0dc551c0d40cfac73eb91ce41cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e79a8677_f2ec28b1",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-13T19:16:06Z",
+      "side": 1,
+      "message": "Just curious: why are you using \u0027--\u0027?",
+      "range": {
+        "startLine": 41,
+        "startChar": 17,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "16880aa6d6d9b0dc551c0d40cfac73eb91ce41cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

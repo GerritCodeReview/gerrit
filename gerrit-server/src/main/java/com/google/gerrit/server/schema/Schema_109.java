@@ -29,7 +29,7 @@ public class Schema_109 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     try (StatementExecutor e = newExecutor(db)) {
-      e.execute("UPDATE changes SET status = 'n' WHERE status = 's';");
+      e.execute("UPDATE changes SET status = 'n' WHERE status = 's'");
     }
   }
 }

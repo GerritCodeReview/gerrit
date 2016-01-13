@@ -61,12 +61,15 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.TimeZone;
 
@@ -159,14 +162,21 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
     System.setProperty("user.timezone", systemTimeZone);
   }
 
-  protected Change newChange() {
-    return TestChanges.newChange(project, changeOwner.getAccountId());
+  protected Change newChange()
+      throws IOException, OrmException, ConfigInvalidException {
+    Change c = TestChanges.newChange(project, changeOwner.getAccountId());
+    newUpdate(c, changeOwner).commit();
+    return c;
   }
 
   protected ChangeUpdate newUpdate(Change c, IdentifiedUser user)
-      throws OrmException {
-    return TestChanges.newUpdate(
+      throws OrmException, IOException, ConfigInvalidException {
+    ChangeUpdate update = TestChanges.newUpdate(
         injector, repoManager, MIGRATION, c, allUsers, user);
+    try (Repository repo = repoManager.openMetadataRepository(c.getProject())) {
+      update.load(repo);
+    }
+    return update;
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {

@@ -24,7 +24,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -33,7 +32,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Table;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.ChangeHooks;
@@ -55,7 +53,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -89,7 +86,6 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -217,7 +213,6 @@ public class MergeOp implements AutoCloseable {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ProjectCache projectCache;
   private final InternalChangeQuery internalChangeQuery;
-  private final PersonIdent serverIdent;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<SubmoduleOp> subOpProvider;
   private final TagCache tagCache;
@@ -259,7 +254,6 @@ public class MergeOp implements AutoCloseable {
       PatchSetInfoFactory patchSetInfoFactory,
       ProjectCache projectCache,
       InternalChangeQuery internalChangeQuery,
-      @GerritPersonIdent PersonIdent serverIdent,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<SubmoduleOp> subOpProvider,
       TagCache tagCache) {
@@ -280,7 +274,6 @@ public class MergeOp implements AutoCloseable {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.projectCache = projectCache;
     this.internalChangeQuery = internalChangeQuery;
-    this.serverIdent = serverIdent;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpProvider = subOpProvider;
     this.tagCache = tagCache;
@@ -1086,6 +1079,7 @@ public class MergeOp implements AutoCloseable {
 
     logDebug("Add approval for " + cd + " from user " + user);
     ChangeUpdate update = updateFactory.create(control, timestamp);
+    update.setPatchSetId(psId);
     update.putReviewer(user.getAccountId(), REVIEWER);
     Optional<SubmitRecord> okRecord = findOkRecord(cd.getSubmitRecords());
     if (okRecord.isPresent()) {
@@ -1093,21 +1087,21 @@ public class MergeOp implements AutoCloseable {
     }
     db.changes().beginTransaction(cd.change().getId());
     try {
-      BatchMetaDataUpdate batch = approve(control, psId, user,
-          update, timestamp);
+      BatchMetaDataUpdate batch = update.openUpdate();
+      LabelNormalizer.Result normalized =
+          approve(control, psId, user, update, timestamp);
       batch.write(update, new CommitBuilder());
 
       // If the submit strategy created a new revision (rebase, cherry-pick)
       // approve that as well
       if (!psIdNewRev.equals(psId)) {
-        update.setPatchSetId(psId);
         update.commit();
         // Create a new ChangeUpdate instance because we need to store meta data
         // on another patch set (psIdNewRev).
         update = updateFactory.create(control, timestamp);
-        batch = approve(control, psIdNewRev, user,
-            update, timestamp);
-        // Write update commit after all normalized label commits.
+        update.setPatchSetId(psIdNewRev);
+        saveApprovals(normalized, update);
+        batch = update.openUpdate();
         batch.write(update, new CommitBuilder());
       }
       db.commit();
@@ -1118,9 +1112,9 @@ public class MergeOp implements AutoCloseable {
     indexer.index(db, cd.change());
   }
 
-  private BatchMetaDataUpdate approve(ChangeControl control, PatchSet.Id psId,
-      IdentifiedUser user, ChangeUpdate update, Timestamp timestamp)
-          throws OrmException {
+  private LabelNormalizer.Result approve(ChangeControl control,
+      PatchSet.Id psId, IdentifiedUser user, ChangeUpdate update,
+      Timestamp timestamp) throws OrmException {
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = Maps.newHashMap();
     for (PatchSetApproval psa :
       approvalsUtil.byPatchSet(db, control, psId)) {
@@ -1146,62 +1140,49 @@ public class MergeOp implements AutoCloseable {
     // permissions get modified in the future, historical records stay accurate.
     LabelNormalizer.Result normalized =
         labelNormalizer.normalize(control, byKey.values());
+    update.putApproval(submit.getLabel(), submit.getValue());
+    saveApprovals(normalized, update);
+    return normalized;
+  }
+
+  private void saveApprovals(LabelNormalizer.Result normalized,
+      ChangeUpdate update) throws OrmException {
+    PatchSet.Id psId = update.getPatchSetId();
+    db.patchSetApprovals().upsert(
+        convertPatchSet(normalized.getNormalized(), psId));
+    db.patchSetApprovals().delete(convertPatchSet(normalized.deleted(), psId));
+    for (PatchSetApproval psa : normalized.updated()) {
+      update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
+    }
+    for (PatchSetApproval psa : normalized.deleted()) {
+      update.removeApprovalFor(psa.getAccountId(), psa.getLabel());
+    }
 
     // TODO(dborowitz): Don't use a label in notedb; just check when status
     // change happened.
-    update.putApproval(submit.getLabel(), submit.getValue());
-    logDebug("Adding submit label " + submit);
-
-    db.patchSetApprovals().upsert(normalized.getNormalized());
-    db.patchSetApprovals().delete(normalized.deleted());
-
-    try {
-      return saveToBatch(control, update, normalized, timestamp);
-    } catch (IOException e) {
-      throw new OrmException(e);
+    for (PatchSetApproval psa : normalized.unchanged()) {
+      if (psa.isSubmit()) {
+        logDebug("Adding submit label " + psa);
+        update.putApprovalFor(
+            psa.getAccountId(), psa.getLabel(), psa.getValue());
+        break;
+      }
     }
   }
 
-  private BatchMetaDataUpdate saveToBatch(ChangeControl ctl,
-      ChangeUpdate callerUpdate, LabelNormalizer.Result normalized,
-      Timestamp timestamp) throws IOException {
-    Table<Account.Id, String, Optional<Short>> byUser = HashBasedTable.create();
-    for (PatchSetApproval psa : normalized.updated()) {
-      byUser.put(psa.getAccountId(), psa.getLabel(),
-          Optional.of(psa.getValue()));
-    }
-    for (PatchSetApproval psa : normalized.deleted()) {
-      byUser.put(psa.getAccountId(), psa.getLabel(), Optional.<Short> absent());
-    }
-
-    BatchMetaDataUpdate batch = callerUpdate.openUpdate();
-    for (Account.Id accountId : byUser.rowKeySet()) {
-      if (!accountId.equals(callerUpdate.getUser().getAccountId())) {
-        ChangeUpdate update = updateFactory.create(
-            ctl.forUser(identifiedUserFactory.create(accountId)), timestamp);
-        update.setSubject("Finalize approvals at submit");
-        putApprovals(update, byUser.row(accountId));
-
-        CommitBuilder commit = new CommitBuilder();
-        commit.setCommitter(new PersonIdent(serverIdent, timestamp));
-        batch.write(update, commit);
-      }
-    }
-
-    putApprovals(callerUpdate,
-        byUser.row(callerUpdate.getUser().getAccountId()));
-    return batch;
-  }
-
-  private static void putApprovals(ChangeUpdate update,
-      Map<String, Optional<Short>> approvals) {
-    for (Map.Entry<String, Optional<Short>> e : approvals.entrySet()) {
-      if (e.getValue().isPresent()) {
-        update.putApproval(e.getKey(), e.getValue().get());
-      } else {
-        update.removeApproval(e.getKey());
-      }
-    }
+  private static Iterable<PatchSetApproval> convertPatchSet(
+      Iterable<PatchSetApproval> approvals, final PatchSet.Id psId) {
+    return Iterables.transform(approvals,
+        new Function<PatchSetApproval, PatchSetApproval>() {
+          @Override
+          public PatchSetApproval apply(PatchSetApproval in) {
+            if (in.getPatchSetId().equals(psId)) {
+              return in;
+            } else {
+              return new PatchSetApproval(psId, in);
+            }
+          }
+        });
   }
 
   private void abandonAllOpenChanges(Project.NameKey destProject)

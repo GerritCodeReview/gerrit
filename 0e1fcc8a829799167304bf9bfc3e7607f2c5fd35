@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7a24ebd_c0a3bebc",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-13T21:09:43Z",
+      "side": 1,
+      "message": "Once the height of the element changes, this does not get updated. I have not found any way to listen on changes of this style property yet...",
+      "revId": "0e1fcc8a829799167304bf9bfc3e7607f2c5fd35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

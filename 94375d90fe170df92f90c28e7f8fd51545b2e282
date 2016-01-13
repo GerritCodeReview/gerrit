@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c79d8271_91dbdc3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T00:34:14Z",
+      "side": 1,
+      "message": "nit: extra space here and on the next line",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 14
+      },
+      "revId": "94375d90fe170df92f90c28e7f8fd51545b2e282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a40ebb_f0fb408f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T00:34:14Z",
+      "side": 1,
+      "message": "Can we get rid of this method?\n\nIt\u0027s no longer used in this file. There are only 3 other places where it\u0027s used, and 2 of those are in the tests.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 3
+      },
+      "revId": "94375d90fe170df92f90c28e7f8fd51545b2e282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -354,14 +354,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         throws OrmException, ResourceConflictException {
       user = ctx.getUser().asIdentifiedUser();
       change = ctx.getChange();
-      if (change.getLastUpdatedOn().before(ctx.getWhen())) {
-        change.setLastUpdatedOn(ctx.getWhen());
-      }
       ps = ctx.getDb().patchSets().get(psId);
       boolean dirty = false;
       dirty |= insertComments(ctx);
       dirty |= updateLabels(ctx);
       dirty |= insertMessage(ctx);
+      if (change.getLastUpdatedOn().before(ctx.getWhen())) {
+        change.setLastUpdatedOn(ctx.getWhen());
+      }
       if (dirty) {
         ctx.getDb().changes().update(Collections.singleton(change));
       }

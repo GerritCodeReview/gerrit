@@ -134,7 +134,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertThat(author.getName()).isEqualTo("Change Owner");
     assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
     assertThat(author.getWhen())
-        .isEqualTo(new Date(c.getCreatedOn().getTime() + 1000));
+        .isEqualTo(new Date(c.getCreatedOn().getTime() + 2000));
     assertThat(author.getTimeZone())
         .isEqualTo(TimeZone.getTimeZone("GMT-7:00"));
 

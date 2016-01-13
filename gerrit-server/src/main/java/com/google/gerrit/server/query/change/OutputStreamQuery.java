@@ -276,15 +276,9 @@ public class OutputStreamQuery {
     }
 
     if (includePatchSets) {
-      if (includeFiles) {
-        eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
-            includeApprovals ? d.approvals().asMap() : null,
-            includeFiles, d.change(), labelTypes);
-      } else {
-        eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
-            includeApprovals ? d.approvals().asMap() : null,
-            labelTypes);
-      }
+      eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
+          includeApprovals ? d.approvals().asMap() : null,
+          includeFiles, d.change(), labelTypes);
     }
 
     if (includeCurrentPatchSet) {

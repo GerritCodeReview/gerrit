@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7a40ebb_506fac00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-13T10:28:43Z",
+      "side": 0,
+      "message": "Do we need to move this debug log somewhere else?  Or is it no longer needed?",
+      "range": {
+        "startLine": 569,
+        "startChar": 4,
+        "endLine": 569,
+        "endChar": 73
+      },
+      "revId": "625ca9d8378332d135cf477241231005062d3f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

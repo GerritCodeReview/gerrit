@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "47db5239_1d27f3f4",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-13T14:43:32Z",
+      "side": 1,
+      "message": "I think inline-block will work with what you want. You can then set the size of the element via the stylesheet of the parent element (negating the need for the size attribute, then use a background-image with background-size: cover to ensure that it displays correctly within the element. That will handle the high dpi issue you’re talking about below and you don’t have to use an image tag.",
+      "parentUuid": "e79a8677_32edd0e1",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67e056e1_fefb218f",
         "filename": "polygerrit-ui/app/elements/gr-avatar.html",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "In \u0027gr-message\u0027 I need to hide it for one some special case (when server supports avatars, but no account is attached to message (which is the case for change submit/merge messages)).\n\nI think it\u0027s quite handy when you can place an avatar at any place and you do not need to care if server supports avatars. I see a lot more places where we can display avatars (e.g. account-dropdown top-right and add-reviewer-dropdown in change-view).",
       "parentUuid": "67e056e1_fefb218f",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47db5239_3d2cafd4",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-13T14:43:32Z",
+      "side": 1,
+      "message": "While I was the one who wrote the accountReady stuff, I have to admit I don’t like how a seemingly benign element that is meant to display an image requires the use of what is essentially a global var and server state to display or not display itself.\n\nIf possible I’d like to reduce the usage of accountReady and configReady to be on the outskirts of the elements (within gr-app) with only the relevant data passed to each child element. This makes it more explicit what the element API is expecting while also allowing the it to more easily stand alone (and be tested) if need be.",
+      "parentUuid": "e79a8677_52f254c4",
       "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

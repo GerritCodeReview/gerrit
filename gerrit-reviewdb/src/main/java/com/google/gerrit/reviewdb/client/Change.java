@@ -523,6 +523,10 @@ public final class Change {
     return createdOn;
   }
 
+  public void setCreatedOn(Timestamp ts) {
+    createdOn = ts;
+  }
+
   public Timestamp getLastUpdatedOn() {
     return lastUpdatedOn;
   }

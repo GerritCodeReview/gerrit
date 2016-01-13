@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "67d5b629_56abf491",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-13T22:04:56Z",
+      "side": 1,
+      "message": "Not sure if this was part of the confusion, but note that approve() calls saveApprovals() to write them to the db. For the new PS we call saveApprovals() directly.",
+      "parentUuid": "27981e85_acaa438b",
+      "range": {
+        "startLine": 1091,
+        "startChar": 6,
+        "endLine": 1092,
+        "endChar": 58
+      },
+      "revId": "70fb71603884a471615713dac8a5df311a88efb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c4a27f_59ab2392",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

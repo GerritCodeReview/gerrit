@@ -386,9 +386,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     BatchMetaDataUpdate batch = openUpdate();
     try {
       writeCommit(batch);
-      if (draftUpdate != null) {
-        draftUpdate.commit();
-      }
       RevCommit c = batch.commit();
       return c;
     } catch (OrmException e) {
@@ -409,6 +406,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
     }
     batch.write(this, builder);
+    if (draftUpdate != null) {
+      draftUpdate.commit();
+    }
   }
 
   @Override

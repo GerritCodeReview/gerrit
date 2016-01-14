@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -29,6 +28,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
+import com.google.gerrit.server.git.MergeOp.CommitStatus;
 import com.google.gerrit.server.git.MergeSorter;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
@@ -48,8 +48,6 @@ import org.eclipse.jgit.revwalk.RevFlag;
 
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -72,6 +70,7 @@ public abstract class SubmitStrategy {
     interface Factory {
       Arguments create(
           Branch.NameKey destBranch,
+          CommitStatus commits,
           CodeReviewRevWalk rw,
           IdentifiedUser caller,
           ObjectInserter inserter,
@@ -91,6 +90,7 @@ public abstract class SubmitStrategy {
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
+    final CommitStatus commits;
     final IdentifiedUser caller;
     final ObjectInserter inserter;
     final Repository repo;
@@ -113,6 +113,7 @@ public abstract class SubmitStrategy {
         ProjectCache projectCache,
         RebaseChangeOp.Factory rebaseFactory,
         @Assisted Branch.NameKey destBranch,
+        @Assisted CommitStatus commits,
         @Assisted CodeReviewRevWalk rw,
         @Assisted IdentifiedUser caller,
         @Assisted ObjectInserter inserter,
@@ -129,6 +130,7 @@ public abstract class SubmitStrategy {
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;
+      this.commits = commits;
       this.rw = rw;
       this.caller = caller;
       this.inserter = inserter;
@@ -137,7 +139,8 @@ public abstract class SubmitStrategy {
       this.db = db;
       this.alreadyAccepted = alreadyAccepted;
 
-      this.project = projectCache.get(destBranch.getParentKey());
+      this.project = checkNotNull(projectCache.get(destBranch.getParentKey()),
+            "project not found: %s", destBranch.getParentKey());
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
       this.mergeUtil = mergeUtilFactory.create(project);
     }
@@ -169,20 +172,4 @@ public abstract class SubmitStrategy {
    */
   public abstract MergeTip run(CodeReviewCommit currentTip,
       Collection<CodeReviewCommit> toMerge) throws IntegrationException;
-
-  /**
-   * Returns all commits that have been newly created for the changes that are
-   * getting merged.
-   * <p>
-   * By default this method returns an empty map, but subclasses may override
-   * this method to provide any newly created commits.
-   * <p>
-   * This method may only be called after {@link #run(CodeReviewCommit,
-   * Collection)}.
-   *
-   * @return new commits created for changes that were merged.
-   */
-  public Map<Change.Id, CodeReviewCommit> getNewCommits() {
-    return Collections.emptyMap();
-  }
 }

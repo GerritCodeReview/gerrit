@@ -20,15 +20,19 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -49,9 +53,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.TreeMap;
 
 /**
  * Context for a set of updates that should be applied for a site.
@@ -146,16 +152,8 @@ public class BatchUpdate implements AutoCloseable {
       return BatchUpdate.this.getObjectInserter();
     }
 
-    private BatchRefUpdate getBatchRefUpdate() throws IOException {
-      initRepository();
-      if (batchRefUpdate == null) {
-        batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
-      }
-      return batchRefUpdate;
-    }
-
-    public void addRefUpdate(ReceiveCommand cmd) throws IOException {
-      getBatchRefUpdate().addCommand(cmd);
+    public void addRefUpdate(ReceiveCommand cmd) {
+      commands.add(cmd);
     }
 
     public TimeZone getTimeZone() {
@@ -165,28 +163,35 @@ public class BatchUpdate implements AutoCloseable {
 
   public class ChangeContext extends Context {
     private final ChangeControl ctl;
-    private final ChangeUpdate update;
+    private final Map<PatchSet.Id, ChangeUpdate> updates;
+
     private boolean deleted;
 
     private ChangeContext(ChangeControl ctl) {
       this.ctl = ctl;
-      this.update = changeUpdateFactory.create(ctl, when);
+      updates = new TreeMap<>(ReviewDbUtil.intKeyOrdering());
     }
 
-    public ChangeUpdate getChangeUpdate() {
-      return update;
+    public ChangeUpdate getUpdate(PatchSet.Id psId) {
+      ChangeUpdate u = updates.get(psId);
+      if (u == null) {
+        u = changeUpdateFactory.create(ctl, when);
+        u.setPatchSetId(psId);
+        updates.put(psId, u);
+      }
+      return u;
     }
 
-    public ChangeNotes getChangeNotes() {
-      return update.getChangeNotes();
+    public ChangeNotes getNotes() {
+      return ctl.getNotes();
     }
 
-    public ChangeControl getChangeControl() {
+    public ChangeControl getControl() {
       return ctl;
     }
 
     public Change getChange() {
-      return update.getChange();
+      return ctl.getChange();
     }
 
     public void markDeleted() {
@@ -213,6 +218,146 @@ public class BatchUpdate implements AutoCloseable {
     public abstract Change getChange();
   }
 
+  private static class ChainedReceiveCommands {
+    private final Map<String, ReceiveCommand> commands = new LinkedHashMap<>();
+
+    private boolean isEmpty() {
+      return commands.isEmpty();
+    }
+
+    private void add(ReceiveCommand cmd) {
+      checkArgument(!cmd.getOldId().equals(cmd.getNewId()),
+          "ref update is a no-op: %s", cmd);
+      ReceiveCommand old = commands.get(cmd.getRefName());
+      if (old == null) {
+        commands.put(cmd.getRefName(), cmd);
+        return;
+      }
+      checkArgument(old.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED,
+          "cannot chain ref update %s after update %s with result %s",
+          cmd, old, old.getResult());
+      checkArgument(cmd.getOldId().equals(old.getNewId()),
+          "cannot chain ref update %s after update %s with different new ID",
+          cmd, old);
+      commands.put(cmd.getRefName(), new ReceiveCommand(
+          old.getOldId(), cmd.getNewId(), cmd.getRefName()));
+    }
+
+    private void addTo(BatchRefUpdate bru) {
+      checkState(!isEmpty(), "no commands to add");
+      for (ReceiveCommand cmd : commands.values()) {
+        bru.addCommand(cmd);
+      }
+    }
+  }
+
+  /**
+   * Interface for listening during batch update execution.
+   * <p>
+   * When used during execution of multiple batch updates, the {@code after*}
+   * methods are called after that phase has been completed for <em>all</em> updates.
+   */
+  public static class Listener {
+    private static final Listener NONE = new Listener();
+
+    /**
+     * Called after updating all repositories and flushing objects but before
+     * updating any refs.
+     */
+    public void afterUpdateRepos() throws Exception {
+    }
+
+    /** Called after updating all refs. */
+    public void afterRefUpdates() throws Exception {
+    }
+
+    /** Called after updating all changes. */
+    public void afterUpdateChanges() throws Exception {
+    }
+  }
+
+  private static Order getOrder(Collection<BatchUpdate> updates) {
+    Order o = null;
+    for (BatchUpdate u : updates) {
+      if (o == null) {
+        o = u.order;
+      } else if (u.order != o) {
+        throw new IllegalArgumentException("cannot mix execution orders");
+      }
+    }
+    return o;
+  }
+
+  static void execute(Collection<BatchUpdate> updates, Listener listener)
+      throws UpdateException, RestApiException {
+    if (updates.isEmpty()) {
+      return;
+    }
+    try {
+      Order order = getOrder(updates);
+      switch (order) {
+        case REPO_BEFORE_DB:
+          for (BatchUpdate u : updates) {
+            u.executeUpdateRepo();
+          }
+          listener.afterUpdateRepos();
+          for (BatchUpdate u : updates) {
+            u.executeRefUpdates();
+          }
+          listener.afterRefUpdates();
+          for (BatchUpdate u : updates) {
+            u.executeChangeOps();
+          }
+          listener.afterUpdateChanges();
+          break;
+        case DB_BEFORE_REPO:
+          for (BatchUpdate u : updates) {
+            u.executeChangeOps();
+          }
+          listener.afterUpdateChanges();
+          for (BatchUpdate u : updates) {
+            u.executeUpdateRepo();
+          }
+          listener.afterUpdateRepos();
+          for (BatchUpdate u : updates) {
+            u.executeRefUpdates();
+          }
+          listener.afterRefUpdates();
+          break;
+        default:
+          throw new IllegalStateException("invalid execution order: " + order);
+      }
+
+      List<CheckedFuture<?, IOException>> indexFutures = new ArrayList<>();
+      for (BatchUpdate u : updates) {
+        indexFutures.addAll(u.indexFutures);
+      }
+      ChangeIndexer.allAsList(indexFutures).get();
+
+      for (BatchUpdate u : updates) {
+        if (u.batchRefUpdate != null) {
+          // Fire ref update events only after all mutations are finished, since
+          // callers may assume a patch set ref being created means the change
+          // was created, or a branch advancing meaning some changes were
+          // closed.
+          u.gitRefUpdated.fire(u.project, u.batchRefUpdate);
+        }
+      }
+
+      for (BatchUpdate u : updates) {
+        u.executePostOps();
+      }
+    } catch (UpdateException | RestApiException e) {
+      // Propagate REST API exceptions thrown by operations; they commonly throw
+      // exceptions like ResourceConflictException to indicate an atomic update
+      // failure.
+      throw e;
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e);
+      throw new UpdateException(e);
+    }
+  }
+
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
   private final ChangeIndexer indexer;
@@ -233,6 +378,7 @@ public class BatchUpdate implements AutoCloseable {
   private Repository repo;
   private ObjectInserter inserter;
   private RevWalk revWalk;
+  private ChainedReceiveCommands commands = new ChainedReceiveCommands();
   private BatchRefUpdate batchRefUpdate;
   private boolean closeRepo;
   private Order order;
@@ -329,58 +475,37 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public void execute() throws UpdateException, RestApiException {
-    try {
-      switch (order) {
-        case REPO_BEFORE_DB:
-          executeRefUpdates();
-          executeChangeOps();
-          break;
-        case DB_BEFORE_REPO:
-          executeChangeOps();
-          executeRefUpdates();
-          break;
-        default:
-          throw new IllegalStateException("invalid execution order: " + order);
-      }
-
-      reindexChanges();
-
-      if (batchRefUpdate != null) {
-        // Fire ref update events only after all mutations are finished, since
-        // callers may assume a patch set ref being created means the change was
-        // created, or a branch advancing meaning some changes were closed.
-        gitRefUpdated.fire(project, batchRefUpdate);
-      }
-
-      executePostOps();
-    } catch (UpdateException | RestApiException e) {
-      // Propagate REST API exceptions thrown by operations; they commonly throw
-      // exceptions like ResourceConflictException to indicate an atomic update
-      // failure.
-      throw e;
-    } catch (Exception e) {
-      Throwables.propagateIfPossible(e);
-      throw new UpdateException(e);
-    }
+    execute(Listener.NONE);
   }
 
-  private void executeRefUpdates()
-      throws IOException, UpdateException, RestApiException {
+  public void execute(Listener listener)
+      throws UpdateException, RestApiException {
+    execute(ImmutableList.of(this), listener);
+  }
+
+  private void executeUpdateRepo() throws UpdateException, RestApiException {
     try {
       RepoContext ctx = new RepoContext();
       for (Op op : ops.values()) {
         op.updateRepo(ctx);
       }
+      if (inserter != null) {
+        inserter.flush();
+      }
     } catch (Exception e) {
       Throwables.propagateIfPossible(e, RestApiException.class);
       throw new UpdateException(e);
     }
+  }
 
-    if (repo == null || batchRefUpdate == null
-        || batchRefUpdate.getCommands().isEmpty()) {
+  private void executeRefUpdates() throws IOException, UpdateException {
+    if (commands.isEmpty()) {
       return;
     }
-    inserter.flush();
+    // May not be opened if the caller added ref updates but no new objects.
+    initRepository();
+    batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
+    commands.addTo(batchRefUpdate);
     batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
     boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
@@ -409,7 +534,18 @@ public class BatchUpdate implements AutoCloseable {
         } finally {
           db.rollback();
         }
-        ctx.getChangeUpdate().commit();
+
+        BatchMetaDataUpdate bmdu = null;
+        for (ChangeUpdate u : ctx.updates.values()) {
+          if (bmdu == null) {
+            bmdu = u.openUpdate();
+          }
+          u.writeCommit(bmdu);
+        }
+        if (bmdu != null) {
+          bmdu.commit();
+        }
+
         if (ctx.deleted) {
           indexFutures.add(indexer.deleteAsync(id));
         } else {
@@ -432,10 +568,6 @@ public class BatchUpdate implements AutoCloseable {
     //  - attempting to read a change that doesn't exist yet
     return new ChangeContext(
       changeControlFactory.controlFor(c, user));
-  }
-
-  private void reindexChanges() throws IOException {
-    ChangeIndexer.allAsList(indexFutures).checkedGet();
   }
 
   private void executePostOps() throws Exception {

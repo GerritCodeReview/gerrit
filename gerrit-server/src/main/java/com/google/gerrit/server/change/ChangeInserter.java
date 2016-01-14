@@ -241,11 +241,11 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   public void updateChange(ChangeContext ctx) throws OrmException, IOException {
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     ReviewDb db = ctx.getDb();
-    ChangeControl ctl = ctx.getChangeControl();
-    ChangeUpdate update = ctx.getChangeUpdate();
+    ChangeControl ctl = ctx.getControl();
     patchSetInfo = patchSetInfoFactory.get(
         ctx.getRevWalk(), commit, patchSet.getId());
     ctx.getChange().setCurrentPatchSet(patchSetInfo);
+    ChangeUpdate update = ctx.getUpdate(patchSet.getId());
 
     if (patchSet.getGroups() == null) {
       patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));
@@ -268,7 +268,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     approvalsUtil.addReviewers(db, update, labelTypes, change,
         patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
     approvalsUtil.addApprovals(db, update, labelTypes, patchSet,
-        ctx.getChangeControl(), approvals);
+        ctx.getControl(), approvals);
     if (message != null) {
       changeMessage =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),

@@ -19,6 +19,7 @@ java_library(
   resources = glob(['src/main/resources/**/*']),
   deps = [
     '//gerrit-extension-api:api',
+    '//lib:guava',
     '//lib:gwtorm',
   ],
   visibility = ['PUBLIC'],

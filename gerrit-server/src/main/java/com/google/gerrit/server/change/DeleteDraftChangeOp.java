@@ -74,7 +74,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     if (!allowDrafts) {
       throw new MethodNotAllowedException("Draft workflow is disabled");
     }
-    if (!ctx.getChangeControl().canDeleteDraft(ctx.getDb())) {
+    if (!ctx.getControl().canDeleteDraft(ctx.getDb())) {
       throw new AuthException("Not permitted to delete this draft change");
     }
     List<PatchSet> patchSets = ctx.getDb().patchSets().byChange(id).toList();

@@ -1807,7 +1807,7 @@ public class ReceiveCommits {
                 new BatchUpdate.Op() {
                   @Override
                   public void updateChange(ChangeContext ctx) throws Exception {
-                    ctx.getChangeUpdate().setTopic(magicBranch.topic);
+                    ctx.getUpdate(ps.getId()).setTopic(magicBranch.topic);
                   }
                 });
           }
@@ -1830,8 +1830,6 @@ public class ReceiveCommits {
     try (MergeOp op = mergeOpProvider.get()) {
       op.merge(db, rsrc.getChange(),
           changeCtl.getUser().asIdentifiedUser(), false);
-    } catch (NoSuchChangeException e) {
-      throw new OrmException(e);
     }
     addMessage("");
     Change c = db.changes().get(rsrc.getChange().getId());

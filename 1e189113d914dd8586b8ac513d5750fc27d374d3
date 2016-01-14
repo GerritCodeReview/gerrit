@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7c4a27f_796947f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-14T11:16:15Z",
+      "side": 1,
+      "message": "Don\u0027t explicitly import this.  Change is already imported, and should be used instead.",
+      "revId": "1e189113d914dd8586b8ac513d5750fc27d374d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_5966832b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-14T11:16:15Z",
+      "side": 1,
+      "message": "Change.Id",
+      "range": {
+        "startLine": 121,
+        "startChar": 20,
+        "endLine": 121,
+        "endChar": 22
+      },
+      "revId": "1e189113d914dd8586b8ac513d5750fc27d374d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_3963cf1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-14T11:16:15Z",
+      "side": 1,
+      "message": "Change.Id",
+      "range": {
+        "startLine": 131,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 22
+      },
+      "revId": "1e189113d914dd8586b8ac513d5750fc27d374d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_6c9bfb59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-14T11:16:15Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "revId": "1e189113d914dd8586b8ac513d5750fc27d374d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "674856fe_7ed91146",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T18:07:19Z",
+      "side": 1,
+      "message": "I will have to check with our lawyers that the use of this public domain image is ok.",
+      "revId": "503e098dccfbac8d76c0ece5b738b807c822b0e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

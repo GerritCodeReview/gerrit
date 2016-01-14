@@ -188,6 +188,10 @@ limitations under the License.
         _diffPreferences: Object,
       },
 
+      listeners: {
+        'title-change': '_handleTitleChange',
+      },
+
       get loggedIn() {
         return !!(this.account && Object.keys(this.account).length > 0);
       },
@@ -227,6 +231,14 @@ limitations under the License.
 
       _computeLoggedIn: function(account) { // argument used for binding update only
         return this.loggedIn;
+      },
+
+      _handleTitleChange: function(e) {
+        if (e.detail.title) {
+          document.title = e.detail.title + ' · Gerrit Code Review';
+        } else {
+          document.title = null;
+        }
       },
 
     });

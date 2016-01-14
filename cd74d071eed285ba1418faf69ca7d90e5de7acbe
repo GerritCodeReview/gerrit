@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "474352e2_1dffb37f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T18:00:01Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s any easier or harder now than it was before. Why couldn\u0027t we before?",
+      "parentUuid": "27981e85_ac7c03c4",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27981e85_cc894f0d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8

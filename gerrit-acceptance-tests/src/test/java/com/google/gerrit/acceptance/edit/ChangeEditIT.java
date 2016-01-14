@@ -88,7 +88,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
-  ChangeEditUtil editUtil;
+  private ChangeEditUtil editUtil;
 
   @Inject
   private ChangeEditModifier modifier;

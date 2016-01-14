@@ -211,6 +211,47 @@
     },
     {
       "key": {
+        "uuid": "474352e2_3dfcef87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T18:01:19Z",
+      "side": 1,
+      "message": "Good idea. I will have to double-check but I think this was the only reason I had to expose changes in CommitStatus.",
+      "parentUuid": "27981e85_2c7ad3c3",
+      "range": {
+        "startLine": 183,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 33
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_5edc5537",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T18:01:19Z",
+      "side": 1,
+      "message": "Note to self: since we\u0027re using the cached submit records, a missing OK record indicates programmer error, since we should have failed earlier in the process.",
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c4a27f_79e6e7d4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
         "patchSetId": 8

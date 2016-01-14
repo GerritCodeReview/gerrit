@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "c7c4a27f_d9ff3352",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T18:05:43Z",
+      "side": 1,
+      "message": "Because the SubmitStrategy API was not considered stable enough and was very likely to change. Now this API looks much more generic.",
+      "parentUuid": "474352e2_1dffb37f",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27981e85_cc894f0d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8

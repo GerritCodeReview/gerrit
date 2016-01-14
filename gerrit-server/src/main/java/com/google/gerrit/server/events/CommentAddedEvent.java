@@ -15,15 +15,17 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 
 public class CommentAddedEvent extends PatchSetEvent {
+  static final String TYPE = "comment-added";
   public Supplier<AccountAttribute> author;
   public Supplier<ApprovalAttribute[]> approvals;
   public String comment;
 
-  public CommentAddedEvent() {
-    super("comment-added");
+  public CommentAddedEvent(Change change) {
+    super(TYPE, change);
   }
 }

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "674856fe_be0f997a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T18:52:54Z",
+      "side": 1,
+      "message": "Done. I like having RefNames be the one place you look if you want to know which refs Gerrit cares about.\n\n(Aside: GPG stuff is an exception because I still intend to migrate that upstream to JGit someday.)",
+      "parentUuid": "c7c4a27f_b9a91f4e",
+      "revId": "cb1357fa14cdacb9d54ff3e986565aa9df46918d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c4a27f_99ae5b52",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/RepoSequenceTest.java",
         "patchSetId": 3
@@ -31,6 +49,30 @@
       "writtenOn": "2016-01-14T18:48:44Z",
       "side": 1,
       "message": "s1",
+      "range": {
+        "startLine": 105,
+        "startChar": 24,
+        "endLine": 105,
+        "endChar": 26
+      },
+      "revId": "cb1357fa14cdacb9d54ff3e986565aa9df46918d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_5e053559",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T18:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c4a27f_99ae5b52",
       "range": {
         "startLine": 105,
         "startChar": 24,

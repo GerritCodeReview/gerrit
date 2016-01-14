@@ -31,6 +31,7 @@ import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -105,23 +106,25 @@ class InitSshd implements InitStep {
 
         System.err.print(" rsa...");
         System.err.flush();
-        Runtime.getRuntime().exec(new String[] {"ssh-keygen", //
+        new ProcessBuilder("ssh-keygen", //
             "-q" /* quiet */, //
             "-t", "rsa", //
             "-P", "", //
             "-C", comment, //
             "-f", site.ssh_rsa.toAbsolutePath().toString() //
-            }).waitFor();
+        ).redirectError(Redirect.INHERIT).redirectOutput(Redirect.INHERIT)
+            .start().waitFor();
 
         System.err.print(" dsa...");
         System.err.flush();
-        Runtime.getRuntime().exec(new String[] {"ssh-keygen", //
+        new ProcessBuilder("ssh-keygen", //
             "-q" /* quiet */, //
             "-t", "dsa", //
             "-P", "", //
             "-C", comment, //
             "-f", site.ssh_dsa.toAbsolutePath().toString() //
-            }).waitFor();
+        ).redirectError(Redirect.INHERIT).redirectOutput(Redirect.INHERIT)
+            .start().waitFor();
 
       } else {
         // Generate the SSH daemon host key ourselves. This is complex

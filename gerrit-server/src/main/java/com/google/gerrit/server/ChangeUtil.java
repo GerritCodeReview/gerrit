@@ -174,6 +174,7 @@ public class ChangeUtil {
 
   private final Provider<CurrentUser> user;
   private final Provider<ReviewDb> db;
+  private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final RevertedSender.Factory revertedSenderFactory;
@@ -186,6 +187,7 @@ public class ChangeUtil {
   @Inject
   ChangeUtil(Provider<CurrentUser> user,
       Provider<ReviewDb> db,
+      Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
       ChangeControl.GenericFactory changeControlFactory,
       RevertedSender.Factory revertedSenderFactory,
@@ -196,6 +198,7 @@ public class ChangeUtil {
       ChangeUpdate.Factory changeUpdateFactory) {
     this.user = user;
     this.db = db;
+    this.seq = seq;
     this.queryProvider = queryProvider;
     this.changeControlFactory = changeControlFactory;
     this.revertedSenderFactory = revertedSenderFactory;
@@ -262,7 +265,7 @@ public class ChangeUtil {
         RefControl refControl = ctl.getRefControl();
         Change change = new Change(
             new Change.Key("I" + computedChangeId.name()),
-            new Change.Id(db.get().nextChangeId()),
+            new Change.Id(seq.nextChangeId()),
             user.get().getAccountId(),
             changeToRevert.getDest(),
             TimeUtil.nowTs());

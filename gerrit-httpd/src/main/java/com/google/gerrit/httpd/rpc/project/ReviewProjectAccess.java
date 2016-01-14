@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
@@ -69,6 +70,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   }
 
   private final ReviewDb db;
+  private final Sequences seq;
   private final IdentifiedUser user;
   private final Provider<PostReviewers> reviewersProvider;
   private final ProjectCache projectCache;
@@ -88,6 +90,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       ChangeInserter.Factory changeInserterFactory,
       BatchUpdate.Factory updateFactory,
       Provider<SetParent> setParent,
+      Sequences seq,
 
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
@@ -98,6 +101,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         allProjects, setParent, projectName, base, sectionList,
         parentProjectName, message, false);
     this.db = db;
+    this.seq = seq;
     this.user = user;
     this.reviewersProvider = reviewersProvider;
     this.projectCache = projectCache;
@@ -111,7 +115,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, OrmException {
     md.setInsertChangeId(true);
-    Change.Id changeId = new Change.Id(db.nextChangeId());
+    Change.Id changeId = new Change.Id(seq.nextChangeId());
     RevCommit commit =
         config.commitToNewRef(md, new PatchSet.Id(changeId,
             Change.INITIAL_PATCH_SET_ID).toRefName());

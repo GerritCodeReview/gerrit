@@ -44,6 +44,16 @@ limitations under the License.
     Polymer({
       is: 'gr-dashboard-view',
 
+      /**
+       * Fired when the title of the page should change.
+       *
+       * @event title-change
+       */
+
+      attached: function() {
+        this.fire('title-change', {title: 'My Reviews'});
+      },
+
       properties: {
         _results: Array,
         _groupTitles: {

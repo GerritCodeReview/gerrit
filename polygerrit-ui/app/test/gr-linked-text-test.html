@@ -44,9 +44,23 @@ limitations under the License.
           link: 'https://code.google.com/p/gerrit/issues/detail?id=$2'
         },
         changeid: {
-          'match': '(I[0-9a-f]{8,40})',
-          'link': '#/q/$1'
-        }
+          match: '(I[0-9a-f]{8,40})',
+          link: '#/q/$1'
+        },
+        googlesearch: {
+          match: 'google:(.+)',
+          link: 'https://bing.com/search?q=$1',  // html should supercede link.
+          html: '<a href="https://google.com/search?q=$1">$1</a>',
+        },
+        hashedhtml: {
+          match: 'hash:(.+)',
+          html: '<a href="#/awesomesauce">$1</a>',
+        },
+        disabledconfig: {
+          match: 'foo:(.+)',
+          link: 'https://google.com/search?q=$1',
+          enabled: false,
+        },
       };
     });
 
@@ -109,5 +123,24 @@ limitations under the License.
           'https://code.google.com/p/gerrit/issues/detail?id=3450');
       assert.equal(linkEl2.textContent, 'Issue 3450');
     });
+
+    test('html field in link config', function() {
+      element.content = 'google:do a barrel roll';
+      assert.equal(element.$.output.innerHTML,
+          '<a href="https://google.com/search?q=do a barrel roll">' +
+              'do a barrel roll</a>');
+    });
+
+    test('removing hash from links', function() {
+      element.content = 'hash:foo';
+      assert.equal(element.$.output.innerHTML,
+          '<a href="/awesomesauce">foo</a>');
+    });
+
+    test('disabled config', function() {
+      element.content = 'foo:baz';
+      assert.equal(element.$.output.innerHTML, 'foo:baz');
+    });
+
   });
 </script>

@@ -27,6 +27,10 @@ GrLinkTextParser.prototype.addText = function(text, href) {
   this.callback(text, href);
 };
 
+GrLinkTextParser.prototype.addHTML = function(html) {
+  this.callback(null, null, html);
+};
+
 GrLinkTextParser.prototype.parse = function(text) {
   linkify(text, {
     callback: this.parseChunk.bind(this)
@@ -43,21 +47,39 @@ GrLinkTextParser.prototype.parseChunk = function(text, href) {
 
 GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
   for (var p in patterns) {
+    if (patterns[p].enabled != null && patterns[p].enabled == false) {
+      continue;
+    }
+    // PolyGerrit doesn't use hash-based navigation like GWT.
+    // Account for this.
+    if (patterns[p].html) {
+      patterns[p].html =
+          patterns[p].html.replace(/<a href=\"#\//g, '<a href="/');
+    } else if (patterns[p].link) {
+      if (patterns[p].link[0] == '#') {
+        patterns[p].link = patterns[p].link.substr(1);
+      }
+    }
+
     var pattern = new RegExp(patterns[p].match, 'g');
 
     var match;
     while (match = pattern.exec(text)) {
-      var link = match[0].replace(pattern, patterns[p].link);
-
-      // PolyGerrit doesn't use hash-based navigation like GWT.
-      // Account for this.
-      if (link[0] == '#') {
-        link = link.substr(1);
-      }
       var before = text.substr(0, match.index);
       this.addText(before);
       text = text.substr(match.index + match[0].length);
-      this.addText(match[0], link);
+      console.log(patterns[p])
+      var result = match[0].replace(pattern,
+          patterns[p].html || patterns[p].link);
+
+      if (patterns[p].html) {
+        this.addHTML(result);
+      } else if (patterns[p].link) {
+        this.addText(match[0], result);
+      } else {
+        throw Error('linkconfig entry ' + p +
+            ' doesn’t contain a link or html attribute.');
+      }
     }
   }
   this.addText(text);

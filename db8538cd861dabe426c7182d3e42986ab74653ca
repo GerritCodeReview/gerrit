@@ -177,6 +177,24 @@
       "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_7e4fd1b9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T20:33:21Z",
+      "side": 1,
+      "message": "I would say, don\u0027t get so fixated on Change. You should be able to pass around PatchSet objects to all the places you need the revid",
+      "parentUuid": "c79bc28b_01fbea69",
+      "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,105 @@
+Release notes for Gerrit 2.11.6
+===============================
+
+Gerrit 2.11.6 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.6.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.11.6.war]
+
+There are no schema changes from link:ReleaseNotes-2.11.5.html[2.11.5].
+
+Bug Fixes
+---------
+
+General
+^^^^^^^
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3742[Issue 3742]:
+Use merge strategy for mergeability testing on 'Rebase if Necessary' strategy
++
+When pushing several interdependent commits to a project with the
+'Rebase if Necessary' strategy, all the commits except the first one were
+marked as 'Cannot merge'.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3762[Issue 3762]:
+Fix server error when querying changes with the `query` ssh command.
+
+* Fix server error when listing annotated/signed tag that has no tagger info.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3698[Issue 3698]:
+Fix creation of the administrator user on databases with pre-allocated
+auto-increment column values.
++
+When using a database configuration where auto-increment column values are
+pre-allocated, it was possible that the "Administrators" group was created
+with an ID other than "1". In this case, the created admin user was not added
+to the correct group, and did not have the correct admin permissions.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3018[Issue 3018]:
+Fix query for changes using a label with a group operator.
++
+The `group` operator was being ignored when searching for changes with labels
+because the search index does not contain group information.
+
+* Fix online reindexing of changes that don't already exist in the index.
++
+Changes are now always reloaded from the database during online reindex.
+
+Authentication
+^^^^^^^^^^^^^^
+
+* Fix handling of lowercase HTTP username.
++
+When `auth.userNameToLowerCase` is set to true the HTTP-provided username
+should be converted to lowercase as it is done on all the other authentication
+mechanisms.
+
+* Don't create new account when claimed OAuth identity is unknown.
+
+UI
+^^
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3714[Issue 3714]:
+Improve visibility of comments on dark themes.
+
+* Fix highlighting of search results and trailing whitespaces in intraline
+diff chunks.
+
+Plugins
+^^^^^^^
+
+* Suggest to upgrade installed plugins per default during site initialization
+to new Gerrit version.
++
+The default was "No" which resulted in some sites not upgrading core
+plugins and running the wrong versions.
+
+* Replication
+
+** Put back erroneously removed documentation of `remote.NAME.timeout`.
+
+** Add logging of cancelled replication events.
+
+* API
+
+** Allow to use `CurrentSchemaVersion`.
+
+** Allow to use `InternalChangeQuery.query()`.
+
+** Allow to use `JdbcUtil.port()`
+
+** Allow to use GWTORM `Key` classes.
+
+Documentation Updates
+---------------------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=412[Issue 412]:
+Update documentation of `commentlink.match` regular expression to clarify
+that the expression is applied to the rendered html.
+
+* Remove warning about unstable change edit REST API endpoints.
++
+These endpoints should be considered stable since version 2.11.
+
+* Document that `ldap.groupBase` and `ldap.accountBase` are repeatable
+

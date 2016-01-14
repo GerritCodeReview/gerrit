@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7c4a27f_b9f47f77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-01-14T18:26:03Z",
+      "side": 1,
+      "message": "I\u0027m learning with Ketch that this may be hard to show all of the time on failures. I think you are right to depend on it here, but I\u0027ll have to try harder in something like Ketch to ensure we present LOCK_FAILURE and not some other thing here under contention.",
+      "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_790f074b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-01-14T18:26:03Z",
+      "side": 1,
+      "message": "Seems like initialized is redundant here given counter \u003d limit \u003d 0 at construction?",
+      "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_590c4354",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-01-14T18:26:03Z",
+      "side": 1,
+      "message": "Order the if and else clause statements the same way with respect to setting next and oldId.",
+      "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_2cd733ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-01-14T18:26:03Z",
+      "side": 1,
+      "message": "Probably means DFS doesn\u0027t throw it. :)",
+      "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_4cdc7f0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-01-14T18:26:03Z",
+      "side": 1,
+      "message": "Use UTF_8 here just to protect against crazy platform encodings like EBDIC or something weird.",
+      "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

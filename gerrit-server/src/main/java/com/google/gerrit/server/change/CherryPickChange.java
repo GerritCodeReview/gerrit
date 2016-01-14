@@ -30,6 +30,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -71,6 +72,7 @@ import java.util.TimeZone;
 public class CherryPickChange {
 
   private final Provider<ReviewDb> db;
+  private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager gitManager;
   private final TimeZone serverTimeZone;
@@ -84,6 +86,7 @@ public class CherryPickChange {
 
   @Inject
   CherryPickChange(Provider<ReviewDb> db,
+      Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
       @GerritPersonIdent PersonIdent myIdent,
       GitRepositoryManager gitManager,
@@ -95,6 +98,7 @@ public class CherryPickChange {
       ChangeUpdate.Factory updateFactory,
       BatchUpdate.Factory batchUpdateFactory) {
     this.db = db;
+    this.seq = seq;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
@@ -233,7 +237,7 @@ public class CherryPickChange {
       IdentifiedUser identifiedUser, String topic, Branch.NameKey sourceBranch)
       throws RestApiException, UpdateException, OrmException {
     Change change =
-        new Change(changeKey, new Change.Id(db.get().nextChangeId()),
+        new Change(changeKey, new Change.Id(seq.nextChangeId()),
             identifiedUser.getAccountId(), new Branch.NameKey(project,
                 destRef.getName()), TimeUtil.nowTs());
     change.setTopic(topic);

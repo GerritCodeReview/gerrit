@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "474352e2_5d3bfb0c",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-14T20:22:53Z",
+      "side": 1,
+      "message": "happy to remove but this will most likely be the default given the current \"customer\" base.",
+      "revId": "b14ca0845efec61dcba1682ddbee5bf7e448c61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

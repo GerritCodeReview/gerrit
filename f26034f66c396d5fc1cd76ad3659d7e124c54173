@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "674856fe_1ee6cd01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T18:38:08Z",
+      "side": 1,
+      "message": "Well we don\u0027t show it all the time on transient failures on our current DFS implementation anyway, there are lots of REJECTED",
+      "parentUuid": "c7c4a27f_b9f47f77",
+      "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c4a27f_790f074b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "674856fe_9e0add6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T18:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c4a27f_790f074b",
+      "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c4a27f_590c4354",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-01-14T18:26:03Z",
       "side": 1,
       "message": "Order the if and else clause statements the same way with respect to setting next and oldId.",
+      "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_fe152190",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T18:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c4a27f_590c4354",
       "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -81,6 +135,24 @@
       "writtenOn": "2016-01-14T18:26:03Z",
       "side": 1,
       "message": "Use UTF_8 here just to protect against crazy platform encodings like EBDIC or something weird.",
+      "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_3ee389f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T18:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27981e85_4cdc7f0a",
       "revId": "f26034f66c396d5fc1cd76ad3659d7e124c54173",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

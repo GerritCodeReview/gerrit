@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
 import static com.google.gerrit.server.ChangeUtil.TO_PS_ID;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -36,7 +36,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -406,22 +405,27 @@ public class ConsistencyChecker {
         return;
       }
 
-      RevId revId = new RevId(commit.name());
-      List<PatchSet> patchSets = FluentIterable
-          .from(db.get().patchSets().byRevision(revId))
-          .filter(new Predicate<PatchSet>() {
-            @Override
-            public boolean apply(PatchSet ps) {
-              try {
-                Change c = db.get().changes().get(ps.getId().getParentKey());
-                return c != null && c.getDest().equals(change.getDest());
-              } catch (OrmException e) {
-                warn(e);
-                return true; // Should cause an error below, that's good.
-              }
-            }
-          }).toSortedList(ChangeUtil.PS_ID_ORDER);
-      switch (patchSets.size()) {
+      List<PatchSet.Id> psIds = new ArrayList<>();
+      for (Ref ref : repo.getRefDatabase().getRefs(REFS_CHANGES).values()) {
+        if (!ref.getObjectId().equals(commit)) {
+          continue;
+        }
+        PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
+        if (psId == null) {
+          continue;
+        }
+        try {
+          Change c = db.get().changes().get(psId.getParentKey());
+          if (c == null || !c.getDest().equals(change.getDest())) {
+            continue;
+          }
+        } catch (OrmException e) {
+          warn(e);
+          // Include this patch set; should cause an error below, which is good.
+        }
+        psIds.add(psId);
+      }
+      switch (psIds.size()) {
         case 0:
           // No patch set for this commit; insert one.
           rw.parseBody(commit);
@@ -445,7 +449,7 @@ public class ConsistencyChecker {
           // patch set.
           // TODO(dborowitz): This could be fixed if it's an older patch set of
           // the current change.
-          PatchSet.Id id = patchSets.get(0).getId();
+          PatchSet.Id id = psIds.get(0);
           if (!id.equals(change.currentPatchSetId())) {
             problem(String.format("Expected merged commit %s corresponds to"
                   + " patch set %s, which is not the current patch set %s",
@@ -456,10 +460,10 @@ public class ConsistencyChecker {
         default:
           problem(String.format(
                 "Multiple patch sets for expected merged commit %s: %s",
-                commit.name(), patchSets));
+                commit.name(), intKeyOrdering().sortedCopy(psIds)));
           break;
       }
-    } catch (OrmException | IOException e) {
+    } catch (IOException e) {
       error("Error looking up expected merged commit " + fix.expectMergedAs,
           e);
     }

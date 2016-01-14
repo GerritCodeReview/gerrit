@@ -16,7 +16,6 @@ package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.PrimaryKey;
@@ -30,11 +29,4 @@ public interface PatchSetAccess extends Access<PatchSet, PatchSet.Id> {
 
   @Query("WHERE id.changeId = ? ORDER BY id.patchSetId")
   ResultSet<PatchSet> byChange(Change.Id id) throws OrmException;
-
-  @Query("WHERE revision = ?")
-  ResultSet<PatchSet> byRevision(RevId rev) throws OrmException;
-
-  @Query("WHERE revision >= ? AND revision <= ?")
-  ResultSet<PatchSet> byRevisionRange(RevId reva, RevId revb)
-      throws OrmException;
 }

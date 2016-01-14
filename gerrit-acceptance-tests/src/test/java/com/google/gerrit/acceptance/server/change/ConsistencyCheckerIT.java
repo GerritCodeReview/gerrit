@@ -564,7 +564,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     ProblemInfo p = problems.get(0);
     assertThat(p.message).isEqualTo(
         "Multiple patch sets for expected merged commit " + commit.name()
-        + ": [" + ps2 + ", " + ps3 + "]");
+        + ": [" + ps2.getId() + ", " + ps3.getId() + "]");
   }
 
   private Change insertChange() throws Exception {

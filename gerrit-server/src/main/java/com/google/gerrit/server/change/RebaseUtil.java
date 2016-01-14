@@ -22,7 +22,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,11 +42,11 @@ import java.io.IOException;
 public class RebaseUtil {
   private static final Logger log = LoggerFactory.getLogger(RebaseUtil.class);
 
-  private final Provider<ReviewDb> db;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
-  RebaseUtil(Provider<ReviewDb> db) {
-    this.db = db;
+  RebaseUtil(Provider<InternalChangeQuery> queryProvider) {
+    this.queryProvider = queryProvider;
   }
 
   public boolean canRebase(PatchSet patchSet, Branch.NameKey dest,
@@ -97,30 +98,29 @@ public class RebaseUtil {
 
     RevId parentRev = new RevId(commit.getParent(0).name());
 
-    for (PatchSet depPatchSet : db.get().patchSets().byRevision(parentRev)) {
-      Change.Id depChangeId = depPatchSet.getId().getParentKey();
-      Change depChange = db.get().changes().get(depChangeId);
-      if (!depChange.getDest().equals(destBranch)) {
-        continue;
-      }
-
-      if (depChange.getStatus() == Status.ABANDONED) {
-        throw new ResourceConflictException(
-            "Cannot rebase a change with an abandoned parent: "
-            + depChange.getKey());
-      }
-
-      if (depChange.getStatus().isOpen()) {
-        if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
-          throw new ResourceConflictException(
-              "Change is already based on the latest patch set of the"
-              + " dependent change.");
+    CHANGES: for (ChangeData cd : queryProvider.get()
+        .byBranchCommit(destBranch, parentRev.get())) {
+      for (PatchSet depPatchSet : cd.patchSets()) {
+        if (!depPatchSet.getRevision().equals(parentRev)) {
+          continue;
         }
-        PatchSet latestDepPatchSet =
-            db.get().patchSets().get(depChange.currentPatchSetId());
-        baseRev = latestDepPatchSet.getRevision().get();
+        Change depChange = cd.change();
+        if (depChange.getStatus() == Status.ABANDONED) {
+          throw new ResourceConflictException(
+              "Cannot rebase a change with an abandoned parent: "
+              + depChange.getKey());
+        }
+
+        if (depChange.getStatus().isOpen()) {
+          if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
+            throw new ResourceConflictException(
+                "Change is already based on the latest patch set of the"
+                + " dependent change.");
+          }
+          baseRev = cd.currentPatchSet().getRevision().get();
+        }
+        break CHANGES;
       }
-      break;
     }
 
     if (baseRev == null) {

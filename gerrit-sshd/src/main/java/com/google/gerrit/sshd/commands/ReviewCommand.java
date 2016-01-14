@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -79,8 +80,8 @@ public class ReviewCommand extends SshCommand {
       usage = "list of commits or patch sets to review")
   void addPatchSetId(final String token) {
     try {
-      PatchSet ps = CommandUtils.parsePatchSet(token, db, projectControl,
-          branch);
+      PatchSet ps = CommandUtils.parsePatchSet(token, db, queryProvider.get(),
+          projectControl, branch);
       patchSets.add(ps);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -144,6 +145,9 @@ public class ReviewCommand extends SshCommand {
 
   @Inject
   private Provider<GerritApi> gApi;
+
+  @Inject
+  private Provider<InternalChangeQuery> queryProvider;
 
   private List<ApproveOption> optionList;
   private Map<String, Short> customLabels;

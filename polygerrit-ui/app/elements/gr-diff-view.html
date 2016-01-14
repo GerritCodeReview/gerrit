@@ -132,6 +132,12 @@ limitations under the License.
     Polymer({
       is: 'gr-diff-view',
 
+      /**
+       * Fired when the title of the page should change.
+       *
+       * @event title-change
+       */
+
       properties: {
         prefs: {
           type: Object,
@@ -160,6 +166,9 @@ limitations under the License.
       },
 
       attached: function() {
+        if (this._path) {
+          this.fire('title-change', {title: this._path});
+        }
         document.body.addEventListener('keydown', this._boundKeyHandler);
       },
 
@@ -215,6 +224,8 @@ limitations under the License.
           basePatchNum: value.basePatchNum || 'PARENT',
         };
         this._path = value.path;
+
+        this.fire('title-change', {title: this._path});
 
         // When navigating away from the page, there is a possibility that the
         // patch number is no longer a part of the URL (say when navigating to

@@ -16,6 +16,24 @@
       "revId": "ad5f4ab17aff121f5f51df55b7357a997202dc13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_1987ebf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-14T10:19:06Z",
+      "side": 1,
+      "message": "Yes, I saw it. It can come to master in another merge later.",
+      "parentUuid": "a7a24ebd_80525664",
+      "revId": "ad5f4ab17aff121f5f51df55b7357a997202dc13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

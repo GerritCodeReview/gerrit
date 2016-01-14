@@ -69,6 +69,26 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'guava-retrying',
+  id = 'com.github.rholder:guava-retrying:2.0.0',
+  sha1 = '974bc0a04a11cc4806f7c20a34703bd23c34e7f4',
+  license = 'Apache2.0',
+  deps = [':jsr305'],
+)
+
+maven_jar(
+  name = 'jsr305',
+  id = 'com.google.code.findbugs:jsr305:2.0.2',
+  sha1 = '516c03b21d50a644d538de0f0369c620989cd8f0',
+  license = 'Apache2.0',
+  attach_source = False,
+  # Whitelist lib targets that have jsr305 as a dependency. Generally speaking
+  # Gerrit core should not depend on these annotations, and instead use
+  # equivalent annotations in com.google.gerrit.common.
+  visibility = ['//lib:guava-retrying'],
+)
+
+maven_jar(
   name = 'velocity',
   id = 'org.apache.velocity:velocity:1.7',
   sha1 = '2ceb567b8f3f21118ecdec129fe1271dbc09aa7a',

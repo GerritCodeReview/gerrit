@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "c79bc28b_813b7a0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-01-14T11:44:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c4a27f_5966832b",
+      "range": {
+        "startLine": 121,
+        "startChar": 20,
+        "endLine": 121,
+        "endChar": 22
+      },
+      "revId": "1e189113d914dd8586b8ac513d5750fc27d374d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c4a27f_3963cf1b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
         "patchSetId": 9
@@ -83,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a7a24ebd_c095fe27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-01-14T11:44:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c4a27f_3963cf1b",
+      "range": {
+        "startLine": 131,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 22
+      },
+      "revId": "1e189113d914dd8586b8ac513d5750fc27d374d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27981e85_6c9bfb59",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 9
@@ -94,6 +142,24 @@
       "writtenOn": "2016-01-14T11:16:15Z",
       "side": 1,
       "message": "nit: wrap long line",
+      "revId": "1e189113d914dd8586b8ac513d5750fc27d374d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79bc28b_a1255ee9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-01-14T11:44:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27981e85_6c9bfb59",
       "revId": "1e189113d914dd8586b8ac513d5750fc27d374d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

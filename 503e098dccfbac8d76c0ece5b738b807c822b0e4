@@ -52,6 +52,24 @@
       "revId": "503e098dccfbac8d76c0ece5b738b807c822b0e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "474352e2_3d594f85",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-14T19:25:40Z",
+      "side": 1,
+      "message": "Let’s see how this feels after using it for a bit.",
+      "parentUuid": "474352e2_7d4fd7b9",
+      "revId": "503e098dccfbac8d76c0ece5b738b807c822b0e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

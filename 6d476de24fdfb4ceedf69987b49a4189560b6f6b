@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7a24ebd_6038720f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.6.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-14T11:15:17Z",
+      "side": 1,
+      "message": "Could we expand this a bit or at least mention that the breakage was related to \"Linking alternative identity to existing Gerrit account\". Because otherwise it isn\u0027t clear what should happen instead, when new user doesn\u0027t created: it is linked, as it was requested by the user.",
+      "revId": "6d476de24fdfb4ceedf69987b49a4189560b6f6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

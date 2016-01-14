@@ -29,13 +29,15 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -66,6 +68,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   private final RebaseUtil rebaseUtil;
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   public Rebase(BatchUpdate.Factory updateFactory,
@@ -73,13 +76,15 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       RebaseChangeOp.Factory rebaseFactory,
       RebaseUtil rebaseUtil,
       ChangeJson.Factory json,
-      Provider<ReviewDb> dbProvider) {
+      Provider<ReviewDb> dbProvider,
+      Provider<InternalChangeQuery> queryProvider) {
     this.updateFactory = updateFactory;
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
     this.rebaseUtil = rebaseUtil;
     this.json = json;
     this.dbProvider = dbProvider;
+    this.queryProvider = queryProvider;
   }
 
   @Override
@@ -130,7 +135,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
 
     @SuppressWarnings("resource")
     ReviewDb db = dbProvider.get();
-    PatchSet basePatchSet = parseBase(base);
+    PatchSet basePatchSet = parseBase(change.getProject(), base);
     if (basePatchSet == null) {
       throw new ResourceConflictException("base revision is missing: " + base);
     } else if (!rsrc.getControl().isPatchVisible(basePatchSet, db)) {
@@ -168,7 +173,8 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     return rw.isMergedInto(rw.parseCommit(baseId), rw.parseCommit(tipId));
   }
 
-  private PatchSet parseBase(String base) throws OrmException {
+  private PatchSet parseBase(Project.NameKey project, String base)
+      throws OrmException {
     ReviewDb db = dbProvider.get();
 
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
@@ -193,10 +199,15 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     }
 
     // Try parsing as SHA-1.
-    for (PatchSet ps : db.patchSets().byRevision(new RevId(base))) {
-      if (basePatchSet == null
-          || basePatchSet.getId().get() < ps.getId().get()) {
-        basePatchSet = ps;
+    for (ChangeData cd : queryProvider.get().byProjectCommit(project, base)) {
+      for (PatchSet ps : cd.patchSets()) {
+        if (!ps.getRevision().matches(base)) {
+          continue;
+        }
+        if (basePatchSet == null
+            || basePatchSet.getId().get() < ps.getId().get()) {
+          basePatchSet = ps;
+        }
       }
     }
     return basePatchSet;

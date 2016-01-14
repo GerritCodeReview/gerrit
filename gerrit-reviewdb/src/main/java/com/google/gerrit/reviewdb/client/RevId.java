@@ -69,4 +69,8 @@ public final class RevId {
   public String toString() {
     return getClass().getSimpleName() + "{" + id + "}";
   }
+
+  public boolean matches(String str) {
+    return id.startsWith(str.toLowerCase());
+  }
 }

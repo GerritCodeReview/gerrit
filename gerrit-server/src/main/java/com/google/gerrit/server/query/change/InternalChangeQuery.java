@@ -218,7 +218,16 @@ public class InternalChangeQuery {
   }
 
   public List<ChangeData> byCommit(ObjectId id) throws OrmException {
-    return query(commit(schema(indexes), id.name()));
+    return byCommit(id.name());
+  }
+
+  public List<ChangeData> byCommit(String hash) throws OrmException {
+    return query(commit(schema(indexes), hash));
+  }
+
+  public List<ChangeData> byProjectCommit(Project.NameKey project,
+      String hash) throws OrmException {
+    return query(and(project(project), commit(schema(indexes), hash)));
   }
 
   public List<ChangeData> byProjectCommits(Project.NameKey project,
@@ -226,6 +235,19 @@ public class InternalChangeQuery {
     int n = indexConfig.maxTerms() - 1;
     checkArgument(hashes.size() <= n, "cannot exceed %s commits", n);
     return query(and(project(project), or(commits(schema(indexes), hashes))));
+  }
+
+  public List<ChangeData> byBranchCommit(String project, String branch,
+      String hash) throws OrmException {
+    return query(and(
+        new ProjectPredicate(project),
+        new RefPredicate(branch),
+        commit(schema(indexes), hash)));
+  }
+
+  public List<ChangeData> byBranchCommit(Branch.NameKey branch, String hash)
+      throws OrmException {
+    return byBranchCommit(branch.getParentKey().get(), branch.get(), hash);
   }
 
   public List<ChangeData> bySubmissionId(String cs) throws OrmException {

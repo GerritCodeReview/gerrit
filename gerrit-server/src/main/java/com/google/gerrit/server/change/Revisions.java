@@ -14,11 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -26,14 +23,12 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -114,19 +109,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       // Require a minimum of 4 digits.
       // Impossibly long identifier will never match.
       return Collections.emptyList();
-    } else if (id.length() >= 8) {
-      // Commit names are rather unique. Query for the commit and later
-      // match to the change. This is most likely going to identify 1 or
-      // at most 2 patch sets to consider, which is smaller than looking
-      // for all patch sets in the change.
-      RevId revid = new RevId(id);
-      if (revid.isComplete()) {
-        List<RevisionResource> m = toResources(change, findExactMatch(revid));
-        return m.isEmpty() ? loadEdit(change, revid)  : m;
-      }
-      return toResources(change, findByPrefix(revid));
     } else {
-      // Chance of collision rises; look at all patch sets on the change.
       List<RevisionResource> out = Lists.newArrayList();
       for (PatchSet ps : dbProvider.get().patchSets()
           .byChange(change.getId())) {
@@ -149,14 +132,6 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     return Collections.emptyList();
   }
 
-  private ResultSet<PatchSet> findExactMatch(RevId revid) throws OrmException {
-    return dbProvider.get().patchSets().byRevision(revid);
-  }
-
-  private ResultSet<PatchSet> findByPrefix(RevId revid) throws OrmException {
-    return dbProvider.get().patchSets().byRevisionRange(revid, revid.max());
-  }
-
   private List<RevisionResource> loadEdit(ChangeResource change, RevId revid)
       throws AuthException, IOException {
     Optional<ChangeEdit> edit = editUtil.byChange(change.getChange());
@@ -169,22 +144,5 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       }
     }
     return Collections.emptyList();
-  }
-
-  private static List<RevisionResource> toResources(final ChangeResource change,
-      Iterable<PatchSet> patchSets) {
-    final Change.Id changeId = change.getId();
-    return FluentIterable.from(patchSets)
-        .filter(new Predicate<PatchSet>() {
-          @Override
-          public boolean apply(PatchSet in) {
-            return changeId.equals(in.getId().getParentKey());
-          }
-        }).transform(new Function<PatchSet, RevisionResource>() {
-          @Override
-          public RevisionResource apply(PatchSet in) {
-            return new RevisionResource(change, in);
-          }
-        }).toList();
   }
 }

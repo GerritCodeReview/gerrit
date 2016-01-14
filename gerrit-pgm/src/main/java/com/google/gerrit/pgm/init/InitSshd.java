@@ -23,6 +23,7 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.util.HostPlatform;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -104,25 +105,28 @@ class InitSshd implements InitStep {
         //
         final String comment = "gerrit-code-review@" + hostname();
 
+        // Workaround for JDK-6518827 - zero-length argument ignored on Win32
+        String emptyPassphraseArg = HostPlatform.isWin32() ? "\"\"" : "";
+
         System.err.print(" rsa...");
         System.err.flush();
         ProcessBuilder sshKeygenRsa = new ProcessBuilder("ssh-keygen", //
             "-q" /* quiet */, //
             "-t", "rsa", //
-            "-P", "", //
+            "-P", emptyPassphraseArg, //
             "-C", comment, //
             "-f", site.ssh_rsa.toAbsolutePath().toString() //
         );
         sshKeygenRsa.redirectError(Redirect.INHERIT);
         sshKeygenRsa.redirectOutput(Redirect.INHERIT);
         sshKeygenRsa.start().waitFor();
-
         System.err.print(" dsa...");
         System.err.flush();
+
         ProcessBuilder sshKeygenDsa = new ProcessBuilder("ssh-keygen", //
             "-q" /* quiet */, //
             "-t", "dsa", //
-            "-P", "", //
+            "-P", emptyPassphraseArg, //
             "-C", comment, //
             "-f", site.ssh_dsa.toAbsolutePath().toString() //
         );

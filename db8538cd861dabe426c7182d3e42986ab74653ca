@@ -159,6 +159,24 @@
       "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79bc28b_01fbea69",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-14T20:29:25Z",
+      "side": 1,
+      "message": "I can\u0027t think of any reason at the moment why the revId needs to be stored in the Change, I can rework what I have to store the PatchSetInfo in the Change instead if that seems reasonable?",
+      "parentUuid": "674856fe_9e473da5",
+      "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

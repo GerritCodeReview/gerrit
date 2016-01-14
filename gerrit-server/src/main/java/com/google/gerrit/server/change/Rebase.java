@@ -63,6 +63,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repoManager;
   private final RebaseChangeOp.Factory rebaseFactory;
+  private final RebaseUtil rebaseUtil;
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
 
@@ -70,11 +71,13 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   public Rebase(BatchUpdate.Factory updateFactory,
       GitRepositoryManager repoManager,
       RebaseChangeOp.Factory rebaseFactory,
+      RebaseUtil rebaseUtil,
       ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider) {
     this.updateFactory = updateFactory;
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
+    this.rebaseUtil = rebaseUtil;
     this.json = json;
     this.dbProvider = dbProvider;
   }
@@ -224,8 +227,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       try (Repository repo = repoManager.openRepository(dest.getParentKey());
           RevWalk rw = new RevWalk(repo)) {
         visible = hasOneParent(rw, resource.getPatchSet());
-        enabled =
-            RebaseUtil.canRebase(patchSet, dest, repo, rw, dbProvider.get());
+        enabled = rebaseUtil.canRebase(patchSet, dest, repo, rw);
       } catch (IOException e) {
         log.error("Failed to check if patch set can be rebased: "
             + resource.getPatchSet(), e);

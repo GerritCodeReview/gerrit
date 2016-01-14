@@ -30,7 +30,7 @@ import (
 )
 
 var (
-	restHost = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
+	restHost = flag.String("host", "canary-chromium-review.googlesource.com", "Host to proxy requests to")
 	port     = flag.String("port", ":8081", "Port to serve HTTP requests on")
 	prod     = flag.Bool("prod", false, "Serve production assets")
 	loggedIn = flag.Bool("logged_in", false, "Return user info as if the user is logged in")

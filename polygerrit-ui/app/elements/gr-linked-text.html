@@ -56,13 +56,22 @@ limitations under the License.
       _contentOrConfigChanged: function(content, config) {
         var output = this.$.output;
         output.textContent = '';
-        var parser = new GrLinkTextParser(config, function(text, href) {
+        var parser = new GrLinkTextParser(config, function(text, href, html) {
           if (href) {
             var a = document.createElement('a');
             a.href = href;
             a.textContent = text;
             a.target = '_blank';
             output.appendChild(a);
+          } else if (html) {
+            var fragment = document.createDocumentFragment();
+            // Create temporary div to hold the nodes in.
+            var div = document.createElement('div');
+            div.innerHTML = html;
+            while (div.firstChild) {
+              fragment.appendChild(div.firstChild);
+            }
+            output.appendChild(fragment);
           } else {
             output.appendChild(document.createTextNode(text));
           }

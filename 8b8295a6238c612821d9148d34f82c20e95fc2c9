@@ -65,6 +65,75 @@
     },
     {
       "key": {
+        "uuid": "a7a24ebd_408a0e02",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-14T14:13:30Z",
+      "side": 1,
+      "message": "IMO it would be better to have it more generic eg. DiffType and move it into common package so that it can be used everywhere",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79bc28b_21326e2f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-14T14:13:30Z",
+      "side": 1,
+      "message": "how about simple \u0027diff-type\u0027?",
+      "range": {
+        "startLine": 41,
+        "startChar": 24,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79bc28b_018c0a20",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-14T14:13:30Z",
+      "side": 1,
+      "message": "same as above \"diff-type\"",
+      "range": {
+        "startLine": 53,
+        "startChar": 24,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5fefe6e_f287e8f5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
         "patchSetId": 5

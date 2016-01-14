@@ -16,6 +16,24 @@
       "revId": "503e098dccfbac8d76c0ece5b738b807c822b0e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a24ebd_20edcaaa",
+        "filename": "polygerrit-ui/app/elements/gr-change-star.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-14T18:57:30Z",
+      "side": 1,
+      "message": "IMHO the ASCII star also looks nice (though not sure if it looks nice in every font). But your new one looks also good. Just not sure if it\u0027s worth this additional (a bit unreadable) code.\n\nBut: you are still using a filled star for both star states. I have looked into some other applications (e.g. Gmail web, Gmail Android, Roundcube Mail): all I have found are using a unfilled star for the \"unstared\" state. I think an empty star looks less obtrusive when a change is not starred.",
+      "parentUuid": "674856fe_7ed91146",
+      "revId": "503e098dccfbac8d76c0ece5b738b807c822b0e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

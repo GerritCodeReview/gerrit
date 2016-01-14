@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7a24ebd_e0a48277",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-14T20:29:14Z",
+      "side": 1,
+      "message": "psa.isSubmit() doesn\u0027t work?",
+      "range": {
+        "startLine": 738,
+        "startChar": 10,
+        "endLine": 738,
+        "endChar": 49
+      },
+      "revId": "58900b658a62e93af9a171696a1c7a14bb3b9c9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

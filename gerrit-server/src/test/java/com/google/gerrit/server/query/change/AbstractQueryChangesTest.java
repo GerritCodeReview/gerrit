@@ -51,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
@@ -104,24 +105,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Inject protected AccountManager accountManager;
+  @Inject protected AddMembers addMembers;
   @Inject protected BatchUpdate.Factory updateFactory;
-  @Inject protected ChangeInserter.Factory changeFactory;
-  @Inject protected PatchSetInserter.Factory patchSetFactory;
   @Inject protected ChangeControl.GenericFactory changeControlFactory;
+  @Inject protected ChangeInserter.Factory changeFactory;
+  @Inject protected ChangeQueryBuilder queryBuilder;
   @Inject protected GerritApi gApi;
+  @Inject protected GroupCache groupCache;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected IndexCollection indexes;
   @Inject protected InMemoryDatabase schemaFactory;
   @Inject protected InMemoryRepositoryManager repoManager;
   @Inject protected InternalChangeQuery internalChangeQuery;
   @Inject protected NotesMigration notesMigration;
+  @Inject protected PatchSetInserter.Factory patchSetFactory;
   @Inject protected ProjectControl.GenericFactory projectControlFactory;
-  @Inject protected ChangeQueryBuilder queryBuilder;
   @Inject protected QueryProcessor queryProcessor;
   @Inject protected SchemaCreator schemaCreator;
+  @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
-  @Inject protected GroupCache groupCache;
-  @Inject protected AddMembers addMembers;
 
   protected LifecycleManager lifecycle;
   protected ReviewDb db;
@@ -1396,7 +1398,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Project.NameKey project = new Project.NameKey(
         repo.getRepository().getDescription().getRepositoryName());
 
-    Change.Id id = new Change.Id(db.nextChangeId());
+    Change.Id id = new Change.Id(seq.nextChangeId());
     if (key == null) {
       key = "I" + Hashing.sha1().newHasher()
           .putInt(id.get())

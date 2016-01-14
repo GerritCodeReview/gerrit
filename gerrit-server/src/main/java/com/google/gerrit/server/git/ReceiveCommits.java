@@ -84,6 +84,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
@@ -300,6 +301,7 @@ public class ReceiveCommits {
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
+  private final PatchSetUtil psUtil;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
@@ -372,6 +374,7 @@ public class ReceiveCommits {
       final ApprovalsUtil approvalsUtil,
       final ApprovalCopier approvalCopier,
       final ChangeMessagesUtil cmUtil,
+      final PatchSetUtil psUtil,
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
@@ -419,6 +422,7 @@ public class ReceiveCommits {
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
+    this.psUtil = psUtil;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
@@ -512,7 +516,7 @@ public class ReceiveCommits {
     });
     advHooks.add(rp.getAdvertiseRefsHook());
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(
-        db, queryProvider, projectControl.getProject().getNameKey()));
+        queryProvider, projectControl.getProject().getNameKey()));
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
     rp.setPostReceiveHook(lazyPostReceive.get());
@@ -2281,7 +2285,8 @@ public class ReceiveCommits {
         }
 
         if (newPatchSet.getGroups() == null) {
-          newPatchSet.setGroups(GroupCollector.getCurrentGroups(db, change));
+          PatchSet prevPs = psUtil.current(db, update.getChangeNotes());
+          newPatchSet.setGroups(prevPs != null ? prevPs.getGroups() : null);
         }
         db.patchSets().insert(Collections.singleton(newPatchSet));
 
@@ -2711,13 +2716,14 @@ public class ReceiveCommits {
     }
   }
 
-  private Change.Key closeChange(final ReceiveCommand cmd, final PatchSet.Id psi,
-      final RevCommit commit) throws OrmException, IOException {
-    final String refName = cmd.getRefName();
-    final Change.Id cid = psi.getParentKey();
+  private Change.Key closeChange(ReceiveCommand cmd, PatchSet.Id psi,
+      RevCommit commit) throws OrmException, IOException {
+    String refName = cmd.getRefName();
+    Change.Id cid = psi.getParentKey();
 
-    final Change change = db.changes().get(cid);
-    final PatchSet ps = db.patchSets().get(psi);
+    Change change = db.changes().get(cid);
+    ChangeControl ctl = projectControl.controlFor(change);
+    PatchSet ps = psUtil.get(db, ctl.getNotes(), psi);
     if (change == null || ps == null) {
       log.warn(project.getName() + " " + psi + " is missing");
       return null;
@@ -2734,7 +2740,7 @@ public class ReceiveCommits {
 
     ReplaceRequest result = new ReplaceRequest(cid, commit, cmd, false);
     result.change = change;
-    result.changeCtl = projectControl.controlFor(change);
+    result.changeCtl = ctl;
     result.newPatchSet = ps;
     result.info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
     result.mergedIntoRef = refName;

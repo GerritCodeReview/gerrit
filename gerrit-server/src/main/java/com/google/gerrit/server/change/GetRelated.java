@@ -23,7 +23,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RelatedChangesSorter.PatchSetData;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -45,14 +47,17 @@ import java.util.Set;
 public class GetRelated implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final PatchSetUtil psUtil;
   private final RelatedChangesSorter sorter;
 
   @Inject
   GetRelated(Provider<ReviewDb> db,
       Provider<InternalChangeQuery> queryProvider,
+      PatchSetUtil psUtil,
       RelatedChangesSorter sorter) {
     this.db = db;
     this.queryProvider = queryProvider;
+    this.psUtil = psUtil;
     this.sorter = sorter;
   }
 
@@ -66,7 +71,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   private List<ChangeAndCommit> getRelated(RevisionResource rsrc)
       throws OrmException, IOException {
-    Set<String> groups = getAllGroups(rsrc.getChange().getId());
+    Set<String> groups = getAllGroups(rsrc.getNotes());
     if (groups.isEmpty()) {
       return Collections.emptyList();
     }
@@ -109,9 +114,9 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private Set<String> getAllGroups(Change.Id changeId) throws OrmException {
+  private Set<String> getAllGroups(ChangeNotes notes) throws OrmException {
     Set<String> result = new HashSet<>();
-    for (PatchSet ps : db.get().patchSets().byChange(changeId)) {
+    for (PatchSet ps : psUtil.byChange(db.get(), notes)) {
       List<String> groups = ps.getGroups();
       if (groups != null) {
         result.addAll(groups);

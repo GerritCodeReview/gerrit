@@ -67,18 +67,21 @@ public class ApprovalCopier {
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
   private final ChangeData.Factory changeDataFactory;
+  private final PatchSetUtil psUtil;
 
   @Inject
   ApprovalCopier(GitRepositoryManager repoManager,
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
-      ChangeData.Factory changeDataFactory) {
+      ChangeData.Factory changeDataFactory,
+      PatchSetUtil psUtil) {
     this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.changeDataFactory = changeDataFactory;
+    this.psUtil = psUtil;
   }
 
   public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps)
@@ -88,7 +91,7 @@ public class ApprovalCopier {
 
   Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
       ChangeControl ctl, PatchSet.Id psId) throws OrmException {
-    PatchSet ps = db.patchSets().get(psId);
+    PatchSet ps = psUtil.get(db, ctl.getNotes(), psId);
     if (ps == null) {
       return Collections.emptyList();
     }

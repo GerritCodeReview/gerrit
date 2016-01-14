@@ -140,7 +140,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     if (patchSet == null) {
       try {
-        patchSet = args.db.get().patchSets().get(change.currentPatchSetId());
+        patchSet = changeData.currentPatchSet();
       } catch (OrmException err) {
         patchSet = null;
       }

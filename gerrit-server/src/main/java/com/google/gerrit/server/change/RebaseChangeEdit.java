@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -79,14 +80,17 @@ public class RebaseChangeEdit implements
 
     private final ChangeEditModifier editModifier;
     private final ChangeEditUtil editUtil;
+    private final PatchSetUtil psUtil;
     private final Provider<ReviewDb> db;
 
     @Inject
     Rebase(ChangeEditModifier editModifier,
         ChangeEditUtil editUtil,
+        PatchSetUtil psUtil,
         Provider<ReviewDb> db) {
       this.editModifier = editModifier;
       this.editUtil = editUtil;
+      this.psUtil = psUtil;
       this.db = db;
     }
 
@@ -101,8 +105,7 @@ public class RebaseChangeEdit implements
             rsrc.getChange().getChangeId()));
       }
 
-      PatchSet current = db.get().patchSets().get(
-          rsrc.getChange().currentPatchSetId());
+      PatchSet current = psUtil.current(db.get(), rsrc.getNotes());
       if (current.getId().equals(edit.get().getBasePatchSet().getId())) {
         throw new ResourceConflictException(String.format(
             "edit for change %s is already on latest patch set: %s",

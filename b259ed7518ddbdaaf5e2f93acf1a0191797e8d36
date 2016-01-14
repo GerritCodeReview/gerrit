@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1452797516 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBVs3e2voGn8tIeJ+cIWL2Fk2F6FXnwrYW5kkvA0o/Y+tn6wDQUoS/lmp3zmga6AYmt5qrpQ\n\n0000000000000000000000000000000000000000 b259ed7518ddbdaaf5e2f93acf1a0191797e8d36 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWl+5MAAoJEF/XxZqaEoiMr4gP+wUXCHHo+J7li2Kj7RxCrxWO\nfPEHK40HDdbhoeLlON27qnd5Uk4oV2JF0BbKdICfSuK69Mf79aM5EgrXz4XYWXQA\nFOEXL6vyJhIX8o6aWOx1NcjZ95xN05Hgj6zZUtu+mj7AovCZkGKW0ltt8sFA23X/\nsvr9WZBBfwBKJRQoM6Mp3b0E9dfHPorCe0tzQ+kr3/W5NKoZV+et2IlaR+TvOMcA\nHa3Ypx21fFZJYqR4a3JExkD+yhfw+YCgvZaGC8YDxNAR6bEvPuyylElCLAyhFCXA\nCWzHz4ko43hZmuT5Djl0+hZA0BlosYWzgjWiX3DT9MrBCy5KOIuW63IZOoNQ8EWW\nqZ6MCLmK4AT93cgSPtL2OKLg5r0dCJOhZ1SdEldFZksPAyLMN8yyVda2aj5+jtgI\noIRue4g8Ssk4/A5U7LKsBVx6geRAUxsNK1DhavY08Ge30OmVNKrQfNFo8esmve5Z\nzjggrMZxeK3+XCH9g860Nn0aZCbAD5kwB360B5oQQgGQ1p3UEhJllAr6BSjgMa6A\nVZd0ofDaYO9zsPMFIX/kIBCuaADPBwXzUmxPCF4RzPitVdyWFTnLpQMLnioPF77g\nWuLrusHysA+1KWTP8zT2xmAAzDfzdi+dIBT5MYZ4dsvN0zKCTG+Lqz+vGbFSkkCV\n8fYwvwuV8PTOAUEC1msH\n\u003deuqt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7c4a27f_5991e316",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T19:02:20Z",
+      "side": 1,
+      "message": "[optional] just FIRST_ID? I guess other sequences which will come later will also start at 1.",
+      "range": {
+        "startLine": 116,
+        "startChar": 6,
+        "endLine": 116,
+        "endChar": 21
+      },
+      "revId": "b259ed7518ddbdaaf5e2f93acf1a0191797e8d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

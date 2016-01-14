@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c79bc28b_e1a48677",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1023643
+      },
+      "writtenOn": "2016-01-14T23:36:58Z",
+      "side": 1,
+      "message": "In the next patch set I dropped the comment about Git Bash, as in current Git for Windows (any above 2.5) running init command in Git Bash would be executed in \"batch\" mode, without asking any questions.\n\nThis happens because Java System.console() returns null under Mintty terminal emulator, which is currently used by default with Git Bash. The issue with Mintty (which is great tool, btw) is caused by the fact it does not use Windows Command Prompt, but is based on Cygwin, this is described at https://github.com/mintty/mintty/issues/56",
+      "range": {
+        "startLine": 178,
+        "startChar": 43,
+        "endLine": 178,
+        "endChar": 53
+      },
+      "revId": "51b21da43f2302e1a84582f9dacf0898c10189e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

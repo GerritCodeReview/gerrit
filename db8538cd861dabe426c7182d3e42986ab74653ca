@@ -123,6 +123,24 @@
       "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a24ebd_4009ee42",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-14T20:18:26Z",
+      "side": 1,
+      "message": "A change\u0027s revId is the revId of the current patchset. I agree that it might make more sense to store the PatchSetInfo and provide a getter for that.\n\nI\u0027m in the middle of implementing the rest of this RFC, would you prefer me to rework it so that Change keeps the most recent PatchSetInfo object and provides a getter to it? So, when a ChangeUpdate needs to get the revId it\u0027ll use change.getCurrentPatchSet().getRevId() rather than change.getRevId() ?\n\n(This would also seem to open up removing the Change\u0027s subject attribute since that\u0027s also in the PatchSetInfo, but that\u0027s not really relevant to this RFC)\n\nI don\u0027t follow the point about db though, none of the other accessor methods seem to access a database from what I can see?",
+      "parentUuid": "474352e2_9d20a3da",
+      "revId": "db8538cd861dabe426c7182d3e42986ab74653ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

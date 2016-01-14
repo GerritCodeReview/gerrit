@@ -33,6 +33,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class AccountApiImpl implements AccountApi {
   private final AccountResource account;
   private final ChangesCollection changes;
   private final AccountLoader.Factory accountLoaderFactory;
-  private final GetAvatar getAvatar;
+  private final Provider<GetAvatar> getAvatar;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
   private final CreateEmail.Factory createEmailFactory;
@@ -55,7 +56,7 @@ public class AccountApiImpl implements AccountApi {
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
       ChangesCollection changes,
-      GetAvatar getAvatar,
+      Provider<GetAvatar> getAvatar,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
       CreateEmail.Factory createEmailFactory,
@@ -85,8 +86,10 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public String getAvatarUrl() throws RestApiException {
-    return getAvatar.apply(account).location();
+  public String getAvatarUrl(int size) throws RestApiException {
+    GetAvatar myGetAvatar = getAvatar.get();
+    myGetAvatar.setSize(size);
+    return myGetAvatar.apply(account).location();
   }
 
   @Override

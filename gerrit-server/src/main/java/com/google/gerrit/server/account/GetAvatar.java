@@ -30,9 +30,13 @@ import java.util.concurrent.TimeUnit;
 public class GetAvatar implements RestReadView<AccountResource> {
   private final DynamicItem<AvatarProvider> avatarProvider;
 
+  private int size;
+
   @Option(name = "--size", aliases = {"-s"},
       usage = "recommended size in pixels, height and width")
-  private int size;
+  public void setSize(int s) {
+    size = s;
+  }
 
   @Inject
   GetAvatar(DynamicItem<AvatarProvider> avatarProvider) {

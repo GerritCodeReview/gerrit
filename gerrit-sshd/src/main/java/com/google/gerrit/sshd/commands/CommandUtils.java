@@ -16,36 +16,46 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandUtils {
-  public static PatchSet parsePatchSet(final String patchIdentity, ReviewDb db,
-      ProjectControl projectControl, String branch)
+  public static PatchSet parsePatchSet(String patchIdentity, ReviewDb db,
+      InternalChangeQuery query, ProjectControl projectControl, String branch)
       throws UnloggedFailure, OrmException {
     // By commit?
     //
     if (patchIdentity.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
-      final RevId id = new RevId(patchIdentity);
-      final ResultSet<PatchSet> patches;
-      if (id.isComplete()) {
-        patches = db.patchSets().byRevision(id);
+      List<ChangeData> cds;
+      if (projectControl != null) {
+        Project.NameKey p = projectControl.getProject().getNameKey();
+        if (branch != null) {
+          cds = query.byBranchCommit(p.get(), branch, patchIdentity);
+        } else {
+          cds = query.byProjectCommit(p, patchIdentity);
+        }
       } else {
-        patches = db.patchSets().byRevisionRange(id, id.max());
+        cds = query.byCommit(patchIdentity);
       }
-
-      final Set<PatchSet> matches = new HashSet<>();
-      for (final PatchSet ps : patches) {
-        final Change change = db.changes().get(ps.getId().getParentKey());
-        if (inProject(change, projectControl) && inBranch(change, branch)) {
-          matches.add(ps);
+      List<PatchSet> matches = new ArrayList<>(cds.size());
+      for (ChangeData cd : cds) {
+        Change c = cd.change();
+        if (!(inProject(c, projectControl) && inBranch(c, branch))) {
+          continue;
+        }
+        for (PatchSet ps : cd.patchSets()) {
+          if (ps.getRevision().matches(patchIdentity)) {
+            matches.add(ps);
+          }
         }
       }
 
@@ -62,18 +72,18 @@ public class CommandUtils {
     // By older style change,patchset?
     //
     if (patchIdentity.matches("^[1-9][0-9]*,[1-9][0-9]*$")) {
-      final PatchSet.Id patchSetId;
+      PatchSet.Id patchSetId;
       try {
         patchSetId = PatchSet.Id.parse(patchIdentity);
       } catch (IllegalArgumentException e) {
         throw error("\"" + patchIdentity + "\" is not a valid patch set");
       }
-      final PatchSet patchSet = db.patchSets().get(patchSetId);
+      PatchSet patchSet = db.patchSets().get(patchSetId);
       if (patchSet == null) {
         throw error("\"" + patchIdentity + "\" no such patch set");
       }
       if (projectControl != null || branch != null) {
-        final Change change = db.changes().get(patchSetId.getParentKey());
+        Change change = db.changes().get(patchSetId.getParentKey());
         if (!inProject(change, projectControl)) {
           throw error("change " + change.getId() + " not in project "
               + projectControl.getProject().getName());
@@ -89,7 +99,7 @@ public class CommandUtils {
     throw error("\"" + patchIdentity + "\" is not a valid patch set");
   }
 
-  private static boolean inProject(final Change change,
+  private static boolean inProject(Change change,
       ProjectControl projectControl) {
     if (projectControl == null) {
       // No --project option, so they want every project.
@@ -98,7 +108,7 @@ public class CommandUtils {
     return projectControl.getProject().getNameKey().equals(change.getProject());
   }
 
-  private static boolean inBranch(final Change change, String branch) {
+  private static boolean inBranch(Change change, String branch) {
     if (branch == null) {
       // No --branch option, so they want every branch.
       return true;
@@ -106,7 +116,7 @@ public class CommandUtils {
     return change.getDest().get().equals(branch);
   }
 
-  public static UnloggedFailure error(final String msg) {
+  public static UnloggedFailure error(String msg) {
     return new UnloggedFailure(1, msg);
   }
 }

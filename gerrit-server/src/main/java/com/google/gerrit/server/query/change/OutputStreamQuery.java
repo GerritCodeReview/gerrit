@@ -276,15 +276,9 @@ public class OutputStreamQuery {
     }
 
     if (includePatchSets) {
-      if (includeFiles) {
-        eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
+      eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
           includeApprovals ? d.approvals().asMap() : null,
           includeFiles, d.change(), labelTypes);
-      } else {
-        eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
-            includeApprovals ? d.approvals().asMap() : null,
-            labelTypes);
-      }
     }
 
     if (includeCurrentPatchSet) {
@@ -305,6 +299,9 @@ public class OutputStreamQuery {
     if (includeComments) {
       eventFactory.addComments(c, d.messages());
       if (includePatchSets) {
+        eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
+            includeApprovals ? d.approvals().asMap() : null,
+            labelTypes);
         for (PatchSetAttribute attribute : c.patchSets) {
           eventFactory.addPatchSetComments(
               attribute, d.publishedComments());

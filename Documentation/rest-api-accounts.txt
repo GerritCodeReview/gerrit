@@ -123,7 +123,7 @@ returned that describes the created account.
 'GET /accounts/link:#account-id[\{account-id\}]/detail'
 --
 
-Retrieves the details of an account as an link:account-detail-info[
+Retrieves the details of an account as an link:#account-detail-info[
 AccountDetailInfo] entity.
 
 .Request

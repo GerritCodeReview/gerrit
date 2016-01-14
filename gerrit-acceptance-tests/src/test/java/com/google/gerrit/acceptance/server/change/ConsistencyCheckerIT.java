@@ -208,8 +208,8 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
     c = db.changes().get(c.getId());
     assertThat(c.currentPatchSetId().get()).isEqualTo(1);
-    assertThat(db.patchSets().get(ps1.getId())).isNotNull();
-    assertThat(db.patchSets().get(ps2.getId())).isNull();
+    assertThat(getPatchSet(ps1.getId())).isNotNull();
+    assertThat(getPatchSet(ps2.getId())).isNull();
   }
 
   @Test
@@ -256,10 +256,10 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
     c = db.changes().get(c.getId());
     assertThat(c.currentPatchSetId().get()).isEqualTo(3);
-    assertThat(db.patchSets().get(ps1.getId())).isNotNull();
-    assertThat(db.patchSets().get(ps2.getId())).isNull();
-    assertThat(db.patchSets().get(ps3.getId())).isNotNull();
-    assertThat(db.patchSets().get(ps4.getId())).isNull();
+    assertThat(getPatchSet(ps1.getId())).isNotNull();
+    assertThat(getPatchSet(ps2.getId())).isNull();
+    assertThat(getPatchSet(ps3.getId())).isNotNull();
+    assertThat(getPatchSet(ps4.getId())).isNull();
   }
 
   @Test
@@ -284,7 +284,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
     c = db.changes().get(c.getId());
     assertThat(c.currentPatchSetId().get()).isEqualTo(1);
-    assertThat(db.patchSets().get(ps1.getId())).isNotNull();
+    assertThat(getPatchSet(ps1.getId())).isNotNull();
   }
 
   @Test
@@ -442,7 +442,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     c = db.changes().get(c.getId());
     PatchSet.Id psId2 = new PatchSet.Id(c.getId(), 2);
     assertThat(c.currentPatchSetId()).isEqualTo(psId2);
-    assertThat(db.patchSets().get(psId2).getRevision().get())
+    assertThat(getPatchSet(psId2).getRevision().get())
         .isEqualTo(mergedAs.name());
 
     assertProblems(c);
@@ -484,7 +484,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     c = db.changes().get(c.getId());
     PatchSet.Id psId2 = new PatchSet.Id(c.getId(), 2);
     assertThat(c.currentPatchSetId()).isEqualTo(psId2);
-    assertThat(db.patchSets().get(psId2).getRevision().get())
+    assertThat(getPatchSet(psId2).getRevision().get())
         .isEqualTo(mergedAs.name());
 
     assertProblems(c);

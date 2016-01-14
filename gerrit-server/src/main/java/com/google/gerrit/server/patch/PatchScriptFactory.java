@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.CommentDetail;
@@ -31,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -73,6 +76,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       LoggerFactory.getLogger(PatchScriptFactory.class);
 
   private final GitRepositoryManager repoManager;
+  private final PatchSetUtil psUtil;
   private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
   private final ReviewDb db;
@@ -100,10 +104,12 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private CommentDetail comments;
 
   @Inject
-  PatchScriptFactory(final GitRepositoryManager grm,
+  PatchScriptFactory(GitRepositoryManager grm,
+      PatchSetUtil psUtil,
       Provider<PatchScriptBuilder> builderFactory,
-      final PatchListCache patchListCache, final ReviewDb db,
-      final AccountInfoCacheFactory.Factory aicFactory,
+      PatchListCache patchListCache,
+      ReviewDb db,
+      AccountInfoCacheFactory.Factory aicFactory,
       PatchLineCommentsUtil plcUtil,
       ChangeEditUtil editReader,
       @Assisted ChangeControl control,
@@ -112,6 +118,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       @Assisted("patchSetB") final PatchSet.Id patchSetB,
       @Assisted DiffPreferencesInfo diffPrefs) {
     this.repoManager = grm;
+    this.psUtil = psUtil;
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
     this.db = db;
@@ -126,6 +133,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.diffPrefs = diffPrefs;
 
     changeId = patchSetB.getParentKey();
+    checkArgument(patchSetA.getParentKey().equals(changeId),
+        "cannot compare PatchSets from different changes: %s and %s",
+        patchSetA, patchSetB);
   }
 
   public void setLoadHistory(boolean load) {
@@ -146,11 +156,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     change = control.getChange();
     project = change.getProject();
 
-    aId = psa != null ? toObjectId(db, psa) : null;
-    bId = toObjectId(db, psb);
+    PatchSet psEntityA = psa != null
+        ? psUtil.get(db, control.getNotes(), psa) : null;
+    PatchSet psEntityB = psUtil.get(db, control.getNotes(), psb);
 
-    if ((psa != null && !control.isPatchVisible(db.patchSets().get(psa), db)) ||
-        (psb != null && !control.isPatchVisible(db.patchSets().get(psb), db))) {
+    aId = toObjectId(psEntityA);
+    bId = toObjectId(psEntityB);
+
+    if ((psEntityA != null && !control.isPatchVisible(psEntityA, db)) ||
+        (psEntityB != null && !control.isPatchVisible(psEntityB, db))) {
       throw new NoSuchChangeException(changeId);
     }
 
@@ -160,8 +174,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         final PatchScriptBuilder b = newBuilder(list, git);
         final PatchListEntry content = list.get(fileName);
 
-        loadCommentsAndHistory(content.getChangeType(), //
-            content.getOldName(), //
+        loadCommentsAndHistory(control.getNotes(),
+            content.getChangeType(),
+            content.getOldName(),
             content.getNewName());
 
         return b.toPatchScript(content, comments, history);
@@ -200,26 +215,20 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     return b;
   }
 
-  private ObjectId toObjectId(final ReviewDb db, final PatchSet.Id psId)
-      throws OrmException, NoSuchChangeException, AuthException,
-      NoSuchChangeException, IOException {
-    if (!changeId.equals(psId.getParentKey())) {
-      throw new NoSuchChangeException(changeId);
-    }
-
-    if (psId.get() == 0) {
-      return getEditRev();
-    }
-    PatchSet ps = db.patchSets().get(psId);
+  private ObjectId toObjectId(PatchSet ps) throws NoSuchChangeException,
+      AuthException, NoSuchChangeException, IOException {
     if (ps == null || ps.getRevision() == null
         || ps.getRevision().get() == null) {
       throw new NoSuchChangeException(changeId);
+    }
+    if (ps.getId().get() == 0) {
+      return getEditRev();
     }
 
     try {
       return ObjectId.fromString(ps.getRevision().get());
     } catch (IllegalArgumentException e) {
-      log.error("Patch set " + psId + " has invalid revision");
+      log.error("Patch set " + ps.getId() + " has invalid revision");
       throw new NoSuchChangeException(changeId, e);
     }
   }
@@ -242,9 +251,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private void loadCommentsAndHistory(final ChangeType changeType,
-      final String oldName, final String newName) throws OrmException {
-    final Map<Patch.Key, Patch> byKey = new HashMap<>();
+  private void loadCommentsAndHistory(ChangeNotes notes, ChangeType changeType,
+      String oldName, String newName) throws OrmException {
+    Map<Patch.Key, Patch> byKey = new HashMap<>();
 
     if (loadHistory) {
       // This seems like a cheap trick. It doesn't properly account for a
@@ -253,7 +262,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       // proper rename detection between the patch sets.
       //
       history = new ArrayList<>();
-      for (final PatchSet ps : db.patchSets().byChange(changeId)) {
+      for (PatchSet ps : psUtil.byChange(db, notes)) {
         if (!control.isPatchVisible(ps, db)) {
           continue;
         }
@@ -275,12 +284,12 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           }
         }
 
-        final Patch p = new Patch(new Patch.Key(ps.getId(), name));
+        Patch p = new Patch(new Patch.Key(ps.getId(), name));
         history.add(p);
         byKey.put(p.getKey(), p);
       }
       if (edit != null && edit.isPresent()) {
-        final Patch p = new Patch(new Patch.Key(
+        Patch p = new Patch(new Patch.Key(
             new PatchSet.Id(psb.getParentKey(), 0), fileName));
         history.add(p);
         byKey.put(p.getKey(), p);
@@ -288,7 +297,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
 
     if (loadComments && edit == null) {
-      final AccountInfoCacheFactory aic = aicFactory.create();
+      AccountInfoCacheFactory aic = aicFactory.create();
       comments = new CommentDetail(psa, psb);
       switch (changeType) {
         case ADDED:
@@ -312,9 +321,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           break;
       }
 
-      final CurrentUser user = control.getUser();
+      CurrentUser user = control.getUser();
       if (user.isIdentifiedUser()) {
-        final Account.Id me = user.getAccountId();
+        Account.Id me = user.getAccountId();
         switch (changeType) {
           case ADDED:
           case MODIFIED:

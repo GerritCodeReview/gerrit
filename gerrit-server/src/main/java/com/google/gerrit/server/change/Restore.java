@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -58,6 +59,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final ChangeMessagesUtil cmUtil;
+  private final PatchSetUtil psUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
 
   @Inject
@@ -66,12 +68,14 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
+      PatchSetUtil psUtil,
       BatchUpdate.Factory batchUpdateFactory) {
     this.hooks = hooks;
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
     this.cmUtil = cmUtil;
+    this.psUtil = psUtil;
     this.batchUpdateFactory = batchUpdateFactory;
   }
 
@@ -113,7 +117,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       if (change == null || change.getStatus() != Status.ABANDONED) {
         throw new ResourceConflictException("change is " + status(change));
       }
-      patchSet = ctx.getDb().patchSets().get(psId);
+      patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       change.setStatus(Status.NEW);
       change.setLastUpdatedOn(ctx.getWhen());
       ctx.saveChange();

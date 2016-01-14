@@ -18,6 +18,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
@@ -59,6 +60,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -102,6 +104,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final PatchLineCommentsUtil plcUtil;
+  private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
@@ -115,6 +118,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
+      PatchSetUtil psUtil,
       PatchListCache patchListCache,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
@@ -124,6 +128,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.changes = changes;
     this.changeDataFactory = changeDataFactory;
     this.plcUtil = plcUtil;
+    this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
@@ -357,7 +362,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (change.getLastUpdatedOn().before(ctx.getWhen())) {
         change.setLastUpdatedOn(ctx.getWhen());
       }
-      ps = ctx.getDb().patchSets().get(psId);
+      ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       boolean dirty = false;
       dirty |= insertComments(ctx);
       dirty |= updateLabels(ctx);

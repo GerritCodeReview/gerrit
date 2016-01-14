@@ -197,6 +197,8 @@ public class ChangeEditUtil {
       int pos = ref.getName().lastIndexOf("/");
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
       String psId = ref.getName().substring(pos + 1);
+      // TODO(dborowitz): Use PatchSetUtil. Requires signature changes to pass
+      // in ChangeNotes.
       return db.get().patchSets().get(new PatchSet.Id(
           change.getId(), Integer.parseInt(psId)));
     } catch (OrmException | NumberFormatException e) {

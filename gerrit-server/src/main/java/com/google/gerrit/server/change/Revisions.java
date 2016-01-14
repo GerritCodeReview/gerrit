@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gwtorm.server.OrmException;
@@ -42,14 +43,17 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   private final DynamicMap<RestView<RevisionResource>> views;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeEditUtil editUtil;
+  private final PatchSetUtil psUtil;
 
   @Inject
   Revisions(DynamicMap<RestView<RevisionResource>> views,
       Provider<ReviewDb> dbProvider,
-      ChangeEditUtil editUtil) {
+      ChangeEditUtil editUtil,
+      PatchSetUtil psUtil) {
     this.views = views;
     this.dbProvider = dbProvider;
     this.editUtil = editUtil;
+    this.psUtil = psUtil;
   }
 
   @Override
@@ -67,8 +71,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       throws ResourceNotFoundException, AuthException, OrmException,
       IOException {
     if (id.equals("current")) {
-      PatchSet.Id p = change.getChange().currentPatchSetId();
-      PatchSet ps = p != null ? dbProvider.get().patchSets().get(p) : null;
+      PatchSet ps = psUtil.latest(dbProvider.get(), change.getNotes());
       if (ps != null && visible(change, ps)) {
         return new RevisionResource(change, ps).doNotCache();
       }
@@ -123,9 +126,8 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   private List<RevisionResource> byLegacyPatchSetId(ChangeResource change,
       String id) throws OrmException {
-    PatchSet ps = dbProvider.get().patchSets().get(new PatchSet.Id(
-        change.getId(),
-        Integer.parseInt(id)));
+    PatchSet ps = psUtil.get(dbProvider.get(), change.getNotes(),
+        new PatchSet.Id(change.getId(), Integer.parseInt(id)));
     if (ps != null) {
       return Collections.singletonList(new RevisionResource(change, ps));
     }

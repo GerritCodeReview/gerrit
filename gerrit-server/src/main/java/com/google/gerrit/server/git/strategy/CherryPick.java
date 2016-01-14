@@ -28,7 +28,6 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
@@ -167,13 +166,14 @@ public class CherryPick extends SubmitStrategy {
         // Merge conflict; don't update change.
         return;
       }
+      PatchSet prevPs = args.psUtil.latest(ctx.getDb(), ctx.getNotes());
       PatchSet ps = new PatchSet(psId);
       ps.setCreatedOn(ctx.getWhen());
       ps.setUploader(args.caller.getAccountId());
       ps.setRevision(new RevId(newCommit.getId().getName()));
 
       Change c = toMerge.change();
-      ps.setGroups(GroupCollector.getCurrentGroups(args.db, c));
+      ps.setGroups(prevPs != null ? prevPs.getGroups() : null);
       args.db.patchSets().insert(Collections.singleton(ps));
       c.setCurrentPatchSet(patchSetInfo);
       ctx.saveChange();

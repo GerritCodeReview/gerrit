@@ -40,6 +40,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -137,6 +138,7 @@ public class ChangeData {
       for (ChangeData cd : changes) {
         cd.patchSets();
       }
+      return;
     }
 
     List<ResultSet<PatchSet>> results = new ArrayList<>(BATCH_SIZE);
@@ -167,6 +169,7 @@ public class ChangeData {
       for (ChangeData cd : changes) {
         cd.currentPatchSet();
       }
+      return;
     }
 
     Map<PatchSet.Id, ChangeData> missing = Maps.newHashMap();
@@ -192,6 +195,7 @@ public class ChangeData {
       for (ChangeData cd : changes) {
         cd.currentApprovals();
       }
+      return;
     }
 
     List<ResultSet<PatchSetApproval>> results = new ArrayList<>(BATCH_SIZE);
@@ -281,7 +285,7 @@ public class ChangeData {
    */
   public static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
     ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
-        null, null, null, null, null, null, id);
+        null, null, null, null, null, null, null, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -296,6 +300,7 @@ public class ChangeData {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final PatchLineCommentsUtil plcUtil;
+  private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
   private final NotesMigration notesMigration;
   private final MergeabilityCache mergeabilityCache;
@@ -306,7 +311,7 @@ public class ChangeData {
   private String commitMessage;
   private List<FooterLine> commitFooters;
   private PatchSet currentPatchSet;
-  private Collection<PatchSet> patchSets;
+  private List<PatchSet> patchSets;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
   private Map<Integer, List<String>> files = new HashMap<>();
@@ -335,6 +340,7 @@ public class ChangeData {
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
+      PatchSetUtil psUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
@@ -350,6 +356,7 @@ public class ChangeData {
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.plcUtil = plcUtil;
+    this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
@@ -367,6 +374,7 @@ public class ChangeData {
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
+      PatchSetUtil psUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
@@ -382,6 +390,7 @@ public class ChangeData {
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.plcUtil = plcUtil;
+    this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
@@ -400,6 +409,7 @@ public class ChangeData {
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
+      PatchSetUtil psUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
@@ -415,6 +425,7 @@ public class ChangeData {
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.plcUtil = plcUtil;
+    this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
@@ -684,15 +695,14 @@ public class ChangeData {
    * @return patches for the change.
    * @throws OrmException an error occurred reading the database.
    */
-  public Collection<PatchSet> patchSets()
-      throws OrmException {
+  public List<PatchSet> patchSets() throws OrmException {
     if (patchSets == null) {
-      patchSets = db.patchSets().byChange(legacyId).toList();
+      patchSets = psUtil.byChange(db, notes());
     }
     return patchSets;
   }
 
-  public void setPatchSets(Collection<PatchSet> patchSets) {
+  public void setPatchSets(List<PatchSet> patchSets) {
     this.currentPatchSet = null;
     this.patchSets = patchSets;
   }

@@ -57,11 +57,15 @@ import com.google.gerrit.server.change.Reviewed;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.change.TestSubmitType;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.List;
@@ -73,6 +77,7 @@ class RevisionApiImpl implements RevisionApi {
     RevisionApiImpl create(RevisionResource r);
   }
 
+  private final GitRepositoryManager repoManager;
   private final Changes changes;
   private final CherryPick cherryPick;
   private final DeleteDraftPatchSet deleteDraft;
@@ -101,7 +106,8 @@ class RevisionApiImpl implements RevisionApi {
   private final TestSubmitType.Get getSubmitType;
 
   @Inject
-  RevisionApiImpl(Changes changes,
+  RevisionApiImpl(GitRepositoryManager repoManager,
+      Changes changes,
       CherryPick cherryPick,
       DeleteDraftPatchSet deleteDraft,
       Rebase rebase,
@@ -127,6 +133,7 @@ class RevisionApiImpl implements RevisionApi {
       Provider<TestSubmitType> testSubmitType,
       TestSubmitType.Get getSubmitType,
       @Assisted RevisionResource r) {
+    this.repoManager = repoManager;
     this.changes = changes;
     this.cherryPick = cherryPick;
     this.deleteDraft = deleteDraft;
@@ -213,8 +220,14 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public boolean canRebase() {
-    return rebaseUtil.canRebase(revision);
+  public boolean canRebase() throws RestApiException {
+    try (Repository repo = repoManager.openRepository(revision.getProject());
+        RevWalk rw = new RevWalk(repo)) {
+      return rebaseUtil.canRebase(
+          revision.getPatchSet(), revision.getChange().getDest(), repo, rw);
+    } catch (IOException e) {
+      throw new RestApiException("Cannot check if rebase is possible", e);
+    }
   }
 
   @Override

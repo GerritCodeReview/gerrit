@@ -39,7 +39,7 @@ public interface RevisionApi {
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
   ChangeApi rebase() throws RestApiException;
   ChangeApi rebase(RebaseInput in) throws RestApiException;
-  boolean canRebase();
+  boolean canRebase() throws RestApiException;
 
   void setReviewed(String path, boolean reviewed) throws RestApiException;
   Set<String> reviewed() throws RestApiException;

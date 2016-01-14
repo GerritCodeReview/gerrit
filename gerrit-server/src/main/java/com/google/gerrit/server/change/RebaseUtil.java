@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,34 +42,16 @@ public class RebaseUtil {
   private static final Logger log = LoggerFactory.getLogger(RebaseUtil.class);
 
   private final Provider<ReviewDb> db;
-  private final GitRepositoryManager gitManager;
 
   @Inject
-  RebaseUtil(Provider<ReviewDb> db,
-      GitRepositoryManager gitManager) {
+  RebaseUtil(Provider<ReviewDb> db) {
     this.db = db;
-    this.gitManager = gitManager;
   }
 
-  public boolean canRebase(RevisionResource r) {
-    PatchSet patchSet = r.getPatchSet();
-    Branch.NameKey dest = r.getChange().getDest();
-    try (Repository git = gitManager.openRepository(dest.getParentKey());
-        RevWalk rw = new RevWalk(git)) {
-      return canRebase(
-          r.getPatchSet(), dest, git, rw, db.get());
-    } catch (IOException e) {
-      log.warn(String.format(
-          "Error checking if patch set %s on %s can be rebased",
-          patchSet.getId(), dest), e);
-      return false;
-    }
-  }
-
-  public static boolean canRebase(PatchSet patchSet, Branch.NameKey dest,
-      Repository git, RevWalk rw, ReviewDb db) {
+  public boolean canRebase(PatchSet patchSet, Branch.NameKey dest,
+      Repository git, RevWalk rw) {
     try {
-      findBaseRevision(patchSet, dest, git, rw, db);
+      findBaseRevision(patchSet, dest, git, rw);
       return true;
     } catch (RestApiException e) {
       return false;
@@ -98,8 +79,8 @@ public class RebaseUtil {
    * @throws IOException if accessing the repository fails.
    * @throws OrmException if accessing the database fails.
    */
-  static ObjectId findBaseRevision(PatchSet patchSet,
-      Branch.NameKey destBranch, Repository git, RevWalk rw, ReviewDb db)
+  ObjectId findBaseRevision(PatchSet patchSet, Branch.NameKey destBranch,
+      Repository git, RevWalk rw)
       throws RestApiException, IOException, OrmException {
     String baseRev = null;
     RevCommit commit = rw.parseCommit(
@@ -116,9 +97,9 @@ public class RebaseUtil {
 
     RevId parentRev = new RevId(commit.getParent(0).name());
 
-    for (PatchSet depPatchSet : db.patchSets().byRevision(parentRev)) {
+    for (PatchSet depPatchSet : db.get().patchSets().byRevision(parentRev)) {
       Change.Id depChangeId = depPatchSet.getId().getParentKey();
-      Change depChange = db.changes().get(depChangeId);
+      Change depChange = db.get().changes().get(depChangeId);
       if (!depChange.getDest().equals(destBranch)) {
         continue;
       }
@@ -136,7 +117,7 @@ public class RebaseUtil {
               + " dependent change.");
         }
         PatchSet latestDepPatchSet =
-            db.patchSets().get(depChange.currentPatchSetId());
+            db.get().patchSets().get(depChange.currentPatchSetId());
         baseRev = latestDepPatchSet.getRevision().get();
       }
       break;

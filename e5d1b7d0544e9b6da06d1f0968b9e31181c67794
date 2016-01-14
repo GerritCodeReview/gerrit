@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c79bc28b_614f56ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-14T11:04:14Z",
+      "side": 1,
+      "message": "Mention here, that the list of starred change numbers is still retrieved from the database? Only returning the materialized change is optimized. It wasn\u0027t clear to me after reading this commit message until I looked into the code.",
+      "revId": "e5d1b7d0544e9b6da06d1f0968b9e31181c67794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a24ebd_a0255ae9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsStarredByPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-14T11:04:14Z",
+      "side": 1,
+      "message": "Same here. ChangeCache could be part of Arguments. Also here, honor the case that ChangeCache is disabled?",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 29
+      },
+      "revId": "e5d1b7d0544e9b6da06d1f0968b9e31181c67794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

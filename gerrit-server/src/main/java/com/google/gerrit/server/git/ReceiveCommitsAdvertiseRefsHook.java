@@ -21,7 +21,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
@@ -47,14 +46,12 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   private static final Logger log = LoggerFactory
       .getLogger(ReceiveCommitsAdvertiseRefsHook.class);
 
-  private final ReviewDb db;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Project.NameKey projectName;
 
-  public ReceiveCommitsAdvertiseRefsHook(ReviewDb db,
+  public ReceiveCommitsAdvertiseRefsHook(
       Provider<InternalChangeQuery> queryProvider,
       Project.NameKey projectName) {
-    this.db = db;
     this.queryProvider = queryProvider;
     this.projectName = projectName;
   }
@@ -92,22 +89,15 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
 
   private Set<ObjectId> advertiseOpenChanges() {
     // Advertise some recent open changes, in case a commit is based on one.
-    final int limit = 32;
+    int limit = 32;
     try {
-      Set<PatchSet.Id> toGet = Sets.newHashSetWithExpectedSize(limit);
+      Set<ObjectId> r = Sets.newHashSetWithExpectedSize(limit);
       for (ChangeData cd : queryProvider.get()
           .enforceVisibility(true)
           .setLimit(limit)
           .byProjectOpen(projectName)) {
-        PatchSet.Id id = cd.change().currentPatchSetId();
-        if (id != null) {
-          toGet.add(id);
-        }
-      }
-
-      Set<ObjectId> r = Sets.newHashSetWithExpectedSize(toGet.size());
-      for (PatchSet ps : db.patchSets().get(toGet)) {
-        if (ps.getRevision() != null && ps.getRevision().get() != null) {
+        PatchSet ps = cd.currentPatchSet();
+        if (ps != null) {
           r.add(ObjectId.fromString(ps.getRevision().get()));
         }
       }

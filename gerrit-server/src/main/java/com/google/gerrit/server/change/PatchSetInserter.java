@@ -34,13 +34,13 @@ import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
-import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -84,6 +84,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
+  private final PatchSetUtil psUtil;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -119,6 +120,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       PatchSetInfoFactory patchSetInfoFactory,
       CommitValidators.Factory commitValidatorsFactory,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
+      PatchSetUtil psUtil,
       @Assisted RefControl refControl,
       @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
@@ -130,6 +132,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.psUtil = psUtil;
 
     this.refControl = refControl;
     this.psId = psId;
@@ -232,7 +235,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     if (groups != null) {
       patchSet.setGroups(groups);
     } else {
-      patchSet.setGroups(GroupCollector.getCurrentGroups(db, change));
+      PatchSet prevPs = psUtil.current(ctx.getDb(), ctx.getNotes());
+      patchSet.setGroups(prevPs != null ? prevPs.getGroups() : null);
     }
     db.patchSets().insert(Collections.singleton(patchSet));
 

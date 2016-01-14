@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.UpdateException;
@@ -50,6 +51,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final Provider<ReviewDb> db;
   private final DeleteDraftComment delete;
   private final PatchLineCommentsUtil plcUtil;
+  private final PatchSetUtil psUtil;
   private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
   private final PatchListCache patchListCache;
@@ -58,12 +60,14 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   PutDraftComment(Provider<ReviewDb> db,
       DeleteDraftComment delete,
       PatchLineCommentsUtil plcUtil,
+      PatchSetUtil psUtil,
       BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       PatchListCache patchListCache) {
     this.db = db;
     this.delete = delete;
     this.plcUtil = plcUtil;
+    this.psUtil = psUtil;
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.patchListCache = patchListCache;
@@ -118,7 +122,8 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
 
       PatchSet.Id psId = comment.getKey().getParentKey().getParentKey();
       ChangeUpdate update = ctx.getUpdate(psId);
-      PatchSet ps = ctx.getDb().patchSets().get(psId);
+
+      PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }

@@ -1032,6 +1032,7 @@ public class MergeOp implements AutoCloseable {
       // modified when using the cherry-pick merge strategy.
       CodeReviewCommit commit = commits.get(c.getId());
       PatchSet.Id mergedId = commit.change().currentPatchSetId();
+      // TODO(dborowitz): Use PatchSetUtil after BatchUpdate migration.
       merged = db.patchSets().get(mergedId);
       c = setMergedPatchSet(c.getId(), mergedId);
       submitter = approvalsUtil.getSubmitter(db, commit.notes(), mergedId);

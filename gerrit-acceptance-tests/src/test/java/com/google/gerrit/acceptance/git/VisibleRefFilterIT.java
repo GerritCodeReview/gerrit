@@ -187,7 +187,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
     Change change1 = db.changes().get(c1);
-    PatchSet ps1 = db.patchSets().get(new PatchSet.Id(c1, 1));
+    PatchSet ps1 = getPatchSet(new PatchSet.Id(c1, 1));
 
     // Admin's edit is not visible.
     setApiUser(admin);
@@ -214,7 +214,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
       Change change1 = db.changes().get(c1);
-      PatchSet ps1 = db.patchSets().get(new PatchSet.Id(c1, 1));
+      PatchSet ps1 = getPatchSet(new PatchSet.Id(c1, 1));
       setApiUser(admin);
       editModifier.createEdit(change1, ps1);
       setApiUser(user);

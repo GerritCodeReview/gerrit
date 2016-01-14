@@ -78,6 +78,8 @@ public class CommandUtils {
       } catch (IllegalArgumentException e) {
         throw error("\"" + patchIdentity + "\" is not a valid patch set");
       }
+      // TODO(dborowitz): Use PatchSetUtils; probably requires a non-static
+      // implementation.
       PatchSet patchSet = db.patchSets().get(patchSetId);
       if (patchSet == null) {
         throw error("\"" + patchIdentity + "\" no such patch set");

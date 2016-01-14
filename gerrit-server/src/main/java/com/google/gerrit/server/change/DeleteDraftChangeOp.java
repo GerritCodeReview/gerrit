@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -23,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -44,14 +46,17 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     return cfg.getBoolean("change", "allowDrafts", true);
   }
 
+  private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
   private final boolean allowDrafts;
 
   private Change.Id id;
 
   @Inject
-  DeleteDraftChangeOp(StarredChangesUtil starredChangesUtil,
+  DeleteDraftChangeOp(PatchSetUtil psUtil,
+      StarredChangesUtil starredChangesUtil,
       @GerritServerConfig Config cfg) {
+    this.psUtil = psUtil;
     this.starredChangesUtil = starredChangesUtil;
     this.allowDrafts = allowDrafts(cfg);
   }
@@ -76,7 +81,8 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     if (!ctx.getControl().canDeleteDraft(ctx.getDb())) {
       throw new AuthException("Not permitted to delete this draft change");
     }
-    List<PatchSet> patchSets = ctx.getDb().patchSets().byChange(id).toList();
+    List<PatchSet> patchSets = ImmutableList.copyOf(
+        psUtil.byChange(ctx.getDb(), ctx.getNotes()));
     for (PatchSet ps : patchSets) {
       if (!ps.isDraft()) {
         throw new ResourceConflictException("Cannot delete draft change " + id

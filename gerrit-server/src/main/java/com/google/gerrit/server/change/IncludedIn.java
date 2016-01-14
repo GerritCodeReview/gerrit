@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -47,14 +48,17 @@ class IncludedIn implements RestReadView<ChangeResource> {
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
+  private final PatchSetUtil psUtil;
   private final DynamicMap<ExternalIncludedIn> includedIn;
 
   @Inject
   IncludedIn(Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
+      PatchSetUtil psUtil,
       DynamicMap<ExternalIncludedIn> includedIn) {
     this.db = db;
     this.repoManager = repoManager;
+    this.psUtil = psUtil;
     this.includedIn = includedIn;
   }
 
@@ -62,8 +66,7 @@ class IncludedIn implements RestReadView<ChangeResource> {
   public IncludedInInfo apply(ChangeResource rsrc) throws BadRequestException,
       ResourceConflictException, OrmException, IOException {
     ChangeControl ctl = rsrc.getControl();
-    PatchSet ps =
-        db.get().patchSets().get(ctl.getChange().currentPatchSetId());
+    PatchSet ps = psUtil.current(db.get(), rsrc.getNotes());
     Project.NameKey project = ctl.getProject().getNameKey();
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {

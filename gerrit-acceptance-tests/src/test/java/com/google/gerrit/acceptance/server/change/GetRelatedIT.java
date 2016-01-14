@@ -47,9 +47,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Inject
   private ChangeEditModifier editModifier;
 
-  @Inject
-  private ChangeData.Factory changeDataFactory;
-
   @Test
   public void getRelatedNoResult() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
@@ -521,7 +518,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     pushHead(testRepo, "refs/for/master", false);
 
     Change ch2 = getChange(c2_1).change();
-    editModifier.createEdit(ch2, getPatchSet(ch2));
+    editModifier.createEdit(ch2, getPatchSet(ch2.currentPatchSetId()));
     editModifier.modifyFile(editUtil.byChange(ch2).get(), "a.txt",
         RestSession.newRawInput(new byte[] {'a'}));
     ObjectId editRev =
@@ -569,7 +566,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
 
     // Pretend PS1,1 was pushed before the groups field was added.
-    PatchSet ps1_1 = db.patchSets().get(psId1_1);
+    PatchSet ps1_1 = getPatchSet(psId1_1);
     ps1_1.setGroups(null);
     db.patchSets().update(ImmutableList.of(ps1_1));
     indexer.index(changeDataFactory.create(db, psId1_1.getParentKey()));
@@ -612,10 +609,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   private PatchSet.Id getPatchSetId(ObjectId c) throws OrmException {
     return getChange(c).change().currentPatchSetId();
-  }
-
-  private PatchSet getPatchSet(Change c) throws OrmException {
-    return db.patchSets().get(c.currentPatchSetId());
   }
 
   private ChangeData getChange(ObjectId c) throws OrmException {

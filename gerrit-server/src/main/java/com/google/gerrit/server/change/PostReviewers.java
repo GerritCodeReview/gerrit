@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountsCollection;
@@ -76,6 +77,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final AccountsCollection accounts;
   private final ReviewerResource.Factory reviewerFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final PatchSetUtil psUtil;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final GroupsCollection groupsCollection;
   private final GroupMembers.Factory groupMembersFactory;
@@ -94,6 +96,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   PostReviewers(AccountsCollection accounts,
       ReviewerResource.Factory reviewerFactory,
       ApprovalsUtil approvalsUtil,
+      PatchSetUtil psUtil,
       AddReviewerSender.Factory addReviewerSenderFactory,
       GroupsCollection groupsCollection,
       GroupMembers.Factory groupMembersFactory,
@@ -110,6 +113,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.approvalsUtil = approvalsUtil;
+    this.psUtil = psUtil;
     this.addReviewerSenderFactory = addReviewerSenderFactory;
     this.groupsCollection = groupsCollection;
     this.groupMembersFactory = groupMembersFactory;
@@ -257,7 +261,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     indexFuture.checkedGet();
     emailReviewers(rsrc.getChange(), added);
     if (!added.isEmpty()) {
-      PatchSet patchSet = dbProvider.get().patchSets().get(rsrc.getChange().currentPatchSetId());
+      PatchSet patchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
       for (PatchSetApproval psa : added) {
         Account account = accountCache.get(psa.getAccountId()).getAccount();
         hooks.doReviewerAddedHook(rsrc.getChange(), account, patchSet, dbProvider.get());

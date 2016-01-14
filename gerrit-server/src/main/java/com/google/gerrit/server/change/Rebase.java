@@ -183,6 +183,8 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       return db.patchSets().get(basePatchSetId);
     }
 
+    // TODO(dborowitz): Use PatchSetUtil; requires additional refactoring as we
+    // just turn around and get the change at the caller.
     // Try parsing base as a change number (assume current patch set).
     PatchSet basePatchSet = null;
     Integer baseChangeId = Ints.tryParse(base);

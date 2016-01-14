@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -108,6 +109,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     private final Revisions revisions;
     private final GitRepositoryManager gitManager;
     private final PatchListCache patchListCache;
+    private final PatchSetUtil psUtil;
 
     @Inject
     ListFiles(Provider<ReviewDb> db,
@@ -115,13 +117,15 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         FileInfoJson fileInfoJson,
         Revisions revisions,
         GitRepositoryManager gitManager,
-        PatchListCache patchListCache) {
+        PatchListCache patchListCache,
+        PatchSetUtil psUtil) {
       this.db = db;
       this.self = self;
       this.fileInfoJson = fileInfoJson;
       this.revisions = revisions;
       this.gitManager = gitManager;
       this.patchListCache = patchListCache;
+      this.psUtil = psUtil;
     }
 
     public ListFiles setReviewed(boolean r) {
@@ -262,7 +266,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           TreeWalk tw = new TreeWalk(reader)) {
         PatchList oldList = patchListCache.get(
             resource.getChange(),
-            db.get().patchSets().get(old));
+            psUtil.get(db.get(), resource.getNotes(), old));
 
         PatchList curList = patchListCache.get(
             resource.getChange(),

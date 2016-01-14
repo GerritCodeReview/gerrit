@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -84,6 +85,7 @@ public abstract class SubmitStrategy {
     final BatchUpdate.Factory batchUpdateFactory;
     final ChangeControl.GenericFactory changeControlFactory;
     final PatchSetInfoFactory patchSetInfoFactory;
+    final PatchSetUtil psUtil;
     final ProjectCache projectCache;
     final PersonIdent serverIdent;
     final RebaseChangeOp.Factory rebaseFactory;
@@ -109,6 +111,7 @@ public abstract class SubmitStrategy {
         ChangeControl.GenericFactory changeControlFactory,
         MergeUtil.Factory mergeUtilFactory,
         PatchSetInfoFactory patchSetInfoFactory,
+        PatchSetUtil psUtil,
         @GerritPersonIdent PersonIdent serverIdent,
         ProjectCache projectCache,
         RebaseChangeOp.Factory rebaseFactory,
@@ -125,6 +128,7 @@ public abstract class SubmitStrategy {
       this.batchUpdateFactory = batchUpdateFactory;
       this.changeControlFactory = changeControlFactory;
       this.patchSetInfoFactory = patchSetInfoFactory;
+      this.psUtil = psUtil;
       this.projectCache = projectCache;
       this.rebaseFactory = rebaseFactory;
 

@@ -36,6 +36,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.RevertedSender;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -164,6 +165,7 @@ public class ChangeUtil {
   private final Provider<ReviewDb> db;
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final PatchSetUtil psUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeInserter.Factory changeInserterFactory;
@@ -177,6 +179,7 @@ public class ChangeUtil {
       Provider<ReviewDb> db,
       Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
+      PatchSetUtil psUtil,
       ChangeControl.GenericFactory changeControlFactory,
       RevertedSender.Factory revertedSenderFactory,
       ChangeInserter.Factory changeInserterFactory,
@@ -188,6 +191,7 @@ public class ChangeUtil {
     this.db = db;
     this.seq = seq;
     this.queryProvider = queryProvider;
+    this.psUtil = psUtil;
     this.changeControlFactory = changeControlFactory;
     this.revertedSenderFactory = revertedSenderFactory;
     this.changeInserterFactory = changeInserterFactory;
@@ -203,7 +207,7 @@ public class ChangeUtil {
       MissingObjectException, IncorrectObjectTypeException, IOException,
       RestApiException, UpdateException {
     Change.Id changeIdToRevert = patchSetId.getParentKey();
-    PatchSet patch = db.get().patchSets().get(patchSetId);
+    PatchSet patch = psUtil.get(db.get(), ctl.getNotes(), patchSetId);
     if (patch == null) {
       throw new NoSuchChangeException(changeIdToRevert);
     }
@@ -295,16 +299,17 @@ public class ChangeUtil {
     }
   }
 
-  public String getMessage(Change change)
+  public String getMessage(ChangeNotes notes)
       throws NoSuchChangeException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException {
-    Change.Id changeId = change.getId();
-    PatchSet ps = db.get().patchSets().get(change.currentPatchSetId());
+    Change.Id changeId = notes.getChangeId();
+    PatchSet ps = psUtil.current(db.get(), notes);
     if (ps == null) {
       throw new NoSuchChangeException(changeId);
     }
 
-    try (Repository git = gitManager.openRepository(change.getProject());
+    try (Repository git =
+          gitManager.openRepository(notes.getChange().getProject());
         RevWalk revWalk = new RevWalk(git)) {
       RevCommit commit = revWalk.parseCommit(
           ObjectId.fromString(ps.getRevision().get()));

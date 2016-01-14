@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1452797516 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBVs3e2voGn8tIeJ+cIWL2Fk2F6FXnwrYW5kkvA0o/Y+tn6wDQUoS/lmp3zmga6AYmt5qrpQ\n\n0000000000000000000000000000000000000000 b259ed7518ddbdaaf5e2f93acf1a0191797e8d36 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWl+5MAAoJEF/XxZqaEoiMr4gP+wUXCHHo+J7li2Kj7RxCrxWO\nfPEHK40HDdbhoeLlON27qnd5Uk4oV2JF0BbKdICfSuK69Mf79aM5EgrXz4XYWXQA\nFOEXL6vyJhIX8o6aWOx1NcjZ95xN05Hgj6zZUtu+mj7AovCZkGKW0ltt8sFA23X/\nsvr9WZBBfwBKJRQoM6Mp3b0E9dfHPorCe0tzQ+kr3/W5NKoZV+et2IlaR+TvOMcA\nHa3Ypx21fFZJYqR4a3JExkD+yhfw+YCgvZaGC8YDxNAR6bEvPuyylElCLAyhFCXA\nCWzHz4ko43hZmuT5Djl0+hZA0BlosYWzgjWiX3DT9MrBCy5KOIuW63IZOoNQ8EWW\nqZ6MCLmK4AT93cgSPtL2OKLg5r0dCJOhZ1SdEldFZksPAyLMN8yyVda2aj5+jtgI\noIRue4g8Ssk4/A5U7LKsBVx6geRAUxsNK1DhavY08Ge30OmVNKrQfNFo8esmve5Z\nzjggrMZxeK3+XCH9g860Nn0aZCbAD5kwB360B5oQQgGQ1p3UEhJllAr6BSjgMa6A\nVZd0ofDaYO9zsPMFIX/kIBCuaADPBwXzUmxPCF4RzPitVdyWFTnLpQMLnioPF77g\nWuLrusHysA+1KWTP8zT2xmAAzDfzdi+dIBT5MYZ4dsvN0zKCTG+Lqz+vGbFSkkCV\n8fYwvwuV8PTOAUEC1msH\n\u003deuqt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c79bc28b_81e6dad1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-14T19:26:27Z",
+      "side": 1,
+      "message": "Just curious, how is this supposed to work in multi master environment? One approach is to preserve places in the preserved blocks between nodes, say two multi-master nodes: \n\n* Node_1: 1,2,3,...,10\n* Node_2: 11,12,13,...,20\n\nBut then the problem is the linear ordering that must not be enforced, so that three changes could be assigned the following number (submitted in chronological order):\n\n* Node_1: change_1 \n* Node_2: change_11\n* Node_1: change_2\n\nThis problem is typically arises in Oracle Database with Real Application Clusters, where idependent nodes generates the sequence numbers. Oracle\u0027s create sequence order|noorder clausel is optionally enforcing the linear ordering, in the case above, when enforced, all sequence numbers in Node_1 after 1 was assigned would be omitted, and next block would be generated: 21, ..., 30, so that the result would be:\n\n* Node_1: change_1 \n* Node_2: change_11\n* Node_1: change_21\n\nSee: [1] for details, quoting here the important part:\n\n\"\nORDER\nSpecify ORDER to guarantee that sequence numbers are generated in order of request. This clause is useful if you are using the sequence numbers as timestamps. Guaranteeing order is usually not important for sequences used to generate primary keys.\n\nORDER is necessary only to guarantee ordered generation if you are using Oracle Database with Real Application Clusters. If you are using exclusive mode, sequence numbers are always generated in order.\n\nNOORDER \nSpecify NOORDER if you do not want to guarantee sequence numbers are generated in order of request. This is the default.\n\"\n\n* [1] https://docs.oracle.com/cd/B12037_01/server.101/b10759/statements_6014.htm",
+      "range": {
+        "startLine": 173,
+        "startChar": 26,
+        "endLine": 173,
+        "endChar": 42
+      },
+      "revId": "9b82bfdd57f90ffe744c459e220ba12def719634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

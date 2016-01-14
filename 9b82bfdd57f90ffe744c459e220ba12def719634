@@ -23,6 +23,30 @@
       "revId": "9b82bfdd57f90ffe744c459e220ba12def719634",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_de3dc50c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-14T19:28:07Z",
+      "side": 1,
+      "message": "This is described in both the javadoc and the commit message.",
+      "parentUuid": "c79bc28b_81e6dad1",
+      "range": {
+        "startLine": 173,
+        "startChar": 26,
+        "endLine": 173,
+        "endChar": 42
+      },
+      "revId": "9b82bfdd57f90ffe744c459e220ba12def719634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

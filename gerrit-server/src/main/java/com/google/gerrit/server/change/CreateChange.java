@@ -39,6 +39,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -77,6 +78,7 @@ public class CreateChange implements
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
+  private final Sequences seq;
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> user;
   private final ProjectsCollection projectsCollection;
@@ -89,6 +91,7 @@ public class CreateChange implements
   @Inject
   CreateChange(Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
+      Sequences seq,
       @GerritPersonIdent PersonIdent myIdent,
       Provider<CurrentUser> user,
       ProjectsCollection projectsCollection,
@@ -99,6 +102,7 @@ public class CreateChange implements
       @GerritServerConfig Config config) {
     this.db = db;
     this.gitManager = gitManager;
+    this.seq = seq;
     this.serverTimeZone = myIdent.getTimeZone();
     this.user = user;
     this.projectsCollection = projectsCollection;
@@ -194,7 +198,7 @@ public class CreateChange implements
 
         Change change = new Change(
             getChangeId(id, c),
-            new Change.Id(db.get().nextChangeId()),
+            new Change.Id(seq.nextChangeId()),
             me.getAccountId(),
             new Branch.NameKey(project, refName),
             now);

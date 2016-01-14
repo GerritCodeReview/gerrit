@@ -46,6 +46,9 @@ public class RefNames {
   /** A change starred by a user */
   public static final String REFS_STARRED_CHANGES = "refs/starred-changes/";
 
+  /** Sequence counters in notedb. */
+  public static final String REFS_SEQUENCES = "refs/sequences/";
+
   /**
    * Prefix applied to merge commit base nodes.
    * <p>

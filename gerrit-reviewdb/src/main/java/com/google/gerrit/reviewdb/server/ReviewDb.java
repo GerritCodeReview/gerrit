@@ -113,8 +113,15 @@ public interface ReviewDb extends Schema {
   @Sequence
   int nextAccountGroupId() throws OrmException;
 
-  /** Next unique id for a {@link Change}. */
-  @Sequence
+  int FIRST_CHANGE_ID = 1;
+
+  /**
+   * Next unique id for a {@link Change}.
+   *
+   * @deprecated use {@link com.google.gerrit.server.Sequences#nextChangeId()}.
+   */
+  @Sequence(startWith = FIRST_CHANGE_ID)
+  @Deprecated
   int nextChangeId() throws OrmException;
 
   /**

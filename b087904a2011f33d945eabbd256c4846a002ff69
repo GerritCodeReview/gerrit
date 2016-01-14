@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eabb2b9e_0ae7fb61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-14T10:57:29Z",
+      "side": 1,
+      "message": "All arguemnts should go to Arguments. Also note, that cangeCache could be disabled in the configuration. So we should make change cache usage optional?",
+      "range": {
+        "startLine": 332,
+        "startChar": 6,
+        "endLine": 332,
+        "endChar": 29
+      },
+      "revId": "b087904a2011f33d945eabbd256c4846a002ff69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

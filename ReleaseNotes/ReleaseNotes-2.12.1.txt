@@ -1,0 +1,14 @@
+Release notes for Gerrit 2.12.1
+===============================
+
+Gerrit 2.12.1 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.12.1.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.12.1.war]
+
+There are no schema changes from link:ReleaseNotes-2.12.html[2.12].
+
+Bug Fixes
+---------
+
+* TODO

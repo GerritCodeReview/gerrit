@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7c4a27f_994c1bc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-14T01:52:58Z",
+      "side": 1,
+      "message": "In my version, that was merged, I completely removed the constructor :(\n\nSame for GetEmails in the change that I just merged [1] before seeing this.\n\n[1] https://gerrit-review.googlesource.com/#/c/73639/",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "3f8b07cdb5d26948fdf5a07b90b540bf1d7b9761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

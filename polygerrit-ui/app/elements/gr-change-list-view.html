@@ -77,6 +77,12 @@ limitations under the License.
     Polymer({
       is: 'gr-change-list-view',
 
+      /**
+       * Fired when the title of the page should change.
+       *
+       * @event title-change
+       */
+
       properties: {
         /**
          * URL params passed from the router.
@@ -108,9 +114,15 @@ limitations under the License.
         },
       },
 
+      attached: function() {
+        this.fire('title-change', {title: this.query});
+      },
+
       _paramsChanged: function(value) {
         this.query = value.query;
         this.offset = value.offset || 0;
+
+        this.fire('title-change', {title: this.query});
       },
 
       _computeQueryParams: function(query, offset) {

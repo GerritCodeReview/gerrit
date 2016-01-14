@@ -1,4 +1,344 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1452781537 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBWvAkM+3XnpBjd1mHSQU7UZRMgTfROMDnlezsieq9J+C92sanCDxyuEJqrVAlHwPV1xbxzW\n\n0000000000000000000000000000000000000000 cd74d071eed285ba1418faf69ca7d90e5de7acbe refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWl6/hAAoJEF/XxZqaEoiMK9cQAJnVtLeR7RQszpRvyhJguUJX\nGIIbxY5n2Rcu42zzZdhbGYcMatHQzn6wqEI0pGjAbIgns1oZdd6YJdKGDQqfOHHB\nALkPY5NVC8XRIzs/bnfQupq4M7QndRzCJ5FP0Ywejoyj1JvU1Lg+5BG5amvXaeSf\n4JK7Z08zhd2efXOJe3fFNaDEzlHko+xV6YYn/WaxTsMlWvxwcWIGtNW7p/9DcNyK\nUS7IhRqXkAa+CpHf1lls+YwH3GP4KF8vv1nDM/ifZkzJTk+NhWa9yqVGKj3FNPN5\nmv/cndwAwwnECj6I36Z1+7wm8SoyjFw3c4LvrQBsKwd+bgE6c8b5ikrHpN1yrYJI\nWP82ZOpus7XENQ1DmOS4ZrQT5D7GyDkAujNohNWiNKLDuzFtyPjMG7nTZZi3SBZa\nm98BNDq3WnBqcGy4j1Ey+trGceRXzq3xiUGZ4fPczX84heWAfo8ZOJQuy7b4QUIU\nbUDXGuSumVIknPJ6q5EUIwpLhHPvCilw8CgVgHaLVlW36dp7NzfaWFcSXxiYfCBp\nVNekbwqPVT3rlTpjUw61C3Ka7slQQa48KYmaLR224PXaVyY06tMbb6MFSCWT1bfq\nhEJH4fhBurTDgE9IvTG1RRTgd/DqswZrh1yOqWUUy3i28JmQh165RPERLZGitjZb\nuTLDU/6yNf3DpSjgfor5\n\u003dsSdM\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "27981e85_ac7c03c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "Unrelated to this change, just curiosity. Will we be able now, to make this an extension point so that a plugin can contribute a custom SubmitStrategy?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_cc894f0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "[optional] Use \u0027ids\u0027 here. At least this would make reading this code easier to me.",
+      "range": {
+        "startLine": 266,
+        "startChar": 10,
+        "endLine": 266,
+        "endChar": 18
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_ec860bfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "branches",
+      "range": {
+        "startLine": 557,
+        "startChar": 35,
+        "endLine": 557,
+        "endChar": 47
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_0c7517d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "branches",
+      "range": {
+        "startLine": 574,
+        "startChar": 35,
+        "endLine": 574,
+        "endChar": 47
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_4c6f1f01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyListener.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "Could we expose and use commits.commits.keySet() instead. Then we wouldn\u0027t need to add ChangeSet to CommitStatus, but only the cached submit records.",
+      "range": {
+        "startLine": 56,
+        "startChar": 24,
+        "endLine": 56,
+        "endChar": 50
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_99e09bb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "[optional] extract this into a private method",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 5
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_cc622f15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "Do we need to keep an extra status for these? Could it be just CLEAN_MERGE and by seeing that oldPs !\u003d newPs we know that we should include the commit name into the message?",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 157,
+        "endChar": 49
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_2c7ad3c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "[optional] Maybe it would be better then to not store the ChangeData\u0027s (ChangeSet) in CommitStatus at all? But only those pieces that we really need (the change Ids and the cached submit records)? Then we would be safe from accidentally using the outdated ChangeData somewhen later.",
+      "range": {
+        "startLine": 183,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 33
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_79e6e7d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "I would say yes. The old patch was submitted, but the new patch set was merged, hence the new patch set should get the merged state.",
+      "range": {
+        "startLine": 198,
+        "startChar": 26,
+        "endLine": 198,
+        "endChar": 41
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_6c74dbd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "Can it ever happen that the key is already contained?",
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_59e323c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "ctx.getWhen();",
+      "range": {
+        "startLine": 227,
+        "startChar": 25,
+        "endLine": 227,
+        "endChar": 41
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_ac65e31f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "I also think it should be on the new patch set.",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 311,
+        "endChar": 32
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27981e85_8c6827f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "ctx.getWhen()",
+      "range": {
+        "startLine": 312,
+        "startChar": 14,
+        "endLine": 312,
+        "endChar": 30
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_39f06f86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "This creates a new timestamp, rather set ctx.getWhen() as lastUpdatedOn.",
+      "range": {
+        "startLine": 325,
+        "startChar": 4,
+        "endLine": 325,
+        "endChar": 26
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_19edabaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-14T17:56:18Z",
+      "side": 1,
+      "message": "this sentence seems broken",
+      "range": {
+        "startLine": 328,
+        "startChar": 24,
+        "endLine": 329,
+        "endChar": 54
+      },
+      "revId": "cd74d071eed285ba1418faf69ca7d90e5de7acbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "474352e2_7d38370f",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-14T21:13:18Z",
+      "side": 1,
+      "message": "Hm. Rather than querying for the offsetHeight or clientHeight let’s rename size to imageSize so that it’s more explicit and use that to retrieve the image.",
+      "parentUuid": "c79bc28b_019aca88",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67e056e1_fefb218f",
         "filename": "polygerrit-ui/app/elements/gr-avatar.html",
         "patchSetId": 1
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "If I understand correctly, you prefer to pass the property from \u0027gr-app\u0027 as property through all elements until \u0027gr-avatar\u0027?\n\nIn case of the change message author on change-view, this would be:\ngr-app -\u003e gr-change-view -\u003e gr-messages-list -\u003e gr-message -\u003e gr-avatar\n(which means adding the the \u0027showAvatar\u0027 property on three other elements).",
       "parentUuid": "47db5239_3d2cafd4",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "474352e2_dd8b8b09",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-14T21:13:18Z",
+      "side": 1,
+      "message": "It doesn’t mean adding the showAvatar property to all those elements. It means passing the appConfig to the view, which then will pass the appropriate config options to the necessary elements. The app config will need to be used in the change-view anyways because it specifies how many characters are typed before it will show a result.\n\nLet\u0027s punt on this for now and address it later.",
+      "parentUuid": "a7a24ebd_009ac688",
       "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

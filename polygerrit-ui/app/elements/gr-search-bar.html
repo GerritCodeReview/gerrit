@@ -101,9 +101,9 @@ limitations under the License.
 
       _handleKey: function(e) {
         if (util.shouldSupressKeyboardShortcut(e)) { return; }
-        e.preventDefault();
         switch(e.keyCode) {
           case 191:  // '/'
+            e.preventDefault();
             var s = this.$.searchInput;
             s.focus();
             s.setSelectionRange(0, s.value.length);

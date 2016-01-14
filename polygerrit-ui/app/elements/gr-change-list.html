@@ -168,15 +168,18 @@ limitations under the License.
         });
         switch(e.keyCode) {
           case 74:  // 'j'
+            e.preventDefault();
             if (this.selectedIndex == len - 1) { return; }
             this.selectedIndex += 1;
             break;
           case 75:  // 'k'
+            e.preventDefault();
             if (this.selectedIndex == 0) { return; }
             this.selectedIndex -= 1;
             break;
           case 79:  // 'o'
           case 13:  // 'enter'
+            e.preventDefault();
             page.show(this._changeURLForIndex(this.selectedIndex));
             break;
         }

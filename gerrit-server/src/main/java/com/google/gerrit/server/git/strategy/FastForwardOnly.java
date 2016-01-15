@@ -58,7 +58,7 @@ public class FastForwardOnly extends SubmitStrategy {
         throw new IntegrationException(e.getCause().getMessage(), e);
       }
       throw new IntegrationException(
-          "Cannot fast-forward into " + args.destBranch);
+          "Cannot fast-forward into " + args.destBranch, e);
     }
     return mergeTip;
   }

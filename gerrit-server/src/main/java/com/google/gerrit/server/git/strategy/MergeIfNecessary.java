@@ -66,7 +66,7 @@ public class MergeIfNecessary extends SubmitStrategy {
         throw new IntegrationException(e.getCause().getMessage(), e);
       }
       throw new IntegrationException(
-          "Cannot merge into " + args.destBranch);
+          "Cannot merge into " + args.destBranch, e);
     }
     return mergeTip;
   }

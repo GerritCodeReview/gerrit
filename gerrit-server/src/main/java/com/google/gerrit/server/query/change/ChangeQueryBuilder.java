@@ -499,7 +499,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (file.startsWith("^")) {
       return new RegexPathPredicate(file);
     } else {
-      return EqualsFilePredicate.create(args, file);
+      return EqualsFilePredicate.create(file);
     }
   }
 

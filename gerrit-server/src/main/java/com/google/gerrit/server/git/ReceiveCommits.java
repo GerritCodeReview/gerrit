@@ -712,7 +712,7 @@ public class ReceiveCommits {
         Iterables.filter(newChanges, new Predicate<CreateRequest>() {
           @Override
           public boolean apply(CreateRequest input) {
-            return input.created;
+            return input.change != null;
           }
         });
     if (!Iterables.isEmpty(created)) {
@@ -1583,10 +1583,9 @@ public class ReceiveCommits {
             + "to override please set the base manually");
         }
 
-        Change.Key changeKey = new Change.Key("I" + c.name());
         final List<String> idList = c.getFooterLines(CHANGE_ID);
         if (idList.isEmpty()) {
-          newChanges.add(new CreateRequest(magicBranch.ctl, c, changeKey));
+          newChanges.add(new CreateRequest(magicBranch.ctl, c));
           continue;
         }
 
@@ -1598,8 +1597,7 @@ public class ReceiveCommits {
           return;
         }
 
-        changeKey = new Change.Key(idStr);
-        pending.add(new ChangeLookup(c, changeKey));
+        pending.add(new ChangeLookup(c, new Change.Key(idStr)));
         if (maxBatchChanges != 0
             && pending.size() + newChanges.size() > maxBatchChanges) {
           reject(magicBranch.cmd,
@@ -1650,7 +1648,7 @@ public class ReceiveCommits {
 
           newChangeIds.add(p.changeKey);
         }
-        newChanges.add(new CreateRequest(magicBranch.ctl, p.commit, p.changeKey));
+        newChanges.add(new CreateRequest(magicBranch.ctl, p.commit));
       }
     } catch (IOException e) {
       // Should never happen, the core receive process would have
@@ -1729,21 +1727,17 @@ public class ReceiveCommits {
     final RevCommit commit;
     final ReceiveCommand cmd;
     final ChangeInserter ins;
+    Change.Id changeId;
     Change change;
-    boolean created;
     Collection<String> groups;
 
-    CreateRequest(RefControl ctl, RevCommit c, Change.Key changeKey)
+    CreateRequest(RefControl ctl, RevCommit c)
         throws OrmException {
       commit = c;
-      change = new Change(changeKey,
-          new Change.Id(seq.nextChangeId()),
-          user.getAccountId(),
-          magicBranch.dest,
-          TimeUtil.nowTs());
-      change.setTopic(magicBranch.topic);
-      ins = changeInserterFactory.create(ctl, change, c)
+      changeId = new Change.Id(seq.nextChangeId());
+      ins = changeInserterFactory.create(ctl, changeId, c)
           .setDraft(magicBranch.draft)
+          .setTopic(magicBranch.topic)
           // Changes already validated in validateNewCommits.
           .setValidatePolicy(CommitValidators.Policy.NONE);
       cmd = new ReceiveCommand(ObjectId.zeroId(), c,
@@ -1790,7 +1784,7 @@ public class ReceiveCommits {
           approvals, Collections.<String, PatchSetApproval> emptyMap());
       try (ObjectInserter oi = repo.newObjectInserter();
           BatchUpdate bu = batchUpdateFactory.create(threadLocalDb,
-            change.getProject(), user, change.getCreatedOn())) {
+              magicBranch.dest.getParentKey(), user, TimeUtil.nowTs())) {
         bu.setRepository(repo, rp.getRevWalk(), oi);
         bu.insertChange(ins
             .setReviewers(recipients.getReviewers())
@@ -1802,12 +1796,12 @@ public class ReceiveCommits {
             .setUpdateRef(false));
         if (magicBranch != null) {
           bu.addOp(
-              ins.getChange().getId(),
+              changeId,
               hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags))
                 .setRunHooks(false));
           if (!Strings.isNullOrEmpty(magicBranch.topic)) {
             bu.addOp(
-                ins.getChange().getId(),
+                changeId,
                 new BatchUpdate.Op() {
                   @Override
                   public void updateChange(ChangeContext ctx) throws Exception {
@@ -1818,7 +1812,6 @@ public class ReceiveCommits {
         }
         bu.execute();
       }
-      created = true;
       change = ins.getChange();
 
       if (magicBranch != null && magicBranch.submit) {

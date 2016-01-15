@@ -231,7 +231,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public abstract static class InsertChangeOp extends Op {
-    public abstract Change getChange();
+    public abstract Change createChange(Timestamp when);
   }
 
   private static class ChainedReceiveCommands {
@@ -482,7 +482,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public BatchUpdate insertChange(InsertChangeOp op) {
-    Change c = op.getChange();
+    Change c = op.createChange(when);
     checkArgument(!newChanges.containsKey(c.getId()),
         "only one op allowed to create change %s", c.getId());
     newChanges.put(c.getId(), c);

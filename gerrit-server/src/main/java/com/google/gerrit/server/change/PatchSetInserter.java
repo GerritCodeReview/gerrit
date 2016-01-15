@@ -102,6 +102,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private boolean sendMail = true;
   private Account.Id uploader;
   private boolean allowClosed;
+  private boolean copyApprovals = true;
 
   // Fields set during some phase of BatchUpdate.Op.
   private Change change;
@@ -177,6 +178,11 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   public PatchSetInserter setAllowClosed(boolean allowClosed) {
     this.allowClosed = allowClosed;
+    return this;
+  }
+
+  public PatchSetInserter setCopyApprovals(boolean copyApprovals) {
+    this.copyApprovals = copyApprovals;
     return this;
   }
 
@@ -266,7 +272,9 @@ public class PatchSetInserter extends BatchUpdate.Op {
           "Change %s was modified", id));
     }
 
-    approvalCopier.copy(db, ctl, patchSet);
+    if (copyApprovals) {
+      approvalCopier.copy(db, ctl, patchSet);
+    }
     if (changeMessage != null) {
       cmUtil.addChangeMessage(db, ctx.getChangeUpdate(), changeMessage);
     }

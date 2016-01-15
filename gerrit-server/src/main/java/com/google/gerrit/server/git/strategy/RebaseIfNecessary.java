@@ -158,6 +158,9 @@ public class RebaseIfNecessary extends SubmitStrategy {
             mergeTip.getCurrentTip().name())
           .setCommitterIdent(args.serverIdent)
           .setRunHooks(false)
+          // Bypass approval copier since we're going to copy all approvals
+          // later anyway.
+          .setCopyApprovals(false)
           .setValidatePolicy(CommitValidators.Policy.NONE);
       try {
         rebaseOp.updateRepo(ctx);
@@ -183,9 +186,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
           toMerge.getControl(), toMerge.getPatchsetId())) {
         approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
       }
-      // rebaseOp may already have copied some approvals; use upsert, not
-      // insert, to avoid constraint violation on database.
-      args.db.patchSetApprovals().upsert(approvals);
+      args.db.patchSetApprovals().insert(approvals);
 
       // TODO(dborowitz): Make RevWalk available via BatchUpdate.
       CodeReviewCommit newTip = args.rw.parseCommit(

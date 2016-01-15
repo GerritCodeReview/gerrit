@@ -112,8 +112,7 @@ class PatchSetParser {
               + projectControl.getProject().getName());
         }
         if (!inBranch(change, branch)) {
-          throw error("change " + change.getId() + " not in branch "
-              + change.getDest().get());
+          throw error("change " + change.getId() + " not in branch " + branch);
         }
       }
       return patchSet;

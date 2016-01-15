@@ -43,7 +43,6 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.IdGenerator;
-import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -119,16 +118,6 @@ public class ChangeUtil {
     String u = IdGenerator.format(IdGenerator.mix(SEED, p));
     String l = IdGenerator.format(IdGenerator.mix(p, s));
     return u + '_' + l;
-  }
-
-  public static void touch(Change change, ReviewDb db)
-      throws OrmException {
-    try {
-      updated(change);
-      db.changes().update(Collections.singleton(change));
-    } catch (OrmConcurrencyException e) {
-      // Ignore a concurrent update, we just wanted to tag it as newer.
-    }
   }
 
   public static void bumpRowVersionNotLastUpdatedOn(Change.Id id, ReviewDb db)

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c79bc28b_c1c2a20d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-15T10:22:58Z",
+      "side": 1,
+      "message": "You should write:\nBug: Issue 3784\n\nThat way, you can find this change with the query \"tr:3784\" and also the commit msg hook does not insert an empty line after this line.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "d50efa4615bb095169495fb39bb8439dc8a6b13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a24ebd_40420e43",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-15T10:22:58Z",
+      "side": 1,
+      "message": "Why not setting \"Gerrit Code Review\" in any case and prepend the title when available?",
+      "revId": "d50efa4615bb095169495fb39bb8439dc8a6b13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

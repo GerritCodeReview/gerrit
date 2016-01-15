@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c79bc28b_a1c79e1b",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-15T10:22:58Z",
+      "side": 0,
+      "message": "Why not showing a title while the page is still loading (\"Gerrit Code Review\")?",
+      "revId": "37e6e9cc9298efd229cec180f2516acde5fd8ce3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

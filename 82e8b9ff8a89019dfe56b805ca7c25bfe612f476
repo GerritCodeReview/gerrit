@@ -16,6 +16,24 @@
       "revId": "82e8b9ff8a89019dfe56b805ca7c25bfe612f476",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79bc28b_01440a51",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-15T19:52:01Z",
+      "side": 1,
+      "message": "Thanks, did not know that.\nDone.",
+      "parentUuid": "674856fe_be2559e9",
+      "revId": "82e8b9ff8a89019dfe56b805ca7c25bfe612f476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

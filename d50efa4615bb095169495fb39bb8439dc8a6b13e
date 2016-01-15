@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "474352e2_9d6e6303",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-15T13:58:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c79bc28b_c1c2a20d",
+      "revId": "d50efa4615bb095169495fb39bb8439dc8a6b13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7a24ebd_40420e43",
         "filename": "polygerrit-ui/app/elements/gr-app.html",
         "patchSetId": 2
@@ -36,6 +54,42 @@
       "writtenOn": "2016-01-15T10:22:58Z",
       "side": 1,
       "message": "Why not setting \"Gerrit Code Review\" in any case and prepend the title when available?",
+      "revId": "d50efa4615bb095169495fb39bb8439dc8a6b13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_fe2be1bb",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-15T13:58:50Z",
+      "side": 1,
+      "message": "Because a URL is less ambiguous than the same title.",
+      "parentUuid": "a7a24ebd_40420e43",
+      "revId": "d50efa4615bb095169495fb39bb8439dc8a6b13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "474352e2_bd731fee",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-15T13:58:50Z",
+      "side": 1,
+      "message": "Same reasoning. The URL will show in the title which is more useful (even though it shouldn’t show in any case) than having Gerrit Code Review each time.",
+      "parentUuid": "c79bc28b_a1c79e1b",
       "revId": "d50efa4615bb095169495fb39bb8439dc8a6b13e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

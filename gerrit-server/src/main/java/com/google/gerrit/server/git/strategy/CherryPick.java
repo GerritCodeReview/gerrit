@@ -75,7 +75,7 @@ public class CherryPick extends SubmitStrategy {
       u.execute();
     } catch (UpdateException | RestApiException e) {
       throw new IntegrationException(
-          "Cannot cherry-pick onto " + args.destBranch);
+          "Cannot cherry-pick onto " + args.destBranch, e);
     }
     // TODO(dborowitz): When BatchUpdate is hoisted out of CherryPick,
     // SubmitStrategy should probably no longer return MergeTip, instead just

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "674856fe_5e80d5e2",
+        "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-15T20:35:44Z",
+      "side": 1,
+      "message": "Should this be doing some escaping?",
+      "range": {
+        "startLine": 130,
+        "startChar": 48,
+        "endLine": 130,
+        "endChar": 64
+      },
+      "revId": "f9bd647d7ddfbda0d60c0fb59c2654532be159d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "474352e2_bde0ffb8",
+        "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-15T20:35:44Z",
+      "side": 1,
+      "message": "Not necessary yet but eventually we need to support Gerrit being served from a base other than /, e.g. https://git.eclipse.org/r/",
+      "revId": "f9bd647d7ddfbda0d60c0fb59c2654532be159d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

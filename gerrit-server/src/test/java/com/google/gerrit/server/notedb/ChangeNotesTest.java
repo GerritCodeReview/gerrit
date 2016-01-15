@@ -484,6 +484,21 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void ownerChangeNotes() throws Exception {
+    Change c = newChange();
+
+    assertThat(newNotes(c).getChange().getOwner()).isEqualTo(
+        changeOwner.getAccountId());
+
+    // an update doesn't effect the owner
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("topic"); // change something to get a new commit
+    update.commit();
+    assertThat(newNotes(c).getChange().getOwner()).isEqualTo(
+        changeOwner.getAccountId());
+  }
+
+  @Test
   public void createdOnChangeNotes() throws Exception {
     Change c = newChange();
 

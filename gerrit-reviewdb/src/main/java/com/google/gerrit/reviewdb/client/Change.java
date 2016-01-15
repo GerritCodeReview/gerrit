@@ -543,6 +543,10 @@ public final class Change {
     return owner;
   }
 
+  public void setOwner(Account.Id owner) {
+    this.owner = owner;
+  }
+
   public Branch.NameKey getDest() {
     return dest;
   }

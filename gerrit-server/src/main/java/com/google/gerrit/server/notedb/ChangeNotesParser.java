@@ -83,6 +83,7 @@ class ChangeNotesParser implements AutoCloseable {
   Set<String> hashtags;
   Timestamp createdOn;
   Timestamp lastUpdatedOn;
+  Account.Id ownerId;
 
   private final Change.Id changeId;
   private final ObjectId tip;
@@ -164,6 +165,7 @@ class ChangeNotesParser implements AutoCloseable {
     }
     PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
+    ownerId = accountId;
     parseChangeMessage(psId, accountId, commit);
     if (topic == null) {
       topic = parseTopic(commit);

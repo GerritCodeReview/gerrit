@@ -243,9 +243,9 @@ public class GetDiff implements RestReadView<FileResource> {
       }
       return r;
     } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(e.getMessage());
+      throw new ResourceNotFoundException(e.getMessage(), e);
     } catch (LargeObjectException e) {
-      throw new ResourceConflictException(e.getMessage());
+      throw new ResourceConflictException(e.getMessage(), e);
     }
   }
 

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "c7c4a27f_19912b06",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-15T00:59:00Z",
+      "side": 1,
+      "message": "optional: remove these trailing // which are not needed.",
+      "range": {
+        "startLine": 109,
+        "startChar": 71,
+        "endLine": 109,
+        "endChar": 73
+      },
+      "revId": "25b21620804fc336128ad64858a1b42fba13ea02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7c4a27f_798a67d4",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
         "patchSetId": 1

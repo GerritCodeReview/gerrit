@@ -34,6 +34,24 @@
       "revId": "feda0ff046d0bbe5aa4255f28f29bc24bdb79c86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_5e3bf50c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-15T17:54:36Z",
+      "side": 0,
+      "message": "(And the corresponding update call after saveChange is:\nhttps://gerrit-review.googlesource.com/#/c/73928/1/gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java@553\n)",
+      "parentUuid": "474352e2_1d63331b",
+      "revId": "feda0ff046d0bbe5aa4255f28f29bc24bdb79c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

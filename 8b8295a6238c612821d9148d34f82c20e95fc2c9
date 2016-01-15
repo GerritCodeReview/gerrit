@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7a24ebd_40632e1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b53e354_98833572",
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5fefe6e_b27d60c4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2015-12-15T14:33:47Z",
       "side": 1,
       "message": "in gerrit API callbacks are always the last parameters, move this before callback definition",
+      "range": {
+        "startLine": 984,
+        "startChar": 6,
+        "endLine": 984,
+        "endChar": 14
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a24ebd_20870afa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5fefe6e_b27d60c4",
       "range": {
         "startLine": 984,
         "startChar": 6,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a7a24ebd_007526d4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1402,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5fefe6e_927adcc7",
+      "range": {
+        "startLine": 1402,
+        "startChar": 6,
+        "endLine": 1402,
+        "endChar": 88
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7a24ebd_408a0e02",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
         "patchSetId": 5
@@ -76,6 +142,30 @@
       "writtenOn": "2016-01-14T14:13:30Z",
       "side": 1,
       "message": "IMO it would be better to have it more generic eg. DiffType and move it into common package so that it can be used everywhere",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 27
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79bc28b_c1950228",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7a24ebd_408a0e02",
       "range": {
         "startLine": 30,
         "startChar": 14,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "c79bc28b_81801ae4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c79bc28b_21326e2f",
+      "range": {
+        "startLine": 41,
+        "startChar": 24,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c79bc28b_018c0a20",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
         "patchSetId": 5
@@ -122,6 +236,30 @@
       "writtenOn": "2016-01-14T14:13:30Z",
       "side": 1,
       "message": "same as above \"diff-type\"",
+      "range": {
+        "startLine": 53,
+        "startChar": 24,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a24ebd_e07922d0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c79bc28b_018c0a20",
       "range": {
         "startLine": 53,
         "startChar": 24,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "c79bc28b_617d16be",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5fefe6e_f287e8f5",
+      "range": {
+        "startLine": 165,
+        "startChar": 7,
+        "endLine": 165,
+        "endChar": 41
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45726a21_85348220",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
         "patchSetId": 5
@@ -168,6 +330,30 @@
       "writtenOn": "2015-12-15T14:33:47Z",
       "side": 1,
       "message": "wrap the line after base parameter",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 120
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79bc28b_418a1202",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45726a21_85348220",
       "range": {
         "startLine": 51,
         "startChar": 2,
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "a7a24ebd_c06e1e04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45726a21_a5317e2f",
+      "range": {
+        "startLine": 157,
+        "startChar": 20,
+        "endLine": 158,
+        "endChar": 12
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5fefe6e_327330f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 5
@@ -214,6 +424,30 @@
       "writtenOn": "2015-12-15T14:33:47Z",
       "side": 1,
       "message": "I\u0027m not sure if returning \u0027null\u0027 here is the best solution.\n\n\u0027null\u0027 impose that this is an \u0027octopus merge\u0027, which it isn\u0027t. I would rather go for exception or automerge as default",
+      "range": {
+        "startLine": 364,
+        "startChar": 19,
+        "endLine": 364,
+        "endChar": 23
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79bc28b_21870efa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5fefe6e_327330f5",
       "range": {
         "startLine": 364,
         "startChar": 19,
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "a7a24ebd_a0731aee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5fefe6e_1278accb",
+      "range": {
+        "startLine": 374,
+        "startChar": 2,
+        "endLine": 374,
+        "endChar": 4
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5fefe6e_d28464f4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 5
@@ -260,6 +518,30 @@
       "writtenOn": "2015-12-15T14:33:47Z",
       "side": 1,
       "message": "unnecessary change",
+      "range": {
+        "startLine": 390,
+        "startChar": 6,
+        "endLine": 390,
+        "endChar": 8
+      },
+      "revId": "8b8295a6238c612821d9148d34f82c20e95fc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a24ebd_6066322c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-15T12:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5fefe6e_d28464f4",
       "range": {
         "startLine": 390,
         "startChar": 6,

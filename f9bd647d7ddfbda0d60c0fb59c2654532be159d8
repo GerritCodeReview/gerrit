@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "474352e2_7de357c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-15T21:07:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c79bc28b_41421243",
+      "revId": "f9bd647d7ddfbda0d60c0fb59c2654532be159d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "674856fe_5e80d5e2",
         "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "674856fe_3e8709fa",
+        "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-15T21:07:10Z",
+      "side": 1,
+      "message": "Discussed offline. This is an html-generated result, which is not escaped in the current GWT UI.",
+      "parentUuid": "674856fe_5e80d5e2",
+      "revId": "f9bd647d7ddfbda0d60c0fb59c2654532be159d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "474352e2_bde0ffb8",
         "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
         "patchSetId": 2
@@ -59,6 +95,24 @@
       "writtenOn": "2016-01-15T20:35:44Z",
       "side": 1,
       "message": "Not necessary yet but eventually we need to support Gerrit being served from a base other than /, e.g. https://git.eclipse.org/r/",
+      "revId": "f9bd647d7ddfbda0d60c0fb59c2654532be159d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_1e8a4d01",
+        "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-15T21:07:10Z",
+      "side": 1,
+      "message": "Added a TODO. Good to know.",
+      "parentUuid": "474352e2_bde0ffb8",
       "revId": "f9bd647d7ddfbda0d60c0fb59c2654532be159d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

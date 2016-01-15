@@ -124,6 +124,8 @@ public class StaticModule extends ServletModule {
   HttpServlet getDocServlet(@Named(CACHE) Cache<Path, Resource> cache) {
     if (warFs != null) {
       return new WarDocServlet(cache, warFs);
+    } else if (unpackedWar != null && !development) {
+      return new DirectoryDocServlet(cache, unpackedWar);
     } else {
       return new HttpServlet() {
         private static final long serialVersionUID = 1L;

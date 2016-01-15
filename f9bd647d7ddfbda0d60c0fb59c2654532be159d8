@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c79bc28b_41421243",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-15T20:42:08Z",
+      "side": 1,
+      "message": "Bug: Issue 3804",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "f9bd647d7ddfbda0d60c0fb59c2654532be159d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "674856fe_5e80d5e2",
         "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
         "patchSetId": 2

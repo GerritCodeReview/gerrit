@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7c4a27f_5987a3ca",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-15T00:58:15Z",
+      "side": 1,
+      "message": "optional: We only use `Redirect.INHERIT`, so could static import only that instead of the whole module.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "25b21620804fc336128ad64858a1b42fba13ea02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c4a27f_798a67d4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-15T00:58:15Z",
+      "side": 1,
+      "message": "optional: these are builder methods and the calls can be chained onto the the same statement at line 109.\n\ni.e.:\n\n ProcessBuilder sshKeygenRsa \u003d new ProcessBuilder(\"ssh-keygen\",\n     \"-q\" /* quiet */\n     ...\n     ...)\n   .redirectError(Redirect.INHERIT)\n   .redirectOutput(Redirect.INHERIT);",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 54
+      },
+      "revId": "25b21620804fc336128ad64858a1b42fba13ea02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

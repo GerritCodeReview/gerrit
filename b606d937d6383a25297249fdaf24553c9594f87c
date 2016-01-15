@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "474352e2_1d8a5301",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-15T03:29:06Z",
+      "side": 1,
+      "message": "Gah. Rebasing this on the current tip shows that we are now updating the change here, which is going to cause the same problem again.\n\nI will take another look tomorrow.",
+      "revId": "b606d937d6383a25297249fdaf24553c9594f87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1452892712 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBXPaiaQzb4cgB9t8jKrvwMgXT8qejgIm5GZDreVRs49NCVa5WEk8r8Xf8Cmp6rKOfWBUUDD\n\n0000000000000000000000000000000000000000 bd570dcd1a50732e98994d98df190bef61be7e64 refs/for/master%topic\u003dps-util,r\u003dekempin@google.com,r\u003dsbeller@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWmWIoAAoJEF/XxZqaEoiMmBsQANcd6uBaaJbsPyvLLG+I6bU/\ncRkEieYiT9yj+IxMazpPsonIv8SXfHdYKldpuQSI7jxj3tfvIffvAWo9ZsZw1h6g\nWZgr0r7h57wUb897x7TAnf1BwPrwC9vdT3WKK9PtAf2EuUXyEiNXlSlE3c1yLmTw\nqa43AdVtY8eXiXxl5OFo3NmHDMkl3bQhgTwwEDf5ySYsOZJSnOh8NvccDL0W5xri\ntFK4qYsTTbb+sWlK/McdRkUmU9yseTAlSGVTucfAjOBziwbnNJVBA9UzIG5ZPwEi\nvbP3QDx57mwNg6WBjoJ1WYWyfigNLXRJJXxbGc8JOAlyr4jy3S9XMF08dplKBqbi\na0votPsCIhhBJU/dfP7joj0aeoZif2tNa5uMcHuGqKfqtKFSaXrSJ0JjsBfjJsQa\n7QV4E503bBBJ0oKifKny2HSh8whXT5+HPTIYcELCWyDKA7ictJwBIVArWO9KDeHF\nxOxnRZrOrQUlQ7NmxmBMRFC318QmEc0rwCscAT46nggWWhuZEfHJXYbkOd1g6YL4\nB9XrDzgLQ6OUWpKPRDBNHMBjUIeU2KlwboLBCIems4W46itNP+e5OgYWe8jbMNsM\nrJe/Im5fc9XKTkSyKeDWmaS5zzwmxlQyQPh+kzIvu5MI7gRSAydnKT7kujgaI+x+\nQsJYvdlO3CkuW9dKOOxM\n\u003dCKDU\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "472c322e_b5a82098",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-15T22:05:19Z",
+      "side": 1,
+      "message": "Better: change.getId().toRefPrefix() ?",
+      "range": {
+        "startLine": 409,
+        "startChar": 51,
+        "endLine": 409,
+        "endChar": 63
+      },
+      "revId": "4402bde060893fa4dadc9a723e38d5fb72328e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71d26f8_7ad4b917",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-15T22:05:19Z",
+      "side": 1,
+      "message": "Do we need this check? When we query by base the revision in the result set should not differ.",
+      "revId": "4402bde060893fa4dadc9a723e38d5fb72328e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

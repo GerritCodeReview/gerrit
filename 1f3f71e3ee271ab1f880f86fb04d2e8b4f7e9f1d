@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "c79bc28b_01764ab9",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-15T12:08:12Z",
+      "side": 1,
+      "message": "I started to like the idea to get height dynamically from element size, but since I have not found a way to update when element size changes (which is the case on click on a comment message), I have reverted now to the manual way (specifying image size).",
+      "parentUuid": "474352e2_7d38370f",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67e056e1_fefb218f",
         "filename": "polygerrit-ui/app/elements/gr-avatar.html",
         "patchSetId": 1
@@ -174,6 +192,24 @@
       "side": 1,
       "message": "It doesn’t mean adding the showAvatar property to all those elements. It means passing the appConfig to the view, which then will pass the appropriate config options to the necessary elements. The app config will need to be used in the change-view anyways because it specifies how many characters are typed before it will show a result.\n\nLet\u0027s punt on this for now and address it later.",
       "parentUuid": "a7a24ebd_009ac688",
+      "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c79bc28b_e17a469b",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-15T12:08:12Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "474352e2_dd8b8b09",
       "revId": "1f3f71e3ee271ab1f880f86fb04d2e8b4f7e9f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

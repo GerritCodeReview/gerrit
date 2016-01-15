@@ -73,13 +73,10 @@ public class RebaseIfNecessary extends SubmitStrategy {
         first = false;
       }
       u.execute();
-    } catch (UpdateException e) {
+    } catch (UpdateException | RestApiException e) {
       if (e.getCause() instanceof IntegrationException) {
         throw new IntegrationException(e.getCause().getMessage(), e);
       }
-      throw new IntegrationException(
-          "Cannot rebase onto " + args.destBranch, e);
-    } catch (RestApiException e) {
       throw new IntegrationException(
           "Cannot rebase onto " + args.destBranch, e);
     }

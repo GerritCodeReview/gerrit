@@ -189,14 +189,14 @@ public class CherryPickChange {
           if (!Strings.isNullOrEmpty(change.getTopic())) {
             newTopic = change.getTopic() + "-" + newDest.getShortName();
           }
-          Change newChange = createNewChange(git, revWalk, oi, changeKey,
-              project, destRef, cherryPickCommit, refControl, identifiedUser,
-              newTopic, change.getDest());
+          Change.Id newChangeId =
+              createNewChange(git, revWalk, oi, project, cherryPickCommit,
+                  refControl, identifiedUser, newTopic, change.getDest());
 
           addMessageToSourceChange(change, patch.getId(), destinationBranch,
               cherryPickCommit, identifiedUser, refControl);
 
-          return newChange.getId();
+          return newChangeId;
         }
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
         throw new IntegrationException("Cherry pick failed: " + e.getMessage());
@@ -231,29 +231,26 @@ public class CherryPickChange {
     return change.getId();
   }
 
-  private Change createNewChange(Repository git, RevWalk revWalk,
-      ObjectInserter oi, Change.Key changeKey, Project.NameKey project,
-      Ref destRef, CodeReviewCommit cherryPickCommit, RefControl refControl,
+  private Change.Id createNewChange(Repository git, RevWalk revWalk,
+      ObjectInserter oi, Project.NameKey project,
+      CodeReviewCommit cherryPickCommit, RefControl refControl,
       IdentifiedUser identifiedUser, String topic, Branch.NameKey sourceBranch)
-      throws RestApiException, UpdateException, OrmException {
-    Change change =
-        new Change(changeKey, new Change.Id(seq.nextChangeId()),
-            identifiedUser.getAccountId(), new Branch.NameKey(project,
-                destRef.getName()), TimeUtil.nowTs());
-    change.setTopic(topic);
+          throws RestApiException, UpdateException, OrmException, IOException {
+    Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(
-          refControl, change, cherryPickCommit)
-        .setValidatePolicy(CommitValidators.Policy.GERRIT);
+          refControl, changeId, cherryPickCommit)
+        .setValidatePolicy(CommitValidators.Policy.GERRIT)
+        .setTopic(topic);
 
     ins.setMessage(
         messageForDestinationChange(ins.getPatchSet().getId(), sourceBranch));
     try (BatchUpdate bu = batchUpdateFactory.create(
-        db.get(), change.getProject(), identifiedUser, TimeUtil.nowTs())) {
+        db.get(), project, identifiedUser, TimeUtil.nowTs())) {
       bu.setRepository(git, revWalk, oi);
       bu.insertChange(ins);
       bu.execute();
     }
-    return ins.getChange();
+    return changeId;
   }
 
   private void addMessageToSourceChange(Change change, PatchSet.Id patchSetId,

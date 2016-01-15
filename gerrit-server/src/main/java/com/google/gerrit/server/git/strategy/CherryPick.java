@@ -176,7 +176,7 @@ public class CherryPick extends SubmitStrategy {
       ps.setGroups(GroupCollector.getCurrentGroups(args.db, c));
       args.db.patchSets().insert(Collections.singleton(ps));
       c.setCurrentPatchSet(patchSetInfo);
-      args.db.changes().update(Collections.singletonList(c));
+      ctx.saveChange();
 
       List<PatchSetApproval> approvals = Lists.newArrayList();
       for (PatchSetApproval a : args.approvalsUtil.byPatchSet(

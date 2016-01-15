@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -52,6 +53,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -164,12 +166,20 @@ public class BatchUpdate implements AutoCloseable {
   public class ChangeContext extends Context {
     private final ChangeControl ctl;
     private final Map<PatchSet.Id, ChangeUpdate> updates;
+    private final ReviewDbWrapper dbWrapper;
 
     private boolean deleted;
+    private boolean saved;
 
-    private ChangeContext(ChangeControl ctl) {
+    private ChangeContext(ChangeControl ctl, ReviewDbWrapper dbWrapper) {
       this.ctl = ctl;
+      this.dbWrapper = dbWrapper;
       updates = new TreeMap<>(ReviewDbUtil.intKeyOrdering());
+    }
+
+    @Override
+    public ReviewDb getDb() {
+      return dbWrapper;
     }
 
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
@@ -194,8 +204,14 @@ public class BatchUpdate implements AutoCloseable {
       return ctl.getChange();
     }
 
-    public void markDeleted() {
-      this.deleted = true;
+    public void saveChange() {
+      checkState(!deleted, "cannot both save and delete change");
+      saved = true;
+    }
+
+    public void deleteChange() {
+      checkState(!saved, "cannot both save and delete change");
+      deleted = true;
     }
   }
 
@@ -530,6 +546,14 @@ public class BatchUpdate implements AutoCloseable {
           for (Op op : e.getValue()) {
             op.updateChange(ctx);
           }
+          Iterable<Change> changes = Collections.singleton(ctx.getChange());
+          if (newChanges.containsKey(id)) {
+            db.changes().insert(changes);
+          } else if (ctx.saved) {
+            db.changes().update(changes);
+          } else if (ctx.deleted) {
+            db.changes().delete(changes);
+          }
           db.commit();
         } finally {
           db.rollback();
@@ -567,7 +591,7 @@ public class BatchUpdate implements AutoCloseable {
     //  - reading from a db that does not belong to this update
     //  - attempting to read a change that doesn't exist yet
     return new ChangeContext(
-      changeControlFactory.controlFor(c, user));
+      changeControlFactory.controlFor(c, user), new BatchUpdateReviewDb(db));
   }
 
   private void executePostOps() throws Exception {

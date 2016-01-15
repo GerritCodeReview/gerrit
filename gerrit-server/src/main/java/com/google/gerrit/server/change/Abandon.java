@@ -48,8 +48,6 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-
 @Singleton
 public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     UiAction<ChangeResource> {
@@ -130,7 +128,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       patchSet = ctx.getDb().patchSets().get(psId);
       change.setStatus(Change.Status.ABANDONED);
       change.setLastUpdatedOn(ctx.getWhen());
-      ctx.getDb().changes().update(Collections.singleton(change));
+      ctx.saveChange();
 
       update.setStatus(change.getStatus());
       message = newMessage(ctx.getDb());

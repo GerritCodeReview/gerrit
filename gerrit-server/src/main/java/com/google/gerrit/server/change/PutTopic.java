@@ -41,8 +41,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.util.Collections;
-
 @Singleton
 public class PutTopic implements RestModifyView<ChangeResource, Input>,
     UiAction<ChangeResource> {
@@ -120,7 +118,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
       change.setTopic(Strings.emptyToNull(newTopicName));
       update.setTopic(change.getTopic());
       ChangeUtil.updated(change);
-      ctx.getDb().changes().update(Collections.singleton(change));
+      ctx.saveChange();
 
       ChangeMessage cmsg = new ChangeMessage(
           new ChangeMessage.Key(

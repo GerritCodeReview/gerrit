@@ -152,7 +152,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
         c.setCurrentPatchSet(previousPatchSetInfo(ctx));
       }
       ChangeUtil.updated(c);
-      ctx.getDb().changes().update(Collections.singleton(c));
+      ctx.saveChange();
     }
 
     private PatchSetInfo previousPatchSetInfo(ChangeContext ctx)

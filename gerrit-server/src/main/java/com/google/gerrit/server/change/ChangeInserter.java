@@ -251,7 +251,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       patchSet.setGroups(GroupCollector.getDefaultGroups(patchSet));
     }
     db.patchSets().insert(Collections.singleton(patchSet));
-    db.changes().insert(Collections.singleton(change));
+    ctx.saveChange();
     update.setTopic(change.getTopic());
 
     /* TODO: fixStatus is used here because the tests

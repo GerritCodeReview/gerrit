@@ -121,7 +121,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
       if (psa == null) {
         throw new ResourceNotFoundException();
       }
-      ChangeUtil.bumpRowVersionNotLastUpdatedOn(change.getId(), ctx.getDb());
+      ctx.saveChange();
       ctx.getDb().patchSetApprovals().update(Collections.singleton(psa));
 
       if (msg.length() > 0) {

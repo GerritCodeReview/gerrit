@@ -180,7 +180,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       addReviewers(ctx);
     }
 
-    private void saveChange(ChangeContext ctx) throws OrmException {
+    private void saveChange(ChangeContext ctx) {
       change = ctx.getChange();
       ChangeUpdate update = ctx.getUpdate(psId);
       wasDraftChange = change.getStatus() == Change.Status.DRAFT;
@@ -188,7 +188,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
         change.setStatus(Change.Status.NEW);
         update.setStatus(change.getStatus());
         ChangeUtil.updated(change);
-        ctx.getDb().changes().update(Collections.singleton(change));
+        ctx.saveChange();
       }
     }
 
@@ -201,7 +201,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       // Force ETag invalidation if not done already
       if (!wasDraftChange) {
         ChangeUtil.updated(change);
-        ctx.getDb().changes().update(Collections.singleton(change));
+        ctx.saveChange();
       }
       ctx.getDb().patchSets().update(Collections.singleton(patchSet));
     }

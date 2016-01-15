@@ -48,8 +48,6 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-
 @Singleton
 public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     UiAction<ChangeResource> {
@@ -118,7 +116,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       patchSet = ctx.getDb().patchSets().get(psId);
       change.setStatus(Status.NEW);
       change.setLastUpdatedOn(ctx.getWhen());
-      ctx.getDb().changes().update(Collections.singleton(change));
+      ctx.saveChange();
       update.setStatus(change.getStatus());
 
       message = newMessage(ctx.getDb());

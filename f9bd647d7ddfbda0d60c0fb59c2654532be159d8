@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "474352e2_1df01386",
+        "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-15T21:16:11Z",
+      "side": 1,
+      "message": "...and \"link\" links are always escaped because we\u0027re setting the attribute on the DOM element directly in JS.",
+      "parentUuid": "674856fe_3e8709fa",
+      "revId": "f9bd647d7ddfbda0d60c0fb59c2654532be159d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "474352e2_bde0ffb8",
         "filename": "polygerrit-ui/app/test/gr-linked-text-test.html",
         "patchSetId": 2

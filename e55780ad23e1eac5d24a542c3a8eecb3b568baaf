@@ -23,6 +23,30 @@
       "revId": "e55780ad23e1eac5d24a542c3a8eecb3b568baaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71d26f8_3ace4184",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-15T23:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "674856fe_9e6e5d03",
+      "range": {
+        "startLine": 234,
+        "startChar": 40,
+        "endLine": 234,
+        "endChar": 54
+      },
+      "revId": "e55780ad23e1eac5d24a542c3a8eecb3b568baaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -65,6 +65,7 @@ import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -2103,8 +2104,8 @@ public class ReceiveCommits {
       Optional<ChangeEdit> edit = null;
 
       try {
-        edit = editUtil.byChange(change, user);
-      } catch (IOException e) {
+        edit = editUtil.byChange(changeCtl);
+      } catch (AuthException | IOException e) {
         log.error("Cannt retrieve edit", e);
         return false;
       }

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.PatchSetInserter;
@@ -36,6 +37,8 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -68,37 +71,44 @@ public class ChangeEditUtil {
   private final GitRepositoryManager gitManager;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ProjectControl.GenericFactory projectControlFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeIndexer indexer;
   private final ProjectCache projectCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
   private final ChangeKindCache changeKindCache;
   private final BatchUpdate.Factory updateFactory;
+  private final PatchSetUtil psUtil;
 
   @Inject
   ChangeEditUtil(GitRepositoryManager gitManager,
       PatchSetInserter.Factory patchSetInserterFactory,
       ProjectControl.GenericFactory projectControlFactory,
+      ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
       ProjectCache projectCache,
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
       ChangeKindCache changeKindCache,
-      BatchUpdate.Factory updateFactory) {
+      BatchUpdate.Factory updateFactory,
+      PatchSetUtil psUtil) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.projectControlFactory = projectControlFactory;
+    this.changeControlFactory = changeControlFactory;
     this.indexer = indexer;
     this.projectCache = projectCache;
     this.db = db;
     this.user = user;
     this.changeKindCache = changeKindCache;
     this.updateFactory = updateFactory;
+    this.psUtil = psUtil;
   }
 
   /**
-   * Retrieve edits for a change and user. Max. one change edit can
-   * exist per user and change.
+   * Retrieve edit for a change and the user from the request scope.
+   * <p>
+   * At most one change edit can exist per user and change.
    *
    * @param change
    * @return edit for this change for this user, if present.
@@ -107,29 +117,36 @@ public class ChangeEditUtil {
    */
   public Optional<ChangeEdit> byChange(Change change)
       throws AuthException, IOException {
-    CurrentUser currentUser = user.get();
-    if (!currentUser.isIdentifiedUser()) {
-      throw new AuthException("Authentication required");
+    try {
+      return byChange(changeControlFactory.controlFor(change, user.get()));
+    } catch (NoSuchChangeException e) {
+      throw new IOException(e);
     }
-    return byChange(change, currentUser.asIdentifiedUser());
   }
 
   /**
-   * Retrieve edits for a change and user. Max. one change edit can
-   * exist per user and change.
+   * Retrieve edit for a change and the given user.
+   * <p>
+   * At most one change edit can exist per user and change.
    *
-   * @param change
-   * @param user to retrieve change edits for
+   * @param ctl control with user to retrieve change edits for.
    * @return edit for this change for this user, if present.
-   * @throws IOException
+   * @throws AuthException if this is not a logged-in user.
+   * @throws IOException if an error occurs.
    */
-  public Optional<ChangeEdit> byChange(Change change, IdentifiedUser user)
-      throws IOException {
+  public Optional<ChangeEdit> byChange(ChangeControl ctl)
+      throws AuthException, IOException {
+    if (!ctl.getUser().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+    IdentifiedUser u = ctl.getUser().asIdentifiedUser();
+    Change change = ctl.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       int n = change.currentPatchSetId().get();
       String[] refNames = new String[n];
       for (int i = n; i > 0; i--) {
-        refNames[i-1] = RefNames.refsEdit(user.getAccountId(), change.getId(),
+        refNames[i-1] = RefNames.refsEdit(
+            u.getAccountId(), change.getId(),
             new PatchSet.Id(change.getId(), i));
       }
       Ref ref = repo.getRefDatabase().firstExactRef(refNames);
@@ -138,8 +155,8 @@ public class ChangeEditUtil {
       }
       try (RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(ref.getObjectId());
-        PatchSet basePs = getBasePatchSet(change, ref);
-        return Optional.of(new ChangeEdit(user, change, ref, commit, basePs));
+        PatchSet basePs = getBasePatchSet(ctl, ref);
+        return Optional.of(new ChangeEdit(u, change, ref, commit, basePs));
       }
     }
   }
@@ -191,16 +208,14 @@ public class ChangeEditUtil {
     indexer.index(db.get(), change);
   }
 
-  private PatchSet getBasePatchSet(Change change, Ref ref)
+  private PatchSet getBasePatchSet(ChangeControl ctl, Ref ref)
       throws IOException {
     try {
       int pos = ref.getName().lastIndexOf("/");
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
       String psId = ref.getName().substring(pos + 1);
-      // TODO(dborowitz): Use PatchSetUtil. Requires signature changes to pass
-      // in ChangeNotes.
-      return db.get().patchSets().get(new PatchSet.Id(
-          change.getId(), Integer.parseInt(psId)));
+      return psUtil.get(db.get(), ctl.getNotes(),
+          new PatchSet.Id(ctl.getId(), Integer.parseInt(psId)));
     } catch (OrmException | NumberFormatException e) {
       throw new IOException(e);
     }

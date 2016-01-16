@@ -25,6 +25,9 @@ limitations under the License.
       :host {
         background-color: #ffd;
         display: block;
+        --iron-autogrow-textarea: {
+          padding: 2px;
+        };
       }
       :host([disabled]) {
         pointer-events: none;
@@ -74,11 +77,9 @@ limitations under the License.
         padding-top: 0;
       }
       .action {
-        margin-right: 1em;
-      }
-      .action[disabled] {
-        opacity: .5;
-        pointer-events: none;
+        cursor: pointer;
+        margin-right: .5em;
+        padding: .2em .6em .3em;
       }
       .danger {
         display: flex;
@@ -134,18 +135,18 @@ limitations under the License.
           disabled="{{disabled}}"
           rows="4"
           bind-value="{{_editDraft}}"
-          on-keyup="_handleTextareaKeyup"></iron-autogrow-textarea>
+          on-keyup="_handleTextareaKeyup"
+          on-keydown="_handleTextareaKeydown"></iron-autogrow-textarea>
       <div class="message">[[comment.message]]</div>
       <div class="actions" hidden$="[[!showActions]]">
-        <a class="action reply" href="#" on-tap="_handleReply">Reply</a>
-        <a class="action done" href="#" on-tap="_handleDone">Done</a>
-        <a class="action edit" href="#" on-tap="_handleEdit">Edit</a>
-        <a class="action save" href="#"
-            disabled$="[[_computeSaveDisabled(_editDraft)]]"
-            on-tap="_handleSave">Save</a>
-        <a class="action cancel" href="#" on-tap="_handleCancel">Cancel</a>
+        <button class="action reply" on-tap="_handleReply">Reply</button>
+        <button class="action done" on-tap="_handleDone">Done</button>
+        <button class="action edit" on-tap="_handleEdit">Edit</button>
+        <button class="action save" on-tap="_handleSave"
+            disabled$="[[_computeSaveDisabled(_editDraft)]]">Save</button>
+        <button class="action cancel" on-tap="_handleCancel">Cancel</button>
         <div class="danger">
-          <a class="action discard" href="#" on-tap="_handleDiscard">Discard</a>
+          <button class="action discard" on-tap="_handleDiscard">Discard</button>
         </div>
       </div>
     </div>
@@ -272,6 +273,12 @@ limitations under the License.
         // TODO(andybons): This isn't always true, but I can't currently think
         // of a better metric.
         this._heightChanged();
+      },
+
+      _handleTextareaKeydown: function(e) {
+        if (e.keyCode == 27) {  // 'esc'
+          this._handleCancel(e);
+        }
       },
 
       _handleLinkTap: function(e) {

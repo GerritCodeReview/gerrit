@@ -190,12 +190,14 @@ limitations under the License.
       var numDiscardEvents = 0;
       element.addEventListener('discard', function(e) {
         numDiscardEvents++;
-        if (numDiscardEvents == 2) {
+        if (numDiscardEvents == 3) {
           done();
         }
       });
       MockInteractions.tap(element.$$('.cancel'));
       MockInteractions.tap(element.$$('.discard'));
+      MockInteractions.pressAndReleaseKeyOn(
+          element.$.editTextarea.textarea, 27);  // 'esc'
     });
 
     test('draft saving/editing', function(done) {

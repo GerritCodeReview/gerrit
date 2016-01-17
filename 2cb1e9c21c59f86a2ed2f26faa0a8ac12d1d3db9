@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "474352e2_dd9f0b27",
+        "filename": "polygerrit-ui/app/elements/gr-change-list-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-17T18:32:50Z",
+      "side": 1,
+      "message": "I think having default values for this will cause the ajax element to fire more than necessary.\n\nI would remove the default values so that it doesn’t regress.",
+      "revId": "2cb1e9c21c59f86a2ed2f26faa0a8ac12d1d3db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

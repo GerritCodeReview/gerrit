@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "474352e2_1d09f343",
+        "filename": "polygerrit-ui/app/elements/gr-dashboard-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-17T18:28:54Z",
+      "side": 1,
+      "message": "write this as\n\n\u003cdiv hidden$\u003d\"[[_loading]]\" hidden\u003e\n\nso that it’s hidden initially before Polymer has a chance to set the property via the hidden$ attribute",
+      "revId": "347976a60f2a7980e92afaf4598ad8e20b6a9360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -99,6 +99,15 @@ public class StarredChangesUtil {
       switch (result) {
         case NEW:
           return;
+        case FAST_FORWARD:
+        case FORCED:
+        case IO_FAILURE:
+        case LOCK_FAILURE:
+        case NOT_ATTEMPTED:
+        case NO_CHANGE:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
         default:
           throw new OrmException(
               String.format("Star change %d for account %d failed: %s",
@@ -138,6 +147,15 @@ public class StarredChangesUtil {
       switch (result) {
         case FORCED:
           return;
+        case FAST_FORWARD:
+        case IO_FAILURE:
+        case LOCK_FAILURE:
+        case NEW:
+        case NOT_ATTEMPTED:
+        case NO_CHANGE:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
         default:
           throw new OrmException(
               String.format("Unstar change %d for account %d failed: %s",

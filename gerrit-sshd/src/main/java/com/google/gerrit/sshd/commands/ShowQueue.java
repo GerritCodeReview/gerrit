@@ -88,6 +88,8 @@ final class ShowQueue extends SshCommand {
           case READY:
             start = format(task.state);
             break;
+          case OTHER:
+          case SLEEPING:
           default:
             start = time(now, task.delay);
             break;
@@ -147,6 +149,7 @@ final class ShowQueue extends SshCommand {
         return "waiting ....";
       case SLEEPING:
         return "sleeping";
+      case OTHER:
       default:
         return state.toString();
     }

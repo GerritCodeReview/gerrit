@@ -124,6 +124,7 @@ public class ProjectListScreen extends PaginatedProjectScreen {
             state.setTitle(Util.toLongString(k.state()));
             table.setWidget(row, ProjectsTable.C_STATE, state);
             break;
+          case ACTIVE:
           default:
             // Intentionally left blank, do not show an icon when active.
             break;

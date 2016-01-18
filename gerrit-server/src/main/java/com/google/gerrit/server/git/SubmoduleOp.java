@@ -335,7 +335,14 @@ public class SubmoduleOp {
           // TODO since this is performed "in the background" no mail will be
           // sent to inform users about the updated branch
           break;
-
+        case FORCED:
+        case IO_FAILURE:
+        case LOCK_FAILURE:
+        case NOT_ATTEMPTED:
+        case NO_CHANGE:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
         default:
           throw new IOException(rfu.getResult().name());
       }

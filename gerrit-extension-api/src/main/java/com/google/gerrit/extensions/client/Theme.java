@@ -32,6 +32,10 @@ public enum Theme {
       case NIGHT:
       case TWILIGHT:
         return true;
+      case DEFAULT:
+      case ECLIPSE:
+      case ELEGANT:
+      case NEAT:
       default:
         return false;
     }

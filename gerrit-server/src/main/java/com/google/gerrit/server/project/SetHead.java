@@ -96,6 +96,12 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
           case FORCED:
           case NEW:
             break;
+          case FAST_FORWARD:
+          case IO_FAILURE:
+          case LOCK_FAILURE:
+          case NOT_ATTEMPTED:
+          case REJECTED:
+          case REJECTED_CURRENT_BRANCH:
           default:
             throw new IOException("Setting HEAD failed with " + res);
         }

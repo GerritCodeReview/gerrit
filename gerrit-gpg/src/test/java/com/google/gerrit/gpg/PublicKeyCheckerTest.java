@@ -339,6 +339,13 @@ public class PublicKeyCheckerTest {
       case FAST_FORWARD:
       case FORCED:
         break;
+      case IO_FAILURE:
+      case LOCK_FAILURE:
+      case NOT_ATTEMPTED:
+      case NO_CHANGE:
+      case REJECTED:
+      case REJECTED_CURRENT_BRANCH:
+      case RENAMED:
       default:
         throw new AssertionError(result);
     }

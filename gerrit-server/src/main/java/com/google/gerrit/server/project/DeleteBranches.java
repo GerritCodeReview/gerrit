@@ -151,6 +151,13 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
       case REJECTED_OTHER_REASON:
         msg = format("Cannot delete %s: %s", cmd.getRefName(), cmd.getMessage());
         break;
+      case LOCK_FAILURE:
+      case NOT_ATTEMPTED:
+      case OK:
+      case REJECTED_MISSING_OBJECT:
+      case REJECTED_NOCREATE:
+      case REJECTED_NODELETE:
+      case REJECTED_NONFASTFORWARD:
       default:
         msg = format("Cannot delete %s: %s", cmd.getRefName(), cmd.getResult());
         break;

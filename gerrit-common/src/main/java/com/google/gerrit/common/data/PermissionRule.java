@@ -139,6 +139,10 @@ public class PermissionRule implements Comparable<PermissionRule> {
     switch (a.getAction()) {
       case DENY:
         return 0;
+      case ALLOW:
+      case BATCH:
+      case BLOCK:
+      case INTERACTIVE:
       default:
         return 1 + a.getAction().ordinal();
     }

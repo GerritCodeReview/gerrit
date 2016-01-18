@@ -46,6 +46,30 @@
       "revId": "0e53ea2ef075e957afb2c90b1bb577ecef179595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a78c0e88_f0154090",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T23:02:33Z",
+      "side": 1,
+      "message": "I mean, if we need to bump the schema anyway to get the update column statement to execute during init, then we could just as easily rename the field and copy the data as well.",
+      "parentUuid": "674856fe_1eb7ada0",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 48
+      },
+      "revId": "0e53ea2ef075e957afb2c90b1bb577ecef179595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

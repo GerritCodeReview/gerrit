@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1453110723 +0100\nnonce ALmjDBVG20hl1UQ5wuguzjvNCG/s9c6P+1+0x0vYW0zQny4ckwfsWRTOy0HY4R5hm5QJcLj3UL+F\n\n0000000000000000000000000000000000000000 696ffeaaf0f1173a250f7be52b9ac0185750a931 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWnLXDAAoJEFG1/Zeg0O9RH74H/jigKtFYt8pr7PWRNx8mNlRc\nT6YU6DxVnpfq0q9MN0LgtKfAvbuqALQ0hA/7ox8pFh+r82M2VuPA8DE3kiXKJ7zs\nOnG+EVYCs//bhVfrp4uYvPqiimcF4KT6choft3CSDZH8nKMbbjqX4XYMzDgpqKov\nWslqX2OOtocZwkxJlnQA/xqUMCmzzTQEeB1nnRRmWGRlPIqXKqzVQ7uKIEFj10x1\niiJd0pyrUBSh9hyonqjag0BgvJ8P+OmOOm2XgQjBOmoD4HC5R3/P9kzv5kEI6HdW\npchQ3QMU98EiBATplnrz0csMHyLSWYzYBRNL3tmg+yAcpTqJ8HLVu1ulE0HshHE\u003d\n\u003dk9e6\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a78c0e88_10e6c401",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T19:40:32Z",
+      "side": 1,
+      "message": "The argument against constructing a new ProjectControl is if we use the caller\u0027s ProjectControl, we can also reuse their cached RefControls.\n\nBut probably this performance issue is not worth worrying about (since the ProjectCache lookup should still be a hit), when weighed against the possible inconsistency you note in the commit message.",
+      "revId": "696ffeaaf0f1173a250f7be52b9ac0185750a931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

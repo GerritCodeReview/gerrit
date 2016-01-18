@@ -16,6 +16,24 @@
       "revId": "1b3d9e58d9df56d60990fdb7623ceb79465a8da6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_7e0cb154",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-18T16:19:25Z",
+      "side": 1,
+      "message": "I suggested it due to implementation simplicity. I remember img tags always being kind of a pain in the past but maybe I need to revisit that assumption — http://stackoverflow.com/questions/492809/when-to-use-img-vs-css-background-image",
+      "parentUuid": "674856fe_3eedc9aa",
+      "revId": "1b3d9e58d9df56d60990fdb7623ceb79465a8da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

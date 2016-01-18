@@ -1141,6 +1141,8 @@ public class ChangeScreen extends Screen {
               canSubmit = false;
             }
             break;
+          case MAY:
+          case OK:
           default:
             break;
           }

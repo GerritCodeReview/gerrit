@@ -90,6 +90,7 @@ public class PatchListEntry {
         newName = hdr.getNewPath();
         break;
 
+      case REWRITE:
       default:
         throw new IllegalArgumentException("Unsupported type " + changeType);
     }

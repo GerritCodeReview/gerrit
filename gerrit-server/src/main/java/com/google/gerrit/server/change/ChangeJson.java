@@ -562,6 +562,9 @@ public class ChangeJson {
                 n.rejected = accountLoader.get(r.appliedBy);
                 n.blocking = true;
                 break;
+              case IMPOSSIBLE:
+              case MAY:
+              case NEED:
               default:
                 break;
             }

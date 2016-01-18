@@ -149,6 +149,8 @@ public class PageLinks {
     switch (status) {
       case ABANDONED:
         return "status:abandoned";
+      case DRAFT:
+        return "status:draft";
       case MERGED:
         return "status:merged";
       case NEW:

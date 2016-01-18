@@ -264,6 +264,9 @@ public class RefControl {
         admin = getUser().getCapabilities().canAdministrateServer();
         break;
 
+      case GIT:
+      case SSH_COMMAND:
+      case WEB_BROWSER:
       default:
         owner = false;
         admin = false;
@@ -362,6 +365,11 @@ public class RefControl {
       case GIT:
         return canPushWithForce();
 
+      case JSON_RPC:
+      case REST_API:
+      case SSH_COMMAND:
+      case UNKNOWN:
+      case WEB_BROWSER:
       default:
         return getUser().getCapabilities().canAdministrateServer()
             || (isOwner() && !isForceBlocked(Permission.PUSH))

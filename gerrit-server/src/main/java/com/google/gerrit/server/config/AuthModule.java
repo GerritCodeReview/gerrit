@@ -48,6 +48,10 @@ public class AuthModule extends AbstractModule {
         break;
 
       case CUSTOM_EXTENSION:
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case HTTP:
+      case OPENID:
+      case OPENID_SSO:
         break;
 
       default:

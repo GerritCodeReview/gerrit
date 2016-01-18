@@ -80,6 +80,14 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
         case NO_CHANGE:
         case FAST_FORWARD:
           break;
+        case FORCED:
+        case IO_FAILURE:
+        case LOCK_FAILURE:
+        case NEW:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
         default:
           throw new ResourceConflictException(
               "Failed to delete public key: " + saveResult);

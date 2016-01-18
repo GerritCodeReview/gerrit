@@ -167,6 +167,12 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
               refPrefix = getRefPrefix(refPrefix);
             }
             //$FALL-THROUGH$
+          case FORCED:
+          case IO_FAILURE:
+          case NOT_ATTEMPTED:
+          case REJECTED:
+          case REJECTED_CURRENT_BRANCH:
+          case RENAMED:
           default: {
             throw new IOException(result.name());
           }

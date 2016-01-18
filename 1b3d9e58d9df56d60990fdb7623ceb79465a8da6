@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "674856fe_3eedc9aa",
+        "filename": "polygerrit-ui/app/elements/gr-avatar.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T16:01:03Z",
+      "side": 1,
+      "message": "What is the general argument for setting background-image rather than using an img tag within the component? The reason I personally don\u0027t like background-image is I dislike not being able to right-click and save the image. Not a very strong argument, particularly for avatar images, but I thought I\u0027d ask.",
+      "revId": "1b3d9e58d9df56d60990fdb7623ceb79465a8da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

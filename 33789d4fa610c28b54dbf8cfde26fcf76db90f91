@@ -1,4 +1,79 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1453110723 +0100\nnonce ALmjDBVG20hl1UQ5wuguzjvNCG/s9c6P+1+0x0vYW0zQny4ckwfsWRTOy0HY4R5hm5QJcLj3UL+F\n\n0000000000000000000000000000000000000000 696ffeaaf0f1173a250f7be52b9ac0185750a931 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWnLXDAAoJEFG1/Zeg0O9RH74H/jigKtFYt8pr7PWRNx8mNlRc\nT6YU6DxVnpfq0q9MN0LgtKfAvbuqALQ0hA/7ox8pFh+r82M2VuPA8DE3kiXKJ7zs\nOnG+EVYCs//bhVfrp4uYvPqiimcF4KT6choft3CSDZH8nKMbbjqX4XYMzDgpqKov\nWslqX2OOtocZwkxJlnQA/xqUMCmzzTQEeB1nnRRmWGRlPIqXKqzVQ7uKIEFj10x1\niiJd0pyrUBSh9hyonqjag0BgvJ8P+OmOOm2XgQjBOmoD4HC5R3/P9kzv5kEI6HdW\npchQ3QMU98EiBATplnrz0csMHyLSWYzYBRNL3tmg+yAcpTqJ8HLVu1ulE0HshHE\u003d\n\u003dk9e6\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "674856fe_9ec2dd0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T19:36:59Z",
+      "side": 1,
+      "message": "Optional: MoreObjects.firstNonNull(status, Change.Status.NEW)",
+      "revId": "33789d4fa610c28b54dbf8cfde26fcf76db90f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_bec7991b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T19:36:59Z",
+      "side": 1,
+      "message": "Some callers were using this strategy and some were using ChangeIdUtil. Since we have to pick just one here, I would probably prefer the ChangeIdUtil one.",
+      "range": {
+        "startLine": 169,
+        "startChar": 31,
+        "endLine": 169,
+        "endChar": 42
+      },
+      "revId": "33789d4fa610c28b54dbf8cfde26fcf76db90f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_5ebd357e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T19:36:59Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "33789d4fa610c28b54dbf8cfde26fcf76db90f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a78c0e88_b0f6d8b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T19:36:59Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "33789d4fa610c28b54dbf8cfde26fcf76db90f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -62,7 +62,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
         "users1");
     user2 = accounts.create("user2", "user2@example.com", "First2 Last2",
         "users2");
-    user3 = accounts.create("user3", "user3@example.com", "First3 Last3",
+    user3 = accounts.create("user3", "USER3@example.com", "First3 Last3",
         "users1", "users2");
   }
 
@@ -207,6 +207,10 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     reviewers = suggestReviewers(changeId, "user1 example", 2);
     assertThat(reviewers).hasSize(1);
+
+    reviewers = suggestReviewers(changeId, "user3@example.com", 2);
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.get(0).account.email).isEqualTo("USER3@example.com");
   }
 
   @Test

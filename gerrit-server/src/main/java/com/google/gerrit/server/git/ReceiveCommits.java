@@ -1585,7 +1585,7 @@ public class ReceiveCommits {
 
         final List<String> idList = c.getFooterLines(CHANGE_ID);
         if (idList.isEmpty()) {
-          newChanges.add(new CreateRequest(magicBranch.ctl, c));
+          newChanges.add(new CreateRequest(c, magicBranch.dest.get()));
           continue;
         }
 
@@ -1648,7 +1648,7 @@ public class ReceiveCommits {
 
           newChangeIds.add(p.changeKey);
         }
-        newChanges.add(new CreateRequest(magicBranch.ctl, p.commit));
+        newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get()));
       }
     } catch (IOException e) {
       // Should never happen, the core receive process would have
@@ -1731,11 +1731,11 @@ public class ReceiveCommits {
     Change change;
     Collection<String> groups;
 
-    CreateRequest(RefControl ctl, RevCommit c)
+    CreateRequest(RevCommit c, String refName)
         throws OrmException {
       commit = c;
       changeId = new Change.Id(seq.nextChangeId());
-      ins = changeInserterFactory.create(ctl, changeId, c)
+      ins = changeInserterFactory.create(changeId, c, refName)
           .setDraft(magicBranch.draft)
           .setTopic(magicBranch.topic)
           // Changes already validated in validateNewCommits.

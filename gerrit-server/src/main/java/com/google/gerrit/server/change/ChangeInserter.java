@@ -29,13 +29,11 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -50,6 +48,8 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -73,12 +73,13 @@ import java.util.Set;
 
 public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   public static interface Factory {
-    ChangeInserter create(RefControl ctl, Change.Id cid, RevCommit rc);
+    ChangeInserter create(Change.Id cid, RevCommit rc, String refName);
   }
 
   private static final Logger log =
       LoggerFactory.getLogger(ChangeInserter.class);
 
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
@@ -87,11 +88,10 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private final WorkQueue workQueue;
   private final CommitValidators.Factory commitValidatorsFactory;
 
-  private final RefControl refControl;
-  private final IdentifiedUser user;
   private final PatchSet patchSet;
   private final Change.Id changeId;
   private final RevCommit commit;
+  private final String refName;
 
   // Fields exposed as setters.
   private Change.Status status;
@@ -113,16 +113,18 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private PatchSetInfo patchSetInfo;
 
   @Inject
-  ChangeInserter(PatchSetInfoFactory patchSetInfoFactory,
+  ChangeInserter(ProjectControl.GenericFactory projectControlFactory,
+      PatchSetInfoFactory patchSetInfoFactory,
       ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CreateChangeSender.Factory createChangeSenderFactory,
       WorkQueue workQueue,
       CommitValidators.Factory commitValidatorsFactory,
-      @Assisted RefControl refControl,
       @Assisted Change.Id changeId,
-      @Assisted RevCommit commit) {
+      @Assisted RevCommit commit,
+      @Assisted String refName) {
+    this.projectControlFactory = projectControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
@@ -131,9 +133,9 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.workQueue = workQueue;
     this.commitValidatorsFactory = commitValidatorsFactory;
 
-    this.refControl = refControl;
     this.changeId = changeId;
     this.commit = commit;
+    this.refName = refName;
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
@@ -141,7 +143,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.sendMail = true;
     this.updateRef = true;
 
-    user = refControl.getUser().asIdentifiedUser();
     patchSet =
         new PatchSet(new PatchSet.Id(changeId, INITIAL_PATCH_SET_ID));
     patchSet.setRevision(new RevId(commit.name()));
@@ -153,9 +154,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         getChangeKey(commit),
         changeId,
         ctx.getUser().getAccountId(),
-        new Branch.NameKey(
-            refControl.getProjectControl().getProject().getNameKey(),
-            refControl.getRefName()),
+        new Branch.NameKey(ctx.getProject(), refName),
         ctx.getWhen());
     change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
     change.setTopic(topic);
@@ -181,14 +180,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   public Change getChange() {
     checkState(change != null, "getChange() only valid after creating change");
     return change;
-  }
-
-  public IdentifiedUser getUser() {
-    return user;
-  }
-
-  public Project.NameKey getProject() {
-    return refControl.getProjectControl().getProject().getNameKey();
   }
 
   public ChangeInserter setTopic(String topic) {
@@ -323,7 +314,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (message != null) {
       changeMessage =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(db)), user.getAccountId(),
+              ChangeUtil.messageUUID(db)), ctx.getUser().getAccountId(),
               patchSet.getCreatedOn(), patchSet.getId());
       changeMessage.setMessage(message);
       cmUtil.addChangeMessage(db, update, changeMessage);
@@ -365,8 +356,9 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       ReviewDb db = ctx.getDb();
       hooks.doPatchsetCreatedHook(change, patchSet, db);
       if (approvals != null && !approvals.isEmpty()) {
-        hooks.doCommentAddedHook(
-            change, user.getAccount(), patchSet, null, approvals, db);
+        hooks.doCommentAddedHook(change,
+            ctx.getUser().asIdentifiedUser().getAccount(), patchSet, null,
+            approvals, db);
       }
     }
   }
@@ -376,21 +368,24 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (validatePolicy == CommitValidators.Policy.NONE) {
       return;
     }
-    CommitValidators cv = commitValidatorsFactory.create(
-        refControl, new NoSshInfo(), ctx.getRepository());
-
-    String refName = patchSet.getId().toRefName();
-    CommitReceivedEvent event = new CommitReceivedEvent(
-        new ReceiveCommand(
-            ObjectId.zeroId(),
-            commit.getId(),
-            refName),
-        refControl.getProjectControl().getProject(),
-        change.getDest().get(),
-        commit,
-        user);
 
     try {
+      RefControl refControl = projectControlFactory
+          .controlFor(ctx.getProject(), ctx.getUser()).controlForRef(refName);
+      CommitValidators cv = commitValidatorsFactory.create(
+          refControl, new NoSshInfo(), ctx.getRepository());
+
+      String refName = patchSet.getId().toRefName();
+      CommitReceivedEvent event = new CommitReceivedEvent(
+          new ReceiveCommand(
+              ObjectId.zeroId(),
+              commit.getId(),
+              refName),
+          refControl.getProjectControl().getProject(),
+          change.getDest().get(),
+          commit,
+          ctx.getUser().asIdentifiedUser());
+
       switch (validatePolicy) {
       case RECEIVE_COMMITS:
         NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(
@@ -405,6 +400,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       }
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());
+    } catch (NoSuchProjectException e) {
+      throw new ResourceConflictException(e.getMessage());
     }
   }
 }

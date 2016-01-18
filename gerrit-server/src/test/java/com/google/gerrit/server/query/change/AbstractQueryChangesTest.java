@@ -194,8 +194,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byId() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChange(repo));
-    Change change2 = insert(newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
 
     assertQuery("12345");
     assertQuery(change1.getId().get(), change1);
@@ -205,7 +205,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byKey() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change = insert(newChange(repo));
+    Change change = insert(repo, newChange(repo));
     String key = change.getKey().get();
 
     assertQuery("I0000000000000000000000000000000000000000");
@@ -218,7 +218,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byTriplet() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change = insert(newChangeForBranch(repo, "branch"));
+    Change change = insert(repo, newChangeForBranch(repo, "branch"));
     String k = change.getKey().get();
 
     assertQuery("repo~branch~" + k, change);
@@ -242,9 +242,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byStatus() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
-    Change change1 = insert(ins1);
+    Change change1 = insert(repo, ins1);
     ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.MERGED);
-    Change change2 = insert(ins2);
+    Change change2 = insert(repo, ins2);
 
     assertQuery("status:new", change1);
     assertQuery("status:NEW", change1);
@@ -257,10 +257,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byStatusOpen() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
-    Change change1 = insert(ins1);
+    Change change1 = insert(repo, ins1);
     ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.DRAFT);
-    Change change2 = insert(ins2);
-    insert(newChangeWithStatus(repo, Change.Status.MERGED));
+    Change change2 = insert(repo, ins2);
+    insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
 
     Change[] expected = new Change[] {change2, change1};
     assertQuery("status:open", expected);
@@ -279,9 +279,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byStatusDraft() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    insert(newChangeWithStatus(repo, Change.Status.NEW));
+    insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
     ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.DRAFT);
-    Change change2 = insert(ins2);
+    Change change2 = insert(repo, ins2);
 
     Change[] expected = new Change[] {change2};
     assertQuery("status:draft", expected);
@@ -297,10 +297,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byStatusClosed() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.MERGED);
-    Change change1 = insert(ins1);
+    Change change1 = insert(repo, ins1);
     ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.ABANDONED);
-    Change change2 = insert(ins2);
-    insert(newChangeWithStatus(repo, Change.Status.NEW));
+    Change change2 = insert(repo, ins2);
+    insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
 
     Change[] expected = new Change[] {change2, change1};
     assertQuery("status:closed", expected);
@@ -318,8 +318,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byStatusPrefix() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
-    Change change1 = insert(ins1);
-    insert(newChangeWithStatus(repo, Change.Status.MERGED));
+    Change change1 = insert(repo, ins1);
+    insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
 
     assertQuery("status:n", change1);
     assertQuery("status:ne", change1);
@@ -335,7 +335,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byCommit() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);
-    insert(ins);
+    insert(repo, ins);
     String sha = ins.getPatchSet().getRevision().get();
 
     assertQuery("0000000000000000000000000000000000000000");
@@ -348,10 +348,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byOwner() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChangeForUser(repo, userId));
+    Change change1 = insert(repo, newChange(repo), userId);
     Account.Id user2 = accountManager.authenticate(
         AuthRequest.forUser("anotheruser")).getAccountId();
-    Change change2 = insert(newChangeForUser(repo, user2));
+    Change change2 = insert(repo, newChange(repo), user2);
 
     assertQuery("owner:" + userId.get(), change1);
     assertQuery("owner:" + user2, change2);
@@ -360,7 +360,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byAuthor() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChangeForUser(repo, userId));
+    Change change1 = insert(repo, newChange(repo), userId);
 
     // By exact email address
     assertQuery("author:jauthor@example.com", change1);
@@ -387,7 +387,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byCommitter() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChangeForUser(repo, userId));
+    Change change1 = insert(repo, newChange(repo), userId);
 
     // By exact email address
     assertQuery("committer:jcommitter@example.com", change1);
@@ -414,10 +414,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byOwnerIn() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChangeForUser(repo, userId));
+    Change change1 = insert(repo, newChange(repo), userId);
     Account.Id user2 = accountManager.authenticate(
         AuthRequest.forUser("anotheruser")).getAccountId();
-    Change change2 = insert(newChangeForUser(repo, user2));
+    Change change2 = insert(repo, newChange(repo), user2);
 
     assertQuery("ownerin:Administrators", change1);
     assertQuery("ownerin:\"Registered Users\"", change2, change1);
@@ -427,8 +427,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byProject() throws Exception {
     TestRepository<Repo> repo1 = createProject("repo1");
     TestRepository<Repo> repo2 = createProject("repo2");
-    Change change1 = insert(newChange(repo1));
-    Change change2 = insert(newChange(repo2));
+    Change change1 = insert(repo1, newChange(repo1));
+    Change change2 = insert(repo2, newChange(repo2));
 
     assertQuery("project:foo");
     assertQuery("project:repo");
@@ -440,8 +440,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byProjectPrefix() throws Exception {
     TestRepository<Repo> repo1 = createProject("repo1");
     TestRepository<Repo> repo2 = createProject("repo2");
-    Change change1 = insert(newChange(repo1));
-    Change change2 = insert(newChange(repo2));
+    Change change1 = insert(repo1, newChange(repo1));
+    Change change2 = insert(repo2, newChange(repo2));
 
     assertQuery("projects:foo");
     assertQuery("projects:repo1", change1);
@@ -452,8 +452,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byBranchAndRef() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChangeForBranch(repo, "master"));
-    Change change2 = insert(newChangeForBranch(repo, "branch"));
+    Change change1 = insert(repo, newChangeForBranch(repo, "master"));
+    Change change2 = insert(repo, newChangeForBranch(repo, "branch"));
 
     assertQuery("branch:foo");
     assertQuery("branch:master", change1);
@@ -471,18 +471,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byTopic() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChangeWithTopic(repo, "feature1");
-    Change change1 = insert(ins1);
+    Change change1 = insert(repo, ins1);
 
     ChangeInserter ins2 = newChangeWithTopic(repo, "feature2");
-    Change change2 = insert(ins2);
+    Change change2 = insert(repo, ins2);
 
     ChangeInserter ins3 = newChangeWithTopic(repo, "Cherrypick-feature2");
-    Change change3 = insert(ins3);
+    Change change3 = insert(repo, ins3);
 
     ChangeInserter ins4 = newChangeWithTopic(repo, "feature2-fixup");
-    Change change4 = insert(ins4);
+    Change change4 = insert(repo, ins4);
 
-    Change change5 = insert(newChange(repo));
+    Change change5 = insert(repo, newChange(repo));
 
     assertQuery("intopic:foo");
     assertQuery("intopic:feature1", change1);
@@ -498,9 +498,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byMessageExact() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().message("one").create());
-    Change change1 = insert(newChangeForCommit(repo, commit1));
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
     RevCommit commit2 = repo.parseBody(repo.commit().message("two").create());
-    Change change2 = insert(newChangeForCommit(repo, commit2));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
 
     assertQuery("message:foo");
     assertQuery("message:one", change1);
@@ -512,10 +512,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 =
         repo.parseBody(repo.commit().message("12345 67890").create());
-    Change change1 = insert(newChangeForCommit(repo, commit1));
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
     RevCommit commit2 =
         repo.parseBody(repo.commit().message("12346 67891").create());
-    Change change2 = insert(newChangeForCommit(repo, commit2));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
 
     assertQuery("message:1234");
     assertQuery("message:12345", change1);
@@ -527,7 +527,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     accountManager.authenticate(AuthRequest.forUser("anotheruser"));
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);
-    Change change = insert(ins);
+    Change change = insert(repo, ins);
 
     gApi.changes().id(change.getId().get()).current()
       .review(new ReviewInput().label("Code-Review", 1));
@@ -589,8 +589,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.groups().id(g2).addMembers("user2");
 
     // create a change
-    ChangeInserter ins = newChangeForUser(repo, user1);
-    Change change1 = insert(ins);
+    Change change1 = insert(repo, newChange(repo), user1);
 
     // post a review with user1
     requestContext.setContext(newRequestContext(user1));
@@ -612,7 +611,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change last = null;
     int n = 5;
     for (int i = 0; i < n; i++) {
-      last = insert(newChange(repo));
+      last = insert(repo, newChange(repo));
     }
 
     for (int i = 1; i <= n + 2; i++) {
@@ -639,7 +638,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     List<Change> changes = Lists.newArrayList();
     for (int i = 0; i < 2; i++) {
-      changes.add(insert(newChange(repo)));
+      changes.add(insert(repo, newChange(repo)));
     }
 
     assertQuery("status:new", changes.get(1), changes.get(0));
@@ -653,7 +652,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     List<Change> changes = Lists.newArrayList();
     for (int i = 0; i < 3; i++) {
-      changes.add(insert(newChange(repo)));
+      changes.add(insert(repo, newChange(repo)));
     }
 
     assertQuery("status:new limit:2", changes.get(2), changes.get(1));
@@ -667,7 +666,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void maxPages() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change = insert(newChange(repo));
+    Change change = insert(repo, newChange(repo));
 
     QueryRequest query = newQuery("status:new").withLimit(10);
     assertQuery(query, change);
@@ -685,7 +684,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     List<Change> changes = Lists.newArrayList();
     for (int i = 0; i < 5; i++) {
       inserters.add(newChange(repo));
-      changes.add(insert(inserters.get(i)));
+      changes.add(insert(repo, inserters.get(i)));
     }
 
     for (int i : ImmutableList.of(2, 0, 1, 4, 3)) {
@@ -707,8 +706,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestTimeUtil.resetWithClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo);
-    Change change1 = insert(ins1);
-    Change change2 = insert(newChange(repo));
+    Change change1 = insert(repo, ins1);
+    Change change2 = insert(repo, newChange(repo));
 
     assertThat(lastUpdatedMs(change1)).isLessThan(lastUpdatedMs(change2));
     assertQuery("status:new", change2, change1);
@@ -729,8 +728,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void updatedOrderWithSubMinuteResolution() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo);
-    Change change1 = insert(ins1);
-    Change change2 = insert(newChange(repo));
+    Change change1 = insert(repo, ins1);
+    Change change2 = insert(repo, newChange(repo));
 
     assertThat(lastUpdatedMs(change1)).isLessThan(lastUpdatedMs(change2));
 
@@ -751,11 +750,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void filterOutMoreThanOnePageOfResults() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change = insert(newChangeForUser(repo, userId));
+    Change change = insert(repo, newChange(repo), userId);
     Account.Id user2 = accountManager.authenticate(
         AuthRequest.forUser("anotheruser")).getAccountId();
     for (int i = 0; i < 5; i++) {
-      insert(newChangeForUser(repo, user2));
+      insert(repo, newChange(repo), user2);
     }
 
     assertQuery("status:new ownerin:Administrators", change);
@@ -768,7 +767,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account.Id user2 = accountManager.authenticate(
         AuthRequest.forUser("anotheruser")).getAccountId();
     for (int i = 0; i < 5; i++) {
-      insert(newChangeForUser(repo, user2));
+      insert(repo, newChange(repo), user2);
     }
 
     assertQuery("status:new ownerin:Administrators");
@@ -782,7 +781,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         repo.commit().message("one")
         .add("dir/file1", "contents1").add("dir/file2", "contents2")
         .create());
-    Change change = insert(newChangeForCommit(repo, commit));
+    Change change = insert(repo, newChangeForCommit(repo, commit));
 
     assertQuery("file:file");
     assertQuery("file:dir", change);
@@ -799,7 +798,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         repo.commit().message("one")
         .add("dir/file1", "contents1").add("dir/file2", "contents2")
         .create());
-    Change change = insert(newChangeForCommit(repo, commit));
+    Change change = insert(repo, newChangeForCommit(repo, commit));
 
     assertQuery("file:.*file.*");
     assertQuery("file:^file.*"); // Whole path only.
@@ -813,7 +812,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         repo.commit().message("one")
         .add("dir/file1", "contents1").add("dir/file2", "contents2")
         .create());
-    Change change = insert(newChangeForCommit(repo, commit));
+    Change change = insert(repo, newChangeForCommit(repo, commit));
 
     assertQuery("path:file");
     assertQuery("path:dir");
@@ -830,7 +829,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         repo.commit().message("one")
         .add("dir/file1", "contents1").add("dir/file2", "contents2")
         .create());
-    Change change = insert(newChangeForCommit(repo, commit));
+    Change change = insert(repo, newChangeForCommit(repo, commit));
 
     assertQuery("path:.*file.*");
     assertQuery("path:^dir.file.*", change);
@@ -840,7 +839,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byComment() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);
-    Change change = insert(ins);
+    Change change = insert(repo, ins);
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
@@ -861,8 +860,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
     TestTimeUtil.resetWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChange(repo));
-    Change change2 = insert(newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
     // Queried by AgePredicate constructor.
     TestTimeUtil.setClockStep(0, MILLISECONDS);
     long now = TimeUtil.nowMs();
@@ -884,8 +883,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byBefore() throws Exception {
     TestTimeUtil.resetWithClockStep(30, HOURS);
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChange(repo));
-    Change change2 = insert(newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
     assertQuery("before:2009-09-29");
@@ -904,8 +903,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byAfter() throws Exception {
     TestTimeUtil.resetWithClockStep(30, HOURS);
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChange(repo));
-    Change change2 = insert(newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
     assertQuery("after:2009-10-03");
@@ -926,8 +925,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     RevCommit commit2 = repo.parseBody(
         repo.commit().parent(commit1).add("file1", "foo").create());
 
-    Change change1 = insert(newChangeForCommit(repo, commit1));
-    Change change2 = insert(newChangeForCommit(repo, commit2));
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
 
     assertQuery("added:>4");
     assertQuery("-added:<=4");
@@ -976,8 +975,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   private List<Change> setUpHashtagChanges() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChange(repo));
-    Change change2 = insert(newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
 
     HashtagsInput in = new HashtagsInput();
     in.add = ImmutableSet.of("foo");
@@ -1019,29 +1018,29 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byDefault() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
 
-    Change change1 = insert(newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
 
     RevCommit commit2 = repo.parseBody(
         repo.commit().message("foosubject").create());
-    Change change2 = insert(newChangeForCommit(repo, commit2));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
 
     RevCommit commit3 = repo.parseBody(
         repo.commit()
         .add("Foo.java", "foo contents")
         .create());
-    Change change3 = insert(newChangeForCommit(repo, commit3));
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
 
     ChangeInserter ins4 = newChange(repo);
-    Change change4 = insert(ins4);
+    Change change4 = insert(repo, ins4);
     ReviewInput ri4 = new ReviewInput();
     ri4.message = "toplevel";
     ri4.labels = ImmutableMap.<String, Short> of("Code-Review", (short) 1);
     gApi.changes().id(change4.getId().get()).current().review(ri4);
 
     ChangeInserter ins5 = newChangeWithTopic(repo, "feature5");
-    Change change5 = insert(ins5);
+    Change change5 = insert(repo, ins5);
 
-    Change change6 = insert(newChangeForBranch(repo, "branch6"));
+    Change change6 = insert(repo, newChangeForBranch(repo, "branch6"));
 
     assertQuery(change1.getId().get(), change1);
     assertQuery(ChangeTriplet.format(change1), change1);
@@ -1062,10 +1061,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void implicitVisibleTo() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChangeForUser(repo, userId));
-    ChangeInserter ins2 =
-        newChange(repo, null, userId, null, Change.Status.DRAFT, null);
-    Change change2 = insert(ins2);
+    Change change1 = insert(repo, newChange(repo), userId);
+    Change change2 =
+        insert(repo, newChangeWithStatus(repo, Change.Status.DRAFT), userId);
 
     String q = "project:repo";
     assertQuery(q, change2, change1);
@@ -1079,10 +1077,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void explicitVisibleTo() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChangeForUser(repo, userId));
-    ChangeInserter ins2 =
-        newChange(repo, null, userId, null, Change.Status.DRAFT, null);
-    Change change2 = insert(ins2);
+    Change change1 = insert(repo, newChange(repo), userId);
+    Change change2 =
+        insert(repo, newChangeWithStatus(repo, Change.Status.DRAFT), userId);
 
     String q = "project:repo";
     assertQuery(q, change2, change1);
@@ -1097,8 +1094,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byCommentBy() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChange(repo));
-    Change change2 = insert(newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
 
     int user2 = accountManager.authenticate(AuthRequest.forUser("anotheruser"))
         .getAccountId().get();
@@ -1123,8 +1120,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byDraftBy() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChange(repo));
-    Change change2 = insert(newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
 
     DraftInput in = new DraftInput();
     in.line = 1;
@@ -1148,12 +1145,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byFrom() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
 
     Account.Id user2 = accountManager.authenticate(
         AuthRequest.forUser("anotheruser")).getAccountId();
-    ChangeInserter ins2 = newChangeForUser(repo, user2);
-    Change change2 = insert(ins2);
+    Change change2 = insert(repo, newChange(repo), user2);
 
     ReviewInput input = new ReviewInput();
     input.message = "toplevel";
@@ -1189,10 +1185,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         repo.commit()
             .add("file4", "contents4")
             .create());
-    Change change1 = insert(newChangeForCommit(repo, commit1));
-    Change change2 = insert(newChangeForCommit(repo, commit2));
-    Change change3 = insert(newChangeForCommit(repo, commit3));
-    Change change4 = insert(newChangeForCommit(repo, commit4));
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+    Change change4 = insert(repo, newChangeForCommit(repo, commit4));
 
     assertQuery("conflicts:" + change1.getId().get(), change3);
     assertQuery("conflicts:" + change2.getId().get());
@@ -1204,9 +1200,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void reviewedBy() throws Exception {
     TestTimeUtil.resetWithClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(newChange(repo));
-    Change change2 = insert(newChange(repo));
-    Change change3 = insert(newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
 
     gApi.changes()
       .id(change1.getId().get())
@@ -1262,7 +1258,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Branch.NameKey dest = null;
     for (int i = 0; i < n; i++) {
       ChangeInserter ins = newChange(repo);
-      insert(ins);
+      insert(repo, ins);
       if (dest == null) {
         dest = ins.getChange().getDest();
       }
@@ -1291,7 +1287,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void prepopulatedFields() throws Exception {
     assume().that(notesMigration.enabled()).isFalse();
     TestRepository<Repo> repo = createProject("repo");
-    Change change = insert(newChange(repo));
+    Change change = insert(repo, newChange(repo));
 
     db = new DisabledReviewDb();
     requestContext.setContext(newRequestContext(userId));
@@ -1320,7 +1316,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void prepopulateOnlyRequestedFields() throws Exception {
     assume().that(notesMigration.enabled()).isFalse();
     TestRepository<Repo> repo = createProject("repo");
-    Change change = insert(newChange(repo));
+    Change change = insert(repo, newChange(repo));
 
     db = new DisabledReviewDb();
     requestContext.setContext(newRequestContext(userId));
@@ -1343,63 +1339,62 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected ChangeInserter newChange(TestRepository<Repo> repo)
       throws Exception {
-    return newChange(repo, null, null, null, null, null);
+    return newChange(repo, null, null, null, null);
   }
 
   protected ChangeInserter newChangeForCommit(TestRepository<Repo> repo,
       RevCommit commit) throws Exception {
-    return newChange(repo, commit, null, null, null, null);
-  }
-
-  protected ChangeInserter newChangeForUser(TestRepository<Repo> repo,
-      Account.Id owner) throws Exception {
-    return newChange(repo, null, owner, null, null, null);
+    return newChange(repo, commit, null, null, null);
   }
 
   protected ChangeInserter newChangeForBranch(TestRepository<Repo> repo,
       String branch) throws Exception {
-    return newChange(repo, null, null, branch, null, null);
+    return newChange(repo, null, branch, null, null);
   }
 
   protected ChangeInserter newChangeWithStatus(TestRepository<Repo> repo,
       Change.Status status) throws Exception {
-    return newChange(repo, null, null, null, status, null);
+    return newChange(repo, null, null, status, null);
   }
 
   protected ChangeInserter newChangeWithTopic(TestRepository<Repo> repo,
       String topic) throws Exception {
-    return newChange(repo, null, null, null, null, topic);
+    return newChange(repo, null, null, null, topic);
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo,
-      @Nullable RevCommit commit, @Nullable Account.Id owner,
-      @Nullable String branch, @Nullable Change.Status status,
-      @Nullable String topic) throws Exception {
+      @Nullable RevCommit commit, @Nullable String branch,
+      @Nullable Change.Status status, @Nullable String topic) throws Exception {
     if (commit == null) {
       commit = repo.parseBody(repo.commit().message("message").create());
     }
-    Account.Id ownerId = owner != null ? owner : userId;
+
     branch = MoreObjects.firstNonNull(branch, "refs/heads/master");
     if (!branch.startsWith("refs/heads/")) {
       branch = "refs/heads/" + branch;
     }
-    Project.NameKey project = new Project.NameKey(
-        repo.getRepository().getDescription().getRepositoryName());
 
     Change.Id id = new Change.Id(seq.nextChangeId());
-    IdentifiedUser user = userFactory.create(Providers.of(db), ownerId);
-    RefControl refControl = projectControlFactory.controlFor(project, user)
-        .controlForRef(new Branch.NameKey(project, branch));
-    ChangeInserter ins = changeFactory.create(refControl, id, commit)
+    ChangeInserter ins = changeFactory.create(
+        id, commit, branch)
         .setValidatePolicy(CommitValidators.Policy.NONE)
         .setStatus(status)
         .setTopic(topic);
     return ins;
   }
 
-  protected Change insert(ChangeInserter ins) throws Exception {
-    try (BatchUpdate bu = updateFactory.create(db, ins.getProject(),
-        ins.getUser(), TimeUtil.nowTs())) {
+  protected Change insert(TestRepository<Repo> repo, ChangeInserter ins) throws Exception {
+    return insert(repo, ins, null);
+  }
+
+  protected Change insert(TestRepository<Repo> repo, ChangeInserter ins,
+      @Nullable Account.Id owner) throws Exception {
+    Project.NameKey project = new Project.NameKey(
+        repo.getRepository().getDescription().getRepositoryName());
+    Account.Id ownerId = owner != null ? owner : userId;
+    IdentifiedUser user = userFactory.create(Providers.of(db), ownerId);
+    try (BatchUpdate bu =
+        updateFactory.create(db, project, user, TimeUtil.nowTs())) {
       bu.insertChange(ins);
       bu.execute();
       return ins.getChange();

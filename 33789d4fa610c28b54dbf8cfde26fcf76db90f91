@@ -43,6 +43,30 @@
     },
     {
       "key": {
+        "uuid": "272bbe19_b47340ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T20:52:26Z",
+      "side": 1,
+      "message": "Those callers that use ChangeIdUtil add the generated Change-Id to the commit message and hence we just read it above in line 168 and no new Change-Id is created here. So at the moment this change shouldn\u0027t change this behaviour. But yes, I guess we could also try to use ChangeIdUtil here.",
+      "parentUuid": "674856fe_bec7991b",
+      "range": {
+        "startLine": 169,
+        "startChar": 31,
+        "endLine": 169,
+        "endChar": 42
+      },
+      "revId": "33789d4fa610c28b54dbf8cfde26fcf76db90f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "674856fe_5ebd357e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 4

@@ -450,6 +450,7 @@ class OpenIdServiceImpl {
       case SIGN_IN:
       case REGISTER:
         return true;
+      case LINK_IDENTIY:
       default:
         return false;
     }

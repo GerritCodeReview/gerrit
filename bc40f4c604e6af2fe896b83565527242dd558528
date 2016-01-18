@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "272bbe19_74028854",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T12:07:12Z",
+      "side": 1,
+      "message": "Why does it make the migration of AccountGeneralPreferences to git easier? Couldn\u0027t it just read the enum from the database, convert it to string and then store the string value in the git backend?",
+      "range": {
+        "startLine": 13,
+        "startChar": 17,
+        "endLine": 14,
+        "endChar": 65
+      },
+      "revId": "bc40f4c604e6af2fe896b83565527242dd558528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67313682_56e674d4",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T12:07:12Z",
+      "side": 1,
+      "message": "Would it be cleaner to store the modern names in a new column? Like this we will have a mix of old and modern names in the same column.",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 213,
+        "endChar": 22
+      },
+      "revId": "bc40f4c604e6af2fe896b83565527242dd558528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

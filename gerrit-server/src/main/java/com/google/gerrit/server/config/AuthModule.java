@@ -50,6 +50,10 @@ public class AuthModule extends AbstractModule {
       case CUSTOM_EXTENSION:
         break;
 
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case HTTP:
+      case OPENID:
+      case OPENID_SSO:
       default:
         bind(Realm.class).to(DefaultRealm.class);
         DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);

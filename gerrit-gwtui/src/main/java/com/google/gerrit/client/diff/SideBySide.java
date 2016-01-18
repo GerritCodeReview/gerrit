@@ -391,6 +391,8 @@ public class SideBySide extends Screen {
               case OK:
                 toggleShowIntraline();
                 break;
+              case FAILURE:
+              case TIMEOUT:
               default:
                 break;
             }

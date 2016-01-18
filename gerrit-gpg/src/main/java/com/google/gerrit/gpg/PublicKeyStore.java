@@ -340,6 +340,13 @@ public class PublicKeyStore implements AutoCloseable {
         toAdd.clear();
         toRemove.clear();
         break;
+      case FORCED:
+      case IO_FAILURE:
+      case LOCK_FAILURE:
+      case NOT_ATTEMPTED:
+      case REJECTED:
+      case REJECTED_CURRENT_BRANCH:
+      case RENAMED:
       default:
         break;
     }

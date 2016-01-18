@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "272bbe19_7466082c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.6.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1023869
+      },
+      "writtenOn": "2016-01-18T23:07:16Z",
+      "side": 1,
+      "message": "The other items in this list end with stop.",
+      "revId": "f60c5427b0cfe45b999a3fcee595f1f6a6e2cb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67313682_b684a8c8",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.6.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1023869
+      },
+      "writtenOn": "2016-01-18T23:07:16Z",
+      "side": 1,
+      "message": "I suggest upper-case HTML since you write REST, API, HTTP etc.",
+      "range": {
+        "startLine": 105,
+        "startChar": 47,
+        "endLine": 105,
+        "endChar": 51
+      },
+      "revId": "f60c5427b0cfe45b999a3fcee595f1f6a6e2cb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "272bbe19_1463141b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.6.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1023869
+      },
+      "writtenOn": "2016-01-18T23:07:16Z",
+      "side": 1,
+      "message": "The other items in this list end with stop.",
+      "revId": "f60c5427b0cfe45b999a3fcee595f1f6a6e2cb1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

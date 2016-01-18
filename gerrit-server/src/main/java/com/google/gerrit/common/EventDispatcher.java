@@ -41,4 +41,11 @@ public interface EventDispatcher {
    * @param event The event to post
    */
   void postEvent(Branch.NameKey branchName, Event event);
+
+  /**
+   * Post a stream event generically.
+   *
+   * @param event The event to post.
+   */
+  public void postEvent(Event event);
 }

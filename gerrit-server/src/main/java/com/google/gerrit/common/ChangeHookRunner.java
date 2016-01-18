@@ -846,6 +846,11 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEvent(branchName, event);
     }
 
+    @Override
+    public void postEvent(com.google.gerrit.server.events.Event event) {
+      fireEventForUnrestrictedListeners(event);
+    }
+
     private Supplier<AccountState> getAccountSupplier(
         final Account.Id account) {
       return Suppliers.memoize(

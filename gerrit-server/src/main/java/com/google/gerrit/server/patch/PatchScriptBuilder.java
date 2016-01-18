@@ -231,6 +231,7 @@ class PatchScriptBuilder {
 
       case ADDED:
       case DELETED:
+      case REWRITE:
       default:
         return false;
     }
@@ -245,6 +246,7 @@ class PatchScriptBuilder {
         return entry.getNewName();
       case COPIED:
       case RENAMED:
+      case REWRITE:
       default:
         return entry.getOldName();
     }
@@ -258,6 +260,7 @@ class PatchScriptBuilder {
       case MODIFIED:
       case COPIED:
       case RENAMED:
+      case REWRITE:
       default:
         return entry.getNewName();
     }

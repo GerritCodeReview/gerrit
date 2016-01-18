@@ -406,6 +406,7 @@ public class MergeOp implements AutoCloseable {
           throw new ResourceConflictException(
               describeLabels(cd, record.labels));
 
+        case OK:
         default:
           throw new IllegalStateException(String.format(
               "Unsupported SubmitRecord %s for %s in %s",
@@ -839,6 +840,13 @@ public class MergeOp implements AutoCloseable {
         case LOCK_FAILURE:
           throw new IntegrationException(
               "Failed to lock " + ob.update.getName());
+        case FORCED:
+        case IO_FAILURE:
+        case NOT_ATTEMPTED:
+        case NO_CHANGE:
+        case REJECTED:
+        case REJECTED_CURRENT_BRANCH:
+        case RENAMED:
         default:
           throw new IOException(
               ob.update.getResult().name() + '\n' + ob.update);
@@ -906,6 +914,7 @@ public class MergeOp implements AutoCloseable {
         case MANUAL_RECURSIVE_MERGE:
         case CANNOT_CHERRY_PICK_ROOT:
         case NOT_FAST_FORWARD:
+        case CANNOT_REBASE_ROOT:
           // TODO(dborowitz): Reformat these messages to be more appropriate for
           // short problem descriptions.
           commits.problem(id,

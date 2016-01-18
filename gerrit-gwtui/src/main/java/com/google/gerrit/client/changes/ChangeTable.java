@@ -350,6 +350,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         return accountInfo.username();
       case ABBREV:
         return getAbbreviation(accountInfo.name(), " ");
+      case NONE:
       default:
         return null;
     }

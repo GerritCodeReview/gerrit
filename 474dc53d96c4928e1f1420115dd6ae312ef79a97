@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a78c0e88_d0991c95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T16:42:37Z",
+      "side": 1,
+      "message": "I think this should return a PatchSet, not a PatchSetInfo.\n\nThe problem (well, one of the problems) with PatchSetInfo is that since it\u0027s currently only ever constructed from PatchSetInfoFactory, callers assume that all its fields are populated. But it\u0027s impossible to populate the fields like subject without incurring an additional read of the repository, which we don\u0027t want to do in the ChangeNotesParser.\n\nCallers that want the subject of the change know that they have to do this read, and they can explicitly control when it happens because they are calling PatchSetInfoFactory directly.\n\nIMHO it\u0027s a flaw in the API and package layout that PatchSetInfo has all these public setters and non-final fields, since it creates this kind of understandable confusion. But we don\u0027t need to fix that now.",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a78c0e88_90a394bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T16:42:37Z",
+      "side": 1,
+      "message": "I feel like RevId is an implementation detail of the reviewdb implementation and I don\u0027t see the need to use it internally in notedb (although we will still need to construct them when exporting reviewdb types like PatchSet from notedb). I would just make this an ObjectId.",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a78c0e88_f09ea07a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T16:42:37Z",
+      "side": 1,
+      "message": "Eventually we want to store all patch sets, but it\u0027s fine for this change to just deal with the current one.",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_5e0f754a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T16:42:37Z",
+      "side": 1,
+      "message": "I think we want to go one step further and fail if we find multiple Commit footers for the same patch set. This field is immutable once the patch set is created.",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a78c0e88_b0a81898",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LabelNormalizerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-18T16:42:37Z",
+      "side": 1,
+      "message": "Nit: indentation on continued lines is 4 spaces, not aligned.",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

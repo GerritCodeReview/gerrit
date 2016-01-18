@@ -191,7 +191,7 @@ public class CherryPickChange {
           }
           Change.Id newChangeId =
               createNewChange(git, revWalk, oi, project, cherryPickCommit,
-                  refControl, identifiedUser, newTopic, change.getDest());
+                  refControl.getRefName(), identifiedUser, newTopic, change.getDest());
 
           addMessageToSourceChange(change, patch.getId(), destinationBranch,
               cherryPickCommit, identifiedUser, refControl);
@@ -233,12 +233,12 @@ public class CherryPickChange {
 
   private Change.Id createNewChange(Repository git, RevWalk revWalk,
       ObjectInserter oi, Project.NameKey project,
-      CodeReviewCommit cherryPickCommit, RefControl refControl,
+      CodeReviewCommit cherryPickCommit, String refName,
       IdentifiedUser identifiedUser, String topic, Branch.NameKey sourceBranch)
           throws RestApiException, UpdateException, OrmException {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(
-          refControl, changeId, cherryPickCommit)
+          changeId, cherryPickCommit, refName)
         .setValidatePolicy(CommitValidators.Policy.GERRIT)
         .setTopic(topic);
 

@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -155,14 +156,14 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         md.setMessage("Modify access rules\n");
       }
 
-      return updateProjectConfig(projectControl, config, md,
+      return updateProjectConfig(projectControl.getUser(), config, md,
           parentProjectUpdate);
     } catch (RepositoryNotFoundException notFound) {
       throw new NoSuchProjectException(projectName);
     }
   }
 
-  protected abstract T updateProjectConfig(ProjectControl ctl,
+  protected abstract T updateProjectConfig(CurrentUser user,
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException,
       OrmException;

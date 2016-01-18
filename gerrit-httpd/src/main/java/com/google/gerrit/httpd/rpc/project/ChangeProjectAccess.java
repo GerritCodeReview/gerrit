@@ -21,7 +21,7 @@ import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -54,7 +54,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
 
   private final ChangeHooks hooks;
   private final GitReferenceUpdated gitRefUpdated;
-  private final IdentifiedUser user;
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final ProjectCache projectCache;
 
@@ -67,7 +66,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       Provider<SetParent> setParent,
       ChangeHooks hooks,
       GitReferenceUpdated gitRefUpdated,
-      IdentifiedUser user,
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
@@ -80,11 +78,10 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
     this.projectCache = projectCache;
     this.hooks = hooks;
     this.gitRefUpdated = gitRefUpdated;
-    this.user = user;
   }
 
   @Override
-  protected ProjectAccess updateProjectConfig(ProjectControl ctl,
+  protected ProjectAccess updateProjectConfig(CurrentUser user,
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException {
     RevCommit commit = config.commit(md);
@@ -93,7 +90,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         base, commit.getId());
     hooks.doRefUpdatedHook(
       new Branch.NameKey(config.getProject().getNameKey(), RefNames.REFS_CONFIG),
-      base, commit.getId(), user.getAccount());
+      base, commit.getId(), user.asIdentifiedUser().getAccount());
 
     projectCache.evict(config.getProject());
     return projectAccessFactory.create(projectName).call();

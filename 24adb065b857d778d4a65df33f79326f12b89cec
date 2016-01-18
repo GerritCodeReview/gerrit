@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "272bbe19_d4103ca3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/HANA.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-01-18T10:34:30Z",
+      "side": 1,
+      "message": "Can this be changed to \"does not\"?",
+      "range": {
+        "startLine": 52,
+        "startChar": 35,
+        "endLine": 52,
+        "endChar": 45
+      },
+      "revId": "24adb065b857d778d4a65df33f79326f12b89cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a59c3e9_c4c15e5b",
         "filename": "lib/BUCK",
         "patchSetId": 1

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7828650_f29ea87a",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-18T06:33:24Z",
+      "side": 1,
+      "message": "Any reason not to set it to \u0027Gerrit Code Review\u0027 without any prefix?",
+      "revId": "960e0bac1403fe9095935215a825dd9537681862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

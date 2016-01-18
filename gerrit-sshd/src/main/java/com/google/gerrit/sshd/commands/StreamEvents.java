@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventTypes;
+import com.google.gerrit.server.events.SupplierSerializer;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.BaseCommand;
@@ -32,9 +33,6 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.StreamCommandExecutor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
@@ -42,7 +40,6 @@ import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -264,15 +261,6 @@ final class StreamEvents extends BaseCommand {
   private void flush() {
     synchronized (stdout) {
       stdout.flush();
-    }
-  }
-
-  private static class SupplierSerializer
-      implements JsonSerializer<Supplier<?>> {
-    @Override
-    public JsonElement serialize(Supplier<?> src, Type typeOfSrc,
-        JsonSerializationContext context) {
-      return context.serialize(src.get());
     }
   }
 }

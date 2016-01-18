@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67313682_760cd054",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T13:44:52Z",
+      "side": 1,
+      "message": "Basing the equality check only on the username may not always work. IIRC some installations do not have usernames (e.g. when SSH is disabled), hence on these systems this equals method would always return false, even if the CurrentUser objects represent the same user.",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 5
+      },
+      "revId": "3700393f030824363889d164f075377e8b6fd054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

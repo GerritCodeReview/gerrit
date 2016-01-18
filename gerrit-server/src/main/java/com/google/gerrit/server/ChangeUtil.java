@@ -39,7 +39,6 @@ import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.IdGenerator;
@@ -252,9 +251,8 @@ public class ChangeUtil {
         oi.flush();
         revertCommit = revWalk.parseCommit(id);
 
-        RefControl refControl = ctl.getRefControl();
         ins = changeInserterFactory.create(
-              refControl, changeId, revertCommit)
+            changeId, revertCommit, ctl.getChange().getDest().get())
             .setValidatePolicy(CommitValidators.Policy.GERRIT)
             .setTopic(changeToRevert.getTopic());
 
@@ -274,7 +272,7 @@ public class ChangeUtil {
 
         ins.setMessage("Uploaded patch set 1.");
         try (BatchUpdate bu = updateFactory.create(
-            db.get(), project, refControl.getUser(),
+            db.get(), project, ctl.getUser(),
             TimeUtil.nowTs())) {
           bu.setRepository(git, revWalk, oi);
           bu.insertChange(ins);

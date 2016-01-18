@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -105,7 +106,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   }
 
   @Override
-  protected Change.Id updateProjectConfig(ProjectControl ctl,
+  protected Change.Id updateProjectConfig(CurrentUser user,
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, OrmException {
     md.setInsertChangeId(true);
@@ -120,12 +121,11 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     try (RevWalk rw = new RevWalk(md.getRepository());
         ObjectInserter objInserter = md.getRepository().newObjectInserter();
         BatchUpdate bu = updateFactory.create(
-          db, config.getProject().getNameKey(), ctl.getUser(),
+          db, config.getProject().getNameKey(), user,
           TimeUtil.nowTs())) {
       bu.setRepository(md.getRepository(), rw, objInserter);
       bu.insertChange(
-          changeInserterFactory.create(
-                ctl.controlForRef(RefNames.REFS_CONFIG), changeId, commit)
+          changeInserterFactory.create(changeId, commit, RefNames.REFS_CONFIG)
               .setValidatePolicy(CommitValidators.Policy.NONE)
               .setUpdateRef(false)); // Created by commitToNewRef.
       bu.execute();

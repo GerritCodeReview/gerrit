@@ -195,8 +195,7 @@ public class CreateChange implements
         RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);
 
         Change.Id changeId = new Change.Id(seq.nextChangeId());
-        ChangeInserter ins = changeInserterFactory
-            .create(refControl, changeId, c)
+        ChangeInserter ins = changeInserterFactory.create(changeId, c, refName)
             .setValidatePolicy(CommitValidators.Policy.GERRIT);
         ins.setMessage(String.format("Uploaded patch set %s.",
             ins.getPatchSet().getPatchSetId()));

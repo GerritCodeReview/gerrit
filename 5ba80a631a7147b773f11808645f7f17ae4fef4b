@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "272bbe19_f4421896",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T13:11:08Z",
+      "side": 1,
+      "message": "How can we remove the columns, when this change (phase 1) intends to still write to the db in addition to the git backend?",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "272bbe19_944724a5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/AccountGeneralPreferencesIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T13:11:08Z",
+      "side": 1,
+      "message": "This test depends on the order of test execution which is bad. If getPreferences() is executed before setPreferences() it fails.\n\nInstead of modifying the preferences for the admin account, rather create a new user with a unique name prefix for these tests.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 40
+      },
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "272bbe19_b44ca0c7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/AccountGeneralPreferencesIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T13:11:08Z",
+      "side": 1,
+      "message": "As commented above better create a dedicated user for these tests.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 3
+      },
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "272bbe19_744fe8b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T13:11:08Z",
+      "side": 1,
+      "message": "nit: Do not import Id classes.",
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67313682_96f40c78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T13:11:08Z",
+      "side": 1,
+      "message": "Account.Id",
+      "range": {
+        "startLine": 103,
+        "startChar": 51,
+        "endLine": 103,
+        "endChar": 53
+      },
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "272bbe19_145c7474",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T13:11:08Z",
+      "side": 1,
+      "message": "Do we need all this code?\n\nWhy not\n\n  return a !\u003d null ? a : AccountGeneralPreferencesInfo.defaults();\n\n?",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 13
+      },
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "272bbe19_d426fcf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T13:11:08Z",
+      "side": 1,
+      "message": "Assigning a new value to p has no effect since p is not further used.",
+      "range": {
+        "startLine": 158,
+        "startChar": 6,
+        "endLine": 158,
+        "endChar": 10
+      },
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67313682_b6f9086f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T13:11:08Z",
+      "side": 1,
+      "message": "initAccountGeneralPreferences seems to do the wrong thing.\n\nThe old code was only setting parameters that were provided in the input, e.g.:\n\n if (i.changesPerPage !\u003d null) {\n   p.setMaximumPageSize(i.changesPerPage);\n }\n\nbut the new code in initAccountGeneralPreferences overwrites existing settings with null.",
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "272bbe19_34597085",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-18T13:11:08Z",
+      "side": 1,
+      "message": "String downloadScheme ?",
+      "range": {
+        "startLine": 216,
+        "startChar": 35,
+        "endLine": 216,
+        "endChar": 66
+      },
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

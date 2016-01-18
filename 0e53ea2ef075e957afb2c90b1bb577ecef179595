@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67313682_f67a209b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1023869
+      },
+      "writtenOn": "2016-01-18T21:14:49Z",
+      "side": 1,
+      "message": "You must not spell it correctly when it is misspelled in the first place. :) The column is called \"push_certficate\" (missing an \"i\").",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 48
+      },
+      "revId": "0e53ea2ef075e957afb2c90b1bb577ecef179595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

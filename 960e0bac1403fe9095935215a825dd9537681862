@@ -16,6 +16,24 @@
       "revId": "960e0bac1403fe9095935215a825dd9537681862",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67313682_36597885",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-18T07:56:08Z",
+      "side": 1,
+      "message": "Yes, see: https://gerrit-review.googlesource.com/#/c/73887/2/polygerrit-ui/app/elements/gr-app.html@237",
+      "parentUuid": "e7828650_f29ea87a",
+      "revId": "960e0bac1403fe9095935215a825dd9537681862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

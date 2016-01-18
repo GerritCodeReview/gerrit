@@ -286,7 +286,7 @@ limitations under the License.
 
         // Create a comment on the opposite side of the first comment.
         var rightLineEL = element.$.rightDiff.$$(
-              '.lineNum[data-index="' + (index - 1) + '"');
+              '.lineNum[data-index="' + (index - 1) + '"]');
         assert.ok(rightLineEL);
         MockInteractions.tap(rightLineEL);
         element.async(function() {
@@ -327,7 +327,6 @@ limitations under the License.
           });
           var commentEl = newThreadEls[1].$$('gr-diff-comment');
           commentEl.fire('discard', null, {bubbles: false});
-
         }, 1);
       }, 1);
     }),

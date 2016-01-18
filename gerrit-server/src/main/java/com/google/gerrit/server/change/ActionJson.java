@@ -82,6 +82,7 @@ public class ActionJson {
       PrivateInternals_UiActionDescription.setId(descr, "followup");
       PrivateInternals_UiActionDescription.setMethod(descr, "POST");
       descr.setTitle("Create follow-up change");
+      descr.setLabel("Follow-Up");
       out.put(descr.getId(), new ActionInfo(descr));
     }
     return out;

@@ -368,6 +368,15 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
           case NEW:
             referenceUpdated.fire(project, ru, ReceiveCommand.Type.CREATE);
             break;
+          case FAST_FORWARD:
+          case FORCED:
+          case IO_FAILURE:
+          case LOCK_FAILURE:
+          case NOT_ATTEMPTED:
+          case NO_CHANGE:
+          case REJECTED:
+          case REJECTED_CURRENT_BRANCH:
+          case RENAMED:
           default: {
             throw new IOException(String.format(
               "Failed to create ref \"%s\": %s", ref, result.name()));

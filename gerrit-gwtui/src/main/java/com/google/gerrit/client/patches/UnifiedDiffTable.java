@@ -253,6 +253,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
             case INSERT:
               n = Gerrit.RESOURCES.css().diffTextINSERT();
               break;
+            case REPLACE:
             default:
               continue;
           }

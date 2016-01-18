@@ -1847,6 +1847,8 @@ public class ReceiveCommits {
           break;
         }
         //$FALL-THROUGH$
+      case ABANDONED:
+      case DRAFT:
       default:
         addMessage("change " + c.getChangeId() + " is "
             + c.getStatus().name().toLowerCase());

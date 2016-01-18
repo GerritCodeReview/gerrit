@@ -450,6 +450,7 @@ public class QueryShell {
         case JSON_SINGLE:
           collector.add(row);
           break;
+        case PRETTY:
         default:
           final JsonObject obj = new JsonObject();
           obj.addProperty("type", "error");
@@ -482,6 +483,7 @@ public class QueryShell {
         }
         println(collector.toString());
         break;
+      case PRETTY:
       default:
         final JsonObject obj = new JsonObject();
         obj.addProperty("type", "error");

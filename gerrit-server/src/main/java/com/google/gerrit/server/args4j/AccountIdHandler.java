@@ -65,6 +65,13 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
           case LDAP:
             accountId = createAccountByLdap(token);
             break;
+          case CUSTOM_EXTENSION:
+          case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+          case HTTP:
+          case LDAP_BIND:
+          case OAUTH:
+          case OPENID:
+          case OPENID_SSO:
           default:
             throw new CmdLineException(owner, "user \"" + token + "\" not found");
         }

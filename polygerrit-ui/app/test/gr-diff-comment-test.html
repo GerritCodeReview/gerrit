@@ -196,8 +196,7 @@ limitations under the License.
       });
       MockInteractions.tap(element.$$('.cancel'));
       MockInteractions.tap(element.$$('.discard'));
-      MockInteractions.pressAndReleaseKeyOn(
-          element.$.editTextarea.textarea, 27);  // 'esc'
+      MockInteractions.pressAndReleaseKeyOn(element.$.editTextarea, 27); // esc
     });
 
     test('draft saving/editing', function(done) {

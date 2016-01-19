@@ -69,6 +69,30 @@
       "revId": "3700393f030824363889d164f075377e8b6fd054",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6776964c_eec79f6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-19T08:47:08Z",
+      "side": 1,
+      "message": "Account ID would be best, but it\u0027s only available in IdentifiedUser.",
+      "parentUuid": "e7828650_f2ec68e6",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 5
+      },
+      "revId": "3700393f030824363889d164f075377e8b6fd054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

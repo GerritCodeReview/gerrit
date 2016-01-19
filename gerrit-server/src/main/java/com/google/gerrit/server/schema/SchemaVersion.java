@@ -176,7 +176,7 @@ public abstract class SchemaVersion {
       throws OrmException {
     JdbcSchema s = (JdbcSchema) db;
     try (JdbcExecutor e = new JdbcExecutor(s)) {
-      s.renameField(e, table, from, to);
+      s.renameColumn(e, table, from, to);
     }
   }
 

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "47719252_2dedadaa",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1023869
+      },
+      "writtenOn": "2016-01-19T22:28:49Z",
+      "side": 1,
+      "message": "Hmm. Ok. Thanks for all the references. I have started reading Shawn\u0027s mail (your [2]).\n\nSo I understand that we should not change the id here since it was 7 when Dave introduced the column with Ib020bd261.\n\nBut if 7 refers to deleted data in a BigTable, there are problems already now, right?\n\n@Dave: If 7 was a bad value then, can we really fix it by changing it now? I guess only Google can answer that *hint*, since it depends on what schema versions have been put in use by Google.",
+      "parentUuid": "47719252_cdd189f6",
+      "range": {
+        "startLine": 191,
+        "startChar": 15,
+        "endLine": 191,
+        "endChar": 16
+      },
+      "revId": "f69a41ff60de497a6d2ab108c4590c12db85e3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c785825a_f1154890",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
         "patchSetId": 3

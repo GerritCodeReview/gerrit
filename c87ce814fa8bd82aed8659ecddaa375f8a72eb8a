@@ -117,6 +117,30 @@
       "revId": "c87ce814fa8bd82aed8659ecddaa375f8a72eb8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67313682_d65e042c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T05:01:07Z",
+      "side": 1,
+      "message": "Yes, I guess so. But approval wouldn\u0027t hurt before merging ;)",
+      "parentUuid": "e7828650_72d4f817",
+      "range": {
+        "startLine": 723,
+        "startChar": 0,
+        "endLine": 723,
+        "endChar": 46
+      },
+      "revId": "c87ce814fa8bd82aed8659ecddaa375f8a72eb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

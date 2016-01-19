@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "a78c0e88_3032e82f",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-19T23:25:55Z",
+      "side": 1,
+      "message": "\u003e We really don\u0027t care about column renames.\n\u003e The column names themselves are not stored in\n\u003e Bigtable or in the encoded protobuf messages.\n\nWhile Shawn may have said this, it is incorrect.\n\nWe can actually manage either way. But if it\u0027s not renamed then we have to patch our proto definition to keep the wrong name. Which is doable, just not Right.",
+      "parentUuid": "47719252_cdd189f6",
+      "range": {
+        "startLine": 191,
+        "startChar": 15,
+        "endLine": 191,
+        "endChar": 16
+      },
+      "revId": "f69a41ff60de497a6d2ab108c4590c12db85e3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c785825a_f1154890",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
         "patchSetId": 3

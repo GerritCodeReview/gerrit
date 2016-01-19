@@ -46,6 +46,30 @@
       "revId": "050d6642ba7b0dcf83e9153fa063cd7ff6bae618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67313682_b65d882e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T05:23:41Z",
+      "side": 1,
+      "message": "That\u0027s strange. I went to the ssh host gerrit gsql command on current master, created table FOO with couple of columns and tried the alter table statement directly and it worked as expected:\n\n gerrit\u003e \\d FOO\n Table FOO\n COLUMN_NAME     | TYPE\n ----------------+-----------------------------\n CREATED_ON      | TIMESTAMP NOT NULL\n DRAFT           | CHAR(1) DEFAULT \u0027N\u0027 NOT NULL\n REVISION        | VARCHAR(40)\n GROUPS          | VARCHAR(255)\n PUSH_CERTFICATE | CLOB\n\n gerrit\u003e alter table FOO ALTER COLUMN push_certficate RENAME TO push_certificate;\n\n UPDATE 0; 1 ms\n gerrit\u003e \\d FOO\n Table FOO\n COLUMN_NAME      | TYPE\n -----------------+-----------------------------\n CREATED_ON       | TIMESTAMP NOT NULL\n DRAFT            | CHAR(1) DEFAULT \u0027N\u0027 NOT NULL\n REVISION         | VARCHAR(40)\n GROUPS           | VARCHAR(255)\n PUSH_CERTIFICATE | CLOB",
+      "parentUuid": "e7828650_72d95846",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "050d6642ba7b0dcf83e9153fa063cd7ff6bae618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

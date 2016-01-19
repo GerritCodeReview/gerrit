@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "47719252_2dce0d84",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T09:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6776964c_0eb8ebe4",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 349,
+        "endChar": 9
+      },
+      "revId": "c87ce814fa8bd82aed8659ecddaa375f8a72eb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aa79f24_4bcde586",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 5
@@ -154,6 +178,30 @@
       "writtenOn": "2016-01-19T05:01:07Z",
       "side": 1,
       "message": "Yes, I guess so. But approval wouldn\u0027t hurt before merging ;)",
+      "parentUuid": "e7828650_72d4f817",
+      "range": {
+        "startLine": 723,
+        "startChar": 0,
+        "endLine": 723,
+        "endChar": 46
+      },
+      "revId": "c87ce814fa8bd82aed8659ecddaa375f8a72eb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6776964c_4e059359",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T09:36:48Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "e7828650_72d4f817",
       "range": {
         "startLine": 723,

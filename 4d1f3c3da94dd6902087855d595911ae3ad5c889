@@ -17,6 +17,24 @@
       "revId": "4d1f3c3da94dd6902087855d595911ae3ad5c889",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47719252_cd7429db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-19T16:25:55Z",
+      "side": 1,
+      "message": "Yes, this IOException is a little annoying, and even more if it is not really needed :-( In this case I will rather wrap it into an ISE.",
+      "parentUuid": "a78c0e88_d03d9c0c",
+      "revId": "4d1f3c3da94dd6902087855d595911ae3ad5c889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

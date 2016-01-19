@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "6776964c_0eb8ebe4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-19T08:42:47Z",
+      "side": 1,
+      "message": "Why is this changed from sshDaemonLog to log? \nSame for the occurrances below.",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 349,
+        "endChar": 9
+      },
+      "revId": "c87ce814fa8bd82aed8659ecddaa375f8a72eb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0aa79f24_4bcde586",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 5

@@ -22,6 +22,30 @@
       "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7828650_926e3c03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1019219
+      },
+      "writtenOn": "2016-01-19T21:37:54Z",
+      "side": 1,
+      "message": "I agree, I think we should be able to handle this more cleanly.",
+      "parentUuid": "e7828650_328750fa",
+      "range": {
+        "startLine": 431,
+        "startChar": 8,
+        "endLine": 431,
+        "endChar": 17
+      },
+      "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

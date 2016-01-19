@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1453197191 +0100\nnonce ALmjDBXmypL97mYdmDhyZd5chimCSUBfEY5g7VieA0TncpFoYHrK9bXmIbFQIbITVew5X4zmoCJG\n\n0000000000000000000000000000000000000000 0242ea54d3452a4c1bf37ce7cb6a47301f696230 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWngeHAAoJEFG1/Zeg0O9R+HkIALDcFv/H5oTG81yBS9iAbH20\nfGGydNP+lrwAKSmC6cR+KPCH3/cD9cVFzdkDeC/Z658z47zQSUFdEqmejDv/T3rW\ng19Vkw/KVBOZFX5XYOvHXRQ9MZZHO/rzGluOE9EDky+lAJoBqxaiZlEycho9tRZZ\nKtdMJBgnfj5TmE9yJlKjA67NyraciLjq60s8t0B2WkJ1PX8mkkPMjrrEQ9fS6uL/\nZTe+hu7cP6bmIM18qNw4Vgd4dGY/7vZegBX9Lawi9gLcKa4vEitZR7pohnvJ1Fpm\nqt9WSyr/yx9wYtuDkiqzUv77fXSBxnsPU4uvra/SdaCBCtu0bF0rNt8+lgTmBKU\u003d\n\u003dm3xZ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a78c0e88_d03d9c0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-19T16:21:01Z",
+      "side": 1,
+      "message": "That\u0027s so dumb, ChangeIdUtil doesn\u0027t need to throw this. Mailed https://git.eclipse.org/r/64670 upstream to fix it, but who knows when that will get submitted.\n\nIf you want to avoid IOException here you could catch and throw ISE. Doesn\u0027t really matter.",
+      "revId": "4d1f3c3da94dd6902087855d595911ae3ad5c889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

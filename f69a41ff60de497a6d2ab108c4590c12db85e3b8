@@ -57,6 +57,24 @@
       "revId": "f69a41ff60de497a6d2ab108c4590c12db85e3b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c785825a_71d95846",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-19T06:36:00Z",
+      "side": 1,
+      "message": "\u003e Use static method in static way\n\nActually it looks like there\u0027s no need for that method (and some others) to be static.",
+      "parentUuid": "c785825a_51dc5437",
+      "revId": "f69a41ff60de497a6d2ab108c4590c12db85e3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

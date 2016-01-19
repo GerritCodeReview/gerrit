@@ -39,7 +39,6 @@ import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.IdGenerator;
@@ -203,12 +202,12 @@ public class ChangeUtil {
       throws NoSuchChangeException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       RestApiException, UpdateException {
-    Change.Id changeId = patchSetId.getParentKey();
+    Change.Id changeIdToRevert = patchSetId.getParentKey();
     PatchSet patch = db.get().patchSets().get(patchSetId);
     if (patch == null) {
-      throw new NoSuchChangeException(changeId);
+      throw new NoSuchChangeException(changeIdToRevert);
     }
-    Change changeToRevert = db.get().changes().get(changeId);
+    Change changeToRevert = db.get().changes().get(changeIdToRevert);
 
     Project.NameKey project = ctl.getChange().getProject();
     try (Repository git = gitManager.openRepository(project);
@@ -246,22 +245,16 @@ public class ChangeUtil {
 
       RevCommit revertCommit;
       ChangeInserter ins;
+      Change.Id changeId = new Change.Id(seq.nextChangeId());
       try (ObjectInserter oi = git.newObjectInserter()) {
         ObjectId id = oi.insert(revertCommitBuilder);
         oi.flush();
         revertCommit = revWalk.parseCommit(id);
 
-        RefControl refControl = ctl.getRefControl();
-        Change change = new Change(
-            new Change.Key("I" + computedChangeId.name()),
-            new Change.Id(seq.nextChangeId()),
-            user.get().getAccountId(),
-            changeToRevert.getDest(),
-            TimeUtil.nowTs());
-        change.setTopic(changeToRevert.getTopic());
         ins = changeInserterFactory.create(
-              refControl, change, revertCommit)
-            .setValidatePolicy(CommitValidators.Policy.GERRIT);
+            changeId, revertCommit, ctl.getChange().getDest().get())
+            .setValidatePolicy(CommitValidators.Policy.GERRIT)
+            .setTopic(changeToRevert.getTopic());
 
         ChangeMessage changeMessage = new ChangeMessage(
             new ChangeMessage.Key(
@@ -271,7 +264,7 @@ public class ChangeUtil {
         msgBuf.append("Patch Set ").append(patchSetId.get()).append(": Reverted");
         msgBuf.append("\n\n");
         msgBuf.append("This patchset was reverted in change: ")
-              .append(change.getKey().get());
+              .append("I").append(computedChangeId.name());
         changeMessage.setMessage(msgBuf.toString());
         ChangeUpdate update = changeUpdateFactory.create(ctl, TimeUtil.nowTs());
         changeMessagesUtil.addChangeMessage(db.get(), update, changeMessage);
@@ -279,27 +272,26 @@ public class ChangeUtil {
 
         ins.setMessage("Uploaded patch set 1.");
         try (BatchUpdate bu = updateFactory.create(
-            db.get(), change.getProject(), refControl.getUser(),
-            change.getCreatedOn())) {
+            db.get(), project, ctl.getUser(),
+            TimeUtil.nowTs())) {
           bu.setRepository(git, revWalk, oi);
           bu.insertChange(ins);
           bu.execute();
         }
       }
 
-      Change.Id id = ins.getChange().getId();
       try {
-        RevertedSender cm = revertedSenderFactory.create(id);
+        RevertedSender cm = revertedSenderFactory.create(changeId);
         cm.setFrom(user.get().getAccountId());
         cm.setChangeMessage(ins.getChangeMessage());
         cm.send();
       } catch (Exception err) {
-        log.error("Cannot send email for revert change " + id, err);
+        log.error("Cannot send email for revert change " + changeId, err);
       }
 
-      return id;
+      return changeId;
     } catch (RepositoryNotFoundException e) {
-      throw new NoSuchChangeException(changeId, e);
+      throw new NoSuchChangeException(changeIdToRevert, e);
     }
   }
 

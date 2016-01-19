@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -29,7 +28,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -196,15 +194,8 @@ public class CreateChange implements
       try (ObjectInserter oi = git.newObjectInserter()) {
         RevCommit c = newCommit(oi, rw, author, mergeTip, commitMessage);
 
-        Change change = new Change(
-            getChangeId(id, c),
-            new Change.Id(seq.nextChangeId()),
-            me.getAccountId(),
-            new Branch.NameKey(project, refName),
-            now);
-
-        ChangeInserter ins = changeInserterFactory
-            .create(refControl, change, c)
+        Change.Id changeId = new Change.Id(seq.nextChangeId());
+        ChangeInserter ins = changeInserterFactory.create(changeId, c, refName)
             .setValidatePolicy(CommitValidators.Policy.GERRIT);
         ins.setMessage(String.format("Uploaded patch set %s.",
             ins.getPatchSet().getPatchSetId()));
@@ -212,29 +203,20 @@ public class CreateChange implements
         if (topic != null) {
           topic = Strings.emptyToNull(topic.trim());
         }
-        change.setTopic(topic);
+        ins.setTopic(topic);
         ins.setDraft(input.status != null && input.status == ChangeStatus.DRAFT);
         ins.setGroups(groups);
         try (BatchUpdate bu = updateFactory.create(
-            db.get(), change.getProject(), me, now)) {
+            db.get(), project, me, now)) {
           bu.setRepository(git, rw, oi);
           bu.insertChange(ins);
           bu.execute();
         }
         ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
-        return Response.created(json.format(change.getId()));
+        return Response.created(json.format(changeId));
       }
 
     }
-  }
-
-  private static Change.Key getChangeId(ObjectId id, RevCommit emptyCommit) {
-    List<String> idList = emptyCommit.getFooterLines(
-        FooterConstants.CHANGE_ID);
-    Change.Key changeKey = !idList.isEmpty()
-        ? new Change.Key(idList.get(idList.size() - 1).trim())
-        : new Change.Key("I" + id.name());
-    return changeKey;
   }
 
   private static RevCommit newCommit(ObjectInserter oi, RevWalk rw,

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
@@ -23,13 +22,12 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -71,7 +69,6 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
 
   private final ReviewDb db;
   private final Sequences seq;
-  private final IdentifiedUser user;
   private final Provider<PostReviewers> reviewersProvider;
   private final ProjectCache projectCache;
   private final ChangesCollection changes;
@@ -82,7 +79,6 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   ReviewProjectAccess(final ProjectControl.Factory projectControlFactory,
       GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory, ReviewDb db,
-      IdentifiedUser user,
       Provider<PostReviewers> reviewersProvider,
       ProjectCache projectCache,
       AllProjectsNameProvider allProjects,
@@ -102,7 +98,6 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         parentProjectName, message, false);
     this.db = db;
     this.seq = seq;
-    this.user = user;
     this.reviewersProvider = reviewersProvider;
     this.projectCache = projectCache;
     this.changes = changes;
@@ -111,7 +106,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   }
 
   @Override
-  protected Change.Id updateProjectConfig(ProjectControl ctl,
+  protected Change.Id updateProjectConfig(CurrentUser user,
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, OrmException {
     md.setInsertChangeId(true);
@@ -123,23 +118,14 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       return null;
     }
 
-    Change change = new Change(
-        getChangeId(commit),
-        changeId,
-        user.getAccountId(),
-        new Branch.NameKey(
-            config.getProject().getNameKey(),
-            RefNames.REFS_CONFIG),
-        TimeUtil.nowTs());
     try (RevWalk rw = new RevWalk(md.getRepository());
         ObjectInserter objInserter = md.getRepository().newObjectInserter();
         BatchUpdate bu = updateFactory.create(
-          db, change.getProject(), ctl.getUser(),
-          change.getCreatedOn())) {
+          db, config.getProject().getNameKey(), user,
+          TimeUtil.nowTs())) {
       bu.setRepository(md.getRepository(), rw, objInserter);
       bu.insertChange(
-          changeInserterFactory.create(
-                ctl.controlForRef(change.getDest().get()), change, commit)
+          changeInserterFactory.create(changeId, commit, RefNames.REFS_CONFIG)
               .setValidatePolicy(CommitValidators.Policy.NONE)
               .setUpdateRef(false)); // Created by commitToNewRef.
       bu.execute();
@@ -158,14 +144,6 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       addAdministratorsAsReviewers(rsrc);
     }
     return changeId;
-  }
-
-  private static Change.Key getChangeId(RevCommit commit) {
-    List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
-    Change.Key changeKey = !idList.isEmpty()
-        ? new Change.Key(idList.get(idList.size() - 1).trim())
-        : new Change.Key("I" + commit.name());
-    return changeKey;
   }
 
   private void addProjectOwnersAsReviewers(ChangeResource rsrc) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c785825a_714f18ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2111,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-19T18:10:02Z",
+      "side": 1,
+      "message": "Do we want to log an AuthException as \"cannot retrieve edit\"?\nAs long as we communicate to the user they better login, I\u0027d rather not log this case at all as it seems just noise to me.",
+      "range": {
+        "startLine": 2106,
+        "startChar": 6,
+        "endLine": 2111,
+        "endChar": 7
+      },
+      "revId": "ad93abc6fadc39ef0a315a184c41f824d922218e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

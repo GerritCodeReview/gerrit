@@ -163,7 +163,7 @@ public abstract class SchemaVersion {
   }
 
   /** Rename an existing table. */
-  protected static void renameTable(ReviewDb db, String from, String to)
+  protected void renameTable(ReviewDb db, String from, String to)
       throws OrmException {
     JdbcSchema s = (JdbcSchema) db;
     try (JdbcExecutor e = new JdbcExecutor(s)) {
@@ -172,7 +172,7 @@ public abstract class SchemaVersion {
   }
 
   /** Rename an existing column. */
-  protected static void renameColumn(ReviewDb db, String table, String from, String to)
+  protected void renameColumn(ReviewDb db, String table, String from, String to)
       throws OrmException {
     JdbcSchema s = (JdbcSchema) db;
     try (JdbcExecutor e = new JdbcExecutor(s)) {
@@ -181,25 +181,25 @@ public abstract class SchemaVersion {
   }
 
   /** Execute an SQL statement. */
-  protected static void execute(ReviewDb db, String sql) throws SQLException {
+  protected void execute(ReviewDb db, String sql) throws SQLException {
     try (Statement s = newStatement(db)) {
       s.execute(sql);
     }
   }
 
   /** Open a new single statement. */
-  protected static Statement newStatement(ReviewDb db) throws SQLException {
+  protected Statement newStatement(ReviewDb db) throws SQLException {
     return ((JdbcSchema) db).getConnection().createStatement();
   }
 
   /** Open a new prepared statement. */
-  protected static PreparedStatement prepareStatement(ReviewDb db, String sql)
+  protected PreparedStatement prepareStatement(ReviewDb db, String sql)
       throws SQLException {
     return ((JdbcSchema) db).getConnection().prepareStatement(sql);
   }
 
   /** Open a new statement executor. */
-  protected static JdbcExecutor newExecutor(ReviewDb db) throws OrmException {
+  protected JdbcExecutor newExecutor(ReviewDb db) throws OrmException {
     return new JdbcExecutor(((JdbcSchema) db).getConnection());
   }
 }

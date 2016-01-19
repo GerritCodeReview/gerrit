@@ -166,6 +166,30 @@
       "revId": "0e53ea2ef075e957afb2c90b1bb577ecef179595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67313682_f631c0e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T07:19:07Z",
+      "side": 1,
+      "message": "\u003e How do we then handle it on master?  Cherry pick this change, and add schema migration that can handle the case that the column is already updated?\n\nThis is a very good question. You have already added schema migration to rename this column. How about to merge this change first, rebase your renaming change on top of this merge commit and add the check to your schema migration? So to say to combine the rename and check that the columns type was change and if it wasn\u0027t just do it in the same run?",
+      "parentUuid": "c785825a_31e3d0f2",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 48
+      },
+      "revId": "0e53ea2ef075e957afb2c90b1bb577ecef179595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

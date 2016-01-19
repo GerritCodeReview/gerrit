@@ -96,6 +96,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
+  private ReceiveCommand updateRefCommand;
   private boolean runHooks;
   private boolean sendMail;
   private boolean updateRef;
@@ -136,6 +137,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
+    this.updateRefCommand = null;
     this.runHooks = true;
     this.sendMail = true;
     this.updateRef = true;
@@ -203,6 +205,10 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     return this;
   }
 
+  public void setUpdateRefCommand(ReceiveCommand cmd) {
+    updateRefCommand = cmd;
+  }
+
   public PatchSet getPatchSet() {
     return patchSet;
   }
@@ -236,8 +242,12 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (!updateRef) {
       return;
     }
-    ctx.addRefUpdate(
-        new ReceiveCommand(ObjectId.zeroId(), commit, patchSet.getRefName()));
+    if (updateRefCommand == null) {
+      ctx.addRefUpdate(
+          new ReceiveCommand(ObjectId.zeroId(), commit, patchSet.getRefName()));
+    } else {
+      ctx.addRefUpdate(updateRefCommand);
+    }
   }
 
   @Override

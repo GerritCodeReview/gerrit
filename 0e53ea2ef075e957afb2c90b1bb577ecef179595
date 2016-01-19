@@ -190,6 +190,30 @@
       "revId": "0e53ea2ef075e957afb2c90b1bb577ecef179595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7828650_32599085",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-19T07:22:29Z",
+      "side": 1,
+      "message": "I\u0027d prefer to do them in separate migrations.",
+      "parentUuid": "67313682_f631c0e0",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 48
+      },
+      "revId": "0e53ea2ef075e957afb2c90b1bb577ecef179595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

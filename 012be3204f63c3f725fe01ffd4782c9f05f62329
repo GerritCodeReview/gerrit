@@ -16,6 +16,24 @@
       "revId": "012be3204f63c3f725fe01ffd4782c9f05f62329",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7828650_32fc3088",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-19T06:19:47Z",
+      "side": 1,
+      "message": "That\u0027s because in Schema_82 it\u0027s not using this broken static method. It calls s.renameColumn, and s is an instance of JdbcSchema.",
+      "parentUuid": "67313682_366ad8bc",
+      "revId": "012be3204f63c3f725fe01ffd4782c9f05f62329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

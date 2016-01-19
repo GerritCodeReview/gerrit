@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67313682_366ad8bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T05:59:30Z",
+      "side": 1,
+      "message": "That\u0027s strange. I just checked Schema_82.java (removed in master) used this method (as we renamed columns before adding support for Oracle database):\n\n   s.renameColumn(e, \"accounts\", \"show_username_in_review_category\",\n        \"show_user_in_review\");",
+      "revId": "012be3204f63c3f725fe01ffd4782c9f05f62329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

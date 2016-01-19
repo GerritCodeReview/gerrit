@@ -189,7 +189,7 @@ public final class PatchSet {
 
   /** Certificate sent with a push that created this patch set. */
   @Column(id = 7, notNull = false)
-  protected String pushCertficate;
+  protected String pushCertificate;
 
   protected PatchSet() {
   }
@@ -251,11 +251,11 @@ public final class PatchSet {
   }
 
   public String getPushCertificate() {
-    return pushCertficate;
+    return pushCertificate;
   }
 
   public void setPushCertificate(String cert) {
-    pushCertficate = cert;
+    pushCertificate = cert;
   }
 
   @Override

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c785825a_51d7741d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-19T04:47:09Z",
+      "side": 1,
+      "message": "Use the abbreviated change-Id (Ie82c014e0) to take advantage of the comment link.",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "9ce84a1930c7cdb5a40cec74afb0bb0a56bcdca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

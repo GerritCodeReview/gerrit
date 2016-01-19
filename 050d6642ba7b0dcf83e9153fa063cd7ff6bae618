@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "272bbe19_14f0f485",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T04:51:04Z",
+      "side": 1,
+      "message": "This SQL operation is dialect specific. You should use JdbcSchema#renameColumn() method instead:\n\n  try (StatementExecutor e \u003d newExecutor(db)) {\n      ((JdbcSchema)db).renameColumn(e,\n          \"patch_sets\",\n          \"push_certficate\",\n          \"push_certificate\");\n  }",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "050d6642ba7b0dcf83e9153fa063cd7ff6bae618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

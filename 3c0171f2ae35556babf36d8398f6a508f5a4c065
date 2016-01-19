@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6776964c_ce998395",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T08:20:04Z",
+      "side": 1,
+      "message": "Yes, please, change it.",
+      "parentUuid": "c785825a_910abc6b",
+      "revId": "3c0171f2ae35556babf36d8398f6a508f5a4c065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67313682_56219489",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

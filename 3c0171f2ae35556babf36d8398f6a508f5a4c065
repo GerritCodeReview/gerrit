@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c785825a_910abc6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-19T07:37:15Z",
+      "side": 1,
+      "message": "I cherry-picked it from your commit, where you fixed the actual problem.  I\u0027ve only cut down the commit message and added the simple migration.\n\nI can change the author if you prefer.",
+      "parentUuid": "67313682_761e1051",
+      "revId": "3c0171f2ae35556babf36d8398f6a508f5a4c065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67313682_56219489",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

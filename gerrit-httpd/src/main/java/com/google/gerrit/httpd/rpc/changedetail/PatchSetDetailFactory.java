@@ -185,7 +185,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     detail.setPatchSet(patchSet);
     detail.setProject(project);
 
-    detail.setInfo(infoFactory.get(db, patchSet.getId()));
+    detail.setInfo(infoFactory.get(db, notes, patchSet.getId()));
     detail.setPatches(patches);
 
     final CurrentUser user = control.getUser();

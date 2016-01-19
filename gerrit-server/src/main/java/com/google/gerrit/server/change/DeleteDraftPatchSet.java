@@ -164,7 +164,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       try {
         // TODO(dborowitz): Get this in a way that doesn't involve re-opening
         // the repo after the updateRepo phase.
-        return patchSetInfoFactory.get(ctx.getDb(),
+        return patchSetInfoFactory.get(ctx.getDb(), ctx.getNotes(),
             new PatchSet.Id(psId.getParentKey(), psId.get() - 1));
       } catch (PatchSetInfoNotAvailableException e) {
         throw new OrmException(e);

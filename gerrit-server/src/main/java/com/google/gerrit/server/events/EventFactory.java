@@ -382,17 +382,17 @@ public class EventFactory {
   public void addPatchSets(ReviewDb db, RevWalk revWalk, ChangeAttribute ca,
       Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
-      boolean includeFiles, Change change, LabelTypes labelTypes) {
+      boolean includeFiles, ChangeNotes notes, LabelTypes labelTypes) {
     if (!ps.isEmpty()) {
       ca.patchSets = new ArrayList<>(ps.size());
       for (PatchSet p : ps) {
-        PatchSetAttribute psa = asPatchSetAttribute(db, revWalk, p);
+        PatchSetAttribute psa = asPatchSetAttribute(db, revWalk, notes, p);
         if (approvals != null) {
           addApprovals(psa, p.getId(), approvals, labelTypes);
         }
         ca.patchSets.add(psa);
-        if (includeFiles && change != null) {
-          addPatchSetFileNames(psa, change, p);
+        if (includeFiles && notes != null) {
+          addPatchSetFileNames(psa, notes.getChange(), p);
         }
       }
     }
@@ -452,9 +452,9 @@ public class EventFactory {
    * @return object suitable for serialization to JSON
    */
   public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk,
-      PatchSet patchSet) {
+      ChangeNotes notes, PatchSet patchSet) {
     try (ReviewDb db = schema.open()) {
-      return asPatchSetAttribute(db, revWalk, patchSet);
+      return asPatchSetAttribute(db, revWalk, notes, patchSet);
     } catch (OrmException e) {
       log.error("Cannot open database connection", e);
       return new PatchSetAttribute();
@@ -470,7 +470,7 @@ public class EventFactory {
    * @return object suitable for serialization to JSON
    */
   public PatchSetAttribute asPatchSetAttribute(ReviewDb db, RevWalk revWalk,
-      PatchSet patchSet) {
+      ChangeNotes notes, PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.getRevision().get();
     p.number = Integer.toString(patchSet.getPatchSetId());
@@ -486,7 +486,7 @@ public class EventFactory {
         p.parents.add(parent.name());
       }
 
-      UserIdentity author = psInfoFactory.get(db, pId).getAuthor();
+      UserIdentity author = psInfoFactory.get(db, notes, pId).getAuthor();
       if (author.getAccount() == null) {
         p.author = new AccountAttribute();
         p.author.email = author.getEmail();

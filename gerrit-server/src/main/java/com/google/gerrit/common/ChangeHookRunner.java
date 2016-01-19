@@ -58,6 +58,7 @@ import com.google.gerrit.server.events.ReviewerAddedEvent;
 import com.google.gerrit.server.events.TopicChangedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -227,6 +228,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     /** Repository Manager. */
     private final GitRepositoryManager repoManager;
 
+    private final ChangeNotes.Factory notesFactory;
+
     /** Queue of hooks that need to run. */
     private final WorkQueue.Executor hookQueue;
 
@@ -256,6 +259,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Inject
     public ChangeHookRunner(WorkQueue queue,
       GitRepositoryManager repoManager,
+      ChangeNotes.Factory notesFactory,
       @GerritServerConfig Config config,
       @AnonymousCowardName String anonymousCowardName,
       SitePaths sitePath,
@@ -265,6 +269,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       DynamicSet<EventListener> unrestrictedListeners) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
+        this.notesFactory = notesFactory;
         this.hookQueue = queue.createQueue(1, "hook");
         this.projectCache = projectCache;
         this.accountCache = accountCache;
@@ -302,6 +307,10 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
             new ThreadFactoryBuilder()
               .setNameFormat("SyncHook-%d")
               .build());
+    }
+
+    private ChangeNotes newNotes(Change change) {
+      return notesFactory.create(change);
     }
 
     private static Optional<Path> hook(Config config, Path path, String name) {
@@ -394,13 +403,14 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doPatchsetCreatedHook(Change change,
         PatchSet patchSet, ReviewDb db) throws OrmException {
+      ChangeNotes notes = newNotes(change);
       PatchSetCreatedEvent event = new PatchSetCreatedEvent(change);
       Supplier<AccountState> uploader =
           getAccountSupplier(patchSet.getUploader());
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(notes, patchSet);
       event.uploader = accountAttributeSupplier(uploader);
 
       fireEvent(change, event, db);
@@ -431,13 +441,14 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doDraftPublishedHook(Change change, PatchSet patchSet,
           ReviewDb db) throws OrmException {
+      ChangeNotes notes = newNotes(change);
       DraftPublishedEvent event = new DraftPublishedEvent(change);
       Supplier<AccountState> uploader =
           getAccountSupplier(patchSet.getUploader());
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(notes, patchSet);
       event.uploader = accountAttributeSupplier(uploader);
 
       fireEvent(change, event, db);
@@ -467,12 +478,13 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doCommentAddedHook(final Change change, Account account,
           PatchSet patchSet, String comment, final Map<String, Short> approvals,
           ReviewDb db) throws OrmException {
+      ChangeNotes notes = newNotes(change);
       CommentAddedEvent event = new CommentAddedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
       event.author =  accountAttributeSupplier(account);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(notes, patchSet);
       event.comment = comment;
       event.approvals = Suppliers.memoize(
           new Supplier<ApprovalAttribute[]>() {
@@ -528,12 +540,13 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeMergedHook(Change change, Account account,
         PatchSet patchSet, ReviewDb db, String mergeResultRev)
         throws OrmException {
+      ChangeNotes notes = newNotes(change);
       ChangeMergedEvent event = new ChangeMergedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
       event.submitter = accountAttributeSupplier(account);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(notes, patchSet);
       event.newRev = mergeResultRev;
 
       fireEvent(change, event, db);
@@ -563,12 +576,13 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doMergeFailedHook(Change change, Account account,
           PatchSet patchSet, String reason,
           ReviewDb db) throws OrmException {
+      ChangeNotes notes = newNotes(change);
       MergeFailedEvent event = new MergeFailedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
       event.submitter = accountAttributeSupplier(account);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(notes, patchSet);
       event.reason = reason;
 
       fireEvent(change, event, db);
@@ -598,12 +612,13 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeAbandonedHook(Change change, Account account,
           PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
+      ChangeNotes notes = newNotes(change);
       ChangeAbandonedEvent event = new ChangeAbandonedEvent(change);
       AccountState owner = accountCache.get(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
       event.abandoner = accountAttributeSupplier(account);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(notes, patchSet);
       event.reason = reason;
 
       fireEvent(change, event, db);
@@ -633,12 +648,13 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     public void doChangeRestoredHook(Change change, Account account,
           PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
+      ChangeNotes notes = newNotes(change);
       ChangeRestoredEvent event = new ChangeRestoredEvent(change);
       AccountState owner = accountCache.get(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
       event.restorer = accountAttributeSupplier(account);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(notes, patchSet);
       event.reason = reason;
 
       fireEvent(change, event, db);
@@ -709,11 +725,12 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     @Override
     public void doReviewerAddedHook(Change change, Account account,
         PatchSet patchSet, ReviewDb db) throws OrmException {
+      ChangeNotes notes = newNotes(change);
       ReviewerAddedEvent event = new ReviewerAddedEvent(change);
       Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
 
       event.change = changeAttributeSupplier(change);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(notes, patchSet);
       event.reviewer = accountAttributeSupplier(account);
 
       fireEvent(change, event, db);
@@ -880,15 +897,16 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     }
 
     private Supplier<PatchSetAttribute> patchSetAttributeSupplier(
-        final Change change, final PatchSet patchSet) {
+        final ChangeNotes notes, final PatchSet patchSet) {
       return Suppliers.memoize(
           new Supplier<PatchSetAttribute>() {
             @Override
             public PatchSetAttribute get() {
-              try (Repository repo
-                  = repoManager.openRepository(change.getProject());
+              try (Repository repo =
+                    repoManager.openRepository(notes.getChange().getProject());
                   RevWalk revWalk = new RevWalk(repo)) {
-                return eventFactory.asPatchSetAttribute(revWalk, patchSet);
+                return eventFactory.asPatchSetAttribute(
+                    revWalk, notes, patchSet);
               } catch (IOException e) {
                 throw Throwables.propagate(e);
               }

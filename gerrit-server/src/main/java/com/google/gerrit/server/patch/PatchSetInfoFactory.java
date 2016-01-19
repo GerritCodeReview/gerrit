@@ -21,8 +21,10 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -47,12 +49,16 @@ import java.util.Set;
 @Singleton
 public class PatchSetInfoFactory {
   private final GitRepositoryManager repoManager;
+  private final PatchSetUtil psUtil;
   private final AccountByEmailCache byEmailCache;
 
   @Inject
-  public PatchSetInfoFactory(final GitRepositoryManager grm,
-      final AccountByEmailCache byEmailCache) {
-    this.repoManager = grm;
+  public PatchSetInfoFactory(
+      GitRepositoryManager repoManager,
+      PatchSetUtil psUtil,
+      AccountByEmailCache byEmailCache) {
+    this.repoManager = repoManager;
+    this.psUtil = psUtil;
     this.byEmailCache = byEmailCache;
   }
 
@@ -68,11 +74,11 @@ public class PatchSetInfoFactory {
     return info;
   }
 
-  public PatchSetInfo get(ReviewDb db, PatchSet.Id patchSetId)
+  public PatchSetInfo get(ReviewDb db, ChangeNotes notes, PatchSet.Id psId)
       throws PatchSetInfoNotAvailableException {
     try {
-      final PatchSet patchSet = db.patchSets().get(patchSetId);
-      final Change change = db.changes().get(patchSet.getId().getParentKey());
+      PatchSet patchSet = psUtil.get(db, notes, psId);
+      Change change = db.changes().get(psId.getParentKey());
       return get(change, patchSet);
     } catch (OrmException e) {
       throw new PatchSetInfoNotAvailableException(e);

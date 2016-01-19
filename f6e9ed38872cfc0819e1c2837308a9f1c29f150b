@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1452822298 -0800\nnonce ALmjDBX54Kl1Y/Z+/BjhjlOqYOIbfIy3b1DFTRZtc8nn/pZJNz4A2uo9LqjLMKwrR0MWl1850I+p\n\n0000000000000000000000000000000000000000 f6e9ed38872cfc0819e1c2837308a9f1c29f150b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWmE8aAAoJEHFVO370GiZWS3MH/0x7JCCxW/YBGJjLfFkV6zZ9\niVF0zxUH/xr0YVQsXon6/hbtStUfwjWOhYRQsngHtEo8PotZQuJ5MlqmsCvNrLgv\ncLqWlN1L26j982lXjjyqgTLzQbveR8h8bMmeP14yUzxiufuL5QQjlkuzrwGnnYrU\nP3Z6Gjp/2AvECZJX1zGJQrPy0WUoOwq51nZl07KkhY0qJXSoRDv+uTK2TdWLp8dV\nRDvetnp1r2YrqR/jW9tD91cYy6I1cHxE6GfGE4Gv5MP5vR4o3SZqH9+ds0IDPdXd\nJtn2qs+1w4HuT5nRGR743E72Se7CvYHenSRT88EIYfYu+U7HO0L5Uuoo9wXDv0w\u003d\n\u003dX35S\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a78c0e88_902074da",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-19T19:14:52Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "f6e9ed38872cfc0819e1c2837308a9f1c29f150b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a78c0e88_b02578e9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-19T19:14:52Z",
+      "side": 1,
+      "message": "affect",
+      "range": {
+        "startLine": 493,
+        "startChar": 25,
+        "endLine": 493,
+        "endChar": 31
+      },
+      "revId": "f6e9ed38872cfc0819e1c2837308a9f1c29f150b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

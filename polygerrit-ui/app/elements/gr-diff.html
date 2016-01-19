@@ -95,6 +95,7 @@ limitations under the License.
             path="[[path]]"
             content="{{_diff.leftSide}}"
             width="[[sideWidth]]"
+            tab-width="[[prefs.tab_width]]"
             can-comment="[[_loggedIn]]"
             on-expand-context="_handleExpandContext"
             on-thread-height-change="_handleThreadHeightChange"
@@ -106,6 +107,7 @@ limitations under the License.
             path="[[path]]"
             content="{{_diff.rightSide}}"
             width="[[sideWidth]]"
+            tab-width="[[prefs.tab_width]]"
             can-comment="[[_loggedIn]]"
             on-expand-context="_handleExpandContext"
             on-thread-height-change="_handleThreadHeightChange"
@@ -548,7 +550,8 @@ limitations under the License.
 
       _addCommonDiffChunk: function(ctx, chunk, leftSide, rightSide) {
         for (var i = 0; i < chunk.ab.length; i++) {
-          var numLines = Math.ceil(chunk.ab[i].length / this.sideWidth);
+          var numLines = Math.ceil(
+              this._visibleLineLength(chunk.ab[i]) / this.sideWidth);
           var hidden = i >= ctx.skipRange[0] &&
               i < chunk.ab.length - ctx.skipRange[1];
           if (ctx.hidingLines && hidden == false) {
@@ -593,7 +596,7 @@ limitations under the License.
         var leftHighlights = [];
         if (chunk.edit_a) {
           leftHighlights =
-            this._normalizeIntralineHighlights(chunk.a, chunk.edit_a);
+              this._normalizeIntralineHighlights(chunk.a, chunk.edit_a);
         }
         var rightHighlights = [];
         if (chunk.edit_b) {
@@ -735,9 +738,16 @@ limitations under the License.
         return normalized;
       },
 
+      _visibleLineLength: function(contents) {
+        // http://jsperf.com/performance-of-match-vs-split
+        var numTabs = contents.split('\t').length - 1;
+        return contents.length - numTabs + (this.prefs.tab_width * numTabs);
+      },
+
       _maxLinesSpanned: function(left, right) {
-        return Math.max(Math.ceil(left.length / this.sideWidth),
-                        Math.ceil(right.length / this.sideWidth));
+        return Math.max(
+            Math.ceil(this._visibleLineLength(left) / this.sideWidth),
+            Math.ceil(this._visibleLineLength(right) / this.sideWidth));
       },
 
     });

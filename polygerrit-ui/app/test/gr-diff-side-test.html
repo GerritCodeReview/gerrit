@@ -105,7 +105,9 @@ limitations under the License.
 
     test('newlines', function() {
       element.width = 80;
-      var content = [{
+      element.tabWidth = 4;
+
+      element.content = [{
         type: 'CODE',
         content: 'A'.repeat(50),
         numLines: 1,
@@ -113,7 +115,6 @@ limitations under the License.
         highlight: false,
         intraline: [],
       }];
-      element.content = content;
 
       var lineEl = element.$$('.numbers .lineNum[data-line-num="1"]');
       assert.ok(lineEl);
@@ -121,7 +122,7 @@ limitations under the License.
       assert.ok(contentEl);
       assert.equal(contentEl.innerHTML, 'A'.repeat(50));
 
-      content = [{
+      element.content = [{
         type: 'CODE',
         content: 'A'.repeat(100),
         numLines: 2,
@@ -129,7 +130,6 @@ limitations under the License.
         highlight: false,
         intraline: [],
       }];
-      element.content = content;
 
       lineEl = element.$$('.numbers .lineNum[data-line-num="1"]');
       assert.ok(lineEl);
@@ -139,6 +139,24 @@ limitations under the License.
           'A'.repeat(80) + element._lineFeedHTML +
           'A'.repeat(20) + element._lineFeedHTML);
 
+      element.content = [{
+        type: 'CODE',
+        content: 'A'.repeat(50) + '\t' + 'A'.repeat(50),
+        numLines: 2,
+        lineNum: 1,
+        highlight: false,
+        intraline: [],
+      }];
+
+      lineEl = element.$$('.numbers .lineNum[data-line-num="1"]');
+      assert.ok(lineEl);
+      contentEl = element.$$('.content .code[data-line-num="1"]');
+      assert.ok(contentEl);
+      assert.equal(contentEl.innerHTML,
+          'A'.repeat(50) +
+          '<span class="style-scope gr-diff-side tab">\t</span>' +
+          'A'.repeat(26) + element._lineFeedHTML +
+          'A'.repeat(24) + element._lineFeedHTML);
     });
 
     test('diff context', function() {

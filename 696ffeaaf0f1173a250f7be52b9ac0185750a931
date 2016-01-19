@@ -17,6 +17,24 @@
       "revId": "696ffeaaf0f1173a250f7be52b9ac0185750a931",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47719252_6dd97546",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-19T09:53:59Z",
+      "side": 1,
+      "message": "I was thinking about this, but came to the same conclusion.",
+      "parentUuid": "a78c0e88_10e6c401",
+      "revId": "696ffeaaf0f1173a250f7be52b9ac0185750a931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

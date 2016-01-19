@@ -32,7 +32,9 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -116,7 +118,9 @@ public class GroupCollector {
 
   public GroupCollector(
       Multimap<ObjectId, Ref> changeRefsById,
-      final ReviewDb db) {
+      final ReviewDb db,
+      final ChangeNotes.Factory notesFactory,
+      final PatchSetUtil psUtil) {
     this(
         Multimaps.transformValues(
             changeRefsById,
@@ -129,7 +133,7 @@ public class GroupCollector {
         new Lookup() {
           @Override
           public List<String> lookup(PatchSet.Id psId) throws OrmException {
-            // TODO(dborowitz): PatchSetUtil.
+            return psUtil.get(db, notesFactory.create(
             PatchSet ps = db.patchSets().get(psId);
             return ps != null ? ps.getGroups() : null;
           }

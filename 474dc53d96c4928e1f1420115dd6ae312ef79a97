@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6776964c_ae2517e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-19T11:52:08Z",
+      "side": 1,
+      "message": "I guess you\u0027re referring to the read required to the content repo to obtain subject, author, committer etc. I\u0027m actually quite curious as to why that\u0027s not done in ChangeNotes. The change messages parsed by the ChangeNotesParser seem to parse the metadata commits rather than the content commits, which confuses me since I\u0027d have expected the ChangeNotesParser to read the content repo, search for the appropriate commit and parse the change message from that.",
+      "parentUuid": "a78c0e88_d0991c95",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a78c0e88_90a394bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-18T16:42:37Z",
       "side": 1,
       "message": "I feel like RevId is an implementation detail of the reviewdb implementation and I don\u0027t see the need to use it internally in notedb (although we will still need to construct them when exporting reviewdb types like PatchSet from notedb). I would just make this an ObjectId.",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6776964c_4e3b530d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-19T11:52:08Z",
+      "side": 1,
+      "message": "Okay, will do.",
+      "parentUuid": "a78c0e88_90a394bd",
       "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "47719252_4d527967",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-19T11:52:08Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "a78c0e88_f09ea07a",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "674856fe_5e0f754a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "6776964c_6e388f0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-19T11:52:08Z",
+      "side": 1,
+      "message": "Okay",
+      "parentUuid": "674856fe_5e0f754a",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a78c0e88_b0a81898",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LabelNormalizerTest.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2016-01-18T16:42:37Z",
       "side": 1,
       "message": "Nit: indentation on continued lines is 4 spaces, not aligned.",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6776964c_0e354b16",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LabelNormalizerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-19T11:52:08Z",
+      "side": 1,
+      "message": "sorry, python habit, will fix.",
+      "parentUuid": "a78c0e88_b0a81898",
       "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

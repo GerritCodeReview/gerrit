@@ -53,6 +53,24 @@
       "revId": "4d1f3c3da94dd6902087855d595911ae3ad5c889",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674856fe_fe63e1ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-19T16:52:33Z",
+      "side": 1,
+      "message": "It\u0027s really an illegal state; it can only happen if UTF-8 is not an available encoding.",
+      "parentUuid": "6776964c_4ee6f3d4",
+      "revId": "4d1f3c3da94dd6902087855d595911ae3ad5c889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

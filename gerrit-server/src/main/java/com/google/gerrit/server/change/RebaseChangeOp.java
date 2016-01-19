@@ -62,6 +62,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   private boolean runHooks = true;
   private CommitValidators.Policy validate;
   private boolean forceContentMerge;
+  private boolean copyApprovals = true;
 
   private RevCommit rebasedCommit;
   private PatchSet.Id rebasedPatchSetId;
@@ -102,6 +103,11 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     return this;
   }
 
+  public RebaseChangeOp setCopyApprovals(boolean copyApprovals) {
+    this.copyApprovals = copyApprovals;
+    return this;
+  }
+
   @Override
   public void updateRepo(RepoContext ctx) throws MergeConflictException,
        InvalidChangeOperationException, RestApiException, IOException,
@@ -133,6 +139,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
         .setUploader(ctx.getUser().getAccountId())
         .setSendMail(false)
         .setRunHooks(runHooks)
+        .setCopyApprovals(copyApprovals)
         .setMessage(
           "Patch Set " + rebasedPatchSetId.get()
           + ": Patch Set " + originalPatchSet.getId().get() + " was rebased");

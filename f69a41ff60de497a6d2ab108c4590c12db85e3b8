@@ -39,6 +39,24 @@
       "revId": "f69a41ff60de497a6d2ab108c4590c12db85e3b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c785825a_51dc5437",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-19T06:22:25Z",
+      "side": 1,
+      "message": "\u003e Use static method in static way\n\nI wasn\u0027t sure if that was necessary, since it\u0027s a method of the class that this one extends.\n\n\u003e Ah, but this should work, without gwtorm change.\n\nWhat you suggest here is exactly what the fixed version of SchemaVersion.renameColumn is doing :)",
+      "parentUuid": "67313682_964dec75",
+      "revId": "f69a41ff60de497a6d2ab108c4590c12db85e3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

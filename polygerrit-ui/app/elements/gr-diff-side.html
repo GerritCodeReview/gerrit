@@ -145,6 +145,7 @@ limitations under the License.
           type: Number,
           observer: '_widthChanged',
         },
+        tabWidth: Number,
         changeNum: String,
         patchNum: String,
         path: String,
@@ -443,8 +444,7 @@ limitations under the License.
         this.$.content.insertBefore(fillerEl, beforeContentEl);
       },
 
-      _renderCode: function(code, index, beforeLineEl,
-          beforeContentEl) {
+      _renderCode: function(code, index, beforeLineEl, beforeContentEl) {
         var lineNumEl = this._createElement('div', 'lineNum');
         lineNumEl.setAttribute('data-line-num', code.lineNum);
         lineNumEl.setAttribute('data-index', index);
@@ -544,11 +544,17 @@ limitations under the License.
       _addNewLines: function(content, html, numLines) {
         var htmlIndex = 0;
         var indices = [];
+        var numChars = 0;
         for (var i = 0; i < content.length; i++) {
-          if (i > 0 && i % this.width == 0) {
+          if (numChars > 0 && numChars % this.width == 0) {
             indices.push(htmlIndex);
           }
           htmlIndex = this._advanceChar(html, htmlIndex)
+          if (content[i] == '\t') {
+            numChars += this.tabWidth;
+          } else {
+            numChars++;
+          }
         }
         var result = html;
         var linesLeft = numLines;

@@ -94,6 +94,30 @@
       "revId": "050d6642ba7b0dcf83e9153fa063cd7ff6bae618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "272bbe19_d49fdc26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T05:37:12Z",
+      "side": 1,
+      "message": "Ohh, now I understand what happens: You change the class attribute from PatchSet.pushCertficate to PatchSet.pushCertificate and schema migration machinerry is run *before* invocation of the migrateData() method and creates new (missing) column: push_certficate. After this is done your schema migration process is failing as expected with duplicate column SQL error message.\n\nTo rectify, you must put rename column invocation in method that run *before* schema migratioj machinery. That what the\n\n  preUpdateSchema(ReviewDb db)\n\nwas invented for.",
+      "parentUuid": "c785825a_f1ec68e6",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "050d6642ba7b0dcf83e9153fa063cd7ff6bae618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

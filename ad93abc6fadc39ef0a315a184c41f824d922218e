@@ -46,6 +46,30 @@
       "revId": "ad93abc6fadc39ef0a315a184c41f824d922218e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7828650_d274c4da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2111,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-19T19:04:05Z",
+      "side": 1,
+      "message": "Oh I see, this is not the first spot, where the auth problem should be found. It should be well known by this part of the code.",
+      "parentUuid": "a78c0e88_d026fcf6",
+      "range": {
+        "startLine": 2106,
+        "startChar": 6,
+        "endLine": 2111,
+        "endChar": 7
+      },
+      "revId": "ad93abc6fadc39ef0a315a184c41f824d922218e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

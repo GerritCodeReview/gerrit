@@ -1753,6 +1753,7 @@ public class ReceiveCommits {
           .setValidatePolicy(CommitValidators.Policy.NONE);
       cmd = new ReceiveCommand(ObjectId.zeroId(), c,
           ins.getPatchSetId().toRefName());
+      ins.setUpdateRefCommand(cmd);
     }
 
     CheckedFuture<Void, RestApiException> insertChange() {
@@ -1800,7 +1801,7 @@ public class ReceiveCommits {
             .setMessage(msg)
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
-            .setUpdateRef(false));
+            .setUpdateRef(true));
         if (magicBranch != null) {
           bu.addOp(
               changeId,

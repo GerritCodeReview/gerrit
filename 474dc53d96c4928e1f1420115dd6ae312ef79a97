@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "674856fe_be8479c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-19T15:29:19Z",
+      "side": 1,
+      "message": "I think this is historical Gerrit terminology being confusing, sorry.\n\n\"Change messages\" are stored in reviewdb in the ChangeMessages table, and are the top-level code review comments. There may be many for each change. This is distinct from the \"commit message\" of a change under review, which is the actual git commit message of the commit in the code graph. (Even more confusing is that at patch set creation time we copy the subject from the code graph into the Change metadata.)\n\nIn notedb we are storing the code review metadata, so the thing parsed from the notedb commit message is the \"change message.\" What we parse in ChangeNotesParser is by design everything you can get just by reading the code review metadata commit graph, no more, no less.",
+      "parentUuid": "6776964c_ae2517e9",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a78c0e88_90a394bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2

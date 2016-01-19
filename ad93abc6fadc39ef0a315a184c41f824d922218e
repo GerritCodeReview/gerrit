@@ -22,6 +22,30 @@
       "revId": "ad93abc6fadc39ef0a315a184c41f824d922218e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a78c0e88_d026fcf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-19T18:22:33Z",
+      "side": 1,
+      "message": "It can only happen if the user is logged out, which is enough of an exceptional condition (i.e. programmer error) that logging is appropriate.\n\nHonestly I don\u0027t think we should be ignoring exceptions at all here but I\u0027m not tackling that now.",
+      "parentUuid": "c785825a_714f18ba",
+      "range": {
+        "startLine": 2106,
+        "startChar": 6,
+        "endLine": 2111,
+        "endChar": 7
+      },
+      "revId": "ad93abc6fadc39ef0a315a184c41f824d922218e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

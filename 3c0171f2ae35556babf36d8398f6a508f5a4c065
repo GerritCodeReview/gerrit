@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67313682_761e1051",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T07:34:55Z",
+      "side": 1,
+      "message": "Why havn\u0027t you used you as author? I haven\u0027t done anything related to this change.",
+      "revId": "3c0171f2ae35556babf36d8398f6a508f5a4c065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67313682_56219489",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T07:34:55Z",
+      "side": 1,
+      "message": "Mention, that the type could have been changed already manually, as the proeblm was discovered on stable-2.12?",
+      "revId": "3c0171f2ae35556babf36d8398f6a508f5a4c065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67313682_b62b486b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_118.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-19T07:34:55Z",
+      "side": 1,
+      "message": "At least on H2, it woked to try to change the type of column to clob, that was already clob. Before trying to mes around and retrieve the columns type, we could just fire this alter table SQl statement and ignore the exception, in case anotehr dialect doesn\u0027t accept source and target type in alter column statement to be the same.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 74
+      },
+      "revId": "3c0171f2ae35556babf36d8398f6a508f5a4c065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

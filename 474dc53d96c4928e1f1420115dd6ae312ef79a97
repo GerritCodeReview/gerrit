@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "47719252_2d87edf9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1023137
+      },
+      "writtenOn": "2016-01-19T16:38:30Z",
+      "side": 1,
+      "message": "Okay I see, yes I\u0027ve misunderstood then sorry.\nSo this is potentially something that other tools\ncould use to store, for example, a cover letter for a change.\n\nI\u0027ll rework this to use PatchSet rather than PatchSetInfo.",
+      "parentUuid": "674856fe_be8479c8",
+      "revId": "474dc53d96c4928e1f1420115dd6ae312ef79a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a78c0e88_90a394bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2

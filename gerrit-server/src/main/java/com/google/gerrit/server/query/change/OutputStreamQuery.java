@@ -278,14 +278,14 @@ public class OutputStreamQuery {
     if (includePatchSets) {
       eventFactory.addPatchSets(db.get(), rw, c, d.patchSets(),
           includeApprovals ? d.approvals().asMap() : null,
-          includeFiles, d.change(), labelTypes);
+          includeFiles, d.notes(), labelTypes);
     }
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
       if (current != null) {
         c.currentPatchSet =
-            eventFactory.asPatchSetAttribute(db.get(), rw, current);
+            eventFactory.asPatchSetAttribute(db.get(), rw, d.notes(), current);
         eventFactory.addApprovals(c.currentPatchSet,
             d.currentApprovals(), labelTypes);
 

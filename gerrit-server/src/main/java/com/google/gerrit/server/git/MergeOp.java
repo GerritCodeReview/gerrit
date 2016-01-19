@@ -65,6 +65,7 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -1034,7 +1035,7 @@ public class MergeOp implements AutoCloseable {
       PatchSet.Id mergedId = commit.change().currentPatchSetId();
       // TODO(dborowitz): Use PatchSetUtil after BatchUpdate migration.
       merged = db.patchSets().get(mergedId);
-      c = setMergedPatchSet(c.getId(), mergedId);
+      c = setMergedPatchSet(commit.notes(), mergedId);
       submitter = approvalsUtil.getSubmitter(db, commit.notes(), mergedId);
       ChangeControl control = commit.getControl();
       update = updateFactory.create(control, c.getLastUpdatedOn());
@@ -1071,27 +1072,29 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private Change setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged)
-      throws OrmException {
-    return db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change c) {
-        c.setStatus(Change.Status.MERGED);
-        c.setSubmissionId(submissionId);
-        if (!merged.equals(c.currentPatchSetId())) {
-          // Uncool; the patch set changed after we merged it.
-          // Go back to the patch set that was actually merged.
-          //
-          try {
-            c.setCurrentPatchSet(patchSetInfoFactory.get(db, merged));
-          } catch (PatchSetInfoNotAvailableException e1) {
-            logError("Cannot read merged patch set " + merged, e1);
+  private Change setMergedPatchSet(final ChangeNotes notes,
+      final PatchSet.Id merged) throws OrmException {
+    return db.changes().atomicUpdate(notes.getChangeId(),
+        new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change c) {
+            c.setStatus(Change.Status.MERGED);
+            c.setSubmissionId(submissionId);
+            if (!merged.equals(c.currentPatchSetId())) {
+              // Uncool; the patch set changed after we merged it.
+              // Go back to the patch set that was actually merged.
+              //
+              try {
+                c.setCurrentPatchSet(
+                    patchSetInfoFactory.get(db, notes, merged));
+              } catch (PatchSetInfoNotAvailableException e1) {
+                logError("Cannot read merged patch set " + merged, e1);
+              }
+            }
+            ChangeUtil.updated(c);
+            return c;
           }
-        }
-        ChangeUtil.updated(c);
-        return c;
-      }
-    });
+        });
   }
 
   private void setApproval(ChangeData cd) throws OrmException, IOException {

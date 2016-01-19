@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7828650_328750fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-19T18:32:58Z",
+      "side": 1,
+      "message": "Why can we ignore such an exception here?\nI\u0027d think it would make more sense to check for line to be in bounds at the caller or here?\n\nThis way doesn\u0027t make a difference between intentional-and-we-know-it\u0027s-harmless and unintentional-maybe-programming-error-with-data-loss out of bounds.",
+      "range": {
+        "startLine": 431,
+        "startChar": 8,
+        "endLine": 431,
+        "endChar": 17
+      },
+      "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

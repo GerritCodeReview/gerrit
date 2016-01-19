@@ -46,6 +46,30 @@
       "revId": "bc07700950bc0f93fcfe8050eaf5ec6249f2bc0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7828650_724f18ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-19T07:21:13Z",
+      "side": 1,
+      "message": "OK, that makes sense. Then I guess I\u0027ll abandon this.",
+      "parentUuid": "67313682_363f38af",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "bc07700950bc0f93fcfe8050eaf5ec6249f2bc0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -35,6 +35,24 @@
       "revId": "4d1f3c3da94dd6902087855d595911ae3ad5c889",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6776964c_4ee6f3d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-19T16:29:23Z",
+      "side": 1,
+      "message": "Instead of throwing an ISE we could also fall back to:\n\n  new Change.Key(\"I\" + commit.name())",
+      "parentUuid": "47719252_cd7429db",
+      "revId": "4d1f3c3da94dd6902087855d595911ae3ad5c889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

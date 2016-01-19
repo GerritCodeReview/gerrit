@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c785825a_f1154890",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-19T07:23:37Z",
+      "side": 1,
+      "message": "There are currently 4 open changes that add Schema_117 :(\n\nhttps://gerrit-review.googlesource.com/#/q/file:Schema_117.java",
+      "revId": "f69a41ff60de497a6d2ab108c4590c12db85e3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67313682_964dec75",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
         "patchSetId": 3

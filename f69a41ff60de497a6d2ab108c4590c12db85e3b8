@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "47719252_6d66552c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1023869
+      },
+      "writtenOn": "2016-01-19T20:30:57Z",
+      "side": 1,
+      "message": "Beginner question: Why should it be changed? What happens if it stays 7? Should it also be changed in I495ed0e133 (on the stable-2.12 branch)?",
+      "parentUuid": "a78c0e88_50520c67",
+      "range": {
+        "startLine": 191,
+        "startChar": 15,
+        "endLine": 191,
+        "endChar": 16
+      },
+      "revId": "f69a41ff60de497a6d2ab108c4590c12db85e3b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c785825a_f1154890",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
         "patchSetId": 3

@@ -22,6 +22,30 @@
       "revId": "050d6642ba7b0dcf83e9153fa063cd7ff6bae618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7828650_72d95846",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-19T05:02:42Z",
+      "side": 1,
+      "message": "I had tried to use SchemaVersion.renameColumn, but that also failed.  I saw that renameColumn actually calls JdbcSchema.renameField, which looked wrong, so changed it to JdbcSchema.renameColumn, and that also failed.  I\u0027m getting the same error if I directly call JdbcSchema.renameColumn here too.\n\n Cannot apply SQL\nALTER TABLE patch_sets ALTER COLUMN push_certficate RENAME TO push_certificate\n\n Caused by: org.h2.jdbc.JdbcSQLException: Duplicate column name \"PUSH_CERTIFICATE\"; SQL statement:\nALTER TABLE patch_sets ALTER COLUMN push_certficate RENAME TO push_certificate [42121-176]",
+      "parentUuid": "272bbe19_14f0f485",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "050d6642ba7b0dcf83e9153fa063cd7ff6bae618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

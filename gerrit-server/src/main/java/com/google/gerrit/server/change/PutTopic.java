@@ -98,13 +98,13 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     }
 
     @Override
-    public void updateChange(ChangeContext ctx) throws OrmException {
+    public boolean updateChange(ChangeContext ctx) throws OrmException {
       change = ctx.getChange();
       ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       newTopicName = Strings.nullToEmpty(input.topic);
       oldTopicName = Strings.nullToEmpty(change.getTopic());
       if (oldTopicName.equals(newTopicName)) {
-        return;
+        return false;
       }
       String summary;
       if (oldTopicName.isEmpty()) {
@@ -128,6 +128,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
           change.currentPatchSetId());
       cmsg.setMessage(summary);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
+      return true;
     }
 
     @Override

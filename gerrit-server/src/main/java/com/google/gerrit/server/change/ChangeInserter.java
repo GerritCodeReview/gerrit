@@ -149,18 +149,22 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   @Override
-  public Change createChange(Context ctx) throws IOException {
-    change = new Change(
-        getChangeKey(commit),
-        changeId,
-        ctx.getUser().getAccountId(),
-        new Branch.NameKey(ctx.getProject(), refName),
-        ctx.getWhen());
-    change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
-    change.setTopic(topic);
-    patchSet.setCreatedOn(ctx.getWhen());
-    patchSet.setUploader(ctx.getUser().getAccountId());
-    return change;
+  public Change createChange(Context ctx) {
+    try {
+      change = new Change(
+          getChangeKey(commit),
+          changeId,
+          ctx.getUser().getAccountId(),
+          new Branch.NameKey(ctx.getProject(), refName),
+          ctx.getWhen());
+      change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
+      change.setTopic(topic);
+      patchSet.setCreatedOn(ctx.getWhen());
+      patchSet.setUploader(ctx.getUser().getAccountId());
+      return change;
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   private static Change.Key getChangeKey(RevCommit commit) throws IOException {

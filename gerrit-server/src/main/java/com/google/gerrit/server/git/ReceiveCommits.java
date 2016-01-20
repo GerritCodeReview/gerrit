@@ -1751,8 +1751,8 @@ public class ReceiveCommits {
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
-        public Void call() throws IOException, OrmException,
-            RestApiException, UpdateException {
+        public Void call() throws OrmException, RestApiException,
+            UpdateException {
           if (caller == Thread.currentThread()) {
             insertChange(ReceiveCommits.this.db);
           } else {
@@ -1768,7 +1768,7 @@ public class ReceiveCommits {
     }
 
     private void insertChange(ReviewDb threadLocalDb)
-        throws IOException, OrmException, RestApiException, UpdateException {
+        throws OrmException, RestApiException, UpdateException {
       final PatchSet ps = ins.setGroups(groups).getPatchSet();
       final Account.Id me = user.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();

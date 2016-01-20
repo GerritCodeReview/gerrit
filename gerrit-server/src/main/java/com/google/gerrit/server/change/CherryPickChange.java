@@ -236,7 +236,7 @@ public class CherryPickChange {
       ObjectInserter oi, Project.NameKey project,
       CodeReviewCommit cherryPickCommit, String refName,
       IdentifiedUser identifiedUser, String topic, Branch.NameKey sourceBranch)
-          throws RestApiException, UpdateException, OrmException, IOException {
+          throws RestApiException, UpdateException, OrmException {
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(
           changeId, cherryPickCommit, refName)

@@ -55,6 +55,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox sizeBarInChangeTable;
   private CheckBox legacycidInChangeTable;
   private CheckBox muteCommonPathPrefixes;
+  private CheckBox publishDraftCommentsOnPush;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -153,9 +154,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     sizeBarInChangeTable = new CheckBox(Util.C.showSizeBarInChangeTable());
     legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
     muteCommonPathPrefixes = new CheckBox(Util.C.muteCommonPathPrefixes());
+    publishDraftCommentsOnPush = new CheckBox(Util.C.publishDraftCommentsOnPush());
 
     boolean flashClippy = !UserAgent.hasJavaScriptClipboard() && UserAgent.Flash.isInstalled();
-    final Grid formGrid = new Grid(11 + (flashClippy ? 1 : 0), 2);
+    final Grid formGrid = new Grid(12 + (flashClippy ? 1 : 0), 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -200,6 +202,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, emailStrategy);
     row++;
 
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, publishDraftCommentsOnPush);
+    row++;
+
     formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
     formGrid.setWidget(row, fieldIdx, diffView);
 
@@ -229,6 +235,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(sizeBarInChangeTable);
     e.listenTo(legacycidInChangeTable);
     e.listenTo(muteCommonPathPrefixes);
+    e.listenTo(publishDraftCommentsOnPush);
     e.listenTo(diffView);
     e.listenTo(reviewCategoryStrategy);
     e.listenTo(emailStrategy);
@@ -261,6 +268,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     sizeBarInChangeTable.setEnabled(on);
     legacycidInChangeTable.setEnabled(on);
     muteCommonPathPrefixes.setEnabled(on);
+    publishDraftCommentsOnPush.setEnabled(on);
     reviewCategoryStrategy.setEnabled(on);
     diffView.setEnabled(on);
     emailStrategy.setEnabled(on);
@@ -278,6 +286,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     sizeBarInChangeTable.setValue(p.sizeBarInChangeTable());
     legacycidInChangeTable.setValue(p.legacycidInChangeTable());
     muteCommonPathPrefixes.setValue(p.muteCommonPathPrefixes());
+    publishDraftCommentsOnPush.setValue(p.publishDraftCommentsOnPush());
     setListBox(reviewCategoryStrategy,
         AccountGeneralPreferences.ReviewCategoryStrategy.NONE,
         p.reviewCategoryStrategy());
@@ -364,6 +373,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.sizeBarInChangeTable(sizeBarInChangeTable.getValue());
     p.legacycidInChangeTable(legacycidInChangeTable.getValue());
     p.muteCommonPathPrefixes(muteCommonPathPrefixes.getValue());
+    p.publishDraftCommentsOnPush(publishDraftCommentsOnPush.getValue());
     p.reviewCategoryStrategy(getListBox(reviewCategoryStrategy,
         ReviewCategoryStrategy.NONE,
         ReviewCategoryStrategy.values()));

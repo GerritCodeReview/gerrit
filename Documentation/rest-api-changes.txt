@@ -130,8 +130,8 @@ Query for open changes of watched projects:
   ]
 ----
 
-If the `n` query parameter is supplied and additional changes exist
-that match the query beyond the end, the last change object has a
+If the number of changes matching the query exceeds either the internal
+limit or a supplied `n` query parameter, the last change object has a
 `_more_changes: true` JSON field set.
 
 The `S` or `start` query parameter can be supplied to skip a number

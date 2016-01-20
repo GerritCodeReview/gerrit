@@ -192,7 +192,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       if (wasDraftChange) {
         change.setStatus(Change.Status.NEW);
         update.setStatus(change.getStatus());
-        ChangeUtil.updated(change);
         ctx.saveChange();
       }
     }
@@ -205,7 +204,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       patchSet.setDraft(false);
       // Force ETag invalidation if not done already
       if (!wasDraftChange) {
-        ChangeUtil.updated(change);
         ctx.saveChange();
       }
       ctx.getDb().patchSets().update(Collections.singleton(patchSet));

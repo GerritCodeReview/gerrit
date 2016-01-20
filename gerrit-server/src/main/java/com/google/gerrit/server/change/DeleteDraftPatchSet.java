@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DeleteDraftPatchSet.Input;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -156,7 +155,6 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       if (c.currentPatchSetId().equals(psId)) {
         c.setCurrentPatchSet(previousPatchSetInfo(ctx));
       }
-      ChangeUtil.updated(c);
       ctx.saveChange();
     }
 

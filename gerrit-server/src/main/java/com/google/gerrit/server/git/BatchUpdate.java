@@ -547,6 +547,7 @@ public class BatchUpdate implements AutoCloseable {
           for (Op op : e.getValue()) {
             op.updateChange(ctx);
           }
+          ctx.getChange().setLastUpdatedOn(ctx.getWhen());
           Iterable<Change> changes = Collections.singleton(ctx.getChange());
           if (newChanges.containsKey(id)) {
             db.changes().insert(changes);

@@ -16,6 +16,47 @@
       "revId": "3b3ee48092bbc62ba5892bcb71528bb88c49bf36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c785825a_b19a6054",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-20T07:08:15Z",
+      "side": 1,
+      "message": "s/pending/merged\n\nhttps://git.eclipse.org/r/#/c/64670/",
+      "parentUuid": "47719252_0db791a0",
+      "revId": "3b3ee48092bbc62ba5892bcb71528bb88c49bf36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c785825a_9195dc28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-20T07:08:15Z",
+      "side": 1,
+      "message": "The exception is actually thrown by this method.  Would it be better to put the try-catch wrapping around this block instead?\n\ni.e. http://paste.openstack.org/show/484376/",
+      "range": {
+        "startLine": 176,
+        "startChar": 31,
+        "endLine": 176,
+        "endChar": 46
+      },
+      "revId": "3b3ee48092bbc62ba5892bcb71528bb88c49bf36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

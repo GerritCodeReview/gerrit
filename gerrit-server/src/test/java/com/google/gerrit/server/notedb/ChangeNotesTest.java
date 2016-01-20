@@ -32,6 +32,7 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.CommentRange;
@@ -481,6 +482,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isNull();
+  }
+
+  @Test
+  public void branchChangeNotes() throws Exception {
+    Change c = newChange();
+
+    ChangeNotes notes = newNotes(c);
+    Branch.NameKey expectedBranch =
+        new Branch.NameKey(project, "refs/heads/master");
+    assertThat(notes.getChange().getDest()).isEqualTo(expectedBranch);
+
+    // An update doesn't affect the branch
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setTopic("topic"); // Change something to get a new commit.
+    update.commit();
+    assertThat(newNotes(c).getChange().getDest()).isEqualTo(expectedBranch);
   }
 
   @Test

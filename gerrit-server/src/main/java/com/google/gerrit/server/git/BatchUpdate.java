@@ -37,6 +37,7 @@ import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -381,6 +382,7 @@ public class BatchUpdate implements AutoCloseable {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final GitReferenceUpdated gitRefUpdated;
+  private final NotesMigration notesMigration;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -406,6 +408,7 @@ public class BatchUpdate implements AutoCloseable {
       ChangeControl.GenericFactory changeControlFactory,
       ChangeUpdate.Factory changeUpdateFactory,
       GitReferenceUpdated gitRefUpdated,
+      NotesMigration notesMigration,
       @GerritPersonIdent PersonIdent serverIdent,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
@@ -417,6 +420,7 @@ public class BatchUpdate implements AutoCloseable {
     this.changeControlFactory = changeControlFactory;
     this.changeUpdateFactory = changeUpdateFactory;
     this.gitRefUpdated = gitRefUpdated;
+    this.notesMigration = notesMigration;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -598,8 +602,12 @@ public class BatchUpdate implements AutoCloseable {
     // Pass in preloaded change to controlFor, to avoid:
     //  - reading from a db that does not belong to this update
     //  - attempting to read a change that doesn't exist yet
-    return new ChangeContext(
+    ChangeContext ctx = new ChangeContext(
       changeControlFactory.controlFor(c, user), new BatchUpdateReviewDb(db));
+    if (notesMigration.readChanges()) {
+      ctx.getNotes().load();
+    }
+    return ctx;
   }
 
   private void executePostOps() throws Exception {

@@ -548,42 +548,85 @@ limitations under the License.
         rightSide.push(obj);
       },
 
-      _addCommonDiffChunk: function(ctx, chunk, leftSide, rightSide) {
+      _breakUpChunkByComments: function(ctx, chunk) {
+        var leftLineNum = ctx.left.lineNum;
+        var rightLineNum = ctx.right.lineNum;
+
+        var chunks = [];
+        var currentChunk = [];
+        var inCommentGroup = false;
         for (var i = 0; i < chunk.ab.length; i++) {
-          var numLines = Math.ceil(
-              this._visibleLineLength(chunk.ab[i]) / this.sideWidth);
-          var hidden = i >= ctx.skipRange[0] &&
-              i < chunk.ab.length - ctx.skipRange[1];
-          if (ctx.hidingLines && hidden == false) {
-            // No longer hiding lines. Add a context control.
-            this._addContextControl(ctx, leftSide, rightSide);
-            ctx.lastNumLinesHidden = 0;
+          leftLineNum++;
+          rightLineNum++;
+          if (this._groupedBaseComments[leftLineNum] == null &&
+              this._groupedComments[rightLineNum] == null) {
+            if (inCommentGroup) {
+              if (currentChunk.length > 0) {
+                chunks.push(currentChunk);
+                currentChunk = [];
+              }
+              inCommentGroup = false;
+            }
+            currentChunk.push(chunk.ab[i]);
+          } else {
+            if (!inCommentGroup) {
+              if (currentChunk.length > 0) {
+                chunks.push(currentChunk);
+                currentChunk = [];
+              }
+              inCommentGroup = true;
+            }
+            currentChunk.push(chunk.ab[i]);
           }
-          ctx.hidingLines = hidden;
-          if (hidden) {
-            ctx.lastNumLinesHidden++;
-          }
-
-          // Blank lines within a diff content array indicate a newline.
-          leftSide.push({
-            type: 'CODE',
-            hidden: hidden,
-            content: chunk.ab[i] || '\n',
-            numLines: numLines,
-            lineNum: ++ctx.left.lineNum,
-          });
-          rightSide.push({
-            type: 'CODE',
-            hidden: hidden,
-            content: chunk.ab[i] || '\n',
-            numLines: numLines,
-            lineNum: ++ctx.right.lineNum,
-          });
-
-          this._addCommentsIfPresent(ctx, leftSide, rightSide);
         }
-        if (ctx.lastNumLinesHidden > 0) {
-          this._addContextControl(ctx, leftSide, rightSide);
+        if (currentChunk.length > 0) {
+          chunks.push(currentChunk);
+        }
+        console.log(chunks)
+        return chunks;
+      },
+
+      _addCommonDiffChunk: function(ctx, chunk, leftSide, rightSide) {
+        var chunks = this._breakUpChunkByComments(ctx, chunk);
+
+        for (var i = 0; i < chunks.length; i++) {
+          for (var j = 0; j < chunks[i].length; j++) {
+            var numLines = Math.ceil(
+                this._visibleLineLength(chunks[i][j]) / this.sideWidth);
+            var hidden =
+                j >= ctx.skipRange[0] &&
+                j < chunks[i].length - ctx.skipRange[1];
+            if (ctx.hidingLines && hidden == false) {
+              // No longer hiding lines. Add a context control.
+              this._addContextControl(ctx, leftSide, rightSide);
+              ctx.lastNumLinesHidden = 0;
+            }
+            ctx.hidingLines = hidden;
+            if (hidden) {
+              ctx.lastNumLinesHidden++;
+            }
+
+            // Blank lines within a diff content array indicate a newline.
+            leftSide.push({
+              type: 'CODE',
+              hidden: hidden,
+              content: chunks[i][j] || '\n',
+              numLines: numLines,
+              lineNum: ++ctx.left.lineNum,
+            });
+            rightSide.push({
+              type: 'CODE',
+              hidden: hidden,
+              content: chunks[i][j] || '\n',
+              numLines: numLines,
+              lineNum: ++ctx.right.lineNum,
+            });
+
+            this._addCommentsIfPresent(ctx, leftSide, rightSide);
+          }
+          if (ctx.lastNumLinesHidden > 0) {
+            this._addContextControl(ctx, leftSide, rightSide);
+          }
         }
       },
 
@@ -675,8 +718,8 @@ limitations under the License.
         } else if (!leftComments && rightComments) {
           leftSide.push({ type: 'FILLER' });
         }
-        delete(this._groupedBaseComments[ctx.left.lineNum]);
-        delete(this._groupedComments[ctx.right.lineNum]);
+        this._groupedBaseComments[ctx.left.lineNum] = null;
+        this._groupedComments[ctx.right.lineNum] = null;
       },
 
       // The `highlights` array consists of a list of <skip length, mark length>

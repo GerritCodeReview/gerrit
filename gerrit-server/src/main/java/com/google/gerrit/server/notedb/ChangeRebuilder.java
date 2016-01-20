@@ -115,7 +115,7 @@ public class ChangeRebuilder {
         ArrayListMultimap.create();
 
     for (PatchSet ps : db.patchSets().byChange(changeId)) {
-      events.add(new PatchSetEvent(ps));
+      events.add(new PatchSetEvent(change, ps));
       for (PatchLineComment c : db.patchComments().byPatchSet(ps.getId())) {
         PatchLineCommentEvent e =
             new PatchLineCommentEvent(c, change, ps, patchListCache);
@@ -306,10 +306,12 @@ public class ChangeRebuilder {
   }
 
   private static class PatchSetEvent extends Event {
+    private final Change change;
     private final PatchSet ps;
 
-    PatchSetEvent(PatchSet ps) {
+    PatchSetEvent(Change change, PatchSet ps) {
       super(ps.getId(), ps.getUploader(), ps.getCreatedOn());
+      this.change = change;
       this.ps = ps;
     }
 
@@ -318,6 +320,7 @@ public class ChangeRebuilder {
       checkUpdate(update);
       if (ps.getPatchSetId() == 1) {
         update.setSubject("Create change");
+        update.setBranch(change.getDest().get());
       } else {
         update.setSubject("Create patch set " + ps.getPatchSetId());
       }

@@ -50,6 +50,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parseAuthor() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n");
     assertParseFails(writeCommit("Update change\n"
         + "\n"
@@ -67,10 +68,12 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parseStatus() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n"
         + "Status: NEW\n");
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n"
         + "Status: new\n");
     assertParseFails("Update change\n"
@@ -88,6 +91,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parsePatchSetId() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n");
     assertParseFails("Update change\n"
         + "\n");
@@ -97,6 +101,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Patch-Set: 1\n");
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n");
     assertParseFails("Update change\n"
         + "\n"
@@ -107,6 +112,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parseApproval() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n"
         + "Label: Label1=+1\n"
         + "Label: Label2=1\n"
@@ -114,6 +120,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Label: Label4=-1\n");
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n"
         + "Label: -Label1\n"
         + "Label: -Label1 Other Account <2@gerrit>\n");
@@ -147,6 +154,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parseSubmitRecords() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n"
         + "Submitted-with: NOT_READY\n"
         + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
@@ -176,6 +184,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parseSubmissionId() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n"
         + "Submission-id: 1-1453387607626-96fabc25");
     assertParseFails("Update change\n"
@@ -189,6 +198,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parseReviewer() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n"
         + "Reviewer: Change Owner <1@gerrit>\n"
         + "CC: Other Account <2@gerrit>\n");
@@ -202,10 +212,12 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void parseTopic() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n"
         + "Topic: Some Topic");
     assertParseSucceeds("Update change\n"
         + "\n"
+        + "Branch: refs/heads/master\n"
         + "Patch-Set: 1\n"
         + "Topic:");
     assertParseFails("Update change\n"
@@ -213,6 +225,23 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Patch-Set: 1\n"
         + "Topic: Some Topic\n"
         + "Topic: Other Topic");
+  }
+
+  @Test
+  public void parseBranch() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Branch: refs/heads/master\n"
+        + "Patch-Set: 1");
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Branch: master\n"
+        + "Patch-Set: 1");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Branch: refs/heads/stable");
   }
 
   private RevCommit writeCommit(String body) throws Exception {

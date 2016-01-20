@@ -297,6 +297,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
     ChangeUpdate update = ctx.getUpdate(psId);
     update.setSubject("Create change");
+    update.setBranch(change.getDest().get());
     update.setTopic(change.getTopic());
 
     boolean draft = status == Change.Status.DRAFT;

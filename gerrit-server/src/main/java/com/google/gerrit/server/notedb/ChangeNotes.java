@@ -28,6 +28,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -265,6 +266,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       allChangeMessages = parser.buildAllMessages();
       comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
+      change.setDest(new Branch.NameKey(getProjectName(), parser.branch));
       change.setTopic(Strings.emptyToNull(parser.topic));
       change.setCreatedOn(parser.createdOn);
       change.setLastUpdatedOn(parser.lastUpdatedOn);

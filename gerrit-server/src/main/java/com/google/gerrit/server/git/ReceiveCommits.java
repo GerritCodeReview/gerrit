@@ -71,6 +71,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -84,6 +85,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
@@ -300,6 +302,7 @@ public class ReceiveCommits {
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
+  private final PatchLineCommentsUtil plcUtil;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
@@ -372,6 +375,7 @@ public class ReceiveCommits {
       final ApprovalsUtil approvalsUtil,
       final ApprovalCopier approvalCopier,
       final ChangeMessagesUtil cmUtil,
+      final PatchLineCommentsUtil plcUtil,
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
@@ -419,6 +423,7 @@ public class ReceiveCommits {
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
+    this.plcUtil = plcUtil;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
@@ -2237,6 +2242,40 @@ public class ReceiveCommits {
       return newPatchSet.getId();
     }
 
+    private void addChangeMessage(ChangeKind changeKind,
+        Map<String, Short> approvals, ChangeData cd, ChangeUpdate update)
+        throws OrmException {
+      ChangeMessage cmsg = newChangeMessage(db, changeKind, approvals);
+
+      Account acc = changeCtl.getUser().asIdentifiedUser().getAccount();
+      if (acc.getGeneralPreferences().isPublishDraftCommentsOnPush()) {
+        List<PatchLineComment> plcs = new ArrayList<>();
+        StringBuilder msgbuilder = new StringBuilder();
+        boolean firstComment = true;
+        for (PatchSet ps : cd.patchSets()) {
+          List<PatchLineComment> plcByPs = plcUtil.draftByChangeAuthor(
+              db, cd.notes(), acc.getId());
+          for (PatchLineComment c : plcByPs) {
+            c.setStatus(PatchLineComment.Status.PUBLISHED);
+            c.setRevId(ps.getRevision());
+            update.updateComment(c);
+            plcs.add(c);
+          }
+          if (!plcByPs.isEmpty()) {
+            msgbuilder.append(firstComment ? " " : ", ");
+            msgbuilder.append("Patch Set " + ps.getId().get()
+                + ": (" + plcByPs.size() + " comments)");
+            firstComment = false;
+          }
+        }
+        String msg = cmsg.getMessage();
+        cmsg.setMessage(msg + msgbuilder.toString());
+        plcUtil.updateComments(db, update, plcs);
+      }
+
+      cmUtil.addChangeMessage(db, update, cmsg);
+    }
+
     PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException,
         ResourceConflictException {
       final Account.Id me = user.getAccountId();
@@ -2298,8 +2337,7 @@ public class ReceiveCommits {
         changeKind = changeKindCache.getChangeKind(
             projectControl.getProjectState(), repo, priorCommit, newCommit);
 
-        cmUtil.addChangeMessage(db, update, newChangeMessage(db, changeKind,
-            approvals));
+        addChangeMessage(changeKind, approvals, cd, update);
 
         if (mergedIntoRef == null) {
           // Change should be new, so it can go through review again.

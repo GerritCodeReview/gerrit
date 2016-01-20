@@ -16,6 +16,24 @@
       "revId": "d94ef2a7dea1c3c1846a88e17f1b9b50fcce7239",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6776964c_6e52cfee",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-20T13:12:00Z",
+      "side": 1,
+      "message": "Answering my own question :) Yes, we can, but only in the follow-up change.",
+      "parentUuid": "47719252_0d21d178",
+      "revId": "d94ef2a7dea1c3c1846a88e17f1b9b50fcce7239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

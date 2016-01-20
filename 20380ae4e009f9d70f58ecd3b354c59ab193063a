@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6776964c_4ebd937e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-20T05:53:56Z",
+      "side": 1,
+      "message": "Use column name low case? IIRC, we had some case issues.",
+      "revId": "20380ae4e009f9d70f58ecd3b354c59ab193063a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47719252_cd9f4927",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_117.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-20T05:53:56Z",
+      "side": 1,
+      "message": "It must not be copied, you could use preUpdateSchema(), where you could rename the coulmn and change the type manually. For renaming the column we have a utility method. For changing the type you would need to use alter table statement (as it was done on stable-2.12). This is how the renaming was implemented in Schema_82: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/47736/11/gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_82.java",
+      "revId": "20380ae4e009f9d70f58ecd3b354c59ab193063a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6776964c_2e184760",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-20T08:08:27Z",
+      "side": 1,
+      "message": "You may also want to get the event, mail and change hook when the reviewer (including its votes) is removed (see class DeleteReviewer).",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "2720d8003349f82349565ecd7a0f22b21c51f28c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6776964c_6e1e4f51",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-20T08:08:27Z",
+      "side": 1,
+      "message": "Add documentation for this to config-mail.txt.",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 37
+      },
+      "revId": "2720d8003349f82349565ecd7a0f22b21c51f28c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47719252_cd43c94a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-20T08:08:27Z",
+      "side": 1,
+      "message": "Not needed if you have ps.",
+      "revId": "2720d8003349f82349565ecd7a0f22b21c51f28c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47719252_2d6a8dbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-20T08:08:27Z",
+      "side": 1,
+      "message": "Don\u0027t save user in a member variable but just retrieve it in postUpdate from the provided context too.",
+      "revId": "2720d8003349f82349565ecd7a0f22b21c51f28c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6776964c_0e1b0b60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-20T08:08:27Z",
+      "side": 1,
+      "message": "Get the user from the provided ctx:\n\n  ctx.getUser()\n\nA null check is not needed here.",
+      "revId": "2720d8003349f82349565ecd7a0f22b21c51f28c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

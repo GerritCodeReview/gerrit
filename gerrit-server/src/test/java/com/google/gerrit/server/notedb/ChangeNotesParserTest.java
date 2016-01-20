@@ -202,6 +202,23 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Topic: Other Topic");
   }
 
+  @Test
+  public void parseBranch() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Branch: refs/heads/master");
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Branch: master");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Branch: refs/heads/stable");
+  }
+
   private RevCommit writeCommit(String body) throws Exception {
     return writeCommit(body, ChangeNoteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,

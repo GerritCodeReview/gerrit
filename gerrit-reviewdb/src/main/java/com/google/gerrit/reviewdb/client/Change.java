@@ -551,6 +551,10 @@ public final class Change {
     return dest;
   }
 
+  public void setDest(Branch.NameKey dest) {
+    this.dest = dest;
+  }
+
   public Project.NameKey getProject() {
     return dest.getParentKey();
   }

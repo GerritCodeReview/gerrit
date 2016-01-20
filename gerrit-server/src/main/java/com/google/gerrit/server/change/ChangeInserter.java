@@ -292,7 +292,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   @Override
-  public void updateChange(ChangeContext ctx) throws OrmException, IOException {
+  public boolean updateChange(ChangeContext ctx) throws OrmException, IOException {
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getControl();
@@ -335,6 +335,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       changeMessage.setMessage(message);
       cmUtil.addChangeMessage(db, update, changeMessage);
     }
+    return true;
   }
 
   @Override

@@ -100,11 +100,11 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
 
     @Override
-    public void updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx)
         throws RestApiException, OrmException, IOException {
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (patchSet == null) {
-        return; // Nothing to do.
+        return false; // Nothing to do.
       }
       if (!patchSet.isDraft()) {
         throw new ResourceConflictException("Patch set is not a draft");
@@ -118,6 +118,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
 
       deleteDraftPatchSet(patchSet, ctx);
       deleteOrUpdateDraftChange(ctx);
+      return true;
     }
 
     @Override

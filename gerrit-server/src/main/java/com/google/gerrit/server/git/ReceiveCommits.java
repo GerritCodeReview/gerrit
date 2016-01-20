@@ -1810,8 +1810,9 @@ public class ReceiveCommits {
                 changeId,
                 new BatchUpdate.Op() {
                   @Override
-                  public void updateChange(ChangeContext ctx) throws Exception {
+                  public boolean updateChange(ChangeContext ctx) {
                     ctx.getUpdate(psId).setTopic(magicBranch.topic);
+                    return true;
                   }
                 });
           }

@@ -62,7 +62,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public void updateChange(ChangeContext ctx)
+  public boolean updateChange(ChangeContext ctx)
       throws RestApiException, OrmException {
     checkState(ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
         "must use DeleteDraftChangeOp with DB_BEFORE_REPO");
@@ -100,6 +100,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     db.changeMessages().delete(db.changeMessages().byChange(id));
     starredChangesUtil.unstarAll(id);
     ctx.deleteChange();
+    return true;
   }
 
   @Override

@@ -118,7 +118,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     }
 
     @Override
-    public void updateChange(ChangeContext ctx) throws OrmException,
+    public boolean updateChange(ChangeContext ctx) throws OrmException,
         ResourceConflictException {
       change = ctx.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
@@ -137,6 +137,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       update.setStatus(change.getStatus());
       message = newMessage(ctx.getDb());
       cmUtil.addChangeMessage(ctx.getDb(), update, message);
+      return true;
     }
 
     private ChangeMessage newMessage(ReviewDb db) throws OrmException {

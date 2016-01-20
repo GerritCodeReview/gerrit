@@ -354,7 +354,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     @Override
-    public void updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx)
         throws OrmException, ResourceConflictException {
       user = ctx.getUser().asIdentifiedUser();
       change = ctx.getChange();
@@ -369,6 +369,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (dirty) {
         ctx.saveChange();
       }
+      return dirty;
     }
 
     @Override

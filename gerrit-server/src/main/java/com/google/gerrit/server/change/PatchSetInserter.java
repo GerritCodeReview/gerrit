@@ -204,7 +204,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   @Override
-  public void updateChange(ChangeContext ctx) throws OrmException,
+  public boolean updateChange(ChangeContext ctx) throws OrmException,
       InvalidChangeOperationException, IOException {
     ChangeControl ctl = ctx.getControl();
 
@@ -249,6 +249,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     if (changeMessage != null) {
       cmUtil.addChangeMessage(db, update, changeMessage);
     }
+    return true;
   }
 
   @Override

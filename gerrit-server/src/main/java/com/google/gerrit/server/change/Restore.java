@@ -108,7 +108,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     }
 
     @Override
-    public void updateChange(ChangeContext ctx) throws OrmException,
+    public boolean updateChange(ChangeContext ctx) throws OrmException,
         ResourceConflictException {
       caller = ctx.getUser().asIdentifiedUser();
       change = ctx.getChange();
@@ -125,6 +125,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
 
       message = newMessage(ctx.getDb());
       cmUtil.addChangeMessage(ctx.getDb(), update, message);
+      return true;
     }
 
     private ChangeMessage newMessage(ReviewDb db) throws OrmException {

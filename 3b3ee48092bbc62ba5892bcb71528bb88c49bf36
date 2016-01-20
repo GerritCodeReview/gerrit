@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47719252_0db791a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-20T07:07:23Z",
+      "side": 1,
+      "message": "Optional: Add TODO to remove it again with a link to pending change in JGit project.",
+      "revId": "3b3ee48092bbc62ba5892bcb71528bb88c49bf36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

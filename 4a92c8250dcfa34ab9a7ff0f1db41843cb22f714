@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "a7b88e3e_f0a3e0bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2299,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-20T18:28:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "001a2067_f333b034",
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0407443_f04cc0c6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 11
@@ -47,6 +65,30 @@
       "writtenOn": "2015-12-04T17:24:23Z",
       "side": 1,
       "message": "We specifically added draftByChangeAuthor so in PostReview we could do only one database lookup for PUBLISH_ALL_REVISIONS. You should probably use that here too.",
+      "range": {
+        "startLine": 2300,
+        "startChar": 53,
+        "endLine": 2300,
+        "endChar": 74
+      },
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7b88e3e_d0a85c99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2300,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-20T18:28:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0407443_f04cc0c6",
       "range": {
         "startLine": 2300,
         "startChar": 53,
@@ -82,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "602afc7b_aeec97e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2302,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-20T18:28:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "001a2067_131f4c9a",
+      "range": {
+        "startLine": 2302,
+        "startChar": 35,
+        "endLine": 2302,
+        "endChar": 36
+      },
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0407443_104864b0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 11
@@ -99,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "602afc7b_8ee9dbd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2308,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-20T18:28:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0407443_104864b0",
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "001a2067_331a48aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 11
@@ -110,6 +194,24 @@
       "writtenOn": "2015-12-04T17:24:23Z",
       "side": 1,
       "message": "Do we need newlines here or something?",
+      "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8043704f_2f10a996",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2309,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-20T18:28:05Z",
+      "side": 1,
+      "message": "I don\u0027t think so. As it is very short in expectation. (You don\u0027t comment on more than a few revisions?) and only the first line is displayed, when the messages are collapsed.",
+      "parentUuid": "001a2067_331a48aa",
       "revId": "4a92c8250dcfa34ab9a7ff0f1db41843cb22f714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

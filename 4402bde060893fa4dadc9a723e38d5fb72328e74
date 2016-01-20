@@ -82,6 +82,24 @@
       "revId": "4402bde060893fa4dadc9a723e38d5fb72328e74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47719252_6d297558",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-20T14:31:36Z",
+      "side": 1,
+      "message": "Oh, right. Now it\u0027s obvious :-)",
+      "parentUuid": "a765ee97_88a377bd",
+      "revId": "4402bde060893fa4dadc9a723e38d5fb72328e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

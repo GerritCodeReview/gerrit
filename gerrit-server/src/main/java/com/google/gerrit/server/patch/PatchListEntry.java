@@ -80,6 +80,7 @@ public class PatchListEntry {
 
       case ADDED:
       case MODIFIED:
+      case REWRITE:
         oldName = null;
         newName = hdr.getNewPath();
         break;

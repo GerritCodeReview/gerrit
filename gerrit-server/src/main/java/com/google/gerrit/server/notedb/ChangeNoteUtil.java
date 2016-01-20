@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -50,7 +51,8 @@ public class ChangeNoteUtil {
     return r.toString();
   }
 
-  static PersonIdent newIdent(Account author, Date when,
+  @VisibleForTesting
+  public static PersonIdent newIdent(Account author, Date when,
       PersonIdent serverIdent, String anonymousCowardName) {
     return new PersonIdent(
         new AccountInfo(author).getName(anonymousCowardName),

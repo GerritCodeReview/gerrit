@@ -26,10 +26,17 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -95,6 +102,30 @@ public class CreateChangeIT extends AbstractDaemonTest {
         "draft workflow is disabled");
   }
 
+  @Test
+  public void notedbCommit() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    ChangeInfo c = assertCreateSucceeds(newChangeInfo(ChangeStatus.NEW));
+    try (Repository repo = repoManager.openMetadataRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(
+          repo.exactRef(ChangeNoteUtil.changeRefName(new Change.Id(c._number)))
+              .getObjectId());
+
+      assertThat(commit.getShortMessage()).isEqualTo("Create change");
+
+      PersonIdent expectedAuthor = ChangeNoteUtil.newIdent(
+          accountCache.get(admin.id).getAccount(), c.created, serverIdent.get(),
+          AnonymousCowardNameProvider.DEFAULT);
+      assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
+
+      assertThat(commit.getCommitterIdent())
+          .isEqualTo(new PersonIdent(serverIdent.get(), c.created));
+      assertThat(commit.getParentCount()).isEqualTo(0);
+    }
+  }
+
   private ChangeInfo newChangeInfo(ChangeStatus status) {
     ChangeInfo in = new ChangeInfo();
     in.project = project.get();
@@ -105,7 +136,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     return in;
   }
 
-  private void assertCreateSucceeds(ChangeInfo in) throws Exception {
+  private ChangeInfo assertCreateSucceeds(ChangeInfo in) throws Exception {
     ChangeInfo out = gApi.changes().create(in).get();
     assertThat(out.branch).isEqualTo(in.branch);
     assertThat(out.subject).isEqualTo(in.subject);
@@ -114,6 +145,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(out.revisions).hasSize(1);
     Boolean draft = Iterables.getOnlyElement(out.revisions.values()).draft;
     assertThat(booleanToDraftStatus(draft)).isEqualTo(in.status);
+    return out;
   }
 
   private void assertCreateFails(ChangeInfo in,

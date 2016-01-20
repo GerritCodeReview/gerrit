@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
@@ -58,11 +59,17 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.project.Util;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -874,6 +881,46 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(triplet)
         .current()
         .review(ReviewInput.approve());
+  }
+
+  @Test
+  public void notedbCommitsOnPatchSetCreation() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    PushOneCommit.Result r = createChange();
+    pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+        "b.txt", "4711", r.getChangeId()).to("refs/for/master").assertOkStatus();
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    try (Repository repo = repoManager.openMetadataRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commitPatchSetCreation = rw.parseCommit(
+          repo.exactRef(ChangeNoteUtil.changeRefName(new Change.Id(c._number)))
+              .getObjectId());
+
+      assertThat(commitPatchSetCreation.getShortMessage())
+          .isEqualTo("Create patch set 2");
+      PersonIdent expectedAuthor = ChangeNoteUtil.newIdent(
+          accountCache.get(admin.id).getAccount(), c.updated,
+          serverIdent.get(), AnonymousCowardNameProvider.DEFAULT);
+      assertThat(commitPatchSetCreation.getAuthorIdent())
+          .isEqualTo(expectedAuthor);
+      assertThat(commitPatchSetCreation.getCommitterIdent())
+          .isEqualTo(new PersonIdent(serverIdent.get(), c.updated));
+      assertThat(commitPatchSetCreation.getParentCount()).isEqualTo(1);
+
+      RevCommit commitChangeCreation =
+          rw.parseCommit(commitPatchSetCreation.getParent(0));
+      assertThat(commitChangeCreation.getShortMessage())
+          .isEqualTo("Create change");
+      expectedAuthor = ChangeNoteUtil.newIdent(
+          accountCache.get(admin.id).getAccount(), c.created, serverIdent.get(),
+          AnonymousCowardNameProvider.DEFAULT);
+      assertThat(commitChangeCreation.getAuthorIdent())
+          .isEqualTo(expectedAuthor);
+      assertThat(commitChangeCreation.getCommitterIdent())
+          .isEqualTo(new PersonIdent(serverIdent.get(), c.created));
+      assertThat(commitChangeCreation.getParentCount()).isEqualTo(0);
+    }
   }
 
   private static Iterable<Account.Id> getReviewers(

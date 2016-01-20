@@ -33,12 +33,6 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<test-fixture id="comments">
-  <template>
-    <gr-diff></gr-diff>
-  </template>
-</test-fixture>
-
 <script>
   suite('gr-diff tests', function() {
     var element;
@@ -50,6 +44,7 @@ limitations under the License.
       element.path = 'sieve.go';
       element.prefs = {
         context: 10,
+        tab_width: 8,
       };
 
       server = sinon.fakeServer.create();
@@ -504,6 +499,12 @@ limitations under the License.
         assert.equal(req.xhr.requestBody, JSON.stringify(element.prefs));
         done();
       });
+    });
+
+    test('visible line length', function() {
+      assert.equal(element._visibleLineLength('A'.repeat(5)), 5);
+      assert.equal(
+          element._visibleLineLength('A'.repeat(5) + '\t' + 'A'.repeat(5)), 18);
     });
   });
 

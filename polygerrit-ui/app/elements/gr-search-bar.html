@@ -88,14 +88,14 @@ limitations under the License.
       },
 
       _inputKeyDownHandler: function(e) {
-        if (e.keyCode == 13) {
-          // Enter was pressed.
+        if (e.keyCode == 13) {  // Enter key
           this._preventDefaultAndNavigateToInputVal(e);
         }
       },
 
       _preventDefaultAndNavigateToInputVal: function(e) {
         e.preventDefault();
+        Polymer.dom(e).rootTarget.blur();
         page.show('/q/' + this._inputVal);
       },
 

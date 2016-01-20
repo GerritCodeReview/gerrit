@@ -20,6 +20,7 @@ limitations under the License.
 
 <script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../bower_components/page/page.js"></script>
 
 <link rel="import" href="../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="../elements/gr-search-bar.html">
@@ -44,17 +45,27 @@ limitations under the License.
       assert.equal(element._inputVal, 'foo');
     });
 
+    function getActiveElement() {
+      return document.activeElement.shadowRoot ?
+          document.activeElement.shadowRoot.activeElement :
+          document.activeElement;
+    }
+
     test('tap on search button triggers nav', function(done) {
-      sinon.stub(element, '_preventDefaultAndNavigateToInputVal', function() {
-        element._preventDefaultAndNavigateToInputVal.restore();
+      sinon.stub(page, 'show', function() {
+        page.show.restore();
+        assert.notEqual(getActiveElement(), element.$.searchInput);
+        assert.notEqual(getActiveElement(), element.$.searchButton);
         done();
       });
       MockInteractions.tap(element.$.searchButton);
     });
 
     test('enter in search input triggers nav', function(done) {
-      sinon.stub(element, '_preventDefaultAndNavigateToInputVal', function() {
-        element._preventDefaultAndNavigateToInputVal.restore();
+      sinon.stub(page, 'show', function() {
+        page.show.restore();
+        assert.notEqual(getActiveElement(), element.$.searchInput);
+        assert.notEqual(getActiveElement(), element.$.searchButton);
         done();
       });
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput, 13);

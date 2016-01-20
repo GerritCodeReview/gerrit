@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1453299151 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBVZQiihdXYSwvpEN0xWdm0XKJrc7t3XTh3oJhoOzs0dUqfYlEimFufhN1pTXd0UGODFIFdH\n\n0000000000000000000000000000000000000000 d718eb95dffb4769aff7910b4b8603e632e85e08 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWn5XPAAoJEF/XxZqaEoiMevUP/0it1GIOEMCPGqKksnMZrJgB\nOQk86sui8zQ9nFvTZVVclt96FaVONj5x9Cw3yf1nf2zHFVvbWWBwZYmYlDRLR5KK\nRAzhTk4M/CvNFJpt+RyZd/GgFZYF+jQT+D8PXS6d6G/Sgn+3Y/3a905ndFf0G1hv\nE5WV1puxbM81sphBbNBD0p5sqSNcd6oaYz895jiEIyrIixaw9Tge0OBDm6Fi3VvG\nNnHSvunYr65ltTHLJH02lL4g10Zd1rjRXb8rBov/4UTGT28f2FjBxXTsy9igQkjI\njCQYrtvBMz3U10lSFVTKENVmmFK1uVY4hqD39lBKcRS9u7MY07BOOgC31pnQ3shN\nt8e9kogE6Vq2U7fuWY/CRwnpW2NPVJn/SMZcUaCCGcjh04bSe3uNobtt5kjh3rCo\nLnW3VGkS2I1gLDxDW/i2NwjYOW8isQQ3NqPMZIuwAF+/C9CPXeQbBtZJcgLeGASs\naAkIY/OYVZR3oSERNqavOrMjQ69KRADkr6YUe35RT92WB6q/KOPx6sQS1CVyAwaG\n8EMJTEPEo/ma0qo9rUyaUiJvK4fSQbNWs+Nc53nRf46gg5Ev/+gHMJFuy2ktQySk\nc5fjimfHpV2Bt1BWgyxrMXYfnJUBwWoVAeM9/ybUG/FTFo46+IRsRxGEMlhKqVit\neS1f5FIpJpv7uBwpUx+B\n\u003dJtw6\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "47719252_ad5f5df4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-20T15:04:42Z",
+      "side": 1,
+      "message": "Should this rather be: toMerge.getControl().getNotes()?\nSee comment below.",
+      "range": {
+        "startLine": 169,
+        "startChar": 57,
+        "endLine": 169,
+        "endChar": 71
+      },
+      "revId": "10fea291a727491944a26d6c3e1e173d25531fcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47719252_8d5aa105",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-20T15:04:42Z",
+      "side": 1,
+      "message": "Is this correct?\n\nThe old code took the groups from the current patch set of c, but the new code takes the groups from the current patch set of ctx.getChange(). Are they the same?",
+      "revId": "10fea291a727491944a26d6c3e1e173d25531fcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

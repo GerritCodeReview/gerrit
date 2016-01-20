@@ -406,6 +406,13 @@ public class MergeOp implements AutoCloseable {
           throw new ResourceConflictException(
               describeLabels(cd, record.labels));
 
+        case OK:
+          throw new IllegalStateException(String.format(
+              "Unexpected OK result in SubmitRecord %s for %s in %s",
+              record,
+              patchSet.getId().getId(),
+              cd.change().getProject().get()));
+
         default:
           throw new IllegalStateException(String.format(
               "Unsupported SubmitRecord %s for %s in %s",

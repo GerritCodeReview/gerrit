@@ -376,11 +376,7 @@ public class MergeOp implements AutoCloseable {
       throw new ResourceConflictException(
           "missing current patch set for change " + cd.getId());
     }
-    List<SubmitRecord> results = cd.getSubmitRecords();
-    if (results == null) {
-      results = new SubmitRuleEvaluator(cd).evaluate();
-      cd.setSubmitRecords(results);
-    }
+    List<SubmitRecord> results = getSubmitRecords(cd);
     if (findOkRecord(results).isPresent()) {
       // Rules supplied a valid solution.
       return;
@@ -415,6 +411,16 @@ public class MergeOp implements AutoCloseable {
       }
     }
     throw new IllegalStateException();
+  }
+
+  private static List<SubmitRecord> getSubmitRecords(ChangeData cd)
+      throws OrmException {
+    List<SubmitRecord> results = cd.getSubmitRecords();
+    if (results == null) {
+      results = new SubmitRuleEvaluator(cd).evaluate();
+      cd.setSubmitRecords(results);
+    }
+    return results;
   }
 
   private static String describeLabels(ChangeData cd,
@@ -469,6 +475,22 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  private void bypassSubmitRules(ChangeSet cs) {
+    for (ChangeData cd : cs.changes()) {
+      List<SubmitRecord> records;
+      try {
+        records = new ArrayList<>(getSubmitRecords(cd));
+      } catch (OrmException e) {
+        log.warn("Error checking submit rules for change " + cd.getId(), e);
+        records = new ArrayList<>(1);
+      }
+      SubmitRecord forced = new SubmitRecord();
+      forced.status = SubmitRecord.Status.FORCED;
+      records.add(forced);
+      cd.setSubmitRecords(records);
+    }
+  }
+
   private void updateSubmissionId(Change change) {
     Hasher h = Hashing.sha1().newHasher();
     h.putLong(Thread.currentThread().getId())
@@ -492,6 +514,9 @@ public class MergeOp implements AutoCloseable {
         logDebug("Checking submit rules and state");
         checkSubmitRulesAndState(cs);
         failFast(cs); // Done checks that don't involve opening repo.
+      } else {
+        logDebug("Bypassing submit rules");
+        bypassSubmitRules(cs);
       }
       try {
         integrateIntoHistory(cs);
@@ -1142,6 +1167,8 @@ public class MergeOp implements AutoCloseable {
     Optional<SubmitRecord> okRecord = findOkRecord(cd.getSubmitRecords());
     if (okRecord.isPresent()) {
       update.merge(ImmutableList.of(okRecord.get()));
+    } else {
+      update.merge(cd.getSubmitRecords());
     }
     db.changes().beginTransaction(cd.change().getId());
     try {

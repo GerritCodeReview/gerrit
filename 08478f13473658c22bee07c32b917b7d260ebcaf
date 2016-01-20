@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7b88e3e_b0995896",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-20T17:29:32Z",
+      "side": 1,
+      "message": "logDebug(\"bypassing submit rule check\"); ?",
+      "range": {
+        "startLine": 517,
+        "startChar": 14,
+        "endLine": 518,
+        "endChar": 8
+      },
+      "revId": "08478f13473658c22bee07c32b917b7d260ebcaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

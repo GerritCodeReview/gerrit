@@ -161,11 +161,11 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    public void updateChange(ChangeContext ctx) throws OrmException,
+    public boolean updateChange(ChangeContext ctx) throws OrmException,
          NoSuchChangeException {
       if (newCommit == null) {
         // Merge conflict; don't update change.
-        return;
+        return false;
       }
       PatchSet ps = new PatchSet(psId);
       ps.setCreatedOn(ctx.getWhen());
@@ -192,6 +192,7 @@ public class CherryPick extends SubmitStrategy {
           args.changeControlFactory.controlFor(toMerge.change(), args.caller));
       mergeTip.moveTipTo(newCommit, newCommit);
       args.commits.put(newCommit);
+      return true;
     }
   }
 

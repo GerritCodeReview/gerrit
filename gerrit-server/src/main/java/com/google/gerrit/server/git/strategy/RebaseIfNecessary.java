@@ -164,11 +164,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
     }
 
     @Override
-    public void updateChange(ChangeContext ctx) throws NoSuchChangeException,
+    public boolean updateChange(ChangeContext ctx) throws NoSuchChangeException,
         InvalidChangeOperationException, OrmException, IOException  {
       if (rebaseOp == null) {
         // Took the fast-forward option, nothing to do.
-        return;
+        return false;
       }
 
       rebaseOp.updateChange(ctx);
@@ -195,6 +195,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
           CommitMergeStatus.CLEAN_REBASE);
       args.commits.put(mergeTip.getCurrentTip());
       acceptMergeTip(mergeTip);
+      return true;
     }
 
     @Override

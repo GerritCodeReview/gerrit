@@ -73,12 +73,12 @@ public class SetHashtagsOp extends BatchUpdate.Op {
   }
 
   @Override
-  public void updateChange(ChangeContext ctx)
+  public boolean updateChange(ChangeContext ctx)
       throws AuthException, BadRequestException, OrmException, IOException {
     if (input == null
         || (input.add == null && input.remove == null)) {
       updatedHashtags = ImmutableSortedSet.of();
-      return;
+      return false;
     }
     if (!ctx.getControl().canEditHashtags()) {
       throw new AuthException("Editing hashtags not permitted");
@@ -112,6 +112,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
     }
 
     updatedHashtags = ImmutableSortedSet.copyOf(updated);
+    return true;
   }
 
   @Override

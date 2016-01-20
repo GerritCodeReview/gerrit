@@ -221,7 +221,8 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     @SuppressWarnings("unused")
-    public void updateChange(ChangeContext ctx) throws Exception {
+    public boolean updateChange(ChangeContext ctx) throws Exception {
+      return false;
     }
 
     // TODO(dborowitz): Support async operations?
@@ -542,10 +543,11 @@ public class BatchUpdate implements AutoCloseable {
         Change.Id id = e.getKey();
         db.changes().beginTransaction(id);
         ChangeContext ctx;
+        boolean dirty = false;
         try {
           ctx = newChangeContext(id);
           for (Op op : e.getValue()) {
-            op.updateChange(ctx);
+            dirty |= op.updateChange(ctx);
           }
           Iterable<Change> changes = Collections.singleton(ctx.getChange());
           if (newChanges.containsKey(id)) {
@@ -555,26 +557,30 @@ public class BatchUpdate implements AutoCloseable {
           } else if (ctx.deleted) {
             db.changes().delete(changes);
           }
-          db.commit();
+          if (dirty) {
+            db.commit();
+          }
         } finally {
           db.rollback();
         }
 
-        BatchMetaDataUpdate bmdu = null;
-        for (ChangeUpdate u : ctx.updates.values()) {
-          if (bmdu == null) {
-            bmdu = u.openUpdate();
+        if (dirty) {
+          BatchMetaDataUpdate bmdu = null;
+          for (ChangeUpdate u : ctx.updates.values()) {
+            if (bmdu == null) {
+              bmdu = u.openUpdate();
+            }
+            u.writeCommit(bmdu);
           }
-          u.writeCommit(bmdu);
-        }
-        if (bmdu != null) {
-          bmdu.commit();
-        }
+          if (bmdu != null) {
+            bmdu.commit();
+          }
 
-        if (ctx.deleted) {
-          indexFutures.add(indexer.deleteAsync(id));
-        } else {
-          indexFutures.add(indexer.indexAsync(id));
+          if (ctx.deleted) {
+            indexFutures.add(indexer.deleteAsync(id));
+          } else {
+            indexFutures.add(indexer.indexAsync(id));
+          }
         }
       }
     } catch (Exception e) {

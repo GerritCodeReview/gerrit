@@ -91,7 +91,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
     }
 
     @Override
-    public void updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx)
         throws OrmException, AuthException, ResourceNotFoundException {
       IdentifiedUser user = ctx.getUser().asIdentifiedUser();
       Change change = ctx.getChange();
@@ -135,6 +135,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
         cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId),
             changeMessage);
       }
+      return true;
     }
   }
 

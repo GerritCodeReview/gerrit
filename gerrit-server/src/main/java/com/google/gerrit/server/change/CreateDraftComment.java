@@ -100,7 +100,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
     }
 
     @Override
-    public void updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException {
       PatchSet ps = ctx.getDb().patchSets().get(psId);
       if (ps == null) {
@@ -122,6 +122,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
           comment, patchListCache, ctx.getChange(), ps);
       plcUtil.insertComments(
           ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(comment));
+      return true;
     }
   }
 }

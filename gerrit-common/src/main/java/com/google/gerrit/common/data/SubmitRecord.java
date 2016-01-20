@@ -33,6 +33,9 @@ public class SubmitRecord {
     /** The change has been closed. */
     CLOSED,
 
+    /** The change was submitted bypassing submit rules. */
+    FORCED,
+
     /**
      * An internal server error occurred preventing computation.
      * <p>

@@ -231,7 +231,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public abstract static class InsertChangeOp extends Op {
-    public abstract Change createChange(Context ctx) throws IOException;
+    public abstract Change createChange(Context ctx);
   }
 
   private static class ChainedReceiveCommands {
@@ -481,7 +481,7 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  public BatchUpdate insertChange(InsertChangeOp op) throws IOException {
+  public BatchUpdate insertChange(InsertChangeOp op) {
     Context ctx = new Context();
     Change c = op.createChange(ctx);
     checkArgument(!newChanges.containsKey(c.getId()),

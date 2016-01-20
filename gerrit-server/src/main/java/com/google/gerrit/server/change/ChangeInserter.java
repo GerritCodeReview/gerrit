@@ -149,7 +149,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   @Override
-  public Change createChange(Context ctx) throws IOException {
+  public Change createChange(Context ctx) {
     change = new Change(
         getChangeKey(commit),
         changeId,
@@ -163,18 +163,22 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     return change;
   }
 
-  private static Change.Key getChangeKey(RevCommit commit) throws IOException {
+  private static Change.Key getChangeKey(RevCommit commit) {
     List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
     if (!idList.isEmpty()) {
       return new Change.Key(idList.get(idList.size() - 1).trim());
     }
 
-    ObjectId id = ChangeIdUtil.computeChangeId(commit.getTree(), commit,
-        commit.getAuthorIdent(), commit.getCommitterIdent(),
-        commit.getShortMessage());
-    StringBuilder changeId = new StringBuilder();
-    changeId.append("I").append(ObjectId.toString(id));
-    return new Change.Key(changeId.toString());
+    try {
+      ObjectId id = ChangeIdUtil.computeChangeId(commit.getTree(), commit,
+          commit.getAuthorIdent(), commit.getCommitterIdent(),
+          commit.getShortMessage());
+      StringBuilder changeId = new StringBuilder();
+      changeId.append("I").append(ObjectId.toString(id));
+      return new Change.Key(changeId.toString());
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   public Change getChange() {

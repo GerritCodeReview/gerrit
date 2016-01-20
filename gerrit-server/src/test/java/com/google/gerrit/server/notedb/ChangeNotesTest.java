@@ -78,7 +78,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psas.get(0).getAccountId().get()).isEqualTo(1);
     assertThat(psas.get(0).getLabel()).isEqualTo("Code-Review");
     assertThat(psas.get(0).getValue()).isEqualTo((short) -1);
-    assertThat(psas.get(0).getGranted()).isEqualTo(truncate(after(c, 1000)));
+    assertThat(psas.get(0).getGranted()).isEqualTo(truncate(after(c, 2000)));
 
     assertThat(psas.get(1).getPatchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(psas.get(1).getAccountId().get()).isEqualTo(1);
@@ -110,14 +110,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psa1.getAccountId().get()).isEqualTo(1);
     assertThat(psa1.getLabel()).isEqualTo("Code-Review");
     assertThat(psa1.getValue()).isEqualTo((short) -1);
-    assertThat(psa1.getGranted()).isEqualTo(truncate(after(c, 1000)));
+    assertThat(psa1.getGranted()).isEqualTo(truncate(after(c, 2000)));
 
     PatchSetApproval psa2 = Iterables.getOnlyElement(psas.get(ps2));
     assertThat(psa2.getPatchSetId()).isEqualTo(ps2);
     assertThat(psa2.getAccountId().get()).isEqualTo(1);
     assertThat(psa2.getLabel()).isEqualTo("Code-Review");
     assertThat(psa2.getValue()).isEqualTo((short) +1);
-    assertThat(psa2.getGranted()).isEqualTo(truncate(after(c, 2000)));
+    assertThat(psa2.getGranted()).isEqualTo(truncate(after(c, 3000)));
   }
 
   @Test
@@ -166,13 +166,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(psas.get(0).getAccountId().get()).isEqualTo(1);
     assertThat(psas.get(0).getLabel()).isEqualTo("Code-Review");
     assertThat(psas.get(0).getValue()).isEqualTo((short) -1);
-    assertThat(psas.get(0).getGranted()).isEqualTo(truncate(after(c, 1000)));
+    assertThat(psas.get(0).getGranted()).isEqualTo(truncate(after(c, 2000)));
 
     assertThat(psas.get(1).getPatchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(psas.get(1).getAccountId().get()).isEqualTo(2);
     assertThat(psas.get(1).getLabel()).isEqualTo("Code-Review");
     assertThat(psas.get(1).getValue()).isEqualTo((short) 1);
-    assertThat(psas.get(1).getGranted()).isEqualTo(truncate(after(c, 2000)));
+    assertThat(psas.get(1).getGranted()).isEqualTo(truncate(after(c, 3000)));
   }
 
   @Test
@@ -399,9 +399,18 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void emptyChangeUpdate() throws Exception {
-    ChangeUpdate update = newUpdate(newChange(), changeOwner);
+    Change c = newChange();
+
+    // The initial empty update creates a commit which is needed to track the
+    // creation time of the change.
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    ObjectId revision = update.getRevision();
+    assertThat(revision).isNotNull();
+
+    // Any further empty update doesn't create a new commit.
+    update = newUpdate(c, changeOwner);
     update.commit();
-    assertThat(update.getRevision()).isNull();
+    assertThat(update.getRevision()).isEqualTo(revision);
   }
 
   @Test
@@ -475,6 +484,52 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void ownerChangeNotes() throws Exception {
+    Change c = newChange();
+
+    assertThat(newNotes(c).getChange().getOwner()).isEqualTo(
+        changeOwner.getAccountId());
+
+    // An update doesn't affect the owner
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setTopic("topic"); // Change something to get a new commit.
+    update.commit();
+    assertThat(newNotes(c).getChange().getOwner()).isEqualTo(
+        changeOwner.getAccountId());
+  }
+
+  @Test
+  public void createdOnChangeNotes() throws Exception {
+    Change c = newChange();
+
+    Timestamp createdOn = newNotes(c).getChange().getCreatedOn();
+    assertThat(createdOn).isNotNull();
+
+    // An update doesn't affect the createdOn timestamp.
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("topic"); // Change something to get a new commit.
+    update.commit();
+    assertThat(newNotes(c).getChange().getCreatedOn()).isEqualTo(createdOn);
+  }
+
+  @Test
+  public void lastUpdatedOnChangeNotes() throws Exception {
+    Change c = newChange();
+
+    ChangeNotes notes = newNotes(c);
+    Timestamp lastUpdatedOn = notes.getChange().getLastUpdatedOn();
+    assertThat(lastUpdatedOn).isNotNull();
+    assertThat(lastUpdatedOn).isEqualTo(notes.getChange().getCreatedOn());
+
+    // An update creates a new lastUpdatedOn timestamp.
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("topic"); // Change something to get a new commit.
+    update.commit();
+    assertThat(newNotes(c).getChange().getLastUpdatedOn())
+        .isGreaterThan(lastUpdatedOn);
+  }
+
+  @Test
   public void emptyExceptSubject() throws Exception {
     ChangeUpdate update = newUpdate(newChange(), changeOwner);
     update.setSubject("Create change");
@@ -537,17 +592,24 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update2.putApproval("Code-Review", (short) 2);
     update2.writeCommit(batch);
 
+    RevCommit tipCommit;
     try (RevWalk rw = new RevWalk(repo)) {
       batch.commit();
       bru.execute(rw, NullProgressMonitor.INSTANCE);
 
       ChangeNotes notes = newNotes(c);
       ObjectId tip = notes.getRevision();
-      RevCommit commitWithApprovals = rw.parseCommit(tip);
-      assertThat(commitWithApprovals).isNotNull();
-      RevCommit commitWithComments = commitWithApprovals.getParent(0);
-      assertThat(commitWithComments).isNotNull();
+      tipCommit = rw.parseCommit(tip);
+    } finally {
+      batch.close();
+    }
 
+    RevCommit commitWithApprovals = tipCommit;
+    assertThat(commitWithApprovals).isNotNull();
+    RevCommit commitWithComments = commitWithApprovals.getParent(0);
+    assertThat(commitWithComments).isNotNull();
+
+    try (RevWalk rw = new RevWalk(repo)) {
       try (ChangeNotesParser notesWithComments =
           new ChangeNotesParser(c, commitWithComments.copy(), rw, repoManager)) {
         notesWithComments.parseAll();
@@ -556,7 +618,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         assertThat(approvals1).isEmpty();
         assertThat(notesWithComments.comments).hasSize(1);
       }
+    }
 
+    try (RevWalk rw = new RevWalk(repo)) {
       try (ChangeNotesParser notesWithApprovals =
           new ChangeNotesParser(c, commitWithApprovals.copy(), rw, repoManager)) {
         notesWithApprovals.parseAll();
@@ -565,8 +629,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         assertThat(approvals2).hasSize(1);
         assertThat(notesWithApprovals.comments).hasSize(1);
       }
-    } finally {
-      batch.close();
     }
   }
 
@@ -588,12 +650,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       batch1 = update1.openUpdateInBatch(bru);
       update1.writeCommit(batch1);
       batch1.commit();
-      assertThat(repo.exactRef(update1.getRefName())).isNull();
+      assertThat(repo.exactRef(update1.getRefName())).isNotNull();
 
       batch2 = update2.openUpdateInBatch(bru);
       update2.writeCommit(batch2);
       batch2.commit();
-      assertThat(repo.exactRef(update2.getRefName())).isNull();
+      assertThat(repo.exactRef(update2.getRefName())).isNotNull();
     } finally {
       if (batch1 != null) {
         batch1.close();

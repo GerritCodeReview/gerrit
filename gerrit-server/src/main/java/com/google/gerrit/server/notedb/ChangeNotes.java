@@ -266,6 +266,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
       change.setTopic(Strings.emptyToNull(parser.topic));
+      change.setCreatedOn(parser.createdOn);
+      change.setLastUpdatedOn(parser.lastUpdatedOn);
+      change.setOwner(parser.ownerId);
 
       if (parser.hashtags != null) {
         hashtags = ImmutableSet.copyOf(parser.hashtags);

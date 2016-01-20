@@ -523,6 +523,10 @@ public final class Change {
     return createdOn;
   }
 
+  public void setCreatedOn(Timestamp ts) {
+    createdOn = ts;
+  }
+
   public Timestamp getLastUpdatedOn() {
     return lastUpdatedOn;
   }
@@ -537,6 +541,10 @@ public final class Change {
 
   public Account.Id getOwner() {
     return owner;
+  }
+
+  public void setOwner(Account.Id owner) {
+    this.owner = owner;
   }
 
   public Branch.NameKey getDest() {

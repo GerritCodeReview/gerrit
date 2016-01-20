@@ -418,7 +418,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @Override
   protected boolean onSave(CommitBuilder commit) {
-    if (isEmpty()) {
+    if (getRevision() != null && isEmpty()) {
       return false;
     }
     commit.setAuthor(newIdent(getUser().getAccount(), when));

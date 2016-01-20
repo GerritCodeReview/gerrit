@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e7828650_32ed10ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-20T07:13:06Z",
+      "side": 1,
+      "message": "Actually, per Dave\u0027s comments on that Jgit change, the compiler will start to complain after we upgrade to compiler against a version of Jgit that doesn\u0027t throw.\n\nSo we don\u0027t really need a TODO comment.  Instead we can just mention in the commit message?",
+      "parentUuid": "c785825a_b19a6054",
+      "revId": "3b3ee48092bbc62ba5892bcb71528bb88c49bf36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c785825a_9195dc28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 1

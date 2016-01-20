@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "a765ee97_e89eb37a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-20T14:17:02Z",
+      "side": 1,
+      "message": "This matches the old behavior of failing in the case where multiple patch set refs in the repo refer to the same SHA-1. (We are not worried about performance of this endpoint, either.)",
+      "parentUuid": "472c322e_b5a82098",
+      "range": {
+        "startLine": 409,
+        "startChar": 51,
+        "endLine": 409,
+        "endChar": 63
+      },
+      "revId": "4402bde060893fa4dadc9a723e38d5fb72328e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e71d26f8_7ad4b917",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 4
@@ -37,6 +61,24 @@
       "writtenOn": "2016-01-15T22:05:19Z",
       "side": 1,
       "message": "Do we need this check? When we query by base the revision in the result set should not differ.",
+      "revId": "4402bde060893fa4dadc9a723e38d5fb72328e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a765ee97_88a377bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-20T14:17:02Z",
+      "side": 1,
+      "message": "cd.patchSets() returns all patch sets in the change, only one of which matches base. We have no way in the query system to say only populate the patch set field for the one from the query string.",
+      "parentUuid": "e71d26f8_7ad4b917",
       "revId": "4402bde060893fa4dadc9a723e38d5fb72328e74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

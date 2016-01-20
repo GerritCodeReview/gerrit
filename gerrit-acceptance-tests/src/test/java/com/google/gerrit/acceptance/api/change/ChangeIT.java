@@ -897,6 +897,8 @@ public class ChangeIT extends AbstractDaemonTest {
           repo.exactRef(ChangeNoteUtil.changeRefName(new Change.Id(c._number)))
               .getObjectId());
 
+      assertThat(commitPatchSetCreation.getShortMessage())
+          .isEqualTo("Create patch set 2");
       PersonIdent expectedAuthor = ChangeNoteUtil.newIdent(
           accountCache.get(admin.id).getAccount(), c.updated,
           serverIdent.get(), AnonymousCowardNameProvider.DEFAULT);
@@ -908,6 +910,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
       RevCommit commitChangeCreation =
           rw.parseCommit(commitPatchSetCreation.getParent(0));
+      assertThat(commitChangeCreation.getShortMessage())
+          .isEqualTo("Create change");
       expectedAuthor = ChangeNoteUtil.newIdent(
           accountCache.get(admin.id).getAccount(), c.created, serverIdent.get(),
           AnonymousCowardNameProvider.DEFAULT);

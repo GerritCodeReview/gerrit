@@ -216,6 +216,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(psId);
+    update.setSubject("Create patch set " + psId.get());
 
     if (!change.getStatus().isOpen() && !allowClosed) {
       throw new InvalidChangeOperationException(String.format(

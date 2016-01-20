@@ -113,6 +113,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
           repo.exactRef(ChangeNoteUtil.changeRefName(new Change.Id(c._number)))
               .getObjectId());
 
+      assertThat(commit.getShortMessage()).isEqualTo("Create change");
+
       PersonIdent expectedAuthor = ChangeNoteUtil.newIdent(
           accountCache.get(admin.id).getAccount(), c.created, serverIdent.get(),
           AnonymousCowardNameProvider.DEFAULT);

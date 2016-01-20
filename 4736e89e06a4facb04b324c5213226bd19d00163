@@ -23,6 +23,30 @@
       "revId": "4736e89e06a4facb04b324c5213226bd19d00163",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67f4d602_1ed94d47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-20T21:34:33Z",
+      "side": 1,
+      "message": "This matches the other methods in this class, which at some point I considered moving to its own file...",
+      "parentUuid": "27173efe_b4996096",
+      "range": {
+        "startLine": 154,
+        "startChar": 3,
+        "endLine": 154,
+        "endChar": 29
+      },
+      "revId": "4736e89e06a4facb04b324c5213226bd19d00163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

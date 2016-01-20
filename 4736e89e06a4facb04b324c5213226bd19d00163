@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1453305720 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBVyZruNXm/l56XvPuYm6gU+A+ovCmaSS9zoQQjIYYWmSLpFJJIuuBZ6y2L+0eM5rjW9ysKj\n\n0000000000000000000000000000000000000000 4736e89e06a4facb04b324c5213226bd19d00163 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWn694AAoJEF/XxZqaEoiMjJ4QAN1Z/FuZvEglQwxj1s6f8va3\naGtUSyMJTvLvmpncD3OLBI5PVaporeGQHw8QPpbirPFzDq1wMWuU2GJmG3jpdz4T\nrHaLIiBv6izNeIsi6X9NnuhMW6P8fuY2OhBgTfY9YDU9jF2Ur7Irlhc7Sgp407Og\nSMk5r5EBeVGqoNi6P9BZ5aHoX5I49jS6wAc1HaKIZRZf7wCZYmaB63tLs1E0aRHW\nnvgNOrBxY5EooCAN7t7W3vo27K2w6T8gpFdhkv0hdyhfd2nNehhgePQnkA4jYJSh\n7ZUAOcTxbBckgnNgjoAUB4hv4TPsSvTI5+fNob+V1RNF9aVb2dwHlqi9yT9A7wCp\nGE1J4GTty5g2U+5MnELu39b0biiWnQUTJ9Rbk7cZX+zBwNebHiLvbRfuRnv+ed2w\nrCL6mcExAYV072i1q8B5pIlVomUGSn6vw/hyf6iCaGwitjx0Z57c3VI+o+Ca2qM1\n/Zxce8w2VaXOdnXbRq8RUpH9KptPW47qMyVDp2G+EMbKczyYQg971oAZu8YHC8q7\nwmrqs5EeXnM/Dq8Ouk3vaqBRzrpUykwtzgHqwSUtzViQNXvbvUgzf7VtrtaUDWHx\njTuyH52JopdMK9BaLUlMw8tiRebPuxqzkJiu++DzcLK898/L3Xld1tJbFySgXduY\ne4mrsZRPCXtoYKL7id3C\n\u003dkrB4\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "27173efe_b4996096",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-01-20T17:24:59Z",
+      "side": 1,
+      "message": "private BatchUpdate getUpdate() ?",
+      "range": {
+        "startLine": 154,
+        "startChar": 3,
+        "endLine": 154,
+        "endChar": 29
+      },
+      "revId": "4736e89e06a4facb04b324c5213226bd19d00163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

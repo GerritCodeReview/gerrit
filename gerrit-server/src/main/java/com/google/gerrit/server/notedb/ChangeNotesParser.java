@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -23,6 +24,8 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.base.Enums;
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Supplier;
@@ -47,6 +50,7 @@ import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
@@ -65,6 +69,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -78,6 +83,7 @@ class ChangeNotesParser implements AutoCloseable {
   final List<SubmitRecord> submitRecords;
   final Multimap<RevId, PatchLineComment> comments;
   NoteMap commentNoteMap;
+  String branch;
   Change.Status status;
   String topic;
   Set<String> hashtags;
@@ -123,6 +129,7 @@ class ChangeNotesParser implements AutoCloseable {
     parseComments();
     allPastReviewers.addAll(reviewers.keySet());
     pruneReviewers();
+    checkMandatoryFooters();
   }
 
   ImmutableListMultimap<PatchSet.Id, PatchSetApproval>
@@ -159,6 +166,9 @@ class ChangeNotesParser implements AutoCloseable {
     if (lastUpdatedOn == null) {
       lastUpdatedOn = getCommitTime(commit);
     }
+    if (branch == null) {
+      branch = parseBranch(commit);
+    }
     if (status == null) {
       status = parseStatus(commit);
     }
@@ -189,6 +199,17 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
+  private String parseBranch(RevCommit commit)
+      throws ConfigInvalidException {
+    List<String> branchLines = commit.getFooterLines(FOOTER_BRANCH);
+    if (branchLines.isEmpty()) {
+      return null;
+    } else if (branchLines.size() > 1) {
+      throw expectedOneFooter(FOOTER_BRANCH, branchLines);
+    }
+    return RefNames.fullName(branchLines.get(0));
+  }
+
   private String parseTopic(RevCommit commit)
       throws ConfigInvalidException {
     List<String> topicLines = commit.getFooterLines(FOOTER_TOPIC);
@@ -199,7 +220,6 @@ class ChangeNotesParser implements AutoCloseable {
     }
     return topicLines.get(0);
   }
-
 
   private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
     // Commits are parsed in reverse order and only the last set of hashtags should be used.
@@ -502,6 +522,22 @@ class ChangeNotesParser implements AutoCloseable {
           curr.rowKeySet().remove(e.getKey());
         }
       }
+    }
+  }
+
+  private void checkMandatoryFooters() throws ConfigInvalidException {
+    List<FooterKey> missing = new ArrayList<>();
+    if (branch == null) {
+      missing.add(FOOTER_BRANCH);
+    }
+    if (!missing.isEmpty()) {
+      throw parseException("Missing footers: " + Joiner.on(", ")
+          .join(Lists.transform(missing, new Function<FooterKey, String>() {
+            @Override
+            public String apply(FooterKey input) {
+              return input.getName();
+            }
+          })));
     }
   }
 

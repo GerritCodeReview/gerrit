@@ -201,7 +201,7 @@ public class CreateChange implements
         ChangeInserter ins = changeInserterFactory.create(changeId, c, refName)
             .setValidatePolicy(CommitValidators.Policy.GERRIT);
         ins.setMessage(String.format("Uploaded patch set %s.",
-            ins.getPatchSet().getPatchSetId()));
+            ins.getPatchSetId().get()));
         String topic = input.topic;
         if (topic != null) {
           topic = Strings.emptyToNull(topic.trim());

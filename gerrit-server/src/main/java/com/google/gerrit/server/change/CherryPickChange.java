@@ -233,7 +233,6 @@ public class CherryPickChange {
       bu.addOp(change.getId(), inserter
           .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
           .setDraft(current.isDraft())
-          .setUploader(identifiedUser.getAccountId())
           .setSendMail(false));
       bu.execute();
     }
@@ -252,7 +251,7 @@ public class CherryPickChange {
         .setTopic(topic);
 
     ins.setMessage(
-        messageForDestinationChange(ins.getPatchSet().getId(), sourceBranch));
+        messageForDestinationChange(ins.getPatchSetId(), sourceBranch));
     try (BatchUpdate bu = batchUpdateFactory.create(
         db.get(), project, identifiedUser, TimeUtil.nowTs())) {
       bu.setRepository(git, revWalk, oi);

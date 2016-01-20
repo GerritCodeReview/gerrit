@@ -336,7 +336,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);
     insert(repo, ins);
-    String sha = ins.getPatchSet().getRevision().get();
+    String sha = ins.getCommit().name();
 
     assertQuery("0000000000000000000000000000000000000000");
     for (int i = 0; i <= 36; i++) {
@@ -1262,7 +1262,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       if (dest == null) {
         dest = ins.getChange().getDest();
       }
-      shas.add(ins.getPatchSet().getRevision().get());
+      shas.add(ins.getCommit().name());
       expectedIds.add(ins.getChange().getId().get());
     }
 

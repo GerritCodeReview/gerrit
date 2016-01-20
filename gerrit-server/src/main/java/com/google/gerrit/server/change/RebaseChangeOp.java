@@ -139,7 +139,6 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     patchSetInserter = patchSetInserterFactory
         .create(ctl.getRefControl(), rebasedPatchSetId, rebasedCommit)
         .setDraft(originalPatchSet.isDraft())
-        .setUploader(ctx.getUser().getAccountId())
         .setSendMail(false)
         .setRunHooks(runHooks)
         .setCopyApprovals(copyApprovals)

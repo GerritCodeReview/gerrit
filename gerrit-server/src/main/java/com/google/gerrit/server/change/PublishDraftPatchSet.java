@@ -220,8 +220,8 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
 
       List<FooterLine> footerLines = commit.getFooterLines();
-      recipients =
-          getRecipientsFromFooters(accountResolver, patchSet, footerLines);
+      recipients = getRecipientsFromFooters(
+          accountResolver, patchSet.isDraft(), footerLines);
       recipients.remove(ctx.getUser().getAccountId());
       approvalsUtil.addReviewers(ctx.getDb(), ctx.getUpdate(psId), labelTypes,
           change, patchSet, patchSetInfo, recipients.getReviewers(),

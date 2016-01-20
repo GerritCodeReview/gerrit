@@ -500,7 +500,6 @@ public class ConsistencyChecker {
             .setRunHooks(false)
             .setSendMail(false)
             .setAllowClosed(true)
-            .setUploader(user.get().getAccountId())
             .setMessage(
                 "Patch set for merged commit inserted by consistency checker"));
         bu.execute();

@@ -32,7 +32,7 @@ import java.util.List;
 /** A version of the database schema. */
 public abstract class SchemaVersion {
   /** The current schema version. */
-  public static final Class<Schema_116> C = Schema_116.class;
+  public static final Class<Schema_117> C = Schema_117.class;
 
   public static int getBinaryVersion() {
     return guessVersion(C);
@@ -176,7 +176,7 @@ public abstract class SchemaVersion {
       throws OrmException {
     JdbcSchema s = (JdbcSchema) db;
     try (JdbcExecutor e = new JdbcExecutor(s)) {
-      s.renameField(e, table, from, to);
+      s.renameColumn(e, table, from, to);
     }
   }
 

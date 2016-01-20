@@ -170,11 +170,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
     }
 
     @Override
-    public void updateChange(ChangeContext ctx) throws NoSuchChangeException,
+    public boolean updateChange(ChangeContext ctx) throws NoSuchChangeException,
         InvalidChangeOperationException, OrmException, IOException  {
       if (rebaseOp == null) {
         // Took the fast-forward option, nothing to do.
-        return;
+        return false;
       }
 
       rebaseOp.updateChange(ctx);
@@ -191,6 +191,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
               newPatchSetId));
       newCommit.setControl(
           args.changeControlFactory.controlFor(toMerge.change(), args.caller));
+      return true;
     }
 
     @Override

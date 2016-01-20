@@ -2088,6 +2088,9 @@ public class ReceiveCommits {
                 db.close();
               }
             }
+          } catch (OrmException | IOException  e) {
+            log.error("Failed to insert patch set", e);
+            throw e;
           } finally {
             synchronized (replaceProgress) {
               replaceProgress.update(1);

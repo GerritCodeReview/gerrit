@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c785825a_d174c4da",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-20T07:45:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67313682_36065835",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 30
+      },
+      "revId": "8efcc4ab64ab584ea722643ae0e04f78c1e05e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67313682_f6a46077",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2016-01-18T14:05:38Z",
       "side": 1,
       "message": "The error message below seems not to be appropriate for OK.\n\nIf the was an OK status it should have been found above by the check in line 387 and we should not reach here. hence we should still fail in case of OK, but with a different error message.",
+      "revId": "8efcc4ab64ab584ea722643ae0e04f78c1e05e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7828650_32067035",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-20T07:45:06Z",
+      "side": 1,
+      "message": "Undone.  Will fix in a follow-up.",
+      "parentUuid": "67313682_f6a46077",
       "revId": "8efcc4ab64ab584ea722643ae0e04f78c1e05e3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "c785825a_f179c8cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-20T07:45:06Z",
+      "side": 1,
+      "message": "Undone. Will fix in a follow-up.",
+      "parentUuid": "67313682_96a96c4e",
+      "revId": "8efcc4ab64ab584ea722643ae0e04f78c1e05e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67313682_b6aee851",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 3
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "e7828650_d29fe426",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-20T07:45:06Z",
+      "side": 1,
+      "message": "Undone. Will fix in a follow-up.",
+      "parentUuid": "67313682_b6aee851",
+      "revId": "8efcc4ab64ab584ea722643ae0e04f78c1e05e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "272bbe19_942084da",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 3
@@ -87,6 +165,24 @@
       "writtenOn": "2016-01-18T14:05:38Z",
       "side": 1,
       "message": "and here",
+      "revId": "8efcc4ab64ab584ea722643ae0e04f78c1e05e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c785825a_916e3c03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-20T07:45:06Z",
+      "side": 1,
+      "message": "Undone. Will fix in a follow-up.",
+      "parentUuid": "272bbe19_942084da",
       "revId": "8efcc4ab64ab584ea722643ae0e04f78c1e05e3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

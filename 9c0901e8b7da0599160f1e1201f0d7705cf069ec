@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a765ee97_28e36bf2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.6.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-01-20T19:38:20Z",
+      "side": 1,
+      "message": "Do you want to mention the change \"Replicate HEAD reference when replicating a project\" included by this replication plugin update[1]?\n\n[1]https://gerrit-review.googlesource.com/#/c/73938/",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 13
+      },
+      "revId": "9c0901e8b7da0599160f1e1201f0d7705cf069ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

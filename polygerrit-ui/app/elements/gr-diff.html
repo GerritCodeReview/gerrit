@@ -474,7 +474,8 @@ limitations under the License.
             lineNum: initialLineNum,
           }
         };
-        var content = this._diffResponse.content;
+        var content = this._breakUpCommonChunksWithComments(ctx,
+            this._diffResponse.content);
         var context = this.prefs.context;
         if (context == -1) {
           // Show the entire file.
@@ -496,6 +497,51 @@ limitations under the License.
           leftSide: leftSide,
           rightSide: rightSide,
         };
+      },
+
+      // In order to show comments out of the bounds of the selected context,
+      // treat them as diffs within the model so that the content (and context
+      // surrounding it) renders correctly.
+      _breakUpCommonChunksWithComments: function(ctx, content) {
+        var result = [];
+        var leftLineNum = ctx.left.lineNum;
+        var rightLineNum = ctx.right.lineNum;
+        for (var i = 0; i < content.length; i++) {
+          if (!content[i].ab) {
+            result.push(content[i]);
+            if (content[i].a) {
+              leftLineNum += content[i].a.length;
+            }
+            if (content[i].b) {
+              rightLineNum += content[i].b.length;
+            }
+            continue;
+          }
+          var chunk = content[i].ab;
+          var currentChunk = { ab: [] };
+          var inCommentGroup = false;
+          for (var j = 0; j < chunk.length; j++) {
+            leftLineNum++;
+            rightLineNum++;
+            if (this._groupedBaseComments[leftLineNum] == null &&
+                this._groupedComments[rightLineNum] == null) {
+              currentChunk.ab.push(chunk[j]);
+            } else {
+              if (currentChunk.ab && currentChunk.ab.length > 0) {
+                result.push(currentChunk);
+                currentChunk = { ab: [] };
+              }
+              result.push({
+                a: [ chunk[j] ],
+                b: [ chunk[j] ],
+              });
+            }
+          }
+          if (currentChunk.ab != null && currentChunk.ab.length > 0) {
+            result.push(currentChunk);
+          }
+        }
+        return result;
       },
 
       _groupCommentsAndDrafts: function() {
@@ -612,6 +658,7 @@ limitations under the License.
           var hasRightContent = chunk.b && i < chunk.b.length;
           var leftContent = hasLeftContent ? chunk.a[i] : '';
           var rightContent = hasRightContent ? chunk.b[i] : '';
+          var highlight = leftContent != rightContent;
           var maxNumLines = this._maxLinesSpanned(leftContent, rightContent);
           if (hasLeftContent) {
             leftSide.push({
@@ -619,8 +666,8 @@ limitations under the License.
               content: leftContent || '\n',
               numLines: maxNumLines,
               lineNum: ++ctx.left.lineNum,
-              highlight: true,
-              intraline: leftHighlights.filter(function(hl) {
+              highlight: highlight,
+              intraline: highlight && leftHighlights.filter(function(hl) {
                 return hl.contentIndex == i;
               }),
             });
@@ -636,8 +683,8 @@ limitations under the License.
               content: rightContent || '\n',
               numLines: maxNumLines,
               lineNum: ++ctx.right.lineNum,
-              highlight: true,
-              intraline: rightHighlights.filter(function(hl) {
+              highlight: highlight,
+              intraline: highlight && rightHighlights.filter(function(hl) {
                 return hl.contentIndex == i;
               }),
             });
@@ -675,8 +722,8 @@ limitations under the License.
         } else if (!leftComments && rightComments) {
           leftSide.push({ type: 'FILLER' });
         }
-        delete(this._groupedBaseComments[ctx.left.lineNum]);
-        delete(this._groupedComments[ctx.right.lineNum]);
+        this._groupedBaseComments[ctx.left.lineNum] = null;
+        this._groupedComments[ctx.right.lineNum] = null;
       },
 
       // The `highlights` array consists of a list of <skip length, mark length>

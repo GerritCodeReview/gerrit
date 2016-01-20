@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -28,6 +29,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -265,6 +267,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       allChangeMessages = parser.buildAllMessages();
       comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
+      change.setDest(
+          checkNotNull(new Branch.NameKey(getProjectName(), parser.branch),
+              "No destination branch in notedb for change " + change.getId()));
       change.setTopic(Strings.emptyToNull(parser.topic));
       change.setCreatedOn(parser.createdOn);
       change.setLastUpdatedOn(parser.lastUpdatedOn);

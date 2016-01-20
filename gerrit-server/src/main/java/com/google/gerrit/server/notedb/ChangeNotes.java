@@ -305,12 +305,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         getClass().getSimpleName() + " is read-only");
   }
 
-  static Project.NameKey getProjectName(Change change) {
-    return change.getProject();
-  }
-
   @Override
   protected Project.NameKey getProjectName() {
-    return getProjectName(getChange());
+    return getChange().getProject();
   }
 }

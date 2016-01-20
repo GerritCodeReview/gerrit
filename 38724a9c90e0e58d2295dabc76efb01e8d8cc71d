@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1453231179 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBWTEgiBNpcQbjOg+yWmxLGNuudgNuz7zLiazyU8fyFtOgIcN8w7Hu6puUk/zPh9lvkEYnsP\n\n0000000000000000000000000000000000000000 38724a9c90e0e58d2295dabc76efb01e8d8cc71d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWnoxLAAoJEF/XxZqaEoiM0xMQANQ/VWSSCHLZaWrUwusM/gvt\n3LRKJNsGG7jYqvWj/mKiPg4ebWUQe7cAitsP702DfqU62INIEC8OTYmQB4XDG3DE\ntnQYiUi9R9qk8nTCsC5p6G8EBiaH1TERqT7JvUE/goO7rxiLRLs7ZzY7tATPGHrc\nKBJRYy0+r887zgeGkXHm6qUdqt/eXScQQfQ6SPe2c9PuA/VIwheiNxFyTIuHSokl\nJ6IKZ7K61bgLZ97BUbx2TfgJpUUWk0tpyDTm/Wbubca4aNMXu4K1sSLtVq0sWF7V\nf4aOcuDVXk6D7g9xfumNWgzXE1ZldAFZnUimW0VzWfKMO2oqA9P156+n9esh0JJZ\nVby6x/pcI8XZjhKGqVcdW2rTyvCLcc2V9RWsbfj7k8lHtoS8hZ4aFl15NyaCfCmk\ncBCa/V5BT+aKx6fjZFIl4r5Or48MhUirnmZ3+RDWpQtt+GolPsE9mk0i8UDcWBCN\nz8v+/b/Vkmlr4P0lfHXUQMxjrD9k285T6+Lxiy0IEYJrsQDvOH2ag95dpROUF5+z\nxQXYI6/w06gd7weTyDnSFu8YCnNKnqKfwXIhpFlxvxvR25ezdQTi0eVj71CZFEVT\nrA12ztEsgZrWNLGdwhgDj/N++1CX7NxfSHwS4blvC1f4zI7rOtT8a785zi4st1D9\nXplfL6d8e6um2SozutZY\n\u003dUcjn\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7828650_b2e020b9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-20T06:51:07Z",
+      "side": 1,
+      "message": "Would it be better to do the update as a different user? By using the same user, we can\u0027t assert that the owner did not change.",
+      "range": {
+        "startLine": 494,
+        "startChar": 39,
+        "endLine": 494,
+        "endChar": 50
+      },
+      "revId": "38724a9c90e0e58d2295dabc76efb01e8d8cc71d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

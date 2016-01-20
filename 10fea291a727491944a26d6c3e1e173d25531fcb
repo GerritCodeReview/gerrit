@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "67f4d602_dec1a559",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-20T15:57:27Z",
+      "side": 1,
+      "message": "Those should be the same notes object. (I think they are not currently but I will fix that after the MergeOp series.)",
+      "parentUuid": "47719252_ad5f5df4",
+      "range": {
+        "startLine": 169,
+        "startChar": 57,
+        "endLine": 169,
+        "endChar": 71
+      },
+      "revId": "10fea291a727491944a26d6c3e1e173d25531fcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47719252_8d5aa105",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2016-01-20T15:04:42Z",
       "side": 1,
       "message": "Is this correct?\n\nThe old code took the groups from the current patch set of c, but the new code takes the groups from the current patch set of ctx.getChange(). Are they the same?",
+      "revId": "10fea291a727491944a26d6c3e1e173d25531fcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a765ee97_28ce0b84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-20T15:57:27Z",
+      "side": 1,
+      "message": "The notes are loaded (well, they should be) when the ChangeContext is created, and ChangeNotes is immutable, so the latest patch set is still the previous one. Note also that we don\u0027t call setCurrentPatchSet until two lines later.",
+      "parentUuid": "47719252_8d5aa105",
       "revId": "10fea291a727491944a26d6c3e1e173d25531fcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

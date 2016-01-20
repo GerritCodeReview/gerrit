@@ -21,6 +21,7 @@ import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
+
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -138,6 +139,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1752,13 +1754,9 @@ public class ReceiveCommits {
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
         public Void call() throws OrmException, RestApiException,
-            UpdateException {
-          if (caller == Thread.currentThread()) {
-            insertChange(ReceiveCommits.this.db);
-          } else {
-            try (ReviewDb threadLocalDb = schemaFactory.open()) {
-              insertChange(threadLocalDb);
-            }
+                UpdateException, RepositoryNotFoundException, IOException {
+          try (RequestState state = requestState(caller)) {
+            insertChange(state);
           }
           synchronizedIncrement(newProgress);
           return null;
@@ -1767,7 +1765,7 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
 
-    private void insertChange(ReviewDb threadLocalDb)
+    private void insertChange(RequestState state)
         throws OrmException, RestApiException, UpdateException {
       final PatchSet ps = ins.setGroups(groups).getPatchSet();
       final Account.Id me = user.getAccountId();
@@ -1782,10 +1780,9 @@ public class ReceiveCommits {
       recipients.remove(me);
       String msg = renderMessageWithApprovals(ps.getPatchSetId(), null,
           approvals, Collections.<String, PatchSetApproval> emptyMap());
-      try (ObjectInserter oi = repo.newObjectInserter();
-          BatchUpdate bu = batchUpdateFactory.create(threadLocalDb,
-              magicBranch.dest.getParentKey(), user, TimeUtil.nowTs())) {
-        bu.setRepository(repo, rp.getRevWalk(), oi);
+      try (BatchUpdate bu = batchUpdateFactory.create(state.db,
+           magicBranch.dest.getParentKey(), user, TimeUtil.nowTs())) {
+        bu.setRepository(state.repo, state.rw, state.ins);
         bu.insertChange(ins
             .setReviewers(recipients.getReviewers())
             .setExtraCC(recipients.getCcOnly())
@@ -2167,12 +2164,9 @@ public class ReceiveCommits {
           try {
             if (magicBranch != null && magicBranch.edit) {
               return upsertEdit();
-            } else if (caller == Thread.currentThread()) {
-              return insertPatchSet(db);
-            } else {
-              try (ReviewDb db = schemaFactory.open()) {
-                return insertPatchSet(db);
-              }
+            }
+            try (RequestState state = requestState(caller)) {
+              return insertPatchSet(state);
             }
           } finally {
             synchronizedIncrement(replaceProgress);
@@ -2237,8 +2231,10 @@ public class ReceiveCommits {
       return newPatchSet.getId();
     }
 
-    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException,
-        ResourceConflictException {
+    PatchSet.Id insertPatchSet(RequestState state)
+        throws OrmException, IOException, ResourceConflictException {
+      ReviewDb db = state.db;
+      Repository repo = state.repo;
       final Account.Id me = user.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
@@ -2421,7 +2417,9 @@ public class ReceiveCommits {
       this.commit = commit;
     }
 
-    private void updateGroups(ReviewDb db) throws OrmException, IOException {
+    private void updateGroups(RequestState state)
+        throws OrmException, IOException {
+      ReviewDb db = state.db;
       PatchSet ps = db.patchSets().atomicUpdate(psId,
           new AtomicUpdate<PatchSet>() {
             @Override
@@ -2452,12 +2450,8 @@ public class ReceiveCommits {
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
         public Void call() throws OrmException, IOException {
-          if (caller == Thread.currentThread()) {
-            updateGroups(db);
-          } else {
-            try (ReviewDb db = schemaFactory.open()) {
-              updateGroups(db);
-            }
+          try (RequestState state = requestState(caller)) {
+            updateGroups(state);
           }
           return null;
         }
@@ -2850,6 +2844,50 @@ public class ReceiveCommits {
   private static void synchronizedIncrement(Task p) {
     synchronized (p) {
       p.update(1);
+    }
+  }
+
+  private RequestState requestState(Thread caller)
+      throws RepositoryNotFoundException, OrmException, IOException {
+    if (caller == Thread.currentThread()) {
+      return new RequestState(db, repo, rp.getRevWalk(), false);
+    }
+    @SuppressWarnings("resource")
+    Repository localRepo = repoManager.openRepository(project.getNameKey());
+    ReviewDb db;
+    try {
+      db = schemaFactory.open();
+    } catch (OrmException e) {
+      localRepo.close();
+      throw e;
+    }
+    return new RequestState(db, localRepo, new RevWalk(localRepo), true);
+  }
+
+  @SuppressWarnings("hiding")
+  private class RequestState implements AutoCloseable {
+    private final ReviewDb db;
+    private final Repository repo;
+    private final RevWalk rw;
+    private final ObjectInserter ins;
+    private final boolean close;
+
+    private RequestState(ReviewDb db, Repository repo, RevWalk rw, boolean close) {
+      this.db = db;
+      this.repo = repo;
+      this.rw = rw;
+      this.close = close;
+      ins = repo.newObjectInserter();
+    }
+
+    @Override
+    public void close() {
+      ins.close();
+      if (close) {
+        rw.close();
+        repo.close();
+        db.close();
+      }
     }
   }
 }

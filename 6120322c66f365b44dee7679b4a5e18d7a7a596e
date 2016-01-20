@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "47719252_6d24158a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-20T12:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7828650_52bd347e",
+      "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c785825a_51e694d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2016-01-20T10:22:13Z",
       "side": 1,
       "message": "can difftype.encoded be null?",
+      "range": {
+        "startLine": 159,
+        "startChar": 28,
+        "endLine": 159,
+        "endChar": 45
+      },
+      "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6776964c_ae467736",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-20T12:56:50Z",
+      "side": 1,
+      "message": "No encoded cannot be null, we set this property in private constructor of the DiffType enum. It is always called with non-null values.\n\nWe can add a precondition check over there.",
+      "parentUuid": "c785825a_51e694d4",
       "range": {
         "startLine": 159,
         "startChar": 28,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "47719252_0d08f106",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-20T12:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7828650_72bab889",
+      "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7828650_12b7aca0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2016-01-20T10:22:13Z",
       "side": 1,
       "message": "nit: wrap this line",
+      "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6776964c_8e413b23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-20T12:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7828650_12b7aca0",
       "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "47719252_6dfbb52c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-20T12:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c785825a_71e398c3",
+      "range": {
+        "startLine": 72,
+        "startChar": 15,
+        "endLine": 72,
+        "endChar": 22
+      },
+      "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7828650_32b43099",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 6
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "6776964c_ee3c7fa0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-20T12:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7828650_32b43099",
+      "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7828650_d275a4ad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
         "patchSetId": 6
@@ -127,6 +247,24 @@
       "writtenOn": "2016-01-20T10:22:13Z",
       "side": 1,
       "message": "nit: wrap",
+      "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47719252_4dfef91d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-20T12:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7828650_d275a4ad",
       "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "47719252_4d27d98f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-20T12:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7828650_f27a289b",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 20
+      },
+      "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c785825a_11f00c86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 6
@@ -167,6 +329,24 @@
       "writtenOn": "2016-01-20T10:22:13Z",
       "side": 1,
       "message": "nit: wrap long lines",
+      "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47719252_adf8bd31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-01-20T12:56:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c785825a_11f00c86",
       "revId": "6120322c66f365b44dee7679b4a5e18d7a7a596e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -267,6 +267,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       allChangeMessages = parser.buildAllMessages();
       comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
+      change.setOriginalSubject(checkNotNull(parser.originalSubject,
+          "No original subject in notedb for change " + change.getId()));
+      change.setSubject(checkNotNull(parser.subject,
+          "No subject in notedb for change " + change.getId()));
       change.setDest(
           checkNotNull(new Branch.NameKey(getProjectName(), parser.branch),
               "No destination branch in notedb for change " + change.getId()));

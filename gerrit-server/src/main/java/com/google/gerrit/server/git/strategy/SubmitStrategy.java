@@ -66,7 +66,8 @@ public abstract class SubmitStrategy {
     };
   }
 
-  static class Arguments {
+  // TODO(dborowitz): make non-public when converting to BatchUpdate.
+  public static class Arguments {
     interface Factory {
       Arguments create(
           Branch.NameKey destBranch,
@@ -89,18 +90,21 @@ public abstract class SubmitStrategy {
     final RebaseChangeOp.Factory rebaseFactory;
 
     final Branch.NameKey destBranch;
-    final CodeReviewRevWalk rw;
+    // TODO(dborowitz): make non-public when converting to BatchUpdate.
+    public final CodeReviewRevWalk rw;
     final CommitStatus commits;
     final IdentifiedUser caller;
     final ObjectInserter inserter;
     final Repository repo;
-    final RevFlag canMergeFlag;
+    // TODO(dborowitz): make non-public when converting to BatchUpdate.
+    public final RevFlag canMergeFlag;
     final ReviewDb db;
     final Set<RevCommit> alreadyAccepted;
 
     final ProjectState project;
     final MergeSorter mergeSorter;
-    final MergeUtil mergeUtil;
+    // TODO(dborowitz): make non-public when converting to BatchUpdate.
+    public final MergeUtil mergeUtil;
 
     @AssistedInject
     Arguments(
@@ -152,7 +156,8 @@ public abstract class SubmitStrategy {
     }
   }
 
-  protected final Arguments args;
+  // TODO(dborowitz): make non-public when converting to BatchUpdate.
+  public final Arguments args;
 
   SubmitStrategy(Arguments args) {
     this.args = checkNotNull(args);

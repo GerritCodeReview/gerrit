@@ -534,22 +534,27 @@ public class MergeOp implements AutoCloseable {
     try {
       Multimap<Project.NameKey, Branch.NameKey> br = cs.branchesByProject();
       Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
-      openRepos(br.keySet());
-      for (Branch.NameKey branch : cbb.keySet()) {
+      Set<Project.NameKey> projects = br.keySet();
+      Collection<Branch.NameKey> branches = cbb.keySet();
+      openRepos(projects);
+      for (Branch.NameKey branch : branches) {
         OpenRepo or = getRepo(branch.getParentKey());
         toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
       }
       failFast(cs); // Done checks that don't involve running submit strategies.
 
-      for (Branch.NameKey branch : cbb.keySet()) {
+      Map<Branch.NameKey, SubmitStrategy> strategies =
+          Maps.newHashMapWithExpectedSize(branches.size());
+      for (Branch.NameKey branch : branches) {
         OpenRepo or = getRepo(branch.getParentKey());
         OpenBranch ob = or.getBranch(branch);
         BranchBatch submitting = toSubmit.get(branch);
         SubmitStrategy strategy = createStrategy(or, branch,
             submitting.submitType(), ob.oldTip);
+        strategies.put(branch, strategy);
         ob.mergeTip = preMerge(strategy, submitting.changes(), ob.oldTip);
       }
-      checkMergeStrategyResults(cs, toSubmit.values());
+      checkMergeStrategyResults(cs, strategies, toSubmit);
       for (Project.NameKey project : br.keySet()) {
         getRepo(project).ins.flush();
       }
@@ -884,8 +889,17 @@ public class MergeOp implements AutoCloseable {
   }
 
   private void checkMergeStrategyResults(ChangeSet cs,
-      Collection<BranchBatch> batches) throws ResourceConflictException {
-    for (ChangeData cd : flattenBatches(batches)) {
+      Map<Branch.NameKey, SubmitStrategy> strategies,
+      Map<Branch.NameKey, BranchBatch> batches)
+      throws ResourceConflictException, IntegrationException {
+    checkCommitStatus(batches);
+    failFast(cs);
+    findUnmergedChanges(strategies, batches);
+    failFast(cs);
+  }
+
+  private void checkCommitStatus(Map<Branch.NameKey, BranchBatch> batches) {
+    for (ChangeData cd : flattenBatches(batches.values())) {
       Change.Id id = cd.getId();
       CodeReviewCommit commit = commits.get(id);
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
@@ -921,7 +935,28 @@ public class MergeOp implements AutoCloseable {
           break;
       }
     }
-    failFast(cs);
+  }
+
+  private void findUnmergedChanges(
+      Map<Branch.NameKey, SubmitStrategy> strategies,
+      Map<Branch.NameKey, BranchBatch> batches) throws IntegrationException {
+    checkState(strategies.keySet().equals(batches.keySet()));
+    for (Branch.NameKey branch : strategies.keySet()) {
+      SubmitStrategy strategy = strategies.get(branch);
+      BranchBatch batch = batches.get(branch);
+      if (batch.submitType() == SubmitType.CHERRY_PICK) {
+        // Might have picked a subset of changes, can't do this sanity check.
+        continue;
+      }
+      OpenBranch ob = getRepo(branch.getParentKey()).branches.get(branch);
+      Set<Change.Id> unmerged = strategy.args.mergeUtil.findUnmergedChanges(
+          batch.changes(), strategy.args.rw, strategy.args.canMergeFlag,
+          ob.oldTip, ob.mergeTip.getCurrentTip());
+      for (Change.Id id : unmerged) {
+        commits.problem(id,
+            "internal error: change not reachable from new branch tip");
+      }
+    }
   }
 
   private void updateChangeStatus(OpenBranch ob, List<ChangeData> submitted)

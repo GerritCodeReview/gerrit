@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "e709a6de_1abafd87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T16:38:57Z",
+      "side": 1,
+      "message": "Yes, will do this.",
+      "parentUuid": "a765ee97_483b3f0d",
+      "revId": "336c42da42da2d390a6cee76f3aa43ef855c84c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a765ee97_6838830f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2

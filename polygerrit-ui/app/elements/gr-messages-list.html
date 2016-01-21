@@ -30,12 +30,21 @@ limitations under the License.
       gr-message {
         padding: 0 var(--default-horizontal-margin);
       }
+      .highlighted {
+        animation: 3s fadeOut;
+      }
+      @keyframes fadeOut {
+        0% { background-color: #fff9c4; }
+        100% { background-color: #fff; }
+      }
     </style>
     <h3>Messages</h3>
-    <template is="dom-repeat" items="{{messages}}" as="message">
+    <template is="dom-repeat" items="[[messages]]" as="message">
       <gr-message change-num="[[changeNum]]"
                   message="[[message]]"
-                  comments="[[_computeCommentsForMessage(comments, message, index)]]"></gr-message>
+                  comments="[[_computeCommentsForMessage(comments, message, index)]]"
+                  on-scroll-to="_handleScrollTo"
+                  data-message-id$="[[message.id]]"></gr-message>
     </template>
   </template>
   <script>
@@ -52,6 +61,40 @@ limitations under the License.
           value: function() { return []; },
         },
         comments: Object,
+        topMargin: Number,
+      },
+
+      scrollToMessage: function(messageID) {
+        var el = this.$$('[data-message-id="' + messageID + '"]');
+        if (!el) { return; }
+
+        el.expanded = true;
+        var top = el.offsetTop;
+        for (var offsetParent = el.offsetParent;
+             offsetParent;
+             offsetParent = offsetParent.offsetParent) {
+          top += offsetParent.offsetTop;
+        }
+        window.scrollTo(0, top - this.topMargin);
+        this._highlightEl(el);
+      },
+
+      _highlightEl: function(el) {
+        var highlightedEls =
+            Polymer.dom(this.root).querySelectorAll('.highlighted');
+        for (var i = 0; i < highlightedEls.length; i++) {
+          highlightedEls[i].classList.remove('highlighted');
+        }
+        function handleAnimationEnd() {
+          el.removeEventListener('animationend', handleAnimationEnd);
+          el.classList.remove('highlighted');
+        }
+        el.addEventListener('animationend', handleAnimationEnd);
+        el.classList.add('highlighted');
+      },
+
+      _handleScrollTo: function(e) {
+        this.scrollToMessage(e.detail.message.id);
       },
 
       _computeCommentsForMessage: function(comments, message, index) {

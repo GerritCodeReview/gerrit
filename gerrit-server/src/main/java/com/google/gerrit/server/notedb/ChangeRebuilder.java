@@ -318,11 +318,12 @@ public class ChangeRebuilder {
     @Override
     void apply(ChangeUpdate update) {
       checkUpdate(update);
+      update.setSubject(change.getSubject());
       if (ps.getPatchSetId() == 1) {
-        update.setSubject("Create change");
+        update.setSubjectForCommit("Create change");
         update.setBranch(change.getDest().get());
       } else {
-        update.setSubject("Create patch set " + ps.getPatchSetId());
+        update.setSubjectForCommit("Create patch set " + ps.getPatchSetId());
       }
     }
   }

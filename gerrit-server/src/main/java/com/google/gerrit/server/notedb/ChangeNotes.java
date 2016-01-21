@@ -266,6 +266,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       allChangeMessages = parser.buildAllMessages();
       comments = ImmutableListMultimap.copyOf(parser.comments);
       noteMap = parser.commentNoteMap;
+      change.setSubject(parser.subject);
+      change.setOriginalSubject(parser.originalSubject);
       change.setDest(new Branch.NameKey(getProjectName(), parser.branch));
       change.setTopic(Strings.emptyToNull(parser.topic));
       change.setCreatedOn(parser.createdOn);

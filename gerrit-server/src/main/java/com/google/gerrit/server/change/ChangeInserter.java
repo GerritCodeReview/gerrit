@@ -41,7 +41,7 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.GroupCollector;
-import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -70,6 +70,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 
 public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   public static interface Factory {
@@ -86,7 +87,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final CreateChangeSender.Factory createChangeSenderFactory;
-  private final WorkQueue workQueue;
+  private final ExecutorService sendEmailExecutor;
   private final CommitValidators.Factory commitValidatorsFactory;
 
   private final Change.Id changeId;
@@ -123,7 +124,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CreateChangeSender.Factory createChangeSenderFactory,
-      WorkQueue workQueue,
+      @SendEmailExecutor ExecutorService sendEmailExecutor,
       CommitValidators.Factory commitValidatorsFactory,
       @Assisted Change.Id changeId,
       @Assisted RevCommit commit,
@@ -135,7 +136,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.createChangeSenderFactory = createChangeSenderFactory;
-    this.workQueue = workQueue;
+    this.sendEmailExecutor = sendEmailExecutor;
     this.commitValidatorsFactory = commitValidatorsFactory;
 
     this.changeId = changeId;
@@ -358,7 +359,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         }
       };
       if (requestScopePropagator != null) {
-        workQueue.getDefaultQueue().submit(requestScopePropagator.wrap(sender));
+        sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
       } else {
         sender.run();
       }

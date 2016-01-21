@@ -52,17 +52,14 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.group.AddMembers;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -103,13 +100,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Inject protected AccountManager accountManager;
-  @Inject protected AddMembers addMembers;
   @Inject protected BatchUpdate.Factory updateFactory;
-  @Inject protected ChangeControl.GenericFactory changeControlFactory;
   @Inject protected ChangeInserter.Factory changeFactory;
   @Inject protected ChangeQueryBuilder queryBuilder;
   @Inject protected GerritApi gApi;
-  @Inject protected GroupCache groupCache;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected IndexCollection indexes;
   @Inject protected InMemoryDatabase schemaFactory;

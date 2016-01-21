@@ -20,6 +20,23 @@
     },
     {
       "key": {
+        "uuid": "a765ee97_a8251be9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T16:28:55Z",
+      "side": 1,
+      "message": "This should probably result in an error if there was no branch found.",
+      "revId": "7a75df39a14c131f61fa0c37d78f083c753dbf7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67f4d602_de4c05c9",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 4

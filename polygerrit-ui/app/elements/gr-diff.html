@@ -219,7 +219,7 @@ limitations under the License.
         var basePatchNum = this.patchRange.basePatchNum;
         var patchNum = this.patchRange.patchNum;
 
-        app.accountReady.then(function() {
+        return app.accountReady.then(function() {
           promises.push(this._getCommentsAndDrafts(basePatchNum, app.loggedIn));
           this._diffRequestsPromise = Promise.all(promises).then(function() {
             this._render();

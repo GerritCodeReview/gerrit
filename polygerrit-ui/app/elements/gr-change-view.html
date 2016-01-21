@@ -249,7 +249,7 @@ limitations under the License.
           change-num="[[_changeNum]]"
           patch-num="[[_patchNum]]"
           comments="[[_comments]]"></gr-file-list>
-      <gr-messages-list
+      <gr-messages-list id="messageList"
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"
           comments="[[_comments]]"></gr-messages-list>
@@ -312,6 +312,7 @@ limitations under the License.
         app.accountReady.then(function() {
           this._loggedIn = app.loggedIn;
         }.bind(this));
+        this._headerEl = this.$$('.header');
       },
 
       attached: function() {
@@ -338,9 +339,7 @@ limitations under the License.
         // The element may not be displayed yet, in which case do nothing.
         if (top == 0) { return; }
 
-        var el = this._headerEl || this.$$('.header');
-        this._headerEl = el;
-        el.classList.toggle('pinned', window.scrollY >= top);
+        this._headerEl.classList.toggle('pinned', window.scrollY >= top);
       },
 
       _resetHeaderEl: function() {
@@ -370,7 +369,17 @@ limitations under the License.
         if (!this._changeNum) {
           return;
         }
-        this._reload();
+        this._reload().then(function() {
+          this.$.messageList.topMargin = this._headerEl.offsetHeight;
+          // Allow the message list to render before scrolling.
+          this.async(function() {
+            var prefix = '#message-';
+            if (window.location.hash.indexOf(prefix) == 0) {
+              this.$.messageList.scrollToMessage(
+                  window.location.hash.substr(prefix.length));
+            }
+          }.bind(this), 1);
+        }.bind(this));
       },
 
       _changeChanged: function(change) {
@@ -479,18 +488,21 @@ limitations under the License.
         var detailCompletes = this.$.detailXHR.generateRequest().completes;
         this.$.commentsXHR.generateRequest();
         var reloadPatchNumDependentResources = function() {
-          this.$.commitInfoXHR.generateRequest();
-          this.$.actions.reload();
-          this.$.fileList.reload();
+          return Promise.all([
+            this.$.commitInfoXHR.generateRequest().completes,
+            this.$.actions.reload(),
+            this.$.fileList.reload(),
+          ])
         }.bind(this);
 
+        this._resetHeaderEl();
+
         if (this._patchNum) {
-          reloadPatchNumDependentResources();
+          return reloadPatchNumDependentResources();
         } else {
           // The patch number is reliant on the change detail request.
-          detailCompletes.then(reloadPatchNumDependentResources);
+          return detailCompletes.then(reloadPatchNumDependentResources);
         }
-        this._resetHeaderEl();
       },
 
     });

@@ -90,9 +90,10 @@ limitations under the License.
       },
 
       reload: function() {
-        if (!!this.changeNum && !!this.patchNum) {
-          this.$.actionsXHR.generateRequest();
+        if (!this.changeNum || !this.patchNum) {
+          return Promise.resolve();
         }
+        return this.$.actionsXHR.generateRequest().completes;
       },
 
       _actionsChanged: function(actions) {

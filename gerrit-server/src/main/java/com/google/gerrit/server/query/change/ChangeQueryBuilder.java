@@ -470,7 +470,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> commit(String id) {
-    return new CommitPredicate(args.getSchema(), id);
+    return new CommitPredicate(id);
   }
 
   @Operator

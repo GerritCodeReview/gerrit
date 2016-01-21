@@ -75,9 +75,8 @@ public class InternalChangeQuery {
     return new ChangeStatusPredicate(status);
   }
 
-  private static Predicate<ChangeData> commit(Schema<ChangeData> schema,
-      String id) {
-    return new CommitPredicate(schema, id);
+  private static Predicate<ChangeData> commit(String id) {
+    return new CommitPredicate(id);
   }
 
   private final IndexConfig indexConfig;
@@ -195,14 +194,13 @@ public class InternalChangeQuery {
         ref(branch),
         project(branch.getParentKey()),
         not(status(Change.Status.MERGED)),
-        or(commits(schema(indexes), hashes))));
+        or(commits(hashes))));
   }
 
-  private static List<Predicate<ChangeData>> commits(Schema<ChangeData> schema,
-      List<String> hashes) {
+  private static List<Predicate<ChangeData>> commits(List<String> hashes) {
     List<Predicate<ChangeData>> commits = new ArrayList<>(hashes.size());
     for (String s : hashes) {
-      commits.add(commit(schema, s));
+      commits.add(commit(s));
     }
     return commits;
   }
@@ -222,19 +220,19 @@ public class InternalChangeQuery {
   }
 
   public List<ChangeData> byCommit(String hash) throws OrmException {
-    return query(commit(schema(indexes), hash));
+    return query(commit(hash));
   }
 
   public List<ChangeData> byProjectCommit(Project.NameKey project,
       String hash) throws OrmException {
-    return query(and(project(project), commit(schema(indexes), hash)));
+    return query(and(project(project), commit(hash)));
   }
 
   public List<ChangeData> byProjectCommits(Project.NameKey project,
       List<String> hashes) throws OrmException {
     int n = indexConfig.maxTerms() - 1;
     checkArgument(hashes.size() <= n, "cannot exceed %s commits", n);
-    return query(and(project(project), or(commits(schema(indexes), hashes))));
+    return query(and(project(project), or(commits(hashes))));
   }
 
   public List<ChangeData> byBranchCommit(String project, String branch,
@@ -242,7 +240,7 @@ public class InternalChangeQuery {
     return query(and(
         new ProjectPredicate(project),
         new RefPredicate(branch),
-        commit(schema(indexes), hash)));
+        commit(hash)));
   }
 
   public List<ChangeData> byBranchCommit(Branch.NameKey branch, String hash)

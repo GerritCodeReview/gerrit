@@ -21,7 +21,10 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
@@ -71,6 +74,43 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
   }
 
+
+  @Test
+  public void submitWithRebaseMultipleChanges() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change1 =
+        createChange("Change 1", "a.txt", "content");
+    submit(change1.getChangeId());
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 =
+        createChange("Change 2", "b.txt", "other content");
+    assertThat(change2.getCommit().getParent(0))
+        .isNotEqualTo(change1.getCommit());
+    PushOneCommit.Result change3 =
+        createChange("Change 3", "c.txt", "third content");
+    approve(change2.getChangeId());
+    submit(change3.getChangeId());
+
+    assertRebase(testRepo, false);
+    assertApproved(change2.getChangeId());
+    assertApproved(change3.getChangeId());
+
+    RevCommit head = parse(getRemoteHead());
+    assertThat(head.getShortMessage()).isEqualTo("Change 3");
+    assertThat(head).isNotEqualTo(change3.getCommit());
+    assertCurrentRevision(change3.getChangeId(), 2, head);
+
+    RevCommit parent = parse(head.getParent(0));
+    assertThat(parent.getShortMessage()).isEqualTo("Change 2");
+    assertThat(parent).isNotEqualTo(change2.getCommit());
+    assertCurrentRevision(change2.getChangeId(), 2, parent);
+
+    RevCommit grandparent = parse(parent.getParent(0));
+    assertThat(grandparent).isEqualTo(change1.getCommit());
+    assertCurrentRevision(change1.getChangeId(), 1, grandparent);
+  }
+
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge() throws Exception {
@@ -112,5 +152,14 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertThat(head).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
     assertNoSubmitter(change2.getChangeId(), 1);
+  }
+
+  private RevCommit parse(ObjectId id) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit c = rw.parseCommit(id);
+      rw.parseBody(c);
+      return c;
+    }
   }
 }

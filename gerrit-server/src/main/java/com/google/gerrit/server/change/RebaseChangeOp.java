@@ -170,6 +170,12 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     return rebasedCommit;
   }
 
+  public PatchSet.Id getPatchSetId() {
+    checkState(rebasedPatchSetId != null,
+        "getPatchSetId() only valid after updateRepo");
+    return rebasedPatchSetId;
+  }
+
   public PatchSet getPatchSet() {
     checkState(rebasedPatchSet != null,
         "getPatchSet() only valid after executing update");

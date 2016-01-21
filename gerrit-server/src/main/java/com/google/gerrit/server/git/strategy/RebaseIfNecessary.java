@@ -36,8 +36,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -123,6 +121,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
     private final CodeReviewCommit toMerge;
 
     private RebaseChangeOp rebaseOp;
+    private CodeReviewCommit newCommit;
 
     private RebaseOneOp(MergeTip mergeTip, CodeReviewCommit toMerge) {
       this.mergeTip = mergeTip;
@@ -161,6 +160,13 @@ public class RebaseIfNecessary extends SubmitStrategy {
         throw new IntegrationException(
             "Cannot rebase " + toMerge.name() + ": " + e.getMessage(), e);
       }
+      newCommit = args.rw.parseCommit(rebaseOp.getRebasedCommit());
+      newCommit.copyFrom(toMerge);
+      newCommit.setStatusCode(CommitMergeStatus.CLEAN_REBASE);
+      newCommit.setPatchsetId(rebaseOp.getPatchSetId());
+      mergeTip.moveTipTo(newCommit, newCommit);
+      args.commits.put(mergeTip.getCurrentTip());
+      acceptMergeTip(mergeTip);
     }
 
     @Override
@@ -172,29 +178,19 @@ public class RebaseIfNecessary extends SubmitStrategy {
       }
 
       rebaseOp.updateChange(ctx);
-      PatchSet newPatchSet = rebaseOp.getPatchSet();
+      PatchSet.Id newPatchSetId = rebaseOp.getPatchSetId();
       List<PatchSetApproval> approvals = Lists.newArrayList();
       for (PatchSetApproval a : args.approvalsUtil.byPatchSet(ctx.getDb(),
           toMerge.getControl(), toMerge.getPatchsetId())) {
-        approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
+        approvals.add(new PatchSetApproval(newPatchSetId, a));
       }
       args.db.patchSetApprovals().insert(approvals);
 
-      // TODO(dborowitz): Make RevWalk available via BatchUpdate.
-      CodeReviewCommit newTip = args.rw.parseCommit(
-          ObjectId.fromString(newPatchSet.getRevision().get()));
-      mergeTip.moveTipTo(newTip, newTip);
       toMerge.change().setCurrentPatchSet(
           args.patchSetInfoFactory.get(args.rw, mergeTip.getCurrentTip(),
-              newPatchSet.getId()));
-      mergeTip.getCurrentTip().copyFrom(toMerge);
-      mergeTip.getCurrentTip().setControl(
+              newPatchSetId));
+      newCommit.setControl(
           args.changeControlFactory.controlFor(toMerge.change(), args.caller));
-      mergeTip.getCurrentTip().setPatchsetId(newPatchSet.getId());
-      mergeTip.getCurrentTip().setStatusCode(
-          CommitMergeStatus.CLEAN_REBASE);
-      args.commits.put(mergeTip.getCurrentTip());
-      acceptMergeTip(mergeTip);
     }
 
     @Override

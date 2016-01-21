@@ -111,6 +111,30 @@
       "revId": "ff473bb34518df92bc68c36bcc3acd259ad7423b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a765ee97_6802c354",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T13:20:02Z",
+      "side": 1,
+      "message": "parseCommit would throw if the object were actually missing. I think we\u0027re just missing a rw.parseBody call. I think the difference in your two examples is one of those RevWalks has retainBody set and the other doesn\u0027t.",
+      "parentUuid": "e709a6de_7af05987",
+      "range": {
+        "startLine": 206,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 50
+      },
+      "revId": "ff473bb34518df92bc68c36bcc3acd259ad7423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

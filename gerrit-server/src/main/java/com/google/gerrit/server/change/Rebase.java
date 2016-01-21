@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
@@ -29,8 +30,8 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
@@ -69,6 +70,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final PatchSetUtil psUtil;
 
   @Inject
   public Rebase(BatchUpdate.Factory updateFactory,
@@ -77,7 +79,8 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
       RebaseUtil rebaseUtil,
       ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
-      Provider<InternalChangeQuery> queryProvider) {
+      Provider<InternalChangeQuery> queryProvider,
+      PatchSetUtil psUtil) {
     this.updateFactory = updateFactory;
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
@@ -85,6 +88,7 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     this.json = json;
     this.dbProvider = dbProvider;
     this.queryProvider = queryProvider;
+    this.psUtil = psUtil;
   }
 
   @Override
@@ -127,28 +131,26 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     }
 
     Change change = rsrc.getChange();
-    String base = input.base.trim();
-    if (base.equals("")) {
+    String str = input.base.trim();
+    if (str.equals("")) {
       // remove existing dependency to other patch set
       return change.getDest().get();
     }
 
     @SuppressWarnings("resource")
     ReviewDb db = dbProvider.get();
-    PatchSet basePatchSet = parseBase(change.getProject(), base);
-    if (basePatchSet == null) {
-      throw new ResourceConflictException("base revision is missing: " + base);
-    } else if (!rsrc.getControl().isPatchVisible(basePatchSet, db)) {
-      throw new AuthException("base revision not accessible: " + base);
-    } else if (change.getId().equals(basePatchSet.getId().getParentKey())) {
+    Base base = parseBase(rsrc, str);
+    if (base == null) {
+      throw new ResourceConflictException("base revision is missing: " + str);
+    }
+    PatchSet.Id baseId = base.patchSet().getId();
+    if (!base.control().isPatchVisible(base.patchSet(), db)) {
+      throw new AuthException("base revision not accessible: " + str);
+    } else if (change.getId().equals(baseId.getParentKey())) {
       throw new ResourceConflictException("cannot depend on self");
     }
 
-    Change baseChange = db.changes().get(basePatchSet.getId().getParentKey());
-    if (baseChange == null) {
-      return null;
-    }
-
+    Change baseChange = base.control().getChange();
     if (!baseChange.getProject().equals(change.getProject())) {
       throw new ResourceConflictException(
           "base change is in wrong project: " + baseChange.getProject());
@@ -158,12 +160,12 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     } else if (baseChange.getStatus() == Status.ABANDONED) {
       throw new ResourceConflictException(
           "base change is abandoned: " + baseChange.getKey());
-    } else if (isMergedInto(rw, rsrc.getPatchSet(), basePatchSet)) {
+    } else if (isMergedInto(rw, rsrc.getPatchSet(), base.patchSet())) {
       throw new ResourceConflictException(
           "base change " + baseChange.getKey()
           + " is a descendant of the current  change - recursion not allowed");
     }
-    return basePatchSet.getRevision().get();
+    return base.patchSet().getRevision().get();
   }
 
   private boolean isMergedInto(RevWalk rw, PatchSet base, PatchSet tip)
@@ -173,44 +175,65 @@ public class Rebase implements RestModifyView<RevisionResource, RebaseInput>,
     return rw.isMergedInto(rw.parseCommit(baseId), rw.parseCommit(tipId));
   }
 
-  private PatchSet parseBase(Project.NameKey project, String base)
+  @AutoValue
+  static abstract class Base {
+    private static Base create(ChangeControl ctl, PatchSet ps) {
+      if (ctl == null) {
+        return null;
+      }
+      return new AutoValue_Rebase_Base(ctl, ps);
+    }
+
+    abstract ChangeControl control();
+    abstract PatchSet patchSet();
+  }
+
+  private Base parseBase(RevisionResource rsrc, String base)
       throws OrmException {
     ReviewDb db = dbProvider.get();
 
+    // Try parsing the base as a ref string.
     PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
     if (basePatchSetId != null) {
-      // Try parsing the base as a ref string.
-      return db.patchSets().get(basePatchSetId);
+      return Base.create(
+          controlFor(rsrc, basePatchSetId.getParentKey()),
+          psUtil.get(db, rsrc.getNotes(), basePatchSetId));
     }
 
     // Try parsing base as a change number (assume current patch set).
-    PatchSet basePatchSet = null;
     Integer baseChangeId = Ints.tryParse(base);
     if (baseChangeId != null) {
-      for (PatchSet ps : db.patchSets().byChange(new Change.Id(baseChangeId))) {
-        if (basePatchSet == null
-            || basePatchSet.getId().get() < ps.getId().get()) {
-          basePatchSet = ps;
-        }
-      }
-      if (basePatchSet != null) {
-        return basePatchSet;
+      ChangeControl baseCtl = controlFor(rsrc, new Change.Id(baseChangeId));
+      if (baseCtl != null) {
+        return Base.create(baseCtl, psUtil.current(db, baseCtl.getNotes()));
       }
     }
 
     // Try parsing as SHA-1.
-    for (ChangeData cd : queryProvider.get().byProjectCommit(project, base)) {
+    Base ret = null;
+    for (ChangeData cd : queryProvider.get()
+        .byProjectCommit(rsrc.getProject(), base)) {
       for (PatchSet ps : cd.patchSets()) {
         if (!ps.getRevision().matches(base)) {
           continue;
         }
-        if (basePatchSet == null
-            || basePatchSet.getId().get() < ps.getId().get()) {
-          basePatchSet = ps;
+        if (ret == null || ret.patchSet().getId().get() < ps.getId().get()) {
+          ret = Base.create(
+              rsrc.getControl().getProjectControl().controlFor(cd.change()),
+              ps);
         }
       }
     }
-    return basePatchSet;
+    return ret;
+  }
+
+  private ChangeControl controlFor(RevisionResource rsrc, Change.Id id)
+      throws OrmException {
+    Change c = dbProvider.get().changes().get(id);
+    if (c == null) {
+      return null;
+    }
+    return rsrc.getControl().getProjectControl().controlFor(c);
   }
 
   private boolean hasOneParent(RevWalk rw, PatchSet ps) throws IOException {

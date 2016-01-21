@@ -19,32 +19,54 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandUtils {
-  public static PatchSet parsePatchSet(String patchIdentity, ReviewDb db,
-      InternalChangeQuery query, ProjectControl projectControl, String branch)
-      throws UnloggedFailure, OrmException {
+@Singleton
+class PatchSetParser {
+  private final Provider<ReviewDb> db;
+  private final Provider<InternalChangeQuery> queryProvider;
+  private final ChangeNotes.Factory notesFactory;
+  private final PatchSetUtil psUtil;
+
+  @Inject
+  PatchSetParser(Provider<ReviewDb> db,
+      Provider<InternalChangeQuery> queryProvider,
+      ChangeNotes.Factory notesFactory,
+      PatchSetUtil psUtil) {
+    this.db = db;
+    this.queryProvider = queryProvider;
+    this.notesFactory = notesFactory;
+    this.psUtil = psUtil;
+  }
+
+  public PatchSet parsePatchSet(String token, ProjectControl projectControl,
+      String branch) throws UnloggedFailure, OrmException {
     // By commit?
     //
-    if (patchIdentity.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+    if (token.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+      InternalChangeQuery query = queryProvider.get();
       List<ChangeData> cds;
       if (projectControl != null) {
         Project.NameKey p = projectControl.getProject().getNameKey();
         if (branch != null) {
-          cds = query.byBranchCommit(p.get(), branch, patchIdentity);
+          cds = query.byBranchCommit(p.get(), branch, token);
         } else {
-          cds = query.byProjectCommit(p, patchIdentity);
+          cds = query.byProjectCommit(p, token);
         }
       } else {
-        cds = query.byCommit(patchIdentity);
+        cds = query.byCommit(token);
       }
       List<PatchSet> matches = new ArrayList<>(cds.size());
       for (ChangeData cd : cds) {
@@ -53,7 +75,7 @@ public class CommandUtils {
           continue;
         }
         for (PatchSet ps : cd.patchSets()) {
-          if (ps.getRevision().matches(patchIdentity)) {
+          if (ps.getRevision().matches(token)) {
             matches.add(ps);
           }
         }
@@ -63,40 +85,49 @@ public class CommandUtils {
         case 1:
           return matches.iterator().next();
         case 0:
-          throw error("\"" + patchIdentity + "\" no such patch set");
+          throw error("\"" + token + "\" no such patch set");
         default:
-          throw error("\"" + patchIdentity + "\" matches multiple patch sets");
+          throw error("\"" + token + "\" matches multiple patch sets");
       }
     }
 
     // By older style change,patchset?
     //
-    if (patchIdentity.matches("^[1-9][0-9]*,[1-9][0-9]*$")) {
+    if (token.matches("^[1-9][0-9]*,[1-9][0-9]*$")) {
       PatchSet.Id patchSetId;
       try {
-        patchSetId = PatchSet.Id.parse(patchIdentity);
+        patchSetId = PatchSet.Id.parse(token);
       } catch (IllegalArgumentException e) {
-        throw error("\"" + patchIdentity + "\" is not a valid patch set");
+        throw error("\"" + token + "\" is not a valid patch set");
       }
-      PatchSet patchSet = db.patchSets().get(patchSetId);
+      ChangeNotes notes = getNotes(patchSetId.getParentKey());
+      PatchSet patchSet = psUtil.get(db.get(), notes, patchSetId);
       if (patchSet == null) {
-        throw error("\"" + patchIdentity + "\" no such patch set");
+        throw error("\"" + token + "\" no such patch set");
       }
       if (projectControl != null || branch != null) {
-        Change change = db.changes().get(patchSetId.getParentKey());
+        Change change = notes.getChange();
         if (!inProject(change, projectControl)) {
           throw error("change " + change.getId() + " not in project "
               + projectControl.getProject().getName());
         }
         if (!inBranch(change, branch)) {
-          throw error("change " + change.getId() + " not in branch "
-              + change.getDest().get());
+          throw error("change " + change.getId() + " not in branch " + branch);
         }
       }
       return patchSet;
     }
 
-    throw error("\"" + patchIdentity + "\" is not a valid patch set");
+    throw error("\"" + token + "\" is not a valid patch set");
+  }
+
+  private ChangeNotes getNotes(Change.Id changeId)
+      throws OrmException, UnloggedFailure {
+    Change c = db.get().changes().get(changeId);
+    if (c == null) {
+      throw error("\"" + changeId + "\" no such change");
+    }
+    return notesFactory.create(c);
   }
 
   private static boolean inProject(Change change,

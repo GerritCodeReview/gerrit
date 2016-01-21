@@ -30,7 +30,6 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.RevisionResource;
@@ -82,14 +81,12 @@ public class GroupCollector {
   private static final Logger log =
       LoggerFactory.getLogger(GroupCollector.class);
 
-  public static List<String> getCurrentGroups(ReviewDb db, Change c)
-      throws OrmException {
-    PatchSet ps = db.patchSets().get(c.currentPatchSetId());
-    return ps != null ? ps.getGroups() : null;
-  }
-
   public static List<String> getDefaultGroups(PatchSet ps) {
     return ImmutableList.of(ps.getRevision().get());
+  }
+
+  public static List<String> getDefaultGroups(ObjectId commit) {
+    return ImmutableList.of(commit.name());
   }
 
   public static List<String> getGroups(RevisionResource rsrc) {
@@ -136,6 +133,7 @@ public class GroupCollector {
         new Lookup() {
           @Override
           public List<String> lookup(PatchSet.Id psId) throws OrmException {
+            // TODO(dborowitz): PatchSetUtil.
             PatchSet ps = db.patchSets().get(psId);
             return ps != null ? ps.getGroups() : null;
           }

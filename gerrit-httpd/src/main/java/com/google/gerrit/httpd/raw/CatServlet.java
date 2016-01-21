@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.ChangeControl;
@@ -53,16 +54,19 @@ public class CatServlet extends HttpServlet {
   private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControl;
   private final ChangeEditUtil changeEditUtil;
+  private final PatchSetUtil psUtil;
 
   @Inject
   CatServlet(Provider<ReviewDb> sf,
       ChangeControl.GenericFactory ccf,
       Provider<CurrentUser> usrprv,
-      ChangeEditUtil ceu) {
+      ChangeEditUtil ceu,
+      PatchSetUtil psu) {
     requestDb = sf;
     changeControl = ccf;
     userProvider = usrprv;
     changeEditUtil = ceu;
+    psUtil = psu;
   }
 
   @Override
@@ -135,7 +139,8 @@ public class CatServlet extends HttpServlet {
           return;
         }
       } else {
-        PatchSet patchSet = db.patchSets().get(patchKey.getParentKey());
+        PatchSet patchSet =
+            psUtil.get(db, control.getNotes(), patchKey.getParentKey());
         if (patchSet == null) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;

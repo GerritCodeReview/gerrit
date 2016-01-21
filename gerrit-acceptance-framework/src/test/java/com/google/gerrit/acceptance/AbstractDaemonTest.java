@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -58,10 +59,12 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gson.Gson;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -163,6 +166,9 @@ public abstract class AbstractDaemonTest {
   @Inject
   @GerritPersonIdent
   protected Provider<PersonIdent> serverIdent;
+
+  @Inject
+  protected ChangeData.Factory changeDataFactory;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
@@ -623,5 +629,9 @@ public abstract class AbstractDaemonTest {
         return input.changeId;
       }
     })).containsExactly((Object[])expected).inOrder();
+  }
+
+  protected PatchSet getPatchSet(PatchSet.Id psId) throws OrmException {
+    return changeDataFactory.create(db, psId.getParentKey()).patchSet(psId);
   }
 }

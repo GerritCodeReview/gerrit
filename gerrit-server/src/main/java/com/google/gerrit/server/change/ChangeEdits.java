@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
@@ -150,6 +151,7 @@ public class ChangeEdits implements
     private final Provider<ReviewDb> db;
     private final ChangeEditUtil editUtil;
     private final ChangeEditModifier editModifier;
+    private final PatchSetUtil psUtil;
     private final Put putEdit;
     private final Change change;
     private final String path;
@@ -158,12 +160,14 @@ public class ChangeEdits implements
     Create(Provider<ReviewDb> db,
         ChangeEditUtil editUtil,
         ChangeEditModifier editModifier,
+        PatchSetUtil psUtil,
         Put putEdit,
         @Assisted Change change,
         @Assisted @Nullable String path) {
       this.db = db;
       this.editUtil = editUtil;
       this.editModifier = editModifier;
+      this.psUtil = psUtil;
       this.putEdit = putEdit;
       this.change = change;
       this.path = path;
@@ -179,7 +183,7 @@ public class ChangeEdits implements
             "edit already exists for the change %s",
             resource.getId()));
       }
-      edit = createEdit();
+      edit = createEdit(resource);
       if (!Strings.isNullOrEmpty(path)) {
         putEdit.apply(new ChangeEditResource(resource, edit.get(), path),
             input);
@@ -187,10 +191,11 @@ public class ChangeEdits implements
       return Response.none();
     }
 
-    private Optional<ChangeEdit> createEdit() throws AuthException,
-        IOException, ResourceConflictException, OrmException {
+    private Optional<ChangeEdit> createEdit(ChangeResource resource)
+        throws AuthException, IOException, ResourceConflictException,
+        OrmException {
       editModifier.createEdit(change,
-          db.get().patchSets().get(change.currentPatchSetId()));
+          psUtil.current(db.get(), resource.getNotes()));
       return editUtil.byChange(change);
     }
   }
@@ -206,16 +211,19 @@ public class ChangeEdits implements
 
     private final ChangeEditUtil editUtil;
     private final ChangeEditModifier editModifier;
+    private final PatchSetUtil psUtil;
     private final Provider<ReviewDb> db;
     private final String path;
 
     @Inject
     DeleteFile(ChangeEditUtil editUtil,
         ChangeEditModifier editModifier,
+        PatchSetUtil psUtil,
         Provider<ReviewDb> db,
         @Assisted String path) {
       this.editUtil = editUtil;
       this.editModifier = editModifier;
+      this.psUtil = psUtil;
       this.db = db;
       this.path = path;
     }
@@ -233,8 +241,8 @@ public class ChangeEdits implements
         // Even if the latest patch set changed since the user triggered
         // the operation, deleting the whole file is probably still what
         // they intended.
-        editModifier.createEdit(rsrc.getChange(), db.get().patchSets().get(
-            rsrc.getChange().currentPatchSetId()));
+        editModifier.createEdit(rsrc.getChange(),
+            psUtil.current(db.get(), rsrc.getNotes()));
         edit = editUtil.byChange(rsrc.getChange());
         editModifier.deleteFile(edit.get(), path);
       }
@@ -321,14 +329,17 @@ public class ChangeEdits implements
     private final Provider<ReviewDb> db;
     private final ChangeEditUtil editUtil;
     private final ChangeEditModifier editModifier;
+    private final PatchSetUtil psUtil;
 
     @Inject
     Post(Provider<ReviewDb> db,
         ChangeEditUtil editUtil,
-        ChangeEditModifier editModifier) {
+        ChangeEditModifier editModifier,
+        PatchSetUtil psUtil) {
       this.db = db;
       this.editUtil = editUtil;
       this.editModifier = editModifier;
+      this.psUtil = psUtil;
     }
 
     @Override
@@ -337,7 +348,7 @@ public class ChangeEdits implements
         ResourceConflictException, OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(resource.getChange());
       if (!edit.isPresent()) {
-        edit = createEdit(resource.getChange());
+        edit = createEdit(resource);
       }
 
       if (input != null) {
@@ -351,12 +362,12 @@ public class ChangeEdits implements
       return Response.none();
     }
 
-    private Optional<ChangeEdit> createEdit(Change change)
+    private Optional<ChangeEdit> createEdit(ChangeResource resource)
         throws AuthException, IOException, ResourceConflictException,
         OrmException {
-      editModifier.createEdit(change,
-          db.get().patchSets().get(change.currentPatchSetId()));
-      return editUtil.byChange(change);
+      editModifier.createEdit(resource.getChange(),
+          psUtil.current(db.get(), resource.getNotes()));
+      return editUtil.byChange(resource.getChange());
     }
   }
 
@@ -496,14 +507,17 @@ public class ChangeEdits implements
     private final Provider<ReviewDb> db;
     private final ChangeEditModifier editModifier;
     private final ChangeEditUtil editUtil;
+    private final PatchSetUtil psUtil;
 
     @Inject
     EditMessage(Provider<ReviewDb> db,
         ChangeEditModifier editModifier,
-        ChangeEditUtil editUtil) {
+        ChangeEditUtil editUtil,
+        PatchSetUtil psUtil) {
       this.db = db;
       this.editModifier = editModifier;
       this.editUtil = editUtil;
+      this.psUtil = psUtil;
     }
 
     @Override
@@ -513,7 +527,7 @@ public class ChangeEdits implements
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         editModifier.createEdit(rsrc.getChange(),
-            db.get().patchSets().get(rsrc.getChange().currentPatchSetId()));
+            psUtil.current(db.get(), rsrc.getNotes()));
         edit = editUtil.byChange(rsrc.getChange());
       }
 

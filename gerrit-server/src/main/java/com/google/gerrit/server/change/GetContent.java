@@ -46,7 +46,8 @@ public class GetContent implements RestReadView<FileResource> {
       OrmException {
     String path = rsrc.getPatchKey().get();
     if (Patch.COMMIT_MSG.equals(path)) {
-      String msg = changeUtil.getMessage(rsrc.getRevision().getChange());
+      String msg = changeUtil.getMessage(
+          rsrc.getRevision().getChangeResource().getNotes());
       return BinaryResult.create(msg)
           .setContentType(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE)
           .base64();

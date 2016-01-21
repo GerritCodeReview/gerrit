@@ -21,7 +21,6 @@ import com.google.common.collect.Multimap;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gwtorm.server.OrmException;
@@ -37,11 +36,11 @@ import java.util.Set;
 public class MailUtil {
 
   public static MailRecipients getRecipientsFromFooters(
-      final AccountResolver accountResolver, final PatchSet ps,
-      final List<FooterLine> footerLines) throws OrmException {
-    final MailRecipients recipients = new MailRecipients();
-    if (!ps.isDraft()) {
-      for (final FooterLine footerLine : footerLines) {
+      AccountResolver accountResolver, boolean draftPatchSet,
+      List<FooterLine> footerLines) throws OrmException {
+    MailRecipients recipients = new MailRecipients();
+    if (!draftPatchSet) {
+      for (FooterLine footerLine : footerLines) {
         try {
           if (isReviewer(footerLine)) {
             recipients.reviewers.add(toAccountId(accountResolver, footerLine

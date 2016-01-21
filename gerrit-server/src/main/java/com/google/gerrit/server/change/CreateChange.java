@@ -37,6 +37,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -84,6 +85,7 @@ public class CreateChange implements
   private final ChangeJson.Factory jsonFactory;
   private final ChangeUtil changeUtil;
   private final BatchUpdate.Factory updateFactory;
+  private final PatchSetUtil psUtil;
   private final boolean allowDrafts;
 
   @Inject
@@ -97,6 +99,7 @@ public class CreateChange implements
       ChangeJson.Factory json,
       ChangeUtil changeUtil,
       BatchUpdate.Factory updateFactory,
+      PatchSetUtil psUtil,
       @GerritServerConfig Config config) {
     this.db = db;
     this.gitManager = gitManager;
@@ -108,6 +111,7 @@ public class CreateChange implements
     this.jsonFactory = json;
     this.changeUtil = changeUtil;
     this.updateFactory = updateFactory;
+    this.psUtil = psUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
   }
 
@@ -168,8 +172,7 @@ public class CreateChange implements
           throw new InvalidChangeOperationException(
               "Base change not found: " + input.baseChange);
         }
-        PatchSet ps =
-            db.get().patchSets().get(ctl.getChange().currentPatchSetId());
+        PatchSet ps = psUtil.current(db.get(), ctl.getNotes());
         parentCommit = ObjectId.fromString(ps.getRevision().get());
         groups = ps.getGroups();
       } else {
@@ -198,7 +201,7 @@ public class CreateChange implements
         ChangeInserter ins = changeInserterFactory.create(changeId, c, refName)
             .setValidatePolicy(CommitValidators.Policy.GERRIT);
         ins.setMessage(String.format("Uploaded patch set %s.",
-            ins.getPatchSet().getPatchSetId()));
+            ins.getPatchSetId().get()));
         String topic = input.topic;
         if (topic != null) {
           topic = Strings.emptyToNull(topic.trim());

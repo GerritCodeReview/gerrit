@@ -140,7 +140,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     if (patchSet == null) {
       try {
-        patchSet = args.db.get().patchSets().get(change.currentPatchSetId());
+        patchSet = changeData.currentPatchSet();
       } catch (OrmException err) {
         patchSet = null;
       }
@@ -148,8 +148,9 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     if (patchSet != null && patchSetInfo == null) {
       try {
-        patchSetInfo = args.patchSetInfoFactory.get(args.db.get(), patchSet.getId());
-      } catch (PatchSetInfoNotAvailableException err) {
+        patchSetInfo = args.patchSetInfoFactory.get(
+            args.db.get(), changeData.notes(), patchSet.getId());
+      } catch (PatchSetInfoNotAvailableException | OrmException err) {
         patchSetInfo = null;
       }
     }

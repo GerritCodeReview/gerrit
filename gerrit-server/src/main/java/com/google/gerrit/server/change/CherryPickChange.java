@@ -30,6 +30,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -81,6 +82,7 @@ public class CherryPickChange {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
+  private final PatchSetUtil psUtil;
   private final ChangeUpdate.Factory updateFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
 
@@ -95,6 +97,7 @@ public class CherryPickChange {
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeMessagesUtil changeMessagesUtil,
+      PatchSetUtil psUtil,
       ChangeUpdate.Factory updateFactory,
       BatchUpdate.Factory batchUpdateFactory) {
     this.db = db;
@@ -107,6 +110,7 @@ public class CherryPickChange {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeMessagesUtil = changeMessagesUtil;
+    this.psUtil = psUtil;
     this.updateFactory = updateFactory;
     this.batchUpdateFactory = batchUpdateFactory;
   }
@@ -177,10 +181,13 @@ public class CherryPickChange {
           throw new InvalidChangeOperationException("Several changes with key "
               + changeKey + " reside on the same branch. "
               + "Cannot create a new patch set.");
-        } else if (destChanges.size() == 1) {
+        }
+        if (destChanges.size() == 1) {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
-          return insertPatchSet(git, revWalk, oi, destChanges.get(0).change(),
+          ChangeControl destCtl = refControl.getProjectControl()
+              .controlFor(destChanges.get(0).change());
+          return insertPatchSet(git, revWalk, oi, destCtl,
               cherryPickCommit, refControl, identifiedUser);
         } else {
           // Change key not found on destination branch. We can create a new
@@ -208,15 +215,16 @@ public class CherryPickChange {
   }
 
   private Change.Id insertPatchSet(Repository git, RevWalk revWalk,
-      ObjectInserter oi, Change change, CodeReviewCommit cherryPickCommit,
+      ObjectInserter oi, ChangeControl ctl, CodeReviewCommit cherryPickCommit,
       RefControl refControl, IdentifiedUser identifiedUser)
       throws IOException, OrmException, UpdateException, RestApiException {
+    Change change = ctl.getChange();
     PatchSet.Id psId =
         ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory
         .create(refControl, psId, cherryPickCommit);
     PatchSet.Id newPatchSetId = inserter.getPatchSetId();
-    PatchSet current = db.get().patchSets().get(change.currentPatchSetId());
+    PatchSet current = psUtil.current(db.get(), ctl.getNotes());
 
     try (BatchUpdate bu = batchUpdateFactory.create(
         db.get(), change.getDest().getParentKey(), identifiedUser,
@@ -225,7 +233,6 @@ public class CherryPickChange {
       bu.addOp(change.getId(), inserter
           .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
           .setDraft(current.isDraft())
-          .setUploader(identifiedUser.getAccountId())
           .setSendMail(false));
       bu.execute();
     }
@@ -244,7 +251,7 @@ public class CherryPickChange {
         .setTopic(topic);
 
     ins.setMessage(
-        messageForDestinationChange(ins.getPatchSet().getId(), sourceBranch));
+        messageForDestinationChange(ins.getPatchSetId(), sourceBranch));
     try (BatchUpdate bu = batchUpdateFactory.create(
         db.get(), project, identifiedUser, TimeUtil.nowTs())) {
       bu.setRepository(git, revWalk, oi);

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
@@ -28,19 +27,18 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
-import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -64,7 +62,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
 
 public class PatchSetInserter extends BatchUpdate.Op {
   private static final Logger log =
@@ -84,6 +81,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
+  private final PatchSetUtil psUtil;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -99,7 +97,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private Iterable<String> groups;
   private boolean runHooks = true;
   private boolean sendMail = true;
-  private Account.Id uploader;
   private boolean allowClosed;
   private boolean copyApprovals = true;
 
@@ -119,6 +116,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       PatchSetInfoFactory patchSetInfoFactory,
       CommitValidators.Factory commitValidatorsFactory,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
+      PatchSetUtil psUtil,
       @Assisted RefControl refControl,
       @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
@@ -130,6 +128,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.psUtil = psUtil;
 
     this.refControl = refControl;
     this.psId = psId;
@@ -185,11 +184,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
     return this;
   }
 
-  public PatchSetInserter setUploader(Account.Id uploader) {
-    this.uploader = uploader;
-    return this;
-  }
-
   public Change getChange() {
     checkState(change != null, "getChange() only valid after executing update");
     return change;
@@ -223,18 +217,13 @@ public class PatchSetInserter extends BatchUpdate.Op {
           "Change %s is closed", change.getId()));
     }
 
-    patchSet = new PatchSet(psId);
-    patchSet.setCreatedOn(ctx.getWhen());
-    patchSet.setUploader(firstNonNull(uploader, ctl.getChange().getOwner()));
-    patchSet.setRevision(new RevId(commit.name()));
-    patchSet.setDraft(draft);
-
-    if (groups != null) {
-      patchSet.setGroups(groups);
-    } else {
-      patchSet.setGroups(GroupCollector.getCurrentGroups(db, change));
+    Iterable<String> newGroups = groups;
+    if (newGroups == null) {
+      PatchSet prevPs = psUtil.current(ctx.getDb(), ctx.getNotes());
+      newGroups = prevPs != null ? prevPs.getGroups() : null;
     }
-    db.patchSets().insert(Collections.singleton(patchSet));
+    patchSet = psUtil.insert(ctx.getDb(), ctx.getUpdate(psId), psId, commit,
+        draft, newGroups, null);
 
     if (sendMail) {
       oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());

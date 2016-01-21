@@ -22,13 +22,11 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
@@ -42,7 +40,6 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class CherryPick extends SubmitStrategy {
@@ -171,21 +168,17 @@ public class CherryPick extends SubmitStrategy {
         // Merge conflict; don't update change.
         return;
       }
-      PatchSet ps = new PatchSet(psId);
-      ps.setCreatedOn(ctx.getWhen());
-      ps.setUploader(args.caller.getAccountId());
-      ps.setRevision(new RevId(newCommit.getId().getName()));
+      PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
 
-      Change c = toMerge.change();
-      ps.setGroups(GroupCollector.getCurrentGroups(args.db, c));
-      args.db.patchSets().insert(Collections.singleton(ps));
-      c.setCurrentPatchSet(patchSetInfo);
+      args.psUtil.insert(ctx.getDb(), ctx.getUpdate(psId), psId, newCommit,
+          false, prevPs != null ? prevPs.getGroups() : null, null);
+      toMerge.change().setCurrentPatchSet(patchSetInfo);
       ctx.saveChange();
 
       List<PatchSetApproval> approvals = Lists.newArrayList();
       for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
           args.db, toMerge.getControl(), toMerge.getPatchsetId())) {
-        approvals.add(new PatchSetApproval(ps.getId(), a));
+        approvals.add(new PatchSetApproval(psId, a));
         ctx.getUpdate(psId).putApproval(a.getLabel(), a.getValue());
       }
       args.db.patchSetApprovals().insert(approvals);

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -24,7 +26,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountPatchReview;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -32,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -76,6 +78,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchLineCommentsUtil plcUtil;
+  private final PatchSetUtil psUtil;
   private final ChangeEditUtil editUtil;
 
   private Project.NameKey project;
@@ -95,6 +98,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       final Provider<CurrentUser> userProvider,
       final ChangeControl.GenericFactory changeControlFactory,
       final PatchLineCommentsUtil plcUtil,
+      final PatchSetUtil psUtil,
       ChangeEditUtil editUtil,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
@@ -105,10 +109,16 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
     this.plcUtil = plcUtil;
+    this.psUtil = psUtil;
     this.editUtil = editUtil;
 
     this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
+    if (psIdBase != null && psIdNew != null) {
+      checkArgument(psIdBase.getParentKey().equals(psIdNew.getParentKey()),
+          "cannot compare PatchSets from different changes: %s and %s",
+          psIdBase, psIdNew);
+    }
     this.diffPrefs = diffPrefs;
   }
 
@@ -117,32 +127,35 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       PatchSetInfoNotAvailableException, NoSuchChangeException, AuthException,
       IOException {
     Optional<ChangeEdit> edit = null;
+    ChangeNotes notes;
     if (control == null || patchSet == null) {
       control = changeControlFactory.validateFor(psIdNew.getParentKey(),
           userProvider.get());
+      notes = control.getNotes();
       if (psIdNew.get() == 0) {
-        Change change = db.changes().get(psIdNew.getParentKey());
-        edit = editUtil.byChange(change);
+        edit = editUtil.byChange(control.getChange());
         if (edit.isPresent()) {
           patchSet = edit.get().getBasePatchSet();
         }
       } else {
-        patchSet = db.patchSets().get(psIdNew);
+        patchSet = psUtil.get(db, notes, psIdNew);
       }
       if (patchSet == null) {
         throw new NoSuchEntityException();
       }
+    } else {
+      notes = control.getNotes();
     }
     project = control.getProject().getNameKey();
     final PatchList list;
 
     try {
       if (psIdBase != null) {
-        oldId = toObjectId(psIdBase);
+        oldId = toObjectId(psUtil.get(db, notes, psIdBase));
         if (edit != null && edit.isPresent()) {
           newId = edit.get().getEditCommit().toObjectId();
         } else {
-          newId = toObjectId(psIdNew);
+          newId = toObjectId(patchSet);
         }
 
         list = listFor(keyFor(diffPrefs.ignoreWhitespace));
@@ -159,7 +172,6 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       byKey.put(p.getKey(), p);
     }
 
-    ChangeNotes notes = control.getNotes();
     if (edit == null) {
       for (PatchLineComment c : plcUtil.publishedByPatchSet(db, notes, psIdNew)) {
         final Patch p = byKey.get(c.getKey().getParentKey());
@@ -173,7 +185,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     detail.setPatchSet(patchSet);
     detail.setProject(project);
 
-    detail.setInfo(infoFactory.get(db, patchSet.getId()));
+    detail.setInfo(infoFactory.get(db, notes, patchSet.getId()));
     detail.setPatches(patches);
 
     final CurrentUser user = control.getUser();
@@ -202,17 +214,11 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     return detail;
   }
 
-  private ObjectId toObjectId(final PatchSet.Id psId) throws OrmException,
-      NoSuchEntityException {
-    final PatchSet ps = db.patchSets().get(psId);
-    if (ps == null) {
-      throw new NoSuchEntityException();
-    }
-
+  private ObjectId toObjectId(PatchSet ps) throws NoSuchEntityException {
     try {
       return ObjectId.fromString(ps.getRevision().get());
     } catch (IllegalArgumentException e) {
-      log.error("Patch set " + psId + " has invalid revision");
+      log.error("Patch set " + ps.getId() + " has invalid revision");
       throw new NoSuchEntityException();
     }
   }

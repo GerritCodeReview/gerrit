@@ -45,6 +45,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -119,6 +120,7 @@ public class ConsistencyChecker {
   private final BatchUpdate.Factory updateFactory;
   private final ChangeIndexer indexer;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeNotes.Factory notesFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
 
   private FixInput fix;
@@ -144,6 +146,7 @@ public class ConsistencyChecker {
       BatchUpdate.Factory updateFactory,
       ChangeIndexer indexer,
       ChangeControl.GenericFactory changeControlFactory,
+      ChangeNotes.Factory notesFactory,
       ChangeUpdate.Factory changeUpdateFactory) {
     this.db = db;
     this.repoManager = repoManager;
@@ -155,6 +158,7 @@ public class ConsistencyChecker {
     this.updateFactory = updateFactory;
     this.indexer = indexer;
     this.changeControlFactory = changeControlFactory;
+    this.notesFactory = notesFactory;
     this.changeUpdateFactory = changeUpdateFactory;
     reset();
   }
@@ -496,7 +500,6 @@ public class ConsistencyChecker {
             .setRunHooks(false)
             .setSendMail(false)
             .setAllowClosed(true)
-            .setUploader(user.get().getAccountId())
             .setMessage(
                 "Patch set for merged commit inserted by consistency checker"));
         bu.execute();
@@ -578,6 +581,7 @@ public class ConsistencyChecker {
         if (c == null) {
           throw new OrmException("Change missing: " + cid);
         }
+        ChangeNotes notes = notesFactory.create(c);
 
         if (psId.equals(c.currentPatchSetId())) {
           List<PatchSet> all = Lists.newArrayList(db.patchSets().byChange(cid));
@@ -597,7 +601,7 @@ public class ConsistencyChecker {
               break;
             }
           }
-          c.setCurrentPatchSet(patchSetInfoFactory.get(db, latest));
+          c.setCurrentPatchSet(patchSetInfoFactory.get(db, notes, latest));
           db.changes().update(Collections.singleton(c));
         }
 

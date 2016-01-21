@@ -30,13 +30,11 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -80,8 +78,7 @@ public class ReviewCommand extends SshCommand {
       usage = "list of commits or patch sets to review")
   void addPatchSetId(final String token) {
     try {
-      PatchSet ps = CommandUtils.parsePatchSet(token, db, queryProvider.get(),
-          projectControl, branch);
+      PatchSet ps = psParser.parsePatchSet(token, projectControl, branch);
       patchSets.add(ps);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -135,9 +132,6 @@ public class ReviewCommand extends SshCommand {
   }
 
   @Inject
-  private ReviewDb db;
-
-  @Inject
   private ProjectControl.Factory projectControlFactory;
 
   @Inject
@@ -147,7 +141,7 @@ public class ReviewCommand extends SshCommand {
   private Provider<GerritApi> gApi;
 
   @Inject
-  private Provider<InternalChangeQuery> queryProvider;
+  private PatchSetParser psParser;
 
   private List<ApproveOption> optionList;
   private Map<String, Short> customLabels;

@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.UpdateException;
@@ -50,6 +51,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
   private final PatchLineCommentsUtil plcUtil;
+  private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
 
   @Inject
@@ -57,11 +59,13 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       PatchLineCommentsUtil plcUtil,
+      PatchSetUtil psUtil,
       PatchListCache patchListCache) {
     this.db = db;
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.plcUtil = plcUtil;
+    this.psUtil = psUtil;
     this.patchListCache = patchListCache;
   }
 
@@ -102,7 +106,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
     @Override
     public void updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException {
-      PatchSet ps = ctx.getDb().patchSets().get(psId);
+      PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }

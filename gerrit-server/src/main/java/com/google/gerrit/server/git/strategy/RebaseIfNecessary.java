@@ -143,11 +143,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
         return;
       }
 
+      // Stale read of patch set is ok; see comments in RebaseChangeOp.
+      PatchSet origPs = args.psUtil.get(
+          ctx.getDb(), toMerge.getControl().getNotes(), toMerge.getPatchsetId());
       rebaseOp = args.rebaseFactory.create(
-            toMerge.getControl(),
-            // Racy read of patch set is ok; see comments in RebaseChangeOp.
-            args.db.patchSets().get(toMerge.getPatchsetId()),
-            mergeTip.getCurrentTip().name())
+            toMerge.getControl(), origPs, mergeTip.getCurrentTip().name())
           .setRunHooks(false)
           // Bypass approval copier since we're going to copy all approvals
           // later anyway.

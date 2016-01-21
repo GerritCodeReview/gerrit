@@ -33,9 +33,19 @@ import org.eclipse.jgit.lib.Repository;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Schema_106 extends SchemaVersion {
+  // we can use multiple threads per CPU as we can expect that threads will be
+  // waiting for IO
+  private static final int THREADS_PER_CPU = 4;
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
 
@@ -60,19 +70,71 @@ public class Schema_106 extends SchemaVersion {
 
     ui.message(String.format("creating reflog files for %s branches ...",
         RefNames.REFS_CONFIG));
+
+    ExecutorService executorPool = createExecutor(ui, repoList.size());
+    List<Future<Void>> futures = new ArrayList<>();
+
     for (Project.NameKey project : repoList) {
+      Callable<Void> callable = new ReflogCreator(project);
+      futures.add(executorPool.submit(callable));
+    }
+
+    executorPool.shutdown();
+    try {
+      for (Future<Void> future : futures) {
+        try {
+          future.get();
+        } catch (ExecutionException e) {
+          ui.message(e.getCause().getMessage());
+        }
+      }
+      ui.message("done");
+    } catch (InterruptedException ex) {
+      String msg = String.format(
+              "Migration step 106 was interrupted. "
+              + "Reflog created in %d of %d repositories only.",
+              countDone(futures), repoList.size());
+      ui.message(msg);
+    }
+  }
+
+  private static int countDone(List<Future<Void>> futures) {
+    int count = 0;
+    for (Future<Void> future : futures) {
+      if (future.isDone()) {
+        count++;
+      }
+    }
+
+    return count;
+  }
+
+  private ExecutorService createExecutor(UpdateUI ui, int repoCount) {
+    int procs = Runtime.getRuntime().availableProcessors();
+    int threads = Math.min(procs * THREADS_PER_CPU, repoCount);
+    ui.message(String.format("... using %d threads ...", threads));
+    return Executors.newFixedThreadPool(threads);
+  }
+
+  private class ReflogCreator implements Callable<Void> {
+    private final Project.NameKey project;
+
+    ReflogCreator(Project.NameKey project) {
+      this.project = project;
+    }
+
+    @Override
+    public Void call() throws IOException {
       try (Repository repo = repoManager.openRepository(project)) {
         File metaConfigLog =
             new File(repo.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
         if (metaConfigLog.exists()) {
-          continue;
+          return null;
         }
 
         if (!metaConfigLog.getParentFile().mkdirs()
             || !metaConfigLog.createNewFile()) {
-          throw new IOException(String.format(
-              "Failed to create reflog for %s in repository %s",
-              RefNames.REFS_CONFIG, project));
+          throw new IOException();
         }
 
         ObjectId metaConfigId = repo.resolve(RefNames.REFS_CONFIG);
@@ -89,11 +151,13 @@ public class Schema_106 extends SchemaVersion {
             writer.println();
           }
         }
+        return null;
       } catch (IOException e) {
-        ui.message(String.format("ERROR: Failed to create reflog file for the"
-            + " %s branch in repository %s", RefNames.REFS_CONFIG, project.get()));
+        throw new IOException(String.format(
+            "ERROR: Failed to create reflog file for the"
+                + " %s branch in repository %s", RefNames.REFS_CONFIG,
+            project.get()));
       }
     }
-    ui.message("done");
   }
 }

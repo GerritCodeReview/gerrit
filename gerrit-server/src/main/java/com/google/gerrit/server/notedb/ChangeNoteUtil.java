@@ -32,6 +32,7 @@ public class ChangeNoteUtil {
   static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
   static final FooterKey FOOTER_STATUS = new FooterKey("Status");
+  static final FooterKey FOOTER_SUBMISSION_ID = new FooterKey("Submission-id");
   static final FooterKey FOOTER_SUBMITTED_WITH =
       new FooterKey("Submitted-with");
   static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");

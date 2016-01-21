@@ -18,6 +18,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
@@ -84,6 +85,7 @@ class ChangeNotesParser implements AutoCloseable {
   Timestamp createdOn;
   Timestamp lastUpdatedOn;
   Account.Id ownerId;
+  String submissionId;
 
   private final Change.Id changeId;
   private final ObjectId tip;
@@ -170,7 +172,9 @@ class ChangeNotesParser implements AutoCloseable {
       topic = parseTopic(commit);
     }
     parseHashtags(commit);
-
+    if (submissionId == null) {
+      submissionId = parseSubmissionId(commit);
+    }
 
     if (submitRecords.isEmpty()) {
       // Only parse the most recent set of submit records; any older ones are
@@ -187,6 +191,17 @@ class ChangeNotesParser implements AutoCloseable {
         parseReviewer(state, line);
       }
     }
+  }
+
+  private String parseSubmissionId(RevCommit commit)
+      throws ConfigInvalidException {
+    List<String> submissionIdLines = commit.getFooterLines(FOOTER_SUBMISSION_ID);
+    if (submissionIdLines.isEmpty()) {
+      return null;
+    } else if (submissionIdLines.size() > 1) {
+      throw expectedOneFooter(FOOTER_SUBMISSION_ID, submissionIdLines);
+    }
+    return submissionIdLines.get(0);
   }
 
   private String parseTopic(RevCommit commit)

@@ -108,7 +108,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 1");
 
-    update.merge(ImmutableList.of(
+    update.merge("1-1453387607626-96fabc25", ImmutableList.of(
         submitRecord("NOT_READY", null,
           submitLabel("Verified", "OK", changeOwner.getAccountId()),
           submitLabel("Code-Review", "NEED", null)),
@@ -122,6 +122,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-set: 1\n"
         + "Status: merged\n"
+        + "Submission-id: 1-1453387607626-96fabc25\n"
         + "Submitted-with: NOT_READY\n"
         + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
         + "Submitted-with: NEED: Code-Review\n"
@@ -173,7 +174,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 1");
 
-    update.merge(ImmutableList.of(
+    update.merge("1-1453387607626-96fabc25", ImmutableList.of(
         submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
     update.commit();
 
@@ -181,6 +182,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-set: 1\n"
         + "Status: merged\n"
+        + "Submission-id: 1-1453387607626-96fabc25\n"
         + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
         update.getRevision());
   }

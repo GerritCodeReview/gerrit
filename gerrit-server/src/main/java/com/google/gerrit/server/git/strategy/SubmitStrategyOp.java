@@ -191,7 +191,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     LabelNormalizer.Result normalized = approve(ctx, origPsUpdate);
 
     ChangeUpdate newPsUpdate = ctx.getUpdate(newPsId);
-    newPsUpdate.merge(records);
+    newPsUpdate.merge(args.submissionId, records);
     // If the submit strategy created a new revision (rebase, cherry-pick), copy
     // approvals as well.
     if (!newPsId.equals(oldPsId)) {

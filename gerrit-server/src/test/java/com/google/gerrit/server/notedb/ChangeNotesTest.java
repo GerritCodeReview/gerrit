@@ -351,7 +351,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 1");
 
-    update.merge(ImmutableList.of(
+    update.merge("1-1453387607626-96fabc25", ImmutableList.of(
         submitRecord("NOT_READY", null,
           submitLabel("Verified", "OK", changeOwner.getAccountId()),
           submitLabel("Code-Review", "NEED", null)),
@@ -371,6 +371,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         submitRecord("NOT_READY", null,
           submitLabel("Verified", "OK", changeOwner.getAccountId()),
           submitLabel("Alternative-Code-Review", "NEED", null)));
+    assertThat(notes.getChange().getSubmissionId())
+        .isEqualTo("1-1453387607626-96fabc25");
   }
 
   @Test
@@ -378,7 +380,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 1");
-    update.merge(ImmutableList.of(
+    update.merge("1-1453387607626-96fabc25", ImmutableList.of(
         submitRecord("OK", null,
           submitLabel("Code-Review", "OK", otherUser.getAccountId()))));
     update.commit();
@@ -386,7 +388,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     incrementPatchSet(c);
     update = newUpdate(c, changeOwner);
     update.setSubject("Submit patch set 2");
-    update.merge(ImmutableList.of(
+    update.merge("1-1453387901516-5d1e2450", ImmutableList.of(
         submitRecord("OK", null,
           submitLabel("Code-Review", "OK", changeOwner.getAccountId()))));
     update.commit();
@@ -395,6 +397,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getSubmitRecords()).containsExactly(
         submitRecord("OK", null,
           submitLabel("Code-Review", "OK", changeOwner.getAccountId())));
+    assertThat(notes.getChange().getSubmissionId())
+        .isEqualTo("1-1453387901516-5d1e2450");
   }
 
   @Test

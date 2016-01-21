@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67f4d602_3e0fe94b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T20:33:23Z",
+      "side": 1,
+      "message": "If SubmitRecord has a reasonable toString you can combine these cases.",
+      "revId": "d8ab63fa21c8263f3bfc4fb1238eebb2d94859c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

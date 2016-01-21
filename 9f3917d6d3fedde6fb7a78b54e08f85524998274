@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67f4d602_9e155d92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T15:47:36Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "27173efe_b4c2005e",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 39
+      },
+      "revId": "9f3917d6d3fedde6fb7a78b54e08f85524998274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27173efe_94c7046e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-01-21T02:02:39Z",
       "side": 1,
       "message": "IIUC this code path is only going to be called for new changes?  If that\u0027s correct, OK, we don\u0027t need to check for the existing topic being same as magicBranch.topic.",
+      "range": {
+        "startLine": 1808,
+        "startChar": 20,
+        "endLine": 1809,
+        "endChar": 32
+      },
+      "revId": "9f3917d6d3fedde6fb7a78b54e08f85524998274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a765ee97_48525f67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1809,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T15:47:36Z",
+      "side": 1,
+      "message": "Right.",
+      "parentUuid": "27173efe_94c7046e",
       "range": {
         "startLine": 1808,
         "startChar": 20,

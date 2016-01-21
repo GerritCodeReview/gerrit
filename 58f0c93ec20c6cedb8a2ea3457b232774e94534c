@@ -22,6 +22,30 @@
       "revId": "58f0c93ec20c6cedb8a2ea3457b232774e94534c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a765ee97_a84c3bc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1807,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T15:47:36Z",
+      "side": 0,
+      "message": "Yeah, it was unnecessary, and I was already touching this line, and it avoided a wrap.",
+      "parentUuid": "27173efe_f4bc78d7",
+      "range": {
+        "startLine": 1807,
+        "startChar": 62,
+        "endLine": 1807,
+        "endChar": 78
+      },
+      "revId": "58f0c93ec20c6cedb8a2ea3457b232774e94534c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

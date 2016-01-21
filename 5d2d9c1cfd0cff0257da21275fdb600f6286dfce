@@ -34,6 +34,24 @@
       "revId": "5d2d9c1cfd0cff0257da21275fdb600f6286dfce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e709a6de_9aff2d53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterModules.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T12:47:16Z",
+      "side": 1,
+      "message": "I meant that in PluginGuiceEnvironment there are more usages of the is(String, Class\u003c?\u003e) method :\n\n   if (is(\"org.apache.sshd.server.Command\", type)) {\n      return false;\n    }\n\n    if (is(\"javax.servlet.Filter\", type)) {\n      return false;\n    }\n    if (is(\"javax.servlet.ServletContext\", type)) {\n      return false;\n    }\n    if (is(\"javax.servlet.ServletRequest\", type)) {\n      return false;\n    }\n    if (is(\"javax.servlet.ServletResponse\", type)) {\n      return false;\n    }\n    if (is(\"javax.servlet.http.HttpServlet\", type)) {\n      return false;\n    }\n    if (is(\"javax.servlet.http.HttpServletRequest\", type)) {\n      return false;\n    }\n    if (is(\"javax.servlet.http.HttpServletResponse\", type)) {\n      return false;\n    }\n    if (is(\"javax.servlet.http.HttpSession\", type)) {\n      return false;\n    }\n\nFor them we could do the same change.\nIf all callers of that method would pass in a class object rather than a class name as string we could change the method signature.",
+      "parentUuid": "e709a6de_1ae31dc4",
+      "revId": "5d2d9c1cfd0cff0257da21275fdb600f6286dfce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

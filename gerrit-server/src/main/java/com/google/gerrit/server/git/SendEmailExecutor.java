@@ -16,16 +16,14 @@ package com.google.gerrit.server.git;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.inject.BindingAnnotation;
 
 import java.lang.annotation.Retention;
 
 /**
- * Marker on the global {@link WorkQueue.Executor} used by
- * {@link EmailReviewComments}.
+ * Marker on the global {@link WorkQueue.Executor} used to send email
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface EmailReviewCommentsExecutor {
+public @interface SendEmailExecutor {
 }

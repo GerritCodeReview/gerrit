@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e709a6de_5a8755f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T10:09:08Z",
+      "side": 0,
+      "message": "I\u0027m glad to see this patch set initialization going away here :-)",
+      "revId": "3a6dea327c7dc1d705e8fadf3cc383399ea81625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -52,6 +52,24 @@
       "revId": "5d2d9c1cfd0cff0257da21275fdb600f6286dfce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7032ebe_f86e3103",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterModules.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-21T12:52:51Z",
+      "side": 1,
+      "message": "But I already did all this in patch set 1 of this change. That why I don\u0027t understand your comment:\n\n    if (is(Command.class, type)) {\n      return false;\n    }\n    if (is(Filter.class, type)) {\n      return false;\n    }\n    if (is(ServletContext.class, type)) {\n      return false;\n    }\n    if (is(ServletRequest.class, type)) {\n      return false;\n    }\n    if (is(ServletResponse.class, type)) {\n      return false;\n    }\n    if (is(HttpServlet.class, type)) {\n      return false;\n    }\n    if (is(HttpServletRequest.class, type)) {\n      return false;\n    }\n    if (is(HttpServletResponse.class, type)) {\n      return false;\n    }\n    if (is(HttpSession.class, type)) {\n      return false;\n    }\n\nAnd changed the signature of the method to be:\n\n  static boolean is(Class\u003c?\u003e clazz, Class\u003c?\u003e type) {\n    while (type !\u003d null) {\n      if (clazz.getName().equals(type.getName())) {\n        return true;\n      }\n      Class\u003c?\u003e[] interfaces \u003d type.getInterfaces();\n      if (interfaces !\u003d null) {\n        for (Class\u003c?\u003e i : interfaces) {\n          if (is(clazz, i)) {\n            return true;\n          }\n        }\n      }\n      type \u003d type.getSuperclass();\n    }\n    return false;\n  }",
+      "parentUuid": "e709a6de_9aff2d53",
+      "revId": "5d2d9c1cfd0cff0257da21275fdb600f6286dfce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

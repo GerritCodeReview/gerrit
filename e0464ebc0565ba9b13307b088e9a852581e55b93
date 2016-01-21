@@ -22,6 +22,30 @@
       "revId": "e0464ebc0565ba9b13307b088e9a852581e55b93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7032ebe_58591d84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-21T07:33:37Z",
+      "side": 1,
+      "message": "We could do that. I tried t be consistent with the code below:\n\n  is(\"org.apache.sshd.server.Command\", type)\n\non line 572. And thought, when we change that, we should change the whole method here, and probably don\u0027t do such a cosemtic refactoring it on very stable 2.11-branch.\n\nLet me know, if you insisit, i will cange that.",
+      "parentUuid": "e709a6de_1a4f9dba",
+      "range": {
+        "startLine": 558,
+        "startChar": 15,
+        "endLine": 558,
+        "endChar": 63
+      },
+      "revId": "e0464ebc0565ba9b13307b088e9a852581e55b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -30,6 +30,7 @@ import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 
+import org.apache.sshd.server.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +40,8 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServlet;
 
 class AutoRegisterModules {
   private static final Logger log = LoggerFactory.getLogger(AutoRegisterModules.class);
@@ -153,9 +156,9 @@ class AutoRegisterModules {
       return;
     }
 
-    if (is("org.apache.sshd.server.Command", clazz)) {
+    if (is(Command.class, clazz)) {
       sshGen.export(export, clazz);
-    } else if (is("javax.servlet.http.HttpServlet", clazz)) {
+    } else if (is(HttpServlet.class, clazz)) {
       httpGen.export(export, clazz);
       listen(clazz, clazz);
     } else {

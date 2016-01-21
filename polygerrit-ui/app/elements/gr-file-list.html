@@ -102,13 +102,16 @@ limitations under the License.
       },
 
       reload: function() {
-        if (!!this.changeNum && !!this.patchNum) {
-          this.$.filesXHR.generateRequest();
+        if (!this.changeNum || !this.patchNum) {
+          return Promise.resolve();
+        }
+        return Promise.all([
+          this.$.filesXHR.generateRequest().completes,
           app.accountReady.then(function() {
             if (!app.loggedIn) { return; }
             this.$.draftsXHR.generateRequest();
-          }.bind(this));
-        }
+          }.bind(this)),
+        ]);
       },
 
       _computeFilesURL: function(changeNum, patchNum) {

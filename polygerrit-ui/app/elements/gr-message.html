@@ -74,8 +74,7 @@ limitations under the License.
       .collapsed gr-comment-list {
         display: none;
       }
-      .collapsed .name,
-      .collapsed gr-date-formatter {
+      .collapsed .name {
         color: var(--default-text-color);
       }
       .expanded .name {
@@ -85,7 +84,8 @@ limitations under the License.
         white-space: pre-wrap;
         word-wrap: break-word;
       }
-      gr-date-formatter {
+      .date {
+        color: #666;
         position: absolute;
         right: var(--default-horizontal-margin);
         top: 10px;
@@ -102,7 +102,9 @@ limitations under the License.
               change-num="[[changeNum]]"
               patch-num="[[message._revision_number]]"></gr-comment-list>
         </div>
-        <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
+        <a class="date" href$="[[_computeMessageHash(message)]]" on-tap="_handleLinkTap">
+          <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
+        </a>
       </div>
     </div>
   </template>
@@ -112,6 +114,12 @@ limitations under the License.
 
     Polymer({
       is: 'gr-message',
+
+      /**
+       * Fired when this message's permalink is tapped.
+       *
+       * @event scroll-to
+       */
 
       listeners: {
         'tap': '_tapHandler',
@@ -165,6 +173,23 @@ limitations under the License.
         return classes.join(' ');
       },
 
+      _computeMessageHash: function(message) {
+        return '#message-' + message.id;
+      },
+
+      _handleLinkTap: function(e) {
+        e.preventDefault();
+
+        this.fire('scroll-to', {message: this.message}, {bubbles: false});
+
+        var hash = this._computeMessageHash(this.message);
+        // Don't add the hash to the window history if it's already there.
+        // Otherwise you mess up expected back button behavior.
+        if (window.location.hash == hash) { return; }
+        // Change the URL but don’t trigger a nav event. Otherwise it will
+        // reload the page.
+        page.show(window.location.pathname + hash, null, false);
+      },
     });
   })();
   </script>

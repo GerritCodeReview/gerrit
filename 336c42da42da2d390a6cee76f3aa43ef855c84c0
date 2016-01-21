@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "e709a6de_9a63adee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T18:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e709a6de_1abafd87",
+      "revId": "336c42da42da2d390a6cee76f3aa43ef855c84c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a765ee97_6838830f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2
@@ -49,6 +67,24 @@
       "writtenOn": "2016-01-21T16:31:37Z",
       "side": 1,
       "message": "Error if these don\u0027t exist?",
+      "revId": "336c42da42da2d390a6cee76f3aa43ef855c84c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7032ebe_58063d35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T18:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a765ee97_6838830f",
       "revId": "336c42da42da2d390a6cee76f3aa43ef855c84c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

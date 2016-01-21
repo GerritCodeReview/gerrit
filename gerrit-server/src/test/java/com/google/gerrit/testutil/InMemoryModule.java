@@ -43,10 +43,10 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.ChangeCacheImplModule;
-import com.google.gerrit.server.git.EmailReviewCommentsExecutor;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
+import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
@@ -212,8 +212,8 @@ public class InMemoryModule extends FactoryModule {
 
   @Provides
   @Singleton
-  @EmailReviewCommentsExecutor
-  public ExecutorService createEmailReviewCommentsExecutor() {
+  @SendEmailExecutor
+  public ExecutorService createSendEmailExecutor() {
     return MoreExecutors.newDirectExecutorService();
   }
 

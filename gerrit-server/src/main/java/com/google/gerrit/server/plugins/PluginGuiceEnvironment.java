@@ -50,6 +50,8 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 
+import org.apache.sshd.server.Command;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Iterator;
@@ -58,8 +60,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.servlet.Filter;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Tracks Guice bindings that should be exposed to loaded plugins.
@@ -581,32 +589,32 @@ public class PluginGuiceEnvironment {
       return false;
     }
 
-    if (is("org.apache.sshd.server.Command", type)) {
+    if (is(Command.class, type)) {
       return false;
     }
 
-    if (is("javax.servlet.Filter", type)) {
+    if (is(Filter.class, type)) {
       return false;
     }
-    if (is("javax.servlet.ServletContext", type)) {
+    if (is(ServletContext.class, type)) {
       return false;
     }
-    if (is("javax.servlet.ServletRequest", type)) {
+    if (is(ServletRequest.class, type)) {
       return false;
     }
-    if (is("javax.servlet.ServletResponse", type)) {
+    if (is(ServletResponse.class, type)) {
       return false;
     }
-    if (is("javax.servlet.http.HttpServlet", type)) {
+    if (is(HttpServlet.class, type)) {
       return false;
     }
-    if (is("javax.servlet.http.HttpServletRequest", type)) {
+    if (is(HttpServletRequest.class, type)) {
       return false;
     }
-    if (is("javax.servlet.http.HttpServletResponse", type)) {
+    if (is(HttpServletResponse.class, type)) {
       return false;
     }
-    if (is("javax.servlet.http.HttpSession", type)) {
+    if (is(HttpSession.class, type)) {
       return false;
     }
     if (Map.class.isAssignableFrom(type)
@@ -621,16 +629,16 @@ public class PluginGuiceEnvironment {
     return true;
   }
 
-  static boolean is(String name, Class<?> type) {
+  static boolean is(Class<?> clazz, Class<?> type) {
     while (type != null) {
-      if (name.equals(type.getName())) {
+      if (clazz.getName().equals(type.getName())) {
         return true;
       }
 
       Class<?>[] interfaces = type.getInterfaces();
       if (interfaces != null) {
         for (Class<?> i : interfaces) {
-          if (is(name, i)) {
+          if (is(clazz, i)) {
             return true;
           }
         }

@@ -182,6 +182,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -310,7 +311,7 @@ public class ReceiveCommits {
   private final AccountCache accountCache;
   private final ChangesCollection changes;
   private final ChangeInserter.Factory changeInserterFactory;
-  private final WorkQueue workQueue;
+  private final ExecutorService sendEmailExecutor;
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
   private final ChangeIndexer indexer;
@@ -384,7 +385,7 @@ public class ReceiveCommits {
       final ChangeInserter.Factory changeInserterFactory,
       final CommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl final String canonicalWebUrl,
-      final WorkQueue workQueue,
+      @SendEmailExecutor final ExecutorService sendEmailExecutor,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
       final ChangeIndexer indexer,
@@ -431,7 +432,7 @@ public class ReceiveCommits {
     this.changes = changes;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
-    this.workQueue = workQueue;
+    this.sendEmailExecutor = sendEmailExecutor;
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
     this.indexer = indexer;
@@ -2366,8 +2367,7 @@ public class ReceiveCommits {
       }
       indexer.index(db, change);
       if (changeKind != ChangeKind.TRIVIAL_REBASE) {
-        workQueue.getDefaultQueue()
-            .submit(requestScopePropagator.wrap(new Runnable() {
+        sendEmailExecutor.submit(requestScopePropagator.wrap(new Runnable() {
           @Override
           public void run() {
             try {
@@ -2799,8 +2799,7 @@ public class ReceiveCommits {
   }
 
   private void sendMergedEmail(final PatchSet ps, final PatchSetInfo info) {
-    workQueue.getDefaultQueue()
-        .submit(requestScopePropagator.wrap(new Runnable() {
+    sendEmailExecutor.submit(requestScopePropagator.wrap(new Runnable() {
       @Override
       public void run() {
         try {

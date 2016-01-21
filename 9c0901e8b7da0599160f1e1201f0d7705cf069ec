@@ -22,6 +22,30 @@
       "revId": "9c0901e8b7da0599160f1e1201f0d7705cf069ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7b88e3e_70b890e6",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.6.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-21T00:22:14Z",
+      "side": 1,
+      "message": "Yes, I will add that, and the other replication change that I intend to include in the release.",
+      "parentUuid": "a765ee97_28e36bf2",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 13
+      },
+      "revId": "9c0901e8b7da0599160f1e1201f0d7705cf069ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

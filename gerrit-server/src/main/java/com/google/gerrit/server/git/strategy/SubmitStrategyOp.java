@@ -136,7 +136,25 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   @Override
   public final boolean updateChange(ChangeContext ctx) throws Exception {
     toMerge.setControl(ctx.getControl()); // Update change and notes from ctx.
-    updateChangeImpl(ctx);
+    PatchSet newPatchSet = updateChangeImpl(ctx);
+    PatchSet.Id oldPsId = checkNotNull(toMerge.getPatchsetId());
+    PatchSet.Id newPsId = checkNotNull(ctx.getChange().currentPatchSetId());
+    if (newPatchSet == null) {
+      checkState(oldPsId.equals(newPsId),
+          "patch set advanced from %s to %s but updateChangeImpl did not return"
+          + " new patch set instance", oldPsId, newPsId);
+      // Ok to use stale notes to get the old patch set, which didn't change
+      // during the submit strategy.
+      mergedPatchSet = checkNotNull(
+          args.psUtil.get(ctx.getDb(), ctx.getNotes(), oldPsId),
+          "missing old patch set %s", oldPsId);
+    } else {
+      PatchSet.Id n = newPatchSet.getId();
+      checkState(!n.equals(oldPsId) && n.equals(newPsId),
+          "current patch was %s and is now %s, but updateChangeImpl returned"
+          + " new patch set instance at %s", oldPsId, newPsId, n);
+      mergedPatchSet = newPatchSet;
+    }
 
     Change c = ctx.getChange();
     Change.Id id = c.getId();
@@ -309,8 +327,6 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     Change c = ctx.getChange();
     ReviewDb db = ctx.getDb();
     logDebug("Setting change {} merged", c.getId());
-    // TODO(dborowitz): Use PatchSetUtil? But we don't have a recent notes.
-    mergedPatchSet = db.patchSets().get(c.currentPatchSetId());
     c.setStatus(Change.Status.MERGED);
     c.setSubmissionId(args.submissionId);
     ctx.saveChange();
@@ -372,8 +388,11 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   /**
    * @see #updateChange(ChangeContext)
    * @param ctx
+   * @return a new patch set if one was created by the submit strategy, or null
+   *     if not.
    */
-  protected void updateChangeImpl(ChangeContext ctx) throws Exception {
+  protected PatchSet updateChangeImpl(ChangeContext ctx) throws Exception {
+    return null;
   }
 
   /**

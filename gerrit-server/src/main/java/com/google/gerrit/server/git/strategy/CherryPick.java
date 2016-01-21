@@ -143,14 +143,15 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    public void updateChangeImpl(ChangeContext ctx) throws OrmException,
+    public PatchSet updateChangeImpl(ChangeContext ctx) throws OrmException,
          NoSuchChangeException {
       checkState(newCommit != null,
           "no new commit produced by CherryPick of %s, expected to fail fast",
           toMerge.change().getId());
       PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
-      args.psUtil.insert(ctx.getDb(), ctx.getUpdate(psId), psId, newCommit,
-          false, prevPs != null ? prevPs.getGroups() : null, null);
+      PatchSet newPs = args.psUtil.insert(ctx.getDb(), ctx.getUpdate(psId),
+          psId, newCommit, false,
+          prevPs != null ? prevPs.getGroups() : null, null);
       ctx.getChange().setCurrentPatchSet(patchSetInfo);
       ctx.saveChange();
 
@@ -158,6 +159,7 @@ public class CherryPick extends SubmitStrategy {
       // SubmitStrategyOp.
 
       newCommit.setControl(ctx.getControl());
+      return newPs;
     }
   }
 

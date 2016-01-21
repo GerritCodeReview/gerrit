@@ -145,12 +145,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
     }
 
     @Override
-    public void updateChangeImpl(ChangeContext ctx)
+    public PatchSet updateChangeImpl(ChangeContext ctx)
         throws NoSuchChangeException, InvalidChangeOperationException,
         OrmException, IOException  {
       if (rebaseOp == null) {
         // Took the fast-forward option, nothing to do.
-        return;
+        return null;
       }
 
       rebaseOp.updateChange(ctx);
@@ -167,6 +167,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
           args.patchSetInfoFactory.get(
               args.rw, newCommit, newPatchSetId));
       newCommit.setControl(ctx.getControl());
+      return rebaseOp.getPatchSet();
     }
 
     @Override

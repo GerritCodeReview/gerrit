@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27173efe_f4bc78d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1807,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-21T02:02:39Z",
+      "side": 0,
+      "message": "Intentional removal of this throw declaration?",
+      "range": {
+        "startLine": 1807,
+        "startChar": 62,
+        "endLine": 1807,
+        "endChar": 78
+      },
+      "revId": "58f0c93ec20c6cedb8a2ea3457b232774e94534c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

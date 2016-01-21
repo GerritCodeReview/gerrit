@@ -52,7 +52,7 @@ public class EmailMerge implements Runnable, RequestContext {
   private ReviewDb db;
 
   @Inject
-  EmailMerge(@EmailReviewCommentsExecutor ExecutorService executor,
+  EmailMerge(@SendEmailExecutor ExecutorService executor,
       MergedSender.Factory mergedSenderFactory,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,

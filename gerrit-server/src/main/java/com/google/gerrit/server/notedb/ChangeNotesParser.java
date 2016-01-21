@@ -19,6 +19,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
@@ -91,6 +92,8 @@ class ChangeNotesParser implements AutoCloseable {
   Timestamp createdOn;
   Timestamp lastUpdatedOn;
   Account.Id ownerId;
+  String subject;
+  String originalSubject;
   String submissionId;
 
   private final Change.Id changeId;
@@ -177,6 +180,10 @@ class ChangeNotesParser implements AutoCloseable {
     PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
     ownerId = accountId;
+    if (subject == null) {
+      subject = parseSubject(commit);
+    }
+    originalSubject = parseSubject(commit);
     parseChangeMessage(psId, accountId, commit);
     if (topic == null) {
       topic = parseTopic(commit);
@@ -205,35 +212,31 @@ class ChangeNotesParser implements AutoCloseable {
 
   private String parseSubmissionId(RevCommit commit)
       throws ConfigInvalidException {
-    List<String> submissionIdLines = commit.getFooterLines(FOOTER_SUBMISSION_ID);
-    if (submissionIdLines.isEmpty()) {
-      return null;
-    } else if (submissionIdLines.size() > 1) {
-      throw expectedOneFooter(FOOTER_SUBMISSION_ID, submissionIdLines);
-    }
-    return submissionIdLines.get(0);
+    return parseOneFooter(commit, FOOTER_SUBMISSION_ID);
   }
 
-  private String parseBranch(RevCommit commit)
-      throws ConfigInvalidException {
-    List<String> branchLines = commit.getFooterLines(FOOTER_BRANCH);
-    if (branchLines.isEmpty()) {
-      return null;
-    } else if (branchLines.size() > 1) {
-      throw expectedOneFooter(FOOTER_BRANCH, branchLines);
-    }
-    return RefNames.fullName(branchLines.get(0));
+  private String parseBranch(RevCommit commit) throws ConfigInvalidException {
+    String branch = parseOneFooter(commit, FOOTER_BRANCH);
+    return branch != null ? RefNames.fullName(branch) : null;
   }
 
-  private String parseTopic(RevCommit commit)
+  private String parseSubject(RevCommit commit) throws ConfigInvalidException {
+    return parseOneFooter(commit, FOOTER_SUBJECT);
+  }
+
+  private String parseTopic(RevCommit commit) throws ConfigInvalidException {
+    return parseOneFooter(commit, FOOTER_TOPIC);
+  }
+
+  private String parseOneFooter(RevCommit commit, FooterKey footerKey)
       throws ConfigInvalidException {
-    List<String> topicLines = commit.getFooterLines(FOOTER_TOPIC);
-    if (topicLines.isEmpty()) {
+    List<String> footerLines = commit.getFooterLines(footerKey);
+    if (footerLines.isEmpty()) {
       return null;
-    } else if (topicLines.size() > 1) {
-      throw expectedOneFooter(FOOTER_TOPIC, topicLines);
+    } else if (footerLines.size() > 1) {
+      throw expectedOneFooter(footerKey, footerLines);
     }
-    return topicLines.get(0);
+    return footerLines.get(0);
   }
 
   private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
@@ -544,6 +547,9 @@ class ChangeNotesParser implements AutoCloseable {
     List<FooterKey> missing = new ArrayList<>();
     if (branch == null) {
       missing.add(FOOTER_BRANCH);
+    }
+    if (originalSubject == null || subject == null) {
+      missing.add(FOOTER_SUBJECT);
     }
     if (!missing.isEmpty()) {
       throw parseException("Missing footers: " + Joiner.on(", ")

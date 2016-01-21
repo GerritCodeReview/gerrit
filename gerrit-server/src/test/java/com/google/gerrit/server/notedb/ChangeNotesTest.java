@@ -350,7 +350,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void submitRecords() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setSubject("Submit patch set 1");
+    update.setSubjectForCommit("Submit patch set 1");
 
     update.merge("1-1453387607626-96fabc25", ImmutableList.of(
         submitRecord("NOT_READY", null,
@@ -380,7 +380,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void latestSubmitRecordsOnly() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setSubject("Submit patch set 1");
+    update.setSubjectForCommit("Submit patch set 1");
     update.merge("1-1453387607626-96fabc25", ImmutableList.of(
         submitRecord("OK", null,
           submitLabel("Code-Review", "OK", otherUser.getAccountId()))));
@@ -388,7 +388,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     incrementPatchSet(c);
     update = newUpdate(c, changeOwner);
-    update.setSubject("Submit patch set 2");
+    update.setSubjectForCommit("Submit patch set 2");
     update.merge("1-1453387901516-5d1e2450", ImmutableList.of(
         submitRecord("OK", null,
           submitLabel("Code-Review", "OK", changeOwner.getAccountId()))));
@@ -512,6 +512,32 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void subjectChangeNotes() throws Exception {
+    Change c = newChange();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getChange().getSubject()).isEqualTo(c.getSubject());
+    assertThat(notes.getChange().getOriginalSubject()).isEqualTo(c.getSubject());
+
+    // An unrelated update doesn't affect the subject
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("topic"); // Change something to get a new commit.
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getChange().getSubject()).isEqualTo(c.getSubject());
+    assertThat(notes.getChange().getOriginalSubject()).isEqualTo(c.getSubject());
+
+    // An update of the subject doesn't affect the original subject
+    update = newUpdate(c, changeOwner);
+    String newSubject = "other subject";
+    update.setSubject(newSubject);
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getChange().getSubject()).isEqualTo(newSubject);
+    assertThat(notes.getChange().getOriginalSubject()).isEqualTo(c.getSubject());
+  }
+
+  @Test
   public void ownerChangeNotes() throws Exception {
     Change c = newChange();
 
@@ -560,7 +586,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void emptyExceptSubject() throws Exception {
     ChangeUpdate update = newUpdate(newChange(), changeOwner);
-    update.setSubject("Create change");
+    update.setSubjectForCommit("Create change");
     update.commit();
     assertThat(update.getRevision()).isNotNull();
   }

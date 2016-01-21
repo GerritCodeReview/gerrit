@@ -46,6 +46,30 @@
       "revId": "694db8ebc9c23b3172239bf70328c82b3ecd1c4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e709a6de_9aa44d77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T15:12:03Z",
+      "side": 1,
+      "message": "I missed that we need a CodeReviewCommit here.",
+      "parentUuid": "a765ee97_28fccb87",
+      "range": {
+        "startLine": 163,
+        "startChar": 18,
+        "endLine": 163,
+        "endChar": 38
+      },
+      "revId": "694db8ebc9c23b3172239bf70328c82b3ecd1c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

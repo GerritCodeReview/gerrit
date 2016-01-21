@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67f4d602_fedbc110",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T17:49:19Z",
+      "side": 1,
+      "message": "Looks like this accidentally got added.",
+      "revId": "f832a0ad938bd91fbff576722a8abde7c0c6413c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

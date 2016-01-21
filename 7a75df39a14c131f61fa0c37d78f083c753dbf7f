@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1453385189 +0100\nnonce ALmjDBW70jEMEstDfif5XKo5jhXcFy7ViOVb8rqVFbhAcJXRByNjv2EZ77xWLL5L2hW46Z4TG1Jp\n\n0000000000000000000000000000000000000000 d560e61b4fc493fd7f2627729e52d441ac0753ef refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJWoOXlAAoJEFG1/Zeg0O9R6sIH/3bI8oY88mVTY0PtamlVxkPD\n4I+1axg9PbU+WG+lTSQr9a11ceDtIPqSsPYzYGKKQjRLywTAB0g/vvMZGli6i/SI\notTjcn97ThFEQhon19+9cMOCGt3p61b3CVAUQyAC0obu45VZtJJh9VbwErz8a0cm\nFigZ9l1FB2L7YYRROduTtBq0C0wP4ElnQKAkGr7JiD0T4HM/Z/6jH7QMlE/MLdFr\nd6CPYEluRVStd8JhcAmYRBGZs9IZwQTlS3oPjon2mSlQyHr1xvXfgGHk6kDOcsAx\nui1xaJ3oAF/FElp8f5dxZUbgzfdNxrxO1Ewec21Mi+eBfPphUIWcf+9OJjcq3GQ\u003d\n\u003dhYJc\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a765ee97_e82b13bc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T16:27:58Z",
+      "side": 1,
+      "message": "Would it be worth it to convert this to use ChangeInserter instead?",
+      "revId": "7a75df39a14c131f61fa0c37d78f083c753dbf7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67f4d602_de4c05c9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T16:27:58Z",
+      "side": 1,
+      "message": "Add another update to this method that changes the branch?",
+      "revId": "7a75df39a14c131f61fa0c37d78f083c753dbf7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

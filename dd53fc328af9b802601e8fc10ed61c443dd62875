@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27173efe_54ce0c84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-21T05:10:10Z",
+      "side": 1,
+      "message": "Is it correct to include this as an error?",
+      "range": {
+        "startLine": 170,
+        "startChar": 10,
+        "endLine": 170,
+        "endChar": 22
+      },
+      "revId": "dd53fc328af9b802601e8fc10ed61c443dd62875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7b88e3e_b0c2f85d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-21T05:10:10Z",
+      "side": 1,
+      "message": "\"OK\" shouldn\u0027t be an error.  If we get here it must be a programming error.",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 14
+      },
+      "revId": "dd53fc328af9b802601e8fc10ed61c443dd62875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

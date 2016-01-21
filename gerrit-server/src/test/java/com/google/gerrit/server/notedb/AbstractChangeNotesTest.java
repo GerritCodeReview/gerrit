@@ -166,6 +166,7 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
       throws IOException, OrmException, ConfigInvalidException {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
     ChangeUpdate u = newUpdate(c, changeOwner);
+    u.setSubject(c.getSubject());
     u.setBranch(c.getDest().get());
     u.commit();
     return c;

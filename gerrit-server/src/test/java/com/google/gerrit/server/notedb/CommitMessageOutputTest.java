@@ -106,7 +106,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void submitCommitFormat() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setSubject("Submit patch set 1");
+    update.setSubjectForCommit("Submit patch set 1");
 
     update.merge(ImmutableList.of(
         submitRecord("NOT_READY", null,
@@ -171,7 +171,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void submitWithErrorMessage() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setSubject("Submit patch set 1");
+    update.setSubjectForCommit("Submit patch set 1");
 
     update.merge(ImmutableList.of(
         submitRecord("RULE_ERROR", "Problem with patch set:\n1")));

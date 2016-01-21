@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMap;
@@ -92,11 +93,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private final AccountCache accountCache;
+  private String commitSubject;
+  private String subject;
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers;
   private String branch;
   private Change.Status status;
-  private String subject;
   private List<SubmitRecord> submitRecords;
   private final CommentsInNotesUtil commentsUtil;
   private List<PatchLineComment> comments;
@@ -214,6 +216,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.submitRecords = ImmutableList.copyOf(submitRecords);
     checkArgument(!this.submitRecords.isEmpty(),
         "no submit records specified at submit time");
+  }
+
+  public void setSubjectForCommit(String commitSubject) {
+    this.commitSubject = commitSubject;
   }
 
   public void setSubject(String subject) {
@@ -432,8 +438,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
     StringBuilder msg = new StringBuilder();
-    if (subject != null) {
-      msg.append(subject);
+    if (commitSubject != null) {
+      msg.append(commitSubject);
     } else {
       msg.append("Update patch set ").append(ps);
     }
@@ -446,6 +452,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
 
     addFooter(msg, FOOTER_PATCH_SET, ps);
+
+    if (subject != null) {
+      addFooter(msg, FOOTER_SUBJECT, subject);
+    }
 
     if (branch != null) {
       addFooter(msg, FOOTER_BRANCH, branch);
@@ -519,13 +529,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private boolean isEmpty() {
-    return approvals.isEmpty()
+    return subject == null
+        && approvals.isEmpty()
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()
         && branch == null
         && status == null
-        && subject == null
+        && commitSubject == null
         && submitRecords == null
         && hashtags == null
         && topic == null;

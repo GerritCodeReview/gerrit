@@ -131,8 +131,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
            ctx.getRepository(), ctx.getRevWalk()));
     }
 
-    ObjectId newId = rebaseCommit(ctx, original, baseCommit);
-    rebasedCommit = rw.parseCommit(newId);
+    rebasedCommit = rebaseCommit(ctx, original, baseCommit);
 
     rebasedPatchSetId = ChangeUtil.nextPatchSetId(
         ctx.getRepository(), ctl.getChange().currentPatchSetId());
@@ -225,6 +224,8 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
     ctx.getInserter().flush();
-    return ctx.getRevWalk().parseCommit(objectId);
+    RevCommit rebasedCommit = ctx.getRevWalk().parseCommit(objectId);
+    ctx.getRevWalk().parseBody(rebasedCommit);
+    return rebasedCommit;
   }
 }

@@ -219,6 +219,19 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Branch: refs/heads/stable");
   }
 
+  @Test
+  public void parseSubject() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Subject: Some subject of a change");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Subject: Some subject of a change\n"
+        + "Subject: Some other subject");
+  }
+
   private RevCommit writeCommit(String body) throws Exception {
     return writeCommit(body, ChangeNoteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,

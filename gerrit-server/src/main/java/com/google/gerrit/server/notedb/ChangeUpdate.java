@@ -19,6 +19,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.addCommentToMap;
@@ -96,6 +97,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Change.Status status;
   private String subject;
   private List<SubmitRecord> submitRecords;
+  private String submissionId;
   private final CommentsInNotesUtil commentsUtil;
   private List<PatchLineComment> comments;
   private String topic;
@@ -203,8 +205,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     approvals.put(label, reviewer, Optional.<Short> absent());
   }
 
-  public void merge(Iterable<SubmitRecord> submitRecords) {
+  public void merge(String submissionId, Iterable<SubmitRecord> submitRecords) {
     this.status = Change.Status.MERGED;
+    this.submissionId = submissionId;
     this.submitRecords = ImmutableList.copyOf(submitRecords);
     checkArgument(!this.submitRecords.isEmpty(),
         "no submit records specified at submit time");
@@ -473,6 +476,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       msg.append('\n');
     }
 
+    if (submissionId != null) {
+      addFooter(msg, FOOTER_SUBMISSION_ID, submissionId);
+    }
+
     if (submitRecords != null) {
       for (SubmitRecord rec : submitRecords) {
         addFooter(msg, FOOTER_SUBMITTED_WITH)
@@ -514,6 +521,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && reviewers.isEmpty()
         && status == null
         && subject == null
+        && submissionId == null
         && submitRecords == null
         && hashtags == null
         && topic == null;

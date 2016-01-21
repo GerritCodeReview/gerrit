@@ -28,7 +28,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.sql.Timestamp;
 import java.util.Collections;
@@ -61,7 +61,7 @@ public class PatchSetUtil {
   }
 
   public PatchSet insert(ReviewDb db, ChangeUpdate update, PatchSet.Id psId,
-      ObjectId id, boolean draft, Iterable<String> groups,
+      RevCommit commit, boolean draft, Iterable<String> groups,
       String pushCertificate) throws OrmException {
     Change.Id changeId = update.getChange().getId();
     checkArgument(psId.getParentKey().equals(changeId),
@@ -75,13 +75,17 @@ public class PatchSetUtil {
     }
 
     PatchSet ps = new PatchSet(psId);
-    ps.setRevision(new RevId(id.name()));
+    ps.setRevision(new RevId(commit.name()));
     ps.setUploader(update.getUser().getAccountId());
     ps.setCreatedOn(new Timestamp(update.getWhen().getTime()));
     ps.setDraft(draft);
     ps.setGroups(groups);
     ps.setPushCertificate(pushCertificate);
     db.patchSets().insert(Collections.singleton(ps));
+
+    if (!update.getChange().getSubject().equals(commit.getShortMessage())) {
+      update.setSubject(commit.getShortMessage());
+    }
 
     if (migration.writeChanges()) {
       // TODO(dborowitz): Write to notedb.

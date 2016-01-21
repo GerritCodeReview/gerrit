@@ -210,7 +210,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(psId);
-    update.setSubject("Create patch set " + psId.get());
+    update.setSubjectForCommit("Create patch set " + psId.get());
 
     if (!change.getStatus().isOpen() && !allowClosed) {
       throw new InvalidChangeOperationException(String.format(
@@ -222,6 +222,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       PatchSet prevPs = psUtil.current(ctx.getDb(), ctx.getNotes());
       newGroups = prevPs != null ? prevPs.getGroups() : null;
     }
+    ctx.getRevWalk().parseBody(commit);
     patchSet = psUtil.insert(ctx.getDb(), ctx.getUpdate(psId), psId, commit,
         draft, newGroups, null);
 

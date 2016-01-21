@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DeleteDraftPatchSet.Input;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -100,11 +99,11 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
 
     @Override
-    public void updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx)
         throws RestApiException, OrmException, IOException {
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (patchSet == null) {
-        return; // Nothing to do.
+        return false; // Nothing to do.
       }
       if (!patchSet.isDraft()) {
         throw new ResourceConflictException("Patch set is not a draft");
@@ -118,6 +117,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
 
       deleteDraftPatchSet(patchSet, ctx);
       deleteOrUpdateDraftChange(ctx);
+      return true;
     }
 
     @Override
@@ -155,7 +155,6 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       if (c.currentPatchSetId().equals(psId)) {
         c.setCurrentPatchSet(previousPatchSetInfo(ctx));
       }
-      ChangeUtil.updated(c);
       ctx.saveChange();
     }
 

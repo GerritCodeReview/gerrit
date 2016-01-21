@@ -168,7 +168,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     }
 
     @Override
-    public void updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx)
         throws RestApiException, OrmException, IOException {
       if (!ctx.getControl().canPublish(ctx.getDb())) {
         throw new AuthException("Cannot publish this draft patch set");
@@ -182,6 +182,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       saveChange(ctx);
       savePatchSet(ctx);
       addReviewers(ctx);
+      return true;
     }
 
     private void saveChange(ChangeContext ctx) {
@@ -191,7 +192,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       if (wasDraftChange) {
         change.setStatus(Change.Status.NEW);
         update.setStatus(change.getStatus());
-        ChangeUtil.updated(change);
         ctx.saveChange();
       }
     }
@@ -204,7 +204,6 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       patchSet.setDraft(false);
       // Force ETag invalidation if not done already
       if (!wasDraftChange) {
-        ChangeUtil.updated(change);
         ctx.saveChange();
       }
       ctx.getDb().patchSets().update(Collections.singleton(patchSet));

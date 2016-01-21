@@ -109,7 +109,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     }
 
     @Override
-    public void updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException {
       Optional<PatchLineComment> maybeComment =
           plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
@@ -152,6 +152,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         plcUtil.updateComments(ctx.getDb(), update,
             Collections.singleton(update(comment, in)));
       }
+      return true;
     }
   }
 

@@ -117,7 +117,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -1810,8 +1809,9 @@ public class ReceiveCommits {
                 changeId,
                 new BatchUpdate.Op() {
                   @Override
-                  public void updateChange(ChangeContext ctx) throws Exception {
+                  public boolean updateChange(ChangeContext ctx) {
                     ctx.getUpdate(psId).setTopic(magicBranch.topic);
+                    return true;
                   }
                 });
           }
@@ -1827,7 +1827,7 @@ public class ReceiveCommits {
   }
 
   private void submit(ChangeControl changeCtl, PatchSet ps)
-      throws OrmException, ResourceConflictException {
+      throws OrmException, RestApiException {
     Submit submit = submitProvider.get();
     RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
     try (MergeOp op = mergeOpProvider.get()) {
@@ -2158,7 +2158,7 @@ public class ReceiveCommits {
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
         @Override
         public PatchSet.Id call() throws OrmException, IOException,
-            NoSuchChangeException, ResourceConflictException {
+            RestApiException {
           try {
             if (magicBranch != null && magicBranch.edit) {
               return upsertEdit();
@@ -2232,7 +2232,7 @@ public class ReceiveCommits {
     }
 
     PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException,
-        ResourceConflictException {
+        RestApiException {
       final Account.Id me = user.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();

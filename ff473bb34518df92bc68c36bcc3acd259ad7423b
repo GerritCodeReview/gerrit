@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a7032ebe_b874b9d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T12:41:49Z",
+      "side": 1,
+      "message": "The rebaseCommit method already parses the commit. No need to do it a second time.",
+      "revId": "ff473bb34518df92bc68c36bcc3acd259ad7423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d92002e1_e89253df",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
         "patchSetId": 2
@@ -67,6 +84,29 @@
         "startChar": 4,
         "endLine": 161,
         "endChar": 43
+      },
+      "revId": "ff473bb34518df92bc68c36bcc3acd259ad7423b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e709a6de_7af05987",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T12:41:49Z",
+      "side": 1,
+      "message": "We have a problem here with re-using the RevWalk. The updates done above are not visible to this RevWalk instance, e.g.\n\n  ((RevCommit)ctx.getRevWalk().parseCommit(objectId)).\n      getShortMessage()\n\nfails with an NPE, while\n\n  (new RevWalk(ctx.getRepository())).parseCommit(objectId)).\n      getShortMessage()\n\nsucceeds.",
+      "range": {
+        "startLine": 206,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 50
       },
       "revId": "ff473bb34518df92bc68c36bcc3acd259ad7423b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

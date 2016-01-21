@@ -269,6 +269,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       change.setCreatedOn(parser.createdOn);
       change.setLastUpdatedOn(parser.lastUpdatedOn);
       change.setOwner(parser.ownerId);
+      change.setSubmissionId(parser.submissionId);
 
       if (parser.hashtags != null) {
         hashtags = ImmutableSet.copyOf(parser.hashtags);

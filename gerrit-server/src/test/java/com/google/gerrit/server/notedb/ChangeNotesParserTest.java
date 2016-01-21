@@ -173,6 +173,19 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void parseSubmissionId() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Submission-id: 1-1453387607626-96fabc25");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Submission-id: 1-1453387607626-96fabc25\n"
+        + "Submission-id: 1-1453387901516-5d1e2450");
+  }
+
+  @Test
   public void parseReviewer() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"

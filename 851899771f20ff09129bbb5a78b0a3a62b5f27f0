@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1453325617 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBUV3F8xT5GV7gaRi+XvHvNmctEiAdpSV8UliejNvUeATX2YGor/t4EcDbBenniaaurFIU1Y\n\n0000000000000000000000000000000000000000 a7263cd8c625be8849b5f432c40845367b72a0c9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWn/0xAAoJEF/XxZqaEoiMDSQP/R+WEKebC7Cu1zIrWuCLWFEG\np3xkhQX3wM3XbTomZRfrPfUXN6g0tx6iOjpQMyHiaae9x+qwW4ozuArJzIczO1tL\n3Z+sdOjWCtAhaYr6o5dPERx+1wtCtDJzDmvBVDZw9uHICk7zIkN0hoodeRE2uSup\nbEb/39D94HoICNSJkjRKjSZnqNoUNh52n5v+tQ1l2SYf+FxjyOSwvgMd6GBL+tTb\nttdc+82iGgm5HRdciGbzzhsYq0jz9CEx26cK73mwQESVzAIBkSk0nkNetUGWoZ9V\nLqCg8m0TECSUyVfxeE+TqvxR62iMvmk3IuKdHIWLinJ2e90ExjXiMsE9GazJyTq5\nxWbuJhUvS8QE+DOiwSw6DLTBFSxX0tCDtetsxtMw6MYIAQlOaG/VlWXvrkWztafp\n9YWCDlpWcvh6J9YpQRkuZTsa7eeowRLaGsAgkBoNs3lwKVShj8PuItxPswrLRHY5\nESQSecdUZcylfVHRYja3zU0OSIzQplh0fKGZn2KAYJUWu7JGGAhyvgwZlQwzta0U\nLb3tPcdZf75CGezin71bXepRcYaf7v6HMzOYBYNovkHoU93R/we12ZZwZ2uOIsgD\nGCsLZa2GbM2Earf+pG/3xm4jZGQ0MABWJNI5j902KLMtcV/Gi9hbtUw92nOftVfe\nngrlwk5sf9AxaIF/ae9u\n\u003dA+Ic\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "27173efe_14d49416",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-21T02:06:04Z",
+      "side": 1,
+      "message": "Note that adding a new enum here will cause a bunch of warnings following [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/72547/",
+      "revId": "851899771f20ff09129bbb5a78b0a3a62b5f27f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -46,6 +46,30 @@
       "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7b88e3e_f00ac06b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-21T08:44:52Z",
+      "side": 1,
+      "message": "Yes, this is a nasty hack.  I still need to debug more to find the root cause.",
+      "parentUuid": "e7828650_926e3c03",
+      "range": {
+        "startLine": 431,
+        "startChar": 8,
+        "endLine": 431,
+        "endChar": 17
+      },
+      "revId": "6114e05de6db58dde51c74f523e24b6bcb79529f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

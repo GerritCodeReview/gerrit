@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e709a6de_1a4f9dba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T07:29:19Z",
+      "side": 1,
+      "message": "IndexCollection.class.getName() ?",
+      "range": {
+        "startLine": 558,
+        "startChar": 15,
+        "endLine": 558,
+        "endChar": 63
+      },
+      "revId": "e0464ebc0565ba9b13307b088e9a852581e55b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

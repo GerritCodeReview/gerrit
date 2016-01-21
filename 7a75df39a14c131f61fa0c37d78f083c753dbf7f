@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "a7032ebe_78098143",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T18:15:34Z",
+      "side": 1,
+      "message": "This doesn\u0027t work well, because this test needs to create all kind of inconsistent changes. At least i wouldn\u0027t do it in this change.",
+      "parentUuid": "a765ee97_e82b13bc",
+      "revId": "7a75df39a14c131f61fa0c37d78f083c753dbf7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a765ee97_a8251be9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2016-01-21T16:28:55Z",
       "side": 1,
       "message": "This should probably result in an error if there was no branch found.",
+      "revId": "7a75df39a14c131f61fa0c37d78f083c753dbf7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7032ebe_f8f47178",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-21T18:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a765ee97_a8251be9",
       "revId": "7a75df39a14c131f61fa0c37d78f083c753dbf7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

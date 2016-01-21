@@ -156,10 +156,11 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
 
       ChangeMessage msg;
       if (s == CommitMergeStatus.CLEAN_MERGE) {
-        msg = message(ctx, txt + getByAccountName());
+        msg = message(ctx, commit.getPatchsetId(), txt + getByAccountName());
       } else if (s == CommitMergeStatus.CLEAN_REBASE
           || s == CommitMergeStatus.CLEAN_PICK) {
-        msg = message(ctx, txt + " as " + commit.name() + getByAccountName());
+        msg = message(ctx, commit.getPatchsetId(),
+            txt + " as " + commit.name() + getByAccountName());
       } else if (s == CommitMergeStatus.ALREADY_MERGED) {
         msg = null;
       } else {
@@ -287,7 +288,9 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     return "";
   }
 
-  private ChangeMessage message(ChangeContext ctx, String body) {
+  private ChangeMessage message(ChangeContext ctx, PatchSet.Id psId,
+      String body) {
+    checkNotNull(psId);
     String uuid;
     try {
       uuid = ChangeUtil.messageUUID(ctx.getDb());
@@ -295,11 +298,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       return null;
     }
     ChangeMessage m = new ChangeMessage(
-        new ChangeMessage.Key(ctx.getChange().getId(), uuid),
-        // TODO(dborowitz): Pre-BatchUpdate behavior wrote the merged message on
-        // the old patch set ID, so that's what we do here. I don't think this
-        // was intentional, and it should be changed.
-        null, ctx.getWhen(), toMerge.change().currentPatchSetId());
+        new ChangeMessage.Key(psId.getParentKey(), uuid),
+        null, ctx.getWhen(), psId);
     m.setMessage(body);
     return m;
   }

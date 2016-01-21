@@ -449,7 +449,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // initially topic is not set
     ChangeNotes notes = newNotes(c);
-    notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isNull();
 
     // set topic

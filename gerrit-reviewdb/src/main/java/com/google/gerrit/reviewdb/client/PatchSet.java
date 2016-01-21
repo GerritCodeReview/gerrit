@@ -188,7 +188,7 @@ public final class PatchSet {
   protected String groups;
 
   /** Certificate sent with a push that created this patch set. */
-  @Column(id = 7, notNull = false)
+  @Column(id = 7, notNull = false, length = Integer.MAX_VALUE)
   protected String pushCertficate;
 
   protected PatchSet() {

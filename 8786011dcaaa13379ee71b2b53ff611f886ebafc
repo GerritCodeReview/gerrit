@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a765ee97_08354716",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T17:02:54Z",
+      "side": 1,
+      "message": "Now unnecessary since there are no more changes in this file.",
+      "revId": "8786011dcaaa13379ee71b2b53ff611f886ebafc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67f4d602_be2659f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T17:02:54Z",
+      "side": 1,
+      "message": "As I think I mentioned, I\u0027d rather not use RevId internally, I\u0027d prefer ObjectId. One other benefit of that approach is if you call ObjectId.fromString here it will validate that the contents of sha actually looks like a SHA-1.",
+      "revId": "8786011dcaaa13379ee71b2b53ff611f886ebafc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67f4d602_9e2b9dbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T17:02:54Z",
+      "side": 1,
+      "message": "Nit: s/-/ /",
+      "range": {
+        "startLine": 228,
+        "startChar": 69,
+        "endLine": 228,
+        "endChar": 70
+      },
+      "revId": "8786011dcaaa13379ee71b2b53ff611f886ebafc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a765ee97_28328b2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-21T17:02:54Z",
+      "side": 1,
+      "message": "Style nit: else on same line as closing brace",
+      "revId": "8786011dcaaa13379ee71b2b53ff611f886ebafc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

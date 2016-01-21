@@ -168,17 +168,12 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (!idList.isEmpty()) {
       return new Change.Key(idList.get(idList.size() - 1).trim());
     }
-
-    try {
-      ObjectId id = ChangeIdUtil.computeChangeId(commit.getTree(), commit,
-          commit.getAuthorIdent(), commit.getCommitterIdent(),
-          commit.getShortMessage());
-      StringBuilder changeId = new StringBuilder();
-      changeId.append("I").append(ObjectId.toString(id));
-      return new Change.Key(changeId.toString());
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
+    ObjectId id = ChangeIdUtil.computeChangeId(commit.getTree(), commit,
+        commit.getAuthorIdent(), commit.getCommitterIdent(),
+        commit.getShortMessage());
+    StringBuilder changeId = new StringBuilder();
+    changeId.append("I").append(ObjectId.toString(id));
+    return new Change.Key(changeId.toString());
   }
 
   public Change getChange() {

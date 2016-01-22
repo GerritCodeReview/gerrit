@@ -272,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "74980634_5ef8556a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-22T10:23:56Z",
+      "side": 1,
+      "message": "I missed that these were different types.",
+      "parentUuid": "9491fa0f_ffa91f9c",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 13
+      },
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "272bbe19_d426fcf6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 7
@@ -348,6 +372,24 @@
       "side": 1,
       "message": "We has similar discussion here: [1]. IIRC the result was the merge() function that I implemented to merge the values form the backend and input.\n\n* [1] https://gerrit-review.googlesource.com/#/c/61604/36/gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java@129",
       "parentUuid": "67313682_b6f9086f",
+      "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34a20e64_5c761de0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-22T10:23:56Z",
+      "side": 1,
+      "message": "You are right. Thanks for pointing me to the merge function.",
+      "parentUuid": "e709a6de_1afb1d2d",
       "revId": "5ba80a631a7147b773f11808645f7f17ae4fef4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

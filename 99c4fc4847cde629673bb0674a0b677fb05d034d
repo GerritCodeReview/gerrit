@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "149d0a26_3b9eb749",
+        "filename": "polygerrit-ui/app/elements/gr-reviewer-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-22T17:11:59Z",
+      "side": 1,
+      "message": "Why do you need the restamp here?",
+      "revId": "99c4fc4847cde629673bb0674a0b677fb05d034d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "149d0a26_bb89670f",
+        "filename": "polygerrit-ui/app/test/gr-reviewer-list-test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-22T17:11:59Z",
+      "side": 1,
+      "message": "Can you add results to the stub that resemble group responses?",
+      "revId": "99c4fc4847cde629673bb0674a0b677fb05d034d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

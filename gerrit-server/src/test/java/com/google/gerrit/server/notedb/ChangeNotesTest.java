@@ -513,32 +513,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
-  public void subjectChangeNotes() throws Exception {
-    Change c = newChange();
-
-    ChangeNotes notes = newNotes(c);
-    assertThat(notes.getChange().getSubject()).isEqualTo(c.getSubject());
-    assertThat(notes.getChange().getOriginalSubject()).isEqualTo(c.getSubject());
-
-    // An unrelated update doesn't affect the subject
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setTopic("topic"); // Change something to get a new commit.
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.getChange().getSubject()).isEqualTo(c.getSubject());
-    assertThat(notes.getChange().getOriginalSubject()).isEqualTo(c.getSubject());
-
-    // An update of the subject doesn't affect the original subject
-    update = newUpdate(c, changeOwner);
-    String newSubject = "other subject";
-    update.setSubject(newSubject);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.getChange().getSubject()).isEqualTo(newSubject);
-    assertThat(notes.getChange().getOriginalSubject()).isEqualTo(c.getSubject());
-  }
-
-  @Test
   public void ownerChangeNotes() throws Exception {
     Change c = newChange();
 
@@ -590,22 +564,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getCurrentPatchSet()).isNull();
-
-    // ps1
-    ObjectId commit =
-        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setCommit(commit);
-    update.commit();
-    notes = newNotes(c);
-    assertThat(notes.getCurrentPatchSet().getRevision().get())
-        .isEqualTo(commit.name());
+    PatchSet ps = notes.getCurrentPatchSet();
+    assertThat(ps).isNotNull();
 
     // new revId for the same patch set, ps1
-    commit =
-        ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee");
-    update.setCommit(commit);
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    RevCommit commit = tr.commit().message("PS1 again").create();
+    update.setCommit(rw, commit);
     update.commit();
     exception.expect(OrmException.class);
     exception.expectMessage("Multiple revisions parsed for patch set");
@@ -616,37 +581,33 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void patchSetChangeNotes() throws Exception {
     Change c = newChange();
 
+    // ps1 created by newChange()
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getCurrentPatchSet()).isNull();
-
-    // ps1
-    ObjectId commit =
-        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setCommit(commit);
-    update.commit();
-    notes = newNotes(c);
-    PatchSet ps = notes.getCurrentPatchSet();
-    assertThat(ps.getId()).isEqualTo(new PatchSet.Id(c.getId(), 1));
-    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps.getId());
-    assertThat(ps.getRevision().get()).isEqualTo(commit.name());
-    assertThat(ps.getUploader()).isEqualTo(changeOwner.getAccountId());
-    assertThat(ps.getCreatedOn()).isEqualTo(update.getWhen());
+    PatchSet ps1 = notes.getCurrentPatchSet();
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps1.getId());
+    assertThat(notes.getChange().getSubject()).isEqualTo("Change subject");
+    assertThat(notes.getChange().getOriginalSubject())
+        .isEqualTo("Change subject");
+    assertThat(ps1.getId()).isEqualTo(new PatchSet.Id(c.getId(), 1));
+    assertThat(ps1.getUploader()).isEqualTo(changeOwner.getAccountId());
 
     // ps2 by other user
     incrementPatchSet(c);
-    commit =
-        ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee");
-    update = newUpdate(c, otherUser);
-    update.setCommit(commit);
+    RevCommit commit = tr.commit().message("PS2").create();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setCommit(rw, commit);
     update.commit();
     notes = newNotes(c);
-    ps = notes.getCurrentPatchSet();
-    assertThat(ps.getId()).isEqualTo(new PatchSet.Id(c.getId(), 2));
-    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps.getId());
-    assertThat(ps.getRevision().get()).isEqualTo(commit.name());
-    assertThat(ps.getUploader()).isEqualTo(otherUser.getAccountId());
-    assertThat(ps.getCreatedOn()).isEqualTo(update.getWhen());
+    PatchSet ps2 = notes.getCurrentPatchSet();
+    assertThat(ps2.getId()).isEqualTo(new PatchSet.Id(c.getId(), 2));
+    assertThat(notes.getChange().getSubject()).isEqualTo("PS2");
+    assertThat(notes.getChange().getOriginalSubject())
+        .isEqualTo("Change subject");
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.getId());
+    assertThat(ps2.getRevision().get()).isNotEqualTo(ps1.getRevision());
+    assertThat(ps2.getRevision().get()).isEqualTo(commit.name());
+    assertThat(ps2.getUploader()).isEqualTo(otherUser.getAccountId());
+    assertThat(ps2.getCreatedOn()).isEqualTo(update.getWhen());
   }
 
   @Test

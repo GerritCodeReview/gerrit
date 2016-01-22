@@ -659,6 +659,36 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void patchSetGroups() throws Exception {
+    Change c = newChange();
+    PatchSet.Id psId1 = c.currentPatchSetId();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId1).getGroups()).isNull();
+
+    // ps1
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setGroups(ImmutableList.of("a", "b"));
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId1).getGroups())
+      .containsExactly("a", "b").inOrder();
+
+    // ps2
+    incrementPatchSet(c);
+    PatchSet.Id psId2 = c.currentPatchSetId();
+    update = newUpdate(c, changeOwner);
+    update.setCommit(rw, tr.commit().message("PS2").create());
+    update.setGroups(ImmutableList.of("d"));
+    update.commit();
+    notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId2).getGroups())
+      .containsExactly("d");
+    assertThat(notes.getPatchSets().get(psId1).getGroups())
+      .containsExactly("a", "b").inOrder();
+  }
+
+  @Test
   public void emptyExceptSubject() throws Exception {
     ChangeUpdate update = newUpdate(newChange(), changeOwner);
     update.setSubjectForCommit("Create change");

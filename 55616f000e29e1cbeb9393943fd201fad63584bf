@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "149d0a26_bbfc0789",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-22T15:05:11Z",
+      "side": 1,
+      "message": "instead of defining a property that sets an underline on the host, why not set it via css within the encompassing element?",
+      "revId": "55616f000e29e1cbeb9393943fd201fad63584bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -571,10 +571,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
     db.patchSets().update(ImmutableList.of(ps1_1));
     indexer.index(changeDataFactory.create(db, psId1_1.getParentKey()));
 
-    if (!cfg.getBoolean("change", null, "getRelatedByAncestors", false)) {
-      // PS1,1 has no groups, so disappeared from related changes.
-      assertRelated(psId2_1);
-    }
+    // PS1,1 has no groups, so disappeared from related changes.
+    assertRelated(psId2_1);
 
     RevCommit c2_2 = testRepo.amend(c2_1)
         .add("c.txt", "2")

@@ -296,7 +296,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "a.txt", "1", "a-topic-here");
     approve(change3b.getChangeId());
 
-    submitWithConflict(change3a.getChangeId(), "Merge Conflict");
+    submitWithConflict(change3a.getChangeId(), "Cannot merge " +
+        change3a.getCommit().name() +
+        "\nMissing dependency");
 
     RevCommit tipbranch = getRemoteLog(project, "branch").get(0);
     assertThat(tipbranch.getShortMessage()).isEqualTo(

@@ -380,7 +380,7 @@ public class MergeOp {
         integrateIntoHistory(cs, caller);
       } catch (IntegrationException e) {
         logError("Merge Conflict", e);
-        throw new ResourceConflictException("Merge Conflict", e);
+        throw new ResourceConflictException(e.getMessage());
       }
     } catch (IOException e) {
       // Anything before the merge attempt is an error
@@ -587,7 +587,8 @@ public class MergeOp {
 
   private ListMultimap<SubmitType, ChangeData> validateChangeList(
       Collection<ChangeData> submitted, IdentifiedUser caller)
-    throws IntegrationException {
+      throws IntegrationException, ResourceConflictException,
+      NoSuchChangeException, OrmException {
     logDebug("Validating {} changes", submitted.size());
     ListMultimap<SubmitType, ChangeData> toSubmit = ArrayListMultimap.create();
 
@@ -701,6 +702,11 @@ public class MergeOp {
       commit.add(canMergeFlag);
       toSubmit.put(submitType, cd);
     }
+
+    List<ChangeData> notSubmittable = new ArrayList<>(submitted);
+    notSubmittable.removeAll(toSubmit.values());
+    updateChangeStatus(notSubmittable, null, false, caller);
+
     logDebug("Submitting on this run: {}", toSubmit);
     return toSubmit;
   }
@@ -822,18 +828,18 @@ public class MergeOp {
     return "";
   }
 
-  private void updateChangeStatus(List<ChangeData> submitted,
+  private void updateChangeStatus(List<ChangeData> changes,
       Branch.NameKey destBranch, boolean dryRun, IdentifiedUser caller)
       throws NoSuchChangeException, IntegrationException, ResourceConflictException,
       OrmException {
     if (!dryRun) {
-      logDebug("Updating change status for {} changes", submitted.size());
+      logDebug("Updating change status for {} changes", changes.size());
     } else {
       logDebug("Checking change state for {} changes in a dry run",
-          submitted.size());
+          changes.size());
     }
-    MergeTip mergeTip = mergeTips.get(destBranch);
-    for (ChangeData cd : submitted) {
+    MergeTip mergeTip = destBranch != null ? mergeTips.get(destBranch) : null;
+    for (ChangeData cd : changes) {
       Change c = cd.change();
       CodeReviewCommit commit = commits.get(c.getId());
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;

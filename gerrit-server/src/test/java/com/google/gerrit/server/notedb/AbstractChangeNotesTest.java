@@ -61,15 +61,15 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.TimeZone;
 
@@ -87,6 +87,8 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
   protected InMemoryRepositoryManager repoManager;
   protected PersonIdent serverIdent;
   protected Project.NameKey project;
+  protected RevWalk rw;
+  protected TestRepository<InMemoryRepository> tr;
 
   @Inject protected IdentifiedUser.GenericFactory userFactory;
 
@@ -105,6 +107,8 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
     project = new Project.NameKey("test-project");
     repoManager = new InMemoryRepositoryManager();
     repo = repoManager.createRepository(project);
+    tr = new TestRepository<>(repo);
+    rw = tr.getRevWalk();
     accountCache = new FakeAccountCache();
     Account co = new Account(new Account.Id(1), TimeUtil.nowTs());
     co.setFullName("Change Owner");
@@ -162,18 +166,16 @@ public class AbstractChangeNotesTest extends GerritBaseTests {
     System.setProperty("user.timezone", systemTimeZone);
   }
 
-  protected Change newChange()
-      throws IOException, OrmException, ConfigInvalidException {
+  protected Change newChange() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
     ChangeUpdate u = newUpdate(c, changeOwner);
-    u.setSubject(c.getSubject());
     u.setBranch(c.getDest().get());
     u.commit();
     return c;
   }
 
   protected ChangeUpdate newUpdate(Change c, IdentifiedUser user)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws Exception {
     ChangeUpdate update = TestChanges.newUpdate(
         injector, repoManager, MIGRATION, c, allUsers, user);
     try (Repository repo = repoManager.openMetadataRepository(c.getProject())) {

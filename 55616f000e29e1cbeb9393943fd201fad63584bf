@@ -52,6 +52,24 @@
       "revId": "55616f000e29e1cbeb9393943fd201fad63584bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f46dd6ed_fa34c91a",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-22T15:32:26Z",
+      "side": 1,
+      "message": "Thanks! Done.\n\nI had to use \".text:hover\" because \"gr-account-label:hover\" seems not to work.",
+      "parentUuid": "149d0a26_3b4c77c9",
+      "revId": "55616f000e29e1cbeb9393943fd201fad63584bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

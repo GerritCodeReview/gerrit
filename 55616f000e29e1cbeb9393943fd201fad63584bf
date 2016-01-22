@@ -34,6 +34,24 @@
       "revId": "55616f000e29e1cbeb9393943fd201fad63584bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "149d0a26_3b4c77c9",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-22T15:12:51Z",
+      "side": 1,
+      "message": "I see. Apply a @mixin then — https://www.polymer-project.org/1.0/docs/devguide/styling.html#custom-css-mixins\n\n.text {\n  @apply(--gr-account-label-text-style);\n}\n\nthen in the encompassing element:\n\nselector {\n  --gr-account-label-text-style: {\n    text-decoration: underline;\n  };\n}",
+      "parentUuid": "f46dd6ed_fa4da9c4",
+      "revId": "55616f000e29e1cbeb9393943fd201fad63584bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

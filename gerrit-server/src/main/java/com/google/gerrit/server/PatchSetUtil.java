@@ -15,6 +15,8 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.PatchSetState.DRAFT;
+import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Change;
@@ -24,6 +26,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -67,16 +70,7 @@ public class PatchSetUtil {
       PatchSet.Id psId, ObjectId commit, boolean draft,
       Iterable<String> groups, String pushCertificate)
       throws OrmException, IOException {
-    Change.Id changeId = update.getChange().getId();
-    checkArgument(psId.getParentKey().equals(changeId),
-        "cannot insert patch set %s on change %s", psId, changeId);
-    if (update.getPatchSetId() != null) {
-      checkArgument(update.getPatchSetId().equals(psId),
-          "cannot insert patch set %s on update for %s",
-          psId, update.getPatchSetId());
-    } else {
-      update.setPatchSetId(psId);
-    }
+    ensurePatchSetMatches(psId, update);
 
     PatchSet ps = new PatchSet(psId);
     ps.setRevision(new RevId(commit.name()));
@@ -88,7 +82,40 @@ public class PatchSetUtil {
     db.patchSets().insert(Collections.singleton(ps));
 
     update.setCommit(rw, commit);
+    if (draft) {
+      update.setPatchSetState(DRAFT);
+    }
 
     return ps;
+  }
+
+  public void setDraft(ReviewDb db, ChangeUpdate update, PatchSet ps,
+      boolean draft) throws OrmException {
+    ensurePatchSetMatches(ps.getId(), update);
+    ps.setDraft(draft);
+    update.setPatchSetState(draft ? DRAFT : PUBLISHED);
+    db.patchSets().update(Collections.singleton(ps));
+  }
+
+  public void delete(ReviewDb db, ChangeUpdate update, PatchSet ps)
+      throws OrmException {
+    ensurePatchSetMatches(ps.getId(), update);
+    checkArgument(ps.isDraft(),
+        "cannot delete non-draft patch set %s", ps.getId());
+    update.setPatchSetState(PatchSetState.DELETED);
+    db.patchSets().delete(Collections.singleton(ps));
+  }
+
+  private void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {
+    Change.Id changeId = update.getChange().getId();
+    checkArgument(psId.getParentKey().equals(changeId),
+        "cannot modify patch set %s on update for change %s", psId, changeId);
+    if (update.getPatchSetId() != null) {
+      checkArgument(update.getPatchSetId().equals(psId),
+          "cannot modify patch set %s on update for %s",
+          psId, update.getPatchSetId());
+    } else {
+      update.setPatchSetId(psId);
+    }
   }
 }

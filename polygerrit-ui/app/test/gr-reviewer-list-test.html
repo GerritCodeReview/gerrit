@@ -183,7 +183,7 @@ limitations under the License.
       });
     });
 
-    test('autocomplete starts at >= 4 chars', function() {
+    test('autocomplete starts at >= 3 chars', function() {
       element._inputRequestTimeout = 0;
       element._mutable = true;
       var genRequestStub = sinon.stub(
@@ -191,9 +191,9 @@ limitations under the License.
         'generateRequest',
         function() {
           assert(false, 'generateRequest should not be called for input ' +
-              'lengths of less than 4 chars');
+              'lengths of less than 3 chars');
       });
-      element._inputVal = 'foo';
+      element._inputVal = 'fo';
       flushAsynchronousOperations();
       genRequestStub.restore();
     });
@@ -215,7 +215,7 @@ limitations under the License.
       element._lastAutocompleteRequest.completes.then(function() {
         flushAsynchronousOperations();
         assert.isFalse(element.$$('.dropdown').hasAttribute('hidden'));
-        var itemEls = Polymer.dom(element.root).querySelectorAll('.account');
+        var itemEls = Polymer.dom(element.root).querySelectorAll('.reviewer');
         assert.equal(itemEls.length, 2);
         assert.isTrue(itemEls[0].hasAttribute('selected'));
         assert.isFalse(itemEls[1].hasAttribute('selected'));
@@ -236,7 +236,7 @@ limitations under the License.
 
         element._lastAutocompleteRequest.completes.then(function() {
           assert.isFalse(element.$$('.dropdown').hasAttribute('hidden'));
-          var itemEls = Polymer.dom(element.root).querySelectorAll('.account');
+          var itemEls = Polymer.dom(element.root).querySelectorAll('.reviewer');
           assert.equal(itemEls.length, 2);
           assert.isTrue(itemEls[0].hasAttribute('selected'));
           assert.isFalse(itemEls[1].hasAttribute('selected'));

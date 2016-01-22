@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -84,6 +85,11 @@ import java.util.Set;
 import java.util.TreeMap;
 
 class ChangeNotesParser implements AutoCloseable {
+  // Sentinel RevId indicating a mutable field on a patch set was parsed, but
+  // the parser does not yet know its commit SHA-1.
+  private static final RevId PARTIAL_PATCH_SET =
+      new RevId("INVALID PARTIAL PATCH SET");
+
   final Map<Account.Id, ReviewerStateInternal> reviewers;
   final List<Account.Id> allPastReviewers;
   final List<SubmitRecord> submitRecords;
@@ -226,6 +232,7 @@ class ChangeNotesParser implements AutoCloseable {
     if (currRev != null) {
       parsePatchSet(psId, currRev, accountId, ts);
     }
+    parseGroups(psId, commit);
 
     if (submitRecords.isEmpty()) {
       // Only parse the most recent set of submit records; any older ones are
@@ -299,18 +306,36 @@ class ChangeNotesParser implements AutoCloseable {
 
   private void parsePatchSet(PatchSet.Id psId, ObjectId rev,
       Account.Id accountId, Timestamp ts) throws ConfigInvalidException {
-    if (patchSets.containsKey(psId)) {
+    PatchSet ps = patchSets.get(psId);
+    if (ps == null) {
+      ps = new PatchSet(psId);
+      patchSets.put(psId, ps);
+    } else if (ps.getRevision() != PARTIAL_PATCH_SET) {
       throw new ConfigInvalidException(
           String.format(
               "Multiple revisions parsed for patch set %s: %s and %s",
               psId.get(), patchSets.get(psId).getRevision(), rev.name()));
-    } else {
-      PatchSet ps = new PatchSet(psId);
-      ps.setRevision(new RevId(rev.name()));
-      ps.setUploader(accountId);
-      ps.setCreatedOn(ts);
-      patchSets.put(psId, ps);
     }
+    ps.setRevision(new RevId(rev.name()));
+    ps.setUploader(accountId);
+    ps.setCreatedOn(ts);
+  }
+
+  private void parseGroups(PatchSet.Id psId, RevCommit commit)
+      throws ConfigInvalidException {
+    String groupsStr = parseOneFooter(commit, FOOTER_GROUPS);
+    if (groupsStr == null) {
+      return;
+    }
+    PatchSet ps = patchSets.get(psId);
+    if (ps == null) {
+      ps = new PatchSet(psId);
+      ps.setRevision(PARTIAL_PATCH_SET);
+      patchSets.put(psId, ps);
+    } else if (ps.getGroups() != null) {
+      return;
+    }
+    ps.setGroups(PatchSet.splitGroups(groupsStr));
   }
 
   private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
@@ -634,7 +659,14 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
-  private void updatePatchSetStates() {
+  private void updatePatchSetStates() throws ConfigInvalidException {
+    for (PatchSet ps : patchSets.values()) {
+      if (ps.getRevision() == PARTIAL_PATCH_SET) {
+        throw parseException("No %s found for patch set %s",
+            FOOTER_COMMIT, ps.getPatchSetId());
+      }
+    }
+
     Set<PatchSet.Id> deleted =
         Sets.newHashSetWithExpectedSize(patchSetStates.size());
     for (Map.Entry<PatchSet.Id, PatchSetState> e : patchSetStates.entrySet()) {

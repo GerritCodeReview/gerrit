@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27173efe_94426495",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SendEmailExecutor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-22T02:10:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7b88e3e_d04cdcc8",
+      "revId": "700cb028f3501676a061698ae8bb7acb41ec6672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27173efe_b43de00d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-22T01:29:08Z",
       "side": 1,
       "message": "nit: needs to be moved below PerThreadRequestScope to maintain alphabetical ordering.",
+      "revId": "700cb028f3501676a061698ae8bb7acb41ec6672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7b88e3e_902b74bd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-01-22T02:10:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27173efe_b43de00d",
       "revId": "700cb028f3501676a061698ae8bb7acb41ec6672",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

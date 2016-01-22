@@ -36,6 +36,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GetDiffPreferences;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -96,6 +97,7 @@ public class HostPageServlet extends HttpServlet {
   private final boolean isNoteDbEnabled;
   private final Integer pluginsLoadTimeout;
   private final GetDiffPreferences getDiff;
+  private final AuthConfig authConfig;
   private volatile Page page;
 
   @Inject
@@ -108,6 +110,7 @@ public class HostPageServlet extends HttpServlet {
       DynamicSet<WebUiPlugin> webUiPlugins,
       DynamicSet<MessageOfTheDay> motd,
       @GerritServerConfig Config cfg,
+      AuthConfig authCfg,
       SiteStaticDirectoryServlet ss,
       NotesMigration migration,
       GetDiffPreferences diffPref)
@@ -120,6 +123,7 @@ public class HostPageServlet extends HttpServlet {
     signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
     refreshHeaderFooter = cfg.getBoolean("site", "refreshHeaderFooter", true);
+    authConfig = authCfg;
     staticServlet = ss;
     isNoteDbEnabled = migration.enabled();
     pluginsLoadTimeout = getPluginsLoadTimeout(cfg);
@@ -229,7 +233,7 @@ public class HostPageServlet extends HttpServlet {
     }
   }
 
-  private static void setXGerritAuthCookie(HttpServletRequest req,
+  private void setXGerritAuthCookie(HttpServletRequest req,
       HttpServletResponse rsp, WebSession session) {
     String v = session != null ? session.getXGerritAuth() : "";
     Cookie c = new Cookie(HostPageData.XSRF_COOKIE_NAME, v);
@@ -239,6 +243,7 @@ public class HostPageServlet extends HttpServlet {
     c.setMaxAge(session != null
         ? -1 // Set the cookie for this browser session.
         : 0); // Remove the cookie (expire immediately).
+    c.setSecure(authConfig.getCookieSecure());
     rsp.addCookie(c);
   }
 

@@ -190,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "34a20e64_bceba199",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-01-22T12:10:12Z",
+      "side": 1,
+      "message": "Sorry. Something went wrong with this version of change edit. Done.",
+      "parentUuid": "74980634_de96a50e",
+      "revId": "3c7be7b11733ed1854e950df62f10da05580bb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a20e64_7c7bd9c6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java",
         "patchSetId": 9

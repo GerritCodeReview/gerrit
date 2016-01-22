@@ -149,6 +149,10 @@ limitations under the License.
         changeNum: String,
         patchNum: String,
         path: String,
+        projectConfig: {
+          type: Object,
+          observer: '_projectConfigChanged',
+        },
 
         _lineFeedHTML: {
           type: String,
@@ -295,6 +299,14 @@ limitations under the License.
         this.$.content.style.width = width + 'ch';
       },
 
+      _projectConfigChanged: function(projectConfig) {
+        var threadEls =
+            Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
+        for (var i = 0; i < threadEls.length; i++) {
+          threadEls[i].projectConfig = projectConfig;
+        }
+      },
+
       _contentChanged: function(diff) {
         this._clearChildren(this.$.numbers);
         this._clearChildren(this.$.content);
@@ -403,6 +415,7 @@ limitations under the License.
         threadEl.path = this.path;
         threadEl.comments = thread.comments;
         threadEl.showActions = this.canComment;
+        threadEl.projectConfig = this.projectConfig;
 
         this.$.numbers.insertBefore(lineEl, beforeLineEl);
         this.$.content.insertBefore(threadEl, beforeContentEl);

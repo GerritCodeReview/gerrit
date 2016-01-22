@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-class PatchSetParser {
+public class PatchSetParser {
   private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;

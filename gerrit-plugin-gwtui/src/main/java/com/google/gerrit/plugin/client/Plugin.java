@@ -16,7 +16,7 @@ package com.google.gerrit.plugin.client;
 
 import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.info.AccountInfo;
-import com.google.gerrit.client.info.AccountPreferencesInfo;
+import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gerrit.client.info.ServerInfo;
 import com.google.gerrit.plugin.client.extension.Panel;
 import com.google.gerrit.plugin.client.screen.Screen;
@@ -60,7 +60,7 @@ public final class Plugin extends JavaScriptObject {
   /*-{ return this.refreshMenuBar() }-*/;
 
   /** @return the preferences of the currently signed in user, the default preferences if not signed in */
-  public final native AccountPreferencesInfo getUserPreferences()
+  public final native GeneralPreferences getUserPreferences()
   /*-{ return this.getUserPreferences() }-*/;
 
   /** Refresh the user preferences of the current user. */

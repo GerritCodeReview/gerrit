@@ -22,7 +22,7 @@ import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.StringListPanel;
 import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.config.ConfigServerApi;
-import com.google.gerrit.client.info.AccountPreferencesInfo;
+import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gerrit.client.info.TopMenuItem;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
@@ -243,9 +243,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     add(extensionPanel);
 
     AccountApi.self().view("preferences")
-        .get(new ScreenLoadCallback<AccountPreferencesInfo>(this) {
+        .get(new ScreenLoadCallback<GeneralPreferences>(this) {
       @Override
-      public void preDisplay(AccountPreferencesInfo prefs) {
+      public void preDisplay(GeneralPreferences prefs) {
         display(prefs);
       }
     });
@@ -266,7 +266,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     emailStrategy.setEnabled(on);
   }
 
-  private void display(AccountPreferencesInfo p) {
+  private void display(GeneralPreferences p) {
     showSiteHeader.setValue(p.showSiteHeader());
     useFlashClipboard.setValue(p.useFlashClipboard());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
@@ -350,7 +350,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   }
 
   private void doSave() {
-    AccountPreferencesInfo p = AccountPreferencesInfo.create();
+    GeneralPreferences p = GeneralPreferences.create();
     p.showSiteHeader(showSiteHeader.getValue());
     p.useFlashClipboard(useFlashClipboard.getValue());
     p.changesPerPage(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
@@ -383,9 +383,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     save.setEnabled(false);
 
     AccountApi.self().view("preferences")
-        .put(p, new GerritCallback<AccountPreferencesInfo>() {
+        .put(p, new GerritCallback<GeneralPreferences>() {
           @Override
-          public void onSuccess(AccountPreferencesInfo prefs) {
+          public void onSuccess(GeneralPreferences prefs) {
             Gerrit.setUserPreferences(prefs);
             enable(true);
             display(prefs);
@@ -412,9 +412,9 @@ public class MyPreferencesScreen extends SettingsScreen {
         @Override
         public void onClick(ClickEvent event) {
           ConfigServerApi.defaultPreferences(
-              new GerritCallback<AccountPreferencesInfo>() {
+              new GerritCallback<GeneralPreferences>() {
                 @Override
-                public void onSuccess(AccountPreferencesInfo p) {
+                public void onSuccess(GeneralPreferences p) {
                   MyPreferencesScreen.this.display(p.my());
                   widget.setEnabled(true);
                 }

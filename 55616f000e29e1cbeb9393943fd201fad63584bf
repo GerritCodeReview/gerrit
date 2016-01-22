@@ -16,6 +16,24 @@
       "revId": "55616f000e29e1cbeb9393943fd201fad63584bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f46dd6ed_fa4da9c4",
+        "filename": "polygerrit-ui/app/elements/gr-account-label.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-01-22T15:08:00Z",
+      "side": 1,
+      "message": "That\u0027s what I have tried, but I have not found an acceptable way since I do not want to have the avatar image underlined. If I could just underline the whole element, it would be way easier. I\u0027m open for any suggestion how this could be done with less code ;)",
+      "parentUuid": "149d0a26_bbfc0789",
+      "revId": "55616f000e29e1cbeb9393943fd201fad63584bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

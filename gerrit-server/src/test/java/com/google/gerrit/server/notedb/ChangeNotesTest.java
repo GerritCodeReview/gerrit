@@ -622,6 +622,59 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void patchSetStates() throws Exception {
+    Change c = newChange();
+    PatchSet.Id psId1 = c.currentPatchSetId();
+
+    // ps1
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setCommit(rw, tr.commit().message("PS1").create());
+    update.commit();
+
+    // ps2
+    incrementPatchSet(c);
+    PatchSet.Id psId2 = c.currentPatchSetId();
+    RevCommit commit = tr.commit().message("PS2").create();
+    update = newUpdate(c, changeOwner);
+    update.setCommit(rw, commit);
+    update.setPatchSetState(PatchSetState.DRAFT);
+    update.putApproval("Code-Review", (short) 1);
+    update.setChangeMessage("This is a message");
+    update.insertComment(newPublishedComment(c.currentPatchSetId(), "a.txt",
+        "uuid1", new CommentRange(1, 2, 3, 4), 1, changeOwner, null,
+        TimeUtil.nowTs(), "Comment", (short) 1, commit.name()));
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId2).isDraft()).isTrue();
+    assertThat(notes.getPatchSets().keySet()).containsExactly(psId1, psId2);
+    assertThat(notes.getApprovals()).isNotEmpty();
+    assertThat(notes.getChangeMessagesByPatchSet()).isNotEmpty();
+    assertThat(notes.getChangeMessages()).isNotEmpty();
+    assertThat(notes.getComments()).isNotEmpty();
+
+    // publish ps2
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetState(PatchSetState.PUBLISHED);
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getPatchSets().get(psId2).isDraft()).isFalse();
+
+    // delete ps2
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetState(PatchSetState.DELETED);
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getPatchSets().keySet()).containsExactly(psId1);
+    assertThat(notes.getApprovals()).isEmpty();
+    assertThat(notes.getChangeMessagesByPatchSet()).isEmpty();
+    assertThat(notes.getChangeMessages()).isEmpty();
+    assertThat(notes.getComments()).isEmpty();
+  }
+
+  @Test
   public void emptyExceptSubject() throws Exception {
     ChangeUpdate update = newUpdate(newChange(), changeOwner);
     update.setSubjectForCommit("Create change");

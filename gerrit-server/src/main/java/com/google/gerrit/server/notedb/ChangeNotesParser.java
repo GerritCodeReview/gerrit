@@ -55,6 +55,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
 
@@ -86,6 +87,7 @@ class ChangeNotesParser implements AutoCloseable {
   final List<Account.Id> allPastReviewers;
   final List<SubmitRecord> submitRecords;
   final Multimap<RevId, PatchLineComment> comments;
+  final Map<PatchSet.Id, PatchSet> patchSets;
   NoteMap commentNoteMap;
   String branch;
   Change.Status status;
@@ -107,7 +109,6 @@ class ChangeNotesParser implements AutoCloseable {
       Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
   private final List<ChangeMessage> allChangeMessages;
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
-  private final Map<PatchSet.Id, PatchSet> patchSets;
 
   ChangeNotesParser(Change change, ObjectId tip, RevWalk walk,
       GitRepositoryManager repoManager) throws RepositoryNotFoundException,
@@ -123,11 +124,7 @@ class ChangeNotesParser implements AutoCloseable {
     allChangeMessages = Lists.newArrayList();
     changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = ArrayListMultimap.create();
-    patchSets = Maps.newHashMap();
-  }
-
-  public PatchSet getCurrentPatchSet() {
-    return patchSets.get(currentPatchSetId);
+    patchSets = Maps.newTreeMap(ReviewDbUtil.intKeyOrdering());
   }
 
   @Override
@@ -197,14 +194,20 @@ class ChangeNotesParser implements AutoCloseable {
 
     Account.Id accountId = parseIdent(commit);
     ownerId = accountId;
-    if (subject == null) {
-      subject = parseSubject(commit);
+
+    String currSubject = parseSubject(commit);
+    if (currSubject != null) {
+      if (subject == null) {
+        subject = currSubject;
+      }
+      originalSubject = currSubject;
     }
-    originalSubject = parseSubject(commit);
+
     parseChangeMessage(psId, accountId, commit, ts);
     if (topic == null) {
       topic = parseTopic(commit);
     }
+
     parseHashtags(commit);
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
@@ -600,9 +603,6 @@ class ChangeNotesParser implements AutoCloseable {
     List<FooterKey> missing = new ArrayList<>();
     if (branch == null) {
       missing.add(FOOTER_BRANCH);
-    }
-    if (originalSubject == null || subject == null) {
-      missing.add(FOOTER_SUBJECT);
     }
     if (!missing.isEmpty()) {
       throw parseException("Missing footers: " + Joiner.on(", ")

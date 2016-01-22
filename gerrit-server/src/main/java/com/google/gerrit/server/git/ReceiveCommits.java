@@ -2271,7 +2271,8 @@ public class ReceiveCommits {
 
         boolean draft = magicBranch != null && magicBranch.draft;
         newPatchSet = psUtil.insert(
-            db, update, psId, newCommit, draft, newGroups,
+            // TODO(dborowitz): state.rw.
+            db, rp.getRevWalk(), update, psId, newCommit, draft, newGroups,
             rp.getPushCertificate() != null
               ? rp.getPushCertificate().toTextWithSignature()
               : null);

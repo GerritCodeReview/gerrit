@@ -297,7 +297,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
     ChangeUpdate update = ctx.getUpdate(psId);
     update.setSubjectForCommit("Create change");
-    update.setSubject(change.getSubject());
     update.setBranch(change.getDest().get());
     update.setTopic(change.getTopic());
 
@@ -306,8 +305,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (newGroups == null) {
       newGroups = GroupCollector.getDefaultGroups(commit);
     }
-    patchSet = psUtil.insert(
-        ctx.getDb(), update, psId, commit, draft, newGroups, null);
+    patchSet = psUtil.insert(ctx.getDb(), ctx.getRevWalk(), update, psId,
+        commit, draft, newGroups, null);
     ctx.saveChange();
 
     /* TODO: fixStatus is used here because the tests

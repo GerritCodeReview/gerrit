@@ -563,16 +563,8 @@ public final class Change {
     return subject;
   }
 
-  public void setSubject(String subject) {
-    this.subject = subject;
-  }
-
   public String getOriginalSubject() {
     return originalSubject != null ? originalSubject : subject;
-  }
-
-  public void setOriginalSubject(String originalSubject) {
-    this.originalSubject = originalSubject;
   }
 
   /** Get the id of the most current {@link PatchSet} in this change. */
@@ -598,6 +590,23 @@ public final class Change {
       // Newly created changes remember the first commit's subject.
       originalSubject = subject;
     }
+  }
+
+  public void setCurrentPatchSet(PatchSet.Id psId, String subject,
+      String originalSubject) {
+    if (!psId.getParentKey().equals(changeId)) {
+      throw new IllegalArgumentException(
+          "patch set ID " + psId + " is not for change " + changeId);
+    }
+    currentPatchSetId = psId.get();
+    this.subject = subject;
+    this.originalSubject = originalSubject;
+  }
+
+  public void clearCurrentPatchSet() {
+    currentPatchSetId = 0;
+    subject = null;
+    originalSubject = null;
   }
 
   public String getSubmissionId() {

@@ -43,6 +43,7 @@ limitations under the License.
       <gr-message change-num="[[changeNum]]"
                   message="[[message]]"
                   comments="[[_computeCommentsForMessage(comments, message, index)]]"
+                  project-config="[[projectConfig]]"
                   on-scroll-to="_handleScrollTo"
                   data-message-id$="[[message.id]]"></gr-message>
     </template>
@@ -61,6 +62,7 @@ limitations under the License.
           value: function() { return []; },
         },
         comments: Object,
+        projectConfig: Object,
         topMargin: Number,
       },
 

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "543f82e8_ddb3eb05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-22T20:39:21Z",
+      "side": 1,
+      "message": "LocalDiskRepositoryManager uses RepositoryCache, so reopening an already-open repository is cheap, just requires resolving the Project.NameKey -\u003e FileKey.\n\nI would lean towards recommending implementors continue baking those kinds of optimizations into their GitRepositoryManager implementations rather than modifying Repository.",
+      "parentUuid": "34a92e60_649eea7c",
+      "revId": "525d7920644df1315aed272d6c33a8a964bbb51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94df3af2_6f9ed17c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2016-01-22T20:29:01Z",
       "side": 1,
       "message": "(nit) this constructor can be package-private instead of private to avoid a synthetic accessor\n\n(optional) I think I\u0027d prefer if there were two separate constructors:\n\n RequestState(ReviewDb db, Repository repo, RevWalk rw) {\n   this.db \u003d db;\n   this.repo \u003d repo;\n   this.rw \u003d rw;\n   close \u003d false;\n   ins \u003d repo.newObjectInserter();\n }\n\n RequestState(String projectName) throws IOException {\n   repo \u003d repoManager.openRepository(projectName);\n   try {\n     db \u003d schemaFactory.open();\n   } catch (OrmException e) {\n     this.repo.close();\n     throw e;\n   }\n   rw \u003d new RevWalk(this.repo);\n   close \u003d true;\n   ins \u003d repo.newObjectInserter();\n }\n\nThat would follow the convention that whoever creates the object is usually responsible for releasing it.\n\nThe downside is throwing an exception from a constructor, so perhaps not worth it.",
+      "revId": "525d7920644df1315aed272d6c33a8a964bbb51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "543f82e8_3dc00f57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2869,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-22T20:39:21Z",
+      "side": 1,
+      "message": "Well I would still keep the factory method around so we don\u0027t have to have extra code at the call sites in the Callables. And since we\u0027re already throwing from that, I don\u0027t have a problem with throwing from a constructor. Done.",
+      "parentUuid": "94df3af2_6f9ed17c",
       "revId": "525d7920644df1315aed272d6c33a8a964bbb51b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -94,6 +94,7 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
         case REBASE_MERGE_CONFLICT:
         case MANUAL_RECURSIVE_MERGE:
         case CANNOT_CHERRY_PICK_ROOT:
+        case CANNOT_REBASE_ROOT:
         case NOT_FAST_FORWARD:
           // TODO(dborowitz): Reformat these messages to be more appropriate for
           // short problem descriptions.

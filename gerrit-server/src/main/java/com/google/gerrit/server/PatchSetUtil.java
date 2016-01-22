@@ -118,4 +118,10 @@ public class PatchSetUtil {
       update.setPatchSetId(psId);
     }
   }
+
+  public void setGroups(PatchSet ps, ChangeUpdate update,
+      Iterable<String> groups) {
+    ps.setGroups(groups);
+    update.setGroups(groups);
+  }
 }

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1453408602 -0500\npushee rpc://gerrit/gerrit\nnonce ALmjDBXHrCVgcIjmjTa4wY4cnRwVXnSWqDTV1Q++pfEnruW0ED+msdgNMYAiLq7HeTS8W0KvwROj\n\n0000000000000000000000000000000000000000 944423c0f9f21f431a69326e9c00d25190b1d6c9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJWoUFaAAoJEF/XxZqaEoiMSwcQAMhkXzqW8s3R+dQrMNK70JOb\naNf23xJReaoQQHHI26gZBBZ7jMph7bKyZArHwOcv+VFvvLJ4TLKce49sXHc2E6kA\nUmR7u5uYZY25VvQR2/Hfe+GxSPL4p1HFjgDTAw9DrdpDrjy42xY3tktAUvNvgxGc\n7nOS45hXVDSf40HFBOJWWxWEKC9X7ql2ydf367rPcikbG2hIiW8Qq1t1m7yjGcpl\ng4STOny8G0Ijgwy3+CpcyZy7mo30R81xgozzaUop+UMOp4hjkvUcgUYO2h5A+4P1\n1stEh+MzgKfGe9XKsrPCzb9Uw8+D+tpwZfYYti3kE7z4S5cSPLvMBhwOMSXRyOe8\nW6DCYm3DqG5hRWBdHcpHD6Q63b4bvAHZ5ge0nlvy/DluE+PdaO+p/a7TZ29Z/Qpz\n5M0C2u3Fu+sVZIsvbWOhhEyTN4+SiU6VD9PVrGG6+pw7le++29WNr9sg0T15T6H8\nRyxrBQlgjvTxa3E4LQZE15wlXVM9ISJ5VNgR3lY8bRotLURNcrhcAUbsQGwadAWr\n20N/mKQXePLNhmc3iJMod6rb1IveK9uSpSzVf/mi9ofBcvVeTwvW02rnWz35rfEN\nN38RtNjC6ZiKpQxQoygGi1LWuAAtYFGBYIdYIAq7D8pjEgQDqodilzR6hccZkC4k\nRZ2z80AzGWPy+LBEGRTk\n\u003dUSH5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a20e64_bc57214f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-01-22T07:58:15Z",
+      "side": 1,
+      "message": "Bad rebase?\n\nThe following lines from the previous patch set have disappeared:\n\n  ReviewDb db \u003d state.db;\n  Repository repo \u003d state.repo;\n\nand now state is unused.",
+      "revId": "944423c0f9f21f431a69326e9c00d25190b1d6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

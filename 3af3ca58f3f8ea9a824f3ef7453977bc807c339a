@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "149d0a26_7b9e7f7c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/BowerComponentsServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-22T13:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "149d0a26_5b994391",
+      "revId": "3af3ca58f3f8ea9a824f3ef7453977bc807c339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74980634_9eb7bd9c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-22T13:30:26Z",
       "side": 1,
       "message": "You can just throw IOException from this method, Guice will wrap it in ProvisionException for you.",
+      "revId": "3af3ca58f3f8ea9a824f3ef7453977bc807c339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "149d0a26_1ba3bbbf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-01-22T13:32:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74980634_9eb7bd9c",
       "revId": "3af3ca58f3f8ea9a824f3ef7453977bc807c339a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

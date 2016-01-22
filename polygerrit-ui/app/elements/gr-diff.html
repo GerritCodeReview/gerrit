@@ -95,7 +95,7 @@ limitations under the License.
             path="[[path]]"
             content="{{_diff.leftSide}}"
             width="[[sideWidth]]"
-            tab-width="[[prefs.tab_width]]"
+            tab-width="[[prefs.tab_size]]"
             can-comment="[[_loggedIn]]"
             project-config="[[projectConfig]]"
             on-expand-context="_handleExpandContext"
@@ -108,7 +108,7 @@ limitations under the License.
             path="[[path]]"
             content="{{_diff.rightSide}}"
             width="[[sideWidth]]"
-            tab-width="[[prefs.tab_width]]"
+            tab-width="[[prefs.tab_size]]"
             can-comment="[[_loggedIn]]"
             project-config="[[projectConfig]]"
             on-expand-context="_handleExpandContext"
@@ -797,7 +797,7 @@ limitations under the License.
       _visibleLineLength: function(contents) {
         // http://jsperf.com/performance-of-match-vs-split
         var numTabs = contents.split('\t').length - 1;
-        return contents.length - numTabs + (this.prefs.tab_width * numTabs);
+        return contents.length - numTabs + (this.prefs.tab_size * numTabs);
       },
 
       _maxLinesSpanned: function(left, right) {

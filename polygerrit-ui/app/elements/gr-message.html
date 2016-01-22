@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="gr-account-link.html">
 <link rel="import" href="gr-comment-list.html">
 <link rel="import" href="gr-date-formatter.html">
+<link rel="import" href="gr-linked-text.html">
 
 <dom-module id="gr-message">
   <template>
@@ -80,10 +81,6 @@ limitations under the License.
       .expanded .name {
         cursor: pointer;
       }
-      .expanded .message {
-        white-space: pre-wrap;
-        word-wrap: break-word;
-      }
       .date {
         color: #666;
         position: absolute;
@@ -96,7 +93,11 @@ limitations under the License.
       <div class="contentContainer">
         <div class="name" id="name">[[message.author.name]]</div>
         <div class="content">
-          <div class="message">[[message.message]]</div>
+          <gr-linked-text class="message"
+              pre="[[expanded]]"
+              content="[[message.message]]"
+              disabled="[[!expanded]]"
+              config="[[projectConfig.commentlinks]]"></gr-linked-text>
           <gr-comment-list
               comments="[[comments]]"
               change-num="[[changeNum]]"
@@ -142,6 +143,7 @@ limitations under the License.
           type: Boolean,
           value: false,
         },
+        projectConfig: Object,
       },
 
       ready: function() {

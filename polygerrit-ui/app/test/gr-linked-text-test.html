@@ -126,15 +126,17 @@ limitations under the License.
 
     test('html field in link config', function() {
       element.content = 'google:do a barrel roll';
-      assert.equal(element.$.output.innerHTML,
-          '<a href="https://google.com/search?q=do a barrel roll">' +
-              'do a barrel roll</a>');
+      var linkEl = element.$.output.childNodes[0];
+      assert.equal(linkEl.href,
+          'https://google.com/search?q=do%20a%20barrel%20roll');
+      assert.equal(linkEl.textContent, 'do a barrel roll');
     });
 
     test('removing hash from links', function() {
       element.content = 'hash:foo';
-      assert.equal(element.$.output.innerHTML,
-          '<a href="/awesomesauce">foo</a>');
+      var linkEl = element.$.output.childNodes[0];
+      assert.isTrue(linkEl.href.endsWith('/awesomesauce'));
+      assert.equal(linkEl.textContent, 'foo');
     });
 
     test('disabled config', function() {

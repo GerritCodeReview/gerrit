@@ -20,12 +20,20 @@ limitations under the License.
 <dom-module id="gr-linked-text">
   <template>
     <style>
-      :host([pre]) div {
+      :host {
+        display: block;
+      }
+      :host([pre]) span {
         white-space: pre-wrap;
         word-wrap: break-word;
       }
+      :host([disabled]) a {
+        color: inherit;
+        text-decoration: none;
+        pointer-events: none;
+      }
     </style>
-    <div id="output"></div>
+    <span id="output"></span>
   </template>
   <script>
     'use strict';
@@ -37,6 +45,16 @@ limitations under the License.
         content: {
           type: String,
           observer: '_contentChanged',
+        },
+        pre: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
         },
         config: Object,
       },
@@ -54,7 +72,7 @@ limitations under the License.
       },
 
       _contentOrConfigChanged: function(content, config) {
-        var output = this.$.output;
+        var output = Polymer.dom(this.$.output);
         output.textContent = '';
         var parser = new GrLinkTextParser(config, function(text, href, html) {
           if (href) {

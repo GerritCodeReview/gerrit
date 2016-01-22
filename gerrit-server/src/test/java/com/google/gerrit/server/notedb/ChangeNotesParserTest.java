@@ -319,6 +319,32 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Subject: Some subject of a change\n");
   }
 
+  @Test
+  public void parsePatchSetGroups() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+        + "Subject: Change subject\n"
+        + "Groups: a,b,c\n");
+    // No patch set commit parsed on which we can set groups.
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Subject: Change subject\n"
+        + "Groups: a,b,c\n");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: refs/heads/master\n"
+        + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+        + "Subject: Change subject\n"
+        + "Groups: a,b,c\n"
+        + "Groups: d,e,f\n");
+  }
+
   private RevCommit writeCommit(String body) throws Exception {
     return writeCommit(body, ChangeNoteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,

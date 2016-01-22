@@ -128,16 +128,16 @@ public class PatchLineCommentsUtil {
   }
 
   public Optional<PatchLineComment> get(ReviewDb db, ChangeNotes notes,
-      PatchLineComment.Key key) throws OrmException {
+      PatchLineComment.Key key, DiffType diffType) throws OrmException {
     if (!migration.readChanges()) {
       return Optional.fromNullable(db.patchComments().get(key));
     }
-    for (PatchLineComment c : publishedByChange(db, notes)) {
+    for (PatchLineComment c : publishedByChange(db, notes, diffType)) {
       if (key.equals(c.getKey())) {
         return Optional.of(c);
       }
     }
-    for (PatchLineComment c : draftByChange(db, notes)) {
+    for (PatchLineComment c : draftByChange(db, notes, diffType)) {
       if (key.equals(c.getKey())) {
         return Optional.of(c);
       }
@@ -147,9 +147,15 @@ public class PatchLineCommentsUtil {
 
   public List<PatchLineComment> publishedByChange(ReviewDb db,
       ChangeNotes notes) throws OrmException {
+    return publishedByChange(db, notes, null);
+  }
+
+  public List<PatchLineComment> publishedByChange(ReviewDb db,
+      ChangeNotes notes, DiffType diffType) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(byCommentStatus(
-          db.patchComments().byChange(notes.getChangeId()), Status.PUBLISHED));
+      return sort(bySide(byCommentStatus(
+          db.patchComments().byChange(notes.getChangeId()),
+          Status.PUBLISHED), diffType));
     }
 
     notes.load();
@@ -158,11 +164,18 @@ public class PatchLineCommentsUtil {
     return sort(comments);
   }
 
-  public List<PatchLineComment> draftByChange(ReviewDb db,
-      ChangeNotes notes) throws OrmException {
+  public List<PatchLineComment> draftByChange(ReviewDb db, ChangeNotes notes)
+      throws OrmException {
+    return draftByChange(db, notes, null);
+  }
+
+  public List<PatchLineComment> draftByChange(ReviewDb db, ChangeNotes notes,
+      DiffType diffType) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(byCommentStatus(
-          db.patchComments().byChange(notes.getChangeId()), Status.DRAFT));
+      return sort(bySide(
+          byCommentStatus(db.patchComments().byChange(notes.getChangeId()),
+              Status.DRAFT),
+          diffType));
     }
 
     List<PatchLineComment> comments = Lists.newArrayList();
@@ -170,7 +183,8 @@ public class PatchLineCommentsUtil {
     for (String refName : filtered) {
       Account.Id account = Account.Id.fromRefPart(refName);
       if (account != null) {
-        comments.addAll(draftByChangeAuthor(db, notes, account));
+        comments.addAll(
+            draftByChangeAuthorAndDiffType(db, notes, account, diffType));
       }
     }
     return sort(comments);
@@ -189,19 +203,31 @@ public class PatchLineCommentsUtil {
     );
   }
 
+  private static List<PatchLineComment> bySide(List<PatchLineComment> comments,
+      DiffType diffType) {
+    final short side = diffType != null ? diffType.side : 1;
+    return Lists.newArrayList(
+        Iterables.filter(comments, new Predicate<PatchLineComment>() {
+          @Override
+          public boolean apply(PatchLineComment input) {
+            return input.getSide() == 0 || input.getSide() == side;
+          }
+        }));
+  }
+
   public List<PatchLineComment> byPatchSet(ReviewDb db,
       ChangeNotes notes, PatchSet.Id psId) throws OrmException {
     if (!migration.readChanges()) {
       return sort(db.patchComments().byPatchSet(psId).toList());
     }
     List<PatchLineComment> comments = Lists.newArrayList();
-    comments.addAll(publishedByPatchSet(db, notes, psId));
+    comments.addAll(publishedByPatchSet(db, notes, psId, DiffType.AUTO_MERGE));
 
     Iterable<String> filtered = getDraftRefs(notes.getChangeId());
     for (String refName : filtered) {
       Account.Id account = Account.Id.fromRefPart(refName);
       if (account != null) {
-        comments.addAll(draftByPatchSetAuthor(db, psId, account, notes));
+        comments.addAll(draftByPatchSetAuthor(db, psId, account, notes, null));
       }
     }
     return sort(comments);
@@ -218,22 +244,30 @@ public class PatchLineCommentsUtil {
 
   public List<PatchLineComment> publishedByPatchSet(ReviewDb db,
       ChangeNotes notes, PatchSet.Id psId) throws OrmException {
+    return publishedByPatchSet(db, notes, psId, null);
+  }
+
+  public List<PatchLineComment> publishedByPatchSet(ReviewDb db,
+      ChangeNotes notes, PatchSet.Id psId, DiffType diffType)
+          throws OrmException {
     if (!migration.readChanges()) {
-      return sort(
-          db.patchComments().publishedByPatchSet(psId).toList());
+      return sort(bySide(db.patchComments().publishedByPatchSet(psId).toList(),
+          diffType));
     }
-    return commentsOnPatchSet(notes.load().getComments().values(), psId);
+    return commentsOnPatchSet(notes.load().getComments().values(), psId,
+        diffType);
   }
 
   public List<PatchLineComment> draftByPatchSetAuthor(ReviewDb db,
-      PatchSet.Id psId, Account.Id author, ChangeNotes notes)
-      throws OrmException {
+      PatchSet.Id psId, Account.Id author, ChangeNotes notes, DiffType diffType)
+          throws OrmException {
     if (!migration.readChanges()) {
-      return sort(
-          db.patchComments().draftByPatchSetAuthor(psId, author).toList());
+      return sort(bySide(
+          db.patchComments().draftByPatchSetAuthor(psId, author).toList(),
+          diffType));
     }
     return commentsOnPatchSet(
-        notes.load().getDraftComments(author).values(), psId);
+        notes.load().getDraftComments(author).values(), psId, diffType);
   }
 
   public List<PatchLineComment> draftByChangeFileAuthor(ReviewDb db,
@@ -268,6 +302,12 @@ public class PatchLineCommentsUtil {
     List<PatchLineComment> comments = Lists.newArrayList();
     comments.addAll(notes.getDraftComments(author).values());
     return sort(comments);
+  }
+
+  public List<PatchLineComment> draftByChangeAuthorAndDiffType(ReviewDb db,
+      ChangeNotes notes, Account.Id author, DiffType diffType)
+          throws OrmException {
+    return bySide(draftByChangeAuthor(db, notes, author), diffType);
   }
 
   public List<PatchLineComment> draftByAuthor(ReviewDb db,
@@ -334,10 +374,10 @@ public class PatchLineCommentsUtil {
 
   private static List<PatchLineComment> commentsOnPatchSet(
       Collection<PatchLineComment> allComments,
-      PatchSet.Id psId) {
+      PatchSet.Id psId, DiffType diffType) {
     List<PatchLineComment> result = new ArrayList<>(allComments.size());
     for (PatchLineComment c : allComments) {
-      if (getCommentPsId(c).equals(psId)) {
+      if (getCommentPsId(c).equals(psId) && (c.getSide() == 0 || c.getSide() == diffType.side)) {
         result.add(c);
       }
     }

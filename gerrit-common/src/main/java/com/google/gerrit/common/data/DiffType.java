@@ -15,11 +15,13 @@
 package com.google.gerrit.common.data;
 
 public enum DiffType {
-  AUTO_MERGE(""), FIRST_PARENT("FP");
+  AUTO_MERGE(1, ""), FIRST_PARENT(2, "FP");
 
+  public final short side;
   public final String encoded;
 
-  private DiffType(String encoded) {
+  private DiffType(int side, String encoded) {
+    this.side = (short) side;
     this.encoded = encoded;
   }
 }

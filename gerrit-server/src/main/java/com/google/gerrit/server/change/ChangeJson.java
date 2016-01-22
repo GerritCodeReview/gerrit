@@ -932,7 +932,7 @@ public class ChangeJson {
     }
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
-      out.files = fileInfoJson.toFileInfoMap(c, in, DiffType.FIRST_PARENT);
+      out.files = fileInfoJson.toFileInfoMap(c, in, DiffType.AUTO_MERGE);
       out.files.remove(Patch.COMMIT_MSG);
     }
 

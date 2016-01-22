@@ -53,11 +53,14 @@ class LineComment extends Composite {
       psNum.setInnerText(Integer.toString(info.patchSet()));
       sideLoc.removeFromParent();
       sideLoc = null;
-    } else if (info.side() == Side.PARENT) {
+    } else if (info.side() == Side.PARENT || info.side() == Side.FIRST_PARENT) {
       ps = defaultPs;
       psLoc.removeFromParent();
       psLoc = null;
       psNum= null;
+      if (info.side() == Side.FIRST_PARENT) {
+        sideLoc.setInnerText(Resources.C.firstParentLineComment());
+      }
     } else {
       ps = defaultPs;
       sideLoc.removeFromParent();

@@ -16,6 +16,24 @@
       "revId": "965ecace797a59c042df07bc36d9305f1364cb88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f46dd6ed_5a1295a7",
+        "filename": "polygerrit-ui/app/elements/gr-linked-text.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-01-22T14:41:07Z",
+      "side": 1,
+      "message": "Remnants from debugging. Removed.",
+      "parentUuid": "149d0a26_1bbadbd9",
+      "revId": "965ecace797a59c042df07bc36d9305f1364cb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
